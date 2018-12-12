@@ -47,6 +47,40 @@ public struct Rotation: Hashable {
 public extension Rotation {
     static let identity = Rotation()
 
+    /// Define a rotation around the X axis
+    static func pitch(_ radians: Double) -> Rotation {
+        let c = cos(radians)
+        let s = sin(radians)
+        return self.init(
+            1, 0, 0,
+            0, c, -s,
+            0, s, c
+        )
+    }
+
+    /// Define a rotation around the Y axis
+    static func yaw(_ radians: Double) -> Rotation {
+        let c = cos(radians)
+        let s = sin(radians)
+        return self.init(
+            c, 0, s,
+            0, 1, 0,
+            -s, 0, c
+        )
+    }
+
+    /// Define a rotation around the Z axis
+    static func roll(_ radians: Double) -> Rotation {
+        let c = cos(radians)
+        let s = sin(radians)
+        return self.init(
+            c, -s, 0,
+            s, c, 0,
+            0, 0, 1
+        )
+    }
+
+
     /// Define a rotation using 3x3 matrix coefficients
     init(_ m11: Double, _ m12: Double, _ m13: Double,
          _ m21: Double, _ m22: Double, _ m23: Double,
@@ -68,43 +102,10 @@ public extension Rotation {
         self.init(1, 0, 0, 0, 1, 0, 0, 0, 1)
     }
 
-    /// Define a rotation around the Y axis
-    init(yaw radians: Double) {
-        let c = cos(radians)
-        let s = sin(radians)
-        self.init(
-            c, -s, 0,
-            s, c, 0,
-            0, 0, 1
-        )
-    }
-
-    /// Define a rotation around the X axis
-    init(pitch radians: Double) {
-        let c = cos(radians)
-        let s = sin(radians)
-        self.init(
-            c, 0, s,
-            0, 1, 0,
-            -s, 0, c
-        )
-    }
-
-    /// Define a rotation around the Z axis
-    init(roll radians: Double) {
-        let c = cos(radians)
-        let s = sin(radians)
-        self.init(
-            1, 0, 0,
-            0, c, -s,
-            0, s, c
-        )
-    }
-
     /// Define a rotation from an axis vector and an angle
     init?(axis: Vector, radians: Double) {
         let length = axis.length
-        if length < epsilon || length.isNaN {
+        guard length.isFinite, length > epsilon else {
             return nil
         }
         self.init(unchecked: axis / length, radians: radians)
@@ -112,30 +113,47 @@ public extension Rotation {
 
     /// Define a rotation from Euler angles
     // http://planning.cs.uiuc.edu/node102.html
-    init(yaw: Double = 0, pitch: Double = 0, roll: Double = 0) {
-        self.init()
+    init(pitch: Double, yaw: Double = 0, roll: Double = 0) {
+        self = .pitch(pitch)
         if yaw != 0 {
-            self *= Rotation(yaw: yaw)
-        }
-        if pitch != 0 {
-            self *= Rotation(pitch: pitch)
+            self *= .yaw(yaw)
         }
         if roll != 0 {
-            self *= Rotation(roll: roll)
+            self *= .roll(roll)
+        }
+    }
+
+    init(yaw: Double, pitch: Double = 0, roll: Double = 0) {
+        self = .yaw(yaw)
+        if pitch != 0 {
+            self *= .pitch(pitch)
+        }
+        if roll != 0 {
+            self *= .roll(roll)
+        }
+    }
+
+    init(roll: Double, yaw: Double = 0, pitch: Double = 0) {
+        self = .roll(roll)
+        if yaw != 0 {
+            self *= .yaw(yaw)
+        }
+        if pitch != 0 {
+            self *= .pitch(pitch)
         }
     }
 
     // http://planning.cs.uiuc.edu/node103.html
-    var yaw: Double {
-        return atan2(m21, m11)
+    var pitch: Double {
+        return atan2(m32, m33)
     }
 
-    var pitch: Double {
+    var yaw: Double {
         return atan2(-m31, sqrt(m32 * m32 + m33 * m33))
     }
 
     var roll: Double {
-        return atan2(m32, m33)
+        return atan2(m21, m11)
     }
 
     static prefix func - (rhs: Rotation) -> Rotation {
@@ -220,8 +238,8 @@ public extension Transform {
         offset = offset + v.scaled(by: scale).rotated(by: rotation)
     }
 
-    mutating func rotate(by yaw: Double, _ pitch: Double, _ roll: Double) {
-        rotation *= Rotation(yaw: yaw, pitch: pitch, roll: roll)
+    mutating func rotate(by r: Rotation) {
+        rotation *= r
     }
 
     mutating func scale(by v: Vector) {
@@ -262,10 +280,8 @@ public extension Mesh {
         return Mesh(polygons.map { $0.scaleCorrected(for: v) })
     }
 
-    func transformed(by transform: Transform) -> Mesh {
-        return scaled(by: transform.scale)
-            .rotated(by: transform.rotation)
-            .translated(by: transform.offset)
+    func transformed(by t: Transform) -> Mesh {
+        return Mesh(polygons.map { $0.transformed(by: t) })
     }
 }
 
@@ -322,6 +338,10 @@ public extension Polygon {
         return f < 0 ? polygon.inverted() : polygon
     }
 
+    func transformed(by t: Transform) -> Polygon {
+        return scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
+    }
+
     func scaleCorrected(for v: Vector) -> Polygon {
         var flipped = v.x < 0
         if v.y < 0 { flipped = !flipped }
@@ -352,9 +372,15 @@ public extension Vertex {
     func scaled(by f: Double) -> Vertex {
         return Vertex(position * f, normal, texcoord)
     }
+
+    func transformed(by t: Transform) -> Vertex {
+        return scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
+    }
 }
 
 public extension Vector {
+    /// NOTE: no need for a translated() function because of the + operator
+
     func rotated(by m: Rotation) -> Vector {
         return Vector(
             x * m.m11 + y * m.m21 + z * m.m31,
@@ -367,40 +393,50 @@ public extension Vector {
         return Vector(x * scale.x, y * scale.y, z * scale.z)
     }
 
-    func transformed(by transform: Transform) -> Vector {
-        return rotated(by: transform.rotation).scaled(by: transform.scale) + transform.offset
+    func transformed(by t: Transform) -> Vector {
+        return rotated(by: t.rotation).scaled(by: t.scale) + t.offset
     }
 }
 
 public extension PathPoint {
-    func scaled(by scale: Vector) -> PathPoint {
-        return PathPoint(position.scaled(by: scale), isCurved: isCurved)
+    func translated(by v: Vector) -> PathPoint {
+        return PathPoint(position + v, isCurved: isCurved)
     }
 
-    func transformed(by transform: Transform) -> PathPoint {
-        return PathPoint(position.transformed(by: transform), isCurved: isCurved)
+    func rotated(by r: Rotation) -> PathPoint {
+        return PathPoint(position.rotated(by: r), isCurved: isCurved)
+    }
+
+    func scaled(by v: Vector) -> PathPoint {
+        return PathPoint(position.scaled(by: v), isCurved: isCurved)
+    }
+
+    func transformed(by t: Transform) -> PathPoint {
+        return PathPoint(position.transformed(by: t), isCurved: isCurved)
     }
 }
 
 public extension Path {
-    func scaled(by scale: Vector) -> Path {
-        return Path(unchecked: points.map {
-            $0.scaled(by: scale)
-        })
+    func translated(by v: Vector) -> Path {
+        return Path(unchecked: points.map { $0.translated(by: v) })
     }
 
-    func transformed(by transform: Transform) -> Path {
+    func rotated(by r: Rotation) -> Path {
+        return Path(unchecked: points.map { $0.rotated(by: r) })
+    }
+
+    func scaled(by v: Vector) -> Path {
+        return Path(unchecked: points.map { $0.scaled(by: v) })
+    }
+
+    func transformed(by t: Transform) -> Path {
         // TODO: manually transform plane so we can make this more efficient
-        return Path(unchecked: points.map {
-            $0.transformed(by: transform)
-        })
+        return Path(unchecked: points.map { $0.transformed(by: t) })
     }
 }
 
 public extension Bounds {
-    func transformed(by transform: Transform) -> Bounds {
-        return Bounds(points: corners.map {
-            $0.transformed(by: transform)
-        })
+    func transformed(by t: Transform) -> Bounds {
+        return Bounds(points: corners.map { $0.transformed(by: t) })
     }
 }

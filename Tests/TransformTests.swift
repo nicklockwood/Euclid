@@ -14,7 +14,7 @@ class TransformTests: XCTestCase {
 
     func testAxisAngleRotation1() {
         let axis = Vector(0, 0, 1)
-        let r = Rotation(unchecked: axis, radians: Double.pi / 2)
+        let r = Rotation(unchecked: axis, radians: .pi / 2)
         let v = Vector(0, 0.5, 0)
         let u = v.rotated(by: r)
         XCTAssertEqual(u.quantized(), Vector(0.5, 0, 0))
@@ -22,7 +22,7 @@ class TransformTests: XCTestCase {
 
     func testAxisAngleRotation2() {
         let axis = Vector(0, 0, 1)
-        let r = Rotation(unchecked: axis, radians: Double.pi / 2)
+        let r = Rotation(unchecked: axis, radians: .pi / 2)
         let v = Vector(0.5, 0, 0)
         let u = v.rotated(by: r)
         XCTAssertEqual(u.quantized(), Vector(0, -0.5, 0))
@@ -30,16 +30,46 @@ class TransformTests: XCTestCase {
 
     func testAxisAngleRotation3() {
         let axis = Vector(0, 0, 1)
-        let r = Rotation(unchecked: axis, radians: Double.pi / 2)
+        let r = Rotation(unchecked: axis, radians: .pi / 2)
         let v = Vector(0, 0, 0.5)
         let u = v.rotated(by: r)
         XCTAssertEqual(u.quantized(), Vector(0, 0, 0.5))
     }
 
+    func testPitch() {
+        let r = Rotation(pitch: .pi / 2)
+        XCTAssertEqual(r.pitch, .pi / 2)
+        XCTAssertEqual(r.roll, 0)
+        XCTAssertEqual(r.yaw, 0)
+        let v = Vector(0, 0.5, 0)
+        let u = v.rotated(by: r)
+        XCTAssertEqual(u.quantized(), Vector(0, 0, -0.5))
+    }
+
+    func testYaw() {
+        let r = Rotation(yaw: .pi / 2)
+        XCTAssertEqual(r.pitch, 0)
+        XCTAssertEqual(r.roll, 0)
+        XCTAssertEqual(r.yaw, .pi / 2)
+        let v = Vector(0.5, 0, 0)
+        let u = v.rotated(by: r)
+        XCTAssertEqual(u.quantized(), Vector(0, 0, 0.5))
+    }
+
+    func testRoll() {
+        let r = Rotation(roll: .pi / 2)
+        XCTAssertEqual(r.pitch, 0)
+        XCTAssertEqual(r.roll, .pi / 2)
+        XCTAssertEqual(r.yaw, 0)
+        let v = Vector(0, 0.5, 0)
+        let u = v.rotated(by: r)
+        XCTAssertEqual(u.quantized(), Vector(0.5, 0, 0))
+    }
+
     // MARK: Transform multiplication
 
     func testRotationMultipliedByTranslation() {
-        let r = Rotation(yaw: 0, pitch: Double.pi / 4, roll: 0)
+        let r = Rotation(roll: 0, yaw: .pi / 4, pitch: 0)
         let a = Transform(rotation: r)
         let b = Transform(offset: Vector(1, 0, 0))
         let c = a * b
@@ -48,7 +78,7 @@ class TransformTests: XCTestCase {
     }
 
     func testTranslationMultipliedByRotation() {
-        let r = Rotation(yaw: 0, pitch: Double.pi / 4, roll: 0)
+        let r = Rotation(roll: 0, yaw: .pi / 4, pitch: 0)
         let a = Transform(offset: Vector(1, 0, 0))
         let b = Transform(rotation: r)
         let c = a * b
@@ -58,7 +88,7 @@ class TransformTests: XCTestCase {
     }
 
     func testRotationMultipliedByScale() {
-        let r = Rotation(yaw: 0, pitch: Double.pi / 4, roll: 0)
+        let r = Rotation(roll: 0, yaw: .pi / 4, pitch: 0)
         let a = Transform(rotation: r)
         let b = Transform(scale: Vector(2, 1, 1))
         let c = a * b
@@ -67,7 +97,7 @@ class TransformTests: XCTestCase {
     }
 
     func testScaleMultipliedByRotation() {
-        let r = Rotation(yaw: 0, pitch: Double.pi / 4, roll: 0)
+        let r = Rotation(roll: 0, yaw: .pi / 4, pitch: 0)
         let a = Transform(scale: Vector(2, 1, 1))
         let b = Transform(rotation: r)
         let c = a * b
