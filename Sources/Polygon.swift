@@ -36,6 +36,9 @@ public struct Polygon: Equatable {
     public let bounds: Bounds
     public let isConvex: Bool
     public var material: Material
+
+    // Used to track split/join
+    var id = 0
 }
 
 public extension Polygon {
@@ -86,78 +89,20 @@ public extension Polygon {
 
     /// Merge with another polygon, removing redundant vertices if possible
     func merge(_ other: Polygon) -> Polygon? {
-        // do they have the same material?
-        guard material == other.material else {
-            return nil
-        }
-
-        // are they coplanar?
-        guard plane == other.plane else {
-            return nil
-        }
-
-        // get vertices
-        var va = vertices
-        var vb = other.vertices
-
-        // find shared vertices
-        var joins = [(Int, Int)]()
-        for i in va.indices {
-            if let j = vb.index(where: { $0.isEqual(to: va[i]) }) {
-                joins.append((i, j))
+        // were they split from the same polygon
+        if id == 0 {
+            // do they have the same material?
+            guard material == other.material else {
+                return nil
             }
-        }
-        guard joins.count == 2 else {
-            // TODO: what if 3 or more points are joined?
-            return nil
-        }
-        var result = [Vertex]()
-        let (a0, b0) = joins[0], (a1, b1) = joins[1]
-        if a1 == a0 + 1 {
-            result = Array(va[(a1 + 1)...] + va[..<a0])
-        } else if a0 == 0, a1 == va.count - 1 {
-            result = Array(va.dropFirst().dropLast())
-        } else {
-            return nil
-        }
-        let join1 = result.count
-        if b1 == b0 + 1 {
-            result += Array(vb[b1...] + vb[...b0])
-        } else if b0 == b1 + 1 {
-            result += Array(vb[b0...] + vb[...b1])
-        } else if (b0 == 0 && b1 == vb.count - 1) || (b1 == 0 && b0 == vb.count - 1) {
-            result += vb
-        } else {
-            return nil
-        }
-        let join2 = result.count - 1
-
-        // can the merged points be removed?
-        func testPoint(_ index: Int) {
-            let prev = (index == 0) ? result.count - 1 : index - 1
-            let va = (result[index].position - result[prev].position).normalized()
-            let vb = (result[(index + 1) % result.count].position - result[index].position).normalized()
-            if abs(va.dot(vb) - 1) < epsilon {
-                // check if point is redundant
-                // TODO: should we check that normal and uv ~= slerp of values either side?
-                result.remove(at: index)
+            // are they coplanar?
+            guard plane == other.plane else {
+                return nil
             }
-        }
-        testPoint(join2)
-        testPoint(join1)
-
-        // check result is not degenerate
-        guard !verticesAreDegenerate(result) else {
+        } else if id != other.id {
             return nil
         }
-
-        // replace poly with merged result
-        return Polygon(
-            unchecked: result,
-            plane: plane,
-            isConvex: verticesAreConvex(result),
-            material: material
-        )
+        return join(unchecked: other)
     }
 
     func inverted() -> Polygon {
@@ -181,11 +126,12 @@ public extension Polygon {
         func addPolygon(_ polygon: Polygon) {
             var polygon = polygon
             for j in polygons.indices.reversed() {
-                if let merged = polygons[j].merge(polygon), merged.isConvex {
+                if let merged = polygons[j].join(unchecked: polygon), merged.isConvex {
                     polygon = merged
                     polygons.remove(at: j)
                 }
             }
+            polygon.id = id
             polygons.append(polygon)
         }
         var i = 0
@@ -327,7 +273,8 @@ internal extension Polygon {
         plane: Plane,
         isConvex: Bool,
         bounds: Bounds? = nil,
-        material: Material
+        material: Material,
+        id: Int = 0
     ) {
         assert(vertices.count > 2)
         assert(!verticesAreDegenerate(vertices))
@@ -337,5 +284,76 @@ internal extension Polygon {
         self.isConvex = isConvex
         self.bounds = bounds ?? Bounds(points: vertices.map { $0.position })
         self.material = material
+        self.id = id
+    }
+
+    // Join touching polygons (without checking they are coplanar or share the same material)
+    func join(unchecked other: Polygon) -> Polygon? {
+        assert(material == other.material)
+        assert(plane == other.plane)
+
+        // get vertices
+        var va = vertices
+        var vb = other.vertices
+
+        // find shared vertices
+        var joins = [(Int, Int)]()
+        for i in va.indices {
+            if let j = vb.index(where: { $0.isEqual(to: va[i]) }) {
+                joins.append((i, j))
+            }
+        }
+        guard joins.count == 2 else {
+            // TODO: what if 3 or more points are joined?
+            return nil
+        }
+        var result = [Vertex]()
+        let (a0, b0) = joins[0], (a1, b1) = joins[1]
+        if a1 == a0 + 1 {
+            result = Array(va[(a1 + 1)...] + va[..<a0])
+        } else if a0 == 0, a1 == va.count - 1 {
+            result = Array(va.dropFirst().dropLast())
+        } else {
+            return nil
+        }
+        let join1 = result.count
+        if b1 == b0 + 1 {
+            result += Array(vb[b1...] + vb[...b0])
+        } else if b0 == b1 + 1 {
+            result += Array(vb[b0...] + vb[...b1])
+        } else if (b0 == 0 && b1 == vb.count - 1) || (b1 == 0 && b0 == vb.count - 1) {
+            result += vb
+        } else {
+            return nil
+        }
+        let join2 = result.count - 1
+
+        // can the merged points be removed?
+        func testPoint(_ index: Int) {
+            let prev = (index == 0) ? result.count - 1 : index - 1
+            let va = (result[index].position - result[prev].position).normalized()
+            let vb = (result[(index + 1) % result.count].position - result[index].position).normalized()
+            // check if point is redundant
+            if abs(va.dot(vb) - 1) < epsilon {
+                // TODO: should we check that normal and uv ~= slerp of values either side?
+                result.remove(at: index)
+            }
+        }
+        testPoint(join2)
+        testPoint(join1)
+
+        // check result is not degenerate
+        guard !verticesAreDegenerate(result) else {
+            return nil
+        }
+
+        // replace poly with merged result
+        return Polygon(
+            unchecked: result,
+            plane: plane,
+            isConvex: verticesAreConvex(result),
+            material: material,
+            id: id
+        )
     }
 }

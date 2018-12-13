@@ -213,16 +213,29 @@ private class BSPNode {
     }
 
     func clip(_ polygons: [Polygon], _ keeping: ClipRule, _ clipBackfaces: Bool) -> [Polygon] {
+        var id = 0
+        var polygons = polygons
+        for (i, p) in polygons.enumerated() where p.id != 0 {
+            polygons[i].id = 0
+        }
+        return clip(polygons, keeping, clipBackfaces, &id)
+    }
+
+    private func clip(_ polygons: [Polygon], _ keeping: ClipRule, _ clipBackfaces: Bool, _ id: inout Int) -> [Polygon] {
         var coplanar: [Polygon]?
         var polygons = polygons
         var node = self
         var total = [Polygon]()
         func addPolygons(_ polygons: [Polygon]) {
             for a in polygons {
+                guard a.id != 0 else {
+                    total.append(a)
+                    continue
+                }
                 var a = a
                 for i in total.indices.reversed() {
                     let b = total[i]
-                    if let c = a.merge(b) {
+                    if a.id == b.id, let c = a.join(unchecked: b) {
                         a = c
                         total.remove(at: i)
                     }
@@ -236,10 +249,10 @@ private class BSPNode {
         while !polygons.isEmpty {
             var front = [Polygon](), back = [Polygon]()
             for polygon in polygons {
-                node.splitPolygon(polygon, &coplanar, &front, &back, frontFacesGoFront, backFacesGoFront)
+                node.splitPolygon(polygon, &coplanar, &front, &back, frontFacesGoFront, backFacesGoFront, &id)
             }
             if front.count > back.count {
-                addPolygons(node.back?.clip(back, keeping, clipBackfaces) ?? (keepFront ? [] : back))
+                addPolygons(node.back?.clip(back, keeping, clipBackfaces, &id) ?? (keepFront ? [] : back))
                 if node.front == nil {
                     addPolygons(keepFront ? front : [])
                     return total
@@ -247,7 +260,7 @@ private class BSPNode {
                 polygons = front
                 node = node.front!
             } else {
-                addPolygons(node.front?.clip(front, keeping, clipBackfaces) ?? (keepFront ? front : []))
+                addPolygons(node.front?.clip(front, keeping, clipBackfaces, &id) ?? (keepFront ? front : []))
                 if node.back == nil {
                     addPolygons(keepFront ? [] : back)
                     return total
@@ -267,7 +280,14 @@ private class BSPNode {
                 node.plane = polygons.first?.plane
             }
             var front = [Polygon](), back = [Polygon]()
-            node.splitPolygons(polygons, &front, &back)
+            do {
+                var id = 0
+                var coplanar: [Polygon]? = node.polygons
+                for polygon in polygons {
+                    node.splitPolygon(polygon, &coplanar, &front, &back, true, false, &id)
+                }
+                node.polygons = coplanar!
+            }
 
             node.front = node.front ?? front.first.map {
                 BSPNode(plane: $0.plane, parent: node)
@@ -288,22 +308,13 @@ private class BSPNode {
         }
     }
 
-    private func splitPolygons(_ polygons: [Polygon],
-                               _ front: inout [Polygon],
-                               _ back: inout [Polygon]) {
-        var coplanar: [Polygon]? = self.polygons
-        for polygon in polygons {
-            splitPolygon(polygon, &coplanar, &front, &back, true, false)
-        }
-        self.polygons = coplanar!
-    }
-
     fileprivate func splitPolygon(_ polygon: Polygon,
                                   _ coplanar: inout [Polygon]?,
                                   _ front: inout [Polygon],
                                   _ back: inout [Polygon],
                                   _ coplanarGoesInFront: Bool,
-                                  _ reversePlanarGoesInFront: Bool) {
+                                  _ reversePlanarGoesInFront: Bool,
+                                  _ id: inout Int) {
         enum PolygonType: Int {
             case coplanar = 0
             case front = 1
@@ -349,9 +360,14 @@ private class BSPNode {
         case .back:
             back.append(polygon)
         case .spanning:
+            var polygon = polygon
+            if polygon.id == 0 {
+                id += 1
+                polygon.id = id
+            }
             if !polygon.isConvex {
                 polygon.tessellate().forEach {
-                    splitPolygon($0, &coplanar, &front, &back, coplanarGoesInFront, reversePlanarGoesInFront)
+                    splitPolygon($0, &coplanar, &front, &back, coplanarGoesInFront, reversePlanarGoesInFront, &id)
                 }
                 return
             }
@@ -378,7 +394,8 @@ private class BSPNode {
                     unchecked: f,
                     plane: polygon.plane,
                     isConvex: true,
-                    material: polygon.material
+                    material: polygon.material,
+                    id: polygon.id
                 ))
             }
             if !verticesAreDegenerate(b) {
@@ -386,7 +403,8 @@ private class BSPNode {
                     unchecked: b,
                     plane: polygon.plane,
                     isConvex: true,
-                    material: polygon.material
+                    material: polygon.material,
+                    id: polygon.id
                 ))
             }
         }
