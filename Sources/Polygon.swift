@@ -119,60 +119,16 @@ public extension Polygon {
         if isConvex {
             return [self]
         }
-        func makePolygon(_ vertices: [Vertex]) -> Polygon? {
-            return Polygon(vertices, material: material)
-        }
-        var polygons = [Polygon]()
-        func addPolygon(_ polygon: Polygon) {
-            var polygon = polygon
-            for j in polygons.indices.reversed() {
-                if let merged = polygons[j].join(unchecked: polygon), merged.isConvex {
-                    polygon = merged
-                    polygons.remove(at: j)
-                }
+        var polygons = triangulate()
+        var i = polygons.count - 1
+        while i > 0 {
+            let a = polygons[i]
+            let b = polygons[i - 1]
+            if let merged = a.join(unchecked: b), merged.isConvex {
+                polygons[i - 1] = merged
+                polygons.remove(at: i)
             }
-            polygon.id = id
-            polygons.append(polygon)
-        }
-        var i = 0
-        var attempts = 0
-        var vertices = self.vertices
-        while !verticesAreConvex(vertices) {
-            let a = vertices[(i - 1 + vertices.count) % vertices.count]
-            let b = vertices[i]
-            let c = vertices[(i + 1) % vertices.count]
-            var triangle = makePolygon([a, b, c])
-            if let normal = triangle?.plane.normal {
-                if normal.dot(plane.normal) > 0 {
-                    for v in vertices where ![a, b, c].contains(v) {
-                        if triangle?.containsPoint(v.position) == true {
-                            triangle = nil
-                            break
-                        }
-                    }
-                } else {
-                    triangle = nil
-                }
-            }
-            if let triangle = triangle {
-                addPolygon(triangle)
-                vertices.remove(at: i)
-                if i == vertices.count {
-                    i = 0
-                }
-            } else {
-                i = i + 1
-                if i == vertices.count {
-                    i = 0
-                    attempts += 1
-                    if attempts > 2 {
-                        return []
-                    }
-                }
-            }
-        }
-        if let polygon = makePolygon(vertices) {
-            addPolygon(polygon)
+            i -= 1
         }
         return polygons
     }
