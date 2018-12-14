@@ -229,9 +229,10 @@ internal extension Path {
     init(unchecked points: [PathPoint], plane: Plane? = nil) {
         assert(sanitizePoints(points) == points)
         self.points = points
+        let positions = points.map { $0.position }
         isClosed = pointsAreClosed(unchecked: points)
-        bounds = Bounds(points: points.map { $0.position })
-        self.plane = plane ?? Plane(points: points.map { $0.position })
+        bounds = Bounds(points: positions)
+        self.plane = plane ?? Plane(points: positions)
     }
 
     // Test if path is self-intersecting

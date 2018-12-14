@@ -414,7 +414,7 @@ public extension Mesh {
                             Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
                                         Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
                                         Vector(v1.texcoord.x + t1, v1.texcoord.y, 0))
-                        polygons.append(Polygon(unchecked: [v0, v2, v3], material: material))
+                        polygons.append(Polygon(unchecked: [v0, v2, v3], isConvex: true, material: material))
                     }
                 } else if v1.position.x == 0 {
                     // bottom triangle
@@ -431,7 +431,7 @@ public extension Mesh {
                         Vector(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
                                     Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
                                     Vector(v0.texcoord.x + t0, v0.texcoord.y, 0))
-                    polygons.append(Polygon(unchecked: [v2, v3, v1], material: material))
+                    polygons.append(Polygon(unchecked: [v2, v3, v1], isConvex: true, material: material))
                 } else {
                     // quad face
                     let v2 = Vertex(unchecked:
@@ -450,8 +450,9 @@ public extension Mesh {
                         Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
                                     Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
                                     Vector(v1.texcoord.x + t1, v1.texcoord.y, 0))
-                    if let polygon = Polygon([v2, v3, v4, v5], material: material) {
-                        polygons.append(polygon)
+                    let vertices = [v2, v3, v4, v5]
+                    if !verticesAreDegenerate(vertices) {
+                         polygons.append(Polygon(unchecked: vertices, isConvex: true, material: material))
                     }
                 }
             }
@@ -552,8 +553,12 @@ public extension Mesh {
                         vertices.remove(at: 2)
                     }
                 }
-                if let p = Polygon(invert ? vertices.reversed() : vertices, material: material) {
-                    polygons.append(p)
+                if !verticesAreDegenerate(vertices) {
+                    polygons.append(Polygon(
+                        unchecked: invert ? vertices.reversed() : vertices,
+                        isConvex: true,
+                        material: material
+                    ))
                 }
             }
             // TODO: create triangles for mismatched points points

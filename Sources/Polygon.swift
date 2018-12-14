@@ -46,22 +46,14 @@ public extension Polygon {
     typealias Material = AnyHashable?
 
     /// Create a polygon from a set of vertices
-    /// Vertices must describe a convex, non-degenerate polygon
+    /// Polygon can be convex or concave, but vertices must be coplanar and non-degenerate
     /// Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
     // TODO: find a way to get the plane of a non-convex, non-xy-planar polygon
     init?(_ vertices: [Vertex], material: Material = nil) {
-        guard vertices.count > 2,
-            !verticesAreDegenerate(vertices),
-            verticesAreConvex(vertices),
-            let normal = faceNormalForConvexVertices(vertices) else {
+        guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
             return nil
         }
-        self.init(
-            unchecked: vertices,
-            normal: normal,
-            isConvex: true,
-            material: material
-        )
+        self.init(unchecked: vertices, material: material)
     }
 
     /// Test if point lies inside the polygon
@@ -197,20 +189,6 @@ public extension Polygon {
 }
 
 internal extension Polygon {
-    // Create polygon from vertices without performing validation
-    // Vertices are assumed to describe a convex, non-degenerate polygon
-    // Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
-    // TODO: find a way to get the plane of a non-convex, non-xy-planar polygon
-    init(unchecked vertices: [Vertex], material: Material = nil) {
-        assert(verticesAreConvex(vertices))
-        self.init(
-            unchecked: vertices,
-            normal: faceNormalForConvexVertices(unchecked: vertices),
-            isConvex: true,
-            material: material
-        )
-    }
-
     // Create polygon from vertices and face normal without performing validation
     // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
     init(unchecked vertices: [Vertex], normal: Vector, isConvex: Bool, material: Material) {
@@ -224,21 +202,24 @@ internal extension Polygon {
 
     // Create polygon from vertices and plane without performing validation
     // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
+    // Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
     init(
         unchecked vertices: [Vertex],
-        plane: Plane,
-        isConvex: Bool,
+        plane: Plane? = nil,
+        isConvex: Bool? = nil,
         bounds: Bounds? = nil,
-        material: Material,
+        material: Material = nil,
         id: Int = 0
     ) {
         assert(vertices.count > 2)
         assert(!verticesAreDegenerate(vertices))
-        assert(verticesAreConvex(vertices) == isConvex)
+        assert(isConvex == nil || verticesAreConvex(vertices) == isConvex)
+        let isConvex = isConvex ?? verticesAreConvex(vertices)
+        let points = (plane == nil || bounds == nil) ? vertices.map { $0.position } : []
         self.vertices = vertices
-        self.plane = plane
+        self.plane = plane ?? Plane(unchecked: points, convex: isConvex)
         self.isConvex = isConvex
-        self.bounds = bounds ?? Bounds(points: vertices.map { $0.position })
+        self.bounds = bounds ?? Bounds(points: points)
         self.material = material
         self.id = id
     }

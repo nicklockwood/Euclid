@@ -42,26 +42,34 @@ class PolygonTests: XCTestCase {
 
     func testConcavePolygonAnticlockwiseWinding() {
         let normal = Vector(0, 0, 1)
-        XCTAssertNil(Polygon([
+        guard let polygon = Polygon([
             Vertex(Vector(-1, 0), normal),
             Vertex(Vector(0, 0), normal),
             Vertex(Vector(0, -1), normal),
             Vertex(Vector(1, -1), normal),
             Vertex(Vector(1, 1), normal),
             Vertex(Vector(-1, 1), normal),
-        ]))
+        ]) else {
+            XCTFail()
+            return
+        }
+        XCTAssertEqual(polygon.plane.normal, normal)
     }
 
     func testConcavePolygonClockwiseWinding() {
         let normal = Vector(0, 0, -1)
-        XCTAssertNil(Polygon([
+        guard let polygon = Polygon([
             Vertex(Vector(-1, 0), normal),
             Vertex(Vector(0, 0), normal),
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(1, 1), normal),
             Vertex(Vector(1, -1), normal),
             Vertex(Vector(-1, -1), normal),
-        ]))
+        ]) else {
+            XCTFail()
+            return
+        }
+        XCTAssertEqual(polygon.plane.normal, normal)
     }
 
     func testDegeneratePolygonWithColinearPoints() {

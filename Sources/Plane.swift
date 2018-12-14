@@ -61,26 +61,18 @@ public extension Plane {
     /// Generate a plane from a set of coplanar points describing a polygon
     /// The polygon can be convex or concave. The direction of the plane normal is
     /// based on the assumption that the points are wound in an anticlockwise direction
-    // TODO: make an optimized version for points that are known to form a convex polygon
     init?(points: [Vector]) {
         guard let first = points.first else {
             return nil
         }
-        var normal = faceNormalForConvexPoints(points)
-        if points.count > 3 {
-            let flatteningPlane = FlatteningPlane(points: points)
-            let flattenedPoints = points.map { flatteningPlane.flattenPoint($0) }
-            let flattenedNormal = faceNormalForConvexPoints(flattenedPoints)
-            let isClockwise = flattenedPointsAreClockwise(flattenedPoints)
-            if (flattenedNormal.z > 0) == isClockwise {
-                normal = -normal
-            }
-            self.init(normal: normal, pointOnPlane: first)
+        if points.count > 3, !pointsAreDegenerate(points) {
+            self.init(unchecked: points)
             // Check all points lie on this plane
             if points.contains(where: { !containsPoint($0) }) {
                 return nil
             }
         } else {
+            let normal = faceNormalForConvexPoints(points)
             self.init(normal: normal, pointOnPlane: first)
         }
     }
@@ -105,6 +97,22 @@ internal extension Plane {
 
     init(unchecked normal: Vector, pointOnPlane: Vector) {
         self.init(unchecked: normal, w: normal.dot(pointOnPlane))
+    }
+
+    init(unchecked points: [Vector], convex: Bool? = nil) {
+        assert(!pointsAreDegenerate(points))
+        var normal = faceNormalForConvexPoints(points)
+        let convex = convex ?? pointsAreConvex(points)
+        if !convex {
+            let flatteningPlane = FlatteningPlane(points: points)
+            let flattenedPoints = points.map { flatteningPlane.flattenPoint($0) }
+            let flattenedNormal = faceNormalForConvexPoints(flattenedPoints)
+            let isClockwise = flattenedPointsAreClockwise(flattenedPoints)
+            if (flattenedNormal.z > 0) == isClockwise {
+                normal = -normal
+            }
+        }
+        self.init(unchecked: normal, pointOnPlane: points[0])
     }
 }
 
