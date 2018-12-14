@@ -287,11 +287,11 @@ public extension Mesh {
 
 public extension Polygon {
     func translated(by v: Vector) -> Polygon {
-        let vertices = self.vertices.map { $0.translated(by: v) }
         return Polygon(
-            unchecked: vertices,
+            unchecked: vertices.map { $0.translated(by: v) },
             normal: plane.normal,
             isConvex: isConvex,
+            bounds: bounds.translated(by: v),
             material: material
         )
     }
@@ -322,6 +322,7 @@ public extension Polygon {
             unchecked: flipped ? vertices.reversed() : vertices,
             normal: plane.normal.scaled(by: vn).normalized(),
             isConvex: isConvex,
+            bounds: bounds.scaled(by: v),
             material: material
         )
     }
@@ -333,6 +334,7 @@ public extension Polygon {
             unchecked: vertices.map { $0.scaled(by: f) },
             normal: plane.normal,
             isConvex: isConvex,
+            bounds: bounds.scaled(by: f),
             material: material
         )
         return f < 0 ? polygon.inverted() : polygon
@@ -350,6 +352,7 @@ public extension Polygon {
             unchecked: flipped ? vertices.reversed() : vertices,
             normal: plane.normal,
             isConvex: isConvex,
+            bounds: bounds,
             material: material
         )
     }
@@ -389,8 +392,8 @@ public extension Vector {
         )
     }
 
-    func scaled(by scale: Vector) -> Vector {
-        return Vector(x * scale.x, y * scale.y, z * scale.z)
+    func scaled(by v: Vector) -> Vector {
+        return Vector(x * v.x, y * v.y, z * v.z)
     }
 
     func transformed(by t: Transform) -> Vector {
@@ -411,6 +414,10 @@ public extension PathPoint {
         return PathPoint(position.scaled(by: v), isCurved: isCurved)
     }
 
+    func scaled(by f: Double) -> PathPoint {
+        return PathPoint(position * f, isCurved: isCurved)
+    }
+
     func transformed(by t: Transform) -> PathPoint {
         return PathPoint(position.transformed(by: t), isCurved: isCurved)
     }
@@ -429,6 +436,10 @@ public extension Path {
         return Path(unchecked: points.map { $0.scaled(by: v) })
     }
 
+    func scaled(by f: Double) -> Path {
+        return Path(unchecked: points.map { $0.scaled(by: f) })
+    }
+
     func transformed(by t: Transform) -> Path {
         // TODO: manually transform plane so we can make this more efficient
         return Path(unchecked: points.map { $0.transformed(by: t) })
@@ -436,6 +447,22 @@ public extension Path {
 }
 
 public extension Bounds {
+    func translated(by v: Vector) -> Bounds {
+        return Bounds(min: min + v, max: max + v)
+    }
+
+    func rotated(by r: Rotation) -> Bounds {
+        return Bounds(points: corners.map { $0.rotated(by: r) })
+    }
+
+    func scaled(by v: Vector) -> Bounds {
+        return Bounds(min: min.scaled(by: v), max: max.scaled(by: v))
+    }
+
+    func scaled(by f: Double) -> Bounds {
+        return Bounds(min: min * f, max: max * f)
+    }
+
     func transformed(by t: Transform) -> Bounds {
         return Bounds(points: corners.map { $0.transformed(by: t) })
     }

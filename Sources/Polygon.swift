@@ -102,6 +102,7 @@ public extension Polygon {
             unchecked: vertices.reversed().map { $0.inverted() },
             plane: plane.inverted(),
             isConvex: isConvex,
+            bounds: bounds,
             material: material
         )
     }
@@ -191,11 +192,18 @@ public extension Polygon {
 internal extension Polygon {
     // Create polygon from vertices and face normal without performing validation
     // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
-    init(unchecked vertices: [Vertex], normal: Vector, isConvex: Bool, material: Material) {
+    init(
+        unchecked vertices: [Vertex],
+        normal: Vector,
+        isConvex: Bool,
+        bounds: Bounds? = nil,
+        material: Material
+    ) {
         self.init(
             unchecked: vertices,
             plane: Plane(unchecked: normal, pointOnPlane: vertices[0].position),
             isConvex: isConvex,
+            bounds: bounds,
             material: material
         )
     }
