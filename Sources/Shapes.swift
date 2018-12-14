@@ -452,7 +452,7 @@ public extension Mesh {
                                     Vector(v1.texcoord.x + t1, v1.texcoord.y, 0))
                     let vertices = [v2, v3, v4, v5]
                     if !verticesAreDegenerate(vertices) {
-                         polygons.append(Polygon(unchecked: vertices, isConvex: true, material: material))
+                        polygons.append(Polygon(unchecked: vertices, isConvex: true, material: material))
                     }
                 }
             }

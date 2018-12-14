@@ -80,7 +80,6 @@ public extension Rotation {
         )
     }
 
-
     /// Define a rotation using 3x3 matrix coefficients
     init(_ m11: Double, _ m12: Double, _ m13: Double,
          _ m21: Double, _ m22: Double, _ m23: Double,

@@ -6,23 +6,22 @@
 //  Copyright © 2018 Nick Lockwood. All rights reserved.
 //
 
-import UIKit
 import Euclid
 import SceneKit
+import UIKit
 
 class GameViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // create a new scene
         let scene = SCNScene()
-        
+
         // create and add a camera to the scene
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         scene.rootNode.addChildNode(cameraNode)
-        
+
         // place the camera
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 3)
 
@@ -41,18 +40,18 @@ class GameViewController: UIViewController {
         scene.rootNode.addChildNode(node)
 
         // configure the SCNView
-        let scnView = self.view as! SCNView
+        let scnView = view as! SCNView
         scnView.scene = scene
         scnView.autoenablesDefaultLighting = true
         scnView.allowsCameraControl = true
         scnView.showsStatistics = true
         scnView.backgroundColor = .white
     }
-    
+
     override var shouldAutorotate: Bool {
         return true
     }
-    
+
     override var prefersStatusBarHidden: Bool {
         return true
     }

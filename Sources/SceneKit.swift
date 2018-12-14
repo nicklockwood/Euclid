@@ -80,7 +80,6 @@
     }
 
     public extension SCNGeometry {
-
         /// Creates an SCNGeometry using the default tessellation method
         convenience init(_ mesh: Mesh, materialLookup: ((Polygon.Material) -> SCNMaterial)? = nil) {
             self.init(triangles: mesh, materialLookup: materialLookup)
