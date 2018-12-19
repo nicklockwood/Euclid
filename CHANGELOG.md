@@ -1,3 +1,7 @@
+## [0.1.3](https://github.com/nicklockwood/Euclid/releases/tag/0.1.3) (2018-12-19)
+
+- Fixed bug in Plane calculation for closed Paths
+
 ## [0.1.2](https://github.com/nicklockwood/Euclid/releases/tag/0.1.2) (2018-12-14)
 
 - Polygon constructor now accepts concave vertices

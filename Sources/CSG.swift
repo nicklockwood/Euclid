@@ -135,7 +135,7 @@ public extension Mesh {
         var aout: [Polygon]? = []
         var bout: [Polygon]?
         boundsTest(&ap, &bp, &aout, &bout)
-        /// TODO: combine clip operations
+        // TODO: combine clip operations
         let bsp = BSPNode(mesh.polygons)
         let outside = bsp.clip(ap, .greaterThan, false)
         let inside = bsp.clip(ap, .lessThanEqual, false)
