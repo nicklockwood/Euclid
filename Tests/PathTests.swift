@@ -99,7 +99,7 @@ class PathTests: XCTestCase {
             .point(-1, 1),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssert(path.plane!.normal.z > 0)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testConvexClosedPathClockwiseWinding() {
@@ -111,7 +111,7 @@ class PathTests: XCTestCase {
             .point(-1, -1),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssert(path.plane!.normal.z < 0)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
     }
 
     func testConvexOpenPathAnticlockwiseWinding() {
@@ -121,7 +121,7 @@ class PathTests: XCTestCase {
             .point(1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssert(path.plane!.normal.z > 0)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testConvexOpenPathClockwiseWinding() {
@@ -131,7 +131,7 @@ class PathTests: XCTestCase {
             .point(1, 1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssert(path.plane!.normal.z < 0)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
     }
 
     func testConcaveClosedPathAnticlockwiseWinding() {
@@ -145,7 +145,7 @@ class PathTests: XCTestCase {
             .point(-1, 0),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssert(path.plane!.normal.z > 0)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testConcaveClosedPathClockwiseWinding() {
@@ -159,7 +159,22 @@ class PathTests: XCTestCase {
             .point(-1, 0),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssert(path.plane!.normal.z < 0)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
+    }
+
+    func testConcaveClosedPathClockwiseWinding2() {
+        var transform = Transform.identity
+        var points = [PathPoint]()
+        let sides = 5
+        for _ in 0 ..< sides {
+            points.append(PathPoint.point(0, -0.5).transformed(by: transform))
+            transform.rotate(by: .roll(.pi / Double(sides)))
+            points.append(PathPoint.point(0, -1).transformed(by: transform))
+            transform.rotate(by: .roll(.pi / Double(sides)))
+        }
+        points.append(.point(0, -0.5))
+        let path = Path(points)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
     }
 
     func testConcaveOpenPathAnticlockwiseWinding() {
@@ -171,7 +186,7 @@ class PathTests: XCTestCase {
             .point(-1, 1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssert(path.plane!.normal.z > 0)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testConcaveOpenPathClockwiseWinding() {
@@ -183,7 +198,7 @@ class PathTests: XCTestCase {
             .point(-1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssert(path.plane!.normal.z < 0)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
     }
 
     func testStraightLinePathAnticlockwiseWinding() {
@@ -192,7 +207,7 @@ class PathTests: XCTestCase {
             .point(-1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssert(path.plane!.normal.z > 0)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testStraightLinePathAnticlockwiseWinding2() {
@@ -201,7 +216,7 @@ class PathTests: XCTestCase {
             .point(-1, 1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssert(path.plane!.normal.z > 0)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testStraightLinePathAnticlockwiseWinding3() {
@@ -210,7 +225,7 @@ class PathTests: XCTestCase {
             .point(1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssert(path.plane!.normal.z > 0)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     // MARK: faceVertices
