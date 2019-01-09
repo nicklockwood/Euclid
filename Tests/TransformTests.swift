@@ -112,4 +112,16 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(c.offset, Vector(2, 0, 0))
         XCTAssertEqual(c.scale, Vector(2, 1, 1))
     }
+
+    // MARK: Vector transform
+
+    func testTransformVector() {
+        let v = Vector(1, 1, 1)
+        let t = Transform(
+            offset: Vector(0.5, 0, 0),
+            rotation: .roll(.pi / 2),
+            scale: Vector(1, 0.1, 0.1)
+        )
+        XCTAssertEqual(v.transformed(by: t).quantized(), Vector(0.6, -1.0, 0.1).quantized())
+    }
 }

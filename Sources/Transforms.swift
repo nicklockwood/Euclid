@@ -396,7 +396,7 @@ public extension Vector {
     }
 
     func transformed(by t: Transform) -> Vector {
-        return rotated(by: t.rotation).scaled(by: t.scale) + t.offset
+        return scaled(by: t.scale).rotated(by: t.rotation) + t.offset
     }
 }
 
