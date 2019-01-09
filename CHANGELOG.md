@@ -1,3 +1,7 @@
+## [0.1.4](https://github.com/nicklockwood/Euclid/releases/tag/0.1.4) (2019-01-09)
+
+- Fixed bug with Vector transform application order (also affected Bounds calculation)
+
 ## [0.1.3](https://github.com/nicklockwood/Euclid/releases/tag/0.1.3) (2018-12-19)
 
 - Fixed bug in Plane calculation for closed Paths

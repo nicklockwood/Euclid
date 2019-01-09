@@ -10,7 +10,6 @@
 import XCTest
 
 class PlaneTests: XCTestCase {
-
     func testConcavePolygonClockwiseWinding() {
         var transform = Transform.identity
         var points = [Vector]()
