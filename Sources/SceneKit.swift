@@ -426,4 +426,147 @@
         }
     }
 
+    // MARK: import
+
+    private extension Data {
+        func index(at index: Int, bytes: Int) -> UInt32 {
+            switch bytes {
+            case 1: return UInt32(self[index])
+            case 2: return UInt32(uint16(at: index * 2))
+            case 4: return uint32(at: index * 4)
+            default: preconditionFailure()
+            }
+        }
+
+        func uint16(at index: Int) -> UInt16 {
+            var int: UInt16 = 0
+            _ = copyBytes(
+                to: UnsafeMutableBufferPointer(start: &int, count: 1),
+                from: index ..< index + 2
+            )
+            return int
+        }
+
+        func uint32(at index: Int) -> UInt32 {
+            var int: UInt32 = 0
+            _ = copyBytes(
+                to: UnsafeMutableBufferPointer(start: &int, count: 1),
+                from: index ..< index + 4
+            )
+            return int
+        }
+
+        func float(at index: Int) -> Double {
+            var float: Float = 0
+            _ = copyBytes(
+                to: UnsafeMutableBufferPointer(start: &float, count: 1),
+                from: index ..< index + 4
+            )
+            return Double(float)
+        }
+
+        func vector(at index: Int) -> Vector {
+            return Vector(
+                float(at: index),
+                float(at: index + 4),
+                float(at: index + 8)
+            )
+        }
+    }
+
+    public extension Vector {
+        init(_ v: SCNVector3) {
+            self.init(Double(v.x), Double(v.y), Double(v.z))
+        }
+    }
+
+    public extension Rotation {
+        init(_ q: SCNQuaternion) {
+            let d = sqrt(1 - Double(q.w * q.w))
+            guard d > epsilon else {
+                self = .identity
+                return
+            }
+            let axis = Vector(Double(q.x) / d, Double(q.y) / d, Double(q.z) / d)
+            self.init(unchecked: axis.normalized(), radians: Double(2 * acos(-q.w)))
+        }
+    }
+
+    public extension Transform {
+        static func transform(from scnNode: SCNNode) -> Transform {
+            return Transform(
+                offset: Vector(scnNode.position),
+                rotation: Rotation(scnNode.orientation),
+                scale: Vector(scnNode.scale)
+            )
+        }
+    }
+
+    public extension Mesh {
+        init?(scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Polygon.Material)? = nil) {
+            var polygons = [Polygon]()
+            var vertices = [Vertex]()
+            for source in scnGeometry.sources {
+                let count = source.vectorCount
+                if vertices.isEmpty {
+                    vertices = Array(repeating: Vertex(.zero, .zero), count: count)
+                } else if vertices.count != source.vectorCount {
+                    return nil
+                }
+                var offset = source.dataOffset
+                let stride = source.dataStride
+                let data = source.data
+                switch source.semantic {
+                case .vertex:
+                    for i in 0 ..< count {
+                        vertices[i].position = data.vector(at: offset)
+                        offset += stride
+                    }
+                case .normal:
+                    for i in 0 ..< count {
+                        vertices[i].normal = data.vector(at: offset)
+                        offset += stride
+                    }
+                case .texcoord:
+                    for i in 0 ..< count {
+                        vertices[i].texcoord = Vector(
+                            data.float(at: offset),
+                            data.float(at: offset + 4)
+                        )
+                        offset += stride
+                    }
+                default:
+                    continue
+                }
+            }
+            let materials: [Polygon.Material] = materialLookup.map {
+                scnGeometry.materials.map($0)
+            } ?? []
+            for (index, element) in scnGeometry.elements.enumerated() {
+                let material = materials.isEmpty ? nil : materials[index % materials.count]
+                switch element.primitiveType {
+                case .triangles:
+                    let indexData = element.data
+                    let indexSize = element.bytesPerIndex
+                    func vertex(at i: Int) -> Vertex {
+                        let index = indexData.index(at: i, bytes: indexSize)
+                        return vertices[Int(index)]
+                    }
+                    for i in 0 ..< element.primitiveCount {
+                        Polygon([
+                            vertex(at: i * 3),
+                            vertex(at: i * 3 + 1),
+                            vertex(at: i * 3 + 2),
+                        ], material: material).map {
+                            polygons.append($0)
+                        }
+                    }
+                default:
+                    break // TODO:
+                }
+            }
+            self.init(polygons)
+        }
+    }
+
 #endif
