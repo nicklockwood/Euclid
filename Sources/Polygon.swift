@@ -48,12 +48,12 @@ public extension Polygon {
     /// Create a polygon from a set of vertices
     /// Polygon can be convex or concave, but vertices must be coplanar and non-degenerate
     /// Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
-    // TODO: find a way to get the plane of a non-convex, non-xy-planar polygon
     init?(_ vertices: [Vertex], material: Material = nil) {
-        guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+        guard vertices.count > 2, !verticesAreDegenerate(vertices),
+            let plane = Plane(points: vertices.map { $0.position }) else {
             return nil
         }
-        self.init(unchecked: vertices, material: material)
+        self.init(unchecked: vertices, plane: plane, material: material)
     }
 
     /// Test if point lies inside the polygon
