@@ -30,7 +30,7 @@
 //
 
 /// A planar polygon
-public struct Polygon: Equatable {
+public struct Polygon: Hashable {
     public let vertices: [Vertex]
     public let plane: Plane
     public let bounds: Bounds

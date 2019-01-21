@@ -30,7 +30,7 @@
 //
 
 /// A 3D surface constructed from polygons
-public struct Mesh {
+public struct Mesh: Hashable {
     public var polygons: [Polygon]
 }
 
