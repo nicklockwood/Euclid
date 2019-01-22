@@ -30,11 +30,11 @@
 //
 
 // Tolerance used for calculating approximate equality
-let epsilon = 1e-8
+let epsilon = 1e-6
 
-// Round a value to the nearest 1000th of epsilon
+// Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
-    let precision = epsilon * 1e-3
+    let precision = 1e-8 * 1e-3
     return (value / precision).rounded() * precision
 }
 
@@ -70,13 +70,14 @@ func faceNormalForConvexVertices(unchecked vertices: [Vertex]) -> Vector {
 // MARK: Vector utilities
 
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {
+    let threshold = 1e-10
     let count = points.count
     guard count > 1, let a = points.last else {
         return false
     }
     var ab = points[0] - a
     var length = ab.length
-    if length < epsilon {
+    guard length > threshold else {
         return true
     }
     ab = ab / length
@@ -85,11 +86,11 @@ func pointsAreDegenerate(_ points: [Vector]) -> Bool {
         let c = points[(i + 1) % count]
         var bc = c - b
         length = bc.length
-        if length < epsilon {
+        guard length > threshold else {
             return true
         }
         bc = bc / length
-        if abs(ab.dot(bc) + 1) < epsilon {
+        guard abs(ab.dot(bc) + 1) > threshold else {
             return true
         }
         ab = bc
