@@ -133,30 +133,40 @@ public extension Polygon {
             assert(vertices.count > 2)
             return [self]
         }
-        func makeTriangle(_ vertices: [Vertex]) -> Polygon? {
-            return Polygon(vertices, material: material)
-        }
         var triangles = [Polygon]()
+        func addTriangle(_ vertices: [Vertex]) -> Bool {
+            guard !verticesAreDegenerate(vertices) else {
+                return false
+            }
+            triangles.append(Polygon(
+                unchecked: vertices,
+                plane: plane,
+                isConvex: true,
+                material: material
+            ))
+            return true
+        }
         if isConvex {
             let v0 = vertices[0]
-            for i in 2 ..< vertices.count {
-                if let triangle = makeTriangle([v0, vertices[i - 1], vertices[i]]) {
-                    triangles.append(triangle)
-                }
+            var v1 = vertices[1]
+            for v2 in vertices[2...] {
+                _ = addTriangle([v0, v1, v2])
+                v1 = v2
             }
             return triangles
         }
         var i = 0
         var attempts = 0
         while vertices.count > 3 {
-            let a = vertices[(i - 1 + vertices.count) % vertices.count]
-            let b = vertices[i]
-            let c = vertices[(i + 1) % vertices.count]
-            var triangle = makeTriangle([a, b, c])
+            var triangle = Polygon([
+                vertices[(i - 1 + vertices.count) % vertices.count],
+                vertices[i],
+                vertices[(i + 1) % vertices.count],
+            ])
             if let normal = triangle?.plane.normal {
                 if normal.dot(plane.normal) > 0 {
-                    for v in vertices where ![a, b, c].contains(v) {
-                        if triangle?.containsPoint(v.position) == true {
+                    for v in vertices where !triangle!.vertices.contains(v) {
+                        if triangle!.containsPoint(v.position) {
                             triangle = nil
                             break
                         }
@@ -165,8 +175,7 @@ public extension Polygon {
                     triangle = nil
                 }
             }
-            if let triangle = triangle {
-                triangles.append(triangle)
+            if let triangle = triangle, addTriangle(triangle.vertices) {
                 vertices.remove(at: i)
                 if i == vertices.count {
                     i = 0
@@ -182,9 +191,7 @@ public extension Polygon {
                 }
             }
         }
-        if let triangle = makeTriangle(vertices) {
-            triangles.append(triangle)
-        }
+        _ = addTriangle(vertices)
         return triangles
     }
 }
