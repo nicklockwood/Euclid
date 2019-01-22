@@ -89,7 +89,7 @@
         convenience init(triangles mesh: Mesh, materialLookup: ((Polygon.Material) -> SCNMaterial)? = nil) {
             var elementData = [Data]()
             var vertexData = Data()
-            var _materials = [SCNMaterial]()
+            var materials = [SCNMaterial]()
             var indicesByVertex = [Vertex: UInt32]()
             for (material, polygons) in mesh.polygonsByMaterial {
                 var indexData = Data()
@@ -107,7 +107,7 @@
                     vertexData.append(vertex.texcoord.y)
                 }
                 if let materialLookup = materialLookup {
-                    _materials.append(materialLookup(material))
+                    materials.append(materialLookup(material))
                 }
                 for polygon in polygons {
                     for triangle in polygon.triangulate() {
@@ -160,14 +160,14 @@
                     )
                 }
             )
-            materials = _materials
+            self.materials = materials
         }
 
         /// Creates an SCNGeometry from a Mesh using convex polygons
         convenience init(polygons mesh: Mesh, materialLookup: ((Polygon.Material) -> SCNMaterial)? = nil) {
             var elementData = [(Int, Data)]()
             var vertexData = Data()
-            var _materials = [SCNMaterial]()
+            var materials = [SCNMaterial]()
             var indicesByVertex = [Vertex: UInt32]()
             for (material, polygons) in mesh.polygonsByMaterial {
                 var indexData = Data()
@@ -185,7 +185,7 @@
                     vertexData.append(vertex.texcoord.y)
                 }
                 if let materialLookup = materialLookup {
-                    _materials.append(materialLookup(material))
+                    materials.append(materialLookup(material))
                 }
                 let polygons = polygons.flatMap { $0.tessellate() }
                 for polygon in polygons {
@@ -240,7 +240,7 @@
                     )
                 }
             )
-            materials = _materials
+            self.materials = materials
         }
 
         /// Creates a wireframe SCNGeometry from a Mesh using line segments
