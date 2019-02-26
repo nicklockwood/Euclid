@@ -50,8 +50,8 @@ public extension Mesh {
         var aout: [Polygon]? = []
         var bout: [Polygon]? = []
         boundsTest(&ap, &bp, &aout, &bout)
-        ap = BSPNode(mesh.polygons).clip(ap, .greaterThanEqual, true)
-        bp = BSPNode(polygons).clip(bp, .greaterThan, true)
+        ap = BSPNode(mesh.polygons).clip(ap, .greaterThan, true)
+        bp = BSPNode(polygons).clip(bp, .greaterThanEqual, true)
         return Mesh(aout! + bout! + ap + bp)
     }
 
@@ -112,8 +112,8 @@ public extension Mesh {
         var bp = mesh.polygons
         var aout, bout: [Polygon]?
         boundsTest(&ap, &bp, &aout, &bout)
-        ap = BSPNode(mesh.polygons).clip(ap, .lessThanEqual, true)
-        bp = BSPNode(polygons).clip(bp, .lessThan, true)
+        ap = BSPNode(mesh.polygons).clip(ap, .lessThan, false)
+        bp = BSPNode(polygons).clip(bp, .lessThanEqual, false)
         return Mesh(ap + bp)
     }
 
@@ -221,8 +221,10 @@ private class BSPNode {
         return clip(polygons, keeping, clipBackfaces, &id)
     }
 
-    private func clip(_ polygons: [Polygon], _ keeping: ClipRule, _ clipBackfaces: Bool, _ id: inout Int) -> [Polygon] {
-        var coplanar: [Polygon]?
+    private func clip(_ polygons: [Polygon],
+                      _ keeping: ClipRule,
+                      _ clipBackfaces: Bool,
+                      _ id: inout Int) -> [Polygon] {
         var polygons = polygons
         var node = self
         var total = [Polygon]()
@@ -244,12 +246,54 @@ private class BSPNode {
             }
         }
         let keepFront = [.greaterThan, .greaterThanEqual].contains(keeping)
-        let frontFacesGoFront = [.greaterThanEqual, .lessThan].contains(keeping)
-        let backFacesGoFront = (keepFront != clipBackfaces)
         while !polygons.isEmpty {
-            var front = [Polygon](), back = [Polygon]()
+            var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
             for polygon in polygons {
-                node.splitPolygon(polygon, &coplanar, &front, &back, frontFacesGoFront, backFacesGoFront, &id)
+                polygon.split(along: node.plane!, &coplanar, &front, &back, &id)
+            }
+            for polygon in coplanar {
+                var inside = [Polygon](), outside = [Polygon]()
+                polygon.clip(to: node.polygons.flatMap { $0.tessellate() },
+                             &inside, &outside, &id)
+                switch keeping {
+                case .greaterThan:
+                    if node.plane!.normal.dot(polygon.plane.normal) > 0 {
+                        front += outside
+                        back += inside
+                    } else if clipBackfaces {
+                        front += outside + inside
+                    } else {
+                        back += outside + inside
+                    }
+                case .greaterThanEqual:
+                    if node.plane!.normal.dot(polygon.plane.normal) > 0 {
+                        front += outside + inside
+                    } else if clipBackfaces {
+                        front += outside + inside
+                    } else {
+                        front += inside
+                        back += outside
+                    }
+                case .lessThan:
+                    if node.plane!.normal.dot(polygon.plane.normal) > 0 {
+                        front += outside + inside
+                    } else if clipBackfaces {
+                        front += outside + inside
+                    } else {
+                        front += outside
+                        back += inside
+                    }
+                case .lessThanEqual:
+                    if node.plane!.normal.dot(polygon.plane.normal) > 0 {
+                        front += outside
+                        back += inside
+                    } else if clipBackfaces {
+                        front += outside + inside
+                    } else {
+                        front += outside
+                        back += inside
+                    }
+                }
             }
             if front.count > back.count {
                 addPolygons(node.back?.clip(back, keeping, clipBackfaces, &id) ?? (keepFront ? [] : back))
@@ -282,11 +326,17 @@ private class BSPNode {
             var front = [Polygon](), back = [Polygon]()
             do {
                 var id = 0
-                var coplanar: [Polygon]? = node.polygons
+                var coplanar = [Polygon]()
                 for polygon in polygons {
-                    node.splitPolygon(polygon, &coplanar, &front, &back, true, false, &id)
+                    polygon.split(along: node.plane!, &coplanar, &front, &back, &id)
                 }
-                node.polygons = coplanar!
+                for polygon in coplanar {
+                    if node.plane!.normal.dot(polygon.plane.normal) > 0 {
+                        node.polygons.append(polygon)
+                    } else {
+                        back.append(polygon)
+                    }
+                }
             }
 
             node.front = node.front ?? front.first.map {
@@ -307,14 +357,72 @@ private class BSPNode {
             }
         }
     }
+}
 
-    fileprivate func splitPolygon(_ polygon: Polygon,
-                                  _ coplanar: inout [Polygon]?,
-                                  _ front: inout [Polygon],
-                                  _ back: inout [Polygon],
-                                  _ coplanarGoesInFront: Bool,
-                                  _ reversePlanarGoesInFront: Bool,
-                                  _ id: inout Int) {
+extension Polygon {
+    var edgePlanes: [Plane] {
+        var planes = [Plane]()
+        var p0 = vertices.last!.position
+        for v1 in vertices {
+            let p1 = v1.position
+            let tangent = p1 - p0
+            let normal = tangent.cross(plane.normal).normalized()
+            guard let plane = Plane(normal: normal, pointOnPlane: p0) else {
+                assertionFailure()
+                return []
+            }
+            planes.append(plane)
+            p0 = p1
+        }
+        return planes
+    }
+
+    func clip(to polygons: [Polygon],
+              _ inside: inout [Polygon],
+              _ outside: inout [Polygon],
+              _ id: inout Int) {
+        precondition(isConvex)
+        var toTest = [self]
+        for polygon in polygons where !toTest.isEmpty {
+            precondition(polygon.isConvex)
+            var _outside = [Polygon]()
+            for p in toTest {
+                polygon.clip(p, &inside, &_outside, &id)
+            }
+            toTest = _outside
+        }
+        outside = toTest
+    }
+
+    func clip(_ polygon: Polygon,
+              _ inside: inout [Polygon],
+              _ outside: inout [Polygon],
+              _ id: inout Int) {
+        precondition(isConvex)
+        guard polygon.isConvex else {
+            polygon.tessellate().forEach {
+                clip($0, &inside, &outside, &id)
+            }
+            return
+        }
+        var polygon = polygon
+        var coplanar = [Polygon]()
+        for plane in edgePlanes {
+            var back = [Polygon]()
+            polygon.split(along: plane, &coplanar, &outside, &back, &id)
+            guard let p = back.first else {
+                return
+            }
+            polygon = p
+        }
+        inside.append(polygon)
+    }
+
+    func split(along plane: Plane,
+               _ coplanar: inout [Polygon],
+               _ front: inout [Polygon],
+               _ back: inout [Polygon],
+               _ id: inout Int) {
         enum PolygonType: Int {
             case coplanar = 0
             case front = 1
@@ -322,15 +430,10 @@ private class BSPNode {
             case spanning = 3
         }
 
-        // Ensure we have a plane
-        guard let plane = plane else {
-            return
-        }
-
         // Classify each point as well as the entire polygon into one of the above
         // four classes.
         var polygonType = PolygonType.coplanar
-        let types: [PolygonType] = (polygon.plane == plane) ? [] : polygon.vertices.map {
+        let types: [PolygonType] = (self.plane == plane) ? [] : vertices.map {
             let t = plane.normal.dot($0.position) - plane.w
             let type: PolygonType = (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
             polygonType = PolygonType(rawValue: polygonType.rawValue | type.rawValue)!
@@ -340,34 +443,20 @@ private class BSPNode {
         // Put the polygon in the correct list, splitting it when necessary.
         switch polygonType {
         case .coplanar:
-            if plane.normal.dot(polygon.plane.normal) > 0 {
-                if coplanar == nil {
-                    if coplanarGoesInFront {
-                        front.append(polygon)
-                    } else {
-                        back.append(polygon)
-                    }
-                } else {
-                    coplanar?.append(polygon)
-                }
-            } else if reversePlanarGoesInFront {
-                front.append(polygon)
-            } else {
-                back.append(polygon)
-            }
+            coplanar.append(self)
         case .front:
-            front.append(polygon)
+            front.append(self)
         case .back:
-            back.append(polygon)
+            back.append(self)
         case .spanning:
-            var polygon = polygon
+            var polygon = self
             if polygon.id == 0 {
                 id += 1
                 polygon.id = id
             }
             if !polygon.isConvex {
                 polygon.tessellate().forEach {
-                    splitPolygon($0, &coplanar, &front, &back, coplanarGoesInFront, reversePlanarGoesInFront, &id)
+                    $0.split(along: plane, &coplanar, &front, &back, &id)
                 }
                 return
             }

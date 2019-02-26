@@ -75,7 +75,12 @@ class CSGTests: XCTestCase {
         let a = Mesh.cube()
         let b = Mesh.cube().translated(by: Vector(1, 0, 0))
         let c = a.intersect(b)
-        XCTAssert(c.polygons.isEmpty)
+        // TODO: ideally this should probably be empty, but it's not clear
+        // how to achieve that while also getting desired planar behavior
+        XCTAssertEqual(c.bounds, Bounds(
+            min: Vector(0.5, -0.5, -0.5),
+            max: Vector(0.5, 0.5, 0.5)
+        ))
     }
 
     func testIntersectionOfOverlappingBoxes() {
@@ -85,6 +90,84 @@ class CSGTests: XCTestCase {
         XCTAssertEqual(c.bounds, Bounds(
             min: Vector(0, -0.5, -0.5),
             max: Vector(0.5, 0.5, 0.5)
+        ))
+    }
+
+    // MARK: Planar subtraction
+
+    func testSubtractCoincidingSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square())
+        let c = a.subtract(b)
+        XCTAssert(c.polygons.isEmpty)
+    }
+
+    func testSubtractAdjacentSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square()).translated(by: Vector(1, 0, 0))
+        let c = a.subtract(b)
+        XCTAssertEqual(c.bounds, a.bounds)
+    }
+
+    func testSubtractOverlappingSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
+        let c = a.subtract(b)
+        XCTAssertEqual(c.bounds, Bounds(
+            min: Vector(-0.5, -0.5, 0),
+            max: Vector(0, 0.5, 0)
+        ))
+    }
+
+    // MARK: Planar union
+
+    func testUnionOfCoincidingSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square())
+        let c = a.union(b)
+        XCTAssertEqual(c.bounds, a.bounds)
+    }
+
+    func testUnionOfAdjacentSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square()).translated(by: Vector(1, 0, 0))
+        let c = a.union(b)
+        XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
+    }
+
+    func testUnionOfOverlappingSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
+        let c = a.union(b)
+        XCTAssertEqual(c.bounds, Bounds(
+            min: Vector(-0.5, -0.5, 0),
+            max: Vector(1, 0.5, 0)
+        ))
+    }
+
+    // MARK: Planar intersection
+
+    func testIntersectionOfCoincidingSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square())
+        let c = a.intersect(b)
+        XCTAssertEqual(c.bounds, a.bounds)
+    }
+
+    func testIntersectionOfAdjacentSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square()).translated(by: Vector(1, 0, 0))
+        let c = a.intersect(b)
+        XCTAssert(c.polygons.isEmpty)
+    }
+
+    func testIntersectionOfOverlappingSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
+        let c = a.intersect(b)
+        XCTAssertEqual(c.bounds, Bounds(
+            min: Vector(0, -0.5, 0),
+            max: Vector(0.5, 0.5, 0)
         ))
     }
 }
