@@ -1,5 +1,5 @@
 //
-//  GameViewController.swift
+//  SceneViewController.swift
 //  Example
 //
 //  Created by Nick Lockwood on 11/12/2018.
@@ -10,7 +10,7 @@ import Euclid
 import SceneKit
 import UIKit
 
-class GameViewController: UIViewController {
+class SceneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
