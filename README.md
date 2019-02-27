@@ -1,5 +1,5 @@
-[![Travis](https://img.shields.io/travis/nicklockwood/Euclid.svg)](https://travis-ci.org/nicklockwood/Euclid)
-[![Coveralls](https://coveralls.io/repos/github/nicklockwood/Euclid/badge.svg)](https://coveralls.io/github/nicklockwood/Euclid)
+[![Travis](https://travis-ci.org/nicklockwood/Euclid.svg)](https://travis-ci.org/nicklockwood/Euclid)
+[![Coveralls](https://coveralls.io/repos/github/nicklockwood/Euclid/badge.svg?branch=master)](https://coveralls.io/github/nicklockwood/Euclid)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20macOS%20|%20tvOS%20|%20watchOS%20|%20Linux-lightgray.svg)]()
 [![Swift 4.2](https://img.shields.io/badge/swift-4.2-red.svg?style=flat)](https://developer.apple.com/swift)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://opensource.org/licenses/MIT)

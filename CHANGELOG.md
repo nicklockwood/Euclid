@@ -1,3 +1,9 @@
+## [0.1.6](https://github.com/nicklockwood/Euclid/releases/tag/0.1.6) (2019-02-27)
+
+- Improved CSG operations on coplanar polygons
+- Default radius for circle Path is now 0.5 instead of 1.0
+- Added Linux test suite
+
 ## [0.1.5](https://github.com/nicklockwood/Euclid/releases/tag/0.1.5) (2019-01-21)
 
 - Reduced epsilon value in order to avoid precision-related bugs
