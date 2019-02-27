@@ -1,0 +1,12 @@
+version: "Apple Swift version 4.2.1 (swiftlang-1000.11.42 clang-1000.11.45.1)"
+options: "8219441da95bc7953d5968e1886278a5"
+build_time: [1551298391, 589456000]
+inputs:
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/CSGTests.swift": [1551298307, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/PathTests.swift": [1551298314, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/PlaneTests.swift": [1551298322, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/PolygonTests.swift": [1551298318, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/ShapeTests.swift": [1551298326, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/TransformTests.swift": [1551298332, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/UtilityTests.swift": [1551298336, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/XCTestManifests.swift": [9223372036, 854775807]

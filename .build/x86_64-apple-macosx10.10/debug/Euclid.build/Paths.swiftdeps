@@ -1,0 +1,747 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "PathPoint"
+- "Path"
+- "sanitizePoints"
+- "pointsAreClosed"
+- "extrapolate"
+- "extrapolate"
+provides-nominal:
+- "6Euclid9PathPointV"
+- "6Euclid4PathV"
+provides-member:
+- ["6Euclid9PathPointV", ""]
+- ["6Euclid4PathV", ""]
+- ["6Euclid7PolygonV", ""]
+- ["6Euclid9PathPointV", "point"]
+- ["6Euclid9PathPointV", "point"]
+- ["6Euclid9PathPointV", "curve"]
+- ["6Euclid9PathPointV", "curve"]
+- ["6Euclid9PathPointV", "init"]
+- ["6Euclid9PathPointV", "lerp"]
+- ["6Euclid4PathV", "isPlanar"]
+- ["6Euclid4PathV", "closed"]
+- ["6Euclid4PathV", "init"]
+- ["6Euclid4PathV", "faceVertices"]
+- ["6Euclid4PathV", "edgeVertices"]
+- ["6Euclid4PathV", "edgeVertices"]
+- ["6Euclid7PolygonV", "init"]
+- ["6Euclid4PathV", "init"]
+- ["6Euclid4PathV", "isSimple"]
+- ["6Euclid4PathV", "flattened"]
+- ["6Euclid4PathV", "clippedToYAxis"]
+provides-dynamic-lookup:
+depends-top-level:
+- !private "!"
+- !private "!="
+- !private "&&"
+- !private "*"
+- !private "+"
+- !private "+="
+- !private "-"
+- !private "-="
+- !private "..<"
+- !private "/"
+- !private "<"
+- "=="
+- !private ">"
+- !private ">="
+- !private "??"
+- !private "Array"
+- "AssignmentPrecedence"
+- "Bool"
+- !private "BooleanLiteralType"
+- "Bounds"
+- "Double"
+- !private "FlatteningPlane"
+- "FloatLiteralType"
+- "Hashable"
+- "IntegerLiteralType"
+- "Mesh"
+- "Path"
+- "PathPoint"
+- "Plane"
+- "Polygon"
+- !private "Rotation"
+- !private "StringLiteralType"
+- !private "Swift"
+- "TernaryPrecedence"
+- "Vector"
+- "Vertex"
+- !private "abs"
+- !private "acos"
+- !private "assert"
+- !private "epsilon"
+- "extrapolate"
+- !private "lineIntersection"
+- !private "lineSegmentsIntersect"
+- !private "max"
+- !private "min"
+- "pointsAreClosed"
+- "sanitizePoints"
+- !private "verticesAreConvex"
+- !private "verticesAreDegenerate"
+- !private "||"
+depends-member:
+- !private ["Sa", "append"]
+- !private ["Sa", "count"]
+- !private ["Sa", "dropFirst"]
+- !private ["Sa", "dropLast"]
+- !private ["Sa", "first"]
+- !private ["Sa", "init"]
+- !private ["Sa", "isEmpty"]
+- !private ["Sa", "last"]
+- !private ["Sa", "map"]
+- !private ["Sa", "remove"]
+- !private ["Sa", "removeFirst"]
+- !private ["Sa", "removeLast"]
+- !private ["Sa", "subscript"]
+- !private ["s13ArrayProtocolP", "append"]
+- !private ["s13ArrayProtocolP", "count"]
+- !private ["s13ArrayProtocolP", "dropFirst"]
+- !private ["s13ArrayProtocolP", "dropLast"]
+- !private ["s13ArrayProtocolP", "first"]
+- !private ["s13ArrayProtocolP", "init"]
+- !private ["s13ArrayProtocolP", "isEmpty"]
+- !private ["s13ArrayProtocolP", "last"]
+- !private ["s13ArrayProtocolP", "map"]
+- !private ["s13ArrayProtocolP", "point"]
+- !private ["s13ArrayProtocolP", "position"]
+- !private ["s13ArrayProtocolP", "remove"]
+- !private ["s13ArrayProtocolP", "removeFirst"]
+- !private ["s13ArrayProtocolP", "removeLast"]
+- !private ["s13ArrayProtocolP", "subscript"]
+- !private ["s10ArraySliceV", "map"]
+- !private ["s10ArraySliceV", "point"]
+- !private ["s10ArraySliceV", "position"]
+- !private ["SK", "append"]
+- !private ["SK", "count"]
+- !private ["SK", "dropFirst"]
+- !private ["SK", "dropLast"]
+- !private ["SK", "first"]
+- !private ["SK", "init"]
+- !private ["SK", "isEmpty"]
+- !private ["SK", "last"]
+- !private ["SK", "map"]
+- !private ["SK", "point"]
+- !private ["SK", "position"]
+- !private ["SK", "remove"]
+- !private ["SK", "removeFirst"]
+- !private ["SK", "removeLast"]
+- !private ["SK", "subscript"]
+- !private ["SB", "infinity"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- ["6Euclid6BoundsV", "deinit"]
+- !private ["6Euclid6BoundsV", "init"]
+- !private ["6Euclid6BoundsV", "max"]
+- !private ["6Euclid6BoundsV", "min"]
+- !private ["s7CVarArgP", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "append"]
+- !private ["s7CVarArgP", "count"]
+- !private ["s7CVarArgP", "dropFirst"]
+- !private ["s7CVarArgP", "dropLast"]
+- !private ["s7CVarArgP", "first"]
+- !private ["s7CVarArgP", "infinity"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "isEmpty"]
+- !private ["s7CVarArgP", "last"]
+- !private ["s7CVarArgP", "map"]
+- !private ["s7CVarArgP", "remove"]
+- !private ["s7CVarArgP", "removeFirst"]
+- !private ["s7CVarArgP", "removeLast"]
+- !private ["s7CVarArgP", "subscript"]
+- !private ["Sl", "append"]
+- !private ["Sl", "count"]
+- !private ["Sl", "dropFirst"]
+- !private ["Sl", "dropLast"]
+- !private ["Sl", "first"]
+- !private ["Sl", "init"]
+- !private ["Sl", "isEmpty"]
+- !private ["Sl", "last"]
+- !private ["Sl", "map"]
+- !private ["Sl", "point"]
+- !private ["Sl", "position"]
+- !private ["Sl", "remove"]
+- !private ["Sl", "removeFirst"]
+- !private ["Sl", "removeLast"]
+- !private ["Sl", "subscript"]
+- !private ["SL", "infinity"]
+- !private ["s28CustomDebugStringConvertibleP", "append"]
+- !private ["s28CustomDebugStringConvertibleP", "count"]
+- !private ["s28CustomDebugStringConvertibleP", "dropFirst"]
+- !private ["s28CustomDebugStringConvertibleP", "dropLast"]
+- !private ["s28CustomDebugStringConvertibleP", "first"]
+- !private ["s28CustomDebugStringConvertibleP", "identity"]
+- !private ["s28CustomDebugStringConvertibleP", "infinity"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "isEmpty"]
+- !private ["s28CustomDebugStringConvertibleP", "last"]
+- !private ["s28CustomDebugStringConvertibleP", "map"]
+- !private ["s28CustomDebugStringConvertibleP", "normalized"]
+- !private ["s28CustomDebugStringConvertibleP", "point"]
+- !private ["s28CustomDebugStringConvertibleP", "position"]
+- !private ["s28CustomDebugStringConvertibleP", "remove"]
+- !private ["s28CustomDebugStringConvertibleP", "removeFirst"]
+- !private ["s28CustomDebugStringConvertibleP", "removeLast"]
+- !private ["s28CustomDebugStringConvertibleP", "subscript"]
+- !private ["s29CustomPlaygroundQuickLookableP", "_getBuiltinLogicValue"]
+- !private ["s29CustomPlaygroundQuickLookableP", "infinity"]
+- !private ["s17CustomReflectableP", "_getBuiltinLogicValue"]
+- !private ["s17CustomReflectableP", "append"]
+- !private ["s17CustomReflectableP", "count"]
+- !private ["s17CustomReflectableP", "dropFirst"]
+- !private ["s17CustomReflectableP", "dropLast"]
+- !private ["s17CustomReflectableP", "first"]
+- !private ["s17CustomReflectableP", "identity"]
+- !private ["s17CustomReflectableP", "infinity"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "isEmpty"]
+- !private ["s17CustomReflectableP", "last"]
+- !private ["s17CustomReflectableP", "map"]
+- !private ["s17CustomReflectableP", "normalized"]
+- !private ["s17CustomReflectableP", "point"]
+- !private ["s17CustomReflectableP", "position"]
+- !private ["s17CustomReflectableP", "remove"]
+- !private ["s17CustomReflectableP", "removeFirst"]
+- !private ["s17CustomReflectableP", "removeLast"]
+- !private ["s17CustomReflectableP", "subscript"]
+- !private ["s23CustomStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s23CustomStringConvertibleP", "append"]
+- !private ["s23CustomStringConvertibleP", "count"]
+- !private ["s23CustomStringConvertibleP", "dropFirst"]
+- !private ["s23CustomStringConvertibleP", "dropLast"]
+- !private ["s23CustomStringConvertibleP", "first"]
+- !private ["s23CustomStringConvertibleP", "infinity"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "isEmpty"]
+- !private ["s23CustomStringConvertibleP", "last"]
+- !private ["s23CustomStringConvertibleP", "map"]
+- !private ["s23CustomStringConvertibleP", "point"]
+- !private ["s23CustomStringConvertibleP", "position"]
+- !private ["s23CustomStringConvertibleP", "remove"]
+- !private ["s23CustomStringConvertibleP", "removeFirst"]
+- !private ["s23CustomStringConvertibleP", "removeLast"]
+- !private ["s23CustomStringConvertibleP", "subscript"]
+- !private ["Se", "_getBuiltinLogicValue"]
+- !private ["Se", "append"]
+- !private ["Se", "count"]
+- !private ["Se", "dropFirst"]
+- !private ["Se", "dropLast"]
+- !private ["Se", "first"]
+- !private ["Se", "identity"]
+- !private ["Se", "infinity"]
+- !private ["Se", "init"]
+- !private ["Se", "isEmpty"]
+- !private ["Se", "last"]
+- !private ["Se", "map"]
+- !private ["Se", "normalized"]
+- !private ["Se", "remove"]
+- !private ["Se", "removeFirst"]
+- !private ["Se", "removeLast"]
+- !private ["Se", "subscript"]
+- !private ["Sd", "infinity"]
+- !private ["SE", "_getBuiltinLogicValue"]
+- !private ["SE", "append"]
+- !private ["SE", "count"]
+- !private ["SE", "dropFirst"]
+- !private ["SE", "dropLast"]
+- !private ["SE", "first"]
+- !private ["SE", "identity"]
+- !private ["SE", "infinity"]
+- !private ["SE", "init"]
+- !private ["SE", "isEmpty"]
+- !private ["SE", "last"]
+- !private ["SE", "map"]
+- !private ["SE", "normalized"]
+- !private ["SE", "remove"]
+- !private ["SE", "removeFirst"]
+- !private ["SE", "removeLast"]
+- !private ["SE", "subscript"]
+- !private ["SQ", "Bounds"]
+- !private ["SQ", "Double"]
+- !private ["SQ", "FlatteningPlane"]
+- ["SQ", "Material"]
+- !private ["SQ", "Path"]
+- !private ["SQ", "PathPoint"]
+- !private ["SQ", "Plane"]
+- !private ["SQ", "Swift"]
+- !private ["SQ", "Vector"]
+- !private ["SQ", "Vertex"]
+- ["SQ", "WrapMode"]
+- ["SQ", ""]
+- !private ["SQ", "_getBuiltinLogicValue"]
+- !private ["SQ", "abs"]
+- !private ["SQ", "append"]
+- !private ["SQ", "assert"]
+- !private ["SQ", "bounds"]
+- !private ["SQ", "count"]
+- !private ["SQ", "cross"]
+- !private ["SQ", "curve"]
+- ["SQ", "default"]
+- !private ["SQ", "dot"]
+- !private ["SQ", "dropFirst"]
+- !private ["SQ", "dropLast"]
+- !private ["SQ", "edgeVertices"]
+- !private ["SQ", "extrapolate"]
+- !private ["SQ", "faceVertices"]
+- !private ["SQ", "first"]
+- !private ["SQ", "flattenPoint"]
+- !private ["SQ", "flattened"]
+- ["SQ", "hash"]
+- ["SQ", "hashValue"]
+- !private ["SQ", "identity"]
+- !private ["SQ", "infinity"]
+- !private ["SQ", "init"]
+- !private ["SQ", "isClosed"]
+- !private ["SQ", "isCurved"]
+- !private ["SQ", "isEmpty"]
+- !private ["SQ", "last"]
+- !private ["SQ", "length"]
+- !private ["SQ", "lerp"]
+- !private ["SQ", "lineSegmentsIntersect"]
+- !private ["SQ", "map"]
+- !private ["SQ", "max"]
+- !private ["SQ", "min"]
+- !private ["SQ", "normal"]
+- !private ["SQ", "normalized"]
+- !private ["SQ", "plane"]
+- !private ["SQ", "point"]
+- !private ["SQ", "points"]
+- !private ["SQ", "pointsAreClosed"]
+- !private ["SQ", "position"]
+- !private ["SQ", "quantized"]
+- !private ["SQ", "rawValue"]
+- !private ["SQ", "remove"]
+- !private ["SQ", "removeFirst"]
+- !private ["SQ", "removeLast"]
+- !private ["SQ", "rotated"]
+- !private ["SQ", "sanitizePoints"]
+- ["SQ", "shrink"]
+- !private ["SQ", "subscript"]
+- !private ["SQ", "texcoord"]
+- ["SQ", "tube"]
+- !private ["SQ", "verticesAreConvex"]
+- !private ["SQ", "verticesAreDegenerate"]
+- !private ["SQ", "x"]
+- !private ["SQ", "y"]
+- !private ["SQ", "z"]
+- !private ["s25ExpressibleByArrayLiteralP", "append"]
+- !private ["s25ExpressibleByArrayLiteralP", "count"]
+- !private ["s25ExpressibleByArrayLiteralP", "dropFirst"]
+- !private ["s25ExpressibleByArrayLiteralP", "dropLast"]
+- !private ["s25ExpressibleByArrayLiteralP", "first"]
+- !private ["s25ExpressibleByArrayLiteralP", "init"]
+- !private ["s25ExpressibleByArrayLiteralP", "isEmpty"]
+- !private ["s25ExpressibleByArrayLiteralP", "last"]
+- !private ["s25ExpressibleByArrayLiteralP", "map"]
+- !private ["s25ExpressibleByArrayLiteralP", "point"]
+- !private ["s25ExpressibleByArrayLiteralP", "position"]
+- !private ["s25ExpressibleByArrayLiteralP", "remove"]
+- !private ["s25ExpressibleByArrayLiteralP", "removeFirst"]
+- !private ["s25ExpressibleByArrayLiteralP", "removeLast"]
+- !private ["s25ExpressibleByArrayLiteralP", "subscript"]
+- !private ["s27ExpressibleByBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s25ExpressibleByFloatLiteralP", "infinity"]
+- !private ["s27ExpressibleByIntegerLiteralP", "infinity"]
+- !private ["s23ExpressibleByNilLiteralP", "identity"]
+- !private ["s23ExpressibleByNilLiteralP", "normalized"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["6Euclid15FlatteningPlaneO", "deinit"]
+- !private ["6Euclid15FlatteningPlaneO", "flattenPoint"]
+- !private ["6Euclid15FlatteningPlaneO", "init"]
+- !private ["6Euclid15FlatteningPlaneO", "rawValue"]
+- !private ["SF", "infinity"]
+- !private ["SH", "Bounds"]
+- !private ["SH", "Double"]
+- !private ["SH", "FlatteningPlane"]
+- ["SH", "Material"]
+- !private ["SH", "Path"]
+- !private ["SH", "PathPoint"]
+- !private ["SH", "Plane"]
+- !private ["SH", "Swift"]
+- !private ["SH", "Vector"]
+- !private ["SH", "Vertex"]
+- ["SH", "WrapMode"]
+- ["SH", ""]
+- !private ["SH", "_getBuiltinLogicValue"]
+- !private ["SH", "abs"]
+- !private ["SH", "append"]
+- !private ["SH", "assert"]
+- !private ["SH", "bounds"]
+- !private ["SH", "count"]
+- !private ["SH", "cross"]
+- !private ["SH", "curve"]
+- ["SH", "default"]
+- !private ["SH", "dot"]
+- !private ["SH", "dropFirst"]
+- !private ["SH", "dropLast"]
+- !private ["SH", "edgeVertices"]
+- !private ["SH", "extrapolate"]
+- !private ["SH", "faceVertices"]
+- !private ["SH", "first"]
+- !private ["SH", "flattenPoint"]
+- !private ["SH", "flattened"]
+- ["SH", "hash"]
+- ["SH", "hashValue"]
+- !private ["SH", "identity"]
+- !private ["SH", "infinity"]
+- !private ["SH", "init"]
+- !private ["SH", "isClosed"]
+- !private ["SH", "isCurved"]
+- !private ["SH", "isEmpty"]
+- !private ["SH", "last"]
+- !private ["SH", "length"]
+- !private ["SH", "lerp"]
+- !private ["SH", "lineSegmentsIntersect"]
+- !private ["SH", "map"]
+- !private ["SH", "max"]
+- !private ["SH", "min"]
+- !private ["SH", "normal"]
+- !private ["SH", "normalized"]
+- !private ["SH", "plane"]
+- !private ["SH", "point"]
+- !private ["SH", "points"]
+- !private ["SH", "pointsAreClosed"]
+- !private ["SH", "position"]
+- !private ["SH", "quantized"]
+- !private ["SH", "rawValue"]
+- !private ["SH", "remove"]
+- !private ["SH", "removeFirst"]
+- !private ["SH", "removeLast"]
+- !private ["SH", "rotated"]
+- !private ["SH", "sanitizePoints"]
+- ["SH", "shrink"]
+- !private ["SH", "subscript"]
+- !private ["SH", "texcoord"]
+- ["SH", "tube"]
+- !private ["SH", "verticesAreConvex"]
+- !private ["SH", "verticesAreDegenerate"]
+- !private ["SH", "x"]
+- !private ["SH", "y"]
+- !private ["SH", "z"]
+- !private ["s6HasherV", "combine"]
+- !private ["s22LazyCollectionProtocolP", "point"]
+- !private ["s22LazyCollectionProtocolP", "position"]
+- !private ["s20LazySequenceProtocolP", "point"]
+- !private ["s20LazySequenceProtocolP", "position"]
+- !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s25LosslessStringConvertibleP", "infinity"]
+- ["6Euclid4MeshV", "WrapMode"]
+- !private ["SM", "append"]
+- !private ["SM", "count"]
+- !private ["SM", "dropFirst"]
+- !private ["SM", "dropLast"]
+- !private ["SM", "first"]
+- !private ["SM", "init"]
+- !private ["SM", "isEmpty"]
+- !private ["SM", "last"]
+- !private ["SM", "map"]
+- !private ["SM", "point"]
+- !private ["SM", "position"]
+- !private ["SM", "remove"]
+- !private ["SM", "removeFirst"]
+- !private ["SM", "removeLast"]
+- !private ["SM", "subscript"]
+- !private ["Sj", "infinity"]
+- !private ["Sq", "identity"]
+- !private ["Sq", "normalized"]
+- ["6Euclid4PathV", "Bool"]
+- ["6Euclid4PathV", "Bounds"]
+- !private ["6Euclid4PathV", "Double"]
+- !private ["6Euclid4PathV", "FlatteningPlane"]
+- ["6Euclid4PathV", "Mesh"]
+- ["6Euclid4PathV", "Path"]
+- ["6Euclid4PathV", "PathPoint"]
+- ["6Euclid4PathV", "Plane"]
+- !private ["6Euclid4PathV", "Swift"]
+- !private ["6Euclid4PathV", "Vector"]
+- ["6Euclid4PathV", "Vertex"]
+- ["6Euclid4PathV", "__derived_struct_equals"]
+- !private ["6Euclid4PathV", "abs"]
+- !private ["6Euclid4PathV", "assert"]
+- ["6Euclid4PathV", "bounds"]
+- ["6Euclid4PathV", "clippedToYAxis"]
+- ["6Euclid4PathV", "closed"]
+- ["6Euclid4PathV", "deinit"]
+- ["6Euclid4PathV", "edgeVertices"]
+- !private ["6Euclid4PathV", "extrapolate"]
+- ["6Euclid4PathV", "faceVertices"]
+- ["6Euclid4PathV", "flattened"]
+- ["6Euclid4PathV", "hash"]
+- ["6Euclid4PathV", "hashValue"]
+- ["6Euclid4PathV", "init"]
+- ["6Euclid4PathV", "isClosed"]
+- ["6Euclid4PathV", "isPlanar"]
+- ["6Euclid4PathV", "isSimple"]
+- !private ["6Euclid4PathV", "lineSegmentsIntersect"]
+- ["6Euclid4PathV", "plane"]
+- ["6Euclid4PathV", "points"]
+- !private ["6Euclid4PathV", "pointsAreClosed"]
+- !private ["6Euclid4PathV", "sanitizePoints"]
+- !private ["6Euclid4PathV", "verticesAreDegenerate"]
+- ["6Euclid9PathPointV", "Bool"]
+- ["6Euclid9PathPointV", "Double"]
+- ["6Euclid9PathPointV", "PathPoint"]
+- ["6Euclid9PathPointV", "Vector"]
+- ["6Euclid9PathPointV", "__derived_struct_equals"]
+- ["6Euclid9PathPointV", "curve"]
+- ["6Euclid9PathPointV", "deinit"]
+- ["6Euclid9PathPointV", "hash"]
+- ["6Euclid9PathPointV", "hashValue"]
+- ["6Euclid9PathPointV", "init"]
+- ["6Euclid9PathPointV", "isCurved"]
+- ["6Euclid9PathPointV", "lerp"]
+- ["6Euclid9PathPointV", "point"]
+- ["6Euclid9PathPointV", "position"]
+- ["6Euclid5PlaneV", "deinit"]
+- !private ["6Euclid5PlaneV", "init"]
+- !private ["6Euclid5PlaneV", "normal"]
+- ["6Euclid7PolygonV", "Material"]
+- ["6Euclid7PolygonV", "Path"]
+- ["6Euclid7PolygonV", "Polygon"]
+- ["6Euclid7PolygonV", "init"]
+- !private ["6Euclid7PolygonV", "verticesAreConvex"]
+- !private ["Sk", "append"]
+- !private ["Sk", "count"]
+- !private ["Sk", "dropFirst"]
+- !private ["Sk", "dropLast"]
+- !private ["Sk", "first"]
+- !private ["Sk", "init"]
+- !private ["Sk", "isEmpty"]
+- !private ["Sk", "last"]
+- !private ["Sk", "map"]
+- !private ["Sk", "point"]
+- !private ["Sk", "position"]
+- !private ["Sk", "remove"]
+- !private ["Sk", "removeFirst"]
+- !private ["Sk", "removeLast"]
+- !private ["Sk", "subscript"]
+- !private ["Sm", "append"]
+- !private ["Sm", "count"]
+- !private ["Sm", "dropFirst"]
+- !private ["Sm", "dropLast"]
+- !private ["Sm", "first"]
+- !private ["Sm", "init"]
+- !private ["Sm", "isEmpty"]
+- !private ["Sm", "last"]
+- !private ["Sm", "map"]
+- !private ["Sm", "point"]
+- !private ["Sm", "position"]
+- !private ["Sm", "remove"]
+- !private ["Sm", "removeFirst"]
+- !private ["Sm", "removeLast"]
+- !private ["Sm", "subscript"]
+- !private ["SY", "flattenPoint"]
+- !private ["SY", "init"]
+- !private ["SY", "rawValue"]
+- !private ["6Euclid8RotationV", "identity"]
+- !private ["6Euclid8RotationV", "init"]
+- !private ["ST", "append"]
+- !private ["ST", "count"]
+- !private ["ST", "dropFirst"]
+- !private ["ST", "dropLast"]
+- !private ["ST", "first"]
+- !private ["ST", "init"]
+- !private ["ST", "isEmpty"]
+- !private ["ST", "last"]
+- !private ["ST", "map"]
+- !private ["ST", "point"]
+- !private ["ST", "position"]
+- !private ["ST", "remove"]
+- !private ["ST", "removeFirst"]
+- !private ["ST", "removeLast"]
+- !private ["ST", "subscript"]
+- !private ["s13SignedNumericP", "infinity"]
+- !private ["s5SliceV", "point"]
+- !private ["s5SliceV", "position"]
+- !private ["s12StaticStringV", "init"]
+- !private ["s12StaticStringV", "init"]
+- !private ["Sx", "infinity"]
+- !private ["6Euclid6VectorV", "cross"]
+- ["6Euclid6VectorV", "deinit"]
+- !private ["6Euclid6VectorV", "dot"]
+- !private ["6Euclid6VectorV", "init"]
+- !private ["6Euclid6VectorV", "length"]
+- !private ["6Euclid6VectorV", "lerp"]
+- !private ["6Euclid6VectorV", "normalized"]
+- !private ["6Euclid6VectorV", "quantized"]
+- !private ["6Euclid6VectorV", "rotated"]
+- !private ["6Euclid6VectorV", "x"]
+- !private ["6Euclid6VectorV", "y"]
+- !private ["6Euclid6VectorV", "z"]
+- !private ["6Euclid6VertexV", "init"]
+- !private ["6Euclid6VertexV", "normal"]
+- !private ["6Euclid6VertexV", "position"]
+- !private ["6Euclid6VertexV", "texcoord"]
+- ["6Euclid4MeshV8WrapModeO", "default"]
+- ["6Euclid4MeshV8WrapModeO", "shrink"]
+- ["6Euclid4MeshV8WrapModeO", "tube"]
+- !private ["s15_CVarArgAlignedP", "infinity"]
+- !private ["s22_CVarArgPassedAsDoubleP", "infinity"]
+- !private ["s24_DestructorSafeContainerP", "append"]
+- !private ["s24_DestructorSafeContainerP", "count"]
+- !private ["s24_DestructorSafeContainerP", "dropFirst"]
+- !private ["s24_DestructorSafeContainerP", "dropLast"]
+- !private ["s24_DestructorSafeContainerP", "first"]
+- !private ["s24_DestructorSafeContainerP", "init"]
+- !private ["s24_DestructorSafeContainerP", "isEmpty"]
+- !private ["s24_DestructorSafeContainerP", "last"]
+- !private ["s24_DestructorSafeContainerP", "map"]
+- !private ["s24_DestructorSafeContainerP", "point"]
+- !private ["s24_DestructorSafeContainerP", "position"]
+- !private ["s24_DestructorSafeContainerP", "remove"]
+- !private ["s24_DestructorSafeContainerP", "removeFirst"]
+- !private ["s24_DestructorSafeContainerP", "removeLast"]
+- !private ["s24_DestructorSafeContainerP", "subscript"]
+- !private ["s35_ExpressibleByBuiltinBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s33_ExpressibleByBuiltinFloatLiteralP", "infinity"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "infinity"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "append"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "count"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "dropFirst"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "dropLast"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "first"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "infinity"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "init"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "isEmpty"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "last"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "map"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "remove"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "removeFirst"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "removeLast"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "subscript"]
+- !private ["s21_ObjectiveCBridgeableP", "_getBuiltinLogicValue"]
+- !private ["s21_ObjectiveCBridgeableP", "append"]
+- !private ["s21_ObjectiveCBridgeableP", "count"]
+- !private ["s21_ObjectiveCBridgeableP", "dropFirst"]
+- !private ["s21_ObjectiveCBridgeableP", "dropLast"]
+- !private ["s21_ObjectiveCBridgeableP", "first"]
+- !private ["s21_ObjectiveCBridgeableP", "identity"]
+- !private ["s21_ObjectiveCBridgeableP", "infinity"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "isEmpty"]
+- !private ["s21_ObjectiveCBridgeableP", "last"]
+- !private ["s21_ObjectiveCBridgeableP", "map"]
+- !private ["s21_ObjectiveCBridgeableP", "normalized"]
+- !private ["s21_ObjectiveCBridgeableP", "remove"]
+- !private ["s21_ObjectiveCBridgeableP", "removeFirst"]
+- !private ["s21_ObjectiveCBridgeableP", "removeLast"]
+- !private ["s21_ObjectiveCBridgeableP", "subscript"]
+depends-nominal:
+- !private "Sa"
+- !private "s13ArrayProtocolP"
+- !private "s10ArraySliceV"
+- !private "SK"
+- !private "SB"
+- !private "Sb"
+- "6Euclid6BoundsV"
+- !private "s7CVarArgP"
+- !private "Sl"
+- !private "SL"
+- !private "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- !private "s23CustomStringConvertibleP"
+- !private "Se"
+- !private "Sd"
+- !private "SE"
+- "SQ"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s27ExpressibleByBooleanLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s25ExpressibleByFloatLiteralP"
+- !private "s27ExpressibleByIntegerLiteralP"
+- !private "s23ExpressibleByNilLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- !private "6Euclid15FlatteningPlaneO"
+- !private "SF"
+- "SH"
+- !private "s6HasherV"
+- !private "s22LazyCollectionProtocolP"
+- !private "s20LazySequenceProtocolP"
+- !private "s25LosslessStringConvertibleP"
+- "6Euclid4MeshV"
+- !private "SM"
+- !private "Sj"
+- !private "Sq"
+- "6Euclid4PathV"
+- "6Euclid9PathPointV"
+- "6Euclid5PlaneV"
+- "6Euclid7PolygonV"
+- !private "Sk"
+- !private "Sm"
+- !private "SY"
+- !private "6Euclid8RotationV"
+- !private "ST"
+- !private "s13SignedNumericP"
+- !private "s5SliceV"
+- !private "s12StaticStringV"
+- !private "Sx"
+- "6Euclid6VectorV"
+- !private "6Euclid6VertexV"
+- "6Euclid4MeshV8WrapModeO"
+- !private "s15_CVarArgAlignedP"
+- !private "s22_CVarArgPassedAsDoubleP"
+- !private "s24_DestructorSafeContainerP"
+- !private "s35_ExpressibleByBuiltinBooleanLiteralP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s33_ExpressibleByBuiltinFloatLiteralP"
+- !private "s35_ExpressibleByBuiltinIntegerLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s35_HasCustomAnyHashableRepresentationP"
+- !private "s21_ObjectiveCBridgeableP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XPC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ModelIO.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreData.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/simd.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Metal.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/GLKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/IOKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SceneKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/AppKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/xpc/XPC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ModelIO.framework/Headers/ModelIO.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreData.framework/Headers/CoreData.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreImage.framework/Headers/CoreImage.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/QuartzCore.framework/Headers/QuartzCore.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ApplicationServices.framework/Headers/ApplicationServices.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/GLKit.framework/Headers/GLKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/SceneKit.framework/Headers/SceneKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
+interface-hash: "92e4af5ba3a0e1b3b1413c7de7aa0fae"

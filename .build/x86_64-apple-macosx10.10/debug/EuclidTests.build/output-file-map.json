@@ -1,0 +1,53 @@
+{
+  "": {
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/master.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/CSGTests.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/CSGTests.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/CSGTests.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/CSGTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/CSGTests.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/PathTests.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PathTests.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PathTests.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PathTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PathTests.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/PlaneTests.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PlaneTests.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PlaneTests.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PlaneTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PlaneTests.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/PolygonTests.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PolygonTests.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PolygonTests.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PolygonTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/PolygonTests.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/ShapeTests.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/ShapeTests.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/ShapeTests.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/ShapeTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/ShapeTests.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/TransformTests.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/TransformTests.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/TransformTests.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/TransformTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/TransformTests.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/UtilityTests.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/UtilityTests.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/UtilityTests.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/UtilityTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/UtilityTests.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Tests/XCTestManifests.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/XCTestManifests.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/XCTestManifests.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/XCTestManifests~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/EuclidTests.build/XCTestManifests.swiftdeps"
+  }
+}

@@ -1,0 +1,481 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "CSGTests"
+provides-nominal:
+- "11EuclidTests8CSGTestsC"
+provides-member:
+- ["11EuclidTests8CSGTestsC", ""]
+provides-dynamic-lookup:
+- "testIntersectionOfAdjacentBoxes"
+- "testIntersectionOfAdjacentSquares"
+- "testIntersectionOfCoincidingBoxes"
+- "testIntersectionOfCoincidingSquares"
+- "testIntersectionOfOverlappingBoxes"
+- "testIntersectionOfOverlappingSquares"
+- "testLinuxTestSuiteIncludesAllTests"
+- "testSubtractAdjacentBoxes"
+- "testSubtractAdjacentSquares"
+- "testSubtractCoincidingBoxes"
+- "testSubtractCoincidingSquares"
+- "testSubtractOverlappingBoxes"
+- "testSubtractOverlappingSquares"
+- "testUnionOfAdjacentBoxes"
+- "testUnionOfAdjacentSquares"
+- "testUnionOfCoincidingBoxes"
+- "testUnionOfCoincidingSquares"
+- "testUnionOfOverlappingBoxes"
+- "testUnionOfOverlappingSquares"
+depends-top-level:
+- !private "Bounds"
+- "CSGTests"
+- !private "FloatLiteralType"
+- !private "IntegerLiteralType"
+- !private "Mesh"
+- !private "Vector"
+- !private "XCTAssert"
+- !private "XCTAssertEqual"
+- "XCTestCase"
+- !private "type"
+depends-member:
+- !private ["Sa", "count"]
+- !private ["Sa", "isEmpty"]
+- !private ["s13ArrayProtocolP", "count"]
+- !private ["s13ArrayProtocolP", "isEmpty"]
+- !private ["SK", "count"]
+- !private ["SK", "init"]
+- !private ["SK", "init"]
+- !private ["SK", "isEmpty"]
+- !private ["6Euclid6BoundsV", "init"]
+- !private ["6Euclid6BoundsV", "union"]
+- !private ["11EuclidTests8CSGTestsC", "Bounds"]
+- !private ["11EuclidTests8CSGTestsC", "Mesh"]
+- !private ["11EuclidTests8CSGTestsC", "Vector"]
+- !private ["11EuclidTests8CSGTestsC", "XCTAssert"]
+- !private ["11EuclidTests8CSGTestsC", "XCTAssertEqual"]
+- !private ["11EuclidTests8CSGTestsC", "__allTests"]
+- !private ["11EuclidTests8CSGTestsC", "defaultTestSuite"]
+- ["11EuclidTests8CSGTestsC", "init"]
+- ["11EuclidTests8CSGTestsC", "testIntersectionOfAdjacentBoxes"]
+- ["11EuclidTests8CSGTestsC", "testIntersectionOfAdjacentSquares"]
+- ["11EuclidTests8CSGTestsC", "testIntersectionOfCoincidingBoxes"]
+- ["11EuclidTests8CSGTestsC", "testIntersectionOfCoincidingSquares"]
+- ["11EuclidTests8CSGTestsC", "testIntersectionOfOverlappingBoxes"]
+- ["11EuclidTests8CSGTestsC", "testIntersectionOfOverlappingSquares"]
+- ["11EuclidTests8CSGTestsC", "testLinuxTestSuiteIncludesAllTests"]
+- ["11EuclidTests8CSGTestsC", "testSubtractAdjacentBoxes"]
+- ["11EuclidTests8CSGTestsC", "testSubtractAdjacentSquares"]
+- ["11EuclidTests8CSGTestsC", "testSubtractCoincidingBoxes"]
+- ["11EuclidTests8CSGTestsC", "testSubtractCoincidingSquares"]
+- ["11EuclidTests8CSGTestsC", "testSubtractOverlappingBoxes"]
+- ["11EuclidTests8CSGTestsC", "testSubtractOverlappingSquares"]
+- ["11EuclidTests8CSGTestsC", "testUnionOfAdjacentBoxes"]
+- ["11EuclidTests8CSGTestsC", "testUnionOfAdjacentSquares"]
+- ["11EuclidTests8CSGTestsC", "testUnionOfCoincidingBoxes"]
+- ["11EuclidTests8CSGTestsC", "testUnionOfCoincidingSquares"]
+- ["11EuclidTests8CSGTestsC", "testUnionOfOverlappingBoxes"]
+- ["11EuclidTests8CSGTestsC", "testUnionOfOverlappingSquares"]
+- !private ["11EuclidTests8CSGTestsC", "type"]
+- !private ["s7CVarArgP", "Bounds"]
+- !private ["s7CVarArgP", "Mesh"]
+- !private ["s7CVarArgP", "Vector"]
+- !private ["s7CVarArgP", "XCTAssert"]
+- !private ["s7CVarArgP", "XCTAssertEqual"]
+- ["s7CVarArgP", ""]
+- !private ["s7CVarArgP", "__allTests"]
+- !private ["s7CVarArgP", "count"]
+- !private ["s7CVarArgP", "defaultTestSuite"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "isEmpty"]
+- !private ["s7CVarArgP", "testCaseCount"]
+- !private ["s7CVarArgP", "type"]
+- !private ["Sl", "count"]
+- !private ["Sl", "init"]
+- !private ["Sl", "init"]
+- !private ["Sl", "isEmpty"]
+- !private ["SL", "init"]
+- !private ["SL", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "Bounds"]
+- !private ["s28CustomDebugStringConvertibleP", "Mesh"]
+- !private ["s28CustomDebugStringConvertibleP", "Vector"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssert"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertEqual"]
+- ["s28CustomDebugStringConvertibleP", ""]
+- !private ["s28CustomDebugStringConvertibleP", "__allTests"]
+- !private ["s28CustomDebugStringConvertibleP", "count"]
+- !private ["s28CustomDebugStringConvertibleP", "defaultTestSuite"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "isEmpty"]
+- !private ["s28CustomDebugStringConvertibleP", "testCaseCount"]
+- !private ["s28CustomDebugStringConvertibleP", "type"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s17CustomReflectableP", "count"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "isEmpty"]
+- !private ["s23CustomStringConvertibleP", "Bounds"]
+- !private ["s23CustomStringConvertibleP", "Mesh"]
+- !private ["s23CustomStringConvertibleP", "Vector"]
+- !private ["s23CustomStringConvertibleP", "XCTAssert"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertEqual"]
+- ["s23CustomStringConvertibleP", ""]
+- !private ["s23CustomStringConvertibleP", "__allTests"]
+- !private ["s23CustomStringConvertibleP", "count"]
+- !private ["s23CustomStringConvertibleP", "defaultTestSuite"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "isEmpty"]
+- !private ["s23CustomStringConvertibleP", "testCaseCount"]
+- !private ["s23CustomStringConvertibleP", "type"]
+- !private ["Se", "count"]
+- !private ["Se", "init"]
+- !private ["Se", "init"]
+- !private ["Se", "isEmpty"]
+- !private ["SE", "count"]
+- !private ["SE", "init"]
+- !private ["SE", "init"]
+- !private ["SE", "isEmpty"]
+- !private ["SQ", "Bounds"]
+- !private ["SQ", "Mesh"]
+- !private ["SQ", "Vector"]
+- !private ["SQ", "XCTAssert"]
+- !private ["SQ", "XCTAssertEqual"]
+- ["SQ", ""]
+- !private ["SQ", "__allTests"]
+- !private ["SQ", "bounds"]
+- !private ["SQ", "count"]
+- !private ["SQ", "cube"]
+- !private ["SQ", "defaultTestSuite"]
+- !private ["SQ", "fill"]
+- !private ["SQ", "init"]
+- !private ["SQ", "init"]
+- !private ["SQ", "intersect"]
+- !private ["SQ", "isEmpty"]
+- !private ["SQ", "polygons"]
+- !private ["SQ", "square"]
+- !private ["SQ", "subtract"]
+- !private ["SQ", "testCaseCount"]
+- !private ["SQ", "translated"]
+- !private ["SQ", "type"]
+- !private ["SQ", "union"]
+- !private ["s25ExpressibleByArrayLiteralP", "count"]
+- !private ["s25ExpressibleByArrayLiteralP", "isEmpty"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["SH", "Bounds"]
+- !private ["SH", "Mesh"]
+- !private ["SH", "Vector"]
+- !private ["SH", "XCTAssert"]
+- !private ["SH", "XCTAssertEqual"]
+- ["SH", ""]
+- !private ["SH", "__allTests"]
+- !private ["SH", "bounds"]
+- !private ["SH", "count"]
+- !private ["SH", "cube"]
+- !private ["SH", "defaultTestSuite"]
+- !private ["SH", "fill"]
+- !private ["SH", "init"]
+- !private ["SH", "init"]
+- !private ["SH", "intersect"]
+- !private ["SH", "isEmpty"]
+- !private ["SH", "polygons"]
+- !private ["SH", "square"]
+- !private ["SH", "subtract"]
+- !private ["SH", "testCaseCount"]
+- !private ["SH", "translated"]
+- !private ["SH", "type"]
+- !private ["SH", "union"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["6Euclid4MeshV", "bounds"]
+- !private ["6Euclid4MeshV", "cube"]
+- !private ["6Euclid4MeshV", "fill"]
+- !private ["6Euclid4MeshV", "intersect"]
+- !private ["6Euclid4MeshV", "polygons"]
+- !private ["6Euclid4MeshV", "subtract"]
+- !private ["6Euclid4MeshV", "translated"]
+- !private ["6Euclid4MeshV", "union"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["SM", "count"]
+- !private ["SM", "isEmpty"]
+- !private ["So8NSObjectC", "Bounds"]
+- !private ["So8NSObjectC", "Mesh"]
+- !private ["So8NSObjectC", "Vector"]
+- !private ["So8NSObjectC", "XCTAssert"]
+- !private ["So8NSObjectC", "XCTAssertEqual"]
+- !private ["So8NSObjectC", "__allTests"]
+- !private ["So8NSObjectC", "defaultTestSuite"]
+- ["So8NSObjectC", "init"]
+- !private ["So8NSObjectC", "init"]
+- !private ["So8NSObjectC", "testCaseCount"]
+- ["So8NSObjectC", "testIntersectionOfAdjacentBoxes"]
+- ["So8NSObjectC", "testIntersectionOfAdjacentSquares"]
+- ["So8NSObjectC", "testIntersectionOfCoincidingBoxes"]
+- ["So8NSObjectC", "testIntersectionOfCoincidingSquares"]
+- ["So8NSObjectC", "testIntersectionOfOverlappingBoxes"]
+- ["So8NSObjectC", "testIntersectionOfOverlappingSquares"]
+- ["So8NSObjectC", "testLinuxTestSuiteIncludesAllTests"]
+- ["So8NSObjectC", "testSubtractAdjacentBoxes"]
+- ["So8NSObjectC", "testSubtractAdjacentSquares"]
+- ["So8NSObjectC", "testSubtractCoincidingBoxes"]
+- ["So8NSObjectC", "testSubtractCoincidingSquares"]
+- ["So8NSObjectC", "testSubtractOverlappingBoxes"]
+- ["So8NSObjectC", "testSubtractOverlappingSquares"]
+- ["So8NSObjectC", "testUnionOfAdjacentBoxes"]
+- ["So8NSObjectC", "testUnionOfAdjacentSquares"]
+- ["So8NSObjectC", "testUnionOfCoincidingBoxes"]
+- ["So8NSObjectC", "testUnionOfCoincidingSquares"]
+- ["So8NSObjectC", "testUnionOfOverlappingBoxes"]
+- ["So8NSObjectC", "testUnionOfOverlappingSquares"]
+- !private ["So8NSObjectC", "type"]
+- !private ["So8NSObjectP", "Bounds"]
+- !private ["So8NSObjectP", "Mesh"]
+- !private ["So8NSObjectP", "Vector"]
+- !private ["So8NSObjectP", "XCTAssert"]
+- !private ["So8NSObjectP", "XCTAssertEqual"]
+- ["So8NSObjectP", ""]
+- !private ["So8NSObjectP", "__allTests"]
+- !private ["So8NSObjectP", "defaultTestSuite"]
+- !private ["So8NSObjectP", "init"]
+- !private ["So8NSObjectP", "init"]
+- !private ["So8NSObjectP", "testCaseCount"]
+- !private ["So8NSObjectP", "type"]
+- !private ["6Euclid4PathV", "square"]
+- !private ["Sk", "count"]
+- !private ["Sk", "isEmpty"]
+- !private ["Sm", "count"]
+- !private ["Sm", "init"]
+- !private ["Sm", "init"]
+- !private ["Sm", "isEmpty"]
+- !private ["ST", "count"]
+- !private ["ST", "init"]
+- !private ["ST", "init"]
+- !private ["ST", "isEmpty"]
+- !private ["s12StaticStringV", "init"]
+- !private ["s12StaticStringV", "init"]
+- !private ["SS", "init"]
+- !private ["SS", "init"]
+- !private ["Sy", "init"]
+- !private ["Sy", "init"]
+- !private ["s16TextOutputStreamP", "init"]
+- !private ["s16TextOutputStreamP", "init"]
+- !private ["s20TextOutputStreamableP", "init"]
+- !private ["s20TextOutputStreamableP", "init"]
+- !private ["6Euclid6VectorV", "init"]
+- !private ["So11XCTActivityP", "Bounds"]
+- !private ["So11XCTActivityP", "Mesh"]
+- !private ["So11XCTActivityP", "Vector"]
+- !private ["So11XCTActivityP", "XCTAssert"]
+- !private ["So11XCTActivityP", "XCTAssertEqual"]
+- ["So11XCTActivityP", ""]
+- !private ["So11XCTActivityP", "__allTests"]
+- !private ["So11XCTActivityP", "defaultTestSuite"]
+- !private ["So11XCTActivityP", "init"]
+- !private ["So11XCTActivityP", "init"]
+- !private ["So11XCTActivityP", "type"]
+- !private ["So17XCTWaiterDelegateP", "Bounds"]
+- !private ["So17XCTWaiterDelegateP", "Mesh"]
+- !private ["So17XCTWaiterDelegateP", "Vector"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssert"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertEqual"]
+- ["So17XCTWaiterDelegateP", ""]
+- !private ["So17XCTWaiterDelegateP", "__allTests"]
+- !private ["So17XCTWaiterDelegateP", "defaultTestSuite"]
+- !private ["So17XCTWaiterDelegateP", "init"]
+- !private ["So17XCTWaiterDelegateP", "init"]
+- !private ["So17XCTWaiterDelegateP", "type"]
+- !private ["So6XCTestC", "Bounds"]
+- !private ["So6XCTestC", "Mesh"]
+- !private ["So6XCTestC", "Vector"]
+- !private ["So6XCTestC", "XCTAssert"]
+- !private ["So6XCTestC", "XCTAssertEqual"]
+- !private ["So6XCTestC", "__allTests"]
+- !private ["So6XCTestC", "defaultTestSuite"]
+- ["So6XCTestC", "init"]
+- !private ["So6XCTestC", "init"]
+- !private ["So6XCTestC", "testCaseCount"]
+- ["So6XCTestC", "testIntersectionOfAdjacentBoxes"]
+- ["So6XCTestC", "testIntersectionOfAdjacentSquares"]
+- ["So6XCTestC", "testIntersectionOfCoincidingBoxes"]
+- ["So6XCTestC", "testIntersectionOfCoincidingSquares"]
+- ["So6XCTestC", "testIntersectionOfOverlappingBoxes"]
+- ["So6XCTestC", "testIntersectionOfOverlappingSquares"]
+- ["So6XCTestC", "testLinuxTestSuiteIncludesAllTests"]
+- ["So6XCTestC", "testSubtractAdjacentBoxes"]
+- ["So6XCTestC", "testSubtractAdjacentSquares"]
+- ["So6XCTestC", "testSubtractCoincidingBoxes"]
+- ["So6XCTestC", "testSubtractCoincidingSquares"]
+- ["So6XCTestC", "testSubtractOverlappingBoxes"]
+- ["So6XCTestC", "testSubtractOverlappingSquares"]
+- ["So6XCTestC", "testUnionOfAdjacentBoxes"]
+- ["So6XCTestC", "testUnionOfAdjacentSquares"]
+- ["So6XCTestC", "testUnionOfCoincidingBoxes"]
+- ["So6XCTestC", "testUnionOfCoincidingSquares"]
+- ["So6XCTestC", "testUnionOfOverlappingBoxes"]
+- ["So6XCTestC", "testUnionOfOverlappingSquares"]
+- !private ["So6XCTestC", "type"]
+- !private ["So10XCTestCaseC", "Bounds"]
+- !private ["So10XCTestCaseC", "Mesh"]
+- !private ["So10XCTestCaseC", "Vector"]
+- !private ["So10XCTestCaseC", "XCTAssert"]
+- !private ["So10XCTestCaseC", "XCTAssertEqual"]
+- ["So10XCTestCaseC", ""]
+- !private ["So10XCTestCaseC", "__allTests"]
+- !private ["So10XCTestCaseC", "defaultTestSuite"]
+- ["So10XCTestCaseC", "init"]
+- !private ["So10XCTestCaseC", "init"]
+- ["So10XCTestCaseC", "testIntersectionOfAdjacentBoxes"]
+- ["So10XCTestCaseC", "testIntersectionOfAdjacentSquares"]
+- ["So10XCTestCaseC", "testIntersectionOfCoincidingBoxes"]
+- ["So10XCTestCaseC", "testIntersectionOfCoincidingSquares"]
+- ["So10XCTestCaseC", "testIntersectionOfOverlappingBoxes"]
+- ["So10XCTestCaseC", "testIntersectionOfOverlappingSquares"]
+- ["So10XCTestCaseC", "testLinuxTestSuiteIncludesAllTests"]
+- ["So10XCTestCaseC", "testSubtractAdjacentBoxes"]
+- ["So10XCTestCaseC", "testSubtractAdjacentSquares"]
+- ["So10XCTestCaseC", "testSubtractCoincidingBoxes"]
+- ["So10XCTestCaseC", "testSubtractCoincidingSquares"]
+- ["So10XCTestCaseC", "testSubtractOverlappingBoxes"]
+- ["So10XCTestCaseC", "testSubtractOverlappingSquares"]
+- ["So10XCTestCaseC", "testUnionOfAdjacentBoxes"]
+- ["So10XCTestCaseC", "testUnionOfAdjacentSquares"]
+- ["So10XCTestCaseC", "testUnionOfCoincidingBoxes"]
+- ["So10XCTestCaseC", "testUnionOfCoincidingSquares"]
+- ["So10XCTestCaseC", "testUnionOfOverlappingBoxes"]
+- ["So10XCTestCaseC", "testUnionOfOverlappingSquares"]
+- !private ["So10XCTestCaseC", "type"]
+- !private ["So11XCTestSuiteC", "testCaseCount"]
+- !private ["s24_DestructorSafeContainerP", "count"]
+- !private ["s24_DestructorSafeContainerP", "isEmpty"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "count"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "isEmpty"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Bounds"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Mesh"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Vector"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssert"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertEqual"]
+- ["10Foundation27_KeyValueCodingAndObservingP", ""]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "__allTests"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "defaultTestSuite"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "init"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "init"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "testCaseCount"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "type"]
+- !private ["s21_ObjectiveCBridgeableP", "count"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "isEmpty"]
+- !private ["s16_SwiftStringViewP", "init"]
+- !private ["s16_SwiftStringViewP", "init"]
+depends-nominal:
+- !private "Sa"
+- !private "s13ArrayProtocolP"
+- !private "SK"
+- !private "6Euclid6BoundsV"
+- "11EuclidTests8CSGTestsC"
+- "s7CVarArgP"
+- !private "Sl"
+- !private "SL"
+- "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- "s23CustomStringConvertibleP"
+- !private "Se"
+- !private "SE"
+- "SQ"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- "SH"
+- !private "s25LosslessStringConvertibleP"
+- !private "6Euclid4MeshV"
+- !private "s10MirrorPathP"
+- !private "SM"
+- "So8NSObjectC"
+- "So8NSObjectP"
+- !private "6Euclid4PathV"
+- !private "Sk"
+- !private "Sm"
+- !private "ST"
+- !private "s12StaticStringV"
+- !private "SS"
+- !private "Sy"
+- !private "s16TextOutputStreamP"
+- !private "s20TextOutputStreamableP"
+- !private "6Euclid6VectorV"
+- "So11XCTActivityP"
+- "So17XCTWaiterDelegateP"
+- "So6XCTestC"
+- "So10XCTestCaseC"
+- !private "So11XCTestSuiteC"
+- !private "s24_DestructorSafeContainerP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s39_ExpressibleByBuiltinUTF16StringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s33_ExpressibleByStringInterpolationP"
+- !private "s35_HasCustomAnyHashableRepresentationP"
+- "10Foundation27_KeyValueCodingAndObservingP"
+- !private "s21_ObjectiveCBridgeableP"
+- !private "s16_SwiftStringViewP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XPC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ModelIO.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreData.swiftmodule"
+- "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/simd.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Metal.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/GLKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/IOKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SceneKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/AppKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XCTest.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/xpc/XPC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ModelIO.framework/Headers/ModelIO.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreData.framework/Headers/CoreData.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreImage.framework/Headers/CoreImage.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/QuartzCore.framework/Headers/QuartzCore.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ApplicationServices.framework/Headers/ApplicationServices.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/GLKit.framework/Headers/GLKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/SceneKit.framework/Headers/SceneKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTest.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
+interface-hash: "01edf9740e0d0c0fc8d1b504d1395cf3"

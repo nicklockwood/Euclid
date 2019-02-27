@@ -1,0 +1,351 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "ShapeTests"
+provides-nominal:
+- "11EuclidTests05ShapeB0C"
+provides-member:
+- ["11EuclidTests05ShapeB0C", ""]
+provides-dynamic-lookup:
+- "testClosedCurvedPath"
+- "testClosedCurvedPathWithSharpFirstCorner"
+- "testClosedCurvedPathWithSharpSecondAndThirdCorner"
+- "testClosedCurvedPathWithSharpSecondCorner"
+- "testCurveWithConsecutiveMixedTypePointsWithSamePosition"
+- "testLinuxTestSuiteIncludesAllTests"
+- "testSimpleCurveEndedPath"
+- "testSimpleCurvedPath"
+depends-top-level:
+- !private "/"
+- "AssignmentPrecedence"
+- "CastingPrecedence"
+- !private "FloatLiteralType"
+- !private "IntegerLiteralType"
+- !private "Path"
+- !private "PathPoint"
+- "ShapeTests"
+- !private "XCTAssertEqual"
+- "XCTestCase"
+- !private "type"
+depends-member:
+- !private ["Sa", "count"]
+- !private ["s13ArrayProtocolP", "count"]
+- !private ["SK", "count"]
+- !private ["SK", "init"]
+- !private ["SK", "init"]
+- !private ["s7CVarArgP", "Path"]
+- !private ["s7CVarArgP", "XCTAssertEqual"]
+- ["s7CVarArgP", ""]
+- !private ["s7CVarArgP", "__allTests"]
+- !private ["s7CVarArgP", "count"]
+- !private ["s7CVarArgP", "defaultTestSuite"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "testCaseCount"]
+- !private ["s7CVarArgP", "type"]
+- !private ["Sl", "count"]
+- !private ["Sl", "init"]
+- !private ["Sl", "init"]
+- !private ["SL", "init"]
+- !private ["SL", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "Path"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertEqual"]
+- ["s28CustomDebugStringConvertibleP", ""]
+- !private ["s28CustomDebugStringConvertibleP", "__allTests"]
+- !private ["s28CustomDebugStringConvertibleP", "count"]
+- !private ["s28CustomDebugStringConvertibleP", "defaultTestSuite"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "testCaseCount"]
+- !private ["s28CustomDebugStringConvertibleP", "type"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s17CustomReflectableP", "count"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s23CustomStringConvertibleP", "Path"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertEqual"]
+- ["s23CustomStringConvertibleP", ""]
+- !private ["s23CustomStringConvertibleP", "__allTests"]
+- !private ["s23CustomStringConvertibleP", "count"]
+- !private ["s23CustomStringConvertibleP", "defaultTestSuite"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "testCaseCount"]
+- !private ["s23CustomStringConvertibleP", "type"]
+- !private ["Se", "count"]
+- !private ["Se", "init"]
+- !private ["Se", "init"]
+- !private ["SE", "count"]
+- !private ["SE", "init"]
+- !private ["SE", "init"]
+- !private ["SQ", "Path"]
+- !private ["SQ", "XCTAssertEqual"]
+- ["SQ", ""]
+- !private ["SQ", "__allTests"]
+- !private ["SQ", "count"]
+- !private ["SQ", "curve"]
+- !private ["SQ", "defaultTestSuite"]
+- !private ["SQ", "init"]
+- !private ["SQ", "init"]
+- !private ["SQ", "point"]
+- !private ["SQ", "points"]
+- !private ["SQ", "testCaseCount"]
+- !private ["SQ", "type"]
+- !private ["s25ExpressibleByArrayLiteralP", "count"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["SH", "Path"]
+- !private ["SH", "XCTAssertEqual"]
+- ["SH", ""]
+- !private ["SH", "__allTests"]
+- !private ["SH", "count"]
+- !private ["SH", "curve"]
+- !private ["SH", "defaultTestSuite"]
+- !private ["SH", "init"]
+- !private ["SH", "init"]
+- !private ["SH", "point"]
+- !private ["SH", "points"]
+- !private ["SH", "testCaseCount"]
+- !private ["SH", "type"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["SM", "count"]
+- !private ["So8NSObjectC", "Path"]
+- !private ["So8NSObjectC", "PathPoint"]
+- !private ["So8NSObjectC", "XCTAssertEqual"]
+- !private ["So8NSObjectC", "__allTests"]
+- !private ["So8NSObjectC", "defaultTestSuite"]
+- ["So8NSObjectC", "init"]
+- !private ["So8NSObjectC", "init"]
+- !private ["So8NSObjectC", "testCaseCount"]
+- ["So8NSObjectC", "testClosedCurvedPath"]
+- ["So8NSObjectC", "testClosedCurvedPathWithSharpFirstCorner"]
+- ["So8NSObjectC", "testClosedCurvedPathWithSharpSecondAndThirdCorner"]
+- ["So8NSObjectC", "testClosedCurvedPathWithSharpSecondCorner"]
+- ["So8NSObjectC", "testCurveWithConsecutiveMixedTypePointsWithSamePosition"]
+- ["So8NSObjectC", "testLinuxTestSuiteIncludesAllTests"]
+- ["So8NSObjectC", "testSimpleCurveEndedPath"]
+- ["So8NSObjectC", "testSimpleCurvedPath"]
+- !private ["So8NSObjectC", "type"]
+- !private ["So8NSObjectP", "Path"]
+- !private ["So8NSObjectP", "XCTAssertEqual"]
+- ["So8NSObjectP", ""]
+- !private ["So8NSObjectP", "__allTests"]
+- !private ["So8NSObjectP", "defaultTestSuite"]
+- !private ["So8NSObjectP", "init"]
+- !private ["So8NSObjectP", "init"]
+- !private ["So8NSObjectP", "testCaseCount"]
+- !private ["So8NSObjectP", "type"]
+- !private ["6Euclid4PathV", "curve"]
+- !private ["6Euclid4PathV", "init"]
+- !private ["6Euclid4PathV", "points"]
+- !private ["6Euclid9PathPointV", "curve"]
+- !private ["6Euclid9PathPointV", "point"]
+- !private ["Sk", "count"]
+- !private ["Sm", "count"]
+- !private ["Sm", "init"]
+- !private ["Sm", "init"]
+- !private ["ST", "count"]
+- !private ["ST", "init"]
+- !private ["ST", "init"]
+- !private ["11EuclidTests05ShapeB0C", "Path"]
+- !private ["11EuclidTests05ShapeB0C", "PathPoint"]
+- !private ["11EuclidTests05ShapeB0C", "XCTAssertEqual"]
+- !private ["11EuclidTests05ShapeB0C", "__allTests"]
+- !private ["11EuclidTests05ShapeB0C", "defaultTestSuite"]
+- ["11EuclidTests05ShapeB0C", "init"]
+- ["11EuclidTests05ShapeB0C", "testClosedCurvedPath"]
+- ["11EuclidTests05ShapeB0C", "testClosedCurvedPathWithSharpFirstCorner"]
+- ["11EuclidTests05ShapeB0C", "testClosedCurvedPathWithSharpSecondAndThirdCorner"]
+- ["11EuclidTests05ShapeB0C", "testClosedCurvedPathWithSharpSecondCorner"]
+- ["11EuclidTests05ShapeB0C", "testCurveWithConsecutiveMixedTypePointsWithSamePosition"]
+- ["11EuclidTests05ShapeB0C", "testLinuxTestSuiteIncludesAllTests"]
+- ["11EuclidTests05ShapeB0C", "testSimpleCurveEndedPath"]
+- ["11EuclidTests05ShapeB0C", "testSimpleCurvedPath"]
+- !private ["11EuclidTests05ShapeB0C", "type"]
+- !private ["s12StaticStringV", "init"]
+- !private ["s12StaticStringV", "init"]
+- !private ["SS", "init"]
+- !private ["SS", "init"]
+- !private ["Sy", "init"]
+- !private ["Sy", "init"]
+- !private ["s16TextOutputStreamP", "init"]
+- !private ["s16TextOutputStreamP", "init"]
+- !private ["s20TextOutputStreamableP", "init"]
+- !private ["s20TextOutputStreamableP", "init"]
+- !private ["So11XCTActivityP", "Path"]
+- !private ["So11XCTActivityP", "XCTAssertEqual"]
+- ["So11XCTActivityP", ""]
+- !private ["So11XCTActivityP", "__allTests"]
+- !private ["So11XCTActivityP", "defaultTestSuite"]
+- !private ["So11XCTActivityP", "init"]
+- !private ["So11XCTActivityP", "init"]
+- !private ["So11XCTActivityP", "type"]
+- !private ["So17XCTWaiterDelegateP", "Path"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertEqual"]
+- ["So17XCTWaiterDelegateP", ""]
+- !private ["So17XCTWaiterDelegateP", "__allTests"]
+- !private ["So17XCTWaiterDelegateP", "defaultTestSuite"]
+- !private ["So17XCTWaiterDelegateP", "init"]
+- !private ["So17XCTWaiterDelegateP", "init"]
+- !private ["So17XCTWaiterDelegateP", "type"]
+- !private ["So6XCTestC", "Path"]
+- !private ["So6XCTestC", "PathPoint"]
+- !private ["So6XCTestC", "XCTAssertEqual"]
+- !private ["So6XCTestC", "__allTests"]
+- !private ["So6XCTestC", "defaultTestSuite"]
+- ["So6XCTestC", "init"]
+- !private ["So6XCTestC", "init"]
+- !private ["So6XCTestC", "testCaseCount"]
+- ["So6XCTestC", "testClosedCurvedPath"]
+- ["So6XCTestC", "testClosedCurvedPathWithSharpFirstCorner"]
+- ["So6XCTestC", "testClosedCurvedPathWithSharpSecondAndThirdCorner"]
+- ["So6XCTestC", "testClosedCurvedPathWithSharpSecondCorner"]
+- ["So6XCTestC", "testCurveWithConsecutiveMixedTypePointsWithSamePosition"]
+- ["So6XCTestC", "testLinuxTestSuiteIncludesAllTests"]
+- ["So6XCTestC", "testSimpleCurveEndedPath"]
+- ["So6XCTestC", "testSimpleCurvedPath"]
+- !private ["So6XCTestC", "type"]
+- !private ["So10XCTestCaseC", "Path"]
+- !private ["So10XCTestCaseC", "PathPoint"]
+- !private ["So10XCTestCaseC", "XCTAssertEqual"]
+- ["So10XCTestCaseC", ""]
+- !private ["So10XCTestCaseC", "__allTests"]
+- !private ["So10XCTestCaseC", "defaultTestSuite"]
+- ["So10XCTestCaseC", "init"]
+- !private ["So10XCTestCaseC", "init"]
+- ["So10XCTestCaseC", "testClosedCurvedPath"]
+- ["So10XCTestCaseC", "testClosedCurvedPathWithSharpFirstCorner"]
+- ["So10XCTestCaseC", "testClosedCurvedPathWithSharpSecondAndThirdCorner"]
+- ["So10XCTestCaseC", "testClosedCurvedPathWithSharpSecondCorner"]
+- ["So10XCTestCaseC", "testCurveWithConsecutiveMixedTypePointsWithSamePosition"]
+- ["So10XCTestCaseC", "testLinuxTestSuiteIncludesAllTests"]
+- ["So10XCTestCaseC", "testSimpleCurveEndedPath"]
+- ["So10XCTestCaseC", "testSimpleCurvedPath"]
+- !private ["So10XCTestCaseC", "type"]
+- !private ["So11XCTestSuiteC", "testCaseCount"]
+- !private ["s24_DestructorSafeContainerP", "count"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- !private ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["s33_ExpressibleByStringInterpolationP", "init"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "count"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Path"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertEqual"]
+- ["10Foundation27_KeyValueCodingAndObservingP", ""]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "__allTests"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "defaultTestSuite"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "init"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "init"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "testCaseCount"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "type"]
+- !private ["s21_ObjectiveCBridgeableP", "count"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s16_SwiftStringViewP", "init"]
+- !private ["s16_SwiftStringViewP", "init"]
+depends-nominal:
+- !private "Sa"
+- !private "s13ArrayProtocolP"
+- !private "SK"
+- "s7CVarArgP"
+- !private "Sl"
+- !private "SL"
+- "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- "s23CustomStringConvertibleP"
+- !private "Se"
+- !private "SE"
+- "SQ"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- "SH"
+- !private "s25LosslessStringConvertibleP"
+- !private "s10MirrorPathP"
+- !private "SM"
+- "So8NSObjectC"
+- "So8NSObjectP"
+- !private "6Euclid4PathV"
+- !private "6Euclid9PathPointV"
+- !private "Sk"
+- !private "Sm"
+- !private "ST"
+- "11EuclidTests05ShapeB0C"
+- !private "s12StaticStringV"
+- !private "SS"
+- !private "Sy"
+- !private "s16TextOutputStreamP"
+- !private "s20TextOutputStreamableP"
+- "So11XCTActivityP"
+- "So17XCTWaiterDelegateP"
+- "So6XCTestC"
+- "So10XCTestCaseC"
+- !private "So11XCTestSuiteC"
+- !private "s24_DestructorSafeContainerP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s39_ExpressibleByBuiltinUTF16StringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s33_ExpressibleByStringInterpolationP"
+- !private "s35_HasCustomAnyHashableRepresentationP"
+- "10Foundation27_KeyValueCodingAndObservingP"
+- !private "s21_ObjectiveCBridgeableP"
+- !private "s16_SwiftStringViewP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XPC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ModelIO.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreData.swiftmodule"
+- "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/simd.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Metal.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/GLKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/IOKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SceneKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/AppKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XCTest.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/xpc/XPC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ModelIO.framework/Headers/ModelIO.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreData.framework/Headers/CoreData.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreImage.framework/Headers/CoreImage.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/QuartzCore.framework/Headers/QuartzCore.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ApplicationServices.framework/Headers/ApplicationServices.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/GLKit.framework/Headers/GLKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/SceneKit.framework/Headers/SceneKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTest.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
+interface-hash: "dcf840659605ae86929f24654509e82d"

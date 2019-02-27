@@ -1,0 +1,77 @@
+{
+  "": {
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/master.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Bounds.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Bounds.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Bounds.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Bounds~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Bounds.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/CSG.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/CSG.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/CSG.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/CSG~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/CSG.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Mesh.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Mesh.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Mesh.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Mesh~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Mesh.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Paths.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Paths.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Paths.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Paths~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Paths.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Plane.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Plane.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Plane.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Plane~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Plane.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Polygon.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Polygon.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Polygon.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Polygon~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Polygon.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/SceneKit.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/SceneKit.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/SceneKit.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/SceneKit~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/SceneKit.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Shapes.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Shapes.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Shapes.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Shapes~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Shapes.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Transforms.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Transforms.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Transforms.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Transforms~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Transforms.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Utilities.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Utilities.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Utilities.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Utilities~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Utilities.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Vector.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Vector.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Vector.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Vector~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Vector.swiftdeps"
+  },
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Vertex.swift": {
+    "dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Vertex.d",
+    "object": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Vertex.swift.o",
+    "swiftmodule": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Vertex~partial.swiftmodule",
+    "swift-dependencies": "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.build/Vertex.swiftdeps"
+  }
+}

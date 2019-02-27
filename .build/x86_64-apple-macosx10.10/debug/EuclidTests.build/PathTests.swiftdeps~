@@ -1,0 +1,671 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "PathTests"
+provides-nominal:
+- "11EuclidTests04PathB0C"
+provides-member:
+- ["11EuclidTests04PathB0C", ""]
+provides-dynamic-lookup:
+- "testClipClosedClockwiseTriangleMostlyRightOfAxis"
+- "testClipClosedClockwiseTriangleToRightOfAxis"
+- "testClipClosedRectangleSpanningAxis"
+- "testClosedAnticlockwiseTriangleLeftOfAxis"
+- "testConcaveClosedPathAnticlockwiseWinding"
+- "testConcaveClosedPathClockwiseWinding"
+- "testConcaveClosedPathClockwiseWinding2"
+- "testConcaveOpenPathAnticlockwiseWinding"
+- "testConcaveOpenPathClockwiseWinding"
+- "testConvexClosedPathAnticlockwiseWinding"
+- "testConvexClosedPathClockwiseWinding"
+- "testConvexOpenPathAnticlockwiseWinding"
+- "testConvexOpenPathClockwiseWinding"
+- "testEdgeVerticesForCircle"
+- "testEdgeVerticesForSemicircle"
+- "testEdgeVerticesForSharpEdgedCylinder"
+- "testEdgeVerticesForSmoothedClosedRect"
+- "testEdgeVerticesForSmoothedCylinder"
+- "testEdgeVerticesForVerticalPath"
+- "testFaceVerticesForConcaveClockwisePath"
+- "testFaceVerticesForDegenerateClosedAnticlockwisePath"
+- "testOverlappingClosedQuad"
+- "testOverlappingOpenQuad"
+- "testSimpleClosedQuad"
+- "testSimpleClosedTriangle"
+- "testSimpleLine"
+- "testSimpleOpenQuad"
+- "testSimpleOpenTriangle"
+- "testStraightLinePathAnticlockwiseWinding"
+- "testStraightLinePathAnticlockwiseWinding2"
+- "testStraightLinePathAnticlockwiseWinding3"
+depends-top-level:
+- !private "..<"
+- !private "/"
+- !private ">="
+- !private "Array"
+- !private "Double"
+- !private "FloatLiteralType"
+- !private "IntegerLiteralType"
+- !private "Path"
+- !private "PathPoint"
+- "PathTests"
+- !private "StringLiteralType"
+- !private "Transform"
+- !private "Vector"
+- !private "XCTAssert"
+- !private "XCTAssertEqual"
+- !private "XCTAssertFalse"
+- !private "XCTAssertNil"
+- !private "XCTAssertTrue"
+- !private "XCTFail"
+- "XCTestCase"
+depends-member:
+- !private ["Sa", "append"]
+- !private ["Sa", "count"]
+- !private ["Sa", "init"]
+- !private ["Sa", "subscript"]
+- !private ["s13ArrayProtocolP", "append"]
+- !private ["s13ArrayProtocolP", "count"]
+- !private ["s13ArrayProtocolP", "init"]
+- !private ["s13ArrayProtocolP", "subscript"]
+- !private ["SK", "append"]
+- !private ["SK", "count"]
+- !private ["SK", "init"]
+- !private ["SK", "subscript"]
+- !private ["SB", "init"]
+- !private ["SB", "pi"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "Double"]
+- !private ["s7CVarArgP", "Path"]
+- !private ["s7CVarArgP", "PathPoint"]
+- !private ["s7CVarArgP", "Transform"]
+- !private ["s7CVarArgP", "Vector"]
+- !private ["s7CVarArgP", "XCTAssert"]
+- !private ["s7CVarArgP", "XCTAssertEqual"]
+- !private ["s7CVarArgP", "XCTAssertFalse"]
+- !private ["s7CVarArgP", "XCTAssertNil"]
+- !private ["s7CVarArgP", "XCTAssertTrue"]
+- !private ["s7CVarArgP", "XCTFail"]
+- ["s7CVarArgP", ""]
+- !private ["s7CVarArgP", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "append"]
+- !private ["s7CVarArgP", "count"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "pi"]
+- !private ["s7CVarArgP", "subscript"]
+- !private ["Sl", "append"]
+- !private ["Sl", "count"]
+- !private ["Sl", "init"]
+- !private ["Sl", "subscript"]
+- !private ["SL", "init"]
+- !private ["SL", "pi"]
+- !private ["s28CustomDebugStringConvertibleP", "Double"]
+- !private ["s28CustomDebugStringConvertibleP", "Path"]
+- !private ["s28CustomDebugStringConvertibleP", "PathPoint"]
+- !private ["s28CustomDebugStringConvertibleP", "Transform"]
+- !private ["s28CustomDebugStringConvertibleP", "Vector"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssert"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertEqual"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertFalse"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertNil"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertTrue"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTFail"]
+- ["s28CustomDebugStringConvertibleP", ""]
+- !private ["s28CustomDebugStringConvertibleP", "append"]
+- !private ["s28CustomDebugStringConvertibleP", "count"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "pi"]
+- !private ["s28CustomDebugStringConvertibleP", "subscript"]
+- !private ["s29CustomPlaygroundQuickLookableP", "_getBuiltinLogicValue"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s29CustomPlaygroundQuickLookableP", "pi"]
+- !private ["s17CustomReflectableP", "_getBuiltinLogicValue"]
+- !private ["s17CustomReflectableP", "append"]
+- !private ["s17CustomReflectableP", "count"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "pi"]
+- !private ["s17CustomReflectableP", "subscript"]
+- !private ["s23CustomStringConvertibleP", "Double"]
+- !private ["s23CustomStringConvertibleP", "Path"]
+- !private ["s23CustomStringConvertibleP", "PathPoint"]
+- !private ["s23CustomStringConvertibleP", "Transform"]
+- !private ["s23CustomStringConvertibleP", "Vector"]
+- !private ["s23CustomStringConvertibleP", "XCTAssert"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertEqual"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertFalse"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertNil"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertTrue"]
+- !private ["s23CustomStringConvertibleP", "XCTFail"]
+- ["s23CustomStringConvertibleP", ""]
+- !private ["s23CustomStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s23CustomStringConvertibleP", "append"]
+- !private ["s23CustomStringConvertibleP", "count"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "pi"]
+- !private ["s23CustomStringConvertibleP", "subscript"]
+- !private ["Se", "_getBuiltinLogicValue"]
+- !private ["Se", "append"]
+- !private ["Se", "count"]
+- !private ["Se", "init"]
+- !private ["Se", "pi"]
+- !private ["Se", "subscript"]
+- !private ["Sd", "init"]
+- !private ["Sd", "pi"]
+- !private ["SE", "_getBuiltinLogicValue"]
+- !private ["SE", "append"]
+- !private ["SE", "count"]
+- !private ["SE", "init"]
+- !private ["SE", "pi"]
+- !private ["SE", "subscript"]
+- !private ["SQ", "Double"]
+- !private ["SQ", "Path"]
+- !private ["SQ", "PathPoint"]
+- !private ["SQ", "Transform"]
+- !private ["SQ", "Vector"]
+- !private ["SQ", "XCTAssert"]
+- !private ["SQ", "XCTAssertEqual"]
+- !private ["SQ", "XCTAssertFalse"]
+- !private ["SQ", "XCTAssertNil"]
+- !private ["SQ", "XCTAssertTrue"]
+- !private ["SQ", "XCTFail"]
+- ["SQ", ""]
+- !private ["SQ", "_getBuiltinLogicValue"]
+- !private ["SQ", "append"]
+- !private ["SQ", "circle"]
+- !private ["SQ", "clippedToYAxis"]
+- !private ["SQ", "count"]
+- !private ["SQ", "curve"]
+- !private ["SQ", "edgeVertices"]
+- !private ["SQ", "faceVertices"]
+- !private ["SQ", "identity"]
+- !private ["SQ", "init"]
+- !private ["SQ", "init"]
+- !private ["SQ", "isClosed"]
+- !private ["SQ", "isSimple"]
+- !private ["SQ", "normal"]
+- !private ["SQ", "normalized"]
+- !private ["SQ", "pi"]
+- !private ["SQ", "plane"]
+- !private ["SQ", "point"]
+- !private ["SQ", "points"]
+- !private ["SQ", "position"]
+- !private ["SQ", "quantized"]
+- !private ["SQ", "roll"]
+- !private ["SQ", "rotate"]
+- !private ["SQ", "subscript"]
+- !private ["SQ", "texcoord"]
+- !private ["SQ", "transformed"]
+- !private ["s25ExpressibleByArrayLiteralP", "append"]
+- !private ["s25ExpressibleByArrayLiteralP", "count"]
+- !private ["s25ExpressibleByArrayLiteralP", "init"]
+- !private ["s25ExpressibleByArrayLiteralP", "subscript"]
+- !private ["s27ExpressibleByBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s25ExpressibleByFloatLiteralP", "init"]
+- !private ["s25ExpressibleByFloatLiteralP", "pi"]
+- !private ["s27ExpressibleByIntegerLiteralP", "init"]
+- !private ["s27ExpressibleByIntegerLiteralP", "pi"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["SF", "init"]
+- !private ["SF", "pi"]
+- !private ["SH", "Double"]
+- !private ["SH", "Path"]
+- !private ["SH", "PathPoint"]
+- !private ["SH", "Transform"]
+- !private ["SH", "Vector"]
+- !private ["SH", "XCTAssert"]
+- !private ["SH", "XCTAssertEqual"]
+- !private ["SH", "XCTAssertFalse"]
+- !private ["SH", "XCTAssertNil"]
+- !private ["SH", "XCTAssertTrue"]
+- !private ["SH", "XCTFail"]
+- ["SH", ""]
+- !private ["SH", "_getBuiltinLogicValue"]
+- !private ["SH", "append"]
+- !private ["SH", "circle"]
+- !private ["SH", "clippedToYAxis"]
+- !private ["SH", "count"]
+- !private ["SH", "curve"]
+- !private ["SH", "edgeVertices"]
+- !private ["SH", "faceVertices"]
+- !private ["SH", "identity"]
+- !private ["SH", "init"]
+- !private ["SH", "init"]
+- !private ["SH", "isClosed"]
+- !private ["SH", "isSimple"]
+- !private ["SH", "normal"]
+- !private ["SH", "normalized"]
+- !private ["SH", "pi"]
+- !private ["SH", "plane"]
+- !private ["SH", "point"]
+- !private ["SH", "points"]
+- !private ["SH", "position"]
+- !private ["SH", "quantized"]
+- !private ["SH", "roll"]
+- !private ["SH", "rotate"]
+- !private ["SH", "subscript"]
+- !private ["SH", "texcoord"]
+- !private ["SH", "transformed"]
+- !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["s25LosslessStringConvertibleP", "pi"]
+- !private ["SM", "append"]
+- !private ["SM", "count"]
+- !private ["SM", "init"]
+- !private ["SM", "subscript"]
+- !private ["So8NSObjectC", "Double"]
+- !private ["So8NSObjectC", "Path"]
+- !private ["So8NSObjectC", "PathPoint"]
+- !private ["So8NSObjectC", "Transform"]
+- !private ["So8NSObjectC", "Vector"]
+- !private ["So8NSObjectC", "XCTAssert"]
+- !private ["So8NSObjectC", "XCTAssertEqual"]
+- !private ["So8NSObjectC", "XCTAssertFalse"]
+- !private ["So8NSObjectC", "XCTAssertNil"]
+- !private ["So8NSObjectC", "XCTAssertTrue"]
+- !private ["So8NSObjectC", "XCTFail"]
+- ["So8NSObjectC", "init"]
+- !private ["So8NSObjectC", "init"]
+- ["So8NSObjectC", "testClipClosedClockwiseTriangleMostlyRightOfAxis"]
+- ["So8NSObjectC", "testClipClosedClockwiseTriangleToRightOfAxis"]
+- ["So8NSObjectC", "testClipClosedRectangleSpanningAxis"]
+- ["So8NSObjectC", "testClosedAnticlockwiseTriangleLeftOfAxis"]
+- ["So8NSObjectC", "testConcaveClosedPathAnticlockwiseWinding"]
+- ["So8NSObjectC", "testConcaveClosedPathClockwiseWinding"]
+- ["So8NSObjectC", "testConcaveClosedPathClockwiseWinding2"]
+- ["So8NSObjectC", "testConcaveOpenPathAnticlockwiseWinding"]
+- ["So8NSObjectC", "testConcaveOpenPathClockwiseWinding"]
+- ["So8NSObjectC", "testConvexClosedPathAnticlockwiseWinding"]
+- ["So8NSObjectC", "testConvexClosedPathClockwiseWinding"]
+- ["So8NSObjectC", "testConvexOpenPathAnticlockwiseWinding"]
+- ["So8NSObjectC", "testConvexOpenPathClockwiseWinding"]
+- ["So8NSObjectC", "testEdgeVerticesForCircle"]
+- ["So8NSObjectC", "testEdgeVerticesForSemicircle"]
+- ["So8NSObjectC", "testEdgeVerticesForSharpEdgedCylinder"]
+- ["So8NSObjectC", "testEdgeVerticesForSmoothedClosedRect"]
+- ["So8NSObjectC", "testEdgeVerticesForSmoothedCylinder"]
+- ["So8NSObjectC", "testEdgeVerticesForVerticalPath"]
+- ["So8NSObjectC", "testFaceVerticesForConcaveClockwisePath"]
+- ["So8NSObjectC", "testFaceVerticesForDegenerateClosedAnticlockwisePath"]
+- ["So8NSObjectC", "testOverlappingClosedQuad"]
+- ["So8NSObjectC", "testOverlappingOpenQuad"]
+- ["So8NSObjectC", "testSimpleClosedQuad"]
+- ["So8NSObjectC", "testSimpleClosedTriangle"]
+- ["So8NSObjectC", "testSimpleLine"]
+- ["So8NSObjectC", "testSimpleOpenQuad"]
+- ["So8NSObjectC", "testSimpleOpenTriangle"]
+- ["So8NSObjectC", "testStraightLinePathAnticlockwiseWinding"]
+- ["So8NSObjectC", "testStraightLinePathAnticlockwiseWinding2"]
+- ["So8NSObjectC", "testStraightLinePathAnticlockwiseWinding3"]
+- !private ["So8NSObjectP", "Double"]
+- !private ["So8NSObjectP", "Path"]
+- !private ["So8NSObjectP", "PathPoint"]
+- !private ["So8NSObjectP", "Transform"]
+- !private ["So8NSObjectP", "Vector"]
+- !private ["So8NSObjectP", "XCTAssert"]
+- !private ["So8NSObjectP", "XCTAssertEqual"]
+- !private ["So8NSObjectP", "XCTAssertFalse"]
+- !private ["So8NSObjectP", "XCTAssertNil"]
+- !private ["So8NSObjectP", "XCTAssertTrue"]
+- !private ["So8NSObjectP", "XCTFail"]
+- ["So8NSObjectP", ""]
+- !private ["So8NSObjectP", "init"]
+- !private ["So8NSObjectP", "init"]
+- !private ["Sj", "init"]
+- !private ["Sj", "pi"]
+- !private ["6Euclid4PathV", "circle"]
+- !private ["6Euclid4PathV", "clippedToYAxis"]
+- !private ["6Euclid4PathV", "edgeVertices"]
+- !private ["6Euclid4PathV", "faceVertices"]
+- !private ["6Euclid4PathV", "init"]
+- !private ["6Euclid4PathV", "isClosed"]
+- !private ["6Euclid4PathV", "isSimple"]
+- !private ["6Euclid4PathV", "plane"]
+- !private ["6Euclid4PathV", "points"]
+- !private ["6Euclid9PathPointV", "curve"]
+- !private ["6Euclid9PathPointV", "point"]
+- !private ["6Euclid9PathPointV", "transformed"]
+- !private ["11EuclidTests04PathB0C", "Double"]
+- !private ["11EuclidTests04PathB0C", "Path"]
+- !private ["11EuclidTests04PathB0C", "PathPoint"]
+- !private ["11EuclidTests04PathB0C", "Transform"]
+- !private ["11EuclidTests04PathB0C", "Vector"]
+- !private ["11EuclidTests04PathB0C", "XCTAssert"]
+- !private ["11EuclidTests04PathB0C", "XCTAssertEqual"]
+- !private ["11EuclidTests04PathB0C", "XCTAssertFalse"]
+- !private ["11EuclidTests04PathB0C", "XCTAssertNil"]
+- !private ["11EuclidTests04PathB0C", "XCTAssertTrue"]
+- !private ["11EuclidTests04PathB0C", "XCTFail"]
+- ["11EuclidTests04PathB0C", "init"]
+- ["11EuclidTests04PathB0C", "testClipClosedClockwiseTriangleMostlyRightOfAxis"]
+- ["11EuclidTests04PathB0C", "testClipClosedClockwiseTriangleToRightOfAxis"]
+- ["11EuclidTests04PathB0C", "testClipClosedRectangleSpanningAxis"]
+- ["11EuclidTests04PathB0C", "testClosedAnticlockwiseTriangleLeftOfAxis"]
+- ["11EuclidTests04PathB0C", "testConcaveClosedPathAnticlockwiseWinding"]
+- ["11EuclidTests04PathB0C", "testConcaveClosedPathClockwiseWinding"]
+- ["11EuclidTests04PathB0C", "testConcaveClosedPathClockwiseWinding2"]
+- ["11EuclidTests04PathB0C", "testConcaveOpenPathAnticlockwiseWinding"]
+- ["11EuclidTests04PathB0C", "testConcaveOpenPathClockwiseWinding"]
+- ["11EuclidTests04PathB0C", "testConvexClosedPathAnticlockwiseWinding"]
+- ["11EuclidTests04PathB0C", "testConvexClosedPathClockwiseWinding"]
+- ["11EuclidTests04PathB0C", "testConvexOpenPathAnticlockwiseWinding"]
+- ["11EuclidTests04PathB0C", "testConvexOpenPathClockwiseWinding"]
+- ["11EuclidTests04PathB0C", "testEdgeVerticesForCircle"]
+- ["11EuclidTests04PathB0C", "testEdgeVerticesForSemicircle"]
+- ["11EuclidTests04PathB0C", "testEdgeVerticesForSharpEdgedCylinder"]
+- ["11EuclidTests04PathB0C", "testEdgeVerticesForSmoothedClosedRect"]
+- ["11EuclidTests04PathB0C", "testEdgeVerticesForSmoothedCylinder"]
+- ["11EuclidTests04PathB0C", "testEdgeVerticesForVerticalPath"]
+- ["11EuclidTests04PathB0C", "testFaceVerticesForConcaveClockwisePath"]
+- ["11EuclidTests04PathB0C", "testFaceVerticesForDegenerateClosedAnticlockwisePath"]
+- ["11EuclidTests04PathB0C", "testOverlappingClosedQuad"]
+- ["11EuclidTests04PathB0C", "testOverlappingOpenQuad"]
+- ["11EuclidTests04PathB0C", "testSimpleClosedQuad"]
+- ["11EuclidTests04PathB0C", "testSimpleClosedTriangle"]
+- ["11EuclidTests04PathB0C", "testSimpleLine"]
+- ["11EuclidTests04PathB0C", "testSimpleOpenQuad"]
+- ["11EuclidTests04PathB0C", "testSimpleOpenTriangle"]
+- ["11EuclidTests04PathB0C", "testStraightLinePathAnticlockwiseWinding"]
+- ["11EuclidTests04PathB0C", "testStraightLinePathAnticlockwiseWinding2"]
+- ["11EuclidTests04PathB0C", "testStraightLinePathAnticlockwiseWinding3"]
+- !private ["6Euclid5PlaneV", "normal"]
+- !private ["Sk", "append"]
+- !private ["Sk", "count"]
+- !private ["Sk", "init"]
+- !private ["Sk", "subscript"]
+- !private ["Sm", "append"]
+- !private ["Sm", "count"]
+- !private ["Sm", "init"]
+- !private ["Sm", "subscript"]
+- !private ["6Euclid8RotationV", "roll"]
+- !private ["ST", "append"]
+- !private ["ST", "count"]
+- !private ["ST", "init"]
+- !private ["ST", "subscript"]
+- !private ["s13SignedNumericP", "init"]
+- !private ["s13SignedNumericP", "pi"]
+- !private ["s12StaticStringV", "init"]
+- !private ["s12StaticStringV", "init"]
+- !private ["Sx", "init"]
+- !private ["Sx", "pi"]
+- !private ["6Euclid9TransformV", "identity"]
+- !private ["6Euclid9TransformV", "rotate"]
+- !private ["6Euclid6VectorV", "init"]
+- !private ["6Euclid6VectorV", "normalized"]
+- !private ["6Euclid6VectorV", "pi"]
+- !private ["6Euclid6VectorV", "quantized"]
+- !private ["6Euclid6VertexV", "normal"]
+- !private ["6Euclid6VertexV", "position"]
+- !private ["6Euclid6VertexV", "texcoord"]
+- !private ["So11XCTActivityP", "Double"]
+- !private ["So11XCTActivityP", "Path"]
+- !private ["So11XCTActivityP", "PathPoint"]
+- !private ["So11XCTActivityP", "Transform"]
+- !private ["So11XCTActivityP", "Vector"]
+- !private ["So11XCTActivityP", "XCTAssert"]
+- !private ["So11XCTActivityP", "XCTAssertEqual"]
+- !private ["So11XCTActivityP", "XCTAssertFalse"]
+- !private ["So11XCTActivityP", "XCTAssertNil"]
+- !private ["So11XCTActivityP", "XCTAssertTrue"]
+- !private ["So11XCTActivityP", "XCTFail"]
+- ["So11XCTActivityP", ""]
+- !private ["So11XCTActivityP", "init"]
+- !private ["So11XCTActivityP", "init"]
+- !private ["So17XCTWaiterDelegateP", "Double"]
+- !private ["So17XCTWaiterDelegateP", "Path"]
+- !private ["So17XCTWaiterDelegateP", "PathPoint"]
+- !private ["So17XCTWaiterDelegateP", "Transform"]
+- !private ["So17XCTWaiterDelegateP", "Vector"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssert"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertEqual"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertFalse"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertNil"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertTrue"]
+- !private ["So17XCTWaiterDelegateP", "XCTFail"]
+- ["So17XCTWaiterDelegateP", ""]
+- !private ["So17XCTWaiterDelegateP", "init"]
+- !private ["So17XCTWaiterDelegateP", "init"]
+- !private ["So6XCTestC", "Double"]
+- !private ["So6XCTestC", "Path"]
+- !private ["So6XCTestC", "PathPoint"]
+- !private ["So6XCTestC", "Transform"]
+- !private ["So6XCTestC", "Vector"]
+- !private ["So6XCTestC", "XCTAssert"]
+- !private ["So6XCTestC", "XCTAssertEqual"]
+- !private ["So6XCTestC", "XCTAssertFalse"]
+- !private ["So6XCTestC", "XCTAssertNil"]
+- !private ["So6XCTestC", "XCTAssertTrue"]
+- !private ["So6XCTestC", "XCTFail"]
+- ["So6XCTestC", "init"]
+- !private ["So6XCTestC", "init"]
+- ["So6XCTestC", "testClipClosedClockwiseTriangleMostlyRightOfAxis"]
+- ["So6XCTestC", "testClipClosedClockwiseTriangleToRightOfAxis"]
+- ["So6XCTestC", "testClipClosedRectangleSpanningAxis"]
+- ["So6XCTestC", "testClosedAnticlockwiseTriangleLeftOfAxis"]
+- ["So6XCTestC", "testConcaveClosedPathAnticlockwiseWinding"]
+- ["So6XCTestC", "testConcaveClosedPathClockwiseWinding"]
+- ["So6XCTestC", "testConcaveClosedPathClockwiseWinding2"]
+- ["So6XCTestC", "testConcaveOpenPathAnticlockwiseWinding"]
+- ["So6XCTestC", "testConcaveOpenPathClockwiseWinding"]
+- ["So6XCTestC", "testConvexClosedPathAnticlockwiseWinding"]
+- ["So6XCTestC", "testConvexClosedPathClockwiseWinding"]
+- ["So6XCTestC", "testConvexOpenPathAnticlockwiseWinding"]
+- ["So6XCTestC", "testConvexOpenPathClockwiseWinding"]
+- ["So6XCTestC", "testEdgeVerticesForCircle"]
+- ["So6XCTestC", "testEdgeVerticesForSemicircle"]
+- ["So6XCTestC", "testEdgeVerticesForSharpEdgedCylinder"]
+- ["So6XCTestC", "testEdgeVerticesForSmoothedClosedRect"]
+- ["So6XCTestC", "testEdgeVerticesForSmoothedCylinder"]
+- ["So6XCTestC", "testEdgeVerticesForVerticalPath"]
+- ["So6XCTestC", "testFaceVerticesForConcaveClockwisePath"]
+- ["So6XCTestC", "testFaceVerticesForDegenerateClosedAnticlockwisePath"]
+- ["So6XCTestC", "testOverlappingClosedQuad"]
+- ["So6XCTestC", "testOverlappingOpenQuad"]
+- ["So6XCTestC", "testSimpleClosedQuad"]
+- ["So6XCTestC", "testSimpleClosedTriangle"]
+- ["So6XCTestC", "testSimpleLine"]
+- ["So6XCTestC", "testSimpleOpenQuad"]
+- ["So6XCTestC", "testSimpleOpenTriangle"]
+- ["So6XCTestC", "testStraightLinePathAnticlockwiseWinding"]
+- ["So6XCTestC", "testStraightLinePathAnticlockwiseWinding2"]
+- ["So6XCTestC", "testStraightLinePathAnticlockwiseWinding3"]
+- !private ["So10XCTestCaseC", "Double"]
+- !private ["So10XCTestCaseC", "Path"]
+- !private ["So10XCTestCaseC", "PathPoint"]
+- !private ["So10XCTestCaseC", "Transform"]
+- !private ["So10XCTestCaseC", "Vector"]
+- !private ["So10XCTestCaseC", "XCTAssert"]
+- !private ["So10XCTestCaseC", "XCTAssertEqual"]
+- !private ["So10XCTestCaseC", "XCTAssertFalse"]
+- !private ["So10XCTestCaseC", "XCTAssertNil"]
+- !private ["So10XCTestCaseC", "XCTAssertTrue"]
+- !private ["So10XCTestCaseC", "XCTFail"]
+- ["So10XCTestCaseC", ""]
+- ["So10XCTestCaseC", "init"]
+- !private ["So10XCTestCaseC", "init"]
+- ["So10XCTestCaseC", "testClipClosedClockwiseTriangleMostlyRightOfAxis"]
+- ["So10XCTestCaseC", "testClipClosedClockwiseTriangleToRightOfAxis"]
+- ["So10XCTestCaseC", "testClipClosedRectangleSpanningAxis"]
+- ["So10XCTestCaseC", "testClosedAnticlockwiseTriangleLeftOfAxis"]
+- ["So10XCTestCaseC", "testConcaveClosedPathAnticlockwiseWinding"]
+- ["So10XCTestCaseC", "testConcaveClosedPathClockwiseWinding"]
+- ["So10XCTestCaseC", "testConcaveClosedPathClockwiseWinding2"]
+- ["So10XCTestCaseC", "testConcaveOpenPathAnticlockwiseWinding"]
+- ["So10XCTestCaseC", "testConcaveOpenPathClockwiseWinding"]
+- ["So10XCTestCaseC", "testConvexClosedPathAnticlockwiseWinding"]
+- ["So10XCTestCaseC", "testConvexClosedPathClockwiseWinding"]
+- ["So10XCTestCaseC", "testConvexOpenPathAnticlockwiseWinding"]
+- ["So10XCTestCaseC", "testConvexOpenPathClockwiseWinding"]
+- ["So10XCTestCaseC", "testEdgeVerticesForCircle"]
+- ["So10XCTestCaseC", "testEdgeVerticesForSemicircle"]
+- ["So10XCTestCaseC", "testEdgeVerticesForSharpEdgedCylinder"]
+- ["So10XCTestCaseC", "testEdgeVerticesForSmoothedClosedRect"]
+- ["So10XCTestCaseC", "testEdgeVerticesForSmoothedCylinder"]
+- ["So10XCTestCaseC", "testEdgeVerticesForVerticalPath"]
+- ["So10XCTestCaseC", "testFaceVerticesForConcaveClockwisePath"]
+- ["So10XCTestCaseC", "testFaceVerticesForDegenerateClosedAnticlockwisePath"]
+- ["So10XCTestCaseC", "testOverlappingClosedQuad"]
+- ["So10XCTestCaseC", "testOverlappingOpenQuad"]
+- ["So10XCTestCaseC", "testSimpleClosedQuad"]
+- ["So10XCTestCaseC", "testSimpleClosedTriangle"]
+- ["So10XCTestCaseC", "testSimpleLine"]
+- ["So10XCTestCaseC", "testSimpleOpenQuad"]
+- ["So10XCTestCaseC", "testSimpleOpenTriangle"]
+- ["So10XCTestCaseC", "testStraightLinePathAnticlockwiseWinding"]
+- ["So10XCTestCaseC", "testStraightLinePathAnticlockwiseWinding2"]
+- ["So10XCTestCaseC", "testStraightLinePathAnticlockwiseWinding3"]
+- !private ["s15_CVarArgAlignedP", "init"]
+- !private ["s15_CVarArgAlignedP", "pi"]
+- !private ["s22_CVarArgPassedAsDoubleP", "init"]
+- !private ["s22_CVarArgPassedAsDoubleP", "pi"]
+- !private ["s24_DestructorSafeContainerP", "append"]
+- !private ["s24_DestructorSafeContainerP", "count"]
+- !private ["s24_DestructorSafeContainerP", "init"]
+- !private ["s24_DestructorSafeContainerP", "subscript"]
+- !private ["s35_ExpressibleByBuiltinBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s33_ExpressibleByBuiltinFloatLiteralP", "init"]
+- !private ["s33_ExpressibleByBuiltinFloatLiteralP", "pi"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "init"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "pi"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "append"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "count"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "init"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "pi"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "subscript"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Double"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Path"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "PathPoint"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Transform"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Vector"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssert"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertEqual"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertFalse"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertNil"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertTrue"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTFail"]
+- ["10Foundation27_KeyValueCodingAndObservingP", ""]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "init"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "_getBuiltinLogicValue"]
+- !private ["s21_ObjectiveCBridgeableP", "append"]
+- !private ["s21_ObjectiveCBridgeableP", "count"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "pi"]
+- !private ["s21_ObjectiveCBridgeableP", "subscript"]
+depends-nominal:
+- !private "Sa"
+- !private "s13ArrayProtocolP"
+- !private "SK"
+- !private "SB"
+- !private "Sb"
+- "s7CVarArgP"
+- !private "Sl"
+- !private "SL"
+- "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- "s23CustomStringConvertibleP"
+- !private "Se"
+- !private "Sd"
+- !private "SE"
+- "SQ"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s27ExpressibleByBooleanLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s25ExpressibleByFloatLiteralP"
+- !private "s27ExpressibleByIntegerLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- !private "SF"
+- "SH"
+- !private "s25LosslessStringConvertibleP"
+- !private "SM"
+- "So8NSObjectC"
+- "So8NSObjectP"
+- !private "Sj"
+- !private "6Euclid4PathV"
+- !private "6Euclid9PathPointV"
+- "11EuclidTests04PathB0C"
+- !private "6Euclid5PlaneV"
+- !private "Sk"
+- !private "Sm"
+- !private "6Euclid8RotationV"
+- !private "ST"
+- !private "s13SignedNumericP"
+- !private "s12StaticStringV"
+- !private "Sx"
+- !private "6Euclid9TransformV"
+- !private "6Euclid6VectorV"
+- !private "6Euclid6VertexV"
+- "So11XCTActivityP"
+- "So17XCTWaiterDelegateP"
+- "So6XCTestC"
+- "So10XCTestCaseC"
+- !private "s15_CVarArgAlignedP"
+- !private "s22_CVarArgPassedAsDoubleP"
+- !private "s24_DestructorSafeContainerP"
+- !private "s35_ExpressibleByBuiltinBooleanLiteralP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s33_ExpressibleByBuiltinFloatLiteralP"
+- !private "s35_ExpressibleByBuiltinIntegerLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s35_HasCustomAnyHashableRepresentationP"
+- "10Foundation27_KeyValueCodingAndObservingP"
+- !private "s21_ObjectiveCBridgeableP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XPC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ModelIO.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreData.swiftmodule"
+- "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/simd.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Metal.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/GLKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/IOKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SceneKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/AppKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XCTest.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/xpc/XPC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ModelIO.framework/Headers/ModelIO.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreData.framework/Headers/CoreData.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreImage.framework/Headers/CoreImage.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/QuartzCore.framework/Headers/QuartzCore.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ApplicationServices.framework/Headers/ApplicationServices.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/GLKit.framework/Headers/GLKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/SceneKit.framework/Headers/SceneKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTest.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
+interface-hash: "b31607e2e165de1a5f0c0b0380b3c76e"

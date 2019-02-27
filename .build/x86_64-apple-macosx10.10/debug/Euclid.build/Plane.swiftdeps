@@ -1,0 +1,430 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "Plane"
+- "FlatteningPlane"
+provides-nominal:
+- "6Euclid5PlaneV"
+- "6Euclid15FlatteningPlaneO"
+provides-member:
+- ["6Euclid5PlaneV", ""]
+- ["6Euclid15FlatteningPlaneO", ""]
+- ["6Euclid5PlaneV", "yz"]
+- ["6Euclid5PlaneV", "xz"]
+- ["6Euclid5PlaneV", "xy"]
+- ["6Euclid5PlaneV", "init"]
+- ["6Euclid5PlaneV", "init"]
+- ["6Euclid5PlaneV", "inverted"]
+- ["6Euclid5PlaneV", "containsPoint"]
+- ["6Euclid5PlaneV", "init"]
+- ["6Euclid5PlaneV", "init"]
+- ["6Euclid5PlaneV", "init"]
+provides-dynamic-lookup:
+depends-top-level:
+- !private "!"
+- !private "&&"
+- !private "-"
+- !private "/"
+- !private "<"
+- "=="
+- !private ">"
+- !private "??"
+- "AssignmentPrecedence"
+- "Bool"
+- !private "BooleanLiteralType"
+- "Bounds"
+- "Double"
+- "FlatteningPlane"
+- "FloatLiteralType"
+- "Hashable"
+- "IntegerLiteralType"
+- "Plane"
+- "RawRepresentable"
+- !private "StringLiteralType"
+- "TernaryPrecedence"
+- "Vector"
+- !private "abs"
+- !private "assert"
+- !private "epsilon"
+- !private "faceNormalForConvexPoints"
+- !private "flattenedPointsAreClockwise"
+- !private "pointsAreConvex"
+- !private "pointsAreDegenerate"
+- !private "~="
+depends-member:
+- !private ["Sa", "contains"]
+- !private ["Sa", "count"]
+- !private ["Sa", "first"]
+- !private ["Sa", "map"]
+- !private ["Sa", "subscript"]
+- !private ["s13ArrayProtocolP", "contains"]
+- !private ["s13ArrayProtocolP", "count"]
+- !private ["s13ArrayProtocolP", "first"]
+- !private ["s13ArrayProtocolP", "map"]
+- !private ["s13ArrayProtocolP", "subscript"]
+- !private ["SK", "contains"]
+- !private ["SK", "count"]
+- !private ["SK", "first"]
+- !private ["SK", "map"]
+- !private ["SK", "subscript"]
+- !private ["SB", "isFinite"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- !private ["6Euclid6BoundsV", "init"]
+- !private ["6Euclid6BoundsV", "size"]
+- !private ["s7CVarArgP", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "contains"]
+- !private ["s7CVarArgP", "count"]
+- !private ["s7CVarArgP", "first"]
+- !private ["s7CVarArgP", "isFinite"]
+- !private ["s7CVarArgP", "map"]
+- !private ["s7CVarArgP", "subscript"]
+- !private ["Sl", "contains"]
+- !private ["Sl", "count"]
+- !private ["Sl", "first"]
+- !private ["Sl", "map"]
+- !private ["Sl", "subscript"]
+- !private ["SL", "isFinite"]
+- !private ["s28CustomDebugStringConvertibleP", "contains"]
+- !private ["s28CustomDebugStringConvertibleP", "count"]
+- !private ["s28CustomDebugStringConvertibleP", "first"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "isFinite"]
+- !private ["s28CustomDebugStringConvertibleP", "map"]
+- !private ["s28CustomDebugStringConvertibleP", "subscript"]
+- !private ["s29CustomPlaygroundQuickLookableP", "_getBuiltinLogicValue"]
+- !private ["s29CustomPlaygroundQuickLookableP", "isFinite"]
+- !private ["s17CustomReflectableP", "_getBuiltinLogicValue"]
+- !private ["s17CustomReflectableP", "contains"]
+- !private ["s17CustomReflectableP", "count"]
+- !private ["s17CustomReflectableP", "first"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "isFinite"]
+- !private ["s17CustomReflectableP", "map"]
+- !private ["s17CustomReflectableP", "subscript"]
+- !private ["s23CustomStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s23CustomStringConvertibleP", "contains"]
+- !private ["s23CustomStringConvertibleP", "count"]
+- !private ["s23CustomStringConvertibleP", "first"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "isFinite"]
+- !private ["s23CustomStringConvertibleP", "map"]
+- !private ["s23CustomStringConvertibleP", "subscript"]
+- !private ["Se", "_getBuiltinLogicValue"]
+- !private ["Se", "contains"]
+- !private ["Se", "count"]
+- !private ["Se", "first"]
+- !private ["Se", "isFinite"]
+- !private ["Se", "map"]
+- !private ["Se", "subscript"]
+- !private ["Sd", "isFinite"]
+- !private ["SE", "_getBuiltinLogicValue"]
+- !private ["SE", "contains"]
+- !private ["SE", "count"]
+- !private ["SE", "first"]
+- !private ["SE", "isFinite"]
+- !private ["SE", "map"]
+- !private ["SE", "subscript"]
+- !private ["SQ", "Bounds"]
+- !private ["SQ", "FlatteningPlane"]
+- ["SQ", "Plane"]
+- ["SQ", "RawValue"]
+- ["SQ", "Vector"]
+- ["SQ", ""]
+- ["SQ", "_Default_RawValue"]
+- !private ["SQ", "_getBuiltinLogicValue"]
+- !private ["SQ", "abs"]
+- !private ["SQ", "assert"]
+- !private ["SQ", "contains"]
+- !private ["SQ", "containsPoint"]
+- !private ["SQ", "count"]
+- !private ["SQ", "dot"]
+- !private ["SQ", "epsilon"]
+- !private ["SQ", "faceNormalForConvexPoints"]
+- !private ["SQ", "first"]
+- !private ["SQ", "flattenPoint"]
+- !private ["SQ", "flattenedPointsAreClockwise"]
+- ["SQ", "hash"]
+- ["SQ", "hashValue"]
+- ["SQ", "init"]
+- !private ["SQ", "isFinite"]
+- !private ["SQ", "isNormalized"]
+- !private ["SQ", "length"]
+- !private ["SQ", "map"]
+- !private ["SQ", "normal"]
+- !private ["SQ", "pointsAreConvex"]
+- !private ["SQ", "pointsAreDegenerate"]
+- ["SQ", "rawValue"]
+- !private ["SQ", "size"]
+- !private ["SQ", "subscript"]
+- !private ["SQ", "w"]
+- !private ["SQ", "x"]
+- ["SQ", "xy"]
+- ["SQ", "xz"]
+- !private ["SQ", "y"]
+- ["SQ", "yz"]
+- !private ["SQ", "z"]
+- !private ["s25ExpressibleByArrayLiteralP", "contains"]
+- !private ["s25ExpressibleByArrayLiteralP", "count"]
+- !private ["s25ExpressibleByArrayLiteralP", "first"]
+- !private ["s25ExpressibleByArrayLiteralP", "map"]
+- !private ["s25ExpressibleByArrayLiteralP", "subscript"]
+- !private ["s27ExpressibleByBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s25ExpressibleByFloatLiteralP", "isFinite"]
+- !private ["s27ExpressibleByIntegerLiteralP", "isFinite"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- ["6Euclid15FlatteningPlaneO", "Bounds"]
+- ["6Euclid15FlatteningPlaneO", "Plane"]
+- ["6Euclid15FlatteningPlaneO", "RawValue"]
+- ["6Euclid15FlatteningPlaneO", "Vector"]
+- ["6Euclid15FlatteningPlaneO", "_Default_RawValue"]
+- !private ["6Euclid15FlatteningPlaneO", "abs"]
+- ["6Euclid15FlatteningPlaneO", "deinit"]
+- ["6Euclid15FlatteningPlaneO", "flattenPoint"]
+- ["6Euclid15FlatteningPlaneO", "hash"]
+- ["6Euclid15FlatteningPlaneO", "hashValue"]
+- ["6Euclid15FlatteningPlaneO", "init"]
+- ["6Euclid15FlatteningPlaneO", "rawValue"]
+- ["6Euclid15FlatteningPlaneO", "xy"]
+- ["6Euclid15FlatteningPlaneO", "xz"]
+- ["6Euclid15FlatteningPlaneO", "yz"]
+- !private ["SF", "isFinite"]
+- !private ["SH", "Bounds"]
+- !private ["SH", "FlatteningPlane"]
+- ["SH", "Plane"]
+- ["SH", "RawValue"]
+- ["SH", "Vector"]
+- ["SH", ""]
+- ["SH", "_Default_RawValue"]
+- !private ["SH", "_getBuiltinLogicValue"]
+- !private ["SH", "abs"]
+- !private ["SH", "assert"]
+- !private ["SH", "contains"]
+- !private ["SH", "containsPoint"]
+- !private ["SH", "count"]
+- !private ["SH", "dot"]
+- !private ["SH", "epsilon"]
+- !private ["SH", "faceNormalForConvexPoints"]
+- !private ["SH", "first"]
+- !private ["SH", "flattenPoint"]
+- !private ["SH", "flattenedPointsAreClockwise"]
+- ["SH", "hash"]
+- ["SH", "hashValue"]
+- ["SH", "init"]
+- !private ["SH", "isFinite"]
+- !private ["SH", "isNormalized"]
+- !private ["SH", "length"]
+- !private ["SH", "map"]
+- !private ["SH", "normal"]
+- !private ["SH", "pointsAreConvex"]
+- !private ["SH", "pointsAreDegenerate"]
+- ["SH", "rawValue"]
+- !private ["SH", "size"]
+- !private ["SH", "subscript"]
+- !private ["SH", "w"]
+- !private ["SH", "x"]
+- ["SH", "xy"]
+- ["SH", "xz"]
+- !private ["SH", "y"]
+- ["SH", "yz"]
+- !private ["SH", "z"]
+- !private ["s6HasherV", "combine"]
+- !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s25LosslessStringConvertibleP", "isFinite"]
+- !private ["SM", "contains"]
+- !private ["SM", "count"]
+- !private ["SM", "first"]
+- !private ["SM", "map"]
+- !private ["SM", "subscript"]
+- !private ["Sj", "isFinite"]
+- ["6Euclid5PlaneV", "Bool"]
+- ["6Euclid5PlaneV", "Double"]
+- !private ["6Euclid5PlaneV", "FlatteningPlane"]
+- ["6Euclid5PlaneV", "Plane"]
+- ["6Euclid5PlaneV", "Vector"]
+- ["6Euclid5PlaneV", "__derived_struct_equals"]
+- !private ["6Euclid5PlaneV", "abs"]
+- !private ["6Euclid5PlaneV", "assert"]
+- ["6Euclid5PlaneV", "containsPoint"]
+- ["6Euclid5PlaneV", "deinit"]
+- !private ["6Euclid5PlaneV", "epsilon"]
+- !private ["6Euclid5PlaneV", "faceNormalForConvexPoints"]
+- !private ["6Euclid5PlaneV", "flattenedPointsAreClockwise"]
+- ["6Euclid5PlaneV", "hash"]
+- ["6Euclid5PlaneV", "hashValue"]
+- ["6Euclid5PlaneV", "init"]
+- ["6Euclid5PlaneV", "inverted"]
+- ["6Euclid5PlaneV", "normal"]
+- !private ["6Euclid5PlaneV", "pointsAreConvex"]
+- !private ["6Euclid5PlaneV", "pointsAreDegenerate"]
+- ["6Euclid5PlaneV", "w"]
+- ["6Euclid5PlaneV", "xy"]
+- ["6Euclid5PlaneV", "xz"]
+- ["6Euclid5PlaneV", "yz"]
+- !private ["Sk", "contains"]
+- !private ["Sk", "count"]
+- !private ["Sk", "first"]
+- !private ["Sk", "map"]
+- !private ["Sk", "subscript"]
+- !private ["Sm", "contains"]
+- !private ["Sm", "count"]
+- !private ["Sm", "first"]
+- !private ["Sm", "map"]
+- !private ["Sm", "subscript"]
+- !private ["SY", "Bounds"]
+- ["SY", "RawValue"]
+- !private ["SY", "Vector"]
+- ["SY", ""]
+- ["SY", "_Default_RawValue"]
+- !private ["SY", "abs"]
+- !private ["SY", "flattenPoint"]
+- ["SY", "hash"]
+- ["SY", "hashValue"]
+- ["SY", "init"]
+- ["SY", "rawValue"]
+- ["SY", "xy"]
+- ["SY", "xz"]
+- ["SY", "yz"]
+- !private ["ST", "contains"]
+- !private ["ST", "count"]
+- !private ["ST", "first"]
+- !private ["ST", "map"]
+- !private ["ST", "subscript"]
+- !private ["s13SignedNumericP", "isFinite"]
+- !private ["s12StaticStringV", "init"]
+- !private ["s12StaticStringV", "init"]
+- !private ["Sx", "isFinite"]
+- ["6Euclid6VectorV", "deinit"]
+- !private ["6Euclid6VectorV", "dot"]
+- ["6Euclid6VectorV", "init"]
+- !private ["6Euclid6VectorV", "isNormalized"]
+- !private ["6Euclid6VectorV", "length"]
+- !private ["6Euclid6VectorV", "x"]
+- !private ["6Euclid6VectorV", "y"]
+- !private ["6Euclid6VectorV", "z"]
+- !private ["s15_CVarArgAlignedP", "isFinite"]
+- !private ["s22_CVarArgPassedAsDoubleP", "isFinite"]
+- !private ["s24_DestructorSafeContainerP", "contains"]
+- !private ["s24_DestructorSafeContainerP", "count"]
+- !private ["s24_DestructorSafeContainerP", "first"]
+- !private ["s24_DestructorSafeContainerP", "map"]
+- !private ["s24_DestructorSafeContainerP", "subscript"]
+- !private ["s35_ExpressibleByBuiltinBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s33_ExpressibleByBuiltinFloatLiteralP", "isFinite"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "isFinite"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "contains"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "count"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "first"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "isFinite"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "map"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "subscript"]
+- !private ["s21_ObjectiveCBridgeableP", "_getBuiltinLogicValue"]
+- !private ["s21_ObjectiveCBridgeableP", "contains"]
+- !private ["s21_ObjectiveCBridgeableP", "count"]
+- !private ["s21_ObjectiveCBridgeableP", "first"]
+- !private ["s21_ObjectiveCBridgeableP", "isFinite"]
+- !private ["s21_ObjectiveCBridgeableP", "map"]
+- !private ["s21_ObjectiveCBridgeableP", "subscript"]
+depends-nominal:
+- !private "Sa"
+- !private "s13ArrayProtocolP"
+- !private "SK"
+- !private "SB"
+- !private "Sb"
+- !private "6Euclid6BoundsV"
+- !private "s7CVarArgP"
+- !private "Sl"
+- !private "SL"
+- !private "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- !private "s23CustomStringConvertibleP"
+- !private "Se"
+- !private "Sd"
+- !private "SE"
+- "SQ"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s27ExpressibleByBooleanLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s25ExpressibleByFloatLiteralP"
+- !private "s27ExpressibleByIntegerLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- "6Euclid15FlatteningPlaneO"
+- !private "SF"
+- "SH"
+- !private "s6HasherV"
+- !private "s25LosslessStringConvertibleP"
+- !private "SM"
+- !private "Sj"
+- "6Euclid5PlaneV"
+- !private "Sk"
+- !private "Sm"
+- "SY"
+- !private "ST"
+- !private "s13SignedNumericP"
+- !private "s12StaticStringV"
+- !private "Sx"
+- "6Euclid6VectorV"
+- !private "s15_CVarArgAlignedP"
+- !private "s22_CVarArgPassedAsDoubleP"
+- !private "s24_DestructorSafeContainerP"
+- !private "s35_ExpressibleByBuiltinBooleanLiteralP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s33_ExpressibleByBuiltinFloatLiteralP"
+- !private "s35_ExpressibleByBuiltinIntegerLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s35_HasCustomAnyHashableRepresentationP"
+- !private "s21_ObjectiveCBridgeableP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XPC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ModelIO.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreData.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/simd.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Metal.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/GLKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/IOKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SceneKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/AppKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/xpc/XPC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ModelIO.framework/Headers/ModelIO.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreData.framework/Headers/CoreData.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreImage.framework/Headers/CoreImage.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/QuartzCore.framework/Headers/QuartzCore.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ApplicationServices.framework/Headers/ApplicationServices.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/GLKit.framework/Headers/GLKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/SceneKit.framework/Headers/SceneKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
+interface-hash: "146e2dd172796f82fb1187b1f3097ba0"

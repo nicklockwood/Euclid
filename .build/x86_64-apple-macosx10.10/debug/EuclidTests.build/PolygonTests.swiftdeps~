@@ -1,0 +1,558 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "PolygonTests"
+provides-nominal:
+- "11EuclidTests07PolygonB0C"
+provides-member:
+- ["11EuclidTests07PolygonB0C", ""]
+provides-dynamic-lookup:
+- "testConcaveAnticlockwisePolygonContainsPoint"
+- "testConcaveAnticlockwisePolygonContainsPoint2"
+- "testConcaveAnticlockwisePolygonCorrectlyTessellated"
+- "testConcaveAnticlockwisePolygonCorrectlyTriangulated"
+- "testConcavePolygonAnticlockwiseWinding"
+- "testConcavePolygonClockwiseWinding"
+- "testConvexAnticlockwisePolygonContainsPoint"
+- "testConvexClockwisePolygonContainsPoint"
+- "testConvexPolygonAnticlockwiseWinding"
+- "testConvexPolygonClockwiseWinding"
+- "testDegeneratePolygonWithColinearPoints"
+- "testInvertedConcaveAnticlockwisePolygonCorrectlyTessellated"
+- "testInvertedConcaveAnticlockwisePolygonCorrectlyTriangulated"
+- "testMerge1"
+- "testMerge2"
+- "testMergeB2TAdjacentRects"
+- "testMergeEdgeCase"
+- "testMergeL2RAdjacentRectAndTriangle"
+- "testMergeL2RAdjacentRects"
+- "testMergeR2LAdjacentRects"
+- "testMergeT2BAdjacentRects"
+- "testNonDegeneratePolygonWithColinearPoints"
+depends-top-level:
+- !private "=="
+- !private ">"
+- !private "Array"
+- !private "FloatLiteralType"
+- !private "IntegerLiteralType"
+- !private "Path"
+- !private "Polygon"
+- "PolygonTests"
+- !private "Set"
+- !private "StringLiteralType"
+- !private "Vector"
+- !private "Vertex"
+- !private "XCTAssert"
+- !private "XCTAssertEqual"
+- !private "XCTAssertFalse"
+- !private "XCTAssertNil"
+- !private "XCTAssertNotNil"
+- !private "XCTAssertTrue"
+- !private "XCTFail"
+- "XCTestCase"
+- !private "||"
+depends-member:
+- !private ["Sa", "count"]
+- !private ["Sa", "map"]
+- !private ["Sa", "subscript"]
+- !private ["s13ArrayProtocolP", "count"]
+- !private ["s13ArrayProtocolP", "map"]
+- !private ["s13ArrayProtocolP", "subscript"]
+- !private ["SK", "count"]
+- !private ["SK", "map"]
+- !private ["SK", "subscript"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "Path"]
+- !private ["s7CVarArgP", "Polygon"]
+- !private ["s7CVarArgP", "Set"]
+- !private ["s7CVarArgP", "Vector"]
+- !private ["s7CVarArgP", "Vertex"]
+- !private ["s7CVarArgP", "XCTAssert"]
+- !private ["s7CVarArgP", "XCTAssertEqual"]
+- !private ["s7CVarArgP", "XCTAssertFalse"]
+- !private ["s7CVarArgP", "XCTAssertNil"]
+- !private ["s7CVarArgP", "XCTAssertNotNil"]
+- !private ["s7CVarArgP", "XCTAssertTrue"]
+- !private ["s7CVarArgP", "XCTFail"]
+- ["s7CVarArgP", ""]
+- !private ["s7CVarArgP", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "count"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "map"]
+- !private ["s7CVarArgP", "subscript"]
+- !private ["Sl", "count"]
+- !private ["Sl", "init"]
+- !private ["Sl", "map"]
+- !private ["Sl", "subscript"]
+- !private ["s28CustomDebugStringConvertibleP", "Path"]
+- !private ["s28CustomDebugStringConvertibleP", "Polygon"]
+- !private ["s28CustomDebugStringConvertibleP", "Set"]
+- !private ["s28CustomDebugStringConvertibleP", "Vector"]
+- !private ["s28CustomDebugStringConvertibleP", "Vertex"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssert"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertEqual"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertFalse"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertNil"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertNotNil"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertTrue"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTFail"]
+- ["s28CustomDebugStringConvertibleP", ""]
+- !private ["s28CustomDebugStringConvertibleP", "count"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "map"]
+- !private ["s28CustomDebugStringConvertibleP", "subscript"]
+- !private ["s29CustomPlaygroundQuickLookableP", "_getBuiltinLogicValue"]
+- !private ["s17CustomReflectableP", "_getBuiltinLogicValue"]
+- !private ["s17CustomReflectableP", "count"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "map"]
+- !private ["s17CustomReflectableP", "subscript"]
+- !private ["s23CustomStringConvertibleP", "Path"]
+- !private ["s23CustomStringConvertibleP", "Polygon"]
+- !private ["s23CustomStringConvertibleP", "Set"]
+- !private ["s23CustomStringConvertibleP", "Vector"]
+- !private ["s23CustomStringConvertibleP", "Vertex"]
+- !private ["s23CustomStringConvertibleP", "XCTAssert"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertEqual"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertFalse"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertNil"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertNotNil"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertTrue"]
+- !private ["s23CustomStringConvertibleP", "XCTFail"]
+- ["s23CustomStringConvertibleP", ""]
+- !private ["s23CustomStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["s23CustomStringConvertibleP", "count"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "map"]
+- !private ["s23CustomStringConvertibleP", "subscript"]
+- !private ["Se", "_getBuiltinLogicValue"]
+- !private ["Se", "count"]
+- !private ["Se", "init"]
+- !private ["Se", "map"]
+- !private ["Se", "subscript"]
+- !private ["SE", "_getBuiltinLogicValue"]
+- !private ["SE", "count"]
+- !private ["SE", "init"]
+- !private ["SE", "map"]
+- !private ["SE", "subscript"]
+- !private ["SQ", "Path"]
+- !private ["SQ", "Polygon"]
+- !private ["SQ", "Set"]
+- !private ["SQ", "Vector"]
+- !private ["SQ", "Vertex"]
+- !private ["SQ", "XCTAssert"]
+- !private ["SQ", "XCTAssertEqual"]
+- !private ["SQ", "XCTAssertFalse"]
+- !private ["SQ", "XCTAssertNil"]
+- !private ["SQ", "XCTAssertNotNil"]
+- !private ["SQ", "XCTAssertTrue"]
+- !private ["SQ", "XCTFail"]
+- ["SQ", ""]
+- !private ["SQ", "_getBuiltinLogicValue"]
+- !private ["SQ", "containsPoint"]
+- !private ["SQ", "count"]
+- !private ["SQ", "init"]
+- !private ["SQ", "init"]
+- !private ["SQ", "inverted"]
+- !private ["SQ", "map"]
+- !private ["SQ", "merge"]
+- !private ["SQ", "normal"]
+- !private ["SQ", "plane"]
+- !private ["SQ", "point"]
+- !private ["SQ", "position"]
+- !private ["SQ", "subscript"]
+- !private ["SQ", "tessellate"]
+- !private ["SQ", "triangulate"]
+- !private ["SQ", "vertices"]
+- !private ["s25ExpressibleByArrayLiteralP", "count"]
+- !private ["s25ExpressibleByArrayLiteralP", "init"]
+- !private ["s25ExpressibleByArrayLiteralP", "map"]
+- !private ["s25ExpressibleByArrayLiteralP", "subscript"]
+- !private ["s27ExpressibleByBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["SH", "Path"]
+- !private ["SH", "Polygon"]
+- !private ["SH", "Set"]
+- !private ["SH", "Vector"]
+- !private ["SH", "Vertex"]
+- !private ["SH", "XCTAssert"]
+- !private ["SH", "XCTAssertEqual"]
+- !private ["SH", "XCTAssertFalse"]
+- !private ["SH", "XCTAssertNil"]
+- !private ["SH", "XCTAssertNotNil"]
+- !private ["SH", "XCTAssertTrue"]
+- !private ["SH", "XCTFail"]
+- ["SH", ""]
+- !private ["SH", "_getBuiltinLogicValue"]
+- !private ["SH", "containsPoint"]
+- !private ["SH", "count"]
+- !private ["SH", "init"]
+- !private ["SH", "init"]
+- !private ["SH", "inverted"]
+- !private ["SH", "map"]
+- !private ["SH", "merge"]
+- !private ["SH", "normal"]
+- !private ["SH", "plane"]
+- !private ["SH", "point"]
+- !private ["SH", "position"]
+- !private ["SH", "subscript"]
+- !private ["SH", "tessellate"]
+- !private ["SH", "triangulate"]
+- !private ["SH", "vertices"]
+- !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
+- !private ["So10MacPolygonV", "init"]
+- !private ["SM", "count"]
+- !private ["SM", "map"]
+- !private ["SM", "subscript"]
+- !private ["So8NSObjectC", "Path"]
+- !private ["So8NSObjectC", "Polygon"]
+- !private ["So8NSObjectC", "Set"]
+- !private ["So8NSObjectC", "Vector"]
+- !private ["So8NSObjectC", "Vertex"]
+- !private ["So8NSObjectC", "XCTAssert"]
+- !private ["So8NSObjectC", "XCTAssertEqual"]
+- !private ["So8NSObjectC", "XCTAssertFalse"]
+- !private ["So8NSObjectC", "XCTAssertNil"]
+- !private ["So8NSObjectC", "XCTAssertNotNil"]
+- !private ["So8NSObjectC", "XCTAssertTrue"]
+- !private ["So8NSObjectC", "XCTFail"]
+- ["So8NSObjectC", "init"]
+- !private ["So8NSObjectC", "init"]
+- ["So8NSObjectC", "testConcaveAnticlockwisePolygonContainsPoint"]
+- ["So8NSObjectC", "testConcaveAnticlockwisePolygonContainsPoint2"]
+- ["So8NSObjectC", "testConcaveAnticlockwisePolygonCorrectlyTessellated"]
+- ["So8NSObjectC", "testConcaveAnticlockwisePolygonCorrectlyTriangulated"]
+- ["So8NSObjectC", "testConcavePolygonAnticlockwiseWinding"]
+- ["So8NSObjectC", "testConcavePolygonClockwiseWinding"]
+- ["So8NSObjectC", "testConvexAnticlockwisePolygonContainsPoint"]
+- ["So8NSObjectC", "testConvexClockwisePolygonContainsPoint"]
+- ["So8NSObjectC", "testConvexPolygonAnticlockwiseWinding"]
+- ["So8NSObjectC", "testConvexPolygonClockwiseWinding"]
+- ["So8NSObjectC", "testDegeneratePolygonWithColinearPoints"]
+- ["So8NSObjectC", "testInvertedConcaveAnticlockwisePolygonCorrectlyTessellated"]
+- ["So8NSObjectC", "testInvertedConcaveAnticlockwisePolygonCorrectlyTriangulated"]
+- ["So8NSObjectC", "testMerge1"]
+- ["So8NSObjectC", "testMerge2"]
+- ["So8NSObjectC", "testMergeB2TAdjacentRects"]
+- ["So8NSObjectC", "testMergeEdgeCase"]
+- ["So8NSObjectC", "testMergeL2RAdjacentRectAndTriangle"]
+- ["So8NSObjectC", "testMergeL2RAdjacentRects"]
+- ["So8NSObjectC", "testMergeR2LAdjacentRects"]
+- ["So8NSObjectC", "testMergeT2BAdjacentRects"]
+- ["So8NSObjectC", "testNonDegeneratePolygonWithColinearPoints"]
+- !private ["So8NSObjectP", "Path"]
+- !private ["So8NSObjectP", "Polygon"]
+- !private ["So8NSObjectP", "Set"]
+- !private ["So8NSObjectP", "Vector"]
+- !private ["So8NSObjectP", "Vertex"]
+- !private ["So8NSObjectP", "XCTAssert"]
+- !private ["So8NSObjectP", "XCTAssertEqual"]
+- !private ["So8NSObjectP", "XCTAssertFalse"]
+- !private ["So8NSObjectP", "XCTAssertNil"]
+- !private ["So8NSObjectP", "XCTAssertNotNil"]
+- !private ["So8NSObjectP", "XCTAssertTrue"]
+- !private ["So8NSObjectP", "XCTFail"]
+- ["So8NSObjectP", ""]
+- !private ["So8NSObjectP", "init"]
+- !private ["So8NSObjectP", "init"]
+- !private ["6Euclid4PathV", "init"]
+- !private ["6Euclid9PathPointV", "point"]
+- !private ["6Euclid5PlaneV", "normal"]
+- !private ["6Euclid7PolygonV", "containsPoint"]
+- !private ["6Euclid7PolygonV", "init"]
+- !private ["6Euclid7PolygonV", "inverted"]
+- !private ["6Euclid7PolygonV", "merge"]
+- !private ["6Euclid7PolygonV", "plane"]
+- !private ["6Euclid7PolygonV", "tessellate"]
+- !private ["6Euclid7PolygonV", "triangulate"]
+- !private ["6Euclid7PolygonV", "vertices"]
+- !private ["11EuclidTests07PolygonB0C", "Path"]
+- !private ["11EuclidTests07PolygonB0C", "Polygon"]
+- !private ["11EuclidTests07PolygonB0C", "Set"]
+- !private ["11EuclidTests07PolygonB0C", "Vector"]
+- !private ["11EuclidTests07PolygonB0C", "Vertex"]
+- !private ["11EuclidTests07PolygonB0C", "XCTAssert"]
+- !private ["11EuclidTests07PolygonB0C", "XCTAssertEqual"]
+- !private ["11EuclidTests07PolygonB0C", "XCTAssertFalse"]
+- !private ["11EuclidTests07PolygonB0C", "XCTAssertNil"]
+- !private ["11EuclidTests07PolygonB0C", "XCTAssertNotNil"]
+- !private ["11EuclidTests07PolygonB0C", "XCTAssertTrue"]
+- !private ["11EuclidTests07PolygonB0C", "XCTFail"]
+- ["11EuclidTests07PolygonB0C", "init"]
+- ["11EuclidTests07PolygonB0C", "testConcaveAnticlockwisePolygonContainsPoint"]
+- ["11EuclidTests07PolygonB0C", "testConcaveAnticlockwisePolygonContainsPoint2"]
+- ["11EuclidTests07PolygonB0C", "testConcaveAnticlockwisePolygonCorrectlyTessellated"]
+- ["11EuclidTests07PolygonB0C", "testConcaveAnticlockwisePolygonCorrectlyTriangulated"]
+- ["11EuclidTests07PolygonB0C", "testConcavePolygonAnticlockwiseWinding"]
+- ["11EuclidTests07PolygonB0C", "testConcavePolygonClockwiseWinding"]
+- ["11EuclidTests07PolygonB0C", "testConvexAnticlockwisePolygonContainsPoint"]
+- ["11EuclidTests07PolygonB0C", "testConvexClockwisePolygonContainsPoint"]
+- ["11EuclidTests07PolygonB0C", "testConvexPolygonAnticlockwiseWinding"]
+- ["11EuclidTests07PolygonB0C", "testConvexPolygonClockwiseWinding"]
+- ["11EuclidTests07PolygonB0C", "testDegeneratePolygonWithColinearPoints"]
+- ["11EuclidTests07PolygonB0C", "testInvertedConcaveAnticlockwisePolygonCorrectlyTessellated"]
+- ["11EuclidTests07PolygonB0C", "testInvertedConcaveAnticlockwisePolygonCorrectlyTriangulated"]
+- ["11EuclidTests07PolygonB0C", "testMerge1"]
+- ["11EuclidTests07PolygonB0C", "testMerge2"]
+- ["11EuclidTests07PolygonB0C", "testMergeB2TAdjacentRects"]
+- ["11EuclidTests07PolygonB0C", "testMergeEdgeCase"]
+- ["11EuclidTests07PolygonB0C", "testMergeL2RAdjacentRectAndTriangle"]
+- ["11EuclidTests07PolygonB0C", "testMergeL2RAdjacentRects"]
+- ["11EuclidTests07PolygonB0C", "testMergeR2LAdjacentRects"]
+- ["11EuclidTests07PolygonB0C", "testMergeT2BAdjacentRects"]
+- ["11EuclidTests07PolygonB0C", "testNonDegeneratePolygonWithColinearPoints"]
+- !private ["Sk", "count"]
+- !private ["Sk", "map"]
+- !private ["Sk", "subscript"]
+- !private ["Sm", "count"]
+- !private ["Sm", "map"]
+- !private ["Sm", "subscript"]
+- !private ["ST", "count"]
+- !private ["ST", "init"]
+- !private ["ST", "map"]
+- !private ["ST", "subscript"]
+- !private ["Sh", "init"]
+- !private ["s10SetAlgebraP", "init"]
+- !private ["s12StaticStringV", "init"]
+- !private ["s12StaticStringV", "init"]
+- !private ["6Euclid6VectorV", "init"]
+- !private ["6Euclid6VertexV", "init"]
+- !private ["6Euclid6VertexV", "position"]
+- !private ["So11XCTActivityP", "Path"]
+- !private ["So11XCTActivityP", "Polygon"]
+- !private ["So11XCTActivityP", "Set"]
+- !private ["So11XCTActivityP", "Vector"]
+- !private ["So11XCTActivityP", "Vertex"]
+- !private ["So11XCTActivityP", "XCTAssert"]
+- !private ["So11XCTActivityP", "XCTAssertEqual"]
+- !private ["So11XCTActivityP", "XCTAssertFalse"]
+- !private ["So11XCTActivityP", "XCTAssertNil"]
+- !private ["So11XCTActivityP", "XCTAssertNotNil"]
+- !private ["So11XCTActivityP", "XCTAssertTrue"]
+- !private ["So11XCTActivityP", "XCTFail"]
+- ["So11XCTActivityP", ""]
+- !private ["So11XCTActivityP", "init"]
+- !private ["So11XCTActivityP", "init"]
+- !private ["So17XCTWaiterDelegateP", "Path"]
+- !private ["So17XCTWaiterDelegateP", "Polygon"]
+- !private ["So17XCTWaiterDelegateP", "Set"]
+- !private ["So17XCTWaiterDelegateP", "Vector"]
+- !private ["So17XCTWaiterDelegateP", "Vertex"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssert"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertEqual"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertFalse"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertNil"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertNotNil"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertTrue"]
+- !private ["So17XCTWaiterDelegateP", "XCTFail"]
+- ["So17XCTWaiterDelegateP", ""]
+- !private ["So17XCTWaiterDelegateP", "init"]
+- !private ["So17XCTWaiterDelegateP", "init"]
+- !private ["So6XCTestC", "Path"]
+- !private ["So6XCTestC", "Polygon"]
+- !private ["So6XCTestC", "Set"]
+- !private ["So6XCTestC", "Vector"]
+- !private ["So6XCTestC", "Vertex"]
+- !private ["So6XCTestC", "XCTAssert"]
+- !private ["So6XCTestC", "XCTAssertEqual"]
+- !private ["So6XCTestC", "XCTAssertFalse"]
+- !private ["So6XCTestC", "XCTAssertNil"]
+- !private ["So6XCTestC", "XCTAssertNotNil"]
+- !private ["So6XCTestC", "XCTAssertTrue"]
+- !private ["So6XCTestC", "XCTFail"]
+- ["So6XCTestC", "init"]
+- !private ["So6XCTestC", "init"]
+- ["So6XCTestC", "testConcaveAnticlockwisePolygonContainsPoint"]
+- ["So6XCTestC", "testConcaveAnticlockwisePolygonContainsPoint2"]
+- ["So6XCTestC", "testConcaveAnticlockwisePolygonCorrectlyTessellated"]
+- ["So6XCTestC", "testConcaveAnticlockwisePolygonCorrectlyTriangulated"]
+- ["So6XCTestC", "testConcavePolygonAnticlockwiseWinding"]
+- ["So6XCTestC", "testConcavePolygonClockwiseWinding"]
+- ["So6XCTestC", "testConvexAnticlockwisePolygonContainsPoint"]
+- ["So6XCTestC", "testConvexClockwisePolygonContainsPoint"]
+- ["So6XCTestC", "testConvexPolygonAnticlockwiseWinding"]
+- ["So6XCTestC", "testConvexPolygonClockwiseWinding"]
+- ["So6XCTestC", "testDegeneratePolygonWithColinearPoints"]
+- ["So6XCTestC", "testInvertedConcaveAnticlockwisePolygonCorrectlyTessellated"]
+- ["So6XCTestC", "testInvertedConcaveAnticlockwisePolygonCorrectlyTriangulated"]
+- ["So6XCTestC", "testMerge1"]
+- ["So6XCTestC", "testMerge2"]
+- ["So6XCTestC", "testMergeB2TAdjacentRects"]
+- ["So6XCTestC", "testMergeEdgeCase"]
+- ["So6XCTestC", "testMergeL2RAdjacentRectAndTriangle"]
+- ["So6XCTestC", "testMergeL2RAdjacentRects"]
+- ["So6XCTestC", "testMergeR2LAdjacentRects"]
+- ["So6XCTestC", "testMergeT2BAdjacentRects"]
+- ["So6XCTestC", "testNonDegeneratePolygonWithColinearPoints"]
+- !private ["So10XCTestCaseC", "Path"]
+- !private ["So10XCTestCaseC", "Polygon"]
+- !private ["So10XCTestCaseC", "Set"]
+- !private ["So10XCTestCaseC", "Vector"]
+- !private ["So10XCTestCaseC", "Vertex"]
+- !private ["So10XCTestCaseC", "XCTAssert"]
+- !private ["So10XCTestCaseC", "XCTAssertEqual"]
+- !private ["So10XCTestCaseC", "XCTAssertFalse"]
+- !private ["So10XCTestCaseC", "XCTAssertNil"]
+- !private ["So10XCTestCaseC", "XCTAssertNotNil"]
+- !private ["So10XCTestCaseC", "XCTAssertTrue"]
+- !private ["So10XCTestCaseC", "XCTFail"]
+- ["So10XCTestCaseC", ""]
+- ["So10XCTestCaseC", "init"]
+- !private ["So10XCTestCaseC", "init"]
+- ["So10XCTestCaseC", "testConcaveAnticlockwisePolygonContainsPoint"]
+- ["So10XCTestCaseC", "testConcaveAnticlockwisePolygonContainsPoint2"]
+- ["So10XCTestCaseC", "testConcaveAnticlockwisePolygonCorrectlyTessellated"]
+- ["So10XCTestCaseC", "testConcaveAnticlockwisePolygonCorrectlyTriangulated"]
+- ["So10XCTestCaseC", "testConcavePolygonAnticlockwiseWinding"]
+- ["So10XCTestCaseC", "testConcavePolygonClockwiseWinding"]
+- ["So10XCTestCaseC", "testConvexAnticlockwisePolygonContainsPoint"]
+- ["So10XCTestCaseC", "testConvexClockwisePolygonContainsPoint"]
+- ["So10XCTestCaseC", "testConvexPolygonAnticlockwiseWinding"]
+- ["So10XCTestCaseC", "testConvexPolygonClockwiseWinding"]
+- ["So10XCTestCaseC", "testDegeneratePolygonWithColinearPoints"]
+- ["So10XCTestCaseC", "testInvertedConcaveAnticlockwisePolygonCorrectlyTessellated"]
+- ["So10XCTestCaseC", "testInvertedConcaveAnticlockwisePolygonCorrectlyTriangulated"]
+- ["So10XCTestCaseC", "testMerge1"]
+- ["So10XCTestCaseC", "testMerge2"]
+- ["So10XCTestCaseC", "testMergeB2TAdjacentRects"]
+- ["So10XCTestCaseC", "testMergeEdgeCase"]
+- ["So10XCTestCaseC", "testMergeL2RAdjacentRectAndTriangle"]
+- ["So10XCTestCaseC", "testMergeL2RAdjacentRects"]
+- ["So10XCTestCaseC", "testMergeR2LAdjacentRects"]
+- ["So10XCTestCaseC", "testMergeT2BAdjacentRects"]
+- ["So10XCTestCaseC", "testNonDegeneratePolygonWithColinearPoints"]
+- !private ["s24_DestructorSafeContainerP", "count"]
+- !private ["s24_DestructorSafeContainerP", "map"]
+- !private ["s24_DestructorSafeContainerP", "subscript"]
+- !private ["s35_ExpressibleByBuiltinBooleanLiteralP", "_getBuiltinLogicValue"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "count"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "init"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "map"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "subscript"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Path"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Polygon"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Set"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Vector"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Vertex"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssert"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertEqual"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertFalse"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertNil"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertNotNil"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertTrue"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTFail"]
+- ["10Foundation27_KeyValueCodingAndObservingP", ""]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "init"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "_getBuiltinLogicValue"]
+- !private ["s21_ObjectiveCBridgeableP", "count"]
+- !private ["s21_ObjectiveCBridgeableP", "init"]
+- !private ["s21_ObjectiveCBridgeableP", "map"]
+- !private ["s21_ObjectiveCBridgeableP", "subscript"]
+depends-nominal:
+- !private "Sa"
+- !private "s13ArrayProtocolP"
+- !private "SK"
+- !private "Sb"
+- "s7CVarArgP"
+- !private "Sl"
+- "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- "s23CustomStringConvertibleP"
+- !private "Se"
+- !private "SE"
+- "SQ"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s27ExpressibleByBooleanLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- "SH"
+- !private "s25LosslessStringConvertibleP"
+- !private "So10MacPolygonV"
+- !private "SM"
+- "So8NSObjectC"
+- "So8NSObjectP"
+- !private "6Euclid4PathV"
+- !private "6Euclid9PathPointV"
+- !private "6Euclid5PlaneV"
+- !private "6Euclid7PolygonV"
+- "11EuclidTests07PolygonB0C"
+- !private "Sk"
+- !private "Sm"
+- !private "ST"
+- !private "Sh"
+- !private "s10SetAlgebraP"
+- !private "s12StaticStringV"
+- !private "6Euclid6VectorV"
+- !private "6Euclid6VertexV"
+- "So11XCTActivityP"
+- "So17XCTWaiterDelegateP"
+- "So6XCTestC"
+- "So10XCTestCaseC"
+- !private "s24_DestructorSafeContainerP"
+- !private "s35_ExpressibleByBuiltinBooleanLiteralP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s35_HasCustomAnyHashableRepresentationP"
+- "10Foundation27_KeyValueCodingAndObservingP"
+- !private "s21_ObjectiveCBridgeableP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XPC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ModelIO.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreData.swiftmodule"
+- "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/simd.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Metal.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/GLKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/IOKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SceneKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/AppKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XCTest.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/xpc/XPC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ModelIO.framework/Headers/ModelIO.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreData.framework/Headers/CoreData.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreImage.framework/Headers/CoreImage.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/QuartzCore.framework/Headers/QuartzCore.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ApplicationServices.framework/Headers/ApplicationServices.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/GLKit.framework/Headers/GLKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/SceneKit.framework/Headers/SceneKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTest.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
+interface-hash: "5187aae30e476585ab47756b2e144a4f"

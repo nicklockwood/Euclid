@@ -1,0 +1,296 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "UtilityTests"
+provides-nominal:
+- "11EuclidTests07UtilityB0C"
+provides-member:
+- ["11EuclidTests07UtilityB0C", ""]
+provides-dynamic-lookup:
+- "testColinearPointsDontPreventConvexness"
+- "testConvexnessResultNotAffectedByTranslation"
+- "testDegenerateColinearVertices"
+- "testDegenerateVerticesWithZeroLengthEdge"
+- "testNonDegenerateColinearVertices"
+depends-top-level:
+- !private "Array"
+- !private "FloatLiteralType"
+- !private "IntegerLiteralType"
+- !private "StringLiteralType"
+- "UtilityTests"
+- !private "Vector"
+- !private "Vertex"
+- !private "XCTAssertFalse"
+- !private "XCTAssertTrue"
+- "XCTestCase"
+- !private "pointsAreConvex"
+- !private "verticesAreConvex"
+- !private "verticesAreDegenerate"
+depends-member:
+- !private ["Sa", "map"]
+- !private ["s13ArrayProtocolP", "map"]
+- !private ["SK", "map"]
+- !private ["s7CVarArgP", "Vector"]
+- !private ["s7CVarArgP", "Vertex"]
+- !private ["s7CVarArgP", "XCTAssertFalse"]
+- !private ["s7CVarArgP", "XCTAssertTrue"]
+- ["s7CVarArgP", ""]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s7CVarArgP", "map"]
+- !private ["s7CVarArgP", "pointsAreConvex"]
+- !private ["s7CVarArgP", "verticesAreConvex"]
+- !private ["s7CVarArgP", "verticesAreDegenerate"]
+- !private ["Sl", "map"]
+- !private ["s28CustomDebugStringConvertibleP", "Vector"]
+- !private ["s28CustomDebugStringConvertibleP", "Vertex"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertFalse"]
+- !private ["s28CustomDebugStringConvertibleP", "XCTAssertTrue"]
+- ["s28CustomDebugStringConvertibleP", ""]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s28CustomDebugStringConvertibleP", "map"]
+- !private ["s28CustomDebugStringConvertibleP", "pointsAreConvex"]
+- !private ["s28CustomDebugStringConvertibleP", "verticesAreConvex"]
+- !private ["s28CustomDebugStringConvertibleP", "verticesAreDegenerate"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s17CustomReflectableP", "map"]
+- !private ["s23CustomStringConvertibleP", "Vector"]
+- !private ["s23CustomStringConvertibleP", "Vertex"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertFalse"]
+- !private ["s23CustomStringConvertibleP", "XCTAssertTrue"]
+- ["s23CustomStringConvertibleP", ""]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s23CustomStringConvertibleP", "map"]
+- !private ["s23CustomStringConvertibleP", "pointsAreConvex"]
+- !private ["s23CustomStringConvertibleP", "verticesAreConvex"]
+- !private ["s23CustomStringConvertibleP", "verticesAreDegenerate"]
+- !private ["Se", "map"]
+- !private ["SE", "map"]
+- !private ["SQ", "Vector"]
+- !private ["SQ", "Vertex"]
+- !private ["SQ", "XCTAssertFalse"]
+- !private ["SQ", "XCTAssertTrue"]
+- ["SQ", ""]
+- !private ["SQ", "init"]
+- !private ["SQ", "init"]
+- !private ["SQ", "map"]
+- !private ["SQ", "pointsAreConvex"]
+- !private ["SQ", "translated"]
+- !private ["SQ", "verticesAreConvex"]
+- !private ["SQ", "verticesAreDegenerate"]
+- !private ["s25ExpressibleByArrayLiteralP", "map"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["SH", "Vector"]
+- !private ["SH", "Vertex"]
+- !private ["SH", "XCTAssertFalse"]
+- !private ["SH", "XCTAssertTrue"]
+- ["SH", ""]
+- !private ["SH", "init"]
+- !private ["SH", "init"]
+- !private ["SH", "map"]
+- !private ["SH", "pointsAreConvex"]
+- !private ["SH", "translated"]
+- !private ["SH", "verticesAreConvex"]
+- !private ["SH", "verticesAreDegenerate"]
+- !private ["SM", "map"]
+- !private ["So8NSObjectC", "Vector"]
+- !private ["So8NSObjectC", "Vertex"]
+- !private ["So8NSObjectC", "XCTAssertFalse"]
+- !private ["So8NSObjectC", "XCTAssertTrue"]
+- ["So8NSObjectC", "init"]
+- !private ["So8NSObjectC", "init"]
+- !private ["So8NSObjectC", "pointsAreConvex"]
+- ["So8NSObjectC", "testColinearPointsDontPreventConvexness"]
+- ["So8NSObjectC", "testConvexnessResultNotAffectedByTranslation"]
+- ["So8NSObjectC", "testDegenerateColinearVertices"]
+- ["So8NSObjectC", "testDegenerateVerticesWithZeroLengthEdge"]
+- ["So8NSObjectC", "testNonDegenerateColinearVertices"]
+- !private ["So8NSObjectC", "verticesAreConvex"]
+- !private ["So8NSObjectC", "verticesAreDegenerate"]
+- !private ["So8NSObjectP", "Vector"]
+- !private ["So8NSObjectP", "Vertex"]
+- !private ["So8NSObjectP", "XCTAssertFalse"]
+- !private ["So8NSObjectP", "XCTAssertTrue"]
+- ["So8NSObjectP", ""]
+- !private ["So8NSObjectP", "init"]
+- !private ["So8NSObjectP", "init"]
+- !private ["So8NSObjectP", "pointsAreConvex"]
+- !private ["So8NSObjectP", "verticesAreConvex"]
+- !private ["So8NSObjectP", "verticesAreDegenerate"]
+- !private ["Sk", "map"]
+- !private ["Sm", "map"]
+- !private ["ST", "map"]
+- !private ["s12StaticStringV", "init"]
+- !private ["s12StaticStringV", "init"]
+- !private ["11EuclidTests07UtilityB0C", "Vector"]
+- !private ["11EuclidTests07UtilityB0C", "Vertex"]
+- !private ["11EuclidTests07UtilityB0C", "XCTAssertFalse"]
+- !private ["11EuclidTests07UtilityB0C", "XCTAssertTrue"]
+- ["11EuclidTests07UtilityB0C", "init"]
+- !private ["11EuclidTests07UtilityB0C", "pointsAreConvex"]
+- ["11EuclidTests07UtilityB0C", "testColinearPointsDontPreventConvexness"]
+- ["11EuclidTests07UtilityB0C", "testConvexnessResultNotAffectedByTranslation"]
+- ["11EuclidTests07UtilityB0C", "testDegenerateColinearVertices"]
+- ["11EuclidTests07UtilityB0C", "testDegenerateVerticesWithZeroLengthEdge"]
+- ["11EuclidTests07UtilityB0C", "testNonDegenerateColinearVertices"]
+- !private ["11EuclidTests07UtilityB0C", "verticesAreConvex"]
+- !private ["11EuclidTests07UtilityB0C", "verticesAreDegenerate"]
+- !private ["6Euclid6VectorV", "init"]
+- !private ["6Euclid6VertexV", "init"]
+- !private ["6Euclid6VertexV", "translated"]
+- !private ["So11XCTActivityP", "Vector"]
+- !private ["So11XCTActivityP", "Vertex"]
+- !private ["So11XCTActivityP", "XCTAssertFalse"]
+- !private ["So11XCTActivityP", "XCTAssertTrue"]
+- ["So11XCTActivityP", ""]
+- !private ["So11XCTActivityP", "init"]
+- !private ["So11XCTActivityP", "init"]
+- !private ["So11XCTActivityP", "pointsAreConvex"]
+- !private ["So11XCTActivityP", "verticesAreConvex"]
+- !private ["So11XCTActivityP", "verticesAreDegenerate"]
+- !private ["So17XCTWaiterDelegateP", "Vector"]
+- !private ["So17XCTWaiterDelegateP", "Vertex"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertFalse"]
+- !private ["So17XCTWaiterDelegateP", "XCTAssertTrue"]
+- ["So17XCTWaiterDelegateP", ""]
+- !private ["So17XCTWaiterDelegateP", "init"]
+- !private ["So17XCTWaiterDelegateP", "init"]
+- !private ["So17XCTWaiterDelegateP", "pointsAreConvex"]
+- !private ["So17XCTWaiterDelegateP", "verticesAreConvex"]
+- !private ["So17XCTWaiterDelegateP", "verticesAreDegenerate"]
+- !private ["So6XCTestC", "Vector"]
+- !private ["So6XCTestC", "Vertex"]
+- !private ["So6XCTestC", "XCTAssertFalse"]
+- !private ["So6XCTestC", "XCTAssertTrue"]
+- ["So6XCTestC", "init"]
+- !private ["So6XCTestC", "init"]
+- !private ["So6XCTestC", "pointsAreConvex"]
+- ["So6XCTestC", "testColinearPointsDontPreventConvexness"]
+- ["So6XCTestC", "testConvexnessResultNotAffectedByTranslation"]
+- ["So6XCTestC", "testDegenerateColinearVertices"]
+- ["So6XCTestC", "testDegenerateVerticesWithZeroLengthEdge"]
+- ["So6XCTestC", "testNonDegenerateColinearVertices"]
+- !private ["So6XCTestC", "verticesAreConvex"]
+- !private ["So6XCTestC", "verticesAreDegenerate"]
+- !private ["So10XCTestCaseC", "Vector"]
+- !private ["So10XCTestCaseC", "Vertex"]
+- !private ["So10XCTestCaseC", "XCTAssertFalse"]
+- !private ["So10XCTestCaseC", "XCTAssertTrue"]
+- ["So10XCTestCaseC", ""]
+- ["So10XCTestCaseC", "init"]
+- !private ["So10XCTestCaseC", "init"]
+- !private ["So10XCTestCaseC", "pointsAreConvex"]
+- ["So10XCTestCaseC", "testColinearPointsDontPreventConvexness"]
+- ["So10XCTestCaseC", "testConvexnessResultNotAffectedByTranslation"]
+- ["So10XCTestCaseC", "testDegenerateColinearVertices"]
+- ["So10XCTestCaseC", "testDegenerateVerticesWithZeroLengthEdge"]
+- ["So10XCTestCaseC", "testNonDegenerateColinearVertices"]
+- !private ["So10XCTestCaseC", "verticesAreConvex"]
+- !private ["So10XCTestCaseC", "verticesAreDegenerate"]
+- !private ["s24_DestructorSafeContainerP", "map"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "map"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Vector"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "Vertex"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertFalse"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "XCTAssertTrue"]
+- ["10Foundation27_KeyValueCodingAndObservingP", ""]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "init"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "init"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "pointsAreConvex"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "verticesAreConvex"]
+- !private ["10Foundation27_KeyValueCodingAndObservingP", "verticesAreDegenerate"]
+- !private ["s21_ObjectiveCBridgeableP", "map"]
+depends-nominal:
+- !private "Sa"
+- !private "s13ArrayProtocolP"
+- !private "SK"
+- "s7CVarArgP"
+- !private "Sl"
+- "s28CustomDebugStringConvertibleP"
+- !private "s17CustomReflectableP"
+- "s23CustomStringConvertibleP"
+- !private "Se"
+- !private "SE"
+- "SQ"
+- !private "s25ExpressibleByArrayLiteralP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- "SH"
+- !private "SM"
+- "So8NSObjectC"
+- "So8NSObjectP"
+- !private "Sk"
+- !private "Sm"
+- !private "ST"
+- !private "s12StaticStringV"
+- "11EuclidTests07UtilityB0C"
+- !private "6Euclid6VectorV"
+- !private "6Euclid6VertexV"
+- "So11XCTActivityP"
+- "So17XCTWaiterDelegateP"
+- "So6XCTestC"
+- "So10XCTestCaseC"
+- !private "s24_DestructorSafeContainerP"
+- !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s34_ExpressibleByBuiltinStringLiteralP"
+- !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
+- !private "s35_HasCustomAnyHashableRepresentationP"
+- "10Foundation27_KeyValueCodingAndObservingP"
+- !private "s21_ObjectiveCBridgeableP"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XPC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ModelIO.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreData.swiftmodule"
+- "/Users/nick/Dropbox/Open Source (GIT)/Euclid/.build/x86_64-apple-macosx10.10/debug/Euclid.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/simd.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Metal.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/GLKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/IOKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SceneKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/AppKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XCTest.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/xpc/XPC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/objc/ObjectiveC.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ModelIO.framework/Headers/ModelIO.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreData.framework/Headers/CoreData.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreImage.framework/Headers/CoreImage.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/QuartzCore.framework/Headers/QuartzCore.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Metal.framework/Headers/Metal.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/Darwin.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CoreGraphics.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/ApplicationServices.framework/Headers/ApplicationServices.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/GLKit.framework/Headers/GLKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/SceneKit.framework/Headers/SceneKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTest.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
+interface-hash: "1c489a7312b77a3f6039255066e442f8"

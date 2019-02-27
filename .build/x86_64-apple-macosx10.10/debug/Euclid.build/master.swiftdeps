@@ -1,0 +1,16 @@
+version: "Apple Swift version 4.2.1 (swiftlang-1000.11.42 clang-1000.11.45.1)"
+options: "9b45890221ebc36ad1f3d70259f7a429"
+build_time: [1551298248, 657981000]
+inputs:
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Bounds.swift": [1544610593, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/CSG.swift": [1551298138, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Mesh.swift": [1548161266, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Paths.swift": [1548147112, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Plane.swift": [1548147036, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Polygon.swift": [1548186352, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/SceneKit.swift": [1551298232, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Shapes.swift": [1551298228, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Transforms.swift": [1548147022, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Utilities.swift": [1548186221, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Vector.swift": [1548147045, 0]
+  "/Users/nick/Dropbox/Open Source (GIT)/Euclid/Sources/Vertex.swift": [1551298121, 0]
