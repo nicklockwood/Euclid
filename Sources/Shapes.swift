@@ -35,7 +35,7 @@ import Foundation
 
 public extension Path {
     /// Create a closed circular path
-    static func circle(radius r: Double = 1, segments: Int = 16) -> Path {
+    static func circle(radius r: Double = 0.5, segments: Int = 16) -> Path {
         let r = max(abs(r), epsilon)
         let segments = max(3, segments)
         let step = 2 * .pi / Double(segments)
