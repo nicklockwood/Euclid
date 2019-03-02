@@ -47,6 +47,17 @@ public extension Path {
         return Path(unchecked: points, plane: .xy)
     }
 
+    /// Create a closed elliptical path
+    static func ellipse(width: Double, height: Double, segments: Int = 16) -> Path {
+        var points = [PathPoint]()
+        let halfWidth = width * 0.5
+        let halfHeight = height * 0.5
+        for angle: Double in stride(from: 0, through: .pi * 2, by: .pi * 2 / Double(segments)) {
+            points.append(.curve(halfWidth * cos(angle), halfHeight * sin(angle)))
+        }
+        return Path(unchecked: points, plane: .xy)
+    }
+
     /// Create a closed rectangular path
     static func rectangle(width: Double, height: Double) -> Path {
         let w = width / 2, h = height / 2
@@ -289,6 +300,23 @@ public extension Mesh {
             wrapMode: wrapMode,
             material: material
         )
+    }
+
+    static func ellipticCylinder(width: Double = 1,
+                                 depth: Double = 2,
+                                 height: Double = 1,
+                                 segments: Int = 16,
+                                 poleDetail: Int = 0,
+                                 faces: Faces = .default,
+                                 material: Polygon.Material = nil) -> Mesh {
+        return extrude(
+            Path.ellipse(width: width,
+                     height: depth,
+                     segments: segments)
+                .rotated(by: Rotation(pitch: .pi/2)),
+            depth: height,
+            faces: faces,
+            material: material)
     }
 
     /// Construct as conical mesh
