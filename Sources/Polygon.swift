@@ -177,6 +177,7 @@ public extension Polygon {
             }
             if let triangle = triangle, addTriangle(triangle.vertices) {
                 vertices.remove(at: i)
+                attempts = 0
                 if i == vertices.count {
                     i = 0
                 }
