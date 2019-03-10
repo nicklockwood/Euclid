@@ -187,7 +187,9 @@ public extension Polygon {
                     i = 0
                     attempts += 1
                     if attempts > 2 {
-                        return []
+                        // TODO: figure out why this can sometimes happen for
+                        // legitimate geometry
+                        return triangles
                     }
                 }
             }
