@@ -4,6 +4,7 @@
 # Xcode
 build/
 html/
+.build
 *.pbxuser
 !default.pbxuser
 *.mode1v3

@@ -164,6 +164,7 @@
         }
 
         /// Creates an SCNGeometry from a Mesh using convex polygons
+        @available(OSX 10.12, iOS 10.0, *)
         convenience init(polygons mesh: Mesh, materialLookup: ((Polygon.Material) -> SCNMaterial)? = nil) {
             var elementData = [(Int, Data)]()
             var vertexData = Data()
