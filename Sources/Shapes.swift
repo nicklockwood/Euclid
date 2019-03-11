@@ -494,7 +494,7 @@ public extension Mesh {
         let count = shapes.count
         let isClosed = (shapes.first == shapes.last)
         if count < 3, isClosed {
-            return fill(shapes[0])
+            return fill(shapes[0], material: material)
         }
         func directionBetweenShapes(_ s0: Path, _ s1: Path) -> Vector? {
             if let p0 = s0.points.first, let p1 = s1.points.first {
