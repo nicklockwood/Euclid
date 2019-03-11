@@ -36,24 +36,16 @@ import Foundation
 public extension Path {
     /// Create a closed circular path
     static func circle(radius r: Double = 0.5, segments: Int = 16) -> Path {
-        let r = max(abs(r), epsilon)
-        let segments = max(3, segments)
-        let step = 2 * .pi / Double(segments)
-        var points = [PathPoint]()
-        for i in 0 ... segments {
-            let a = Double(i) * step
-            points.append(.curve(-sin(a) * r, cos(a) * r))
-        }
-        return Path(unchecked: points, plane: .xy)
+        return ellipse(width: r * 2, height: r * 2, segments: segments)
     }
 
     /// Create a closed elliptical path
     static func ellipse(width: Double, height: Double, segments: Int = 16) -> Path {
         var points = [PathPoint]()
-        let halfWidth = width * 0.5
-        let halfHeight = height * 0.5
-        for angle: Double in stride(from: 0, through: .pi * 2, by: .pi * 2 / Double(segments)) {
-            points.append(.curve(halfWidth * cos(angle), halfHeight * sin(angle)))
+        let segments = max(3, Double(segments))
+        let w = max(abs(width / 2), epsilon), h = max(abs(height / 2), epsilon)
+        for angle in stride(from: 0, through: 2 * .pi, by: 2 * .pi / segments) {
+            points.append(.curve(w * -sin(angle), h * cos(angle)))
         }
         return Path(unchecked: points, plane: .xy)
     }
@@ -300,23 +292,6 @@ public extension Mesh {
             wrapMode: wrapMode,
             material: material
         )
-    }
-
-    static func ellipticCylinder(width: Double = 1,
-                                 depth: Double = 2,
-                                 height: Double = 1,
-                                 segments: Int = 16,
-                                 poleDetail: Int = 0,
-                                 faces: Faces = .default,
-                                 material: Polygon.Material = nil) -> Mesh {
-        return extrude(
-            Path.ellipse(width: width,
-                     height: depth,
-                     segments: segments)
-                .rotated(by: Rotation(pitch: .pi/2)),
-            depth: height,
-            faces: faces,
-            material: material)
     }
 
     /// Construct as conical mesh

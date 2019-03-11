@@ -407,6 +407,40 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices[7].normal, Vector(0, 1))
     }
 
+    func testEdgeVerticesForEllipse() {
+        let path = Path.ellipse(width: 4, height: 2, segments: 4)
+        let vertices = path.edgeVertices
+        XCTAssertEqual(vertices.count, 8)
+        guard vertices.count >= 8 else { return }
+        // positions
+        XCTAssertEqual(vertices[0].position, Vector(0, 1))
+        XCTAssertEqual(vertices[1].position, Vector(-2, 0))
+        XCTAssertEqual(vertices[2].position, Vector(-2, 0))
+        XCTAssertEqual(vertices[3].position, Vector(0, -1))
+        XCTAssertEqual(vertices[4].position, Vector(0, -1))
+        XCTAssertEqual(vertices[5].position, Vector(2, 0))
+        XCTAssertEqual(vertices[6].position, Vector(2, 0))
+        XCTAssertEqual(vertices[7].position, Vector(0, 1))
+        // texture coords
+        XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
+        XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[2].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[3].texcoord, Vector(0, 0.5))
+        XCTAssertEqual(vertices[4].texcoord, Vector(0, 0.5))
+        XCTAssertEqual(vertices[5].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[6].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[7].texcoord, Vector(0, 1))
+        // normals
+        XCTAssertEqual(vertices[0].normal, Vector(0, 1))
+        XCTAssertEqual(vertices[1].normal, Vector(-1, 0))
+        XCTAssertEqual(vertices[2].normal, Vector(-1, 0))
+        XCTAssertEqual(vertices[3].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[4].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[5].normal, Vector(1, 0))
+        XCTAssertEqual(vertices[6].normal, Vector(1, 0))
+        XCTAssertEqual(vertices[7].normal, Vector(0, 1))
+    }
+
     func testEdgeVerticesForSemicircle() {
         let path = Path([
             .curve(0, 1),

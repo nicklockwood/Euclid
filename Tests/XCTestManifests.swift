@@ -40,6 +40,7 @@ extension PathTests {
         ("testConvexOpenPathAnticlockwiseWinding", testConvexOpenPathAnticlockwiseWinding),
         ("testConvexOpenPathClockwiseWinding", testConvexOpenPathClockwiseWinding),
         ("testEdgeVerticesForCircle", testEdgeVerticesForCircle),
+        ("testEdgeVerticesForEllipse", testEdgeVerticesForEllipse),
         ("testEdgeVerticesForSemicircle", testEdgeVerticesForSemicircle),
         ("testEdgeVerticesForSharpEdgedCylinder", testEdgeVerticesForSharpEdgedCylinder),
         ("testEdgeVerticesForSmoothedClosedRect", testEdgeVerticesForSmoothedClosedRect),
