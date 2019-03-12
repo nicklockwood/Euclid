@@ -125,6 +125,14 @@ extension ShapeTests {
     ]
 }
 
+extension TextTests {
+    static let __allTests = [
+        ("testTextMeshWithAttributedString", testTextMeshWithAttributedString),
+        ("testTextMeshWithString", testTextMeshWithString),
+        ("testTextPaths", testTextPaths),
+    ]
+}
+
 extension TransformTests {
     static let __allTests = [
         ("testAxisAngleRotation1", testAxisAngleRotation1),
@@ -163,6 +171,7 @@ public func __allTests() -> [XCTestCaseEntry] {
         testCase(PlaneTests.__allTests),
         testCase(PolygonTests.__allTests),
         testCase(ShapeTests.__allTests),
+        testCase(TextTests.__allTests),
         testCase(TransformTests.__allTests),
         testCase(UtilityTests.__allTests),
     ]
