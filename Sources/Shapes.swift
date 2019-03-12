@@ -163,15 +163,6 @@ public extension Path {
     }
 }
 
-private func quadraticBezier(_ p0: Double, _ p1: Double,
-                             _ p2: Double, _ t: Double) -> Double {
-    let oneMinusT = 1 - t
-    let c0 = oneMinusT * oneMinusT * p0
-    let c1 = 2 * oneMinusT * t * p1
-    let c2 = t * t * p2
-    return c0 + c1 + c2
-}
-
 public extension Mesh {
     enum Faces {
         case front

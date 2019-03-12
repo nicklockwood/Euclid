@@ -172,3 +172,23 @@ func flattenedPointsAreClockwise(_ points: [Vector]) -> Bool {
     // abs(sum / 2) is the area of the polygon
     return sum > 0
 }
+
+// MARK: Curve utilities
+
+func quadraticBezier(_ p0: Double, _ p1: Double, _ p2: Double, _ t: Double) -> Double {
+    let oneMinusT = 1 - t
+    let c0 = oneMinusT * oneMinusT * p0
+    let c1 = 2 * oneMinusT * t * p1
+    let c2 = t * t * p2
+    return c0 + c1 + c2
+}
+
+func cubicBezier(_ p0: Double, _ p1: Double, _ p2: Double, _ p3: Double, _ t: Double) -> Double {
+    let oneMinusT = 1 - t
+    let oneMinusTSquared = oneMinusT * oneMinusT
+    let c0 = oneMinusTSquared * oneMinusT * p0
+    let c1 = 3 * oneMinusTSquared * t * p1
+    let c2 = 3 * oneMinusT * t * t * p2
+    let c3 = t * t * t * p3
+    return c0 + c1 + c2 + c3
+}
