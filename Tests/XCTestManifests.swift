@@ -1,5 +1,14 @@
 import XCTest
 
+extension CGPathTests {
+    static let __allTests = [
+        ("testClosedLineAndQuadCurveCGPath", testClosedLineAndQuadCurveCGPath),
+        ("testRectangularCGPath", testRectangularCGPath),
+        ("testUnclosedLineAndCubicCurveCGPath", testUnclosedLineAndCubicCurveCGPath),
+        ("testUnclosedLineAndQuadCurveCGPath", testUnclosedLineAndQuadCurveCGPath),
+    ]
+}
+
 extension CSGTests {
     static let __allTests = [
         ("testIntersectionOfAdjacentBoxes", testIntersectionOfAdjacentBoxes),
@@ -21,6 +30,12 @@ extension CSGTests {
         ("testUnionOfCoincidingSquares", testUnionOfCoincidingSquares),
         ("testUnionOfOverlappingBoxes", testUnionOfOverlappingBoxes),
         ("testUnionOfOverlappingSquares", testUnionOfOverlappingSquares),
+        ("testXorAdjacentCubes", testXorAdjacentCubes),
+        ("testXorAdjacentSquares", testXorAdjacentSquares),
+        ("testXorCoincidingCubes", testXorCoincidingCubes),
+        ("testXorCoincidingSquares", testXorCoincidingSquares),
+        ("testXorOverlappingCubes", testXorOverlappingCubes),
+        ("testXorOverlappingSquares", testXorOverlappingSquares),
     ]
 }
 
@@ -142,6 +157,7 @@ extension UtilityTests {
 #if !os(macOS)
 public func __allTests() -> [XCTestCaseEntry] {
     return [
+        testCase(CGPathTests.__allTests),
         testCase(CSGTests.__allTests),
         testCase(PathTests.__allTests),
         testCase(PlaneTests.__allTests),

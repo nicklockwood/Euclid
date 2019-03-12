@@ -45,6 +45,32 @@ class CSGTests: XCTestCase {
         ))
     }
 
+    // MARK: XOR
+
+    func testXorCoincidingCubes() {
+        let a = Mesh.cube()
+        let b = Mesh.cube()
+        let c = a.xor(b)
+        XCTAssert(c.polygons.isEmpty)
+    }
+
+    func testXorAdjacentCubes() {
+        let a = Mesh.cube()
+        let b = Mesh.cube().translated(by: Vector(1, 0, 0))
+        let c = a.xor(b)
+        XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
+    }
+
+    func testXorOverlappingCubes() {
+        let a = Mesh.cube()
+        let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
+        let c = a.xor(b)
+        XCTAssertEqual(c.bounds, Bounds(
+            min: Vector(-0.5, -0.5, -0.5),
+            max: Vector(1.0, 0.5, 0.5)
+        ))
+    }
+
     // MARK: Union
 
     func testUnionOfCoincidingBoxes() {
@@ -125,6 +151,32 @@ class CSGTests: XCTestCase {
         XCTAssertEqual(c.bounds, Bounds(
             min: Vector(-0.5, -0.5, 0),
             max: Vector(0, 0.5, 0)
+        ))
+    }
+    
+    // MARK: Planar XOR
+
+    func testXorCoincidingSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square())
+        let c = a.xor(b)
+        XCTAssert(c.polygons.isEmpty)
+    }
+
+    func testXorAdjacentSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square()).translated(by: Vector(1, 0, 0))
+        let c = a.xor(b)
+        XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
+    }
+
+    func testXorOverlappingSquares() {
+        let a = Mesh.fill(.square())
+        let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
+        let c = a.xor(b)
+        XCTAssertEqual(c.bounds, Bounds(
+            min: Vector(-0.5, -0.5, 0),
+            max: Vector(1.0, 0.5, 0)
         ))
     }
 

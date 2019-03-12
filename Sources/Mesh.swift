@@ -51,7 +51,7 @@ public extension Mesh {
         return polygonsByMaterial
     }
 
-    /// Construct a CSG solid from a list of `Polygon` instances.
+    /// Construct a Mesh from a list of `Polygon` instances.
     init(_ polygons: [Polygon]) {
         self.polygons = polygons.flatMap { $0.tessellate() }
     }
@@ -66,5 +66,11 @@ public extension Mesh {
             }
             return $0
         })
+    }
+
+    /// Returns a new Mesh that includes all polygons from both the
+    /// parameter and receiver. Polygons are neither split nor removed.
+    func merge(_ mesh: Mesh) -> Mesh {
+        return Mesh(polygons + mesh.polygons)
     }
 }

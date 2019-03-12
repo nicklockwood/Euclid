@@ -78,8 +78,8 @@ public extension Mesh {
         return Mesh(aout! + ap + bp.map { $0.inverted() })
     }
 
-    /// Returns a new mesage solid that includes all polygons from both the
-    /// parameter and receiver. Polygons are neither split nor removed.
+    /// Returns a new mesh reprenting only the volume exclusively occupied by
+    /// one shape or the other, but not both.
     ///
     ///     +-------+            +-------+
     ///     |       |            |       |
@@ -90,8 +90,21 @@ public extension Mesh {
     ///          |       |            |       |
     ///          +-------+            +-------+
     ///
-    func merge(_ mesh: Mesh) -> Mesh {
-        return Mesh(polygons + mesh.polygons)
+    func xor(_ mesh: Mesh) -> Mesh {
+        var ap = polygons
+        var bp = mesh.polygons
+        var aout: [Polygon]? = []
+        var bout: [Polygon]? = []
+        boundsTest(&ap, &bp, &aout, &bout)
+        let absp = BSPNode(polygons)
+        let bbsp = BSPNode(mesh.polygons)
+        // TODO: combine clip operations
+        let ap1 = bbsp.clip(ap, .greaterThan, false)
+        let bp1 = absp.clip(bp, .lessThan, true)
+        let ap2 = bbsp.clip(ap, .lessThan, true)
+        let bp2 = absp.clip(bp, .greaterThan, false)
+        return Mesh(aout! + ap1 + bp1.map { $0.inverted() } +
+            bout! + bp2 + ap2.map { $0.inverted() })
     }
 
     /// Returns a new mesh reprenting the volume shared by both the mesh
