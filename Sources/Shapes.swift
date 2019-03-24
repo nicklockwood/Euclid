@@ -99,7 +99,7 @@ public extension Path {
 
         var points = sanitizePoints(points)
         guard detail > 0, !points.isEmpty else {
-            return Path(unchecked: points)
+            return Path(unchecked: points, plane: nil)
         }
         var result = [PathPoint]()
         let isClosed = pointsAreClosed(unchecked: points)
@@ -157,7 +157,7 @@ public extension Path {
         } else {
             result.append(result[0])
         }
-        let path = Path(unchecked: result)
+        let path = Path(unchecked: result, plane: nil)
         assert(path.isClosed == isClosed)
         return path
     }
@@ -249,7 +249,7 @@ public extension Mesh {
             semicircle.append(.curve(-sin(a) * r, cos(a) * r))
         }
         return lathe(
-            Path(unchecked: semicircle),
+            Path(unchecked: semicircle, plane: .xy),
             slices: slices,
             poleDetail: poleDetail,
             faces: faces,
@@ -275,7 +275,7 @@ public extension Mesh {
                 .point(-r, h / 2),
                 .point(-r, -h / 2),
                 .point(0, -h / 2),
-            ]),
+            ], plane: .xy),
             slices: slices,
             poleDetail: poleDetail,
             addDetailForFlatPoles: true,
@@ -303,7 +303,7 @@ public extension Mesh {
                 .point(0, h / 2),
                 .point(-r, -h / 2),
                 .point(0, -h / 2),
-            ]),
+            ], plane: .xy),
             slices: slices,
             poleDetail: poleDetail,
             addDetailForFlatPoles: addDetailAtBottomPole,
@@ -478,8 +478,8 @@ public extension Mesh {
                         material: Polygon.Material = nil) -> Mesh {
         let offset = (shape.plane?.normal ?? Vector(0, 0, 1)) * (depth / 2)
         return loft([
-            Path(shape.points.map { PathPoint($0.position + offset, isCurved: $0.isCurved) }),
-            Path(shape.points.map { PathPoint($0.position - offset, isCurved: $0.isCurved) }),
+            shape.translated(by: offset),
+            shape.translated(by: -offset),
         ], faces: faces, material: material)
     }
 

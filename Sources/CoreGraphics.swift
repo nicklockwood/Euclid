@@ -59,9 +59,10 @@ public extension CGPath {
                 if points.count > 2, points.first == points.last,
                     let firstElement = firstElement {
                     updateLastPoint(nextElement: firstElement)
-                    points[0].isCurved = points.last!.isCurved
                 }
-                paths.append(Path(points))
+                let points = sanitizePoints(points)
+                let plane = flattenedPointsAreClockwise(points.map { $0.position }) ? Plane.xy.inverted() : .xy
+                paths.append(Path(unchecked: points, plane: plane))
             }
             points.removeAll()
             firstElement = nil

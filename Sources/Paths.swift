@@ -94,7 +94,7 @@ public extension Path {
 
     init(_ points: [PathPoint]) {
         let points = sanitizePoints(points)
-        self.init(unchecked: points)
+        self.init(unchecked: points, plane: nil)
     }
 
     /// Get vertices suitable for constructing a polygon from the path
@@ -226,13 +226,18 @@ public extension Polygon {
 }
 
 internal extension Path {
-    init(unchecked points: [PathPoint], plane: Plane? = nil) {
+    init(unchecked points: [PathPoint], plane: Plane?) {
         assert(sanitizePoints(points) == points)
         self.points = points
         isClosed = pointsAreClosed(unchecked: points)
         let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
         bounds = Bounds(points: positions)
-        self.plane = plane ?? Plane(points: positions)
+        if let plane = plane {
+            self.plane = plane
+            assert(self.plane == Plane(points: positions))
+        } else {
+            self.plane = Plane(points: positions)
+        }
     }
 
     // Test if path is self-intersecting
@@ -294,7 +299,9 @@ internal extension Path {
                 leftOfOrigin -= 1
             }
         }
+        var plane = self.plane
         if rightOfOrigin > leftOfOrigin {
+            plane = plane?.inverted()
             points = points.map {
                 var point = $0
                 point.position.x = -point.position.x
@@ -338,7 +345,7 @@ internal extension Path {
             }
             i -= 1
         }
-        return Path(unchecked: points)
+        return Path(unchecked: points, plane: plane)
     }
 }
 

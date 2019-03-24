@@ -424,24 +424,33 @@ public extension PathPoint {
 
 public extension Path {
     func translated(by v: Vector) -> Path {
-        return Path(unchecked: points.map { $0.translated(by: v) })
+        let points = self.points.map { $0.translated(by: v) }
+        return Path(unchecked: points, plane: plane.flatMap {
+            Plane(normal: $0.normal, pointOnPlane: points[0].position)
+        })
     }
 
     func rotated(by r: Rotation) -> Path {
-        return Path(unchecked: points.map { $0.rotated(by: r) })
+        let points = self.points.map { $0.rotated(by: r) }
+        return Path(unchecked: points, plane: plane.flatMap {
+            Plane(normal: $0.normal.rotated(by: r), pointOnPlane: points[0].position)
+        })
     }
 
     func scaled(by v: Vector) -> Path {
-        return Path(unchecked: points.map { $0.scaled(by: v) })
+        return Path(unchecked: points.map { $0.scaled(by: v) }, plane: nil)
     }
 
     func scaled(by f: Double) -> Path {
-        return Path(unchecked: points.map { $0.scaled(by: f) })
+        let points = self.points.map { $0.scaled(by: f) }
+        return Path(unchecked: points, plane: plane.flatMap {
+            Plane(normal: $0.normal, pointOnPlane: points[0].position)
+        })
     }
 
     func transformed(by t: Transform) -> Path {
         // TODO: manually transform plane so we can make this more efficient
-        return Path(unchecked: points.map { $0.transformed(by: t) })
+        return Path(unchecked: points.map { $0.transformed(by: t) }, plane: nil)
     }
 }
 
