@@ -39,7 +39,7 @@ public extension Path {
         var origins = Array(repeating: CGPoint.zero, count: lines.count)
         CTFrameGetLineOrigins(frame, range, &origins)
 
-        let letters = CGMutablePath()
+        var paths = [Path]()
         for (line, origin) in zip(lines, origins) {
             let runs = CTLineGetGlyphRuns(line) as! [CTRun]
             for run in runs {
@@ -56,13 +56,16 @@ public extension Path {
                     position.y += origin.y - origins[0].y
 
                     let letter = CTFontCreatePathForGlyph(font, glyph, nil)
-                    let transform = CGAffineTransform(translationX: position.x, y: position.y)
-                    letter.map { letters.addPath($0, transform: transform) }
+                    letter.map {
+                        let cgPath = CGMutablePath()
+                        let transform = CGAffineTransform(translationX: position.x, y: position.y)
+                        cgPath.addPath($0, transform: transform)
+                        paths.append(Path(cgPath: cgPath, detail: detail))
+                    }
                 }
             }
         }
-
-        return letters.paths(detail: detail)
+        return paths
     }
 }
 
@@ -90,7 +93,8 @@ public extension Mesh {
     ) {
         var mesh = Mesh([])
         for path in Path.text(text, width: width, detail: detail) {
-            mesh = mesh.xor(.extrude(path, depth: depth, material: material))
+            // TODO: should really be a union
+            mesh = mesh.merge(.extrude(path, depth: depth, material: material))
         }
         self.init(mesh.polygons)
     }

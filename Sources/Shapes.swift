@@ -47,7 +47,7 @@ public extension Path {
         for angle in stride(from: 0, through: 2 * .pi, by: 2 * .pi / segments) {
             points.append(.curve(w * -sin(angle), h * cos(angle)))
         }
-        return Path(unchecked: points, plane: .xy)
+        return Path(unchecked: points, plane: .xy, subpathIndices: [])
     }
 
     /// Create a closed rectangular path
@@ -57,7 +57,7 @@ public extension Path {
             .point(-w, h), .point(-w, -h),
             .point(w, -h), .point(w, h),
             .point(-w, h),
-        ], plane: .xy)
+        ], plane: .xy, subpathIndices: [])
     }
 
     /// Create a closed square path
@@ -99,7 +99,7 @@ public extension Path {
 
         var points = sanitizePoints(points)
         guard detail > 0, !points.isEmpty else {
-            return Path(unchecked: points, plane: nil)
+            return Path(unchecked: points, plane: nil, subpathIndices: nil)
         }
         var result = [PathPoint]()
         let isClosed = pointsAreClosed(unchecked: points)
@@ -157,7 +157,7 @@ public extension Path {
         } else {
             result.append(result[0])
         }
-        let path = Path(unchecked: result, plane: nil)
+        let path = Path(unchecked: result, plane: nil, subpathIndices: nil)
         assert(path.isClosed == isClosed)
         return path
     }
@@ -249,7 +249,7 @@ public extension Mesh {
             semicircle.append(.curve(-sin(a) * r, cos(a) * r))
         }
         return lathe(
-            Path(unchecked: semicircle, plane: .xy),
+            Path(unchecked: semicircle, plane: .xy, subpathIndices: []),
             slices: slices,
             poleDetail: poleDetail,
             faces: faces,
@@ -275,7 +275,7 @@ public extension Mesh {
                 .point(-r, h / 2),
                 .point(-r, -h / 2),
                 .point(0, -h / 2),
-            ], plane: .xy),
+            ], plane: .xy, subpathIndices: []),
             slices: slices,
             poleDetail: poleDetail,
             addDetailForFlatPoles: true,
@@ -303,7 +303,7 @@ public extension Mesh {
                 .point(0, h / 2),
                 .point(-r, -h / 2),
                 .point(0, -h / 2),
-            ], plane: .xy),
+            ], plane: .xy, subpathIndices: []),
             slices: slices,
             poleDetail: poleDetail,
             addDetailForFlatPoles: addDetailAtBottomPole,
@@ -333,6 +333,32 @@ public extension Mesh {
                       faces: Faces = .default,
                       wrapMode: WrapMode = .default,
                       material: Polygon.Material = nil) -> Mesh {
+        let subpaths = profile.subpaths
+        if subpaths.count > 1 {
+            var mesh = Mesh.lathe(
+                subpaths[0],
+                slices: slices,
+                poleDetail: poleDetail,
+                addDetailForFlatPoles: addDetailForFlatPoles,
+                faces: faces,
+                wrapMode: wrapMode,
+                material: material
+            )
+            for subpath in subpaths.dropFirst() {
+                // TODO: optimize this using bounds tests
+                mesh = mesh.xor(.lathe(
+                    subpath,
+                    slices: slices,
+                    poleDetail: poleDetail,
+                    addDetailForFlatPoles: addDetailForFlatPoles,
+                    faces: faces,
+                    wrapMode: wrapMode,
+                    material: material
+                ))
+            }
+            return mesh
+        }
+
         var profile = profile
         if profile.points.count < 2 {
             return Mesh([])
@@ -348,7 +374,11 @@ public extension Mesh {
             return Mesh([])
         }
         if normal.z < 0 {
-            profile = Path(unchecked: profile.points.reversed(), plane: profile.plane?.inverted())
+            profile = Path(
+                unchecked: profile.points.reversed(),
+                plane: profile.plane?.inverted(),
+                subpathIndices: nil // Is is possible to reverse these?
+            )
         }
 
         // get profile vertices
@@ -487,6 +517,28 @@ public extension Mesh {
     static func loft(_ shapes: [Path],
                      faces: Faces = .default,
                      material: Polygon.Material = nil) -> Mesh {
+        var subpathCount = 0
+        let arrayOfSubpaths: [[Path]] = shapes.map {
+            let subpaths = $0.subpaths
+            subpathCount = max(subpathCount, subpaths.count)
+            return subpaths
+        }
+        if subpathCount > 1 {
+            var subshapes = Array(repeating: [Path](), count: subpathCount)
+            for subpaths in arrayOfSubpaths {
+                for (i, subpath) in subpaths.enumerated() {
+                    subshapes[i].append(subpath)
+                }
+            }
+            var mesh = Mesh([])
+            for shapes in subshapes {
+                // TODO: optimize this using bounds tests
+                mesh = mesh.xor(.loft(shapes, faces: faces, material: material))
+            }
+            return mesh
+        }
+
+        // TODO: handle subpaths
         var shapes = shapes
         if shapes.isEmpty {
             return Mesh([])
@@ -579,6 +631,24 @@ public extension Mesh {
     static func fill(_ shape: Path,
                      faces: Faces = .default,
                      material: Polygon.Material = nil) -> Mesh {
+        let subpaths = shape.subpaths
+        if subpaths.count > 1 {
+            var mesh = Mesh.fill(
+                subpaths[0],
+                faces: faces,
+                material: material
+            )
+            for subpath in subpaths.dropFirst() {
+                // TODO: optimize this using bounds tests
+                mesh = mesh.xor(.fill(
+                    subpath,
+                    faces: faces,
+                    material: material
+                ))
+            }
+            return mesh
+        }
+
         guard let polygon = Polygon(shape: shape.closed(), material: material) else {
             return Mesh([])
         }

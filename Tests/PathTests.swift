@@ -486,7 +486,7 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices[1].normal, Vector(-1, 0))
     }
 
-    // Y-axis clipping
+    // MARK: Y-axis clipping
 
     func testClipClosedClockwiseTriangleToRightOfAxis() {
         let path = Path([
@@ -549,6 +549,131 @@ class PathTests: XCTestCase {
             .point(0, 1),
             .point(-1, -1),
             .point(0, -1),
+        ])
+    }
+
+    // MARK: subpaths
+
+    func testSimpleOpenPathHasNoSubpaths() {
+        let path = Path([
+            .point(0, 1),
+            .point(-1, -1),
+            .point(0, -1),
+        ])
+        XCTAssertEqual(path.subpaths, [path])
+    }
+
+    func testSimpleClosedPathHasNoSubpaths() {
+        let path = Path.square()
+        XCTAssertEqual(path.subpaths, [path])
+    }
+
+    func testPathWithLineEndingInLoopHasCorrectSubpaths() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(2, 0),
+            .point(2, 1),
+            .point(1, 1),
+            .point(1, 0),
+        ])
+        XCTAssertEqual(path.subpaths, [
+            Path([
+                .point(0, 0),
+                .point(1, 0)
+            ]),
+            Path([
+                .point(1, 0),
+                .point(2, 0),
+                .point(2, 1),
+                .point(1, 1),
+                .point(1, 0),
+            ])
+        ])
+    }
+
+    func testPathWithLoopEndingInLineHasCorrectSubpaths() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1),
+            .point(0, 1),
+            .point(0, 0),
+            .point(-1, 0),
+        ])
+        XCTAssertEqual(path.subpaths, [
+            Path([
+                .point(0, 0),
+                .point(1, 0),
+                .point(1, 1),
+                .point(0, 1),
+                .point(0, 0),
+            ]),
+            Path([
+                .point(0, 0),
+                .point(-1, 0),
+            ])
+        ])
+    }
+
+    func testPathWithConjoinedLoopsHasCorrectSubpaths() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 1),
+            .point(2, 0),
+            .point(1, -1),
+            .point(0, 0),
+            .point(-1, 1),
+            .point(-2, 0),
+            .point(-1, -1),
+            .point(0, 0),
+        ])
+        XCTAssertEqual(path.subpaths, [
+            Path([
+                .point(0, 0),
+                .point(1, 1),
+                .point(2, 0),
+                .point(1, -1),
+                .point(0, 0),
+            ]),
+            Path([
+                .point(0, 0),
+                .point(-1, 1),
+                .point(-2, 0),
+                .point(-1, -1),
+                .point(0, 0),
+            ])
+        ])
+    }
+
+    func testPathWithTwoSeparateLoopsHasCorrectSubpaths() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1),
+            .point(0, 1),
+            .point(0, 0),
+            .point(2, 0),
+            .point(3, 0),
+            .point(3, 1),
+            .point(2, 1),
+            .point(2, 0),
+        ])
+        XCTAssertEqual(path.subpaths, [
+            Path([
+                .point(0, 0),
+                .point(1, 0),
+                .point(1, 1),
+                .point(0, 1),
+                .point(0, 0),
+            ]),
+            Path([
+                .point(2, 0),
+                .point(3, 0),
+                .point(3, 1),
+                .point(2, 1),
+                .point(2, 0),
+            ])
         ])
     }
 }

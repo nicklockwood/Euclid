@@ -22,6 +22,13 @@ public extension CGPoint {
     }
 }
 
+public extension Path {
+    /// Create a Path from a CGPath. The returned path may contain nested subpaths
+    init(cgPath: CGPath, detail: Int = 4) {
+        self.init(subpaths: cgPath.paths(detail: detail))
+    }
+}
+
 public extension CGPath {
     private func enumerateElements(_ block: @convention(block) (CGPathElement) -> Void) {
         #if os(iOS)
@@ -47,6 +54,8 @@ public extension CGPath {
         }
     }
 
+    /// Create a flat array of Paths from a CGPath. Returned paths are
+    /// guaranteed not to contain nested subpaths
     func paths(detail: Int = 4) -> [Path] {
         typealias SafeElement = (type: CGPathElementType, points: [CGPoint])
         var paths = [Path]()
@@ -62,7 +71,7 @@ public extension CGPath {
                 }
                 let points = sanitizePoints(points)
                 let plane = flattenedPointsAreClockwise(points.map { $0.position }) ? Plane.xy.inverted() : .xy
-                paths.append(Path(unchecked: points, plane: plane))
+                paths.append(Path(unchecked: points, plane: plane, subpathIndices: []))
             }
             points.removeAll()
             firstElement = nil

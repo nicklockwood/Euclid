@@ -16,7 +16,10 @@ class TextTests: XCTestCase {
     func testTextPaths() {
         let text = NSAttributedString(string: "Hello")
         let paths = Path.text(text)
-        XCTAssertEqual(paths.count, 7)
+        XCTAssertEqual(paths.count, 5)
+        XCTAssertEqual(paths.map { $0.subpaths.count }, [
+            1, 2, 1, 1, 2
+        ])
     }
 
     func testTextMeshWithAttributedString() {

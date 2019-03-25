@@ -71,6 +71,7 @@ public struct Path: Hashable {
     public let isClosed: Bool
     public let bounds: Bounds
     public private(set) var plane: Plane?
+    let subpathIndices: [Int]
 }
 
 public extension Path {
@@ -87,22 +88,60 @@ public extension Path {
             points[0] = .point(points[0].position)
             points[points.count - 1] = .point(points.last!.position)
             points.append(points[0])
-            return Path(unchecked: points, plane: plane)
+            return Path(unchecked: points, plane: plane, subpathIndices: nil)
         }
-        return Path(unchecked: points + [points[0]], plane: plane)
+        return Path(unchecked: points + [points[0]], plane: plane, subpathIndices: nil)
     }
 
     init(_ points: [PathPoint]) {
         let points = sanitizePoints(points)
-        self.init(unchecked: points, plane: nil)
+        self.init(unchecked: points, plane: nil, subpathIndices: nil)
+    }
+
+    /// Create a composite path from an array of subpaths
+    init(subpaths: [Path]) {
+        guard subpaths.count > 1 else {
+            self = subpaths.first ?? Path([])
+            return
+        }
+        let points = subpaths.flatMap { $0.points }
+        // TODO: precompute planes/subpathIndices from existing paths
+        self.init(unchecked: points, plane: nil, subpathIndices: nil)
+    }
+
+    /// A list of subpaths making up the path. For paths without nested
+    /// subpaths, this will return an array containing only `self`
+    var subpaths: [Path] {
+        var startIndex = 0
+        var paths = [Path]()
+        for i in subpathIndices {
+            let points = self.points[startIndex ... i]
+            startIndex = i
+            guard points.count > 1 else {
+                continue
+            }
+            // TODO: support internal one-element line segments
+            guard points.count > 2 || points.startIndex == 0 || i == self.points.count - 1 else {
+                continue
+            }
+            do {
+                // TODO: do this as part of regular sanitization step
+                var points = Array(points)
+                if points.last?.position == points.first?.position {
+                    points[0] = points.last!
+                }
+                paths.append(Path(unchecked: points, plane: nil, subpathIndices: []))
+            }
+        }
+        return paths.isEmpty && !points.isEmpty ? [self] : paths
     }
 
     /// Get vertices suitable for constructing a polygon from the path
     /// vertices include normals and uv coordinates normalized to the
-    /// bounding rectangle of the path
+    /// bounding rectangle of the path. Returns nil if path has subpaths
     // TODO: should this be facePolygons instead, to handle non-planar shapes?
     var faceVertices: [Vertex]? {
-        guard isClosed, let normal = plane?.normal else {
+        guard isClosed, let normal = plane?.normal, subpaths.count <= 1 else {
             return nil
         }
         let vectors = points.dropFirst().map { $0.position }
@@ -131,9 +170,10 @@ public extension Path {
         return edgeVertices(for: .default)
     }
 
-    // Get edge vertices suitable for converting into a solid shape using lathe or extrusion
+    /// Get edge vertices suitable for converting into a solid shape using lathe or extrusion
+    /// Returns an empty array if path has subpaths
     func edgeVertices(for wrapMode: Mesh.WrapMode) -> [Vertex] {
-        guard points.count >= 2 else {
+        guard subpaths.count <= 1, points.count >= 2 else {
             return []
         }
 
@@ -211,6 +251,7 @@ public extension Path {
 public extension Polygon {
     /// Create a polygon from a path
     /// Path may be convex or concave, but must be closed and non-degenerate
+    /// Paths with
     init?(shape: Path, material: Polygon.Material = nil) {
         guard let vertices = shape.faceVertices, let plane = shape.plane else {
             return nil
@@ -226,12 +267,13 @@ public extension Polygon {
 }
 
 internal extension Path {
-    init(unchecked points: [PathPoint], plane: Plane?) {
+    init(unchecked points: [PathPoint], plane: Plane?, subpathIndices: [Int]?) {
         assert(sanitizePoints(points) == points)
         self.points = points
         isClosed = pointsAreClosed(unchecked: points)
         let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
         bounds = Bounds(points: positions)
+        self.subpathIndices = subpathIndices ?? subpathIndicesFor(points)
         if let plane = plane {
             self.plane = plane
             assert(self.plane == Plane(points: positions))
@@ -274,7 +316,7 @@ internal extension Path {
         let flatteningPlane = FlatteningPlane(bounds: bounds)
         return Path(unchecked: sanitizePoints(points.map {
             PathPoint(flatteningPlane.flattenPoint($0.position), isCurved: $0.isCurved)
-        }), plane: flatteningPlane.rawValue)
+        }), plane: flatteningPlane.rawValue, subpathIndices: subpathIndices)
     }
 
     func clippedToYAxis() -> Path {
@@ -345,7 +387,7 @@ internal extension Path {
             }
             i -= 1
         }
-        return Path(unchecked: points, plane: plane)
+        return Path(unchecked: points, plane: plane, subpathIndices: nil)
     }
 }
 
@@ -419,6 +461,31 @@ func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
         return []
     }
     return result
+}
+
+func subpathIndicesFor(_ points: [PathPoint]) -> [Int] {
+    // TODO: ensure closing points are of the same type as the opening point;
+    // should this be part of the sanitize function?
+    var lastIndex = 0
+    var indices = [Int]()
+    for (i, p) in points.enumerated() {
+        for j in lastIndex ..< i {
+            if points[j].position == p.position {
+                if j > lastIndex, j < i - 1 {
+                    indices.append(j)
+                }
+                indices.append(i)
+                lastIndex = i
+                break
+            }
+        }
+    }
+    if !indices.isEmpty, indices.last != points.count - 1 {
+        indices.append(points.count - 1)
+        return indices
+    }
+    // If only one path, return an empty array
+    return indices.count > 1 ? indices : []
 }
 
 func pointsAreClosed(unchecked points: [PathPoint]) -> Bool {

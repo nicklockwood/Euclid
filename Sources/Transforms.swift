@@ -427,30 +427,36 @@ public extension Path {
         let points = self.points.map { $0.translated(by: v) }
         return Path(unchecked: points, plane: plane.flatMap {
             Plane(normal: $0.normal, pointOnPlane: points[0].position)
-        })
+        }, subpathIndices: subpathIndices)
     }
 
     func rotated(by r: Rotation) -> Path {
         let points = self.points.map { $0.rotated(by: r) }
         return Path(unchecked: points, plane: plane.flatMap {
             Plane(normal: $0.normal.rotated(by: r), pointOnPlane: points[0].position)
-        })
+        }, subpathIndices: subpathIndices)
     }
 
     func scaled(by v: Vector) -> Path {
-        return Path(unchecked: points.map { $0.scaled(by: v) }, plane: nil)
+        return Path(
+            unchecked: points.map { $0.scaled(by: v) },
+            plane: nil, subpathIndices: subpathIndices
+        )
     }
 
     func scaled(by f: Double) -> Path {
         let points = self.points.map { $0.scaled(by: f) }
         return Path(unchecked: points, plane: plane.flatMap {
             Plane(normal: $0.normal, pointOnPlane: points[0].position)
-        })
+        }, subpathIndices: subpathIndices)
     }
 
     func transformed(by t: Transform) -> Path {
         // TODO: manually transform plane so we can make this more efficient
-        return Path(unchecked: points.map { $0.transformed(by: t) }, plane: nil)
+        return Path(
+            unchecked: points.map { $0.transformed(by: t) },
+            plane: nil, subpathIndices: subpathIndices
+        )
     }
 }
 
