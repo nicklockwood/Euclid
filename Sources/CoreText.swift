@@ -91,12 +91,9 @@ public extension Mesh {
          detail: Int = 2,
          material: Polygon.Material = nil
     ) {
-        var mesh = Mesh([])
-        for path in Path.text(text, width: width, detail: detail) {
-            // TODO: should really be a union
-            mesh = mesh.merge(.extrude(path, depth: depth, material: material))
-        }
-        self.init(mesh.polygons)
+        let paths = Path.text(text, width: width, detail: detail)
+        let meshes = paths.map { Mesh.extrude($0, depth: depth, material: material) }
+        self.init(Mesh.union(meshes).polygons)
     }
 }
 

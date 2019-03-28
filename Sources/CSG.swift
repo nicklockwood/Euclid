@@ -55,6 +55,11 @@ public extension Mesh {
         return Mesh(aout! + bout! + ap + bp)
     }
 
+    /// Efficiently form union from multiple meshes
+    static func union(_ meshes: [Mesh]) -> Mesh {
+        return multimerge(meshes, using: { $0.union($1) })
+    }
+
     /// Returns a new mesh created by subtracting the volume of the
     /// mesh parameter from the receiver.
     ///
@@ -78,14 +83,19 @@ public extension Mesh {
         return Mesh(aout! + ap + bp.map { $0.inverted() })
     }
 
+    /// Efficiently subtract multiple meshes
+    static func difference(_ meshes: [Mesh]) -> Mesh {
+        return reduce(meshes, using: { $0.subtract($1) })
+    }
+
     /// Returns a new mesh reprenting only the volume exclusively occupied by
     /// one shape or the other, but not both.
     ///
     ///     +-------+            +-------+
     ///     |       |            |       |
     ///     |   A   |            |       |
-    ///     |    +--+----+   =   |    +--+----+
-    ///     +----+--+    |       +----+--+    |
+    ///     |    +--+----+   =   |    ++++----+
+    ///     +----+--+    |       +----++++    |
     ///          |   B   |            |       |
     ///          |       |            |       |
     ///          +-------+            +-------+
@@ -109,6 +119,11 @@ public extension Mesh {
         return Mesh(lhs + rhs)
     }
 
+    /// Efficiently xor multiple meshes
+    static func xor(_ meshes: [Mesh]) -> Mesh {
+        return multimerge(meshes, using: { $0.xor($1) })
+    }
+
     /// Returns a new mesh reprenting the volume shared by both the mesh
     /// parameter and the receiver. If these do not intersect, an empty
     /// mesh will be returned.
@@ -130,6 +145,11 @@ public extension Mesh {
         ap = BSPNode(mesh.polygons).clip(ap, .lessThan, false)
         bp = BSPNode(polygons).clip(bp, .lessThanEqual, false)
         return Mesh(ap + bp)
+    }
+
+    /// Efficiently compute intersection of multiple meshes
+    static func intersection(_ meshes: [Mesh]) -> Mesh {
+        return reduce(meshes, using: { $0.intersect($1) })
     }
 
     /// Returns a new mesh that retains the shape of the receiver, but with
@@ -164,6 +184,11 @@ public extension Mesh {
             )
         })
     }
+
+    /// Efficiently perform stencil with multiple meshes
+    static func stencil(_ meshes: [Mesh]) -> Mesh {
+        return reduce(meshes, using: { $0.stencil($1) })
+    }
 }
 
 private func boundsTest(
@@ -180,6 +205,44 @@ private func boundsTest(
         rout?.append(p)
         rhs.remove(at: i)
     }
+}
+
+// Merge all the meshes into a single mesh using fn
+private func multimerge(_ meshes: [Mesh], using fn: (Mesh, Mesh) -> Mesh) -> Mesh {
+    var mesh = Mesh([])
+    var meshesAndBounds = meshes.map { ($0, $0.bounds) }
+    var i = 0
+    while i < meshesAndBounds.count {
+        let m = reduce(&meshesAndBounds, at: i, using: fn)
+        mesh = mesh.merge(m)
+        i += 1
+    }
+    return mesh
+}
+
+// Merge each intersecting mesh after i into the mesh at index i using fn
+private func reduce(_ meshes: [Mesh], using fn: (Mesh, Mesh) -> Mesh) -> Mesh {
+    var meshesAndBounds = meshes.map { ($0, $0.bounds) }
+    return reduce(&meshesAndBounds, at: 0, using: fn)
+}
+
+private func reduce(_ meshesAndBounds: inout [(Mesh, Bounds)],
+                    at i: Int, using fn: (Mesh, Mesh) -> Mesh) -> Mesh {
+    var (m, mb) = meshesAndBounds[i]
+    var j = i + 1, count = meshesAndBounds.count
+    while j < count {
+        let (n, nb) = meshesAndBounds[j]
+        if mb.intersects(nb) {
+            m = fn(m, n)
+            mb = m.bounds
+            meshesAndBounds[i] = (m, mb)
+            meshesAndBounds.remove(at: j)
+            count -= 1
+            continue
+        }
+        j += 1
+    }
+    return m
 }
 
 private class BSPNode {

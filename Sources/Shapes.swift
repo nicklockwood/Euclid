@@ -335,28 +335,17 @@ public extension Mesh {
                       material: Polygon.Material = nil) -> Mesh {
         let subpaths = profile.subpaths
         if subpaths.count > 1 {
-            var mesh = Mesh.lathe(
-                subpaths[0],
-                slices: slices,
-                poleDetail: poleDetail,
-                addDetailForFlatPoles: addDetailForFlatPoles,
-                faces: faces,
-                wrapMode: wrapMode,
-                material: material
-            )
-            for subpath in subpaths.dropFirst() {
-                // TODO: optimize this using bounds tests
-                mesh = mesh.xor(.lathe(
-                    subpath,
+            return .xor(subpaths.map {
+                .lathe(
+                    $0,
                     slices: slices,
                     poleDetail: poleDetail,
                     addDetailForFlatPoles: addDetailForFlatPoles,
                     faces: faces,
                     wrapMode: wrapMode,
                     material: material
-                ))
-            }
-            return mesh
+                )
+            })
         }
 
         var profile = profile
@@ -530,12 +519,7 @@ public extension Mesh {
                     subshapes[i].append(subpath)
                 }
             }
-            var mesh = Mesh([])
-            for shapes in subshapes {
-                // TODO: optimize this using bounds tests
-                mesh = mesh.xor(.loft(shapes, faces: faces, material: material))
-            }
-            return mesh
+            return .xor(subshapes.map { .loft($0, faces: faces, material: material) })
         }
 
         // TODO: handle subpaths
@@ -633,20 +617,7 @@ public extension Mesh {
                      material: Polygon.Material = nil) -> Mesh {
         let subpaths = shape.subpaths
         if subpaths.count > 1 {
-            var mesh = Mesh.fill(
-                subpaths[0],
-                faces: faces,
-                material: material
-            )
-            for subpath in subpaths.dropFirst() {
-                // TODO: optimize this using bounds tests
-                mesh = mesh.xor(.fill(
-                    subpath,
-                    faces: faces,
-                    material: material
-                ))
-            }
-            return mesh
+            return .xor(subpaths.map { .fill($0, faces: faces, material: material) })
         }
 
         guard let polygon = Polygon(shape: shape.closed(), material: material) else {
