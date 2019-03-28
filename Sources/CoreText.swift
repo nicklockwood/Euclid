@@ -76,8 +76,7 @@ public extension Mesh {
          width: Double? = nil,
          depth: Double = 1,
          detail: Int = 2,
-         material: Polygon.Material = nil
-    ) {
+         material: Polygon.Material = nil) {
         let font = font ?? CTFontCreateWithName("Helvetica" as CFString, 1, nil)
         let attributes = [NSAttributedString.Key.font: font]
         let attributedString = NSAttributedString(string: text, attributes: attributes)
@@ -89,8 +88,7 @@ public extension Mesh {
          width: Double? = nil,
          depth: Double = 1,
          detail: Int = 2,
-         material: Polygon.Material = nil
-    ) {
+         material: Polygon.Material = nil) {
         let paths = Path.text(text, width: width, detail: detail)
         let meshes = paths.map { Mesh.extrude($0, depth: depth, material: material) }
         self.init(Mesh.union(meshes).polygons)

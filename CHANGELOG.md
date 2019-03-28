@@ -1,3 +1,10 @@
+## [0.1.8](https://github.com/nicklockwood/Euclid/releases/tag/0.1.8) (2019-03-28)
+
+- Added support for multiple subpaths within a single Path instance
+- CGPaths can now be converted to a single Path instead of an array of subpaths
+- Added methods for performing bulk CSG operations on arrays of meshes
+- Improved text rendering performance
+
 ## [0.1.7](https://github.com/nicklockwood/Euclid/releases/tag/0.1.7) (2019-03-11)
 
 - Added support for creating Euclid Paths from a Core Graphics CGPath

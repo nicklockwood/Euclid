@@ -105,7 +105,9 @@ A `PathPoint` is a control point along a path. `PathPoint`s have a position `Vec
 
 A `Path` is a sequence of `PathPoint`s representing a line or curve formed from straight segments joined end-to-end. A `Path` can be either open (a *polyline*) or closed (a *polygon*), but should not be self-intersecting or otherwise degenerate.
 
-A closed, flat `Path` can be converted into a `Polygon`, but it can also be used for other purposes, such as defining a cross-section or profile of a 3D shape.
+`Path`s may be formed from multiple subpaths, which can be accessed via the `subpaths` property.
+
+A closed, flat `Path` without nested subpaths can be converted into a `Polygon`, but it can also be used for other purposes, such as defining a cross-section or profile of a 3D shape.
 
 `Path`s are typically 2-dimensional, but because `PathPoint` positions have a Z coordinate, they are not *required* to be. Even a flat `Path` (where all points lie on the same plane) can be translated or rotated so that its points do not necessarily lie on the *XY* plane.
 
@@ -151,7 +153,7 @@ Builders create a 3D `Mesh` from a (typically) 2D `Path`. The following builders
 - `fill` - This builder fills a single `Path` to create a pair of `Polygon`s (front and back faces).
 - `lathe` - This builder takes a 2D `Path` and rotates it around the Y-axis to create a rotationally symmetrical `Mesh`. This is an easy way to create complex shapes like candlesticks, chess pieces, rocket ships, etc.
 - `extrude` - This builder fills a `Path` and extrudes it along its axis. This turns a circular path into a cylinder, or a square into a cube etc.
-- `loft` - This builder is similar to `extrude`, but takes multiple `Path`s and joins them. The `Path`s do not need to be the same shape, but must all have the same number of points. To work correctly, the `Path`s must be pre-positioned in 3D space so they do not all lie on the same plane.
+- `loft` - This builder is similar to `extrude`, but takes multiple `Path`s and joins them. The `Path`s do not need to be the same shape, but must all have the same number of points and subpaths. To work correctly, the `Path`s must be pre-positioned in 3D space so they do not all lie on the same plane.
 
 ## Curves
 
@@ -185,9 +187,11 @@ All CSG operations require `Mesh`es that are "watertight", i.e. that have no hol
 
 On macOS and iOS you can make use of Euclid's Core Text integration to create 2D or 3D extruded text.
 
-The `Path.text()` method produces an array of 2D `Path`s representing the contours of each glyph in an `AttributedString`, which can then be used with the `fill` or `extrude` builder methods and combined using the `xor` CSG function to create solid text.
+The `Path.text()` method produces an array of 2D `Path`s representing the contours of each glyph in an `AttributedString`, which can then be used with the `fill` or `extrude` builder methods to create solid text.
 
 Alternatively, the `Mesh(text:)` constructor directly produces an extruded 3D text model from a `String` or `AttributedString`.
+
+Each glyph in the input string maps to a single `Path` in the result, but these `Path`s may contain nested subpaths. Glyphs formed from multiple subpaths will be filled using the even-odd rule (equivalent to an `xor` between the individually filled or extruded subpaths).
 
 
 # Rendering

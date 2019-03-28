@@ -496,6 +496,9 @@ public extension Mesh {
                         faces: Faces = .default,
                         material: Polygon.Material = nil) -> Mesh {
         let offset = (shape.plane?.normal ?? Vector(0, 0, 1)) * (depth / 2)
+        if offset.lengthSquared < epsilon {
+            return fill(shape, faces: faces, material: material)
+        }
         return loft([
             shape.translated(by: offset),
             shape.translated(by: -offset),
@@ -530,7 +533,7 @@ public extension Mesh {
         let count = shapes.count
         let isClosed = (shapes.first == shapes.last)
         if count < 3, isClosed {
-            return fill(shapes[0], material: material)
+            return fill(shapes[0], faces: faces, material: material)
         }
         func directionBetweenShapes(_ s0: Path, _ s1: Path) -> Vector? {
             if let p0 = s0.points.first, let p1 = s1.points.first {

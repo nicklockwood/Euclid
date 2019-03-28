@@ -18,7 +18,7 @@ class TextTests: XCTestCase {
         let paths = Path.text(text)
         XCTAssertEqual(paths.count, 5)
         XCTAssertEqual(paths.map { $0.subpaths.count }, [
-            1, 2, 1, 1, 2
+            1, 2, 1, 1, 2,
         ])
     }
 

@@ -580,7 +580,7 @@ class PathTests: XCTestCase {
         XCTAssertEqual(path.subpaths, [
             Path([
                 .point(0, 0),
-                .point(1, 0)
+                .point(1, 0),
             ]),
             Path([
                 .point(1, 0),
@@ -588,7 +588,7 @@ class PathTests: XCTestCase {
                 .point(2, 1),
                 .point(1, 1),
                 .point(1, 0),
-            ])
+            ]),
         ])
     }
 
@@ -612,7 +612,7 @@ class PathTests: XCTestCase {
             Path([
                 .point(0, 0),
                 .point(-1, 0),
-            ])
+            ]),
         ])
     }
 
@@ -642,7 +642,7 @@ class PathTests: XCTestCase {
                 .point(-2, 0),
                 .point(-1, -1),
                 .point(0, 0),
-            ])
+            ]),
         ])
     }
 
@@ -673,7 +673,7 @@ class PathTests: XCTestCase {
                 .point(3, 1),
                 .point(2, 1),
                 .point(2, 0),
-            ])
+            ]),
         ])
     }
 }
