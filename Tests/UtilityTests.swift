@@ -18,7 +18,7 @@ class UtilityTests: XCTestCase {
         XCTAssertEqual(linuxCount, darwinCount, "run swift test --generate-linuxmain")
         #endif
     }
-    
+
     // MARK: convexness
 
     func testConvexnessResultNotAffectedByTranslation() {

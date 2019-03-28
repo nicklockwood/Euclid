@@ -18,7 +18,7 @@ class PathTests: XCTestCase {
         XCTAssertEqual(linuxCount, darwinCount, "run swift test --generate-linuxmain")
         #endif
     }
-    
+
     // MARK: isSimple
 
     func testSimpleLine() {

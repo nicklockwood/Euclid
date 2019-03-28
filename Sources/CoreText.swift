@@ -11,6 +11,15 @@
 import CoreText
 import Foundation
 
+#if os(watchOS)
+
+// Workaround for missing constants on watchOS
+extension NSAttributedString.Key {
+    static let font = NSAttributedString.Key(rawValue: "NSFont")
+}
+
+#endif
+
 public extension Path {
     /// Create an array of glyph contours from an attributed string
     static func text(

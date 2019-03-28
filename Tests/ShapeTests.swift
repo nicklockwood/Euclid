@@ -18,7 +18,7 @@ class ShapeTests: XCTestCase {
         XCTAssertEqual(linuxCount, darwinCount, "run swift test --generate-linuxmain")
         #endif
     }
-    
+
     // MARK: Curve
 
     func testCurveWithConsecutiveMixedTypePointsWithSamePosition() {

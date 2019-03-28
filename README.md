@@ -137,6 +137,7 @@ All `Mesh`es are made of flat polygons, and since true curves cannot be represen
 
 In addition to the 3D `Mesh` primitives listed, there are also 2D `Path` primitives. These are implemented as static constructor methods on the `Path` type instead of `Mesh`:
 
+- `ellipse` - A closed, elliptical `Path`.
 - `circle` - A closed, circular `Path`.
 - `rectangle` - A closed, rectangular `Path`.
 - `square` - Same as `rectangle`, but with equal width and height.
@@ -166,16 +167,27 @@ The `curve` method uses second-order (quadratic) Bezier curves, where each curve
 
 This approach to curve generation is based on the popular [TrueType (TTF) font system](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM01/Chap1.html), and provides a good balance between simplicity and flexibility.
 
+For more complex curves, on macOS and iOS you can create Euclid `Path`s from a Core Graphics `CGPath` by using the `CGPath.paths()` extension method. `CGPath` supports cubic bezier curves as well as quadratic, and has handy constructors for rounded rectangles and other shapes.
+
 ## CSG
 
 CSG (Constructive Solid Geometry) is another powerful tool for creating intricate geometry. CSG allows you to perform boolean operations (logical AND, OR, etc) on solid shapes. The following CSG operations are defined as methods on the `Mesh` type:
 
 - `subtract` - Subtracts the volume of one `Mesh` from another.
+- `xor` - Produces a shape representing the non-overlapping parts of the input `Mesh`es (this is useful for rendering text glyphs).
 - `union` - Combines two intersecting `Mesh`es, removing internal faces and leaving only the outer shell around both shapes (logical OR).
 - `intersection` - Returns a single `Mesh` representing the common volume of two intersecting `Mesh`es (logical AND).
 - `stencil` - This effectively "paints" part of one `Mesh` with the material from another.
 
 All CSG operations require `Mesh`es that are "watertight", i.e. that have no holes in their surface. Using them on `Mesh`es that are not sealed may result in unexpected results.
+
+## Text
+
+On macOS and iOS you can make use of Euclid's Core Text integration to create 2D or 3D extruded text.
+
+The `Path.text()` method produces an array of 2D `Path`s representing the contours of each glyph in an `AttributedString`, which can then be used with the `fill` or `extrude` builder methods and combined using the `xor` CSG function to create solid text.
+
+Alternatively, the `Mesh(text:)` constructor directly produces an extruded 3D text model from a `String` or `AttributedString`.
 
 
 # Rendering

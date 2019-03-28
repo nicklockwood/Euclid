@@ -103,8 +103,10 @@ public extension Mesh {
         let bp1 = absp.clip(bp, .lessThan, true)
         let ap2 = bbsp.clip(ap, .lessThan, true)
         let bp2 = absp.clip(bp, .greaterThan, false)
-        return Mesh(aout! + ap1 + bp1.map { $0.inverted() } +
-            bout! + bp2 + ap2.map { $0.inverted() })
+        // Avoids slow compilation from long expression
+        let lhs = aout! + ap1 + bp1.map { $0.inverted() }
+        let rhs = bout! + bp2 + ap2.map { $0.inverted() }
+        return Mesh(lhs + rhs)
     }
 
     /// Returns a new mesh reprenting the volume shared by both the mesh

@@ -1,3 +1,12 @@
+## [0.1.7](https://github.com/nicklockwood/Euclid/releases/tag/0.1.7) (2019-03-11)
+
+- Added support for creating Euclid Paths from a Core Graphics CGPath
+- Added support for rendering 2D or extruded 3D text using Core Text
+- Fixed some bugs in triangulation that occasionally caused concave polygons not to render
+- Fixed a bug where material was not set correctly for extrusions with a depth of zero
+- Added XOR CSG function (useful for rendering text)
+- Added ellipse constructor for Path
+
 ## [0.1.6](https://github.com/nicklockwood/Euclid/releases/tag/0.1.6) (2019-02-27)
 
 - Improved CSG operations on coplanar polygons

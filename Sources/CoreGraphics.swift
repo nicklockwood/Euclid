@@ -25,15 +25,15 @@ public extension CGPoint {
 public extension CGPath {
     private func enumerateElements(_ block: @convention(block) (CGPathElement) -> Void) {
         #if os(iOS)
-            if #available(iOS 11.0, *) {
-                applyWithBlock { block($0.pointee) }
-                return
-            }
+        if #available(iOS 11.0, *) {
+            applyWithBlock { block($0.pointee) }
+            return
+        }
         #elseif os(OSX)
-            if #available(OSX 10.13, *) {
-                applyWithBlock { block($0.pointee) }
-                return
-            }
+        if #available(OSX 10.13, *) {
+            applyWithBlock { block($0.pointee) }
+            return
+        }
         #endif
 
         // Fallback for earlier OSes

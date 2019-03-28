@@ -18,7 +18,7 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(linuxCount, darwinCount, "run swift test --generate-linuxmain")
         #endif
     }
-    
+
     // MARK: Rotation
 
     func testAxisAngleRotation1() {

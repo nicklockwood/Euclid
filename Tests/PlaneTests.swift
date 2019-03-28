@@ -18,7 +18,7 @@ class PlaneTests: XCTestCase {
         XCTAssertEqual(linuxCount, darwinCount, "run swift test --generate-linuxmain")
         #endif
     }
-    
+
     func testConcavePolygonClockwiseWinding() {
         var transform = Transform.identity
         var points = [Vector]()

@@ -18,7 +18,7 @@ class PolygonTests: XCTestCase {
         XCTAssertEqual(linuxCount, darwinCount, "run swift test --generate-linuxmain")
         #endif
     }
-    
+
     // MARK: initialization
 
     func testConvexPolygonAnticlockwiseWinding() {

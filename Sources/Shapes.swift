@@ -566,8 +566,7 @@ public extension Mesh {
             polygons.append(polygon)
         }
         switch faces {
-        case .front,
-             .default where !shapes.contains(where: { !$0.isClosed }):
+        case .default where !shapes.contains(where: { !$0.isClosed }), .front:
             return Mesh(polygons)
         case .back:
             return Mesh(polygons.map { $0.inverted() })

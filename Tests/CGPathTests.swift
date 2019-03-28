@@ -8,8 +8,8 @@
 
 #if canImport(CoreGraphics)
 
-@testable import Euclid
 import CoreGraphics
+@testable import Euclid
 import XCTest
 
 class CGPathTests: XCTestCase {

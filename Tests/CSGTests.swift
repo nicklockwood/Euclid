@@ -18,7 +18,7 @@ class CSGTests: XCTestCase {
         XCTAssertEqual(linuxCount, darwinCount, "run swift test --generate-linuxmain")
         #endif
     }
-    
+
     // MARK: Subtraction
 
     func testSubtractCoincidingBoxes() {
@@ -153,7 +153,7 @@ class CSGTests: XCTestCase {
             max: Vector(0, 0.5, 0)
         ))
     }
-    
+
     // MARK: Planar XOR
 
     func testXorCoincidingSquares() {
