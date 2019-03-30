@@ -157,41 +157,45 @@ public extension Polygon {
         }
         var i = 0
         var attempts = 0
-        while vertices.count > 3 {
-            var triangle = Polygon([
-                vertices[(i - 1 + vertices.count) % vertices.count],
-                vertices[i],
-                vertices[(i + 1) % vertices.count],
-            ])
-            if let normal = triangle?.plane.normal {
-                if normal.dot(plane.normal) > 0 {
-                    for v in vertices where !triangle!.vertices.contains(v) {
-                        if triangle!.containsPoint(v.position) {
-                            triangle = nil
-                            break
-                        }
-                    }
-                } else {
-                    triangle = nil
-                }
+        func removeVertex() {
+            attempts = 0
+            vertices.remove(at: i)
+            if i == vertices.count {
+                i = 0
             }
-            if let triangle = triangle, addTriangle(triangle.vertices) {
-                vertices.remove(at: i)
-                attempts = 0
-                if i == vertices.count {
-                    i = 0
+        }
+        while vertices.count > 3  {
+            let p0 = vertices[(i - 1 + vertices.count) % vertices.count]
+            let p1 = vertices[i]
+            let p2 = vertices[(i + 1) % vertices.count]
+            // check for colinear points
+            let p0p1 = p0.position - p1.position, p2p1 = p2.position - p1.position
+            if p0p1.cross(p2p1).length < epsilon {
+                // vertices are colinear, so we can't form a triangle
+                if p0p1.dot(p2p1) > 0 {
+                    // center point makes path degenerate - remove it
+                    removeVertex()
+                } else {
+                    // try next point instead
+                    i += 1
                 }
-            } else {
-                i = i + 1
+                continue
+            }
+            let triangle = Polygon([p0, p1, p2])
+            if triangle == nil ||
+                triangle!.plane.normal.dot(plane.normal) <= 0 || vertices.contains(where: {
+                !triangle!.vertices.contains($0) && triangle!.containsPoint($0.position)
+            }) {
+                i += 1
                 if i == vertices.count {
                     i = 0
                     attempts += 1
-                    if attempts > 2 {
-                        // TODO: figure out why this can sometimes happen for
-                        // legitimate geometry
+                    if attempts > 1 {
                         return triangles
                     }
                 }
+            } else if addTriangle(triangle!.vertices) {
+                removeVertex()
             }
         }
         _ = addTriangle(vertices)

@@ -103,6 +103,7 @@ extension PolygonTests {
         ("testConvexPolygonAnticlockwiseWinding", testConvexPolygonAnticlockwiseWinding),
         ("testConvexPolygonClockwiseWinding", testConvexPolygonClockwiseWinding),
         ("testDegeneratePolygonWithColinearPoints", testDegeneratePolygonWithColinearPoints),
+        ("testHouseShapedPolygonCorrectlyTriangulated", testHouseShapedPolygonCorrectlyTriangulated),
         ("testInvertedConcaveAnticlockwisePolygonCorrectlyTessellated", testInvertedConcaveAnticlockwisePolygonCorrectlyTessellated),
         ("testInvertedConcaveAnticlockwisePolygonCorrectlyTriangulated", testInvertedConcaveAnticlockwisePolygonCorrectlyTriangulated),
         ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
@@ -115,6 +116,7 @@ extension PolygonTests {
         ("testMergeR2LAdjacentRects", testMergeR2LAdjacentRects),
         ("testMergeT2BAdjacentRects", testMergeT2BAdjacentRects),
         ("testNonDegeneratePolygonWithColinearPoints", testNonDegeneratePolygonWithColinearPoints),
+        ("testPolygonWithColinearPointsCorrectlyTriangulated", testPolygonWithColinearPointsCorrectlyTriangulated),
     ]
 }
 

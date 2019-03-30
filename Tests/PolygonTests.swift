@@ -520,4 +520,74 @@ class PolygonTests: XCTestCase {
         XCTAssert(a == expectedA || a == expectedB)
         XCTAssert(b == expectedA || b == expectedB)
     }
+
+    func testPolygonWithColinearPointsCorrectlyTriangulated() {
+        let normal = Vector(0, 0, -1)
+        guard let polygon = Polygon([
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(0.5, 0), normal),
+            Vertex(Vector(0.5, 1), normal),
+            Vertex(Vector(-0.5, 1), normal),
+            Vertex(Vector(-0.5, 0), normal),
+        ]) else {
+            XCTFail()
+            return
+        }
+        let triangles = polygon.triangulate()
+        guard triangles.count == 3 else {
+            XCTFail()
+            return
+        }
+        XCTAssertEqual(triangles[0], Polygon([
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(0.5, 0), normal),
+            Vertex(Vector(0.5, 1), normal),
+        ]))
+        XCTAssertEqual(triangles[1], Polygon([
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(0.5, 1), normal),
+            Vertex(Vector(-0.5, 1), normal),
+        ]))
+        XCTAssertEqual(triangles[2], Polygon([
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(-0.5, 1), normal),
+            Vertex(Vector(-0.5, 0), normal),
+        ]))
+    }
+
+    func testHouseShapedPolygonCorrectlyTriangulated() {
+        let normal = Vector(0, 0, -1)
+        guard let polygon = Polygon([
+            Vertex(Vector(0, 0.5), normal),
+            Vertex(Vector(1, 0), normal),
+            Vertex(Vector(0.5, -epsilon), normal),
+            Vertex(Vector(0.5, -1), normal),
+            Vertex(Vector(-0.5, -1), normal),
+            Vertex(Vector(-0.5, -epsilon), normal),
+            Vertex(Vector(-1, 0), normal),
+        ]) else {
+            XCTFail()
+            return
+        }
+        let triangles = polygon.triangulate()
+        guard triangles.count == 3 else {
+            XCTFail()
+            return
+        }
+        XCTAssertEqual(triangles[0], Polygon([
+            Vertex(Vector(-1, 0), normal),
+            Vertex(Vector(0, 0.5), normal),
+            Vertex(Vector(1, 0), normal),
+        ]))
+        XCTAssertEqual(triangles[1], Polygon([
+            Vertex(Vector(0.5, -epsilon), normal),
+            Vertex(Vector(0.5, -1), normal),
+            Vertex(Vector(-0.5, -1), normal),
+        ]))
+        XCTAssertEqual(triangles[2], Polygon([
+            Vertex(Vector(0.5, -epsilon), normal),
+            Vertex(Vector(-0.5, -1), normal),
+            Vertex(Vector(-0.5, -epsilon), normal),
+        ]))
+    }
 }
