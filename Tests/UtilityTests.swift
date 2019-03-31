@@ -79,4 +79,46 @@ class UtilityTests: XCTestCase {
         ]
         XCTAssertTrue(verticesAreDegenerate(vertices))
     }
+
+    // MARK: path sanitization
+
+    func testSanitizeInvalidClosedPath() {
+        let points: [PathPoint] = [
+            .point(0, 1),
+            .point(0, 0),
+            .point(0, -1),
+            .point(0, 1),
+        ]
+        let result = sanitizePoints(points)
+        XCTAssertEqual(result.count, 3)
+        XCTAssertEqual(result, [
+            .point(0, 1),
+            .point(0, 0),
+            .point(0, 1),
+        ])
+        let result2 = sanitizePoints(result)
+        XCTAssertEqual(result.count, result2.count)
+    }
+
+    func testRemoveZeroAreaColinearPointRemoved() {
+        let points: [PathPoint] = [
+            .point(0.18, 0.245),
+            .point(0.18, 0.255),
+            .point(0.17, 0.255),
+            .point(0.16, 0.247),
+            .point(0.16, 0.244),
+            .point(0.16, 0.245),
+            .point(0.18, 0.245),
+        ]
+        let result = sanitizePoints(points)
+        XCTAssertEqual(result.count, 6)
+        XCTAssertEqual(result, [
+            .point(0.18, 0.245),
+            .point(0.18, 0.255),
+            .point(0.17, 0.255),
+            .point(0.16, 0.247),
+            .point(0.16, 0.245),
+            .point(0.18, 0.245),
+        ])
+    }
 }

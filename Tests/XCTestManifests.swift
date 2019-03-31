@@ -116,6 +116,7 @@ extension PolygonTests {
         ("testMergeR2LAdjacentRects", testMergeR2LAdjacentRects),
         ("testMergeT2BAdjacentRects", testMergeT2BAdjacentRects),
         ("testNonDegeneratePolygonWithColinearPoints", testNonDegeneratePolygonWithColinearPoints),
+        ("testPathWithZeroAreaColinearPointTriangulated", testPathWithZeroAreaColinearPointTriangulated),
         ("testPolygonWithColinearPointsCorrectlyTriangulated", testPolygonWithColinearPointsCorrectlyTriangulated),
     ]
 }
@@ -167,6 +168,8 @@ extension UtilityTests {
         ("testDegenerateVerticesWithZeroLengthEdge", testDegenerateVerticesWithZeroLengthEdge),
         ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
         ("testNonDegenerateColinearVertices", testNonDegenerateColinearVertices),
+        ("testRemoveZeroAreaColinearPointRemoved", testRemoveZeroAreaColinearPointRemoved),
+        ("testSanitizeInvalidClosedPath", testSanitizeInvalidClosedPath),
     ]
 }
 

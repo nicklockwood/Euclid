@@ -75,24 +75,23 @@ public struct Path: Hashable {
 }
 
 public extension Path {
+    /// Returns true if all the path's points lie on as single plane
     var isPlanar: Bool {
         return plane != nil
     }
 
+    /// Returns a closed path by joining last point to first
+    /// Returns `self` if already closed, or if path cannot be closed
     func closed() -> Path {
-        if isClosed || points.isEmpty {
+        if isClosed || self.points.isEmpty {
             return self
         }
-        if points[0].isCurved || points.last!.isCurved {
-            var points = self.points
-            points[0] = .point(points[0].position)
-            points[points.count - 1] = .point(points.last!.position)
-            points.append(points[0])
-            return Path(unchecked: points, plane: plane, subpathIndices: nil)
-        }
-        return Path(unchecked: points + [points[0]], plane: plane, subpathIndices: nil)
+        var points = self.points
+        points.append(points[0])
+        return Path(unchecked: points, plane: plane, subpathIndices: nil)
     }
 
+    /// Create a path from an array of `PathPoint`s
     init(_ points: [PathPoint]) {
         let points = sanitizePoints(points)
         self.init(unchecked: points, plane: nil, subpathIndices: nil)
@@ -446,11 +445,33 @@ private func lineSegmentsIntersect(_ p0: Vector, _ p1: Vector,
 func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
     var result = [PathPoint]()
     var last: PathPoint?
+    // Remove duplicate points
     for point in points where point.position != last?.position {
         result.append(point)
         last = point
     }
-    if result.first?.position == result.last?.position {
+    // Remove invalid points
+    let isClosed = (result.first?.position == result.last?.position)
+    if result.count > (isClosed ? 3 : 2), let a = result.first?.position {
+        let threshold = 1e-10
+        var ab = result[1].position - a
+        var i = 1
+        while i < result.count - 1 {
+            let b = result[i].position
+            let c = result[i + 1].position
+            let bc = c - b
+            if ab.cross(bc).length < epsilon, ab.dot(bc) <= threshold {
+                // center point makes path degenerate - remove it
+                result.remove(at: i)
+                ab = result[i].position - result[i - 1].position
+                continue
+            }
+            i += 1
+            ab = bc
+        }
+    }
+    // Ensure closed path start and end match
+    if isClosed {
         if result.first != result.last {
             result[0] = result.last!
         }

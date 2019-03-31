@@ -590,4 +590,22 @@ class PolygonTests: XCTestCase {
             Vertex(Vector(-0.5, -epsilon), normal),
         ]))
     }
+
+    func testPathWithZeroAreaColinearPointTriangulated() {
+        let path = Path([
+            .point(0.18, 0.245),
+            .point(0.18, 0.255),
+            .point(0.17, 0.255),
+            .point(0.16, 0.247),
+            .point(0.16, 0.244),
+            .point(0.16, 0.245),
+            .point(0.18, 0.245),
+        ])
+        guard let polygon = Polygon(shape: path) else {
+            XCTFail()
+            return
+        }
+        let triangles = polygon.triangulate()
+        XCTAssertEqual(triangles.count, 3)
+    }
 }
