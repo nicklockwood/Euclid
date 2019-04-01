@@ -352,16 +352,18 @@ public extension SCNGeometry {
         var indexData = Data()
         var vertexData = Data()
         var indicesByPoint = [Vector: UInt32]()
-        for vertex in path.edgeVertices {
-            let point = vertex.position
-            if let index = indicesByPoint[point] {
+        for path in path.subpaths {
+            for vertex in path.edgeVertices {
+                let point = vertex.position
+                if let index = indicesByPoint[point] {
+                    indexData.append(index)
+                    continue
+                }
+                let index = UInt32(indicesByPoint.count)
+                indicesByPoint[point] = index
                 indexData.append(index)
-                continue
+                vertexData.append(point)
             }
-            let index = UInt32(indicesByPoint.count)
-            indicesByPoint[point] = index
-            indexData.append(index)
-            vertexData.append(point)
         }
         self.init(
             sources: [
