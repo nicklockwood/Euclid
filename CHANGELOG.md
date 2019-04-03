@@ -1,3 +1,11 @@
+## [0.1.9](https://github.com/nicklockwood/Euclid/releases/tag/0.1.9) (2019-04-03)
+
+- Fixed polygon triangulation edge case
+- Improved automatic sanitization of paths with degenerate vertices  
+- Paths with subpaths now display correctly when rendered with SceneKit
+- Further improved text rendering performance
+- Added methods for transforming planes
+
 ## [0.1.8](https://github.com/nicklockwood/Euclid/releases/tag/0.1.8) (2019-03-28)
 
 - Added support for multiple subpaths within a single Path instance
