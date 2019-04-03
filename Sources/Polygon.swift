@@ -88,7 +88,7 @@ public extension Polygon {
                 return nil
             }
             // are they coplanar?
-            guard plane == other.plane else {
+            guard plane.isEqual(to: other.plane) else {
                 return nil
             }
         } else if id != other.id {
@@ -249,7 +249,7 @@ internal extension Polygon {
     // Join touching polygons (without checking they are coplanar or share the same material)
     func join(unchecked other: Polygon) -> Polygon? {
         assert(material == other.material)
-        assert(plane == other.plane)
+        assert(plane.isEqual(to: other.plane))
 
         // get vertices
         var va = vertices

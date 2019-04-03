@@ -94,7 +94,7 @@ public extension Path {
     /// Create a path from an array of `PathPoint`s
     init(_ points: [PathPoint]) {
         let points = sanitizePoints(points)
-        self.init(unchecked: points, plane: nil, subpathIndices: nil)
+        self.init(unchecked: points)
     }
 
     /// Create a composite path from an array of subpaths
@@ -275,10 +275,15 @@ internal extension Path {
         self.subpathIndices = subpathIndices ?? subpathIndicesFor(points)
         if let plane = plane {
             self.plane = plane
-            assert(self.plane == Plane(points: positions))
+            assert(Plane(points: positions)?.isEqual(to: plane) == true)
         } else {
             self.plane = Plane(points: positions)
         }
+    }
+
+    // Convenience initializer
+    init(unchecked points: [PathPoint]) {
+        self.init(unchecked: points, plane: nil, subpathIndices: nil)
     }
 
     // Test if path is self-intersecting

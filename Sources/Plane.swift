@@ -114,6 +114,11 @@ internal extension Plane {
         }
         self.init(unchecked: normal, pointOnPlane: points[0])
     }
+
+    // Approximate equality
+    func isEqual(to other: Plane, withPrecision p: Double = epsilon) -> Bool {
+        return abs(w - other.w) < p && normal.isEqual(to: other.normal, withPrecision: p)
+    }
 }
 
 // An enum of planes along the X, Y and Z axes

@@ -424,39 +424,61 @@ public extension PathPoint {
 
 public extension Path {
     func translated(by v: Vector) -> Path {
-        let points = self.points.map { $0.translated(by: v) }
-        return Path(unchecked: points, plane: plane.flatMap {
-            Plane(normal: $0.normal, pointOnPlane: points[0].position)
-        }, subpathIndices: subpathIndices)
+        return Path(
+            unchecked: points.map { $0.translated(by: v) },
+            plane: plane?.translated(by: v), subpathIndices: subpathIndices)
     }
 
     func rotated(by r: Rotation) -> Path {
-        let points = self.points.map { $0.rotated(by: r) }
-        return Path(unchecked: points, plane: plane.flatMap {
-            Plane(normal: $0.normal.rotated(by: r), pointOnPlane: points[0].position)
-        }, subpathIndices: subpathIndices)
+        return Path(
+            unchecked: points.map { $0.rotated(by: r) },
+            plane: plane?.rotated(by: r), subpathIndices: subpathIndices)
     }
 
     func scaled(by v: Vector) -> Path {
         return Path(
             unchecked: points.map { $0.scaled(by: v) },
-            plane: nil, subpathIndices: subpathIndices
+            plane: plane?.scaled(by: v), subpathIndices: subpathIndices
         )
     }
 
     func scaled(by f: Double) -> Path {
-        let points = self.points.map { $0.scaled(by: f) }
-        return Path(unchecked: points, plane: plane.flatMap {
-            Plane(normal: $0.normal, pointOnPlane: points[0].position)
-        }, subpathIndices: subpathIndices)
+        return Path(
+            unchecked: points.map { $0.scaled(by: f) },
+            plane: plane?.scaled(by: f), subpathIndices: subpathIndices
+        )
     }
 
     func transformed(by t: Transform) -> Path {
         // TODO: manually transform plane so we can make this more efficient
         return Path(
             unchecked: points.map { $0.transformed(by: t) },
-            plane: nil, subpathIndices: subpathIndices
+            plane: plane?.transformed(by: t), subpathIndices: subpathIndices
         )
+    }
+}
+
+public extension Plane {
+    func translated(by v: Vector) -> Plane {
+        return Plane(unchecked: normal, pointOnPlane: normal * w + v)
+    }
+
+    func rotated(by r: Rotation) -> Plane {
+        return Plane(unchecked: normal.rotated(by: r), w: w)
+    }
+
+    func scaled(by v: Vector) -> Plane {
+        let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
+        let p = (normal * w).scaled(by: v)
+        return Plane(unchecked: normal.scaled(by: vn).normalized(), pointOnPlane: p)
+    }
+
+    func scaled(by f: Double) -> Plane {
+        return Plane(unchecked: normal, w: w * f)
+    }
+
+    func transformed(by t: Transform) -> Plane {
+        return scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
     }
 }
 

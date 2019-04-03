@@ -511,7 +511,7 @@ extension Polygon {
         // Classify each point as well as the entire polygon into one of the above
         // four classes.
         var polygonType = PolygonType.coplanar
-        let types: [PolygonType] = (self.plane == plane) ? [] : vertices.map {
+        let types: [PolygonType] = self.plane.isEqual(to: plane) ? [] : vertices.map {
             let t = plane.normal.dot($0.position) - plane.w
             let type: PolygonType = (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
             polygonType = PolygonType(rawValue: polygonType.rawValue | type.rawValue)!
