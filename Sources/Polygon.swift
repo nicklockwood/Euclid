@@ -258,7 +258,7 @@ internal extension Polygon {
         // find shared vertices
         var joins = [(Int, Int)]()
         for i in va.indices {
-            if let j = vb.index(where: { $0.isEqual(to: va[i]) }) {
+            if let j = vb.firstIndex(where: { $0.isEqual(to: va[i]) }) {
                 joins.append((i, j))
             }
         }

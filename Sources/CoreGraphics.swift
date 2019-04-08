@@ -100,6 +100,8 @@ public extension CGPath {
             case .addQuadCurveToPoint, .addCurveToPoint:
                 p2 = nextElement.points[0]
                 isCurved = true
+            @unknown default:
+                fatalError("Unknown SafeElement")
             }
             switch lastElement.type {
             case .moveToPoint, .closeSubpath:
@@ -116,6 +118,8 @@ public extension CGPath {
             case .addCurveToPoint:
                 p0 = lastElement.points[1]
                 p1 = lastElement.points[2]
+            @unknown default:
+                fatalError("Unknown SafeElement")
             }
             let d0 = Vector(Double(p1.x - p0.x), Double(p1.y - p0.y)).normalized()
             let d1 = Vector(Double(p2.x - p1.x), Double(p2.y - p1.y)).normalized()
@@ -183,6 +187,8 @@ public extension CGPath {
                     ))
                 }
                 points.append(.point(Vector(p3)))
+            @unknown default:
+                fatalError("Unknown SafeElement")
             }
             if firstElement == nil, element.type != .moveToPoint {
                 firstElement = element
