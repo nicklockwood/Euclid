@@ -9,5 +9,5 @@ install:
   - bundle install --without=documentation
 script:
   - set -o pipefail
-  - xcodebuild -scheme "Euclid (Mac)" -sdk macosx clean build test | bundle exec xcpretty
+  - xcodebuild -scheme "Euclid" -sdk macosx clean build test | bundle exec xcpretty
 after_success: bundle exec slather

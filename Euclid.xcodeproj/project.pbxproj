@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013312DC21CA532A00626F1B /* PlaneTests.swift */; };
-		016FAB3321BFE78100AF60DC /* Euclid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; };
+		0162A09623795E260078AE84 /* Euclid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; };
+		0162A09923795EB30078AE84 /* Euclid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; };
 		016FAB3A21BFE78100AF60DC /* Euclid.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FAB2C21BFE78100AF60DC /* Euclid.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		016FAB4F21BFE7C200AF60DC /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4321BFE7C100AF60DC /* Vector.swift */; };
 		016FAB5021BFE7C200AF60DC /* CSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4421BFE7C100AF60DC /* CSG.swift */; };
@@ -28,48 +29,32 @@
 		016FAB6421BFE7CE00AF60DC /* PolygonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB5E21BFE7CE00AF60DC /* PolygonTests.swift */; };
 		016FAB6521BFE7CE00AF60DC /* CSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB5F21BFE7CE00AF60DC /* CSGTests.swift */; };
 		016FAB6621BFE7CE00AF60DC /* ShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB6021BFE7CE00AF60DC /* ShapeTests.swift */; };
-		016FAB6921BFE80000AF60DC /* Euclid.h in Headers */ = {isa = PBXBuildFile; fileRef = 016FAB2C21BFE78100AF60DC /* Euclid.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		016FAB6B21BFE80000AF60DC /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4921BFE7C200AF60DC /* Paths.swift */; };
-		016FAB6C21BFE80000AF60DC /* Mesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4821BFE7C200AF60DC /* Mesh.swift */; };
-		016FAB6D21BFE80000AF60DC /* Transforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4B21BFE7C200AF60DC /* Transforms.swift */; };
-		016FAB6E21BFE80000AF60DC /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4521BFE7C100AF60DC /* Utilities.swift */; };
-		016FAB6F21BFE80000AF60DC /* Bounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4721BFE7C200AF60DC /* Bounds.swift */; };
-		016FAB7021BFE80000AF60DC /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4621BFE7C100AF60DC /* Vertex.swift */; };
-		016FAB7121BFE80000AF60DC /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4C21BFE7C200AF60DC /* Polygon.swift */; };
-		016FAB7221BFE80000AF60DC /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4321BFE7C100AF60DC /* Vector.swift */; };
-		016FAB7321BFE80000AF60DC /* CSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4421BFE7C100AF60DC /* CSG.swift */; };
-		016FAB7421BFE80000AF60DC /* SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4A21BFE7C200AF60DC /* SceneKit.swift */; };
-		016FAB7521BFE80000AF60DC /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4D21BFE7C200AF60DC /* Plane.swift */; };
-		016FAB7621BFE80000AF60DC /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB4E21BFE7C200AF60DC /* Shapes.swift */; };
 		016FABED21C078E400AF60DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABEC21C078E400AF60DC /* AppDelegate.swift */; };
 		016FABF121C078E400AF60DC /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABF021C078E400AF60DC /* SceneViewController.swift */; };
 		016FABF421C078E400AF60DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF221C078E400AF60DC /* Main.storyboard */; };
 		016FABF621C078E500AF60DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF521C078E500AF60DC /* Assets.xcassets */; };
 		016FABF921C078E500AF60DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF721C078E500AF60DC /* LaunchScreen.storyboard */; };
-		016FABFF21C0794900AF60DC /* Euclid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB7C21BFE80000AF60DC /* Euclid.framework */; };
 		01A429FA2237A85C00C251A6 /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A429F92237A85C00C251A6 /* TextTests.swift */; };
 		01BA296A222726BE0088D36B /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA2969222726BD0088D36B /* XCTestManifests.swift */; };
 		01BA29712235A63F0088D36B /* CoreText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA29702235A63F0088D36B /* CoreText.swift */; };
-		01BA29722235A63F0088D36B /* CoreText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA29702235A63F0088D36B /* CoreText.swift */; };
 		01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA29792235E34C0088D36B /* CGPathTests.swift */; };
 		01BA297C2235E3590088D36B /* CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA297B2235E3580088D36B /* CoreGraphics.swift */; };
-		01BA297D2235E3590088D36B /* CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA297B2235E3580088D36B /* CoreGraphics.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		016FAB3421BFE78100AF60DC /* PBXContainerItemProxy */ = {
+		0162A09323795E200078AE84 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 016FAB2021BFE78100AF60DC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 016FAB2821BFE78100AF60DC;
 			remoteInfo = Euclid;
 		};
-		016FAC0021C0795C00AF60DC /* PBXContainerItemProxy */ = {
+		0162A09723795E820078AE84 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 016FAB2021BFE78100AF60DC /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 016FAB6721BFE80000AF60DC;
-			remoteInfo = "Euclid (iOS)";
+			remoteGlobalIDString = 016FAB2821BFE78100AF60DC;
+			remoteInfo = Euclid;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -98,7 +83,6 @@
 		016FAB5E21BFE7CE00AF60DC /* PolygonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonTests.swift; sourceTree = "<group>"; };
 		016FAB5F21BFE7CE00AF60DC /* CSGTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSGTests.swift; sourceTree = "<group>"; };
 		016FAB6021BFE7CE00AF60DC /* ShapeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeTests.swift; sourceTree = "<group>"; };
-		016FAB7C21BFE80000AF60DC /* Euclid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Euclid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		016FABEA21C078E400AF60DC /* EuclidExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EuclidExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		016FABEC21C078E400AF60DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		016FABF021C078E400AF60DC /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
@@ -125,14 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				016FAB3321BFE78100AF60DC /* Euclid.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		016FAB7721BFE80000AF60DC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				0162A09923795EB30078AE84 /* Euclid.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,13 +117,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				016FABFF21C0794900AF60DC /* Euclid.framework in Frameworks */,
+				0162A09623795E260078AE84 /* Euclid.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0162A09523795E260078AE84 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		016FAB1F21BFE78100AF60DC = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +138,7 @@
 				016FAB3621BFE78100AF60DC /* Tests */,
 				016FABEB21C078E400AF60DC /* Example */,
 				016FAB2A21BFE78100AF60DC /* Products */,
+				0162A09523795E260078AE84 /* Frameworks */,
 			);
 			indentWidth = 4;
 			sourceTree = "<group>";
@@ -164,7 +149,6 @@
 			children = (
 				016FAB2921BFE78100AF60DC /* Euclid.framework */,
 				016FAB3221BFE78100AF60DC /* EuclidTests.xctest */,
-				016FAB7C21BFE80000AF60DC /* Euclid.framework */,
 				016FABEA21C078E400AF60DC /* EuclidExample.app */,
 			);
 			name = Products;
@@ -235,20 +219,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		016FAB6821BFE80000AF60DC /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				016FAB6921BFE80000AF60DC /* Euclid.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		016FAB2821BFE78100AF60DC /* Euclid (Mac) */ = {
+		016FAB2821BFE78100AF60DC /* Euclid */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 016FAB3D21BFE78100AF60DC /* Build configuration list for PBXNativeTarget "Euclid (Mac)" */;
+			buildConfigurationList = 016FAB3D21BFE78100AF60DC /* Build configuration list for PBXNativeTarget "Euclid" */;
 			buildPhases = (
 				016FAB2421BFE78100AF60DC /* Headers */,
 				016FAB2521BFE78100AF60DC /* Sources */,
@@ -259,7 +235,7 @@
 			);
 			dependencies = (
 			);
-			name = "Euclid (Mac)";
+			name = Euclid;
 			productName = Euclid;
 			productReference = 016FAB2921BFE78100AF60DC /* Euclid.framework */;
 			productType = "com.apple.product-type.framework";
@@ -275,30 +251,12 @@
 			buildRules = (
 			);
 			dependencies = (
-				016FAB3521BFE78100AF60DC /* PBXTargetDependency */,
+				0162A09823795E820078AE84 /* PBXTargetDependency */,
 			);
 			name = EuclidTests;
 			productName = EuclidTests;
 			productReference = 016FAB3221BFE78100AF60DC /* EuclidTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		016FAB6721BFE80000AF60DC /* Euclid (iOS) */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 016FAB7921BFE80000AF60DC /* Build configuration list for PBXNativeTarget "Euclid (iOS)" */;
-			buildPhases = (
-				016FAB6821BFE80000AF60DC /* Headers */,
-				016FAB6A21BFE80000AF60DC /* Sources */,
-				016FAB7721BFE80000AF60DC /* Frameworks */,
-				016FAB7821BFE80000AF60DC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Euclid (iOS)";
-			productName = Euclid;
-			productReference = 016FAB7C21BFE80000AF60DC /* Euclid.framework */;
-			productType = "com.apple.product-type.framework";
 		};
 		016FABE921C078E400AF60DC /* Example */ = {
 			isa = PBXNativeTarget;
@@ -311,7 +269,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				016FAC0121C0795C00AF60DC /* PBXTargetDependency */,
+				0162A09423795E200078AE84 /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = Example;
@@ -353,8 +311,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				016FAB2821BFE78100AF60DC /* Euclid (Mac) */,
-				016FAB6721BFE80000AF60DC /* Euclid (iOS) */,
+				016FAB2821BFE78100AF60DC /* Euclid */,
 				016FAB3121BFE78100AF60DC /* EuclidTests */,
 				016FABE921C078E400AF60DC /* Example */,
 			);
@@ -370,13 +327,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		016FAB3021BFE78100AF60DC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		016FAB7821BFE80000AF60DC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -434,27 +384,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		016FAB6A21BFE80000AF60DC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				016FAB6B21BFE80000AF60DC /* Paths.swift in Sources */,
-				016FAB6C21BFE80000AF60DC /* Mesh.swift in Sources */,
-				016FAB6D21BFE80000AF60DC /* Transforms.swift in Sources */,
-				016FAB6E21BFE80000AF60DC /* Utilities.swift in Sources */,
-				016FAB6F21BFE80000AF60DC /* Bounds.swift in Sources */,
-				01BA297D2235E3590088D36B /* CoreGraphics.swift in Sources */,
-				01BA29722235A63F0088D36B /* CoreText.swift in Sources */,
-				016FAB7021BFE80000AF60DC /* Vertex.swift in Sources */,
-				016FAB7121BFE80000AF60DC /* Polygon.swift in Sources */,
-				016FAB7221BFE80000AF60DC /* Vector.swift in Sources */,
-				016FAB7321BFE80000AF60DC /* CSG.swift in Sources */,
-				016FAB7421BFE80000AF60DC /* SceneKit.swift in Sources */,
-				016FAB7521BFE80000AF60DC /* Plane.swift in Sources */,
-				016FAB7621BFE80000AF60DC /* Shapes.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		016FABE621C078E400AF60DC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -467,15 +396,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		016FAB3521BFE78100AF60DC /* PBXTargetDependency */ = {
+		0162A09423795E200078AE84 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 016FAB2821BFE78100AF60DC /* Euclid (Mac) */;
-			targetProxy = 016FAB3421BFE78100AF60DC /* PBXContainerItemProxy */;
+			target = 016FAB2821BFE78100AF60DC /* Euclid */;
+			targetProxy = 0162A09323795E200078AE84 /* PBXContainerItemProxy */;
 		};
-		016FAC0121C0795C00AF60DC /* PBXTargetDependency */ = {
+		0162A09823795E820078AE84 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 016FAB6721BFE80000AF60DC /* Euclid (iOS) */;
-			targetProxy = 016FAC0021C0795C00AF60DC /* PBXContainerItemProxy */;
+			target = 016FAB2821BFE78100AF60DC /* Euclid */;
+			targetProxy = 0162A09723795E820078AE84 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -645,7 +574,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = Euclid;
+				SDKROOT = "";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 			};
@@ -674,7 +605,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = Euclid;
+				SDKROOT = "";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -717,65 +650,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.EuclidTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		016FAB7A21BFE80000AF60DC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = Sources/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
-				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
-				PRODUCT_NAME = Euclid;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		016FAB7B21BFE80000AF60DC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = Sources/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
-				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
-				PRODUCT_NAME = Euclid;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -835,7 +709,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		016FAB3D21BFE78100AF60DC /* Build configuration list for PBXNativeTarget "Euclid (Mac)" */ = {
+		016FAB3D21BFE78100AF60DC /* Build configuration list for PBXNativeTarget "Euclid" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				016FAB3E21BFE78100AF60DC /* Debug */,
@@ -849,15 +723,6 @@
 			buildConfigurations = (
 				016FAB4121BFE78100AF60DC /* Debug */,
 				016FAB4221BFE78100AF60DC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		016FAB7921BFE80000AF60DC /* Build configuration list for PBXNativeTarget "Euclid (iOS)" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				016FAB7A21BFE80000AF60DC /* Debug */,
-				016FAB7B21BFE80000AF60DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "016FAB2821BFE78100AF60DC"
                BuildableName = "Euclid.framework"
-               BlueprintName = "Euclid (Mac)"
+               BlueprintName = "Euclid"
                ReferencedContainer = "container:Euclid.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,8 +26,17 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      codeCoverageEnabled = "YES"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "016FAB2821BFE78100AF60DC"
+            BuildableName = "Euclid.framework"
+            BlueprintName = "Euclid"
+            ReferencedContainer = "container:Euclid.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -40,17 +49,6 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "016FAB2821BFE78100AF60DC"
-            BuildableName = "Euclid.framework"
-            BlueprintName = "Euclid (Mac)"
-            ReferencedContainer = "container:Euclid.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -67,12 +65,10 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "016FAB2821BFE78100AF60DC"
             BuildableName = "Euclid.framework"
-            BlueprintName = "Euclid (Mac)"
+            BlueprintName = "Euclid"
             ReferencedContainer = "container:Euclid.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -85,7 +81,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "016FAB2821BFE78100AF60DC"
             BuildableName = "Euclid.framework"
-            BlueprintName = "Euclid (Mac)"
+            BlueprintName = "Euclid"
             ReferencedContainer = "container:Euclid.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

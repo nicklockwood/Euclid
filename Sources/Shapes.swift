@@ -97,7 +97,7 @@ public extension Path {
             }
         }
 
-        var points = sanitizePoints(points)
+        let points = sanitizePoints(points)
         guard detail > 0, !points.isEmpty else {
             return Path(unchecked: points, plane: nil, subpathIndices: nil)
         }
