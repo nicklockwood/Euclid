@@ -7,13 +7,15 @@
 //
 
 #if canImport(CoreGraphics)
-
 import CoreGraphics
+#endif
+
 @testable import Euclid
 import XCTest
 
 class CGPathTests: XCTestCase {
     func testRectangularCGPath() {
+        #if canImport(CoreGraphics)
         let cgRect = CGRect(x: 0, y: 0, width: 1, height: 2)
         let cgPath = CGPath(rect: cgRect, transform: nil)
         let path = Path(cgPath: cgPath)
@@ -25,9 +27,11 @@ class CGPathTests: XCTestCase {
             .point(0, 2),
             .point(0, 0),
         ])
+        #endif
     }
 
     func testUnclosedLineAndQuadCurveCGPath() {
+        #if canImport(CoreGraphics)
         let cgPath = CGMutablePath()
         cgPath.move(to: .zero)
         cgPath.addLine(to: CGPoint(x: 2, y: 0))
@@ -40,9 +44,11 @@ class CGPathTests: XCTestCase {
             .curve(1, 0.5),
             .point(0, 0),
         ])
+        #endif
     }
 
     func testClosedLineAndQuadCurveCGPath() {
+        #if canImport(CoreGraphics)
         let cgPath = CGMutablePath()
         cgPath.move(to: .zero)
         cgPath.addLine(to: CGPoint(x: 2, y: 0))
@@ -56,9 +62,11 @@ class CGPathTests: XCTestCase {
             .curve(1, 0.5),
             .point(0, 0),
         ])
+        #endif
     }
 
     func testUnclosedLineAndCubicCurveCGPath() {
+        #if canImport(CoreGraphics)
         let cgPath = CGMutablePath()
         cgPath.move(to: .zero)
         cgPath.addLine(to: CGPoint(x: 2, y: 0))
@@ -66,7 +74,6 @@ class CGPathTests: XCTestCase {
         let path = Path(cgPath: cgPath, detail: 1)
         XCTAssertTrue(path.isClosed)
         XCTAssertEqual(path.points.count, 5)
+        #endif
     }
 }
-
-#endif
