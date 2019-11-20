@@ -87,6 +87,9 @@ extension PlaneTests {
     static let __allTests = [
         ("testConcavePolygonClockwiseWinding", testConcavePolygonClockwiseWinding),
         ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
+        ("testIntersectionWithParallelPlane", testIntersectionWithParallelPlane),
+        ("testIntersectionWithPerpendicularPlane", testIntersectionWithPerpendicularPlane),
+        ("testIntersectionWithRandomPlane", testIntersectionWithRandomPlane)
     ]
 }
 
