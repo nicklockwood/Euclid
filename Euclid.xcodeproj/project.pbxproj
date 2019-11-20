@@ -54,6 +54,7 @@
 		01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA29792235E34C0088D36B /* CGPathTests.swift */; };
 		01BA297C2235E3590088D36B /* CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA297B2235E3580088D36B /* CoreGraphics.swift */; };
 		01BA297D2235E3590088D36B /* CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA297B2235E3580088D36B /* CoreGraphics.swift */; };
+		52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C844E023854C87009C0A73 /* VectorTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,7 @@
 		01BA29702235A63F0088D36B /* CoreText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreText.swift; sourceTree = "<group>"; };
 		01BA29792235E34C0088D36B /* CGPathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPathTests.swift; sourceTree = "<group>"; };
 		01BA297B2235E3580088D36B /* CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreGraphics.swift; sourceTree = "<group>"; };
+		52C844E023854C87009C0A73 /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +207,7 @@
 				016FAB5D21BFE7CE00AF60DC /* UtilityTests.swift */,
 				01BA29792235E34C0088D36B /* CGPathTests.swift */,
 				01A429F92237A85C00C251A6 /* TextTests.swift */,
+				52C844E023854C87009C0A73 /* VectorTests.swift */,
 				01BA2969222726BD0088D36B /* XCTestManifests.swift */,
 				016FAB3921BFE78100AF60DC /* Info.plist */,
 			);
@@ -431,6 +434,7 @@
 				016FAB6521BFE7CE00AF60DC /* CSGTests.swift in Sources */,
 				01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */,
 				013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */,
+				52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

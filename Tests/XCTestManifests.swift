@@ -178,6 +178,16 @@ extension UtilityTests {
     ]
 }
 
+extension VectorTests {
+    static let __allTests = [
+        ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
+        ("testAxisAlignedLength", testAxisAlignedLength),
+        ("testAngledLength", testAngledLength),
+        ("testRightAngle", testRightAngle),
+        ("testNonNormalizedAngle", testNonNormalizedAngle)
+    ]
+}
+
 #if !os(macOS)
 public func __allTests() -> [XCTestCaseEntry] {
     return [
