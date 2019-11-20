@@ -524,7 +524,7 @@ func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint
     p0p1 = p0p1 / length
     let p1p2 = (p2.position - p1.position).normalized()
     let axis = p0p1.cross(p1p2)
-    let angle = -acos(p0p1.dot(p1p2))
+    let angle = -p0p1.angleWith(p1p2)
     let r = Rotation(axis: axis, radians: angle) ?? .identity
     let p2pe = p1p2.rotated(by: r) * length
     return .curve(p2.position + p2pe)

@@ -29,6 +29,8 @@
 //  SOFTWARE.
 //
 
+import Foundation
+
 /// A distance or position in 3D space
 public struct Vector: Hashable {
     public var x, y, z: Double
@@ -109,6 +111,11 @@ public extension Vector {
 
     func quantized() -> Vector {
         return Vector(quantize(x), quantize(y), quantize(z))
+    }
+    
+    func angleWith(_ a: Vector) -> Double {
+        let cosineAngle = (self.dot(a) / (self.length * a.length));
+        return acos(cosineAngle)
     }
 }
 
