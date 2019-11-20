@@ -97,6 +97,9 @@ extension PlaneTests {
     // to regenerate.
     static let __allTests__PlaneTests = [
         ("testConcavePolygonClockwiseWinding", testConcavePolygonClockwiseWinding),
+        ("testIntersectionWithParallelPlane", testIntersectionWithParallelPlane),
+        ("testIntersectionWithPerpendicularPlane", testIntersectionWithPerpendicularPlane),
+        ("testIntersectionWithRandomPlane", testIntersectionWithRandomPlane)
     ]
 }
 
