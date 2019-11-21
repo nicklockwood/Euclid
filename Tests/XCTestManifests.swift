@@ -187,7 +187,9 @@ extension VectorTests {
         ("testAxisAlignedLength", testAxisAlignedLength),
         ("testAngledLength", testAngledLength),
         ("testRightAngle", testRightAngle),
-        ("testNonNormalizedAngle", testNonNormalizedAngle)
+        ("testNonNormalizedAngle", testNonNormalizedAngle),
+        ("testRightAngleWithPlane", testRightAngleWithPlane),
+        ("testNonNormalizedAngleWithPlane", testNonNormalizedAngleWithPlane)
     ]
 }
 

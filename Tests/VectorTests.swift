@@ -33,7 +33,7 @@ class VectorTests: XCTestCase {
         XCTAssertEqual(vector.length, length)
     }
     
-    // MARK: Angle
+    // MARK: Angle with vector
     
     func testRightAngle() {
         let vector1 = Vector(1, 0, 0)
@@ -45,6 +45,20 @@ class VectorTests: XCTestCase {
         let vector1 = Vector(10, 0, 0)
         let vector2 = Vector(-10, 0, 0)
         XCTAssertEqual(vector1.angleWith(vector2), Double.pi)            
+    }
+    
+    // MARK: Angle with plane
+    
+    func testRightAngleWithPlane() {
+        let vector1 = Vector(1, 0, 0)
+        let plane = Plane(normal: vector1, pointOnPlane: Vector.zero)
+        XCTAssertEqual(vector1.angleWith(plane: plane!), Double.pi / 2.0)
+    }
+    
+    func testNonNormalizedAngleWithPlane() {
+        let vector1 = Vector(7, 0, 0)
+        let plane = Plane(normal: vector1, pointOnPlane: Vector.zero)
+        XCTAssertEqual(vector1.angleWith(plane: plane!), Double.pi / 2.0)
     }
 }
 
