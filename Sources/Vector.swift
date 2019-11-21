@@ -117,6 +117,12 @@ public extension Vector {
         let cosineAngle = (self.dot(a) / (self.length * a.length));
         return acos(cosineAngle)
     }
+    
+    func angleWith(plane: Plane) -> Double {
+        // We know that plane.normal.length == 1
+        let complementeryAngle = self.dot(plane.normal) / self.length;
+        return asin(complementeryAngle)
+    }
 }
 
 internal extension Vector {
