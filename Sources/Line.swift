@@ -31,7 +31,37 @@
 
 import Foundation
 
+public struct LineSegment : Hashable {
+    public init(point1: Vector, point2: Vector) {
+        self.point1 = point1
+        self.point2 = point2
+    }
+    
+    public var point1: Vector {
+        didSet { point1 = point1.quantized() }
+    }
+    
+    public var point2: Vector {
+        didSet { point2 = point2.quantized() }
+    }
+    
+    public var direction : Vector {
+        let diff = point2 - point1
+        return diff.normalized()
+    }
+}
+
 public struct Line : Hashable {
+    public init(point: Vector, direction: Vector) {
+        self.point = point
+        self.direction = direction
+    }
+    
+    public init(from: LineSegment) {
+        self.point = from.point1
+        self.direction = from.direction
+    }
+    
     public var point: Vector {
         didSet { point = point.quantized() }
     }
