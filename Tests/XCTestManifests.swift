@@ -193,6 +193,15 @@ extension VectorTests {
     ]
 }
 
+extension LineTests {
+    static let __allTests = [
+        ("testDistanceFromPointSimple", testDistanceFromPointSimple),
+        ("testDistanceFromPointHarder", testDistanceFromPointHarder),
+        ("testLineIntersection", testLineIntersection),
+        ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests)
+    ]
+}
+
 #if !os(macOS)
 public func __allTests() -> [XCTestCaseEntry] {
     return [
