@@ -93,6 +93,13 @@ public struct Line : Hashable {
         didSet { direction = direction.normalized() }
     }
     
+    public func distance(to: Vector) -> Double {
+        // See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+        let aMinusP = self.point - to
+        let v = aMinusP - (self.direction * aMinusP.dot(self.direction))
+        return v.length
+    }
+    
     public func intersection(with: Line) -> Vector? {
         if ((self.direction.z == 0) && (with.direction.z == 0)) {
             return lineIntersection(self.point, self.point + self.direction, with.point, with.point + with.direction)
@@ -158,7 +165,7 @@ private func lineIntersection(_ p0: Vector, _ p1: Vector,
     let ix = (x1y2minusy1x2 * x3minusx4 - x1minusx2 * x3y4minusy3x4) / d
     let iy = (x1y2minusy1x2 * y3minusy4 - y1minusy2 * x3y4minusy3x4) / d
 
-    return Vector(ix, iy)
+    return Vector(ix, iy).quantized()
 }
 
 // TODO: extend this to work in 3D
