@@ -32,7 +32,7 @@
 import Foundation
 
 public struct LineSegment : Hashable {
-    public init(point1: Vector, point2: Vector) {
+    public init(_ point1: Vector, _ point2: Vector) {
         self.point1 = point1
         self.point2 = point2
     }
@@ -48,6 +48,29 @@ public struct LineSegment : Hashable {
     public var direction : Vector {
         let diff = point2 - point1
         return diff.normalized()
+    }
+    
+    public func intersects(with: LineSegment) -> Bool {
+        if ((self.direction.z == 0) && (with.direction.z == 0)) {
+            return lineSegmentsIntersect(self.point1, self.point2, with.point1, with.point2)
+        } else if ((self.direction.y == 0) && (with.direction.y == 0)) {
+            // Switch dimensions and then solve
+            let p0 = Vector(self.point1.x, self.point1.z, 0)
+            let p1 = Vector(self.point2.x, self.point2.z, 0)
+            let p2 = Vector(with.point1.x, with.point1.z, 0)
+            let p3 = Vector(with.point2.x, with.point2.z, 0)
+            return lineSegmentsIntersect(p0, p1, p2, p3)
+        } else if ((self.direction.x == 0) && (with.direction.x == 0)) {
+            // Switch dimensions and then solve
+            let p0 = Vector(self.point1.y, self.point1.z, 0)
+            let p1 = Vector(self.point2.y, self.point2.z, 0)
+            let p2 = Vector(with.point1.y, with.point1.z, 0)
+            let p3 = Vector(with.point2.y, with.point2.z, 0)
+            return lineSegmentsIntersect(p0, p1, p2, p3)
+        } else {
+            // TOOO: Generalize to 3D
+            return false;
+        }
     }
 }
 
@@ -69,4 +92,87 @@ public struct Line : Hashable {
     public var direction: Vector {
         didSet { direction = direction.normalized() }
     }
+    
+    public func intersection(with: Line) -> Vector? {
+        if ((self.direction.z == 0) && (with.direction.z == 0)) {
+            return lineIntersection(self.point, self.point + self.direction, with.point, with.point + with.direction)
+        } else if ((self.direction.y == 0) && (with.direction.y == 0)) {
+            // Switch dimensions and then solve
+            let p0 = Vector(self.point.x, self.point.z, 0)
+            let p1 = p0 + Vector(self.direction.x, self.direction.z, 0)
+            let p2 = Vector(with.point.x, with.point.z, 0)
+            let p3 = p0 + Vector(with.direction.x, with.direction.z, 0)
+            let solution = lineIntersection(p0, p1, p2, p3)
+            if (solution != nil) {
+                return Vector(solution!.x, self.point.y, solution!.y)
+            } else {
+                return nil;
+            }
+        } else if ((self.direction.x == 0) && (with.direction.x == 0)) {
+            // Switch dimensions and then solve
+            let p0 = Vector(self.point.y, self.point.z, 0)
+            let p1 = p0 + Vector(self.direction.y, self.direction.z, 0)
+            let p2 = Vector(with.point.y, with.point.z, 0)
+            let p3 = p0 + Vector(with.direction.y, with.direction.z, 0)
+            let solution = lineIntersection(p0, p1, p2, p3)
+            if (solution != nil) {
+                return Vector(self.point.x, solution!.x, solution!.y)
+            } else {
+                return nil;
+            }
+        } else {
+            // TOOO: Generalize to 3D
+            return nil;
+        }
+    }
+}
+
+// MARK: Private utility functions
+
+// Get the intersection point between two lines
+// TODO: extend this to work in 3D
+// TODO: improve this using https://en.wikipedia.org/wiki/Line–line_intersection
+private func lineIntersection(_ p0: Vector, _ p1: Vector,
+                              _ p2: Vector, _ p3: Vector) -> Vector? {
+    let x1 = p0.x, y1 = p0.y
+    let x2 = p1.x, y2 = p1.y
+    let x3 = p2.x, y3 = p2.y
+    let x4 = p3.x, y4 = p3.y
+
+    let x1y2 = x1 * y2, y1x2 = y1 * x2
+    let x1y2minusy1x2 = x1y2 - y1x2
+
+    let x3minusx4 = x3 - x4
+    let x1minusx2 = x1 - x2
+
+    let x3y4 = x3 * y4, y3x4 = y3 * x4
+    let x3y4minusy3x4 = x3y4 - y3x4
+
+    let y3minusy4 = y3 - y4
+    let y1minusy2 = y1 - y2
+
+    let d = x1minusx2 * y3minusy4 - y1minusy2 * x3minusx4
+    if abs(d) < epsilon {
+        return nil // lines are parallel
+    }
+    let ix = (x1y2minusy1x2 * x3minusx4 - x1minusx2 * x3y4minusy3x4) / d
+    let iy = (x1y2minusy1x2 * y3minusy4 - y1minusy2 * x3y4minusy3x4) / d
+
+    return Vector(ix, iy)
+}
+
+// TODO: extend this to work in 3D
+private func lineSegmentsIntersect(_ p0: Vector, _ p1: Vector,
+                                   _ p2: Vector, _ p3: Vector) -> Bool {
+    guard let pi = lineIntersection(p0, p1, p2, p3) else {
+        return false // lines are parallel
+    }
+    // TODO: is there a cheaper way to do this?
+    if pi.x < min(p0.x, p1.x) || pi.x > max(p0.x, p1.x) ||
+        pi.x < min(p2.x, p3.x) || pi.x > max(p2.x, p3.x) ||
+        pi.y < min(p0.y, p1.y) || pi.y > max(p0.y, p1.y) ||
+        pi.y < min(p2.y, p3.y) || pi.y > max(p2.y, p3.y) {
+        return false
+    }
+    return true
 }
