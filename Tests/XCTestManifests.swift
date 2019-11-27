@@ -197,7 +197,9 @@ extension LineTests {
     static let __allTests = [
         ("testDistanceFromPointSimple", testDistanceFromPointSimple),
         ("testDistanceFromPointHarder", testDistanceFromPointHarder),
-        ("testLineIntersection", testLineIntersection),
+        ("testLineIntersectionXY", testLineIntersectionXY),
+        ("testLineIntersectionXZ", testLineIntersectionXZ),
+        ("testLineIntersectionYZ", testLineIntersectionYZ),
         ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests)
     ]
 }
