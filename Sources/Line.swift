@@ -51,16 +51,16 @@ public struct LineSegment : Hashable {
     }
     
     public func intersects(with: LineSegment) -> Bool {
-        if ((self.direction.z == 0) && (with.direction.z == 0)) {
+        if ((self.direction.z == 0) && (with.direction.z == 0) && (self.point1.z == with.point1.z)) {
             return lineSegmentsIntersect(self.point1, self.point2, with.point1, with.point2)
-        } else if ((self.direction.y == 0) && (with.direction.y == 0)) {
+        } else if ((self.direction.y == 0) && (with.direction.y == 0) && (self.point1.y == with.point1.y)) {
             // Switch dimensions and then solve
             let p0 = Vector(self.point1.x, self.point1.z, 0)
             let p1 = Vector(self.point2.x, self.point2.z, 0)
             let p2 = Vector(with.point1.x, with.point1.z, 0)
             let p3 = Vector(with.point2.x, with.point2.z, 0)
             return lineSegmentsIntersect(p0, p1, p2, p3)
-        } else if ((self.direction.x == 0) && (with.direction.x == 0)) {
+        } else if ((self.direction.x == 0) && (with.direction.x == 0) && (self.point1.x == with.point1.x)) {
             // Switch dimensions and then solve
             let p0 = Vector(self.point1.y, self.point1.z, 0)
             let p1 = Vector(self.point2.y, self.point2.z, 0)
@@ -101,29 +101,29 @@ public struct Line : Hashable {
     }
     
     public func intersection(with: Line) -> Vector? {
-        if ((self.direction.z == 0) && (with.direction.z == 0)) {
+        if ((self.direction.z == 0) && (with.direction.z == 0) && (self.point.z == with.point.z)) {
             return lineIntersection(self.point, self.point + self.direction, with.point, with.point + with.direction)
-        } else if ((self.direction.y == 0) && (with.direction.y == 0)) {
+        } else if ((self.direction.y == 0) && (with.direction.y == 0) && (self.point.y == with.point.y)) {
             // Switch dimensions and then solve
-            let p0 = Vector(self.point.x, self.point.z, 0)
+            let p0 = Vector(self.point.x, self.point.z, self.point.y)
             let p1 = p0 + Vector(self.direction.x, self.direction.z, 0)
-            let p2 = Vector(with.point.x, with.point.z, 0)
-            let p3 = p0 + Vector(with.direction.x, with.direction.z, 0)
+            let p2 = Vector(with.point.x, with.point.z, with.point.y)
+            let p3 = p2 + Vector(with.direction.x, with.direction.z, 0)
             let solution = lineIntersection(p0, p1, p2, p3)
             if (solution != nil) {
-                return Vector(solution!.x, self.point.y, solution!.y)
+                return Vector(solution!.x, solution!.z, solution!.y)
             } else {
                 return nil;
             }
-        } else if ((self.direction.x == 0) && (with.direction.x == 0)) {
+        } else if ((self.direction.x == 0) && (with.direction.x == 0) && (self.point.x == with.point.x)) {
             // Switch dimensions and then solve
-            let p0 = Vector(self.point.y, self.point.z, 0)
+            let p0 = Vector(self.point.y, self.point.z, self.point.x)
             let p1 = p0 + Vector(self.direction.y, self.direction.z, 0)
-            let p2 = Vector(with.point.y, with.point.z, 0)
-            let p3 = p0 + Vector(with.direction.y, with.direction.z, 0)
+            let p2 = Vector(with.point.y, with.point.z, with.point.x)
+            let p3 = p2 + Vector(with.direction.y, with.direction.z, 0)
             let solution = lineIntersection(p0, p1, p2, p3)
             if (solution != nil) {
-                return Vector(self.point.x, solution!.x, solution!.y)
+                return Vector(solution!.z, solution!.x, solution!.y)
             } else {
                 return nil;
             }
@@ -165,7 +165,7 @@ private func lineIntersection(_ p0: Vector, _ p1: Vector,
     let ix = (x1y2minusy1x2 * x3minusx4 - x1minusx2 * x3y4minusy3x4) / d
     let iy = (x1y2minusy1x2 * y3minusy4 - y1minusy2 * x3y4minusy3x4) / d
 
-    return Vector(ix, iy).quantized()
+    return Vector(ix, iy, p0.z).quantized()
 }
 
 // TODO: extend this to work in 3D
