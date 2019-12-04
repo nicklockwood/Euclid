@@ -43,11 +43,16 @@ public extension Mesh {
     /// Polygons grouped by material
     var polygonsByMaterial: [Polygon.Material: [Polygon]] {
         var polygonsByMaterial = [Polygon.Material: [Polygon]]()
-        for polygon in polygons {
-            var array = polygonsByMaterial[polygon.material] ?? []
-            array.append(polygon)
-            polygonsByMaterial[polygon.material] = array
+        
+        if (polygons.isEmpty) {
+            return polygonsByMaterial
         }
+                
+        let materials = Set(polygons.map { $0.material })
+        for material in materials {
+            polygonsByMaterial[material] = polygons.filter { $0.material == material }
+        }
+        
         return polygonsByMaterial
     }
 
