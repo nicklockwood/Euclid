@@ -34,16 +34,16 @@ import Foundation
 /// A distance or position in 3D space
 public struct Vector: Hashable {
     public var x, y, z: Double
-}
 
-public extension Vector {
-    static let zero = Vector(0, 0, 0)
-
-    init(_ x: Double, _ y: Double, _ z: Double = 0) {
+    public init(_ x: Double, _ y: Double, _ z: Double = 0) {
         self.x = x
         self.y = y
         self.z = z
     }
+}
+
+public extension Vector {
+    static let zero = Vector(0, 0, 0)
 
     /// Create a vector from an array of coordinates.
     /// Omitted values are defaulted to zero.
@@ -112,15 +112,15 @@ public extension Vector {
     func quantized() -> Vector {
         return Vector(quantize(x), quantize(y), quantize(z))
     }
-    
-    func angleWith(_ a: Vector) -> Double {
-        let cosineAngle = (self.dot(a) / (self.length * a.length));
+
+    func angle(with a: Vector) -> Double {
+        let cosineAngle = (dot(a) / (length * a.length))
         return acos(cosineAngle)
     }
-    
-    func angleWith(plane: Plane) -> Double {
+
+    func angle(with plane: Plane) -> Double {
         // We know that plane.normal.length == 1
-        let complementeryAngle = self.dot(plane.normal) / self.length;
+        let complementeryAngle = dot(plane.normal) / length
         return asin(complementeryAngle)
     }
 }

@@ -40,13 +40,13 @@ public struct Vertex: Hashable {
     }
 
     public var texcoord: Vector
+
+    public init(_ position: Vector, _ normal: Vector, _ texcoord: Vector = .zero) {
+        self.init(unchecked: position, normal.normalized(), texcoord)
+    }
 }
 
 public extension Vertex {
-    init(_ position: Vector, _ normal: Vector, _ texcoord: Vector = .zero) {
-        self.init(unchecked: position, normal.normalized(), texcoord)
-    }
-
     /// Invert all orientation-specific data (e.g. vertex normal). Called when the
     /// orientation of a polygon is flipped.
     func inverted() -> Vertex {

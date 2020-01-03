@@ -2,3 +2,7 @@
 --decimalgrouping ignore
 --enable isEmpty
 --ifdef no-indent
+--wraparguments before-first
+--maxwidth 120
+
+--exclude Tests/XCTestManifests.swift

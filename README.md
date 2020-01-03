@@ -97,6 +97,14 @@ The `Bounds` type represents an axis-aligned bounding box for a 3D shape or coll
 
 The `Plane` type represents an infinite plane in 3D space. It is defined by a surface normal `Vector` and a `w` value that indicates the distance of the center of the `Plane` from the world origin.
 
+## Line
+
+The `Line` type represents an infinite line in 3D space. It is defined by an `origin` point and a normalized `direction` vector.
+
+## LineSegment
+
+The `LineSegment` type represents a finite line segment in 3D space. It is defined by a `start` point and an `end` point.
+
 ## PathPoint
 
 A `PathPoint` is a control point along a path. `PathPoint`s have a position `Vector`, but no normal. Instead, the `isCurved` property is used to indicate if a point is sharp or smooth, allowing the normal to be inferred automatically when required.

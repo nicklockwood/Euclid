@@ -140,10 +140,10 @@ public extension CGPath {
                 startingPoint = points.first?.position ?? .zero
                 endPath()
             case .addLineToPoint:
-                let point = $0.points[0]
-                element.points = [point]
+                let origin = $0.points[0]
+                element.points = [origin]
                 updateLastPoint(nextElement: element)
-                points.append(.point(Vector(point)))
+                points.append(.point(Vector(origin)))
             case .addQuadCurveToPoint:
                 let p1 = $0.points[0], p2 = $0.points[1]
                 element.points = [p1, p2]

@@ -1,3 +1,9 @@
+## [0.2.0](https://github.com/nicklockwood/Euclid/releases/tag/0.2.0) (2020-01-04)
+
+- Added Swift 5 compatibility fixes
+- Added Line and LineSegment types
+- Unified iOS and macOS framework targets
+
 ## [0.1.9](https://github.com/nicklockwood/Euclid/releases/tag/0.1.9) (2019-04-03)
 
 - Fixed polygon triangulation edge case

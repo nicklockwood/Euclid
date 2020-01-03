@@ -226,8 +226,11 @@ private func reduce(_ meshes: [Mesh], using fn: (Mesh, Mesh) -> Mesh) -> Mesh {
     return reduce(&meshesAndBounds, at: 0, using: fn)
 }
 
-private func reduce(_ meshesAndBounds: inout [(Mesh, Bounds)],
-                    at i: Int, using fn: (Mesh, Mesh) -> Mesh) -> Mesh {
+private func reduce(
+    _ meshesAndBounds: inout [(Mesh, Bounds)],
+    at i: Int,
+    using fn: (Mesh, Mesh) -> Mesh
+) -> Mesh {
     var (m, mb) = meshesAndBounds[i]
     var j = i + 1, count = meshesAndBounds.count
     while j < count {
@@ -299,10 +302,12 @@ private class BSPNode {
         return clip(polygons, keeping, clipBackfaces, &id)
     }
 
-    private func clip(_ polygons: [Polygon],
-                      _ keeping: ClipRule,
-                      _ clipBackfaces: Bool,
-                      _ id: inout Int) -> [Polygon] {
+    private func clip(
+        _ polygons: [Polygon],
+        _ keeping: ClipRule,
+        _ clipBackfaces: Bool,
+        _ id: inout Int
+    ) -> [Polygon] {
         var polygons = polygons
         var node = self
         var total = [Polygon]()
@@ -331,8 +336,12 @@ private class BSPNode {
             }
             for polygon in coplanar {
                 var inside = [Polygon](), outside = [Polygon]()
-                polygon.clip(to: node.polygons.flatMap { $0.tessellate() },
-                             &inside, &outside, &id)
+                polygon.clip(
+                    to: node.polygons.flatMap { $0.tessellate() },
+                    &inside,
+                    &outside,
+                    &id
+                )
                 switch keeping {
                 case .greaterThan:
                     if node.plane!.normal.dot(polygon.plane.normal) > 0 {
@@ -455,10 +464,12 @@ extension Polygon {
         return planes
     }
 
-    func clip(to polygons: [Polygon],
-              _ inside: inout [Polygon],
-              _ outside: inout [Polygon],
-              _ id: inout Int) {
+    func clip(
+        to polygons: [Polygon],
+        _ inside: inout [Polygon],
+        _ outside: inout [Polygon],
+        _ id: inout Int
+    ) {
         precondition(isConvex)
         var toTest = [self]
         for polygon in polygons where !toTest.isEmpty {
@@ -472,10 +483,12 @@ extension Polygon {
         outside = toTest
     }
 
-    func clip(_ polygon: Polygon,
-              _ inside: inout [Polygon],
-              _ outside: inout [Polygon],
-              _ id: inout Int) {
+    func clip(
+        _ polygon: Polygon,
+        _ inside: inout [Polygon],
+        _ outside: inout [Polygon],
+        _ id: inout Int
+    ) {
         precondition(isConvex)
         guard polygon.isConvex else {
             polygon.tessellate().forEach {
@@ -496,11 +509,13 @@ extension Polygon {
         inside.append(polygon)
     }
 
-    func split(along plane: Plane,
-               _ coplanar: inout [Polygon],
-               _ front: inout [Polygon],
-               _ back: inout [Polygon],
-               _ id: inout Int) {
+    func split(
+        along plane: Plane,
+        _ coplanar: inout [Polygon],
+        _ front: inout [Polygon],
+        _ back: inout [Polygon],
+        _ id: inout Int
+    ) {
         enum PolygonType: Int {
             case coplanar = 0
             case front = 1

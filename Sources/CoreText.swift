@@ -38,12 +38,13 @@ public extension Path {
 
 public extension Mesh {
     /// Create an extruded text model from a String
-    init(text: String,
-         font: CTFont? = nil,
-         width: Double? = nil,
-         depth: Double = 1,
-         detail: Int = 2,
-         material: Polygon.Material = nil
+    init(
+        text: String,
+        font: CTFont? = nil,
+        width: Double? = nil,
+        depth: Double = 1,
+        detail: Int = 2,
+        material: Polygon.Material = nil
     ) {
         let font = font ?? CTFontCreateWithName("Helvetica" as CFString, 1, nil)
         let attributes = [NSAttributedString.Key.font: font]
@@ -52,11 +53,12 @@ public extension Mesh {
     }
 
     /// Create an extruded text model from an attributed string
-    init(text: NSAttributedString,
-         width: Double? = nil,
-         depth: Double = 1,
-         detail: Int = 2,
-         material: Polygon.Material = nil
+    init(
+        text: NSAttributedString,
+        width: Double? = nil,
+        depth: Double = 1,
+        detail _: Int = 2,
+        material: Polygon.Material = nil
     ) {
         var meshes = [Mesh]()
         var cache = [CGPath: Mesh]()

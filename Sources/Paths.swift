@@ -303,9 +303,9 @@ internal extension Path {
                 if p1 == p2 || p2 == p3 || p3 == p0 {
                     continue
                 }
-                let l1 = LineSegment(p0, p1)
-                let l2 = LineSegment(p2, p3)
-                if l1.intersects(with: l2) {
+                let l1 = LineSegment(unchecked: p0, p1)
+                let l2 = LineSegment(unchecked: p2, p3)
+                if l1.intersects(l2) {
                     return false
                 }
             }
@@ -476,7 +476,7 @@ func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint
     p0p1 = p0p1 / length
     let p1p2 = (p2.position - p1.position).normalized()
     let axis = p0p1.cross(p1p2)
-    let angle = -p0p1.angleWith(p1p2)
+    let angle = -p0p1.angle(with: p1p2)
     let r = Rotation(axis: axis, radians: angle) ?? .identity
     let p2pe = p1p2.rotated(by: r) * length
     return .curve(p2.position + p2pe)

@@ -192,3 +192,60 @@ func cubicBezier(_ p0: Double, _ p1: Double, _ p2: Double, _ p3: Double, _ t: Do
     let c3 = t * t * t * p3
     return c0 + c1 + c2 + c3
 }
+
+// MARK: Line utilities
+
+// TODO: extend this to work in 3D
+// TODO: improve this using https://en.wikipedia.org/wiki/Line–line_intersection
+func lineIntersection(
+    _ p0: Vector,
+    _ p1: Vector,
+    _ p2: Vector,
+    _ p3: Vector
+) -> Vector? {
+    let x1 = p0.x, y1 = p0.y
+    let x2 = p1.x, y2 = p1.y
+    let x3 = p2.x, y3 = p2.y
+    let x4 = p3.x, y4 = p3.y
+
+    let x1y2 = x1 * y2, y1x2 = y1 * x2
+    let x1y2minusy1x2 = x1y2 - y1x2
+
+    let x3minusx4 = x3 - x4
+    let x1minusx2 = x1 - x2
+
+    let x3y4 = x3 * y4, y3x4 = y3 * x4
+    let x3y4minusy3x4 = x3y4 - y3x4
+
+    let y3minusy4 = y3 - y4
+    let y1minusy2 = y1 - y2
+
+    let d = x1minusx2 * y3minusy4 - y1minusy2 * x3minusx4
+    if abs(d) < epsilon {
+        return nil // lines are parallel
+    }
+    let ix = (x1y2minusy1x2 * x3minusx4 - x1minusx2 * x3y4minusy3x4) / d
+    let iy = (x1y2minusy1x2 * y3minusy4 - y1minusy2 * x3y4minusy3x4) / d
+
+    return Vector(ix, iy, p0.z).quantized()
+}
+
+// TODO: extend this to work in 3D
+func lineSegmentsIntersect(
+    _ p0: Vector,
+    _ p1: Vector,
+    _ p2: Vector,
+    _ p3: Vector
+) -> Bool {
+    guard let pi = lineIntersection(p0, p1, p2, p3) else {
+        return false // lines are parallel
+    }
+    // TODO: is there a cheaper way to do this?
+    if pi.x < min(p0.x, p1.x) || pi.x > max(p0.x, p1.x) ||
+        pi.x < min(p2.x, p3.x) || pi.x > max(p2.x, p3.x) ||
+        pi.y < min(p0.y, p1.y) || pi.y > max(p0.y, p1.y) ||
+        pi.y < min(p2.y, p3.y) || pi.y > max(p2.y, p3.y) {
+        return false
+    }
+    return true
+}

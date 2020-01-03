@@ -164,7 +164,7 @@ public extension Polygon {
                 i = 0
             }
         }
-        while vertices.count > 3  {
+        while vertices.count > 3 {
             let p0 = vertices[(i - 1 + vertices.count) % vertices.count]
             let p1 = vertices[i]
             let p2 = vertices[(i + 1) % vertices.count]
@@ -184,8 +184,8 @@ public extension Polygon {
             let triangle = Polygon([p0, p1, p2])
             if triangle == nil ||
                 triangle!.plane.normal.dot(plane.normal) <= 0 || vertices.contains(where: {
-                !triangle!.vertices.contains($0) && triangle!.containsPoint($0.position)
-            }) {
+                    !triangle!.vertices.contains($0) && triangle!.containsPoint($0.position)
+                }) {
                 i += 1
                 if i == vertices.count {
                     i = 0

@@ -71,8 +71,13 @@ public extension Path {
             case lhs, rhs, all
         }
 
-        func arc(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint,
-                 _ detail: Int, _ range: ArcRange = .all) -> [PathPoint] {
+        func arc(
+            _ p0: PathPoint,
+            _ p1: PathPoint,
+            _ p2: PathPoint,
+            _ detail: Int,
+            _ range: ArcRange = .all
+        ) -> [PathPoint] {
             let detail = detail + 1
             assert(detail >= 2)
             let steps: [Double]
@@ -178,10 +183,12 @@ public extension Mesh {
     }
 
     /// Construct an axis-aligned cuboid mesh
-    static func cube(center c: Vector = .init(0, 0, 0),
-                     size s: Vector,
-                     faces: Faces = .default,
-                     material: Polygon.Material = nil) -> Mesh {
+    static func cube(
+        center c: Vector = .init(0, 0, 0),
+        size s: Vector,
+        faces: Faces = .default,
+        material: Polygon.Material = nil
+    ) -> Mesh {
         let polygons: [Polygon] = [
             [[5, 1, 3, 7], [+1, 0, 0]],
             [[0, 4, 6, 2], [-1, 0, 0]],
@@ -226,21 +233,25 @@ public extension Mesh {
         }
     }
 
-    static func cube(center c: Vector = .init(0, 0, 0),
-                     size s: Double = 1,
-                     faces: Faces = .default,
-                     material: Polygon.Material = nil) -> Mesh {
+    static func cube(
+        center c: Vector = .init(0, 0, 0),
+        size s: Double = 1,
+        faces: Faces = .default,
+        material: Polygon.Material = nil
+    ) -> Mesh {
         return cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
     }
 
     /// Construct a sphere mesh
-    static func sphere(radius r: Double = 0.5,
-                       slices: Int = 16,
-                       stacks: Int? = nil,
-                       poleDetail: Int = 0,
-                       faces: Faces = .default,
-                       wrapMode: WrapMode = .default,
-                       material: Polygon.Material = nil) -> Mesh {
+    static func sphere(
+        radius r: Double = 0.5,
+        slices: Int = 16,
+        stacks: Int? = nil,
+        poleDetail: Int = 0,
+        faces: Faces = .default,
+        wrapMode: WrapMode = .default,
+        material: Polygon.Material = nil
+    ) -> Mesh {
         var semicircle = [PathPoint]()
         let stacks = max(2, stacks ?? (slices / 2))
         let r = max(abs(r), epsilon)
@@ -259,13 +270,15 @@ public extension Mesh {
     }
 
     /// Construct a cylindrical mesh
-    static func cylinder(radius r: Double = 0.5,
-                         height h: Double = 1,
-                         slices: Int = 16,
-                         poleDetail: Int = 0,
-                         faces: Faces = .default,
-                         wrapMode: WrapMode = .default,
-                         material: Polygon.Material = nil) -> Mesh {
+    static func cylinder(
+        radius r: Double = 0.5,
+        height h: Double = 1,
+        slices: Int = 16,
+        poleDetail: Int = 0,
+        faces: Faces = .default,
+        wrapMode: WrapMode = .default,
+        material: Polygon.Material = nil
+    ) -> Mesh {
         let r = max(abs(r), epsilon)
         let h = max(abs(h), epsilon)
         let wrapMode = wrapMode == .default ? .tube : wrapMode
@@ -286,14 +299,16 @@ public extension Mesh {
     }
 
     /// Construct as conical mesh
-    static func cone(radius r: Double = 0.5,
-                     height h: Double = 1,
-                     slices: Int = 16,
-                     poleDetail: Int? = nil,
-                     addDetailAtBottomPole: Bool = false,
-                     faces: Faces = .default,
-                     wrapMode: WrapMode = .default,
-                     material: Polygon.Material = nil) -> Mesh {
+    static func cone(
+        radius r: Double = 0.5,
+        height h: Double = 1,
+        slices: Int = 16,
+        poleDetail: Int? = nil,
+        addDetailAtBottomPole: Bool = false,
+        faces: Faces = .default,
+        wrapMode: WrapMode = .default,
+        material: Polygon.Material = nil
+    ) -> Mesh {
         let r = max(abs(r), epsilon)
         let h = max(abs(h), epsilon)
         let poleDetail = poleDetail ?? Int(sqrt(Double(slices)))
@@ -326,13 +341,15 @@ public extension Mesh {
     /// * Open paths that do not start and end on the Y axis will produce
     ///   a shape with a hole in it
     ///
-    static func lathe(_ profile: Path,
-                      slices: Int = 16,
-                      poleDetail: Int = 0,
-                      addDetailForFlatPoles: Bool = false,
-                      faces: Faces = .default,
-                      wrapMode: WrapMode = .default,
-                      material: Polygon.Material = nil) -> Mesh {
+    static func lathe(
+        _ profile: Path,
+        slices: Int = 16,
+        poleDetail: Int = 0,
+        addDetailForFlatPoles: Bool = false,
+        faces: Faces = .default,
+        wrapMode: WrapMode = .default,
+        material: Polygon.Material = nil
+    ) -> Mesh {
         let subpaths = profile.subpaths
         if subpaths.count > 1 {
             return .xor(subpaths.map {
@@ -419,14 +436,18 @@ public extension Mesh {
                             Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
                             Vector(v0.texcoord.x + (t0 + t1) / 2, v0.texcoord.y, 0)
                         )
-                        let v2 = Vertex(unchecked:
+                        let v2 = Vertex(
+                            unchecked:
                             Vector(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
-                                        Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                                        Vector(v1.texcoord.x + t0, v1.texcoord.y, 0))
-                        let v3 = Vertex(unchecked:
+                            Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
+                            Vector(v1.texcoord.x + t0, v1.texcoord.y, 0)
+                        )
+                        let v3 = Vertex(
+                            unchecked:
                             Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
-                                        Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
-                                        Vector(v1.texcoord.x + t1, v1.texcoord.y, 0))
+                            Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
+                            Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
+                        )
                         polygons.append(Polygon(unchecked: [v0, v2, v3], isConvex: true, material: material))
                     }
                 } else if v1.position.x == 0 {
@@ -436,33 +457,45 @@ public extension Mesh {
                         Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
                         Vector(v1.texcoord.x + (t0 + t1) / 2, v1.texcoord.y, 0)
                     )
-                    let v2 = Vertex(unchecked:
+                    let v2 = Vertex(
+                        unchecked:
                         Vector(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
-                                    Vector(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
-                                    Vector(v0.texcoord.x + t1, v0.texcoord.y, 0))
-                    let v3 = Vertex(unchecked:
+                        Vector(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
+                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0)
+                    )
+                    let v3 = Vertex(
+                        unchecked:
                         Vector(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
-                                    Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                                    Vector(v0.texcoord.x + t0, v0.texcoord.y, 0))
+                        Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
+                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
+                    )
                     polygons.append(Polygon(unchecked: [v2, v3, v1], isConvex: true, material: material))
                 } else {
                     // quad face
-                    let v2 = Vertex(unchecked:
+                    let v2 = Vertex(
+                        unchecked:
                         Vector(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
-                                    Vector(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
-                                    Vector(v0.texcoord.x + t1, v0.texcoord.y, 0))
-                    let v3 = Vertex(unchecked:
+                        Vector(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
+                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0)
+                    )
+                    let v3 = Vertex(
+                        unchecked:
                         Vector(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
-                                    Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                                    Vector(v0.texcoord.x + t0, v0.texcoord.y, 0))
-                    let v4 = Vertex(unchecked:
+                        Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
+                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
+                    )
+                    let v4 = Vertex(
+                        unchecked:
                         Vector(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
-                                    Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                                    Vector(v1.texcoord.x + t0, v1.texcoord.y, 0))
-                    let v5 = Vertex(unchecked:
+                        Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
+                        Vector(v1.texcoord.x + t0, v1.texcoord.y, 0)
+                    )
+                    let v5 = Vertex(
+                        unchecked:
                         Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
-                                    Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
-                                    Vector(v1.texcoord.x + t1, v1.texcoord.y, 0))
+                        Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
+                        Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
+                    )
                     let vertices = [v2, v3, v4, v5]
                     if !verticesAreDegenerate(vertices) {
                         polygons.append(Polygon(unchecked: vertices, isConvex: true, material: material))
@@ -491,10 +524,12 @@ public extension Mesh {
     }
 
     /// Extrude a path along its face normal
-    static func extrude(_ shape: Path,
-                        depth: Double = 1,
-                        faces: Faces = .default,
-                        material: Polygon.Material = nil) -> Mesh {
+    static func extrude(
+        _ shape: Path,
+        depth: Double = 1,
+        faces: Faces = .default,
+        material: Polygon.Material = nil
+    ) -> Mesh {
         let offset = (shape.plane?.normal ?? Vector(0, 0, 1)) * (depth / 2)
         if offset.lengthSquared < epsilon {
             return fill(shape, faces: faces, material: material)
@@ -506,9 +541,11 @@ public extension Mesh {
     }
 
     /// Connect multiple 3D paths
-    static func loft(_ shapes: [Path],
-                     faces: Faces = .default,
-                     material: Polygon.Material = nil) -> Mesh {
+    static func loft(
+        _ shapes: [Path],
+        faces: Faces = .default,
+        material: Polygon.Material = nil
+    ) -> Mesh {
         var subpathCount = 0
         let arrayOfSubpaths: [[Path]] = shapes.map {
             let subpaths = $0.subpaths
@@ -615,9 +652,11 @@ public extension Mesh {
     }
 
     /// Fill a path to form a polygon
-    static func fill(_ shape: Path,
-                     faces: Faces = .default,
-                     material: Polygon.Material = nil) -> Mesh {
+    static func fill(
+        _ shape: Path,
+        faces: Faces = .default,
+        material: Polygon.Material = nil
+    ) -> Mesh {
         let subpaths = shape.subpaths
         if subpaths.count > 1 {
             return .xor(subpaths.map { .fill($0, faces: faces, material: material) })

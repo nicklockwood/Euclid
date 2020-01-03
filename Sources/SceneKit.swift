@@ -354,15 +354,15 @@ public extension SCNGeometry {
         var indicesByPoint = [Vector: UInt32]()
         for path in path.subpaths {
             for vertex in path.edgeVertices {
-                let point = vertex.position
-                if let index = indicesByPoint[point] {
+                let origin = vertex.position
+                if let index = indicesByPoint[origin] {
                     indexData.append(index)
                     continue
                 }
                 let index = UInt32(indicesByPoint.count)
-                indicesByPoint[point] = index
+                indicesByPoint[origin] = index
                 indexData.append(index)
-                vertexData.append(point)
+                vertexData.append(origin)
             }
         }
         self.init(
@@ -392,8 +392,8 @@ public extension SCNGeometry {
     // Creates a line-segment bounding-box SCNGeometry from a Bounds
     convenience init(bounds: Bounds) {
         var vertexData = Data()
-        for point in bounds.corners {
-            vertexData.append(point)
+        for origin in bounds.corners {
+            vertexData.append(origin)
         }
         let indices: [UInt32] = [
             // bottom

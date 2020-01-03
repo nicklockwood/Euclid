@@ -170,7 +170,7 @@ class TransformTests: XCTestCase {
         let path = Path(unchecked: [
             .point(1, 2, 3),
             .point(7, -2, 12),
-            .point(-2, 7, 14)
+            .point(-2, 7, 14),
         ])
         let plane = path.plane!
         let transform = Transform(

@@ -22,7 +22,7 @@ Types of PR:
 
 * Minor code fixes - a typo in a method name or a trivial bug fix should be made against the **master** branch.
 
-* Major code changes - significant refactors or new functionality should usually be raised as an issue first to avoid wasted effort on a PR that's unlikely to land. This is mainly for your own sake, not ours, so if you prefer to make suggestions in code form then that's fine too. As with fixes, PRs should be made against the **master** branch.
+* Major code changes - significant refactors or new functionality should usually be raised as an issue first to avoid wasted effort on a PR that's unlikely to land. This is mainly for your own sake, not ours, so if you prefer to make suggestions in code form then that's fine too. As with fixes, PRs should be made against the **develop** branch.
 
 ## Copyright and Licensing
 
