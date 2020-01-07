@@ -521,19 +521,24 @@ extension Polygon {
             case front = 1
             case back = 2
             case spanning = 3
+
+            init(for plane: Plane, _ vertex: Vertex) {
+                let t = plane.normal.dot(vertex.position) - plane.w
+                self = (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
+            }
         }
 
-        // Classify each point as well as the entire polygon into one of the above
-        // four classes.
+        // Classify the polygon into one of the above four classes
         var polygonType = PolygonType.coplanar
-        let types: [PolygonType] = self.plane.isEqual(to: plane) ? [] : vertices.map {
-            let t = plane.normal.dot($0.position) - plane.w
-            let type: PolygonType = (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
+        for vertex in vertices {
+            let type = PolygonType(for: plane, vertex)
             polygonType = PolygonType(rawValue: polygonType.rawValue | type.rawValue)!
-            return type
+            if type == .spanning {
+                break
+            }
         }
 
-        // Put the polygon in the correct list, splitting it when necessary.
+        // Put the polygon in the correct list, splitting it when necessary
         switch polygonType {
         case .coplanar:
             coplanar.append(self)
@@ -556,8 +561,8 @@ extension Polygon {
             var f = [Vertex](), b = [Vertex]()
             for i in polygon.vertices.indices {
                 let j = (i + 1) % polygon.vertices.count
-                let ti = types[i], tj = types[j]
                 let vi = polygon.vertices[i], vj = polygon.vertices[j]
+                let ti = PolygonType(for: plane, vi), tj = PolygonType(for: plane, vj)
                 if ti != .back {
                     f.append(vi)
                 }
