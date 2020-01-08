@@ -131,6 +131,18 @@ internal extension Plane {
     }
 }
 
+// An enum of relationships between a group of points and a plane
+enum PlaneComparison: Int {
+    case coplanar = 0
+    case front = 1
+    case back = 2
+    case spanning = 3
+
+    func union(_ other: PlaneComparison) -> PlaneComparison {
+        return PlaneComparison(rawValue: rawValue | other.rawValue)!
+    }
+}
+
 // An enum of planes along the X, Y and Z axes
 // Used internally for flattening 3D paths and polygons
 enum FlatteningPlane: RawRepresentable {

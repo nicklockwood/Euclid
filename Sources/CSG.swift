@@ -447,23 +447,6 @@ private class BSPNode {
 }
 
 extension Polygon {
-    var edgePlanes: [Plane] {
-        var planes = [Plane]()
-        var p0 = vertices.last!.position
-        for v1 in vertices {
-            let p1 = v1.position
-            let tangent = p1 - p0
-            let normal = tangent.cross(plane.normal).normalized()
-            guard let plane = Plane(normal: normal, pointOnPlane: p0) else {
-                assertionFailure()
-                return []
-            }
-            planes.append(plane)
-            p0 = p1
-        }
-        return planes
-    }
-
     func clip(
         to polygons: [Polygon],
         _ inside: inout [Polygon],
@@ -516,30 +499,8 @@ extension Polygon {
         _ back: inout [Polygon],
         _ id: inout Int
     ) {
-        enum PolygonType: Int {
-            case coplanar = 0
-            case front = 1
-            case back = 2
-            case spanning = 3
-
-            init(for plane: Plane, _ vertex: Vertex) {
-                let t = vertex.position.distance(from: plane)
-                self = (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
-            }
-        }
-
-        // Classify the polygon into one of the above four classes
-        var polygonType = PolygonType.coplanar
-        for vertex in vertices {
-            let type = PolygonType(for: plane, vertex)
-            polygonType = PolygonType(rawValue: polygonType.rawValue | type.rawValue)!
-            if type == .spanning {
-                break
-            }
-        }
-
         // Put the polygon in the correct list, splitting it when necessary
-        switch polygonType {
+        switch compare(with: plane) {
         case .coplanar:
             coplanar.append(self)
         case .front:
@@ -562,14 +523,15 @@ extension Polygon {
             for i in polygon.vertices.indices {
                 let j = (i + 1) % polygon.vertices.count
                 let vi = polygon.vertices[i], vj = polygon.vertices[j]
-                let ti = PolygonType(for: plane, vi), tj = PolygonType(for: plane, vj)
+                let ti = vi.position.compare(with: plane)
                 if ti != .back {
                     f.append(vi)
                 }
                 if ti != .front {
                     b.append(vi)
                 }
-                if ti.rawValue | tj.rawValue == PolygonType.spanning.rawValue {
+                let tj = vj.position.compare(with: plane)
+                if ti.rawValue | tj.rawValue == PlaneComparison.spanning.rawValue {
                     let t = (plane.w - plane.normal.dot(vi.position)) / plane.normal.dot(vj.position - vi.position)
                     let v = vi.lerp(vj, t)
                     f.append(v)

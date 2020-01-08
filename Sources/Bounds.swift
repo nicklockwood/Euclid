@@ -111,10 +111,27 @@ public extension Bounds {
         )
     }
 
+    func intersects(_ plane: Plane) -> Bool {
+        return compare(with: plane) == .spanning
+    }
+
     func containsPoint(_ p: Vector) -> Bool {
         return p.x >= min.x && p.x <= max.x &&
             p.y >= min.y && p.y <= max.y &&
             p.z >= min.z && p.z <= max.z
+    }
+}
+
+extension Bounds {
+    func compare(with plane: Plane) -> PlaneComparison {
+        var comparison = PlaneComparison.coplanar
+        for point in corners {
+            comparison = comparison.union(point.compare(with: plane))
+            if comparison == .spanning {
+                break
+            }
+        }
+        return comparison
     }
 }
 

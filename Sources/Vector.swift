@@ -138,4 +138,9 @@ internal extension Vector {
     func isEqual(to other: Vector, withPrecision p: Double = epsilon) -> Bool {
         return abs(x - other.x) < p && abs(y - other.y) < p && abs(z - other.z) < p
     }
+
+    func compare(with plane: Plane) -> PlaneComparison {
+        let t = distance(from: plane)
+        return (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
+    }
 }

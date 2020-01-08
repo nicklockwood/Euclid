@@ -315,4 +315,32 @@ internal extension Polygon {
             id: id
         )
     }
+
+    var edgePlanes: [Plane] {
+        var planes = [Plane]()
+        var p0 = vertices.last!.position
+        for v1 in vertices {
+            let p1 = v1.position
+            let tangent = p1 - p0
+            let normal = tangent.cross(plane.normal).normalized()
+            guard let plane = Plane(normal: normal, pointOnPlane: p0) else {
+                assertionFailure()
+                return []
+            }
+            planes.append(plane)
+            p0 = p1
+        }
+        return planes
+    }
+
+    func compare(with plane: Plane) -> PlaneComparison {
+        var comparison = PlaneComparison.coplanar
+        for vertex in vertices {
+            comparison = comparison.union(vertex.position.compare(with: plane))
+            if comparison == .spanning {
+                break
+            }
+        }
+        return comparison
+    }
 }
