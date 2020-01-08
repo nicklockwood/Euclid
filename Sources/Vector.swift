@@ -56,6 +56,10 @@ public extension Vector {
         }
     }
 
+    var components: [Double] {
+        return [x, y, z]
+    }
+
     static prefix func - (rhs: Vector) -> Vector {
         return Vector(-rhs.x, -rhs.y, -rhs.z)
     }

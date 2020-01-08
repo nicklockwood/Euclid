@@ -89,15 +89,12 @@ public extension Plane {
 
     /// Returns line of intersection between planes
     func intersection(with p: Plane) -> Line? {
-        if normal.isEqual(to: p.normal) {
+        guard !normal.isEqual(to: p.normal),
+            let origin = solveSimultaneousEquationsWith(self, p) else {
             // Planes do not intersect
             return nil
         }
-        let direction = normal.cross(p.normal)
-        guard let origin = solveSimultaneousEquationsWith(p) else {
-            return nil
-        }
-        return Line(origin: origin, direction: direction)
+        return Line(origin: origin, direction: normal.cross(p.normal))
     }
 }
 
@@ -131,73 +128,6 @@ internal extension Plane {
     // Approximate equality
     func isEqual(to other: Plane, withPrecision p: Double = epsilon) -> Bool {
         return abs(w - other.w) < p && normal.isEqual(to: other.normal, withPrecision: p)
-    }
-
-    func solveSimultaneousEquationsWith(_ p2: Plane) -> Vector? {
-        // Try all the permutations of the equations we could solve until we find a solvable combination
-        let vars1 = [normal.x, normal.y, normal.z]
-        let vars2 = [p2.normal.x, p2.normal.y, p2.normal.z]
-
-        for k1 in 0 ... 2 {
-            for k2 in 0 ... 2 {
-                if k2 == k1 {
-                    continue
-                }
-                for k3 in 0 ... 2 {
-                    if (k3 == k1) || (k3 == k2) {
-                        continue
-                    }
-
-                    let vv1 = Vector(vars1[k1], vars1[k2], vars1[k3])
-                    let vv2 = Vector(vars2[k1], vars2[k2], vars2[k3])
-                    let point = Plane.performGaussianElimination(v1: vv1, w1: w, v2: vv2, w2: p2.w)
-                    if point != nil {
-                        let pointVars = [point!.x, point!.y, point!.z]
-
-                        // Rotate the variables back in to their proper place
-                        return Vector(pointVars[k1], pointVars[k2], pointVars[k3])
-                    }
-                }
-            }
-        }
-
-        return nil
-    }
-
-    static func performGaussianElimination(v1: Vector, w1: Double, v2: Vector, w2: Double) -> Vector? {
-        // Solve simultaneous equations using Gaussian elimination
-        // http://mathsfirst.massey.ac.nz/Algebra/SystemsofLinEq/EMeth.htm
-
-        if v1.x == 0 {
-            return nil
-        }
-
-        // Assume z = 0 always
-
-        // Multiply the two equations until they have an equal leading coefficient
-        let n1 = v1 * v2.x
-        let n2 = v2 * v1.x
-        let ww1 = w1 * v2.x
-        let ww2 = w2 * v1.x
-
-        // Subtract the second from the first
-        let diff = n1 - n2
-        let wdiff = ww1 - ww2
-
-        // Solve this new equation for y:
-        // diff.y * y = wdiff
-        if diff.y == 0 {
-            return nil
-        }
-        let y = wdiff / diff.y
-
-        // Substitute this back in to the first equation
-        // self.normal.x * x + self.normal.y * y = self.w
-        // self.normal.x * x = self.w - self.normal.y * y
-        // x = (self.w - self.normal.y * y) / self.normal.x
-        let x = (w1 - v1.y * y) / v1.x
-
-        return Vector(x, y, 0)
     }
 }
 
@@ -254,4 +184,57 @@ enum FlatteningPlane: RawRepresentable {
         case .xy: return Vector(point.x, point.y)
         }
     }
+}
+
+// Solve simultaneous equations using Gaussian elimination
+// http://mathsfirst.massey.ac.nz/Algebra/SystemsofLinEq/EMeth.htm
+private func performGaussianElimination(v1: Vector, w1: Double, v2: Vector, w2: Double) -> Vector? {
+    if v1.x == 0 {
+        return nil
+    }
+
+    // Assume z = 0 always
+
+    // Multiply the two equations until they have an equal leading coefficient
+    let n1 = v1 * v2.x
+    let n2 = v2 * v1.x
+    let ww1 = w1 * v2.x
+    let ww2 = w2 * v1.x
+
+    // Subtract the second from the first
+    let diff = n1 - n2
+    let wdiff = ww1 - ww2
+
+    // Solve this new equation for y:
+    // diff.y * y = wdiff
+    if diff.y == 0 {
+        return nil
+    }
+    let y = wdiff / diff.y
+
+    // Substitute this back in to the first equation
+    // self.normal.x * x + self.normal.y * y = self.w
+    // self.normal.x * x = self.w - self.normal.y * y
+    // x = (self.w - self.normal.y * y) / self.normal.x
+    let x = (w1 - v1.y * y) / v1.x
+
+    return Vector(x, y, 0)
+}
+
+// Try all the permutations of the equations we could solve until we find a solvable combination
+private func solveSimultaneousEquationsWith(_ p1: Plane, _ p2: Plane) -> Vector? {
+    let n1 = p1.normal.components, n2 = p2.normal.components
+    for i in 0 ... 2 {
+        for j in 0 ... 2 where i != j {
+            for k in 0 ... 2 where i != k && j != k {
+                let v1 = Vector(n1[i], n1[j], n1[k]), v2 = Vector(n2[i], n2[j], n2[k])
+                if let point = performGaussianElimination(v1: v1, w1: p1.w, v2: v2, w2: p2.w) {
+                    let n = point.components
+                    // Rotate the variables back in to their proper place
+                    return Vector(n[i], n[j], n[k])
+                }
+            }
+        }
+    }
+    return nil
 }
