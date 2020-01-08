@@ -189,6 +189,26 @@ public extension Mesh {
     static func stencil(_ meshes: [Mesh]) -> Mesh {
         return reduce(meshes, using: { $0.stencil($1) })
     }
+
+    /// Clip mesh to a plane
+    func clip(to plane: Plane) -> Mesh {
+        switch bounds.compare(with: plane) {
+        case .front:
+            return self
+        case .back:
+            return Mesh([])
+        case .spanning, .coplanar:
+            var id = 0
+            var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
+            for polygon in polygons {
+                polygon.split(along: plane, &coplanar, &front, &back, &id)
+            }
+            for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
+                front.append(polygon)
+            }
+            return Mesh(front)
+        }
+    }
 }
 
 private func boundsTest(
