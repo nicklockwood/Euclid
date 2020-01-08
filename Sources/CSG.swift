@@ -523,7 +523,7 @@ extension Polygon {
             case spanning = 3
 
             init(for plane: Plane, _ vertex: Vertex) {
-                let t = plane.normal.dot(vertex.position) - plane.w
+                let t = vertex.position.distance(from: plane)
                 self = (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
             }
         }

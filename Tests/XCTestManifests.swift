@@ -222,6 +222,8 @@ extension VectorTests {
     static let __allTests__VectorTests = [
         ("testAngledLength", testAngledLength),
         ("testAxisAlignedLength", testAxisAlignedLength),
+        ("testDistanceBehindPlane", testDistanceBehindPlane),
+        ("testDistanceInFrontOfPlane", testDistanceInFrontOfPlane),
         ("testNonNormalizedAngle", testNonNormalizedAngle),
         ("testNonNormalizedAngleWithPlane", testNonNormalizedAngleWithPlane),
         ("testRightAngle", testRightAngle),

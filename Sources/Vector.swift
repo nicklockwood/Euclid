@@ -127,6 +127,10 @@ public extension Vector {
         let complementeryAngle = dot(plane.normal) / length
         return asin(complementeryAngle)
     }
+
+    func distance(from plane: Plane) -> Double {
+        return plane.normal.dot(self) - plane.w
+    }
 }
 
 internal extension Vector {

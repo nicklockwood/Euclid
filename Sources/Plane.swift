@@ -84,7 +84,7 @@ public extension Plane {
 
     /// Checks if point is on plane
     func containsPoint(_ p: Vector) -> Bool {
-        return abs(normal.dot(p) - w) < epsilon
+        return abs(p.distance(from: self)) < epsilon
     }
 
     /// Returns line of intersection between planes
