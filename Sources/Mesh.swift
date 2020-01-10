@@ -31,15 +31,15 @@
 
 /// A 3D surface constructed from polygons
 public struct Mesh: Hashable {
-    public var polygons: [Polygon]
+    public private(set) var bounds: Bounds
+    public var polygons: [Polygon] {
+        didSet {
+            bounds = Bounds(bounds: polygons.map { $0.bounds })
+        }
+    }
 }
 
 public extension Mesh {
-    /// Computed bounds
-    var bounds: Bounds {
-        return Bounds(bounds: polygons.map { $0.bounds })
-    }
-
     /// Polygons grouped by material
     var polygonsByMaterial: [Polygon.Material: [Polygon]] {
         var polygonsByMaterial = [Polygon.Material: [Polygon]]()
@@ -54,6 +54,7 @@ public extension Mesh {
     /// Construct a Mesh from a list of `Polygon` instances.
     init(_ polygons: [Polygon]) {
         self.polygons = polygons.flatMap { $0.tessellate() }
+        bounds = Bounds(bounds: polygons.map { $0.bounds })
     }
 
     /// Replaces one material with another

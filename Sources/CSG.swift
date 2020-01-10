@@ -190,8 +190,28 @@ public extension Mesh {
         return reduce(meshes, using: { $0.stencil($1) })
     }
 
-    /// Clip mesh to a plane
-    func clip(to plane: Plane) -> Mesh {
+    /// Split mesh along a plane
+    func split(along plane: Plane) -> (Mesh?, Mesh?) {
+        switch bounds.compare(with: plane) {
+        case .front:
+            return (self, nil)
+        case .back:
+            return (nil, self)
+        case .spanning, .coplanar:
+            var id = 0
+            var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
+            for polygon in polygons {
+                polygon.split(along: plane, &coplanar, &front, &back, &id)
+            }
+            for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
+                front.append(polygon)
+            }
+            return (front.isEmpty ? nil : Mesh(front), back.isEmpty ? nil : Mesh(back))
+        }
+    }
+
+    /// Clip mesh to a plane and optionally fill sheared aces with specified material
+    func clip(to plane: Plane, fill: Polygon.Material = nil) -> Mesh {
         switch bounds.compare(with: plane) {
         case .front:
             return self
@@ -206,7 +226,35 @@ public extension Mesh {
             for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
                 front.append(polygon)
             }
-            return Mesh(front)
+            let mesh = Mesh(front)
+            guard let material = fill else {
+                return mesh
+            }
+            // Project each corner of mesh bounds onto plan to find radius
+            var radius = 0.0
+            for corner in mesh.bounds.corners {
+                let p = corner.project(onto: plane)
+                radius = max(radius, p.lengthSquared)
+            }
+            radius = radius.squareRoot()
+            // Create back face
+            let normal = Vector(0, 0, 1)
+            let angle = -normal.angle(with: plane.normal)
+            let axis = normal.cross(plane.normal).normalized()
+            let rotation = Rotation(unchecked: axis, radians: angle)
+            let rect = Polygon(
+                unchecked: [
+                    Vertex(Vector(-radius, radius, 0), -normal, .zero),
+                    Vertex(Vector(radius, radius, 0), -normal, Vector(1, 0, 0)),
+                    Vertex(Vector(radius, -radius, 0), -normal, Vector(1, 1, 0)),
+                    Vertex(Vector(-radius, -radius, 0), -normal, Vector(0, 1, 0)),
+                ],
+                normal: -normal,
+                isConvex: true,
+                material: material
+            ).rotated(by: rotation)
+            // Clip rect
+            return Mesh(mesh.polygons + BSPNode(polygons).clip([rect], .lessThan, true))
         }
     }
 }

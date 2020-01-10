@@ -131,6 +131,10 @@ public extension Vector {
     func distance(from plane: Plane) -> Double {
         return plane.normal.dot(self) - plane.w
     }
+
+    func project(onto plane: Plane) -> Vector {
+        return self - plane.normal * distance(from: plane)
+    }
 }
 
 internal extension Vector {
