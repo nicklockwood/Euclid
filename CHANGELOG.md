@@ -1,3 +1,11 @@
+## [0.2.1](https://github.com/nicklockwood/Euclid/releases/tag/0.2.1) (2020-01-11)
+
+- Improved CSG performance by 2X on average
+- Added methods for clipping or splitting a Mesh along a Plane
+- Added computed components property to Vector
+- Added methods to compute distance and projection between a point and Plane
+- Fixed some bugs relating to coplanar polygon clipping
+
 ## [0.2.0](https://github.com/nicklockwood/Euclid/releases/tag/0.2.0) (2020-01-04)
 
 - Added Swift 5 compatibility fixes
