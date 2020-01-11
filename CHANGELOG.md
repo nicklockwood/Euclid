@@ -1,3 +1,9 @@
+## [0.2.2](https://github.com/nicklockwood/Euclid/releases/tag/0.2.2) (2020-01-11)
+
+- Fixed infinite loop when constructing BSP for CSG operations
+- Clip to plane function now fills correctly if plane does not pass through the origin
+- LineSegment initializer is now public
+
 ## [0.2.1](https://github.com/nicklockwood/Euclid/releases/tag/0.2.1) (2020-01-11)
 
 - Improved CSG performance by 2X on average

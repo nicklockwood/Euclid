@@ -66,5 +66,4 @@ class VectorTests: XCTestCase {
         let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
         XCTAssertEqual(vector2.distance(from: plane), -1.5)
     }
-
 }
