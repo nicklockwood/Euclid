@@ -334,6 +334,9 @@ internal extension Polygon {
     }
 
     func compare(with plane: Plane) -> PlaneComparison {
+        if self.plane.isEqual(to: plane) {
+            return .coplanar
+        }
         var comparison = PlaneComparison.coplanar
         for vertex in vertices {
             comparison = comparison.union(vertex.position.compare(with: plane))
