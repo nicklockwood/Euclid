@@ -252,7 +252,9 @@ public extension Mesh {
                 normal: -normal,
                 isConvex: true,
                 material: material
-            ).rotated(by: rotation)
+            )
+            .rotated(by: rotation)
+            .translated(by: plane.normal * plane.w)
             // Clip rect
             return Mesh(mesh.polygons + BSPNode(polygons).clip([rect], .lessThan))
         }
