@@ -33,7 +33,7 @@ public struct LineSegment: Hashable {
     public let start, end: Vector
 
     /// Creates a line segment from a start and end point
-    init?(_ start: Vector, _ end: Vector) {
+    public init?(_ start: Vector, _ end: Vector) {
         guard !start.isEqual(to: end) else {
             return nil
         }
