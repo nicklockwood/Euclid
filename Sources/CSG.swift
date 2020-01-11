@@ -50,8 +50,8 @@ public extension Mesh {
         var aout: [Polygon]? = []
         var bout: [Polygon]? = []
         boundsTest(&ap, &bp, &aout, &bout)
-        ap = BSPNode(mesh.polygons).clip(ap, .greaterThan, true)
-        bp = BSPNode(polygons).clip(bp, .greaterThanEqual, true)
+        ap = BSPNode(mesh.polygons).clip(ap, .greaterThan)
+        bp = BSPNode(polygons).clip(bp, .greaterThanEqual)
         return Mesh(aout! + bout! + ap + bp)
     }
 
@@ -78,8 +78,8 @@ public extension Mesh {
         var aout: [Polygon]? = []
         var bout: [Polygon]?
         boundsTest(&ap, &bp, &aout, &bout)
-        ap = BSPNode(mesh.polygons).clip(ap, .greaterThan, false)
-        bp = BSPNode(polygons).clip(bp, .lessThan, true)
+        ap = BSPNode(mesh.polygons).clip(ap, .greaterThan)
+        bp = BSPNode(polygons).clip(bp, .lessThan)
         return Mesh(aout! + ap + bp.map { $0.inverted() })
     }
 
@@ -109,10 +109,10 @@ public extension Mesh {
         let absp = BSPNode(polygons)
         let bbsp = BSPNode(mesh.polygons)
         // TODO: combine clip operations
-        let ap1 = bbsp.clip(ap, .greaterThan, false)
-        let bp1 = absp.clip(bp, .lessThan, true)
-        let ap2 = bbsp.clip(ap, .lessThan, true)
-        let bp2 = absp.clip(bp, .greaterThan, false)
+        let ap1 = bbsp.clip(ap, .greaterThan)
+        let bp1 = absp.clip(bp, .lessThan)
+        let ap2 = bbsp.clip(ap, .lessThan)
+        let bp2 = absp.clip(bp, .greaterThan)
         // Avoids slow compilation from long expression
         let lhs = aout! + ap1 + bp1.map { $0.inverted() }
         let rhs = bout! + bp2 + ap2.map { $0.inverted() }
@@ -142,8 +142,8 @@ public extension Mesh {
         var bp = mesh.polygons
         var aout, bout: [Polygon]?
         boundsTest(&ap, &bp, &aout, &bout)
-        ap = BSPNode(mesh.polygons).clip(ap, .lessThan, false)
-        bp = BSPNode(polygons).clip(bp, .lessThanEqual, false)
+        ap = BSPNode(mesh.polygons).clip(ap, .lessThan)
+        bp = BSPNode(polygons).clip(bp, .lessThanEqual)
         return Mesh(ap + bp)
     }
 
@@ -172,8 +172,8 @@ public extension Mesh {
         boundsTest(&ap, &bp, &aout, &bout)
         // TODO: combine clip operations
         let bsp = BSPNode(mesh.polygons)
-        let outside = bsp.clip(ap, .greaterThan, false)
-        let inside = bsp.clip(ap, .lessThanEqual, false)
+        let outside = bsp.clip(ap, .greaterThan)
+        let inside = bsp.clip(ap, .lessThanEqual)
         return Mesh(aout! + outside + inside.map {
             Polygon(
                 unchecked: $0.vertices,
@@ -254,7 +254,7 @@ public extension Mesh {
                 material: material
             ).rotated(by: rotation)
             // Clip rect
-            return Mesh(mesh.polygons + BSPNode(polygons).clip([rect], .lessThan, true))
+            return Mesh(mesh.polygons + BSPNode(polygons).clip([rect], .lessThan))
         }
     }
 }
@@ -361,19 +361,18 @@ private class BSPNode {
         case lessThanEqual
     }
 
-    func clip(_ polygons: [Polygon], _ keeping: ClipRule, _ clipBackfaces: Bool) -> [Polygon] {
+    func clip(_ polygons: [Polygon], _ keeping: ClipRule) -> [Polygon] {
         var id = 0
         var polygons = polygons
         for (i, p) in polygons.enumerated() where p.id != 0 {
             polygons[i].id = 0
         }
-        return clip(polygons, keeping, clipBackfaces, &id)
+        return clip(polygons, keeping, &id)
     }
 
     private func clip(
         _ polygons: [Polygon],
         _ keeping: ClipRule,
-        _ clipBackfaces: Bool,
         _ id: inout Int
     ) -> [Polygon] {
         var polygons = polygons
@@ -403,55 +402,19 @@ private class BSPNode {
                 polygon.split(along: node.plane!, &coplanar, &front, &back, &id)
             }
             for polygon in coplanar {
-                var inside = [Polygon](), outside = [Polygon]()
-                polygon.clip(
-                    to: node.polygons.flatMap { $0.tessellate() },
-                    &inside,
-                    &outside,
-                    &id
-                )
                 switch keeping {
-                case .greaterThan:
+                case .greaterThan, .lessThanEqual:
+                    polygon.clip(to: node.polygons, &back, &front, &id)
+                case .greaterThanEqual, .lessThan:
                     if node.plane!.normal.dot(polygon.plane.normal) > 0 {
-                        front += outside
-                        back += inside
-                    } else if clipBackfaces {
-                        front += outside + inside
+                        front.append(polygon)
                     } else {
-                        back += outside + inside
-                    }
-                case .greaterThanEqual:
-                    if node.plane!.normal.dot(polygon.plane.normal) > 0 {
-                        front += outside + inside
-                    } else if clipBackfaces {
-                        front += outside + inside
-                    } else {
-                        front += inside
-                        back += outside
-                    }
-                case .lessThan:
-                    if node.plane!.normal.dot(polygon.plane.normal) > 0 {
-                        front += outside + inside
-                    } else if clipBackfaces {
-                        front += outside + inside
-                    } else {
-                        front += outside
-                        back += inside
-                    }
-                case .lessThanEqual:
-                    if node.plane!.normal.dot(polygon.plane.normal) > 0 {
-                        front += outside
-                        back += inside
-                    } else if clipBackfaces {
-                        front += outside + inside
-                    } else {
-                        front += outside
-                        back += inside
+                        polygon.clip(to: node.polygons, &back, &front, &id)
                     }
                 }
             }
             if front.count > back.count {
-                addPolygons(node.back?.clip(back, keeping, clipBackfaces, &id) ?? (keepFront ? [] : back))
+                addPolygons(node.back?.clip(back, keeping, &id) ?? (keepFront ? [] : back))
                 if node.front == nil {
                     addPolygons(keepFront ? front : [])
                     return total
@@ -459,7 +422,7 @@ private class BSPNode {
                 polygons = front
                 node = node.front!
             } else {
-                addPolygons(node.front?.clip(front, keeping, clipBackfaces, &id) ?? (keepFront ? front : []))
+                addPolygons(node.front?.clip(front, keeping, &id) ?? (keepFront ? front : []))
                 if node.back == nil {
                     addPolygons(keepFront ? [] : back)
                     return total
@@ -531,7 +494,7 @@ extension Polygon {
             }
             toTest = _outside
         }
-        outside = toTest
+        outside += toTest
     }
 
     func clip(
