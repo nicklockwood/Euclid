@@ -1,3 +1,8 @@
+## [0.2.3](https://github.com/nicklockwood/Euclid/releases/tag/0.2.3) (2020-01-14)
+
+- Improved CSG performance by another 2X by converting Polygon to a reference type internally
+- Improved `polygonsByMaterial` getter for Mesh, which also speeds up conversion to SceneKit Geometry
+
 ## [0.2.2](https://github.com/nicklockwood/Euclid/releases/tag/0.2.2) (2020-01-11)
 
 - Fixed infinite loop when constructing BSP for CSG operations

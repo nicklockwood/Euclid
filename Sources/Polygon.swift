@@ -121,7 +121,8 @@ public extension Polygon {
             plane: plane.inverted(),
             isConvex: isConvex,
             bounds: bounds,
-            material: material)
+            material: material
+        )
     }
 
     /// Converts a concave polygon into 2 or more convex polygons using the "ear clipping" method
@@ -159,7 +160,8 @@ public extension Polygon {
                 unchecked: vertices,
                 plane: plane,
                 isConvex: true,
-                material: material))
+                material: material
+            ))
             return true
         }
         if isConvex {
@@ -227,13 +229,15 @@ internal extension Polygon {
         normal: Vector,
         isConvex: Bool,
         bounds: Bounds? = nil,
-        material: Material) {
+        material: Material
+    ) {
         self.init(
             unchecked: vertices,
             plane: Plane(unchecked: normal, pointOnPlane: vertices[0].position),
             isConvex: isConvex,
             bounds: bounds,
-            material: material)
+            material: material
+        )
     }
 
     // Create polygon from vertices and plane without performing validation
@@ -245,7 +249,8 @@ internal extension Polygon {
         isConvex: Bool? = nil,
         bounds: Bounds? = nil,
         material: Material = nil,
-        id: Int = 0) {
+        id: Int = 0
+    ) {
         assert(vertices.count > 2)
         assert(!verticesAreDegenerate(vertices))
         assert(isConvex == nil || verticesAreConvex(vertices) == isConvex)
@@ -327,7 +332,8 @@ internal extension Polygon {
             plane: plane,
             isConvex: verticesAreConvex(result),
             material: material,
-            id: id)
+            id: id
+        )
     }
 
     var edgePlanes: [Plane] {
