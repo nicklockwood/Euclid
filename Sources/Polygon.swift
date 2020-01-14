@@ -31,19 +31,37 @@
 
 /// A planar polygon
 public struct Polygon: Hashable {
-    public let vertices: [Vertex]
-    public let plane: Plane
-    public let bounds: Bounds
-    public let isConvex: Bool
-    public var material: Material
+    private var storage: Storage
 
     // Used to track split/join
-    var id = 0
+    var id: Int
 }
 
 public extension Polygon {
     /// Material used by a given polygon
     typealias Material = AnyHashable?
+
+    /// Public properties
+    var vertices: [Vertex] { return storage.vertices }
+    var plane: Plane { return storage.plane }
+    var bounds: Bounds { return storage.bounds }
+    var isConvex: Bool { return storage.isConvex }
+    var material: Material {
+        get { return storage.material }
+        set {
+            if isKnownUniquelyReferenced(&storage) {
+                storage.material = newValue
+            } else {
+                storage = Storage(
+                    vertices: vertices,
+                    plane: plane,
+                    bounds: bounds,
+                    isConvex: isConvex,
+                    material: newValue
+                )
+            }
+        }
+    }
 
     /// Create a polygon from a set of vertices
     /// Polygon can be convex or concave, but vertices must be coplanar and non-degenerate
@@ -103,8 +121,7 @@ public extension Polygon {
             plane: plane.inverted(),
             isConvex: isConvex,
             bounds: bounds,
-            material: material
-        )
+            material: material)
     }
 
     /// Converts a concave polygon into 2 or more convex polygons using the "ear clipping" method
@@ -142,8 +159,7 @@ public extension Polygon {
                 unchecked: vertices,
                 plane: plane,
                 isConvex: true,
-                material: material
-            ))
+                material: material))
             return true
         }
         if isConvex {
@@ -211,15 +227,13 @@ internal extension Polygon {
         normal: Vector,
         isConvex: Bool,
         bounds: Bounds? = nil,
-        material: Material
-    ) {
+        material: Material) {
         self.init(
             unchecked: vertices,
             plane: Plane(unchecked: normal, pointOnPlane: vertices[0].position),
             isConvex: isConvex,
             bounds: bounds,
-            material: material
-        )
+            material: material)
     }
 
     // Create polygon from vertices and plane without performing validation
@@ -231,18 +245,19 @@ internal extension Polygon {
         isConvex: Bool? = nil,
         bounds: Bounds? = nil,
         material: Material = nil,
-        id: Int = 0
-    ) {
+        id: Int = 0) {
         assert(vertices.count > 2)
         assert(!verticesAreDegenerate(vertices))
         assert(isConvex == nil || verticesAreConvex(vertices) == isConvex)
         let isConvex = isConvex ?? verticesAreConvex(vertices)
         let points = (plane == nil || bounds == nil) ? vertices.map { $0.position } : []
-        self.vertices = vertices
-        self.plane = plane ?? Plane(unchecked: points, convex: isConvex)
-        self.isConvex = isConvex
-        self.bounds = bounds ?? Bounds(points: points)
-        self.material = material
+        storage = Storage(
+            vertices: vertices,
+            plane: plane ?? Plane(unchecked: points, convex: isConvex),
+            bounds: bounds ?? Bounds(points: points),
+            isConvex: isConvex,
+            material: material
+        )
         self.id = id
     }
 
@@ -312,8 +327,7 @@ internal extension Polygon {
             plane: plane,
             isConvex: verticesAreConvex(result),
             material: material,
-            id: id
-        )
+            id: id)
     }
 
     var edgePlanes: [Plane] {
@@ -345,5 +359,31 @@ internal extension Polygon {
             }
         }
         return comparison
+    }
+}
+
+private extension Polygon {
+    final class Storage: Hashable {
+        let vertices: [Vertex]
+        let plane: Plane
+        let bounds: Bounds
+        let isConvex: Bool
+        var material: Material
+
+        static func == (lhs: Storage, rhs: Storage) -> Bool {
+            return lhs.vertices == rhs.vertices && lhs.material == rhs.material
+        }
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(vertices)
+        }
+
+        init(vertices: [Vertex], plane: Plane, bounds: Bounds, isConvex: Bool, material: Material) {
+            self.vertices = vertices
+            self.plane = plane
+            self.bounds = bounds
+            self.isConvex = isConvex
+            self.material = material
+        }
     }
 }
