@@ -35,6 +35,7 @@ public struct Mesh: Hashable {
     public var polygons: [Polygon] {
         didSet {
             bounds = Bounds(bounds: polygons.map { $0.bounds })
+            polygons = polygons.flatMap { $0.tessellate() }
         }
     }
 }
@@ -53,25 +54,40 @@ public extension Mesh {
 
     /// Construct a Mesh from a list of `Polygon` instances.
     init(_ polygons: [Polygon]) {
-        self.polygons = polygons.flatMap { $0.tessellate() }
-        bounds = Bounds(bounds: polygons.map { $0.bounds })
+        self.init(unchecked: polygons.flatMap { $0.tessellate() })
     }
 
     /// Replaces one material with another
     func replacing(_ old: Polygon.Material, with new: Polygon.Material) -> Mesh {
-        return Mesh(polygons.map {
+        return Mesh(unchecked: polygons.map {
             if $0.material == old {
                 var polygon = $0
                 polygon.material = new
                 return polygon
             }
             return $0
-        })
+        }, bounds: bounds)
     }
 
     /// Returns a new Mesh that includes all polygons from both the
     /// parameter and receiver. Polygons are neither split nor removed.
     func merge(_ mesh: Mesh) -> Mesh {
-        return Mesh(polygons + mesh.polygons)
+        return Mesh(
+            unchecked: polygons + mesh.polygons,
+            bounds: bounds.union(mesh.bounds)
+        )
+    }
+}
+
+internal extension Mesh {
+    init(unchecked polygons: [Polygon]) {
+        self.init(unchecked: polygons, bounds: Bounds(bounds: polygons.map { $0.bounds }))
+    }
+
+    init(unchecked polygons: [Polygon], bounds: Bounds) {
+        assert(polygons.allSatisfy { $0.isConvex })
+        assert(bounds.isEqual(to: Bounds(bounds: polygons.map { $0.bounds })))
+        self.bounds = bounds
+        self.polygons = polygons
     }
 }

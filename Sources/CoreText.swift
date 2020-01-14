@@ -73,7 +73,7 @@ public extension Mesh {
             }
             meshes.append(mesh.translated(by: offset))
         }
-        self.init(Mesh.union(meshes).polygons)
+        self = .union(meshes)
     }
 }
 

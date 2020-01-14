@@ -52,7 +52,10 @@ public extension Mesh {
         boundsTest(&ap, &bp, &aout, &bout)
         ap = BSPNode(mesh.polygons).clip(ap, .greaterThan)
         bp = BSPNode(polygons).clip(bp, .greaterThanEqual)
-        return Mesh(aout! + bout! + ap + bp)
+        return Mesh(
+            unchecked: aout! + bout! + ap + bp,
+            bounds: bounds.union(mesh.bounds)
+        )
     }
 
     /// Efficiently form union from multiple meshes
@@ -80,7 +83,7 @@ public extension Mesh {
         boundsTest(&ap, &bp, &aout, &bout)
         ap = BSPNode(mesh.polygons).clip(ap, .greaterThan)
         bp = BSPNode(polygons).clip(bp, .lessThan)
-        return Mesh(aout! + ap + bp.map { $0.inverted() })
+        return Mesh(unchecked: aout! + ap + bp.map { $0.inverted() })
     }
 
     /// Efficiently subtract multiple meshes
@@ -116,7 +119,7 @@ public extension Mesh {
         // Avoids slow compilation from long expression
         let lhs = aout! + ap1 + bp1.map { $0.inverted() }
         let rhs = bout! + bp2 + ap2.map { $0.inverted() }
-        return Mesh(lhs + rhs)
+        return Mesh(unchecked: lhs + rhs)
     }
 
     /// Efficiently xor multiple meshes
@@ -144,7 +147,7 @@ public extension Mesh {
         boundsTest(&ap, &bp, &aout, &bout)
         ap = BSPNode(mesh.polygons).clip(ap, .lessThan)
         bp = BSPNode(polygons).clip(bp, .lessThanEqual)
-        return Mesh(ap + bp)
+        return Mesh(unchecked: ap + bp)
     }
 
     /// Efficiently compute intersection of multiple meshes
@@ -174,7 +177,7 @@ public extension Mesh {
         let bsp = BSPNode(mesh.polygons)
         let outside = bsp.clip(ap, .greaterThan)
         let inside = bsp.clip(ap, .lessThanEqual)
-        return Mesh(aout! + outside + inside.map {
+        return Mesh(unchecked: aout! + outside + inside.map {
             Polygon(
                 unchecked: $0.vertices,
                 plane: $0.plane,
@@ -182,7 +185,7 @@ public extension Mesh {
                 bounds: $0.bounds,
                 material: bp.first?.material ?? $0.material
             )
-        })
+        }, bounds: bounds)
     }
 
     /// Efficiently perform stencil with multiple meshes

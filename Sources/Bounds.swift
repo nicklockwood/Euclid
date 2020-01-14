@@ -123,6 +123,12 @@ public extension Bounds {
 }
 
 extension Bounds {
+    // Approximate equality
+    func isEqual(to other: Bounds, withPrecision p: Double = epsilon) -> Bool {
+        return min.isEqual(to: other.min, withPrecision: p) &&
+            max.isEqual(to: other.max, withPrecision: p)
+    }
+
     func compare(with plane: Plane) -> PlaneComparison {
         var comparison = PlaneComparison.coplanar
         for point in corners {

@@ -140,7 +140,8 @@ public extension Vector {
 internal extension Vector {
     // Approximate equality
     func isEqual(to other: Vector, withPrecision p: Double = epsilon) -> Bool {
-        return abs(x - other.x) < p && abs(y - other.y) < p && abs(z - other.z) < p
+        return self == other ||
+            (abs(x - other.x) < p && abs(y - other.y) < p && abs(z - other.z) < p)
     }
 
     func compare(with plane: Plane) -> PlaneComparison {

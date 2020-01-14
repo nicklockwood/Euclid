@@ -225,11 +225,11 @@ public extension Mesh {
         }
         switch faces {
         case .front, .default:
-            return Mesh(polygons)
+            return Mesh(unchecked: polygons)
         case .back:
-            return Mesh(polygons.map { $0.inverted() })
+            return Mesh(unchecked: polygons.map { $0.inverted() })
         case .frontAndBack:
-            return Mesh(polygons + polygons.map { $0.inverted() })
+            return Mesh(unchecked: polygons + polygons.map { $0.inverted() })
         }
     }
 
