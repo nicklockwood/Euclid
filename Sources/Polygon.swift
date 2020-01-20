@@ -371,6 +371,118 @@ internal extension Polygon {
         }
         return comparison
     }
+
+    func clip(
+        to polygons: [Polygon],
+        _ inside: inout [Polygon],
+        _ outside: inout [Polygon],
+        _ id: inout Int
+    ) {
+        precondition(isConvex)
+        var toTest = [self]
+        for polygon in polygons where !toTest.isEmpty {
+            precondition(polygon.isConvex)
+            var _outside = [Polygon]()
+            for p in toTest {
+                polygon.clip(p, &inside, &_outside, &id)
+            }
+            toTest = _outside
+        }
+        outside += toTest
+    }
+
+    func clip(
+        _ polygon: Polygon,
+        _ inside: inout [Polygon],
+        _ outside: inout [Polygon],
+        _ id: inout Int
+    ) {
+        precondition(isConvex)
+        guard polygon.isConvex else {
+            polygon.tessellate().forEach {
+                clip($0, &inside, &outside, &id)
+            }
+            return
+        }
+        var polygon = polygon
+        var coplanar = [Polygon]()
+        for plane in edgePlanes {
+            var back = [Polygon]()
+            polygon.split(along: plane, &coplanar, &outside, &back, &id)
+            guard let p = back.first else {
+                return
+            }
+            polygon = p
+        }
+        inside.append(polygon)
+    }
+
+    func split(
+        along plane: Plane,
+        _ coplanar: inout [Polygon],
+        _ front: inout [Polygon],
+        _ back: inout [Polygon],
+        _ id: inout Int
+    ) {
+        // Put the polygon in the correct list, splitting it when necessary
+        switch compare(with: plane) {
+        case .coplanar:
+            coplanar.append(self)
+        case .front:
+            front.append(self)
+        case .back:
+            back.append(self)
+        case .spanning:
+            var polygon = self
+            if polygon.id == 0 {
+                id += 1
+                polygon.id = id
+            }
+            if !polygon.isConvex {
+                polygon.tessellate().forEach {
+                    $0.split(along: plane, &coplanar, &front, &back, &id)
+                }
+                return
+            }
+            var f = [Vertex](), b = [Vertex]()
+            for i in polygon.vertices.indices {
+                let j = (i + 1) % polygon.vertices.count
+                let vi = polygon.vertices[i], vj = polygon.vertices[j]
+                let ti = vi.position.compare(with: plane)
+                if ti != .back {
+                    f.append(vi)
+                }
+                if ti != .front {
+                    b.append(vi)
+                }
+                let tj = vj.position.compare(with: plane)
+                if ti.rawValue | tj.rawValue == PlaneComparison.spanning.rawValue {
+                    let t = (plane.w - plane.normal.dot(vi.position)) / plane.normal.dot(vj.position - vi.position)
+                    let v = vi.lerp(vj, t)
+                    f.append(v)
+                    b.append(v)
+                }
+            }
+            if !verticesAreDegenerate(f) {
+                front.append(Polygon(
+                    unchecked: f,
+                    plane: polygon.plane,
+                    isConvex: true,
+                    material: polygon.material,
+                    id: polygon.id
+                ))
+            }
+            if !verticesAreDegenerate(b) {
+                back.append(Polygon(
+                    unchecked: b,
+                    plane: polygon.plane,
+                    isConvex: true,
+                    material: polygon.material,
+                    id: polygon.id
+                ))
+            }
+        }
+    }
 }
 
 private extension Polygon {
