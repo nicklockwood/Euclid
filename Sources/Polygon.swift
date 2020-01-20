@@ -276,18 +276,23 @@ internal extension Polygon {
         var vb = other.vertices
 
         // find shared vertices
-        var joins = [(Int, Int)]()
+        var joins0, joins1: (Int, Int)?
         for i in va.indices {
             if let j = vb.firstIndex(where: { $0.isEqual(to: va[i]) }) {
-                joins.append((i, j))
+                if joins0 == nil {
+                    joins0 = (i, j)
+                } else if joins1 == nil {
+                    joins1 = (i, j)
+                } else {
+                    // TODO: what if 3 or more points are joined?
+                    return nil
+                }
             }
         }
-        guard joins.count == 2 else {
-            // TODO: what if 3 or more points are joined?
+        guard let (a0, b0) = joins0, let (a1, b1) = joins1 else {
             return nil
         }
-        var result = [Vertex]()
-        let (a0, b0) = joins[0], (a1, b1) = joins[1]
+        var result: [Vertex]
         if a1 == a0 + 1 {
             result = Array(va[(a1 + 1)...] + va[..<a0])
         } else if a0 == 0, a1 == va.count - 1 {
@@ -297,9 +302,9 @@ internal extension Polygon {
         }
         let join1 = result.count
         if b1 == b0 + 1 {
-            result += Array(vb[b1...] + vb[...b0])
+            result += vb[b1...] + vb[...b0]
         } else if b0 == b1 + 1 {
-            result += Array(vb[b0...] + vb[...b1])
+            result += vb[b0...] + vb[...b1]
         } else if (b0 == 0 && b1 == vb.count - 1) || (b1 == 0 && b0 == vb.count - 1) {
             result += vb
         } else {
