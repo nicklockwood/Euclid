@@ -50,27 +50,6 @@ private class BSPNode {
         self.plane = plane
     }
 
-    private func enumerate(_ block: (BSPNode) -> Void) {
-        var node = self
-        var visited: BSPNode?
-        block(node)
-        while true {
-            if visited == nil, let front = node.front {
-                block(front)
-                node = front
-            } else if let back = node.back, back !== visited {
-                visited = nil
-                block(back)
-                node = back
-            } else if node !== self, let parent = node.parent {
-                visited = node
-                node = parent
-            } else {
-                return
-            }
-        }
-    }
-
     public func clip(
         _ polygons: [Polygon],
         _ keeping: BSP.ClipRule,
