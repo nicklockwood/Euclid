@@ -671,6 +671,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.EuclidTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos";
 			};
 			name = Debug;
 		};
@@ -691,6 +692,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.EuclidTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos";
 			};
 			name = Release;
 		};
