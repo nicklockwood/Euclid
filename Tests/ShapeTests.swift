@@ -140,4 +140,11 @@ class ShapeTests: XCTestCase {
             .curve(-1, 0),
         ])
     }
+
+    // MARK: Circle
+
+    func testCircleIsClosed() {
+        let path = Path.circle(radius: 0.50, segments: 25)
+        XCTAssert(path.isClosed)
+    }
 }

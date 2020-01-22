@@ -44,7 +44,7 @@ public extension Path {
         var points = [PathPoint]()
         let segments = max(3, Double(segments))
         let w = max(abs(width / 2), epsilon), h = max(abs(height / 2), epsilon)
-        for angle in stride(from: 0, through: 2 * .pi, by: 2 * .pi / segments) {
+        for angle in stride(from: 0, through: 2 * .pi + epsilon, by: 2 * .pi / segments) {
             points.append(.curve(w * -sin(angle), h * cos(angle)))
         }
         return Path(unchecked: points, plane: .xy, subpathIndices: [])

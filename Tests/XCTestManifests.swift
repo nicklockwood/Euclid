@@ -154,6 +154,7 @@ extension ShapeTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__ShapeTests = [
+        ("testCircleIsClosed", testCircleIsClosed),
         ("testClosedCurvedPath", testClosedCurvedPath),
         ("testClosedCurvedPathWithSharpFirstCorner", testClosedCurvedPathWithSharpFirstCorner),
         ("testClosedCurvedPathWithSharpSecondAndThirdCorner", testClosedCurvedPathWithSharpSecondAndThirdCorner),
