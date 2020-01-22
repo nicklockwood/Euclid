@@ -1,3 +1,10 @@
+## [0.3.0](https://github.com/nicklockwood/Euclid/releases/tag/0.3.0) (2020-01-22)
+
+- Significantly improved performance for CSG functions, especially for convex meshes
+- Fixed bug where `Path.circle` and `Path.ellipse` could produce unclosed polygon
+- `Mesh.polygons` is now read-only. Use initializer or `merge` functions to modify mesh
+- Added mesh tessellation/inversion methods
+
 ## [0.2.3](https://github.com/nicklockwood/Euclid/releases/tag/0.2.3) (2020-01-14)
 
 - Improved CSG performance by another 2X by converting Polygon to a reference type internally

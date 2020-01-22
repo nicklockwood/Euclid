@@ -1,3 +1,4 @@
+[![PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UJWT2RWPE7VA8&source=url)
 [![Travis](https://travis-ci.org/nicklockwood/Euclid.svg)](https://travis-ci.org/nicklockwood/Euclid)
 [![Coveralls](https://coveralls.io/repos/github/nicklockwood/Euclid/badge.svg?branch=master)](https://coveralls.io/github/nicklockwood/Euclid)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20macOS%20|%20tvOS%20|%20watchOS%20|%20Linux-lightgray.svg)]()
@@ -22,7 +23,9 @@ Euclid is a Swift library for creating and manipulating 3D geometry using techni
 
 Euclid is the underlying implementation for the [ShapeScript App](https://itunes.apple.com/app/id1441135869). Anything you can build in ShapeScript can be replicated programmatically in Swift using this library.
 
-If you would like to support the development of Euclid, please consider buying a copy of ShapeScript (the app itself is free, but there is an in-app purchase to unlock some features).
+If you would like to support the development of Euclid, please consider buying a copy of ShapeScript (the app itself is free, but there is an in-app purchase to unlock some features). You can also donate directly to the project via PayPal:
+
+[![Donate via PayPal](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UJWT2RWPE7VA8&source=url)
 
 **Note:** Euclid is a fairly complex piece of code, at a fairly early stage of development. You should expect some bugs and breaking changes over the first few releases, and the documentation is a little sparse. Please report any issues you encounter, and I will do my best to fix them.
 
@@ -36,19 +39,19 @@ Euclid is packaged as a dynamic framework that you can import into your Xcode pr
 To install Euclid using CocoaPods, add the following to your Podfile:
 
 ```ruby
-pod 'Euclid', '~> 0.2'
+pod 'Euclid', '~> 0.3'
 ```
 
 To install using Carthage, add this to your Cartfile:
 
 ```
-github "nicklockwood/Euclid" ~> 0.2
+github "nicklockwood/Euclid" ~> 0.3
 ```
 
 To install using Swift Package Manage, add this to the `dependencies:` section in your Package.swift file:
 
 ```
-.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.2.0")),
+.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.3.0")),
 ```
 
 
