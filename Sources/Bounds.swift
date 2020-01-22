@@ -90,6 +90,11 @@ public extension Bounds {
     }
 
     func union(_ other: Bounds) -> Bounds {
+        if isEmpty {
+            return other
+        } else if other.isEmpty {
+            return self
+        }
         return Bounds(
             min: Euclid.min(min, other.min),
             max: Euclid.max(max, other.max)
