@@ -225,11 +225,11 @@ public extension Mesh {
         }
         switch faces {
         case .front, .default:
-            return Mesh(unchecked: polygons)
+            return Mesh(unchecked: polygons, isConvex: true)
         case .back:
-            return Mesh(unchecked: polygons.map { $0.inverted() })
+            return Mesh(unchecked: polygons.map { $0.inverted() }, isConvex: false)
         case .frontAndBack:
-            return Mesh(unchecked: polygons + polygons.map { $0.inverted() })
+            return Mesh(unchecked: polygons + polygons.map { $0.inverted() }, isConvex: false)
         }
     }
 
@@ -260,12 +260,13 @@ public extension Mesh {
             semicircle.append(.curve(-sin(a) * r, cos(a) * r))
         }
         return lathe(
-            Path(unchecked: semicircle, plane: .xy, subpathIndices: []),
+            unchecked: Path(unchecked: semicircle, plane: .xy, subpathIndices: []),
             slices: slices,
             poleDetail: poleDetail,
             faces: faces,
             wrapMode: wrapMode,
-            material: material
+            material: material,
+            isConvex: true
         )
     }
 
@@ -283,7 +284,7 @@ public extension Mesh {
         let h = max(abs(h), epsilon)
         let wrapMode = wrapMode == .default ? .tube : wrapMode
         return lathe(
-            Path(unchecked: [
+            unchecked: Path(unchecked: [
                 .point(0, h / 2),
                 .point(-r, h / 2),
                 .point(-r, -h / 2),
@@ -294,7 +295,8 @@ public extension Mesh {
             addDetailForFlatPoles: true,
             faces: faces,
             wrapMode: wrapMode,
-            material: material
+            material: material,
+            isConvex: true
         )
     }
 
@@ -314,7 +316,7 @@ public extension Mesh {
         let poleDetail = poleDetail ?? Int(sqrt(Double(slices)))
         let wrapMode = wrapMode == .default ? .tube : wrapMode
         return lathe(
-            Path(unchecked: [
+            unchecked: Path(unchecked: [
                 .point(0, h / 2),
                 .point(-r, -h / 2),
                 .point(0, -h / 2),
@@ -324,7 +326,8 @@ public extension Mesh {
             addDetailForFlatPoles: addDetailAtBottomPole,
             faces: faces,
             wrapMode: wrapMode,
-            material: material
+            material: material,
+            isConvex: true
         )
     }
 
@@ -349,6 +352,28 @@ public extension Mesh {
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
         material: Polygon.Material = nil
+    ) -> Mesh {
+        return lathe(
+            unchecked: profile,
+            slices: slices,
+            poleDetail: poleDetail,
+            addDetailForFlatPoles: addDetailForFlatPoles,
+            faces: faces,
+            wrapMode: wrapMode,
+            material: material,
+            isConvex: false
+        )
+    }
+
+    private static func lathe(
+        unchecked profile: Path,
+        slices: Int = 16,
+        poleDetail: Int = 0,
+        addDetailForFlatPoles: Bool = false,
+        faces: Faces = .default,
+        wrapMode: WrapMode = .default,
+        material: Polygon.Material = nil,
+        isConvex: Bool
     ) -> Mesh {
         let subpaths = profile.subpaths
         if subpaths.count > 1 {
@@ -506,11 +531,14 @@ public extension Mesh {
 
         switch faces {
         case .front:
-            return Mesh(unchecked: polygons)
+            return Mesh(unchecked: polygons, isConvex: isConvex)
         case .back:
-            return Mesh(unchecked: polygons.map { $0.inverted() })
+            return Mesh(unchecked: polygons.map { $0.inverted() }, isConvex: false)
         case .frontAndBack:
-            return Mesh(unchecked: polygons + polygons.map { $0.inverted() })
+            return Mesh(
+                unchecked: polygons + polygons.map { $0.inverted() },
+                isConvex: false
+            )
         case .default:
             // seal loose ends
             // TODO: improve this by not adding backfaces inside closed subsectors
@@ -519,7 +547,7 @@ public extension Mesh {
                 first != last, first.x != 0 || last.x != 0 {
                 polygons += polygons.map { $0.inverted() }
             }
-            return Mesh(unchecked: polygons)
+            return Mesh(unchecked: polygons, isConvex: isConvex)
         }
     }
 
@@ -534,10 +562,15 @@ public extension Mesh {
         if offset.lengthSquared < epsilon {
             return fill(shape, faces: faces, material: material)
         }
-        return loft([
-            shape.translated(by: offset),
-            shape.translated(by: -offset),
-        ], faces: faces, material: material)
+        return loft(
+            unchecked: [
+                shape.translated(by: offset),
+                shape.translated(by: -offset),
+            ],
+            faces: faces,
+            material: material,
+            isConvex: Polygon(shape: shape)?.isConvex == true
+        )
     }
 
     /// Connect multiple 3D paths
@@ -545,6 +578,20 @@ public extension Mesh {
         _ shapes: [Path],
         faces: Faces = .default,
         material: Polygon.Material = nil
+    ) -> Mesh {
+        return loft(
+            unchecked: shapes,
+            faces: faces,
+            material: material,
+            isConvex: false
+        )
+    }
+
+    private static func loft(
+        unchecked shapes: [Path],
+        faces: Faces = .default,
+        material: Polygon.Material = nil,
+        isConvex: Bool
     ) -> Mesh {
         var subpathCount = 0
         let arrayOfSubpaths: [[Path]] = shapes.map {
@@ -631,7 +678,7 @@ public extension Mesh {
                     ))
                 }
             }
-            // TODO: create triangles for mismatched points points
+            // TODO: create triangles for mismatched points
             prev = path
         }
         if !isClosed, var polygon = Polygon(shape: prev, material: material) {
@@ -642,12 +689,15 @@ public extension Mesh {
             polygons += polygon.tessellate()
         }
         switch faces {
-        case .default where !shapes.contains(where: { !$0.isClosed }), .front:
-            return Mesh(unchecked: polygons)
+        case .default where shapes.allSatisfy({ $0.isClosed }), .front:
+            return Mesh(unchecked: polygons, isConvex: isConvex)
         case .back:
-            return Mesh(unchecked: polygons.map { $0.inverted() })
+            return Mesh(unchecked: polygons.map { $0.inverted() }, isConvex: false)
         case .frontAndBack, .default:
-            return Mesh(unchecked: polygons + polygons.map { $0.inverted() })
+            return Mesh(
+                unchecked: polygons + polygons.map { $0.inverted() },
+                isConvex: false
+            )
         }
     }
 
@@ -668,11 +718,14 @@ public extension Mesh {
         let polygons = polygon.tessellate()
         switch faces {
         case .front:
-            return Mesh(unchecked: polygons)
+            return Mesh(unchecked: polygons, isConvex: false)
         case .back:
-            return Mesh(unchecked: polygons.map { $0.inverted() })
+            return Mesh(unchecked: polygons.map { $0.inverted() }, isConvex: false)
         case .frontAndBack, .default:
-            return Mesh(unchecked: polygons + polygons.map { $0.inverted() })
+            return Mesh(
+                unchecked: polygons + polygons.map { $0.inverted() },
+                isConvex: polygon.isConvex
+            )
         }
     }
 }

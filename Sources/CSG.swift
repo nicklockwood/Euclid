@@ -65,7 +65,8 @@ public extension Mesh {
         bp = BSP(self).clip(bp, .greaterThanEqual)
         return Mesh(
             unchecked: aout! + bout! + ap + bp,
-            bounds: bounds.union(mesh.bounds)
+            bounds: bounds.union(mesh.bounds),
+            isConvex: false
         )
     }
 
@@ -97,7 +98,10 @@ public extension Mesh {
         boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
         ap = BSP(mesh).clip(ap, .greaterThan)
         bp = BSP(self).clip(bp, .lessThan)
-        return Mesh(unchecked: aout! + ap + bp.map { $0.inverted() })
+        return Mesh(
+            unchecked: aout! + ap + bp.map { $0.inverted() },
+            isConvex: false
+        )
     }
 
     /// Efficiently subtract multiple meshes
@@ -136,7 +140,7 @@ public extension Mesh {
         // Avoids slow compilation from long expression
         let lhs = aout! + ap1 + bp1.map { $0.inverted() }
         let rhs = bout! + bp2 + ap2.map { $0.inverted() }
-        return Mesh(unchecked: lhs + rhs)
+        return Mesh(unchecked: lhs + rhs, isConvex: false)
     }
 
     /// Efficiently xor multiple meshes
@@ -167,7 +171,7 @@ public extension Mesh {
         boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
         ap = BSP(mesh).clip(ap, .lessThan)
         bp = BSP(self).clip(bp, .lessThanEqual)
-        return Mesh(unchecked: ap + bp)
+        return Mesh(unchecked: ap + bp, isConvex: isConvex && mesh.isConvex)
     }
 
     /// Efficiently compute intersection of multiple meshes
@@ -200,15 +204,19 @@ public extension Mesh {
         let bsp = BSP(mesh)
         let outside = bsp.clip(ap, .greaterThan)
         let inside = bsp.clip(ap, .lessThanEqual)
-        return Mesh(unchecked: aout! + outside + inside.map {
-            Polygon(
-                unchecked: $0.vertices,
-                plane: $0.plane,
-                isConvex: $0.isConvex,
-                bounds: $0.bounds,
-                material: bp.first?.material ?? $0.material
-            )
-        }, bounds: bounds)
+        return Mesh(
+            unchecked: aout! + outside + inside.map {
+                Polygon(
+                    unchecked: $0.vertices,
+                    plane: $0.plane,
+                    isConvex: $0.isConvex,
+                    bounds: $0.bounds,
+                    material: bp.first?.material ?? $0.material
+                )
+            },
+            bounds: bounds,
+            isConvex: isConvex
+        )
     }
 
     /// Efficiently perform stencil with multiple meshes
@@ -233,8 +241,8 @@ public extension Mesh {
                 front.append(polygon)
             }
             return (
-                front.isEmpty ? nil : Mesh(unchecked: front),
-                back.isEmpty ? nil : Mesh(unchecked: back)
+                front.isEmpty ? nil : Mesh(unchecked: front, isConvex: false),
+                back.isEmpty ? nil : Mesh(unchecked: back, isConvex: false)
             )
         }
     }
@@ -255,7 +263,7 @@ public extension Mesh {
             for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
                 front.append(polygon)
             }
-            let mesh = Mesh(unchecked: front)
+            let mesh = Mesh(unchecked: front, isConvex: false)
             guard let material = fill else {
                 return mesh
             }
@@ -285,7 +293,10 @@ public extension Mesh {
             .rotated(by: rotation)
             .translated(by: plane.normal * plane.w)
             // Clip rect
-            return Mesh(unchecked: mesh.polygons + BSP(self).clip([rect], .lessThan))
+            return Mesh(
+                unchecked: mesh.polygons + BSP(self).clip([rect], .lessThan),
+                isConvex: isConvex
+            )
         }
     }
 }

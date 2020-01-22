@@ -53,7 +53,7 @@ public extension Mesh {
 
     /// Construct a Mesh from a list of `Polygon` instances.
     init(_ polygons: [Polygon]) {
-        self.init(unchecked: polygons.flatMap { $0.tessellate() })
+        self.init(unchecked: polygons.flatMap { $0.tessellate() }, isConvex: false)
     }
 
     /// Replaces one material with another
@@ -67,7 +67,8 @@ public extension Mesh {
                 }
                 return $0
             },
-            bounds: boundsIfSet
+            bounds: boundsIfSet,
+            isConvex: isConvex
         )
     }
 
@@ -78,25 +79,29 @@ public extension Mesh {
         if let ab = boundsIfSet, let bb = mesh.boundsIfSet {
             bounds = ab.union(bb)
         }
-        return Mesh(unchecked: polygons + mesh.polygons, bounds: bounds)
+        return Mesh(
+            unchecked: polygons + mesh.polygons,
+            bounds: bounds,
+            isConvex: false
+        )
     }
 }
 
 internal extension Mesh {
-    init(unchecked polygons: [Polygon], bounds: Bounds? = nil) {
+    init(unchecked polygons: [Polygon], bounds: Bounds? = nil, isConvex: Bool) {
         assert(polygons.allSatisfy { $0.isConvex })
-        storage = Storage(polygons: polygons, bounds: bounds)
+        storage = Storage(polygons: polygons, bounds: bounds, isConvex: isConvex)
     }
 
-    var boundsIfSet: Bounds? {
-        return storage.boundsIfSet
-    }
+    var boundsIfSet: Bounds? { return storage.boundsIfSet }
+    var isConvex: Bool { return storage.isConvex }
 }
 
 private extension Mesh {
     final class Storage: Hashable {
         let polygons: [Polygon]
         var boundsIfSet: Bounds?
+        let isConvex: Bool
 
         var bounds: Bounds {
             if boundsIfSet == nil {
@@ -113,8 +118,10 @@ private extension Mesh {
             hasher.combine(polygons)
         }
 
-        init(polygons: [Polygon], bounds: Bounds?) {
+        init(polygons: [Polygon], bounds: Bounds?, isConvex: Bool) {
             self.polygons = polygons
+            self.boundsIfSet = bounds
+            self.isConvex = isConvex
         }
     }
 }
