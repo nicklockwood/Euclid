@@ -6,15 +6,42 @@
 //  Copyright © 2020 Nick Lockwood. All rights reserved.
 //
 
-class BSPNode {
+struct BSP {
+    private let root: BSPNode?
+
+    enum ClipRule {
+        case greaterThan
+        case greaterThanEqual
+        case lessThan
+        case lessThanEqual
+    }
+
+    init(_ mesh: Mesh) {
+        root = BSPNode(mesh.polygons)
+    }
+
+    func clip(_ polygons: [Polygon], _ keeping: ClipRule) -> [Polygon] {
+        var id = 0
+        var polygons = polygons
+        for (i, p) in polygons.enumerated() where p.id != 0 {
+            polygons[i].id = 0
+        }
+        return root?.clip(polygons, keeping, &id) ?? polygons
+    }
+}
+
+private class BSPNode {
     private weak var parent: BSPNode?
     private var front: BSPNode?
     private var back: BSPNode?
     private var polygons = [Polygon]()
-    private var plane: Plane?
+    private let plane: Plane
 
-    init(_ polygons: [Polygon]) {
-        plane = polygons.first?.plane
+    public init?(_ polygons: [Polygon]) {
+        guard let plane = polygons.first?.plane else {
+            return nil
+        }
+        self.plane = plane
         insert(polygons)
     }
 
@@ -44,25 +71,9 @@ class BSPNode {
         }
     }
 
-    enum ClipRule {
-        case greaterThan
-        case greaterThanEqual
-        case lessThan
-        case lessThanEqual
-    }
-
-    func clip(_ polygons: [Polygon], _ keeping: ClipRule) -> [Polygon] {
-        var id = 0
-        var polygons = polygons
-        for (i, p) in polygons.enumerated() where p.id != 0 {
-            polygons[i].id = 0
-        }
-        return clip(polygons, keeping, &id)
-    }
-
-    private func clip(
+    public func clip(
         _ polygons: [Polygon],
-        _ keeping: ClipRule,
+        _ keeping: BSP.ClipRule,
         _ id: inout Int
     ) -> [Polygon] {
         var polygons = polygons
@@ -89,14 +100,14 @@ class BSPNode {
         while !polygons.isEmpty {
             var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
             for polygon in polygons {
-                polygon.split(along: node.plane!, &coplanar, &front, &back, &id)
+                polygon.split(along: node.plane, &coplanar, &front, &back, &id)
             }
             for polygon in coplanar {
                 switch keeping {
                 case .greaterThan, .lessThanEqual:
                     polygon.clip(to: node.polygons, &back, &front, &id)
                 case .greaterThanEqual, .lessThan:
-                    if node.plane!.normal.dot(polygon.plane.normal) > 0 {
+                    if node.plane.normal.dot(polygon.plane.normal) > 0 {
                         front.append(polygon)
                     } else {
                         polygon.clip(to: node.polygons, &back, &front, &id)
@@ -124,26 +135,26 @@ class BSPNode {
         return total
     }
 
-    func insert(_ polygons: [Polygon]) {
+    private func insert(_ polygons: [Polygon]) {
         var polygons = polygons
         var node = self
         while !polygons.isEmpty {
-            if node.plane == nil {
-                node.plane = polygons.first?.plane
-            }
             var front = [Polygon](), back = [Polygon]()
-            do {
-                var id = 0
-                var coplanar = [Polygon]()
-                for polygon in polygons {
-                    polygon.split(along: node.plane!, &coplanar, &front, &back, &id)
-                }
-                for polygon in coplanar {
-                    if node.plane!.normal.dot(polygon.plane.normal) > 0 {
+            for polygon in polygons {
+                switch polygon.compare(with: node.plane) {
+                case .coplanar:
+                    if node.plane.normal.dot(polygon.plane.normal) > 0 {
                         node.polygons.append(polygon)
                     } else {
                         back.append(polygon)
                     }
+                case .front:
+                    front.append(polygon)
+                case .back:
+                    back.append(polygon)
+                case .spanning:
+                    var id = 0
+                    polygon.split(spanning: node.plane, &front, &back, &id)
                 }
             }
 

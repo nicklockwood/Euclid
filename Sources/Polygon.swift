@@ -433,54 +433,65 @@ internal extension Polygon {
         case .back:
             back.append(self)
         case .spanning:
-            var polygon = self
-            if polygon.id == 0 {
-                id += 1
-                polygon.id = id
+            split(spanning: plane, &front, &back, &id)
+        }
+    }
+
+    func split(
+        spanning plane: Plane,
+        _ front: inout [Polygon],
+        _ back: inout [Polygon],
+        _ id: inout Int
+    ) {
+        assert(compare(with: plane) == .spanning)
+        var polygon = self
+        if polygon.id == 0 {
+            id += 1
+            polygon.id = id
+        }
+        if !polygon.isConvex {
+            var coplanar = [Polygon]()
+            polygon.tessellate().forEach {
+                $0.split(along: plane, &coplanar, &front, &back, &id)
             }
-            if !polygon.isConvex {
-                polygon.tessellate().forEach {
-                    $0.split(along: plane, &coplanar, &front, &back, &id)
-                }
-                return
+            return
+        }
+        var f = [Vertex](), b = [Vertex]()
+        for i in polygon.vertices.indices {
+            let j = (i + 1) % polygon.vertices.count
+            let vi = polygon.vertices[i], vj = polygon.vertices[j]
+            let ti = vi.position.compare(with: plane)
+            if ti != .back {
+                f.append(vi)
             }
-            var f = [Vertex](), b = [Vertex]()
-            for i in polygon.vertices.indices {
-                let j = (i + 1) % polygon.vertices.count
-                let vi = polygon.vertices[i], vj = polygon.vertices[j]
-                let ti = vi.position.compare(with: plane)
-                if ti != .back {
-                    f.append(vi)
-                }
-                if ti != .front {
-                    b.append(vi)
-                }
-                let tj = vj.position.compare(with: plane)
-                if ti.rawValue | tj.rawValue == PlaneComparison.spanning.rawValue {
-                    let t = (plane.w - plane.normal.dot(vi.position)) / plane.normal.dot(vj.position - vi.position)
-                    let v = vi.lerp(vj, t)
-                    f.append(v)
-                    b.append(v)
-                }
+            if ti != .front {
+                b.append(vi)
             }
-            if !verticesAreDegenerate(f) {
-                front.append(Polygon(
-                    unchecked: f,
-                    plane: polygon.plane,
-                    isConvex: true,
-                    material: polygon.material,
-                    id: polygon.id
-                ))
+            let tj = vj.position.compare(with: plane)
+            if ti.rawValue | tj.rawValue == PlaneComparison.spanning.rawValue {
+                let t = (plane.w - plane.normal.dot(vi.position)) / plane.normal.dot(vj.position - vi.position)
+                let v = vi.lerp(vj, t)
+                f.append(v)
+                b.append(v)
             }
-            if !verticesAreDegenerate(b) {
-                back.append(Polygon(
-                    unchecked: b,
-                    plane: polygon.plane,
-                    isConvex: true,
-                    material: polygon.material,
-                    id: polygon.id
-                ))
-            }
+        }
+        if !verticesAreDegenerate(f) {
+            front.append(Polygon(
+                unchecked: f,
+                plane: polygon.plane,
+                isConvex: true,
+                material: polygon.material,
+                id: polygon.id
+            ))
+        }
+        if !verticesAreDegenerate(b) {
+            back.append(Polygon(
+                unchecked: b,
+                plane: polygon.plane,
+                isConvex: true,
+                material: polygon.material,
+                id: polygon.id
+            ))
         }
     }
 }
@@ -494,7 +505,8 @@ private extension Polygon {
         var material: Material
 
         static func == (lhs: Storage, rhs: Storage) -> Bool {
-            return lhs.vertices == rhs.vertices && lhs.material == rhs.material
+            return lhs === rhs ||
+                (lhs.vertices == rhs.vertices && lhs.material == rhs.material)
         }
 
         func hash(into hasher: inout Hasher) {

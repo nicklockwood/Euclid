@@ -50,8 +50,8 @@ public extension Mesh {
         var aout: [Polygon]? = []
         var bout: [Polygon]? = []
         boundsTest(&ap, &bp, &aout, &bout)
-        ap = BSPNode(mesh.polygons).clip(ap, .greaterThan)
-        bp = BSPNode(polygons).clip(bp, .greaterThanEqual)
+        ap = BSP(mesh).clip(ap, .greaterThan)
+        bp = BSP(self).clip(bp, .greaterThanEqual)
         return Mesh(
             unchecked: aout! + bout! + ap + bp,
             bounds: bounds.union(mesh.bounds)
@@ -81,8 +81,8 @@ public extension Mesh {
         var aout: [Polygon]? = []
         var bout: [Polygon]?
         boundsTest(&ap, &bp, &aout, &bout)
-        ap = BSPNode(mesh.polygons).clip(ap, .greaterThan)
-        bp = BSPNode(polygons).clip(bp, .lessThan)
+        ap = BSP(mesh).clip(ap, .greaterThan)
+        bp = BSP(self).clip(bp, .lessThan)
         return Mesh(unchecked: aout! + ap + bp.map { $0.inverted() })
     }
 
@@ -109,8 +109,8 @@ public extension Mesh {
         var aout: [Polygon]? = []
         var bout: [Polygon]? = []
         boundsTest(&ap, &bp, &aout, &bout)
-        let absp = BSPNode(polygons)
-        let bbsp = BSPNode(mesh.polygons)
+        let absp = BSP(self)
+        let bbsp = BSP(mesh)
         // TODO: combine clip operations
         let ap1 = bbsp.clip(ap, .greaterThan)
         let bp1 = absp.clip(bp, .lessThan)
@@ -145,8 +145,8 @@ public extension Mesh {
         var bp = mesh.polygons
         var aout, bout: [Polygon]?
         boundsTest(&ap, &bp, &aout, &bout)
-        ap = BSPNode(mesh.polygons).clip(ap, .lessThan)
-        bp = BSPNode(polygons).clip(bp, .lessThanEqual)
+        ap = BSP(mesh).clip(ap, .lessThan)
+        bp = BSP(self).clip(bp, .lessThanEqual)
         return Mesh(unchecked: ap + bp)
     }
 
@@ -174,7 +174,7 @@ public extension Mesh {
         var bout: [Polygon]?
         boundsTest(&ap, &bp, &aout, &bout)
         // TODO: combine clip operations
-        let bsp = BSPNode(mesh.polygons)
+        let bsp = BSP(mesh)
         let outside = bsp.clip(ap, .greaterThan)
         let inside = bsp.clip(ap, .lessThanEqual)
         return Mesh(unchecked: aout! + outside + inside.map {
@@ -259,7 +259,7 @@ public extension Mesh {
             .rotated(by: rotation)
             .translated(by: plane.normal * plane.w)
             // Clip rect
-            return Mesh(mesh.polygons + BSPNode(polygons).clip([rect], .lessThan))
+            return Mesh(mesh.polygons + BSP(self).clip([rect], .lessThan))
         }
     }
 }
