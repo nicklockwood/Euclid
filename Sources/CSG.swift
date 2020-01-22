@@ -232,7 +232,10 @@ public extension Mesh {
             for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
                 front.append(polygon)
             }
-            return (front.isEmpty ? nil : Mesh(front), back.isEmpty ? nil : Mesh(back))
+            return (
+                front.isEmpty ? nil : Mesh(unchecked: front),
+                back.isEmpty ? nil : Mesh(unchecked: back)
+            )
         }
     }
 
@@ -252,7 +255,7 @@ public extension Mesh {
             for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
                 front.append(polygon)
             }
-            let mesh = Mesh(front)
+            let mesh = Mesh(unchecked: front)
             guard let material = fill else {
                 return mesh
             }
@@ -282,7 +285,7 @@ public extension Mesh {
             .rotated(by: rotation)
             .translated(by: plane.normal * plane.w)
             // Clip rect
-            return Mesh(mesh.polygons + BSP(self).clip([rect], .lessThan))
+            return Mesh(unchecked: mesh.polygons + BSP(self).clip([rect], .lessThan))
         }
     }
 }

@@ -99,20 +99,15 @@ public extension Polygon {
 
     /// Merge with another polygon, removing redundant vertices if possible
     func merge(_ other: Polygon) -> Polygon? {
-        // were they split from the same polygon
-        if id == 0 {
-            // do they have the same material?
-            guard material == other.material else {
-                return nil
-            }
-            // are they coplanar?
-            guard plane.isEqual(to: other.plane) else {
-                return nil
-            }
-        } else if id != other.id {
+        // do they have the same material?
+        guard material == other.material else {
             return nil
         }
-        return join(unchecked: other)
+        // are they coplanar?
+        guard plane.isEqual(to: other.plane) else {
+            return nil
+        }
+        return join(unchecked: other, ensureConvex: false)
     }
 
     func inverted() -> Polygon {
@@ -135,7 +130,7 @@ public extension Polygon {
         while i > 0 {
             let a = polygons[i]
             let b = polygons[i - 1]
-            if let merged = a.join(unchecked: b), merged.isConvex {
+            if let merged = a.join(unchecked: b, ensureConvex: true) {
                 polygons[i - 1] = merged
                 polygons.remove(at: i)
             }
@@ -144,7 +139,7 @@ public extension Polygon {
         return polygons
     }
 
-    /// Tesselates polygon into triangles using the "ear clipping" method
+    /// Tessellates polygon into triangles using the "ear clipping" method
     func triangulate() -> [Polygon] {
         var vertices = self.vertices
         guard vertices.count > 3 else {
@@ -160,7 +155,8 @@ public extension Polygon {
                 unchecked: vertices,
                 plane: plane,
                 isConvex: true,
-                material: material
+                material: material,
+                id: id
             ))
             return true
         }
@@ -271,7 +267,7 @@ internal extension Polygon {
     }
 
     // Join touching polygons (without checking they are coplanar or share the same material)
-    func join(unchecked other: Polygon) -> Polygon? {
+    func join(unchecked other: Polygon, ensureConvex: Bool) -> Polygon? {
         assert(material == other.material)
         assert(plane.isEqual(to: other.plane))
 
@@ -335,11 +331,17 @@ internal extension Polygon {
             return nil
         }
 
+        // check if convex
+        let isConvex = verticesAreConvex(result)
+        if ensureConvex, !isConvex {
+            return nil
+        }
+
         // replace poly with merged result
         return Polygon(
             unchecked: result,
             plane: plane,
-            isConvex: verticesAreConvex(result),
+            isConvex: isConvex,
             material: material,
             id: id
         )
@@ -382,14 +384,10 @@ internal extension Polygon {
         _ outside: inout [Polygon],
         _ id: inout Int
     ) {
-        precondition(isConvex)
-        var toTest = [self]
+        var toTest = tessellate()
         for polygon in polygons where !toTest.isEmpty {
-            precondition(polygon.isConvex)
             var _outside = [Polygon]()
-            for p in toTest {
-                polygon.clip(p, &inside, &_outside, &id)
-            }
+            toTest.forEach { polygon.clip($0, &inside, &_outside, &id) }
             toTest = _outside
         }
         outside += toTest
@@ -401,13 +399,6 @@ internal extension Polygon {
         _ outside: inout [Polygon],
         _ id: inout Int
     ) {
-        precondition(isConvex)
-        guard polygon.isConvex else {
-            polygon.tessellate().forEach {
-                clip($0, &inside, &outside, &id)
-            }
-            return
-        }
         var polygon = polygon
         var coplanar = [Polygon]()
         for plane in edgePlanes {

@@ -506,11 +506,11 @@ public extension Mesh {
 
         switch faces {
         case .front:
-            return Mesh(polygons)
+            return Mesh(unchecked: polygons)
         case .back:
-            return Mesh(polygons.map { $0.inverted() })
+            return Mesh(unchecked: polygons.map { $0.inverted() })
         case .frontAndBack:
-            return Mesh(polygons + polygons.map { $0.inverted() })
+            return Mesh(unchecked: polygons + polygons.map { $0.inverted() })
         case .default:
             // seal loose ends
             // TODO: improve this by not adding backfaces inside closed subsectors
@@ -519,7 +519,7 @@ public extension Mesh {
                 first != last, first.x != 0 || last.x != 0 {
                 polygons += polygons.map { $0.inverted() }
             }
-            return Mesh(polygons)
+            return Mesh(unchecked: polygons)
         }
     }
 
@@ -585,7 +585,7 @@ public extension Mesh {
             if let p0p1 = directionBetweenShapes(prev, shapes[1]), p0p1.dot(polygon.plane.normal) > 0 {
                 polygon = polygon.inverted()
             }
-            polygons.append(polygon)
+            polygons += polygon.tessellate()
         }
         let uvstep = Double(1) / Double(count - 1)
         var e1 = prev.edgeVertices
@@ -639,15 +639,15 @@ public extension Mesh {
                 p0p1.dot(polygon.plane.normal) < 0 {
                 polygon = polygon.inverted()
             }
-            polygons.append(polygon)
+            polygons += polygon.tessellate()
         }
         switch faces {
         case .default where !shapes.contains(where: { !$0.isClosed }), .front:
-            return Mesh(polygons)
+            return Mesh(unchecked: polygons)
         case .back:
-            return Mesh(polygons.map { $0.inverted() })
+            return Mesh(unchecked: polygons.map { $0.inverted() })
         case .frontAndBack, .default:
-            return Mesh(polygons + polygons.map { $0.inverted() })
+            return Mesh(unchecked: polygons + polygons.map { $0.inverted() })
         }
     }
 
@@ -665,13 +665,14 @@ public extension Mesh {
         guard let polygon = Polygon(shape: shape.closed(), material: material) else {
             return Mesh([])
         }
+        let polygons = polygon.tessellate()
         switch faces {
         case .front:
-            return Mesh([polygon])
+            return Mesh(unchecked: polygons)
         case .back:
-            return Mesh([polygon.inverted()])
+            return Mesh(unchecked: polygons.map { $0.inverted() })
         case .frontAndBack, .default:
-            return Mesh([polygon, polygon.inverted()])
+            return Mesh(unchecked: polygons + polygons.map { $0.inverted() })
         }
     }
 }

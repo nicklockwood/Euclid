@@ -67,7 +67,7 @@ private class BSPNode {
                 var a = a
                 for i in total.indices.reversed() {
                     let b = total[i]
-                    if a.id == b.id, let c = a.join(unchecked: b) {
+                    if a.id == b.id, let c = a.join(unchecked: b, ensureConvex: true) {
                         a = c
                         total.remove(at: i)
                     }
