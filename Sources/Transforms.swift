@@ -81,14 +81,14 @@ public extension Transform {
 public extension Mesh {
     func translated(by v: Vector) -> Mesh {
         return Mesh(
-            unchecked: polygons.map { $0.translated(by: v) },
+            unchecked: polygons.translated(by: v),
             bounds: boundsIfSet?.translated(by: v),
             isConvex: isConvex
         )
     }
 
     func rotated(by m: Rotation) -> Mesh {
-        return Mesh(unchecked: polygons.map { $0.rotated(by: m) }, isConvex: isConvex)
+        return Mesh(unchecked: polygons.rotated(by: m), isConvex: isConvex)
     }
 
     func scaled(by v: Vector) -> Mesh {
@@ -97,7 +97,7 @@ public extension Mesh {
             return scaled(by: v.x)
         }
         return Mesh(
-            unchecked: polygons.map { $0.scaled(by: v) },
+            unchecked: polygons.scaled(by: v),
             bounds: boundsIfSet?.scaled(by: v),
             isConvex: isConvex // TODO: what if v has negative components?
         )
@@ -105,7 +105,7 @@ public extension Mesh {
 
     func scaled(by f: Double) -> Mesh {
         return Mesh(
-            unchecked: polygons.map { $0.scaled(by: f) },
+            unchecked: polygons.scaled(by: f),
             bounds: boundsIfSet?.scaled(by: f),
             isConvex: isConvex && f > 0
         )
@@ -113,24 +113,21 @@ public extension Mesh {
 
     func scaleCorrected(for v: Vector) -> Mesh {
         return Mesh(
-            unchecked: polygons.map { $0.scaleCorrected(for: v) },
+            unchecked: polygons.scaleCorrected(for: v),
             bounds: boundsIfSet,
             isConvex: isConvex
         )
     }
 
     func transformed(by t: Transform) -> Mesh {
-        return Mesh(
-            unchecked: polygons.map { $0.transformed(by: t) },
-            isConvex: isConvex
-        )
+        return Mesh(unchecked: polygons.transformed(by: t), isConvex: isConvex)
     }
 }
 
 public extension Polygon {
     func translated(by v: Vector) -> Polygon {
         return Polygon(
-            unchecked: vertices.map { $0.translated(by: v) },
+            unchecked: vertices.translated(by: v),
             normal: plane.normal,
             isConvex: isConvex,
             bounds: boundsIfSet?.translated(by: v),
@@ -140,7 +137,7 @@ public extension Polygon {
 
     func rotated(by m: Rotation) -> Polygon {
         return Polygon(
-            unchecked: vertices.map { $0.rotated(by: m) },
+            unchecked: vertices.rotated(by: m),
             normal: plane.normal.rotated(by: m),
             isConvex: isConvex,
             material: material
@@ -158,7 +155,7 @@ public extension Polygon {
         if v.y < 0 { flipped = !flipped }
         if v.z < 0 { flipped = !flipped }
 
-        let vertices = self.vertices.map { $0.scaled(by: v) }
+        let vertices = self.vertices.scaled(by: v)
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
         return Polygon(
             unchecked: flipped ? vertices.reversed() : vertices,
@@ -173,7 +170,7 @@ public extension Polygon {
         let limit = 0.001
         let f = f < 0 ? min(f, -limit) : max(f, limit)
         let polygon = Polygon(
-            unchecked: vertices.map { $0.scaled(by: f) },
+            unchecked: vertices.scaled(by: f),
             normal: plane.normal,
             isConvex: isConvex,
             bounds: boundsIfSet?.scaled(by: f),
@@ -200,6 +197,32 @@ public extension Polygon {
     }
 }
 
+internal extension Collection where Element == Polygon {
+    func translated(by v: Vector) -> [Polygon] {
+        return map { $0.translated(by: v) }
+    }
+
+    func rotated(by m: Rotation) -> [Polygon] {
+        return map { $0.rotated(by: m) }
+    }
+
+    func scaled(by v: Vector) -> [Polygon] {
+        return map { $0.scaled(by: v) }
+    }
+
+    func scaled(by f: Double) -> [Polygon] {
+        return map { $0.scaled(by: f) }
+    }
+
+    func scaleCorrected(for v: Vector) -> [Polygon] {
+        return map { $0.scaleCorrected(for: v) }
+    }
+
+    func transformed(by t: Transform) -> [Polygon] {
+        return map { $0.transformed(by: t) }
+    }
+}
+
 public extension Vertex {
     func translated(by v: Vector) -> Vertex {
         return Vertex(position + v, normal, texcoord)
@@ -223,6 +246,28 @@ public extension Vertex {
     }
 }
 
+internal extension Collection where Element == Vertex {
+    func translated(by v: Vector) -> [Vertex] {
+        return map { $0.translated(by: v) }
+    }
+
+    func rotated(by m: Rotation) -> [Vertex] {
+        return map { $0.rotated(by: m) }
+    }
+
+    func scaled(by v: Vector) -> [Vertex] {
+        return map { $0.scaled(by: v) }
+    }
+
+    func scaled(by f: Double) -> [Vertex] {
+        return map { $0.scaled(by: f) }
+    }
+
+    func transformed(by t: Transform) -> [Vertex] {
+        return map { $0.transformed(by: t) }
+    }
+}
+
 public extension Vector {
     /// NOTE: no need for a translated() function because of the + operator
 
@@ -240,6 +285,26 @@ public extension Vector {
 
     func transformed(by t: Transform) -> Vector {
         return scaled(by: t.scale).rotated(by: t.rotation) + t.offset
+    }
+}
+
+internal extension Collection where Element == Vector {
+    /// NOTE: no need for a translated() function because of the + operator
+
+    func rotated(by m: Rotation) -> [Vector] {
+        return map { $0.rotated(by: m) }
+    }
+
+    func scaled(by v: Vector) -> [Vector] {
+        return map { $0.scaled(by: v) }
+    }
+
+    func scaled(by f: Double) -> [Vector] {
+        return map { $0 * f }
+    }
+
+    func transformed(by t: Transform) -> [Vector] {
+        return map { $0.transformed(by: t) }
     }
 }
 
@@ -265,31 +330,53 @@ public extension PathPoint {
     }
 }
 
+internal extension Collection where Element == PathPoint {
+    func translated(by v: Vector) -> [PathPoint] {
+        return map { $0.translated(by: v) }
+    }
+
+    func rotated(by m: Rotation) -> [PathPoint] {
+        return map { $0.rotated(by: m) }
+    }
+
+    func scaled(by v: Vector) -> [PathPoint] {
+        return map { $0.scaled(by: v) }
+    }
+
+    func scaled(by f: Double) -> [PathPoint] {
+        return map { $0.scaled(by: f) }
+    }
+
+    func transformed(by t: Transform) -> [PathPoint] {
+        return map { $0.transformed(by: t) }
+    }
+}
+
 public extension Path {
     func translated(by v: Vector) -> Path {
         return Path(
-            unchecked: points.map { $0.translated(by: v) },
+            unchecked: points.translated(by: v),
             plane: plane?.translated(by: v), subpathIndices: subpathIndices
         )
     }
 
     func rotated(by r: Rotation) -> Path {
         return Path(
-            unchecked: points.map { $0.rotated(by: r) },
+            unchecked: points.rotated(by: r),
             plane: plane?.rotated(by: r), subpathIndices: subpathIndices
         )
     }
 
     func scaled(by v: Vector) -> Path {
         return Path(
-            unchecked: points.map { $0.scaled(by: v) },
+            unchecked: points.scaled(by: v),
             plane: plane?.scaled(by: v), subpathIndices: subpathIndices
         )
     }
 
     func scaled(by f: Double) -> Path {
         return Path(
-            unchecked: points.map { $0.scaled(by: f) },
+            unchecked: points.scaled(by: f),
             plane: plane?.scaled(by: f), subpathIndices: subpathIndices
         )
     }
@@ -297,7 +384,7 @@ public extension Path {
     func transformed(by t: Transform) -> Path {
         // TODO: manually transform plane so we can make this more efficient
         return Path(
-            unchecked: points.map { $0.transformed(by: t) },
+            unchecked: points.transformed(by: t),
             plane: plane?.transformed(by: t), subpathIndices: subpathIndices
         )
     }
@@ -333,7 +420,7 @@ public extension Bounds {
     }
 
     func rotated(by r: Rotation) -> Bounds {
-        return Bounds(points: corners.map { $0.rotated(by: r) })
+        return Bounds(points: corners.rotated(by: r))
     }
 
     func scaled(by v: Vector) -> Bounds {
@@ -345,6 +432,6 @@ public extension Bounds {
     }
 
     func transformed(by t: Transform) -> Bounds {
-        return Bounds(points: corners.map { $0.transformed(by: t) })
+        return Bounds(points: corners.transformed(by: t))
     }
 }
