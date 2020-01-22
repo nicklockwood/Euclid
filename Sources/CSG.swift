@@ -45,6 +45,9 @@ public extension Mesh {
     ///          +-------+            +-------+
     ///
     func union(_ mesh: Mesh) -> Mesh {
+        guard bounds.intersects(mesh.bounds) else {
+            return merge(mesh)
+        }
         var ap = polygons
         var bp = mesh.polygons
         var aout: [Polygon]? = []
@@ -76,6 +79,9 @@ public extension Mesh {
     ///          +-------+
     ///
     func subtract(_ mesh: Mesh) -> Mesh {
+        guard bounds.intersects(mesh.bounds) else {
+            return self
+        }
         var ap = polygons
         var bp = mesh.polygons
         var aout: [Polygon]? = []
@@ -104,6 +110,9 @@ public extension Mesh {
     ///          +-------+            +-------+
     ///
     func xor(_ mesh: Mesh) -> Mesh {
+        guard bounds.intersects(mesh.bounds) else {
+            return merge(mesh)
+        }
         var ap = polygons
         var bp = mesh.polygons
         var aout: [Polygon]? = []
@@ -141,6 +150,9 @@ public extension Mesh {
     ///          +-------+
     ///
     func intersect(_ mesh: Mesh) -> Mesh {
+        guard bounds.intersects(mesh.bounds) else {
+            return Mesh([])
+        }
         var ap = polygons
         var bp = mesh.polygons
         var aout, bout: [Polygon]?
@@ -168,6 +180,9 @@ public extension Mesh {
     ///          +-------+
     ///
     func stencil(_ mesh: Mesh) -> Mesh {
+        guard bounds.intersects(mesh.bounds) else {
+            return self
+        }
         var ap = polygons
         var bp = mesh.polygons
         var aout: [Polygon]? = []
