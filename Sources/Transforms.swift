@@ -82,7 +82,7 @@ public extension Mesh {
     func translated(by v: Vector) -> Mesh {
         return Mesh(
             unchecked: polygons.map { $0.translated(by: v) },
-            bounds: bounds.translated(by: v)
+            bounds: boundsIfSet?.translated(by: v)
         )
     }
 
@@ -97,16 +97,22 @@ public extension Mesh {
         }
         return Mesh(
             unchecked: polygons.map { $0.scaled(by: v) },
-            bounds: bounds.scaled(by: v)
+            bounds: boundsIfSet?.scaled(by: v)
         )
     }
 
     func scaled(by f: Double) -> Mesh {
-        return Mesh(unchecked: polygons.map { $0.scaled(by: f) })
+        return Mesh(
+            unchecked: polygons.map { $0.scaled(by: f) },
+            bounds: boundsIfSet?.scaled(by: f)
+        )
     }
 
     func scaleCorrected(for v: Vector) -> Mesh {
-        return Mesh(unchecked: polygons.map { $0.scaleCorrected(for: v) })
+        return Mesh(
+            unchecked: polygons.map { $0.scaleCorrected(for: v) },
+            bounds: boundsIfSet
+        )
     }
 
     func transformed(by t: Transform) -> Mesh {
@@ -120,7 +126,7 @@ public extension Polygon {
             unchecked: vertices.map { $0.translated(by: v) },
             normal: plane.normal,
             isConvex: isConvex,
-            bounds: bounds.translated(by: v),
+            bounds: boundsIfSet?.translated(by: v),
             material: material
         )
     }
@@ -151,7 +157,7 @@ public extension Polygon {
             unchecked: flipped ? vertices.reversed() : vertices,
             normal: plane.normal.scaled(by: vn).normalized(),
             isConvex: isConvex,
-            bounds: bounds.scaled(by: v),
+            bounds: boundsIfSet?.scaled(by: v),
             material: material
         )
     }
@@ -163,7 +169,7 @@ public extension Polygon {
             unchecked: vertices.map { $0.scaled(by: f) },
             normal: plane.normal,
             isConvex: isConvex,
-            bounds: bounds.scaled(by: f),
+            bounds: boundsIfSet?.scaled(by: f),
             material: material
         )
         return f < 0 ? polygon.inverted() : polygon
@@ -181,7 +187,7 @@ public extension Polygon {
             unchecked: flipped ? vertices.reversed() : vertices,
             normal: plane.normal,
             isConvex: isConvex,
-            bounds: bounds,
+            bounds: boundsIfSet,
             material: material
         )
     }

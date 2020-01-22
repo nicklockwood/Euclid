@@ -259,11 +259,15 @@ internal extension Polygon {
         storage = Storage(
             vertices: vertices,
             plane: plane ?? Plane(unchecked: points, convex: isConvex),
-            bounds: bounds ?? Bounds(points: points),
+            bounds: bounds,
             isConvex: isConvex,
             material: material
         )
         self.id = id
+    }
+
+    var boundsIfSet: Bounds? {
+        return storage.boundsIfSet
     }
 
     // Join touching polygons (without checking they are coplanar or share the same material)
@@ -500,9 +504,16 @@ private extension Polygon {
     final class Storage: Hashable {
         let vertices: [Vertex]
         let plane: Plane
-        let bounds: Bounds
+        var boundsIfSet: Bounds?
         let isConvex: Bool
         var material: Material
+
+        var bounds: Bounds {
+            if boundsIfSet == nil {
+                boundsIfSet = Bounds(points: vertices.map { $0.position })
+            }
+            return boundsIfSet!
+        }
 
         static func == (lhs: Storage, rhs: Storage) -> Bool {
             return lhs === rhs ||
@@ -513,10 +524,10 @@ private extension Polygon {
             hasher.combine(vertices)
         }
 
-        init(vertices: [Vertex], plane: Plane, bounds: Bounds, isConvex: Bool, material: Material) {
+        init(vertices: [Vertex], plane: Plane, bounds: Bounds?, isConvex: Bool, material: Material) {
             self.vertices = vertices
             self.plane = plane
-            self.bounds = bounds
+            self.boundsIfSet = bounds
             self.isConvex = isConvex
             self.material = material
         }

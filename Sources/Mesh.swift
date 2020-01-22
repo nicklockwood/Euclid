@@ -31,16 +31,14 @@
 
 /// A 3D surface constructed from polygons
 public struct Mesh: Hashable {
-    public private(set) var bounds: Bounds
-    public var polygons: [Polygon] {
-        didSet {
-            bounds = Bounds(bounds: polygons.map { $0.bounds })
-            polygons = polygons.flatMap { $0.tessellate() }
-        }
-    }
+    private let storage: Storage
 }
 
 public extension Mesh {
+    /// Public properties
+    var polygons: [Polygon] { return storage.polygons }
+    var bounds: Bounds { return storage.bounds }
+
     /// Polygons grouped by material
     var polygonsByMaterial: [Polygon.Material: [Polygon]] {
         var polygonsByMaterial = [Polygon.Material: [Polygon]]()
@@ -60,35 +58,63 @@ public extension Mesh {
 
     /// Replaces one material with another
     func replacing(_ old: Polygon.Material, with new: Polygon.Material) -> Mesh {
-        return Mesh(unchecked: polygons.map {
-            if $0.material == old {
-                var polygon = $0
-                polygon.material = new
-                return polygon
-            }
-            return $0
-        }, bounds: bounds)
+        return Mesh(
+            unchecked: polygons.map {
+                if $0.material == old {
+                    var polygon = $0
+                    polygon.material = new
+                    return polygon
+                }
+                return $0
+            },
+            bounds: boundsIfSet
+        )
     }
 
     /// Returns a new Mesh that includes all polygons from both the
     /// parameter and receiver. Polygons are neither split nor removed.
     func merge(_ mesh: Mesh) -> Mesh {
-        return Mesh(
-            unchecked: polygons + mesh.polygons,
-            bounds: bounds.union(mesh.bounds)
-        )
+        var bounds: Bounds?
+        if let ab = boundsIfSet, let bb = mesh.boundsIfSet {
+            bounds = ab.union(bb)
+        }
+        return Mesh(unchecked: polygons + mesh.polygons, bounds: bounds)
     }
 }
 
 internal extension Mesh {
-    init(unchecked polygons: [Polygon]) {
-        self.init(unchecked: polygons, bounds: Bounds(bounds: polygons.map { $0.bounds }))
+    init(unchecked polygons: [Polygon], bounds: Bounds? = nil) {
+        assert(polygons.allSatisfy { $0.isConvex })
+        storage = Storage(polygons: polygons, bounds: bounds)
     }
 
-    init(unchecked polygons: [Polygon], bounds: Bounds) {
-        assert(polygons.allSatisfy { $0.isConvex })
-        assert(bounds.isEqual(to: Bounds(bounds: polygons.map { $0.bounds })))
-        self.bounds = bounds
-        self.polygons = polygons
+    var boundsIfSet: Bounds? {
+        return storage.boundsIfSet
+    }
+}
+
+private extension Mesh {
+    final class Storage: Hashable {
+        let polygons: [Polygon]
+        var boundsIfSet: Bounds?
+
+        var bounds: Bounds {
+            if boundsIfSet == nil {
+                boundsIfSet = Bounds(bounds: polygons.map { $0.bounds })
+            }
+            return boundsIfSet!
+        }
+
+        static func == (lhs: Storage, rhs: Storage) -> Bool {
+            return lhs === rhs || lhs.polygons == rhs.polygons
+        }
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(polygons)
+        }
+
+        init(polygons: [Polygon], bounds: Bounds?) {
+            self.polygons = polygons
+        }
     }
 }

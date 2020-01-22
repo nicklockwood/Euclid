@@ -49,7 +49,7 @@ public extension Mesh {
         var bp = mesh.polygons
         var aout: [Polygon]? = []
         var bout: [Polygon]? = []
-        boundsTest(&ap, &bp, &aout, &bout)
+        boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
         ap = BSP(mesh).clip(ap, .greaterThan)
         bp = BSP(self).clip(bp, .greaterThanEqual)
         return Mesh(
@@ -80,7 +80,7 @@ public extension Mesh {
         var bp = mesh.polygons
         var aout: [Polygon]? = []
         var bout: [Polygon]?
-        boundsTest(&ap, &bp, &aout, &bout)
+        boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
         ap = BSP(mesh).clip(ap, .greaterThan)
         bp = BSP(self).clip(bp, .lessThan)
         return Mesh(unchecked: aout! + ap + bp.map { $0.inverted() })
@@ -108,7 +108,7 @@ public extension Mesh {
         var bp = mesh.polygons
         var aout: [Polygon]? = []
         var bout: [Polygon]? = []
-        boundsTest(&ap, &bp, &aout, &bout)
+        boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
         let absp = BSP(self)
         let bbsp = BSP(mesh)
         // TODO: combine clip operations
@@ -144,7 +144,7 @@ public extension Mesh {
         var ap = polygons
         var bp = mesh.polygons
         var aout, bout: [Polygon]?
-        boundsTest(&ap, &bp, &aout, &bout)
+        boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
         ap = BSP(mesh).clip(ap, .lessThan)
         bp = BSP(self).clip(bp, .lessThanEqual)
         return Mesh(unchecked: ap + bp)
@@ -172,7 +172,7 @@ public extension Mesh {
         var bp = mesh.polygons
         var aout: [Polygon]? = []
         var bout: [Polygon]?
-        boundsTest(&ap, &bp, &aout, &bout)
+        boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
         // TODO: combine clip operations
         let bsp = BSP(mesh)
         let outside = bsp.clip(ap, .greaterThan)
@@ -265,16 +265,15 @@ public extension Mesh {
 }
 
 private func boundsTest(
+    _ intersection: Bounds,
     _ lhs: inout [Polygon], _ rhs: inout [Polygon],
     _ lout: inout [Polygon]?, _ rout: inout [Polygon]?
 ) {
-    let bbb = Bounds(bounds: rhs.map { $0.bounds })
-    let abb = Bounds(bounds: lhs.map { $0.bounds })
-    for (i, p) in lhs.enumerated().reversed() where !p.bounds.intersects(bbb) {
+    for (i, p) in lhs.enumerated().reversed() where !p.bounds.intersects(intersection) {
         lout?.append(p)
         lhs.remove(at: i)
     }
-    for (i, p) in rhs.enumerated().reversed() where !p.bounds.intersects(abb) {
+    for (i, p) in rhs.enumerated().reversed() where !p.bounds.intersects(intersection) {
         rout?.append(p)
         rhs.remove(at: i)
     }
