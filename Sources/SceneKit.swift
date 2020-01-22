@@ -189,7 +189,7 @@ public extension SCNGeometry {
             if let materialLookup = materialLookup {
                 materials.append(materialLookup(material))
             }
-            let polygons = polygons.flatMap { $0.tessellate() }
+            let polygons = polygons.tessellate()
             for polygon in polygons {
                 indexData.append(UInt32(polygon.vertices.count))
             }

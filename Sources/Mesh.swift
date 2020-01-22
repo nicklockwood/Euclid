@@ -85,6 +85,21 @@ public extension Mesh {
             isConvex: false
         )
     }
+
+    /// Flips face direction of polygons.
+    func inverted() -> Mesh {
+        return Mesh(unchecked: polygons.inverted(), isConvex: false)
+    }
+
+    /// Split concave polygons into 2 or more convex polygons.
+    func tessellate() -> Mesh {
+        return Mesh(unchecked: polygons.tessellate(), isConvex: isConvex)
+    }
+
+    /// Tessellate polygons into triangles.
+    func triangulate() -> Mesh {
+        return Mesh(unchecked: polygons.triangulate(), isConvex: isConvex)
+    }
 }
 
 internal extension Mesh {

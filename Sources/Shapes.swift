@@ -227,9 +227,9 @@ public extension Mesh {
         case .front, .default:
             return Mesh(unchecked: polygons, isConvex: true)
         case .back:
-            return Mesh(unchecked: polygons.map { $0.inverted() }, isConvex: false)
+            return Mesh(unchecked: polygons.inverted(), isConvex: false)
         case .frontAndBack:
-            return Mesh(unchecked: polygons + polygons.map { $0.inverted() }, isConvex: false)
+            return Mesh(unchecked: polygons + polygons.inverted(), isConvex: false)
         }
     }
 
@@ -533,19 +533,16 @@ public extension Mesh {
         case .front:
             return Mesh(unchecked: polygons, isConvex: isConvex)
         case .back:
-            return Mesh(unchecked: polygons.map { $0.inverted() }, isConvex: false)
+            return Mesh(unchecked: polygons.inverted(), isConvex: false)
         case .frontAndBack:
-            return Mesh(
-                unchecked: polygons + polygons.map { $0.inverted() },
-                isConvex: false
-            )
+            return Mesh(unchecked: polygons + polygons.inverted(), isConvex: false)
         case .default:
             // seal loose ends
             // TODO: improve this by not adding backfaces inside closed subsectors
             if let first = vertices.first?.position,
                 let last = vertices.last?.position,
                 first != last, first.x != 0 || last.x != 0 {
-                polygons += polygons.map { $0.inverted() }
+                polygons += polygons.inverted()
             }
             return Mesh(unchecked: polygons, isConvex: isConvex)
         }
@@ -692,12 +689,9 @@ public extension Mesh {
         case .default where shapes.allSatisfy({ $0.isClosed }), .front:
             return Mesh(unchecked: polygons, isConvex: isConvex)
         case .back:
-            return Mesh(unchecked: polygons.map { $0.inverted() }, isConvex: false)
+            return Mesh(unchecked: polygons.inverted(), isConvex: false)
         case .frontAndBack, .default:
-            return Mesh(
-                unchecked: polygons + polygons.map { $0.inverted() },
-                isConvex: false
-            )
+            return Mesh(unchecked: polygons + polygons.inverted(), isConvex: false)
         }
     }
 

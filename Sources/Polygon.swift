@@ -217,6 +217,20 @@ public extension Polygon {
     }
 }
 
+internal extension Collection where Element == Polygon {
+    func inverted() -> [Polygon] {
+        return map { $0.inverted() }
+    }
+
+    func tessellate() -> [Polygon] {
+        return flatMap { $0.tessellate() }
+    }
+
+    func triangulate() -> [Polygon] {
+        return flatMap { $0.triangulate() }
+    }
+}
+
 internal extension Polygon {
     // Create polygon from vertices and face normal without performing validation
     // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
