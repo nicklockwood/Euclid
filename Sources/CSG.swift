@@ -46,7 +46,15 @@ public extension Mesh {
     ///
     func union(_ mesh: Mesh) -> Mesh {
         guard bounds.intersects(mesh.bounds) else {
-            return merge(mesh)
+            // This is basically just a merge.
+            // The slightly weird logic is to replicate the boundsTest behavior.
+            // It's not clear why this matters, but it breaks certain projects.
+            let polys = Array(polygons.reversed()) + Array(mesh.polygons.reversed())
+            return Mesh(
+                unchecked: polys,
+                bounds: bounds.union(mesh.bounds),
+                isConvex: false
+            )
         }
         var ap = polygons
         var bp = mesh.polygons
