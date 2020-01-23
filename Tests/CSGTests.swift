@@ -19,6 +19,13 @@ class CSGTests: XCTestCase {
         XCTAssert(c.polygons.isEmpty)
     }
 
+    func testSubtractCoincidingBoxesWhenTriangulated() {
+        let a = Mesh.cube().triangulate()
+        let b = Mesh.cube().triangulate()
+        let c = a.subtract(b)
+        XCTAssert(c.polygons.isEmpty)
+    }
+
     func testSubtractAdjacentBoxes() {
         let a = Mesh.cube()
         let b = Mesh.cube().translated(by: Vector(1, 0, 0))

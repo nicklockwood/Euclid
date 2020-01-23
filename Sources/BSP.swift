@@ -17,7 +17,7 @@ struct BSP {
     }
 
     init(_ mesh: Mesh) {
-        root = BSPNode(mesh.polygons)
+        root = BSPNode(mesh.polygons, isConvex: mesh.isConvex)
     }
 
     func clip(_ polygons: [Polygon], _ keeping: ClipRule) -> [Polygon] {
@@ -37,12 +37,39 @@ private class BSPNode {
     private var polygons = [Polygon]()
     private let plane: Plane
 
-    public init?(_ polygons: [Polygon]) {
+    public init?(_ polygons: [Polygon], isConvex: Bool) {
         guard let plane = polygons.first?.plane else {
             return nil
         }
         self.plane = plane
-        insert(polygons)
+        guard isConvex else {
+            insert(polygons)
+            return
+        }
+
+        // Sort polygons by plane
+        var polygons = polygons
+        for i in 0 ..< polygons.count - 2 {
+            let p = polygons[i]
+            let plane = p.plane
+            for j in i + 2 ..< polygons.count where polygons[j].plane.isEqual(to: plane) {
+                polygons.insert(polygons.remove(at: j), at: i + 1)
+            }
+        }
+
+        // Use fast bsp construction
+        var parent = self
+        parent.polygons = [polygons[0]]
+        for polygon in polygons.dropFirst() {
+            if polygon.plane.isEqual(to: parent.plane) {
+                parent.polygons.append(polygon)
+                continue
+            }
+            let node = BSPNode(plane: polygon.plane, parent: parent)
+            node.polygons = [polygon]
+            parent.back = node
+            parent = node
+        }
     }
 
     private init(plane: Plane, parent: BSPNode?) {

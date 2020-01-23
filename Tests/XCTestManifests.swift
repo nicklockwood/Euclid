@@ -43,6 +43,7 @@ extension CSGTests {
         ("testSubtractAdjacentBoxes", testSubtractAdjacentBoxes),
         ("testSubtractAdjacentSquares", testSubtractAdjacentSquares),
         ("testSubtractCoincidingBoxes", testSubtractCoincidingBoxes),
+        ("testSubtractCoincidingBoxesWhenTriangulated", testSubtractCoincidingBoxesWhenTriangulated),
         ("testSubtractCoincidingSquares", testSubtractCoincidingSquares),
         ("testSubtractOverlappingBoxes", testSubtractOverlappingBoxes),
         ("testSubtractOverlappingSquares", testSubtractOverlappingSquares),
