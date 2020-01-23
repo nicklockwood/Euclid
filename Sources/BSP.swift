@@ -30,6 +30,19 @@ struct BSP {
     }
 }
 
+private struct DeterministicRNG: RandomNumberGenerator {
+    private let modulus = 233_280
+    private let multiplier = 9301
+    private let increment = 49297
+
+    private var seed = 0
+
+    mutating func next() -> UInt64 {
+        seed = (seed * multiplier + increment) % modulus
+        return UInt64(seed)
+    }
+}
+
 private class BSPNode {
     private weak var parent: BSPNode?
     private var front: BSPNode?
@@ -38,17 +51,20 @@ private class BSPNode {
     private let plane: Plane
 
     public init?(_ polygons: [Polygon], isConvex: Bool) {
-        guard let plane = polygons.first?.plane else {
+        guard !polygons.isEmpty else {
             return nil
         }
-        self.plane = plane
         guard isConvex else {
+            plane = polygons[0].plane
             insert(polygons)
             return
         }
 
+        // Randomly shuffle polygons to reduce average number of splits
+        var rng = DeterministicRNG()
+        var polygons = polygons.shuffled(using: &rng)
+
         // Sort polygons by plane
-        var polygons = polygons
         let count = polygons.count
         for i in 0 ..< count - 2 {
             let p = polygons[i]
@@ -61,6 +77,7 @@ private class BSPNode {
         }
 
         // Use fast bsp construction
+        plane = polygons[0].plane
         var parent = self
         parent.polygons = [polygons[0]]
         for polygon in polygons.dropFirst() {
