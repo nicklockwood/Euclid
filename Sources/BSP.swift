@@ -49,11 +49,14 @@ private class BSPNode {
 
         // Sort polygons by plane
         var polygons = polygons
-        for i in 0 ..< polygons.count - 2 {
+        let count = polygons.count
+        for i in 0 ..< count - 2 {
             let p = polygons[i]
             let plane = p.plane
-            for j in i + 2 ..< polygons.count where polygons[j].plane.isEqual(to: plane) {
-                polygons.insert(polygons.remove(at: j), at: i + 1)
+            var k = i + 1
+            for j in k ..< count where k < j && polygons[j].plane.isEqual(to: plane) {
+                polygons.swapAt(j, k)
+                k += 1
             }
         }
 
