@@ -347,7 +347,7 @@ public extension SCNGeometry {
         )
     }
 
-    // Creates a line-segment SCNGeometry from a Path
+    /// Creates a line-segment SCNGeometry from a Path
     convenience init(_ path: Path) {
         var indexData = Data()
         var vertexData = Data()
@@ -389,8 +389,8 @@ public extension SCNGeometry {
         )
     }
 
-    // Creates a line-segment bounding-box SCNGeometry from a Bounds
-    convenience init(bounds: Bounds) {
+    /// Creates a line-segment bounding-box SCNGeometry from a Bounds
+    convenience init(_ bounds: Bounds) {
         var vertexData = Data()
         for origin in bounds.corners {
             vertexData.append(origin)
@@ -427,6 +427,11 @@ public extension SCNGeometry {
                 ),
             ]
         )
+    }
+
+    @available(*, deprecated, message: "Use version with unnamed parameter instead")
+    convenience init(bounds: Bounds) {
+        self.init(bounds)
     }
 }
 
@@ -506,8 +511,15 @@ public extension Transform {
     }
 }
 
+public extension Bounds {
+    init(_ scnBoundingBox: (min: SCNVector3, max: SCNVector3)) {
+        self.init(min: Vector(scnBoundingBox.min), max: Vector(scnBoundingBox.max))
+    }
+}
+
 public extension Mesh {
-    init?(scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Polygon.Material)? = nil) {
+    /// Create a mesh from an SCNGeometry object with optional material mapping
+    init?(_ scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Polygon.Material)? = nil) {
         var polygons = [Polygon]()
         var vertices = [Vertex]()
         for source in scnGeometry.sources {
@@ -569,7 +581,31 @@ public extension Mesh {
                 break // TODO:
             }
         }
-        self.init(polygons)
+        let isConvex: Bool
+        switch scnGeometry {
+        case is SCNBox,
+             is SCNPyramid,
+             is SCNSphere,
+             is SCNCylinder,
+             is SCNCone,
+             is SCNCapsule:
+            isConvex = true
+        default:
+            isConvex = false
+        }
+        let bounds = Bounds(scnGeometry.boundingBox)
+        self.init(unchecked: polygons, bounds: bounds, isConvex: isConvex)
+    }
+
+    /// Convenience function to create a mesh from an SCNGeometry with specified material
+    init?(_ scnGeometry: SCNGeometry, material: Polygon.Material) {
+        self.init(scnGeometry) { _ in material }
+    }
+
+
+    @available(*, deprecated, message: "Use version with unnamed parameter instead")
+    init?(scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Polygon.Material)? = nil) {
+        self.init(scnGeometry, materialLookup: materialLookup)
     }
 }
 
