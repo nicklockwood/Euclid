@@ -42,9 +42,10 @@ public extension Path {
     /// Create a closed elliptical path
     static func ellipse(width: Double, height: Double, segments: Int = 16) -> Path {
         var points = [PathPoint]()
-        let segments = max(3, Double(segments))
+        let segments = max(3, segments)
+        let step = 2 * Double.pi / Double(segments)
         let w = max(abs(width / 2), epsilon), h = max(abs(height / 2), epsilon)
-        for angle in stride(from: 0, through: 2 * .pi + epsilon, by: 2 * .pi / segments) {
+        for angle in stride(from: 0, through: 2 * .pi + epsilon, by: step) {
             points.append(.curve(w * -sin(angle), h * cos(angle)))
         }
         return Path(unchecked: points, plane: .xy, subpathIndices: [])
@@ -87,10 +88,12 @@ public extension Path {
                 steps = (1 ..< detail).map { Double($0) / Double(detail) }
             case .lhs:
                 // includes start and end point
-                steps = (0 ..< Int(ceil(Double(detail) / 2))).map { Double($0) / Double(detail) } + [0.5]
+                let range = 0 ..< Int(ceil(Double(detail) / 2))
+                steps = range.map { Double($0) / Double(detail) } + [0.5]
             case .rhs:
                 // excludes end point
-                steps = [0.5] + (detail / 2 + 1 ..< detail).map { Double($0) / Double(detail) }
+                let range = detail / 2 + 1 ..< detail
+                steps = [0.5] + range.map { Double($0) / Double(detail) }
             }
 
             return steps.map {
