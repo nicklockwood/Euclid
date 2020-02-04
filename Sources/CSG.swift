@@ -247,8 +247,11 @@ public extension Mesh {
         }
     }
 
-    /// Clip mesh to a plane and optionally fill sheared aces with specified material
+    /// Clip mesh to a plane and optionally fill sheared faces with specified material
     func clip(to plane: Plane, fill: Polygon.Material = nil) -> Mesh {
+        guard !polygons.isEmpty else {
+            return self
+        }
         switch bounds.compare(with: plane) {
         case .front:
             return self
@@ -277,8 +280,13 @@ public extension Mesh {
             // Create back face
             let normal = Vector(0, 0, 1)
             let angle = -normal.angle(with: plane.normal)
-            let axis = normal.cross(plane.normal).normalized()
-            let rotation = Rotation(unchecked: axis, radians: angle)
+            let rotation: Rotation
+            if angle.isEqual(to: 0) {
+                rotation = .identity
+            } else {
+                let axis = normal.cross(plane.normal).normalized()
+                rotation = Rotation(unchecked: axis, radians: angle)
+            }
             let rect = Polygon(
                 unchecked: [
                     Vertex(Vector(-radius, radius, 0), -normal, .zero),
