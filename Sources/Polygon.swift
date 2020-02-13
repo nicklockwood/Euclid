@@ -192,6 +192,13 @@ public extension Polygon {
                 } else {
                     // try next point instead
                     i += 1
+                    if i == vertices.count {
+                        i = 0
+                        attempts += 1
+                        if attempts > 2 {
+                            return triangles
+                        }
+                    }
                 }
                 continue
             }
@@ -204,7 +211,7 @@ public extension Polygon {
                 if i == vertices.count {
                     i = 0
                     attempts += 1
-                    if attempts > 1 {
+                    if attempts > 2 {
                         return triangles
                     }
                 }
