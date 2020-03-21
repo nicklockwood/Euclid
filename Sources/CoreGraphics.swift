@@ -45,7 +45,10 @@ public extension CGPath {
 
         // Fallback for earlier OSes
         typealias Block = @convention(block) (CGPathElement) -> Void
-        let callback: @convention(c) (UnsafeMutableRawPointer, UnsafePointer<CGPathElement>) -> Void = { info, element in
+        let callback: @convention(c) (
+            UnsafeMutableRawPointer,
+            UnsafePointer<CGPathElement>
+        ) -> Void = { info, element in
             unsafeBitCast(info, to: Block.self)(element.pointee)
         }
         withoutActuallyEscaping(block) { block in

@@ -602,7 +602,6 @@ public extension Mesh {
         self.init(scnGeometry) { _ in material }
     }
 
-
     @available(*, deprecated, message: "Use version with unnamed parameter instead")
     init?(scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Polygon.Material)? = nil) {
         self.init(scnGeometry, materialLookup: materialLookup)

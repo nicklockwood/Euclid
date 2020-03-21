@@ -105,7 +105,7 @@ public extension Mesh {
 internal extension Mesh {
     init(unchecked polygons: [Polygon], bounds: Bounds? = nil, isConvex: Bool) {
         assert(polygons.allSatisfy { $0.isConvex })
-        storage = Storage(polygons: polygons, bounds: bounds, isConvex: isConvex)
+        self.storage = Storage(polygons: polygons, bounds: bounds, isConvex: isConvex)
     }
 
     var boundsIfSet: Bounds? { return storage.boundsIfSet }
