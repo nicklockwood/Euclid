@@ -69,6 +69,16 @@ func faceNormalForConvexVertices(unchecked vertices: [Vertex]) -> Vector {
 
 // MARK: Vector utilities
 
+func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
+    let axis = v0.cross(v1)
+    let length = axis.length
+    if length < epsilon {
+        return .identity
+    }
+    let angle = v0.angle(with: v1)
+    return Rotation(unchecked: axis / length, radians: angle)
+}
+
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {
     let threshold = 1e-10
     let count = points.count

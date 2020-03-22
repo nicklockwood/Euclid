@@ -573,6 +573,84 @@ public extension Mesh {
         )
     }
 
+    /// Extrude a path along another path
+    static func extrude(
+        _ shape: Path,
+        along: Path,
+        faces: Faces = .default,
+        material: Polygon.Material = nil
+    ) -> Mesh {
+        let subpaths = along.subpaths
+        guard subpaths.count == 1 else {
+            var mesh = Mesh([])
+            for subpath in subpaths {
+                mesh = mesh.merge(extrude(
+                    shape,
+                    along: subpath,
+                    faces: faces,
+                    material: material
+                ))
+            }
+            return mesh
+        }
+        let points = along.points
+        guard var p0 = points.first else {
+            return Mesh([])
+        }
+        let shapeNormal = (shape.plane ?? .xy).normal
+        var shapes = [Path]()
+        let count = points.count
+        var p1 = points[1]
+        var p0p1 = (p1.position - p0.position).normalized()
+        var shape = shape
+        func addShape(_ p2: PathPoint, _ _p0p2: inout Vector?) {
+            let p1p2 = (p2.position - p1.position).normalized()
+            let p0p2 = (p0p1 + p1p2).normalized()
+            let r: Rotation
+            if let _p0p2 = _p0p2 {
+                r = rotationBetweenVectors(p0p2, _p0p2)
+            } else {
+                r = rotationBetweenVectors(shapeNormal, p0p2)
+            }
+            shape = shape.rotated(by: r)
+            if p0p1.isEqual(to: p1p2) {
+                shapes.append(shape.translated(by: p1.position))
+            } else {
+                let axis = p0p1.cross(p1p2)
+                let a = (1 / p0p1.dot(p0p2)) - 1
+                var scale = axis.cross(p0p2).normalized() * a
+                scale.x = abs(scale.x)
+                scale.y = abs(scale.y)
+                scale.z = abs(scale.z)
+                scale = scale + Vector(1, 1, 1)
+                shapes.append(shape.scaled(by: scale).translated(by: p1.position))
+            }
+            p0 = p1
+            p1 = p2
+            p0p1 = p1p2
+            _p0p2 = p0p2
+        }
+        if along.isClosed {
+            var _p0p2: Vector?
+            for i in 1 ..< count {
+                let p2 = points[(i < count - 1) ? i + 1 : 1]
+                addShape(p2, &_p0p2)
+            }
+            shapes.append(shapes[0])
+        } else {
+            var _p0p2: Vector! = p0p1
+            shape = shape.rotated(by: rotationBetweenVectors(shapeNormal, p0p1))
+            shapes.append(shape.translated(by: p0.position))
+            for i in 1 ..< count - 1 {
+                let p2 = points[i + 1]
+                addShape(p2, &_p0p2)
+            }
+            shape = shape.rotated(by: rotationBetweenVectors(p0p1, _p0p2))
+            shapes.append(shape.translated(by: points.last!.position))
+        }
+        return loft(shapes, faces: faces, material: material)
+    }
+
     /// Connect multiple 3D paths
     static func loft(
         _ shapes: [Path],
