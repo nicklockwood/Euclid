@@ -1,3 +1,9 @@
+## [0.3.1](https://github.com/nicklockwood/Euclid/releases/tag/0.3.1) (2020-03-22)
+
+- Fixed a bug where cubic bezier components of `CGPath`s were not handled correctly
+- Fixed some bugs in the plane clipping algorithm
+- Slightly reduced compilation time
+
 ## [0.3.0](https://github.com/nicklockwood/Euclid/releases/tag/0.3.0) (2020-01-22)
 
 - Significantly improved performance for CSG functions, especially for convex meshes
