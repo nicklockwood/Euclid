@@ -30,6 +30,16 @@ class CGPathTests: XCTestCase {
         #endif
     }
 
+    func testRoundedRectCGPath() {
+        #if canImport(CoreGraphics)
+        let cgRect = CGRect(x: -1, y: -1, width: 2, height: 2)
+        let cgPath = CGPath(roundedRect: cgRect, cornerWidth: 0.5, cornerHeight: 0.5, transform: nil)
+        let path = Path(cgPath: cgPath, detail: 1)
+        XCTAssertTrue(path.isClosed)
+        XCTAssertEqual(path.points.count, 18)
+        #endif
+    }
+
     func testUnclosedLineAndQuadCurveCGPath() {
         #if canImport(CoreGraphics)
         let cgPath = CGMutablePath()

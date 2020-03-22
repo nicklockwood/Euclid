@@ -186,7 +186,7 @@ public extension CGPath {
                     t += step
                     points.append(.curve(
                         cubicBezier(p0.position.x, Double(p1.x), Double(p2.x), Double(p3.x), t),
-                        cubicBezier(p0.position.y, Double(p1.y), Double(p2.y), Double(p3.x), t)
+                        cubicBezier(p0.position.y, Double(p1.y), Double(p2.y), Double(p3.y), t)
                     ))
                 }
                 points.append(.point(Vector(p3)))

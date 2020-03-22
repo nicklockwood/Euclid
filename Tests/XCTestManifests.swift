@@ -24,6 +24,7 @@ extension CGPathTests {
     static let __allTests__CGPathTests = [
         ("testClosedLineAndQuadCurveCGPath", testClosedLineAndQuadCurveCGPath),
         ("testRectangularCGPath", testRectangularCGPath),
+        ("testRoundedRectCGPath", testRoundedRectCGPath),
         ("testUnclosedLineAndCubicCurveCGPath", testUnclosedLineAndCubicCurveCGPath),
         ("testUnclosedLineAndQuadCurveCGPath", testUnclosedLineAndQuadCurveCGPath),
     ]
