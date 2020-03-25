@@ -270,7 +270,7 @@ public extension Mesh {
             guard let material = fill else {
                 return mesh
             }
-            // Project each corner of mesh bounds onto plan to find radius
+            // Project each corner of mesh bounds onto plane to find radius
             var radius = 0.0
             for corner in mesh.bounds.corners {
                 let p = corner.project(onto: plane)
