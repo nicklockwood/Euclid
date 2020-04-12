@@ -1,3 +1,7 @@
+## [0.3.2](https://github.com/nicklockwood/Euclid/releases/tag/0.3.2) (2020-04-12)
+
+- Added ability to extrude a shape along a path
+
 ## [0.3.1](https://github.com/nicklockwood/Euclid/releases/tag/0.3.1) (2020-03-22)
 
 - Fixed a bug where cubic bezier components of `CGPath`s were not handled correctly
