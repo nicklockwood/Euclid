@@ -163,7 +163,7 @@ Builders create a 3D `Mesh` from a (typically) 2D `Path`. The following builders
 
 - `fill` - This builder fills a single `Path` to create a pair of `Polygon`s (front and back faces).
 - `lathe` - This builder takes a 2D `Path` and rotates it around the Y-axis to create a rotationally symmetrical `Mesh`. This is an easy way to create complex shapes like candlesticks, chess pieces, rocket ships, etc.
-- `extrude` - This builder fills a `Path` and extrudes it along its axis. This turns a circular path into a cylinder, or a square into a cube etc.
+- `extrude` - This builder fills a `Path` and extrudes it along its axis, or another path. This can turn a circular path into a tube, or a square into a cube etc.
 - `loft` - This builder is similar to `extrude`, but takes multiple `Path`s and joins them. The `Path`s do not need to be the same shape, but must all have the same number of points and subpaths. To work correctly, the `Path`s must be pre-positioned in 3D space so they do not all lie on the same plane.
 
 ## Curves
