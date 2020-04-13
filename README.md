@@ -250,4 +250,4 @@ The Euclid framework is primarily the work of [Nick Lockwood](https://github.com
 
 Special thanks go to [Evan Wallace](https://github.com/evanw/), whose [JavaScript CSG library](https://github.com/evanw/csg.js) provided the inspiration for Euclid in the first place, along with the BSP algorithm used for Euclid's CSG operations.
 
-Thanks also go to [Patrick Goley](https://twitter.com/bitsbetweenbits), who first suggested "Euclid" for the library name.
+Thanks also go to [Andy Geers](https://github.com/andygeers) who has provided several bug fixes and improvements, and [Patrick Goley](https://twitter.com/bitsbetweenbits) who first suggested "Euclid" for the library name.

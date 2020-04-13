@@ -1,3 +1,7 @@
+## [0.3.3](https://github.com/nicklockwood/Euclid/releases/tag/0.3.3) (2020-04-13)
+
+- Fixed a precision issue when forming unions between meshes with coinciding surfaces
+
 ## [0.3.2](https://github.com/nicklockwood/Euclid/releases/tag/0.3.2) (2020-04-12)
 
 - Added ability to extrude a shape along a path
