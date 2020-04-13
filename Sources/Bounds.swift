@@ -110,9 +110,9 @@ public extension Bounds {
 
     func intersects(_ other: Bounds) -> Bool {
         return !(
-            other.max.x < min.x || other.min.x > max.x ||
-                other.max.y < min.y || other.min.y > max.y ||
-                other.max.z < min.z || other.min.z > max.z
+            other.max.x + epsilon < min.x || other.min.x > max.x + epsilon ||
+                other.max.y + epsilon < min.y || other.min.y > max.y + epsilon ||
+                other.max.z + epsilon < min.z || other.min.z > max.z + epsilon
         )
     }
 
