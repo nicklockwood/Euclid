@@ -597,12 +597,22 @@ public extension Mesh {
         guard var p0 = points.first else {
             return Mesh([])
         }
-        let shapeNormal = (shape.plane ?? .xy).normal
+        var shape = shape
+        let shapePlane = FlatteningPlane(bounds: shape.bounds)
+        let pathPlane = FlatteningPlane(bounds: along.bounds)
+        switch (shapePlane, pathPlane) {
+        case (.xy, .xy), (.xz, .xz):
+            shape = shape.rotated(by: .pitch(.pi / 2))
+        case (.yz, .yz):
+            shape = shape.rotated(by: .yaw(.pi / 2))
+        default:
+            break
+        }
+        let shapeNormal = (shape.plane ?? shapePlane.rawValue).normal
         var shapes = [Path]()
         let count = points.count
         var p1 = points[1]
         var p0p1 = (p1.position - p0.position).normalized()
-        var shape = shape
         func addShape(_ p2: PathPoint, _ _p0p2: inout Vector?) {
             let p1p2 = (p2.position - p1.position).normalized()
             let p0p2 = (p0p1 + p1p2).normalized()
