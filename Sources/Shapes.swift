@@ -610,7 +610,7 @@ public extension Mesh {
             if let _p0p2 = _p0p2 {
                 r = rotationBetweenVectors(p0p2, _p0p2)
             } else {
-                r = rotationBetweenVectors(shapeNormal, p0p2)
+                r = rotationBetweenVectors(p0p2, shapeNormal)
             }
             shape = shape.rotated(by: r)
             if p0p1.isEqual(to: p1p2) {
@@ -639,7 +639,7 @@ public extension Mesh {
             shapes.append(shapes[0])
         } else {
             var _p0p2: Vector! = p0p1
-            shape = shape.rotated(by: rotationBetweenVectors(shapeNormal, p0p1))
+            shape = shape.rotated(by: rotationBetweenVectors(p0p1, shapeNormal))
             shapes.append(shape.translated(by: p0.position))
             for i in 1 ..< count - 1 {
                 let p2 = points[i + 1]
