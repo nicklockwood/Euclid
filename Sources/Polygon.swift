@@ -293,8 +293,8 @@ internal extension Polygon {
         assert(plane.isEqual(to: other.plane))
 
         // get vertices
-        var va = vertices
-        var vb = other.vertices
+        let va = vertices
+        let vb = other.vertices
 
         // find shared vertices
         var joins0, joins1: (Int, Int)?

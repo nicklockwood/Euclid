@@ -57,12 +57,16 @@ public extension SCNQuaternion {
 private extension Data {
     mutating func append(_ int: UInt32) {
         var int = int
-        append(UnsafeBufferPointer(start: &int, count: 1))
+        withUnsafeMutablePointer(to: &int) { pointer in
+            append(UnsafeBufferPointer(start: pointer, count: 1))
+        }
     }
 
     mutating func append(_ double: Double) {
         var float = Float(double)
-        append(UnsafeBufferPointer(start: &float, count: 1))
+        withUnsafeMutablePointer(to: &float) { pointer in
+            append(UnsafeBufferPointer(start: pointer, count: 1))
+        }
     }
 
     mutating func append(_ vector: Vector) {
@@ -449,28 +453,34 @@ private extension Data {
 
     func uint16(at index: Int) -> UInt16 {
         var int: UInt16 = 0
-        _ = copyBytes(
-            to: UnsafeMutableBufferPointer(start: &int, count: 1),
-            from: index ..< index + 2
-        )
+        withUnsafeMutablePointer(to: &int) { pointer in
+            copyBytes(
+                to: UnsafeMutableBufferPointer(start: pointer, count: 1),
+                from: index ..< index + 2
+            )
+        }
         return int
     }
 
     func uint32(at index: Int) -> UInt32 {
         var int: UInt32 = 0
-        _ = copyBytes(
-            to: UnsafeMutableBufferPointer(start: &int, count: 1),
-            from: index ..< index + 4
-        )
+        withUnsafeMutablePointer(to: &int) { pointer in
+            copyBytes(
+                to: UnsafeMutableBufferPointer(start: pointer, count: 1),
+                from: index ..< index + 4
+            )
+        }
         return int
     }
 
     func float(at index: Int) -> Double {
         var float: Float = 0
-        _ = copyBytes(
-            to: UnsafeMutableBufferPointer(start: &float, count: 1),
-            from: index ..< index + 4
-        )
+        withUnsafeMutablePointer(to: &float) { pointer in
+            copyBytes(
+                to: UnsafeMutableBufferPointer(start: pointer, count: 1),
+                from: index ..< index + 4
+            )
+        }
         return Double(float)
     }
 

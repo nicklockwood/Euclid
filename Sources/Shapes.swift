@@ -688,7 +688,7 @@ public extension Mesh {
         }
 
         // TODO: handle subpaths
-        var shapes = shapes
+        let shapes = shapes
         if shapes.isEmpty {
             return Mesh([])
         }
