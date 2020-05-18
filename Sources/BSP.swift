@@ -30,16 +30,14 @@ struct BSP {
     }
 }
 
+// See https://github.com/wangyi-fudan/wyhash/
 private struct DeterministicRNG: RandomNumberGenerator {
-    private let modulus = 233_280
-    private let multiplier = 9301
-    private let increment = 49297
-
-    private var seed = 0
+    private var seed: UInt64 = 0
 
     mutating func next() -> UInt64 {
-        seed = (seed * multiplier + increment) % modulus
-        return UInt64(seed)
+        seed &+= 0xa0761d6478bd642f
+        let result = seed.multipliedFullWidth(by: seed ^ 0xe7037ed1a0b428db)
+        return result.high ^ result.low
     }
 }
 
