@@ -1,3 +1,9 @@
+## [0.3.4](https://github.com/nicklockwood/Euclid/releases/tag/0.3.4) (2020-05-23)
+
+- Fixed issue where shapes extruded a long a path were sometimes tilted (not perpendicular to path)
+- Fixed internal random number generator (broken by a change introduced in Swift 5.2)
+- Simplified path to SCNGeometry conversion
+
 ## [0.3.3](https://github.com/nicklockwood/Euclid/releases/tag/0.3.3) (2020-04-13)
 
 - Fixed a precision issue when forming unions between meshes with coinciding surfaces
