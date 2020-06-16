@@ -758,22 +758,16 @@ public extension Mesh {
                         vertices.remove(at: 2)
                     }
                 }
-                if vertices.count == 4 {
-                    // See if the vertices lie in a plane or not
-                    if Plane(points: vertices.map { $0.position }) == nil {
+                if !verticesAreDegenerate(vertices) {
+                    if !verticesAreCoplanar(vertices) {
                         let vertices2 = [vertices[0], vertices[2], vertices[3]]
                         vertices.remove(at: 3)
-                        
-                        if !verticesAreDegenerate(vertices2) {
-                            polygons.append(Polygon(
-                                unchecked: invert ? vertices2.reversed() : vertices2,
-                                isConvex: true,
-                                material: material
-                            ))
-                        }
+                        polygons.append(Polygon(
+                            unchecked: invert ? vertices2.reversed() : vertices2,
+                            isConvex: true,
+                            material: material
+                        ))
                     }
-                }
-                if !verticesAreDegenerate(vertices) {
                     polygons.append(Polygon(
                         unchecked: invert ? vertices.reversed() : vertices,
                         isConvex: true,
