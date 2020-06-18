@@ -178,6 +178,8 @@ extension ShapeTests {
         ("testClosedCurvedPathWithSharpSecondAndThirdCorner", testClosedCurvedPathWithSharpSecondAndThirdCorner),
         ("testClosedCurvedPathWithSharpSecondCorner", testClosedCurvedPathWithSharpSecondCorner),
         ("testCurveWithConsecutiveMixedTypePointsWithSamePosition", testCurveWithConsecutiveMixedTypePointsWithSamePosition),
+        ("testLoftNonParallelEdges", testLoftNonParallelEdges),
+        ("testLoftParallelEdges", testLoftParallelEdges),
         ("testSimpleCurvedPath", testSimpleCurvedPath),
         ("testSimpleCurveEndedPath", testSimpleCurveEndedPath),
     ]

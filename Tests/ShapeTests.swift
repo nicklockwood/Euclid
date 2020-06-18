@@ -147,4 +147,32 @@ class ShapeTests: XCTestCase {
         let path = Path.circle(radius: 0.50, segments: 25)
         XCTAssert(path.isClosed)
     }
+    
+    // MARK: Loft
+    
+    func testLoftParallelEdges() {
+        let shape1 = Path.square()
+        let shape2 = Path.square().translated(by: Vector(0.0, 1.0, 0.0))
+        
+        let loft = Mesh.loft([shape1, shape2])
+        
+        XCTAssertEqual(loft.polygons.count, 4)
+    }
+    
+    func testLoftNonParallelEdges() {
+        let shape1 = Path.square()
+        let shape2 = Path([
+            PathPoint.point(-2.0, 1.0, 1.0),
+            PathPoint.point(-2.0, 1.0, -1.0),
+            PathPoint.point(2.0, 1.0, -1.0),
+            PathPoint.point(2.0, 1.0, 1.0),
+            PathPoint.point(-2.0, 1.0, 1.0)
+        ])
+        
+        let loft = Mesh.loft([shape1, shape2])
+        
+        XCTAssertEqual(loft.polygons.count, 8)
+        
+        XCTAssert(loft.polygons.allSatisfy( { pointsAreCoplanar($0.vertices.map { $0.position }) }))
+    }
 }
