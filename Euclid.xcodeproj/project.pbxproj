@@ -267,6 +267,7 @@
 			buildPhases = (
 				013ED08D23C0DB3D00FEEE5C /* Generate Linux Tests */,
 				016FAB2E21BFE78100AF60DC /* Sources */,
+				01F2A9E9250177730081CDF5 /* Format Code */,
 				016FAB2F21BFE78100AF60DC /* Frameworks */,
 				016FAB3021BFE78100AF60DC /* Resources */,
 			);
@@ -385,6 +386,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "swift test --generate-linuxmain\n";
+		};
+		01F2A9E9250177730081CDF5 /* Format Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Format Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
