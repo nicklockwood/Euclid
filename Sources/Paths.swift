@@ -200,9 +200,11 @@ public extension Path {
         }
 
         let count = isClosed ? points.count - 1 : points.count
-        var p1 = isClosed ? points[count - 1] : (count > 2 ?
-            extrapolate(points[2], points[1], points[0]) :
-            extrapolate(points[1], points[0]))
+        var p1 = isClosed ? points[count - 1] : (
+            count > 2 ?
+                extrapolate(points[2], points[1], points[0]) :
+                extrapolate(points[1], points[0])
+        )
         var p2 = points[0]
         var p1p2 = p2.position - p1.position
         var n1: Vector!
@@ -212,9 +214,11 @@ public extension Path {
         for i in 0 ..< endIndex {
             p1 = p2
             p2 = i < points.count - 1 ? points[i + 1] :
-                (isClosed ? points[1] : (count > 2 ?
+                (isClosed ? points[1] : (
+                    count > 2 ?
                         extrapolate(points[i - 2], points[i - 1], points[i]) :
-                        extrapolate(points[i - 1], points[i])))
+                        extrapolate(points[i - 1], points[i])
+                ))
             let p0p1 = p1p2
             p1p2 = p2.position - p1.position
             let faceNormal = plane?.normal ?? p0p1.cross(p1p2)
@@ -381,7 +385,8 @@ internal extension Path {
                     points.remove(at: i - 1)
                 } else if p0.position.x >= 0 {
                     if i == 1 ||
-                        (p1.position.y == p0.position.y && p1.position.z == p0.position.z) {
+                        (p1.position.y == p0.position.y && p1.position.z == p0.position.z)
+                    {
                         points.remove(at: i - 1)
                     }
                 } else {

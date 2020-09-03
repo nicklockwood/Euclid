@@ -147,25 +147,26 @@ class ShapeTests: XCTestCase {
         let path = Path.circle(radius: 0.50, segments: 25)
         XCTAssert(path.isClosed)
     }
-    
+
     // MARK: Loft
-    
+
     func testLoftParallelEdges() {
         let shapes = [
             Path.square(),
-            Path.square().translated(by: Vector(0.0, 1.0, 0.0))
+            Path.square().translated(by: Vector(0.0, 1.0, 0.0)),
         ]
-        
+
         let loft = Mesh.loft(shapes)
-        
+
         XCTAssertEqual(loft.polygons.count, 4)
-        
+
         // Every vertex in the loft should be contained by one of our shapes
         let vertices = loft.polygons.flatMap { $0.vertices }
-        XCTAssert(vertices.allSatisfy { (vertex) in
-            shapes.contains(where: { $0.points.contains(where: { $0.position == vertex.position }) }) })
+        XCTAssert(vertices.allSatisfy { vertex in
+            shapes.contains(where: { $0.points.contains(where: { $0.position == vertex.position }) })
+        })
     }
-    
+
     func testLoftNonParallelEdges() {
         let shapes = [
             Path.square(),
@@ -174,19 +175,20 @@ class ShapeTests: XCTestCase {
                 PathPoint.point(-2.0, 1.0, -1.0),
                 PathPoint.point(2.0, 1.0, -1.0),
                 PathPoint.point(2.0, 1.0, 1.0),
-                PathPoint.point(-2.0, 1.0, 1.0)
-            ])
+                PathPoint.point(-2.0, 1.0, 1.0),
+            ]),
         ]
-        
+
         let loft = Mesh.loft(shapes)
-        
+
         XCTAssertEqual(loft.polygons.count, 8)
-        
-        XCTAssert(loft.polygons.allSatisfy( { pointsAreCoplanar($0.vertices.map { $0.position }) }))
-        
+
+        XCTAssert(loft.polygons.allSatisfy { pointsAreCoplanar($0.vertices.map { $0.position }) })
+
         // Every vertex in the loft should be contained by one of our shapes
         let vertices = loft.polygons.flatMap { $0.vertices }
-        XCTAssert(vertices.allSatisfy { (vertex) in
-            shapes.contains(where: { $0.points.contains(where: { $0.position == vertex.position }) }) })
+        XCTAssert(vertices.allSatisfy { vertex in
+            shapes.contains(where: { $0.points.contains(where: { $0.position == vertex.position }) })
+        })
     }
 }

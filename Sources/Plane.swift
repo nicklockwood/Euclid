@@ -90,7 +90,8 @@ public extension Plane {
     /// Returns line of intersection between planes
     func intersection(with p: Plane) -> Line? {
         guard !normal.isEqual(to: p.normal),
-            let origin = solveSimultaneousEquationsWith(self, p) else {
+            let origin = solveSimultaneousEquationsWith(self, p)
+        else {
             // Planes do not intersect
             return nil
         }

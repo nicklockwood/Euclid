@@ -35,8 +35,8 @@ private struct DeterministicRNG: RandomNumberGenerator {
     private var seed: UInt64 = 0
 
     mutating func next() -> UInt64 {
-        seed &+= 0xa0761d6478bd642f
-        let result = seed.multipliedFullWidth(by: seed ^ 0xe7037ed1a0b428db)
+        seed &+= 0xA0761D6478BD642F
+        let result = seed.multipliedFullWidth(by: seed ^ 0xE7037ED1A0B428DB)
         return result.high ^ result.low
     }
 }

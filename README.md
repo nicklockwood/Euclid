@@ -1,7 +1,7 @@
 [![PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UJWT2RWPE7VA8&source=url)
 [![Travis](https://travis-ci.org/nicklockwood/Euclid.svg)](https://travis-ci.org/nicklockwood/Euclid)
 [![Coveralls](https://coveralls.io/repos/github/nicklockwood/Euclid/badge.svg?branch=master)](https://coveralls.io/github/nicklockwood/Euclid)
-[![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20macOS%20|%20tvOS%20|%20watchOS%20|%20Linux-lightgray.svg)]()
+[![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20macOS%20|%20tvOS%20|%20Linux-lightgray.svg)]()
 [![Swift 4.2](https://img.shields.io/badge/swift-4.2-red.svg?style=flat)](https://developer.apple.com/swift)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://opensource.org/licenses/MIT)
 [![Twitter](https://img.shields.io/badge/twitter-@nicklockwood-blue.svg)](http://twitter.com/nicklockwood)
@@ -21,7 +21,7 @@
 
 Euclid is a Swift library for creating and manipulating 3D geometry using techniques such as extruding or "lathing" 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.
 
-Euclid is the underlying implementation for the [ShapeScript App](https://itunes.apple.com/app/id1441135869). Anything you can build in ShapeScript can be replicated programmatically in Swift using this library.
+Euclid is the underlying implementation for the open source [ShapeScript scripting language](https://github.com/nicklockwood/ShapeScript) and [ShapeScript macOS app](https://itunes.apple.com/app/id1441135869). Anything you can build in ShapeScript can be replicated programmatically in Swift using this library.
 
 If you would like to support the development of Euclid, please consider buying a copy of ShapeScript (the app itself is free, but there is an in-app purchase to unlock some features). You can also donate directly to the project via PayPal:
 
@@ -44,13 +44,13 @@ pod 'Euclid', '~> 0.3'
 
 To install using Carthage, add this to your Cartfile:
 
-```
+```ogdl
 github "nicklockwood/Euclid" ~> 0.3
 ```
 
 To install using Swift Package Manage, add this to the `dependencies:` section in your Package.swift file:
 
-```
+```swift
 .package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.3.0")),
 ```
 

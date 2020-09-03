@@ -1,3 +1,7 @@
+## [0.3.5](https://github.com/nicklockwood/Euclid/releases/tag/0.3.5) (2020-09-03)
+
+- Fixed bug with loft function when two edges are not parallel, resulting in a non-planar polygon
+
 ## [0.3.4](https://github.com/nicklockwood/Euclid/releases/tag/0.3.4) (2020-05-23)
 
 - Fixed issue where shapes extruded a long a path were sometimes tilted (not perpendicular to path)

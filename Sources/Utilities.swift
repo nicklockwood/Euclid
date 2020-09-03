@@ -280,7 +280,8 @@ func lineSegmentsIntersect(
     if pi.x < min(p0.x, p1.x) || pi.x > max(p0.x, p1.x) ||
         pi.x < min(p2.x, p3.x) || pi.x > max(p2.x, p3.x) ||
         pi.y < min(p0.y, p1.y) || pi.y > max(p0.y, p1.y) ||
-        pi.y < min(p2.y, p3.y) || pi.y > max(p2.y, p3.y) {
+        pi.y < min(p2.y, p3.y) || pi.y > max(p2.y, p3.y)
+    {
         return false
     }
     return true

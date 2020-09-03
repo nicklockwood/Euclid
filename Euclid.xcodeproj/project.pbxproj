@@ -648,7 +648,7 @@
 				PRODUCT_NAME = Euclid;
 				SDKROOT = "";
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx appletvos appletvsimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -679,7 +679,7 @@
 				PRODUCT_NAME = Euclid;
 				SDKROOT = "";
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx appletvos appletvsimulator";
 			};
 			name = Release;
 		};
@@ -700,7 +700,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.EuclidTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx appletvos appletvsimulator";
 			};
 			name = Debug;
 		};
@@ -721,7 +721,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.EuclidTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx appletvos appletvsimulator";
 			};
 			name = Release;
 		};
