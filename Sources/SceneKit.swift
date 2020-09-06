@@ -522,6 +522,9 @@ public extension Bounds {
 public extension Mesh {
     /// Create a mesh from an SCNGeometry object with optional material mapping
     init?(_ scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Polygon.Material)? = nil) {
+        // Force properties to update
+        let scnGeometry = scnGeometry.copy() as! SCNGeometry
+
         var polygons = [Polygon]()
         var vertices = [Vertex]()
         for source in scnGeometry.sources {
