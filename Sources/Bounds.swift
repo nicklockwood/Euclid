@@ -30,7 +30,7 @@
 //
 
 /// An axially-aligned bounding box
-public struct Bounds: Hashable {
+public struct Bounds: Hashable, Codable {
     public let min, max: Vector
 
     public init(min: Vector, max: Vector) {

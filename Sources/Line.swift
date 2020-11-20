@@ -29,7 +29,7 @@
 //  SOFTWARE.
 //
 
-public struct Line: Hashable {
+public struct Line: Hashable, Codable {
     public let origin, direction: Vector
 
     /// Creates a line from an origin and direction

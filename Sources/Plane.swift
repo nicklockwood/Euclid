@@ -44,6 +44,34 @@ public struct Plane: Hashable {
     }
 }
 
+extension Plane: Codable {
+    private enum CodingKeys: CodingKey {
+        case normal, w
+    }
+
+    public init(from decoder: Decoder) throws {
+        if var container = try? decoder.unkeyedContainer() {
+            let x = try container.decode(Double.self)
+            let y = try container.decode(Double.self)
+            let z = try container.decode(Double.self)
+            normal = Vector(x, y, z).normalized()
+            w = try container.decode(Double.self)
+        } else {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            normal = try container.decode(Vector.self, forKey: .normal).normalized()
+            w = try container.decode(Double.self, forKey: .w)
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(normal.x)
+        try container.encode(normal.y)
+        try container.encode(normal.z)
+        try container.encode(w)
+    }
+}
+
 public extension Plane {
     static let yz = Plane(unchecked: Vector(1, 0, 0), w: 0)
     static let xz = Plane(unchecked: Vector(0, 1, 0), w: 0)
@@ -90,7 +118,7 @@ public extension Plane {
     /// Returns line of intersection between planes
     func intersection(with p: Plane) -> Line? {
         guard !normal.isEqual(to: p.normal),
-            let origin = solveSimultaneousEquationsWith(self, p)
+              let origin = solveSimultaneousEquationsWith(self, p)
         else {
             // Planes do not intersect
             return nil

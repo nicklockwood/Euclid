@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101BAF425687A450096B1E7 /* CodingTests.swift */; };
 		013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013312DC21CA532A00626F1B /* PlaneTests.swift */; };
 		013ED08F23C0E60900FEEE5C /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013ED08E23C0E60900FEEE5C /* Rotation.swift */; };
 		014AC60E2505963800F54349 /* SceneKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014AC60D2505963800F54349 /* SceneKitTests.swift */; };
@@ -82,6 +83,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0101BAF425687A450096B1E7 /* CodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingTests.swift; sourceTree = "<group>"; };
 		013312DC21CA532A00626F1B /* PlaneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneTests.swift; sourceTree = "<group>"; };
 		013ED08E23C0E60900FEEE5C /* Rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
 		014AC60D2505963800F54349 /* SceneKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitTests.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				014AC60D2505963800F54349 /* SceneKitTests.swift */,
 				01A429F92237A85C00C251A6 /* TextTests.swift */,
 				52C844E023854C87009C0A73 /* VectorTests.swift */,
+				0101BAF425687A450096B1E7 /* CodingTests.swift */,
 				52A3852D238D6E5700BE8407 /* LineTests.swift */,
 				01BA2969222726BD0088D36B /* XCTestManifests.swift */,
 				016FAB3921BFE78100AF60DC /* Info.plist */,
@@ -464,6 +467,7 @@
 				014AC60E2505963800F54349 /* SceneKitTests.swift in Sources */,
 				016FAB6121BFE7CE00AF60DC /* TransformTests.swift in Sources */,
 				016FAB6421BFE7CE00AF60DC /* PolygonTests.swift in Sources */,
+				0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */,
 				01BA296A222726BE0088D36B /* XCTestManifests.swift in Sources */,
 				016FAB6521BFE7CE00AF60DC /* CSGTests.swift in Sources */,
 				01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */,

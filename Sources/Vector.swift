@@ -42,6 +42,34 @@ public struct Vector: Hashable {
     }
 }
 
+extension Vector: Codable {
+    private enum CodingKeys: CodingKey {
+        case x, y, z
+    }
+
+    public init(from decoder: Decoder) throws {
+        let x, y, z: Double
+        if var container = try? decoder.unkeyedContainer() {
+            x = try container.decode(Double.self)
+            y = try container.decode(Double.self)
+            z = try container.decodeIfPresent(Double.self) ?? 0
+        } else {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            x = try container.decodeIfPresent(Double.self, forKey: .x) ?? 0
+            y = try container.decodeIfPresent(Double.self, forKey: .y) ?? 0
+            z = try container.decodeIfPresent(Double.self, forKey: .z) ?? 0
+        }
+        self.init(x, y, z)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(x)
+        try container.encode(y)
+        try z == 0 ? () : container.encode(z)
+    }
+}
+
 public extension Vector {
     static let zero = Vector(0, 0, 0)
 

@@ -34,6 +34,35 @@ public struct Mesh: Hashable {
     private let storage: Storage
 }
 
+extension Mesh: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case polygons, bounds, isConvex = "convex"
+    }
+
+    public init(from decoder: Decoder) throws {
+        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+            let polygons = try container.decode([Polygon].self, forKey: .polygons)
+            let bounds = try container.decodeIfPresent(Bounds.self, forKey: .bounds)
+            let isConvex = try container.decodeIfPresent(Bool.self, forKey: .isConvex) ?? false
+            self.init(
+                unchecked: polygons.flatMap { $0.tessellate() },
+                bounds: bounds,
+                isConvex: isConvex
+            )
+        } else {
+            let polygons = try [Polygon](from: decoder)
+            self.init(polygons)
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(polygons, forKey: .polygons)
+        try container.encode(bounds, forKey: .bounds)
+        try container.encode(isConvex, forKey: .isConvex)
+    }
+}
+
 public extension Mesh {
     /// Public properties
     var polygons: [Polygon] { return storage.polygons }
