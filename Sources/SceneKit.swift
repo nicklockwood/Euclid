@@ -57,14 +57,14 @@ public extension SCNQuaternion {
 private extension Data {
     mutating func append(_ int: UInt32) {
         var int = int
-        _ = withUnsafeMutablePointer(to: &int) { pointer in
+        withUnsafeMutablePointer(to: &int) { pointer in
             append(UnsafeBufferPointer(start: pointer, count: 1))
         }
     }
 
     mutating func append(_ double: Double) {
         var float = Float(double)
-        _ = withUnsafeMutablePointer(to: &float) { pointer in
+        withUnsafeMutablePointer(to: &float) { pointer in
             append(UnsafeBufferPointer(start: pointer, count: 1))
         }
     }
@@ -445,7 +445,7 @@ private extension Data {
 
     func uint16(at index: Int) -> UInt16 {
         var int: UInt16 = 0
-        _ = withUnsafeMutablePointer(to: &int) { pointer in
+        withUnsafeMutablePointer(to: &int) { pointer in
             copyBytes(
                 to: UnsafeMutableBufferPointer(start: pointer, count: 1),
                 from: index ..< index + 2
@@ -456,7 +456,7 @@ private extension Data {
 
     func uint32(at index: Int) -> UInt32 {
         var int: UInt32 = 0
-        _ = withUnsafeMutablePointer(to: &int) { pointer in
+        withUnsafeMutablePointer(to: &int) { pointer in
             copyBytes(
                 to: UnsafeMutableBufferPointer(start: pointer, count: 1),
                 from: index ..< index + 4
@@ -467,7 +467,7 @@ private extension Data {
 
     func float(at index: Int) -> Double {
         var float: Float = 0
-        _ = withUnsafeMutablePointer(to: &float) { pointer in
+        withUnsafeMutablePointer(to: &float) { pointer in
             copyBytes(
                 to: UnsafeMutableBufferPointer(start: pointer, count: 1),
                 from: index ..< index + 4

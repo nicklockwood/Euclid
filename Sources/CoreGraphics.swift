@@ -31,17 +31,10 @@ public extension Path {
 
 public extension CGPath {
     private func enumerateElements(_ block: @convention(block) (CGPathElement) -> Void) {
-        #if os(iOS)
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, tvOS 11.0, OSX 10.13, *) {
             applyWithBlock { block($0.pointee) }
             return
         }
-        #elseif os(OSX)
-        if #available(OSX 10.13, *) {
-            applyWithBlock { block($0.pointee) }
-            return
-        }
-        #endif
 
         // Fallback for earlier OSes
         typealias Block = @convention(block) (CGPathElement) -> Void
