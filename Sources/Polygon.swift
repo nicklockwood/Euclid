@@ -37,6 +37,46 @@ public struct Polygon: Hashable {
     var id: Int
 }
 
+extension Polygon: Codable {
+    private enum CodingKeys: CodingKey {
+        case vertices, plane
+    }
+
+    public init(from decoder: Decoder) throws {
+        let vertices: [Vertex]
+        let plane: Plane?
+        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+            vertices = try container.decode([Vertex].self, forKey: .vertices)
+            guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+                throw DecodingError.dataCorruptedError(
+                    forKey: .vertices,
+                    in: container,
+                    debugDescription: "Vertices are degenerate"
+                )
+            }
+            plane = try container.decodeIfPresent(Plane.self, forKey: .plane)
+        } else {
+            vertices = try [Vertex](from: decoder)
+            guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+                throw DecodingError.dataCorruptedError(
+                    in: try decoder.unkeyedContainer(),
+                    debugDescription: "Vertices are degenerate"
+                )
+            }
+            plane = nil
+        }
+        self.init(unchecked: vertices, plane: plane, material: nil)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(vertices, forKey: .vertices)
+        if plane != Plane(points: vertices.map { $0.position }) {
+            try container.encode(plane, forKey: .plane)
+        }
+    }
+}
+
 public extension Polygon {
     /// Material used by a given polygon
     typealias Material = AnyHashable
@@ -68,7 +108,7 @@ public extension Polygon {
     /// Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
     init?(_ vertices: [Vertex], material: Material? = nil) {
         guard vertices.count > 2, !verticesAreDegenerate(vertices),
-            let plane = Plane(points: vertices.map { $0.position })
+              let plane = Plane(points: vertices.map { $0.position })
         else {
             return nil
         }
@@ -89,8 +129,8 @@ public extension Polygon {
         var j = count - 1
         for i in 0 ..< count {
             if (points[i].y > p.y) != (points[j].y > p.y),
-                p.x < (points[j].x - points[i].x) * (p.y - points[i].y) /
-                (points[j].y - points[i].y) + points[i].x
+               p.x < (points[j].x - points[i].x) * (p.y - points[i].y) /
+               (points[j].y - points[i].y) + points[i].x
             {
                 c = !c
             }

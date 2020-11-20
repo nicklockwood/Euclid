@@ -37,6 +37,25 @@ public struct PathPoint: Hashable {
     public var isCurved: Bool
 }
 
+extension PathPoint: Codable {
+    public init(from decoder: Decoder) throws {
+        var container = try decoder.unkeyedContainer()
+        let x = try container.decode(Double.self)
+        let y = try container.decode(Double.self)
+        let z = (try? container.decodeIfPresent(Double.self) ?? 0) ?? 0
+        let isCurved = try container.decodeIfPresent(Bool.self) ?? false
+        self.init(Vector(x, y, z), isCurved: isCurved)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(position.x)
+        try container.encode(position.y)
+        try position.z == 0 ? () : container.encode(position.z)
+        try isCurved ? container.encode(true) : ()
+    }
+}
+
 public extension PathPoint {
     static func point(_ position: Vector) -> PathPoint {
         return PathPoint(position, isCurved: false)
@@ -72,6 +91,39 @@ public struct Path: Hashable {
     public let bounds: Bounds
     public private(set) var plane: Plane?
     let subpathIndices: [Int]
+}
+
+extension Path: Codable {
+    private enum CodingKeys: CodingKey {
+        case points, subpaths
+    }
+
+    public init(from decoder: Decoder) throws {
+        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+            let points = try container.decodeIfPresent([PathPoint].self, forKey: .points)
+            if var subpaths = try container.decodeIfPresent([Path].self, forKey: .subpaths) {
+                if let points = points {
+                    subpaths.insert(Path(points), at: 0)
+                }
+                self.init(subpaths: subpaths)
+            } else {
+                self.init(points ?? [])
+            }
+        } else {
+            let points = try [PathPoint](from: decoder)
+            self.init(points)
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        let subpaths = self.subpaths
+        if subpaths.count < 2 {
+            try (subpaths.first?.points ?? []).encode(to: encoder)
+        } else {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(subpaths, forKey: .subpaths)
+        }
+    }
 }
 
 public extension Path {

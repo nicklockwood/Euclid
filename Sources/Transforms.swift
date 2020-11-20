@@ -36,14 +36,31 @@ public struct Transform: Hashable {
     public var rotation: Rotation
     public var scale: Vector
 
-    public init(
-        offset: Vector = .zero,
-        rotation: Rotation = .identity,
-        scale: Vector = .init(1, 1, 1)
-    ) {
-        self.offset = offset
-        self.rotation = rotation
-        self.scale = scale
+    public init(offset: Vector? = nil, rotation: Rotation? = nil, scale: Vector? = nil) {
+        self.offset = offset ?? .zero
+        self.rotation = rotation ?? .identity
+        self.scale = scale ?? Vector(1, 1, 1)
+    }
+}
+
+extension Transform: Codable {
+    private enum CodingKeys: CodingKey {
+        case offset, rotation, scale
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let offset = try container.decodeIfPresent(Vector.self, forKey: .offset)
+        let rotation = try container.decodeIfPresent(Rotation.self, forKey: .rotation)
+        let scale = try container.decodeIfPresent(Vector.self, forKey: .scale)
+        self.init(offset: offset, rotation: rotation, scale: scale)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try offset == .zero ? () : container.encode(offset, forKey: .offset)
+        try rotation == .identity ? () : container.encode(rotation, forKey: .rotation)
+        try scale == Vector(1, 1, 1) ? () : container.encode(scale, forKey: .scale)
     }
 }
 

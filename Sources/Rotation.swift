@@ -13,7 +13,7 @@ public struct Rotation: Hashable {
     var m11, m12, m13, m21, m22, m23, m31, m32, m33: Double
 
     /// Define a rotation using 3x3 matrix coefficients
-    init(
+    fileprivate init(
         _ m11: Double,
         _ m12: Double,
         _ m13: Double,
@@ -34,6 +34,76 @@ public struct Rotation: Hashable {
         self.m31 = m31
         self.m32 = m32
         self.m33 = m33
+    }
+}
+
+extension Rotation: Codable {
+    private enum CodingKeys: CodingKey {
+        case axis, x, y, z, radians
+    }
+
+    public init(from decoder: Decoder) throws {
+        guard var container = try? decoder.unkeyedContainer() else {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let radians = try container.decodeIfPresent(Double.self, forKey: .radians) ?? 0
+            var axis = try container.decodeIfPresent(Vector.self, forKey: .axis)
+            if let x = try container.decodeIfPresent(Double.self, forKey: .x) {
+                let y = try container.decode(Double.self, forKey: .y)
+                let z = try container.decode(Double.self, forKey: .z)
+                axis = Vector(x, y, z)
+            }
+            self.init(unchecked: axis?.normalized() ?? Vector(0, 0, 1), radians: radians)
+            return
+        }
+        switch container.count ?? 0 {
+        case 0:
+            self = .identity
+        case 1:
+            let roll = try container.decode(Double.self)
+            self.init(roll: roll)
+        case 2 ... 3:
+            let pitch = try container.decode(Double.self)
+            let yaw = try container.decode(Double.self)
+            let roll = try container.decode(Double.self)
+            self.init(pitch: pitch, yaw: yaw, roll: roll)
+        case 4:
+            let x = try container.decode(Double.self)
+            let y = try container.decode(Double.self)
+            let z = try container.decode(Double.self)
+            let axis = Vector(x, y, z).normalized()
+            let radians = try container.decode(Double.self)
+            self.init(unchecked: axis, radians: radians)
+        default:
+            let m11 = try container.decode(Double.self)
+            let m12 = try container.decode(Double.self)
+            let m13 = try container.decode(Double.self)
+            let m21 = try container.decode(Double.self)
+            let m22 = try container.decode(Double.self)
+            let m23 = try container.decode(Double.self)
+            let m31 = try container.decode(Double.self)
+            let m32 = try container.decode(Double.self)
+            let m33 = try container.decode(Double.self)
+            self.init(m11, m12, m13, m21, m22, m23, m31, m32, m33)
+            guard isRotationMatrix else {
+                throw DecodingError.dataCorruptedError(
+                    in: container,
+                    debugDescription: "Not a rotation matrix"
+                )
+            }
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(m11)
+        try container.encode(m12)
+        try container.encode(m13)
+        try container.encode(m21)
+        try container.encode(m22)
+        try container.encode(m23)
+        try container.encode(m31)
+        try container.encode(m32)
+        try container.encode(m33)
     }
 }
 
@@ -167,6 +237,28 @@ public extension Rotation {
 }
 
 internal extension Rotation {
+    // https://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
+    var determinant: Double {
+        return m11 * m22 * m33
+            + m12 * m23 * m31
+            + m13 * m21 * m32
+            - m11 * m23 * m32
+            - m12 * m21 * m33
+            - m13 * m22 * m31
+    }
+
+    // https://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
+    var isRotationMatrix: Bool {
+        let epsilon = 0.01
+        if abs(m11 * m12 + m12 * m22 + m13 * m23) > epsilon { return false }
+        if abs(m11 * m31 + m12 * m32 + m13 * m33) > epsilon { return false }
+        if abs(m21 * m31 + m22 * m32 + m23 * m33) > epsilon { return false }
+        if abs(m11 * m11 + m12 * m12 + m13 * m13 - 1) > epsilon { return false }
+        if abs(m21 * m21 + m22 * m22 + m23 * m23 - 1) > epsilon { return false }
+        if abs(m31 * m31 + m32 * m32 + m33 * m33 - 1) > epsilon { return false }
+        return abs(determinant - 1) < epsilon
+    }
+
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
     init(unchecked axis: Vector, radians: Double) {
         assert(axis.isNormalized)
@@ -181,5 +273,18 @@ internal extension Rotation {
             t * x * y + z * s, t * y * y + c, t * y * z - x * s,
             t * x * z - y * s, t * y * z + x * s, t * z * z + c
         )
+    }
+
+    // Approximate equality
+    func isEqual(to other: Rotation, withPrecision p: Double = epsilon) -> Bool {
+        return abs(m11 - other.m11) < p
+            && abs(m12 - other.m12) < p
+            && abs(m13 - other.m13) < p
+            && abs(m21 - other.m21) < p
+            && abs(m22 - other.m22) < p
+            && abs(m23 - other.m23) < p
+            && abs(m31 - other.m31) < p
+            && abs(m32 - other.m32) < p
+            && abs(m33 - other.m33) < p
     }
 }

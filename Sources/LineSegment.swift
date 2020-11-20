@@ -29,7 +29,7 @@
 //  SOFTWARE.
 //
 
-public struct LineSegment: Hashable {
+public struct LineSegment: Hashable, Codable {
     public let start, end: Vector
 
     /// Creates a line segment from a start and end point

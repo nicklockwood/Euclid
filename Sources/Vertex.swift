@@ -46,6 +46,27 @@ public struct Vertex: Hashable {
     }
 }
 
+extension Vertex: Codable {
+    private enum CodingKeys: CodingKey {
+        case position, normal, texcoord
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let position = try container.decode(Vector.self, forKey: .position)
+        let normal = try container.decode(Vector.self, forKey: .normal)
+        let texcoord = try container.decodeIfPresent(Vector.self, forKey: .texcoord) ?? .zero
+        self.init(position, normal, texcoord)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(position, forKey: .position)
+        try container.encode(normal, forKey: .normal)
+        try texcoord == .zero ? () : container.encode(normal, forKey: .texcoord)
+    }
+}
+
 public extension Vertex {
     /// Invert all orientation-specific data (e.g. vertex normal). Called when the
     /// orientation of a polygon is flipped.
