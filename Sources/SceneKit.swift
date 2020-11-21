@@ -92,7 +92,7 @@ private typealias OSColor = NSColor
 private typealias OSImage = NSImage
 #endif
 
-private func defaultMaterialLookup(_ material: Polygon.Material) -> SCNMaterial {
+private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
     switch material {
     case let material as SCNMaterial:
         return material
@@ -105,18 +105,18 @@ private func defaultMaterialLookup(_ material: Polygon.Material) -> SCNMaterial 
         material.diffuse.contents = image
         return material
     default:
-        return SCNMaterial()
+        return nil
     }
 }
 
 public extension SCNGeometry {
     /// Creates an SCNGeometry using the default tessellation method
-    convenience init(_ mesh: Mesh, materialLookup: ((Polygon.Material) -> SCNMaterial)? = nil) {
+    convenience init(_ mesh: Mesh, materialLookup: ((Polygon.Material?) -> SCNMaterial?)? = nil) {
         self.init(triangles: mesh, materialLookup: materialLookup)
     }
 
     /// Creates an SCNGeometry from a Mesh using triangles
-    convenience init(triangles mesh: Mesh, materialLookup: ((Polygon.Material) -> SCNMaterial)? = nil) {
+    convenience init(triangles mesh: Mesh, materialLookup: ((Polygon.Material?) -> SCNMaterial?)? = nil) {
         var elementData = [Data]()
         var vertexData = Data()
         var materials = [SCNMaterial]()
@@ -137,7 +137,7 @@ public extension SCNGeometry {
                 vertexData.append(vertex.texcoord.x)
                 vertexData.append(vertex.texcoord.y)
             }
-            materials.append(materialLookup(material))
+            materials.append(materialLookup(material) ?? SCNMaterial())
             for polygon in polygons {
                 for triangle in polygon.triangulate() {
                     triangle.vertices.forEach(addVertex)
@@ -194,7 +194,7 @@ public extension SCNGeometry {
 
     /// Creates an SCNGeometry from a Mesh using convex polygons
     @available(OSX 10.12, iOS 10.0, tvOS 10.0, *)
-    convenience init(polygons mesh: Mesh, materialLookup: ((Polygon.Material) -> SCNMaterial)? = nil) {
+    convenience init(polygons mesh: Mesh, materialLookup: ((Polygon.Material?) -> SCNMaterial)? = nil) {
         var elementData = [(Int, Data)]()
         var vertexData = Data()
         var materials = [SCNMaterial]()
@@ -215,7 +215,7 @@ public extension SCNGeometry {
                 vertexData.append(vertex.texcoord.x)
                 vertexData.append(vertex.texcoord.y)
             }
-            materials.append(materialLookup(material))
+            materials.append(materialLookup(material) ?? SCNMaterial())
             let polygons = polygons.tessellate()
             for polygon in polygons {
                 indexData.append(UInt32(polygon.vertices.count))
@@ -544,7 +544,7 @@ public extension Bounds {
 
 public extension Mesh {
     /// Create a mesh from an SCNGeometry object with optional material mapping
-    init?(_ scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Polygon.Material)? = nil) {
+    init?(_ scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Material?)? = nil) {
         // Force properties to update
         let scnGeometry = scnGeometry.copy() as! SCNGeometry
 
@@ -583,9 +583,8 @@ public extension Mesh {
                 continue
             }
         }
-        let materials: [Polygon.Material] = materialLookup.map {
-            scnGeometry.materials.map($0)
-        } ?? scnGeometry.materials.map { $0 as Polygon.Material }
+        let materialLookup = materialLookup ?? { $0 as Material }
+        let materials = scnGeometry.materials.map(materialLookup)
         for (index, element) in scnGeometry.elements.enumerated() {
             let material = materials.isEmpty ? nil : materials[index % materials.count]
             switch element.primitiveType {
@@ -626,12 +625,12 @@ public extension Mesh {
     }
 
     /// Convenience function to create a mesh from an SCNGeometry with specified material
-    init?(_ scnGeometry: SCNGeometry, material: Polygon.Material) {
+    init?(_ scnGeometry: SCNGeometry, material: Material?) {
         self.init(scnGeometry) { _ in material }
     }
 
     @available(*, deprecated, message: "Use version with unnamed parameter instead")
-    init?(scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Polygon.Material)? = nil) {
+    init?(scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Material?)? = nil) {
         self.init(scnGeometry, materialLookup: materialLookup)
     }
 }

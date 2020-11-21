@@ -255,7 +255,7 @@ public extension Polygon {
     /// Create a polygon from a path
     /// Path may be convex or concave, but must be closed and non-degenerate
     /// Paths with
-    init?(shape: Path, material: Polygon.Material = nil) {
+    init?(shape: Path, material: Material? = nil) {
         guard let vertices = shape.faceVertices, let plane = shape.plane else {
             return nil
         }
