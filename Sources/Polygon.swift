@@ -29,6 +29,8 @@
 //  SOFTWARE.
 //
 
+import Foundation
+
 /// A planar polygon
 public struct Polygon: Hashable {
     private var storage: Storage
@@ -39,12 +41,12 @@ public struct Polygon: Hashable {
 
 extension Polygon: Codable {
     private enum CodingKeys: CodingKey {
-        case vertices, plane
+        case vertices, plane, material
     }
 
     public init(from decoder: Decoder) throws {
         let vertices: [Vertex]
-        let plane: Plane?
+        var plane: Plane?, material: Material?
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             vertices = try container.decode([Vertex].self, forKey: .vertices)
             guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
@@ -55,6 +57,7 @@ extension Polygon: Codable {
                 )
             }
             plane = try container.decodeIfPresent(Plane.self, forKey: .plane)
+            material = try container.decodeIfPresent(CodableMaterial.self, forKey: .material)?.value
         } else {
             vertices = try [Vertex](from: decoder)
             guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
@@ -63,14 +66,14 @@ extension Polygon: Codable {
                     debugDescription: "Vertices are degenerate"
                 )
             }
-            plane = nil
         }
-        self.init(unchecked: vertices, plane: plane, material: nil)
+        self.init(unchecked: vertices, plane: plane, material: material)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(vertices, forKey: .vertices)
+        try container.encode(CodableMaterial(material), forKey: .material)
         if plane != Plane(points: vertices.map { $0.position }) {
             try container.encode(plane, forKey: .plane)
         }
@@ -591,6 +594,61 @@ private extension Polygon {
             self.boundsIfSet = bounds
             self.isConvex = isConvex
             self.material = material
+        }
+    }
+}
+
+private struct CodableMaterial: Codable {
+    var value: Polygon.Material?
+
+    init(_ value: Polygon.Material?) {
+        self.value = value
+    }
+
+    enum CodingKeys: CodingKey {
+        case string, int, data, nscoded
+    }
+
+    init(from decoder: Decoder) throws {
+        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+            if let string = try container.decodeIfPresent(String.self, forKey: .string) {
+                self.value = string
+            } else if let int = try container.decodeIfPresent(Int.self, forKey: .int) {
+                self.value = int
+            } else if let data = try container.decodeIfPresent(Data.self, forKey: .data) {
+                self.value = data
+            } else if let data = try container.decodeIfPresent(Data.self, forKey: .nscoded) {
+                self.value = NSKeyedUnarchiver.unarchiveObject(with: data) as? Polygon.Material
+            }
+        } else {
+            let container = try decoder.singleValueContainer()
+            if let string = try? container.decode(String.self) {
+                self.value = string
+            } else if let int = try? container.decode(Int.self) {
+                self.value = int
+            }
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        guard let value = value else { return }
+        switch value {
+        case let string as String:
+            try string.encode(to: encoder)
+        case let int as Int:
+            try int.encode(to: encoder)
+        case let data as Data:
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(data, forKey: .data)
+        case let object as NSCoding:
+            let data = NSKeyedArchiver.archivedData(withRootObject: object)
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(data, forKey: .nscoded)
+        default:
+            throw EncodingError.invalidValue(value, .init(
+                codingPath: encoder.codingPath,
+                debugDescription: "Cannot encode material of type \(type(of: value))"
+            ))
         }
     }
 }

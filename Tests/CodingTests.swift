@@ -181,6 +181,56 @@ class CodingTests: XCTestCase {
         )
     }
 
+    // MARK: Material
+
+    func testEncodingPolygonWithNilMaterial() throws {
+        let polygon = Polygon(shape: .square(), material: nil)
+        let encoded = try encode(polygon)
+        let decoded = try decode(encoded) as Euclid.Polygon
+        XCTAssertNil(decoded.material)
+    }
+
+    func testEncodingPolygonWithStringMaterial() throws {
+        let polygon = Polygon(shape: .square(), material: "foo")
+        let encoded = try encode(polygon)
+        let decoded = try decode(encoded) as Euclid.Polygon
+        XCTAssertEqual(decoded.material, polygon?.material)
+    }
+
+    func testEncodingPolygonWithIntMaterial() throws {
+        let polygon = Polygon(shape: .square(), material: 5)
+        let encoded = try encode(polygon)
+        let decoded = try decode(encoded) as Euclid.Polygon
+        XCTAssertEqual(decoded.material, polygon?.material)
+    }
+
+    func testEncodingPolygonWithDataMaterial() throws {
+        let polygon = Polygon(shape: .square(), material: "foo".data(using: .utf8))
+        let encoded = try encode(polygon)
+        let decoded = try decode(encoded) as Euclid.Polygon
+        XCTAssertEqual(decoded.material, polygon?.material)
+    }
+
+    func testEncodingPolygonWithUnsupportedMaterial() throws {
+        struct Foo: Hashable {}
+        let polygon = Polygon(shape: .square(), material: Foo())
+        XCTAssertThrowsError(try encode(polygon))
+    }
+
+    func testEncodingPolygonWithOSColorMaterial() throws {
+        #if canImport(UIKit)
+        let polygon = Polygon(shape: .square(), material: UIColor.red)
+        XCTAssertEqual(decoded.material, polygon?.material)
+        #elseif canImport(AppKit)
+        let polygon = Polygon(shape: .square(), material: NSColor.red)
+        #else
+        let polygon = Polygon(shape: .square())
+        #endif
+        let encoded = try encode(polygon)
+        let decoded = try decode(encoded) as Euclid.Polygon
+        XCTAssertEqual(decoded.material, polygon?.material)
+    }
+
     // MARK: Mesh
 
     func testDecodingMesh() {
