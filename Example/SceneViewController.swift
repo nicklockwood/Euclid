@@ -34,11 +34,7 @@ class SceneViewController: UIViewController {
         print("Polys:", mesh.polygons.count)
 
         // create SCNNode
-        let geometry = SCNGeometry(mesh) {
-            let material = SCNMaterial()
-            material.diffuse.contents = $0 as? UIColor
-            return material
-        }
+        let geometry = SCNGeometry(mesh)
         let node = SCNNode(geometry: geometry)
         scene.rootNode.addChildNode(node)
 

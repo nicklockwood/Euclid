@@ -84,6 +84,31 @@ public extension SCNNode {
     }
 }
 
+#if os(iOS) || os(tvOS)
+private typealias OSColor = UIColor
+private typealias OSImage = UIImage
+#elseif os(OSX)
+private typealias OSColor = NSColor
+private typealias OSImage = NSImage
+#endif
+
+private func defaultMaterialLookup(_ material: Polygon.Material) -> SCNMaterial {
+    switch material {
+    case let material as SCNMaterial:
+        return material
+    case let color as OSColor:
+        let material = SCNMaterial()
+        material.diffuse.contents = color
+        return material
+    case let image as OSImage:
+        let material = SCNMaterial()
+        material.diffuse.contents = image
+        return material
+    default:
+        return SCNMaterial()
+    }
+}
+
 public extension SCNGeometry {
     /// Creates an SCNGeometry using the default tessellation method
     convenience init(_ mesh: Mesh, materialLookup: ((Polygon.Material) -> SCNMaterial)? = nil) {
@@ -96,6 +121,7 @@ public extension SCNGeometry {
         var vertexData = Data()
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
+        let materialLookup = materialLookup ?? defaultMaterialLookup
         for (material, polygons) in mesh.polygonsByMaterial {
             var indexData = Data()
             func addVertex(_ vertex: Vertex) {
@@ -111,9 +137,7 @@ public extension SCNGeometry {
                 vertexData.append(vertex.texcoord.x)
                 vertexData.append(vertex.texcoord.y)
             }
-            if let materialLookup = materialLookup {
-                materials.append(materialLookup(material))
-            }
+            materials.append(materialLookup(material))
             for polygon in polygons {
                 for triangle in polygon.triangulate() {
                     triangle.vertices.forEach(addVertex)
@@ -175,6 +199,7 @@ public extension SCNGeometry {
         var vertexData = Data()
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
+        let materialLookup = materialLookup ?? defaultMaterialLookup
         for (material, polygons) in mesh.polygonsByMaterial {
             var indexData = Data()
             func addVertex(_ vertex: Vertex) {
@@ -190,9 +215,7 @@ public extension SCNGeometry {
                 vertexData.append(vertex.texcoord.x)
                 vertexData.append(vertex.texcoord.y)
             }
-            if let materialLookup = materialLookup {
-                materials.append(materialLookup(material))
-            }
+            materials.append(materialLookup(material))
             let polygons = polygons.tessellate()
             for polygon in polygons {
                 indexData.append(UInt32(polygon.vertices.count))
@@ -562,7 +585,7 @@ public extension Mesh {
         }
         let materials: [Polygon.Material] = materialLookup.map {
             scnGeometry.materials.map($0)
-        } ?? []
+        } ?? scnGeometry.materials.map { $0 as Polygon.Material }
         for (index, element) in scnGeometry.elements.enumerated() {
             let material = materials.isEmpty ? nil : materials[index % materials.count]
             switch element.primitiveType {
