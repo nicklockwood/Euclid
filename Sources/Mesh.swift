@@ -64,13 +64,16 @@ extension Mesh: Codable {
 }
 
 public extension Mesh {
+    /// Material used by a given polygon
+    typealias Material = Polygon.Material
+
     /// Public properties
     var polygons: [Polygon] { return storage.polygons }
     var bounds: Bounds { return storage.bounds }
 
     /// Polygons grouped by material
-    var polygonsByMaterial: [Polygon.Material: [Polygon]] {
-        var polygonsByMaterial = [Polygon.Material: [Polygon]]()
+    var polygonsByMaterial: [Material?: [Polygon]] {
+        var polygonsByMaterial = [Material?: [Polygon]]()
         for polygon in polygons {
             let material = polygon.material
             if polygonsByMaterial[material] == nil {
@@ -86,7 +89,7 @@ public extension Mesh {
     }
 
     /// Replaces one material with another
-    func replacing(_ old: Polygon.Material, with new: Polygon.Material) -> Mesh {
+    func replacing(_ old: Material?, with new: Material?) -> Mesh {
         return Mesh(
             unchecked: polygons.map {
                 if $0.material == old {

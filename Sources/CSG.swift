@@ -248,7 +248,7 @@ public extension Mesh {
     }
 
     /// Clip mesh to a plane and optionally fill sheared faces with specified material
-    func clip(to plane: Plane, fill: Polygon.Material = nil) -> Mesh {
+    func clip(to plane: Plane, fill: Material? = nil) -> Mesh {
         guard !polygons.isEmpty else {
             return self
         }

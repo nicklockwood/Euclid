@@ -190,7 +190,7 @@ public extension Mesh {
         center c: Vector = .init(0, 0, 0),
         size s: Vector,
         faces: Faces = .default,
-        material: Polygon.Material = nil
+        material: Material? = nil
     ) -> Mesh {
         let polygons: [Polygon] = [
             [[5, 1, 3, 7], [+1, 0, 0]],
@@ -240,7 +240,7 @@ public extension Mesh {
         center c: Vector = .init(0, 0, 0),
         size s: Double = 1,
         faces: Faces = .default,
-        material: Polygon.Material = nil
+        material: Material? = nil
     ) -> Mesh {
         return cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
     }
@@ -253,7 +253,7 @@ public extension Mesh {
         poleDetail: Int = 0,
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
-        material: Polygon.Material = nil
+        material: Material? = nil
     ) -> Mesh {
         var semicircle = [PathPoint]()
         let stacks = max(2, stacks ?? (slices / 2))
@@ -281,7 +281,7 @@ public extension Mesh {
         poleDetail: Int = 0,
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
-        material: Polygon.Material = nil
+        material: Material? = nil
     ) -> Mesh {
         let r = max(abs(r), epsilon)
         let h = max(abs(h), epsilon)
@@ -312,7 +312,7 @@ public extension Mesh {
         addDetailAtBottomPole: Bool = false,
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
-        material: Polygon.Material = nil
+        material: Material? = nil
     ) -> Mesh {
         let r = max(abs(r), epsilon)
         let h = max(abs(h), epsilon)
@@ -354,7 +354,7 @@ public extension Mesh {
         addDetailForFlatPoles: Bool = false,
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
-        material: Polygon.Material = nil
+        material: Material? = nil
     ) -> Mesh {
         return lathe(
             unchecked: profile,
@@ -375,7 +375,7 @@ public extension Mesh {
         addDetailForFlatPoles: Bool = false,
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
-        material: Polygon.Material = nil,
+        material: Material? = nil,
         isConvex: Bool
     ) -> Mesh {
         let subpaths = profile.subpaths
@@ -557,7 +557,7 @@ public extension Mesh {
         _ shape: Path,
         depth: Double = 1,
         faces: Faces = .default,
-        material: Polygon.Material = nil
+        material: Material? = nil
     ) -> Mesh {
         let offset = (shape.plane?.normal ?? Vector(0, 0, 1)) * (depth / 2)
         if offset.lengthSquared < epsilon {
@@ -579,7 +579,7 @@ public extension Mesh {
         _ shape: Path,
         along: Path,
         faces: Faces = .default,
-        material: Polygon.Material = nil
+        material: Material? = nil
     ) -> Mesh {
         let subpaths = along.subpaths
         guard subpaths.count == 1 else {
@@ -666,7 +666,7 @@ public extension Mesh {
     static func loft(
         _ shapes: [Path],
         faces: Faces = .default,
-        material: Polygon.Material = nil
+        material: Material? = nil
     ) -> Mesh {
         return loft(
             unchecked: shapes,
@@ -679,7 +679,7 @@ public extension Mesh {
     private static func loft(
         unchecked shapes: [Path],
         faces: Faces = .default,
-        material: Polygon.Material = nil,
+        material: Material? = nil,
         isConvex: Bool
     ) -> Mesh {
         var subpathCount = 0
@@ -802,7 +802,7 @@ public extension Mesh {
     static func fill(
         _ shape: Path,
         faces: Faces = .default,
-        material: Polygon.Material = nil
+        material: Material? = nil
     ) -> Mesh {
         let subpaths = shape.subpaths
         if subpaths.count > 1 {

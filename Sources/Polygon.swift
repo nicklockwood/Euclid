@@ -79,14 +79,14 @@ extension Polygon: Codable {
 
 public extension Polygon {
     /// Material used by a given polygon
-    typealias Material = AnyHashable?
+    typealias Material = AnyHashable
 
     /// Public properties
     var vertices: [Vertex] { return storage.vertices }
     var plane: Plane { return storage.plane }
     var bounds: Bounds { return storage.bounds }
     var isConvex: Bool { return storage.isConvex }
-    var material: Material {
+    var material: Material? {
         get { return storage.material }
         set {
             if isKnownUniquelyReferenced(&storage) {
@@ -106,7 +106,7 @@ public extension Polygon {
     /// Create a polygon from a set of vertices
     /// Polygon can be convex or concave, but vertices must be coplanar and non-degenerate
     /// Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
-    init?(_ vertices: [Vertex], material: Material = nil) {
+    init?(_ vertices: [Vertex], material: Material? = nil) {
         guard vertices.count > 2, !verticesAreDegenerate(vertices),
               let plane = Plane(points: vertices.map { $0.position })
         else {
@@ -289,7 +289,7 @@ internal extension Polygon {
         normal: Vector,
         isConvex: Bool,
         bounds: Bounds? = nil,
-        material: Material
+        material: Material?
     ) {
         self.init(
             unchecked: vertices,
@@ -308,7 +308,7 @@ internal extension Polygon {
         plane: Plane? = nil,
         isConvex: Bool? = nil,
         bounds: Bounds? = nil,
-        material: Material = nil,
+        material: Material? = nil,
         id: Int = 0
     ) {
         assert(vertices.count > 2)
@@ -539,7 +539,7 @@ internal extension Polygon {
                 unchecked: f,
                 plane: polygon.plane,
                 isConvex: true,
-                material: polygon.material,
+                material: material,
                 id: polygon.id
             ))
         }
@@ -548,7 +548,7 @@ internal extension Polygon {
                 unchecked: b,
                 plane: polygon.plane,
                 isConvex: true,
-                material: polygon.material,
+                material: material,
                 id: polygon.id
             ))
         }
@@ -561,7 +561,7 @@ private extension Polygon {
         let plane: Plane
         var boundsIfSet: Bounds?
         let isConvex: Bool
-        var material: Material
+        var material: Material?
 
         var bounds: Bounds {
             if boundsIfSet == nil {
@@ -579,7 +579,13 @@ private extension Polygon {
             hasher.combine(vertices)
         }
 
-        init(vertices: [Vertex], plane: Plane, bounds: Bounds?, isConvex: Bool, material: Material) {
+        init(
+            vertices: [Vertex],
+            plane: Plane,
+            bounds: Bounds?,
+            isConvex: Bool,
+            material: Material?
+        ) {
             self.vertices = vertices
             self.plane = plane
             self.boundsIfSet = bounds
