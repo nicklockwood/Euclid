@@ -8,9 +8,18 @@ extension AngleTests {
     static let __allTests__AngleTests = [
         ("testConstructor", testConstructor),
         ("testCosFirstQuadrant", testCosFirstQuadrant),
+        ("testCosFourthQuadrant", testCosFourthQuadrant),
+        ("testCosSecondQuadrant", testCosSecondQuadrant),
+        ("testCosThirdQuadrant", testCosThirdQuadrant),
         ("testRadians", testRadians),
         ("testSinFirstQuadrant", testSinFirstQuadrant),
+        ("testSinFourthQuadrant", testSinFourthQuadrant),
+        ("testSinSecondQuadrant", testSinSecondQuadrant),
+        ("testSinThirdQuadrant", testSinThirdQuadrant),
         ("testTanFirstQuadrant", testTanFirstQuadrant),
+        ("testTanFourthQuadrant", testTanFourthQuadrant),
+        ("testTanSecondQuadrant", testTanSecondQuadrant),
+        ("testTanThirdQuadrant", testTanThirdQuadrant),
     ]
 }
 
