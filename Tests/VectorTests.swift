@@ -28,13 +28,13 @@ class VectorTests: XCTestCase {
     func testRightAngle() {
         let vector1 = Vector(1, 0, 0)
         let vector2 = Vector(0, 1, 0)
-        XCTAssertEqual(vector1.angle(with: vector2), Double.pi / 2.0)
+        XCTAssertEqual(vector1.angle(with: vector2), .piHalf)
     }
 
     func testNonNormalizedAngle() {
         let vector1 = Vector(10, 0, 0)
         let vector2 = Vector(-10, 0, 0)
-        XCTAssertEqual(vector1.angle(with: vector2), Double.pi)
+        XCTAssertEqual(vector1.angle(with: vector2), .pi)
     }
 
     // MARK: Angle with plane
@@ -42,13 +42,13 @@ class VectorTests: XCTestCase {
     func testRightAngleWithPlane() {
         let vector1 = Vector(1, 0, 0)
         let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
-        XCTAssertEqual(vector1.angle(with: plane), Double.pi / 2.0)
+        XCTAssertEqual(vector1.angle(with: plane), .piHalf)
     }
 
     func testNonNormalizedAngleWithPlane() {
         let vector1 = Vector(7, 0, 0)
         let plane = Plane(normal: vector1, pointOnPlane: Vector.zero)!
-        XCTAssertEqual(vector1.angle(with: plane), Double.pi / 2.0)
+        XCTAssertEqual(vector1.angle(with: plane), .piHalf)
     }
 
     // MARK: Distance from plane

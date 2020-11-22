@@ -26,7 +26,7 @@ public struct Angle {
 public extension Angle {
     private static let radiansPerDegree = Double.pi / 180
 
-    init(radians: Double) {
+    internal init(radians: Double) {
         self.init(degrees: radians / Angle.radiansPerDegree)
     }
 
@@ -70,6 +70,10 @@ public extension Angle {
     static func + (lhs: Angle, rhs: Angle) -> Angle { Angle(degrees: lhs.degrees + rhs.degrees) }
 
     static func - (lhs: Angle, rhs: Angle) -> Angle { Angle(degrees: lhs.degrees - rhs.degrees) }
+
+    static func * (lhs: Double, rhs: Angle) -> Angle { Angle(degrees: lhs * rhs.degrees) }
+
+    static func / (lhs: Angle, rhs: Double) -> Angle { Angle(degrees: lhs.degrees / rhs) }
 
     static prefix func - (angle: Angle) -> Angle { Angle(degrees: -angle.degrees) }
 }

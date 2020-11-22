@@ -452,7 +452,7 @@ public extension Mesh {
         var polygons = [Polygon]()
         for i in 0 ..< slices {
             let t0 = Double(i) / Double(slices), t1 = Double(i + 1) / Double(slices)
-            let a0 = t0 * 2 * .pi, a1 = t1 * 2 * .pi
+            let a0 = t0 * 2 * Double.pi, a1 = t1 * 2 * Double.pi
             let cos0 = cos(a0), cos1 = cos(a1), sin0 = sin(a0), sin1 = sin(a1)
             for j in stride(from: 1, to: vertices.count, by: 2) {
                 let v0 = vertices[j - 1], v1 = vertices[j]
@@ -603,9 +603,9 @@ public extension Mesh {
         let pathPlane = FlatteningPlane(bounds: along.bounds)
         switch (shapePlane, pathPlane) {
         case (.xy, .xy), (.xz, .xz):
-            shape = shape.rotated(by: .pitch(.pi / 2))
+            shape = shape.rotated(by: .pitch(.piHalf))
         case (.yz, .yz):
-            shape = shape.rotated(by: .yaw(.pi / 2))
+            shape = shape.rotated(by: .yaw(.piHalf))
         default:
             break
         }
