@@ -80,6 +80,26 @@ class AngleTests: XCTestCase {
         assertEqual(-1 / sqrt(3), angle.tan)
     }
 
+    func testAcosFirstQuadrant() {
+        let angle = Angle.acos(0.5)
+        assertEqual(60, angle.degrees)
+    }
+
+    func testAcosSecondQuadrant() {
+        let angle = Angle.acos(-0.5)
+        assertEqual(120, angle.degrees)
+    }
+
+    func testAsinFirstQuadrant() {
+        let angle = Angle.asin(0.5)
+        assertEqual(30, angle.degrees)
+    }
+
+    func testAsinFourthQuadrant() {
+        let angle = Angle.asin(-0.5)
+        assertEqual(-30, angle.degrees)
+    }
+
     func testAtanFirstQuadrant() {
         let angle = Angle.atan(x: sqrt(3), y: 1)
         assertEqual(30, angle.degrees)

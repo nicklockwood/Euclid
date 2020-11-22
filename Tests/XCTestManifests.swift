@@ -6,7 +6,11 @@ extension AngleTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__AngleTests = [
+        ("testAcosFirstQuadrant", testAcosFirstQuadrant),
+        ("testAcosSecondQuadrant", testAcosSecondQuadrant),
         ("testAddition", testAddition),
+        ("testAsinFirstQuadrant", testAsinFirstQuadrant),
+        ("testAsinFourthQuadrant", testAsinFourthQuadrant),
         ("testAtanFirstQuadrant", testAtanFirstQuadrant),
         ("testAtanFourthQuadrant", testAtanFourthQuadrant),
         ("testAtanSecondQuadrant", testAtanSecondQuadrant),

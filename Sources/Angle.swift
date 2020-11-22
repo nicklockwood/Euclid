@@ -47,9 +47,14 @@ public extension Angle {
     var tan: Double { os.tan(radians) }
 }
 
+// these are intentionally as static methods and not costructors, in order to avoid confusion
 public extension Angle {
     static func acos(_ cos: Double) -> Angle {
         return fromRadians(os.acos(cos))
+    }
+
+    static func asin(_ sin: Double) -> Angle {
+        return fromRadians(os.asin(sin))
     }
 
     static func atan(x: Double, y: Double) -> Angle {
