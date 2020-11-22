@@ -62,7 +62,7 @@ public extension Angle {
     }
 
     static func atan(x: Double, y: Double) -> Angle {
-        return Angle(radians: atan2(y, x))
+        return Angle(radians: os.atan2(x: x, y: y))
     }
 }
 
@@ -89,6 +89,8 @@ extension Angle: Comparable {
         return lhs.degrees < rhs.degrees
     }
 }
+
+extension Angle: Hashable {}
 
 private struct os {
     static func cos(_ radians: Double) -> Double {
