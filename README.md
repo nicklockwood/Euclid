@@ -224,7 +224,11 @@ Every `Polygon` has a `material` property that can be used to apply any kind of 
 
 All primitives and builder methods accept a `material` parameter which will apply that material to every polygon in the resultant `Mesh`. When you later combine meshes using CSG operations, the original materials from the `Mesh`es that contributed to each part of the resultant shape will be preserved.
 
-Since Euclid knows nothing about the `material` type, it can't do anything with it except pass it around. To use it with SceneKit you need to convert the Euclid material to an `SCNMaterial`. This can be done using the optional closure argument for the Euclid's `SCNGeometry` constructor, which receives the Euclid material as an input and returns an `SCNMaterial`.
+Since Euclid knows nothing about the `material` type, it can't really do anything with it except pass it around. To use it with SceneKit you need to convert the Euclid material to an `SCNMaterial`.
+
+If the polygon's material is already an`SCNMaterial`, `UI/NSColor` or `UI/NSImage` this conversion will happen automatically. Otherwise, you can convert materials using the optional closure argument for the Euclid's `SCNGeometry` constructor, which receives the Euclid material as an input and returns an `SCNMaterial`.
+
+When serializing Euclid geometry using `Codable`, only specific material types can be supported. Currently, material serialization works for `String`s, `Int`s and any class that conforms to `NSCoding` (which includes many UIKit, AppKit and SceneKit types, such as `UI/NSColor`, `UI/NSImage` and `SCNMaterial`).
 
 ## Color
 
@@ -234,12 +238,11 @@ The material property is of type `AnyHashable` which basically means it can be a
 
 This approach is demonstrated in the Example app included in the project.
 
-
 ## Textures
 
 Euclid automatically adds 2D texture coordinates to the vertices of `Mesh`es created using primitives or builder methods. There is limited control over how those coordinates are specified at the moment, but they allow for simple spherical and cylindrical texture wrapping.
 
-To apply a texture image to a `Mesh`, just store a `UIImage` or `NSImage` as the material property and then convert it to an `SCNMaterial` using the same approach used for colors in the Example app.
+To apply a texture image to a `Mesh`, just store a `UIImage` or `NSImage` as the material property and it will be converted to an `SCNMaterial` automatically.
 
 If you want to do something more complex, such as applying both a color *and* texture to the same `Mesh`, or maybe including a normal map or some other material properties, you could create a custom material type to store all the properties you care about, or even assign an `SCNMaterial` directly as the material for your Euclid geometry.
 
