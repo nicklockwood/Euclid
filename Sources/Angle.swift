@@ -24,7 +24,11 @@ public struct Angle {
 }
 
 public extension Angle {
-    fileprivate static let radiansPerDegree = Double.pi / 180
+    private static let radiansPerDegree = Double.pi / 180
+
+    init(radians: Double) {
+        self.init(degrees: radians / Angle.radiansPerDegree)
+    }
 
     var radians: Double { degrees * Angle.radiansPerDegree }
 }
@@ -47,22 +51,18 @@ public extension Angle {
     var tan: Double { os.tan(radians) }
 }
 
-// these are intentionally as static methods and not costructors, in order to avoid confusion
+// these are intentionally as static methods and not costructors, in order to avoid confusion with the radians constructor
 public extension Angle {
     static func acos(_ cos: Double) -> Angle {
-        return fromRadians(os.acos(cos))
+        return Angle(radians: os.acos(cos))
     }
 
     static func asin(_ sin: Double) -> Angle {
-        return fromRadians(os.asin(sin))
+        return Angle(radians: os.asin(sin))
     }
 
     static func atan(x: Double, y: Double) -> Angle {
-        return fromRadians(atan2(y, x))
-    }
-
-    private static func fromRadians(_ radians: Double) -> Angle {
-        return Angle(degrees: radians / Angle.radiansPerDegree)
+        return Angle(radians: atan2(y, x))
     }
 }
 
