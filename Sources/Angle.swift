@@ -51,7 +51,7 @@ public extension Angle {
     var tan: Double { os.tan(radians) }
 }
 
-// these are intentionally as static methods and not costructors, in order to avoid confusion with the radians constructor
+// these are intentionally as static methods and not initialisers, in order to avoid confusion with the radians initialiser
 public extension Angle {
     static func acos(_ cos: Double) -> Angle {
         return Angle(radians: os.acos(cos))
