@@ -39,6 +39,11 @@ public extension Angle {
     var sin: Double { Darwin.sin(radians) }
 
     var tan: Double { Darwin.tan(radians) }
+
+    init(x: Double, y: Double) {
+        let angleAsRadians = atan2(y, x)
+        self.init(degrees: angleAsRadians / Angle.radiansPerDegree)
+    }
 }
 
 public extension Angle {

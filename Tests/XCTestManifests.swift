@@ -7,6 +7,10 @@ extension AngleTests {
     // to regenerate.
     static let __allTests__AngleTests = [
         ("testAddition", testAddition),
+        ("testAtanFirstQuadrant", testAtanFirstQuadrant),
+        ("testAtanFourthQuadrant", testAtanFourthQuadrant),
+        ("testAtanSecondQuadrant", testAtanSecondQuadrant),
+        ("testAtanThirdQuadrant", testAtanThirdQuadrant),
         ("testConstructor", testConstructor),
         ("testCosFirstQuadrant", testCosFirstQuadrant),
         ("testCosFourthQuadrant", testCosFourthQuadrant),
