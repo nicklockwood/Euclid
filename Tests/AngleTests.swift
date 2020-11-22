@@ -133,6 +133,11 @@ class AngleTests: XCTestCase {
         let difference = angle1 - angle2
         assertEqual(20, difference.degrees)
     }
+
+    func testPrefix() {
+        let angle = -Angle(degrees: 30)
+        assertEqual(-30, angle.degrees)
+    }
 }
 
 private extension XCTestCase {

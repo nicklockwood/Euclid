@@ -20,6 +20,7 @@ extension AngleTests {
         ("testCosFourthQuadrant", testCosFourthQuadrant),
         ("testCosSecondQuadrant", testCosSecondQuadrant),
         ("testCosThirdQuadrant", testCosThirdQuadrant),
+        ("testPrefix", testPrefix),
         ("testRadians", testRadians),
         ("testSinFirstQuadrant", testSinFirstQuadrant),
         ("testSinFourthQuadrant", testSinFourthQuadrant),

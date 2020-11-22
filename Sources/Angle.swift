@@ -70,6 +70,8 @@ public extension Angle {
     static func + (lhs: Angle, rhs: Angle) -> Angle { Angle(degrees: lhs.degrees + rhs.degrees) }
 
     static func - (lhs: Angle, rhs: Angle) -> Angle { Angle(degrees: lhs.degrees - rhs.degrees) }
+
+    static prefix func - (angle: Angle) -> Angle { Angle(degrees: -angle.degrees) }
 }
 
 private struct os {
