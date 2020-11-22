@@ -79,6 +79,20 @@ class AngleTests: XCTestCase {
         let angle = Angle(degrees: -30)
         assertEqual(-1 / sqrt(3), angle.tan)
     }
+
+    func testAddition() {
+        let angle1 = Angle(degrees: 30)
+        let angle2 = Angle(degrees: 10)
+        let sum = angle1 + angle2
+        assertEqual(40, sum.degrees)
+    }
+
+    func testSubtraction() {
+        let angle1 = Angle(degrees: 30)
+        let angle2 = Angle(degrees: 10)
+        let difference = angle1 - angle2
+        assertEqual(20, difference.degrees)
+    }
 }
 
 private extension XCTestCase {

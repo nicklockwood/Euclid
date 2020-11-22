@@ -10,8 +10,6 @@ import Foundation
 
 /// A type-safe struct for all API related to angles
 public struct Angle {
-    fileprivate static let degreesPerRadian = 180 / Double.pi
-
     public let degrees: Double
 
     public init(degrees: Double) {
@@ -20,11 +18,15 @@ public struct Angle {
 }
 
 public extension Angle {
-    var radians: Double { degrees / Angle.degreesPerRadian }
+    fileprivate static let radiansPerDegree = Double.pi / 180
+
+    var radians: Double { degrees * Angle.radiansPerDegree }
 }
 
 public extension Angle {
     static var zero = Angle(degrees: 0)
+
+    static var piHalf = Angle(degrees: 90)
 
     static var pi = Angle(degrees: 180)
 
@@ -37,4 +39,10 @@ public extension Angle {
     var sin: Double { Darwin.sin(radians) }
 
     var tan: Double { Darwin.tan(radians) }
+}
+
+public extension Angle {
+    static func + (lhs: Angle, rhs: Angle) -> Angle { Angle(degrees: lhs.degrees + rhs.degrees) }
+
+    static func - (lhs: Angle, rhs: Angle) -> Angle { Angle(degrees: lhs.degrees - rhs.degrees) }
 }
