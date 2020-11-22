@@ -74,6 +74,18 @@ public extension Angle {
     static prefix func - (angle: Angle) -> Angle { Angle(degrees: -angle.degrees) }
 }
 
+extension Angle: Equatable {
+    public static func == (lhs: Angle, rhs: Angle) -> Bool {
+        return lhs.degrees.isAlmostEqual(to: rhs.degrees)
+    }
+}
+
+extension Angle: Comparable {
+    public static func < (lhs: Angle, rhs: Angle) -> Bool {
+        return lhs.degrees < rhs.degrees
+    }
+}
+
 private struct os {
     static func cos(_ radians: Double) -> Double {
         #if os(Linux)

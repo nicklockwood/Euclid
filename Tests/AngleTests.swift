@@ -138,6 +138,38 @@ class AngleTests: XCTestCase {
         let angle = -Angle(degrees: 30)
         assertEqual(-30, angle.degrees)
     }
+
+    func testEquality1() {
+        let angle1 = Angle(degrees: 30)
+        let angle2 = Angle(degrees: 30)
+        XCTAssertTrue(angle1 == angle2)
+        XCTAssertFalse(angle1 != angle2)
+    }
+
+    func testEquality2() {
+        let angle1 = Angle(degrees: 30)
+        let angle2 = Angle(degrees: 50)
+        XCTAssertFalse(angle1 == angle2)
+        XCTAssertTrue(angle1 != angle2)
+    }
+
+    func testComparable1() {
+        let angle1 = Angle(degrees: 10)
+        let angle2 = Angle(degrees: 20)
+        XCTAssertTrue(angle1 < angle2)
+        XCTAssertTrue(angle1 <= angle2)
+        XCTAssertFalse(angle1 > angle2)
+        XCTAssertFalse(angle1 >= angle2)
+    }
+
+    func testComparable2() {
+        let angle1 = Angle(degrees: 10)
+        let angle2 = Angle(degrees: 10)
+        XCTAssertFalse(angle1 < angle2)
+        XCTAssertTrue(angle1 <= angle2)
+        XCTAssertFalse(angle1 > angle2)
+        XCTAssertTrue(angle1 >= angle2)
+    }
 }
 
 private extension XCTestCase {
