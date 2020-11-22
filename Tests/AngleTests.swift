@@ -10,27 +10,34 @@
 import XCTest
 
 class AngleTests: XCTestCase {
-    func testZero() {
-        let zero = Angle.zero
-        XCTAssertEqual(0, zero.degrees)
-        XCTAssertEqual(0, zero.radians)
+    func testConstructor() {
+        let angle = Angle(degrees: 30)
+        assertEqual(30, angle.degrees)
     }
 
-    func testPi() {
-        let pi = Angle.pi
-        XCTAssertEqual(180, pi.degrees)
-        XCTAssertEqual(Double.pi, pi.radians)
+    func testRadians() {
+        let angle = Angle(degrees: 30)
+        assertEqual(Double.pi / 6, angle.radians)
     }
 
-    func testTwoPi() {
-        let twoPi = Angle.twoPi
-        XCTAssertEqual(360, twoPi.degrees)
-        XCTAssertEqual(2 * Double.pi, twoPi.radians)
+    func testCosFirstQuadrant() {
+        let angle = Angle(degrees: 30)
+        assertEqual(sqrt(3) / 2, angle.cos)
     }
 
-    func test45Degrees() {
-        let fortyFiveDegrees = Angle(degrees: 45)
-        XCTAssertEqual(45, fortyFiveDegrees.degrees)
-        XCTAssertEqual(Double.pi / 4, fortyFiveDegrees.radians)
+    func testSinFirstQuadrant() {
+        let angle = Angle(degrees: 30)
+        assertEqual(0.5, angle.sin)
+    }
+
+    func testTanFirstQuadrant() {
+        let angle = Angle(degrees: 30)
+        assertEqual(1 / sqrt(3), angle.tan)
+    }
+}
+
+private extension XCTestCase {
+    func assertEqual(_ expression1: Double, _ expression2: Double) {
+        XCTAssertEqual(expression1, expression2, accuracy: 1e-10)
     }
 }

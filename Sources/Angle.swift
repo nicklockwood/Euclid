@@ -33,4 +33,8 @@ public extension Angle {
 
 public extension Angle {
     var cos: Double { Darwin.cos(radians) }
+
+    var sin: Double { Darwin.sin(radians) }
+
+    var tan: Double { Darwin.tan(radians) }
 }
