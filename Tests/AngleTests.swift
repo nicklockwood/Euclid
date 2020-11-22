@@ -81,22 +81,22 @@ class AngleTests: XCTestCase {
     }
 
     func testAtanFirstQuadrant() {
-        let angle = Angle(x: sqrt(3), y: 1)
+        let angle = Angle.atan(x: sqrt(3), y: 1)
         assertEqual(30, angle.degrees)
     }
 
     func testAtanSecondQuadrant() {
-        let angle = Angle(x: -sqrt(3), y: 1)
+        let angle = Angle.atan(x: -sqrt(3), y: 1)
         assertEqual(150, angle.degrees)
     }
 
     func testAtanThirdQuadrant() {
-        let angle = Angle(x: -sqrt(3), y: -1)
+        let angle = Angle.atan(x: -sqrt(3), y: -1)
         assertEqual(-150, angle.degrees)
     }
 
     func testAtanFourthQuadrant() {
-        let angle = Angle(x: sqrt(3), y: -1)
+        let angle = Angle.atan(x: sqrt(3), y: -1)
         assertEqual(-30, angle.degrees)
     }
 
