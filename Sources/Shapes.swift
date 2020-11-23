@@ -43,10 +43,12 @@ public extension Path {
     static func ellipse(width: Double, height: Double, segments: Int = 16) -> Path {
         var points = [PathPoint]()
         let segments = max(3, segments)
-        let step = 2 * Double.pi / Double(segments)
-        let w = max(abs(width / 2), epsilon), h = max(abs(height / 2), epsilon)
-        for angle in stride(from: 0, through: 2 * .pi + epsilon, by: step) {
-            points.append(.curve(w * -sin(angle), h * cos(angle)))
+        let step = Angle.twoPi / Double(segments)
+        let w = max(abs(width / 2), epsilon)
+        let h = max(abs(height / 2), epsilon)
+        for radians in stride(from: 0, through: Angle.twoPi.radians + epsilon, by: step.radians) {
+            let angle = Angle(radians: radians)
+            points.append(.curve(w * -angle.sin, h * angle.cos))
         }
         return Path(unchecked: points, plane: .xy, subpathIndices: [])
     }
