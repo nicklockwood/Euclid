@@ -14,22 +14,22 @@ import Glibc
 
 /// A type-safe struct for all API related to angles
 public struct Angle {
-    public let degrees: Double
+    public let radians: Double
 
-    public init(degrees: Double) {
-        self.degrees = degrees
+    public init(radians: Double) {
+        self.radians = radians
     }
 }
 
 public extension Angle {
-    private static let radiansPerDegree = Double.pi / 180
+    private static let degreesPerRadian = 180 / Double.pi
 
-    internal init(radians: Double) {
-        self.init(degrees: radians / Angle.radiansPerDegree)
+    internal init(degrees: Double) {
+        self.init(radians: degrees / Angle.degreesPerRadian)
     }
 
-    var radians: Double {
-        return degrees * Angle.radiansPerDegree
+    var degrees: Double {
+        return radians * Angle.degreesPerRadian
     }
 }
 
