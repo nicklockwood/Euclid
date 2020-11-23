@@ -1,3 +1,10 @@
+## [0.3.6](https://github.com/nicklockwood/Euclid/releases/tag/0.3.6) (2020-11-22)
+
+- Euclid types now conform to Codable for easy serialization
+- Added default implementation for SCNMaterial mapping
+- Fixed bug where SCNGeometry detail argument was ignored
+- Added missing Embed Frameworks phase to example app
+
 ## [0.3.5](https://github.com/nicklockwood/Euclid/releases/tag/0.3.5) (2020-09-03)
 
 - Fixed bug with loft function when two edges are not parallel, resulting in a non-planar polygon
