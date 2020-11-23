@@ -10,8 +10,6 @@ import Foundation
 
 #if os(Linux)
 import Glibc
-#else
-import Darwin
 #endif
 
 /// A type-safe struct for all API related to angles
@@ -115,7 +113,7 @@ private struct os {
         #if os(Linux)
         return Glibc.cos(radians)
         #else
-        return Darwin.cos(radians)
+        return Foundation.cos(radians)
         #endif
     }
 
@@ -123,7 +121,7 @@ private struct os {
         #if os(Linux)
         return Glibc.acos(radians)
         #else
-        return Darwin.acos(radians)
+        return Foundation.acos(radians)
         #endif
     }
 
@@ -131,7 +129,7 @@ private struct os {
         #if os(Linux)
         return Glibc.sin(radians)
         #else
-        return Darwin.sin(radians)
+        return Foundation.sin(radians)
         #endif
     }
 
@@ -139,7 +137,7 @@ private struct os {
         #if os(Linux)
         return Glibc.asin(radians)
         #else
-        return Darwin.asin(radians)
+        return Foundation.asin(radians)
         #endif
     }
 
@@ -147,7 +145,7 @@ private struct os {
         #if os(Linux)
         return Glibc.tan(radians)
         #else
-        return Darwin.tan(radians)
+        return Foundation.tan(radians)
         #endif
     }
 
@@ -155,7 +153,7 @@ private struct os {
         #if os(Linux)
         return Glibc.atan2(y, x)
         #else
-        return Darwin.atan2(y, x)
+        return Foundation.atan2(y, x)
         #endif
     }
 }
