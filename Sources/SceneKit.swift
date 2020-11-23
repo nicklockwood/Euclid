@@ -522,7 +522,7 @@ public extension Rotation {
             return
         }
         let axis = Vector(Double(q.x) / d, Double(q.y) / d, Double(q.z) / d)
-        let rotation = Angle(radians: Double(2 * acos(-q.w)))
+        let rotation = 2 * Angle.acos(Double(-q.w))
         self.init(unchecked: axis.normalized(), rotation: rotation)
     }
 }

@@ -261,8 +261,8 @@ public extension Mesh {
         let stacks = max(2, stacks ?? (slices / 2))
         let r = max(abs(r), epsilon)
         for i in 0 ... stacks {
-            let a = Double(i) / Double(stacks) * .pi
-            semicircle.append(.curve(-sin(a) * r, cos(a) * r))
+            let a = Double(i) / Double(stacks) * Angle.pi
+            semicircle.append(.curve(-a.sin * r, a.cos * r))
         }
         return lathe(
             unchecked: Path(unchecked: semicircle, plane: .xy, subpathIndices: []),
@@ -453,9 +453,14 @@ public extension Mesh {
 
         var polygons = [Polygon]()
         for i in 0 ..< slices {
-            let t0 = Double(i) / Double(slices), t1 = Double(i + 1) / Double(slices)
-            let a0 = t0 * 2 * Double.pi, a1 = t1 * 2 * Double.pi
-            let cos0 = cos(a0), cos1 = cos(a1), sin0 = sin(a0), sin1 = sin(a1)
+            let t0 = Double(i) / Double(slices)
+            let t1 = Double(i + 1) / Double(slices)
+            let a0 = t0 * Angle.twoPi
+            let a1 = t1 * Angle.twoPi
+            let cos0 = a0.cos
+            let cos1 = a1.cos
+            let sin0 = a0.sin
+            let sin1 = a1.sin
             for j in stride(from: 1, to: vertices.count, by: 2) {
                 let v0 = vertices[j - 1], v1 = vertices[j]
                 if v0.position.x == 0 {
