@@ -30,7 +30,9 @@ public extension Angle {
         self.init(degrees: radians / Angle.radiansPerDegree)
     }
 
-    var radians: Double { degrees * Angle.radiansPerDegree }
+    var radians: Double {
+        return degrees * Angle.radiansPerDegree
+    }
 }
 
 public extension Angle {
@@ -44,11 +46,17 @@ public extension Angle {
 }
 
 public extension Angle {
-    var cos: Double { os.cos(radians) }
+    var cos: Double {
+        return os.cos(radians)
+    }
 
-    var sin: Double { os.sin(radians) }
+    var sin: Double {
+        return os.sin(radians)
+    }
 
-    var tan: Double { os.tan(radians) }
+    var tan: Double {
+        return os.tan(radians)
+    }
 }
 
 // these are intentionally as static methods and not initialisers, in order to avoid confusion with the radians initialiser
@@ -67,15 +75,25 @@ public extension Angle {
 }
 
 public extension Angle {
-    static func + (lhs: Angle, rhs: Angle) -> Angle { Angle(degrees: lhs.degrees + rhs.degrees) }
+    static func + (lhs: Angle, rhs: Angle) -> Angle {
+        return Angle(degrees: lhs.degrees + rhs.degrees)
+    }
 
-    static func - (lhs: Angle, rhs: Angle) -> Angle { Angle(degrees: lhs.degrees - rhs.degrees) }
+    static func - (lhs: Angle, rhs: Angle) -> Angle {
+        return Angle(degrees: lhs.degrees - rhs.degrees)
+    }
 
-    static func * (lhs: Double, rhs: Angle) -> Angle { Angle(degrees: lhs * rhs.degrees) }
+    static func * (lhs: Double, rhs: Angle) -> Angle {
+        return Angle(degrees: lhs * rhs.degrees)
+    }
 
-    static func / (lhs: Angle, rhs: Double) -> Angle { Angle(degrees: lhs.degrees / rhs) }
+    static func / (lhs: Angle, rhs: Double) -> Angle {
+        return Angle(degrees: lhs.degrees / rhs)
+    }
 
-    static prefix func - (angle: Angle) -> Angle { Angle(degrees: -angle.degrees) }
+    static prefix func - (angle: Angle) -> Angle {
+        return Angle(degrees: -angle.degrees)
+    }
 }
 
 extension Angle: Equatable {
