@@ -318,25 +318,28 @@ class CodingTests: XCTestCase {
     }
 
     func testDecodingRollRotation() {
-        XCTAssertEqual(try decode("[1]"), Rotation(roll: 1))
+        XCTAssertEqual(try decode("[1]"), Rotation(roll: Euclid.Angle(radians: 1)))
         XCTAssertEqual(try decode("""
         { "radians": 1 }
-        """), Rotation(roll: 1))
+        """), Rotation(roll: Euclid.Angle(radians: 1)))
     }
 
     func testDecodingPitchYawRollRotation() {
-        XCTAssertEqual(try decode("[1, 2, 3]"), Rotation(pitch: 1, yaw: 2, roll: 3))
+        XCTAssertEqual(
+            try decode("[1, 2, 3]"),
+            Rotation(pitch: Euclid.Angle(radians: 1), yaw: Euclid.Angle(radians: 2), roll: Euclid.Angle(radians: 3))
+        )
     }
 
     func testDecodingAxisAngleRotation() {
-        XCTAssertEqual(try decode("[0, 0, -1, 1]"), Rotation(roll: -1))
+        XCTAssertEqual(try decode("[0, 0, -1, 1]"), Rotation(roll: Euclid.Angle(radians: -1)))
         XCTAssertEqual(try decode("""
         { "axis": [0, 0, -1], "radians": 1 }
-        """), Rotation(roll: -1))
+        """), Rotation(roll: Euclid.Angle(radians: -1)))
     }
 
     func testEncodeAndDecodingRotation() throws {
-        let rotation = Rotation(axis: Vector(1, 0, 0), radians: 2)!
+        let rotation = Rotation(axis: Vector(1, 0, 0), rotation: Euclid.Angle(radians: 2))!
         let encoded = try encode(rotation)
         XCTAssert(try rotation.isEqual(to: decode(encoded)))
     }
