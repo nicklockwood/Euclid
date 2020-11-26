@@ -281,11 +281,11 @@ public extension Mesh {
             let normal = Vector(0, 0, 1)
             let angle = -normal.angle(with: plane.normal)
             let rotation: Rotation
-            if angle.isEqual(to: 0) {
+            if angle == .zero {
                 rotation = .identity
             } else {
                 let axis = normal.cross(plane.normal).normalized()
-                rotation = Rotation(unchecked: axis, radians: angle)
+                rotation = Rotation(unchecked: axis, angle: angle)
             }
             let rect = Polygon(
                 unchecked: [

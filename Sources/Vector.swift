@@ -145,15 +145,15 @@ public extension Vector {
         return Vector(quantize(x), quantize(y), quantize(z))
     }
 
-    func angle(with a: Vector) -> Double {
+    func angle(with a: Vector) -> Angle {
         let cosineAngle = (dot(a) / (length * a.length))
-        return acos(cosineAngle)
+        return Angle.acos(cosineAngle)
     }
 
-    func angle(with plane: Plane) -> Double {
+    func angle(with plane: Plane) -> Angle {
         // We know that plane.normal.length == 1
         let complementeryAngle = dot(plane.normal) / length
-        return asin(complementeryAngle)
+        return Angle.asin(complementeryAngle)
     }
 
     func distance(from plane: Plane) -> Double {

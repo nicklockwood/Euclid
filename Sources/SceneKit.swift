@@ -84,23 +84,23 @@ public extension SCNNode {
     }
 }
 
-#if os(iOS)
-private typealias SCNColor = UIColor
-private typealias SCNImage = UIImage
+#if os(iOS) || os(tvOS)
+private typealias OSColor = UIColor
+private typealias OSImage = UIImage
 #elseif os(OSX)
-private typealias SCNColor = NSColor
-private typealias SCNImage = NSImage
+private typealias OSColor = NSColor
+private typealias OSImage = NSImage
 #endif
 
 private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
     switch material {
     case let material as SCNMaterial:
         return material
-    case let color as SCNColor:
+    case let color as OSColor:
         let material = SCNMaterial()
         material.diffuse.contents = color
         return material
-    case let image as SCNImage:
+    case let image as OSImage:
         let material = SCNMaterial()
         material.diffuse.contents = image
         return material
@@ -522,7 +522,8 @@ public extension Rotation {
             return
         }
         let axis = Vector(Double(q.x) / d, Double(q.y) / d, Double(q.z) / d)
-        self.init(unchecked: axis.normalized(), radians: Double(2 * acos(-q.w)))
+        let rotation = 2 * Angle.acos(Double(-q.w))
+        self.init(unchecked: axis.normalized(), angle: rotation)
     }
 }
 

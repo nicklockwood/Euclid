@@ -20,6 +20,20 @@ class CodingTests: XCTestCase {
         return String(data: data, encoding: .utf8)!
     }
 
+    // MARK: Angle
+
+    func testDecodingAngle() {
+        XCTAssertEqual(try decode("[2]"), [Angle.radians(2)])
+    }
+
+    func testDecodingAngle2() {
+        XCTAssertEqual(try decode("{\"radians\": 2}"), Angle.radians(2))
+    }
+
+    func testDecodingAngle3() {
+        XCTAssertEqual(try decode("{\"degrees\": 180}"), Angle.pi)
+    }
+
     // MARK: Vector
 
     func testDecodingVector3() {
@@ -318,25 +332,28 @@ class CodingTests: XCTestCase {
     }
 
     func testDecodingRollRotation() {
-        XCTAssertEqual(try decode("[1]"), Rotation(roll: 1))
+        XCTAssertEqual(try decode("[1]"), Rotation(roll: .radians(1)))
         XCTAssertEqual(try decode("""
         { "radians": 1 }
-        """), Rotation(roll: 1))
+        """), Rotation(roll: .radians(1)))
     }
 
     func testDecodingPitchYawRollRotation() {
-        XCTAssertEqual(try decode("[1, 2, 3]"), Rotation(pitch: 1, yaw: 2, roll: 3))
+        XCTAssertEqual(
+            try decode("[1, 2, 3]"),
+            Rotation(pitch: .radians(1), yaw: .radians(2), roll: .radians(3))
+        )
     }
 
     func testDecodingAxisAngleRotation() {
-        XCTAssertEqual(try decode("[0, 0, -1, 1]"), Rotation(roll: -1))
+        XCTAssertEqual(try decode("[0, 0, -1, 1]"), Rotation(roll: .radians(-1)))
         XCTAssertEqual(try decode("""
         { "axis": [0, 0, -1], "radians": 1 }
-        """), Rotation(roll: -1))
+        """), Rotation(roll: .radians(-1)))
     }
 
     func testEncodeAndDecodingRotation() throws {
-        let rotation = Rotation(axis: Vector(1, 0, 0), radians: 2)!
+        let rotation = Rotation(axis: Vector(1, 0, 0), angle: .radians(2))!
         let encoded = try encode(rotation)
         XCTAssert(try rotation.isEqual(to: decode(encoded)))
     }

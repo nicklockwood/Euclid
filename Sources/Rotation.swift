@@ -45,34 +45,34 @@ extension Rotation: Codable {
     public init(from decoder: Decoder) throws {
         guard var container = try? decoder.unkeyedContainer() else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            let radians = try container.decodeIfPresent(Double.self, forKey: .radians) ?? 0
+            let angle = try container.decodeIfPresent(Angle.self, forKey: .radians)
             var axis = try container.decodeIfPresent(Vector.self, forKey: .axis)
             if let x = try container.decodeIfPresent(Double.self, forKey: .x) {
                 let y = try container.decode(Double.self, forKey: .y)
                 let z = try container.decode(Double.self, forKey: .z)
                 axis = Vector(x, y, z)
             }
-            self.init(unchecked: axis?.normalized() ?? Vector(0, 0, 1), radians: radians)
+            self.init(unchecked: axis?.normalized() ?? Vector(0, 0, 1), angle: angle ?? .zero)
             return
         }
         switch container.count ?? 0 {
         case 0:
             self = .identity
         case 1:
-            let roll = try container.decode(Double.self)
+            let roll = try container.decode(Angle.self)
             self.init(roll: roll)
         case 2 ... 3:
-            let pitch = try container.decode(Double.self)
-            let yaw = try container.decode(Double.self)
-            let roll = try container.decode(Double.self)
+            let pitch = try container.decode(Angle.self)
+            let yaw = try container.decode(Angle.self)
+            let roll = try container.decode(Angle.self)
             self.init(pitch: pitch, yaw: yaw, roll: roll)
         case 4:
             let x = try container.decode(Double.self)
             let y = try container.decode(Double.self)
             let z = try container.decode(Double.self)
             let axis = Vector(x, y, z).normalized()
-            let radians = try container.decode(Double.self)
-            self.init(unchecked: axis, radians: radians)
+            let angle = try container.decode(Angle.self)
+            self.init(unchecked: axis, angle: angle)
         default:
             let m11 = try container.decode(Double.self)
             let m12 = try container.decode(Double.self)
@@ -111,9 +111,9 @@ public extension Rotation {
     static let identity = Rotation()
 
     /// Define a rotation around the X axis
-    static func pitch(_ radians: Double) -> Rotation {
-        let c = cos(radians)
-        let s = sin(radians)
+    static func pitch(_ rotation: Angle) -> Rotation {
+        let c = cos(rotation)
+        let s = sin(rotation)
         return self.init(
             1, 0, 0,
             0, c, -s,
@@ -122,9 +122,9 @@ public extension Rotation {
     }
 
     /// Define a rotation around the Y axis
-    static func yaw(_ radians: Double) -> Rotation {
-        let c = cos(radians)
-        let s = sin(radians)
+    static func yaw(_ rotation: Angle) -> Rotation {
+        let c = cos(rotation)
+        let s = sin(rotation)
         return self.init(
             c, 0, s,
             0, 1, 0,
@@ -133,9 +133,9 @@ public extension Rotation {
     }
 
     /// Define a rotation around the Z axis
-    static func roll(_ radians: Double) -> Rotation {
-        let c = cos(radians)
-        let s = sin(radians)
+    static func roll(_ rotation: Angle) -> Rotation {
+        let c = cos(rotation)
+        let s = sin(rotation)
         return self.init(
             c, -s, 0,
             s, c, 0,
@@ -149,57 +149,57 @@ public extension Rotation {
     }
 
     /// Define a rotation from an axis vector and an angle
-    init?(axis: Vector, radians: Double) {
+    init?(axis: Vector, angle: Angle) {
         let length = axis.length
         guard length.isFinite, length > epsilon else {
             return nil
         }
-        self.init(unchecked: axis / length, radians: radians)
+        self.init(unchecked: axis / length, angle: angle)
     }
 
     /// Define a rotation from Euler angles
     // http://planning.cs.uiuc.edu/node102.html
-    init(pitch: Double, yaw: Double = 0, roll: Double = 0) {
+    init(pitch: Angle, yaw: Angle = .zero, roll: Angle = .zero) {
         self = .pitch(pitch)
-        if yaw != 0 {
+        if yaw != .zero {
             self *= .yaw(yaw)
         }
-        if roll != 0 {
+        if roll != .zero {
             self *= .roll(roll)
         }
     }
 
-    init(yaw: Double, pitch: Double = 0, roll: Double = 0) {
+    init(yaw: Angle, pitch: Angle = .zero, roll: Angle = .zero) {
         self = .yaw(yaw)
-        if pitch != 0 {
+        if pitch != .zero {
             self *= .pitch(pitch)
         }
-        if roll != 0 {
+        if roll != .zero {
             self *= .roll(roll)
         }
     }
 
-    init(roll: Double, yaw: Double = 0, pitch: Double = 0) {
+    init(roll: Angle, yaw: Angle = .zero, pitch: Angle = .zero) {
         self = .roll(roll)
-        if yaw != 0 {
+        if yaw != .zero {
             self *= .yaw(yaw)
         }
-        if pitch != 0 {
+        if pitch != .zero {
             self *= .pitch(pitch)
         }
     }
 
     // http://planning.cs.uiuc.edu/node103.html
-    var pitch: Double {
-        return atan2(m32, m33)
+    var pitch: Angle {
+        return .atan2(y: m32, x: m33)
     }
 
-    var yaw: Double {
-        return atan2(-m31, sqrt(m32 * m32 + m33 * m33))
+    var yaw: Angle {
+        return .atan2(y: -m31, x: sqrt(m32 * m32 + m33 * m33))
     }
 
-    var roll: Double {
-        return atan2(m21, m11)
+    var roll: Angle {
+        return .atan2(y: m21, x: m11)
     }
 
     static prefix func - (rhs: Rotation) -> Rotation {
@@ -260,10 +260,10 @@ internal extension Rotation {
     }
 
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
-    init(unchecked axis: Vector, radians: Double) {
+    init(unchecked axis: Vector, angle: Angle) {
         assert(axis.isNormalized)
-        let c = cos(radians)
-        let s = sin(radians)
+        let c = cos(angle)
+        let s = sin(angle)
         let t = 1 - c
         let x = axis.x
         let y = axis.y

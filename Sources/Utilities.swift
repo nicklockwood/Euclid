@@ -83,7 +83,7 @@ func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
         return .identity
     }
     let angle = v0.angle(with: v1)
-    return Rotation(unchecked: axis / length, radians: angle)
+    return Rotation(unchecked: axis / length, angle: angle)
 }
 
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {
