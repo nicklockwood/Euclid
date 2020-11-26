@@ -45,34 +45,34 @@ extension Rotation: Codable {
     public init(from decoder: Decoder) throws {
         guard var container = try? decoder.unkeyedContainer() else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            let rotation = Angle(radians: try container.decodeIfPresent(Double.self, forKey: .radians) ?? 0)
+            let angle = try container.decodeIfPresent(Angle.self, forKey: .radians)
             var axis = try container.decodeIfPresent(Vector.self, forKey: .axis)
             if let x = try container.decodeIfPresent(Double.self, forKey: .x) {
                 let y = try container.decode(Double.self, forKey: .y)
                 let z = try container.decode(Double.self, forKey: .z)
                 axis = Vector(x, y, z)
             }
-            self.init(unchecked: axis?.normalized() ?? Vector(0, 0, 1), rotation: rotation)
+            self.init(unchecked: axis?.normalized() ?? Vector(0, 0, 1), angle: angle ?? .zero)
             return
         }
         switch container.count ?? 0 {
         case 0:
             self = .identity
         case 1:
-            let roll = Angle(radians: try container.decode(Double.self))
+            let roll = try container.decode(Angle.self)
             self.init(roll: roll)
         case 2 ... 3:
-            let pitch = Angle(radians: try container.decode(Double.self))
-            let yaw = Angle(radians: try container.decode(Double.self))
-            let roll = Angle(radians: try container.decode(Double.self))
+            let pitch = try container.decode(Angle.self)
+            let yaw = try container.decode(Angle.self)
+            let roll = try container.decode(Angle.self)
             self.init(pitch: pitch, yaw: yaw, roll: roll)
         case 4:
             let x = try container.decode(Double.self)
             let y = try container.decode(Double.self)
             let z = try container.decode(Double.self)
             let axis = Vector(x, y, z).normalized()
-            let rotation = Angle(radians: try container.decode(Double.self))
-            self.init(unchecked: axis, rotation: rotation)
+            let angle = try container.decode(Angle.self)
+            self.init(unchecked: axis, angle: angle)
         default:
             let m11 = try container.decode(Double.self)
             let m12 = try container.decode(Double.self)
@@ -112,8 +112,8 @@ public extension Rotation {
 
     /// Define a rotation around the X axis
     static func pitch(_ rotation: Angle) -> Rotation {
-        let c = rotation.cos
-        let s = rotation.sin
+        let c = cos(rotation)
+        let s = sin(rotation)
         return self.init(
             1, 0, 0,
             0, c, -s,
@@ -123,8 +123,8 @@ public extension Rotation {
 
     /// Define a rotation around the Y axis
     static func yaw(_ rotation: Angle) -> Rotation {
-        let c = rotation.cos
-        let s = rotation.sin
+        let c = cos(rotation)
+        let s = sin(rotation)
         return self.init(
             c, 0, s,
             0, 1, 0,
@@ -134,8 +134,8 @@ public extension Rotation {
 
     /// Define a rotation around the Z axis
     static func roll(_ rotation: Angle) -> Rotation {
-        let c = rotation.cos
-        let s = rotation.sin
+        let c = cos(rotation)
+        let s = sin(rotation)
         return self.init(
             c, -s, 0,
             s, c, 0,
@@ -149,12 +149,12 @@ public extension Rotation {
     }
 
     /// Define a rotation from an axis vector and an angle
-    init?(axis: Vector, rotation: Angle) {
+    init?(axis: Vector, angle: Angle) {
         let length = axis.length
         guard length.isFinite, length > epsilon else {
             return nil
         }
-        self.init(unchecked: axis / length, rotation: rotation)
+        self.init(unchecked: axis / length, angle: angle)
     }
 
     /// Define a rotation from Euler angles
@@ -191,15 +191,15 @@ public extension Rotation {
 
     // http://planning.cs.uiuc.edu/node103.html
     var pitch: Angle {
-        return Angle.atan(x: m33, y: m32)
+        return .atan2(y: m32, x: m33)
     }
 
     var yaw: Angle {
-        return Angle.atan(x: sqrt(m32 * m32 + m33 * m33), y: -m31)
+        return .atan2(y: -m31, x: sqrt(m32 * m32 + m33 * m33))
     }
 
     var roll: Angle {
-        return Angle.atan(x: m11, y: m21)
+        return .atan2(y: m21, x: m11)
     }
 
     static prefix func - (rhs: Rotation) -> Rotation {
@@ -260,10 +260,10 @@ internal extension Rotation {
     }
 
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
-    init(unchecked axis: Vector, rotation: Angle) {
+    init(unchecked axis: Vector, angle: Angle) {
         assert(axis.isNormalized)
-        let c = rotation.cos
-        let s = rotation.sin
+        let c = cos(angle)
+        let s = sin(angle)
         let t = 1 - c
         let x = axis.x
         let y = axis.y

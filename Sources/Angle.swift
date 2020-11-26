@@ -8,152 +8,129 @@
 
 import Foundation
 
-#if os(Linux)
-import Glibc
-#endif
-
 /// A type-safe struct for all API related to angles
-public struct Angle {
-    public let radians: Double
+public struct Angle: Hashable, Comparable {
+    public var radians: Double
 
     public init(radians: Double) {
         self.radians = radians
     }
 }
 
-public extension Angle {
-    private static let degreesPerRadian = 180 / Double.pi
-
-    internal init(degrees: Double) {
-        self.init(radians: degrees / Angle.degreesPerRadian)
+extension Angle: Codable {
+    private enum CodingKeys: CodingKey {
+        case radians, degrees
     }
+
+    public init(from decoder: Decoder) throws {
+        guard let container = try? decoder.container(keyedBy: CodingKeys.self) else {
+            self.init(radians: try Double(from: decoder))
+            return
+        }
+        if let radians = try container.decodeIfPresent(Double.self, forKey: .radians) {
+            self.init(radians: radians)
+            return
+        }
+        self = .degrees(try container.decode(Double.self, forKey: .degrees))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        try radians.encode(to: encoder)
+    }
+}
+
+public func cos(_ angle: Angle) -> Double {
+    return cos(angle.radians)
+}
+
+public func sin(_ angle: Angle) -> Double {
+    return sin(angle.radians)
+}
+
+public func tan(_ angle: Angle) -> Double {
+    return tan(angle.radians)
+}
+
+public extension Angle {
+    static var zero = Angle.radians(0)
+    static var halfPi = Angle.radians(.pi / 2)
+    static var pi = Angle.radians(.pi)
+    static var twoPi = Angle.radians(.pi * 2)
 
     var degrees: Double {
-        return radians * Angle.degreesPerRadian
-    }
-}
-
-public extension Angle {
-    static var zero = Angle(degrees: 0)
-
-    static var piHalf = Angle(degrees: 90)
-
-    static var pi = Angle(degrees: 180)
-
-    static var twoPi = Angle(degrees: 360)
-}
-
-public extension Angle {
-    var cos: Double {
-        return os.cos(radians)
+        get { return radians * 180 / .pi }
+        set { radians = newValue / 180 * .pi }
     }
 
-    var sin: Double {
-        return os.sin(radians)
+    init(degrees: Double) {
+        self.init(radians: degrees / 180 * .pi)
     }
 
-    var tan: Double {
-        return os.tan(radians)
+    static func degrees(_ degrees: Double) -> Angle {
+        return Angle(degrees: degrees)
     }
-}
 
-// these are intentionally as static methods and not initialisers, in order to avoid confusion with the radians initialiser
-public extension Angle {
+    static func radians(_ radians: Double) -> Angle {
+        return Angle(radians: radians)
+    }
+
     static func acos(_ cos: Double) -> Angle {
-        return Angle(radians: os.acos(cos))
+        return .radians(Foundation.acos(cos))
     }
 
     static func asin(_ sin: Double) -> Angle {
-        return Angle(radians: os.asin(sin))
+        return .radians(Foundation.asin(sin))
     }
 
-    static func atan(x: Double, y: Double) -> Angle {
-        return Angle(radians: os.atan2(x: x, y: y))
+    static func atan(_ tan: Double) -> Angle {
+        return .radians(Foundation.tan(tan))
     }
-}
 
-public extension Angle {
+    static func atan2(y: Double, x: Double) -> Angle {
+        return .radians(Foundation.atan2(y, x))
+    }
+
     static func + (lhs: Angle, rhs: Angle) -> Angle {
-        return Angle(degrees: lhs.degrees + rhs.degrees)
+        return .radians(lhs.radians + rhs.radians)
+    }
+
+    static func += (lhs: inout Angle, rhs: Angle) {
+        return lhs.radians += rhs.radians
     }
 
     static func - (lhs: Angle, rhs: Angle) -> Angle {
-        return Angle(degrees: lhs.degrees - rhs.degrees)
+        return .radians(lhs.radians - rhs.radians)
+    }
+
+    static func -= (lhs: inout Angle, rhs: Angle) {
+        return lhs.radians -= rhs.radians
+    }
+
+    static func * (lhs: Angle, rhs: Double) -> Angle {
+        return .radians(lhs.radians * rhs)
     }
 
     static func * (lhs: Double, rhs: Angle) -> Angle {
-        return Angle(degrees: lhs * rhs.degrees)
+        return .radians(lhs * rhs.radians)
+    }
+
+    static func *= (lhs: inout Angle, rhs: Double) {
+        return lhs.radians *= rhs
     }
 
     static func / (lhs: Angle, rhs: Double) -> Angle {
-        return Angle(degrees: lhs.degrees / rhs)
+        return .radians(lhs.radians / rhs)
+    }
+
+    static func /= (lhs: inout Angle, rhs: Double) {
+        return lhs.radians /= rhs
     }
 
     static prefix func - (angle: Angle) -> Angle {
-        return Angle(degrees: -angle.degrees)
+        return .radians(-angle.radians)
     }
-}
 
-extension Angle: Equatable {
-    public static func == (lhs: Angle, rhs: Angle) -> Bool {
-        return lhs.degrees.isAlmostEqual(to: rhs.degrees)
-    }
-}
-
-extension Angle: Comparable {
-    public static func < (lhs: Angle, rhs: Angle) -> Bool {
+    static func < (lhs: Angle, rhs: Angle) -> Bool {
         return lhs.degrees < rhs.degrees
-    }
-}
-
-extension Angle: Hashable {}
-
-private struct os {
-    static func cos(_ radians: Double) -> Double {
-        #if os(Linux)
-        return Glibc.cos(radians)
-        #else
-        return Foundation.cos(radians)
-        #endif
-    }
-
-    static func acos(_ radians: Double) -> Double {
-        #if os(Linux)
-        return Glibc.acos(radians)
-        #else
-        return Foundation.acos(radians)
-        #endif
-    }
-
-    static func sin(_ radians: Double) -> Double {
-        #if os(Linux)
-        return Glibc.sin(radians)
-        #else
-        return Foundation.sin(radians)
-        #endif
-    }
-
-    static func asin(_ radians: Double) -> Double {
-        #if os(Linux)
-        return Glibc.asin(radians)
-        #else
-        return Foundation.asin(radians)
-        #endif
-    }
-
-    static func tan(_ radians: Double) -> Double {
-        #if os(Linux)
-        return Glibc.tan(radians)
-        #else
-        return Foundation.tan(radians)
-        #endif
-    }
-
-    static func atan2(x: Double, y: Double) -> Double {
-        #if os(Linux)
-        return Glibc.atan2(y, x)
-        #else
-        return Foundation.atan2(y, x)
-        #endif
     }
 }

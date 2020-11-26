@@ -48,7 +48,6 @@
 		01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2381F23BF4160005EC9DB /* LineSegment.swift */; };
 		0A240137256A64FB00C1535C /* AngleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A240136256A64FB00C1535C /* AngleTests.swift */; };
 		0A24013F256A671600C1535C /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A24013E256A671600C1535C /* Angle.swift */; };
-		0A240140256A671600C1535C /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A24013E256A671600C1535C /* Angle.swift */; };
 		0A240148256A9A6900C1535C /* FloatingPoint+ApproximateEquality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A240147256A9A6900C1535C /* FloatingPoint+ApproximateEquality.swift */; };
 		0A240149256A9A6900C1535C /* FloatingPoint+ApproximateEquality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A240147256A9A6900C1535C /* FloatingPoint+ApproximateEquality.swift */; };
 		52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3852D238D6E5700BE8407 /* LineTests.swift */; };
@@ -497,7 +496,6 @@
 				016FAB6621BFE7CE00AF60DC /* ShapeTests.swift in Sources */,
 				016FAB6321BFE7CE00AF60DC /* UtilityTests.swift in Sources */,
 				016FAB6221BFE7CE00AF60DC /* PathTests.swift in Sources */,
-				0A240140256A671600C1535C /* Angle.swift in Sources */,
 				014AC60E2505963800F54349 /* SceneKitTests.swift in Sources */,
 				016FAB6121BFE7CE00AF60DC /* TransformTests.swift in Sources */,
 				0A240149256A9A6900C1535C /* FloatingPoint+ApproximateEquality.swift in Sources */,

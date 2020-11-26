@@ -47,8 +47,8 @@ public extension Path {
         let w = max(abs(width / 2), epsilon)
         let h = max(abs(height / 2), epsilon)
         for radians in stride(from: 0, through: Angle.twoPi.radians + epsilon, by: step.radians) {
-            let angle = Angle(radians: radians)
-            points.append(.curve(w * -angle.sin, h * angle.cos))
+            let angle = Angle.radians(radians)
+            points.append(.curve(w * -sin(angle), h * cos(angle)))
         }
         return Path(unchecked: points, plane: .xy, subpathIndices: [])
     }
@@ -262,7 +262,7 @@ public extension Mesh {
         let r = max(abs(r), epsilon)
         for i in 0 ... stacks {
             let a = Double(i) / Double(stacks) * Angle.pi
-            semicircle.append(.curve(-a.sin * r, a.cos * r))
+            semicircle.append(.curve(-sin(a) * r, cos(a) * r))
         }
         return lathe(
             unchecked: Path(unchecked: semicircle, plane: .xy, subpathIndices: []),
@@ -457,10 +457,10 @@ public extension Mesh {
             let t1 = Double(i + 1) / Double(slices)
             let a0 = t0 * Angle.twoPi
             let a1 = t1 * Angle.twoPi
-            let cos0 = a0.cos
-            let cos1 = a1.cos
-            let sin0 = a0.sin
-            let sin1 = a1.sin
+            let cos0 = cos(a0)
+            let cos1 = cos(a1)
+            let sin0 = sin(a0)
+            let sin1 = sin(a1)
             for j in stride(from: 1, to: vertices.count, by: 2) {
                 let v0 = vertices[j - 1], v1 = vertices[j]
                 if v0.position.x == 0 {
@@ -610,9 +610,9 @@ public extension Mesh {
         let pathPlane = FlatteningPlane(bounds: along.bounds)
         switch (shapePlane, pathPlane) {
         case (.xy, .xy), (.xz, .xz):
-            shape = shape.rotated(by: .pitch(.piHalf))
+            shape = shape.rotated(by: .pitch(.halfPi))
         case (.yz, .yz):
-            shape = shape.rotated(by: .yaw(.piHalf))
+            shape = shape.rotated(by: .yaw(.halfPi))
         default:
             break
         }

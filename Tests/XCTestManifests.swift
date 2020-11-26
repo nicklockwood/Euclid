@@ -105,6 +105,9 @@ extension CodingTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__CodingTests = [
+        ("testDecodingAngle", testDecodingAngle),
+        ("testDecodingAngle2", testDecodingAngle2),
+        ("testDecodingAngle3", testDecodingAngle3),
         ("testDecodingAxisAngleRotation", testDecodingAxisAngleRotation),
         ("testDecodingCurvedPathPoint2", testDecodingCurvedPathPoint2),
         ("testDecodingCurvedUnkeyedPathPoint3", testDecodingCurvedUnkeyedPathPoint3),
