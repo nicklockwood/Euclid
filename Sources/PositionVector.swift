@@ -7,3 +7,19 @@
 //
 
 import Foundation
+
+public struct PositionVector: CartesianComponentsRepresentable {
+    public let x: Double
+    public let y: Double
+    public let z: Double
+
+    public init(x: Double = 0, y: Double = 0, z: Double = 0) {
+        self.x = x
+        self.y = y
+        self.z = z
+    }
+}
+
+public extension PositionVector {
+    static let origin = PositionVector()
+}

@@ -15,10 +15,8 @@ public protocol CartesianComponentsRepresentable {
     init(x: Double, y: Double, z: Double)
 }
 
-public func + <T: CartesianComponentsRepresentable>(lhs: T, rhs: T) -> T {
-    return T(
-        x: lhs.x + rhs.x,
-        y: lhs.y + rhs.y,
-        z: lhs.z + rhs.z
-    )
+public extension CartesianComponentsRepresentable {
+    var norm: Double {
+        return (x * x + y * y + z * z).squareRoot()
+    }
 }
