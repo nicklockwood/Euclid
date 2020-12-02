@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct PositionVector: CartesianComponentsRepresentable {
+public struct Position: CartesianComponentsRepresentable, Hashable {
     public let x: Double
     public let y: Double
     public let z: Double
@@ -20,6 +20,6 @@ public struct PositionVector: CartesianComponentsRepresentable {
     }
 }
 
-public extension PositionVector {
-    static let origin = PositionVector()
+public extension Position {
+    static let origin = Position()
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol CartesianComponentsRepresentable {
+public protocol CartesianComponentsRepresentable: Codable {
     var x: Double { get }
     var y: Double { get }
     var z: Double { get }

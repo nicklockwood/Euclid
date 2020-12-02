@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Direction: AdditiveArithmeticCartesianComponentsRepresentable {
+public struct Direction: AdditiveArithmeticCartesianComponentsRepresentable, Hashable {
     public let x: Double
     public let y: Double
     public let z: Double
@@ -29,4 +29,15 @@ public struct Direction: AdditiveArithmeticCartesianComponentsRepresentable {
 
 public extension Direction {
     static let zero = Direction()
+    static let x = Direction(x: 1)
+    static let y = Direction(y: 1)
+    static let z = Direction(z: 1)
+}
+
+public extension Direction {
+    func dot(_ other: Direction) -> Double {
+        return x * other.x
+            + y * other.y
+            + z * other.z
+    }
 }

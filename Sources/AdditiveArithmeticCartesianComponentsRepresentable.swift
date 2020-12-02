@@ -17,3 +17,11 @@ public func + <T: AdditiveArithmeticCartesianComponentsRepresentable>(lhs: T, rh
         z: lhs.z + rhs.z
     )
 }
+
+public func - <T: AdditiveArithmeticCartesianComponentsRepresentable>(lhs: T, rhs: T) -> T {
+    return T(
+        x: lhs.x - rhs.x,
+        y: lhs.y - rhs.y,
+        z: lhs.z - rhs.z
+    )
+}
