@@ -19,4 +19,12 @@ public extension CartesianComponentsRepresentable {
     var norm: Double {
         return (x * x + y * y + z * z).squareRoot()
     }
+
+    static prefix func - (element: Self) -> Self {
+        return self.init(
+            x: -element.x,
+            y: -element.y,
+            z: -element.z
+        )
+    }
 }

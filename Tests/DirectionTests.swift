@@ -103,4 +103,94 @@ class DirectionTests: XCTestCase {
         let dotproduct = direction1.dot(direction2)
         XCTAssertEqual(-sqrt(2) / 2, dotproduct, accuracy: epsilon)
     }
+
+    func testParallelDirections() {
+        let direction1 = Direction(x: -1, y: 1, z: 3)
+        let direction2 = Direction(x: -1, y: 1, z: 3)
+        XCTAssertTrue(direction1.isParallel(to: direction2))
+        XCTAssertFalse(direction1.isAntiparallel(to: direction2))
+        XCTAssertTrue(direction1.isColinear(to: direction2))
+        XCTAssertFalse(direction1.isNormal(to: direction2))
+    }
+
+    func testAntiparallelDirections() {
+        let direction1 = Direction(x: -1, y: 2, z: 3)
+        let direction2 = Direction(x: 1, y: -2, z: -3)
+        XCTAssertFalse(direction1.isParallel(to: direction2))
+        XCTAssertTrue(direction1.isAntiparallel(to: direction2))
+        XCTAssertTrue(direction1.isColinear(to: direction2))
+        XCTAssertFalse(direction1.isNormal(to: direction2))
+    }
+
+    func testNormalDirections() {
+        let direction1 = Direction.x
+        let direction2 = Direction.y
+        XCTAssertFalse(direction1.isParallel(to: direction2))
+        XCTAssertFalse(direction1.isAntiparallel(to: direction2))
+        XCTAssertFalse(direction1.isColinear(to: direction2))
+        XCTAssertTrue(direction1.isNormal(to: direction2))
+    }
+
+    func testGeneralDirections() {
+        let direction1 = Direction(x: -1, y: 2, z: 3)
+        let direction2 = Direction(x: 5, y: -9, z: 1)
+        XCTAssertFalse(direction1.isParallel(to: direction2))
+        XCTAssertFalse(direction1.isAntiparallel(to: direction2))
+        XCTAssertFalse(direction1.isColinear(to: direction2))
+        XCTAssertFalse(direction1.isNormal(to: direction2))
+    }
+
+    func testAngleWithOtherDirection45Degrees() {
+        let direction1 = Direction(x: 1, y: 1)
+        let direction2 = Direction.y
+        let angle = direction1.angle(with: direction2)
+        XCTAssertEqual(45, angle.degrees, accuracy: epsilon)
+    }
+
+    func testAngleWithOtherDirection45DegreesOppositeSide() {
+        let direction1 = Direction(x: 1, y: -1)
+        let direction2 = Direction.y
+        let angle = direction1.angle(with: direction2)
+        XCTAssertEqual(135, angle.degrees, accuracy: epsilon)
+    }
+
+    func testAngleWithOtherDirection0Degrees() {
+        let direction1 = Direction.y
+        let direction2 = Direction.y
+        let angle = direction1.angle(with: direction2)
+        XCTAssertEqual(0, angle.degrees, accuracy: epsilon)
+    }
+
+    func testAngleWithOtherDirection90Degrees() {
+        let direction1 = Direction.x
+        let direction2 = Direction.y
+        let angle = direction1.angle(with: direction2)
+        XCTAssertEqual(90, angle.degrees, accuracy: epsilon)
+    }
+
+    func testCrossProductZAxis() {
+        XCTAssertEqual(Direction.z, Direction.x.cross(.y))
+    }
+
+    func testCrossProductNegativeZAxis() {
+        XCTAssertEqual(Direction.z.opposite, Direction.y.cross(.x))
+    }
+
+    func testCrossProductXAxis() {
+        XCTAssertEqual(Direction.x, Direction.y.cross(.z))
+    }
+
+    func testCrossProductNegativeXAxis() {
+        XCTAssertEqual(Direction.x.opposite, Direction.z.cross(.y))
+    }
+
+    func testCrossProductGeneral() {
+        let direction1 = Direction(x: 3, y: -3, z: 1)
+        let direction2 = Direction(x: 4, y: 9, z: 2)
+        let normal = direction1.cross(direction2)
+        let componentNorm = sqrt(15.0 * 15.0 + 2.0 * 2.0 + 39.0 * 39.0)
+        XCTAssertEqual(-15.0 / componentNorm, normal.x, accuracy: epsilon)
+        XCTAssertEqual(-2.0 / componentNorm, normal.y, accuracy: epsilon)
+        XCTAssertEqual(39.0 / componentNorm, normal.z, accuracy: epsilon)
+    }
 }

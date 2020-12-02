@@ -150,8 +150,20 @@ extension DirectionTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__DirectionTests = [
+        ("testAngleWithOtherDirection0Degrees", testAngleWithOtherDirection0Degrees),
+        ("testAngleWithOtherDirection45Degrees", testAngleWithOtherDirection45Degrees),
+        ("testAngleWithOtherDirection45DegreesOppositeSide", testAngleWithOtherDirection45DegreesOppositeSide),
+        ("testAngleWithOtherDirection90Degrees", testAngleWithOtherDirection90Degrees),
+        ("testAntiparallelDirections", testAntiparallelDirections),
+        ("testCrossProductGeneral", testCrossProductGeneral),
+        ("testCrossProductNegativeXAxis", testCrossProductNegativeXAxis),
+        ("testCrossProductNegativeZAxis", testCrossProductNegativeZAxis),
+        ("testCrossProductXAxis", testCrossProductXAxis),
+        ("testCrossProductZAxis", testCrossProductZAxis),
         ("testDotProductObliqueAngle", testDotProductObliqueAngle),
         ("testDotProductObtuseAngle", testDotProductObtuseAngle),
+        ("testGeneralDirections", testGeneralDirections),
+        ("testNormalDirections", testNormalDirections),
         ("testNormedAddition", testNormedAddition),
         ("testNormedAdditionOnXYPlane", testNormedAdditionOnXYPlane),
         ("testNormedAdditionOnXZPlane", testNormedAdditionOnXZPlane),
@@ -160,6 +172,7 @@ extension DirectionTests {
         ("testNormedSubtractionOnXYPlane", testNormedSubtractionOnXYPlane),
         ("testNormedSubtractionOnXZPlane", testNormedSubtractionOnXZPlane),
         ("testNormedSubtractionOnYZPlane", testNormedSubtractionOnYZPlane),
+        ("testParallelDirections", testParallelDirections),
         ("testZeroDirection", testZeroDirection),
     ]
 }

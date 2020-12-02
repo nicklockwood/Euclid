@@ -34,10 +34,56 @@ public extension Direction {
     static let z = Direction(z: 1)
 }
 
+extension Direction: Equatable {
+    public static func == (lhs: Direction, rhs: Direction) -> Bool {
+        return abs(lhs.x - rhs.x) < tolerance
+            && abs(lhs.y - rhs.y) < tolerance
+            && abs(lhs.z - rhs.z) < tolerance
+    }
+}
+
 public extension Direction {
+    fileprivate static var tolerance = Double.ulpOfOne.squareRoot()
+
     func dot(_ other: Direction) -> Double {
         return x * other.x
             + y * other.y
             + z * other.z
+    }
+
+    func cross(_ other: Direction) -> Direction {
+        return Direction(
+            x: y * other.z - z * other.y,
+            y: z * other.x - x * other.z,
+            z: x * other.y - y * other.x
+        )
+    }
+
+    func isParallel(to other: Direction) -> Bool {
+        return abs(dot(other) - 1) <= Direction.tolerance
+    }
+
+    func isAntiparallel(to other: Direction) -> Bool {
+        return abs(dot(other) + 1) <= Direction.tolerance
+    }
+
+    func isColinear(to other: Direction) -> Bool {
+        return isParallel(to: other) || isAntiparallel(to: other)
+    }
+
+    func isNormal(to other: Direction) -> Bool {
+        return abs(dot(other)) <= Direction.tolerance
+    }
+}
+
+public extension Direction {
+    func angle(with other: Direction) -> Angle {
+        return Angle.acos(dot(other))
+    }
+}
+
+public extension Direction {
+    var opposite: Direction {
+        return -self
     }
 }
