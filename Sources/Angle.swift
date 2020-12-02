@@ -2,7 +2,7 @@
 //  Angle.swift
 //  Euclid
 //
-//  Created by Ioannis Kaliakatsos on 22.11.20.
+//  Created by Ioannis Kaliakatsos on 22.11.2020.
 //  Copyright © 2020 Nick Lockwood. All rights reserved.
 //
 
