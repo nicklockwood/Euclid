@@ -335,6 +335,7 @@ extension PositionTests {
     static let __allTests__PositionTests = [
         ("testAddDistanceToPosition", testAddDistanceToPosition),
         ("testConstructor", testConstructor),
+        ("testDistanceFromPositions", testDistanceFromPositions),
         ("testNorm", testNorm),
         ("testSubtractDistanceToPosition", testSubtractDistanceToPosition),
     ]

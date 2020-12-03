@@ -35,4 +35,11 @@ class PositionTests: XCTestCase {
         let expected = Position(x: 3, y: -2, z: 11)
         XCTAssertEqual(expected, position - distance)
     }
+
+    func testDistanceFromPositions() {
+        let position1 = Position(x: 1, y: 2, z: 3)
+        let position2 = Position(x: 2, y: -5, z: 9)
+        let expected = Distance(x: 1, y: -7, z: 6)
+        XCTAssertEqual(expected, position2 - position1)
+    }
 }

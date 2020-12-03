@@ -40,4 +40,12 @@ public extension Position {
             z: lhs.z - rhs.z
         )
     }
+
+    static func - (lhs: Position, rhs: Position) -> Distance {
+        return Distance(
+            x: lhs.x - rhs.x,
+            y: lhs.y - rhs.y,
+            z: lhs.z - rhs.z
+        )
+    }
 }
