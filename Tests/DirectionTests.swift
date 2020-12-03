@@ -193,4 +193,20 @@ class DirectionTests: XCTestCase {
         XCTAssertEqual(-2.0 / componentNorm, normal.y, accuracy: epsilon)
         XCTAssertEqual(39.0 / componentNorm, normal.z, accuracy: epsilon)
     }
+
+    func testRotateXAxis() {
+        let rotated = Direction.x.rotated(around: .z, by: Angle(degrees: 30))
+        XCTAssertEqual(Direction(x: sqrt(3), y: 1), rotated)
+    }
+
+    func testRotateYAxis() {
+        let rotated = Direction.y.rotated(around: .x, by: Angle(degrees: 60))
+        XCTAssertEqual(Direction(y: 1, z: sqrt(3)), rotated)
+    }
+
+    func testRotateAroundNonNormalDirection() {
+        let direction = Direction(x: 1, z: 1)
+        let rotated = direction.rotated(around: .z, by: Angle(degrees: 135))
+        XCTAssertEqual(Direction(x: -1 / 2, y: 1 / 2, z: 1 / sqrt(2)), rotated)
+    }
 }

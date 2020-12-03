@@ -173,6 +173,9 @@ extension DirectionTests {
         ("testNormedSubtractionOnXZPlane", testNormedSubtractionOnXZPlane),
         ("testNormedSubtractionOnYZPlane", testNormedSubtractionOnYZPlane),
         ("testParallelDirections", testParallelDirections),
+        ("testRotateAroundNonNormalDirection", testRotateAroundNonNormalDirection),
+        ("testRotateXAxis", testRotateXAxis),
+        ("testRotateYAxis", testRotateYAxis),
         ("testZeroDirection", testZeroDirection),
     ]
 }

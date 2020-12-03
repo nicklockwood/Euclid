@@ -36,15 +36,13 @@ public extension Direction {
 
 extension Direction: Equatable {
     public static func == (lhs: Direction, rhs: Direction) -> Bool {
-        return abs(lhs.x - rhs.x) < tolerance
-            && abs(lhs.y - rhs.y) < tolerance
-            && abs(lhs.z - rhs.z) < tolerance
+        return abs(lhs.x - rhs.x) < epsilon
+            && abs(lhs.y - rhs.y) < epsilon
+            && abs(lhs.z - rhs.z) < epsilon
     }
 }
 
 public extension Direction {
-    fileprivate static var tolerance = Double.ulpOfOne.squareRoot()
-
     func dot(_ other: Direction) -> Double {
         return x * other.x
             + y * other.y
@@ -60,11 +58,11 @@ public extension Direction {
     }
 
     func isParallel(to other: Direction) -> Bool {
-        return abs(dot(other) - 1) <= Direction.tolerance
+        return abs(dot(other) - 1) <= epsilon
     }
 
     func isAntiparallel(to other: Direction) -> Bool {
-        return abs(dot(other) + 1) <= Direction.tolerance
+        return abs(dot(other) + 1) <= epsilon
     }
 
     func isColinear(to other: Direction) -> Bool {
@@ -72,7 +70,7 @@ public extension Direction {
     }
 
     func isNormal(to other: Direction) -> Bool {
-        return abs(dot(other)) <= Direction.tolerance
+        return abs(dot(other)) <= epsilon
     }
 }
 
@@ -85,5 +83,12 @@ public extension Direction {
 public extension Direction {
     var opposite: Direction {
         return -self
+    }
+}
+
+public extension Direction {
+    func rotated(around direction: Direction, by angle: Angle) -> Direction {
+        let rotationMatrix = Rotation(axis: direction, angle: angle)
+        return rotationMatrix * self
     }
 }

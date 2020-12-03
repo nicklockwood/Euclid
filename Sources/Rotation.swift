@@ -157,6 +157,22 @@ public extension Rotation {
         self.init(unchecked: axis / length, angle: angle)
     }
 
+    /// Define a rotation from an axis direction and an angle
+    init(axis: Direction, angle: Angle) {
+        // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
+        let c = cos(angle)
+        let s = sin(angle)
+        let t = 1 - c
+        let x = axis.x
+        let y = axis.y
+        let z = axis.z
+        self.init(
+            t * x * x + c, t * x * y - z * s, t * x * z + y * s,
+            t * x * y + z * s, t * y * y + c, t * y * z - x * s,
+            t * x * z - y * s, t * y * z + x * s, t * z * z + c
+        )
+    }
+
     /// Define a rotation from Euler angles
     // http://planning.cs.uiuc.edu/node102.html
     init(pitch: Angle, yaw: Angle = .zero, roll: Angle = .zero) {
@@ -234,6 +250,22 @@ public extension Rotation {
     static func *= (lhs: inout Rotation, rhs: Rotation) {
         lhs = lhs * rhs
     }
+
+    static func * <T: CartesianComponentsRepresentable>(lhs: Rotation, rhs: T) -> T {
+        let x = lhs.m11 * rhs.x
+            + lhs.m12 * rhs.y
+            + lhs.m13 * rhs.z
+
+        let y = lhs.m21 * rhs.x
+            + lhs.m22 * rhs.y
+            + lhs.m23 * rhs.z
+
+        let z = lhs.m31 * rhs.x
+            + lhs.m32 * rhs.y
+            + lhs.m33 * rhs.z
+
+        return T(x: x, y: y, z: z)
+    }
 }
 
 internal extension Rotation {
@@ -259,19 +291,13 @@ internal extension Rotation {
         return abs(determinant - 1) < epsilon
     }
 
+    // TODO: is this still needed?
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
     init(unchecked axis: Vector, angle: Angle) {
         assert(axis.isNormalized)
-        let c = cos(angle)
-        let s = sin(angle)
-        let t = 1 - c
-        let x = axis.x
-        let y = axis.y
-        let z = axis.z
         self.init(
-            t * x * x + c, t * x * y - z * s, t * x * z + y * s,
-            t * x * y + z * s, t * y * y + c, t * y * z - x * s,
-            t * x * z - y * s, t * y * z + x * s, t * z * z + c
+            axis: Direction(x: axis.x, y: axis.y, z: axis.z),
+            angle: angle
         )
     }
 
