@@ -8,6 +8,10 @@
 
 import Foundation
 
+private enum CodingKeys: CodingKey {
+    case x, y, z
+}
+
 public protocol CartesianComponentsRepresentable: Codable {
     var x: Double { get }
     var y: Double { get }
@@ -26,5 +30,29 @@ public extension CartesianComponentsRepresentable {
             y: -element.y,
             z: -element.z
         )
+    }
+}
+
+public extension CartesianComponentsRepresentable {
+    init(from decoder: Decoder) throws {
+        let x, y, z: Double
+        if var container = try? decoder.unkeyedContainer() {
+            x = try container.decode(Double.self)
+            y = try container.decode(Double.self)
+            z = try container.decodeIfPresent(Double.self) ?? 0
+        } else {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            x = try container.decodeIfPresent(Double.self, forKey: .x) ?? 0
+            y = try container.decodeIfPresent(Double.self, forKey: .y) ?? 0
+            z = try container.decodeIfPresent(Double.self, forKey: .z) ?? 0
+        }
+        self.init(x: x, y: y, z: z)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(x)
+        try container.encode(y)
+        try z == 0 ? () : container.encode(z)
     }
 }

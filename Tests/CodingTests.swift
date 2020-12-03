@@ -60,6 +60,35 @@ class CodingTests: XCTestCase {
         XCTAssertEqual(try encode(Vector(1, 2, 0)), "[1,2]")
     }
 
+    // MARK: Direction
+
+    func testDecodingDirection3() {
+        XCTAssertEqual(try decode("[0.5, 0.5, 0.707106781186548]"), Direction(x: 1 / 2, y: 1 / 2, z: 1 / sqrt(2)))
+    }
+
+    func testDecodingDirection2() {
+        XCTAssertEqual(try decode("[1, 2]"), Direction(x: 1, y: 2, z: 0))
+    }
+
+    func testDecodingKeyedDirection() {
+        XCTAssertEqual(try decode("{\"z\": 1}"), Direction.z)
+    }
+
+    func testDecodingInvalidDirections() {
+        XCTAssertThrowsError(try decode("[1]") as Direction)
+    }
+
+    func testEncodingDirection3() {
+        XCTAssertEqual(
+            try encode(Direction(x: 1, y: 2, z: 3)),
+            "[0.2672612419124244,0.53452248382484879,0.80178372573727319]"
+        )
+    }
+
+    func testEncodingDirection2() {
+        XCTAssertEqual(try encode(Direction(x: 1, y: 2, z: 0)), "[0.44721359549995793,0.89442719099991586]")
+    }
+
     // MARK: Vertex
 
     func testDecodingVertex() {
