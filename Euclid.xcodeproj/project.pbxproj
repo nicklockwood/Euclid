@@ -49,7 +49,6 @@
 		0A14E476257459700064A7A5 /* CartesianComponentsRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14E475257459700064A7A5 /* CartesianComponentsRepresentable.swift */; };
 		0A14E477257459700064A7A5 /* CartesianComponentsRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14E475257459700064A7A5 /* CartesianComponentsRepresentable.swift */; };
 		0A14E47D25745B270064A7A5 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14E47C25745B270064A7A5 /* Position.swift */; };
-		0A14E47E25745B270064A7A5 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A14E47C25745B270064A7A5 /* Position.swift */; };
 		0A240137256A64FB00C1535C /* AngleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A240136256A64FB00C1535C /* AngleTests.swift */; };
 		0A24013F256A671600C1535C /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A24013E256A671600C1535C /* Angle.swift */; };
 		0A445EBF2577AE0500DE4497 /* PositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A445EBE2577AE0500DE4497 /* PositionTests.swift */; };
@@ -517,7 +516,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A14E47E25745B270064A7A5 /* Position.swift in Sources */,
 				01A429FA2237A85C00C251A6 /* TextTests.swift in Sources */,
 				0A240137256A64FB00C1535C /* AngleTests.swift in Sources */,
 				0A445ECC2577B38A00DE4497 /* DirectionTests.swift in Sources */,

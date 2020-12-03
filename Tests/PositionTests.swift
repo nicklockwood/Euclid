@@ -9,8 +9,6 @@
 @testable import Euclid
 import XCTest
 
-private let epsilon = Double.ulpOfOne.squareRoot()
-
 class PositionTests: XCTestCase {
     func testConstructor() {
         let position = Position(x: 1, y: 2, z: 3)
@@ -20,12 +18,21 @@ class PositionTests: XCTestCase {
     }
 
     func testNorm() {
-        let position = Position(x: 1, y: 2, z: 3)
-        XCTAssertEqual(sqrt(14), position.norm, accuracy: epsilon)
+        let position = Position(x: -1, y: 2, z: 3)
+        XCTAssertEqual(sqrt(14), position.norm)
     }
 
-    func testNormNegativeComponent() {
-        let position = Position(x: -1, y: 2, z: 3)
-        XCTAssertEqual(sqrt(14), position.norm, accuracy: epsilon)
+    func testAddDistanceToPosition() {
+        let position = Position(x: 1, y: 3, z: 9)
+        let distance = Distance(x: -2, y: 5, z: -2)
+        let expected = Position(x: -1, y: 8, z: 7)
+        XCTAssertEqual(expected, position + distance)
+    }
+
+    func testSubtractDistanceToPosition() {
+        let position = Position(x: 1, y: 3, z: 9)
+        let distance = Distance(x: -2, y: 5, z: -2)
+        let expected = Position(x: 3, y: -2, z: 11)
+        XCTAssertEqual(expected, position - distance)
     }
 }

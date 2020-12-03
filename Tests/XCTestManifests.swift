@@ -327,9 +327,10 @@ extension PositionTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__PositionTests = [
+        ("testAddDistanceToPosition", testAddDistanceToPosition),
         ("testConstructor", testConstructor),
         ("testNorm", testNorm),
-        ("testNormNegativeComponent", testNormNegativeComponent),
+        ("testSubtractDistanceToPosition", testSubtractDistanceToPosition),
     ]
 }
 

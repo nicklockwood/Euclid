@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Position: CartesianComponentsRepresentable, Hashable {
+public struct Position: CartesianComponentsRepresentable {
     public let x: Double
     public let y: Double
     public let z: Double
@@ -22,4 +22,22 @@ public struct Position: CartesianComponentsRepresentable, Hashable {
 
 public extension Position {
     static let origin = Position()
+}
+
+public extension Position {
+    static func + (lhs: Position, rhs: Distance) -> Position {
+        return Position(
+            x: lhs.x + rhs.x,
+            y: lhs.y + rhs.y,
+            z: lhs.z + rhs.z
+        )
+    }
+
+    static func - (lhs: Position, rhs: Distance) -> Position {
+        return Position(
+            x: lhs.x - rhs.x,
+            y: lhs.y - rhs.y,
+            z: lhs.z - rhs.z
+        )
+    }
 }
