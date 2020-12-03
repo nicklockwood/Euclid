@@ -57,6 +57,8 @@
 		0A445EC62577B23800DE4497 /* AdditiveArithmeticCartesianComponentsRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A445EC42577B23800DE4497 /* AdditiveArithmeticCartesianComponentsRepresentable.swift */; };
 		0A445ECC2577B38A00DE4497 /* DirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A445ECB2577B38A00DE4497 /* DirectionTests.swift */; };
 		0A7FDE4D2577B4BF0046D8CA /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7FDE4C2577B4BF0046D8CA /* Direction.swift */; };
+		0A7FDE5F2579925A0046D8CA /* DistanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7FDE5E2579925A0046D8CA /* DistanceTests.swift */; };
+		0A7FDE63257992710046D8CA /* Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7FDE62257992710046D8CA /* Distance.swift */; };
 		52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3852D238D6E5700BE8407 /* LineTests.swift */; };
 		52A663A123857D5300FACF9D /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A663A023857D5300FACF9D /* Line.swift */; };
 		52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C844E023854C87009C0A73 /* VectorTests.swift */; };
@@ -144,6 +146,8 @@
 		0A445EC42577B23800DE4497 /* AdditiveArithmeticCartesianComponentsRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditiveArithmeticCartesianComponentsRepresentable.swift; sourceTree = "<group>"; };
 		0A445ECB2577B38A00DE4497 /* DirectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionTests.swift; sourceTree = "<group>"; };
 		0A7FDE4C2577B4BF0046D8CA /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
+		0A7FDE5E2579925A0046D8CA /* DistanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceTests.swift; sourceTree = "<group>"; };
+		0A7FDE62257992710046D8CA /* Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Distance.swift; sourceTree = "<group>"; };
 		52A3852D238D6E5700BE8407 /* LineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTests.swift; sourceTree = "<group>"; };
 		52A663A023857D5300FACF9D /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		52C844E023854C87009C0A73 /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
@@ -234,6 +238,7 @@
 				01BA29702235A63F0088D36B /* CoreText.swift */,
 				016FAB2C21BFE78100AF60DC /* Euclid.h */,
 				016FAB2D21BFE78100AF60DC /* Info.plist */,
+				0A7FDE62257992710046D8CA /* Distance.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -244,6 +249,7 @@
 				0A240136256A64FB00C1535C /* AngleTests.swift */,
 				0A445EBE2577AE0500DE4497 /* PositionTests.swift */,
 				0A445ECB2577B38A00DE4497 /* DirectionTests.swift */,
+				0A7FDE5E2579925A0046D8CA /* DistanceTests.swift */,
 				01D96AB423D8E36A00D0D267 /* BoundsTests.swift */,
 				016FAB5F21BFE7CE00AF60DC /* CSGTests.swift */,
 				016FAB5C21BFE7CD00AF60DC /* PathTests.swift */,
@@ -492,6 +498,7 @@
 				01BA29712235A63F0088D36B /* CoreText.swift in Sources */,
 				01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */,
 				016FAB5221BFE7C200AF60DC /* Vertex.swift in Sources */,
+				0A7FDE63257992710046D8CA /* Distance.swift in Sources */,
 				016FAB5821BFE7C200AF60DC /* Polygon.swift in Sources */,
 				52A663A123857D5300FACF9D /* Line.swift in Sources */,
 				0A14E47D25745B270064A7A5 /* Position.swift in Sources */,
@@ -526,6 +533,7 @@
 				01BA296A222726BE0088D36B /* XCTestManifests.swift in Sources */,
 				016FAB6521BFE7CE00AF60DC /* CSGTests.swift in Sources */,
 				01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */,
+				0A7FDE5F2579925A0046D8CA /* DistanceTests.swift in Sources */,
 				01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */,
 				0A14E477257459700064A7A5 /* CartesianComponentsRepresentable.swift in Sources */,
 				013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */,

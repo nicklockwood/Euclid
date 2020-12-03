@@ -12,7 +12,7 @@ private enum CodingKeys: CodingKey {
     case x, y, z
 }
 
-public protocol CartesianComponentsRepresentable: Codable {
+public protocol CartesianComponentsRepresentable: Codable, Equatable {
     var x: Double { get }
     var y: Double { get }
     var z: Double { get }

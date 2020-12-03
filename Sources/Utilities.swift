@@ -32,6 +32,14 @@
 // Tolerance used for calculating approximate equality
 let epsilon = 1e-6
 
+public extension CartesianComponentsRepresentable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return abs(lhs.x - rhs.x) < epsilon
+            && abs(lhs.y - rhs.y) < epsilon
+            && abs(lhs.z - rhs.z) < epsilon
+    }
+}
+
 // Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
     let precision = 1e-8 * 1e-3

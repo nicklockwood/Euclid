@@ -34,14 +34,6 @@ public extension Direction {
     static let z = Direction(z: 1)
 }
 
-extension Direction: Equatable {
-    public static func == (lhs: Direction, rhs: Direction) -> Bool {
-        return abs(lhs.x - rhs.x) < epsilon
-            && abs(lhs.y - rhs.y) < epsilon
-            && abs(lhs.z - rhs.z) < epsilon
-    }
-}
-
 public extension Direction {
     func dot(_ other: Direction) -> Double {
         return x * other.x
@@ -87,8 +79,18 @@ public extension Direction {
 }
 
 public extension Direction {
-    func rotated(around direction: Direction, by angle: Angle) -> Direction {
-        let rotationMatrix = Rotation(axis: direction, angle: angle)
+    func rotated(around axis: Direction, by angle: Angle) -> Direction {
+        let rotationMatrix = Rotation(axis: axis, angle: angle)
         return rotationMatrix * self
+    }
+}
+
+public extension Direction {
+    static func * (lhs: Double, rhs: Direction) -> Distance {
+        return Distance(
+            x: lhs * rhs.x,
+            y: lhs * rhs.y,
+            z: lhs * rhs.z
+        )
     }
 }
