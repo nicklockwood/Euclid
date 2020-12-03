@@ -31,6 +31,10 @@ public extension CartesianComponentsRepresentable {
             z: -element.z
         )
     }
+
+    var components: [Double] {
+        return [x, y, z]
+    }
 }
 
 public extension CartesianComponentsRepresentable {

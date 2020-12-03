@@ -60,6 +60,32 @@ class CodingTests: XCTestCase {
         XCTAssertEqual(try encode(Vector(1, 2, 0)), "[1,2]")
     }
 
+    // MARK: Position
+
+    func testDecodingPosition3() {
+        XCTAssertEqual(try decode("[1, 2, 3]"), Position(x: 1, y: 2, z: 3))
+    }
+
+    func testDecodingPosition2() {
+        XCTAssertEqual(try decode("[1, 2]"), Position(x: 1, y: 2, z: 0))
+    }
+
+    func testDecodingKeyedPosition() {
+        XCTAssertEqual(try decode("{\"z\": 1}"), Position(z: 1))
+    }
+
+    func testDecodingInvalidPositions() {
+        XCTAssertThrowsError(try decode("[1]") as Position)
+    }
+
+    func testEncodingPosition3() {
+        XCTAssertEqual(try encode(Position(x: 1, y: 2, z: 3)), "[1,2,3]")
+    }
+
+    func testEncodingPosition2() {
+        XCTAssertEqual(try encode(Position(x: 1, y: 2, z: 0)), "[1,2]")
+    }
+
     // MARK: Distance
 
     func testDecodingDistance3() {
