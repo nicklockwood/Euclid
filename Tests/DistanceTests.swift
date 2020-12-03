@@ -126,4 +126,18 @@ class DistanceTests: XCTestCase {
         let rotated = distance.rotated(around: .z, by: Angle(degrees: 150))
         XCTAssertEqual(Distance(x: -sqrt(3), y: 1, z: 1), rotated)
     }
+
+    func testScalarMultiply() {
+        let distance = Distance(x: 1, y: 2, z: 3)
+        let result = 2 * distance
+        let expected = Distance(x: 2, y: 4, z: 6)
+        XCTAssertEqual(expected, result)
+    }
+
+    func testScalarDivide() {
+        let distance = Distance(x: 1, y: 2, z: 3)
+        let result = distance / 2
+        let expected = Distance(x: 0.5, y: 1, z: 1.5)
+        XCTAssertEqual(expected, result)
+    }
 }

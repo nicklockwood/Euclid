@@ -211,6 +211,8 @@ extension DistanceTests {
         ("testOperatorDoubleMultiplyWithDirection", testOperatorDoubleMultiplyWithDirection),
         ("testParallelDistances", testParallelDistances),
         ("testRotated", testRotated),
+        ("testScalarDivide", testScalarDivide),
+        ("testScalarMultiply", testScalarMultiply),
         ("testSubtraction", testSubtraction),
         ("testZeroDistance", testZeroDistance),
     ]

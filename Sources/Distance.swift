@@ -77,3 +77,22 @@ public extension Distance {
         return -self
     }
 }
+
+public extension Distance {
+    static func * (lhs: Double, rhs: Distance) -> Distance {
+        return Distance(
+            x: lhs * rhs.x,
+            y: lhs * rhs.y,
+            z: lhs * rhs.z
+        )
+    }
+
+    static func / (lhs: Distance, rhs: Double) -> Distance {
+        assert(rhs != 0)
+        return Distance(
+            x: lhs.x / rhs,
+            y: lhs.y / rhs,
+            z: lhs.z / rhs
+        )
+    }
+}
