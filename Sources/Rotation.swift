@@ -291,7 +291,7 @@ internal extension Rotation {
         return abs(determinant - 1) < epsilon
     }
 
-    // TODO: jkalias is this still needed?
+    // TODO: is this still needed?
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
     init(unchecked axis: Vector, angle: Angle) {
         assert(axis.isNormalized)
