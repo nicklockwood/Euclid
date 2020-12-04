@@ -213,6 +213,8 @@ extension DistanceTests {
         ("testDistance", testDistance),
         ("testGeneralDistances", testGeneralDistances),
         ("testNorm", testNorm),
+        ("testNormalComponentTest1", testNormalComponentTest1),
+        ("testNormalComponentTest2", testNormalComponentTest2),
         ("testNormalDistances", testNormalDistances),
         ("testOperatorDoubleMultiplyWithDirection", testOperatorDoubleMultiplyWithDirection),
         ("testParallelDistances", testParallelDistances),

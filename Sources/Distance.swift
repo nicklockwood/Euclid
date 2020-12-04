@@ -96,3 +96,13 @@ public extension Distance {
         )
     }
 }
+
+public extension Distance {
+    func projection(on direction: Direction) -> Distance {
+        return norm * self.direction.dot(direction) * direction
+    }
+
+    func normal(to direction: Direction) -> Distance {
+        return self - projection(on: direction)
+    }
+}

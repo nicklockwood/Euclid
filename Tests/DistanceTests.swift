@@ -140,4 +140,16 @@ class DistanceTests: XCTestCase {
         let expected = Distance(x: 0.5, y: 1, z: 1.5)
         XCTAssertEqual(expected, result)
     }
+
+    func testNormalComponentTest1() {
+        let distance = Distance(x: 1, y: 1, z: 3)
+        let normalComponent = distance.normal(to: Direction(x: 1, y: 1))
+        XCTAssertEqual(Distance(z: 3), normalComponent)
+    }
+
+    func testNormalComponentTest2() {
+        let distance = Distance(x: 1, y: 1, z: 3)
+        let normalComponent = distance.normal(to: Direction(x: 1))
+        XCTAssertEqual(Distance(y: 1, z: 3), normalComponent)
+    }
 }
