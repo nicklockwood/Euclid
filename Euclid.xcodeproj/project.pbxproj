@@ -216,6 +216,7 @@
 				0A14E475257459700064A7A5 /* CartesianComponentsRepresentable.swift */,
 				0A445EC42577B23800DE4497 /* AdditiveArithmeticCartesianComponentsRepresentable.swift */,
 				0A14E47C25745B270064A7A5 /* Position.swift */,
+				0A7FDE62257992710046D8CA /* Distance.swift */,
 				0A7FDE4C2577B4BF0046D8CA /* Direction.swift */,
 				016FAB4521BFE7C100AF60DC /* Utilities.swift */,
 				016FAB4321BFE7C100AF60DC /* Vector.swift */,
@@ -237,7 +238,6 @@
 				01BA29702235A63F0088D36B /* CoreText.swift */,
 				016FAB2C21BFE78100AF60DC /* Euclid.h */,
 				016FAB2D21BFE78100AF60DC /* Info.plist */,
-				0A7FDE62257992710046D8CA /* Distance.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
