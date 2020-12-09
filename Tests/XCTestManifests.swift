@@ -194,7 +194,6 @@ extension DirectionTests {
         ("testRotateAroundNonNormalDirection", testRotateAroundNonNormalDirection),
         ("testRotateXAxis", testRotateXAxis),
         ("testRotateYAxis", testRotateYAxis),
-        ("testZeroDirection", testZeroDirection),
     ]
 }
 

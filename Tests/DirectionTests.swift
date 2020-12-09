@@ -20,13 +20,6 @@ class DirectionTests: XCTestCase {
         XCTAssertEqual(3 / componentNorm, direction.z, accuracy: epsilon)
     }
 
-    func testZeroDirection() {
-        let direction = Direction.zero
-        XCTAssertEqual(0, direction.x)
-        XCTAssertEqual(0, direction.y)
-        XCTAssertEqual(0, direction.z)
-    }
-
     func testNormedAdditionOnXYPlane() {
         let direction1 = Direction(x: 1)
         let direction2 = Direction(y: 1)
