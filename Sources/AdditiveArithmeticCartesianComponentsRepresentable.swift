@@ -10,18 +10,20 @@ import Foundation
 
 public protocol AdditiveArithmeticCartesianComponentsRepresentable: CartesianComponentsRepresentable {}
 
-public func + <T: AdditiveArithmeticCartesianComponentsRepresentable>(lhs: T, rhs: T) -> T {
-    return T(
-        x: lhs.x + rhs.x,
-        y: lhs.y + rhs.y,
-        z: lhs.z + rhs.z
-    )
-}
+public extension AdditiveArithmeticCartesianComponentsRepresentable {
+    static func + (lhs: Self, rhs: Self) -> Self {
+        return Self(
+            x: lhs.x + rhs.x,
+            y: lhs.y + rhs.y,
+            z: lhs.z + rhs.z
+        )
+    }
 
-public func - <T: AdditiveArithmeticCartesianComponentsRepresentable>(lhs: T, rhs: T) -> T {
-    return T(
-        x: lhs.x - rhs.x,
-        y: lhs.y - rhs.y,
-        z: lhs.z - rhs.z
-    )
+    static func - (lhs: Self, rhs: Self) -> Self {
+        return Self(
+            x: lhs.x - rhs.x,
+            y: lhs.y - rhs.y,
+            z: lhs.z - rhs.z
+        )
+    }
 }
