@@ -42,4 +42,10 @@ class PositionTests: XCTestCase {
         let expected = Distance(x: 1, y: -7, z: 6)
         XCTAssertEqual(expected, position2 - position1)
     }
+
+    func testRotated() {
+        let position = Position(x: 2, z: 1)
+        let rotated = position.rotated(around: .z, by: Angle(degrees: 150))
+        XCTAssertEqual(Position(x: -sqrt(3), y: 1, z: 1), rotated)
+    }
 }

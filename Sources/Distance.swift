@@ -67,8 +67,8 @@ public extension Distance {
     }
 
     func rotated(around axis: Direction, by angle: Angle) -> Distance {
-        let rotatedDirection = direction.rotated(around: axis, by: angle)
-        return norm * rotatedDirection
+        let rotationMatrix = Rotation(axis: axis, angle: angle)
+        return rotationMatrix * self
     }
 }
 

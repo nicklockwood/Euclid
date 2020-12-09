@@ -338,6 +338,7 @@ extension PositionTests {
         ("testConstructor", testConstructor),
         ("testDistanceFromPositions", testDistanceFromPositions),
         ("testNorm", testNorm),
+        ("testRotated", testRotated),
         ("testSubtractDistanceToPosition", testSubtractDistanceToPosition),
     ]
 }
