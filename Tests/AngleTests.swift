@@ -102,22 +102,27 @@ class AngleTests: XCTestCase {
         XCTAssertEqual(-30, angle.degrees, accuracy: epsilon)
     }
 
-    func testAtanFirstQuadrant() {
+    func testAtan() {
+        let angle = Angle.atan(1)
+        XCTAssertEqual(45, angle.degrees, accuracy: epsilon)
+    }
+
+    func testAtan2FirstQuadrant() {
         let angle = Angle.atan2(y: 1, x: sqrt(3))
         XCTAssertEqual(30, angle.degrees, accuracy: epsilon)
     }
 
-    func testAtanSecondQuadrant() {
+    func testAtan2SecondQuadrant() {
         let angle = Angle.atan2(y: 1, x: -sqrt(3))
         XCTAssertEqual(150, angle.degrees, accuracy: epsilon)
     }
 
-    func testAtanThirdQuadrant() {
+    func testAtan2ThirdQuadrant() {
         let angle = Angle.atan2(y: -1, x: -sqrt(3))
         XCTAssertEqual(-150, angle.degrees, accuracy: epsilon)
     }
 
-    func testAtanFourthQuadrant() {
+    func testAtan2FourthQuadrant() {
         let angle = Angle.atan2(y: -1, x: sqrt(3))
         XCTAssertEqual(-30, angle.degrees, accuracy: epsilon)
     }
