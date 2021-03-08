@@ -210,9 +210,13 @@ extension PlaneTests {
     // to regenerate.
     static let __allTests__PlaneTests = [
         ("testConcavePolygonClockwiseWinding", testConcavePolygonClockwiseWinding),
+        ("testIntersectionWithAxisLine", testIntersectionWithAxisLine),
         ("testIntersectionWithParallelPlane", testIntersectionWithParallelPlane),
         ("testIntersectionWithPerpendicularPlane", testIntersectionWithPerpendicularPlane),
         ("testIntersectionWithRandomPlane", testIntersectionWithRandomPlane),
+        ("testIntersectionWithSkewedLine", testIntersectionWithSkewedLine),
+        ("testIntersectWithNormalLine", testIntersectWithNormalLine),
+        ("testIntersectWithParallelLine", testIntersectWithParallelLine),
     ]
 }
 
@@ -317,11 +321,15 @@ extension UtilityTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__UtilityTests = [
+        ("testAntiparallelDirections", testAntiparallelDirections),
         ("testColinearPointsDontPreventConvexness", testColinearPointsDontPreventConvexness),
         ("testConvexnessResultNotAffectedByTranslation", testConvexnessResultNotAffectedByTranslation),
         ("testDegenerateColinearVertices", testDegenerateColinearVertices),
         ("testDegenerateVerticesWithZeroLengthEdge", testDegenerateVerticesWithZeroLengthEdge),
+        ("testGeneralDirections", testGeneralDirections),
         ("testNonDegenerateColinearVertices", testNonDegenerateColinearVertices),
+        ("testNormalDirections", testNormalDirections),
+        ("testParallelDirections", testParallelDirections),
         ("testRemoveZeroAreaColinearPointRemoved", testRemoveZeroAreaColinearPointRemoved),
         ("testSanitizeInvalidClosedPath", testSanitizeInvalidClosedPath),
     ]
