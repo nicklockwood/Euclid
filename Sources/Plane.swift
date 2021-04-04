@@ -107,12 +107,12 @@ public extension Plane {
 
     /// Returns the flipside of the plane
     func inverted() -> Plane {
-        return Plane(unchecked: -normal, w: -w)
+        Plane(unchecked: -normal, w: -w)
     }
 
     /// Checks if point is on plane
     func containsPoint(_ p: Vector) -> Bool {
-        return abs(p.distance(from: self)) < epsilon
+        abs(p.distance(from: self)) < epsilon
     }
 
     /// Returns line of intersection between planes
@@ -169,7 +169,7 @@ internal extension Plane {
 
     // Approximate equality
     func isEqual(to other: Plane, withPrecision p: Double = epsilon) -> Bool {
-        return abs(w - other.w) < p && normal.isEqual(to: other.normal, withPrecision: p)
+        abs(w - other.w) < p && normal.isEqual(to: other.normal, withPrecision: p)
     }
 }
 
@@ -181,7 +181,7 @@ enum PlaneComparison: Int {
     case spanning = 3
 
     func union(_ other: PlaneComparison) -> PlaneComparison {
-        return PlaneComparison(rawValue: rawValue | other.rawValue)!
+        PlaneComparison(rawValue: rawValue | other.rawValue)!
     }
 }
 

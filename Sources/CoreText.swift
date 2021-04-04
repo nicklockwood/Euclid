@@ -27,7 +27,7 @@ public extension Path {
         width: Double? = nil,
         detail: Int = 2
     ) -> [Path] {
-        return cgPaths(for: attributedString, width: width).map {
+        cgPaths(for: attributedString, width: width).map {
             let cgPath = CGMutablePath()
             let transform = CGAffineTransform(translationX: $1.x, y: $1.y)
             cgPath.addPath($0, transform: transform)

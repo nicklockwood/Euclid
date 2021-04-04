@@ -85,12 +85,12 @@ public extension Polygon {
     typealias Material = AnyHashable
 
     /// Public properties
-    var vertices: [Vertex] { return storage.vertices }
-    var plane: Plane { return storage.plane }
-    var bounds: Bounds { return storage.bounds }
-    var isConvex: Bool { return storage.isConvex }
+    var vertices: [Vertex] { storage.vertices }
+    var plane: Plane { storage.plane }
+    var bounds: Bounds { storage.bounds }
+    var isConvex: Bool { storage.isConvex }
     var material: Material? {
-        get { return storage.material }
+        get { storage.material }
         set {
             if isKnownUniquelyReferenced(&storage) {
                 storage.material = newValue
@@ -156,7 +156,7 @@ public extension Polygon {
     }
 
     func inverted() -> Polygon {
-        return Polygon(
+        Polygon(
             unchecked: vertices.reversed().map { $0.inverted() },
             plane: plane.inverted(),
             isConvex: isConvex,
@@ -272,15 +272,15 @@ public extension Polygon {
 
 internal extension Collection where Element == Polygon {
     func inverted() -> [Polygon] {
-        return map { $0.inverted() }
+        map { $0.inverted() }
     }
 
     func tessellate() -> [Polygon] {
-        return flatMap { $0.tessellate() }
+        flatMap { $0.tessellate() }
     }
 
     func triangulate() -> [Polygon] {
-        return flatMap { $0.triangulate() }
+        flatMap { $0.triangulate() }
     }
 }
 
@@ -330,7 +330,7 @@ internal extension Polygon {
     }
 
     var boundsIfSet: Bounds? {
-        return storage.boundsIfSet
+        storage.boundsIfSet
     }
 
     // Join touching polygons (without checking they are coplanar or share the same material)
@@ -574,7 +574,7 @@ private extension Polygon {
         }
 
         static func == (lhs: Storage, rhs: Storage) -> Bool {
-            return lhs === rhs ||
+            lhs === rhs ||
                 (lhs.vertices == rhs.vertices && lhs.material == rhs.material)
         }
 

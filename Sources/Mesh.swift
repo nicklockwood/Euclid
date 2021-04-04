@@ -68,8 +68,8 @@ public extension Mesh {
     typealias Material = Polygon.Material
 
     /// Public properties
-    var polygons: [Polygon] { return storage.polygons }
-    var bounds: Bounds { return storage.bounds }
+    var polygons: [Polygon] { storage.polygons }
+    var bounds: Bounds { storage.bounds }
 
     /// Polygons grouped by material
     var polygonsByMaterial: [Material?: [Polygon]] {
@@ -90,7 +90,7 @@ public extension Mesh {
 
     /// Replaces one material with another
     func replacing(_ old: Material?, with new: Material?) -> Mesh {
-        return Mesh(
+        Mesh(
             unchecked: polygons.map {
                 if $0.material == old {
                     var polygon = $0
@@ -120,17 +120,17 @@ public extension Mesh {
 
     /// Flips face direction of polygons.
     func inverted() -> Mesh {
-        return Mesh(unchecked: polygons.inverted(), isConvex: false)
+        Mesh(unchecked: polygons.inverted(), isConvex: false)
     }
 
     /// Split concave polygons into 2 or more convex polygons.
     func tessellate() -> Mesh {
-        return Mesh(unchecked: polygons.tessellate(), isConvex: isConvex)
+        Mesh(unchecked: polygons.tessellate(), isConvex: isConvex)
     }
 
     /// Tessellate polygons into triangles.
     func triangulate() -> Mesh {
-        return Mesh(unchecked: polygons.triangulate(), isConvex: isConvex)
+        Mesh(unchecked: polygons.triangulate(), isConvex: isConvex)
     }
 }
 
@@ -140,8 +140,8 @@ internal extension Mesh {
         self.storage = Storage(polygons: polygons, bounds: bounds, isConvex: isConvex)
     }
 
-    var boundsIfSet: Bounds? { return storage.boundsIfSet }
-    var isConvex: Bool { return storage.isConvex }
+    var boundsIfSet: Bounds? { storage.boundsIfSet }
+    var isConvex: Bool { storage.isConvex }
 }
 
 private extension Mesh {
@@ -158,7 +158,7 @@ private extension Mesh {
         }
 
         static func == (lhs: Storage, rhs: Storage) -> Bool {
-            return lhs === rhs || lhs.polygons == rhs.polygons
+            lhs === rhs || lhs.polygons == rhs.polygons
         }
 
         func hash(into hasher: inout Hasher) {

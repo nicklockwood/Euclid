@@ -36,7 +36,7 @@ import Foundation
 public extension Path {
     /// Create a closed circular path
     static func circle(radius r: Double = 0.5, segments: Int = 16) -> Path {
-        return ellipse(width: r * 2, height: r * 2, segments: segments)
+        ellipse(width: r * 2, height: r * 2, segments: segments)
     }
 
     /// Create a closed elliptical path
@@ -65,7 +65,7 @@ public extension Path {
 
     /// Create a closed square path
     static func square(size: Double = 1) -> Path {
-        return rectangle(width: size, height: size)
+        rectangle(width: size, height: size)
     }
 
     /// Create a quadratic bezier spline
@@ -244,7 +244,7 @@ public extension Mesh {
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        return cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
+        cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
     }
 
     /// Construct a sphere mesh
@@ -358,7 +358,7 @@ public extension Mesh {
         wrapMode: WrapMode = .default,
         material: Material? = nil
     ) -> Mesh {
-        return lathe(
+        lathe(
             unchecked: profile,
             slices: slices,
             poleDetail: poleDetail,
@@ -430,7 +430,7 @@ public extension Mesh {
                 return subdivide(times - 1, v0, v0v1) + [v0v1, v1]
             }
             func isVertical(_ normal: Vector) -> Bool {
-                return abs(normal.x) < epsilon && abs(normal.z) < epsilon
+                abs(normal.x) < epsilon && abs(normal.z) < epsilon
             }
             var i = 0
             while i < vertices.count {
@@ -675,7 +675,7 @@ public extension Mesh {
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        return loft(
+        loft(
             unchecked: shapes,
             faces: faces,
             material: material,

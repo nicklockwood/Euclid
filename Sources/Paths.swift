@@ -58,19 +58,19 @@ extension PathPoint: Codable {
 
 public extension PathPoint {
     static func point(_ position: Vector) -> PathPoint {
-        return PathPoint(position, isCurved: false)
+        PathPoint(position, isCurved: false)
     }
 
     static func point(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
-        return .point(Vector(x, y, z))
+        .point(Vector(x, y, z))
     }
 
     static func curve(_ position: Vector) -> PathPoint {
-        return PathPoint(position, isCurved: true)
+        PathPoint(position, isCurved: true)
     }
 
     static func curve(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
-        return .curve(Vector(x, y, z))
+        .curve(Vector(x, y, z))
     }
 
     init(_ position: Vector, isCurved: Bool) {
@@ -129,7 +129,7 @@ extension Path: Codable {
 public extension Path {
     /// Returns true if all the path's points lie on as single plane
     var isPlanar: Bool {
-        return plane != nil
+        plane != nil
     }
 
     /// Returns a closed path by joining last point to first
@@ -218,7 +218,7 @@ public extension Path {
     }
 
     var edgeVertices: [Vertex] {
-        return edgeVertices(for: .default)
+        edgeVertices(for: .default)
     }
 
     /// Get edge vertices suitable for converting into a solid shape using lathe or extrusion
@@ -524,7 +524,7 @@ func subpathIndicesFor(_ points: [PathPoint]) -> [Int] {
 }
 
 func pointsAreClosed(unchecked points: [PathPoint]) -> Bool {
-    return points.last?.position == points.first?.position
+    points.last?.position == points.first?.position
 }
 
 func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint {

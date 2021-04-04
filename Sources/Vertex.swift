@@ -71,13 +71,13 @@ public extension Vertex {
     /// Invert all orientation-specific data (e.g. vertex normal). Called when the
     /// orientation of a polygon is flipped.
     func inverted() -> Vertex {
-        return Vertex(unchecked: position, -normal, texcoord)
+        Vertex(unchecked: position, -normal, texcoord)
     }
 
     /// Linearly interpolate between two vertices.
     /// Interpolation is applied to the position, texture coordinate and normal.
     func lerp(_ other: Vertex, _ t: Double) -> Vertex {
-        return Vertex(
+        Vertex(
             unchecked: position.lerp(other.position, t),
             normal.lerp(other.normal, t),
             texcoord.lerp(other.texcoord, t)
@@ -94,7 +94,7 @@ internal extension Vertex {
 
     // Approximate equality
     func isEqual(to other: Vertex, withPrecision p: Double = epsilon) -> Bool {
-        return position.isEqual(to: other.position, withPrecision: p) &&
+        position.isEqual(to: other.position, withPrecision: p) &&
             normal.isEqual(to: other.normal, withPrecision: p) &&
             texcoord.isEqual(to: other.texcoord, withPrecision: p)
     }

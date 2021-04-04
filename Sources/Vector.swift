@@ -85,43 +85,43 @@ public extension Vector {
     }
 
     var components: [Double] {
-        return [x, y, z]
+        [x, y, z]
     }
 
     static prefix func - (rhs: Vector) -> Vector {
-        return Vector(-rhs.x, -rhs.y, -rhs.z)
+        Vector(-rhs.x, -rhs.y, -rhs.z)
     }
 
     static func + (lhs: Vector, rhs: Vector) -> Vector {
-        return Vector(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
+        Vector(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
     }
 
     static func - (lhs: Vector, rhs: Vector) -> Vector {
-        return Vector(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z)
+        Vector(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z)
     }
 
     static func * (lhs: Vector, rhs: Double) -> Vector {
-        return Vector(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs)
+        Vector(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs)
     }
 
     static func / (lhs: Vector, rhs: Double) -> Vector {
-        return Vector(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs)
+        Vector(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs)
     }
 
     var lengthSquared: Double {
-        return dot(self)
+        dot(self)
     }
 
     var length: Double {
-        return lengthSquared.squareRoot()
+        lengthSquared.squareRoot()
     }
 
     func dot(_ a: Vector) -> Double {
-        return x * a.x + y * a.y + z * a.z
+        x * a.x + y * a.y + z * a.z
     }
 
     func cross(_ a: Vector) -> Vector {
-        return Vector(
+        Vector(
             y * a.z - z * a.y,
             z * a.x - x * a.z,
             x * a.y - y * a.x
@@ -129,20 +129,20 @@ public extension Vector {
     }
 
     var isNormalized: Bool {
-        return abs(lengthSquared - 1) < epsilon
+        abs(lengthSquared - 1) < epsilon
     }
 
     func normalized() -> Vector {
-        return self / length
+        self / length
     }
 
     /// Linearly interpolate between two vectors
     func lerp(_ a: Vector, _ t: Double) -> Vector {
-        return self + (a - self) * t
+        self + (a - self) * t
     }
 
     func quantized() -> Vector {
-        return Vector(quantize(x), quantize(y), quantize(z))
+        Vector(quantize(x), quantize(y), quantize(z))
     }
 
     func angle(with a: Vector) -> Angle {
@@ -157,18 +157,18 @@ public extension Vector {
     }
 
     func distance(from plane: Plane) -> Double {
-        return plane.normal.dot(self) - plane.w
+        plane.normal.dot(self) - plane.w
     }
 
     func project(onto plane: Plane) -> Vector {
-        return self - plane.normal * distance(from: plane)
+        self - plane.normal * distance(from: plane)
     }
 }
 
 internal extension Vector {
     // Approximate equality
     func isEqual(to other: Vector, withPrecision p: Double = epsilon) -> Bool {
-        return self == other ||
+        self == other ||
             (abs(x - other.x) < p && abs(y - other.y) < p && abs(z - other.z) < p)
     }
 

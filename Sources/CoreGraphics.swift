@@ -97,7 +97,7 @@ public extension CGPath {
             case .addQuadCurveToPoint, .addCurveToPoint:
                 p2 = nextElement.points[0]
                 isCurved = true
-            default: // Can be converted to @unknown in Swift 5
+            @unknown default:
                 return
             }
             switch lastElement.type {
@@ -115,7 +115,7 @@ public extension CGPath {
             case .addCurveToPoint:
                 p0 = lastElement.points[1]
                 p1 = lastElement.points[2]
-            default: // Can be converted to @unknown in Swift 5
+            @unknown default:
                 return
             }
             let d0 = Vector(Double(p1.x - p0.x), Double(p1.y - p0.y)).normalized()
@@ -184,7 +184,7 @@ public extension CGPath {
                     ))
                 }
                 points.append(.point(Vector(p3)))
-            default: // Can be converted to @unknown in Swift 5
+            @unknown default:
                 return
             }
             if firstElement == nil, element.type != .moveToPoint {

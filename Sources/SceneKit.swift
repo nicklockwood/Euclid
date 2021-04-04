@@ -500,7 +500,7 @@ private extension Data {
     }
 
     func vector(at index: Int) -> Vector {
-        return Vector(
+        Vector(
             float(at: index),
             float(at: index + 4),
             float(at: index + 8)
@@ -529,7 +529,7 @@ public extension Rotation {
 
 public extension Transform {
     static func transform(from scnNode: SCNNode) -> Transform {
-        return Transform(
+        Transform(
             offset: Vector(scnNode.position),
             rotation: Rotation(scnNode.orientation),
             scale: Vector(scnNode.scale)

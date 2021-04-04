@@ -191,20 +191,20 @@ public extension Rotation {
 
     // http://planning.cs.uiuc.edu/node103.html
     var pitch: Angle {
-        return .atan2(y: m32, x: m33)
+        .atan2(y: m32, x: m33)
     }
 
     var yaw: Angle {
-        return .atan2(y: -m31, x: sqrt(m32 * m32 + m33 * m33))
+        .atan2(y: -m31, x: sqrt(m32 * m32 + m33 * m33))
     }
 
     var roll: Angle {
-        return .atan2(y: m21, x: m11)
+        .atan2(y: m21, x: m11)
     }
 
     static prefix func - (rhs: Rotation) -> Rotation {
         // transpose matrix
-        return Rotation(
+        Rotation(
             rhs.m11,
             rhs.m21,
             rhs.m31,
@@ -218,7 +218,7 @@ public extension Rotation {
     }
 
     static func * (lhs: Rotation, rhs: Rotation) -> Rotation {
-        return Rotation(
+        Rotation(
             lhs.m11 * rhs.m11 + lhs.m21 * rhs.m12 + lhs.m31 * rhs.m13,
             lhs.m12 * rhs.m11 + lhs.m22 * rhs.m12 + lhs.m32 * rhs.m13,
             lhs.m13 * rhs.m11 + lhs.m23 * rhs.m12 + lhs.m33 * rhs.m13,
@@ -239,7 +239,7 @@ public extension Rotation {
 internal extension Rotation {
     // https://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
     var determinant: Double {
-        return m11 * m22 * m33
+        m11 * m22 * m33
             + m12 * m23 * m31
             + m13 * m21 * m32
             - m11 * m23 * m32
@@ -277,7 +277,7 @@ internal extension Rotation {
 
     // Approximate equality
     func isEqual(to other: Rotation, withPrecision p: Double = epsilon) -> Bool {
-        return abs(m11 - other.m11) < p
+        abs(m11 - other.m11) < p
             && abs(m12 - other.m12) < p
             && abs(m13 - other.m13) < p
             && abs(m21 - other.m21) < p

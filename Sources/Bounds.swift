@@ -65,19 +65,19 @@ public extension Bounds {
     }
 
     var isEmpty: Bool {
-        return max.x < min.x || max.y < min.y || max.z < min.z
+        max.x < min.x || max.y < min.y || max.z < min.z
     }
 
     var size: Vector {
-        return isEmpty ? .zero : max - min
+        isEmpty ? .zero : max - min
     }
 
     var center: Vector {
-        return isEmpty ? .zero : min + size / 2
+        isEmpty ? .zero : min + size / 2
     }
 
     var corners: [Vector] {
-        return [
+        [
             min,
             Vector(min.x, max.y, min.z),
             Vector(max.x, max.y, min.z),
@@ -102,14 +102,14 @@ public extension Bounds {
     }
 
     func intersection(_ other: Bounds) -> Bounds {
-        return Bounds(
+        Bounds(
             min: Euclid.max(min, other.min),
             max: Euclid.min(max, other.max)
         )
     }
 
     func intersects(_ other: Bounds) -> Bool {
-        return !(
+        !(
             other.max.x + epsilon < min.x || other.min.x > max.x + epsilon ||
                 other.max.y + epsilon < min.y || other.min.y > max.y + epsilon ||
                 other.max.z + epsilon < min.z || other.min.z > max.z + epsilon
@@ -117,11 +117,11 @@ public extension Bounds {
     }
 
     func intersects(_ plane: Plane) -> Bool {
-        return compare(with: plane) == .spanning
+        compare(with: plane) == .spanning
     }
 
     func containsPoint(_ p: Vector) -> Bool {
-        return p.x >= min.x && p.x <= max.x &&
+        p.x >= min.x && p.x <= max.x &&
             p.y >= min.y && p.y <= max.y &&
             p.z >= min.z && p.z <= max.z
     }
@@ -130,7 +130,7 @@ public extension Bounds {
 extension Bounds {
     // Approximate equality
     func isEqual(to other: Bounds, withPrecision p: Double = epsilon) -> Bool {
-        return min.isEqual(to: other.min, withPrecision: p) &&
+        min.isEqual(to: other.min, withPrecision: p) &&
             max.isEqual(to: other.max, withPrecision: p)
     }
 
@@ -147,9 +147,9 @@ extension Bounds {
 }
 
 private func min(_ lhs: Vector, _ rhs: Vector) -> Vector {
-    return Vector(min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z))
+    Vector(min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z))
 }
 
 private func max(_ lhs: Vector, _ rhs: Vector) -> Vector {
-    return Vector(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z))
+    Vector(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z))
 }
