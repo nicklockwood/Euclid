@@ -5,15 +5,12 @@ matrix:
   include:
     - os: osx
       language: swift
-      osx_image: xcode10.1
-      before_install:
-        - rvm install ruby-2.5.0
-      install:
-        - bundle install --without=documentation
+      osx_image: xcode11.7
       script:
         - set -o pipefail
-        - xcodebuild -scheme "Euclid" -sdk macosx clean build test | bundle exec xcpretty
-      after_success: bundle exec slather
+        - xcodebuild -scheme "Euclid" -sdk macosx clean build test
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t 2abe208f-c7d5-4c0d-aaf7-fa6994f1a78e
     - os: linux
       language: generic
       sudo: required

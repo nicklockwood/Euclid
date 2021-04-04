@@ -1,8 +1,8 @@
 [![PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UJWT2RWPE7VA8&source=url)
 [![Travis](https://travis-ci.org/nicklockwood/Euclid.svg)](https://travis-ci.org/nicklockwood/Euclid)
-[![Coveralls](https://coveralls.io/repos/github/nicklockwood/Euclid/badge.svg?branch=master)](https://coveralls.io/github/nicklockwood/Euclid)
+[![Codecov](https://codecov.io/gh/nicklockwood/Euclid/graphs/badge.svg)](https://codecov.io/gh/nicklockwood/Euclid)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20macOS%20|%20tvOS%20|%20Linux-lightgray.svg)]()
-[![Swift 4.2](https://img.shields.io/badge/swift-4.2-red.svg?style=flat)](https://developer.apple.com/swift)
+[![Swift 5.1](https://img.shields.io/badge/swift-5.1-red.svg?style=flat)](https://developer.apple.com/swift)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://opensource.org/licenses/MIT)
 [![Twitter](https://img.shields.io/badge/twitter-@nicklockwood-blue.svg)](http://twitter.com/nicklockwood)
 
@@ -39,19 +39,19 @@ Euclid is packaged as a dynamic framework that you can import into your Xcode pr
 To install Euclid using CocoaPods, add the following to your Podfile:
 
 ```ruby
-pod 'Euclid', '~> 0.3'
+pod 'Euclid', '~> 0.4'
 ```
 
 To install using Carthage, add this to your Cartfile:
 
 ```ogdl
-github "nicklockwood/Euclid" ~> 0.3
+github "nicklockwood/Euclid" ~> 0.4
 ```
 
 To install using Swift Package Manage, add this to the `dependencies:` section in your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.3.0")),
+.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.4.0")),
 ```
 
 
@@ -121,6 +121,10 @@ A `Path` is a sequence of `PathPoint`s representing a line or curve formed from 
 A closed, flat `Path` without nested subpaths can be converted into a `Polygon`, but it can also be used for other purposes, such as defining a cross-section or profile of a 3D shape.
 
 `Path`s are typically 2-dimensional, but because `PathPoint` positions have a Z coordinate, they are not *required* to be. Even a flat `Path` (where all points lie on the same plane) can be translated or rotated so that its points do not necessarily lie on the *XY* plane.
+
+## Angle
+
+The `Angle` type represents an angle in radians or degrees.
 
 ## Rotation
 
@@ -254,3 +258,6 @@ The Euclid framework is primarily the work of [Nick Lockwood](https://github.com
 Special thanks go to [Evan Wallace](https://github.com/evanw/), whose [JavaScript CSG library](https://github.com/evanw/csg.js) provided the inspiration for Euclid in the first place, along with the BSP algorithm used for Euclid's CSG operations.
 
 Thanks also go to [Andy Geers](https://github.com/andygeers) who has provided several bug fixes and improvements, and [Patrick Goley](https://twitter.com/bitsbetweenbits) who first suggested "Euclid" for the library name.
+
+([Full list of contributors](https://github.com/nicklockwood/Euclid/graphs/contributors))
+

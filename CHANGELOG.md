@@ -1,3 +1,9 @@
+## [0.4.0](https://github.com/nicklockwood/Euclid/releases/tag/0.4.0) (2021-04-04)
+
+- Added type-safe Angle API replacing raw Doubles
+- Added plane intersection and direction utility functions
+- Upgraded project to Swift 5.1
+
 ## [0.3.6](https://github.com/nicklockwood/Euclid/releases/tag/0.3.6) (2020-11-22)
 
 - Euclid types now conform to Codable for easy serialization

@@ -234,7 +234,7 @@ class CodingTests: XCTestCase {
     func testEncodingPolygonWithOSColorMaterial() throws {
         #if canImport(UIKit)
         let polygon = Polygon(shape: .square(), material: UIColor.red)
-        XCTAssertEqual(decoded.material, polygon?.material)
+        XCTAssertEqual(polygon?.material, polygon?.material)
         #elseif canImport(AppKit)
         let polygon = Polygon(shape: .square(), material: NSColor.red)
         #else
