@@ -52,17 +52,16 @@ extension Transform: Codable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let offset = try container.decodeIfPresent(Vector.self, forKey: .offset)
-        let rotation = try container.decodeIfPresent(Rotation.self, forKey: .rotation)
-        let scale = try container.decodeIfPresent(Vector.self, forKey: .scale)
-        self.init(offset: offset, rotation: rotation, scale: scale)
+        offset = try container.decode(Vector.self, forKey: .offset)
+        rotation = try container.decode(Rotation.self, forKey: .rotation)
+        scale = try container.decode(Vector.self, forKey: .scale)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try offset == .zero ? () : container.encode(offset, forKey: .offset)
-        try rotation == .identity ? () : container.encode(rotation, forKey: .rotation)
-        try scale == Vector(1, 1, 1) ? () : container.encode(scale, forKey: .scale)
+        try container.encode(offset, forKey: .offset)
+        try container.encode(rotation, forKey: .rotation)
+        try container.encode(scale, forKey: .scale)
     }
 }
 
