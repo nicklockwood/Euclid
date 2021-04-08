@@ -55,17 +55,16 @@ extension Vertex: Codable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let position = try container.decode(Vector.self, forKey: .position)
-        let normal = try container.decode(Vector.self, forKey: .normal)
-        let texcoord = try container.decodeIfPresent(Vector.self, forKey: .texcoord) ?? .zero
-        self.init(position, normal, texcoord)
+        position = try container.decode(Vector.self, forKey: .position)
+        normal = try container.decode(Vector.self, forKey: .normal)
+        texcoord = try container.decode(Vector.self, forKey: .texcoord)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(position, forKey: .position)
         try container.encode(normal, forKey: .normal)
-        try texcoord == .zero ? () : container.encode(normal, forKey: .texcoord)
+        try container.encode(texcoord, forKey: .texcoord)
     }
 }
 
