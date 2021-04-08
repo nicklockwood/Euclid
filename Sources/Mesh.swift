@@ -36,7 +36,9 @@ public struct Mesh: Hashable {
 
 extension Mesh: Codable {
     private enum CodingKeys: String, CodingKey {
-        case polygons, bounds, isConvex = "convex"
+        case polygons = "p"
+        case bounds = "b"
+        case isConvex = "c"
     }
 
     public init(from decoder: Decoder) throws {

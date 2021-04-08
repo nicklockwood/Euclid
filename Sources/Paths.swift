@@ -94,8 +94,9 @@ public struct Path: Hashable {
 }
 
 extension Path: Codable {
-    private enum CodingKeys: CodingKey {
-        case points, subpaths
+    private enum CodingKeys: String, CodingKey {
+        case points = "p"
+        case subpaths = "s"
     }
 
     public init(from decoder: Decoder) throws {

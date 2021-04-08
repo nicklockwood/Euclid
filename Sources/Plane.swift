@@ -45,8 +45,9 @@ public struct Plane: Hashable {
 }
 
 extension Plane: Codable {
-    private enum CodingKeys: CodingKey {
-        case normal, w
+    private enum CodingKeys: String, CodingKey {
+        case normal = "n"
+        case w = "w"
     }
 
     public init(from decoder: Decoder) throws {

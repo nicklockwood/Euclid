@@ -38,8 +38,12 @@ public struct Rotation: Hashable {
 }
 
 extension Rotation: Codable {
-    private enum CodingKeys: CodingKey {
-        case axis, x, y, z, radians
+    private enum CodingKeys: String, CodingKey {
+        case axis = "a"
+        case x = "x"
+        case y = "y"
+        case z = "z"
+        case radians = "r"
     }
 
     public init(from decoder: Decoder) throws {

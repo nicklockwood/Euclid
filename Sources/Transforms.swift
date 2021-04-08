@@ -44,8 +44,10 @@ public struct Transform: Hashable {
 }
 
 extension Transform: Codable {
-    private enum CodingKeys: CodingKey {
-        case offset, rotation, scale
+    private enum CodingKeys: String, CodingKey {
+        case offset = "o"
+        case rotation = "p"
+        case scale = "s"
     }
 
     public init(from decoder: Decoder) throws {

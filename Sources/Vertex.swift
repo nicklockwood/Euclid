@@ -47,8 +47,10 @@ public struct Vertex: Hashable {
 }
 
 extension Vertex: Codable {
-    private enum CodingKeys: CodingKey {
-        case position, normal, texcoord
+    private enum CodingKeys: String, CodingKey {
+        case position = "p"
+        case normal = "n"
+        case texcoord = "uv"
     }
 
     public init(from decoder: Decoder) throws {

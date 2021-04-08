@@ -18,8 +18,9 @@ public struct Angle: Hashable, Comparable {
 }
 
 extension Angle: Codable {
-    private enum CodingKeys: CodingKey {
-        case radians, degrees
+    private enum CodingKeys: String, CodingKey {
+        case radians = "r"
+        case degrees = "d"
     }
 
     public init(from decoder: Decoder) throws {

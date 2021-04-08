@@ -40,8 +40,10 @@ public struct Polygon: Hashable {
 }
 
 extension Polygon: Codable {
-    private enum CodingKeys: CodingKey {
-        case vertices, plane, material
+    private enum CodingKeys: String, CodingKey {
+        case vertices = "v"
+        case plane = "p"
+        case material = "m"
     }
 
     public init(from decoder: Decoder) throws {
