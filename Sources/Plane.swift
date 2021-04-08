@@ -51,25 +51,15 @@ extension Plane: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        if var container = try? decoder.unkeyedContainer() {
-            let x = try container.decode(Double.self)
-            let y = try container.decode(Double.self)
-            let z = try container.decode(Double.self)
-            normal = Vector(x, y, z).normalized()
-            w = try container.decode(Double.self)
-        } else {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            normal = try container.decode(Vector.self, forKey: .normal).normalized()
-            w = try container.decode(Double.self, forKey: .w)
-        }
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        normal = try container.decode(Vector.self, forKey: .normal).normalized()
+        w = try container.decode(Double.self, forKey: .w)
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.unkeyedContainer()
-        try container.encode(normal.x)
-        try container.encode(normal.y)
-        try container.encode(normal.z)
-        try container.encode(w)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(normal, forKey: .normal)
+        try container.encode(w, forKey: .w)
     }
 }
 
