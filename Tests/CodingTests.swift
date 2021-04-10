@@ -27,37 +27,21 @@ class CodingTests: XCTestCase {
     }
 
     func testDecodingAngle2() {
-        XCTAssertEqual(try decode("{\"radians\": 2}"), Angle.radians(2))
+        XCTAssertEqual(try decode("{\"r\": 2}"), Angle.radians(2))
     }
 
     func testDecodingAngle3() {
-        XCTAssertEqual(try decode("{\"degrees\": 180}"), Angle.pi)
+        XCTAssertEqual(try decode("{\"d\": 180}"), Angle.pi)
     }
 
     // MARK: Vector
-
-    func testDecodingVector3() {
-        XCTAssertEqual(try decode("[1, 2, 3]"), Vector(1, 2, 3))
-    }
-
-    func testDecodingVector2() {
-        XCTAssertEqual(try decode("[1, 2]"), Vector(1, 2, 0))
-    }
-
-    func testDecodingKeyedVector() {
-        XCTAssertEqual(try decode("{\"z\": 1}"), Vector(0, 0, 1))
-    }
 
     func testDecodingInvalidVectors() {
         XCTAssertThrowsError(try decode("[1]") as Vector)
     }
 
     func testEncodingVector3() {
-        XCTAssertEqual(try encode(Vector(1, 2, 3)), "[1,2,3]")
-    }
-
-    func testEncodingVector2() {
-        XCTAssertEqual(try encode(Vector(1, 2, 0)), "[1,2]")
+        XCTAssertEqual(try encode(Vector(1, 2, 3)), "{\"x\":1,\"y\":2,\"z\":3}")
     }
 
     // MARK: Vertex
@@ -65,32 +49,24 @@ class CodingTests: XCTestCase {
     func testDecodingVertex() {
         XCTAssertEqual(try decode("""
         {
-            "position": [1, 2, 2],
-            "normal": [1, 0, 0],
-            "texcoord": [0, 1]
+            "p": {"x": 1, "y": 2, "z": 2},
+            "n": {"x": 1, "y": 0, "z": 0},
+            "uv": {"x": 0, "y": 1, "z": 0}
         }
-        """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1)))
-    }
-
-    func testDecodingVertexWithoutTexcoord() {
-        XCTAssertEqual(try decode("""
-        {
-            "position": [1, 2, 2],
-            "normal": [1, 0, 0]
-        }
-        """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), .zero))
+        """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 0)))
     }
 
     func testDecodingVertexWithInvalidNormal() {
         XCTAssertEqual(try decode("""
-        {
-            "position": [1, 2, 2],
-            "normal": [1, 2, 2]
-        }
+                {
+                    "p": {"x": 1, "y": 2, "z": 2},
+                    "n": {"x": 1, "y": 2, "z": 2},
+                    "uv": {"x": 0, "y": 1, "z": 0}
+                }
         """), Vertex(
             Vector(1, 2, 2),
             Vector(0.3333333333333333, 0.6666666666666666, 0.6666666666666666),
-            .zero
+            Vector(0, 1, 0)
         ))
     }
 
@@ -99,100 +75,54 @@ class CodingTests: XCTestCase {
     func testDecodingKeyedPlane() {
         XCTAssertEqual(try decode("""
         {
-            "normal": [0, 0, 1],
+            "n": {"x": 0, "y": 0, "z": 1},
             "w": 1
         }
         """), Plane(normal: Vector(0, 0, 1), w: 1))
     }
 
-    func testDecodingUnkeyedPlane() {
-        XCTAssertEqual(try decode("[0, 0, 1, 0]"), Plane(normal: Vector(0, 0, 1), w: 0))
-    }
-
     func testEncodingPlane() {
-        XCTAssertEqual(try encode(Plane(normal: Vector(0, 0, 1), w: 0)), "[0,0,1,0]")
+        XCTAssertEqual(try encode(Plane(normal: Vector(0, 0, 1), w: 0)), """
+        {"n":{"x":0,"y":0,"z":1},"w":0}
+        """)
     }
 
     // MARK: Polygon
 
     func testDecodingPolygon() {
+        
         XCTAssertEqual(try decode("""
         {
-            "vertices": [
+            "v": [
                 {
-                    "position": [0, 0],
-                    "normal": [0, 0, 1],
+                    "p": {"x": 0, "y": 0, "z": 0},
+                    "n": {"x": 0, "y": 0, "z": 1},
+                    "uv": {"x": 0, "y": 0, "z": 0}
                 },
                 {
-                    "position": [1, 0],
-                    "normal": [0, 0, 1],
+                    "p": {"x": 1, "y": 0, "z": 0},
+                    "n": {"x": 0, "y": 0, "z": 1},
+                    "uv": {"x": 0, "y": 0, "z": 0}
                 },
                 {
-                    "position": [1, 1],
-                    "normal": [0, 0, 1],
+                    "p": {"x": 1, "y": 1, "z": 1},
+                    "n": {"x": 0, "y": 0, "z": 1},
+                    "uv": {"x": 0, "y": 0, "z": 0}
                 }
-            ]
-        }
-        """), Polygon([
-            Vertex(Vector(0, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 1), Vector(0, 0, 1)),
-        ]))
-    }
-
-    func testKeylessPolygon() {
-        XCTAssertEqual(try decode("""
-        [
-            {
-                "position": [0, 0],
-                "normal": [0, 0, 1],
-            },
-            {
-                "position": [1, 0],
-                "normal": [0, 0, 1],
-            },
-            {
-                "position": [1, 1],
-                "normal": [0, 0, 1],
+            ],
+            "p": {
+                "n": {"x": 0, "y": 0, "z": 1},
+                "w": 1
+                }
             }
-        ]
-        """), Polygon([
-            Vertex(Vector(0, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 1), Vector(0, 0, 1)),
-        ]))
-    }
-
-    func testDecodingPolygonWithPlane() {
-        XCTAssertEqual(
-            try decode("""
-            {
-                "vertices": [
-                    {
-                        "position": [0, 0],
-                        "normal": [0, 0, 1],
-                    },
-                    {
-                        "position": [1, 0],
-                        "normal": [0, 0, 1],
-                    },
-                    {
-                        "position": [1, 1],
-                        "normal": [0, 0, 1],
-                    }
-                ],
-                "plane": [0, 0, 1, 0]
-            }
-            """),
-            Polygon(
-                unchecked: [
-                    Vertex(Vector(0, 0), Vector(0, 0, 1)),
-                    Vertex(Vector(1, 0), Vector(0, 0, 1)),
-                    Vertex(Vector(1, 1), Vector(0, 0, 1)),
-                ],
-                plane: Plane(normal: Vector(0, 0, 1), w: 0)
-            )
-        )
+        """), Polygon(
+            unchecked: [
+                Vertex(Vector(0, 0), Vector(0, 0, 1)),
+                Vertex(Vector(1, 0), Vector(0, 0, 1)),
+                Vertex(Vector(1, 1), Vector(0, 0, 1)),
+            ],
+            plane: Plane(normal: Vector(0, 0, 1), w: 0)
+        ))
     }
 
     // MARK: Material
@@ -251,23 +181,30 @@ class CodingTests: XCTestCase {
         XCTAssertEqual(
             try decode("""
             {
-                "polygons": [
-                    {
-                        "vertices": [
-                            {
-                                "position": [0, 0],
-                                "normal": [0, 0, 1],
-                            },
-                            {
-                                "position": [1, 0],
-                                "normal": [0, 0, 1],
-                            },
-                            {
-                                "position": [1, 1],
-                                "normal": [0, 0, 1],
+                "p": [
+                        {
+                            "v": [
+                                {
+                                    "p": {"x": 0, "y": 0, "z": 0},
+                                    "n": {"x": 0, "y": 0, "z": 1},
+                                    "uv": {"x": 0, "y": 0, "z": 0}
+                                },
+                                {
+                                    "p": {"x": 1, "y": 0, "z": 0},
+                                    "n": {"x": 0, "y": 0, "z": 1},
+                                    "uv": {"x": 0, "y": 0, "z": 0}
+                                },
+                                {
+                                    "p": {"x": 1, "y": 1, "z": 1},
+                                    "n": {"x": 0, "y": 0, "z": 1},
+                                    "uv": {"x": 0, "y": 0, "z": 0}
+                                }
+                            ],
+                            "p": {
+                                "n": {"x": 0, "y": 0, "z": 1},
+                                "w": 1
+                                }
                             }
-                        ]
-                    }
                 ]
             }
             """),
@@ -310,14 +247,14 @@ class CodingTests: XCTestCase {
 
     func testDecodingKeyedPath() {
         XCTAssertEqual(try decode("""
-        { "points": [[1, 2, 3], [2, 0]] }
+        { "p": [[1, 2, 3], [2, 0]] }
         """), Path([.point(1, 2, 3), .point(2, 0)]))
     }
 
     func testDecodingSubpath() {
         XCTAssertEqual(try decode("""
         {
-            "subpaths": [
+            "s": [
                 [[1, 2, 3], [2, 0]]
             ]
         }
@@ -334,7 +271,7 @@ class CodingTests: XCTestCase {
     func testDecodingRollRotation() {
         XCTAssertEqual(try decode("[1]"), Rotation(roll: .radians(1)))
         XCTAssertEqual(try decode("""
-        { "radians": 1 }
+        { "r": 1 }
         """), Rotation(roll: .radians(1)))
     }
 
@@ -348,7 +285,7 @@ class CodingTests: XCTestCase {
     func testDecodingAxisAngleRotation() {
         XCTAssertEqual(try decode("[0, 0, -1, 1]"), Rotation(roll: .radians(-1)))
         XCTAssertEqual(try decode("""
-        { "axis": [0, 0, -1], "radians": 1 }
+        { "a": [0, 0, -1], "r": 1 }
         """), Rotation(roll: .radians(-1)))
     }
 
