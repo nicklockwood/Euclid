@@ -39,15 +39,9 @@ public struct Rotation: Hashable {
 
 extension Rotation: Codable {
     private enum CodingKeys: String, CodingKey {
-        case m11
-        case m12
-        case m13
-        case m21
-        case m22
-        case m23
-        case m31
-        case m32
-        case m33
+        case m11, m12, m13
+        case m21, m22, m23
+        case m31, m32, m33
     }
 
     public init(from decoder: Decoder) throws {

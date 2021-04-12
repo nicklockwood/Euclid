@@ -20,23 +20,16 @@ public struct Angle: Hashable, Comparable {
 extension Angle: Codable {
     private enum CodingKeys: String, CodingKey {
         case radians = "r"
-        case degrees = "d"
     }
 
     public init(from decoder: Decoder) throws {
-        guard let container = try? decoder.container(keyedBy: CodingKeys.self) else {
-            self.init(radians: try Double(from: decoder))
-            return
-        }
-        if let radians = try container.decodeIfPresent(Double.self, forKey: .radians) {
-            self.init(radians: radians)
-            return
-        }
-        self = .degrees(try container.decode(Double.self, forKey: .degrees))
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self = .radians(try container.decode(Double.self, forKey: .radians))
     }
 
     public func encode(to encoder: Encoder) throws {
-        try radians.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(radians, forKey: .radians)
     }
 }
 
