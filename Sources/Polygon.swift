@@ -47,39 +47,21 @@ extension Polygon: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        let vertices: [Vertex]
-        var plane: Plane?, material: Material?
-        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
-            vertices = try container.decode([Vertex].self, forKey: .vertices)
-            guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
-                throw DecodingError.dataCorruptedError(
-                    forKey: .vertices,
-                    in: container,
-                    debugDescription: "Vertices are degenerate"
-                )
-            }
-            plane = try container.decodeIfPresent(Plane.self, forKey: .plane)
-            material = try container.decodeIfPresent(CodableMaterial.self, forKey: .material)?.value
-        } else {
-            vertices = try [Vertex](from: decoder)
-            guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
-                throw DecodingError.dataCorruptedError(
-                    in: try decoder.unkeyedContainer(),
-                    debugDescription: "Vertices are degenerate"
-                )
-            }
-        }
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let vertices = try container.decode([Vertex].self, forKey: .vertices)
+        let plane = try container.decodeIfPresent(Plane.self, forKey: .plane)
+        let material = try container.decodeIfPresent(CodableMaterial.self, forKey: .material)?.value
         self.init(unchecked: vertices, plane: plane, material: material)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(vertices, forKey: .vertices)
-        if let material = material {
-            try container.encode(CodableMaterial(material), forKey: .material)
-        }
         if plane != Plane(points: vertices.map { $0.position }) {
             try container.encode(plane, forKey: .plane)
+        }
+        if let material = material {
+            try container.encode(CodableMaterial(material), forKey: .material)
         }
     }
 }

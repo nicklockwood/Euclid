@@ -56,8 +56,9 @@ extension Vertex: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         position = try container.decode(Vector.self, forKey: .position)
-        normal = try container.decode(Vector.self, forKey: .normal)
+        normal = try container.decode(Vector.self, forKey: .normal).normalized()
         texcoord = try container.decode(Vector.self, forKey: .texcoord)
+        
     }
 
     public func encode(to encoder: Encoder) throws {

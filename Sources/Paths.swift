@@ -38,21 +38,22 @@ public struct PathPoint: Hashable {
 }
 
 extension PathPoint: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case position = "p"
+        case isCurved = "c"
+    }
+    
     public init(from decoder: Decoder) throws {
-        var container = try decoder.unkeyedContainer()
-        let x = try container.decode(Double.self)
-        let y = try container.decode(Double.self)
-        let z = (try? container.decodeIfPresent(Double.self) ?? 0) ?? 0
-        let isCurved = try container.decodeIfPresent(Bool.self) ?? false
-        self.init(Vector(x, y, z), isCurved: isCurved)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let position = try container.decode(Vector.self, forKey: .position)
+        let isCurved = try container.decode(Bool.self, forKey: .isCurved)
+        self.init(position, isCurved: isCurved)
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.unkeyedContainer()
-        try container.encode(position.x)
-        try container.encode(position.y)
-        try position.z == 0 ? () : container.encode(position.z)
-        try isCurved ? container.encode(true) : ()
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(position, forKey: .position)
+        try container.encode(isCurved, forKey: .isCurved)
     }
 }
 
@@ -100,28 +101,26 @@ extension Path: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
-            let points = try container.decodeIfPresent([PathPoint].self, forKey: .points)
-            if var subpaths = try container.decodeIfPresent([Path].self, forKey: .subpaths) {
-                if let points = points {
-                    subpaths.insert(Path(points), at: 0)
-                }
-                self.init(subpaths: subpaths)
-            } else {
-                self.init(points ?? [])
-            }
-        } else {
-            let points = try [PathPoint](from: decoder)
-            self.init(points)
-        }
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let points = try container.decode([PathPoint].self, forKey: .points)
+        var subpaths = try container.decodeIfPresent([Path].self, forKey: .subpaths) ?? []
+        
+        subpaths.insert(Path(points), at: 0)
+        
+        self.init(subpaths: subpaths)
     }
 
     public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
         let subpaths = self.subpaths
         if subpaths.count < 2 {
-            try (subpaths.first?.points ?? []).encode(to: encoder)
-        } else {
-            var container = encoder.container(keyedBy: CodingKeys.self)
+            
+            try container.encode(subpaths.first?.points ?? [], forKey: .points)
+            try container.encode([Path](), forKey: .subpaths)
+        }
+        else {
+            
+            try container.encode(points, forKey: .points)
             try container.encode(subpaths, forKey: .subpaths)
         }
     }

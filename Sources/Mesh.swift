@@ -42,19 +42,11 @@ extension Mesh: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
-            let polygons = try container.decode([Polygon].self, forKey: .polygons)
-            let bounds = try container.decodeIfPresent(Bounds.self, forKey: .bounds)
-            let isConvex = try container.decodeIfPresent(Bool.self, forKey: .isConvex) ?? false
-            self.init(
-                unchecked: polygons.flatMap { $0.tessellate() },
-                bounds: bounds,
-                isConvex: isConvex
-            )
-        } else {
-            let polygons = try [Polygon](from: decoder)
-            self.init(polygons)
-        }
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let polygons = try container.decode([Polygon].self, forKey: .polygons).flatMap { $0.tessellate() }
+        let bounds = try container.decodeIfPresent(Bounds.self, forKey: .bounds)
+        let isConvex = try container.decodeIfPresent(Bool.self, forKey: .isConvex) ?? false
+        self.init(unchecked: polygons, bounds: bounds, isConvex: isConvex)
     }
 
     public func encode(to encoder: Encoder) throws {

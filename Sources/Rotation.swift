@@ -39,75 +39,42 @@ public struct Rotation: Hashable {
 
 extension Rotation: Codable {
     private enum CodingKeys: String, CodingKey {
-        case axis = "a"
-        case x = "x"
-        case y = "y"
-        case z = "z"
-        case radians = "r"
+        case m11
+        case m12
+        case m13
+        case m21
+        case m22
+        case m23
+        case m31
+        case m32
+        case m33
     }
 
     public init(from decoder: Decoder) throws {
-        guard var container = try? decoder.unkeyedContainer() else {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            let angle = try container.decodeIfPresent(Angle.self, forKey: .radians)
-            var axis = try container.decodeIfPresent(Vector.self, forKey: .axis)
-            if let x = try container.decodeIfPresent(Double.self, forKey: .x) {
-                let y = try container.decode(Double.self, forKey: .y)
-                let z = try container.decode(Double.self, forKey: .z)
-                axis = Vector(x, y, z)
-            }
-            self.init(unchecked: axis?.normalized() ?? Vector(0, 0, 1), angle: angle ?? .zero)
-            return
-        }
-        switch container.count ?? 0 {
-        case 0:
-            self = .identity
-        case 1:
-            let roll = try container.decode(Angle.self)
-            self.init(roll: roll)
-        case 2 ... 3:
-            let pitch = try container.decode(Angle.self)
-            let yaw = try container.decode(Angle.self)
-            let roll = try container.decode(Angle.self)
-            self.init(pitch: pitch, yaw: yaw, roll: roll)
-        case 4:
-            let x = try container.decode(Double.self)
-            let y = try container.decode(Double.self)
-            let z = try container.decode(Double.self)
-            let axis = Vector(x, y, z).normalized()
-            let angle = try container.decode(Angle.self)
-            self.init(unchecked: axis, angle: angle)
-        default:
-            let m11 = try container.decode(Double.self)
-            let m12 = try container.decode(Double.self)
-            let m13 = try container.decode(Double.self)
-            let m21 = try container.decode(Double.self)
-            let m22 = try container.decode(Double.self)
-            let m23 = try container.decode(Double.self)
-            let m31 = try container.decode(Double.self)
-            let m32 = try container.decode(Double.self)
-            let m33 = try container.decode(Double.self)
-            self.init(m11, m12, m13, m21, m22, m23, m31, m32, m33)
-            guard isRotationMatrix else {
-                throw DecodingError.dataCorruptedError(
-                    in: container,
-                    debugDescription: "Not a rotation matrix"
-                )
-            }
-        }
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let m11 = try container.decode(Double.self, forKey: .m11)
+        let m12 = try container.decode(Double.self, forKey: .m12)
+        let m13 = try container.decode(Double.self, forKey: .m13)
+        let m21 = try container.decode(Double.self, forKey: .m21)
+        let m22 = try container.decode(Double.self, forKey: .m22)
+        let m23 = try container.decode(Double.self, forKey: .m23)
+        let m31 = try container.decode(Double.self, forKey: .m31)
+        let m32 = try container.decode(Double.self, forKey: .m32)
+        let m33 = try container.decode(Double.self, forKey: .m33)
+        self.init(m11, m12, m13, m21, m22, m23, m31, m32, m33)
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.unkeyedContainer()
-        try container.encode(m11)
-        try container.encode(m12)
-        try container.encode(m13)
-        try container.encode(m21)
-        try container.encode(m22)
-        try container.encode(m23)
-        try container.encode(m31)
-        try container.encode(m32)
-        try container.encode(m33)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(m11, forKey: .m11)
+        try container.encode(m12, forKey: .m12)
+        try container.encode(m13, forKey: .m13)
+        try container.encode(m21, forKey: .m21)
+        try container.encode(m22, forKey: .m22)
+        try container.encode(m23, forKey: .m23)
+        try container.encode(m31, forKey: .m31)
+        try container.encode(m32, forKey: .m32)
+        try container.encode(m33, forKey: .m33)
     }
 }
 
