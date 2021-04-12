@@ -22,107 +22,55 @@ class CodingTests: XCTestCase {
 
     // MARK: Angle
 
-    func testDecodingAngle() {
-        XCTAssertEqual(try decode("[2]"), [Angle.radians(2)])
+    func testDecodingAngle() throws {
+        let angle = Angle.pi
+        let encoded = try encode(angle)
+        XCTAssert(try angle == decode(encoded))
     }
 
-    func testDecodingAngle2() {
-        XCTAssertEqual(try decode("{\"r\": 2}"), Angle.radians(2))
-    }
-
-    func testDecodingAngle3() {
-        XCTAssertEqual(try decode("{\"d\": 180}"), Angle.pi)
+    func testDecodingAngle2() throws {
+        let angle = Angle.degrees(180)
+        let encoded = try encode(angle)
+        XCTAssert(try angle == decode(encoded))
     }
 
     // MARK: Vector
 
-    func testDecodingInvalidVectors() {
-        XCTAssertThrowsError(try decode("[1]") as Vector)
-    }
-
-    func testEncodingVector3() {
-        XCTAssertEqual(try encode(Vector(1, 2, 3)), "{\"x\":1,\"y\":2,\"z\":3}")
+    func testEncodingVector3() throws {
+        let vector = Vector(1, 2, 3)
+        let encoded = try encode(vector)
+        XCTAssert(try vector.isEqual(to: decode(encoded)))
     }
 
     // MARK: Vertex
 
-    func testDecodingVertex() {
-        XCTAssertEqual(try decode("""
-        {
-            "p": {"x": 1, "y": 2, "z": 2},
-            "n": {"x": 1, "y": 0, "z": 0},
-            "uv": {"x": 0, "y": 1, "z": 0}
-        }
-        """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 0)))
-    }
-
-    func testDecodingVertexWithInvalidNormal() {
-        XCTAssertEqual(try decode("""
-                {
-                    "p": {"x": 1, "y": 2, "z": 2},
-                    "n": {"x": 1, "y": 2, "z": 2},
-                    "uv": {"x": 0, "y": 1, "z": 0}
-                }
-        """), Vertex(
-            Vector(1, 2, 2),
-            Vector(0.3333333333333333, 0.6666666666666666, 0.6666666666666666),
-            Vector(0, 1, 0)
-        ))
+    func testDecodingVertex() throws {
+        let vertex = Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 0))
+        let encoded = try encode(vertex)
+        XCTAssert(try vertex.isEqual(to: decode(encoded)))
     }
 
     // MARK: Plane
 
-    func testDecodingKeyedPlane() {
-        XCTAssertEqual(try decode("""
-        {
-            "n": {"x": 0, "y": 0, "z": 1},
-            "w": 1
-        }
-        """), Plane(normal: Vector(0, 0, 1), w: 1))
-    }
-
-    func testEncodingPlane() {
-        XCTAssertEqual(try encode(Plane(normal: Vector(0, 0, 1), w: 0)), """
-        {"n":{"x":0,"y":0,"z":1},"w":0}
-        """)
+    func testDecodingKeyedPlane() throws {
+        let plane = Plane(normal: Vector(0, 0, 1), w: 1)!
+        let encoded = try encode(plane)
+        XCTAssert(try plane.isEqual(to: decode(encoded)))
     }
 
     // MARK: Polygon
 
-    func testDecodingPolygon() {
-        
-        XCTAssertEqual(try decode("""
-        {
-            "v": [
-                {
-                    "p": {"x": 0, "y": 0, "z": 0},
-                    "n": {"x": 0, "y": 0, "z": 1},
-                    "uv": {"x": 0, "y": 0, "z": 0}
-                },
-                {
-                    "p": {"x": 1, "y": 0, "z": 0},
-                    "n": {"x": 0, "y": 0, "z": 1},
-                    "uv": {"x": 0, "y": 0, "z": 0}
-                },
-                {
-                    "p": {"x": 1, "y": 1, "z": 1},
-                    "n": {"x": 0, "y": 0, "z": 1},
-                    "uv": {"x": 0, "y": 0, "z": 0}
-                }
-            ],
-            "p": {
-                "n": {"x": 0, "y": 0, "z": 1},
-                "w": 1
-                }
-            }
-        """), Polygon(
+    func testDecodingPolygon() throws {
+        let polygon = Polygon(
             unchecked: [
                 Vertex(Vector(0, 0), Vector(0, 0, 1)),
                 Vertex(Vector(1, 0), Vector(0, 0, 1)),
                 Vertex(Vector(1, 1), Vector(0, 0, 1)),
             ],
             plane: Plane(normal: Vector(0, 0, 1), w: 0)
-        ))
+        )
+        let encoded = try encode(polygon)
+        XCTAssert(try polygon == decode(encoded))
     }
 
     // MARK: Material
@@ -177,117 +125,44 @@ class CodingTests: XCTestCase {
 
     // MARK: Mesh
 
-    func testDecodingMesh() {
-        XCTAssertEqual(
-            try decode("""
-            {
-                "p": [
-                        {
-                            "v": [
-                                {
-                                    "p": {"x": 0, "y": 0, "z": 0},
-                                    "n": {"x": 0, "y": 0, "z": 1},
-                                    "uv": {"x": 0, "y": 0, "z": 0}
-                                },
-                                {
-                                    "p": {"x": 1, "y": 0, "z": 0},
-                                    "n": {"x": 0, "y": 0, "z": 1},
-                                    "uv": {"x": 0, "y": 0, "z": 0}
-                                },
-                                {
-                                    "p": {"x": 1, "y": 1, "z": 1},
-                                    "n": {"x": 0, "y": 0, "z": 1},
-                                    "uv": {"x": 0, "y": 0, "z": 0}
-                                }
-                            ],
-                            "p": {
-                                "n": {"x": 0, "y": 0, "z": 1},
-                                "w": 1
-                                }
-                            }
-                ]
-            }
-            """),
-            Mesh([
-                Polygon(
-                    unchecked: [
-                        Vertex(Vector(0, 0), Vector(0, 0, 1)),
-                        Vertex(Vector(1, 0), Vector(0, 0, 1)),
-                        Vertex(Vector(1, 1), Vector(0, 0, 1)),
-                    ],
-                    plane: Plane(normal: Vector(0, 0, 1), w: 0)
-                ),
-            ])
-        )
+    func testDecodingMesh() throws {
+        let mesh = Mesh([
+            Polygon(
+                unchecked: [
+                    Vertex(Vector(0, 0), Vector(0, 0, 1)),
+                    Vertex(Vector(1, 0), Vector(0, 0, 1)),
+                    Vertex(Vector(1, 1), Vector(0, 0, 1)),
+                ],
+                plane: Plane(normal: Vector(0, 0, 1), w: 0)
+            ),
+        ])
+        let encoded = try encode(mesh)
+        XCTAssert(try mesh == decode(encoded))
     }
 
     // MARK: PathPoint
 
-    func testDecodingPathPoint3() {
-        XCTAssertEqual(try decode("[1, 2, 3]"), PathPoint.point(1, 2, 3))
-    }
-
-    func testDecodingPathPoint2() {
-        XCTAssertEqual(try decode("[1, 2]"), PathPoint.point(1, 2))
-    }
-
-    func testDecodingCurvedUnkeyedPathPoint3() {
-        XCTAssertEqual(try decode("[1, 2, 3, true]"), PathPoint.curve(1, 2, 3))
-    }
-
-    func testDecodingCurvedPathPoint2() {
-        XCTAssertEqual(try decode("[1, 2, true]"), PathPoint.curve(1, 2))
+    func testDecodingPathPoint() throws {
+        let point = PathPoint.curve(1, 2, 3)
+        let encoded = try encode(point)
+        XCTAssert(try point == decode(encoded))
     }
 
     // MARK: Path
 
-    func testDecodingSimplePath() {
-        XCTAssertEqual(try decode("[[1, 2, 3], [2, 0]]"), Path([.point(1, 2, 3), .point(2, 0)]))
+    func testDecodingSimplePath() throws {
+        let path = Path([.point(1, 2, 3), .point(2, 0)])
+        let encoded = try encode(path)
+        XCTAssert(try path == decode(encoded))
     }
 
-    func testDecodingKeyedPath() {
-        XCTAssertEqual(try decode("""
-        { "p": [[1, 2, 3], [2, 0]] }
-        """), Path([.point(1, 2, 3), .point(2, 0)]))
-    }
-
-    func testDecodingSubpath() {
-        XCTAssertEqual(try decode("""
-        {
-            "s": [
-                [[1, 2, 3], [2, 0]]
-            ]
-        }
-        """), Path(subpaths: [Path([.point(1, 2, 3), .point(2, 0)])]))
+    func testDecodingSubpath() throws {
+        let path = Path(subpaths: [Path([.point(1, 2, 3), .point(2, 0)])])
+        let encoded = try encode(path)
+        XCTAssert(try path == decode(encoded))
     }
 
     // MARK: Rotation
-
-    func testDecodingIdentityRotation() {
-        XCTAssertEqual(try decode("[]"), Rotation.identity)
-        XCTAssertEqual(try decode("{}"), Rotation.identity)
-    }
-
-    func testDecodingRollRotation() {
-        XCTAssertEqual(try decode("[1]"), Rotation(roll: .radians(1)))
-        XCTAssertEqual(try decode("""
-        { "r": 1 }
-        """), Rotation(roll: .radians(1)))
-    }
-
-    func testDecodingPitchYawRollRotation() {
-        XCTAssertEqual(
-            try decode("[1, 2, 3]"),
-            Rotation(pitch: .radians(1), yaw: .radians(2), roll: .radians(3))
-        )
-    }
-
-    func testDecodingAxisAngleRotation() {
-        XCTAssertEqual(try decode("[0, 0, -1, 1]"), Rotation(roll: .radians(-1)))
-        XCTAssertEqual(try decode("""
-        { "a": [0, 0, -1], "r": 1 }
-        """), Rotation(roll: .radians(-1)))
-    }
 
     func testEncodeAndDecodingRotation() throws {
         let rotation = Rotation(axis: Vector(1, 0, 0), angle: .radians(2))!
