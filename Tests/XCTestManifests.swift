@@ -137,6 +137,7 @@ extension CodingTests {
         ("testEncodingPolygonWithIntMaterial", testEncodingPolygonWithIntMaterial),
         ("testEncodingPolygonWithNilMaterial", testEncodingPolygonWithNilMaterial),
         ("testEncodingPolygonWithOSColorMaterial", testEncodingPolygonWithOSColorMaterial),
+        ("testEncodingPolygonWithPlane", testEncodingPolygonWithPlane),
         ("testEncodingPolygonWithStringMaterial", testEncodingPolygonWithStringMaterial),
         ("testEncodingPolygonWithUnsupportedMaterial", testEncodingPolygonWithUnsupportedMaterial),
         ("testEncodingVector2", testEncodingVector2),

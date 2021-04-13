@@ -122,21 +122,24 @@ class CodingTests: XCTestCase {
                 {
                     "position": [0, 0],
                     "normal": [0, 0, 1],
+                    "texcoord": [0, 1],
                 },
                 {
                     "position": [1, 0],
                     "normal": [0, 0, 1],
+                    "texcoord": [1, 1],
                 },
                 {
                     "position": [1, 1],
                     "normal": [0, 0, 1],
+                    "texcoord": [1, 0],
                 }
             ]
         }
         """), Polygon([
-            Vertex(Vector(0, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 1), Vector(0, 0, 1)),
+            Vertex(Vector(0, 0), Vector(0, 0, 1), Vector(0, 1)),
+            Vertex(Vector(1, 0), Vector(0, 0, 1), Vector(1, 1)),
+            Vertex(Vector(1, 1), Vector(0, 0, 1), Vector(1, 0)),
         ]))
     }
 
@@ -193,6 +196,20 @@ class CodingTests: XCTestCase {
                 plane: Plane(normal: Vector(0, 0, 1), w: 0)
             )
         )
+    }
+
+    func testEncodingPolygonWithPlane() throws {
+        let polygon = Polygon(
+            unchecked: [
+                Vertex(Vector(0, 0), Vector(0, 0, 1), Vector(0, 1)),
+                Vertex(Vector(1, 0), Vector(0, 0, 1), Vector(1, 1)),
+                Vertex(Vector(1, 1), Vector(0, 0, 1), Vector(1, 0)),
+            ],
+            plane: Plane(normal: Vector(0, 0, 1), w: 0)
+        )
+        let encoded = try encode(polygon)
+        let decoded = try decode(encoded) as Euclid.Polygon
+        XCTAssertEqual(decoded, polygon)
     }
 
     // MARK: Material
