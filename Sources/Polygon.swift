@@ -106,6 +106,13 @@ public extension Polygon {
         }
     }
 
+    /// Create copy of polygon with specified material
+    func with(material: Material?) -> Polygon {
+        var polygon = self
+        polygon.material = material
+        return polygon
+    }
+
     /// Create a polygon from a set of vertices
     /// Polygon can be convex or concave, but vertices must be coplanar and non-degenerate
     /// Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
@@ -598,8 +605,8 @@ private extension Polygon {
     }
 }
 
-private struct CodableMaterial: Codable {
-    var value: Polygon.Material?
+internal struct CodableMaterial: Codable {
+    let value: Polygon.Material?
 
     init(_ value: Polygon.Material?) {
         self.value = value
@@ -618,7 +625,16 @@ private struct CodableMaterial: Codable {
             } else if let data = try container.decodeIfPresent(Data.self, forKey: .data) {
                 self.value = data
             } else if let data = try container.decodeIfPresent(Data.self, forKey: .nscoded) {
-                self.value = NSKeyedUnarchiver.unarchiveObject(with: data) as? Polygon.Material
+                guard let value = NSKeyedUnarchiver.unarchiveObject(with: data) as? Polygon.Material else {
+                    throw DecodingError.dataCorruptedError(
+                        forKey: .nscoded,
+                        in: container,
+                        debugDescription: "Cannot decode material"
+                    )
+                }
+                self.value = value
+            } else {
+                self.value = nil
             }
         } else {
             let container = try decoder.singleValueContainer()
@@ -626,6 +642,11 @@ private struct CodableMaterial: Codable {
                 self.value = string
             } else if let int = try? container.decode(Int.self) {
                 self.value = int
+            } else {
+                throw DecodingError.dataCorruptedError(
+                    in: container,
+                    debugDescription: "Cannot decode material"
+                )
             }
         }
     }

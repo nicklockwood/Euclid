@@ -36,16 +36,26 @@ public struct Mesh: Hashable {
 
 extension Mesh: Codable {
     private enum CodingKeys: String, CodingKey {
-        case polygons, bounds, isConvex = "convex"
+        case polygons, bounds, isConvex = "convex", materials
     }
 
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
-            let polygons = try container.decode([Polygon].self, forKey: .polygons)
             let bounds = try container.decodeIfPresent(Bounds.self, forKey: .bounds)
             let isConvex = try container.decodeIfPresent(Bool.self, forKey: .isConvex) ?? false
+            let polygons: [Polygon]
+            if let materials = try container.decodeIfPresent([CodableMaterial].self, forKey: .materials) {
+                let polygonsByMaterial = try container.decode([[Polygon]].self, forKey: .polygons)
+                polygons = zip(materials, polygonsByMaterial).flatMap { material, polygons in
+                    polygons.map { $0.with(material: material.value) }
+                }
+            } else {
+                polygons = try container.decode([Polygon].self, forKey: .polygons).flatMap {
+                    $0.tessellate()
+                }
+            }
             self.init(
-                unchecked: polygons.flatMap { $0.tessellate() },
+                unchecked: polygons,
                 bounds: bounds,
                 isConvex: isConvex
             )
@@ -57,9 +67,16 @@ extension Mesh: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(polygons, forKey: .polygons)
         try container.encode(bounds, forKey: .bounds)
-        try container.encode(isConvex, forKey: .isConvex)
+        try isConvex ? container.encode(true, forKey: .isConvex) : ()
+        if materials == [nil] {
+            try container.encode(polygons, forKey: .polygons)
+        } else {
+            try container.encode(materials.map { CodableMaterial($0) }, forKey: .materials)
+            try container.encode(materials.map { material -> [Polygon] in
+                polygonsByMaterial[material]!.map { $0.with(material: nil) }
+            }, forKey: .polygons)
+        }
     }
 }
 
@@ -68,14 +85,14 @@ public extension Mesh {
     typealias Material = Polygon.Material
 
     /// Public properties
+    var materials: [Material?] { storage.materials }
     var polygons: [Polygon] { storage.polygons }
     var bounds: Bounds { storage.bounds }
 
     /// Polygons grouped by material
     var polygonsByMaterial: [Material?: [Polygon]] {
         var polygonsByMaterial = [Material?: [Polygon]]()
-        for polygon in polygons {
-            let material = polygon.material
+        for material in storage.materials {
             if polygonsByMaterial[material] == nil {
                 polygonsByMaterial[material] = polygons.filter { $0.material == material }
             }
@@ -137,7 +154,11 @@ public extension Mesh {
 internal extension Mesh {
     init(unchecked polygons: [Polygon], bounds: Bounds? = nil, isConvex: Bool) {
         assert(polygons.allSatisfy { $0.isConvex })
-        self.storage = Storage(polygons: polygons, bounds: bounds, isConvex: isConvex)
+        self.storage = Storage(
+            polygons: polygons,
+            bounds: bounds,
+            isConvex: isConvex
+        )
     }
 
     var boundsIfSet: Bounds? { storage.boundsIfSet }
@@ -148,7 +169,22 @@ private extension Mesh {
     final class Storage: Hashable {
         let polygons: [Polygon]
         var boundsIfSet: Bounds?
+        var materialsIfSet: [Material?]?
         let isConvex: Bool
+
+        var materials: [Material?] {
+            if materialsIfSet == nil {
+                var materials = [Material?]()
+                for polygon in polygons {
+                    let material = polygon.material
+                    if !materials.contains(material) {
+                        materials.append(material)
+                    }
+                }
+                materialsIfSet = materials
+            }
+            return materialsIfSet!
+        }
 
         var bounds: Bounds {
             if boundsIfSet == nil {
