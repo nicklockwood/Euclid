@@ -63,7 +63,7 @@ extension Vertex: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(position, forKey: .position)
         try container.encode(normal, forKey: .normal)
-        try texcoord == .zero ? () : container.encode(normal, forKey: .texcoord)
+        try texcoord == .zero ? () : container.encode(texcoord, forKey: .texcoord)
     }
 }
 
