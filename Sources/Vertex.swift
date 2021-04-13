@@ -41,8 +41,26 @@ public struct Vertex: Hashable {
 
     public var texcoord: Vector
 
-    public init(_ position: Vector, _ normal: Vector, _ texcoord: Vector = .zero) {
-        self.init(unchecked: position, normal.normalized(), texcoord)
+    public init(_ position: Vector, _ normal: Vector, _ texcoord: Vector? = nil) {
+        self.init(unchecked: position, normal.normalized(), texcoord ?? .zero)
+    }
+
+    public init?(_ values: [Double]) {
+        switch values.count {
+        case 6:
+            self.init(
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5])
+            )
+        case 8:
+            self.init(
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5]),
+                Vector(values[6], values[7])
+            )
+        default:
+            return nil
+        }
     }
 }
 
@@ -52,18 +70,37 @@ extension Vertex: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let position = try container.decode(Vector.self, forKey: .position)
-        let normal = try container.decode(Vector.self, forKey: .normal)
-        let texcoord = try container.decodeIfPresent(Vector.self, forKey: .texcoord) ?? .zero
-        self.init(position, normal, texcoord)
+        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+            try self.init(
+                container.decode(Vector.self, forKey: .position),
+                container.decode(Vector.self, forKey: .normal),
+                container.decodeIfPresent(Vector.self, forKey: .texcoord)
+            )
+        } else {
+            let container = try decoder.singleValueContainer()
+            let values = try container.decode([Double].self)
+            guard let vertex = Vertex(values) else {
+                throw DecodingError.dataCorruptedError(
+                    in: container,
+                    debugDescription: "Cannot decode vertex"
+                )
+            }
+            self = vertex
+        }
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(position, forKey: .position)
-        try container.encode(normal, forKey: .normal)
-        try texcoord == .zero ? () : container.encode(texcoord, forKey: .texcoord)
+        var container = encoder.unkeyedContainer()
+        try container.encode(position.x)
+        try container.encode(position.y)
+        try container.encode(position.z)
+        try container.encode(normal.x)
+        try container.encode(normal.y)
+        try container.encode(normal.z)
+        if texcoord != .zero {
+            try container.encode(texcoord.x)
+            try container.encode(texcoord.y)
+        }
     }
 }
 
