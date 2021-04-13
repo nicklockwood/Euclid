@@ -303,6 +303,31 @@ class CodingTests: XCTestCase {
         )
     }
 
+    func testEncodingMeshWithoutMaterial() throws {
+        let mesh = Mesh.extrude(.square())
+        let encoded = try encode(mesh)
+        let decoded = try decode(encoded) as Euclid.Mesh
+        XCTAssertEqual(decoded, mesh)
+    }
+
+    func testEncodingMeshWithMaterial() throws {
+        let mesh = Mesh.extrude(.square(), material: "foo")
+        let encoded = try encode(mesh)
+        let decoded = try decode(encoded) as Euclid.Mesh
+        XCTAssertEqual(decoded, mesh)
+    }
+
+    func testEncodingMeshWithMixedMaterials() throws {
+        let mesh = Mesh([
+            Polygon(shape: .square(), material: "foo"),
+            Polygon(shape: .square()),
+            Polygon(shape: .square(), material: "bar"),
+        ].compactMap { $0 })
+        let encoded = try encode(mesh)
+        let decoded = try decode(encoded) as Euclid.Mesh
+        XCTAssertEqual(decoded, mesh)
+    }
+
     // MARK: PathPoint
 
     func testDecodingPathPoint3() {
