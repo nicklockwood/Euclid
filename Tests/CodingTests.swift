@@ -219,6 +219,7 @@ class CodingTests: XCTestCase {
         let encoded = try encode(polygon)
         let decoded = try decode(encoded) as Euclid.Polygon
         XCTAssertNil(decoded.material)
+        XCTAssertFalse(encoded.contains("material"))
     }
 
     func testEncodingPolygonWithStringMaterial() throws {
@@ -226,6 +227,7 @@ class CodingTests: XCTestCase {
         let encoded = try encode(polygon)
         let decoded = try decode(encoded) as Euclid.Polygon
         XCTAssertEqual(decoded.material, polygon?.material)
+        XCTAssert(encoded.contains("material"))
     }
 
     func testEncodingPolygonWithIntMaterial() throws {

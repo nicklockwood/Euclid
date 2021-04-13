@@ -73,7 +73,7 @@ extension Polygon: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(vertices, forKey: .vertices)
-        try container.encode(CodableMaterial(material), forKey: .material)
+        try material.map { try container.encode(CodableMaterial($0), forKey: .material) }
         if plane != Plane(points: vertices.map { $0.position }) {
             try container.encode(plane, forKey: .plane)
         }
