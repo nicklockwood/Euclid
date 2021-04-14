@@ -1,3 +1,8 @@
+## [0.4.1](https://github.com/nicklockwood/Euclid/releases/tag/0.4.1) (2021-04-14)
+
+- Fixed bug with encoding texture coordinates
+- Material property is no longer encoded for polygons if nil
+
 ## [0.4.0](https://github.com/nicklockwood/Euclid/releases/tag/0.4.0) (2021-04-04)
 
 - Added type-safe Angle API replacing raw Doubles
