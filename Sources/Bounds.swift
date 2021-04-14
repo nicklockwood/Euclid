@@ -30,12 +30,49 @@
 //
 
 /// An axially-aligned bounding box
-public struct Bounds: Hashable, Codable {
+public struct Bounds: Hashable {
     public let min, max: Vector
 
     public init(min: Vector, max: Vector) {
         self.min = min
         self.max = max
+    }
+}
+
+extension Bounds: Codable {
+    private enum CodingKeys: CodingKey {
+        case min, max
+    }
+
+    public init(from decoder: Decoder) throws {
+        let min, max: Vector
+        if var container = try? decoder.unkeyedContainer() {
+            min = try Vector(
+                container.decode(Double.self),
+                container.decode(Double.self),
+                container.decode(Double.self)
+            )
+            max = try Vector(
+                container.decode(Double.self),
+                container.decode(Double.self),
+                container.decode(Double.self)
+            )
+        } else {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            min = try container.decode(Vector.self, forKey: .min)
+            max = try container.decode(Vector.self, forKey: .max)
+        }
+        self.init(min: min, max: max)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(min.x)
+        try container.encode(min.y)
+        try container.encode(min.z)
+        try container.encode(max.x)
+        try container.encode(max.y)
+        try container.encode(max.z)
     }
 }
 
