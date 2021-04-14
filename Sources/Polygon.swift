@@ -59,10 +59,17 @@ extension Polygon: Codable {
             plane = try container.decodeIfPresent(Plane.self, forKey: .plane)
             material = try container.decodeIfPresent(CodableMaterial.self, forKey: .material)?.value
         } else {
-            vertices = try [Vertex](from: decoder)
+            var container = try decoder.unkeyedContainer()
+            if let values = try? container.decode([Vertex].self) {
+                vertices = values
+                plane = try container.decode(Plane.self)
+                material = try container.decodeIfPresent(CodableMaterial.self)?.value
+            } else {
+                vertices = try [Vertex](from: decoder)
+            }
             guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
                 throw DecodingError.dataCorruptedError(
-                    in: try decoder.unkeyedContainer(),
+                    in: container,
                     debugDescription: "Vertices are degenerate"
                 )
             }
@@ -71,11 +78,13 @@ extension Polygon: Codable {
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(vertices, forKey: .vertices)
-        try material.map { try container.encode(CodableMaterial($0), forKey: .material) }
-        if plane != Plane(points: vertices.map { $0.position }) {
-            try container.encode(plane, forKey: .plane)
+        if material == nil, plane == Plane(points: vertices.map { $0.position }) {
+            try vertices.encode(to: encoder)
+        } else {
+            var container = encoder.unkeyedContainer()
+            try container.encode(vertices)
+            try container.encode(plane)
+            try material.map { try container.encode(CodableMaterial($0)) }
         }
     }
 }
