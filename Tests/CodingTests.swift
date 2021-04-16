@@ -401,4 +401,10 @@ class CodingTests: XCTestCase {
         let encoded = try encode(rotation)
         XCTAssert(try rotation.isEqual(to: decode(encoded)))
     }
+
+    func testEncodeAndDecodePitchYawRollRotation() throws {
+        let rotation = Rotation(pitch: .degrees(10), yaw: .degrees(20), roll: .degrees(30))
+        let encoded = try encode(rotation)
+        XCTAssert(try rotation.isEqual(to: decode(encoded)))
+    }
 }

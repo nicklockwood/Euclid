@@ -131,6 +131,7 @@ extension CodingTests {
         ("testDecodingVertex", testDecodingVertex),
         ("testDecodingVertexWithInvalidNormal", testDecodingVertexWithInvalidNormal),
         ("testDecodingVertexWithoutTexcoord", testDecodingVertexWithoutTexcoord),
+        ("testEncodeAndDecodePitchYawRollRotation", testEncodeAndDecodePitchYawRollRotation),
         ("testEncodeAndDecodingRotation", testEncodeAndDecodingRotation),
         ("testEncodingMeshWithMaterial", testEncodingMeshWithMaterial),
         ("testEncodingMeshWithMixedMaterials", testEncodingMeshWithMixedMaterials),
