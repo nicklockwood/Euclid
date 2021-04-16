@@ -1,3 +1,9 @@
+## [0.4.2](https://github.com/nicklockwood/Euclid/releases/tag/0.4.2) (2021-04-16)
+
+- Reduced size of serialized mesh data by ~50%
+- Materials are now deduplicated when encoding/decoding
+- Fixed bug when decoding serialized rotation values
+
 ## [0.4.1](https://github.com/nicklockwood/Euclid/releases/tag/0.4.1) (2021-04-14)
 
 - Fixed bug with encoding texture coordinates
