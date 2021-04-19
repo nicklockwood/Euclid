@@ -95,6 +95,13 @@ public extension Transform {
     }
 }
 
+public extension Transform {
+    
+    var right: Vector { Vector(rotation.m11, rotation.m12, rotation.m13).normalized() }
+    var up: Vector { Vector(rotation.m21, rotation.m22, rotation.m23).normalized() }
+    var forward: Vector { Vector(rotation.m31, rotation.m32, rotation.m33).normalized() }
+}
+
 public extension Mesh {
     func translated(by v: Vector) -> Mesh {
         Mesh(
