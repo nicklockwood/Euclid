@@ -108,6 +108,13 @@ extension Rotation: Codable {
 }
 
 public extension Rotation {
+    
+    var right: Vector { Vector(m11, m12, m13).normalized() }
+    var up: Vector { Vector(m21, m22, m23).normalized() }
+    var forward: Vector { Vector(m31, m32, m33).normalized() }
+}
+
+public extension Rotation {
     static let identity = Rotation()
 
     /// Define a rotation around the X axis
