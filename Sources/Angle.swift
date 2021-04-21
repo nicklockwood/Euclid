@@ -134,3 +134,10 @@ public extension Angle {
         lhs.degrees < rhs.degrees
     }
 }
+
+internal extension Angle {
+    // Approximate equality
+    func isEqual(to other: Angle, withPrecision p: Double = epsilon) -> Bool {
+        abs(radians - other.radians) < p
+    }
+}
