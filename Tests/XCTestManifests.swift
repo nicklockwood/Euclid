@@ -307,6 +307,7 @@ extension TransformTests {
         ("testPitch", testPitch),
         ("testRoll", testRoll),
         ("testRotatePlane", testRotatePlane),
+        ("testRotationIdentityAxis", testRotationIdentityAxis),
         ("testRotationMultipliedByScale", testRotationMultipliedByScale),
         ("testRotationMultipliedByTranslation", testRotationMultipliedByTranslation),
         ("testScaleMultipliedByRotation", testScaleMultipliedByRotation),
