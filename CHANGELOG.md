@@ -1,3 +1,8 @@
+## [0.4.3](https://github.com/nicklockwood/Euclid/releases/tag/0.4.3) (2021-04-24)
+
+- Added up, right, forward vectors to Rotation
+- Removed unused file
+
 ## [0.4.2](https://github.com/nicklockwood/Euclid/releases/tag/0.4.2) (2021-04-16)
 
 - Reduced size of serialized mesh data by ~50%
