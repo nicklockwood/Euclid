@@ -52,15 +52,16 @@ private class BSPNode {
         guard !polygons.isEmpty else {
             return nil
         }
+
+        // Randomly shuffle polygons to reduce average number of splits
+        var rng = DeterministicRNG()
+        var polygons = polygons.shuffled(using: &rng)
+
         guard isConvex else {
             self.plane = polygons[0].plane
             insert(polygons)
             return
         }
-
-        // Randomly shuffle polygons to reduce average number of splits
-        var rng = DeterministicRNG()
-        var polygons = polygons.shuffled(using: &rng)
 
         // Sort polygons by plane
         let count = polygons.count
