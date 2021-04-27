@@ -1,3 +1,8 @@
+## [0.4.4](https://github.com/nicklockwood/Euclid/releases/tag/0.4.4) (2021-04-27)
+
+- Fixed glitch in CSG operations on multiple messages
+- Improved performance for CSG functions on non-convex meshes
+
 ## [0.4.3](https://github.com/nicklockwood/Euclid/releases/tag/0.4.3) (2021-04-24)
 
 - Added up, right, forward vectors to Rotation
