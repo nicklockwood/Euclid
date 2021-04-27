@@ -358,6 +358,7 @@ private func reduce(
             meshesAndBounds[i] = (m, mb)
             meshesAndBounds.remove(at: j)
             count -= 1
+            j = i + 1
             continue
         }
         j += 1
