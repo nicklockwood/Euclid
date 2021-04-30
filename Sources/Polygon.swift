@@ -270,45 +270,40 @@ public extension Polygon {
     }
 }
 
-
-
+public struct Edge: Hashable {
+	public let start, end: Vector
+}
 
 internal extension Collection where Element == Polygon {
-    func inverted() -> [Polygon] {
-        map { $0.inverted() }
-    }
-
-    func tessellate() -> [Polygon] {
-        flatMap { $0.tessellate() }
-    }
+	func inverted() -> [Polygon] {
+		map { $0.inverted() }
+	}
+	
+	func tessellate() -> [Polygon] {
+		flatMap { $0.tessellate() }
+	}
 	
 	func detessellate() -> [Polygon] {
-		// TODO:
-		// - Make map of connected Polygons
-		
-		var edgePolyMap : [[Double]:[Polygon]] = [:]
+		var edgePolyMap : [Edge:[Polygon]] = [:]
 		
 		// Map the polys by edge
 		forEach { polygon in
 			// Likely 3 edges
-			undirectedEdgeKeys(polygon).forEach {
-				if edgePolyMap[$0] == nil { edgePolyMap[$0] = [] }
-				edgePolyMap[$0]?.append(polygon)
+			undirectedEdges(polygon).forEach {
+				edgePolyMap[$0, default: []].append(polygon)
 			}
 		}
 		
 		// Join coplanar polygons
-		edgePolyMap.keys.forEach {
-			let joinEdge = $0
-			let polygons = edgePolyMap[joinEdge]
-			if polygons?.count == 2 {
-				if polygons![0].plane.isEqual(to: polygons![1].plane) {
-					let prejoinedPoly1 = polygons![0]
-					let prejoinedPoly2 = polygons![1]
+		edgePolyMap.forEach { joinEdge, polygons in
+			if polygons.count == 2 {
+				if polygons[0].plane.isEqual(to: polygons[1].plane) {
+					let prejoinedPoly1 = polygons[0]
+					let prejoinedPoly2 = polygons[1]
 					let joinedPoly = prejoinedPoly1.join(unchecked: prejoinedPoly2, ensureConvex: false)
 					if let joinedPoly = joinedPoly {
 						edgePolyMap.removeValue(forKey: joinEdge)
-						undirectedEdgeKeys(joinedPoly).forEach {
+						undirectedEdges(joinedPoly).forEach {
 							edgePolyMap[$0]?.removeAll(where: { p in p == prejoinedPoly1 || p == prejoinedPoly2 })
 							if edgePolyMap[$0] == nil { edgePolyMap[$0] = [] }
 							edgePolyMap[$0]?.append(joinedPoly)
@@ -321,32 +316,30 @@ internal extension Collection where Element == Polygon {
 		return edgePolyMap.values.flatMap { $0 }
 	}
 	
-	private func undirectedEdgeKeys(_ p: Polygon) -> [[Double]] {
-		var edges: [[Double]] = []
+	private func undirectedEdges(_ p: Polygon) -> [Edge] {
+		var edges: [Edge] = []
 		for i in 0..<p.vertices.count {
 			let v1 = p.vertices[i]
 			let v2 = p.vertices[i-1 < 0 ? p.vertices.count - 1 : i-1]
 			let undirectedEdge = v1.position.length < v2.position.length ? [v1,v2] : [v2, v1]
-			edges.append([
-				undirectedEdge[0].position.x, undirectedEdge[0].position.y, undirectedEdge[0].position.z,
-				undirectedEdge[1].position.x, undirectedEdge[1].position.y, undirectedEdge[1].position.z
-			])
+			edges.append(
+				Edge(start: undirectedEdge[0].position,
+						 end: undirectedEdge[1].position)
+			)
 		}
 		return edges
 	}
 	
-	var uniqueEdges: [[Vector]] {
-		var edgePolyMap : [[Double]:[Polygon]] = [:]
+	var uniqueEdges: [Edge] {
+		var edges : Set<Edge> = []
 		// Map the polys by edge
 		forEach { polygon in
 			// Likely 3 edges
-			undirectedEdgeKeys(polygon).forEach {
-				edgePolyMap[$0] = [] // We don't need the values
+			undirectedEdges(polygon).forEach {
+				edges.insert($0)
 			}
 		}
-		var varr: [[Vector]] = []
-		edgePolyMap.keys.forEach { varr.append([Vector($0[0], $0[1], $0[2]), Vector($0[3], $0[4], $0[5])]) }
-		return varr
+		return Array(edges)
 	}
 	
     func triangulate() -> [Polygon] {

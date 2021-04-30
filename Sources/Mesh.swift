@@ -132,7 +132,7 @@ public extension Mesh {
 		Mesh(unchecked: polygons.detessellate(), isConvex: isConvex)
 	}
 	
-	var uniqueEdges: [[Vector]] {
+	var uniqueEdges: [Edge] {
 		return polygons.uniqueEdges
 	}
 
