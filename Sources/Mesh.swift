@@ -127,14 +127,14 @@ public extension Mesh {
     func tessellate() -> Mesh {
         Mesh(unchecked: polygons.tessellate(), isConvex: isConvex)
     }
-	
-	func detessellate() -> Mesh {
-		Mesh(unchecked: polygons.detessellate(), isConvex: isConvex)
-	}
-	
-	var uniqueEdges: [Edge] {
-		return polygons.uniqueEdges
-	}
+
+    func detessellate() -> Mesh {
+        Mesh(unchecked: polygons.detessellate(), isConvex: isConvex)
+    }
+
+    var uniqueEdges: [Edge] {
+        polygons.uniqueEdges
+    }
 
     /// Tessellate polygons into triangles.
     func triangulate() -> Mesh {
