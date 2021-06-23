@@ -115,6 +115,9 @@ extension CodingTests {
         ("testDecodingAxisAngleRotation", testDecodingAxisAngleRotation),
         ("testDecodingCurvedPathPoint2D", testDecodingCurvedPathPoint2D),
         ("testDecodingCurvedPathPoint3D", testDecodingCurvedPathPoint3D),
+        ("testDecodingFlattenedVertex", testDecodingFlattenedVertex),
+        ("testDecodingFlattenedVertexWithoutNormal", testDecodingFlattenedVertexWithoutNormal),
+        ("testDecodingFlattenedVertexWithoutTexcoord", testDecodingFlattenedVertexWithoutTexcoord),
         ("testDecodingIdentityRotation", testDecodingIdentityRotation),
         ("testDecodingInvalidVectors", testDecodingInvalidVectors),
         ("testDecodingKeyedPath", testDecodingKeyedPath),
@@ -134,6 +137,7 @@ extension CodingTests {
         ("testDecodingVector3", testDecodingVector3),
         ("testDecodingVertex", testDecodingVertex),
         ("testDecodingVertexWithInvalidNormal", testDecodingVertexWithInvalidNormal),
+        ("testDecodingVertexWithoutNormal", testDecodingVertexWithoutNormal),
         ("testDecodingVertexWithoutTexcoord", testDecodingVertexWithoutTexcoord),
         ("testEncodeAndDecodePitchYawRollRotation", testEncodeAndDecodePitchYawRollRotation),
         ("testEncodeAndDecodingRotation", testEncodeAndDecodingRotation),
@@ -154,6 +158,8 @@ extension CodingTests {
         ("testEncodingPolygonWithUnsupportedMaterial", testEncodingPolygonWithUnsupportedMaterial),
         ("testEncodingVector2", testEncodingVector2),
         ("testEncodingVector3", testEncodingVector3),
+        ("testEncodingVertex", testEncodingVertex),
+        ("testEncodingVertexWithoutTexcoord", testEncodingVertexWithoutTexcoord),
         ("testKeylessPolygon", testKeylessPolygon),
     ]
 }
