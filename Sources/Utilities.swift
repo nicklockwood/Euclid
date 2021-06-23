@@ -34,7 +34,7 @@ let epsilon = 1e-6
 
 // Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
-    let precision = 1e-8 * 1e-3
+    let precision = 1e-12
     return (value / precision).rounded() * precision
 }
 
