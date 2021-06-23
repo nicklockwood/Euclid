@@ -331,23 +331,23 @@ internal extension Collection where Element == Vector {
 
 public extension PathPoint {
     func translated(by v: Vector) -> PathPoint {
-        PathPoint(position + v, isCurved: isCurved)
+        PathPoint(position + v, texcoord: texcoord, isCurved: isCurved)
     }
 
     func rotated(by r: Rotation) -> PathPoint {
-        PathPoint(position.rotated(by: r), isCurved: isCurved)
+        PathPoint(position.rotated(by: r), texcoord: texcoord, isCurved: isCurved)
     }
 
     func scaled(by v: Vector) -> PathPoint {
-        PathPoint(position.scaled(by: v), isCurved: isCurved)
+        PathPoint(position.scaled(by: v), texcoord: texcoord, isCurved: isCurved)
     }
 
     func scaled(by f: Double) -> PathPoint {
-        PathPoint(position * f, isCurved: isCurved)
+        PathPoint(position * f, texcoord: texcoord, isCurved: isCurved)
     }
 
     func transformed(by t: Transform) -> PathPoint {
-        PathPoint(position.transformed(by: t), isCurved: isCurved)
+        PathPoint(position.transformed(by: t), texcoord: texcoord, isCurved: isCurved)
     }
 }
 
