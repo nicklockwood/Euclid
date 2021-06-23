@@ -424,9 +424,21 @@ class CodingTests: XCTestCase {
         )
     }
 
+    func testDecodingPathPoint3DWithTexcoord3D() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 4, 5, 6]"),
+            PathPoint.point(Vector(1, 2, 3), texcoord: Vector(4, 5, 6))
+        )
+    }
+
     func testEncodingPathPoint3DWithTexcoord() throws {
         let encoded = try encode(PathPoint.point(Vector(1, 2, 3), texcoord: Vector(4, 5)))
         XCTAssertEqual(encoded, "[1,2,3,4,5]")
+    }
+
+    func testEncodingPathPoint3DWithTexcoord3D() throws {
+        let encoded = try encode(PathPoint.point(Vector(1, 2, 3), texcoord: Vector(4, 5, 6)))
+        XCTAssertEqual(encoded, "[1,2,3,4,5,6]")
     }
 
     func testDecodingCurvedPathPoint2DWithTexcoord() {
@@ -441,6 +453,11 @@ class CodingTests: XCTestCase {
         XCTAssertEqual(encoded, "[1,2,3,4,true]")
     }
 
+    func testEncodingCurvedPathPoint2DWithTexcoord3D() throws {
+        let encoded = try encode(PathPoint.curve(Vector(1, 2), texcoord: Vector(3, 4, 5)))
+        XCTAssertEqual(encoded, "[1,2,0,3,4,5,true]")
+    }
+
     func testDecodingCurvedPathPoint3DWithTexcoord() {
         XCTAssertEqual(
             try decode("[1, 2, 3, 4, 5, true]"),
@@ -448,9 +465,21 @@ class CodingTests: XCTestCase {
         )
     }
 
+    func testDecodingCurvedPathPoint3DWithTexcoord3D() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 4, 5, 6, true]"),
+            PathPoint.curve(Vector(1, 2, 3), texcoord: Vector(4, 5, 6))
+        )
+    }
+
     func testEncodingCurvedPathPoint3DWithTexcoord() throws {
         let encoded = try encode(PathPoint.curve(Vector(1, 2, 3), texcoord: Vector(4, 5)))
         XCTAssertEqual(encoded, "[1,2,3,4,5,true]")
+    }
+
+    func testEncodingCurvedPathPoint3DWithTexcoord3D() throws {
+        let encoded = try encode(PathPoint.curve(Vector(1, 2, 3), texcoord: Vector(4, 5, 6)))
+        XCTAssertEqual(encoded, "[1,2,3,4,5,6,true]")
     }
 
     // MARK: Path
