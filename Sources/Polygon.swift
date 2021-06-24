@@ -115,6 +115,11 @@ public extension Polygon {
         }
     }
 
+    /// Does polygon include texture coordinates?
+    var hasTexcoords: Bool {
+        vertices.contains(where: { $0.texcoord != .zero })
+    }
+
     /// Returns a set of polygon edges
     /// The direction of each edge is normalized relative to the origin to facilitate edge-equality comparisons
     var undirectedEdges: Set<LineSegment> {

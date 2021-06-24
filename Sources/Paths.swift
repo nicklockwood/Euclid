@@ -225,6 +225,18 @@ public extension Path {
         self.init(unchecked: points, plane: nil, subpathIndices: nil)
     }
 
+    /// Create a path from a polygon
+    init(polygon: Polygon) {
+        let hasTexcoords = polygon.hasTexcoords
+        self.init(
+            unchecked: polygon.vertices.map {
+                .point($0.position, texcoord: hasTexcoords ? $0.texcoord : nil)
+            },
+            plane: polygon.plane,
+            subpathIndices: nil
+        )
+    }
+
     /// A list of subpaths making up the path. For paths without nested
     /// subpaths, this will return an array containing only `self`
     var subpaths: [Path] {
@@ -386,7 +398,6 @@ public extension Path {
 public extension Polygon {
     /// Create a polygon from a path
     /// Path may be convex or concave, but must be closed and non-degenerate
-    /// Paths with
     init?(shape: Path, material: Material? = nil) {
         guard let vertices = shape.faceVertices, let plane = shape.plane else {
             return nil
