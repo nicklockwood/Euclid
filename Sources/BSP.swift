@@ -42,7 +42,6 @@ private struct DeterministicRNG: RandomNumberGenerator {
 }
 
 private class BSPNode {
-    private weak var parent: BSPNode?
     private var front: BSPNode?
     private var back: BSPNode?
     private var polygons = [Polygon]()
@@ -84,15 +83,14 @@ private class BSPNode {
                 parent.polygons.append(polygon)
                 continue
             }
-            let node = BSPNode(plane: polygon.plane, parent: parent)
+            let node = BSPNode(plane: polygon.plane)
             node.polygons = [polygon]
             parent.back = node
             parent = node
         }
     }
 
-    private init(plane: Plane, parent: BSPNode?) {
-        self.parent = parent
+    private init(plane: Plane) {
         self.plane = plane
     }
 
@@ -178,12 +176,12 @@ private class BSPNode {
                 }
             }
             if let first = front.first {
-                let next = node.front ?? BSPNode(plane: first.plane, parent: node)
+                let next = node.front ?? BSPNode(plane: first.plane)
                 node.front = next
                 stack.append((next, front))
             }
             if let first = back.first {
-                let next = node.back ?? BSPNode(plane: first.plane, parent: node)
+                let next = node.back ?? BSPNode(plane: first.plane)
                 node.back = next
                 stack.append((next, back))
             }
