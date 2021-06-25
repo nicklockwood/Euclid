@@ -544,6 +544,30 @@ public extension Bounds {
 }
 
 public extension Mesh {
+    /// Load a mesh from a file using any format supported by sceneKit,  with optional material mapping
+    init(url: URL, materialLookup _: ((SCNMaterial) -> Material?)? = nil) throws {
+        let importedScene = try SCNScene(url: url, options: [
+            .flattenScene: true,
+            .createNormalsIfAbsent: true,
+        ])
+        // create Mesh
+        self.init(importedScene.rootNode)
+    }
+
+    /// Create a mesh from an SCNNode with optional material mapping
+    init(_ scnNode: SCNNode, materialLookup: ((SCNMaterial) -> Material?)? = nil) {
+        var mesh = Mesh([])
+        if let geometry = scnNode.geometry,
+           let submesh = Mesh(geometry, materialLookup: materialLookup)
+        {
+            mesh = mesh.merge(submesh)
+        }
+        for childNode in scnNode.childNodes {
+            mesh = mesh.merge(Mesh(childNode, materialLookup: materialLookup))
+        }
+        self = mesh
+    }
+
     /// Create a mesh from an SCNGeometry object with optional material mapping
     init?(_ scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Material?)? = nil) {
         // Force properties to update
