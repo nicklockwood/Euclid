@@ -161,9 +161,8 @@ private class BSPNode {
     }
 
     private func insert(_ polygons: [Polygon]) {
-        var polygons = polygons
-        var node = self
-        while !polygons.isEmpty {
+        var stack = [(node: self, polygons: polygons)]
+        while let (node, polygons) = stack.popLast() {
             var front = [Polygon](), back = [Polygon]()
             for polygon in polygons {
                 switch polygon.compare(with: node.plane) {
@@ -182,22 +181,15 @@ private class BSPNode {
                     polygon.split(spanning: node.plane, &front, &back, &id)
                 }
             }
-
-            node.front = node.front ?? front.first.map {
-                BSPNode(plane: $0.plane, parent: node)
+            if let first = front.first {
+                let next = node.front ?? BSPNode(plane: first.plane, parent: node)
+                node.front = next
+                stack.append((next, front))
             }
-            node.back = node.back ?? back.first.map {
-                BSPNode(plane: $0.plane, parent: node)
-            }
-
-            if front.count > back.count {
-                node.back?.insert(back)
-                polygons = front
-                node = node.front!
-            } else {
-                node.front?.insert(front)
-                polygons = back
-                node = node.back ?? node
+            if let first = back.first {
+                let next = node.back ?? BSPNode(plane: first.plane, parent: node)
+                node.back = next
+                stack.append((next, back))
             }
         }
     }
