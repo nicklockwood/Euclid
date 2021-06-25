@@ -101,8 +101,6 @@ private class BSPNode {
         _ keeping: BSP.ClipRule,
         _ id: inout Int
     ) -> [Polygon] {
-        var polygons = polygons
-        var node = self
         var total = [Polygon]()
         func addPolygons(_ polygons: [Polygon]) {
             for a in polygons {
@@ -122,7 +120,8 @@ private class BSPNode {
             }
         }
         let keepFront = [.greaterThan, .greaterThanEqual].contains(keeping)
-        while !polygons.isEmpty {
+        var stack = [(node: self, polygons: polygons)]
+        while let (node, polygons) = stack.popLast() {
             var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
             for polygon in polygons {
                 polygon.split(along: node.plane, &coplanar, &front, &back, &id)
@@ -139,22 +138,19 @@ private class BSPNode {
                     }
                 }
             }
-            if front.count > back.count {
-                addPolygons(node.back?.clip(back, keeping, &id) ?? (keepFront ? [] : back))
-                if node.front == nil {
+            if !front.isEmpty {
+                if let next = node.front {
+                    stack.append((next, front))
+                } else {
                     addPolygons(keepFront ? front : [])
-                    return total
                 }
-                polygons = front
-                node = node.front!
-            } else {
-                addPolygons(node.front?.clip(front, keeping, &id) ?? (keepFront ? front : []))
-                if node.back == nil {
+            }
+            if !back.isEmpty {
+                if let next = node.back {
+                    stack.append((next, back))
+                } else {
                     addPolygons(keepFront ? [] : back)
-                    return total
                 }
-                polygons = back
-                node = node.back!
             }
         }
         return total
