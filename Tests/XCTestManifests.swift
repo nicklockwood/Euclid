@@ -78,11 +78,13 @@ extension CSGTests {
         ("testIntersectionOfCoincidingSquares", testIntersectionOfCoincidingSquares),
         ("testIntersectionOfOverlappingBoxes", testIntersectionOfOverlappingBoxes),
         ("testIntersectionOfOverlappingSquares", testIntersectionOfOverlappingSquares),
+        ("testIntersectionWithEmptyMesh", testIntersectionWithEmptyMesh),
         ("testSubtractAdjacentBoxes", testSubtractAdjacentBoxes),
         ("testSubtractAdjacentSquares", testSubtractAdjacentSquares),
         ("testSubtractCoincidingBoxes", testSubtractCoincidingBoxes),
         ("testSubtractCoincidingBoxesWhenTriangulated", testSubtractCoincidingBoxesWhenTriangulated),
         ("testSubtractCoincidingSquares", testSubtractCoincidingSquares),
+        ("testSubtractEmptyMesh", testSubtractEmptyMesh),
         ("testSubtractOverlappingBoxes", testSubtractOverlappingBoxes),
         ("testSubtractOverlappingSquares", testSubtractOverlappingSquares),
         ("testUnionOfAdjacentBoxes", testUnionOfAdjacentBoxes),
@@ -91,12 +93,14 @@ extension CSGTests {
         ("testUnionOfCoincidingSquares", testUnionOfCoincidingSquares),
         ("testUnionOfOverlappingBoxes", testUnionOfOverlappingBoxes),
         ("testUnionOfOverlappingSquares", testUnionOfOverlappingSquares),
+        ("testUnionWithEmptyMesh", testUnionWithEmptyMesh),
         ("testXorAdjacentCubes", testXorAdjacentCubes),
         ("testXorAdjacentSquares", testXorAdjacentSquares),
         ("testXorCoincidingCubes", testXorCoincidingCubes),
         ("testXorCoincidingSquares", testXorCoincidingSquares),
         ("testXorOverlappingCubes", testXorOverlappingCubes),
         ("testXorOverlappingSquares", testXorOverlappingSquares),
+        ("testXorWithEmptyMesh", testXorWithEmptyMesh),
     ]
 }
 
