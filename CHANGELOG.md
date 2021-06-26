@@ -1,6 +1,12 @@
+## [0.4.5](https://github.com/nicklockwood/Euclid/releases/tag/0.4.5) (2021-06-26)
+
+- Rewrote CSG operations to use iteration rather than recursion, so they no longer overflow stack 
+- Add methods to create a Mesh from an SCNNode or file url (in any ModelIO-supported format)
+- Removed spurious assertion failure when creating paths with multiple subpaths
+
 ## [0.4.4](https://github.com/nicklockwood/Euclid/releases/tag/0.4.4) (2021-04-27)
 
-- Fixed glitch in CSG operations on multiple messages
+- Fixed glitch in CSG operations on multiple meshes
 - Improved performance for CSG functions on non-convex meshes
 
 ## [0.4.3](https://github.com/nicklockwood/Euclid/releases/tag/0.4.3) (2021-04-24)
