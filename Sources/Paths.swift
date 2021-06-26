@@ -323,7 +323,6 @@ public extension Polygon {
 
 internal extension Path {
     init(unchecked points: [PathPoint], plane: Plane?, subpathIndices: [Int]?) {
-        assert(sanitizePoints(points) == points)
         self.points = points
         self.isClosed = pointsAreClosed(unchecked: points)
         let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
