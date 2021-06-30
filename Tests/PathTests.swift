@@ -667,4 +667,47 @@ class PathTests: XCTestCase {
             ]),
         ])
     }
+
+    func testNestedSubpathsAreFlattenedCorrectly() {
+        let path1 = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1),
+            .point(0, 1),
+            .point(0, 0),
+            .point(2, 0),
+            .point(3, 0),
+            .point(3, 1),
+            .point(2, 1),
+            .point(2, 0),
+        ])
+        let path2 = Path([
+            .point(5, 1),
+            .point(4, -1),
+            .point(5, -1),
+        ])
+        let path3 = Path(subpaths: [path1, path2])
+        XCTAssertEqual(path3.subpaths, [
+            Path([
+                .point(0, 0),
+                .point(1, 0),
+                .point(1, 1),
+                .point(0, 1),
+                .point(0, 0),
+            ]),
+            Path([
+                .point(2, 0),
+                .point(3, 0),
+                .point(3, 1),
+                .point(2, 1),
+                .point(2, 0),
+            ]),
+            Path([
+                .point(2, 0),
+                .point(5, 1),
+                .point(4, -1),
+                .point(5, -1),
+            ]),
+        ])
+    }
 }
