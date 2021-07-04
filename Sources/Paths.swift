@@ -145,8 +145,7 @@ public extension Path {
 
     /// Create a path from an array of `PathPoint`s
     init(_ points: [PathPoint]) {
-        let points = sanitizePoints(points)
-        self.init(unchecked: points)
+        self.init(unchecked: sanitizePoints(points))
     }
 
     /// Create a composite path from an array of subpaths
@@ -196,6 +195,9 @@ public extension Path {
             return nil
         }
         let vectors = points.dropFirst().map { $0.position }
+        guard vectors.count > 2, !pointsAreDegenerate(vectors) else {
+            return nil
+        }
         var min = Vector(.infinity, .infinity)
         var max = Vector(-.infinity, -.infinity)
         let flatteningPlane = FlatteningPlane(normal: normal)
@@ -323,6 +325,7 @@ public extension Polygon {
 
 internal extension Path {
     init(unchecked points: [PathPoint], plane: Plane?, subpathIndices: [Int]?) {
+        assert(points == sanitizePoints(points))
         self.points = points
         self.isClosed = pointsAreClosed(unchecked: points)
         let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
@@ -474,16 +477,19 @@ internal extension Path {
 
 // MARK: Path utility functions
 
+// Sanitize a set of path points by removing duplicates and invalid points
+// Should be safe to use on sets of points representing a compound path (with subpaths)
 func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
     var result = [PathPoint]()
     var last: PathPoint?
     // Remove duplicate points
+    // TODO: In future, compound paths may support duplicate points
     for point in points where point.position != last?.position {
         result.append(point)
         last = point
     }
     // Remove invalid points
-    let isClosed = (result.first?.position == result.last?.position)
+    let isClosed = pointsAreClosed(unchecked: result)
     if result.count > (isClosed ? 3 : 2), let a = result.first?.position {
         let threshold = 1e-10
         var ab = result[1].position - a
