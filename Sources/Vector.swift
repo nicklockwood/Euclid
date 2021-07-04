@@ -96,16 +96,40 @@ public extension Vector {
         Vector(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
     }
 
+    static func += (lhs: inout Vector, rhs: Vector) {
+        lhs.x += rhs.x
+        lhs.y += rhs.y
+        lhs.z += rhs.z
+    }
+
     static func - (lhs: Vector, rhs: Vector) -> Vector {
         Vector(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z)
+    }
+
+    static func -= (lhs: inout Vector, rhs: Vector) {
+        lhs.x -= rhs.x
+        lhs.y -= rhs.y
+        lhs.z -= rhs.z
     }
 
     static func * (lhs: Vector, rhs: Double) -> Vector {
         Vector(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs)
     }
 
+    static func *= (lhs: inout Vector, rhs: Double) {
+        lhs.x *= rhs
+        lhs.y *= rhs
+        lhs.z *= rhs
+    }
+
     static func / (lhs: Vector, rhs: Double) -> Vector {
         Vector(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs)
+    }
+
+    static func /= (lhs: inout Vector, rhs: Double) {
+        lhs.x /= rhs
+        lhs.y /= rhs
+        lhs.z /= rhs
     }
 
     var lengthSquared: Double {
