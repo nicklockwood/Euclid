@@ -1,3 +1,10 @@
+## [0.4.6](https://github.com/nicklockwood/Euclid/releases/tag/0.4.6) (2021-07-04)
+
+- Fixed bug in Path plane calculation that could result in corrupted extrusion shapes
+- Fixed edge case in logic for detecting degenerate polygons
+- Added +=, -=, *= and /= Vector operators
+- Added `Vector.translated(by:)` function
+
 ## [0.4.5](https://github.com/nicklockwood/Euclid/releases/tag/0.4.5) (2021-06-26)
 
 - Rewrote CSG operations to use iteration rather than recursion, so they no longer overflow stack 
