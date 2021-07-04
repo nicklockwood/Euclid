@@ -286,7 +286,9 @@ internal extension Collection where Element == Vertex {
 }
 
 public extension Vector {
-    /// NOTE: no need for a translated() function because of the + operator
+    func translated(by v: Vector) -> Vector {
+        self + v
+    }
 
     func rotated(by m: Rotation) -> Vector {
         Vector(
@@ -306,7 +308,9 @@ public extension Vector {
 }
 
 internal extension Collection where Element == Vector {
-    /// NOTE: no need for a translated() function because of the + operator
+    func translated(by v: Vector) -> [Vector] {
+        map { $0.translated(by: v) }
+    }
 
     func rotated(by m: Rotation) -> [Vector] {
         map { $0.rotated(by: m) }
