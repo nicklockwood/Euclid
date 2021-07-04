@@ -181,7 +181,7 @@ public extension Path {
                 if points.last?.position == points.first?.position {
                     points[0] = points.last!
                 }
-                paths.append(Path(unchecked: points, plane: nil, subpathIndices: []))
+                paths.append(Path(unchecked: points, plane: plane, subpathIndices: []))
             }
         }
         return paths.isEmpty && !points.isEmpty ? [self] : paths
@@ -327,12 +327,31 @@ internal extension Path {
         self.isClosed = pointsAreClosed(unchecked: points)
         let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
         bounds = Bounds(points: positions)
-        self.subpathIndices = subpathIndices ?? subpathIndicesFor(points)
+        let subpathIndices = subpathIndices ?? subpathIndicesFor(points)
+        self.subpathIndices = subpathIndices
         if let plane = plane {
             self.plane = plane
-            assert(Plane(points: positions)?.isEqual(to: plane) == true)
-        } else {
+            assert(points.count < 3 || Path(
+                unchecked: points,
+                plane: nil,
+                subpathIndices: subpathIndices
+            ).plane?.isEqual(to: plane) == true)
+        } else if subpathIndices.isEmpty {
             self.plane = Plane(points: positions)
+        } else {
+            for path in subpaths {
+                guard let plane = path.plane else {
+                    self.plane = nil
+                    break
+                }
+                if let existing = self.plane {
+                    guard existing.isEqual(to: plane) else {
+                        self.plane = nil
+                        break
+                    }
+                }
+                self.plane = plane
+            }
         }
     }
 

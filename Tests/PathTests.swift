@@ -552,11 +552,13 @@ class PathTests: XCTestCase {
             .point(0, -1),
         ])
         XCTAssertEqual(path.subpaths, [path])
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testSimpleClosedPathHasNoSubpaths() {
         let path = Path.square()
         XCTAssertEqual(path.subpaths, [path])
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testPathWithLineEndingInLoopHasCorrectSubpaths() {
@@ -581,6 +583,7 @@ class PathTests: XCTestCase {
                 .point(1, 0),
             ]),
         ])
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testPathWithLoopEndingInLineHasCorrectSubpaths() {
@@ -605,6 +608,7 @@ class PathTests: XCTestCase {
                 .point(-1, 0),
             ]),
         ])
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testPathWithConjoinedLoopsHasCorrectSubpaths() {
@@ -635,6 +639,7 @@ class PathTests: XCTestCase {
                 .point(0, 0),
             ]),
         ])
+        XCTAssertNil(path.plane)
     }
 
     func testPathWithTwoSeparateLoopsHasCorrectSubpaths() {
@@ -666,6 +671,7 @@ class PathTests: XCTestCase {
                 .point(2, 0),
             ]),
         ])
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testNestedSubpathsAreFlattenedCorrectly() {
@@ -681,11 +687,13 @@ class PathTests: XCTestCase {
             .point(2, 1),
             .point(2, 0),
         ])
+        XCTAssertEqual(path1.plane?.normal, Vector(0, 0, 1))
         let path2 = Path([
             .point(5, 1),
             .point(4, -1),
             .point(5, -1),
         ])
+        XCTAssertEqual(path2.plane?.normal, Vector(0, 0, 1))
         let path3 = Path(subpaths: [path1, path2])
         XCTAssertEqual(path3.subpaths, [
             Path([
@@ -709,5 +717,6 @@ class PathTests: XCTestCase {
                 .point(5, -1),
             ]),
         ])
+        XCTAssertNil(path3.plane)
     }
 }
