@@ -61,19 +61,6 @@ func verticesAreCoplanar(_ vertices: [Vertex]) -> Bool {
     return pointsAreCoplanar(vertices.map { $0.position })
 }
 
-func faceNormalForConvexVertices(_ vertices: [Vertex]) -> Vector? {
-    assert(verticesAreConvex(vertices))
-    return faceNormalForConvexPoints(vertices.map { $0.position })
-}
-
-func faceNormalForConvexVertices(unchecked vertices: [Vertex]) -> Vector {
-    let ab = vertices[1].position - vertices[0].position
-    let bc = vertices[2].position - vertices[1].position
-    let normal = ab.cross(bc)
-    assert(normal.length > epsilon)
-    return normal.normalized()
-}
-
 // MARK: Vector utilities
 
 func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
