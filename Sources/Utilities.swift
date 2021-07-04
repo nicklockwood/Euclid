@@ -136,6 +136,10 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
     return true
 }
 
+// Computes the face normal for a collection of points
+// Points are assumed to be ordered in a counter-clockwise direction
+// Points are not verified to be coplanar or non-degenerate
+// Points are not required to form a convex polygon
 func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Vector {
     let count = points.count
     let unitZ = Vector(0, 0, 1)
@@ -172,7 +176,7 @@ func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Vector {
         let normal = faceNormalForConvexPoints(points)
         let convex = convex ?? pointsAreConvex(points)
         if !convex {
-            let flatteningPlane = FlatteningPlane(points: points)
+            let flatteningPlane = FlatteningPlane(normal: normal)
             let flattenedPoints = points.map { flatteningPlane.flattenPoint($0) }
             let flattenedNormal = faceNormalForConvexPoints(flattenedPoints)
             let isClockwise = flattenedPointsAreClockwise(flattenedPoints)

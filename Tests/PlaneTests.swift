@@ -24,6 +24,57 @@ class PlaneTests: XCTestCase {
         XCTAssertEqual(plane?.normal, Vector(0, 0, -1))
     }
 
+    func testConcavePolygonPlaneTranslation() {
+        let points0: [Vector] = [
+            Vector(-0.707106781187, -0.707106781187, 0.5),
+            Vector(0.353553390593, 0.353553390593, 0.5),
+            Vector(0.353553390593, 0.353553390593, 0),
+            Vector(0.707106781187, 0.707106781187, 0),
+            Vector(0.707106781187, 0.707106781187, 1),
+            Vector(-0.707106781187, -0.707106781187, 1),
+        ]
+        let plane0 = Plane(points: points0)
+        let translation = Vector(1, 0)
+        let points1 = points0.translated(by: translation)
+        let plane1 = Plane(points: points1)
+        let expected = plane0?.translated(by: translation)
+        XCTAssertEqual(plane1, expected)
+    }
+
+    // MARK: FlatteningPlane
+
+    func testFlatteningPlaneForUnitZ() {
+        let normal = Vector(0, 0, 1)
+        let plane = FlatteningPlane(normal: normal)
+        XCTAssertEqual(plane, .xy)
+    }
+
+    func testFlatteningPlaneForNegativeUnitZ() {
+        let normal = Vector(0, 0, -1)
+        let plane = FlatteningPlane(normal: normal)
+        XCTAssertEqual(plane, .xy)
+    }
+
+    func testFlatteningPlaneForUnitY() {
+        let normal = Vector(0, 1, 0)
+        let plane = FlatteningPlane(normal: normal)
+        XCTAssertEqual(plane, .xz)
+    }
+
+    func testFlatteningPlaneForUnitX() {
+        let normal = Vector(1, 0, 0)
+        let plane = FlatteningPlane(normal: normal)
+        XCTAssertEqual(plane, .yz)
+    }
+
+    func testFlatteningPlaneForXYDiagonal() {
+        let normal = Vector(0.7071067811865475, -0.7071067811865475)
+        let plane = FlatteningPlane(normal: normal)
+        XCTAssertNotEqual(plane, .xy)
+    }
+
+    // MARK: Intersections
+
     func testIntersectionWithParallelPlane() {
         let plane1 = Plane(unchecked: Vector(0, 1, 0), pointOnPlane: Vector(0, 0, 0))
         let plane2 = Plane(unchecked: Vector(0, 1, 0), pointOnPlane: Vector(0, 1, 0))

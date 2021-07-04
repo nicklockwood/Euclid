@@ -413,7 +413,7 @@ public extension Mesh {
             profile = Path(
                 unchecked: profile.points.reversed(),
                 plane: profile.plane?.inverted(),
-                subpathIndices: nil // Is is possible to reverse these?
+                subpathIndices: []
             )
         }
 
@@ -606,8 +606,8 @@ public extension Mesh {
             return Mesh([])
         }
         var shape = shape
-        let shapePlane = FlatteningPlane(bounds: shape.bounds)
-        let pathPlane = FlatteningPlane(bounds: along.bounds)
+        let shapePlane = shape.flatteningPlane
+        let pathPlane = along.flatteningPlane
         switch (shapePlane, pathPlane) {
         case (.xy, .xy), (.xz, .xz):
             shape = shape.rotated(by: .pitch(.halfPi))

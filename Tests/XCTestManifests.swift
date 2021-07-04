@@ -224,6 +224,12 @@ extension PlaneTests {
     // to regenerate.
     static let __allTests__PlaneTests = [
         ("testConcavePolygonClockwiseWinding", testConcavePolygonClockwiseWinding),
+        ("testConcavePolygonPlaneTranslation", testConcavePolygonPlaneTranslation),
+        ("testFlatteningPlaneForNegativeUnitZ", testFlatteningPlaneForNegativeUnitZ),
+        ("testFlatteningPlaneForUnitX", testFlatteningPlaneForUnitX),
+        ("testFlatteningPlaneForUnitY", testFlatteningPlaneForUnitY),
+        ("testFlatteningPlaneForUnitZ", testFlatteningPlaneForUnitZ),
+        ("testFlatteningPlaneForXYDiagonal", testFlatteningPlaneForXYDiagonal),
         ("testIntersectionWithAxisLine", testIntersectionWithAxisLine),
         ("testIntersectionWithParallelPlane", testIntersectionWithParallelPlane),
         ("testIntersectionWithPerpendicularPlane", testIntersectionWithPerpendicularPlane),

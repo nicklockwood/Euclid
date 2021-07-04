@@ -183,28 +183,19 @@ enum FlatteningPlane: RawRepresentable {
         }
     }
 
-    init(bounds: Bounds) {
-        let size = bounds.size
-        if size.x > size.y {
-            self = size.z > size.y ? .xz : .xy
-        } else {
-            self = size.z > size.x ? .yz : .xy
-        }
-    }
-
     init(normal: Vector) {
         switch (abs(normal.x), abs(normal.y), abs(normal.z)) {
         case let (x, y, z) where x > y && x > z:
             self = .yz
-        case let (x, y, z) where y > x && y > z:
+        case let (x, y, z) where x > z || y > z:
             self = .xz
         default:
             self = .xy
         }
     }
 
-    init(points: [Vector]) {
-        self.init(bounds: Bounds(points: points))
+    init(points: [Vector], convex: Bool?) {
+        self.init(normal: faceNormalForPolygonPoints(points, convex: convex))
     }
 
     init?(rawValue: Plane) {

@@ -189,8 +189,8 @@ public extension Path {
     /// Get vertices suitable for constructing a polygon from the path
     /// vertices include normals and uv coordinates normalized to the
     /// bounding rectangle of the path. Returns nil if path has subpaths
-    // TODO: should this be facePolygons instead, to handle non-planar shapes?
     var faceVertices: [Vertex]? {
+        // TODO: should this be facePolygons instead, to handle non-planar shapes?
         guard isClosed, let normal = plane?.normal, subpaths.count <= 1 else {
             return nil
         }
@@ -390,16 +390,28 @@ internal extension Path {
         return true
     }
 
+    // Returns the most suitable FlatteningPlane for the path
+    var flatteningPlane: FlatteningPlane {
+        if let plane = plane {
+            return FlatteningPlane(normal: plane.normal)
+        }
+        let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
+        return FlatteningPlane(points: positions, convex: nil)
+    }
+
     // flattens z-axis
     // TODO: this is a hack and should be replaced by a better solution
     func flattened() -> Path {
         if bounds.min.z == 0, bounds.max.z == 0 {
             return self
         }
-        let flatteningPlane = FlatteningPlane(bounds: bounds)
+        guard subpathIndices.isEmpty else {
+            return Path(subpaths: subpaths.map { $0.flattened() })
+        }
+        let flatteningPlane = self.flatteningPlane
         return Path(unchecked: sanitizePoints(points.map {
             PathPoint(flatteningPlane.flattenPoint($0.position), isCurved: $0.isCurved)
-        }), plane: flatteningPlane.rawValue, subpathIndices: subpathIndices)
+        }), plane: flatteningPlane.rawValue, subpathIndices: [])
     }
 
     func clippedToYAxis() -> Path {
