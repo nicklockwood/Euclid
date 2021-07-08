@@ -1,5 +1,5 @@
 [![PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UJWT2RWPE7VA8&source=url)
-[![Travis](https://travis-ci.org/nicklockwood/Euclid.svg)](https://travis-ci.org/nicklockwood/Euclid)
+[![Travis](https://travis-ci.com/nicklockwood/Euclid.svg?branch=master)](https://travis-ci.com/github/nicklockwood/Euclid)
 [![Codecov](https://codecov.io/gh/nicklockwood/Euclid/graphs/badge.svg)](https://codecov.io/gh/nicklockwood/Euclid)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20macOS%20|%20tvOS%20|%20Linux-lightgray.svg)]()
 [![Swift 5.1](https://img.shields.io/badge/swift-5.1-red.svg?style=flat)](https://developer.apple.com/swift)
