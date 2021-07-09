@@ -110,13 +110,15 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial
 }
 
 public extension SCNGeometry {
+    typealias SCNMaterialProvider = (Polygon.Material?) -> SCNMaterial?
+
     /// Creates an SCNGeometry using the default tessellation method
-    convenience init(_ mesh: Mesh, materialLookup: ((Polygon.Material?) -> SCNMaterial?)? = nil) {
+    convenience init(_ mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
         self.init(triangles: mesh, materialLookup: materialLookup)
     }
 
     /// Creates an SCNGeometry from a Mesh using triangles
-    convenience init(triangles mesh: Mesh, materialLookup: ((Polygon.Material?) -> SCNMaterial?)? = nil) {
+    convenience init(triangles mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
         var elementData = [Data]()
         var vertexData = Data()
         var materials = [SCNMaterial]()
@@ -194,7 +196,7 @@ public extension SCNGeometry {
 
     /// Creates an SCNGeometry from a Mesh using convex polygons
     @available(OSX 10.12, iOS 10.0, tvOS 10.0, *)
-    convenience init(polygons mesh: Mesh, materialLookup: ((Polygon.Material?) -> SCNMaterial?)? = nil) {
+    convenience init(polygons mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
         var elementData = [(Int, Data)]()
         var vertexData = Data()
         var materials = [SCNMaterial]()
@@ -544,8 +546,10 @@ public extension Bounds {
 }
 
 public extension Mesh {
+    typealias MaterialProvider = (SCNMaterial) -> Material?
+
     /// Load a mesh from a file using any format supported by sceneKit,  with optional material mapping
-    init(url: URL, materialLookup: ((SCNMaterial) -> Material?)? = nil) throws {
+    init(url: URL, materialLookup: MaterialProvider? = nil) throws {
         let importedScene = try SCNScene(url: url, options: [
             .flattenScene: true,
             .createNormalsIfAbsent: true,
@@ -555,7 +559,7 @@ public extension Mesh {
     }
 
     /// Create a mesh from an SCNNode with optional material mapping
-    init(_ scnNode: SCNNode, materialLookup: ((SCNMaterial) -> Material?)? = nil) {
+    init(_ scnNode: SCNNode, materialLookup: MaterialProvider? = nil) {
         var mesh = Mesh([])
         if let geometry = scnNode.geometry,
            let submesh = Mesh(geometry, materialLookup: materialLookup)
@@ -569,7 +573,7 @@ public extension Mesh {
     }
 
     /// Create a mesh from an SCNGeometry object with optional material mapping
-    init?(_ scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Material?)? = nil) {
+    init?(_ scnGeometry: SCNGeometry, materialLookup: MaterialProvider? = nil) {
         // Force properties to update
         let scnGeometry = scnGeometry.copy() as! SCNGeometry
 
@@ -655,7 +659,7 @@ public extension Mesh {
     }
 
     @available(*, deprecated, message: "Use version with unnamed parameter instead")
-    init?(scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Material?)? = nil) {
+    init?(scnGeometry: SCNGeometry, materialLookup: MaterialProvider? = nil) {
         self.init(scnGeometry, materialLookup: materialLookup)
     }
 }
