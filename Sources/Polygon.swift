@@ -179,7 +179,7 @@ public extension Polygon {
         guard plane.isEqual(to: other.plane) else {
             return nil
         }
-        return join(unchecked: other, ensureConvex: ensureConvex)
+        return merge(unchecked: other, ensureConvex: ensureConvex)
     }
 
     /// Flip the polygon along its plane
@@ -203,7 +203,7 @@ public extension Polygon {
         while i > 0 {
             let a = polygons[i]
             let b = polygons[i - 1]
-            if let merged = a.join(unchecked: b, ensureConvex: true) {
+            if let merged = a.merge(unchecked: b, ensureConvex: true) {
                 polygons[i - 1] = merged
                 polygons.remove(at: i)
             }
@@ -403,7 +403,7 @@ internal extension Polygon {
     }
 
     // Join touching polygons (without checking they are coplanar or share the same material)
-    func join(unchecked other: Polygon, ensureConvex: Bool) -> Polygon? {
+    func merge(unchecked other: Polygon, ensureConvex: Bool) -> Polygon? {
         assert(material == other.material)
         assert(plane.isEqual(to: other.plane))
 
