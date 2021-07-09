@@ -269,6 +269,7 @@ extension PolygonTests {
         ("testHouseShapedPolygonCorrectlyTriangulated", testHouseShapedPolygonCorrectlyTriangulated),
         ("testInvertedConcaveAnticlockwisePolygonCorrectlyTessellated", testInvertedConcaveAnticlockwisePolygonCorrectlyTessellated),
         ("testInvertedConcaveAnticlockwisePolygonCorrectlyTriangulated", testInvertedConcaveAnticlockwisePolygonCorrectlyTriangulated),
+        ("testInvertedSlightlyNonPlanarPolygonTriangulated", testInvertedSlightlyNonPlanarPolygonTriangulated),
         ("testMerge1", testMerge1),
         ("testMerge2", testMerge2),
         ("testMergeB2TAdjacentRects", testMergeB2TAdjacentRects),
@@ -280,6 +281,7 @@ extension PolygonTests {
         ("testNonDegeneratePolygonWithColinearPoints", testNonDegeneratePolygonWithColinearPoints),
         ("testPathWithZeroAreaColinearPointTriangulated", testPathWithZeroAreaColinearPointTriangulated),
         ("testPolygonWithColinearPointsCorrectlyTriangulated", testPolygonWithColinearPointsCorrectlyTriangulated),
+        ("testSlightlyNonPlanarPolygonTriangulated", testSlightlyNonPlanarPolygonTriangulated),
     ]
 }
 

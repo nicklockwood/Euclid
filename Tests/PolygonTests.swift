@@ -599,4 +599,74 @@ class PolygonTests: XCTestCase {
         let triangles = polygon.triangulate()
         XCTAssertEqual(triangles.count, 3)
     }
+
+    func testSlightlyNonPlanarPolygonTriangulated() {
+        let path = Path([
+            .point(1.086, 0, 0.17),
+            .point(1.086, 0, 0.14),
+            .point(0.95, 0.00000001, 0.14),
+            .point(0.935, 0, 0.1),
+            .point(0.935, 0, 0.17),
+            .point(1.086, 0, 0.17),
+        ])
+        guard let polygon = Polygon(shape: path) else {
+            XCTFail()
+            return
+        }
+        let triangles = polygon.triangulate()
+        XCTAssertEqual(triangles.count, 3)
+        let points = triangles.map { $0.vertices.map { $0.position } }
+        XCTAssertEqual(points, [
+            [
+                Vector(1.086, 0.0, 0.16999999999999998),
+                Vector(1.086, 0.0, 0.13999999999999999),
+                Vector(0.95, 1e-08, 0.13999999999999999),
+            ],
+            [
+                Vector(0.95, 1e-08, 0.13999999999999999),
+                Vector(0.9349999999999999, 0.0, 0.09999999999999999),
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
+            ],
+            [
+                Vector(0.95, 1e-08, 0.13999999999999999),
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
+                Vector(1.086, 0.0, 0.16999999999999998),
+            ],
+        ])
+    }
+
+    func testInvertedSlightlyNonPlanarPolygonTriangulated() {
+        let path = Path([
+            .point(1.086, 0, 0.17),
+            .point(1.086, 0, 0.14),
+            .point(0.95, 0.00000001, 0.14),
+            .point(0.935, 0, 0.1),
+            .point(0.935, 0, 0.17),
+            .point(1.086, 0, 0.17),
+        ])
+        guard let polygon = Polygon(shape: path)?.inverted() else {
+            XCTFail()
+            return
+        }
+        let triangles = polygon.triangulate()
+        XCTAssertEqual(triangles.count, 3)
+        let points = triangles.map { $0.vertices.map { $0.position } }
+        XCTAssertEqual(points, [
+            [
+                Vector(0.95, 1e-08, 0.13999999999999999),
+                Vector(1.086, 0.0, 0.13999999999999999),
+                Vector(1.086, 0.0, 0.16999999999999998),
+            ],
+            [
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
+                Vector(0.9349999999999999, 0.0, 0.09999999999999999),
+                Vector(0.95, 1e-08, 0.13999999999999999),
+            ],
+            [
+                Vector(1.086, 0.0, 0.16999999999999998),
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
+                Vector(0.95, 1e-08, 0.13999999999999999),
+            ],
+        ])
+    }
 }

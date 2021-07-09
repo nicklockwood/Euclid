@@ -230,6 +230,17 @@ public extension Polygon {
             }
             return triangles
         }
+
+        // Note: this solves a problem when anticlockwise-ordered concave polygons
+        // would be incorrectly triangulated. However it's not clear why this is
+        // necessary, or if it will do the correct thing in all circumstances
+        let flatteningPlane = FlatteningPlane(normal: plane.normal)
+        let flattenedPoints = vertices.map { flatteningPlane.flattenPoint($0.position) }
+        let isClockwise = flattenedPointsAreClockwise(flattenedPoints)
+        if !isClockwise {
+            return inverted().triangulate().inverted()
+        }
+
         var i = 0
         var attempts = 0
         func removeVertex() {
