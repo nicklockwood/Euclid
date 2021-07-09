@@ -545,13 +545,13 @@ public extension Bounds {
 
 public extension Mesh {
     /// Load a mesh from a file using any format supported by sceneKit,  with optional material mapping
-    init(url: URL, materialLookup _: ((SCNMaterial) -> Material?)? = nil) throws {
+    init(url: URL, materialLookup: ((SCNMaterial) -> Material?)? = nil) throws {
         let importedScene = try SCNScene(url: url, options: [
             .flattenScene: true,
             .createNormalsIfAbsent: true,
         ])
         // create Mesh
-        self.init(importedScene.rootNode)
+        self.init(importedScene.rootNode, materialLookup: materialLookup)
     }
 
     /// Create a mesh from an SCNNode with optional material mapping
