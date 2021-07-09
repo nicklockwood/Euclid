@@ -1,3 +1,9 @@
+## [0.4.7](https://github.com/nicklockwood/Euclid/releases/tag/0.4.7) (2021-07-09)
+
+- Fixed tessellation bug affecting anti-clockwise polygons
+- Fixed bug where `Mesh(url:materialLookup:)` initializer ignored `materialLookup:` parameter
+- Made `SCNGeometry(polygons:)` `materialLookup:` callback return value optional for consistency
+
 ## [0.4.6](https://github.com/nicklockwood/Euclid/releases/tag/0.4.6) (2021-07-04)
 
 - Fixed bug in Path plane calculation that could result in corrupted extrusion shapes
