@@ -265,20 +265,26 @@ public extension Path {
     }
 
     /// Get vertices suitable for constructing a polygon from the path
-    /// vertices include normals and uv coordinates normalized to the
-    /// bounding rectangle of the path. Returns nil if path has subpaths
+    /// Vertices include normals and uv coordinates normalized to the bounding
+    /// rectangle of the path. Returns nil if path is open or has subpaths
     var faceVertices: [Vertex]? {
         // TODO: should this be facePolygons instead, to handle non-planar shapes?
-        guard isClosed, let normal = plane?.normal, subpaths.count <= 1 else {
+        guard isClosed, subpaths.count <= 1, var p0 = points.last else {
             return nil
         }
+        let faceNormal = plane?.normal
         var hasTexcoords = true
-        var vertices: [Vertex] = points.dropFirst().map {
-            guard let texcoord = $0.texcoord else {
-                hasTexcoords = false
-                return Vertex(unchecked: $0.position, normal)
-            }
-            return Vertex(unchecked: $0.position, normal, texcoord)
+        var vertices = [Vertex]()
+        for i in 0 ..< points.count - 1 {
+            let p1 = points[i]
+            let texcoord = p1.texcoord
+            hasTexcoords = hasTexcoords && texcoord != nil
+            let normal = faceNormal ?? faceNormalForPolygonPoints(
+                [p0.position, p1.position, points[i + 1].position],
+                convex: true
+            )
+            vertices.append(Vertex(unchecked: p1.position, normal, texcoord ?? .zero))
+            p0 = p1
         }
         guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
             return nil
@@ -288,14 +294,17 @@ public extension Path {
         }
         var min = Vector(.infinity, .infinity)
         var max = Vector(-.infinity, -.infinity)
-        let flatteningPlane = FlatteningPlane(normal: normal)
+        let flatteningPlane = FlatteningPlane(
+            normal: faceNormal ??
+                faceNormalForPolygonPoints(vertices.map { $0.position }, convex: nil)
+        )
         vertices = vertices.map {
             let uv = flatteningPlane.flattenPoint($0.position)
             min.x = Swift.min(min.x, uv.x)
             min.y = Swift.min(min.y, uv.y)
             max.x = Swift.max(max.x, uv.x)
             max.y = Swift.max(max.y, uv.y)
-            return Vertex(unchecked: $0.position, normal, uv)
+            return Vertex(unchecked: $0.position, $0.normal, uv)
         }
         let uvScale = Vector(max.x - min.x, max.y - min.y)
         return vertices.map {
@@ -308,6 +317,8 @@ public extension Path {
         }
     }
 
+    /// Get edge vertices suitable for converting into a solid shape using lathe or extrusion
+    /// Returns an empty array if path has subpaths
     var edgeVertices: [Vertex] {
         edgeVertices(for: .default)
     }
