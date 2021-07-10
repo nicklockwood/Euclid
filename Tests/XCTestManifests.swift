@@ -212,6 +212,7 @@ extension PathTests {
         ("testEdgeVerticesForSmoothedClosedRect", testEdgeVerticesForSmoothedClosedRect),
         ("testEdgeVerticesForSmoothedCylinder", testEdgeVerticesForSmoothedCylinder),
         ("testEdgeVerticesForVerticalPath", testEdgeVerticesForVerticalPath),
+        ("testEdgeVerticesForZigZag", testEdgeVerticesForZigZag),
         ("testFaceVerticesForConcaveClockwisePath", testFaceVerticesForConcaveClockwisePath),
         ("testFaceVerticesForDegenerateClosedAnticlockwisePath", testFaceVerticesForDegenerateClosedAnticlockwisePath),
         ("testNestedSubpathsAreFlattenedCorrectly", testNestedSubpathsAreFlattenedCorrectly),

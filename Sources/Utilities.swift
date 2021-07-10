@@ -107,7 +107,9 @@ func pointsAreDegenerate(_ points: [Vector]) -> Bool {
 }
 
 func pointsAreConvex(_ points: [Vector]) -> Bool {
-    assert(!pointsAreDegenerate(points))
+    if pointsAreDegenerate(points) {
+        return false
+    }
     let count = points.count
     guard count > 3, let a = points.last else {
         return count > 2

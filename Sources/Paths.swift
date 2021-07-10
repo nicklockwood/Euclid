@@ -265,6 +265,8 @@ public extension Path {
         var vertices = [Vertex]()
         var v = 0.0
         let endIndex = count
+        let faceNormal = plane?.normal ??
+            faceNormalForPolygonPoints(points.map { $0.position }, convex: nil)
         for i in 0 ..< endIndex {
             p1 = p2
             p2 = i < points.count - 1 ? points[i + 1] :
@@ -275,7 +277,6 @@ public extension Path {
                 ))
             let p0p1 = p1p2
             p1p2 = p2.position - p1.position
-            let faceNormal = plane?.normal ?? p0p1.cross(p1p2)
             let n0 = n1 ?? p0p1.cross(faceNormal).normalized()
             n1 = p1p2.cross(faceNormal).normalized()
             let uv = Vector(0, v, 0)

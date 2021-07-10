@@ -477,6 +477,35 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices[1].normal, Vector(-1, 0))
     }
 
+    func testEdgeVerticesForZigZag() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(0, 1),
+            .point(1, 1),
+        ])
+        let vertices = path.edgeVertices
+        XCTAssertEqual(vertices.count, 6)
+        guard vertices.count >= 6 else { return }
+        // positions
+        XCTAssertEqual(vertices[0].position, Vector(0, 0))
+        XCTAssertEqual(vertices[1].position, Vector(1, 0))
+        XCTAssertEqual(vertices[2].position, Vector(1, 0))
+        XCTAssertEqual(vertices[3].position, Vector(0, 1))
+        XCTAssertEqual(vertices[4].position, Vector(0, 1))
+        XCTAssertEqual(vertices[5].position, Vector(1, 1))
+        // texture coords
+        XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
+        XCTAssertEqual(vertices[5].texcoord, Vector(0, 1))
+        // normals
+        XCTAssertEqual(vertices[0].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[1].normal, Vector(0, -1))
+        XCTAssert(vertices[2].normal.isEqual(to: Vector(1, 1).normalized()))
+        XCTAssert(vertices[3].normal.isEqual(to: Vector(1, 1).normalized()))
+        XCTAssertEqual(vertices[4].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[5].normal, Vector(0, -1))
+    }
+
     // MARK: Y-axis clipping
 
     func testClipClosedClockwiseTriangleToRightOfAxis() {
