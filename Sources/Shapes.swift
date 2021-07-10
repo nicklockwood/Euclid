@@ -724,9 +724,12 @@ public extension Mesh {
         }
         var polygons = [Polygon]()
         var prev = shapes[0]
+        var isCapped = true
         if !isClosed {
             let facePolygons = prev.facePolygons(material: material)
-            if let p0p1 = directionBetweenShapes(prev, shapes[1]) {
+            if facePolygons.isEmpty {
+                isCapped = false
+            } else if let p0p1 = directionBetweenShapes(prev, shapes[1]) {
                 polygons += facePolygons.map {
                     p0p1.dot($0.plane.normal) > 0 ? $0.inverted() : $0
                 }
@@ -793,7 +796,9 @@ public extension Mesh {
         }
         if !isClosed {
             let facePolygons = prev.facePolygons(material: material)
-            if let p0p1 = directionBetweenShapes(shapes[shapes.count - 2], prev) {
+            if facePolygons.isEmpty {
+                isCapped = false
+            } else if let p0p1 = directionBetweenShapes(shapes[shapes.count - 2], prev) {
                 polygons += facePolygons.map {
                     p0p1.dot($0.plane.normal) < 0 ? $0.inverted() : $0
                 }
@@ -802,7 +807,7 @@ public extension Mesh {
             }
         }
         switch faces {
-        case .default where shapes.allSatisfy({ $0.isClosed }), .front:
+        case .default where isCapped, .front:
             return Mesh(unchecked: polygons, isConvex: isConvex)
         case .back:
             return Mesh(unchecked: polygons.inverted(), isConvex: false)

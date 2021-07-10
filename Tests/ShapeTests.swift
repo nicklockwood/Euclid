@@ -222,8 +222,6 @@ class ShapeTests: XCTestCase {
 
         let loft = Mesh.loft(shapes)
 
-        XCTAssertEqual(loft.polygons.count, 4)
-
         // Every vertex in the loft should be contained by one of our shapes
         let vertices = loft.polygons.flatMap { $0.vertices }
         XCTAssert(vertices.allSatisfy { vertex in
@@ -245,8 +243,6 @@ class ShapeTests: XCTestCase {
 
         let loft = Mesh.loft(shapes)
 
-        XCTAssertEqual(loft.polygons.count, 8)
-
         XCTAssert(loft.polygons.allSatisfy { pointsAreCoplanar($0.vertices.map { $0.position }) })
 
         // Every vertex in the loft should be contained by one of our shapes
@@ -265,5 +261,6 @@ class ShapeTests: XCTestCase {
         ])
         let mesh = Mesh.extrude(path)
         XCTAssertFalse(mesh.polygons.isEmpty)
+        XCTAssertEqual(mesh, .extrude(path, faces: .frontAndBack))
     }
 }
