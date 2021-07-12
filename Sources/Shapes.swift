@@ -406,7 +406,7 @@ public extension Mesh {
         // normalize profile
         profile = profile.flattened().clippedToYAxis()
         guard let normal = profile.plane?.normal else {
-            assertionFailure()
+            // Path is self-intersecting, or otherwise degenerate
             return Mesh([])
         }
         if normal.z < 0 {

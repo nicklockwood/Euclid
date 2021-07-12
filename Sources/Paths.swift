@@ -416,6 +416,9 @@ internal extension Path {
     }
 
     func clippedToYAxis() -> Path {
+        guard subpathIndices.isEmpty else {
+            return Path(subpaths: subpaths.map { $0.clippedToYAxis() })
+        }
         var points = self.points
         guard !points.isEmpty else {
             return self
@@ -437,9 +440,8 @@ internal extension Path {
                 leftOfOrigin -= 1
             }
         }
-        var plane = self.plane
         if rightOfOrigin > leftOfOrigin {
-            plane = plane?.inverted()
+            // Mirror the path about Y axis
             points = points.map {
                 var point = $0
                 point.position.x = -point.position.x
@@ -484,7 +486,11 @@ internal extension Path {
             }
             i -= 1
         }
-        return Path(unchecked: points, plane: plane, subpathIndices: nil)
+        return Path(
+            unchecked: points,
+            plane: nil, // Might have changed if path is self-intersecting
+            subpathIndices: nil
+        )
     }
 }
 

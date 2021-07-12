@@ -315,6 +315,7 @@ extension ShapeTests {
         ("testFillAnticlockwiseQuad", testFillAnticlockwiseQuad),
         ("testFillClockwiseQuad", testFillClockwiseQuad),
         ("testFillSelfIntersectingPath", testFillSelfIntersectingPath),
+        ("testLatheSelfIntersectingPath", testLatheSelfIntersectingPath),
         ("testLoftNonParallelEdges", testLoftNonParallelEdges),
         ("testLoftParallelEdges", testLoftParallelEdges),
         ("testSimpleCurvedPath", testSimpleCurvedPath),

@@ -187,6 +187,19 @@ class ShapeTests: XCTestCase {
         XCTAssert(mesh.triangulate().polygons.isEmpty)
     }
 
+    // MARK: Lathe
+
+    func testLatheSelfIntersectingPath() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 1),
+            .point(1, 0),
+            .point(0, 1),
+        ])
+        let mesh = Mesh.lathe(path)
+        XCTAssertFalse(mesh.polygons.isEmpty)
+    }
+
     // MARK: Loft
 
     func testLoftParallelEdges() {
