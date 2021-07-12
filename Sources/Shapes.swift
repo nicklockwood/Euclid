@@ -728,7 +728,7 @@ public extension Mesh {
             if let p0p1 = directionBetweenShapes(prev, shapes[1]), p0p1.dot(polygon.plane.normal) > 0 {
                 polygon = polygon.inverted()
             }
-            polygons += polygon.tessellate()
+            polygons.append(polygon)
         }
         let uvstep = Double(1) / Double(count - 1)
         var e1 = prev.edgeVertices
@@ -793,7 +793,7 @@ public extension Mesh {
             {
                 polygon = polygon.inverted()
             }
-            polygons += polygon.tessellate()
+            polygons.append(polygon)
         }
         switch faces {
         case .default where shapes.allSatisfy({ $0.isClosed }), .front:
@@ -819,7 +819,7 @@ public extension Mesh {
         guard let polygon = Polygon(shape: shape.closed(), material: material) else {
             return Mesh([])
         }
-        let polygons = polygon.tessellate()
+        let polygons = [polygon]
         switch faces {
         case .front:
             return Mesh(unchecked: polygons, isConvex: false)

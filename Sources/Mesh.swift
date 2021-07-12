@@ -50,9 +50,7 @@ extension Mesh: Codable {
                     polygons.map { $0.with(material: material.value) }
                 }
             } else {
-                polygons = try container.decode([Polygon].self, forKey: .polygons).flatMap {
-                    $0.tessellate()
-                }
+                polygons = try container.decode([Polygon].self, forKey: .polygons)
             }
             self.init(
                 unchecked: polygons,
@@ -107,7 +105,7 @@ public extension Mesh {
 
     /// Construct a Mesh from an array of `Polygon` instances.
     init(_ polygons: [Polygon]) {
-        self.init(unchecked: polygons.flatMap { $0.tessellate() }, isConvex: false)
+        self.init(unchecked: polygons, isConvex: false)
     }
 
     /// Replaces one material with another
@@ -163,7 +161,6 @@ public extension Mesh {
 
 internal extension Mesh {
     init(unchecked polygons: [Polygon], bounds: Bounds? = nil, isConvex: Bool) {
-        assert(polygons.allSatisfy { $0.isConvex })
         self.storage = Storage(
             polygons: polygons,
             bounds: bounds,

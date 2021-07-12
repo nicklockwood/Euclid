@@ -162,7 +162,7 @@ private extension BSP {
                 var a = a
                 for i in total.indices.reversed() {
                     let b = total[i]
-                    if a.id == b.id, let c = a.join(unchecked: b, ensureConvex: true) {
+                    if a.id == b.id, let c = a.join(unchecked: b, ensureConvex: false) {
                         a = c
                         total.remove(at: i)
                     }
