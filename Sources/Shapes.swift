@@ -724,11 +724,15 @@ public extension Mesh {
         }
         var polygons = [Polygon]()
         var prev = shapes[0]
-        if !isClosed, var polygon = Polygon(shape: prev, material: material) {
-            if let p0p1 = directionBetweenShapes(prev, shapes[1]), p0p1.dot(polygon.plane.normal) > 0 {
-                polygon = polygon.inverted()
+        if !isClosed {
+            let facePolygons = prev.facePolygons(material: material)
+            if let p0p1 = directionBetweenShapes(prev, shapes[1]) {
+                polygons += facePolygons.map {
+                    p0p1.dot($0.plane.normal) > 0 ? $0.inverted() : $0
+                }
+            } else {
+                polygons += facePolygons
             }
-            polygons.append(polygon)
         }
         let uvstep = Double(1) / Double(count - 1)
         var e1 = prev.edgeVertices
@@ -787,13 +791,15 @@ public extension Mesh {
             // TODO: create triangles for mismatched points
             prev = path
         }
-        if !isClosed, var polygon = Polygon(shape: prev, material: material) {
-            if let p0p1 = directionBetweenShapes(shapes[shapes.count - 2], prev),
-               p0p1.dot(polygon.plane.normal) < 0
-            {
-                polygon = polygon.inverted()
+        if !isClosed {
+            let facePolygons = prev.facePolygons(material: material)
+            if let p0p1 = directionBetweenShapes(shapes[shapes.count - 2], prev) {
+                polygons += facePolygons.map {
+                    p0p1.dot($0.plane.normal) < 0 ? $0.inverted() : $0
+                }
+            } else {
+                polygons += facePolygons
             }
-            polygons.append(polygon)
         }
         switch faces {
         case .default where shapes.allSatisfy({ $0.isClosed }), .front:
@@ -816,10 +822,7 @@ public extension Mesh {
             return .xor(subpaths.map { .fill($0, faces: faces, material: material) })
         }
 
-        guard let polygon = Polygon(shape: shape.closed(), material: material) else {
-            return Mesh([])
-        }
-        let polygons = [polygon]
+        let polygons = shape.closed().facePolygons(material: material)
         switch faces {
         case .front:
             return Mesh(unchecked: polygons, isConvex: false)
@@ -828,7 +831,7 @@ public extension Mesh {
         case .frontAndBack, .default:
             return Mesh(
                 unchecked: polygons + polygons.map { $0.inverted() },
-                isConvex: polygon.isConvex
+                isConvex: polygons.count == 1 && polygons[0].isConvex
             )
         }
     }

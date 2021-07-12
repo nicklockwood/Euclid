@@ -264,6 +264,27 @@ public extension Path {
         return paths.isEmpty && !points.isEmpty ? [self] : paths
     }
 
+    /// Get one or more polygons needed to fill the path
+    /// Polygon vertices include normals and uv coordinates normalized to the bounding rectangle of the path
+    func facePolygons(material: Mesh.Material? = nil) -> [Polygon] {
+        guard subpaths.count <= 1 else {
+            return subpaths.flatMap { $0.facePolygons(material: material) }
+        }
+        guard let vertices = faceVertices else {
+            return []
+        }
+        if plane != nil, let polygon = Polygon(vertices, material: material) {
+            return [polygon]
+        }
+        return triangulateVertices(
+            vertices,
+            plane: nil,
+            isConvex: nil,
+            bounds: bounds,
+            material: material
+        ).detessellate(ensureConvex: false)
+    }
+
     /// Get vertices suitable for constructing a polygon from the path
     /// Vertices include normals and uv coordinates normalized to the bounding
     /// rectangle of the path. Returns nil if path is open or has subpaths
@@ -408,7 +429,7 @@ public extension Path {
 
 public extension Polygon {
     /// Create a polygon from a path
-    /// Path may be convex or concave, but must be closed and non-degenerate
+    /// Path may be convex or concave, but must be closed, planar and non-degenerate
     init?(shape: Path, material: Material? = nil) {
         guard let vertices = shape.faceVertices, let plane = shape.plane else {
             return nil

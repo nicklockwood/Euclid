@@ -187,6 +187,18 @@ class ShapeTests: XCTestCase {
         XCTAssert(mesh.polygons.isEmpty)
     }
 
+    func testFillNonPlanarQuad() {
+        let shape = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1, 1),
+            .point(0, 1),
+            .point(0, 0),
+        ])
+        let mesh = Mesh.fill(shape)
+        XCTAssertEqual(mesh.polygons.count, 4)
+    }
+
     // MARK: Lathe
 
     func testLatheSelfIntersectingPath() {

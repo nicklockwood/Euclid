@@ -62,6 +62,127 @@ func verticesAreCoplanar(_ vertices: [Vertex]) -> Bool {
     return pointsAreCoplanar(vertices.map { $0.position })
 }
 
+func triangulateVertices(
+    _ vertices: [Vertex],
+    plane: Plane?,
+    isConvex: Bool?,
+    bounds: Bounds?,
+    material: Mesh.Material?,
+    id: Int = 0
+) -> [Polygon] {
+    var vertices = vertices
+    guard vertices.count > 3 else {
+        assert(vertices.count > 2)
+        return [Polygon(
+            unchecked: vertices,
+            plane: plane,
+            isConvex: isConvex,
+            bounds: bounds,
+            material: material,
+            id: id
+        )]
+    }
+    var triangles = [Polygon]()
+    func addTriangle(_ vertices: [Vertex]) -> Bool {
+        guard !verticesAreDegenerate(vertices) else {
+            return false
+        }
+        triangles.append(Polygon(
+            unchecked: vertices,
+            plane: plane,
+            isConvex: true,
+            material: material,
+            id: id
+        ))
+        return true
+    }
+    let positions = vertices.map { $0.position }
+    if isConvex ?? pointsAreConvex(positions) {
+        let v0 = vertices[0]
+        var v1 = vertices[1]
+        for v2 in vertices[2...] {
+            _ = addTriangle([v0, v1, v2])
+            v1 = v2
+        }
+        return triangles
+    }
+
+    // Note: this solves a problem when anticlockwise-ordered concave polygons
+    // would be incorrectly triangulated. However it's not clear why this is
+    // necessary, or if it will do the correct thing in all circumstances
+    let flatteningPlane = FlatteningPlane(
+        normal: plane?.normal ??
+            faceNormalForPolygonPoints(positions, convex: false)
+    )
+    let flattenedPoints = vertices.map { flatteningPlane.flattenPoint($0.position) }
+    let isClockwise = flattenedPointsAreClockwise(flattenedPoints)
+    if !isClockwise {
+        guard flattenedPointsAreClockwise(flattenedPoints.reversed()) else {
+            // Points are self-intersecting, or otherwise degenerate
+            return []
+        }
+        return triangulateVertices(
+            vertices.reversed().map { $0.inverted() },
+            plane: plane?.inverted(),
+            isConvex: isConvex,
+            bounds: bounds,
+            material: material
+        ).inverted()
+    }
+
+    var i = 0
+    var attempts = 0
+    func removeVertex() {
+        attempts = 0
+        vertices.remove(at: i)
+        if i == vertices.count {
+            i = 0
+        }
+    }
+    while vertices.count > 3 {
+        let p0 = vertices[(i - 1 + vertices.count) % vertices.count]
+        let p1 = vertices[i]
+        let p2 = vertices[(i + 1) % vertices.count]
+        // check for colinear points
+        let p0p1 = p0.position - p1.position, p2p1 = p2.position - p1.position
+        if p0p1.cross(p2p1).length < epsilon {
+            // vertices are colinear, so we can't form a triangle
+            if p0p1.dot(p2p1) > 0 {
+                // center point makes path degenerate - remove it
+                removeVertex()
+            } else {
+                // try next point instead
+                i += 1
+                if i == vertices.count {
+                    i = 0
+                    attempts += 1
+                    if attempts > 2 {
+                        return triangles
+                    }
+                }
+            }
+            continue
+        }
+        let triangle = Polygon([p0, p1, p2])
+        if triangle == nil || vertices.contains(where: {
+            !triangle!.vertices.contains($0) && triangle!.containsPoint($0.position)
+        }) || plane.map({ triangle!.plane.normal.dot($0.normal) <= 0 }) ?? false {
+            i += 1
+            if i == vertices.count {
+                i = 0
+                attempts += 1
+                if attempts > 2 {
+                    return triangles
+                }
+            }
+        } else if addTriangle(triangle!.vertices) {
+            removeVertex()
+        }
+    }
+    _ = addTriangle(vertices)
+    return triangles
+}
+
 // MARK: Vector utilities
 
 func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
