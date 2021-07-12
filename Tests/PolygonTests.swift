@@ -91,6 +91,16 @@ class PolygonTests: XCTestCase {
         ]))
     }
 
+    func testDegeneratePolygonWithSelfIntersectingPoints() {
+        let normal = Vector(0, 0, 1)
+        XCTAssertNil(Polygon([
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(1, 1), normal),
+            Vertex(Vector(1, 0), normal),
+            Vertex(Vector(0, 1), normal),
+        ]))
+    }
+
     // MARK: merging
 
     func testMerge1() {

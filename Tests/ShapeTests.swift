@@ -184,7 +184,7 @@ class ShapeTests: XCTestCase {
             .point(0, 1),
         ])
         let mesh = Mesh.fill(path)
-        XCTAssert(mesh.triangulate().polygons.isEmpty)
+        XCTAssert(mesh.polygons.isEmpty)
     }
 
     // MARK: Lathe
@@ -197,7 +197,7 @@ class ShapeTests: XCTestCase {
             .point(0, 1),
         ])
         let mesh = Mesh.lathe(path)
-        XCTAssertFalse(mesh.polygons.isEmpty)
+        XCTAssert(mesh.polygons.isEmpty)
     }
 
     // MARK: Loft
@@ -242,5 +242,16 @@ class ShapeTests: XCTestCase {
         XCTAssert(vertices.allSatisfy { vertex in
             shapes.contains(where: { $0.points.contains(where: { $0.position == vertex.position }) })
         })
+    }
+
+    func testExtrudeSelfIntersectingPath() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 1),
+            .point(1, 0),
+            .point(0, 1),
+        ])
+        let mesh = Mesh.extrude(path)
+        XCTAssertFalse(mesh.polygons.isEmpty)
     }
 }

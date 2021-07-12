@@ -365,30 +365,8 @@ internal extension Path {
     }
 
     // Test if path is self-intersecting
-    // TODO: extend this to work in 3D
-    // TODO: optimize by using http://www.webcitation.org/6ahkPQIsN
     var isSimple: Bool {
-        let points = flattened().points.map { $0.position }
-        for i in 0 ..< points.count - 2 {
-            let p0 = points[i]
-            let p1 = points[i + 1]
-            if p0 == p1 {
-                continue
-            }
-            for j in i + 2 ..< points.count - 1 {
-                let p2 = points[j]
-                let p3 = points[j + 1]
-                if p1 == p2 || p2 == p3 || p3 == p0 {
-                    continue
-                }
-                let l1 = LineSegment(unchecked: p0, p1)
-                let l2 = LineSegment(unchecked: p2, p3)
-                if l1.intersects(l2) {
-                    return false
-                }
-            }
-        }
-        return true
+        !pointsAreSelfIntersecting(points.map { $0.position })
     }
 
     // Returns the most suitable FlatteningPlane for the path

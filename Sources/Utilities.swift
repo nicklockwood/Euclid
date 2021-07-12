@@ -88,6 +88,9 @@ func pointsAreDegenerate(_ points: [Vector]) -> Bool {
     if count < 3 {
         return false
     }
+    guard !pointsAreSelfIntersecting(points) else {
+        return true
+    }
     ab = ab / length
     for i in 0 ..< count {
         let b = points[i]
@@ -106,10 +109,8 @@ func pointsAreDegenerate(_ points: [Vector]) -> Bool {
     return false
 }
 
+// Note: assumes points are not degenerate
 func pointsAreConvex(_ points: [Vector]) -> Bool {
-    if pointsAreDegenerate(points) {
-        return false
-    }
     let count = points.count
     guard count > 3, let a = points.last else {
         return count > 2
@@ -136,6 +137,34 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
         ab = bc
     }
     return true
+}
+
+// Test if path is self-intersecting
+// TODO: extend this to work in 3D
+// TODO: optimize by using http://www.webcitation.org/6ahkPQIsN
+func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
+    let flatteningPlane = FlatteningPlane(points: points, convex: nil)
+    let points = points.map { flatteningPlane.flattenPoint($0) }
+    for i in 0 ..< points.count - 2 {
+        let p0 = points[i]
+        let p1 = points[i + 1]
+        if p0 == p1 {
+            continue
+        }
+        for j in i + 2 ..< points.count - 1 {
+            let p2 = points[j]
+            let p3 = points[j + 1]
+            if p1 == p2 || p2 == p3 || p3 == p0 {
+                continue
+            }
+            let l1 = LineSegment(unchecked: p0, p1)
+            let l2 = LineSegment(unchecked: p2, p3)
+            if l1.intersects(l2) {
+                return true
+            }
+        }
+    }
+    return false
 }
 
 // Computes the face normal for a collection of points
@@ -293,10 +322,10 @@ func lineSegmentsIntersect(
         return false // lines are parallel
     }
     // TODO: is there a cheaper way to do this?
-    if pi.x < min(p0.x, p1.x) || pi.x > max(p0.x, p1.x) ||
-        pi.x < min(p2.x, p3.x) || pi.x > max(p2.x, p3.x) ||
-        pi.y < min(p0.y, p1.y) || pi.y > max(p0.y, p1.y) ||
-        pi.y < min(p2.y, p3.y) || pi.y > max(p2.y, p3.y)
+    if pi.x <= min(p0.x, p1.x) || pi.x >= max(p0.x, p1.x) ||
+        pi.x <= min(p2.x, p3.x) || pi.x >= max(p2.x, p3.x) ||
+        pi.y <= min(p0.y, p1.y) || pi.y >= max(p0.y, p1.y) ||
+        pi.y <= min(p2.y, p3.y) || pi.y >= max(p2.y, p3.y)
     {
         return false
     }
