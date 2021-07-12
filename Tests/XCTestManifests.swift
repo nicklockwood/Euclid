@@ -270,6 +270,7 @@ extension PolygonTests {
     static let __allTests__PolygonTests = [
         ("testConcaveAnticlockwisePolygonContainsPoint", testConcaveAnticlockwisePolygonContainsPoint),
         ("testConcaveAnticlockwisePolygonContainsPoint2", testConcaveAnticlockwisePolygonContainsPoint2),
+        ("testConcaveAnticlockwisePolygonCorrectlyDetessellated", testConcaveAnticlockwisePolygonCorrectlyDetessellated),
         ("testConcaveAnticlockwisePolygonCorrectlyTessellated", testConcaveAnticlockwisePolygonCorrectlyTessellated),
         ("testConcaveAnticlockwisePolygonCorrectlyTriangulated", testConcaveAnticlockwisePolygonCorrectlyTriangulated),
         ("testConcavePolygonAnticlockwiseWinding", testConcavePolygonAnticlockwiseWinding),
@@ -280,7 +281,9 @@ extension PolygonTests {
         ("testConvexPolygonClockwiseWinding", testConvexPolygonClockwiseWinding),
         ("testDegeneratePolygonWithColinearPoints", testDegeneratePolygonWithColinearPoints),
         ("testDegeneratePolygonWithSelfIntersectingPoints", testDegeneratePolygonWithSelfIntersectingPoints),
+        ("testHouseShapedPolygonCorrectlyDetessellated", testHouseShapedPolygonCorrectlyDetessellated),
         ("testHouseShapedPolygonCorrectlyTriangulated", testHouseShapedPolygonCorrectlyTriangulated),
+        ("testInvertedConcaveAnticlockwisePolygonCorrectlyDetessellated", testInvertedConcaveAnticlockwisePolygonCorrectlyDetessellated),
         ("testInvertedConcaveAnticlockwisePolygonCorrectlyTessellated", testInvertedConcaveAnticlockwisePolygonCorrectlyTessellated),
         ("testInvertedConcaveAnticlockwisePolygonCorrectlyTriangulated", testInvertedConcaveAnticlockwisePolygonCorrectlyTriangulated),
         ("testInvertedSlightlyNonPlanarPolygonTriangulated", testInvertedSlightlyNonPlanarPolygonTriangulated),
@@ -294,8 +297,11 @@ extension PolygonTests {
         ("testMergeT2BAdjacentRects", testMergeT2BAdjacentRects),
         ("testNonDegeneratePolygonWithColinearPoints", testNonDegeneratePolygonWithColinearPoints),
         ("testPathWithZeroAreaColinearPointTriangulated", testPathWithZeroAreaColinearPointTriangulated),
+        ("testPolygonWithColinearPointsCorrectlyDetessellated", testPolygonWithColinearPointsCorrectlyDetessellated),
         ("testPolygonWithColinearPointsCorrectlyTriangulated", testPolygonWithColinearPointsCorrectlyTriangulated),
         ("testSlightlyNonPlanarPolygonTriangulated", testSlightlyNonPlanarPolygonTriangulated),
+        ("testUniqueEdgesForCube", testUniqueEdgesForCube),
+        ("testUniqueEdgesForSphere", testUniqueEdgesForSphere),
     ]
 }
 

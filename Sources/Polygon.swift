@@ -115,6 +115,17 @@ public extension Polygon {
         }
     }
 
+    /// Returns a set of polygon edges
+    /// The direction of each edge is normalized relative to the origin to facilitate edge-equality comparisons
+    var undirectedEdges: Set<LineSegment> {
+        var p0 = vertices.last!.position
+        return Set(vertices.map {
+            let p1 = $0.position
+            defer { p0 = p1 }
+            return p0 < p1 ? LineSegment(unchecked: p0, p1) : LineSegment(unchecked: p1, p0)
+        })
+    }
+
     /// Create copy of polygon with specified material
     func with(material: Material?) -> Polygon {
         var polygon = self
@@ -159,7 +170,7 @@ public extension Polygon {
     }
 
     /// Merge with another polygon, removing redundant vertices if possible
-    func merge(_ other: Polygon) -> Polygon? {
+    func merge(_ other: Polygon, ensureConvex: Bool = false) -> Polygon? {
         // do they have the same material?
         guard material == other.material else {
             return nil
@@ -168,9 +179,10 @@ public extension Polygon {
         guard plane.isEqual(to: other.plane) else {
             return nil
         }
-        return join(unchecked: other, ensureConvex: false)
+        return join(unchecked: other, ensureConvex: ensureConvex)
     }
 
+    /// Flip the polygon along its plane
     func inverted() -> Polygon {
         Polygon(
             unchecked: vertices.reversed().map { $0.inverted() },
@@ -301,82 +313,43 @@ public extension Polygon {
     }
 }
 
-public struct Edge: Hashable {
-    public let start, end: Vector
-}
-
 internal extension Collection where Element == Polygon {
+    /// Return a set of all unique edges across all the polygons
+    var uniqueEdges: Set<LineSegment> {
+        var edges = Set<LineSegment>()
+        forEach { edges.formUnion($0.undirectedEdges) }
+        return edges
+    }
+
+    /// Flip each polygon along its plane
     func inverted() -> [Polygon] {
         map { $0.inverted() }
     }
 
+    /// Decompose each concave polygon into 2 or more convex polygons
     func tessellate() -> [Polygon] {
         flatMap { $0.tessellate() }
     }
 
-    func detessellate() -> [Polygon] {
-        var edgePolyMap: [Edge: [Polygon]] = [:]
-
-        // Map the polys by edge
-        forEach { polygon in
-            // Likely 3 edges
-            undirectedEdges(polygon).forEach {
-                edgePolyMap[$0, default: []].append(polygon)
-            }
-        }
-
-        // Join coplanar polygons
-        edgePolyMap.forEach { joinEdge, polygons in
-            if polygons.count == 2 {
-                if polygons[0].plane.isEqual(to: polygons[1].plane) {
-                    let prejoinedPoly1 = polygons[0]
-                    let prejoinedPoly2 = polygons[1]
-                    let joinedPoly = prejoinedPoly1.join(unchecked: prejoinedPoly2, ensureConvex: false)
-                    if let joinedPoly = joinedPoly {
-                        edgePolyMap.removeValue(forKey: joinEdge)
-                        undirectedEdges(joinedPoly).forEach {
-                            edgePolyMap[$0]?.removeAll(where: { p in p == prejoinedPoly1 || p == prejoinedPoly2 })
-                            if edgePolyMap[$0] == nil { edgePolyMap[$0] = [] }
-                            edgePolyMap[$0]?.append(joinedPoly)
-                        }
-                    }
-                }
-            }
-        }
-
-        return edgePolyMap.values.flatMap { $0 }
-    }
-
-    private func undirectedEdges(_ p: Polygon) -> [Edge] {
-        var edges: [Edge] = []
-        for i in 0 ..< p.vertices.count {
-            let v1 = p.vertices[i]
-            let v2 = p.vertices[i - 1 < 0 ? p.vertices.count - 1 : i - 1]
-            let undirectedEdge = v1.position.length < v2.position.length ? [v1, v2] : [v2, v1]
-            edges.append(
-                Edge(
-                    start: undirectedEdge[0].position,
-                    end: undirectedEdge[1].position
-                )
-            )
-        }
-        return edges
-    }
-
-    var uniqueEdges: [Edge] {
-        var edges: Set<Edge> = []
-        // Map the polys by edge
-        forEach { polygon in
-            // Likely 3 edges
-            undirectedEdges(polygon).forEach {
-                edges.insert($0)
-            }
-        }
-        return Array(edges)
-    }
-
+    /// Decompose each polygon into triangles
     func triangulate() -> [Polygon] {
         flatMap { $0.triangulate() }
+    }
+
+    // Merge coplanar polygons that share one or more edges
+    func detessellate(ensureConvex: Bool = false) -> [Polygon] {
+        var polygons = Array(self)
+        var i = polygons.count - 1
+        while i > 0 {
+            let a = polygons[i]
+            let b = polygons[i - 1]
+            if let merged = a.merge(b, ensureConvex: ensureConvex) {
+                polygons[i - 1] = merged
+                polygons.remove(at: i)
+            }
+            i -= 1
+        }
+        return polygons
     }
 }
 

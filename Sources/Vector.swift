@@ -42,6 +42,23 @@ public struct Vector: Hashable {
     }
 }
 
+extension Vector: Comparable {
+    /// Provides a stable sort order for Vectors
+    public static func < (lhs: Vector, rhs: Vector) -> Bool {
+        if lhs.x < rhs.x {
+            return true
+        } else if lhs.x > rhs.x {
+            return false
+        }
+        if lhs.y < rhs.y {
+            return true
+        } else if lhs.y > rhs.y {
+            return false
+        }
+        return lhs.z < rhs.z
+    }
+}
+
 extension Vector: Codable {
     private enum CodingKeys: CodingKey {
         case x, y, z

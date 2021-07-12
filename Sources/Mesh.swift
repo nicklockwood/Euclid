@@ -100,7 +100,12 @@ public extension Mesh {
         return polygonsByMaterial
     }
 
-    /// Construct a Mesh from a list of `Polygon` instances.
+    /// Returns all unique polygon edges in the mesh
+    var uniqueEdges: Set<LineSegment> {
+        polygons.uniqueEdges
+    }
+
+    /// Construct a Mesh from an array of `Polygon` instances.
     init(_ polygons: [Polygon]) {
         self.init(unchecked: polygons.flatMap { $0.tessellate() }, isConvex: false)
     }
@@ -145,17 +150,14 @@ public extension Mesh {
         Mesh(unchecked: polygons.tessellate(), isConvex: isConvex)
     }
 
-    func detessellate() -> Mesh {
-        Mesh(unchecked: polygons.detessellate(), isConvex: isConvex)
-    }
-
-    var uniqueEdges: [Edge] {
-        polygons.uniqueEdges
-    }
-
     /// Tessellate polygons into triangles.
     func triangulate() -> Mesh {
         Mesh(unchecked: polygons.triangulate(), isConvex: isConvex)
+    }
+
+    /// Merge coplanar polygons that share one or more edges
+    func detessellate() -> Mesh {
+        Mesh(unchecked: polygons.detessellate(), isConvex: isConvex)
     }
 }
 
