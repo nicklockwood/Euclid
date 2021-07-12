@@ -274,8 +274,8 @@ public extension SCNGeometry {
         self.materials = materials
     }
 
-    /// Creates a wireframe SCNGeometry from a Mesh using line segments
-    convenience init(wireframe mesh: Mesh) {
+    /// Creates a wireframe SCNGeometry from a collection of LineSegments
+    convenience init<T: Collection>(_ edges: T) where T.Element == LineSegment {
         var indexData = Data()
         var vertexData = Data()
         var indicesByVertex = [Vector: UInt32]()
@@ -289,16 +289,9 @@ public extension SCNGeometry {
             indexData.append(index)
             vertexData.append(vertex)
         }
-        for polygon in mesh.polygons {
-            for polygon in polygon.tessellate() {
-                let vertices = polygon.vertices
-                var v0 = vertices.last
-                for v1 in vertices {
-                    addVertex(v0!.position)
-                    addVertex(v1.position)
-                    v0 = v1
-                }
-            }
+        for edge in edges {
+            addVertex(edge.start)
+            addVertex(edge.end)
         }
         self.init(
             sources: [
@@ -324,56 +317,16 @@ public extension SCNGeometry {
         )
     }
 
+    /// Creates a wireframe SCNGeometry from a Mesh using line segments
+    convenience init(wireframe mesh: Mesh) {
+        self.init(mesh.uniqueEdges)
+    }
+
     /// Creates line-segment SCNGeometry representing the vertex normals of a Mesh
     convenience init(normals mesh: Mesh, scale: Double = 1) {
-        var indexData = Data()
-        var vertexData = Data()
-        var indicesByVertex = [Vector: UInt32]()
-        func addVertex(_ vertex: Vector) {
-            if let index = indicesByVertex[vertex] {
-                indexData.append(index)
-                return
-            }
-            let index = UInt32(indicesByVertex.count)
-            indicesByVertex[vertex] = index
-            indexData.append(index)
-            vertexData.append(vertex)
-        }
-        func addNormal(for vertex: Vertex) {
-            addVertex(vertex.position)
-            addVertex(vertex.position + vertex.normal * scale)
-        }
-        for polygon in mesh.polygons {
-            let vertices = polygon.vertices
-            let v0 = vertices[0]
-            for i in 2 ..< vertices.count {
-                addNormal(for: v0)
-                addNormal(for: vertices[i - 1])
-                addNormal(for: vertices[i])
-            }
-        }
-        self.init(
-            sources: [
-                SCNGeometrySource(
-                    data: vertexData,
-                    semantic: .vertex,
-                    vectorCount: vertexData.count / 12,
-                    usesFloatComponents: true,
-                    componentsPerVector: 3,
-                    bytesPerComponent: 4,
-                    dataOffset: 0,
-                    dataStride: 0
-                ),
-            ],
-            elements: [
-                SCNGeometryElement(
-                    data: indexData,
-                    primitiveType: .line,
-                    primitiveCount: indexData.count / 8,
-                    bytesPerIndex: 4
-                ),
-            ]
-        )
+        self.init(Set(mesh.polygons.flatMap { $0.vertices }.compactMap {
+            LineSegment($0.position, $0.position + $0.normal * scale)
+        }))
     }
 
     /// Creates a line-segment SCNGeometry from a Path
