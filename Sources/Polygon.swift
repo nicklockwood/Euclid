@@ -239,6 +239,18 @@ internal extension Collection where Element == Polygon {
         return edges
     }
 
+    /// Check if polygons form a watertight mesh, i.e. every edge is attached to at least 2 polygons.
+    /// Note: doesn't verify that mesh is not self-intersecting or inside-out.
+    var areWatertight: Bool {
+        var edgeCounts = [LineSegment: Int]()
+        for polygon in self {
+            for edge in polygon.undirectedEdges {
+                edgeCounts[edge, default: 0] += 1
+            }
+        }
+        return edgeCounts.values.allSatisfy { $0 >= 2 && $0 % 2 == 0 }
+    }
+
     /// Flip each polygon along its plane
     func inverted() -> [Polygon] {
         map { $0.inverted() }

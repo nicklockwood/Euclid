@@ -103,6 +103,12 @@ public extension Mesh {
         polygons.uniqueEdges
     }
 
+    /// Returns true if polygon is watertight, i.e. every edge is attached to at least 2 polygons.
+    /// Note: doesn't verify that mesh is not self-intersecting or inside-out.
+    var isWatertight: Bool {
+        isConvex || polygons.areWatertight
+    }
+
     /// Construct a Mesh from an array of `Polygon` instances.
     init(_ polygons: [Polygon]) {
         self.init(unchecked: polygons, bounds: nil, isConvex: false)
