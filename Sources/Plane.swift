@@ -110,6 +110,13 @@ public extension Plane {
         abs(p.distance(from: self)) < epsilon
     }
 
+    /// Distance of the point from a plane
+    /// A positive value is returned if the point lies in front of the plane
+    /// A negative value is returned if the point lies behind the plane
+    func distance(from p: Vector) -> Double {
+        normal.dot(p) - w
+    }
+
     /// Returns line of intersection between planes
     func intersection(with p: Plane) -> Line? {
         guard !normal.isEqual(to: p.normal),

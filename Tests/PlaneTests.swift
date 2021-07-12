@@ -127,20 +127,20 @@ class PlaneTests: XCTestCase {
         let line = Line(unchecked: Vector(1, 5, 60), direction: Vector(0, 0, 1))
         let plane = Plane(unchecked: Vector(0, 0, 1), pointOnPlane: Vector(-3, 2, 0))
         let expected = Vector(1, 5, 0)
-        XCTAssertEqual(expected, plane.intersection(with: line)!)
+        XCTAssertEqual(expected, plane.intersection(with: line))
     }
 
     func testIntersectionWithAxisLine() {
         let line = Line(unchecked: Vector(0, 0, 0), direction: Vector(4, 3, 0).normalized())
         let plane = Plane(unchecked: Vector(0, 1, 0), w: 3)
         let expected = Vector(4, 3, 0)
-        XCTAssertEqual(expected, plane.intersection(with: line)!)
+        XCTAssertEqual(expected, plane.intersection(with: line))
     }
 
     func testIntersectionWithSkewedLine() {
         let line = Line(unchecked: Vector(8, 8, 10), direction: Vector(1, 1, 1).normalized())
         let plane = Plane(unchecked: Vector(0, 0, 1), pointOnPlane: Vector(5, -7, 2))
         let expected = Vector(0, 0, 2)
-        XCTAssertEqual(expected, plane.intersection(with: line)!)
+        XCTAssertEqual(expected, plane.intersection(with: line))
     }
 }

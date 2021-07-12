@@ -180,12 +180,26 @@ public extension Vector {
         return Angle.asin(complementeryAngle)
     }
 
+    /// Distance of the point from a plane
+    /// A positive value is returned if the point lies in front of the plane
+    /// A negative value is returned if the point lies behind the plane
     func distance(from plane: Plane) -> Double {
-        plane.normal.dot(self) - plane.w
+        plane.distance(from: self)
     }
 
+    /// The nearest point to this point on the specified plane
     func project(onto plane: Plane) -> Vector {
         self - plane.normal * distance(from: plane)
+    }
+
+    /// Distance of the point from a line in 3D
+    func distance(from line: Line) -> Double {
+        line.distance(from: self)
+    }
+
+    /// The nearest point to this point on the specified line
+    func project(onto line: Line) -> Vector {
+        line.origin + line.direction * (self - line.origin).dot(line.direction)
     }
 }
 

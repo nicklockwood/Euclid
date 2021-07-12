@@ -174,6 +174,11 @@ extension LineTests {
         ("testLineIntersectionXY", testLineIntersectionXY),
         ("testLineIntersectionXZ", testLineIntersectionXZ),
         ("testLineIntersectionYZ", testLineIntersectionYZ),
+        ("testProjectPointDiagonal", testProjectPointDiagonal),
+        ("testProjectPointDown", testProjectPointDown),
+        ("testProjectPointLeft", testProjectPointLeft),
+        ("testProjectPointRight", testProjectPointRight),
+        ("testProjectPointUp", testProjectPointUp),
     ]
 }
 
