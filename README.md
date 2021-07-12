@@ -39,13 +39,13 @@ Euclid is packaged as a dynamic framework that you can import into your Xcode pr
 To install Euclid using CocoaPods, add the following to your Podfile:
 
 ```ruby
-pod 'Euclid', '~> 0.4'
+pod 'Euclid', '~> 0.5'
 ```
 
 To install using Carthage, add this to your Cartfile:
 
 ```ogdl
-github "nicklockwood/Euclid" ~> 0.4
+github "nicklockwood/Euclid" ~> 0.5
 ```
 
 To install using Swift Package Manage, add this to the `dependencies:` section in your Package.swift file:

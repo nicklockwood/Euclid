@@ -1,3 +1,20 @@
+
+## [0.5.0](https://github.com/nicklockwood/Euclid/releases/tag/0.5.0) (2021-07-12)
+
+- Added `Mesh.detessellate()` method and `Mesh.uniqueEdges` property
+- `Mesh` initializer no longer tessellates non-convex polygons automatically
+- Added additional methods for computing intersections and distances between points, planes and lines
+- `Line` and `LineSegment` intersection methods now correctly work for lines in different planes 
+- `Polygon` initializer now rejects vertices that would form self-intersecting edges
+- Fixed crash when attempting to create fill or lathe meshes from self-intersecting paths
+- Fixed certain cases where `Path.edgeVertices` would produce inverted normals
+- Added method to easily create a `Path` from a `Polygon`
+- Texture coordinates with a non-zero Z component are now serialized correctly
+- Added optional `texcoord` property to `PathPoint`s
+- The `Mesh.fill()`, `Mesh.extrude()` and `Mesh.loft()` methods now work with non-planar paths
+- The `Path.faceVertices` property now works correctly for non-planar paths
+- Added `Path.facePolygons()` method for filling non-planar paths
+
 ## [0.4.7](https://github.com/nicklockwood/Euclid/releases/tag/0.4.7) (2021-07-09)
 
 - Fixed tessellation bug affecting anti-clockwise polygons
