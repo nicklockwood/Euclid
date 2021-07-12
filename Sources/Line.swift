@@ -61,29 +61,32 @@ public extension Line {
         return v.length
     }
 
-    func intersection(with: Line) -> Vector? {
-        if direction.z == 0, with.direction.z == 0, origin.z == with.origin.z {
-            return lineIntersection(origin, origin + direction, with.origin, with.origin + with.direction)
-        } else if direction.y == 0, with.direction.y == 0, origin.y == with.origin.y {
-            // Switch dimensions and then solve
-            let p0 = Vector(origin.x, origin.z, origin.y)
-            let p1 = p0 + Vector(direction.x, direction.z, 0)
-            let p2 = Vector(with.origin.x, with.origin.z, with.origin.y)
-            let p3 = p2 + Vector(with.direction.x, with.direction.z, 0)
-            let solution = lineIntersection(p0, p1, p2, p3)
-            return solution.map { Vector($0.x, $0.z, $0.y) }
-        } else if direction.x == 0, with.direction.x == 0, origin.x == with.origin.x {
-            // Switch dimensions and then solve
-            let p0 = Vector(origin.y, origin.z, origin.x)
-            let p1 = p0 + Vector(direction.y, direction.z, 0)
-            let p2 = Vector(with.origin.y, with.origin.z, with.origin.x)
-            let p3 = p2 + Vector(with.direction.y, with.direction.z, 0)
-            let solution = lineIntersection(p0, p1, p2, p3)
-            return solution.map { Vector($0.z, $0.x, $0.y) }
-        } else {
-            // TODO: Generalize to 3D
-            return nil
+    /// Distance of the line from another line
+    func distance(from line: Line) -> Double {
+        guard let (p0, p1) = shortestLineBetween(
+            origin,
+            origin + direction,
+            line.origin,
+            line.origin + line.direction
+        ) else {
+            return 0
         }
+        return (p1 - p0).length
+    }
+
+    /// Intersection point between lines (if any)
+    func intersection(with line: Line) -> Vector? {
+        lineIntersection(
+            origin,
+            origin + direction,
+            line.origin,
+            line.origin + line.direction
+        )
+    }
+
+    /// Returns true if the lines intersect
+    func intersects(_ line: Line) -> Bool {
+        intersection(with: line) != nil
     }
 }
 

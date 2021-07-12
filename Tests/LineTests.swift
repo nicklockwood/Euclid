@@ -81,4 +81,9 @@ class LineTests: XCTestCase {
         let intersection = l1.intersection(with: l2)
         XCTAssertEqual(intersection, Vector(3, 0, 0))
     }
+
+    func testCoincidentLineIntersection() {
+        let l1 = Line(unchecked: Vector(1, 0), direction: Vector(1, 0))
+        XCTAssertNil(l1.intersection(with: l1))
+    }
 }

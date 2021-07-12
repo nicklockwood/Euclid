@@ -169,6 +169,7 @@ extension LineTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__LineTests = [
+        ("testCoincidentLineIntersection", testCoincidentLineIntersection),
         ("testDistanceFromPointHarder", testDistanceFromPointHarder),
         ("testDistanceFromPointSimple", testDistanceFromPointSimple),
         ("testLineIntersectionXY", testLineIntersectionXY),

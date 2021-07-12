@@ -276,50 +276,59 @@ func cubicBezier(_ p0: Double, _ p1: Double, _ p2: Double, _ p3: Double, _ t: Do
 
 // MARK: Line utilities
 
-// TODO: extend this to work in 3D
-// TODO: improve this using https://en.wikipedia.org/wiki/Line–line_intersection
+// Shortest line segment between two lines
+// http://paulbourke.net/geometry/pointlineplane/
+func shortestLineBetween(
+    _ p1: Vector,
+    _ p2: Vector,
+    _ p3: Vector,
+    _ p4: Vector
+) -> (Vector, Vector)? {
+    let p21 = p2 - p1
+    assert(p21.length > epsilon)
+    let p43 = p4 - p3
+    assert(p43.length > epsilon)
+    let p13 = p1 - p3
+
+    let d1343 = p13.dot(p43)
+    let d4321 = p43.dot(p21)
+    let d1321 = p13.dot(p21)
+    let d4343 = p43.dot(p43)
+    let d2121 = p21.dot(p21)
+
+    let denominator = d2121 * d4343 - d4321 * d4321
+    guard abs(denominator) > epsilon else {
+        // Lines are coincident
+        return nil
+    }
+
+    let numerator = d1343 * d4321 - d1321 * d4343
+    let mua = numerator / denominator
+    let mub = (d1343 + d4321 * mua) / d4343
+
+    return (p1 + mua * p21, p3 + mub * p43)
+}
+
 func lineIntersection(
     _ p0: Vector,
     _ p1: Vector,
     _ p2: Vector,
     _ p3: Vector
 ) -> Vector? {
-    let x1 = p0.x, y1 = p0.y
-    let x2 = p1.x, y2 = p1.y
-    let x3 = p2.x, y3 = p2.y
-    let x4 = p3.x, y4 = p3.y
-
-    let x1y2 = x1 * y2, y1x2 = y1 * x2
-    let x1y2minusy1x2 = x1y2 - y1x2
-
-    let x3minusx4 = x3 - x4
-    let x1minusx2 = x1 - x2
-
-    let x3y4 = x3 * y4, y3x4 = y3 * x4
-    let x3y4minusy3x4 = x3y4 - y3x4
-
-    let y3minusy4 = y3 - y4
-    let y1minusy2 = y1 - y2
-
-    let d = x1minusx2 * y3minusy4 - y1minusy2 * x3minusx4
-    if abs(d) < epsilon {
-        return nil // lines are parallel
+    guard let (p0, p1) = shortestLineBetween(p0, p1, p2, p3) else {
+        return nil
     }
-    let ix = (x1y2minusy1x2 * x3minusx4 - x1minusx2 * x3y4minusy3x4) / d
-    let iy = (x1y2minusy1x2 * y3minusy4 - y1minusy2 * x3y4minusy3x4) / d
-
-    return Vector(ix, iy, p0.z).quantized()
+    return (p1 - p0).lengthSquared < epsilon ? p0 : nil
 }
 
-// TODO: extend this to work in 3D
-func lineSegmentsIntersect(
+func lineSegmentsIntersection(
     _ p0: Vector,
     _ p1: Vector,
     _ p2: Vector,
     _ p3: Vector
-) -> Bool {
+) -> Vector? {
     guard let pi = lineIntersection(p0, p1, p2, p3) else {
-        return false // lines are parallel
+        return nil // lines don't intersect
     }
     // TODO: is there a cheaper way to do this?
     if pi.x <= min(p0.x, p1.x) || pi.x >= max(p0.x, p1.x) ||
@@ -327,9 +336,9 @@ func lineSegmentsIntersect(
         pi.y <= min(p0.y, p1.y) || pi.y >= max(p0.y, p1.y) ||
         pi.y <= min(p2.y, p3.y) || pi.y >= max(p2.y, p3.y)
     {
-        return false
+        return nil
     }
-    return true
+    return pi
 }
 
 func directionsAreParallel(_ d0: Vector, _ d1: Vector) -> Bool {

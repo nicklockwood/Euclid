@@ -116,6 +116,10 @@ public extension Vector {
         Vector(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs)
     }
 
+    static func * (lhs: Double, rhs: Vector) -> Vector {
+        Vector(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z)
+    }
+
     static func *= (lhs: inout Vector, rhs: Double) {
         lhs.x *= rhs
         lhs.y *= rhs

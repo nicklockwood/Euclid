@@ -44,31 +44,17 @@ public struct LineSegment: Hashable, Codable {
 
 public extension LineSegment {
     var direction: Vector {
-        let d = end - start
-        return d.normalized()
+        (end - start).normalized()
     }
 
+    /// Intersection point between lines (if any)
+    func intersection(with segment: LineSegment) -> Vector? {
+        lineSegmentsIntersection(start, end, segment.start, segment.end)
+    }
+
+    /// Returns true if the line segments intersect
     func intersects(_ segment: LineSegment) -> Bool {
-        if direction.z == 0, segment.direction.z == 0, start.z == segment.start.z {
-            return lineSegmentsIntersect(start, end, segment.start, segment.end)
-        } else if direction.y == 0, segment.direction.y == 0, start.y == segment.start.y {
-            // Switch dimensions and then solve
-            let p0 = Vector(start.x, start.z, 0)
-            let p1 = Vector(end.x, end.z, 0)
-            let p2 = Vector(segment.start.x, segment.start.z, 0)
-            let p3 = Vector(segment.end.x, segment.end.z, 0)
-            return lineSegmentsIntersect(p0, p1, p2, p3)
-        } else if direction.x == 0, segment.direction.x == 0, start.x == segment.start.x {
-            // Switch dimensions and then solve
-            let p0 = Vector(start.y, start.z, 0)
-            let p1 = Vector(end.y, end.z, 0)
-            let p2 = Vector(segment.start.y, segment.start.z, 0)
-            let p3 = Vector(segment.end.y, segment.end.z, 0)
-            return lineSegmentsIntersect(p0, p1, p2, p3)
-        } else {
-            // TOOO: Generalize to 3D
-            return false
-        }
+        intersection(with: segment) != nil
     }
 }
 
