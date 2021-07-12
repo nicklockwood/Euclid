@@ -238,6 +238,10 @@ public extension Polygon {
         let flattenedPoints = vertices.map { flatteningPlane.flattenPoint($0.position) }
         let isClockwise = flattenedPointsAreClockwise(flattenedPoints)
         if !isClockwise {
+            guard flattenedPointsAreClockwise(flattenedPoints.reversed()) else {
+                // Points are self-intersecting, or otherwise degenerate
+                return []
+            }
             return inverted().triangulate().inverted()
         }
 

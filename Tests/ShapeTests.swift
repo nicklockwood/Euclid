@@ -148,6 +148,45 @@ class ShapeTests: XCTestCase {
         XCTAssert(path.isClosed)
     }
 
+    // MARK: Fill
+
+    func testFillClockwiseQuad() {
+        let shape = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1),
+            .point(0, 1),
+            .point(0, 0),
+        ])
+        let mesh = Mesh.fill(shape)
+        XCTAssertEqual(mesh.polygons.count, 2)
+        XCTAssertEqual(mesh.polygons.first?.plane.normal, Vector(0, 0, 1))
+    }
+
+    func testFillAnticlockwiseQuad() {
+        let shape = Path([
+            .point(1, 0),
+            .point(0, 0),
+            .point(0, 1),
+            .point(1, 1),
+            .point(1, 0),
+        ])
+        let mesh = Mesh.fill(shape)
+        XCTAssertEqual(mesh.polygons.count, 2)
+        XCTAssertEqual(mesh.polygons.first?.plane.normal, Vector(0, 0, -1))
+    }
+
+    func testFillSelfIntersectingPath() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 1),
+            .point(1, 0),
+            .point(0, 1),
+        ])
+        let mesh = Mesh.fill(path)
+        XCTAssert(mesh.triangulate().polygons.isEmpty)
+    }
+
     // MARK: Loft
 
     func testLoftParallelEdges() {
