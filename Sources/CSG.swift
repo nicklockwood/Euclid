@@ -341,11 +341,10 @@ private func boundsTest(
 // Merge all the meshes into a single mesh using fn
 private func multimerge(_ meshes: [Mesh], using fn: (Mesh, Mesh) -> Mesh) -> Mesh {
     var mesh = Mesh([])
-    var meshesAndBounds = meshes.map { ($0, $0.bounds) }
+    var meshes = meshes
     var i = 0
-    while i < meshesAndBounds.count {
-        let m = reduce(&meshesAndBounds, at: i, using: fn)
-        mesh = mesh.merge(m)
+    while i < meshes.count {
+        mesh = mesh.merge(reduce(&meshes, at: i, using: fn))
         i += 1
     }
     return mesh
@@ -353,27 +352,24 @@ private func multimerge(_ meshes: [Mesh], using fn: (Mesh, Mesh) -> Mesh) -> Mes
 
 // Merge each intersecting mesh after i into the mesh at index i using fn
 private func reduce(_ meshes: [Mesh], using fn: (Mesh, Mesh) -> Mesh) -> Mesh {
-    var meshesAndBounds = meshes.map { ($0, $0.bounds) }
-    return reduce(&meshesAndBounds, at: 0, using: fn)
+    var meshes = meshes
+    return reduce(&meshes, at: 0, using: fn)
 }
 
 private func reduce(
-    _ meshesAndBounds: inout [(Mesh, Bounds)],
+    _ meshes: inout [Mesh],
     at i: Int,
     using fn: (Mesh, Mesh) -> Mesh
 ) -> Mesh {
-    var (m, mb) = meshesAndBounds[i]
-    var j = i + 1, count = meshesAndBounds.count
-    while j < count {
-        let (n, nb) = meshesAndBounds[j]
-        if mb.intersects(nb) {
+    var m = meshes[i]
+    var j = i + 1
+    while j < meshes.count {
+        let n = meshes[j]
+        if m.bounds.intersects(n.bounds) {
             m = fn(m, n)
-            mb = m.bounds
-            meshesAndBounds[i] = (m, mb)
-            meshesAndBounds.remove(at: j)
-            count -= 1
-            j = i + 1
-            continue
+            meshes[i] = m
+            meshes.remove(at: j)
+            j = i
         }
         j += 1
     }
