@@ -84,6 +84,7 @@ extension Vector: Codable {
 
 public extension Vector {
     static let zero = Vector(0, 0, 0)
+    static let one = Vector(1, 1, 1)
 
     /// Create a vector from an array of coordinates.
     /// Omitted values are defaulted to zero.
@@ -93,6 +94,17 @@ public extension Vector {
         case 1: self.init(components[0], 0)
         case 2: self.init(components[0], components[1])
         default: self.init(components[0], components[1], components[2])
+        }
+    }
+
+    /// Create a size/scale vector from an array of coordinates.
+    /// Omitted values are defaulted to zero.
+    init(size components: [Double]) {
+        switch components.count {
+        case 0: self = .one
+        case 1: self.init(components[0], components[0], components[0])
+        case 2: self.init(components[0], components[1], components[0])
+        default: self.init(components)
         }
     }
 
