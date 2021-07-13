@@ -1,5 +1,5 @@
 //
-//  SceneKit.swift
+//  Euclid+SceneKit.swift
 //  Euclid
 //
 //  Created by Nick Lockwood on 03/07/2018.

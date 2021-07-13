@@ -1,5 +1,5 @@
 //
-//  CoreText.swift
+//  Euclid+CoreText.swift
 //  Euclid
 //
 //  Created by Nick Lockwood on 10/03/2019.

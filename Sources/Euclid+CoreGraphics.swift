@@ -1,5 +1,5 @@
 //
-//  CoreGraphics.swift
+//  Euclid+CoreGraphics.swift
 //  Euclid
 //
 //  Created by Nick Lockwood on 09/03/2019.
