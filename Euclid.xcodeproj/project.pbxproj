@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101BAF425687A450096B1E7 /* CodingTests.swift */; };
+		010D941926A784A400DB2414 /* Mesh.json in Resources */ = {isa = PBXBuildFile; fileRef = 010D941826A784A400DB2414 /* Mesh.json */; };
 		013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013312DC21CA532A00626F1B /* PlaneTests.swift */; };
 		013ED08F23C0E60900FEEE5C /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013ED08E23C0E60900FEEE5C /* Rotation.swift */; };
 		014AC60E2505963800F54349 /* SceneKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014AC60D2505963800F54349 /* SceneKitTests.swift */; };
@@ -87,6 +88,7 @@
 
 /* Begin PBXFileReference section */
 		0101BAF425687A450096B1E7 /* CodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingTests.swift; sourceTree = "<group>"; };
+		010D941826A784A400DB2414 /* Mesh.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Mesh.json; sourceTree = "<group>"; };
 		013312DC21CA532A00626F1B /* PlaneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneTests.swift; sourceTree = "<group>"; };
 		013B5BE426923087000860DC /* MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataTests.swift; sourceTree = "<group>"; };
 		013ED08E23C0E60900FEEE5C /* Rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 			children = (
 				016FABEC21C078E400AF60DC /* AppDelegate.swift */,
 				016FABF021C078E400AF60DC /* SceneViewController.swift */,
+				010D941826A784A400DB2414 /* Mesh.json */,
 				016FABF221C078E400AF60DC /* Main.storyboard */,
 				016FABF521C078E500AF60DC /* Assets.xcassets */,
 				016FABF721C078E500AF60DC /* LaunchScreen.storyboard */,
@@ -396,6 +399,7 @@
 			files = (
 				016FABF921C078E500AF60DC /* LaunchScreen.storyboard in Resources */,
 				016FABF621C078E500AF60DC /* Assets.xcassets in Resources */,
+				010D941926A784A400DB2414 /* Mesh.json in Resources */,
 				016FABF421C078E400AF60DC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -674,7 +678,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -709,7 +713,6 @@
 				SDKROOT = "";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx appletvos appletvsimulator";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;

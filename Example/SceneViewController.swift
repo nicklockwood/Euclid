@@ -27,9 +27,23 @@ class SceneViewController: UIViewController {
 
         // create some geometry using Euclid
         let start = CFAbsoluteTimeGetCurrent()
-        let cube = Mesh.cube(size: 0.8, material: UIColor.red)
-        let sphere = Mesh.sphere(slices: 120, material: UIColor.blue)
-        let mesh = cube.subtract(sphere)
+
+        let url = Bundle.main.url(forResource: "Mesh", withExtension: "json")
+        let data = try! Data(contentsOf: url!)
+        let frond = try! JSONDecoder().decode(Mesh.self, from: data)
+
+        var mesh = Mesh([]) // start with empty mesh
+
+        // create foliage
+        var a = 0.0
+        for _ in 0 ..< 10 {
+            let r = Rotation(axis: Vector(0, 0, 1), angle: .degrees(a))!
+            a += 36
+            let frond = frond.translated(by: Vector(0, -1, 0)).rotated(by: r)
+
+            mesh = mesh.union(frond) // union into one big mesh
+        }
+
         print("Time:", CFAbsoluteTimeGetCurrent() - start)
         print("Polys:", mesh.polygons.count)
 
