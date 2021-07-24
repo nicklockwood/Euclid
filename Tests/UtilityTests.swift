@@ -112,4 +112,15 @@ class UtilityTests: XCTestCase {
             .point(0.18, 0.245),
         ])
     }
+
+    // MARK: lines
+
+    func testVectorFromPointToLine() {
+        let result = vectorFromPointToLine(
+            Vector(2, 0),
+            Vector(-1, -1),
+            Vector(1, 0)
+        )
+        XCTAssertEqual(result, Vector(0, -1, 0))
+    }
 }

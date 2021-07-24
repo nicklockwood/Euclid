@@ -55,10 +55,7 @@ public extension Line {
 
     /// Distance of the line from a given point in 3D
     func distance(from point: Vector) -> Double {
-        // See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-        let d = point - origin
-        let v = d - (direction * d.dot(direction))
-        return v.length
+        vectorFromPointToLine(point, origin, direction).length
     }
 
     /// Distance of the line from another line

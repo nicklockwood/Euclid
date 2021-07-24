@@ -37,6 +37,7 @@
 		016FABF421C078E400AF60DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF221C078E400AF60DC /* Main.storyboard */; };
 		016FABF621C078E500AF60DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF521C078E500AF60DC /* Assets.xcassets */; };
 		016FABF921C078E500AF60DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF721C078E500AF60DC /* LaunchScreen.storyboard */; };
+		0188E98326ACA0040029C253 /* LineSegmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0188E98226ACA0040029C253 /* LineSegmentTests.swift */; };
 		018D0ACE255C398D006D2351 /* Euclid.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		01A429FA2237A85C00C251A6 /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A429F92237A85C00C251A6 /* TextTests.swift */; };
 		01B299572692339200B80A0D /* MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B5BE426923087000860DC /* MetadataTests.swift */; };
@@ -121,6 +122,7 @@
 		016FABF521C078E500AF60DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		016FABF821C078E500AF60DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		016FABFA21C078E500AF60DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0188E98226ACA0040029C253 /* LineSegmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegmentTests.swift; sourceTree = "<group>"; };
 		01A429F92237A85C00C251A6 /* TextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTests.swift; sourceTree = "<group>"; };
 		01BA2969222726BD0088D36B /* XCTestManifests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		01BA29702235A63F0088D36B /* CoreText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreText.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 				52C844E023854C87009C0A73 /* VectorTests.swift */,
 				0101BAF425687A450096B1E7 /* CodingTests.swift */,
 				52A3852D238D6E5700BE8407 /* LineTests.swift */,
+				0188E98226ACA0040029C253 /* LineSegmentTests.swift */,
 				013B5BE426923087000860DC /* MetadataTests.swift */,
 				01BA2969222726BD0088D36B /* XCTestManifests.swift */,
 				016FAB3921BFE78100AF60DC /* Info.plist */,
@@ -491,6 +494,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01A429FA2237A85C00C251A6 /* TextTests.swift in Sources */,
+				0188E98326ACA0040029C253 /* LineSegmentTests.swift in Sources */,
 				0A240137256A64FB00C1535C /* AngleTests.swift in Sources */,
 				52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */,
 				016FAB6621BFE7CE00AF60DC /* ShapeTests.swift in Sources */,

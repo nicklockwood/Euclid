@@ -431,6 +431,17 @@ func shortestLineBetween(
     return (p1 + mua * p21, p3 + mub * p43)
 }
 
+// See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+func vectorFromPointToLine(
+    _ point: Vector,
+    _ lineOrigin: Vector,
+    _ lineDirection: Vector
+) -> Vector {
+    assert(lineDirection.isNormalized)
+    let d = point - lineOrigin
+    return lineDirection * d.dot(lineDirection) - d
+}
+
 func lineIntersection(
     _ p0: Vector,
     _ p1: Vector,

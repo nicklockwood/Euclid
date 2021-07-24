@@ -86,4 +86,21 @@ class LineTests: XCTestCase {
         let l1 = Line(unchecked: Vector(1, 0), direction: Vector(1, 0))
         XCTAssertNil(l1.intersection(with: l1))
     }
+
+    // MARK: Contains point
+
+    func testContainsPoint() {
+        let line = Line(unchecked: Vector(-2, -1, 0), direction: Vector(2, 1, 0).normalized())
+        XCTAssert(line.containsPoint(Vector(-1, -0.5, 0)))
+    }
+
+    func testContainsPoint2() {
+        let line = Line(unchecked: Vector(-2, -1, 0), direction: Vector(2, 1, 0).normalized())
+        XCTAssert(line.containsPoint(Vector(-3, -1.5, 0)))
+    }
+
+    func testDoesNotContainPoint() {
+        let line = Line(unchecked: Vector(-2, -1, 0), direction: Vector(2, 1, 0).normalized())
+        XCTAssertFalse(line.containsPoint(Vector(-1, -0.6, 0)))
+    }
 }

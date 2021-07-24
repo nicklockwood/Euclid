@@ -47,6 +47,18 @@ public extension LineSegment {
         (end - start).normalized()
     }
 
+    /// Check if point is on line segment
+    func containsPoint(_ p: Vector) -> Bool {
+        let v = vectorFromPointToLine(p, start, direction)
+        guard v.length < epsilon else {
+            return false
+        }
+        let p = p + v
+        return p.x >= min(start.x, end.x) && p.x <= max(start.x, end.x) &&
+            p.y >= min(start.y, end.y) && p.y <= max(start.y, end.y) &&
+            p.z >= min(start.z, end.z) && p.z <= max(start.z, end.z)
+    }
+
     /// Intersection point between lines (if any)
     func intersection(with segment: LineSegment) -> Vector? {
         lineSegmentsIntersection(start, end, segment.start, segment.end)
