@@ -131,10 +131,11 @@ public extension Plane {
     /// Returns point intersection beteween plane and line
     func intersection(with line: Line) -> Vector? {
         // https://en.wikipedia.org/wiki/Line–plane_intersection#Algebraic_form
-        guard !directionsAreNormal(line.direction, normal) else {
+        let lineDotPlaneNormal = line.direction.dot(normal)
+        guard abs(lineDotPlaneNormal) > epsilon else {
+            // Line and plane are parallel
             return nil
         }
-        let lineDotPlaneNormal = line.direction.dot(normal)
         let planePoint = normal * w
         let d = (planePoint - line.origin).dot(normal) / lineDotPlaneNormal
         let intersection = line.origin + line.direction * d

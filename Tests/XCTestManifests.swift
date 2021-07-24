@@ -393,15 +393,11 @@ extension UtilityTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__UtilityTests = [
-        ("testAntiparallelDirections", testAntiparallelDirections),
         ("testColinearPointsDontPreventConvexness", testColinearPointsDontPreventConvexness),
         ("testConvexnessResultNotAffectedByTranslation", testConvexnessResultNotAffectedByTranslation),
         ("testDegenerateColinearVertices", testDegenerateColinearVertices),
         ("testDegenerateVerticesWithZeroLengthEdge", testDegenerateVerticesWithZeroLengthEdge),
-        ("testGeneralDirections", testGeneralDirections),
         ("testNonDegenerateColinearVertices", testNonDegenerateColinearVertices),
-        ("testNormalDirections", testNormalDirections),
-        ("testParallelDirections", testParallelDirections),
         ("testRemoveZeroAreaColinearPointRemoved", testRemoveZeroAreaColinearPointRemoved),
         ("testSanitizeInvalidClosedPath", testSanitizeInvalidClosedPath),
     ]
