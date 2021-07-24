@@ -760,16 +760,13 @@ class PolygonTests: XCTestCase {
 
     func testPolygonWithColinearPointsCorrectlyDetessellated() {
         let normal = Vector(0, 0, -1)
-        guard let polygon = Polygon([
+        let polygon = Polygon(unchecked: [
             Vertex(Vector(0, 0), normal),
             Vertex(Vector(0.5, 0), normal),
             Vertex(Vector(0.5, 1), normal),
             Vertex(Vector(-0.5, 1), normal),
             Vertex(Vector(-0.5, 0), normal),
-        ]) else {
-            XCTFail()
-            return
-        }
+        ])
         let triangles = polygon.triangulate()
         XCTAssertEqual(triangles.count, 3)
         let result = triangles.detessellate()
@@ -780,7 +777,7 @@ class PolygonTests: XCTestCase {
 
     func testHouseShapedPolygonCorrectlyDetessellated() {
         let normal = Vector(0, 0, -1)
-        guard let polygon = Polygon([
+        let polygon = Polygon(unchecked: [
             Vertex(Vector(0, 0.5), normal),
             Vertex(Vector(1, 0), normal),
             Vertex(Vector(0.5, 0), normal),
@@ -788,16 +785,44 @@ class PolygonTests: XCTestCase {
             Vertex(Vector(-0.5, -1), normal),
             Vertex(Vector(-0.5, 0), normal),
             Vertex(Vector(-1, 0), normal),
-        ]) else {
-            XCTFail()
-            return
-        }
+        ])
         let triangles = polygon.triangulate()
         XCTAssertEqual(triangles.count, 5)
         let result = triangles.detessellate()
         XCTAssertEqual(result.count, 1)
         XCTAssertEqual(result.first?.undirectedEdges, polygon.undirectedEdges)
         XCTAssertEqual(Set(result.first?.vertices ?? []), Set(polygon.vertices))
+    }
+
+    func testNonWatertightPolygonsCorrectlyDetessellated() {
+        let normal = Vector(0, 0, -1)
+        let triangles = [
+            Polygon(unchecked: [
+                Vertex(Vector(0, -1), normal),
+                Vertex(Vector(-2, 0), normal),
+                Vertex(Vector(2, 0), normal),
+            ]),
+            Polygon(unchecked: [
+                Vertex(Vector(-2, 0), normal),
+                Vertex(Vector(0, 1), normal),
+                Vertex(Vector(0, 0), normal),
+            ]),
+            Polygon(unchecked: [
+                Vertex(Vector(2, 0), normal),
+                Vertex(Vector(0, 0), normal),
+                Vertex(Vector(0, 1), normal),
+            ]),
+        ]
+        let result = triangles.detessellate()
+        XCTAssertEqual(result.count, 1)
+        XCTAssertEqual(result, [
+            Polygon(unchecked: [
+                Vertex(Vector(0, -1), normal),
+                Vertex(Vector(-2, 0), normal),
+                Vertex(Vector(0, 1), normal),
+                Vertex(Vector(2, 0), normal),
+            ]),
+        ])
     }
 
     // MARK: uniqueEdges

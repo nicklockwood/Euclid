@@ -312,6 +312,7 @@ extension PolygonTests {
         ("testMergeR2LAdjacentRects", testMergeR2LAdjacentRects),
         ("testMergeT2BAdjacentRects", testMergeT2BAdjacentRects),
         ("testNonDegeneratePolygonWithColinearPoints", testNonDegeneratePolygonWithColinearPoints),
+        ("testNonWatertightPolygonsCorrectlyDetessellated", testNonWatertightPolygonsCorrectlyDetessellated),
         ("testOpenShapeExtrusionIsWatertight", testOpenShapeExtrusionIsWatertight),
         ("testPathWithZeroAreaColinearPointTriangulated", testPathWithZeroAreaColinearPointTriangulated),
         ("testPolygonIDPreservedThroughTessellation", testPolygonIDPreservedThroughTessellation),

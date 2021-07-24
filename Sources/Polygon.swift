@@ -269,15 +269,21 @@ internal extension Collection where Element == Polygon {
     // Merge coplanar polygons that share one or more edges
     func detessellate(ensureConvex: Bool = false) -> [Polygon] {
         var polygons = Array(self)
-        var i = polygons.count - 1
-        while i > 0 {
+        var i = 0
+        while i < polygons.count {
+            var j = i + 1
             let a = polygons[i]
-            let b = polygons[i - 1]
-            if let merged = a.merge(b, ensureConvex: ensureConvex) {
-                polygons[i - 1] = merged
-                polygons.remove(at: i)
+            while j < polygons.count {
+                let b = polygons[j]
+                if let merged = a.merge(b, ensureConvex: ensureConvex) {
+                    polygons[i] = merged
+                    polygons.remove(at: j)
+                    i = -1
+                    break
+                }
+                j += 1
             }
-            i -= 1
+            i += 1
         }
         return polygons
     }
