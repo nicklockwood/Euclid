@@ -69,16 +69,7 @@ private extension BSP {
         }
 
         // Sort polygons by plane
-        let count = polygons.count
-        for i in 0 ..< count - 2 {
-            let p = polygons[i]
-            let plane = p.plane
-            var k = i + 1
-            for j in k ..< count where k < j && polygons[j].plane.isEqual(to: plane) {
-                polygons.swapAt(j, k)
-                k += 1
-            }
-        }
+        polygons.sortByPlane()
 
         // Use fast bsp construction
         var parent: BSPNode?

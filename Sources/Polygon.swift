@@ -266,19 +266,26 @@ internal extension Collection where Element == Polygon {
         flatMap { $0.triangulate() }
     }
 
-    // Merge coplanar polygons that share one or more edges
+    /// Merge coplanar polygons that share one or more edges
     func detessellate(ensureConvex: Bool = false) -> [Polygon] {
         var polygons = Array(self)
+        polygons.sortByPlane()
         var i = 0
+        var firstPolygonInPlane = 0
         while i < polygons.count {
             var j = i + 1
             let a = polygons[i]
             while j < polygons.count {
                 let b = polygons[j]
+                guard a.plane.isEqual(to: b.plane) else {
+                    firstPolygonInPlane = j
+                    i = firstPolygonInPlane - 1
+                    break
+                }
                 if let merged = a.merge(b, ensureConvex: ensureConvex) {
                     polygons[i] = merged
                     polygons.remove(at: j)
-                    i = -1
+                    i = firstPolygonInPlane - 1
                     break
                 }
                 j += 1
@@ -286,6 +293,22 @@ internal extension Collection where Element == Polygon {
             i += 1
         }
         return polygons
+    }
+}
+
+internal extension MutableCollection where Element == Polygon, Index == Int {
+    /// Sort polygons by plane
+    mutating func sortByPlane() {
+        let count = self.count
+        for i in 0 ..< count - 2 {
+            let p = self[i]
+            let plane = p.plane
+            var k = i + 1
+            for j in (k + 1) ..< count where self[j].plane.isEqual(to: plane) {
+                swapAt(j, k)
+                k += 1
+            }
+        }
     }
 }
 
