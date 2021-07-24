@@ -68,7 +68,7 @@ func triangulateVertices(
     isConvex: Bool?,
     bounds: Bounds?,
     material: Mesh.Material?,
-    id: Int = 0
+    id: Int
 ) -> [Polygon] {
     var vertices = vertices
     guard vertices.count > 3 else {
@@ -126,7 +126,8 @@ func triangulateVertices(
             plane: plane?.inverted(),
             isConvex: isConvex,
             bounds: bounds,
-            material: material
+            material: material,
+            id: id
         ).inverted()
     }
 

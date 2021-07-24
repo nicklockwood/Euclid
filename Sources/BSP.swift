@@ -23,11 +23,7 @@ struct BSP {
 
     func clip(_ polygons: [Polygon], _ keeping: ClipRule) -> [Polygon] {
         var id = 0
-        var polygons = polygons
-        for (i, p) in polygons.enumerated() where p.id != 0 {
-            polygons[i].id = 0
-        }
-        return clip(polygons, keeping, &id)
+        return clip(polygons.map { $0.with(id: 0) }, keeping, &id)
     }
 }
 

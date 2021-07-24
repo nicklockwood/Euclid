@@ -281,7 +281,8 @@ public extension Path {
             plane: nil,
             isConvex: nil,
             bounds: bounds,
-            material: material
+            material: material,
+            id: 0
         ).detessellate(ensureConvex: false)
     }
 

@@ -194,7 +194,8 @@ public extension Polygon {
             plane: plane.inverted(),
             isConvex: isConvex,
             bounds: bounds,
-            material: material
+            material: material,
+            id: id
         )
     }
 
@@ -224,7 +225,8 @@ public extension Polygon {
             plane: plane,
             isConvex: isConvex,
             bounds: bounds,
-            material: material
+            material: material,
+            id: id
         )
     }
 }
@@ -284,7 +286,8 @@ internal extension Polygon {
             plane: Plane(unchecked: normal, pointOnPlane: vertices[0].position),
             isConvex: isConvex,
             bounds: bounds,
-            material: material
+            material: material,
+            id: 0
         )
     }
 
@@ -430,6 +433,13 @@ internal extension Polygon {
         return comparison
     }
 
+    // Create copy of polygon with specified id
+    func with(id: Int) -> Polygon {
+        var polygon = self
+        polygon.id = id
+        return polygon
+    }
+
     func clip(
         to polygons: [Polygon],
         _ inside: inout [Polygon],
@@ -464,6 +474,7 @@ internal extension Polygon {
         inside.append(polygon)
     }
 
+    // Put the polygon in the correct list, splitting it when necessary
     func split(
         along plane: Plane,
         _ coplanar: inout [Polygon],
@@ -471,7 +482,6 @@ internal extension Polygon {
         _ back: inout [Polygon],
         _ id: inout Int
     ) {
-        // Put the polygon in the correct list, splitting it when necessary
         switch compare(with: plane) {
         case .coplanar:
             coplanar.append(self)

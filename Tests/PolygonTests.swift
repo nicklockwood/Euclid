@@ -684,6 +684,38 @@ class PolygonTests: XCTestCase {
         XCTAssertEqual(Set(merged.flatMap { $0.vertices }), Set(polygon.vertices))
     }
 
+    func testPolygonIDPreservedThroughTriangulation() {
+        let path = Path([
+            .point(0, 1),
+            .point(0.5, 0),
+            .point(0, -1),
+            .point(1, 0),
+            .point(0, 1),
+        ])
+        guard let polygon = Polygon(shape: path)?.with(id: 5) else {
+            XCTFail()
+            return
+        }
+        let triangles = polygon.triangulate()
+        XCTAssert(triangles.allSatisfy { $0.id == 5 })
+    }
+
+    func testPolygonIDPreservedThroughTessellation() {
+        let path = Path([
+            .point(0, 1),
+            .point(0.5, 0),
+            .point(0, -1),
+            .point(1, 0),
+            .point(0, 1),
+        ])
+        guard let polygon = Polygon(shape: path)?.with(id: 5) else {
+            XCTFail()
+            return
+        }
+        let polygons = polygon.tessellate()
+        XCTAssert(polygons.allSatisfy { $0.id == 5 })
+    }
+
     // MARK: detessellation
 
     func testConcaveAnticlockwisePolygonCorrectlyDetessellated() {

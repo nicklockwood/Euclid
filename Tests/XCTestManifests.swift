@@ -310,6 +310,8 @@ extension PolygonTests {
         ("testMergeT2BAdjacentRects", testMergeT2BAdjacentRects),
         ("testNonDegeneratePolygonWithColinearPoints", testNonDegeneratePolygonWithColinearPoints),
         ("testPathWithZeroAreaColinearPointTriangulated", testPathWithZeroAreaColinearPointTriangulated),
+        ("testPolygonIDPreservedThroughTessellation", testPolygonIDPreservedThroughTessellation),
+        ("testPolygonIDPreservedThroughTriangulation", testPolygonIDPreservedThroughTriangulation),
         ("testPolygonWithColinearPointsCorrectlyDetessellated", testPolygonWithColinearPointsCorrectlyDetessellated),
         ("testPolygonWithColinearPointsCorrectlyTriangulated", testPolygonWithColinearPointsCorrectlyTriangulated),
         ("testSlightlyNonPlanarPolygonTriangulated", testSlightlyNonPlanarPolygonTriangulated),
