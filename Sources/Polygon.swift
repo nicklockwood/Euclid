@@ -295,6 +295,11 @@ internal extension Collection where Element == Polygon {
         }
         return polygons
     }
+
+    /// Sort polygons by plane
+    func sortedByPlane() -> [Polygon] {
+        sorted(by: { $0.plane < $1.plane })
+    }
 }
 
 internal extension MutableCollection where Element == Polygon, Index == Int {
@@ -316,20 +321,6 @@ internal extension MutableCollection where Element == Polygon, Index == Int {
             }
         }
         return true
-    }
-
-    /// Sort polygons by plane
-    mutating func sortByPlane() {
-        let count = self.count
-        for i in 0 ..< count - 2 {
-            let p = self[i]
-            let plane = p.plane
-            var k = i + 1
-            for j in (k + 1) ..< count where self[j].plane.isEqual(to: plane) {
-                swapAt(j, k)
-                k += 1
-            }
-        }
     }
 }
 

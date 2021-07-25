@@ -68,8 +68,7 @@ private extension BSP {
         }
 
         // Sort polygons by plane
-        var polygons = polygons
-        polygons.sortByPlane()
+        let polygons = polygons.sortedByPlane()
 
         // Create nodes
         var parent: BSPNode?

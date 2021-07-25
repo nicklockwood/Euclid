@@ -44,6 +44,16 @@ public struct Plane: Hashable {
     }
 }
 
+extension Plane: Comparable {
+    /// Provides a stable sort order for Planes
+    public static func < (lhs: Plane, rhs: Plane) -> Bool {
+        if lhs.normal == rhs.normal {
+            return lhs.w < rhs.w
+        }
+        return lhs.normal < rhs.normal
+    }
+}
+
 extension Plane: Codable {
     private enum CodingKeys: CodingKey {
         case normal, w
