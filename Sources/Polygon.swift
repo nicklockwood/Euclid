@@ -267,9 +267,10 @@ internal extension Collection where Element == Polygon {
     }
 
     /// Merge coplanar polygons that share one or more edges
+    /// Note: polygons must be sorted by plane prior to calling this method
     func detessellate(ensureConvex: Bool = false) -> [Polygon] {
         var polygons = Array(self)
-        polygons.sortByPlane()
+        assert(polygons.areSortedByPlane)
         var i = 0
         var firstPolygonInPlane = 0
         while i < polygons.count {
@@ -297,6 +298,26 @@ internal extension Collection where Element == Polygon {
 }
 
 internal extension MutableCollection where Element == Polygon, Index == Int {
+    /// Merge coplanar polygons that share one or more edges
+    var areSortedByPlane: Bool {
+        let count = self.count
+        for i in 0 ..< count - 1 {
+            let p = self[i]
+            let plane = p.plane
+            var wasSame = true
+            for j in (i + 1) ..< count {
+                if self[j].plane.isEqual(to: plane) {
+                    if !wasSame {
+                        return false
+                    }
+                } else {
+                    wasSame = false
+                }
+            }
+        }
+        return true
+    }
+
     /// Sort polygons by plane
     mutating func sortByPlane() {
         let count = self.count

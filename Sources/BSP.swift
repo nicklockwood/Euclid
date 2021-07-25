@@ -57,21 +57,21 @@ private class BSPNode {
 private extension BSP {
     mutating func initialize(_ polygons: [Polygon], isConvex: Bool) {
         nodes.reserveCapacity(polygons.count)
-
-        // Randomly shuffle polygons to reduce average number of splits
         var rng = DeterministicRNG()
-        var polygons = polygons.shuffled(using: &rng)
 
         guard isConvex else {
+            // Randomly shuffle polygons to reduce average number of splits
+            let polygons = polygons.shuffled(using: &rng)
             nodes.append(BSPNode(plane: polygons[0].plane))
             insert(polygons)
             return
         }
 
         // Sort polygons by plane
+        var polygons = polygons
         polygons.sortByPlane()
 
-        // Use fast bsp construction
+        // Create nodes
         var parent: BSPNode?
         for polygon in polygons {
             if let parent = parent, polygon.plane.isEqual(to: parent.plane) {
@@ -79,9 +79,16 @@ private extension BSP {
                 continue
             }
             let node = BSPNode(polygon: polygon)
-            parent?.back = nodes.count
             nodes.append(node)
             parent = node
+        }
+
+        // Randomly shuffle nodes to reduce average number of splits
+        nodes.shuffle(using: &rng)
+
+        // Use fast BSP construction
+        for i in 0 ..< nodes.count - 1 {
+            nodes[i].back = i + 1
         }
     }
 

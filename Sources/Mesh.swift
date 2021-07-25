@@ -173,6 +173,8 @@ public extension Mesh {
 
     /// Merge coplanar polygons that share one or more edges
     func detessellate() -> Mesh {
+        var polygons = polygons
+        polygons.sortByPlane()
         return Mesh(
             unchecked: polygons.detessellate(),
             bounds: bounds,
