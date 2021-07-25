@@ -31,6 +31,7 @@
 
 struct BSP {
     private var nodes: [BSPNode]
+    private(set) var isConvex: Bool
 
     enum ClipRule {
         case greaterThan
@@ -41,7 +42,8 @@ struct BSP {
 
     init(_ mesh: Mesh) {
         self.nodes = [BSPNode]()
-        initialize(mesh.polygons, isConvex: mesh.isConvex)
+        self.isConvex = mesh.isConvex
+        initialize(mesh.polygons)
     }
 
     func clip(_ polygons: [Polygon], _ keeping: ClipRule) -> [Polygon] {
@@ -78,7 +80,7 @@ private class BSPNode {
 }
 
 private extension BSP {
-    mutating func initialize(_ polygons: [Polygon], isConvex: Bool) {
+    mutating func initialize(_ polygons: [Polygon]) {
         nodes.reserveCapacity(polygons.count)
         var rng = DeterministicRNG()
 
@@ -118,6 +120,7 @@ private extension BSP {
     }
 
     mutating func insert(_ polygons: [Polygon]) {
+        var isActuallyConvex = true
         var stack = [(node: nodes[0], polygons: polygons)]
         while let (node, polygons) = stack.popLast() {
             var front = [Polygon](), back = [Polygon]()
@@ -131,11 +134,13 @@ private extension BSP {
                     }
                 case .front:
                     front.append(polygon)
+                    isActuallyConvex = false
                 case .back:
                     back.append(polygon)
                 case .spanning:
                     var id = 0
                     polygon.split(spanning: node.plane, &front, &back, &id)
+                    isActuallyConvex = false
                 }
             }
             if let first = front.first {
@@ -161,6 +166,7 @@ private extension BSP {
                 stack.append((next, back))
             }
         }
+        isConvex = isActuallyConvex
     }
 
     func clip(
