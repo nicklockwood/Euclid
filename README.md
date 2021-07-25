@@ -51,7 +51,7 @@ github "nicklockwood/Euclid" ~> 0.5
 To install using Swift Package Manage, add this to the `dependencies:` section in your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.4.0")),
+.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.5.0")),
 ```
 
 

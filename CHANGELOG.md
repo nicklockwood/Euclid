@@ -1,3 +1,11 @@
+## [0.5.1](https://github.com/nicklockwood/Euclid/releases/tag/0.5.1) (2021-07-25)
+
+- Added `LineSegment.containsPoint()` method
+- Added `Mesh.isWatertight` property to determine if a mesh contains holes
+- Reduced BSP construction time when performing CSG operations on convex meshes
+- Fixed edge case where `Mesh.detessellate()` function would fail to merge adjacent polygons
+- Fixed bug where CSG operations would sometimes unnecessarily tesselate polygons
+- Improved back-face insertion logic for lofted paths
 
 ## [0.5.0](https://github.com/nicklockwood/Euclid/releases/tag/0.5.0) (2021-07-12)
 
