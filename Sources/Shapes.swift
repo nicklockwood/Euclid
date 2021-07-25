@@ -228,13 +228,27 @@ public extension Mesh {
                 material: material
             )
         }
+        let halfSize = s / 2
+        let bounds = Bounds(min: c - halfSize, max: c + halfSize)
         switch faces {
         case .front, .default:
-            return Mesh(unchecked: polygons, isConvex: true)
+            return Mesh(
+                unchecked: polygons,
+                bounds: bounds,
+                isConvex: true
+            )
         case .back:
-            return Mesh(unchecked: polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons.inverted(),
+                bounds: bounds,
+                isConvex: false
+            )
         case .frontAndBack:
-            return Mesh(unchecked: polygons + polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons + polygons.inverted(),
+                bounds: bounds,
+                isConvex: false
+            )
         }
     }
 
@@ -540,12 +554,24 @@ public extension Mesh {
         }
 
         switch faces {
-        case .front:
-            return Mesh(unchecked: polygons, isConvex: isConvex)
+        case .default where isConvex, .front:
+            return Mesh(
+                unchecked: polygons,
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: isConvex
+            )
         case .back:
-            return Mesh(unchecked: polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons.inverted(),
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: false
+            )
         case .frontAndBack:
-            return Mesh(unchecked: polygons + polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons + polygons.inverted(),
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: false
+            )
         case .default:
             // seal loose ends
             // TODO: improve this by not adding backfaces inside closed subsectors
@@ -555,7 +581,11 @@ public extension Mesh {
             {
                 polygons += polygons.inverted()
             }
-            return Mesh(unchecked: polygons, isConvex: isConvex)
+            return Mesh(
+                unchecked: polygons,
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: false
+            )
         }
     }
 
@@ -808,11 +838,23 @@ public extension Mesh {
         }
         switch faces {
         case .default where isCapped, .front:
-            return Mesh(unchecked: polygons, isConvex: isConvex)
+            return Mesh(
+                unchecked: polygons,
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: isConvex
+            )
         case .back:
-            return Mesh(unchecked: polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons.inverted(),
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: false
+            )
         case .frontAndBack, .default:
-            return Mesh(unchecked: polygons + polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons + polygons.inverted(),
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: false
+            )
         }
     }
 
@@ -830,12 +872,21 @@ public extension Mesh {
         let polygons = shape.closed().facePolygons(material: material)
         switch faces {
         case .front:
-            return Mesh(unchecked: polygons, isConvex: false)
+            return Mesh(
+                unchecked: polygons,
+                bounds: nil,
+                isConvex: false
+            )
         case .back:
-            return Mesh(unchecked: polygons.map { $0.inverted() }, isConvex: false)
+            return Mesh(
+                unchecked: polygons.map { $0.inverted() },
+                bounds: nil,
+                isConvex: false
+            )
         case .frontAndBack, .default:
             return Mesh(
                 unchecked: polygons + polygons.map { $0.inverted() },
+                bounds: nil,
                 isConvex: polygons.count == 1 && polygons[0].isConvex
             )
         }

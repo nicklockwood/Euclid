@@ -105,7 +105,7 @@ public extension Mesh {
 
     /// Construct a Mesh from an array of `Polygon` instances.
     init(_ polygons: [Polygon]) {
-        self.init(unchecked: polygons, isConvex: false)
+        self.init(unchecked: polygons, bounds: nil, isConvex: false)
     }
 
     /// Replaces one material with another
@@ -140,27 +140,43 @@ public extension Mesh {
 
     /// Flips face direction of polygons.
     func inverted() -> Mesh {
-        Mesh(unchecked: polygons.inverted(), isConvex: false)
+        Mesh(
+            unchecked: polygons.inverted(),
+            bounds: bounds,
+            isConvex: false
+        )
     }
 
     /// Split concave polygons into 2 or more convex polygons.
     func tessellate() -> Mesh {
-        Mesh(unchecked: polygons.tessellate(), isConvex: isConvex)
+        Mesh(
+            unchecked: polygons.tessellate(),
+            bounds: bounds,
+            isConvex: isConvex
+        )
     }
 
     /// Tessellate polygons into triangles.
     func triangulate() -> Mesh {
-        Mesh(unchecked: polygons.triangulate(), isConvex: isConvex)
+        Mesh(
+            unchecked: polygons.triangulate(),
+            bounds: bounds,
+            isConvex: isConvex
+        )
     }
 
     /// Merge coplanar polygons that share one or more edges
     func detessellate() -> Mesh {
-        Mesh(unchecked: polygons.detessellate(), isConvex: isConvex)
+        return Mesh(
+            unchecked: polygons.detessellate(),
+            bounds: bounds,
+            isConvex: isConvex
+        )
     }
 }
 
 internal extension Mesh {
-    init(unchecked polygons: [Polygon], bounds: Bounds? = nil, isConvex: Bool) {
+    init(unchecked polygons: [Polygon], bounds: Bounds?, isConvex: Bool) {
         self.storage = Storage(
             polygons: polygons,
             bounds: bounds,

@@ -100,6 +100,7 @@ public extension Mesh {
         bp = BSP(self).clip(bp, .lessThan)
         return Mesh(
             unchecked: aout! + ap + bp.map { $0.inverted() },
+            bounds: nil, // TODO: is there a way to preserve this efficiently?
             isConvex: false
         )
     }
@@ -140,7 +141,11 @@ public extension Mesh {
         // Avoids slow compilation from long expression
         let lhs = aout! + ap1 + bp1.map { $0.inverted() }
         let rhs = bout! + bp2 + ap2.map { $0.inverted() }
-        return Mesh(unchecked: lhs + rhs, isConvex: false)
+        return Mesh(
+            unchecked: lhs + rhs,
+            bounds: nil, // TODO: is there a way to efficiently preserve this?
+            isConvex: false
+        )
     }
 
     /// Efficiently xor multiple meshes
@@ -171,7 +176,11 @@ public extension Mesh {
         boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
         ap = BSP(mesh).clip(ap, .lessThan)
         bp = BSP(self).clip(bp, .lessThanEqual)
-        return Mesh(unchecked: ap + bp, isConvex: isConvex && mesh.isConvex)
+        return Mesh(
+            unchecked: ap + bp,
+            bounds: nil, // TODO: is there a way to efficiently preserve this?
+            isConvex: isConvex && mesh.isConvex
+        )
     }
 
     /// Efficiently compute intersection of multiple meshes
@@ -241,8 +250,8 @@ public extension Mesh {
                 front.append(polygon)
             }
             return (
-                front.isEmpty ? nil : Mesh(unchecked: front, isConvex: false),
-                back.isEmpty ? nil : Mesh(unchecked: back, isConvex: false)
+                front.isEmpty ? nil : Mesh(unchecked: front, bounds: nil, isConvex: false),
+                back.isEmpty ? nil : Mesh(unchecked: back, bounds: nil, isConvex: false)
             )
         }
     }
@@ -266,7 +275,11 @@ public extension Mesh {
             for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
                 front.append(polygon)
             }
-            let mesh = Mesh(unchecked: front, isConvex: false)
+            let mesh = Mesh(
+                unchecked: front,
+                bounds: nil,
+                isConvex: false
+            )
             guard let material = fill else {
                 return mesh
             }
@@ -303,6 +316,7 @@ public extension Mesh {
             // Clip rect
             return Mesh(
                 unchecked: mesh.polygons + BSP(self).clip([rect], .lessThan),
+                bounds: nil,
                 isConvex: isConvex
             )
         }

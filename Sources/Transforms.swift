@@ -105,7 +105,11 @@ public extension Mesh {
     }
 
     func rotated(by m: Rotation) -> Mesh {
-        Mesh(unchecked: polygons.rotated(by: m), isConvex: isConvex)
+        Mesh(
+            unchecked: polygons.rotated(by: m),
+            bounds: nil,
+            isConvex: isConvex
+        )
     }
 
     func scaled(by v: Vector) -> Mesh {
@@ -137,7 +141,11 @@ public extension Mesh {
     }
 
     func transformed(by t: Transform) -> Mesh {
-        Mesh(unchecked: polygons.transformed(by: t), isConvex: isConvex)
+        Mesh(
+            unchecked: polygons.transformed(by: t),
+            bounds: nil, // TODO: preserve bounds if t does not include rotation
+            isConvex: isConvex
+        )
     }
 }
 
