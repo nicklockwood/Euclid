@@ -34,7 +34,7 @@ public struct LineSegment: Hashable, Codable {
 
     /// Creates a line segment from a start and end point
     public init?(_ start: Vector, _ end: Vector) {
-        guard !start.isEqual(to: end) else {
+        guard start != end else {
             return nil
         }
         self.start = start
@@ -72,7 +72,7 @@ public extension LineSegment {
 
 internal extension LineSegment {
     init(unchecked start: Vector, _ end: Vector) {
-        assert(!start.isEqual(to: end))
+        assert(start != end)
         self.start = start
         self.end = end
     }
