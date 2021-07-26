@@ -7,6 +7,18 @@
 import Euclid
 import Foundation
 
+struct DeterministicRNG: RandomNumberGenerator {
+    private var seed: UInt64 = 1
+
+    mutating func next() -> UInt64 {
+        seed &+= 0xA0761D6478BD642F
+        let result = seed.multipliedFullWidth(by: seed ^ 0xE7037ED1A0B428DB)
+        return result.high ^ result.low
+    }
+}
+
+var rng = DeterministicRNG()
+
 struct Frond: Prop {
     
     let plane: Plane
@@ -51,9 +63,9 @@ struct Frond: Prop {
             let lhs = [sweep.curve, sweep.lhs, current.lhs, current.curve]
             let rhs = [sweep.rhs, sweep.curve, current.curve, current.rhs]
             
-            let cut0 = Double.random(in: 0...10) <= 1
-            let cut1 = Double.random(in: 0...10) <= 1
-            
+            let cut0 = Double.random(in: 0 ... 10, using: &rng) <= 1
+            let cut1 = Double.random(in: 0 ... 10, using: &rng) <= 1
+
             polygons.append(contentsOf: face(vertices: lhs, side: .left, cut: cut0))
             polygons.append(contentsOf: face(vertices: rhs, side: .right, cut: cut1))
             
