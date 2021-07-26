@@ -27,21 +27,48 @@ class SceneViewController: UIViewController {
 
         // create some geometry using Euclid
         let start = CFAbsoluteTimeGetCurrent()
-
-        let url = Bundle.main.url(forResource: "Mesh", withExtension: "json")
-        let data = try! Data(contentsOf: url!)
-        let frond = try! JSONDecoder().decode(Mesh.self, from: data)
-
-        var mesh = Mesh([]) // start with empty mesh
-
-        // create foliage
-        var a = 0.0
-        for _ in 0 ..< 10 {
-            let r = Rotation(axis: Vector(0, 0, 1), angle: .degrees(a))!
-            a += 36
-            let frond = frond.translated(by: Vector(0, -1, 0)).rotated(by: r)
-
-            mesh = mesh.union(frond) // union into one big mesh
+        
+        let normal = Vector(0, 1, 0)
+        
+        guard let plane = Plane(normal: normal, pointOnPlane: .zero) else { fatalError("Error creating plane") }
+        
+        var position = Vector.zero
+        var mesh = Mesh([])
+        
+        let slices = 10
+        
+        let chonk = Chonk(plane: plane,
+                          peak: 0.05,
+                          base: 0.01,
+                          height: 0.125,
+                          peakRadius: 0.07,
+                          baseRadius: 0.05,
+                          segments: 7)
+        
+        for slice in 0..<slices {
+            
+            mesh = mesh.union(Mesh(chonk.build(position: position)))
+            
+            position += chonk.peakCenter
+        }
+        
+        let fronds = 10
+        
+        let rotation = Angle(radians: (Double.pi * 2.0) / Double(fronds))
+        
+        for leaf in 0..<fronds {
+            
+            let angle = (rotation.radians * Double(leaf))
+            
+            let frond = Frond(plane: plane,
+                              angle: angle,
+                              radius: 0.5,
+                              width: 0.1,
+                              thickness: 0.02,
+                              spread: 0.01,
+                              segments: 7)
+            
+            mesh = mesh.union(Mesh(frond.build(position: position)))
         }
 
         print("Time:", CFAbsoluteTimeGetCurrent() - start)
