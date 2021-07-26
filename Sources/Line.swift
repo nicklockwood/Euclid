@@ -29,7 +29,7 @@
 //  SOFTWARE.
 //
 
-public struct Line: Hashable, Codable {
+public struct Line: Hashable {
     public let origin, direction: Vector
 
     /// Creates a line from an origin and direction
@@ -40,6 +40,46 @@ public struct Line: Hashable, Codable {
         }
         self.origin = origin
         self.direction = direction / length
+    }
+}
+
+extension Line: Codable {
+    private enum CodingKeys: CodingKey {
+        case origin, direction
+    }
+
+    public init(from decoder: Decoder) throws {
+        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+            guard let line = try Line(
+                origin: container.decode(Vector.self, forKey: .origin),
+                direction: container.decode(Vector.self, forKey: .direction)
+            ) else {
+                throw DecodingError.dataCorruptedError(
+                    forKey: .direction,
+                    in: container,
+                    debugDescription: "Line direction must have nonzero length"
+                )
+            }
+            self = line
+        } else {
+            var container = try decoder.unkeyedContainer()
+            guard let line = try Line(
+                origin: Vector(from: &container),
+                direction: Vector(from: &container)
+            ) else {
+                throw DecodingError.dataCorruptedError(
+                    in: container,
+                    debugDescription: "Line direction must have nonzero length"
+                )
+            }
+            self = line
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try origin.encode(to: &container)
+        try direction.encode(to: &container)
     }
 }
 

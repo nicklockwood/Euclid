@@ -29,7 +29,7 @@
 //  SOFTWARE.
 //
 
-public struct LineSegment: Hashable, Codable {
+public struct LineSegment: Hashable {
     public let start, end: Vector
 
     /// Creates a line segment from a start and end point
@@ -39,6 +39,46 @@ public struct LineSegment: Hashable, Codable {
         }
         self.start = start
         self.end = end
+    }
+}
+
+extension LineSegment: Codable {
+    private enum CodingKeys: CodingKey {
+        case start, end
+    }
+
+    public init(from decoder: Decoder) throws {
+        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+            guard let segment = try LineSegment(
+                container.decode(Vector.self, forKey: .start),
+                container.decode(Vector.self, forKey: .end)
+            ) else {
+                throw DecodingError.dataCorruptedError(
+                    forKey: .end,
+                    in: container,
+                    debugDescription: "LineSegment cannot have zero length"
+                )
+            }
+            self = segment
+        } else {
+            var container = try decoder.unkeyedContainer()
+            guard let segment = try LineSegment(
+                Vector(from: &container),
+                Vector(from: &container)
+            ) else {
+                throw DecodingError.dataCorruptedError(
+                    in: container,
+                    debugDescription: "LineSegment cannot have zero length"
+                )
+            }
+            self = segment
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try start.encode(to: &container)
+        try end.encode(to: &container)
     }
 }
 

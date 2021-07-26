@@ -187,6 +187,82 @@ class CodingTests: XCTestCase {
         XCTAssertEqual(try encode(Plane(normal: Vector(0, 0, 1), w: 0)), "[0,0,1,0]")
     }
 
+    // MARK: Line
+
+    func testDecodingKeyedLine() {
+        XCTAssertEqual(try decode("""
+        {
+            "origin": [0, 0, 1],
+            "direction": [0, 1, 0]
+        }
+        """), Line(origin: Vector(0, 0, 1), direction: Vector(0, 1, 0)))
+    }
+
+    func testDecodingKeyedZeroLengthLine() {
+        XCTAssertThrowsError(try decode("""
+        {
+            "origin": [0, 0, 1],
+            "direction": [0, 0, 0]
+        }
+        """) as Line)
+    }
+
+    func testDecodingUnkeyedLine() {
+        XCTAssertEqual(
+            try decode("[0, 0, 1, 0, 1, 0]"),
+            Line(origin: Vector(0, 0, 1), direction: Vector(0, 1, 0))
+        )
+    }
+
+    func testDecodingUnkeyedZeroLengthLine() {
+        XCTAssertThrowsError(try decode("[0, 0, 1, 0, 0, 0]") as Line)
+    }
+
+    func testEncodingLine() {
+        XCTAssertEqual(
+            try encode(Line(origin: Vector(0, 0, 1), direction: Vector(0, 1, 0))),
+            "[0,0,1,0,1,0]"
+        )
+    }
+
+    // MARK: LineSegment
+
+    func testDecodingKeyedLineSegment() {
+        XCTAssertEqual(try decode("""
+        {
+            "start": [0, 0, 1],
+            "end": [0, 1, 0]
+        }
+        """), LineSegment(Vector(0, 0, 1), Vector(0, 1, 0)))
+    }
+
+    func testDecodingKeyedZeroLengthLineSegment() {
+        XCTAssertThrowsError(try decode("""
+        {
+            "start": [0, 0, 1],
+            "end": [0, 0, 1]
+        }
+        """) as LineSegment)
+    }
+
+    func testDecodingUnkeyedLineSegment() {
+        XCTAssertEqual(
+            try decode("[0, 0, 1, 0, 1, 0]"),
+            LineSegment(Vector(0, 0, 1), Vector(0, 1, 0))
+        )
+    }
+
+    func testDecodingUnkeyedZeroLengthLineSegment() {
+        XCTAssertThrowsError(try decode("[0, 0, 1, 0, 0, 1]") as LineSegment)
+    }
+
+    func testEncodingLineSegment() {
+        XCTAssertEqual(
+            try encode(LineSegment(Vector(0, 0, 1), Vector(0, 1, 0))),
+            "[0,0,1,0,1,0]"
+        )
+    }
+
     // MARK: Polygon
 
     func testDecodingPolygon() {
