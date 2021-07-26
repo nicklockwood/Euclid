@@ -115,6 +115,9 @@ extension Rotation: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
+        if self == .identity {
+            return
+        }
         try container.encode(m11)
         try container.encode(m12)
         try container.encode(m13)
