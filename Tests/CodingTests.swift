@@ -544,6 +544,10 @@ class CodingTests: XCTestCase {
         XCTAssertEqual(try decode("{}"), Rotation.identity)
     }
 
+    func testEncodingIdentityRotation() {
+        XCTAssertEqual(try encode(Rotation.identity), "[]")
+    }
+
     func testDecodingRollRotation() {
         XCTAssertEqual(try decode("[1]"), Rotation(roll: .radians(1)))
         XCTAssertEqual(try decode("""
@@ -565,13 +569,13 @@ class CodingTests: XCTestCase {
         """), Rotation(roll: .radians(-1)))
     }
 
-    func testEncodeAndDecodingRotation() throws {
+    func testEncodingAndDecodingRotation() throws {
         let rotation = Rotation(axis: Vector(1, 0, 0), angle: .radians(2))!
         let encoded = try encode(rotation)
         XCTAssert(try rotation.isEqual(to: decode(encoded)))
     }
 
-    func testEncodeAndDecodePitchYawRollRotation() throws {
+    func testEncodingAndDecodingPitchYawRollRotation() throws {
         let rotation = Rotation(pitch: .degrees(10), yaw: .degrees(20), roll: .degrees(30))
         let encoded = try encode(rotation)
         XCTAssert(try rotation.isEqual(to: decode(encoded)))
