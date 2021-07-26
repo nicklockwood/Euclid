@@ -97,16 +97,10 @@ extension Vertex: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        try container.encode(position.x)
-        try container.encode(position.y)
-        try container.encode(position.z)
-        try container.encode(normal.x)
-        try container.encode(normal.y)
-        try container.encode(normal.z)
+        try position.encode(to: &container)
+        try normal.encode(to: &container)
         if texcoord != .zero {
-            try container.encode(texcoord.x)
-            try container.encode(texcoord.y)
-            try texcoord.z == 0 ? () : container.encode(texcoord.z)
+            try texcoord.encode(to: &container, skipZ: texcoord.z == 0)
         }
     }
 }
