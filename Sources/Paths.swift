@@ -82,11 +82,9 @@ extension PathPoint: Codable {
             }
         case 7:
             let z = try container.decode(Double.self)
-            let u = try container.decode(Double.self)
-            let v = try container.decode(Double.self)
-            let w = try container.decode(Double.self)
+            let texcoord = try Vector(from: &container)
             let isCurved = try container.decode(Bool.self)
-            self.init(Vector(x, y, z), texcoord: Vector(u, v, w), isCurved: isCurved)
+            self.init(Vector(x, y, z), texcoord: texcoord, isCurved: isCurved)
         default:
             throw DecodingError.dataCorruptedError(
                 in: container,
@@ -97,14 +95,10 @@ extension PathPoint: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        try container.encode(position.x)
-        try container.encode(position.y)
-        let includeZ = position.z != 0 || texcoord?.z ?? 0 != 0
-        try includeZ ? container.encode(position.z) : ()
+        let skipZ = position.z == 0 && texcoord?.z ?? 0 == 0
+        try position.encode(to: &container, skipZ: skipZ)
         if let texcoord = texcoord {
-            try container.encode(texcoord.x)
-            try container.encode(texcoord.y)
-            try texcoord.z == 0 ? () : container.encode(texcoord.z)
+            try texcoord.encode(to: &container, skipZ: texcoord.z == 0)
         }
         try isCurved ? container.encode(true) : ()
     }

@@ -65,25 +65,20 @@ extension Vector: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        let x, y, z: Double
         if var container = try? decoder.unkeyedContainer() {
-            x = try container.decode(Double.self)
-            y = try container.decode(Double.self)
-            z = try container.decodeIfPresent(Double.self) ?? 0
+            try self.init(from: &container)
         } else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            x = try container.decodeIfPresent(Double.self, forKey: .x) ?? 0
-            y = try container.decodeIfPresent(Double.self, forKey: .y) ?? 0
-            z = try container.decodeIfPresent(Double.self, forKey: .z) ?? 0
+            let x = try container.decodeIfPresent(Double.self, forKey: .x) ?? 0
+            let y = try container.decodeIfPresent(Double.self, forKey: .y) ?? 0
+            let z = try container.decodeIfPresent(Double.self, forKey: .z) ?? 0
+            self.init(x, y, z)
         }
-        self.init(x, y, z)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        try container.encode(x)
-        try container.encode(y)
-        try z == 0 ? () : container.encode(z)
+        try encode(to: &container, skipZ: z == 0)
     }
 }
 
@@ -234,5 +229,24 @@ internal extension Vector {
     func compare(with plane: Plane) -> PlaneComparison {
         let t = distance(from: plane)
         return (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
+    }
+
+    /// Encode directly into an unkeyedContainer
+    func encode(to container: inout UnkeyedEncodingContainer) throws {
+        try encode(to: &container, skipZ: false)
+    }
+
+    /// Encode directly into an unkeyedContainer
+    func encode(to container: inout UnkeyedEncodingContainer, skipZ: Bool) throws {
+        try container.encode(x)
+        try container.encode(y)
+        try skipZ ? () : container.encode(z)
+    }
+
+    /// Decode directly from an unkeyedContainer
+    init(from container: inout UnkeyedDecodingContainer) throws {
+        self.x = try container.decode(Double.self)
+        self.y = try container.decode(Double.self)
+        self.z = try container.decodeIfPresent(Double.self) ?? 0
     }
 }

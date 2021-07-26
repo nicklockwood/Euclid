@@ -90,10 +90,7 @@ extension Rotation: Codable {
             let roll = try container.decode(Angle.self)
             self.init(pitch: pitch, yaw: yaw, roll: roll)
         case 4:
-            let x = try container.decode(Double.self)
-            let y = try container.decode(Double.self)
-            let z = try container.decode(Double.self)
-            let axis = Vector(x, y, z).normalized()
+            let axis = try Vector(from: &container).normalized()
             let angle = try container.decode(Angle.self)
             self.init(unchecked: axis, angle: angle)
         default:

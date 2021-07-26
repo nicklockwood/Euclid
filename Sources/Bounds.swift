@@ -47,16 +47,8 @@ extension Bounds: Codable {
     public init(from decoder: Decoder) throws {
         let min, max: Vector
         if var container = try? decoder.unkeyedContainer() {
-            min = try Vector(
-                container.decode(Double.self),
-                container.decode(Double.self),
-                container.decode(Double.self)
-            )
-            max = try Vector(
-                container.decode(Double.self),
-                container.decode(Double.self),
-                container.decode(Double.self)
-            )
+            min = try Vector(from: &container)
+            max = try Vector(from: &container)
         } else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             min = try container.decode(Vector.self, forKey: .min)
@@ -67,12 +59,8 @@ extension Bounds: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        try container.encode(min.x)
-        try container.encode(min.y)
-        try container.encode(min.z)
-        try container.encode(max.x)
-        try container.encode(max.y)
-        try container.encode(max.z)
+        try min.encode(to: &container)
+        try max.encode(to: &container)
     }
 }
 
