@@ -72,6 +72,16 @@ class CodingTests: XCTestCase {
         """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1)))
     }
 
+    func testDecodingVertexWithTexcoord3D() {
+        XCTAssertEqual(try decode("""
+        {
+            "position": [1, 2, 2],
+            "normal": [1, 0, 0],
+            "texcoord": [0, 1, 2]
+        }
+        """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 2)))
+    }
+
     func testDecodingFlattenedVertex() {
         XCTAssertEqual(
             try decode("[1, 2, 2, 1, 0, 0, 0, 1]"),
@@ -79,10 +89,24 @@ class CodingTests: XCTestCase {
         )
     }
 
+    func testDecodingFlattenedVertexWithTexcoord3D() {
+        XCTAssertEqual(
+            try decode("[1, 2, 2, 1, 0, 0, 0, 1, 2]"),
+            Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 2))
+        )
+    }
+
     func testEncodingVertex() {
         XCTAssertEqual(
             try encode(Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1))),
             "[1,2,2,1,0,0,0,1]"
+        )
+    }
+
+    func testEncodingVertexWithTexcoord3D() {
+        XCTAssertEqual(
+            try encode(Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 2))),
+            "[1,2,2,1,0,0,0,1,2]"
         )
     }
 
@@ -114,6 +138,15 @@ class CodingTests: XCTestCase {
         {
             "position": [1, 2, 2],
             "texcoord": [1, 0]
+        }
+        """) as Vertex)
+    }
+
+    func testDecodingVertexWithoutNormalWithTexcoord3D() {
+        XCTAssertThrowsError(try decode("""
+        {
+            "position": [1, 2, 2],
+            "texcoord": [1, 0, 2]
         }
         """) as Vertex)
     }
