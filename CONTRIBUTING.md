@@ -48,7 +48,7 @@ When making user-facing changes, please update the README.md file if applicable.
 
 All significant code changes should be accompanied by a test.  
 
-Tests are run in [Travis CI](https://travis-ci.com/github/nicklockwood/Euclid) automatically on all pull requests, branches and tags. These are the same tests that run in Xcode at development time.
+Tests are run automatically on all pull requests, branches and tags. These are the same tests that run in Xcode at development time.
 
 ## Code of Conduct
 
