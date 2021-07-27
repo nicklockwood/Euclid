@@ -1,3 +1,12 @@
+## [0.5.2](https://github.com/nicklockwood/Euclid/releases/tag/0.5.2) (2021-07-28)
+
+- Fixed some bugs when serializing texture coordinates with a non-zero Z component
+- Fixed assertion in `shortestLineBetween()` utility function
+- Fixed spurious assertion in `LineSegment` initializer
+- The identity `Rotation` is now encoded more compactly when serializing
+- Added a more compact serialized encoding for `Line` and `LineSegment`
+- Added `Vector(size:)` initializer with better defaults for size/scale vectors
+
 ## [0.5.1](https://github.com/nicklockwood/Euclid/releases/tag/0.5.1) (2021-07-25)
 
 - Added `LineSegment.containsPoint()` method
