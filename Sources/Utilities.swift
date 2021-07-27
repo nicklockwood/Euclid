@@ -407,9 +407,9 @@ func shortestLineBetween(
     _ p4: Vector
 ) -> (Vector, Vector)? {
     let p21 = p2 - p1
-    assert(p21.length > epsilon)
+    assert(p21.length > 0)
     let p43 = p4 - p3
-    assert(p43.length > epsilon)
+    assert(p43.length > 0)
     let p13 = p1 - p3
 
     let d1343 = p13.dot(p43)
@@ -451,7 +451,7 @@ func lineIntersection(
     guard let (p0, p1) = shortestLineBetween(p0, p1, p2, p3) else {
         return nil
     }
-    return (p1 - p0).lengthSquared < epsilon ? p0 : nil
+    return p0.isEqual(to: p1) ? p0 : nil
 }
 
 func lineSegmentsIntersection(
