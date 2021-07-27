@@ -28,48 +28,7 @@ class SceneViewController: UIViewController {
         // create some geometry using Euclid
         let start = CFAbsoluteTimeGetCurrent()
         
-        let normal = Vector(0, 1, 0)
-        
-        guard let plane = Plane(normal: normal, pointOnPlane: .zero) else { fatalError("Error creating plane") }
-        
-        var position = Vector.zero
-        var mesh = Mesh([])
-        
-        let slices = 10
-        
-        let chonk = Chonk(plane: plane,
-                          peak: 0.05,
-                          base: 0.01,
-                          height: 0.125,
-                          peakRadius: 0.07,
-                          baseRadius: 0.05,
-                          segments: 7)
-        
-        for slice in 0..<slices {
-            
-            mesh = mesh.union(Mesh(chonk.build(position: position)))
-            
-            position += chonk.peakCenter
-        }
-        
-        let fronds = 10
-        
-        let rotation = Angle(radians: (Double.pi * 2.0) / Double(fronds))
-        
-        for leaf in 0..<fronds {
-            
-            let angle = (rotation.radians * Double(leaf))
-            
-            let frond = Frond(plane: plane,
-                              angle: angle,
-                              radius: 0.5,
-                              width: 0.1,
-                              thickness: 0.02,
-                              spread: 0.01,
-                              segments: 7)
-            
-            mesh = mesh.union(Mesh(frond.build(position: position)))
-        }
+        let mesh = Mesh(build(position: .zero))
 
         print("Time:", CFAbsoluteTimeGetCurrent() - start)
         print("Polys:", mesh.polygons.count)
@@ -94,5 +53,98 @@ class SceneViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         true
+    }
+}
+
+extension SceneViewController: Prop {
+    
+    func build(position: Vector) -> [Polygon] {
+        
+        //
+        /// Params
+        //
+        
+        let trunk = (slices: 7,
+                     height: 1.0,
+                     spread: 0.1,
+                     crown: (segments: 7,
+                             peak: 0.056,
+                             base: 0.01,
+                             baseRadius: 0.042,
+                             peakRadius: 0.077),
+                     segment: (segments: 7,
+                               peak: 0.049,
+                               base: 0.01,
+                               baseRadius: 0.014,
+                               peakRadius: 0.035),
+                     throne: (segments: 7,
+                              peak: 0.07,
+                              base: 0.08,
+                              baseRadius: 0.1,
+                              peakRadius: 0.09))
+        
+        let foliage = (frond: (segments: 7,
+                               radius: 0.42,
+                               width: 0.14,
+                               thickness: 0.014,
+                               spread: 0.014),
+                       fronds: 7)
+        
+        //
+        /// Create plam tree trunk and throne
+        //
+        
+        guard let plane = Plane(normal: Vector(0, 1, 0), pointOnPlane: .zero) else { return [] }
+        
+        let sample = Double.random(in: 0..<1, using: &rng)
+        
+        let yStep = Double(1.0 / Double(trunk.slices))
+        let segmentHeight = Double(((trunk.height / Double(trunk.slices))) - (trunk.segment.peak + trunk.segment.base))
+        let offset = Vector(sample * trunk.spread, trunk.height, sample * trunk.spread)
+        let control = Vector(0, trunk.height, 0)
+         
+        var node = Chonk(plane: plane, peak: trunk.throne.peak, base: trunk.throne.base, height: segmentHeight, peakRadius: trunk.throne.peakRadius, baseRadius: trunk.throne.baseRadius, segments: trunk.throne.segments)
+        
+        var center = position + Vector(0, 0.05, 0)
+        
+        var mesh = Mesh(node.build(position: center))
+        
+        center = center + node.peakCenter
+        
+        for slice in 0..<trunk.slices {
+            
+            let position = curve(start: node.peakCenter, end: offset, control: control, interpolator: Double(slice + 1) * yStep)
+            
+            guard let plane = Plane(normal: position.normalized(), pointOnPlane: .zero) else { continue }
+            
+            let segment = Chonk(plane: plane, peak: trunk.segment.peak, base: trunk.segment.base, height: segmentHeight, peakRadius: trunk.segment.peakRadius, baseRadius: trunk.segment.baseRadius, segments: trunk.segment.segments)
+            
+            mesh = mesh.union(Mesh(segment.build(position: center)))
+            
+            center = center + segment.peakCenter
+
+            node = segment
+        }
+        
+        node = Chonk(plane: node.plane, peak: trunk.crown.peak, base: trunk.crown.base, height: (segmentHeight / 2.0), peakRadius: trunk.crown.peakRadius, baseRadius: trunk.crown.baseRadius, segments: trunk.crown.segments)
+        
+        mesh = mesh.union(Mesh(node.build(position: center)))
+        
+        //
+        /// Create palm tree leaves
+        //
+        
+        let rotation = Angle(radians: (Double.pi * 2.0) / Double(foliage.fronds))
+        
+        for leaf in 0..<foliage.fronds {
+            
+            let angle = (rotation.radians * Double(leaf))
+            
+            let frond = Frond(plane: node.plane, angle: angle, radius: foliage.frond.radius, width: foliage.frond.width, thickness: foliage.frond.thickness, spread: foliage.frond.spread, segments: foliage.frond.segments)
+            
+            mesh = mesh.union(Mesh(frond.build(position: center + node.peakCenter)))
+        }
+        
+        return mesh.polygons
     }
 }
