@@ -41,7 +41,6 @@
 		018D0ACE255C398D006D2351 /* Euclid.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		01A429FA2237A85C00C251A6 /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A429F92237A85C00C251A6 /* TextTests.swift */; };
 		01B299572692339200B80A0D /* MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B5BE426923087000860DC /* MetadataTests.swift */; };
-		01BA296A222726BE0088D36B /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA2969222726BD0088D36B /* XCTestManifests.swift */; };
 		01BA29712235A63F0088D36B /* Euclid+CoreText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA29702235A63F0088D36B /* Euclid+CoreText.swift */; };
 		01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA29792235E34C0088D36B /* CGPathTests.swift */; };
 		01BA297C2235E3590088D36B /* Euclid+CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA297B2235E3580088D36B /* Euclid+CoreGraphics.swift */; };
@@ -124,7 +123,6 @@
 		016FABFA21C078E500AF60DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0188E98226ACA0040029C253 /* LineSegmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegmentTests.swift; sourceTree = "<group>"; };
 		01A429F92237A85C00C251A6 /* TextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTests.swift; sourceTree = "<group>"; };
-		01BA2969222726BD0088D36B /* XCTestManifests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		01BA29702235A63F0088D36B /* Euclid+CoreText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+CoreText.swift"; sourceTree = "<group>"; };
 		01BA29792235E34C0088D36B /* CGPathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPathTests.swift; sourceTree = "<group>"; };
 		01BA297B2235E3580088D36B /* Euclid+CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Euclid+CoreGraphics.swift"; sourceTree = "<group>"; };
@@ -243,7 +241,6 @@
 				52A3852D238D6E5700BE8407 /* LineTests.swift */,
 				0188E98226ACA0040029C253 /* LineSegmentTests.swift */,
 				013B5BE426923087000860DC /* MetadataTests.swift */,
-				01BA2969222726BD0088D36B /* XCTestManifests.swift */,
 				016FAB3921BFE78100AF60DC /* Info.plist */,
 			);
 			path = Tests;
@@ -299,7 +296,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 016FAB4021BFE78100AF60DC /* Build configuration list for PBXNativeTarget "EuclidTests" */;
 			buildPhases = (
-				013ED08D23C0DB3D00FEEE5C /* Generate Linux Tests */,
 				016FAB2E21BFE78100AF60DC /* Sources */,
 				01F2A9E9250177730081CDF5 /* Format Code */,
 				016FAB2F21BFE78100AF60DC /* Frameworks */,
@@ -406,24 +402,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		013ED08D23C0DB3D00FEEE5C /* Generate Linux Tests */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Generate Linux Tests";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "swift test --generate-linuxmain\n";
-		};
 		01F2A9E9250177730081CDF5 /* Format Code */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -505,7 +483,6 @@
 				016FAB6421BFE7CE00AF60DC /* PolygonTests.swift in Sources */,
 				01B299572692339200B80A0D /* MetadataTests.swift in Sources */,
 				0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */,
-				01BA296A222726BE0088D36B /* XCTestManifests.swift in Sources */,
 				016FAB6521BFE7CE00AF60DC /* CSGTests.swift in Sources */,
 				01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */,
 				01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */,
