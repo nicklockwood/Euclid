@@ -597,7 +597,7 @@ public extension Mesh {
         material: Material? = nil
     ) -> Mesh {
         let offset = (shape.plane?.normal ?? Vector(0, 0, 1)) * (depth / 2)
-        if offset.lengthSquared < epsilon {
+        if offset.isEqual(to: .zero) {
             return fill(shape, faces: faces, material: material)
         }
         return loft(
