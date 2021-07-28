@@ -212,7 +212,7 @@ public extension Vector {
     /// A positive value is returned if the point lies in front of the plane
     /// A negative value is returned if the point lies behind the plane
     func distance(from plane: Plane) -> Double {
-        plane.distance(from: self)
+        plane.normal.dot(self) - plane.w
     }
 
     /// The nearest point to this point on the specified plane
