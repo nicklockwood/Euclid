@@ -111,6 +111,11 @@ public extension Line {
         return (p1 - p0).length
     }
 
+    /// Intersection point betwween plane and line (if any)
+    func intersection(with plane: Plane) -> Vector? {
+        plane.intersection(with: self)
+    }
+
     /// Intersection point between lines (if any)
     func intersection(with line: Line) -> Vector? {
         lineIntersection(
