@@ -126,7 +126,7 @@ public extension Plane {
         return Line(origin: origin, direction: normal.cross(p.normal))
     }
 
-    /// Returns point intersection beteween plane and line
+    /// Returns point intersection between plane and line
     func intersection(with line: Line) -> Vector? {
         // https://en.wikipedia.org/wiki/Line–plane_intersection#Algebraic_form
         let lineDotPlaneNormal = line.direction.dot(normal)

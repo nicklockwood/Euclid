@@ -103,4 +103,43 @@ class LineTests: XCTestCase {
         let line = Line(unchecked: Vector(-2, -1, 0), direction: Vector(2, 1, 0).normalized())
         XCTAssertFalse(line.containsPoint(Vector(-1, -0.6, 0)))
     }
+
+    // MARK: Equality
+
+    func testEquivalentHorizontalLinesAreEqual() {
+        let l1 = Line(origin: Vector(1, -1, 0), direction: Vector(1, 0, 0))
+        let l2 = Line(origin: Vector(3, -1, 0), direction: Vector(1, 0, 0))
+        XCTAssertEqual(l1, l2)
+        XCTAssert(Set([l1]).contains(l2))
+    }
+
+    func testEquivalentVerticalLinesAreEqual() {
+        let l1 = Line(origin: Vector(2, 5, 0), direction: Vector(0, 1, 0))
+        let l2 = Line(origin: Vector(2, -1, 0), direction: Vector(0, 1, 0))
+        XCTAssertEqual(l1, l2)
+        XCTAssert(Set([l1]).contains(l2))
+    }
+
+    func testEquivalentZLinesAreEqual() {
+        let l1 = Line(origin: Vector(2, 5, -2), direction: Vector(0, 0, -1))
+        let l2 = Line(origin: Vector(2, 5, 7), direction: Vector(0, 0, -1))
+        XCTAssertEqual(l1, l2)
+        XCTAssert(Set([l1]).contains(l2))
+    }
+
+    func testEquivalentXYLinesAreEqual() {
+        let direction = Vector(1, 2, 0).normalized()
+        let l1 = Line(origin: Vector(0, 0, -1), direction: direction)
+        let l2 = Line(origin: Vector(1, 2, -1), direction: direction)
+        XCTAssertEqual(l1, l2)
+        XCTAssert(Set([l1]).contains(l2))
+    }
+
+    func testEquivalentYZLinesAreEqual() {
+        let direction = Vector(0, -1, 2).normalized()
+        let l1 = Line(origin: Vector(0, 0, 0), direction: direction)
+        let l2 = Line(origin: Vector(0, -1, 2), direction: direction)
+        XCTAssertEqual(l1, l2)
+        XCTAssert(Set([l1]).contains(l2))
+    }
 }

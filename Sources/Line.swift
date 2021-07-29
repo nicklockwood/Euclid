@@ -38,8 +38,7 @@ public struct Line: Hashable {
         guard length.isFinite, length > epsilon else {
             return nil
         }
-        self.origin = origin
-        self.direction = direction / length
+        self.init(unchecked: origin, direction: direction / length)
     }
 }
 
@@ -135,7 +134,11 @@ public extension Line {
 internal extension Line {
     init(unchecked origin: Vector, direction: Vector) {
         assert(direction.isNormalized)
-        self.origin = origin
+        self.origin = origin - direction * (
+            direction.x != 0 ? origin.x / direction.x :
+                direction.y != 0 ? origin.y / direction.y :
+                origin.z / direction.z
+        )
         self.direction = direction
     }
 }

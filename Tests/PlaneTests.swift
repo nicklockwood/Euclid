@@ -107,8 +107,8 @@ class PlaneTests: XCTestCase {
             return
         }
 
-        XCTAssertEqual(plane1.normal.dot(intersection.origin), plane1.w)
-        XCTAssertEqual(plane2.normal.dot(intersection.origin), plane2.w)
+        XCTAssert(abs(plane1.normal.dot(intersection.origin) - plane1.w) < epsilon)
+        XCTAssert(abs(plane2.normal.dot(intersection.origin) - plane2.w) < epsilon)
 
         XCTAssert(plane1.containsPoint(intersection.origin))
         XCTAssert(plane2.containsPoint(intersection.origin))
