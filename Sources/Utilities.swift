@@ -463,13 +463,17 @@ func lineSegmentsIntersection(
     guard let pi = lineIntersection(p0, p1, p2, p3) else {
         return nil // lines don't intersect
     }
-    // TODO: is there a cheaper way to do this?
-    if pi.x <= min(p0.x, p1.x) || pi.x >= max(p0.x, p1.x) ||
-        pi.x <= min(p2.x, p3.x) || pi.x >= max(p2.x, p3.x) ||
-        pi.y <= min(p0.y, p1.y) || pi.y >= max(p0.y, p1.y) ||
-        pi.y <= min(p2.y, p3.y) || pi.y >= max(p2.y, p3.y)
-    {
-        return nil
-    }
-    return pi
+    return lineSegmentsContainsPoint(p0, p1, pi) &&
+        lineSegmentsContainsPoint(p2, p3, pi) ? pi : nil
+}
+
+// Check point lies within range of line segment start/end
+// Point must already lie along the line
+func lineSegmentsContainsPoint(
+    _ start: Vector,
+    _ end: Vector,
+    _ point: Vector
+) -> Bool {
+    assert(vectorFromPointToLine(point, start, (end - start).normalized()).length < epsilon)
+    return Bounds(min: min(start, end), max: max(start, end)).containsPoint(point)
 }

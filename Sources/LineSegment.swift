@@ -93,10 +93,7 @@ public extension LineSegment {
         guard v.length < epsilon else {
             return false
         }
-        let p = p + v
-        return p.x >= min(start.x, end.x) && p.x <= max(start.x, end.x) &&
-            p.y >= min(start.y, end.y) && p.y <= max(start.y, end.y) &&
-            p.z >= min(start.z, end.z) && p.z <= max(start.z, end.z)
+        return lineSegmentsContainsPoint(start, end, p + v)
     }
 
     /// Intersection point between lines (if any)
