@@ -66,7 +66,6 @@ func triangulateVertices(
     _ vertices: [Vertex],
     plane: Plane?,
     isConvex: Bool?,
-    bounds: Bounds?,
     material: Mesh.Material?,
     id: Int
 ) -> [Polygon] {
@@ -77,7 +76,6 @@ func triangulateVertices(
             unchecked: vertices,
             plane: plane,
             isConvex: isConvex,
-            bounds: bounds,
             material: material,
             id: id
         )]
@@ -125,7 +123,6 @@ func triangulateVertices(
             vertices.reversed().map { $0.inverted() },
             plane: plane?.inverted(),
             isConvex: isConvex,
-            bounds: bounds,
             material: material,
             id: id
         ).inverted()

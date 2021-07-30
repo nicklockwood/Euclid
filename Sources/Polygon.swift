@@ -96,7 +96,7 @@ public extension Polygon {
     /// Public properties
     var vertices: [Vertex] { storage.vertices }
     var plane: Plane { storage.plane }
-    var bounds: Bounds { storage.bounds }
+    var bounds: Bounds { Bounds(points: vertices.map { $0.position }) }
     var isConvex: Bool { storage.isConvex }
     var material: Material? {
         get { storage.material }
@@ -107,7 +107,6 @@ public extension Polygon {
                 storage = Storage(
                     vertices: vertices,
                     plane: plane,
-                    bounds: bounds,
                     isConvex: isConvex,
                     material: newValue
                 )
@@ -155,7 +154,7 @@ public extension Polygon {
     /// Test if point lies inside the polygon
     // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
     func containsPoint(_ p: Vector) -> Bool {
-        guard plane.containsPoint(p), bounds.containsPoint(p) else {
+        guard plane.containsPoint(p) else {
             return false
         }
         let flatteningPlane = FlatteningPlane(normal: plane.normal)
@@ -195,7 +194,6 @@ public extension Polygon {
             unchecked: vertices.reversed().map { $0.inverted() },
             plane: plane.inverted(),
             isConvex: isConvex,
-            bounds: bounds,
             material: material,
             id: id
         )
@@ -226,7 +224,6 @@ public extension Polygon {
             vertices,
             plane: plane,
             isConvex: isConvex,
-            bounds: bounds,
             material: material,
             id: id
         )
@@ -336,14 +333,12 @@ internal extension Polygon {
         unchecked vertices: [Vertex],
         normal: Vector,
         isConvex: Bool,
-        bounds: Bounds? = nil,
         material: Material?
     ) {
         self.init(
             unchecked: vertices,
             plane: Plane(unchecked: normal, pointOnPlane: vertices[0].position),
             isConvex: isConvex,
-            bounds: bounds,
             material: material,
             id: 0
         )
@@ -356,7 +351,6 @@ internal extension Polygon {
         unchecked vertices: [Vertex],
         plane: Plane? = nil,
         isConvex: Bool? = nil,
-        bounds: Bounds? = nil,
         material: Material? = nil,
         id: Int = 0
     ) {
@@ -369,15 +363,10 @@ internal extension Polygon {
         self.storage = Storage(
             vertices: vertices,
             plane: plane ?? Plane(unchecked: points, convex: isConvex),
-            bounds: bounds,
             isConvex: isConvex,
             material: material
         )
         self.id = id
-    }
-
-    var boundsIfSet: Bounds? {
-        storage.boundsIfSet
     }
 
     // Join touching polygons (without checking they are coplanar or share the same material)
@@ -616,16 +605,8 @@ private extension Polygon {
     final class Storage: Hashable {
         let vertices: [Vertex]
         let plane: Plane
-        var boundsIfSet: Bounds?
         let isConvex: Bool
         var material: Material?
-
-        var bounds: Bounds {
-            if boundsIfSet == nil {
-                boundsIfSet = Bounds(points: vertices.map { $0.position })
-            }
-            return boundsIfSet!
-        }
 
         static func == (lhs: Storage, rhs: Storage) -> Bool {
             lhs === rhs ||
@@ -639,13 +620,11 @@ private extension Polygon {
         init(
             vertices: [Vertex],
             plane: Plane,
-            bounds: Bounds?,
             isConvex: Bool,
             material: Material?
         ) {
             self.vertices = vertices
             self.plane = plane
-            self.boundsIfSet = bounds
             self.isConvex = isConvex
             self.material = material
         }

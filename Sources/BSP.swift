@@ -83,6 +83,9 @@ private extension BSP {
         var rng = DeterministicRNG()
 
         guard isConvex else {
+            guard !polygons.isEmpty else {
+                return
+            }
             // Randomly shuffle polygons to reduce average number of splits
             let polygons = polygons.shuffled(using: &rng)
             nodes.append(BSPNode(plane: polygons[0].plane))

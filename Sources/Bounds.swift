@@ -78,6 +78,19 @@ public extension Bounds {
         self.max = max
     }
 
+    init(polygons: [Polygon]) {
+        var min = Vector(.infinity, .infinity, .infinity)
+        var max = Vector(-.infinity, -.infinity, -.infinity)
+        for p in polygons {
+            for v in p.vertices {
+                min = Euclid.min(min, v.position)
+                max = Euclid.max(max, v.position)
+            }
+        }
+        self.min = min
+        self.max = max
+    }
+
     init(bounds: [Bounds]) {
         var min = Vector(.infinity, .infinity, .infinity)
         var max = Vector(-.infinity, -.infinity, -.infinity)

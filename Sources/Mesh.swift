@@ -217,7 +217,7 @@ private extension Mesh {
 
         var bounds: Bounds {
             if boundsIfSet == nil {
-                boundsIfSet = Bounds(bounds: polygons.map { $0.bounds })
+                boundsIfSet = Bounds(polygons: polygons)
             }
             return boundsIfSet!
         }

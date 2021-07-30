@@ -148,7 +148,6 @@ public extension PathPoint {
 public struct Path: Hashable {
     public let points: [PathPoint]
     public let isClosed: Bool
-    public let bounds: Bounds
     public private(set) var plane: Plane?
     let subpathIndices: [Int]
 }
@@ -190,6 +189,11 @@ public extension Path {
     /// Returns true if all the path's points lie on as single plane
     var isPlanar: Bool {
         plane != nil
+    }
+
+    /// The path bounds
+    var bounds: Bounds {
+        Bounds(points: points.map { $0.position })
     }
 
     /// Returns a closed path by joining last point to first
@@ -274,7 +278,6 @@ public extension Path {
             vertices,
             plane: nil,
             isConvex: nil,
-            bounds: bounds,
             material: material,
             id: 0
         ).detessellate(ensureConvex: false)
@@ -433,7 +436,6 @@ public extension Polygon {
             unchecked: vertices,
             plane: plane,
             isConvex: verticesAreConvex(vertices),
-            bounds: shape.bounds,
             material: material
         )
     }
@@ -445,7 +447,6 @@ internal extension Path {
         self.points = points
         self.isClosed = pointsAreClosed(unchecked: points)
         let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
-        bounds = Bounds(points: positions)
         let subpathIndices = subpathIndices ?? subpathIndicesFor(points)
         self.subpathIndices = subpathIndices
         if let plane = plane {
@@ -497,11 +498,11 @@ internal extension Path {
     // flattens z-axis
     // TODO: this is a hack and should be replaced by a better solution
     func flattened() -> Path {
-        if bounds.min.z == 0, bounds.max.z == 0 {
-            return self
-        }
         guard subpathIndices.isEmpty else {
             return Path(subpaths: subpaths.map { $0.flattened() })
+        }
+        if points.allSatisfy({ $0.position.z == 0 }) {
+            return self
         }
         let flatteningPlane = self.flatteningPlane
         return Path(unchecked: sanitizePoints(points.map {

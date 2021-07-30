@@ -155,7 +155,6 @@ public extension Polygon {
             unchecked: vertices.translated(by: v),
             normal: plane.normal,
             isConvex: isConvex,
-            bounds: boundsIfSet?.translated(by: v),
             material: material
         )
     }
@@ -186,7 +185,6 @@ public extension Polygon {
             unchecked: flipped ? vertices.reversed() : vertices,
             normal: plane.normal.scaled(by: vn).normalized(),
             isConvex: isConvex,
-            bounds: boundsIfSet?.scaled(by: v),
             material: material
         )
     }
@@ -198,7 +196,6 @@ public extension Polygon {
             unchecked: vertices.scaled(by: f),
             normal: plane.normal,
             isConvex: isConvex,
-            bounds: boundsIfSet?.scaled(by: f),
             material: material
         )
         return f < 0 ? polygon.inverted() : polygon
@@ -216,7 +213,6 @@ public extension Polygon {
             unchecked: flipped ? vertices.reversed() : vertices,
             normal: plane.normal,
             isConvex: isConvex,
-            bounds: boundsIfSet,
             material: material
         )
     }
