@@ -210,9 +210,6 @@ func pointsAreDegenerate(_ points: [Vector]) -> Bool {
     if count < 3 {
         return false
     }
-    guard !pointsAreSelfIntersecting(points) else {
-        return true
-    }
     ab = ab / length
     for i in 0 ..< count {
         let b = points[i]

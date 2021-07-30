@@ -78,7 +78,7 @@ extension Polygon: Codable {
     }
 
     public func encode(to encoder: Encoder) throws {
-        if material == nil, plane == Plane(points: vertices.map { $0.position }) {
+        if material == nil, plane == Plane(unchecked: vertices.map { $0.position }, convex: isConvex) {
             try vertices.encode(to: encoder)
         } else {
             var container = encoder.unkeyedContainer()
@@ -142,12 +142,14 @@ public extension Polygon {
     /// Polygon can be convex or concave, but vertices must be coplanar and non-degenerate
     /// Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
     init?(_ vertices: [Vertex], material: Material? = nil) {
-        guard vertices.count > 2, !verticesAreDegenerate(vertices),
-              let plane = Plane(points: vertices.map { $0.position })
+        let positions = vertices.map { $0.position }
+        let isConvex = pointsAreConvex(positions)
+        guard !pointsAreSelfIntersecting(positions),
+              let plane = Plane(points: positions, convex: isConvex)
         else {
             return nil
         }
-        self.init(unchecked: vertices, plane: plane, material: material)
+        self.init(unchecked: vertices, plane: plane, isConvex: isConvex, material: material)
     }
 
     /// Test if point lies inside the polygon
@@ -305,6 +307,9 @@ internal extension Collection where Element == Polygon {
 internal extension MutableCollection where Element == Polygon, Index == Int {
     /// Merge coplanar polygons that share one or more edges
     var areSortedByPlane: Bool {
+        guard !isEmpty else {
+            return true
+        }
         let count = self.count
         for i in 0 ..< count - 1 {
             let p = self[i]
@@ -356,11 +361,12 @@ internal extension Polygon {
         id: Int = 0
     ) {
         assert(vertices.count > 2)
-        assert(!verticesAreDegenerate(vertices))
-        assert(isConvex == nil || verticesAreConvex(vertices) == isConvex)
-        let isConvex = isConvex ?? verticesAreConvex(vertices)
-        let points = (plane == nil || bounds == nil) ? vertices.map { $0.position } : []
-        storage = Storage(
+        let points = vertices.map { $0.position }
+        assert(!pointsAreDegenerate(points))
+        assert(!pointsAreSelfIntersecting(points))
+        assert(isConvex == nil || pointsAreConvex(points) == isConvex)
+        let isConvex = isConvex ?? pointsAreConvex(points)
+        self.storage = Storage(
             vertices: vertices,
             plane: plane ?? Plane(unchecked: points, convex: isConvex),
             bounds: bounds,

@@ -410,7 +410,7 @@ public extension Mesh {
         }
 
         var profile = profile
-        if profile.points.count < 2 {
+        if profile.points.count < 2 || pointsAreSelfIntersecting(profile.points.map { $0.position }) {
             return Mesh([])
         }
 
@@ -420,7 +420,6 @@ public extension Mesh {
         // normalize profile
         profile = profile.flattened().clippedToYAxis()
         guard let normal = profile.plane?.normal else {
-            // Path is self-intersecting, or otherwise degenerate
             return Mesh([])
         }
         if normal.z < 0 {

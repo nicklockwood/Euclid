@@ -95,14 +95,7 @@ public extension Plane {
     /// The polygon can be convex or concave. The direction of the plane normal is
     /// based on the assumption that the points are wound in an anticlockwise direction
     init?(points: [Vector]) {
-        guard !points.isEmpty, !pointsAreDegenerate(points) else {
-            return nil
-        }
-        self.init(unchecked: points, convex: nil)
-        // Check all points lie on this plane
-        if points.contains(where: { !containsPoint($0) }) {
-            return nil
-        }
+        self.init(points: points, convex: nil)
     }
 
     /// Returns the flipside of the plane
@@ -157,6 +150,17 @@ internal extension Plane {
 
     init(unchecked normal: Vector, pointOnPlane: Vector) {
         self.init(unchecked: normal, w: normal.dot(pointOnPlane))
+    }
+
+    init?(points: [Vector], convex: Bool?) {
+        guard !points.isEmpty, !pointsAreDegenerate(points) else {
+            return nil
+        }
+        self.init(unchecked: points, convex: convex)
+        // Check all points lie on this plane
+        if points.contains(where: { !containsPoint($0) }) {
+            return nil
+        }
     }
 
     init(unchecked points: [Vector], convex: Bool?) {

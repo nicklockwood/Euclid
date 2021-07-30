@@ -481,6 +481,7 @@ internal extension Path {
 
     // Test if path is self-intersecting
     var isSimple: Bool {
+        // TODO: what should we do about subpaths?
         !pointsAreSelfIntersecting(points.map { $0.position })
     }
 
