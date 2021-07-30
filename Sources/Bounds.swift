@@ -170,11 +170,3 @@ extension Bounds {
         return comparison
     }
 }
-
-private func min(_ lhs: Vector, _ rhs: Vector) -> Vector {
-    Vector(min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z))
-}
-
-private func max(_ lhs: Vector, _ rhs: Vector) -> Vector {
-    Vector(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z))
-}

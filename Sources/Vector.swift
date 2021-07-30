@@ -82,6 +82,16 @@ extension Vector: Codable {
     }
 }
 
+/// Returns a new vector representing the min of the components of the passed vectors
+public func min(_ lhs: Vector, _ rhs: Vector) -> Vector {
+    Vector(min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z))
+}
+
+/// Returns a new vector representing the max of the components of the passed vectors
+public func max(_ lhs: Vector, _ rhs: Vector) -> Vector {
+    Vector(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z))
+}
+
 public extension Vector {
     static let zero = Vector(0, 0, 0)
     static let one = Vector(1, 1, 1)
