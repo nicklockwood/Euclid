@@ -1,3 +1,13 @@
+## [0.5.3](https://github.com/nicklockwood/Euclid/releases/tag/0.5.3) (2021-07-30)
+
+- Slightly improved the performance of bounds checking during CSG operations
+- The `Polygon.bounds` is no longer a stored property, which should reduce memory footprint
+- Coincident `Line`s will now always be equal, even if initialized with a different `origin`
+- Fixed a bug where Z component was ignored when testing for `LineSegment` intersection
+- Fixed a performance regression in `Vector.distance(from: Plane)`, introduced in version 0.5.0
+- Added `min()`/`max()` functions for component-wise comparison of `Vector`s
+- Added `Line.intersection(with: Plane)` method
+
 ## [0.5.2](https://github.com/nicklockwood/Euclid/releases/tag/0.5.2) (2021-07-28)
 
 - Fixed some bugs when serializing texture coordinates with a non-zero Z component
