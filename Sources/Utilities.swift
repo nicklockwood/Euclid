@@ -256,7 +256,6 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
 }
 
 // Test if path is self-intersecting
-// TODO: extend this to work in 3D
 // TODO: optimize by using http://www.webcitation.org/6ahkPQIsN
 func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
     let flatteningPlane = FlatteningPlane(points: points, convex: nil)

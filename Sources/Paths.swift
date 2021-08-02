@@ -287,7 +287,6 @@ public extension Path {
     /// Vertices include normals and uv coordinates normalized to the bounding
     /// rectangle of the path. Returns nil if path is open or has subpaths
     var faceVertices: [Vertex]? {
-        // TODO: should this be facePolygons instead, to handle non-planar shapes?
         guard isClosed, subpaths.count <= 1, var p0 = points.last else {
             return nil
         }
