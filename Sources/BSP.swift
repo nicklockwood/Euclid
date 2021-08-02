@@ -56,7 +56,27 @@ extension BSP {
         _ isCancelled: CancellationHandler
     ) -> [Polygon] {
         var id = 0
-        return clip(polygons.map { $0.with(id: 0) }, keeping, &id, isCancelled)
+        var out: [Polygon]?
+        return clip(polygons.map { $0.with(id: 0) }, keeping, &out, &id, isCancelled)
+    }
+
+    func split(
+        _ polygons: [Polygon],
+        _ left: ClipRule,
+        _ right: ClipRule,
+        _ isCancelled: CancellationHandler
+    ) -> ([Polygon], [Polygon]) {
+        var id = 0
+        var rhs: [Polygon]? = []
+        let lhs = clip(polygons.map { $0.with(id: 0) }, left, &rhs, &id, isCancelled)
+        switch (left, right) {
+        case (.lessThan, .greaterThan),
+             (.greaterThan, .lessThan):
+            var ignore: [Polygon]?
+            return (lhs, clip(rhs!, right, &ignore, &id, isCancelled))
+        default:
+            return (lhs, rhs!)
+        }
     }
 }
 
@@ -180,6 +200,7 @@ private extension BSP {
     func clip(
         _ polygons: [Polygon],
         _ keeping: BSP.ClipRule,
+        _ out: inout [Polygon]?,
         _ id: inout Int,
         _ isCancelled: CancellationHandler
     ) -> [Polygon] {
@@ -187,7 +208,8 @@ private extension BSP {
             return polygons
         }
         var total = [Polygon]()
-        func addPolygons(_ polygons: [Polygon]) {
+        var rejects = [Polygon]()
+        func addPolygons(_ polygons: [Polygon], to total: inout [Polygon]) {
             for a in polygons {
                 guard a.id != 0 else {
                     total.append(a)
@@ -226,18 +248,23 @@ private extension BSP {
             if !front.isEmpty {
                 if node.front > 0 {
                     stack.append((nodes[node.front], front))
-                } else {
-                    addPolygons(keepFront ? front : [])
+                } else if keepFront {
+                    addPolygons(front, to: &total)
+                } else if out != nil {
+                    addPolygons(front, to: &rejects)
                 }
             }
             if !back.isEmpty {
                 if node.back > 0 {
                     stack.append((nodes[node.back], back))
-                } else {
-                    addPolygons(keepFront ? [] : back)
+                } else if !keepFront {
+                    addPolygons(back, to: &total)
+                } else if out != nil {
+                    addPolygons(back, to: &rejects)
                 }
             }
         }
+        out = rejects
         return total
     }
 }

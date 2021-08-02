@@ -150,11 +150,8 @@ public extension Mesh {
         var aout: [Polygon]? = [], bout: [Polygon]? = []
         let ap = boundsTest(intersection, polygons, &aout)
         let bp = boundsTest(intersection, mesh.polygons, &bout)
-        // TODO: combine clip operations
-        let ap1 = bbsp.clip(ap, .greaterThan, isCancelled)
-        let bp1 = absp.clip(bp, .lessThan, isCancelled)
-        let ap2 = bbsp.clip(ap, .lessThan, isCancelled)
-        let bp2 = absp.clip(bp, .greaterThan, isCancelled)
+        let (ap1, ap2) = bbsp.split(ap, .greaterThan, .lessThan, isCancelled)
+        let (bp2, bp1) = absp.split(bp, .greaterThan, .lessThan, isCancelled)
         // Avoids slow compilation from long expression
         let lhs = aout! + ap1 + bp1.map { $0.inverted() }
         let rhs = bout! + bp2 + ap2.map { $0.inverted() }
@@ -242,10 +239,8 @@ public extension Mesh {
         }
         var aout: [Polygon]? = []
         let ap = boundsTest(bounds.intersection(mesh.bounds), polygons, &aout)
-        // TODO: combine clip operations
         let bsp = BSP(mesh, isCancelled)
-        let outside = bsp.clip(ap, .greaterThan, isCancelled)
-        let inside = bsp.clip(ap, .lessThanEqual, isCancelled)
+        let (outside, inside) = bsp.split(ap, .greaterThan, .lessThanEqual, isCancelled)
         let material = mesh.polygons.first?.material
         return Mesh(
             unchecked: aout! + outside + inside.map { $0.with(material: material) },
