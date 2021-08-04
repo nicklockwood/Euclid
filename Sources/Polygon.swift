@@ -495,7 +495,7 @@ internal extension Polygon {
         _ id: inout Int
     ) {
         var toTest = tessellate()
-        for polygon in polygons where !toTest.isEmpty {
+        for polygon in polygons.tessellate() where !toTest.isEmpty {
             var _outside = [Polygon]()
             toTest.forEach { polygon.clip($0, &inside, &_outside, &id) }
             toTest = _outside
@@ -509,6 +509,7 @@ internal extension Polygon {
         _ outside: inout [Polygon],
         _ id: inout Int
     ) {
+        assert(isConvex)
         var polygon = polygon
         var coplanar = [Polygon]()
         for plane in edgePlanes {
