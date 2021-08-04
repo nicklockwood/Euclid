@@ -1,3 +1,13 @@
+## [0.5.4](https://github.com/nicklockwood/Euclid/releases/tag/0.5.4) (2021-08-04)
+
+- Fixed a regression in `Mesh.fill()` introduced in 0.5.0 that affected nested paths (e.g. text)
+- Fixed a bug in the calculation of vertex normals for non-planar paths
+- Fixed a bug where extruding non-planar paths could result in an inside-out mesh  
+- Lengthy CSG operations can now be interrupted by using the optional `isCancelled` callback
+- Improved `Mesh.xor()` and `Mesh.stencil()` performance by merging CSG steps
+- Self-intersecting paths can now be lathed
+- Added `Path.stroke()` method
+
 ## [0.5.3](https://github.com/nicklockwood/Euclid/releases/tag/0.5.3) (2021-07-30)
 
 - Slightly improved the performance of bounds checking during CSG operations
@@ -30,7 +40,7 @@
 
 - Added `Mesh.detessellate()` method and `Mesh.uniqueEdges` property
 - `Mesh` initializer no longer tessellates non-convex polygons automatically
-- Added additional methods for computing intersections and distances between points, planes and lines
+- Added methods for computing intersections and distances between points, planes and lines
 - `Line` and `LineSegment` intersection methods now correctly work for lines in different planes 
 - `Polygon` initializer now rejects vertices that would form self-intersecting edges
 - Fixed crash when attempting to create fill or lathe meshes from self-intersecting paths
