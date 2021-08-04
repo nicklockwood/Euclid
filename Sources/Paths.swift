@@ -196,6 +196,15 @@ public extension Path {
         Bounds(points: points.map { $0.position })
     }
 
+    /// Face normal for shape
+    /// If shape is non-planar then this is the average/approximate normal
+    var faceNormal: Vector {
+        plane?.normal ?? faceNormalForPolygonPoints(
+            points.map { $0.position },
+            convex: nil
+        )
+    }
+
     /// Returns a closed path by joining last point to first
     /// Returns `self` if already closed, or if path cannot be closed
     func closed() -> Path {
@@ -291,7 +300,6 @@ public extension Path {
         guard isClosed, subpaths.count <= 1, count > 1 else {
             return nil
         }
-        let faceNormal = plane?.normal
         var hasTexcoords = true
         var vertices = [Vertex]()
         var p0 = points[count - 2]
@@ -299,7 +307,7 @@ public extension Path {
             let p1 = points[i]
             let texcoord = p1.texcoord
             hasTexcoords = hasTexcoords && texcoord != nil
-            let normal = faceNormal ?? faceNormalForPolygonPoints(
+            let normal = plane?.normal ?? faceNormalForPolygonPoints(
                 [p0.position, p1.position, points[i + 1].position],
                 convex: true
             )
@@ -314,10 +322,7 @@ public extension Path {
         }
         var min = Vector(.infinity, .infinity)
         var max = Vector(-.infinity, -.infinity)
-        let flatteningPlane = FlatteningPlane(
-            normal: faceNormal ??
-                faceNormalForPolygonPoints(vertices.map { $0.position }, convex: nil)
-        )
+        let flatteningPlane = FlatteningPlane(normal: faceNormal)
         vertices = vertices.map {
             let uv = flatteningPlane.flattenPoint($0.position)
             min.x = Swift.min(min.x, uv.x)
@@ -385,8 +390,7 @@ public extension Path {
         var vertices = [Vertex]()
         var v = 0.0
         let endIndex = count
-        let faceNormal = plane?.normal ??
-            faceNormalForPolygonPoints(points.map { $0.position }, convex: nil)
+        let faceNormal = self.faceNormal
         for i in 0 ..< endIndex {
             p1 = p2
             p2 = i < points.count - 1 ? points[i + 1] :

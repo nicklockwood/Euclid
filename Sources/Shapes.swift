@@ -595,7 +595,7 @@ public extension Mesh {
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        let offset = (shape.plane?.normal ?? Vector(0, 0, 1)) * (depth / 2)
+        let offset = shape.faceNormal * (depth / 2)
         if offset.isEqual(to: .zero) {
             return fill(shape, faces: faces, material: material)
         }
