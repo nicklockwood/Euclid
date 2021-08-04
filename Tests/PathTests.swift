@@ -256,6 +256,19 @@ class PathTests: XCTestCase {
         XCTAssertNil(path.faceVertices)
     }
 
+    func testFaceVerticesForNonPlanarPath() throws {
+        let path = Path([
+            .point(0, 1),
+            .point(1, 0, 0.2),
+            .point(0, -1),
+            .point(-1, 0, 0.1),
+            .point(0, 1),
+        ])
+        let vertices = try XCTUnwrap(path.faceVertices)
+        XCTAssertEqual(vertices.count, 4)
+        XCTAssert(vertices.allSatisfy { $0.normal.z < 0 })
+    }
+
     // MARK: edgeVertices
 
     func testEdgeVerticesForSmoothedClosedRect() {

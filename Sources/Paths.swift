@@ -287,13 +287,15 @@ public extension Path {
     /// Vertices include normals and uv coordinates normalized to the bounding
     /// rectangle of the path. Returns nil if path is open or has subpaths
     var faceVertices: [Vertex]? {
-        guard isClosed, subpaths.count <= 1, var p0 = points.last else {
+        let count = points.count
+        guard isClosed, subpaths.count <= 1, count > 1 else {
             return nil
         }
         let faceNormal = plane?.normal
         var hasTexcoords = true
         var vertices = [Vertex]()
-        for i in 0 ..< points.count - 1 {
+        var p0 = points[count - 2]
+        for i in 0 ..< count - 1 {
             let p1 = points[i]
             let texcoord = p1.texcoord
             hasTexcoords = hasTexcoords && texcoord != nil
