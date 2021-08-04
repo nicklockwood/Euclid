@@ -239,33 +239,27 @@ public extension SCNGeometry {
         var uvs: [CGPoint] = []
         var meshIndices: [UInt32] = []
 
-        for (_, polygons) in mesh.polygonsByMaterial {
-            var indices: [UInt32] = []
+        for polygon in mesh.polygons {
+            for triangle in polygon.triangulate() {
+                for vertex in triangle.vertices {
+                    if let index = vertexCache[vertex] {
+                        meshIndices.append(index)
 
-            for polygon in polygons {
-                for triangle in polygon.triangulate() {
-                    for vertex in triangle.vertices {
-                        if let index = vertexCache[vertex] {
-                            indices.append(index)
-
-                            continue
-                        }
-
-                        let index = UInt32(vertexCache.count)
-
-                        vertexCache[vertex] = index
-
-                        indices.append(index)
-
-                        vertices.append(SCNVector3(vertex.position))
-                        normals.append(SCNVector3(vertex.normal))
-                        colors.append(SCNVector4(vertex.color))
-                        uvs.append(CGPoint(x: vertex.texcoord.x, y: vertex.texcoord.y))
+                        continue
                     }
+
+                    let index = UInt32(vertexCache.count)
+
+                    vertexCache[vertex] = index
+
+                    meshIndices.append(index)
+
+                    vertices.append(SCNVector3(vertex.position))
+                    normals.append(SCNVector3(vertex.normal))
+                    colors.append(SCNVector4(vertex.color))
+                    uvs.append(CGPoint(x: vertex.texcoord.x, y: vertex.texcoord.y))
                 }
             }
-
-            meshIndices.append(contentsOf: indices)
         }
 
         self.init(
