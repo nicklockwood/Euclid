@@ -209,7 +209,7 @@ class ShapeTests: XCTestCase {
             .point(0, 1),
         ])
         let mesh = Mesh.lathe(path)
-        XCTAssert(mesh.polygons.isEmpty)
+        XCTAssert(!mesh.polygons.isEmpty)
     }
 
     // MARK: Loft

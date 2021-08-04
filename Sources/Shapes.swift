@@ -410,7 +410,7 @@ public extension Mesh {
         }
 
         var profile = profile
-        if profile.points.count < 2 || pointsAreSelfIntersecting(profile.points.map { $0.position }) {
+        if profile.points.count < 2 {
             return Mesh([])
         }
 
@@ -552,8 +552,9 @@ public extension Mesh {
             }
         }
 
+        let isSealed = isConvex && !pointsAreSelfIntersecting(profile.points.map { $0.position })
         switch faces {
-        case .default where isConvex, .front:
+        case .default where isSealed, .front:
             return Mesh(
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
