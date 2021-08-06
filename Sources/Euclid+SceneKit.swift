@@ -503,11 +503,14 @@ public extension Mesh {
 
     /// Load a mesh from a file using any format supported by sceneKit,  with optional material mapping
     init(url: URL, materialLookup: MaterialProvider? = nil) throws {
-        let importedScene = try SCNScene(url: url, options: [
+        var options: [SCNSceneSource.LoadingOption: Any] = [
             .flattenScene: true,
             .createNormalsIfAbsent: true,
-        ])
-        // create Mesh
+        ]
+        if #available(iOS 11, tvOS 11, macOS 10.10, *) {
+            options[.convertToYUp] = true
+        }
+        let importedScene = try SCNScene(url: url, options: options)
         self.init(importedScene.rootNode, materialLookup: materialLookup)
     }
 
