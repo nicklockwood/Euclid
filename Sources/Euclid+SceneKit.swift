@@ -506,6 +506,7 @@ public extension Mesh {
         let importedScene = try SCNScene(url: url, options: [
             .flattenScene: true,
             .createNormalsIfAbsent: true,
+            .convertToYUp: true,
         ])
         // create Mesh
         self.init(importedScene.rootNode, materialLookup: materialLookup)
