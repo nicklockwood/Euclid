@@ -7,19 +7,27 @@
 //
 
 #if canImport(SceneKit)
-import SceneKit
-#endif
 
 @testable import Euclid
+import SceneKit
 import XCTest
 
 class SceneKitTests: XCTestCase {
     func testGeometryImportedWithCorrectDetail() {
-        #if canImport(SceneKit)
         let sphere = SCNSphere(radius: 0.5)
         sphere.segmentCount = 3
         let mesh = Mesh(sphere)
         XCTAssertEqual(mesh?.polygons.count ?? 0, 12)
-        #endif
+    }
+
+    func testImportedSTLFileHasFixedNormals() throws {
+        let cubeFile = URL(fileURLWithPath: #file)
+            .deletingLastPathComponent().appendingPathComponent("Cube.stl")
+        let cube = try Mesh(url: cubeFile)
+        XCTAssert(cube.polygons.allSatisfy { polygon in
+            polygon.vertices.allSatisfy { $0.normal == polygon.plane.normal }
+        })
     }
 }
+
+#endif

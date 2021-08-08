@@ -148,7 +148,9 @@ public extension Polygon {
         else {
             return nil
         }
-        self.init(unchecked: vertices, plane: plane, isConvex: isConvex, material: material)
+        self.init(unchecked: vertices.map {
+            $0.with(normal: $0.normal == .zero ? plane.normal : $0.normal)
+        }, plane: plane, isConvex: isConvex, material: material)
     }
 
     /// Test if point lies inside the polygon
@@ -359,6 +361,7 @@ internal extension Polygon {
         assert(!pointsAreDegenerate(points))
         assert(!pointsAreSelfIntersecting(points))
         assert(isConvex == nil || pointsAreConvex(points) == isConvex)
+        assert(vertices.allSatisfy { $0.normal != .zero })
         let isConvex = isConvex ?? pointsAreConvex(points)
         self.storage = Storage(
             vertices: vertices,

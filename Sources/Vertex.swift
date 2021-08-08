@@ -130,6 +130,13 @@ internal extension Vertex {
         self.texcoord = texcoord
     }
 
+    /// Create copy of vertex with specified normal
+    func with(normal: Vector) -> Vertex {
+        var vertex = self
+        vertex.normal = normal
+        return vertex
+    }
+
     // Approximate equality
     func isEqual(to other: Vertex, withPrecision p: Double = epsilon) -> Bool {
         position.isEqual(to: other.position, withPrecision: p) &&
