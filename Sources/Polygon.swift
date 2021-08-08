@@ -153,6 +153,12 @@ public extension Polygon {
         }, plane: plane, isConvex: isConvex, material: material)
     }
 
+    /// Create a polygon from a set of vertex positions
+    /// Vertex normals will be set to match face normal
+    init?(_ vertices: [Vector], material: Material? = nil) {
+        self.init(vertices.map { Vertex($0) }, material: material)
+    }
+
     /// Test if point lies inside the polygon
     // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
     func containsPoint(_ p: Vector) -> Bool {

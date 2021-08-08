@@ -41,8 +41,16 @@ public struct Vertex: Hashable {
 
     public var texcoord: Vector
 
-    public init(_ position: Vector, _ normal: Vector, _ texcoord: Vector? = nil) {
-        self.init(unchecked: position, normal.normalized(), texcoord ?? .zero)
+    public init(
+        _ position: Vector,
+        _ normal: Vector? = nil,
+        _ texcoord: Vector? = nil
+    ) {
+        self.init(
+            unchecked: position,
+            normal?.normalized() ?? .zero,
+            texcoord ?? .zero
+        )
     }
 
     public init?(_ values: [Double]) {
