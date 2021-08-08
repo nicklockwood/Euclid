@@ -101,6 +101,21 @@ class PolygonTests: XCTestCase {
         ]))
     }
 
+    func testZeroNormals() {
+        guard let polygon = Polygon([
+            Vertex(Vector(-1, 1), .zero),
+            Vertex(Vector(-1, -1), .zero),
+            Vertex(Vector(1, -1), .zero),
+            Vertex(Vector(1, 1), .zero),
+        ]) else {
+            XCTFail()
+            return
+        }
+        XCTAssert(polygon.vertices.allSatisfy {
+            $0.normal == polygon.plane.normal
+        })
+    }
+
     // MARK: merging
 
     func testMerge1() {

@@ -195,7 +195,8 @@ public extension Vector {
     }
 
     func normalized() -> Vector {
-        self / length
+        let length = self.length
+        return length == 0 ? .zero : self / length
     }
 
     /// Linearly interpolate between two vectors
