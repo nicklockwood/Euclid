@@ -154,6 +154,7 @@ public extension Polygon {
         let positions = vertices.map { $0.position }
         let isConvex = pointsAreConvex(positions)
         guard !pointsAreSelfIntersecting(positions),
+              // Note: Plane init includes check for degeneracy
               let plane = Plane(points: positions, convex: isConvex)
         else {
             return nil
