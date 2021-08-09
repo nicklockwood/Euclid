@@ -1,3 +1,10 @@
+## [0.5.5](https://github.com/nicklockwood/Euclid/releases/tag/0.5.5) (2021-08-09)
+
+- Vertices with zero normals are automatically corrected to use the face normal
+- Vertex normals are now optional
+- Polygons can now be created from an array of vector positions (normals are set automatically)
+- Imported models are now converted to use Y-up automatically, matching SceneKit convention
+
 ## [0.5.4](https://github.com/nicklockwood/Euclid/releases/tag/0.5.4) (2021-08-04)
 
 - Fixed a regression in `Mesh.fill()` introduced in 0.5.0 that affected nested paths (e.g. text)
