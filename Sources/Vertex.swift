@@ -55,6 +55,10 @@ public struct Vertex: Hashable {
 
     public init?(_ values: [Double]) {
         switch values.count {
+        case 2:
+            self.init(Vector(values[0], values[1]))
+        case 3:
+            self.init(Vector(values[0], values[1], values[2]))
         case 6:
             self.init(
                 Vector(values[0], values[1], values[2]),
@@ -87,7 +91,7 @@ extension Vertex: Codable {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             try self.init(
                 container.decode(Vector.self, forKey: .position),
-                container.decode(Vector.self, forKey: .normal),
+                container.decodeIfPresent(Vector.self, forKey: .normal),
                 container.decodeIfPresent(Vector.self, forKey: .texcoord)
             )
         } else {
@@ -105,11 +109,11 @@ extension Vertex: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        try position.encode(to: &container)
-        try normal.encode(to: &container)
-        if texcoord != .zero {
-            try texcoord.encode(to: &container, skipZ: texcoord.z == 0)
-        }
+        let hasNormal = normal != .zero, hasTexcoord = texcoord != .zero
+        let skipZ = !hasNormal && !hasTexcoord && position.z == 0
+        try position.encode(to: &container, skipZ: skipZ)
+        try hasNormal ? normal.encode(to: &container) : ()
+        try hasTexcoord ? texcoord.encode(to: &container, skipZ: texcoord.z == 0) : ()
     }
 }
 
