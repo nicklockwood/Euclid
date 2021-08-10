@@ -5,6 +5,29 @@
 //  Created by Nick Lockwood on 04/01/2020.
 //  Copyright © 2020 Nick Lockwood. All rights reserved.
 //
+//  Distributed under the permissive MIT license
+//  Get the latest version from here:
+//
+//  https://github.com/nicklockwood/Euclid
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
+//
 
 import Foundation
 
@@ -67,10 +90,7 @@ extension Rotation: Codable {
             let roll = try container.decode(Angle.self)
             self.init(pitch: pitch, yaw: yaw, roll: roll)
         case 4:
-            let x = try container.decode(Double.self)
-            let y = try container.decode(Double.self)
-            let z = try container.decode(Double.self)
-            let axis = Vector(x, y, z).normalized()
+            let axis = try Vector(from: &container).normalized()
             let angle = try container.decode(Angle.self)
             self.init(unchecked: axis, angle: angle)
         default:
@@ -95,6 +115,9 @@ extension Rotation: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
+        if self == .identity {
+            return
+        }
         try container.encode(m11)
         try container.encode(m12)
         try container.encode(m13)
@@ -191,20 +214,32 @@ public extension Rotation {
 
     // http://planning.cs.uiuc.edu/node103.html
     var pitch: Angle {
-        return .atan2(y: m32, x: m33)
+        .atan2(y: m32, x: m33)
     }
 
     var yaw: Angle {
-        return .atan2(y: -m31, x: sqrt(m32 * m32 + m33 * m33))
+        .atan2(y: -m31, x: sqrt(m32 * m32 + m33 * m33))
     }
 
     var roll: Angle {
-        return .atan2(y: m21, x: m11)
+        .atan2(y: m21, x: m11)
+    }
+
+    var right: Vector {
+        Vector(m11, m12, m13)
+    }
+
+    var up: Vector {
+        Vector(m21, m22, m23)
+    }
+
+    var forward: Vector {
+        Vector(m31, m32, m33)
     }
 
     static prefix func - (rhs: Rotation) -> Rotation {
         // transpose matrix
-        return Rotation(
+        Rotation(
             rhs.m11,
             rhs.m21,
             rhs.m31,
@@ -218,7 +253,7 @@ public extension Rotation {
     }
 
     static func * (lhs: Rotation, rhs: Rotation) -> Rotation {
-        return Rotation(
+        Rotation(
             lhs.m11 * rhs.m11 + lhs.m21 * rhs.m12 + lhs.m31 * rhs.m13,
             lhs.m12 * rhs.m11 + lhs.m22 * rhs.m12 + lhs.m32 * rhs.m13,
             lhs.m13 * rhs.m11 + lhs.m23 * rhs.m12 + lhs.m33 * rhs.m13,
@@ -239,7 +274,7 @@ public extension Rotation {
 internal extension Rotation {
     // https://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
     var determinant: Double {
-        return m11 * m22 * m33
+        m11 * m22 * m33
             + m12 * m23 * m31
             + m13 * m21 * m32
             - m11 * m23 * m32
@@ -247,16 +282,50 @@ internal extension Rotation {
             - m13 * m22 * m31
     }
 
-    // https://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
+    var adjugate: Rotation {
+        Rotation(
+            m22 * m33 - m23 * m32,
+            m13 * m32 - m12 * m33,
+            m12 * m23 - m13 * m22,
+            m23 * m31 - m21 * m33,
+            m11 * m33 - m13 * m31,
+            m13 * m21 - m11 * m23,
+            m21 * m32 - m22 * m31,
+            m12 * m31 - m11 * m32,
+            m11 * m22 - m12 * m21
+        )
+    }
+
+    var transpose: Rotation {
+        Rotation(m11, m21, m31, m12, m22, m32, m13, m23, m33)
+    }
+
+    var inverse: Rotation {
+        let a = adjugate
+        let d = determinant
+        return Rotation(
+            a.m11 / d, a.m12 / d, a.m13 / d,
+            a.m21 / d, a.m22 / d, a.m23 / d,
+            a.m31 / d, a.m32 / d, a.m33 / d
+        )
+    }
+
     var isRotationMatrix: Bool {
         let epsilon = 0.01
-        if abs(m11 * m12 + m12 * m22 + m13 * m23) > epsilon { return false }
-        if abs(m11 * m31 + m12 * m32 + m13 * m33) > epsilon { return false }
-        if abs(m21 * m31 + m22 * m32 + m23 * m33) > epsilon { return false }
-        if abs(m11 * m11 + m12 * m12 + m13 * m13 - 1) > epsilon { return false }
-        if abs(m21 * m21 + m22 * m22 + m23 * m23 - 1) > epsilon { return false }
-        if abs(m31 * m31 + m32 * m32 + m33 * m33 - 1) > epsilon { return false }
-        return abs(determinant - 1) < epsilon
+        if abs(determinant - 1) > epsilon {
+            return false
+        }
+        // check transpose == inverse
+        if abs(m22 * m33 - m23 * m32 - m11) > epsilon { return false }
+        if abs(m13 * m32 - m12 * m33 - m21) > epsilon { return false }
+        if abs(m12 * m23 - m13 * m22 - m31) > epsilon { return false }
+        if abs(m23 * m31 - m21 * m33 - m12) > epsilon { return false }
+        if abs(m11 * m33 - m13 * m31 - m22) > epsilon { return false }
+        if abs(m13 * m21 - m11 * m23 - m32) > epsilon { return false }
+        if abs(m21 * m32 - m22 * m31 - m13) > epsilon { return false }
+        if abs(m12 * m31 - m11 * m32 - m23) > epsilon { return false }
+        if abs(m11 * m22 - m12 * m21 - m33) > epsilon { return false }
+        return true
     }
 
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
@@ -277,7 +346,7 @@ internal extension Rotation {
 
     // Approximate equality
     func isEqual(to other: Rotation, withPrecision p: Double = epsilon) -> Bool {
-        return abs(m11 - other.m11) < p
+        abs(m11 - other.m11) < p
             && abs(m12 - other.m12) < p
             && abs(m13 - other.m13) < p
             && abs(m21 - other.m21) < p

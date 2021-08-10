@@ -1,5 +1,5 @@
 //
-//  SceneKit.swift
+//  Euclid+SceneKit.swift
 //  Euclid
 //
 //  Created by Nick Lockwood on 03/07/2018.
@@ -110,13 +110,15 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial
 }
 
 public extension SCNGeometry {
+    typealias SCNMaterialProvider = (Polygon.Material?) -> SCNMaterial?
+
     /// Creates an SCNGeometry using the default tessellation method
-    convenience init(_ mesh: Mesh, materialLookup: ((Polygon.Material?) -> SCNMaterial?)? = nil) {
+    convenience init(_ mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
         self.init(triangles: mesh, materialLookup: materialLookup)
     }
 
     /// Creates an SCNGeometry from a Mesh using triangles
-    convenience init(triangles mesh: Mesh, materialLookup: ((Polygon.Material?) -> SCNMaterial?)? = nil) {
+    convenience init(triangles mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
         var elementData = [Data]()
         var vertexData = Data()
         var materials = [SCNMaterial]()
@@ -194,7 +196,7 @@ public extension SCNGeometry {
 
     /// Creates an SCNGeometry from a Mesh using convex polygons
     @available(OSX 10.12, iOS 10.0, tvOS 10.0, *)
-    convenience init(polygons mesh: Mesh, materialLookup: ((Polygon.Material?) -> SCNMaterial)? = nil) {
+    convenience init(polygons mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
         var elementData = [(Int, Data)]()
         var vertexData = Data()
         var materials = [SCNMaterial]()
@@ -272,8 +274,8 @@ public extension SCNGeometry {
         self.materials = materials
     }
 
-    /// Creates a wireframe SCNGeometry from a Mesh using line segments
-    convenience init(wireframe mesh: Mesh) {
+    /// Creates a wireframe SCNGeometry from a collection of LineSegments
+    convenience init<T: Collection>(_ edges: T) where T.Element == LineSegment {
         var indexData = Data()
         var vertexData = Data()
         var indicesByVertex = [Vector: UInt32]()
@@ -287,16 +289,9 @@ public extension SCNGeometry {
             indexData.append(index)
             vertexData.append(vertex)
         }
-        for polygon in mesh.polygons {
-            for polygon in polygon.tessellate() {
-                let vertices = polygon.vertices
-                var v0 = vertices.last
-                for v1 in vertices {
-                    addVertex(v0!.position)
-                    addVertex(v1.position)
-                    v0 = v1
-                }
-            }
+        for edge in edges {
+            addVertex(edge.start)
+            addVertex(edge.end)
         }
         self.init(
             sources: [
@@ -322,56 +317,16 @@ public extension SCNGeometry {
         )
     }
 
+    /// Creates a wireframe SCNGeometry from a Mesh using line segments
+    convenience init(wireframe mesh: Mesh) {
+        self.init(mesh.uniqueEdges)
+    }
+
     /// Creates line-segment SCNGeometry representing the vertex normals of a Mesh
     convenience init(normals mesh: Mesh, scale: Double = 1) {
-        var indexData = Data()
-        var vertexData = Data()
-        var indicesByVertex = [Vector: UInt32]()
-        func addVertex(_ vertex: Vector) {
-            if let index = indicesByVertex[vertex] {
-                indexData.append(index)
-                return
-            }
-            let index = UInt32(indicesByVertex.count)
-            indicesByVertex[vertex] = index
-            indexData.append(index)
-            vertexData.append(vertex)
-        }
-        func addNormal(for vertex: Vertex) {
-            addVertex(vertex.position)
-            addVertex(vertex.position + vertex.normal * scale)
-        }
-        for polygon in mesh.polygons {
-            let vertices = polygon.vertices
-            let v0 = vertices[0]
-            for i in 2 ..< vertices.count {
-                addNormal(for: v0)
-                addNormal(for: vertices[i - 1])
-                addNormal(for: vertices[i])
-            }
-        }
-        self.init(
-            sources: [
-                SCNGeometrySource(
-                    data: vertexData,
-                    semantic: .vertex,
-                    vectorCount: vertexData.count / 12,
-                    usesFloatComponents: true,
-                    componentsPerVector: 3,
-                    bytesPerComponent: 4,
-                    dataOffset: 0,
-                    dataStride: 0
-                ),
-            ],
-            elements: [
-                SCNGeometryElement(
-                    data: indexData,
-                    primitiveType: .line,
-                    primitiveCount: indexData.count / 8,
-                    bytesPerIndex: 4
-                ),
-            ]
-        )
+        self.init(Set(mesh.polygons.flatMap { $0.vertices }.compactMap {
+            LineSegment($0.position, $0.position + $0.normal * scale)
+        }))
     }
 
     /// Creates a line-segment SCNGeometry from a Path
@@ -500,7 +455,7 @@ private extension Data {
     }
 
     func vector(at index: Int) -> Vector {
-        return Vector(
+        Vector(
             float(at: index),
             float(at: index + 4),
             float(at: index + 8)
@@ -529,7 +484,7 @@ public extension Rotation {
 
 public extension Transform {
     static func transform(from scnNode: SCNNode) -> Transform {
-        return Transform(
+        Transform(
             offset: Vector(scnNode.position),
             rotation: Rotation(scnNode.orientation),
             scale: Vector(scnNode.scale)
@@ -544,8 +499,35 @@ public extension Bounds {
 }
 
 public extension Mesh {
+    typealias MaterialProvider = (SCNMaterial) -> Material?
+
+    /// Load a mesh from a file using any format supported by sceneKit,  with optional material mapping
+    init(url: URL, materialLookup: MaterialProvider? = nil) throws {
+        let importedScene = try SCNScene(url: url, options: [
+            .flattenScene: true,
+            .createNormalsIfAbsent: true,
+            .convertToYUp: true,
+        ])
+        // create Mesh
+        self.init(importedScene.rootNode, materialLookup: materialLookup)
+    }
+
+    /// Create a mesh from an SCNNode with optional material mapping
+    init(_ scnNode: SCNNode, materialLookup: MaterialProvider? = nil) {
+        var mesh = Mesh([])
+        if let geometry = scnNode.geometry,
+           let submesh = Mesh(geometry, materialLookup: materialLookup)
+        {
+            mesh = mesh.merge(submesh)
+        }
+        for childNode in scnNode.childNodes {
+            mesh = mesh.merge(Mesh(childNode, materialLookup: materialLookup))
+        }
+        self = mesh
+    }
+
     /// Create a mesh from an SCNGeometry object with optional material mapping
-    init?(_ scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Material?)? = nil) {
+    init?(_ scnGeometry: SCNGeometry, materialLookup: MaterialProvider? = nil) {
         // Force properties to update
         let scnGeometry = scnGeometry.copy() as! SCNGeometry
 
@@ -631,7 +613,7 @@ public extension Mesh {
     }
 
     @available(*, deprecated, message: "Use version with unnamed parameter instead")
-    init?(scnGeometry: SCNGeometry, materialLookup: ((SCNMaterial) -> Material?)? = nil) {
+    init?(scnGeometry: SCNGeometry, materialLookup: MaterialProvider? = nil) {
         self.init(scnGeometry, materialLookup: materialLookup)
     }
 }

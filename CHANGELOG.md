@@ -1,3 +1,110 @@
+## [0.5.5](https://github.com/nicklockwood/Euclid/releases/tag/0.5.5) (2021-08-09)
+
+- Vertices with zero normals are automatically corrected to use the face normal
+- Vertex normals are now optional
+- Polygons can now be created from an array of vector positions (normals are set automatically)
+- Imported models are now converted to use Y-up automatically, matching SceneKit convention
+
+## [0.5.4](https://github.com/nicklockwood/Euclid/releases/tag/0.5.4) (2021-08-04)
+
+- Fixed a regression in `Mesh.fill()` introduced in 0.5.0 that affected nested paths (e.g. text)
+- Fixed a bug in the calculation of vertex normals for non-planar paths
+- Fixed a bug where extruding non-planar paths could result in an inside-out mesh  
+- Lengthy CSG operations can now be interrupted by using the optional `isCancelled` callback
+- Improved `Mesh.xor()` and `Mesh.stencil()` performance by merging CSG steps
+- Self-intersecting paths can now be lathed
+- Added `Path.stroke()` method
+
+## [0.5.3](https://github.com/nicklockwood/Euclid/releases/tag/0.5.3) (2021-07-30)
+
+- Slightly improved the performance of bounds checking during CSG operations
+- The `Polygon.bounds` is no longer a stored property, which should reduce memory footprint
+- Coincident `Line`s will now always be equal, even if initialized with a different `origin`
+- Fixed a bug where Z component was ignored when testing for `LineSegment` intersection
+- Fixed a performance regression in `Vector.distance(from: Plane)`, introduced in version 0.5.0
+- Added `min()`/`max()` functions for component-wise comparison of `Vector`s
+- Added `Line.intersection(with: Plane)` method
+
+## [0.5.2](https://github.com/nicklockwood/Euclid/releases/tag/0.5.2) (2021-07-28)
+
+- Fixed some bugs when serializing texture coordinates with a non-zero Z component
+- Fixed assertion in `shortestLineBetween()` utility function
+- Fixed spurious assertion in `LineSegment` initializer
+- The identity `Rotation` is now encoded more compactly when serializing
+- Added a more compact serialized encoding for `Line` and `LineSegment`
+- Added `Vector(size:)` initializer with better defaults for size/scale vectors
+
+## [0.5.1](https://github.com/nicklockwood/Euclid/releases/tag/0.5.1) (2021-07-25)
+
+- Added `LineSegment.containsPoint()` method
+- Added `Mesh.isWatertight` property to determine if a mesh contains holes
+- Reduced BSP construction time when performing CSG operations on convex meshes
+- Fixed edge case where `Mesh.detessellate()` function would fail to merge adjacent polygons
+- Fixed bug where CSG operations would sometimes unnecessarily tesselate polygons
+- Improved back-face insertion logic for lofted paths
+
+## [0.5.0](https://github.com/nicklockwood/Euclid/releases/tag/0.5.0) (2021-07-12)
+
+- Added `Mesh.detessellate()` method and `Mesh.uniqueEdges` property
+- `Mesh` initializer no longer tessellates non-convex polygons automatically
+- Added methods for computing intersections and distances between points, planes and lines
+- `Line` and `LineSegment` intersection methods now correctly work for lines in different planes 
+- `Polygon` initializer now rejects vertices that would form self-intersecting edges
+- Fixed crash when attempting to create fill or lathe meshes from self-intersecting paths
+- Fixed certain cases where `Path.edgeVertices` would produce inverted normals
+- Added method to easily create a `Path` from a `Polygon`
+- Texture coordinates with a non-zero Z component are now serialized correctly
+- Added optional `texcoord` property to `PathPoint`s
+- The `Mesh.fill()`, `Mesh.extrude()` and `Mesh.loft()` methods now work with non-planar paths
+- The `Path.faceVertices` property now works correctly for non-planar paths
+- Added `Path.facePolygons()` method for filling non-planar paths
+
+## [0.4.7](https://github.com/nicklockwood/Euclid/releases/tag/0.4.7) (2021-07-09)
+
+- Fixed tessellation bug affecting anti-clockwise polygons
+- Fixed bug where `Mesh(url:materialLookup:)` initializer ignored `materialLookup:` parameter
+- Made `SCNGeometry(polygons:)` `materialLookup:` callback return value optional for consistency
+
+## [0.4.6](https://github.com/nicklockwood/Euclid/releases/tag/0.4.6) (2021-07-04)
+
+- Fixed bug in Path plane calculation that could result in corrupted extrusion shapes
+- Fixed edge case in logic for detecting degenerate polygons
+- Added +=, -=, *= and /= Vector operators
+- Added `Vector.translated(by:)` function
+
+## [0.4.5](https://github.com/nicklockwood/Euclid/releases/tag/0.4.5) (2021-06-26)
+
+- Rewrote CSG operations to use iteration rather than recursion, so they no longer overflow stack 
+- Add methods to create a Mesh from an SCNNode or file url (in any ModelIO-supported format)
+- Removed spurious assertion failure when creating paths with multiple subpaths
+
+## [0.4.4](https://github.com/nicklockwood/Euclid/releases/tag/0.4.4) (2021-04-27)
+
+- Fixed glitch in CSG operations on multiple meshes
+- Improved performance for CSG functions on non-convex meshes
+
+## [0.4.3](https://github.com/nicklockwood/Euclid/releases/tag/0.4.3) (2021-04-24)
+
+- Added up, right, forward vectors to Rotation
+- Removed unused file
+
+## [0.4.2](https://github.com/nicklockwood/Euclid/releases/tag/0.4.2) (2021-04-16)
+
+- Reduced size of serialized mesh data by ~50%
+- Materials are now deduplicated when encoding/decoding
+- Fixed bug when decoding serialized rotation values
+
+## [0.4.1](https://github.com/nicklockwood/Euclid/releases/tag/0.4.1) (2021-04-14)
+
+- Fixed bug with encoding texture coordinates
+- Material property is no longer encoded for polygons if nil
+
+## [0.4.0](https://github.com/nicklockwood/Euclid/releases/tag/0.4.0) (2021-04-04)
+
+- Added type-safe Angle API replacing raw Doubles
+- Added plane intersection and direction utility functions
+- Upgraded project to Swift 5.1
+
 ## [0.3.6](https://github.com/nicklockwood/Euclid/releases/tag/0.3.6) (2020-11-22)
 
 - Euclid types now conform to Codable for easy serialization

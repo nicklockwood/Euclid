@@ -1,0 +1,34 @@
+name: build
+
+on:
+  push:
+  pull_request:
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build and Test
+        run: |
+          xcodebuild -scheme "Euclid" -sdk macosx clean build test -enableCodeCoverage YES -derivedDataPath Build/
+          cd Build/Build/ProfileData
+          cd $(ls -d */|head -n 1)
+          directory=${PWD##*/}
+          pathCoverage=Build/Build/ProfileData/${directory}/Coverage.profdata
+          cd ../../../../
+          xcrun llvm-cov export -format="lcov" -instr-profile $pathCoverage Build/Build/Products/Debug/Euclid.framework/Euclid > info.lcov
+          bash <(curl https://codecov.io/bash) -t 2abe208f-c7d5-4c0d-aaf7-fa6994f1a78e
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_11.7.app/Contents/Developer
+  linux:
+    runs-on: ubuntu-latest
+    container:
+      image: swift:5.2
+      options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build and Test
+        run: swift test --enable-test-discovery
+

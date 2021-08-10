@@ -36,7 +36,7 @@ import Foundation
 public extension Path {
     /// Create a closed circular path
     static func circle(radius r: Double = 0.5, segments: Int = 16) -> Path {
-        return ellipse(width: r * 2, height: r * 2, segments: segments)
+        ellipse(width: r * 2, height: r * 2, segments: segments)
     }
 
     /// Create a closed elliptical path
@@ -65,7 +65,7 @@ public extension Path {
 
     /// Create a closed square path
     static func square(size: Double = 1) -> Path {
-        return rectangle(width: size, height: size)
+        rectangle(width: size, height: size)
     }
 
     /// Create a quadratic bezier spline
@@ -228,13 +228,27 @@ public extension Mesh {
                 material: material
             )
         }
+        let halfSize = s / 2
+        let bounds = Bounds(min: c - halfSize, max: c + halfSize)
         switch faces {
         case .front, .default:
-            return Mesh(unchecked: polygons, isConvex: true)
+            return Mesh(
+                unchecked: polygons,
+                bounds: bounds,
+                isConvex: true
+            )
         case .back:
-            return Mesh(unchecked: polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons.inverted(),
+                bounds: bounds,
+                isConvex: false
+            )
         case .frontAndBack:
-            return Mesh(unchecked: polygons + polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons + polygons.inverted(),
+                bounds: bounds,
+                isConvex: false
+            )
         }
     }
 
@@ -244,7 +258,7 @@ public extension Mesh {
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        return cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
+        cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
     }
 
     /// Construct a sphere mesh
@@ -358,7 +372,7 @@ public extension Mesh {
         wrapMode: WrapMode = .default,
         material: Material? = nil
     ) -> Mesh {
-        return lathe(
+        lathe(
             unchecked: profile,
             slices: slices,
             poleDetail: poleDetail,
@@ -406,14 +420,13 @@ public extension Mesh {
         // normalize profile
         profile = profile.flattened().clippedToYAxis()
         guard let normal = profile.plane?.normal else {
-            assertionFailure()
             return Mesh([])
         }
         if normal.z < 0 {
             profile = Path(
                 unchecked: profile.points.reversed(),
                 plane: profile.plane?.inverted(),
-                subpathIndices: nil // Is is possible to reverse these?
+                subpathIndices: []
             )
         }
 
@@ -430,7 +443,7 @@ public extension Mesh {
                 return subdivide(times - 1, v0, v0v1) + [v0v1, v1]
             }
             func isVertical(_ normal: Vector) -> Bool {
-                return abs(normal.x) < epsilon && abs(normal.z) < epsilon
+                abs(normal.x) < epsilon && abs(normal.z) < epsilon
             }
             var i = 0
             while i < vertices.count {
@@ -539,13 +552,26 @@ public extension Mesh {
             }
         }
 
+        let isSealed = isConvex && !pointsAreSelfIntersecting(profile.points.map { $0.position })
         switch faces {
-        case .front:
-            return Mesh(unchecked: polygons, isConvex: isConvex)
+        case .default where isSealed, .front:
+            return Mesh(
+                unchecked: polygons,
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: isConvex
+            )
         case .back:
-            return Mesh(unchecked: polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons.inverted(),
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: false
+            )
         case .frontAndBack:
-            return Mesh(unchecked: polygons + polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons + polygons.inverted(),
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: false
+            )
         case .default:
             // seal loose ends
             // TODO: improve this by not adding backfaces inside closed subsectors
@@ -555,7 +581,11 @@ public extension Mesh {
             {
                 polygons += polygons.inverted()
             }
-            return Mesh(unchecked: polygons, isConvex: isConvex)
+            return Mesh(
+                unchecked: polygons,
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: false
+            )
         }
     }
 
@@ -566,8 +596,8 @@ public extension Mesh {
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        let offset = (shape.plane?.normal ?? Vector(0, 0, 1)) * (depth / 2)
-        if offset.lengthSquared < epsilon {
+        let offset = shape.faceNormal * (depth / 2)
+        if offset.isEqual(to: .zero) {
             return fill(shape, faces: faces, material: material)
         }
         return loft(
@@ -606,8 +636,8 @@ public extension Mesh {
             return Mesh([])
         }
         var shape = shape
-        let shapePlane = FlatteningPlane(bounds: shape.bounds)
-        let pathPlane = FlatteningPlane(bounds: along.bounds)
+        let shapePlane = shape.flatteningPlane
+        let pathPlane = along.flatteningPlane
         switch (shapePlane, pathPlane) {
         case (.xy, .xy), (.xz, .xz):
             shape = shape.rotated(by: .pitch(.halfPi))
@@ -675,7 +705,7 @@ public extension Mesh {
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        return loft(
+        loft(
             unchecked: shapes,
             faces: faces,
             material: material,
@@ -724,11 +754,18 @@ public extension Mesh {
         }
         var polygons = [Polygon]()
         var prev = shapes[0]
-        if !isClosed, var polygon = Polygon(shape: prev, material: material) {
-            if let p0p1 = directionBetweenShapes(prev, shapes[1]), p0p1.dot(polygon.plane.normal) > 0 {
-                polygon = polygon.inverted()
+        var isCapped = true
+        if !isClosed {
+            let facePolygons = prev.facePolygons(material: material)
+            if facePolygons.isEmpty {
+                isCapped = false
+            } else if let p0p1 = directionBetweenShapes(prev, shapes[1]) {
+                polygons += facePolygons.map {
+                    p0p1.dot($0.plane.normal) > 0 ? $0.inverted() : $0
+                }
+            } else {
+                polygons += facePolygons
             }
-            polygons += polygon.tessellate()
         }
         let uvstep = Double(1) / Double(count - 1)
         var e1 = prev.edgeVertices
@@ -787,25 +824,41 @@ public extension Mesh {
             // TODO: create triangles for mismatched points
             prev = path
         }
-        if !isClosed, var polygon = Polygon(shape: prev, material: material) {
-            if let p0p1 = directionBetweenShapes(shapes[shapes.count - 2], prev),
-               p0p1.dot(polygon.plane.normal) < 0
-            {
-                polygon = polygon.inverted()
+        if !isClosed {
+            let facePolygons = prev.facePolygons(material: material)
+            if facePolygons.isEmpty {
+                isCapped = false
+            } else if let p0p1 = directionBetweenShapes(shapes[shapes.count - 2], prev) {
+                polygons += facePolygons.map {
+                    p0p1.dot($0.plane.normal) < 0 ? $0.inverted() : $0
+                }
+            } else {
+                polygons += facePolygons
             }
-            polygons += polygon.tessellate()
         }
         switch faces {
-        case .default where shapes.allSatisfy({ $0.isClosed }), .front:
-            return Mesh(unchecked: polygons, isConvex: isConvex)
+        case .default where isCapped, .front:
+            return Mesh(
+                unchecked: polygons,
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: isConvex
+            )
         case .back:
-            return Mesh(unchecked: polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons.inverted(),
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: false
+            )
         case .frontAndBack, .default:
-            return Mesh(unchecked: polygons + polygons.inverted(), isConvex: false)
+            return Mesh(
+                unchecked: polygons + polygons.inverted(),
+                bounds: nil, // TODO: can we calculate this efficiently?
+                isConvex: false
+            )
         }
     }
 
-    /// Fill a path to form a polygon
+    /// Fill a path to form one or more polygons
     static func fill(
         _ shape: Path,
         faces: Faces = .default,
@@ -816,20 +869,42 @@ public extension Mesh {
             return .xor(subpaths.map { .fill($0, faces: faces, material: material) })
         }
 
-        guard let polygon = Polygon(shape: shape.closed(), material: material) else {
-            return Mesh([])
-        }
-        let polygons = polygon.tessellate()
+        let polygons = shape.closed().facePolygons(material: material)
         switch faces {
         case .front:
-            return Mesh(unchecked: polygons, isConvex: false)
+            return Mesh(
+                unchecked: polygons,
+                bounds: nil,
+                isConvex: false
+            )
         case .back:
-            return Mesh(unchecked: polygons.map { $0.inverted() }, isConvex: false)
+            return Mesh(
+                unchecked: polygons.map { $0.inverted() },
+                bounds: nil,
+                isConvex: false
+            )
         case .frontAndBack, .default:
             return Mesh(
                 unchecked: polygons + polygons.map { $0.inverted() },
-                isConvex: polygon.isConvex
+                bounds: nil,
+                isConvex: polygons.count == 1 && polygons[0].isConvex
             )
         }
+    }
+
+    /// Stroke a path with the specified line width, depth and material
+    static func stroke(
+        _ shape: Path,
+        width: Double = 0.01,
+        depth: Double = 0,
+        faces: Faces = .default,
+        material: Material? = nil
+    ) -> Mesh {
+        extrude(
+            .rectangle(width: width, height: depth),
+            along: shape,
+            faces: faces,
+            material: material
+        )
     }
 }

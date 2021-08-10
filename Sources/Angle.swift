@@ -5,6 +5,29 @@
 //  Created by Ioannis Kaliakatsos on 22.11.20.
 //  Copyright © 2020 Nick Lockwood. All rights reserved.
 //
+//  Distributed under the permissive MIT license
+//  Get the latest version from here:
+//
+//  https://github.com/nicklockwood/Euclid
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
+//
 
 import Foundation
 
@@ -40,15 +63,15 @@ extension Angle: Codable {
 }
 
 public func cos(_ angle: Angle) -> Double {
-    return cos(angle.radians)
+    cos(angle.radians)
 }
 
 public func sin(_ angle: Angle) -> Double {
-    return sin(angle.radians)
+    sin(angle.radians)
 }
 
 public func tan(_ angle: Angle) -> Double {
-    return tan(angle.radians)
+    tan(angle.radians)
 }
 
 public extension Angle {
@@ -58,7 +81,7 @@ public extension Angle {
     static var twoPi = Angle.radians(.pi * 2)
 
     var degrees: Double {
-        get { return radians * 180 / .pi }
+        get { radians * 180 / .pi }
         set { radians = newValue / 180 * .pi }
     }
 
@@ -67,70 +90,77 @@ public extension Angle {
     }
 
     static func degrees(_ degrees: Double) -> Angle {
-        return Angle(degrees: degrees)
+        Angle(degrees: degrees)
     }
 
     static func radians(_ radians: Double) -> Angle {
-        return Angle(radians: radians)
+        Angle(radians: radians)
     }
 
     static func acos(_ cos: Double) -> Angle {
-        return .radians(Foundation.acos(cos))
+        .radians(Foundation.acos(cos))
     }
 
     static func asin(_ sin: Double) -> Angle {
-        return .radians(Foundation.asin(sin))
+        .radians(Foundation.asin(sin))
     }
 
     static func atan(_ tan: Double) -> Angle {
-        return .radians(Foundation.tan(tan))
+        .radians(Foundation.tan(tan))
     }
 
     static func atan2(y: Double, x: Double) -> Angle {
-        return .radians(Foundation.atan2(y, x))
+        .radians(Foundation.atan2(y, x))
     }
 
     static func + (lhs: Angle, rhs: Angle) -> Angle {
-        return .radians(lhs.radians + rhs.radians)
+        .radians(lhs.radians + rhs.radians)
     }
 
     static func += (lhs: inout Angle, rhs: Angle) {
-        return lhs.radians += rhs.radians
+        lhs.radians += rhs.radians
     }
 
     static func - (lhs: Angle, rhs: Angle) -> Angle {
-        return .radians(lhs.radians - rhs.radians)
+        .radians(lhs.radians - rhs.radians)
     }
 
     static func -= (lhs: inout Angle, rhs: Angle) {
-        return lhs.radians -= rhs.radians
+        lhs.radians -= rhs.radians
     }
 
     static func * (lhs: Angle, rhs: Double) -> Angle {
-        return .radians(lhs.radians * rhs)
+        .radians(lhs.radians * rhs)
     }
 
     static func * (lhs: Double, rhs: Angle) -> Angle {
-        return .radians(lhs * rhs.radians)
+        .radians(lhs * rhs.radians)
     }
 
     static func *= (lhs: inout Angle, rhs: Double) {
-        return lhs.radians *= rhs
+        lhs.radians *= rhs
     }
 
     static func / (lhs: Angle, rhs: Double) -> Angle {
-        return .radians(lhs.radians / rhs)
+        .radians(lhs.radians / rhs)
     }
 
     static func /= (lhs: inout Angle, rhs: Double) {
-        return lhs.radians /= rhs
+        lhs.radians /= rhs
     }
 
     static prefix func - (angle: Angle) -> Angle {
-        return .radians(-angle.radians)
+        .radians(-angle.radians)
     }
 
     static func < (lhs: Angle, rhs: Angle) -> Bool {
-        return lhs.degrees < rhs.degrees
+        lhs.degrees < rhs.degrees
+    }
+}
+
+internal extension Angle {
+    // Approximate equality
+    func isEqual(to other: Angle, withPrecision p: Double = epsilon) -> Bool {
+        abs(radians - other.radians) < p
     }
 }

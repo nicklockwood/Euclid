@@ -43,6 +43,13 @@ class CSGTests: XCTestCase {
         ))
     }
 
+    func testSubtractEmptyMesh() {
+        let a = Mesh([])
+        let b = Mesh.cube()
+        XCTAssertEqual(a.subtract(b), a)
+        XCTAssertEqual(b.subtract(a), b)
+    }
+
     // MARK: XOR
 
     func testXorCoincidingCubes() {
@@ -69,6 +76,13 @@ class CSGTests: XCTestCase {
         ))
     }
 
+    func testXorWithEmptyMesh() {
+        let a = Mesh([])
+        let b = Mesh.cube()
+        XCTAssertEqual(a.xor(b), b)
+        XCTAssertEqual(b.xor(a), b)
+    }
+
     // MARK: Union
 
     func testUnionOfCoincidingBoxes() {
@@ -93,6 +107,13 @@ class CSGTests: XCTestCase {
             min: Vector(-0.5, -0.5, -0.5),
             max: Vector(1, 0.5, 0.5)
         ))
+    }
+
+    func testUnionWithEmptyMesh() {
+        let a = Mesh([])
+        let b = Mesh.cube()
+        XCTAssertEqual(a.union(b).bounds, b.bounds)
+        XCTAssertEqual(b.union(a).bounds, b.bounds)
     }
 
     // MARK: Intersection
@@ -124,6 +145,13 @@ class CSGTests: XCTestCase {
             min: Vector(0, -0.5, -0.5),
             max: Vector(0.5, 0.5, 0.5)
         ))
+    }
+
+    func testIntersectionWithEmptyMesh() {
+        let a = Mesh([])
+        let b = Mesh.cube()
+        XCTAssert(a.intersect(b).bounds.isEmpty)
+        XCTAssert(b.intersect(a).bounds.isEmpty)
     }
 
     // MARK: Planar subtraction

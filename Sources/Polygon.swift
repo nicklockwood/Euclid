@@ -59,23 +59,42 @@ extension Polygon: Codable {
             plane = try container.decodeIfPresent(Plane.self, forKey: .plane)
             material = try container.decodeIfPresent(CodableMaterial.self, forKey: .material)?.value
         } else {
-            vertices = try [Vertex](from: decoder)
+            var container = try decoder.unkeyedContainer()
+            if let values = try? container.decode([Vertex].self) {
+                vertices = values
+                plane = try container.decode(Plane.self)
+                material = try container.decodeIfPresent(CodableMaterial.self)?.value
+            } else {
+                vertices = try [Vertex](from: decoder)
+            }
             guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
                 throw DecodingError.dataCorruptedError(
-                    in: try decoder.unkeyedContainer(),
+                    in: container,
                     debugDescription: "Vertices are degenerate"
                 )
             }
         }
-        self.init(unchecked: vertices, plane: plane, material: material)
+        self.init(
+            unchecked: vertices,
+            plane: plane,
+            sanitizeNormals: true,
+            material: material
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(vertices, forKey: .vertices)
-        try container.encode(CodableMaterial(material), forKey: .material)
-        if plane != Plane(points: vertices.map { $0.position }) {
-            try container.encode(plane, forKey: .plane)
+        let positions = vertices.map { $0.position }
+        if material == nil, plane == Plane(unchecked: positions, convex: isConvex) {
+            if vertices.allSatisfy({ $0.texcoord == .zero && $0.normal == plane.normal }) {
+                try positions.encode(to: encoder)
+            } else {
+                try vertices.encode(to: encoder)
+            }
+        } else {
+            var container = encoder.unkeyedContainer()
+            try container.encode(vertices)
+            try container.encode(plane)
+            try material.map { try container.encode(CodableMaterial($0)) }
         }
     }
 }
@@ -85,12 +104,12 @@ public extension Polygon {
     typealias Material = AnyHashable
 
     /// Public properties
-    var vertices: [Vertex] { return storage.vertices }
-    var plane: Plane { return storage.plane }
-    var bounds: Bounds { return storage.bounds }
-    var isConvex: Bool { return storage.isConvex }
+    var vertices: [Vertex] { storage.vertices }
+    var plane: Plane { storage.plane }
+    var bounds: Bounds { Bounds(points: vertices.map { $0.position }) }
+    var isConvex: Bool { storage.isConvex }
     var material: Material? {
-        get { return storage.material }
+        get { storage.material }
         set {
             if isKnownUniquelyReferenced(&storage) {
                 storage.material = newValue
@@ -98,7 +117,6 @@ public extension Polygon {
                 storage = Storage(
                     vertices: vertices,
                     plane: plane,
-                    bounds: bounds,
                     isConvex: isConvex,
                     material: newValue
                 )
@@ -106,22 +124,60 @@ public extension Polygon {
         }
     }
 
+    /// Does polygon include texture coordinates?
+    var hasTexcoords: Bool {
+        vertices.contains(where: { $0.texcoord != .zero })
+    }
+
+    /// Returns a set of polygon edges
+    /// The direction of each edge is normalized relative to the origin to facilitate edge-equality comparisons
+    var undirectedEdges: Set<LineSegment> {
+        var p0 = vertices.last!.position
+        return Set(vertices.map {
+            let p1 = $0.position
+            defer { p0 = p1 }
+            return p0 < p1 ? LineSegment(unchecked: p0, p1) : LineSegment(unchecked: p1, p0)
+        })
+    }
+
+    /// Create copy of polygon with specified material
+    func with(material: Material?) -> Polygon {
+        var polygon = self
+        polygon.material = material
+        return polygon
+    }
+
     /// Create a polygon from a set of vertices
     /// Polygon can be convex or concave, but vertices must be coplanar and non-degenerate
     /// Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
     init?(_ vertices: [Vertex], material: Material? = nil) {
-        guard vertices.count > 2, !verticesAreDegenerate(vertices),
-              let plane = Plane(points: vertices.map { $0.position })
+        let positions = vertices.map { $0.position }
+        let isConvex = pointsAreConvex(positions)
+        guard !pointsAreSelfIntersecting(positions),
+              // Note: Plane init includes check for degeneracy
+              let plane = Plane(points: positions, convex: isConvex)
         else {
             return nil
         }
-        self.init(unchecked: vertices, plane: plane, material: material)
+        self.init(
+            unchecked: vertices,
+            plane: plane,
+            isConvex: isConvex,
+            sanitizeNormals: true,
+            material: material
+        )
+    }
+
+    /// Create a polygon from a set of vertex positions
+    /// Vertex normals will be set to match face normal
+    init?(_ vertices: [Vector], material: Material? = nil) {
+        self.init(vertices.map { Vertex($0) }, material: material)
     }
 
     /// Test if point lies inside the polygon
     // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
     func containsPoint(_ p: Vector) -> Bool {
-        guard plane.containsPoint(p), bounds.containsPoint(p) else {
+        guard plane.containsPoint(p) else {
             return false
         }
         let flatteningPlane = FlatteningPlane(normal: plane.normal)
@@ -143,7 +199,7 @@ public extension Polygon {
     }
 
     /// Merge with another polygon, removing redundant vertices if possible
-    func merge(_ other: Polygon) -> Polygon? {
+    func merge(_ other: Polygon, ensureConvex: Bool = false) -> Polygon? {
         // do they have the same material?
         guard material == other.material else {
             return nil
@@ -152,16 +208,17 @@ public extension Polygon {
         guard plane.isEqual(to: other.plane) else {
             return nil
         }
-        return join(unchecked: other, ensureConvex: false)
+        return merge(unchecked: other, ensureConvex: ensureConvex)
     }
 
+    /// Flip the polygon along its plane
     func inverted() -> Polygon {
-        return Polygon(
+        Polygon(
             unchecked: vertices.reversed().map { $0.inverted() },
             plane: plane.inverted(),
             isConvex: isConvex,
-            bounds: bounds,
-            material: material
+            material: material,
+            id: id
         )
     }
 
@@ -175,7 +232,7 @@ public extension Polygon {
         while i > 0 {
             let a = polygons[i]
             let b = polygons[i - 1]
-            if let merged = a.join(unchecked: b, ensureConvex: true) {
+            if let merged = a.merge(unchecked: b, ensureConvex: true) {
                 polygons[i - 1] = merged
                 polygons.remove(at: i)
             }
@@ -186,101 +243,109 @@ public extension Polygon {
 
     /// Tessellates polygon into triangles using the "ear clipping" method
     func triangulate() -> [Polygon] {
-        var vertices = self.vertices
-        guard vertices.count > 3 else {
-            assert(vertices.count > 2)
-            return [self]
-        }
-        var triangles = [Polygon]()
-        func addTriangle(_ vertices: [Vertex]) -> Bool {
-            guard !verticesAreDegenerate(vertices) else {
-                return false
-            }
-            triangles.append(Polygon(
-                unchecked: vertices,
-                plane: plane,
-                isConvex: true,
-                material: material,
-                id: id
-            ))
-            return true
-        }
-        if isConvex {
-            let v0 = vertices[0]
-            var v1 = vertices[1]
-            for v2 in vertices[2...] {
-                _ = addTriangle([v0, v1, v2])
-                v1 = v2
-            }
-            return triangles
-        }
-        var i = 0
-        var attempts = 0
-        func removeVertex() {
-            attempts = 0
-            vertices.remove(at: i)
-            if i == vertices.count {
-                i = 0
-            }
-        }
-        while vertices.count > 3 {
-            let p0 = vertices[(i - 1 + vertices.count) % vertices.count]
-            let p1 = vertices[i]
-            let p2 = vertices[(i + 1) % vertices.count]
-            // check for colinear points
-            let p0p1 = p0.position - p1.position, p2p1 = p2.position - p1.position
-            if p0p1.cross(p2p1).length < epsilon {
-                // vertices are colinear, so we can't form a triangle
-                if p0p1.dot(p2p1) > 0 {
-                    // center point makes path degenerate - remove it
-                    removeVertex()
-                } else {
-                    // try next point instead
-                    i += 1
-                    if i == vertices.count {
-                        i = 0
-                        attempts += 1
-                        if attempts > 2 {
-                            return triangles
-                        }
-                    }
-                }
-                continue
-            }
-            let triangle = Polygon([p0, p1, p2])
-            if triangle == nil ||
-                triangle!.plane.normal.dot(plane.normal) <= 0 || vertices.contains(where: {
-                    !triangle!.vertices.contains($0) && triangle!.containsPoint($0.position)
-                })
-            {
-                i += 1
-                if i == vertices.count {
-                    i = 0
-                    attempts += 1
-                    if attempts > 2 {
-                        return triangles
-                    }
-                }
-            } else if addTriangle(triangle!.vertices) {
-                removeVertex()
-            }
-        }
-        _ = addTriangle(vertices)
-        return triangles
+        triangulateVertices(
+            vertices,
+            plane: plane,
+            isConvex: isConvex,
+            material: material,
+            id: id
+        )
     }
 }
 
 internal extension Collection where Element == Polygon {
+    /// Return a set of all unique edges across all the polygons
+    var uniqueEdges: Set<LineSegment> {
+        var edges = Set<LineSegment>()
+        forEach { edges.formUnion($0.undirectedEdges) }
+        return edges
+    }
+
+    /// Check if polygons form a watertight mesh, i.e. every edge is attached to at least 2 polygons.
+    /// Note: doesn't verify that mesh is not self-intersecting or inside-out.
+    var areWatertight: Bool {
+        var edgeCounts = [LineSegment: Int]()
+        for polygon in self {
+            for edge in polygon.undirectedEdges {
+                edgeCounts[edge, default: 0] += 1
+            }
+        }
+        return edgeCounts.values.allSatisfy { $0 >= 2 && $0 % 2 == 0 }
+    }
+
+    /// Flip each polygon along its plane
     func inverted() -> [Polygon] {
-        return map { $0.inverted() }
+        map { $0.inverted() }
     }
 
+    /// Decompose each concave polygon into 2 or more convex polygons
     func tessellate() -> [Polygon] {
-        return flatMap { $0.tessellate() }
+        flatMap { $0.tessellate() }
     }
 
+    /// Decompose each polygon into triangles
     func triangulate() -> [Polygon] {
-        return flatMap { $0.triangulate() }
+        flatMap { $0.triangulate() }
+    }
+
+    /// Merge coplanar polygons that share one or more edges
+    /// Note: polygons must be sorted by plane prior to calling this method
+    func detessellate(ensureConvex: Bool = false) -> [Polygon] {
+        var polygons = Array(self)
+        assert(polygons.areSortedByPlane)
+        var i = 0
+        var firstPolygonInPlane = 0
+        while i < polygons.count {
+            var j = i + 1
+            let a = polygons[i]
+            while j < polygons.count {
+                let b = polygons[j]
+                guard a.plane.isEqual(to: b.plane) else {
+                    firstPolygonInPlane = j
+                    i = firstPolygonInPlane - 1
+                    break
+                }
+                if let merged = a.merge(b, ensureConvex: ensureConvex) {
+                    polygons[i] = merged
+                    polygons.remove(at: j)
+                    i = firstPolygonInPlane - 1
+                    break
+                }
+                j += 1
+            }
+            i += 1
+        }
+        return polygons
+    }
+
+    /// Sort polygons by plane
+    func sortedByPlane() -> [Polygon] {
+        sorted(by: { $0.plane < $1.plane })
+    }
+}
+
+internal extension MutableCollection where Element == Polygon, Index == Int {
+    /// Merge coplanar polygons that share one or more edges
+    var areSortedByPlane: Bool {
+        guard !isEmpty else {
+            return true
+        }
+        let count = self.count
+        for i in 0 ..< count - 1 {
+            let p = self[i]
+            let plane = p.plane
+            var wasSame = true
+            for j in (i + 1) ..< count {
+                if self[j].plane.isEqual(to: plane) {
+                    if !wasSame {
+                        return false
+                    }
+                } else {
+                    wasSame = false
+                }
+            }
+        }
+        return true
     }
 }
 
@@ -291,15 +356,14 @@ internal extension Polygon {
         unchecked vertices: [Vertex],
         normal: Vector,
         isConvex: Bool,
-        bounds: Bounds? = nil,
         material: Material?
     ) {
         self.init(
             unchecked: vertices,
             plane: Plane(unchecked: normal, pointOnPlane: vertices[0].position),
             isConvex: isConvex,
-            bounds: bounds,
-            material: material
+            material: material,
+            id: 0
         )
     }
 
@@ -310,31 +374,31 @@ internal extension Polygon {
         unchecked vertices: [Vertex],
         plane: Plane? = nil,
         isConvex: Bool? = nil,
-        bounds: Bounds? = nil,
+        sanitizeNormals: Bool = false,
         material: Material? = nil,
         id: Int = 0
     ) {
         assert(vertices.count > 2)
-        assert(!verticesAreDegenerate(vertices))
-        assert(isConvex == nil || verticesAreConvex(vertices) == isConvex)
-        let isConvex = isConvex ?? verticesAreConvex(vertices)
-        let points = (plane == nil || bounds == nil) ? vertices.map { $0.position } : []
-        storage = Storage(
-            vertices: vertices,
-            plane: plane ?? Plane(unchecked: points, convex: isConvex),
-            bounds: bounds,
+        let points = vertices.map { $0.position }
+        assert(!pointsAreDegenerate(points))
+        assert(!pointsAreSelfIntersecting(points))
+        assert(isConvex == nil || pointsAreConvex(points) == isConvex)
+        assert(sanitizeNormals || vertices.allSatisfy { $0.normal != .zero })
+        let plane = plane ?? Plane(unchecked: points, convex: isConvex)
+        let isConvex = isConvex ?? pointsAreConvex(points)
+        self.storage = Storage(
+            vertices: vertices.map {
+                $0.with(normal: $0.normal == .zero ? plane.normal : $0.normal)
+            },
+            plane: plane,
             isConvex: isConvex,
             material: material
         )
         self.id = id
     }
 
-    var boundsIfSet: Bounds? {
-        return storage.boundsIfSet
-    }
-
     // Join touching polygons (without checking they are coplanar or share the same material)
-    func join(unchecked other: Polygon, ensureConvex: Bool) -> Polygon? {
+    func merge(unchecked other: Polygon, ensureConvex: Bool) -> Polygon? {
         assert(material == other.material)
         assert(plane.isEqual(to: other.plane))
 
@@ -445,6 +509,13 @@ internal extension Polygon {
         return comparison
     }
 
+    // Create copy of polygon with specified id
+    func with(id: Int) -> Polygon {
+        var polygon = self
+        polygon.id = id
+        return polygon
+    }
+
     func clip(
         to polygons: [Polygon],
         _ inside: inout [Polygon],
@@ -452,7 +523,7 @@ internal extension Polygon {
         _ id: inout Int
     ) {
         var toTest = tessellate()
-        for polygon in polygons where !toTest.isEmpty {
+        for polygon in polygons.tessellate() where !toTest.isEmpty {
             var _outside = [Polygon]()
             toTest.forEach { polygon.clip($0, &inside, &_outside, &id) }
             toTest = _outside
@@ -466,6 +537,7 @@ internal extension Polygon {
         _ outside: inout [Polygon],
         _ id: inout Int
     ) {
+        assert(isConvex)
         var polygon = polygon
         var coplanar = [Polygon]()
         for plane in edgePlanes {
@@ -479,6 +551,7 @@ internal extension Polygon {
         inside.append(polygon)
     }
 
+    // Put the polygon in the correct list, splitting it when necessary
     func split(
         along plane: Plane,
         _ coplanar: inout [Polygon],
@@ -486,7 +559,6 @@ internal extension Polygon {
         _ back: inout [Polygon],
         _ id: inout Int
     ) {
-        // Put the polygon in the correct list, splitting it when necessary
         switch compare(with: plane) {
         case .coplanar:
             coplanar.append(self)
@@ -562,19 +634,11 @@ private extension Polygon {
     final class Storage: Hashable {
         let vertices: [Vertex]
         let plane: Plane
-        var boundsIfSet: Bounds?
         let isConvex: Bool
         var material: Material?
 
-        var bounds: Bounds {
-            if boundsIfSet == nil {
-                boundsIfSet = Bounds(points: vertices.map { $0.position })
-            }
-            return boundsIfSet!
-        }
-
         static func == (lhs: Storage, rhs: Storage) -> Bool {
-            return lhs === rhs ||
+            lhs === rhs ||
                 (lhs.vertices == rhs.vertices && lhs.material == rhs.material)
         }
 
@@ -585,21 +649,19 @@ private extension Polygon {
         init(
             vertices: [Vertex],
             plane: Plane,
-            bounds: Bounds?,
             isConvex: Bool,
             material: Material?
         ) {
             self.vertices = vertices
             self.plane = plane
-            self.boundsIfSet = bounds
             self.isConvex = isConvex
             self.material = material
         }
     }
 }
 
-private struct CodableMaterial: Codable {
-    var value: Polygon.Material?
+internal struct CodableMaterial: Codable {
+    let value: Polygon.Material?
 
     init(_ value: Polygon.Material?) {
         self.value = value
@@ -618,7 +680,16 @@ private struct CodableMaterial: Codable {
             } else if let data = try container.decodeIfPresent(Data.self, forKey: .data) {
                 self.value = data
             } else if let data = try container.decodeIfPresent(Data.self, forKey: .nscoded) {
-                self.value = NSKeyedUnarchiver.unarchiveObject(with: data) as? Polygon.Material
+                guard let value = NSKeyedUnarchiver.unarchiveObject(with: data) as? Polygon.Material else {
+                    throw DecodingError.dataCorruptedError(
+                        forKey: .nscoded,
+                        in: container,
+                        debugDescription: "Cannot decode material"
+                    )
+                }
+                self.value = value
+            } else {
+                self.value = nil
             }
         } else {
             let container = try decoder.singleValueContainer()
@@ -626,6 +697,11 @@ private struct CodableMaterial: Codable {
                 self.value = string
             } else if let int = try? container.decode(Int.self) {
                 self.value = int
+            } else {
+                throw DecodingError.dataCorruptedError(
+                    in: container,
+                    debugDescription: "Cannot decode material"
+                )
             }
         }
     }
