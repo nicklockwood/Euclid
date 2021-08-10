@@ -66,6 +66,16 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(u.quantized(), Vector(0.5, 0, 0))
     }
 
+    // MARK: Rotation axis
+
+    func testRotationIdentityAxis() {
+        let r = Rotation.identity
+
+        XCTAssertEqual(r.right, Vector(1, 0, 0))
+        XCTAssertEqual(r.up, Vector(0, 1, 0))
+        XCTAssertEqual(r.forward, Vector(0, 0, 1))
+    }
+
     // MARK: Transform multiplication
 
     func testRotationMultipliedByTranslation() {

@@ -32,6 +32,9 @@
 // Inspired by: https://github.com/evanw/csg.js
 
 public extension Mesh {
+    /// Callback used to cancel a long-running operation
+    typealias CancellationHandler = () -> Bool
+
     /// Returns a new mesh representing the combined volume of the
     /// mesh parameter and the receiver, with inner faces removed.
     ///
@@ -44,8 +47,9 @@ public extension Mesh {
     ///          |       |            |       |
     ///          +-------+            +-------+
     ///
-    func union(_ mesh: Mesh) -> Mesh {
-        guard bounds.intersects(mesh.bounds) else {
+    func union(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+        let intersection = bounds.intersection(mesh.bounds)
+        guard !intersection.isEmpty else {
             // This is basically just a merge.
             // The slightly weird logic is to replicate the boundsTest behavior.
             // It's not clear why this matters, but it breaks certain projects.
@@ -56,13 +60,17 @@ public extension Mesh {
                 isConvex: false
             )
         }
-        var ap = polygons
-        var bp = mesh.polygons
-        var aout: [Polygon]? = []
-        var bout: [Polygon]? = []
-        boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
-        ap = BSP(mesh).clip(ap, .greaterThan)
-        bp = BSP(self).clip(bp, .greaterThanEqual)
+        var aout: [Polygon]? = [], bout: [Polygon]? = []
+        let ap = BSP(mesh, isCancelled).clip(
+            boundsTest(intersection, polygons, &aout),
+            .greaterThan,
+            isCancelled
+        )
+        let bp = BSP(self, isCancelled).clip(
+            boundsTest(intersection, mesh.polygons, &bout),
+            .greaterThanEqual,
+            isCancelled
+        )
         return Mesh(
             unchecked: aout! + bout! + ap + bp,
             bounds: bounds.union(mesh.bounds),
@@ -71,8 +79,11 @@ public extension Mesh {
     }
 
     /// Efficiently form union from multiple meshes
-    static func union(_ meshes: [Mesh]) -> Mesh {
-        return multimerge(meshes, using: { $0.union($1) })
+    static func union(
+        _ meshes: [Mesh],
+        isCancelled: @escaping CancellationHandler = { false }
+    ) -> Mesh {
+        multimerge(meshes, using: { $0.union($1, isCancelled: $2) }, isCancelled)
     }
 
     /// Returns a new mesh created by subtracting the volume of the
@@ -87,26 +98,35 @@ public extension Mesh {
     ///          |       |
     ///          +-------+
     ///
-    func subtract(_ mesh: Mesh) -> Mesh {
-        guard bounds.intersects(mesh.bounds) else {
+    func subtract(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+        let intersection = bounds.intersection(mesh.bounds)
+        guard !intersection.isEmpty else {
             return self
         }
-        var ap = polygons
-        var bp = mesh.polygons
-        var aout: [Polygon]? = []
-        var bout: [Polygon]?
-        boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
-        ap = BSP(mesh).clip(ap, .greaterThan)
-        bp = BSP(self).clip(bp, .lessThan)
+        var aout: [Polygon]? = [], bout: [Polygon]?
+        let ap = BSP(mesh, isCancelled).clip(
+            boundsTest(intersection, polygons, &aout),
+            .greaterThan,
+            isCancelled
+        )
+        let bp = BSP(self, isCancelled).clip(
+            boundsTest(intersection, mesh.polygons, &bout),
+            .lessThan,
+            isCancelled
+        )
         return Mesh(
             unchecked: aout! + ap + bp.map { $0.inverted() },
+            bounds: nil, // TODO: is there a way to preserve this efficiently?
             isConvex: false
         )
     }
 
     /// Efficiently subtract multiple meshes
-    static func difference(_ meshes: [Mesh]) -> Mesh {
-        return reduce(meshes, using: { $0.subtract($1) })
+    static func difference(
+        _ meshes: [Mesh],
+        isCancelled: @escaping CancellationHandler = { false }
+    ) -> Mesh {
+        reduce(meshes, using: { $0.subtract($1, isCancelled: $2) }, isCancelled)
     }
 
     /// Returns a new mesh reprenting only the volume exclusively occupied by
@@ -121,31 +141,33 @@ public extension Mesh {
     ///          |       |            |       |
     ///          +-------+            +-------+
     ///
-    func xor(_ mesh: Mesh) -> Mesh {
-        guard bounds.intersects(mesh.bounds) else {
+    func xor(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+        let intersection = bounds.intersection(mesh.bounds)
+        guard !intersection.isEmpty else {
             return merge(mesh)
         }
-        var ap = polygons
-        var bp = mesh.polygons
-        var aout: [Polygon]? = []
-        var bout: [Polygon]? = []
-        boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
-        let absp = BSP(self)
-        let bbsp = BSP(mesh)
-        // TODO: combine clip operations
-        let ap1 = bbsp.clip(ap, .greaterThan)
-        let bp1 = absp.clip(bp, .lessThan)
-        let ap2 = bbsp.clip(ap, .lessThan)
-        let bp2 = absp.clip(bp, .greaterThan)
+        let absp = BSP(self, isCancelled), bbsp = BSP(mesh, isCancelled)
+        var aout: [Polygon]? = [], bout: [Polygon]? = []
+        let ap = boundsTest(intersection, polygons, &aout)
+        let bp = boundsTest(intersection, mesh.polygons, &bout)
+        let (ap1, ap2) = bbsp.split(ap, .greaterThan, .lessThan, isCancelled)
+        let (bp2, bp1) = absp.split(bp, .greaterThan, .lessThan, isCancelled)
         // Avoids slow compilation from long expression
         let lhs = aout! + ap1 + bp1.map { $0.inverted() }
         let rhs = bout! + bp2 + ap2.map { $0.inverted() }
-        return Mesh(unchecked: lhs + rhs, isConvex: false)
+        return Mesh(
+            unchecked: lhs + rhs,
+            bounds: nil, // TODO: is there a way to efficiently preserve this?
+            isConvex: false
+        )
     }
 
     /// Efficiently xor multiple meshes
-    static func xor(_ meshes: [Mesh]) -> Mesh {
-        return multimerge(meshes, using: { $0.xor($1) })
+    static func xor(
+        _ meshes: [Mesh],
+        isCancelled: @escaping CancellationHandler = { false }
+    ) -> Mesh {
+        multimerge(meshes, using: { $0.xor($1, isCancelled: $2) }, isCancelled)
     }
 
     /// Returns a new mesh reprenting the volume shared by both the mesh
@@ -161,22 +183,38 @@ public extension Mesh {
     ///          |       |
     ///          +-------+
     ///
-    func intersect(_ mesh: Mesh) -> Mesh {
-        guard bounds.intersects(mesh.bounds) else {
+    func intersect(
+        _ mesh: Mesh,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        let intersection = bounds.intersection(mesh.bounds)
+        guard !intersection.isEmpty else {
             return Mesh([])
         }
-        var ap = polygons
-        var bp = mesh.polygons
-        var aout, bout: [Polygon]?
-        boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
-        ap = BSP(mesh).clip(ap, .lessThan)
-        bp = BSP(self).clip(bp, .lessThanEqual)
-        return Mesh(unchecked: ap + bp, isConvex: isConvex && mesh.isConvex)
+        var aout: [Polygon]?, bout: [Polygon]?
+        let ap = BSP(mesh, isCancelled).clip(
+            boundsTest(intersection, polygons, &aout),
+            .lessThan,
+            isCancelled
+        )
+        let bp = BSP(self, isCancelled).clip(
+            boundsTest(intersection, mesh.polygons, &bout),
+            .lessThanEqual,
+            isCancelled
+        )
+        return Mesh(
+            unchecked: ap + bp,
+            bounds: nil, // TODO: is there a way to efficiently preserve this?
+            isConvex: isConvex && mesh.isConvex
+        )
     }
 
     /// Efficiently compute intersection of multiple meshes
-    static func intersection(_ meshes: [Mesh]) -> Mesh {
-        return reduce(meshes, using: { $0.intersect($1) })
+    static func intersection(
+        _ meshes: [Mesh],
+        isCancelled: @escaping CancellationHandler = { false }
+    ) -> Mesh {
+        reduce(meshes, using: { $0.intersect($1, isCancelled: $2) }, isCancelled)
     }
 
     /// Returns a new mesh that retains the shape of the receiver, but with
@@ -191,37 +229,32 @@ public extension Mesh {
     ///          |       |
     ///          +-------+
     ///
-    func stencil(_ mesh: Mesh) -> Mesh {
-        guard bounds.intersects(mesh.bounds) else {
+    func stencil(
+        _ mesh: Mesh,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        let intersection = bounds.intersection(mesh.bounds)
+        guard !intersection.isEmpty else {
             return self
         }
-        var ap = polygons
-        var bp = mesh.polygons
         var aout: [Polygon]? = []
-        var bout: [Polygon]?
-        boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
-        // TODO: combine clip operations
-        let bsp = BSP(mesh)
-        let outside = bsp.clip(ap, .greaterThan)
-        let inside = bsp.clip(ap, .lessThanEqual)
+        let ap = boundsTest(bounds.intersection(mesh.bounds), polygons, &aout)
+        let bsp = BSP(mesh, isCancelled)
+        let (outside, inside) = bsp.split(ap, .greaterThan, .lessThanEqual, isCancelled)
+        let material = mesh.polygons.first?.material
         return Mesh(
-            unchecked: aout! + outside + inside.map {
-                Polygon(
-                    unchecked: $0.vertices,
-                    plane: $0.plane,
-                    isConvex: $0.isConvex,
-                    bounds: $0.bounds,
-                    material: bp.first?.material ?? $0.material
-                )
-            },
+            unchecked: aout! + outside + inside.map { $0.with(material: material) },
             bounds: bounds,
             isConvex: isConvex
         )
     }
 
     /// Efficiently perform stencil with multiple meshes
-    static func stencil(_ meshes: [Mesh]) -> Mesh {
-        return reduce(meshes, using: { $0.stencil($1) })
+    static func stencil(
+        _ meshes: [Mesh],
+        isCancelled: @escaping CancellationHandler = { false }
+    ) -> Mesh {
+        reduce(meshes, using: { $0.stencil($1, isCancelled: $2) }, isCancelled)
     }
 
     /// Split mesh along a plane
@@ -241,8 +274,8 @@ public extension Mesh {
                 front.append(polygon)
             }
             return (
-                front.isEmpty ? nil : Mesh(unchecked: front, isConvex: false),
-                back.isEmpty ? nil : Mesh(unchecked: back, isConvex: false)
+                front.isEmpty ? nil : Mesh(unchecked: front, bounds: nil, isConvex: false),
+                back.isEmpty ? nil : Mesh(unchecked: back, bounds: nil, isConvex: false)
             )
         }
     }
@@ -266,7 +299,11 @@ public extension Mesh {
             for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
                 front.append(polygon)
             }
-            let mesh = Mesh(unchecked: front, isConvex: false)
+            let mesh = Mesh(
+                unchecked: front,
+                bounds: nil,
+                isConvex: false
+            )
             guard let material = fill else {
                 return mesh
             }
@@ -302,7 +339,9 @@ public extension Mesh {
             .translated(by: plane.normal * plane.w)
             // Clip rect
             return Mesh(
-                unchecked: mesh.polygons + BSP(self).clip([rect], .lessThan),
+                unchecked: mesh.polygons + BSP(self) { false }
+                    .clip([rect], .lessThan) { false },
+                bounds: nil,
                 isConvex: isConvex
             )
         }
@@ -310,57 +349,64 @@ public extension Mesh {
 }
 
 private func boundsTest(
-    _ intersection: Bounds,
-    _ lhs: inout [Polygon], _ rhs: inout [Polygon],
-    _ lout: inout [Polygon]?, _ rout: inout [Polygon]?
-) {
-    for (i, p) in lhs.enumerated().reversed() where !p.bounds.intersects(intersection) {
-        lout?.append(p)
-        lhs.remove(at: i)
-    }
-    for (i, p) in rhs.enumerated().reversed() where !p.bounds.intersects(intersection) {
-        rout?.append(p)
-        rhs.remove(at: i)
-    }
-}
-
-// Merge all the meshes into a single mesh using fn
-private func multimerge(_ meshes: [Mesh], using fn: (Mesh, Mesh) -> Mesh) -> Mesh {
-    var mesh = Mesh([])
-    var meshesAndBounds = meshes.map { ($0, $0.bounds) }
-    var i = 0
-    while i < meshesAndBounds.count {
-        let m = reduce(&meshesAndBounds, at: i, using: fn)
-        mesh = mesh.merge(m)
-        i += 1
-    }
-    return mesh
-}
-
-// Merge each intersecting mesh after i into the mesh at index i using fn
-private func reduce(_ meshes: [Mesh], using fn: (Mesh, Mesh) -> Mesh) -> Mesh {
-    var meshesAndBounds = meshes.map { ($0, $0.bounds) }
-    return reduce(&meshesAndBounds, at: 0, using: fn)
-}
-
-private func reduce(
-    _ meshesAndBounds: inout [(Mesh, Bounds)],
-    at i: Int,
-    using fn: (Mesh, Mesh) -> Mesh
-) -> Mesh {
-    var (m, mb) = meshesAndBounds[i]
-    var j = i + 1, count = meshesAndBounds.count
-    while j < count {
-        let (n, nb) = meshesAndBounds[j]
-        if mb.intersects(nb) {
-            m = fn(m, n)
-            mb = m.bounds
-            meshesAndBounds[i] = (m, mb)
-            meshesAndBounds.remove(at: j)
-            count -= 1
-            continue
+    _ bounds: Bounds,
+    _ polygons: [Polygon],
+    _ out: inout [Polygon]?
+) -> [Polygon] {
+    polygons.filter {
+        if $0.bounds.intersects(bounds) {
+            return true
         }
-        j += 1
+        out?.append($0)
+        return false
     }
-    return m
+}
+
+private extension Mesh {
+    // Merge all the meshes into a single mesh using fn
+    static func multimerge(
+        _ meshes: [Mesh],
+        using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
+        _ isCancelled: @escaping CancellationHandler
+    ) -> Mesh {
+        var mesh = Mesh([])
+        var meshes = meshes
+        var i = 0
+        while i < meshes.count {
+            mesh = mesh.merge(reduce(&meshes, at: i, using: fn, isCancelled))
+            i += 1
+        }
+        return mesh
+    }
+
+    // Merge each intersecting mesh after i into the mesh at index i using fn
+    static func reduce(
+        _ meshes: [Mesh],
+        using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
+        _ isCancelled: @escaping CancellationHandler
+    ) -> Mesh {
+        var meshes = meshes
+        return reduce(&meshes, at: 0, using: fn, isCancelled)
+    }
+
+    static func reduce(
+        _ meshes: inout [Mesh],
+        at i: Int,
+        using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
+        _ isCancelled: @escaping CancellationHandler
+    ) -> Mesh {
+        var m = meshes[i]
+        var j = i + 1
+        while j < meshes.count {
+            let n = meshes[j]
+            if m.bounds.intersects(n.bounds) {
+                m = fn(m, n, isCancelled)
+                meshes[i] = m
+                meshes.remove(at: j)
+                j = i
+            }
+            j += 1
+        }
+        return m
+    }
 }

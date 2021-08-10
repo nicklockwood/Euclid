@@ -29,12 +29,12 @@
 //  SOFTWARE.
 //
 
-public struct LineSegment: Hashable, Codable {
+public struct LineSegment: Hashable {
     public let start, end: Vector
 
     /// Creates a line segment from a start and end point
     public init?(_ start: Vector, _ end: Vector) {
-        guard !start.isEqual(to: end) else {
+        guard start != end else {
             return nil
         }
         self.start = start
@@ -42,39 +42,74 @@ public struct LineSegment: Hashable, Codable {
     }
 }
 
-public extension LineSegment {
-    var direction: Vector {
-        let d = end - start
-        return d.normalized()
+extension LineSegment: Codable {
+    private enum CodingKeys: CodingKey {
+        case start, end
     }
 
-    func intersects(_ segment: LineSegment) -> Bool {
-        if direction.z == 0, segment.direction.z == 0, start.z == segment.start.z {
-            return lineSegmentsIntersect(start, end, segment.start, segment.end)
-        } else if direction.y == 0, segment.direction.y == 0, start.y == segment.start.y {
-            // Switch dimensions and then solve
-            let p0 = Vector(start.x, start.z, 0)
-            let p1 = Vector(end.x, end.z, 0)
-            let p2 = Vector(segment.start.x, segment.start.z, 0)
-            let p3 = Vector(segment.end.x, segment.end.z, 0)
-            return lineSegmentsIntersect(p0, p1, p2, p3)
-        } else if direction.x == 0, segment.direction.x == 0, start.x == segment.start.x {
-            // Switch dimensions and then solve
-            let p0 = Vector(start.y, start.z, 0)
-            let p1 = Vector(end.y, end.z, 0)
-            let p2 = Vector(segment.start.y, segment.start.z, 0)
-            let p3 = Vector(segment.end.y, segment.end.z, 0)
-            return lineSegmentsIntersect(p0, p1, p2, p3)
+    public init(from decoder: Decoder) throws {
+        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+            guard let segment = try LineSegment(
+                container.decode(Vector.self, forKey: .start),
+                container.decode(Vector.self, forKey: .end)
+            ) else {
+                throw DecodingError.dataCorruptedError(
+                    forKey: .end,
+                    in: container,
+                    debugDescription: "LineSegment cannot have zero length"
+                )
+            }
+            self = segment
         } else {
-            // TOOO: Generalize to 3D
+            var container = try decoder.unkeyedContainer()
+            guard let segment = try LineSegment(
+                Vector(from: &container),
+                Vector(from: &container)
+            ) else {
+                throw DecodingError.dataCorruptedError(
+                    in: container,
+                    debugDescription: "LineSegment cannot have zero length"
+                )
+            }
+            self = segment
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try start.encode(to: &container)
+        try end.encode(to: &container)
+    }
+}
+
+public extension LineSegment {
+    var direction: Vector {
+        (end - start).normalized()
+    }
+
+    /// Check if point is on line segment
+    func containsPoint(_ p: Vector) -> Bool {
+        let v = vectorFromPointToLine(p, start, direction)
+        guard v.length < epsilon else {
             return false
         }
+        return lineSegmentsContainsPoint(start, end, p + v)
+    }
+
+    /// Intersection point between lines (if any)
+    func intersection(with segment: LineSegment) -> Vector? {
+        lineSegmentsIntersection(start, end, segment.start, segment.end)
+    }
+
+    /// Returns true if the line segments intersect
+    func intersects(_ segment: LineSegment) -> Bool {
+        intersection(with: segment) != nil
     }
 }
 
 internal extension LineSegment {
     init(unchecked start: Vector, _ end: Vector) {
-        assert(!start.isEqual(to: end))
+        assert(start != end)
         self.start = start
         self.end = end
     }

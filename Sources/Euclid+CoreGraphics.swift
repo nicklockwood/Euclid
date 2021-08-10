@@ -1,9 +1,32 @@
 //
-//  CoreGraphics.swift
+//  Euclid+CoreGraphics.swift
 //  Euclid
 //
 //  Created by Nick Lockwood on 09/03/2019.
 //  Copyright © 2019 Nick Lockwood. All rights reserved.
+//
+//  Distributed under the permissive MIT license
+//  Get the latest version from here:
+//
+//  https://github.com/nicklockwood/Euclid
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
 //
 
 #if canImport(CoreGraphics)
@@ -97,7 +120,7 @@ public extension CGPath {
             case .addQuadCurveToPoint, .addCurveToPoint:
                 p2 = nextElement.points[0]
                 isCurved = true
-            default: // Can be converted to @unknown in Swift 5
+            @unknown default:
                 return
             }
             switch lastElement.type {
@@ -115,7 +138,7 @@ public extension CGPath {
             case .addCurveToPoint:
                 p0 = lastElement.points[1]
                 p1 = lastElement.points[2]
-            default: // Can be converted to @unknown in Swift 5
+            @unknown default:
                 return
             }
             let d0 = Vector(Double(p1.x - p0.x), Double(p1.y - p0.y)).normalized()
@@ -184,7 +207,7 @@ public extension CGPath {
                     ))
                 }
                 points.append(.point(Vector(p3)))
-            default: // Can be converted to @unknown in Swift 5
+            @unknown default:
                 return
             }
             if firstElement == nil, element.type != .moveToPoint {

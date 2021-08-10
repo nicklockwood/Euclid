@@ -48,10 +48,10 @@ class SceneViewController: UIViewController {
     }
 
     override var shouldAutorotate: Bool {
-        return true
+        true
     }
 
     override var prefersStatusBarHidden: Bool {
-        return true
+        true
     }
 }

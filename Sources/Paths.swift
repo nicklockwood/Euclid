@@ -34,6 +34,7 @@ import Foundation
 /// A control point on a path. Can represent a corner or a curve.
 public struct PathPoint: Hashable {
     public var position: Vector
+    public var texcoord: Vector?
     public var isCurved: Bool
 }
 
@@ -42,45 +43,104 @@ extension PathPoint: Codable {
         var container = try decoder.unkeyedContainer()
         let x = try container.decode(Double.self)
         let y = try container.decode(Double.self)
-        let z = (try? container.decodeIfPresent(Double.self) ?? 0) ?? 0
-        let isCurved = try container.decodeIfPresent(Bool.self) ?? false
-        self.init(Vector(x, y, z), isCurved: isCurved)
+        switch container.count {
+        case 2:
+            self.init(Vector(x, y), texcoord: nil, isCurved: false)
+        case 3:
+            if let isCurved = try? container.decodeIfPresent(Bool.self) {
+                self.init(Vector(x, y), texcoord: nil, isCurved: isCurved)
+            } else {
+                let z = try container.decode(Double.self)
+                self.init(Vector(x, y, z), texcoord: nil, isCurved: false)
+            }
+        case 4:
+            let zOrU = try container.decode(Double.self)
+            if let isCurved = try? container.decodeIfPresent(Bool.self) {
+                self.init(Vector(x, y, zOrU), texcoord: nil, isCurved: isCurved)
+            } else {
+                let v = try container.decode(Double.self)
+                self.init(Vector(x, y), texcoord: Vector(zOrU, v), isCurved: false)
+            }
+        case 5:
+            let zOrU = try container.decode(Double.self)
+            let uOrV = try container.decode(Double.self)
+            if let isCurved = try? container.decodeIfPresent(Bool.self) {
+                self.init(Vector(x, y), texcoord: Vector(zOrU, uOrV), isCurved: isCurved)
+            } else {
+                let v = try container.decode(Double.self)
+                self.init(Vector(x, y, zOrU), texcoord: Vector(uOrV, v), isCurved: false)
+            }
+        case 6:
+            let z = try container.decode(Double.self)
+            let u = try container.decode(Double.self)
+            let v = try container.decode(Double.self)
+            if let isCurved = try? container.decode(Bool.self) {
+                self.init(Vector(x, y, z), texcoord: Vector(u, v), isCurved: isCurved)
+            } else {
+                let w = try container.decode(Double.self)
+                self.init(Vector(x, y, z), texcoord: Vector(u, v, w), isCurved: false)
+            }
+        case 7:
+            let z = try container.decode(Double.self)
+            let texcoord = try Vector(from: &container)
+            let isCurved = try container.decode(Bool.self)
+            self.init(Vector(x, y, z), texcoord: texcoord, isCurved: isCurved)
+        default:
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Cannot decode path point"
+            )
+        }
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        try container.encode(position.x)
-        try container.encode(position.y)
-        try position.z == 0 ? () : container.encode(position.z)
+        let skipZ = position.z == 0 && texcoord?.z ?? 0 == 0
+        try position.encode(to: &container, skipZ: skipZ)
+        if let texcoord = texcoord {
+            try texcoord.encode(to: &container, skipZ: texcoord.z == 0)
+        }
         try isCurved ? container.encode(true) : ()
     }
 }
 
 public extension PathPoint {
-    static func point(_ position: Vector) -> PathPoint {
-        return PathPoint(position, isCurved: false)
+    static func point(_ position: Vector, texcoord: Vector? = nil) -> PathPoint {
+        PathPoint(position, texcoord: texcoord, isCurved: false)
     }
 
     static func point(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
-        return .point(Vector(x, y, z))
+        .point(Vector(x, y, z))
     }
 
-    static func curve(_ position: Vector) -> PathPoint {
-        return PathPoint(position, isCurved: true)
+    static func curve(_ position: Vector, texcoord: Vector? = nil) -> PathPoint {
+        PathPoint(position, texcoord: texcoord, isCurved: true)
     }
 
     static func curve(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
-        return .curve(Vector(x, y, z))
+        .curve(Vector(x, y, z))
     }
 
-    init(_ position: Vector, isCurved: Bool) {
+    init(_ position: Vector, texcoord: Vector?, isCurved: Bool) {
         self.position = position.quantized()
+        self.texcoord = texcoord
         self.isCurved = isCurved
     }
 
     func lerp(_ other: PathPoint, _ t: Double) -> PathPoint {
+        let texcoord: Vector?
+        switch (self.texcoord, other.texcoord) {
+        case let (lhs?, rhs?):
+            texcoord = lhs.lerp(rhs, t)
+        case let (lhs, rhs):
+            texcoord = lhs ?? rhs
+        }
         let isCurved = self.isCurved || other.isCurved
-        return PathPoint(position.lerp(other.position, t), isCurved: isCurved)
+        return PathPoint(
+            position.lerp(other.position, t),
+            texcoord: texcoord,
+            isCurved: isCurved
+        )
     }
 }
 
@@ -88,7 +148,6 @@ public extension PathPoint {
 public struct Path: Hashable {
     public let points: [PathPoint]
     public let isClosed: Bool
-    public let bounds: Bounds
     public private(set) var plane: Plane?
     let subpathIndices: [Int]
 }
@@ -129,7 +188,21 @@ extension Path: Codable {
 public extension Path {
     /// Returns true if all the path's points lie on as single plane
     var isPlanar: Bool {
-        return plane != nil
+        plane != nil
+    }
+
+    /// The path bounds
+    var bounds: Bounds {
+        Bounds(points: points.map { $0.position })
+    }
+
+    /// Face normal for shape
+    /// If shape is non-planar then this is the average/approximate normal
+    var faceNormal: Vector {
+        plane?.normal ?? faceNormalForPolygonPoints(
+            points.map { $0.position },
+            convex: nil
+        )
     }
 
     /// Returns a closed path by joining last point to first
@@ -145,8 +218,7 @@ public extension Path {
 
     /// Create a path from an array of `PathPoint`s
     init(_ points: [PathPoint]) {
-        let points = sanitizePoints(points)
-        self.init(unchecked: points)
+        self.init(unchecked: sanitizePoints(points))
     }
 
     /// Create a composite path from an array of subpaths
@@ -158,6 +230,18 @@ public extension Path {
         let points = subpaths.flatMap { $0.points }
         // TODO: precompute planes/subpathIndices from existing paths
         self.init(unchecked: points, plane: nil, subpathIndices: nil)
+    }
+
+    /// Create a path from a polygon
+    init(polygon: Polygon) {
+        let hasTexcoords = polygon.hasTexcoords
+        self.init(
+            unchecked: polygon.vertices.map {
+                .point($0.position, texcoord: hasTexcoords ? $0.texcoord : nil)
+            },
+            plane: polygon.plane,
+            subpathIndices: nil
+        )
     }
 
     /// A list of subpaths making up the path. For paths without nested
@@ -181,44 +265,87 @@ public extension Path {
                 if points.last?.position == points.first?.position {
                     points[0] = points.last!
                 }
-                paths.append(Path(unchecked: points, plane: nil, subpathIndices: []))
+                paths.append(Path(unchecked: points, plane: plane, subpathIndices: []))
             }
         }
         return paths.isEmpty && !points.isEmpty ? [self] : paths
     }
 
+    /// Get one or more polygons needed to fill the path
+    /// Polygon vertices include normals and uv coordinates normalized to the bounding rectangle of the path
+    func facePolygons(material: Mesh.Material? = nil) -> [Polygon] {
+        guard subpaths.count <= 1 else {
+            return subpaths.flatMap { $0.facePolygons(material: material) }
+        }
+        guard let vertices = faceVertices else {
+            return []
+        }
+        if plane != nil, let polygon = Polygon(vertices, material: material) {
+            return [polygon]
+        }
+        return triangulateVertices(
+            vertices,
+            plane: nil,
+            isConvex: nil,
+            material: material,
+            id: 0
+        ).detessellate(ensureConvex: false)
+    }
+
     /// Get vertices suitable for constructing a polygon from the path
-    /// vertices include normals and uv coordinates normalized to the
-    /// bounding rectangle of the path. Returns nil if path has subpaths
-    // TODO: should this be facePolygons instead, to handle non-planar shapes?
+    /// Vertices include normals and uv coordinates normalized to the bounding
+    /// rectangle of the path. Returns nil if path is open or has subpaths
     var faceVertices: [Vertex]? {
-        guard isClosed, let normal = plane?.normal, subpaths.count <= 1 else {
+        let count = points.count
+        guard isClosed, subpaths.count <= 1, count > 1 else {
             return nil
         }
-        let vectors = points.dropFirst().map { $0.position }
+        var hasTexcoords = true
+        var vertices = [Vertex]()
+        var p0 = points[count - 2]
+        for i in 0 ..< count - 1 {
+            let p1 = points[i]
+            let texcoord = p1.texcoord
+            hasTexcoords = hasTexcoords && texcoord != nil
+            let normal = plane?.normal ?? faceNormalForPolygonPoints(
+                [p0.position, p1.position, points[i + 1].position],
+                convex: true
+            )
+            vertices.append(Vertex(unchecked: p1.position, normal, texcoord ?? .zero))
+            p0 = p1
+        }
+        guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+            return nil
+        }
+        if hasTexcoords {
+            return vertices
+        }
         var min = Vector(.infinity, .infinity)
         var max = Vector(-.infinity, -.infinity)
-        let flatteningPlane = FlatteningPlane(normal: normal)
-        let vertices: [Vertex] = vectors.map {
-            let uv = flatteningPlane.flattenPoint($0)
+        let flatteningPlane = FlatteningPlane(normal: faceNormal)
+        vertices = vertices.map {
+            let uv = flatteningPlane.flattenPoint($0.position)
             min.x = Swift.min(min.x, uv.x)
             min.y = Swift.min(min.y, uv.y)
             max.x = Swift.max(max.x, uv.x)
             max.y = Swift.max(max.y, uv.y)
-            return Vertex(unchecked: $0, normal, uv)
-        }
-        if verticesAreDegenerate(vertices) {
-            return nil
+            return Vertex(unchecked: $0.position, $0.normal, uv)
         }
         let uvScale = Vector(max.x - min.x, max.y - min.y)
         return vertices.map {
-            let uv = Vector(($0.texcoord.x - min.x) / uvScale.x, 1 - ($0.texcoord.y - min.y) / uvScale.y, 0)
+            let uv = Vector(
+                ($0.texcoord.x - min.x) / uvScale.x,
+                1 - ($0.texcoord.y - min.y) / uvScale.y,
+                0
+            )
             return Vertex(unchecked: $0.position, $0.normal, uv)
         }
     }
 
+    /// Get edge vertices suitable for converting into a solid shape using lathe or extrusion
+    /// Returns an empty array if path has subpaths
     var edgeVertices: [Vertex] {
-        return edgeVertices(for: .default)
+        edgeVertices(for: .default)
     }
 
     /// Get edge vertices suitable for converting into a solid shape using lathe or extrusion
@@ -263,6 +390,7 @@ public extension Path {
         var vertices = [Vertex]()
         var v = 0.0
         let endIndex = count
+        let faceNormal = self.faceNormal
         for i in 0 ..< endIndex {
             p1 = p2
             p2 = i < points.count - 1 ? points[i + 1] :
@@ -273,7 +401,6 @@ public extension Path {
                 ))
             let p0p1 = p1p2
             p1p2 = p2.position - p1.position
-            let faceNormal = plane?.normal ?? p0p1.cross(p1p2)
             let n0 = n1 ?? p0p1.cross(faceNormal).normalized()
             n1 = p1p2.cross(faceNormal).normalized()
             let uv = Vector(0, v, 0)
@@ -305,8 +432,7 @@ public extension Path {
 
 public extension Polygon {
     /// Create a polygon from a path
-    /// Path may be convex or concave, but must be closed and non-degenerate
-    /// Paths with
+    /// Path may be convex or concave, but must be closed, planar and non-degenerate
     init?(shape: Path, material: Material? = nil) {
         guard let vertices = shape.faceVertices, let plane = shape.plane else {
             return nil
@@ -315,7 +441,6 @@ public extension Polygon {
             unchecked: vertices,
             plane: plane,
             isConvex: verticesAreConvex(vertices),
-            bounds: shape.bounds,
             material: material
         )
     }
@@ -323,17 +448,35 @@ public extension Polygon {
 
 internal extension Path {
     init(unchecked points: [PathPoint], plane: Plane?, subpathIndices: [Int]?) {
-        assert(sanitizePoints(points) == points)
+        assert(points == sanitizePoints(points))
         self.points = points
         self.isClosed = pointsAreClosed(unchecked: points)
         let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
-        bounds = Bounds(points: positions)
-        self.subpathIndices = subpathIndices ?? subpathIndicesFor(points)
+        let subpathIndices = subpathIndices ?? subpathIndicesFor(points)
+        self.subpathIndices = subpathIndices
         if let plane = plane {
             self.plane = plane
-            assert(Plane(points: positions)?.isEqual(to: plane) == true)
-        } else {
+            assert(points.count < 3 || Path(
+                unchecked: points,
+                plane: nil,
+                subpathIndices: subpathIndices
+            ).plane?.isEqual(to: plane) == true)
+        } else if subpathIndices.isEmpty {
             self.plane = Plane(points: positions)
+        } else {
+            for path in subpaths {
+                guard let plane = path.plane else {
+                    self.plane = nil
+                    break
+                }
+                if let existing = self.plane {
+                    guard existing.isEqual(to: plane) else {
+                        self.plane = nil
+                        break
+                    }
+                }
+                self.plane = plane
+            }
         }
     }
 
@@ -343,45 +486,43 @@ internal extension Path {
     }
 
     // Test if path is self-intersecting
-    // TODO: extend this to work in 3D
-    // TODO: optimize by using http://www.webcitation.org/6ahkPQIsN
     var isSimple: Bool {
-        let points = flattened().points.map { $0.position }
-        for i in 0 ..< points.count - 2 {
-            let p0 = points[i]
-            let p1 = points[i + 1]
-            if p0 == p1 {
-                continue
-            }
-            for j in i + 2 ..< points.count - 1 {
-                let p2 = points[j]
-                let p3 = points[j + 1]
-                if p1 == p2 || p2 == p3 || p3 == p0 {
-                    continue
-                }
-                let l1 = LineSegment(unchecked: p0, p1)
-                let l2 = LineSegment(unchecked: p2, p3)
-                if l1.intersects(l2) {
-                    return false
-                }
-            }
+        // TODO: what should we do about subpaths?
+        !pointsAreSelfIntersecting(points.map { $0.position })
+    }
+
+    // Returns the most suitable FlatteningPlane for the path
+    var flatteningPlane: FlatteningPlane {
+        if let plane = plane {
+            return FlatteningPlane(normal: plane.normal)
         }
-        return true
+        let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
+        return FlatteningPlane(points: positions, convex: nil)
     }
 
     // flattens z-axis
     // TODO: this is a hack and should be replaced by a better solution
     func flattened() -> Path {
-        if bounds.min.z == 0, bounds.max.z == 0 {
+        guard subpathIndices.isEmpty else {
+            return Path(subpaths: subpaths.map { $0.flattened() })
+        }
+        if points.allSatisfy({ $0.position.z == 0 }) {
             return self
         }
-        let flatteningPlane = FlatteningPlane(bounds: bounds)
+        let flatteningPlane = self.flatteningPlane
         return Path(unchecked: sanitizePoints(points.map {
-            PathPoint(flatteningPlane.flattenPoint($0.position), isCurved: $0.isCurved)
-        }), plane: flatteningPlane.rawValue, subpathIndices: subpathIndices)
+            PathPoint(
+                flatteningPlane.flattenPoint($0.position),
+                texcoord: $0.texcoord,
+                isCurved: $0.isCurved
+            )
+        }), plane: flatteningPlane.rawValue, subpathIndices: [])
     }
 
     func clippedToYAxis() -> Path {
+        guard subpathIndices.isEmpty else {
+            return Path(subpaths: subpaths.map { $0.clippedToYAxis() })
+        }
         var points = self.points
         guard !points.isEmpty else {
             return self
@@ -403,9 +544,8 @@ internal extension Path {
                 leftOfOrigin -= 1
             }
         }
-        var plane = self.plane
         if rightOfOrigin > leftOfOrigin {
-            plane = plane?.inverted()
+            // Mirror the path about Y axis
             points = points.map {
                 var point = $0
                 point.position.x = -point.position.x
@@ -450,22 +590,29 @@ internal extension Path {
             }
             i -= 1
         }
-        return Path(unchecked: points, plane: plane, subpathIndices: nil)
+        return Path(
+            unchecked: points,
+            plane: nil, // Might have changed if path is self-intersecting
+            subpathIndices: nil
+        )
     }
 }
 
 // MARK: Path utility functions
 
+// Sanitize a set of path points by removing duplicates and invalid points
+// Should be safe to use on sets of points representing a compound path (with subpaths)
 func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
     var result = [PathPoint]()
     var last: PathPoint?
     // Remove duplicate points
+    // TODO: In future, compound paths may support duplicate points
     for point in points where point.position != last?.position {
         result.append(point)
         last = point
     }
     // Remove invalid points
-    let isClosed = (result.first?.position == result.last?.position)
+    let isClosed = pointsAreClosed(unchecked: result)
     if result.count > (isClosed ? 3 : 2), let a = result.first?.position {
         let threshold = 1e-10
         var ab = result[1].position - a
@@ -524,7 +671,7 @@ func subpathIndicesFor(_ points: [PathPoint]) -> [Int] {
 }
 
 func pointsAreClosed(unchecked points: [PathPoint]) -> Bool {
-    return points.last?.position == points.first?.position
+    points.last?.position == points.first?.position
 }
 
 func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint {

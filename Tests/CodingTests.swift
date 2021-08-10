@@ -164,6 +164,44 @@ class CodingTests: XCTestCase {
         """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1)))
     }
 
+    func testDecodingVertexWithTexcoord3D() {
+        XCTAssertEqual(try decode("""
+        {
+            "position": [1, 2, 2],
+            "normal": [1, 0, 0],
+            "texcoord": [0, 1, 2]
+        }
+        """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 2)))
+    }
+
+    func testDecodingFlattenedVertex() {
+        XCTAssertEqual(
+            try decode("[1, 2, 2, 1, 0, 0, 0, 1]"),
+            Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1))
+        )
+    }
+
+    func testDecodingFlattenedVertexWithTexcoord3D() {
+        XCTAssertEqual(
+            try decode("[1, 2, 2, 1, 0, 0, 0, 1, 2]"),
+            Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 2))
+        )
+    }
+
+    func testEncodingVertex() {
+        XCTAssertEqual(
+            try encode(Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1))),
+            "[1,2,2,1,0,0,0,1]"
+        )
+    }
+
+    func testEncodingVertexWithTexcoord3D() {
+        XCTAssertEqual(
+            try encode(Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 2))),
+            "[1,2,2,1,0,0,0,1,2]"
+        )
+    }
+
     func testDecodingVertexWithoutTexcoord() {
         XCTAssertEqual(try decode("""
         {
@@ -171,6 +209,49 @@ class CodingTests: XCTestCase {
             "normal": [1, 0, 0]
         }
         """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), .zero))
+    }
+
+    func testDecodingFlattenedVertexWithoutTexcoord() {
+        XCTAssertEqual(
+            try decode("[1, 2, 2, 1, 0, 0]"),
+            Vertex(Vector(1, 2, 2), Vector(1, 0, 0))
+        )
+    }
+
+    func testEncodingVertexWithoutTexcoord() {
+        XCTAssertEqual(
+            try encode(Vertex(Vector(1, 2, 2), Vector(1, 0, 0))),
+            "[1,2,2,1,0,0]"
+        )
+    }
+
+    func testEncodingVertex2DWithoutTexcoord() {
+        XCTAssertEqual(
+            try encode(Vertex(Vector(1, 2), Vector(1, 0, 0))),
+            "[1,2,0,1,0,0]"
+        )
+    }
+
+    func testDecodingVertexWithoutNormal() {
+        XCTAssertEqual(try decode("""
+        {
+            "position": [1, 2, 2],
+            "texcoord": [1, 0]
+        }
+        """), Vertex(Vector(1, 2, 2), nil, Vector(1, 0)))
+    }
+
+    func testDecodingVertexWithoutNormalWithTexcoord3D() {
+        XCTAssertEqual(try decode("""
+        {
+            "position": [1, 2, 2],
+            "texcoord": [1, 0, 2]
+        }
+        """), Vertex(Vector(1, 2, 2), nil, Vector(1, 0, 2)))
+    }
+
+    func testDecodingFlattenedVertexWithoutNormal() {
+        XCTAssertEqual(try decode("[1, 2, 2]"), Vertex(Vector(1, 2, 2)))
     }
 
     func testDecodingVertexWithInvalidNormal() {
@@ -184,6 +265,20 @@ class CodingTests: XCTestCase {
             Vector(0.3333333333333333, 0.6666666666666666, 0.6666666666666666),
             .zero
         ))
+    }
+
+    func testEncodingVertexWithoutNormal() {
+        XCTAssertEqual(
+            try encode(Vertex(Vector(1, 2, 2))),
+            "[1,2,2]"
+        )
+    }
+
+    func testEncodingVertex2DWithoutNormal() {
+        XCTAssertEqual(
+            try encode(Vertex(Vector(1, 2))),
+            "[1,2]"
+        )
     }
 
     // MARK: Plane
@@ -205,6 +300,82 @@ class CodingTests: XCTestCase {
         XCTAssertEqual(try encode(Plane(normal: Vector(0, 0, 1), w: 0)), "[0,0,1,0]")
     }
 
+    // MARK: Line
+
+    func testDecodingKeyedLine() {
+        XCTAssertEqual(try decode("""
+        {
+            "origin": [0, 0, 1],
+            "direction": [0, 1, 0]
+        }
+        """), Line(origin: Vector(0, 0, 1), direction: Vector(0, 1, 0)))
+    }
+
+    func testDecodingKeyedZeroLengthLine() {
+        XCTAssertThrowsError(try decode("""
+        {
+            "origin": [0, 0, 1],
+            "direction": [0, 0, 0]
+        }
+        """) as Line)
+    }
+
+    func testDecodingUnkeyedLine() {
+        XCTAssertEqual(
+            try decode("[0, 0, 1, 0, 1, 0]"),
+            Line(origin: Vector(0, 0, 1), direction: Vector(0, 1, 0))
+        )
+    }
+
+    func testDecodingUnkeyedZeroLengthLine() {
+        XCTAssertThrowsError(try decode("[0, 0, 1, 0, 0, 0]") as Line)
+    }
+
+    func testEncodingLine() {
+        XCTAssertEqual(
+            try encode(Line(origin: Vector(0, 0, 1), direction: Vector(0, 1, 0))),
+            "[0,0,1,0,1,0]"
+        )
+    }
+
+    // MARK: LineSegment
+
+    func testDecodingKeyedLineSegment() {
+        XCTAssertEqual(try decode("""
+        {
+            "start": [0, 0, 1],
+            "end": [0, 1, 0]
+        }
+        """), LineSegment(Vector(0, 0, 1), Vector(0, 1, 0)))
+    }
+
+    func testDecodingKeyedZeroLengthLineSegment() {
+        XCTAssertThrowsError(try decode("""
+        {
+            "start": [0, 0, 1],
+            "end": [0, 0, 1]
+        }
+        """) as LineSegment)
+    }
+
+    func testDecodingUnkeyedLineSegment() {
+        XCTAssertEqual(
+            try decode("[0, 0, 1, 0, 1, 0]"),
+            LineSegment(Vector(0, 0, 1), Vector(0, 1, 0))
+        )
+    }
+
+    func testDecodingUnkeyedZeroLengthLineSegment() {
+        XCTAssertThrowsError(try decode("[0, 0, 1, 0, 0, 1]") as LineSegment)
+    }
+
+    func testEncodingLineSegment() {
+        XCTAssertEqual(
+            try encode(LineSegment(Vector(0, 0, 1), Vector(0, 1, 0))),
+            "[0,0,1,0,1,0]"
+        )
+    }
+
     // MARK: Polygon
 
     func testDecodingPolygon() {
@@ -214,25 +385,28 @@ class CodingTests: XCTestCase {
                 {
                     "position": [0, 0],
                     "normal": [0, 0, 1],
+                    "texcoord": [0, 1],
                 },
                 {
                     "position": [1, 0],
                     "normal": [0, 0, 1],
+                    "texcoord": [1, 1],
                 },
                 {
                     "position": [1, 1],
                     "normal": [0, 0, 1],
+                    "texcoord": [1, 0],
                 }
             ]
         }
         """), Polygon([
-            Vertex(Vector(0, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 1), Vector(0, 0, 1)),
+            Vertex(Vector(0, 0), Vector(0, 0, 1), Vector(0, 1)),
+            Vertex(Vector(1, 0), Vector(0, 0, 1), Vector(1, 1)),
+            Vertex(Vector(1, 1), Vector(0, 0, 1), Vector(1, 0)),
         ]))
     }
 
-    func testKeylessPolygon() {
+    func testDecodingUnkeyedPolygon() {
         XCTAssertEqual(try decode("""
         [
             {
@@ -246,7 +420,21 @@ class CodingTests: XCTestCase {
             {
                 "position": [1, 1],
                 "normal": [0, 0, 1],
-            }
+            },
+        ]
+        """), Polygon([
+            Vertex(Vector(0, 0), Vector(0, 0, 1)),
+            Vertex(Vector(1, 0), Vector(0, 0, 1)),
+            Vertex(Vector(1, 1), Vector(0, 0, 1)),
+        ]))
+    }
+
+    func testDecodingUnkeyedPolygonWithUnkeyedVertices() {
+        XCTAssertEqual(try decode("""
+        [
+            [0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 1],
+            [1, 1, 0, 0, 0, 1],
         ]
         """), Polygon([
             Vertex(Vector(0, 0), Vector(0, 0, 1)),
@@ -285,6 +473,87 @@ class CodingTests: XCTestCase {
                 plane: Plane(normal: Vector(0, 0, 1), w: 0)
             )
         )
+    }
+
+    func testDecodingPolygonWithoutNormals() {
+        XCTAssertEqual(try decode("""
+        {
+            "vertices": [
+                {
+                    "position": [0, 0],
+                    "texcoord": [0, 1],
+                },
+                {
+                    "position": [1, 0],
+                    "texcoord": [1, 1],
+                },
+                {
+                    "position": [1, 1],
+                    "texcoord": [1, 0],
+                }
+            ]
+        }
+        """), Polygon([
+            Vertex(Vector(0, 0), Vector(0, 0, 1), Vector(0, 1)),
+            Vertex(Vector(1, 0), Vector(0, 0, 1), Vector(1, 1)),
+            Vertex(Vector(1, 1), Vector(0, 0, 1), Vector(1, 0)),
+        ]))
+    }
+
+    func testDecodingUnkeyedPolygonWithUnkeyedVerticesWithoutVertexNormal() {
+        XCTAssertEqual(try decode("""
+        [
+            [0, 0],
+            [1, 0],
+            [1, 1],
+        ]
+        """), Polygon([
+            Vertex(Vector(0, 0), Vector(0, 0, 1)),
+            Vertex(Vector(1, 0), Vector(0, 0, 1)),
+            Vertex(Vector(1, 1), Vector(0, 0, 1)),
+        ]))
+    }
+
+    func testEncodingPolygonWithTexcoordsWhereVertexNormalsMatchPlane() throws {
+        let polygon = Polygon(
+            unchecked: [
+                Vertex(Vector(0, 0, 1), Vector(0, 0, 1), Vector(0, 1)),
+                Vertex(Vector(1, 0, 1), Vector(0, 0, 1), Vector(1, 1)),
+                Vertex(Vector(1, 1, 1), Vector(0, 0, 1), Vector(1, 0)),
+            ],
+            plane: Plane(normal: Vector(0, 0, 1), w: 1)
+        )
+        let encoded = try encode(polygon)
+        XCTAssertEqual(try decode(encoded), polygon)
+        XCTAssertEqual(encoded, "[[0,0,1,0,0,1,0,1],[1,0,1,0,0,1,1,1],[1,1,1,0,0,1,1,0]]")
+    }
+
+    func testEncodingPolygonWithoutTexcoordsWhereVertexNormalsMatchPlane() throws {
+        let polygon = Polygon(
+            unchecked: [
+                Vertex(Vector(0, 0, 1), Vector(0, 0, 1)),
+                Vertex(Vector(1, 0, 1), Vector(0, 0, 1)),
+                Vertex(Vector(1, 1, 1), Vector(0, 0, 1)),
+            ],
+            plane: Plane(normal: Vector(0, 0, 1), w: 1)
+        )
+        let encoded = try encode(polygon)
+        XCTAssertEqual(try decode(encoded), polygon)
+        XCTAssertEqual(encoded, "[[0,0,1],[1,0,1],[1,1,1]]")
+    }
+
+    func testEncodingPolygonWhereVertexNormalsDoNotMatchPlane() throws {
+        let polygon = Polygon(
+            unchecked: [
+                Vertex(Vector(0, 0, 1), Vector(0, 0, 1)),
+                Vertex(Vector(1, 0, 1), Vector(0, 0, 1)),
+                Vertex(Vector(1, 1, 1), Vector(0, 0, 1)),
+            ],
+            plane: Plane(normal: Vector(0, 0, -1), w: 1)
+        )
+        let encoded = try encode(polygon)
+        XCTAssertEqual(try decode(encoded), polygon)
+        XCTAssertEqual(encoded, "[[[0,0,1,0,0,1],[1,0,1,0,0,1],[1,1,1,0,0,1]],[0,0,-1,1]]")
     }
 
     // MARK: Material
@@ -326,7 +595,7 @@ class CodingTests: XCTestCase {
     func testEncodingPolygonWithOSColorMaterial() throws {
         #if canImport(UIKit)
         let polygon = Polygon(shape: .square(), material: UIColor.red)
-        XCTAssertEqual(decoded.material, polygon?.material)
+        XCTAssertEqual(polygon?.material, polygon?.material)
         #elseif canImport(AppKit)
         let polygon = Polygon(shape: .square(), material: NSColor.red)
         #else
@@ -376,22 +645,144 @@ class CodingTests: XCTestCase {
         )
     }
 
-    // MARK: PathPoint
-
-    func testDecodingPathPoint3() {
-        XCTAssertEqual(try decode("[1, 2, 3]"), PathPoint.point(1, 2, 3))
+    func testEncodingMeshWithoutMaterial() throws {
+        let mesh = Mesh.extrude(.square())
+        let encoded = try encode(mesh)
+        let decoded = try decode(encoded) as Euclid.Mesh
+        XCTAssertEqual(decoded, mesh)
     }
 
-    func testDecodingPathPoint2() {
+    func testEncodingMeshWithMaterial() throws {
+        let mesh = Mesh.extrude(.square(), material: "foo")
+        let encoded = try encode(mesh)
+        let decoded = try decode(encoded) as Euclid.Mesh
+        XCTAssertEqual(decoded, mesh)
+    }
+
+    func testEncodingMeshWithMixedMaterials() throws {
+        let mesh = Mesh([
+            Polygon(shape: .square(), material: "foo"),
+            Polygon(shape: .square()),
+            Polygon(shape: .square(), material: "bar"),
+        ].compactMap { $0 })
+        let encoded = try encode(mesh)
+        let decoded = try decode(encoded) as Euclid.Mesh
+        XCTAssertEqual(decoded, mesh)
+    }
+
+    // MARK: PathPoint
+
+    func testDecodingPathPoint2D() {
         XCTAssertEqual(try decode("[1, 2]"), PathPoint.point(1, 2))
     }
 
-    func testDecodingCurvedUnkeyedPathPoint3() {
+    func testEncodingPathPoint2D() throws {
+        let encoded = try encode(PathPoint.point(Vector(1, 2)))
+        XCTAssertEqual(encoded, "[1,2]")
+    }
+
+    func testDecodingPathPoint3D() {
+        XCTAssertEqual(try decode("[1, 2, 3]"), PathPoint.point(1, 2, 3))
+    }
+
+    func testEncodingPathPoint3D() throws {
+        let encoded = try encode(PathPoint.point(Vector(1, 2, 3)))
+        XCTAssertEqual(encoded, "[1,2,3]")
+    }
+
+    func testDecodingCurvedPathPoint2D() {
+        XCTAssertEqual(try decode("[1, 2, true]"), PathPoint.curve(1, 2))
+    }
+
+    func testEncodingCurvedPathPoint2D() throws {
+        let encoded = try encode(PathPoint.curve(Vector(1, 2)))
+        XCTAssertEqual(encoded, "[1,2,true]")
+    }
+
+    func testDecodingCurvedPathPoint3D() {
         XCTAssertEqual(try decode("[1, 2, 3, true]"), PathPoint.curve(1, 2, 3))
     }
 
-    func testDecodingCurvedPathPoint2() {
-        XCTAssertEqual(try decode("[1, 2, true]"), PathPoint.curve(1, 2))
+    func testEncodingCurvedPathPoint3D() throws {
+        let encoded = try encode(PathPoint.curve(Vector(1, 2, 3)))
+        XCTAssertEqual(encoded, "[1,2,3,true]")
+    }
+
+    func testDecodingPathPoint2DWithTexcoord() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 4]"),
+            PathPoint.point(Vector(1, 2), texcoord: Vector(3, 4))
+        )
+    }
+
+    func testEncodingPathPoint2DWithTexcoord() throws {
+        let encoded = try encode(PathPoint.point(Vector(1, 2), texcoord: Vector(3, 4)))
+        XCTAssertEqual(encoded, "[1,2,3,4]")
+    }
+
+    func testDecodingPathPoint3DWithTexcoord() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 4, 5]"),
+            PathPoint.point(Vector(1, 2, 3), texcoord: Vector(4, 5))
+        )
+    }
+
+    func testDecodingPathPoint3DWithTexcoord3D() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 4, 5, 6]"),
+            PathPoint.point(Vector(1, 2, 3), texcoord: Vector(4, 5, 6))
+        )
+    }
+
+    func testEncodingPathPoint3DWithTexcoord() throws {
+        let encoded = try encode(PathPoint.point(Vector(1, 2, 3), texcoord: Vector(4, 5)))
+        XCTAssertEqual(encoded, "[1,2,3,4,5]")
+    }
+
+    func testEncodingPathPoint3DWithTexcoord3D() throws {
+        let encoded = try encode(PathPoint.point(Vector(1, 2, 3), texcoord: Vector(4, 5, 6)))
+        XCTAssertEqual(encoded, "[1,2,3,4,5,6]")
+    }
+
+    func testDecodingCurvedPathPoint2DWithTexcoord() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 4, true]"),
+            PathPoint.curve(Vector(1, 2), texcoord: Vector(3, 4))
+        )
+    }
+
+    func testEncodingCurvedPathPoint2DWithTexcoord() throws {
+        let encoded = try encode(PathPoint.curve(Vector(1, 2), texcoord: Vector(3, 4)))
+        XCTAssertEqual(encoded, "[1,2,3,4,true]")
+    }
+
+    func testEncodingCurvedPathPoint2DWithTexcoord3D() throws {
+        let encoded = try encode(PathPoint.curve(Vector(1, 2), texcoord: Vector(3, 4, 5)))
+        XCTAssertEqual(encoded, "[1,2,0,3,4,5,true]")
+    }
+
+    func testDecodingCurvedPathPoint3DWithTexcoord() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 4, 5, true]"),
+            PathPoint.curve(Vector(1, 2, 3), texcoord: Vector(4, 5))
+        )
+    }
+
+    func testDecodingCurvedPathPoint3DWithTexcoord3D() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 4, 5, 6, true]"),
+            PathPoint.curve(Vector(1, 2, 3), texcoord: Vector(4, 5, 6))
+        )
+    }
+
+    func testEncodingCurvedPathPoint3DWithTexcoord() throws {
+        let encoded = try encode(PathPoint.curve(Vector(1, 2, 3), texcoord: Vector(4, 5)))
+        XCTAssertEqual(encoded, "[1,2,3,4,5,true]")
+    }
+
+    func testEncodingCurvedPathPoint3DWithTexcoord3D() throws {
+        let encoded = try encode(PathPoint.curve(Vector(1, 2, 3), texcoord: Vector(4, 5, 6)))
+        XCTAssertEqual(encoded, "[1,2,3,4,5,6,true]")
     }
 
     // MARK: Path
@@ -423,6 +814,10 @@ class CodingTests: XCTestCase {
         XCTAssertEqual(try decode("{}"), Rotation.identity)
     }
 
+    func testEncodingIdentityRotation() {
+        XCTAssertEqual(try encode(Rotation.identity), "[]")
+    }
+
     func testDecodingRollRotation() {
         XCTAssertEqual(try decode("[1]"), Rotation(roll: .radians(1)))
         XCTAssertEqual(try decode("""
@@ -444,8 +839,14 @@ class CodingTests: XCTestCase {
         """), Rotation(roll: .radians(-1)))
     }
 
-    func testEncodeAndDecodingRotation() throws {
+    func testEncodingAndDecodingRotation() throws {
         let rotation = Rotation(axis: Vector(1, 0, 0), angle: .radians(2))!
+        let encoded = try encode(rotation)
+        XCTAssert(try rotation.isEqual(to: decode(encoded)))
+    }
+
+    func testEncodingAndDecodingPitchYawRollRotation() throws {
+        let rotation = Rotation(pitch: .degrees(10), yaw: .degrees(20), roll: .degrees(30))
         let encoded = try encode(rotation)
         XCTAssert(try rotation.isEqual(to: decode(encoded)))
     }

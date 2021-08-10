@@ -256,6 +256,19 @@ class PathTests: XCTestCase {
         XCTAssertNil(path.faceVertices)
     }
 
+    func testFaceVerticesForNonPlanarPath() throws {
+        let path = Path([
+            .point(0, 1),
+            .point(1, 0, 0.2),
+            .point(0, -1),
+            .point(-1, 0, 0.1),
+            .point(0, 1),
+        ])
+        let vertices = try XCTUnwrap(path.faceVertices)
+        XCTAssertEqual(vertices.count, 4)
+        XCTAssert(vertices.allSatisfy { $0.normal.z < 0 })
+    }
+
     // MARK: edgeVertices
 
     func testEdgeVerticesForSmoothedClosedRect() {
@@ -477,6 +490,35 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices[1].normal, Vector(-1, 0))
     }
 
+    func testEdgeVerticesForZigZag() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(0, 1),
+            .point(1, 1),
+        ])
+        let vertices = path.edgeVertices
+        XCTAssertEqual(vertices.count, 6)
+        guard vertices.count >= 6 else { return }
+        // positions
+        XCTAssertEqual(vertices[0].position, Vector(0, 0))
+        XCTAssertEqual(vertices[1].position, Vector(1, 0))
+        XCTAssertEqual(vertices[2].position, Vector(1, 0))
+        XCTAssertEqual(vertices[3].position, Vector(0, 1))
+        XCTAssertEqual(vertices[4].position, Vector(0, 1))
+        XCTAssertEqual(vertices[5].position, Vector(1, 1))
+        // texture coords
+        XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
+        XCTAssertEqual(vertices[5].texcoord, Vector(0, 1))
+        // normals
+        XCTAssertEqual(vertices[0].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[1].normal, Vector(0, -1))
+        XCTAssert(vertices[2].normal.isEqual(to: Vector(1, 1).normalized()))
+        XCTAssert(vertices[3].normal.isEqual(to: Vector(1, 1).normalized()))
+        XCTAssertEqual(vertices[4].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[5].normal, Vector(0, -1))
+    }
+
     // MARK: Y-axis clipping
 
     func testClipClosedClockwiseTriangleToRightOfAxis() {
@@ -552,11 +594,13 @@ class PathTests: XCTestCase {
             .point(0, -1),
         ])
         XCTAssertEqual(path.subpaths, [path])
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testSimpleClosedPathHasNoSubpaths() {
         let path = Path.square()
         XCTAssertEqual(path.subpaths, [path])
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testPathWithLineEndingInLoopHasCorrectSubpaths() {
@@ -581,6 +625,7 @@ class PathTests: XCTestCase {
                 .point(1, 0),
             ]),
         ])
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testPathWithLoopEndingInLineHasCorrectSubpaths() {
@@ -605,6 +650,7 @@ class PathTests: XCTestCase {
                 .point(-1, 0),
             ]),
         ])
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testPathWithConjoinedLoopsHasCorrectSubpaths() {
@@ -635,6 +681,7 @@ class PathTests: XCTestCase {
                 .point(0, 0),
             ]),
         ])
+        XCTAssertNil(path.plane)
     }
 
     func testPathWithTwoSeparateLoopsHasCorrectSubpaths() {
@@ -666,5 +713,52 @@ class PathTests: XCTestCase {
                 .point(2, 0),
             ]),
         ])
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+    }
+
+    func testNestedSubpathsAreFlattenedCorrectly() {
+        let path1 = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1),
+            .point(0, 1),
+            .point(0, 0),
+            .point(2, 0),
+            .point(3, 0),
+            .point(3, 1),
+            .point(2, 1),
+            .point(2, 0),
+        ])
+        XCTAssertEqual(path1.plane?.normal, Vector(0, 0, 1))
+        let path2 = Path([
+            .point(5, 1),
+            .point(4, -1),
+            .point(5, -1),
+        ])
+        XCTAssertEqual(path2.plane?.normal, Vector(0, 0, 1))
+        let path3 = Path(subpaths: [path1, path2])
+        XCTAssertEqual(path3.subpaths, [
+            Path([
+                .point(0, 0),
+                .point(1, 0),
+                .point(1, 1),
+                .point(0, 1),
+                .point(0, 0),
+            ]),
+            Path([
+                .point(2, 0),
+                .point(3, 0),
+                .point(3, 1),
+                .point(2, 1),
+                .point(2, 0),
+            ]),
+            Path([
+                .point(2, 0),
+                .point(5, 1),
+                .point(4, -1),
+                .point(5, -1),
+            ]),
+        ])
+        XCTAssertNil(path3.plane)
     }
 }

@@ -44,6 +44,16 @@ public struct Plane: Hashable {
     }
 }
 
+extension Plane: Comparable {
+    /// Provides a stable sort order for Planes
+    public static func < (lhs: Plane, rhs: Plane) -> Bool {
+        if lhs.normal == rhs.normal {
+            return lhs.w < rhs.w
+        }
+        return lhs.normal < rhs.normal
+    }
+}
+
 extension Plane: Codable {
     private enum CodingKeys: CodingKey {
         case normal, w
@@ -51,11 +61,8 @@ extension Plane: Codable {
 
     public init(from decoder: Decoder) throws {
         if var container = try? decoder.unkeyedContainer() {
-            let x = try container.decode(Double.self)
-            let y = try container.decode(Double.self)
-            let z = try container.decode(Double.self)
-            normal = Vector(x, y, z).normalized()
-            w = try container.decode(Double.self)
+            self.normal = try Vector(from: &container).normalized()
+            self.w = try container.decode(Double.self)
         } else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             normal = try container.decode(Vector.self, forKey: .normal).normalized()
@@ -65,9 +72,7 @@ extension Plane: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        try container.encode(normal.x)
-        try container.encode(normal.y)
-        try container.encode(normal.z)
+        try normal.encode(to: &container)
         try container.encode(w)
     }
 }
@@ -90,29 +95,24 @@ public extension Plane {
     /// The polygon can be convex or concave. The direction of the plane normal is
     /// based on the assumption that the points are wound in an anticlockwise direction
     init?(points: [Vector]) {
-        guard let first = points.first else {
-            return nil
-        }
-        if points.count > 3, !pointsAreDegenerate(points) {
-            self.init(unchecked: points)
-            // Check all points lie on this plane
-            if points.contains(where: { !containsPoint($0) }) {
-                return nil
-            }
-        } else {
-            let normal = faceNormalForConvexPoints(points)
-            self.init(normal: normal, pointOnPlane: first)
-        }
+        self.init(points: points, convex: nil)
     }
 
     /// Returns the flipside of the plane
     func inverted() -> Plane {
-        return Plane(unchecked: -normal, w: -w)
+        Plane(unchecked: -normal, w: -w)
     }
 
     /// Checks if point is on plane
     func containsPoint(_ p: Vector) -> Bool {
-        return abs(p.distance(from: self)) < epsilon
+        abs(p.distance(from: self)) < epsilon
+    }
+
+    /// Distance of the point from a plane
+    /// A positive value is returned if the point lies in front of the plane
+    /// A negative value is returned if the point lies behind the plane
+    func distance(from p: Vector) -> Double {
+        normal.dot(p) - w
     }
 
     /// Returns line of intersection between planes
@@ -124,6 +124,20 @@ public extension Plane {
             return nil
         }
         return Line(origin: origin, direction: normal.cross(p.normal))
+    }
+
+    /// Returns point intersection between plane and line
+    func intersection(with line: Line) -> Vector? {
+        // https://en.wikipedia.org/wiki/Line–plane_intersection#Algebraic_form
+        let lineDotPlaneNormal = line.direction.dot(normal)
+        guard abs(lineDotPlaneNormal) > epsilon else {
+            // Line and plane are parallel
+            return nil
+        }
+        let planePoint = normal * w
+        let d = (planePoint - line.origin).dot(normal) / lineDotPlaneNormal
+        let intersection = line.origin + line.direction * d
+        return intersection
     }
 }
 
@@ -138,25 +152,26 @@ internal extension Plane {
         self.init(unchecked: normal, w: normal.dot(pointOnPlane))
     }
 
-    init(unchecked points: [Vector], convex: Bool? = nil) {
-        assert(!pointsAreDegenerate(points))
-        var normal = faceNormalForConvexPoints(points)
-        let convex = convex ?? pointsAreConvex(points)
-        if !convex {
-            let flatteningPlane = FlatteningPlane(points: points)
-            let flattenedPoints = points.map { flatteningPlane.flattenPoint($0) }
-            let flattenedNormal = faceNormalForConvexPoints(flattenedPoints)
-            let isClockwise = flattenedPointsAreClockwise(flattenedPoints)
-            if (flattenedNormal.z > 0) == isClockwise {
-                normal = -normal
-            }
+    init?(points: [Vector], convex: Bool?) {
+        guard !points.isEmpty, !pointsAreDegenerate(points) else {
+            return nil
         }
+        self.init(unchecked: points, convex: convex)
+        // Check all points lie on this plane
+        if points.contains(where: { !containsPoint($0) }) {
+            return nil
+        }
+    }
+
+    init(unchecked points: [Vector], convex: Bool?) {
+        assert(!pointsAreDegenerate(points))
+        let normal = faceNormalForPolygonPoints(points, convex: convex)
         self.init(unchecked: normal, pointOnPlane: points[0])
     }
 
     // Approximate equality
     func isEqual(to other: Plane, withPrecision p: Double = epsilon) -> Bool {
-        return abs(w - other.w) < p && normal.isEqual(to: other.normal, withPrecision: p)
+        abs(w - other.w) < p && normal.isEqual(to: other.normal, withPrecision: p)
     }
 }
 
@@ -168,7 +183,7 @@ enum PlaneComparison: Int {
     case spanning = 3
 
     func union(_ other: PlaneComparison) -> PlaneComparison {
-        return PlaneComparison(rawValue: rawValue | other.rawValue)!
+        PlaneComparison(rawValue: rawValue | other.rawValue)!
     }
 }
 
@@ -185,28 +200,19 @@ enum FlatteningPlane: RawRepresentable {
         }
     }
 
-    init(bounds: Bounds) {
-        let size = bounds.size
-        if size.x > size.y {
-            self = size.z > size.y ? .xz : .xy
-        } else {
-            self = size.z > size.x ? .yz : .xy
-        }
-    }
-
     init(normal: Vector) {
         switch (abs(normal.x), abs(normal.y), abs(normal.z)) {
         case let (x, y, z) where x > y && x > z:
             self = .yz
-        case let (x, y, z) where y > x && y > z:
+        case let (x, y, z) where x > z || y > z:
             self = .xz
         default:
             self = .xy
         }
     }
 
-    init(points: [Vector]) {
-        self.init(bounds: Bounds(points: points))
+    init(points: [Vector], convex: Bool?) {
+        self.init(normal: faceNormalForPolygonPoints(points, convex: convex))
     }
 
     init?(rawValue: Plane) {

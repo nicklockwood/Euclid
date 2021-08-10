@@ -1,8 +1,8 @@
 [![PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UJWT2RWPE7VA8&source=url)
-[![Travis](https://travis-ci.org/nicklockwood/Euclid.svg)](https://travis-ci.org/nicklockwood/Euclid)
-[![Coveralls](https://coveralls.io/repos/github/nicklockwood/Euclid/badge.svg?branch=master)](https://coveralls.io/github/nicklockwood/Euclid)
-[![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20macOS%20|%20tvOS%20|%20Linux-lightgray.svg)]()
-[![Swift 4.2](https://img.shields.io/badge/swift-4.2-red.svg?style=flat)](https://developer.apple.com/swift)
+[![Build](https://github.com/nicklockwood/Euclid/actions/workflows/build.yml/badge.svg)](https://github.com/nicklockwood/Euclid/actions/workflows/build.yml)
+[![Codecov](https://codecov.io/gh/nicklockwood/Euclid/graphs/badge.svg)](https://codecov.io/gh/nicklockwood/Euclid)
+[![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20Mac%20|%20tvOS%20|%20Linux-lightgray.svg)]()
+[![Swift 5.1](https://img.shields.io/badge/swift-5.1-red.svg?style=flat)](https://developer.apple.com/swift)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://opensource.org/licenses/MIT)
 [![Twitter](https://img.shields.io/badge/twitter-@nicklockwood-blue.svg)](http://twitter.com/nicklockwood)
 
@@ -39,19 +39,19 @@ Euclid is packaged as a dynamic framework that you can import into your Xcode pr
 To install Euclid using CocoaPods, add the following to your Podfile:
 
 ```ruby
-pod 'Euclid', '~> 0.3'
+pod 'Euclid', '~> 0.5'
 ```
 
 To install using Carthage, add this to your Cartfile:
 
 ```ogdl
-github "nicklockwood/Euclid" ~> 0.3
+github "nicklockwood/Euclid" ~> 0.5
 ```
 
 To install using Swift Package Manage, add this to the `dependencies:` section in your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.3.0")),
+.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.5.0")),
 ```
 
 
@@ -122,6 +122,10 @@ A closed, flat `Path` without nested subpaths can be converted into a `Polygon`,
 
 `Path`s are typically 2-dimensional, but because `PathPoint` positions have a Z coordinate, they are not *required* to be. Even a flat `Path` (where all points lie on the same plane) can be translated or rotated so that its points do not necessarily lie on the *XY* plane.
 
+## Angle
+
+The `Angle` type represents an angle in radians or degrees.
+
 ## Rotation
 
 A `Rotation` represents an orientation or rotation in 3D space. Internally, `Rotation` is stored as a 3x3 matrix, but that's an implementation detail that may change in future. `Rotation`s can be converted to and from an axis vector and angle, or a set of 3 Euler angles (pitch, yaw and roll).
@@ -162,6 +166,7 @@ Geometric primitives are all very well, but there is a limit to what you can cre
 Builders create a 3D `Mesh` from a (typically) 2D `Path`. The following builders are defined as static constructor functions on the `Mesh` type:
 
 - `fill` - This builder fills a single `Path` to create a pair of `Polygon`s (front and back faces).
+- `stroke` - This builder strokes a single `Path` to create a line of quads. 
 - `lathe` - This builder takes a 2D `Path` and rotates it around the Y-axis to create a rotationally symmetrical `Mesh`. This is an easy way to create complex shapes like candlesticks, chess pieces, rocket ships, etc.
 - `extrude` - This builder fills a `Path` and extrudes it along its axis, or another path. This can turn a circular path into a tube, or a square into a cube etc.
 - `loft` - This builder is similar to `extrude`, but takes multiple `Path`s and joins them. The `Path`s do not need to be the same shape, but must all have the same number of points and subpaths. To work correctly, the `Path`s must be pre-positioned in 3D space so they do not all lie on the same plane.
@@ -254,3 +259,6 @@ The Euclid framework is primarily the work of [Nick Lockwood](https://github.com
 Special thanks go to [Evan Wallace](https://github.com/evanw/), whose [JavaScript CSG library](https://github.com/evanw/csg.js) provided the inspiration for Euclid in the first place, along with the BSP algorithm used for Euclid's CSG operations.
 
 Thanks also go to [Andy Geers](https://github.com/andygeers) who has provided several bug fixes and improvements, and [Patrick Goley](https://twitter.com/bitsbetweenbits) who first suggested "Euclid" for the library name.
+
+([Full list of contributors](https://github.com/nicklockwood/Euclid/graphs/contributors))
+

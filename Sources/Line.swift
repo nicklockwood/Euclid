@@ -29,7 +29,7 @@
 //  SOFTWARE.
 //
 
-public struct Line: Hashable, Codable {
+public struct Line: Hashable {
     public let origin, direction: Vector
 
     /// Creates a line from an origin and direction
@@ -38,8 +38,47 @@ public struct Line: Hashable, Codable {
         guard length.isFinite, length > epsilon else {
             return nil
         }
-        self.origin = origin
-        self.direction = direction / length
+        self.init(unchecked: origin, direction: direction / length)
+    }
+}
+
+extension Line: Codable {
+    private enum CodingKeys: CodingKey {
+        case origin, direction
+    }
+
+    public init(from decoder: Decoder) throws {
+        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+            guard let line = try Line(
+                origin: container.decode(Vector.self, forKey: .origin),
+                direction: container.decode(Vector.self, forKey: .direction)
+            ) else {
+                throw DecodingError.dataCorruptedError(
+                    forKey: .direction,
+                    in: container,
+                    debugDescription: "Line direction must have nonzero length"
+                )
+            }
+            self = line
+        } else {
+            var container = try decoder.unkeyedContainer()
+            guard let line = try Line(
+                origin: Vector(from: &container),
+                direction: Vector(from: &container)
+            ) else {
+                throw DecodingError.dataCorruptedError(
+                    in: container,
+                    debugDescription: "Line direction must have nonzero length"
+                )
+            }
+            self = line
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try origin.encode(to: &container)
+        try direction.encode(to: &container)
     }
 }
 
@@ -48,43 +87,58 @@ public extension Line {
         self.init(unchecked: segment.start, direction: segment.direction)
     }
 
-    func distance(from point: Vector) -> Double {
-        // See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-        let d = point - origin
-        let v = d - (direction * d.dot(direction))
-        return v.length
+    /// Check if point is on line
+    func containsPoint(_ p: Vector) -> Bool {
+        abs(p.distance(from: self)) < epsilon
     }
 
-    func intersection(with: Line) -> Vector? {
-        if direction.z == 0, with.direction.z == 0, origin.z == with.origin.z {
-            return lineIntersection(origin, origin + direction, with.origin, with.origin + with.direction)
-        } else if direction.y == 0, with.direction.y == 0, origin.y == with.origin.y {
-            // Switch dimensions and then solve
-            let p0 = Vector(origin.x, origin.z, origin.y)
-            let p1 = p0 + Vector(direction.x, direction.z, 0)
-            let p2 = Vector(with.origin.x, with.origin.z, with.origin.y)
-            let p3 = p2 + Vector(with.direction.x, with.direction.z, 0)
-            let solution = lineIntersection(p0, p1, p2, p3)
-            return solution.map { Vector($0.x, $0.z, $0.y) }
-        } else if direction.x == 0, with.direction.x == 0, origin.x == with.origin.x {
-            // Switch dimensions and then solve
-            let p0 = Vector(origin.y, origin.z, origin.x)
-            let p1 = p0 + Vector(direction.y, direction.z, 0)
-            let p2 = Vector(with.origin.y, with.origin.z, with.origin.x)
-            let p3 = p2 + Vector(with.direction.y, with.direction.z, 0)
-            let solution = lineIntersection(p0, p1, p2, p3)
-            return solution.map { Vector($0.z, $0.x, $0.y) }
-        } else {
-            // TODO: Generalize to 3D
-            return nil
+    /// Distance of the line from a given point in 3D
+    func distance(from point: Vector) -> Double {
+        vectorFromPointToLine(point, origin, direction).length
+    }
+
+    /// Distance of the line from another line
+    func distance(from line: Line) -> Double {
+        guard let (p0, p1) = shortestLineBetween(
+            origin,
+            origin + direction,
+            line.origin,
+            line.origin + line.direction
+        ) else {
+            return 0
         }
+        return (p1 - p0).length
+    }
+
+    /// Intersection point betwween plane and line (if any)
+    func intersection(with plane: Plane) -> Vector? {
+        plane.intersection(with: self)
+    }
+
+    /// Intersection point between lines (if any)
+    func intersection(with line: Line) -> Vector? {
+        lineIntersection(
+            origin,
+            origin + direction,
+            line.origin,
+            line.origin + line.direction
+        )
+    }
+
+    /// Returns true if the lines intersect
+    func intersects(_ line: Line) -> Bool {
+        intersection(with: line) != nil
     }
 }
 
 internal extension Line {
     init(unchecked origin: Vector, direction: Vector) {
         assert(direction.isNormalized)
-        self.origin = origin
+        self.origin = origin - direction * (
+            direction.x != 0 ? origin.x / direction.x :
+                direction.y != 0 ? origin.y / direction.y :
+                origin.z / direction.z
+        )
         self.direction = direction
     }
 }
