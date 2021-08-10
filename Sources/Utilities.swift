@@ -297,7 +297,7 @@ func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Vector {
         let normal = ab.cross(unitZ).cross(ab)
         let lengthSquared = normal.lengthSquared
         guard lengthSquared > epsilon else {
-            return unitZ
+            return Vector(1, 0, 0)
         }
         return normal / lengthSquared.squareRoot()
     default:
