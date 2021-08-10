@@ -1,3 +1,8 @@
+## [0.5.6](https://github.com/nicklockwood/Euclid/releases/tag/0.5.6) (2021-08-10)
+
+- Fixed axis alignment bug when extruding complex shapes along a custom path
+- Increased epsilon precision to fix mesh corruption issues in extruded text paths
+
 ## [0.5.5](https://github.com/nicklockwood/Euclid/releases/tag/0.5.5) (2021-08-09)
 
 - Vertices with zero normals are automatically corrected to use the face normal
