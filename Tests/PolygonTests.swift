@@ -641,10 +641,11 @@ class PolygonTests: XCTestCase {
     }
 
     func testSlightlyNonPlanarPolygonTriangulated() {
+        let offset = epsilon / 2
         let path = Path([
             .point(1.086, 0, 0.17),
             .point(1.086, 0, 0.14),
-            .point(0.95, 0.00000001, 0.14),
+            .point(0.95, offset, 0.14),
             .point(0.935, 0, 0.1),
             .point(0.935, 0, 0.17),
             .point(1.086, 0, 0.17),
@@ -665,10 +666,10 @@ class PolygonTests: XCTestCase {
             [
                 Vector(0.9349999999999999, 0.0, 0.16999999999999998),
                 Vector(1.086, 0.0, 0.13999999999999999),
-                Vector(0.95, 1e-08, 0.13999999999999999),
+                Vector(0.95, offset, 0.13999999999999999),
             ],
             [
-                Vector(0.95, 1e-08, 0.13999999999999999),
+                Vector(0.95, offset, 0.13999999999999999),
                 Vector(0.9349999999999999, 0.0, 0.09999999999999999),
                 Vector(0.9349999999999999, 0.0, 0.16999999999999998),
             ],
@@ -678,10 +679,11 @@ class PolygonTests: XCTestCase {
     }
 
     func testInvertedSlightlyNonPlanarPolygonTriangulated() {
+        let offset = epsilon / 2
         let path = Path([
             .point(1.086, 0, 0.17),
             .point(1.086, 0, 0.14),
-            .point(0.95, 0.00000001, 0.14),
+            .point(0.95, offset, 0.14),
             .point(0.935, 0, 0.1),
             .point(0.935, 0, 0.17),
             .point(1.086, 0, 0.17),
@@ -700,14 +702,14 @@ class PolygonTests: XCTestCase {
                 Vector(0.9349999999999999, 0.0, 0.16999999999999998),
             ],
             [
-                Vector(0.95, 1e-08, 0.13999999999999999),
+                Vector(0.95, offset, 0.13999999999999999),
                 Vector(1.086, 0.0, 0.13999999999999999),
                 Vector(0.9349999999999999, 0.0, 0.16999999999999998),
             ],
             [
                 Vector(0.9349999999999999, 0.0, 0.16999999999999998),
                 Vector(0.9349999999999999, 0.0, 0.09999999999999999),
-                Vector(0.95, 1e-08, 0.13999999999999999),
+                Vector(0.95, offset, 0.13999999999999999),
             ],
         ])
         let merged = triangles.detessellate(ensureConvex: false)

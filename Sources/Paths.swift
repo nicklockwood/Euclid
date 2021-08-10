@@ -614,14 +614,13 @@ func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
     // Remove invalid points
     let isClosed = pointsAreClosed(unchecked: result)
     if result.count > (isClosed ? 3 : 2), let a = result.first?.position {
-        let threshold = 1e-10
         var ab = result[1].position - a
         var i = 1
         while i < result.count - 1 {
             let b = result[i].position
             let c = result[i + 1].position
             let bc = c - b
-            if ab.cross(bc).length < epsilon, ab.dot(bc) <= threshold {
+            if ab.cross(bc).length < epsilon, ab.dot(bc) <= epsilon {
                 // center point makes path degenerate - remove it
                 result.remove(at: i)
                 ab = result[i].position - result[i - 1].position

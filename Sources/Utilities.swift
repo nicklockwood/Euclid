@@ -30,7 +30,7 @@
 //
 
 // Tolerance used for calculating approximate equality
-let epsilon = 1e-6
+let epsilon = 1e-10
 
 // Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
@@ -194,14 +194,13 @@ func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
 }
 
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {
-    let threshold = 1e-10
     let count = points.count
     guard count > 1, let a = points.last else {
         return false
     }
     var ab = points[0] - a
     var length = ab.length
-    guard length > threshold else {
+    guard length > epsilon else {
         return true
     }
     if count < 3 {
@@ -213,11 +212,11 @@ func pointsAreDegenerate(_ points: [Vector]) -> Bool {
         let c = points[(i + 1) % count]
         var bc = c - b
         length = bc.length
-        guard length > threshold else {
+        guard length > epsilon else {
             return true
         }
         bc = bc / length
-        guard abs(ab.dot(bc) + 1) > threshold else {
+        guard abs(ab.dot(bc) + 1) > epsilon else {
             return true
         }
         ab = bc
