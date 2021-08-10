@@ -131,25 +131,14 @@ class CodingTests: XCTestCase {
     }
 
     func testEncodingDirection3() {
-        #if os(Linux)
-        XCTAssertEqual(
-            try encode(Direction(x: 1, y: 2, z: 3)),
-            "[0.267261241912424,0.534522483824849,0.801783725737273]"
-        )
-        #else
         XCTAssertEqual(
             try encode(Direction(x: 1, y: 2, z: 3)),
             "[0.2672612419124244,0.53452248382484879,0.80178372573727319]"
         )
-        #endif
     }
 
     func testEncodingDirection2() {
-        #if os(Linux)
-        XCTAssertEqual(try encode(Direction(x: 1, y: 2)), "[0.447213595499958,0.894427190999916]")
-        #else
         XCTAssertEqual(try encode(Direction(x: 1, y: 2)), "[0.44721359549995793,0.89442719099991586]")
-        #endif
     }
 
     // MARK: Vertex
