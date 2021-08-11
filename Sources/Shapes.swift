@@ -639,10 +639,12 @@ public extension Mesh {
         let shapePlane = shape.flatteningPlane
         let pathPlane = along.flatteningPlane
         switch (shapePlane, pathPlane) {
-        case (.xy, .xy), (.xz, .xz):
-            shape = shape.rotated(by: .pitch(.halfPi))
+        case (.xy, .xy):
+            shape = shape.rotated(by: .roll(.halfPi))
         case (.yz, .yz):
             shape = shape.rotated(by: .yaw(.halfPi))
+        case (.xz, .xz):
+            shape = shape.rotated(by: .pitch(.halfPi))
         default:
             break
         }
