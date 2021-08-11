@@ -123,4 +123,16 @@ class UtilityTests: XCTestCase {
         )
         XCTAssertEqual(result, Vector(0, -1, 0))
     }
+
+    // MARK: faceNormalForPolygonPoints
+
+    func testFaceNormalForVerticalLine() {
+        let result = faceNormalForPolygonPoints([.zero, Vector(0, 0, 1)], convex: nil)
+        XCTAssertEqual(result, Vector(1, 0, 0))
+    }
+
+    func testFaceNormalForHorizontalLine() {
+        let result = faceNormalForPolygonPoints([.zero, Vector(1, 0, 0)], convex: nil)
+        XCTAssertEqual(result, Vector(0, 0, 1))
+    }
 }
