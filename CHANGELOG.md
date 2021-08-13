@@ -1,3 +1,7 @@
+## [0.5.7](https://github.com/nicklockwood/Euclid/releases/tag/0.5.7) (2021-08-13)
+
+- Fixed a regression in `SCNGeometry(_ path:)` introduced in version 0.3.6
+
 ## [0.5.6](https://github.com/nicklockwood/Euclid/releases/tag/0.5.6) (2021-08-10)
 
 - Fixed axis alignment bug when extruding complex shapes along a custom path
