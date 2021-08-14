@@ -388,7 +388,7 @@ internal extension Polygon {
         let isConvex = isConvex ?? pointsAreConvex(points)
         self.storage = Storage(
             vertices: vertices.map {
-                $0.with(normal: $0.normal == .zero ? plane.normal : $0.normal)
+                $0.with(normal: $0.normal == .zero ? Direction(plane.normal) : $0.normal)
             },
             plane: plane,
             isConvex: isConvex,

@@ -21,9 +21,8 @@ class UtilityTests: XCTestCase {
             Vector(-0.16346853203274558, 0, -0.06771088298918408),
         ]
         XCTAssertTrue(pointsAreConvex(vectors))
-        let normal = Vector(0, 1, 0)
         let offset = Vector(0, 0, 3)
-        let vertices = vectors.map { Vertex($0, normal).translated(by: offset) }
+        let vertices = vectors.map { Vertex($0, .y).translated(by: offset) }
         XCTAssertTrue(verticesAreConvex(vertices))
     }
 
@@ -40,7 +39,7 @@ class UtilityTests: XCTestCase {
     // MARK: degeneracy
 
     func testDegenerateColinearVertices() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         let vertices = [
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(0, 0), normal),
@@ -50,7 +49,7 @@ class UtilityTests: XCTestCase {
     }
 
     func testNonDegenerateColinearVertices() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         let vertices = [
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(0, 0), normal),
@@ -61,7 +60,7 @@ class UtilityTests: XCTestCase {
     }
 
     func testDegenerateVerticesWithZeroLengthEdge() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         let vertices = [
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(0, -1), normal),

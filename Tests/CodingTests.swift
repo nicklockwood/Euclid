@@ -161,7 +161,7 @@ class CodingTests: XCTestCase {
             "normal": [1, 0, 0],
             "texcoord": [0, 1]
         }
-        """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1)))
+        """), Vertex(Vector(1, 2, 2), .x, Vector(0, 1)))
     }
 
     func testDecodingVertexWithTexcoord3D() {
@@ -171,33 +171,33 @@ class CodingTests: XCTestCase {
             "normal": [1, 0, 0],
             "texcoord": [0, 1, 2]
         }
-        """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 2)))
+        """), Vertex(Vector(1, 2, 2), .x, Vector(0, 1, 2)))
     }
 
     func testDecodingFlattenedVertex() {
         XCTAssertEqual(
             try decode("[1, 2, 2, 1, 0, 0, 0, 1]"),
-            Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1))
+            Vertex(Vector(1, 2, 2), .x, Vector(0, 1))
         )
     }
 
     func testDecodingFlattenedVertexWithTexcoord3D() {
         XCTAssertEqual(
             try decode("[1, 2, 2, 1, 0, 0, 0, 1, 2]"),
-            Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 2))
+            Vertex(Vector(1, 2, 2), .x, Vector(0, 1, 2))
         )
     }
 
     func testEncodingVertex() {
         XCTAssertEqual(
-            try encode(Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1))),
+            try encode(Vertex(Vector(1, 2, 2), .x, Vector(0, 1))),
             "[1,2,2,1,0,0,0,1]"
         )
     }
 
     func testEncodingVertexWithTexcoord3D() {
         XCTAssertEqual(
-            try encode(Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1, 2))),
+            try encode(Vertex(Vector(1, 2, 2), .x, Vector(0, 1, 2))),
             "[1,2,2,1,0,0,0,1,2]"
         )
     }
@@ -208,26 +208,26 @@ class CodingTests: XCTestCase {
             "position": [1, 2, 2],
             "normal": [1, 0, 0]
         }
-        """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), .zero))
+        """), Vertex(Vector(1, 2, 2), .x, .zero))
     }
 
     func testDecodingFlattenedVertexWithoutTexcoord() {
         XCTAssertEqual(
             try decode("[1, 2, 2, 1, 0, 0]"),
-            Vertex(Vector(1, 2, 2), Vector(1, 0, 0))
+            Vertex(Vector(1, 2, 2), .x)
         )
     }
 
     func testEncodingVertexWithoutTexcoord() {
         XCTAssertEqual(
-            try encode(Vertex(Vector(1, 2, 2), Vector(1, 0, 0))),
+            try encode(Vertex(Vector(1, 2, 2), .x)),
             "[1,2,2,1,0,0]"
         )
     }
 
     func testEncodingVertex2DWithoutTexcoord() {
         XCTAssertEqual(
-            try encode(Vertex(Vector(1, 2), Vector(1, 0, 0))),
+            try encode(Vertex(Vector(1, 2), .x)),
             "[1,2,0,1,0,0]"
         )
     }
@@ -262,7 +262,7 @@ class CodingTests: XCTestCase {
         }
         """), Vertex(
             Vector(1, 2, 2),
-            Vector(0.3333333333333333, 0.6666666666666666, 0.6666666666666666),
+            Direction(0.3333333333333333, 0.6666666666666666, 0.6666666666666666),
             .zero
         ))
     }
@@ -400,9 +400,9 @@ class CodingTests: XCTestCase {
             ]
         }
         """), Polygon([
-            Vertex(Vector(0, 0), Vector(0, 0, 1), Vector(0, 1)),
-            Vertex(Vector(1, 0), Vector(0, 0, 1), Vector(1, 1)),
-            Vertex(Vector(1, 1), Vector(0, 0, 1), Vector(1, 0)),
+            Vertex(Vector(0, 0), .z, Vector(0, 1)),
+            Vertex(Vector(1, 0), .z, Vector(1, 1)),
+            Vertex(Vector(1, 1), .z, Vector(1, 0)),
         ]))
     }
 
@@ -423,9 +423,9 @@ class CodingTests: XCTestCase {
             },
         ]
         """), Polygon([
-            Vertex(Vector(0, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 1), Vector(0, 0, 1)),
+            Vertex(Vector(0, 0), .z),
+            Vertex(Vector(1, 0), .z),
+            Vertex(Vector(1, 1), .z),
         ]))
     }
 
@@ -437,9 +437,9 @@ class CodingTests: XCTestCase {
             [1, 1, 0, 0, 0, 1],
         ]
         """), Polygon([
-            Vertex(Vector(0, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 1), Vector(0, 0, 1)),
+            Vertex(Vector(0, 0), .z),
+            Vertex(Vector(1, 0), .z),
+            Vertex(Vector(1, 1), .z),
         ]))
     }
 
@@ -466,9 +466,9 @@ class CodingTests: XCTestCase {
             """),
             Polygon(
                 unchecked: [
-                    Vertex(Vector(0, 0), Vector(0, 0, 1)),
-                    Vertex(Vector(1, 0), Vector(0, 0, 1)),
-                    Vertex(Vector(1, 1), Vector(0, 0, 1)),
+                    Vertex(Vector(0, 0), .z),
+                    Vertex(Vector(1, 0), .z),
+                    Vertex(Vector(1, 1), .z),
                 ],
                 plane: Plane(normal: Vector(0, 0, 1), w: 0)
             )
@@ -494,9 +494,9 @@ class CodingTests: XCTestCase {
             ]
         }
         """), Polygon([
-            Vertex(Vector(0, 0), Vector(0, 0, 1), Vector(0, 1)),
-            Vertex(Vector(1, 0), Vector(0, 0, 1), Vector(1, 1)),
-            Vertex(Vector(1, 1), Vector(0, 0, 1), Vector(1, 0)),
+            Vertex(Vector(0, 0), .z, Vector(0, 1)),
+            Vertex(Vector(1, 0), .z, Vector(1, 1)),
+            Vertex(Vector(1, 1), .z, Vector(1, 0)),
         ]))
     }
 
@@ -508,18 +508,18 @@ class CodingTests: XCTestCase {
             [1, 1],
         ]
         """), Polygon([
-            Vertex(Vector(0, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 0), Vector(0, 0, 1)),
-            Vertex(Vector(1, 1), Vector(0, 0, 1)),
+            Vertex(Vector(0, 0), .z),
+            Vertex(Vector(1, 0), .z),
+            Vertex(Vector(1, 1), .z),
         ]))
     }
 
     func testEncodingPolygonWithTexcoordsWhereVertexNormalsMatchPlane() throws {
         let polygon = Polygon(
             unchecked: [
-                Vertex(Vector(0, 0, 1), Vector(0, 0, 1), Vector(0, 1)),
-                Vertex(Vector(1, 0, 1), Vector(0, 0, 1), Vector(1, 1)),
-                Vertex(Vector(1, 1, 1), Vector(0, 0, 1), Vector(1, 0)),
+                Vertex(Vector(0, 0, 1), .z, Vector(0, 1)),
+                Vertex(Vector(1, 0, 1), .z, Vector(1, 1)),
+                Vertex(Vector(1, 1, 1), .z, Vector(1, 0)),
             ],
             plane: Plane(normal: Vector(0, 0, 1), w: 1)
         )
@@ -531,9 +531,9 @@ class CodingTests: XCTestCase {
     func testEncodingPolygonWithoutTexcoordsWhereVertexNormalsMatchPlane() throws {
         let polygon = Polygon(
             unchecked: [
-                Vertex(Vector(0, 0, 1), Vector(0, 0, 1)),
-                Vertex(Vector(1, 0, 1), Vector(0, 0, 1)),
-                Vertex(Vector(1, 1, 1), Vector(0, 0, 1)),
+                Vertex(Vector(0, 0, 1), .z),
+                Vertex(Vector(1, 0, 1), .z),
+                Vertex(Vector(1, 1, 1), .z),
             ],
             plane: Plane(normal: Vector(0, 0, 1), w: 1)
         )
@@ -545,9 +545,9 @@ class CodingTests: XCTestCase {
     func testEncodingPolygonWhereVertexNormalsDoNotMatchPlane() throws {
         let polygon = Polygon(
             unchecked: [
-                Vertex(Vector(0, 0, 1), Vector(0, 0, 1)),
-                Vertex(Vector(1, 0, 1), Vector(0, 0, 1)),
-                Vertex(Vector(1, 1, 1), Vector(0, 0, 1)),
+                Vertex(Vector(0, 0, 1), .z),
+                Vertex(Vector(1, 0, 1), .z),
+                Vertex(Vector(1, 1, 1), .z),
             ],
             plane: Plane(normal: Vector(0, 0, -1), w: 1)
         )
@@ -635,9 +635,9 @@ class CodingTests: XCTestCase {
             Mesh([
                 Polygon(
                     unchecked: [
-                        Vertex(Vector(0, 0), Vector(0, 0, 1)),
-                        Vertex(Vector(1, 0), Vector(0, 0, 1)),
-                        Vertex(Vector(1, 1), Vector(0, 0, 1)),
+                        Vertex(Vector(0, 0), .z),
+                        Vertex(Vector(1, 0), .z),
+                        Vertex(Vector(1, 1), .z),
                     ],
                     plane: Plane(normal: Vector(0, 0, 1), w: 0)
                 ),

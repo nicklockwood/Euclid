@@ -55,8 +55,13 @@ public extension CartesianComponentsRepresentable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
+        try encode(to: &container, skipZ: z == 0)
+    }
+    
+    /// Encode directly into an unkeyedContainer
+    func encode(to container: inout UnkeyedEncodingContainer, skipZ: Bool) throws {
         try container.encode(x)
         try container.encode(y)
-        try z == 0 ? () : container.encode(z)
+        try skipZ ? () : container.encode(z)
     }
 }

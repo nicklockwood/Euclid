@@ -42,6 +42,12 @@ public struct Vector: Hashable {
     }
 }
 
+extension Vector {
+    init(_ direction: Direction) {
+        self.init(direction.x, direction.y, direction.z)
+    }
+}
+
 extension Vector: Comparable {
     /// Provides a stable sort order for Vectors
     public static func < (lhs: Vector, rhs: Vector) -> Bool {

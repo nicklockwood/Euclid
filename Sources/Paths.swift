@@ -311,7 +311,7 @@ public extension Path {
                 [p0.position, p1.position, points[i + 1].position],
                 convex: true
             )
-            vertices.append(Vertex(unchecked: p1.position, normal, texcoord ?? .zero))
+            vertices.append(Vertex(unchecked: p1.position, Direction(normal), texcoord ?? .zero))
             p0 = p1
         }
         guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
@@ -411,12 +411,12 @@ public extension Path {
                 v += abs(p1p2.y) / totalLength
             }
             if p1.isCurved {
-                let v = Vertex(p1.position, (n0 + n1).normalized(), uv)
+                let v = Vertex(p1.position, Direction(n0 + n1), uv)
                 vertices.append(v)
                 vertices.append(v)
             } else {
-                vertices.append(Vertex(p1.position, n0, uv))
-                vertices.append(Vertex(p1.position, n1, uv))
+                vertices.append(Vertex(p1.position, Direction(n0), uv))
+                vertices.append(Vertex(p1.position, Direction(n1), uv))
             }
         }
         var first = vertices.removeFirst()

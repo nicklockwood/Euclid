@@ -13,12 +13,27 @@ public struct Direction: AdditiveArithmeticCartesianComponentsRepresentable {
     public let y: Double
     public let z: Double
 
+    public init(_ x: Double, _ y: Double, _ z: Double) {
+        self.init(x: x, y: y, z: z)
+    }
+    
     public init(x: Double = 0, y: Double = 0, z: Double = 0) {
         let componentsNorm = (x * x + y * y + z * z).squareRoot()
-        assert(componentsNorm > epsilon)
-        self.x = x / componentsNorm
-        self.y = y / componentsNorm
-        self.z = z / componentsNorm
+        if componentsNorm > epsilon {
+            self.x = x / componentsNorm
+            self.y = y / componentsNorm
+            self.z = z / componentsNorm
+        } else {
+            self.x = 0.0
+            self.y = 0.0
+            self.z = 0.0
+        }
+    }
+}
+
+public extension Direction {
+    init(_ vector: Vector) {
+        self.init(x: vector.x, y: vector.y, z: vector.z)
     }
 }
 
@@ -26,6 +41,7 @@ public extension Direction {
     static let x = Direction(x: 1)
     static let y = Direction(y: 1)
     static let z = Direction(z: 1)
+    static let zero = Direction()
 }
 
 public extension Direction {
@@ -58,6 +74,10 @@ public extension Direction {
     func isNormal(to other: Direction) -> Bool {
         return abs(dot(other)) <= epsilon
     }
+    
+    func quantized() -> Direction {
+        Direction(quantize(x), quantize(y), quantize(z))
+    }
 }
 
 public extension Direction {
@@ -75,6 +95,10 @@ public extension Direction {
 public extension Direction {
     func rotated(around axis: Direction, by angle: Angle) -> Direction {
         let rotationMatrix = Rotation(axis: axis, angle: angle)
+        return rotated(by: rotationMatrix)
+    }
+    
+    func rotated(by rotationMatrix: Rotation) -> Direction {
         return rotationMatrix * self
     }
 }

@@ -477,3 +477,9 @@ func lineSegmentsContainsPoint(
     assert(vectorFromPointToLine(point, start, (end - start).normalized()).length < epsilon)
     return Bounds(min: min(start, end), max: max(start, end)).containsPoint(point)
 }
+
+internal func == (_ direction: Direction, _ vector: Vector) -> Bool {
+    return direction.x == vector.x
+    && direction.y == vector.y
+    && direction.z == vector.z
+}

@@ -74,6 +74,12 @@ private extension Data {
         append(vector.y)
         append(vector.z)
     }
+    
+    mutating func append<T: CartesianComponentsRepresentable>(_ cartesianComponentsRepresentable: T) {
+        append(cartesianComponentsRepresentable.x)
+        append(cartesianComponentsRepresentable.y)
+        append(cartesianComponentsRepresentable.z)
+    }
 }
 
 public extension SCNNode {
@@ -325,7 +331,7 @@ public extension SCNGeometry {
     /// Creates line-segment SCNGeometry representing the vertex normals of a Mesh
     convenience init(normals mesh: Mesh, scale: Double = 1) {
         self.init(Set(mesh.polygons.flatMap { $0.vertices }.compactMap {
-            LineSegment($0.position, $0.position + $0.normal * scale)
+            LineSegment($0.position, $0.position + Vector($0.normal) * scale)
         }))
     }
 
@@ -553,7 +559,7 @@ public extension Mesh {
                 }
             case .normal:
                 for i in 0 ..< count {
-                    vertices[i].normal = data.vector(at: offset)
+                    vertices[i].normal = Direction(data.vector(at: offset))
                     offset += stride
                 }
             case .texcoord:
