@@ -604,8 +604,12 @@ internal extension Polygon {
             if ti.rawValue | tj.rawValue == PlaneComparison.spanning.rawValue {
                 let t = (plane.w - plane.normal.dot(vi.position)) / plane.normal.dot(vj.position - vi.position)
                 let v = vi.lerp(vj, t)
-                f.append(v)
-                b.append(v)
+                if f.last?.position != v.position, f.first?.position != v.position {
+                    f.append(v)
+                }
+                if b.last?.position != v.position, b.first?.position != v.position {
+                    b.append(v)
+                }
             }
         }
         if !verticesAreDegenerate(f) {
