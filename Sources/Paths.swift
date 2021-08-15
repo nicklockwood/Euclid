@@ -456,11 +456,16 @@ internal extension Path {
         self.subpathIndices = subpathIndices
         if let plane = plane {
             self.plane = plane
-            assert(points.count < 3 || Path(
-                unchecked: points,
-                plane: nil,
-                subpathIndices: subpathIndices
-            ).plane?.isEqual(to: plane) == true)
+            assert({
+                guard points.count > 2, let expectedPlane = Path(
+                    unchecked: points,
+                    plane: nil,
+                    subpathIndices: subpathIndices
+                ).plane else {
+                    return true
+                }
+                return plane.isEqual(to: expectedPlane, withPrecision: epsilon * 10)
+            }())
         } else if subpathIndices.isEmpty {
             self.plane = Plane(points: positions)
         } else {
