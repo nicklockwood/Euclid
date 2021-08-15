@@ -248,8 +248,6 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
 // Test if path is self-intersecting
 // TODO: optimize by using http://www.webcitation.org/6ahkPQIsN
 func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
-    let flatteningPlane = FlatteningPlane(points: points, convex: nil)
-    let points = points.map { flatteningPlane.flattenPoint($0) }
     for i in 0 ..< points.count - 2 {
         let p0 = points[i]
         let p1 = points[i + 1]
