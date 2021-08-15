@@ -195,30 +195,21 @@ func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
 
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {
     let count = points.count
-    guard count > 1, let a = points.last else {
+    guard count > 2, var a = points.last else {
         return false
     }
-    var ab = points[0] - a
-    var length = ab.length
-    guard length > epsilon else {
-        return true
-    }
-    if count < 3 {
-        return false
-    }
-    ab = ab / length
+    var ab = (points[0] - a).normalized()
     for i in 0 ..< count {
         let b = points[i]
         let c = points[(i + 1) % count]
-        var bc = c - b
-        length = bc.length
-        guard length > epsilon else {
+        if b == c || a == b {
             return true
         }
-        bc = bc / length
-        guard abs(ab.dot(bc) + 1) > epsilon else {
+        let bc = (c - b).normalized()
+        guard abs(ab.dot(bc) + 1) > 0 else {
             return true
         }
+        a = b
         ab = bc
     }
     return false
