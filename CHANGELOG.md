@@ -1,3 +1,8 @@
+## [0.5.8](https://github.com/nicklockwood/Euclid/releases/tag/0.5.8) (2021-08-15)
+
+- Fixed several bugs in `Polygon` validation that could lead to cracks in generated meshes
+- Fixed spurious assertion in `Path(points:)` initializer
+
 ## [0.5.7](https://github.com/nicklockwood/Euclid/releases/tag/0.5.7) (2021-08-13)
 
 - Fixed a regression in `SCNGeometry(_ path:)` introduced in version 0.3.6

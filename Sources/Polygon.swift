@@ -176,11 +176,11 @@ public extension Polygon {
     }
 
     /// Test if point lies inside the polygon
-    // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
     func containsPoint(_ p: Vector) -> Bool {
         guard plane.containsPoint(p) else {
             return false
         }
+        // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
         let flatteningPlane = FlatteningPlane(normal: plane.normal)
         let points = vertices.map { flatteningPlane.flattenPoint($0.position) }
         let p = flatteningPlane.flattenPoint(p)
