@@ -9,6 +9,18 @@
 @testable import Euclid
 import XCTest
 
+extension Euclid.Polygon {
+    // Convenience constructor for testing
+    init(unchecked vertices: [Vertex], plane: Plane? = nil) {
+        self.init(
+            unchecked: vertices,
+            plane: plane,
+            isConvex: nil,
+            material: nil
+        )
+    }
+}
+
 class PolygonTests: XCTestCase {
     // MARK: initialization
 

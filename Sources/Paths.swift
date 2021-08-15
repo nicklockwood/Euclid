@@ -440,7 +440,7 @@ public extension Polygon {
         self.init(
             unchecked: vertices,
             plane: plane,
-            isConvex: verticesAreConvex(vertices),
+            isConvex: nil,
             material: material
         )
     }

@@ -496,7 +496,12 @@ public extension Mesh {
                             Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
                             Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
                         )
-                        polygons.append(Polygon(unchecked: [v0, v2, v3], isConvex: true, material: material))
+                        polygons.append(Polygon(
+                            unchecked: [v0, v2, v3],
+                            plane: nil,
+                            isConvex: true,
+                            material: material
+                        ))
                     }
                 } else if v1.position.x == 0 {
                     // bottom triangle
@@ -517,7 +522,12 @@ public extension Mesh {
                         Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
                         Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
                     )
-                    polygons.append(Polygon(unchecked: [v2, v3, v1], isConvex: true, material: material))
+                    polygons.append(Polygon(
+                        unchecked: [v2, v3, v1],
+                        plane: nil,
+                        isConvex: true,
+                        material: material
+                    ))
                 } else {
                     // quad face
                     let v2 = Vertex(
@@ -546,7 +556,12 @@ public extension Mesh {
                     )
                     let vertices = [v2, v3, v4, v5]
                     if !verticesAreDegenerate(vertices) {
-                        polygons.append(Polygon(unchecked: vertices, isConvex: true, material: material))
+                        polygons.append(Polygon(
+                            unchecked: vertices,
+                            plane: nil,
+                            isConvex: true,
+                            material: material
+                        ))
                     }
                 }
             }
@@ -812,12 +827,14 @@ public extension Mesh {
                         vertices.remove(at: 3)
                         polygons.append(Polygon(
                             unchecked: invert ? vertices2.reversed() : vertices2,
+                            plane: nil,
                             isConvex: true,
                             material: material
                         ))
                     }
                     polygons.append(Polygon(
                         unchecked: invert ? vertices.reversed() : vertices,
+                        plane: nil,
                         isConvex: true,
                         material: material
                     ))

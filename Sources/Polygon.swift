@@ -77,6 +77,7 @@ extension Polygon: Codable {
         self.init(
             unchecked: vertices,
             plane: plane,
+            isConvex: nil,
             sanitizeNormals: true,
             material: material
         )
@@ -367,15 +368,15 @@ internal extension Polygon {
         )
     }
 
-    // Create polygon from vertices and plane without performing validation
+    // Create polygon from vertices and (optional) plane without performing validation
     // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
     // Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
     init(
         unchecked vertices: [Vertex],
-        plane: Plane? = nil,
-        isConvex: Bool? = nil,
+        plane: Plane?,
+        isConvex: Bool?,
         sanitizeNormals: Bool = false,
-        material: Material? = nil,
+        material: Material?,
         id: Int = 0
     ) {
         assert(!verticesAreDegenerate(vertices))
