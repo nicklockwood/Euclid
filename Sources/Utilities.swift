@@ -41,11 +41,11 @@ func quantize(_ value: Double) -> Double {
 // MARK: Vertex utilities
 
 func verticesAreDegenerate(_ vertices: [Vertex]) -> Bool {
-    // TODO: should vertex count < 3 actually be considered degenerate?
-    guard vertices.count > 1 else {
-        return false
+    guard vertices.count > 2 else {
+        return true
     }
-    return pointsAreDegenerate(vertices.map { $0.position })
+    let positions = vertices.map { $0.position }
+    return pointsAreDegenerate(positions) || pointsAreSelfIntersecting(positions)
 }
 
 func verticesAreConvex(_ vertices: [Vertex]) -> Bool {

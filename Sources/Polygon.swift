@@ -49,7 +49,7 @@ extension Polygon: Codable {
         var plane: Plane?, material: Material?
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             vertices = try container.decode([Vertex].self, forKey: .vertices)
-            guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+            guard !verticesAreDegenerate(vertices) else {
                 throw DecodingError.dataCorruptedError(
                     forKey: .vertices,
                     in: container,
@@ -67,7 +67,7 @@ extension Polygon: Codable {
             } else {
                 vertices = try [Vertex](from: decoder)
             }
-            guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+            guard !verticesAreDegenerate(vertices) else {
                 throw DecodingError.dataCorruptedError(
                     in: container,
                     debugDescription: "Vertices are degenerate"
@@ -378,10 +378,8 @@ internal extension Polygon {
         material: Material? = nil,
         id: Int = 0
     ) {
-        assert(vertices.count > 2)
+        assert(!verticesAreDegenerate(vertices))
         let points = vertices.map { $0.position }
-        assert(!pointsAreDegenerate(points))
-        assert(!pointsAreSelfIntersecting(points))
         assert(isConvex == nil || pointsAreConvex(points) == isConvex)
         assert(sanitizeNormals || vertices.allSatisfy { $0.normal != .zero })
         let plane = plane ?? Plane(unchecked: points, convex: isConvex)

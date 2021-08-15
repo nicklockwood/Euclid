@@ -314,7 +314,7 @@ public extension Path {
             vertices.append(Vertex(unchecked: p1.position, normal, texcoord ?? .zero))
             p0 = p1
         }
-        guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+        guard !verticesAreDegenerate(vertices) else {
             return nil
         }
         if hasTexcoords {
