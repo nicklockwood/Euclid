@@ -838,6 +838,16 @@ public extension Mesh {
                         isConvex: nil,
                         material: material
                     ))
+                } else {
+                    // This is a hack to make the best of a bad edge case
+                    // TODO: find a better solution
+                    polygons += triangulateVertices(
+                        vertices,
+                        plane: nil,
+                        isConvex: nil,
+                        material: material,
+                        id: 0
+                    )
                 }
             }
             // TODO: create triangles for mismatched points
