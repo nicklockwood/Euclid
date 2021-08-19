@@ -457,7 +457,7 @@ internal extension Path {
         if let plane = plane {
             self.plane = plane
             assert({
-                guard points.count > 2, let expectedPlane = Path(
+                guard positions.count > 2, let expectedPlane = Path(
                     unchecked: points,
                     plane: nil,
                     subpathIndices: subpathIndices
