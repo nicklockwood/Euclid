@@ -835,7 +835,7 @@ public extension Mesh {
                     polygons.append(Polygon(
                         unchecked: invert ? vertices.reversed() : vertices,
                         plane: nil,
-                        isConvex: true,
+                        isConvex: nil,
                         material: material
                     ))
                 }
