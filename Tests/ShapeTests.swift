@@ -263,4 +263,25 @@ class ShapeTests: XCTestCase {
         XCTAssertFalse(mesh.polygons.isEmpty)
         XCTAssertEqual(mesh, .extrude(path, faces: .frontAndBack))
     }
+
+    func testExtrudeClosedLine() {
+        let path = Path([
+            .point(0, 0),
+            .point(0, 1),
+            .point(0, 0),
+        ])
+        let mesh = Mesh.extrude(path)
+        XCTAssertEqual(mesh.polygons.count, 2)
+        XCTAssertEqual(mesh, .extrude(path, faces: .front))
+    }
+
+    func testExtrudeOpenLine() {
+        let path = Path([
+            .point(0, 0),
+            .point(0, 1),
+        ])
+        let mesh = Mesh.extrude(path)
+        XCTAssertEqual(mesh.polygons.count, 2)
+        XCTAssertEqual(mesh, .extrude(path, faces: .frontAndBack))
+    }
 }

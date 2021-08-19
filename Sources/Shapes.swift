@@ -855,6 +855,10 @@ public extension Mesh {
                 polygons += facePolygons
             }
         }
+        if !isCapped, count > 1, let first = shapes.first, let last = shapes.last {
+            isCapped = first.isClosed && first.hasZeroArea &&
+                last.isClosed && last.hasZeroArea
+        }
         switch faces {
         case .default where isCapped, .front:
             return Mesh(

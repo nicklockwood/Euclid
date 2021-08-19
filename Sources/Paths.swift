@@ -183,6 +183,11 @@ extension Path: Codable {
             try container.encode(subpaths, forKey: .subpaths)
         }
     }
+
+    // TODO: Make this more robust, then make public
+    var hasZeroArea: Bool {
+        points.count < (isClosed ? 4 : 3)
+    }
 }
 
 public extension Path {
