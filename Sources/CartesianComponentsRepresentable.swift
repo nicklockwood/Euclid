@@ -65,3 +65,14 @@ public extension CartesianComponentsRepresentable {
         try skipZ ? () : container.encode(z)
     }
 }
+
+public extension CartesianComponentsRepresentable {
+    func rotated(around axis: Direction, by angle: Angle) -> Self {
+        let rotationMatrix = Rotation(axis: axis, angle: -angle)
+        return rotated(by: rotationMatrix)
+    }
+    
+    func rotated(by rotationMatrix: Rotation) -> Self {
+        return self * rotationMatrix
+    }
+}

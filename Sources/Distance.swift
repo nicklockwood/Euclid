@@ -65,11 +65,6 @@ public extension Distance {
         let normalDirection = direction.cross(other.direction)
         return newNorm * normalDirection
     }
-
-    func rotated(around axis: Direction, by angle: Angle) -> Distance {
-        let rotationMatrix = Rotation(axis: axis, angle: angle)
-        return rotationMatrix * self
-    }
 }
 
 public extension Distance {

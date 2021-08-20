@@ -285,20 +285,20 @@ public extension Rotation {
     static func *= (lhs: inout Rotation, rhs: Rotation) {
         lhs = lhs * rhs
     }
-
-    static func * <T: CartesianComponentsRepresentable>(lhs: Rotation, rhs: T) -> T {
-        let x = lhs.m11 * rhs.x
-            + lhs.m12 * rhs.y
-            + lhs.m13 * rhs.z
-
-        let y = lhs.m21 * rhs.x
-            + lhs.m22 * rhs.y
-            + lhs.m23 * rhs.z
-
-        let z = lhs.m31 * rhs.x
-            + lhs.m32 * rhs.y
-            + lhs.m33 * rhs.z
-
+    
+    static func * <T: CartesianComponentsRepresentable>(lhs: T, rhs: Rotation) -> T {
+        let x = lhs.x * rhs.m11
+            + lhs.y * rhs.m21
+            + lhs.z * rhs.m31
+        
+        let y = lhs.x * rhs.m12
+            + lhs.y * rhs.m22
+            + lhs.z * rhs.m32
+        
+        let z = lhs.x * rhs.m13
+            + lhs.y * rhs.m23
+            + lhs.z * rhs.m33
+        
         return T(x: x, y: y, z: z)
     }
 }

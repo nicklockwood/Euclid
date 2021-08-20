@@ -93,17 +93,6 @@ public extension Direction {
 }
 
 public extension Direction {
-    func rotated(around axis: Direction, by angle: Angle) -> Direction {
-        let rotationMatrix = Rotation(axis: axis, angle: angle)
-        return rotated(by: rotationMatrix)
-    }
-    
-    func rotated(by rotationMatrix: Rotation) -> Direction {
-        return rotationMatrix * self
-    }
-}
-
-public extension Direction {
     static func * (lhs: Double, rhs: Direction) -> Distance {
         return Distance(
             x: lhs * rhs.x,

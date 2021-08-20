@@ -48,9 +48,4 @@ public extension Position {
             z: lhs.z - rhs.z
         )
     }
-
-    func rotated(around axis: Direction, by angle: Angle) -> Position {
-        let rotationMatrix = Rotation(axis: axis, angle: angle)
-        return rotationMatrix * self
-    }
 }
