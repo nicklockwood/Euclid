@@ -74,10 +74,6 @@ public extension Direction {
     func isNormal(to other: Direction) -> Bool {
         return abs(dot(other)) <= epsilon
     }
-    
-    func quantized() -> Direction {
-        Direction(quantize(x), quantize(y), quantize(z))
-    }
 }
 
 public extension Direction {

@@ -76,3 +76,9 @@ public extension CartesianComponentsRepresentable {
         return self * rotationMatrix
     }
 }
+
+public extension CartesianComponentsRepresentable {
+    func quantized() -> Self {
+        Self.init(x: quantize(x), y: quantize(y), z: quantize(z))
+    }
+}
