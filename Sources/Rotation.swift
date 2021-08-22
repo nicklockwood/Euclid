@@ -69,13 +69,13 @@ extension Rotation: Codable {
         guard var container = try? decoder.unkeyedContainer() else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let angle = try container.decodeIfPresent(Angle.self, forKey: .radians)
-            var axis = try container.decodeIfPresent(Vector.self, forKey: .axis)
+            var axis = try container.decodeIfPresent(Direction.self, forKey: .axis)
             if let x = try container.decodeIfPresent(Double.self, forKey: .x) {
                 let y = try container.decode(Double.self, forKey: .y)
                 let z = try container.decode(Double.self, forKey: .z)
-                axis = Vector(x, y, z)
+                axis = Direction(x, y, z)
             }
-            self.init(unchecked: axis?.normalized() ?? Vector(0, 0, 1), angle: angle ?? .zero)
+            self.init(axis: axis ?? .z, angle: angle ?? .zero)
             return
         }
         switch container.count ?? 0 {
@@ -90,9 +90,9 @@ extension Rotation: Codable {
             let roll = try container.decode(Angle.self)
             self.init(pitch: pitch, yaw: yaw, roll: roll)
         case 4:
-            let axis = try Vector(from: &container).normalized()
+            let axis = try Direction(from: &container)
             let angle = try container.decode(Angle.self)
-            self.init(unchecked: axis, angle: angle)
+            self.init(axis: axis, angle: angle)
         default:
             let m11 = try container.decode(Double.self)
             let m12 = try container.decode(Double.self)
@@ -169,15 +169,6 @@ public extension Rotation {
     /// Creates an identity Rotation
     init() {
         self.init(1, 0, 0, 0, 1, 0, 0, 0, 1)
-    }
-
-    /// Define a rotation from an axis vector and an angle
-    init?(axis: Vector, angle: Angle) {
-        let length = axis.length
-        guard length.isFinite, length > epsilon else {
-            return nil
-        }
-        self.init(unchecked: axis / length, angle: angle)
     }
 
     /// Define a rotation from an axis direction and an angle
@@ -358,17 +349,6 @@ internal extension Rotation {
         if abs(m12 * m31 - m11 * m32 - m23) > epsilon { return false }
         if abs(m11 * m22 - m12 * m21 - m33) > epsilon { return false }
         return true
-    }
-
-    // TODO: is this still needed?
-    // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
-    #warning("axis should be Direction")
-    init(unchecked axis: Vector, angle: Angle) {
-        assert(axis.isNormalized)
-        self.init(
-            axis: Direction(x: axis.x, y: axis.y, z: axis.z),
-            angle: angle
-        )
     }
 
     // Approximate equality

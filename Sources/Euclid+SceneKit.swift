@@ -482,9 +482,9 @@ public extension Rotation {
             self = .identity
             return
         }
-        let axis = Vector(Double(q.x) / d, Double(q.y) / d, Double(q.z) / d)
+        let axis = Direction(Double(q.x) / d, Double(q.y) / d, Double(q.z) / d)
         let rotation = 2 * Angle.acos(Double(-q.w))
-        self.init(unchecked: axis.normalized(), angle: rotation)
+        self.init(axis: axis, angle: rotation)
     }
 }
 

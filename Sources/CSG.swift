@@ -322,7 +322,7 @@ public extension Mesh {
                 rotation = .identity
             } else {
                 let axis = normal.cross(plane.normal)
-                rotation = Rotation(unchecked: Vector(axis), angle: angle)
+                rotation = Rotation(axis: axis, angle: angle)
             }
             let rect = Polygon(
                 unchecked: [
