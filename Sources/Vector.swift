@@ -280,3 +280,9 @@ internal extension Vector {
         self.z = try container.decodeIfPresent(Double.self) ?? 0
     }
 }
+
+public extension Vector {
+    init<T: CartesianComponentsRepresentable>(_ cartesian: T) {
+        self.init(cartesian.x, cartesian.y, cartesian.z)
+    }
+}

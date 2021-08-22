@@ -122,9 +122,3 @@ public extension CartesianComponentsRepresentable {
                   z: z * vn.z)
     }
 }
-
-internal extension Vector {
-    init<T: CartesianComponentsRepresentable>(_ cartesian: T) {
-        self.init(cartesian.x, cartesian.y, cartesian.z)
-    }
-}
