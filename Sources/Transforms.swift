@@ -423,7 +423,7 @@ public extension Plane {
     }
 
     func rotated(by r: Rotation) -> Plane {
-        Plane(unchecked: normal.rotated(by: r), w: w)
+        Plane(normal: normal.rotated(by: r), w: w)
     }
 
     func scaled(by v: Vector) -> Plane {
@@ -433,7 +433,7 @@ public extension Plane {
     }
 
     func scaled(by f: Double) -> Plane {
-        Plane(unchecked: normal, w: w * f)
+        Plane(normal: normal, w: w * f)
     }
 
     func transformed(by t: Transform) -> Plane {

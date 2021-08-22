@@ -99,8 +99,8 @@ class PlaneTests: XCTestCase {
     }
 
     func testIntersectionWithRandomPlane() {
-        let plane1 = Plane(normal: Vector(1.2, 0.4, 5.7), w: 6)
-        let plane2 = Plane(normal: Vector(0.5, 0.7, 0.1), w: 8)
+        let plane1 = Plane(normal: Direction(1.2, 0.4, 5.7), w: 6)
+        let plane2 = Plane(normal: Direction(0.5, 0.7, 0.1), w: 8)
 
         guard let intersection = plane1.intersection(with: plane2) else {
             XCTFail()
@@ -132,7 +132,7 @@ class PlaneTests: XCTestCase {
 
     func testIntersectionWithAxisLine() {
         let line = Line(unchecked: Vector(0, 0, 0), direction: Direction(4, 3, 0))
-        let plane = Plane(unchecked: .y, w: 3)
+        let plane = Plane(normal: .y, w: 3)
         let expected = Vector(4, 3, 0)
         XCTAssertEqual(expected, plane.intersection(with: line))
     }

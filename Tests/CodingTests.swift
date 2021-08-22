@@ -289,15 +289,15 @@ class CodingTests: XCTestCase {
             "normal": [0, 0, 1],
             "w": 1
         }
-        """), Plane(normal: Vector(0, 0, 1), w: 1))
+        """), Plane(normal: .z, w: 1))
     }
 
     func testDecodingUnkeyedPlane() {
-        XCTAssertEqual(try decode("[0, 0, 1, 0]"), Plane(normal: Vector(0, 0, 1), w: 0))
+        XCTAssertEqual(try decode("[0, 0, 1, 0]"), Plane(normal: .z, w: 0))
     }
 
     func testEncodingPlane() {
-        XCTAssertEqual(try encode(Plane(normal: Vector(0, 0, 1), w: 0)), "[0,0,1,0]")
+        XCTAssertEqual(try encode(Plane(normal: .z, w: 0)), "[0,0,1,0]")
     }
 
     // MARK: Line
@@ -470,7 +470,7 @@ class CodingTests: XCTestCase {
                     Vertex(Vector(1, 0), .z),
                     Vertex(Vector(1, 1), .z),
                 ],
-                plane: Plane(normal: Vector(0, 0, 1), w: 0)
+                plane: Plane(normal: .z, w: 0)
             )
         )
     }
@@ -521,7 +521,7 @@ class CodingTests: XCTestCase {
                 Vertex(Vector(1, 0, 1), .z, Vector(1, 1)),
                 Vertex(Vector(1, 1, 1), .z, Vector(1, 0)),
             ],
-            plane: Plane(normal: Vector(0, 0, 1), w: 1)
+            plane: Plane(normal: .z, w: 1)
         )
         let encoded = try encode(polygon)
         XCTAssertEqual(try decode(encoded), polygon)
@@ -535,7 +535,7 @@ class CodingTests: XCTestCase {
                 Vertex(Vector(1, 0, 1), .z),
                 Vertex(Vector(1, 1, 1), .z),
             ],
-            plane: Plane(normal: Vector(0, 0, 1), w: 1)
+            plane: Plane(normal: .z, w: 1)
         )
         let encoded = try encode(polygon)
         XCTAssertEqual(try decode(encoded), polygon)
@@ -549,11 +549,11 @@ class CodingTests: XCTestCase {
                 Vertex(Vector(1, 0, 1), .z),
                 Vertex(Vector(1, 1, 1), .z),
             ],
-            plane: Plane(normal: Vector(0, 0, -1), w: 1)
+            plane: Plane(normal: .z.opposite, w: 1)
         )
         let encoded = try encode(polygon)
         XCTAssertEqual(try decode(encoded), polygon)
-        XCTAssertEqual(encoded, "[[[0,0,1,0,0,1],[1,0,1,0,0,1],[1,1,1,0,0,1]],[0,0,-1,1]]")
+        XCTAssertEqual(encoded, "[[[0,0,1,0,0,1],[1,0,1,0,0,1],[1,1,1,0,0,1]],[-0,-0,-1,1]]")
     }
 
     // MARK: Material
@@ -639,7 +639,7 @@ class CodingTests: XCTestCase {
                         Vertex(Vector(1, 0), .z),
                         Vertex(Vector(1, 1), .z),
                     ],
-                    plane: Plane(normal: Vector(0, 0, 1), w: 0)
+                    plane: Plane(normal: .z, w: 0)
                 ),
             ])
         )

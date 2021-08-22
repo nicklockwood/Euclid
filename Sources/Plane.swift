@@ -35,9 +35,9 @@ public struct Plane: Hashable {
     public let w: Double
 
     /// Creates a plane from a surface normal and a distance from the world origin
-    #warning("change function signature")
-    init(normal: Vector, w: Double) {
-        self.init(unchecked: Direction(normal), w: w)
+    init(normal: Direction, w: Double) {
+        self.normal = normal
+        self.w = w
     }
 }
 
@@ -75,9 +75,9 @@ extension Plane: Codable {
 }
 
 public extension Plane {
-    static let yz = Plane(unchecked: .x, w: 0)
-    static let xz = Plane(unchecked: .y, w: 0)
-    static let xy = Plane(unchecked: .z, w: 0)
+    static let yz = Plane(normal: .x, w: 0)
+    static let xz = Plane(normal: .y, w: 0)
+    static let xy = Plane(normal: .z, w: 0)
 
     /// Creates a plane from a point and surface normal
     init?(normal: Direction, pointOnPlane: Vector) {
@@ -96,7 +96,7 @@ public extension Plane {
 
     /// Returns the flipside of the plane
     func inverted() -> Plane {
-        Plane(unchecked: -normal, w: -w)
+        Plane(normal: -normal, w: -w)
     }
 
     /// Checks if point is on plane
@@ -138,13 +138,8 @@ public extension Plane {
 }
 
 internal extension Plane {
-    init(unchecked normal: Direction, w: Double) {
-        self.normal = normal
-        self.w = w
-    }
-
     init(unchecked normal: Direction, pointOnPlane: Vector) {
-        self.init(unchecked: normal, w: Distance(pointOnPlane).dot(normal))
+        self.init(normal: normal, w: Distance(pointOnPlane).dot(normal))
     }
 
     init?(points: [Vector], convex: Bool?) {
