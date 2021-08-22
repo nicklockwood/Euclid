@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 
 public struct Direction: AdditiveArithmeticCartesianComponentsRepresentable {
     public let x: Double
