@@ -438,11 +438,10 @@ func shortestLineBetween(
 func vectorFromPointToLine(
     _ point: Vector,
     _ lineOrigin: Vector,
-    _ lineDirection: Vector
+    _ lineDirection: Direction
 ) -> Vector {
-    assert(lineDirection.isNormalized)
-    let d = point - lineOrigin
-    return lineDirection * d.dot(lineDirection) - d
+    let d = Distance(point - lineOrigin)
+    return Vector(d.dot(lineDirection) * lineDirection - d)
 }
 
 func lineIntersection(
@@ -477,13 +476,6 @@ func lineSegmentsContainsPoint(
     _ end: Vector,
     _ point: Vector
 ) -> Bool {
-    assert(vectorFromPointToLine(point, start, (end - start).normalized()).length < epsilon)
+    assert(vectorFromPointToLine(point, start, Direction(end - start)).length < epsilon)
     return Bounds(min: min(start, end), max: max(start, end)).containsPoint(point)
-}
-
-#warning("delete this")
-internal func == (_ direction: Direction, _ vector: Vector) -> Bool {
-    return direction.x == vector.x
-    && direction.y == vector.y
-    && direction.z == vector.z
 }

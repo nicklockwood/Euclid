@@ -118,7 +118,7 @@ class UtilityTests: XCTestCase {
         let result = vectorFromPointToLine(
             Vector(2, 0),
             Vector(-1, -1),
-            Vector(1, 0)
+            .x
         )
         XCTAssertEqual(result, Vector(0, -1, 0))
     }
