@@ -362,6 +362,7 @@ internal extension Rotation {
 
     // TODO: is this still needed?
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
+    #warning("axis should be Direction")
     init(unchecked axis: Vector, angle: Angle) {
         assert(axis.isNormalized)
         self.init(

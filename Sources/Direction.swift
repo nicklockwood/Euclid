@@ -7,15 +7,12 @@
 //
 
 import Foundation
+import UIKit
 
 public struct Direction: AdditiveArithmeticCartesianComponentsRepresentable {
     public let x: Double
     public let y: Double
     public let z: Double
-
-    public init(_ x: Double, _ y: Double, _ z: Double) {
-        self.init(x: x, y: y, z: z)
-    }
     
     public init(x: Double = 0, y: Double = 0, z: Double = 0) {
         let componentsNorm = (x * x + y * y + z * z).squareRoot()
@@ -28,12 +25,6 @@ public struct Direction: AdditiveArithmeticCartesianComponentsRepresentable {
             self.y = 0.0
             self.z = 0.0
         }
-    }
-}
-
-public extension Direction {
-    init(_ vector: Vector) {
-        self.init(x: vector.x, y: vector.y, z: vector.z)
     }
 }
 
@@ -95,5 +86,11 @@ public extension Direction {
             y: lhs * rhs.y,
             z: lhs * rhs.z
         )
+    }
+    
+    static func mean(_ dir1: Direction, _ dir2: Direction) -> Direction {
+        Direction(dir1.x + dir2.x,
+                  dir1.y + dir2.y,
+                  dir1.z + dir2.z)
     }
 }

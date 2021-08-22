@@ -315,28 +315,28 @@ public extension Mesh {
             }
             radius = radius.squareRoot()
             // Create back face
-            let normal = Vector(0, 0, 1)
+            let normal = Direction.z
             let angle = -normal.angle(with: plane.normal)
             let rotation: Rotation
             if angle == .zero {
                 rotation = .identity
             } else {
-                let axis = normal.cross(plane.normal).normalized()
-                rotation = Rotation(unchecked: axis, angle: angle)
+                let axis = normal.cross(plane.normal)
+                rotation = Rotation(unchecked: Vector(axis), angle: angle)
             }
             let rect = Polygon(
                 unchecked: [
-                    Vertex(Vector(-radius, radius, 0), -Direction(normal), .zero),
-                    Vertex(Vector(radius, radius, 0), -Direction(normal), Vector(1, 0, 0)),
-                    Vertex(Vector(radius, -radius, 0), -Direction(normal), Vector(1, 1, 0)),
-                    Vertex(Vector(-radius, -radius, 0), -Direction(normal), Vector(0, 1, 0)),
+                    Vertex(Vector(-radius, radius, 0), -normal, .zero),
+                    Vertex(Vector(radius, radius, 0), -normal, Vector(1, 0, 0)),
+                    Vertex(Vector(radius, -radius, 0), -normal, Vector(1, 1, 0)),
+                    Vertex(Vector(-radius, -radius, 0), -normal, Vector(0, 1, 0)),
                 ],
                 normal: -normal,
                 isConvex: true,
                 material: material
             )
             .rotated(by: rotation)
-            .translated(by: plane.normal * plane.w)
+            .translated(by: Vector(plane.w * plane.normal))
             // Clip rect
             return Mesh(
                 unchecked: mesh.polygons + BSP(self) { false }

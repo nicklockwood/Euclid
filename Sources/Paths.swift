@@ -198,7 +198,7 @@ public extension Path {
 
     /// Face normal for shape
     /// If shape is non-planar then this is the average/approximate normal
-    var faceNormal: Vector {
+    var faceNormal: Direction {
         plane?.normal ?? faceNormalForPolygonPoints(
             points.map { $0.position },
             convex: nil
@@ -311,7 +311,7 @@ public extension Path {
                 [p0.position, p1.position, points[i + 1].position],
                 convex: true
             )
-            vertices.append(Vertex(unchecked: p1.position, Direction(normal), texcoord ?? .zero))
+            vertices.append(Vertex(unchecked: p1.position, normal, texcoord ?? .zero))
             p0 = p1
         }
         guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
@@ -386,7 +386,7 @@ public extension Path {
         )
         var p2 = points[0]
         var p1p2 = p2.position - p1.position
-        var n1: Vector!
+        var n1: Direction!
         var vertices = [Vertex]()
         var v = 0.0
         let endIndex = count
@@ -401,8 +401,8 @@ public extension Path {
                 ))
             let p0p1 = p1p2
             p1p2 = p2.position - p1.position
-            let n0 = n1 ?? p0p1.cross(faceNormal).normalized()
-            n1 = p1p2.cross(faceNormal).normalized()
+            let n0 = n1 ?? Direction(p0p1).cross(faceNormal)
+            n1 = Direction(p1p2).cross(faceNormal)
             let uv = Vector(0, v, 0)
             switch wrapMode {
             case .shrink, .default:
@@ -411,12 +411,12 @@ public extension Path {
                 v += abs(p1p2.y) / totalLength
             }
             if p1.isCurved {
-                let v = Vertex(p1.position, Direction(n0 + n1), uv)
+                let v = Vertex(p1.position, Direction.mean(n0, n1), uv)
                 vertices.append(v)
                 vertices.append(v)
             } else {
-                vertices.append(Vertex(p1.position, Direction(n0), uv))
-                vertices.append(Vertex(p1.position, Direction(n1), uv))
+                vertices.append(Vertex(p1.position, n0, uv))
+                vertices.append(Vertex(p1.position, n1, uv))
             }
         }
         var first = vertices.removeFirst()

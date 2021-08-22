@@ -65,6 +65,10 @@ public extension Distance {
         let normalDirection = direction.cross(other.direction)
         return newNorm * normalDirection
     }
+    
+    func dot(_ direction: Direction) -> Double {
+        self.direction.dot(direction) * norm
+    }
 }
 
 public extension Distance {

@@ -293,22 +293,22 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
 // Points are assumed to be ordered in a counter-clockwise direction
 // Points are not verified to be coplanar or non-degenerate
 // Points are not required to form a convex polygon
-func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Vector {
+func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Direction {
     let count = points.count
     let unitZ = Vector(0, 0, 1)
     switch count {
     case 0, 1:
-        return unitZ
+        return .z
     case 2:
         let ab = points[1] - points[0]
         let normal = ab.cross(unitZ).cross(ab)
         let lengthSquared = normal.lengthSquared
         guard lengthSquared > epsilon else {
-            return Vector(1, 0, 0)
+            return .x
         }
-        return normal / lengthSquared.squareRoot()
+        return Direction(normal / lengthSquared.squareRoot())
     default:
-        func faceNormalForConvexPoints(_ points: [Vector]) -> Vector {
+        func faceNormalForConvexPoints(_ points: [Vector]) -> Direction {
             var b = points[0]
             var ab = b - points.last!
             var bestLengthSquared = 0.0
@@ -324,7 +324,10 @@ func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Vector {
                 b = c
                 ab = bc
             }
-            return best ?? Vector(0, 0, 1)
+            if let best = best {
+                return Direction(best)
+            }
+            return .z
         }
         let normal = faceNormalForConvexPoints(points)
         let convex = convex ?? pointsAreConvex(points)
@@ -353,7 +356,7 @@ func pointsAreCoplanar(_ points: [Vector]) -> Bool {
     if length < epsilon {
         return false
     }
-    let plane = Plane(unchecked: normal / length, pointOnPlane: b)
+    let plane = Plane(unchecked: Direction(normal), pointOnPlane: b)
     for p in points[3...] where !plane.containsPoint(p) {
         return false
     }
@@ -478,6 +481,7 @@ func lineSegmentsContainsPoint(
     return Bounds(min: min(start, end), max: max(start, end)).containsPoint(point)
 }
 
+#warning("delete this")
 internal func == (_ direction: Direction, _ vector: Vector) -> Bool {
     return direction.x == vector.x
     && direction.y == vector.y

@@ -221,7 +221,7 @@ public extension Vector {
 
     func angle(with plane: Plane) -> Angle {
         // We know that plane.normal.length == 1
-        let complementeryAngle = dot(plane.normal) / length
+        let complementeryAngle = Direction(self).dot(plane.normal)
         return Angle.asin(complementeryAngle)
     }
 
@@ -229,12 +229,13 @@ public extension Vector {
     /// A positive value is returned if the point lies in front of the plane
     /// A negative value is returned if the point lies behind the plane
     func distance(from plane: Plane) -> Double {
-        plane.normal.dot(self) - plane.w
+        Distance(self).dot(plane.normal) - plane.w
     }
 
     /// The nearest point to this point on the specified plane
     func project(onto plane: Plane) -> Vector {
-        self - plane.normal * distance(from: plane)
+        let position = Position(self) - distance(from: plane) * plane.normal
+        return Vector(position)
     }
 
     /// Distance of the point from a line in 3D

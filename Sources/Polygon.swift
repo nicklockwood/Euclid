@@ -354,7 +354,7 @@ internal extension Polygon {
     // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
     init(
         unchecked vertices: [Vertex],
-        normal: Vector,
+        normal: Direction,
         isConvex: Bool,
         material: Material?
     ) {
@@ -388,7 +388,7 @@ internal extension Polygon {
         let isConvex = isConvex ?? pointsAreConvex(points)
         self.storage = Storage(
             vertices: vertices.map {
-                $0.with(normal: $0.normal == .zero ? Direction(plane.normal) : $0.normal)
+                $0.with(normal: $0.normal == .zero ? plane.normal : $0.normal)
             },
             plane: plane,
             isConvex: isConvex,
@@ -483,8 +483,8 @@ internal extension Polygon {
         var p0 = vertices.last!.position
         for v1 in vertices {
             let p1 = v1.position
-            let tangent = p1 - p0
-            let normal = tangent.cross(plane.normal).normalized()
+            let tangent = Direction(p1 - p0)
+            let normal = tangent.cross(plane.normal)
             guard let plane = Plane(normal: normal, pointOnPlane: p0) else {
                 assertionFailure()
                 return []
@@ -603,7 +603,7 @@ internal extension Polygon {
             }
             let tj = vj.position.compare(with: plane)
             if ti.rawValue | tj.rawValue == PlaneComparison.spanning.rawValue {
-                let t = (plane.w - plane.normal.dot(vi.position)) / plane.normal.dot(vj.position - vi.position)
+                let t = (plane.w - Distance(vi.position).dot(plane.normal)) / Distance(vj.position - vi.position).dot(plane.normal)
                 let v = vi.lerp(vj, t)
                 f.append(v)
                 b.append(v)

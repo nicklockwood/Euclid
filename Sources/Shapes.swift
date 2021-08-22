@@ -204,7 +204,7 @@ public extension Mesh {
         ].map {
             var index = 0
             let (indexData, normalData) = ($0[0], $0[1])
-            let normal = Vector(
+            let normal = Direction(
                 Double(normalData[0]),
                 Double(normalData[1]),
                 Double(normalData[2])
@@ -221,7 +221,7 @@ public extension Mesh {
                         (0 ... 1).contains(index) ? 1 : 0
                     )
                     index += 1
-                    return Vertex(pos, Direction(normal), uv)
+                    return Vertex(pos, normal, uv)
                 },
                 normal: normal,
                 isConvex: true,
@@ -596,7 +596,7 @@ public extension Mesh {
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        let offset = shape.faceNormal * (depth / 2)
+        let offset = Vector((depth / 2) * shape.faceNormal)
         if offset.isEqual(to: .zero) {
             return fill(shape, faces: faces, material: material)
         }
@@ -660,7 +660,7 @@ public extension Mesh {
             if let _p0p2 = _p0p2 {
                 r = rotationBetweenVectors(p0p2, _p0p2)
             } else {
-                r = rotationBetweenVectors(p0p2, shapeNormal)
+                r = rotationBetweenVectors(p0p2, Vector(shapeNormal))
             }
             shape = shape.rotated(by: r)
             if p0p1.isEqual(to: p1p2) {
@@ -689,7 +689,7 @@ public extension Mesh {
             shapes.append(shapes[0])
         } else {
             var _p0p2: Vector! = p0p1
-            shape = shape.rotated(by: rotationBetweenVectors(p0p1, shapeNormal))
+            shape = shape.rotated(by: rotationBetweenVectors(p0p1, Vector(shapeNormal)))
             shapes.append(shape.translated(by: p0.position))
             for i in 1 ..< count - 1 {
                 let p2 = points[i + 1]
@@ -763,7 +763,7 @@ public extension Mesh {
                 isCapped = false
             } else if let p0p1 = directionBetweenShapes(prev, shapes[1]) {
                 polygons += facePolygons.map {
-                    p0p1.dot($0.plane.normal) > 0 ? $0.inverted() : $0
+                    Distance(p0p1).dot($0.plane.normal) > 0 ? $0.inverted() : $0
                 }
             } else {
                 polygons += facePolygons
@@ -778,7 +778,7 @@ public extension Mesh {
             // TODO: better handling of case where e0 and e1 counts don't match
             let invert: Bool
             if let n = prev.plane?.normal,
-               let p0p1 = directionBetweenShapes(prev, path), p0p1.dot(n) > 0
+               let p0p1 = directionBetweenShapes(prev, path), Distance(p0p1).dot(n) > 0
             {
                 invert = false
             } else {
@@ -832,7 +832,7 @@ public extension Mesh {
                 isCapped = false
             } else if let p0p1 = directionBetweenShapes(shapes[shapes.count - 2], prev) {
                 polygons += facePolygons.map {
-                    p0p1.dot($0.plane.normal) < 0 ? $0.inverted() : $0
+                    Distance(p0p1).dot($0.plane.normal) < 0 ? $0.inverted() : $0
                 }
             } else {
                 polygons += facePolygons

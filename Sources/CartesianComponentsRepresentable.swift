@@ -12,7 +12,7 @@ private enum CodingKeys: CodingKey {
     case x, y, z
 }
 
-public protocol CartesianComponentsRepresentable: Codable, Hashable {
+public protocol CartesianComponentsRepresentable: Codable, Hashable, Comparable {
     var x: Double { get }
     var y: Double { get }
     var z: Double { get }
@@ -35,21 +35,29 @@ public extension CartesianComponentsRepresentable {
     var components: [Double] {
         return [x, y, z]
     }
+    
+    init(_ x: Double, _ y: Double, _ z: Double) {
+        self.init(x: x, y: y, z: z)
+    }
 }
 
 public extension CartesianComponentsRepresentable {
     init(from decoder: Decoder) throws {
-        let x, y, z: Double
         if var container = try? decoder.unkeyedContainer() {
-            x = try container.decode(Double.self)
-            y = try container.decode(Double.self)
-            z = try container.decodeIfPresent(Double.self) ?? 0
+            try self.init(from: &container)
         } else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            x = try container.decodeIfPresent(Double.self, forKey: .x) ?? 0
-            y = try container.decodeIfPresent(Double.self, forKey: .y) ?? 0
-            z = try container.decodeIfPresent(Double.self, forKey: .z) ?? 0
+            let x = try container.decodeIfPresent(Double.self, forKey: .x) ?? 0
+            let y = try container.decodeIfPresent(Double.self, forKey: .y) ?? 0
+            let z = try container.decodeIfPresent(Double.self, forKey: .z) ?? 0
+            self.init(x: x, y: y, z: z)
         }
+    }
+    
+    init(from container: inout UnkeyedDecodingContainer) throws {
+        let x = try container.decode(Double.self)
+        let y = try container.decode(Double.self)
+        let z = try container.decodeIfPresent(Double.self) ?? 0
         self.init(x: x, y: y, z: z)
     }
 
@@ -63,6 +71,10 @@ public extension CartesianComponentsRepresentable {
         try container.encode(x)
         try container.encode(y)
         try skipZ ? () : container.encode(z)
+    }
+    
+    func encode(to container: inout UnkeyedEncodingContainer) throws {
+        try encode(to: &container, skipZ: false)
     }
 }
 
@@ -80,5 +92,39 @@ public extension CartesianComponentsRepresentable {
 public extension CartesianComponentsRepresentable {
     func quantized() -> Self {
         Self.init(x: quantize(x), y: quantize(y), z: quantize(z))
+    }
+}
+
+extension CartesianComponentsRepresentable {
+    public static func < (lhs: Self, rhs: Self) -> Bool {
+        if lhs.x < rhs.x {
+            return true
+        } else if lhs.x > rhs.x {
+            return false
+        }
+        if lhs.y < rhs.y {
+            return true
+        } else if lhs.y > rhs.y {
+            return false
+        }
+        return lhs.z < rhs.z
+    }
+}
+
+public extension CartesianComponentsRepresentable {
+    init(_ vector: Vector) {
+        self.init(x: vector.x, y: vector.y, z: vector.z)
+    }
+    
+    func scaled(by vn: Vector) -> Self {
+        Self.init(x: x * vn.x,
+                  y: y * vn.y,
+                  z: z * vn.z)
+    }
+}
+
+internal extension Vector {
+    init<T: CartesianComponentsRepresentable>(_ cartesian: T) {
+        self.init(cartesian.x, cartesian.y, cartesian.z)
     }
 }

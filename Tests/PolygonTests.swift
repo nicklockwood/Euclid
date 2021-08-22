@@ -23,7 +23,7 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertEqual(polygon.plane.normal, Vector(normal))
+        XCTAssertEqual(polygon.plane.normal, normal)
     }
 
     func testConvexPolygonClockwiseWinding() {
@@ -37,7 +37,7 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertEqual(polygon.plane.normal, Vector(normal))
+        XCTAssertEqual(polygon.plane.normal, normal)
     }
 
     func testConcavePolygonAnticlockwiseWinding() {
@@ -53,7 +53,7 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertEqual(polygon.plane.normal, Vector(normal))
+        XCTAssertEqual(polygon.plane.normal, normal)
     }
 
     func testConcavePolygonClockwiseWinding() {
@@ -69,7 +69,7 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertEqual(polygon.plane.normal, Vector(normal))
+        XCTAssertEqual(polygon.plane.normal, normal)
     }
 
     func testDegeneratePolygonWithColinearPoints() {

@@ -30,6 +30,7 @@
 //
 
 public struct Line: Hashable {
+    #warning("direction should also be Direction")
     public let origin, direction: Vector
 
     /// Creates a line from an origin and direction

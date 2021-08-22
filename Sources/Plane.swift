@@ -31,16 +31,13 @@
 
 /// Represents a 2D plane in 3D space.
 public struct Plane: Hashable {
-    public let normal: Vector
+    public let normal: Direction
     public let w: Double
 
     /// Creates a plane from a surface normal and a distance from the world origin
-    init?(normal: Vector, w: Double) {
-        let length = normal.length
-        guard length.isFinite, length > epsilon else {
-            return nil
-        }
-        self.init(unchecked: normal / length, w: w)
+    #warning("change function signature")
+    init(normal: Vector, w: Double) {
+        self.init(unchecked: Direction(normal), w: w)
     }
 }
 
@@ -61,11 +58,11 @@ extension Plane: Codable {
 
     public init(from decoder: Decoder) throws {
         if var container = try? decoder.unkeyedContainer() {
-            self.normal = try Vector(from: &container).normalized()
+            self.normal = try Direction(from: &container)
             self.w = try container.decode(Double.self)
         } else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            normal = try container.decode(Vector.self, forKey: .normal).normalized()
+            normal = try container.decode(Direction.self, forKey: .normal)
             w = try container.decode(Double.self, forKey: .w)
         }
     }
@@ -78,17 +75,16 @@ extension Plane: Codable {
 }
 
 public extension Plane {
-    static let yz = Plane(unchecked: Vector(1, 0, 0), w: 0)
-    static let xz = Plane(unchecked: Vector(0, 1, 0), w: 0)
-    static let xy = Plane(unchecked: Vector(0, 0, 1), w: 0)
+    static let yz = Plane(unchecked: .x, w: 0)
+    static let xz = Plane(unchecked: .y, w: 0)
+    static let xy = Plane(unchecked: .z, w: 0)
 
     /// Creates a plane from a point and surface normal
-    init?(normal: Vector, pointOnPlane: Vector) {
-        let length = normal.length
-        guard length.isFinite, length > epsilon else {
+    init?(normal: Direction, pointOnPlane: Vector) {
+        guard normal.norm > epsilon else {
             return nil
         }
-        self.init(unchecked: normal / length, pointOnPlane: pointOnPlane)
+        self.init(unchecked: normal, pointOnPlane: pointOnPlane)
     }
 
     /// Generate a plane from a set of coplanar points describing a polygon
@@ -112,7 +108,7 @@ public extension Plane {
     /// A positive value is returned if the point lies in front of the plane
     /// A negative value is returned if the point lies behind the plane
     func distance(from p: Vector) -> Double {
-        normal.dot(p) - w
+        Distance(p.x, p.y, p.z).dot(normal) - w
     }
 
     /// Returns line of intersection between planes
@@ -123,33 +119,32 @@ public extension Plane {
             // Planes do not intersect
             return nil
         }
-        return Line(origin: origin, direction: normal.cross(p.normal))
+        return Line(origin: origin, direction: Vector(normal.cross(p.normal)))
     }
 
     /// Returns point intersection between plane and line
     func intersection(with line: Line) -> Vector? {
         // https://en.wikipedia.org/wiki/Line–plane_intersection#Algebraic_form
-        let lineDotPlaneNormal = line.direction.dot(normal)
+        let lineDotPlaneNormal = Direction(line.direction).dot(normal)
         guard abs(lineDotPlaneNormal) > epsilon else {
             // Line and plane are parallel
             return nil
         }
-        let planePoint = normal * w
-        let d = (planePoint - line.origin).dot(normal) / lineDotPlaneNormal
+        let planePoint = w * normal
+        let d = (planePoint - Distance(line.origin)).dot(normal) / lineDotPlaneNormal
         let intersection = line.origin + line.direction * d
         return intersection
     }
 }
 
 internal extension Plane {
-    init(unchecked normal: Vector, w: Double) {
-        assert(normal.isNormalized)
+    init(unchecked normal: Direction, w: Double) {
         self.normal = normal
         self.w = w
     }
 
-    init(unchecked normal: Vector, pointOnPlane: Vector) {
-        self.init(unchecked: normal, w: normal.dot(pointOnPlane))
+    init(unchecked normal: Direction, pointOnPlane: Vector) {
+        self.init(unchecked: normal, w: Distance(pointOnPlane).dot(normal))
     }
 
     init?(points: [Vector], convex: Bool?) {
@@ -200,7 +195,7 @@ enum FlatteningPlane: RawRepresentable {
         }
     }
 
-    init(normal: Vector) {
+    init(normal: Direction) {
         switch (abs(normal.x), abs(normal.y), abs(normal.z)) {
         case let (x, y, z) where x > y && x > z:
             self = .yz
