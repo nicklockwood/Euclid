@@ -60,7 +60,7 @@ class LineTests: XCTestCase {
 
     func testLineIntersectionXY() {
         let l1 = Line(unchecked: Vector(1, 0, 3), direction: .x)
-        let l2 = Line(unchecked: Vector(0, 1, 3), direction: .y.opposite)
+        let l2 = Line(unchecked: Vector(0, 1, 3), direction: Direction.y.opposite)
 
         let intersection = l1.intersection(with: l2)
         XCTAssertEqual(intersection, Vector(0, 0, 3))
@@ -68,7 +68,7 @@ class LineTests: XCTestCase {
 
     func testLineIntersectionXZ() {
         let l1 = Line(unchecked: Vector(1, 3, 0), direction: .x)
-        let l2 = Line(unchecked: Vector(0, 3, 1), direction: .z.opposite)
+        let l2 = Line(unchecked: Vector(0, 3, 1), direction: Direction.z.opposite)
 
         let intersection = l1.intersection(with: l2)
         XCTAssertEqual(intersection, Vector(0, 3, 0))
@@ -76,7 +76,7 @@ class LineTests: XCTestCase {
 
     func testLineIntersectionYZ() {
         let l1 = Line(unchecked: Vector(3, 1, 0), direction: .y)
-        let l2 = Line(unchecked: Vector(3, 0, 1), direction: .z.opposite)
+        let l2 = Line(unchecked: Vector(3, 0, 1), direction: Direction.z.opposite)
 
         let intersection = l1.intersection(with: l2)
         XCTAssertEqual(intersection, Vector(3, 0, 0))
@@ -121,8 +121,8 @@ class LineTests: XCTestCase {
     }
 
     func testEquivalentZLinesAreEqual() {
-        let l1 = Line(origin: Vector(2, 5, -2), direction: .z.opposite)
-        let l2 = Line(origin: Vector(2, 5, 7), direction: .z.opposite)
+        let l1 = Line(origin: Vector(2, 5, -2), direction: Direction.z.opposite)
+        let l2 = Line(origin: Vector(2, 5, 7), direction: Direction.z.opposite)
         XCTAssertEqual(l1, l2)
         XCTAssert(Set([l1]).contains(l2))
     }

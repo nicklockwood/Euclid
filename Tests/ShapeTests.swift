@@ -173,7 +173,7 @@ class ShapeTests: XCTestCase {
         ])
         let mesh = Mesh.fill(shape)
         XCTAssertEqual(mesh.polygons.count, 2)
-        XCTAssertEqual(mesh.polygons.first?.plane.normal, .z.opposite)
+        XCTAssertEqual(mesh.polygons.first?.plane.normal, Direction.z.opposite)
     }
 
     func testFillSelfIntersectingPath() {

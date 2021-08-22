@@ -111,7 +111,7 @@ class PathTests: XCTestCase {
             .point(-1, -1),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, .z.opposite)
+        XCTAssertEqual(path.plane?.normal, Direction.z.opposite)
     }
 
     func testConvexOpenPathAnticlockwiseWinding() {
@@ -131,7 +131,7 @@ class PathTests: XCTestCase {
             .point(1, 1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, .z.opposite)
+        XCTAssertEqual(path.plane?.normal, Direction.z.opposite)
     }
 
     func testConcaveClosedPathAnticlockwiseWinding() {
@@ -159,7 +159,7 @@ class PathTests: XCTestCase {
             .point(-1, 0),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, .z.opposite)
+        XCTAssertEqual(path.plane?.normal, Direction.z.opposite)
     }
 
     func testConcaveClosedPathClockwiseWinding2() {
@@ -174,7 +174,7 @@ class PathTests: XCTestCase {
         }
         points.append(.point(0, -0.5))
         let path = Path(points)
-        XCTAssertEqual(path.plane?.normal, .z.opposite)
+        XCTAssertEqual(path.plane?.normal, Direction.z.opposite)
     }
 
     func testConcaveOpenPathAnticlockwiseWinding() {
@@ -198,7 +198,7 @@ class PathTests: XCTestCase {
             .point(-1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, .z.opposite)
+        XCTAssertEqual(path.plane?.normal, Direction.z.opposite)
     }
 
     func testStraightLinePathAnticlockwiseWinding() {

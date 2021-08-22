@@ -21,7 +21,7 @@ class PlaneTests: XCTestCase {
             transform.rotate(by: .roll(.pi / Double(sides)))
         }
         let plane = Plane(points: points)!
-        XCTAssertEqual(plane.normal, .z.opposite)
+        XCTAssertEqual(plane.normal, Direction.z.opposite)
     }
 
     func testConcavePolygonPlaneTranslation() {

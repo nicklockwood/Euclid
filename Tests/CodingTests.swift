@@ -549,7 +549,7 @@ class CodingTests: XCTestCase {
                 Vertex(Vector(1, 0, 1), .z),
                 Vertex(Vector(1, 1, 1), .z),
             ],
-            plane: Plane(normal: .z.opposite, w: 1)
+            plane: Plane(normal: Direction.z.opposite, w: 1)
         )
         let encoded = try encode(polygon)
         XCTAssertEqual(try decode(encoded), polygon)
