@@ -150,7 +150,7 @@ internal extension Vertex {
     // Approximate equality
     func isEqual(to other: Vertex, withPrecision p: Double = epsilon) -> Bool {
         position.isEqual(to: other.position, withPrecision: p) &&
-        normal.isEqual(to: other.normal, withPrecision: p) &&
-        texcoord.isEqual(to: other.texcoord, withPrecision: p)
+            normal.isEqual(to: other.normal, withPrecision: p) &&
+            texcoord.isEqual(to: other.texcoord, withPrecision: p)
     }
 }

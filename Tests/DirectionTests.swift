@@ -18,7 +18,7 @@ class DirectionTests: XCTestCase {
         XCTAssertEqual(0, Direction.zero.z)
         XCTAssertEqual(0, Direction.zero.norm)
     }
-    
+
     func testNormedComponents() {
         let direction = Direction(x: 1, y: 2, z: 3)
         let componentNorm = sqrt(14)

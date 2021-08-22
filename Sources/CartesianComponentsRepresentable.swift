@@ -21,11 +21,11 @@ public protocol CartesianComponentsRepresentable: Codable, Hashable, Comparable 
 
 public extension CartesianComponentsRepresentable {
     var norm: Double {
-        return (x * x + y * y + z * z).squareRoot()
+        (x * x + y * y + z * z).squareRoot()
     }
 
     static prefix func - (element: Self) -> Self {
-        return self.init(
+        self.init(
             x: -element.x,
             y: -element.y,
             z: -element.z
@@ -33,9 +33,9 @@ public extension CartesianComponentsRepresentable {
     }
 
     var components: [Double] {
-        return [x, y, z]
+        [x, y, z]
     }
-    
+
     init(_ x: Double, _ y: Double, _ z: Double) {
         self.init(x: x, y: y, z: z)
     }
@@ -53,7 +53,7 @@ public extension CartesianComponentsRepresentable {
             self.init(x: x, y: y, z: z)
         }
     }
-    
+
     init(from container: inout UnkeyedDecodingContainer) throws {
         let x = try container.decode(Double.self)
         let y = try container.decode(Double.self)
@@ -65,14 +65,14 @@ public extension CartesianComponentsRepresentable {
         var container = encoder.unkeyedContainer()
         try encode(to: &container, skipZ: z == 0)
     }
-    
+
     /// Encode directly into an unkeyedContainer
     func encode(to container: inout UnkeyedEncodingContainer, skipZ: Bool) throws {
         try container.encode(x)
         try container.encode(y)
         try skipZ ? () : container.encode(z)
     }
-    
+
     func encode(to container: inout UnkeyedEncodingContainer) throws {
         try encode(to: &container, skipZ: false)
     }
@@ -83,20 +83,20 @@ public extension CartesianComponentsRepresentable {
         let rotationMatrix = Rotation(axis: axis, angle: -angle)
         return rotated(by: rotationMatrix)
     }
-    
+
     func rotated(by rotationMatrix: Rotation) -> Self {
-        return self * rotationMatrix
+        self * rotationMatrix
     }
 }
 
 public extension CartesianComponentsRepresentable {
     func quantized() -> Self {
-        Self.init(x: quantize(x), y: quantize(y), z: quantize(z))
+        Self(x: quantize(x), y: quantize(y), z: quantize(z))
     }
 }
 
-extension CartesianComponentsRepresentable {
-    public static func < (lhs: Self, rhs: Self) -> Bool {
+public extension CartesianComponentsRepresentable {
+    static func < (lhs: Self, rhs: Self) -> Bool {
         if lhs.x < rhs.x {
             return true
         } else if lhs.x > rhs.x {
@@ -115,10 +115,12 @@ public extension CartesianComponentsRepresentable {
     init(_ vector: Vector) {
         self.init(x: vector.x, y: vector.y, z: vector.z)
     }
-    
+
     func scaled(by vn: Vector) -> Self {
-        Self.init(x: x * vn.x,
-                  y: y * vn.y,
-                  z: z * vn.z)
+        Self(
+            x: x * vn.x,
+            y: y * vn.y,
+            z: z * vn.z
+        )
     }
 }

@@ -74,7 +74,7 @@ private extension Data {
         append(vector.y)
         append(vector.z)
     }
-    
+
     mutating func append<T: CartesianComponentsRepresentable>(_ cartesianComponentsRepresentable: T) {
         append(cartesianComponentsRepresentable.x)
         append(cartesianComponentsRepresentable.y)

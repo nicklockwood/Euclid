@@ -43,13 +43,14 @@ extension Line: Codable {
     private enum CodingKeys: CodingKey {
         case origin, direction
     }
-    
+
     public init(from decoder: Decoder) throws {
         let line: Line
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             line = try Line(
                 origin: container.decode(Vector.self, forKey: .origin),
-                direction: container.decode(Direction.self, forKey: .direction))
+                direction: container.decode(Direction.self, forKey: .direction)
+            )
             if line.direction.norm < epsilon {
                 throw DecodingError.dataCorruptedError(
                     forKey: .direction,
@@ -61,7 +62,8 @@ extension Line: Codable {
             var container = try decoder.unkeyedContainer()
             line = try Line(
                 origin: Vector(from: &container),
-                direction: Direction(from: &container))
+                direction: Direction(from: &container)
+            )
             if line.direction.norm < epsilon {
                 throw DecodingError.dataCorruptedError(
                     in: container,

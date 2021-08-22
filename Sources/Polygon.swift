@@ -603,7 +603,8 @@ internal extension Polygon {
             }
             let tj = vj.position.compare(with: plane)
             if ti.rawValue | tj.rawValue == PlaneComparison.spanning.rawValue {
-                let t = (plane.w - Distance(vi.position).dot(plane.normal)) / Distance(vj.position - vi.position).dot(plane.normal)
+                let t = (plane.w - Distance(vi.position).dot(plane.normal)) / Distance(vj.position - vi.position)
+                    .dot(plane.normal)
                 let v = vi.lerp(vj, t)
                 f.append(v)
                 b.append(v)

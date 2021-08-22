@@ -26,7 +26,7 @@ public extension Position {
 
 public extension Position {
     static func + (lhs: Position, rhs: Distance) -> Position {
-        return Position(
+        Position(
             x: lhs.x + rhs.x,
             y: lhs.y + rhs.y,
             z: lhs.z + rhs.z
@@ -34,7 +34,7 @@ public extension Position {
     }
 
     static func - (lhs: Position, rhs: Distance) -> Position {
-        return Position(
+        Position(
             x: lhs.x - rhs.x,
             y: lhs.y - rhs.y,
             z: lhs.z - rhs.z
@@ -42,7 +42,7 @@ public extension Position {
     }
 
     static func - (lhs: Position, rhs: Position) -> Distance {
-        return Distance(
+        Distance(
             x: lhs.x - rhs.x,
             y: lhs.y - rhs.y,
             z: lhs.z - rhs.z

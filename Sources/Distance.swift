@@ -26,35 +26,35 @@ public extension Distance {
 
 public extension Distance {
     var direction: Direction {
-        return Direction(x: x, y: y, z: z)
+        Direction(x: x, y: y, z: z)
     }
 
     func isParallel(to other: Distance) -> Bool {
-        return isParallel(to: other.direction)
+        isParallel(to: other.direction)
     }
 
     func isParallel(to other: Direction) -> Bool {
-        return direction.isParallel(to: other)
+        direction.isParallel(to: other)
     }
 
     func isAntiparallel(to other: Distance) -> Bool {
-        return isAntiparallel(to: other.direction)
+        isAntiparallel(to: other.direction)
     }
 
     func isAntiparallel(to other: Direction) -> Bool {
-        return direction.isAntiparallel(to: other)
+        direction.isAntiparallel(to: other)
     }
 
     func isColinear(to other: Distance) -> Bool {
-        return isParallel(to: other) || isAntiparallel(to: other)
+        isParallel(to: other) || isAntiparallel(to: other)
     }
 
     func isNormal(to other: Distance) -> Bool {
-        return isNormal(to: other.direction)
+        isNormal(to: other.direction)
     }
 
     func isNormal(to other: Direction) -> Bool {
-        return direction.isNormal(to: other)
+        direction.isNormal(to: other)
     }
 }
 
@@ -65,7 +65,7 @@ public extension Distance {
         let normalDirection = direction.cross(other.direction)
         return newNorm * normalDirection
     }
-    
+
     func dot(_ direction: Direction) -> Double {
         self.direction.dot(direction) * norm
     }
@@ -73,13 +73,13 @@ public extension Distance {
 
 public extension Distance {
     var opposite: Distance {
-        return -self
+        -self
     }
 }
 
 public extension Distance {
     static func * (lhs: Double, rhs: Distance) -> Distance {
-        return Distance(
+        Distance(
             x: lhs * rhs.x,
             y: lhs * rhs.y,
             z: lhs * rhs.z
@@ -98,10 +98,10 @@ public extension Distance {
 
 public extension Distance {
     func projection(on direction: Direction) -> Distance {
-        return norm * self.direction.dot(direction) * direction
+        norm * self.direction.dot(direction) * direction
     }
 
     func normal(to direction: Direction) -> Distance {
-        return self - projection(on: direction)
+        self - projection(on: direction)
     }
 }

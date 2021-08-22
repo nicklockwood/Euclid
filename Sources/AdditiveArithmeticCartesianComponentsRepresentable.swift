@@ -12,7 +12,7 @@ public protocol AdditiveArithmeticCartesianComponentsRepresentable: CartesianCom
 
 public extension AdditiveArithmeticCartesianComponentsRepresentable {
     static func + (lhs: Self, rhs: Self) -> Self {
-        return Self(
+        Self(
             x: lhs.x + rhs.x,
             y: lhs.y + rhs.y,
             z: lhs.z + rhs.z
@@ -20,18 +20,20 @@ public extension AdditiveArithmeticCartesianComponentsRepresentable {
     }
 
     static func - (lhs: Self, rhs: Self) -> Self {
-        return Self(
+        Self(
             x: lhs.x - rhs.x,
             y: lhs.y - rhs.y,
             z: lhs.z - rhs.z
         )
     }
-    
+
     /// Linearly interpolate between two vectors
     func lerp(_ a: Self, _ t: Double) -> Self {
-        return Self(x: x + (a.x - x) * t,
-                    y: y + (a.y - y) * t,
-                    z: z + (a.z - z) * t)
+        Self(
+            x: x + (a.x - x) * t,
+            y: y + (a.y - y) * t,
+            z: z + (a.z - z) * t
+        )
     }
 }
 

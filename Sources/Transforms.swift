@@ -255,9 +255,11 @@ public extension Vertex {
 
     func scaled(by v: Vector) -> Vertex {
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
-        return Vertex(position.scaled(by: v),
-                      normal.scaled(by: vn),
-                      texcoord)
+        return Vertex(
+            position.scaled(by: v),
+            normal.scaled(by: vn),
+            texcoord
+        )
     }
 
     func scaled(by f: Double) -> Vertex {

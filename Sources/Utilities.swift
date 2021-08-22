@@ -34,7 +34,7 @@ let epsilon = 1e-10
 
 public extension CartesianComponentsRepresentable {
     static func == (lhs: Self, rhs: Self) -> Bool {
-        return abs(lhs.x - rhs.x) < epsilon
+        abs(lhs.x - rhs.x) < epsilon
             && abs(lhs.y - rhs.y) < epsilon
             && abs(lhs.z - rhs.z) < epsilon
     }
