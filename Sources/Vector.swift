@@ -276,15 +276,7 @@ internal extension Vector {
 }
 
 public extension Vector {
-    init(_ cartesian: Direction) {
-        self.init(cartesian.x, cartesian.y, cartesian.z)
-    }
-    
-    init(_ cartesian: Distance) {
-        self.init(cartesian.x, cartesian.y, cartesian.z)
-    }
-    
-    init(_ cartesian: Position) {
+    init<T: CartesianComponentsRepresentable>(_ cartesian: T) {
         self.init(cartesian.x, cartesian.y, cartesian.z)
     }
 }
