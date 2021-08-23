@@ -49,7 +49,7 @@ extension Polygon: Codable {
         var plane: Plane?, material: Material?
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             vertices = try container.decode([Vertex].self, forKey: .vertices)
-            guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+            guard !verticesAreDegenerate(vertices) else {
                 throw DecodingError.dataCorruptedError(
                     forKey: .vertices,
                     in: container,
@@ -67,7 +67,7 @@ extension Polygon: Codable {
             } else {
                 vertices = try [Vertex](from: decoder)
             }
-            guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+            guard !verticesAreDegenerate(vertices) else {
                 throw DecodingError.dataCorruptedError(
                     in: container,
                     debugDescription: "Vertices are degenerate"
@@ -77,6 +77,7 @@ extension Polygon: Codable {
         self.init(
             unchecked: vertices,
             plane: plane,
+            isConvex: nil,
             sanitizeNormals: true,
             material: material
         )
@@ -175,11 +176,11 @@ public extension Polygon {
     }
 
     /// Test if point lies inside the polygon
-    // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
     func containsPoint(_ p: Vector) -> Bool {
         guard plane.containsPoint(p) else {
             return false
         }
+        // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
         let flatteningPlane = FlatteningPlane(normal: plane.normal)
         let points = vertices.map { flatteningPlane.flattenPoint($0.position) }
         let p = flatteningPlane.flattenPoint(p)
@@ -367,21 +368,19 @@ internal extension Polygon {
         )
     }
 
-    // Create polygon from vertices and plane without performing validation
+    // Create polygon from vertices and (optional) plane without performing validation
     // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
     // Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
     init(
         unchecked vertices: [Vertex],
-        plane: Plane? = nil,
-        isConvex: Bool? = nil,
+        plane: Plane?,
+        isConvex: Bool?,
         sanitizeNormals: Bool = false,
-        material: Material? = nil,
+        material: Material?,
         id: Int = 0
     ) {
-        assert(vertices.count > 2)
+        assert(!verticesAreDegenerate(vertices))
         let points = vertices.map { $0.position }
-        assert(!pointsAreDegenerate(points))
-        assert(!pointsAreSelfIntersecting(points))
         assert(isConvex == nil || pointsAreConvex(points) == isConvex)
         assert(sanitizeNormals || vertices.allSatisfy { $0.normal != .zero })
         let plane = plane ?? Plane(unchecked: points, convex: isConvex)
@@ -606,8 +605,12 @@ internal extension Polygon {
                 let t = (plane.w - Distance(vi.position).dot(plane.normal)) / Distance(vj.position - vi.position)
                     .dot(plane.normal)
                 let v = vi.lerp(vj, t)
-                f.append(v)
-                b.append(v)
+                if f.last?.position != v.position, f.first?.position != v.position {
+                    f.append(v)
+                }
+                if b.last?.position != v.position, b.first?.position != v.position {
+                    b.append(v)
+                }
             }
         }
         if !verticesAreDegenerate(f) {

@@ -496,7 +496,12 @@ public extension Mesh {
                             Direction(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
                             Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
                         )
-                        polygons.append(Polygon(unchecked: [v0, v2, v3], isConvex: true, material: material))
+                        polygons.append(Polygon(
+                            unchecked: [v0, v2, v3],
+                            plane: nil,
+                            isConvex: true,
+                            material: material
+                        ))
                     }
                 } else if v1.position.x == 0 {
                     // bottom triangle
@@ -517,7 +522,12 @@ public extension Mesh {
                         Direction(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
                         Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
                     )
-                    polygons.append(Polygon(unchecked: [v2, v3, v1], isConvex: true, material: material))
+                    polygons.append(Polygon(
+                        unchecked: [v2, v3, v1],
+                        plane: nil,
+                        isConvex: true,
+                        material: material
+                    ))
                 } else {
                     // quad face
                     let v2 = Vertex(
@@ -546,7 +556,12 @@ public extension Mesh {
                     )
                     let vertices = [v2, v3, v4, v5]
                     if !verticesAreDegenerate(vertices) {
-                        polygons.append(Polygon(unchecked: vertices, isConvex: true, material: material))
+                        polygons.append(Polygon(
+                            unchecked: vertices,
+                            plane: nil,
+                            isConvex: true,
+                            material: material
+                        ))
                     }
                 }
             }
@@ -638,17 +653,17 @@ public extension Mesh {
         var shape = shape
         let shapePlane = shape.flatteningPlane
         let pathPlane = along.flatteningPlane
+        let shapeNormal: Vector
         switch (shapePlane, pathPlane) {
         case (.xy, .xy):
-            shape = shape.rotated(by: .roll(.halfPi))
-        case (.yz, .yz):
-            shape = shape.rotated(by: .yaw(.halfPi))
-        case (.xz, .xz):
             shape = shape.rotated(by: .pitch(.halfPi))
+            shapeNormal = shapePlane.rawValue.normal.rotated(by: .pitch(.halfPi))
+        case (.yz, .yz), (.xz, .xz):
+            shape = shape.rotated(by: .roll(.halfPi))
+            shapeNormal = shapePlane.rawValue.normal.rotated(by: .roll(.halfPi))
         default:
-            break
+            shapeNormal = shapePlane.rawValue.normal
         }
-        let shapeNormal = (shape.plane ?? shapePlane.rawValue).normal
         var shapes = [Path]()
         let count = points.count
         var p1 = points[1]
@@ -812,15 +827,27 @@ public extension Mesh {
                         vertices.remove(at: 3)
                         polygons.append(Polygon(
                             unchecked: invert ? vertices2.reversed() : vertices2,
+                            plane: nil,
                             isConvex: true,
                             material: material
                         ))
                     }
                     polygons.append(Polygon(
                         unchecked: invert ? vertices.reversed() : vertices,
-                        isConvex: true,
+                        plane: nil,
+                        isConvex: nil,
                         material: material
                     ))
+                } else {
+                    // This is a hack to make the best of a bad edge case
+                    // TODO: find a better solution
+                    polygons += triangulateVertices(
+                        vertices,
+                        plane: nil,
+                        isConvex: nil,
+                        material: material,
+                        id: 0
+                    )
                 }
             }
             // TODO: create triangles for mismatched points
@@ -837,6 +864,10 @@ public extension Mesh {
             } else {
                 polygons += facePolygons
             }
+        }
+        if !isCapped, count > 1, let first = shapes.first, let last = shapes.last {
+            isCapped = first.isClosed && first.hasZeroArea &&
+                last.isClosed && last.hasZeroArea
         }
         switch faces {
         case .default where isCapped, .front:

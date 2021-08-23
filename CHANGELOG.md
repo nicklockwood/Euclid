@@ -1,3 +1,20 @@
+## [0.5.9](https://github.com/nicklockwood/Euclid/releases/tag/0.5.9) (2021-08-19)
+
+- Fixed relative orientation when extruding along a path
+- Fixed missing face polygons when extruding along a complex shape such as text
+- Fixed back-face duplication when lofting a line shape
+- Fixed assertion in `Path(points:)` when creating a simple line shape
+- Fixed assertion when lofting complex shapes like text
+
+## [0.5.8](https://github.com/nicklockwood/Euclid/releases/tag/0.5.8) (2021-08-15)
+
+- Fixed several bugs in `Polygon` validation that could lead to cracks in generated meshes
+- Fixed spurious assertion in `Path(points:)` initializer
+
+## [0.5.7](https://github.com/nicklockwood/Euclid/releases/tag/0.5.7) (2021-08-13)
+
+- Fixed a regression in `SCNGeometry(_ path:)` introduced in version 0.3.6
+
 ## [0.5.6](https://github.com/nicklockwood/Euclid/releases/tag/0.5.6) (2021-08-10)
 
 - Fixed axis alignment bug when extruding complex shapes along a custom path
