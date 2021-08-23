@@ -30,8 +30,15 @@
 //
 
 #if canImport(SceneKit)
-
 import SceneKit
+
+#if os(iOS) || os(tvOS)
+private typealias OSColor = UIColor
+private typealias OSImage = UIImage
+#elseif os(OSX)
+private typealias OSColor = NSColor
+private typealias OSImage = NSImage
+#endif
 
 public extension SCNVector3 {
     init(_ v: Vector) {
@@ -89,14 +96,6 @@ public extension SCNNode {
         position = SCNVector3(transform.offset)
     }
 }
-
-#if os(iOS) || os(tvOS)
-private typealias OSColor = UIColor
-private typealias OSImage = UIImage
-#elseif os(OSX)
-private typealias OSColor = NSColor
-private typealias OSImage = NSImage
-#endif
 
 private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
     switch material {
