@@ -653,7 +653,7 @@ public extension Mesh {
         var shape = shape
         let shapePlane = shape.flatteningPlane
         let pathPlane = along.flatteningPlane
-        let shapeNormal: Vector
+        let shapeNormal: Direction
         switch (shapePlane, pathPlane) {
         case (.xy, .xy):
             shape = shape.rotated(by: .pitch(.halfPi))
