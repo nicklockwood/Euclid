@@ -30,7 +30,7 @@
 //
 
 // Tolerance used for calculating approximate equality
-let epsilon = 1e-10
+let epsilon = 1e-8
 
 // Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
@@ -41,11 +41,11 @@ func quantize(_ value: Double) -> Double {
 // MARK: Vertex utilities
 
 func verticesAreDegenerate(_ vertices: [Vertex]) -> Bool {
-    // TODO: should vertex count < 3 actually be considered degenerate?
-    guard vertices.count > 1 else {
-        return false
+    guard vertices.count > 2 else {
+        return true
     }
-    return pointsAreDegenerate(vertices.map { $0.position })
+    let positions = vertices.map { $0.position }
+    return pointsAreDegenerate(positions) || pointsAreSelfIntersecting(positions)
 }
 
 func verticesAreConvex(_ vertices: [Vertex]) -> Bool {
@@ -195,30 +195,21 @@ func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
 
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {
     let count = points.count
-    guard count > 1, let a = points.last else {
+    guard count > 2, var a = points.last else {
         return false
     }
-    var ab = points[0] - a
-    var length = ab.length
-    guard length > epsilon else {
-        return true
-    }
-    if count < 3 {
-        return false
-    }
-    ab = ab / length
+    var ab = (points[0] - a).normalized()
     for i in 0 ..< count {
         let b = points[i]
         let c = points[(i + 1) % count]
-        var bc = c - b
-        length = bc.length
-        guard length > epsilon else {
+        if b == c || a == b {
             return true
         }
-        bc = bc / length
-        guard abs(ab.dot(bc) + 1) > epsilon else {
+        let bc = (c - b).normalized()
+        guard abs(ab.dot(bc) + 1) > 0 else {
             return true
         }
+        a = b
         ab = bc
     }
     return false
@@ -257,22 +248,23 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
 // Test if path is self-intersecting
 // TODO: optimize by using http://www.webcitation.org/6ahkPQIsN
 func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
-    let flatteningPlane = FlatteningPlane(points: points, convex: nil)
-    let points = points.map { flatteningPlane.flattenPoint($0) }
+    guard points.count > 2 else {
+        // A triangle can't be self-intersecting
+        return false
+    }
     for i in 0 ..< points.count - 2 {
-        let p0 = points[i]
-        let p1 = points[i + 1]
-        if p0 == p1 {
+        let p0 = points[i], p1 = points[i + 1]
+        guard let l1 = LineSegment(p0, p1) else {
             continue
         }
         for j in i + 2 ..< points.count - 1 {
-            let p2 = points[j]
-            let p3 = points[j + 1]
-            if p1 == p2 || p2 == p3 || p3 == p0 {
+            let p2 = points[j], p3 = points[j + 1]
+            guard !p1.isEqual(to: p2), !p1.isEqual(to: p3),
+                  !p0.isEqual(to: p2), !p0.isEqual(to: p3),
+                  let l2 = LineSegment(p2, p3)
+            else {
                 continue
             }
-            let l1 = LineSegment(unchecked: p0, p1)
-            let l2 = LineSegment(unchecked: p2, p3)
             if l1.intersects(l2) {
                 return true
             }

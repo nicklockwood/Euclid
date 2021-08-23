@@ -183,6 +183,11 @@ extension Path: Codable {
             try container.encode(subpaths, forKey: .subpaths)
         }
     }
+
+    // TODO: Make this more robust, then make public
+    var hasZeroArea: Bool {
+        points.count < (isClosed ? 4 : 3)
+    }
 }
 
 public extension Path {
@@ -314,7 +319,7 @@ public extension Path {
             vertices.append(Vertex(unchecked: p1.position, normal, texcoord ?? .zero))
             p0 = p1
         }
-        guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+        guard !verticesAreDegenerate(vertices) else {
             return nil
         }
         if hasTexcoords {
@@ -440,7 +445,7 @@ public extension Polygon {
         self.init(
             unchecked: vertices,
             plane: plane,
-            isConvex: verticesAreConvex(vertices),
+            isConvex: nil,
             material: material
         )
     }
@@ -456,11 +461,16 @@ internal extension Path {
         self.subpathIndices = subpathIndices
         if let plane = plane {
             self.plane = plane
-            assert(points.count < 3 || Path(
-                unchecked: points,
-                plane: nil,
-                subpathIndices: subpathIndices
-            ).plane?.isEqual(to: plane) == true)
+            assert({
+                guard positions.count > 2, let expectedPlane = Path(
+                    unchecked: points,
+                    plane: nil,
+                    subpathIndices: subpathIndices
+                ).plane else {
+                    return true
+                }
+                return plane.isEqual(to: expectedPlane, withPrecision: epsilon * 10)
+            }())
         } else if subpathIndices.isEmpty {
             self.plane = Plane(points: positions)
         } else {
