@@ -191,14 +191,13 @@ func triangulateVertices(
 
 // MARK: Vector utilities
 
-func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
-    let axis = v0.cross(v1)
-    let length = axis.length
-    if length < epsilon {
+func rotationBetweenDirections(_ d0: Direction, _ d1: Direction) -> Rotation {
+    if d0.isColinear(to: d1) {
         return .identity
     }
-    let angle = v0.angle(with: v1)
-    return Rotation(axis: Direction(axis), angle: angle)
+    let axis = d0.cross(d1)
+    let angle = d0.angle(with: d1)
+    return Rotation(axis: axis, angle: angle)
 }
 
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {
