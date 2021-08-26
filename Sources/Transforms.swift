@@ -183,7 +183,7 @@ public extension Polygon {
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
         return Polygon(
             unchecked: flipped ? vertices.reversed() : vertices,
-            normal: plane.normal.scaled(by: vn).normalized(),
+            normal: plane.normal.scaled(by: vn),
             isConvex: isConvex,
             material: material
         )
@@ -255,7 +255,11 @@ public extension Vertex {
 
     func scaled(by v: Vector) -> Vertex {
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
-        return Vertex(position.scaled(by: v), normal.scaled(by: vn).normalized(), texcoord)
+        return Vertex(
+            position.scaled(by: v),
+            normal.scaled(by: vn),
+            texcoord
+        )
     }
 
     func scaled(by f: Double) -> Vertex {
@@ -417,21 +421,21 @@ public extension Path {
 
 public extension Plane {
     func translated(by v: Vector) -> Plane {
-        Plane(unchecked: normal, pointOnPlane: normal * w + v)
+        Plane(unchecked: normal, pointOnPlane: Vector(Position(v) + w * normal))
     }
 
     func rotated(by r: Rotation) -> Plane {
-        Plane(unchecked: normal.rotated(by: r), w: w)
+        Plane(normal: normal.rotated(by: r), w: w)
     }
 
     func scaled(by v: Vector) -> Plane {
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
-        let p = (normal * w).scaled(by: v)
-        return Plane(unchecked: normal.scaled(by: vn).normalized(), pointOnPlane: p)
+        let p = (w * normal).scaled(by: v)
+        return Plane(unchecked: normal.scaled(by: vn), pointOnPlane: Vector(p))
     }
 
     func scaled(by f: Double) -> Plane {
-        Plane(unchecked: normal, w: w * f)
+        Plane(normal: normal, w: w * f)
     }
 
     func transformed(by t: Transform) -> Plane {
