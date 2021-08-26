@@ -106,7 +106,7 @@ public extension Angle {
     }
 
     static func atan(_ tan: Double) -> Angle {
-        .radians(Foundation.tan(tan))
+        .radians(Foundation.atan(tan))
     }
 
     static func atan2(y: Double, x: Double) -> Angle {
