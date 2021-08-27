@@ -102,8 +102,8 @@ class PlaneTests: XCTestCase {
         XCTAssert(plane1.containsPoint(intersection.origin))
         XCTAssert(plane2.containsPoint(intersection.origin))
 
-        XCTAssert(plane1.containsPoint(intersection.origin + Vector(intersection.direction)))
-        XCTAssert(plane2.containsPoint(intersection.origin + Vector(intersection.direction)))
+        XCTAssert(plane1.containsPoint(intersection.origin + 1 * intersection.direction))
+        XCTAssert(plane2.containsPoint(intersection.origin + 1 * intersection.direction))
     }
 
     func testIntersectionWithRandomPlane() {
@@ -115,14 +115,14 @@ class PlaneTests: XCTestCase {
             return
         }
 
-        XCTAssert(abs(Distance(intersection.origin).dot(plane1.normal) - plane1.w) < epsilon)
-        XCTAssert(abs(Distance(intersection.origin).dot(plane2.normal) - plane2.w) < epsilon)
+        XCTAssert(abs(intersection.origin.distance.dot(plane1.normal) - plane1.w) < epsilon)
+        XCTAssert(abs(intersection.origin.distance.dot(plane2.normal) - plane2.w) < epsilon)
 
         XCTAssert(plane1.containsPoint(intersection.origin))
         XCTAssert(plane2.containsPoint(intersection.origin))
 
-        XCTAssert(plane1.containsPoint(intersection.origin + Vector(intersection.direction)))
-        XCTAssert(plane2.containsPoint(intersection.origin + Vector(intersection.direction)))
+        XCTAssert(plane1.containsPoint(intersection.origin + 1 * intersection.direction))
+        XCTAssert(plane2.containsPoint(intersection.origin + 1 * intersection.direction))
     }
 
     func testIntersectWithParallelLine() {

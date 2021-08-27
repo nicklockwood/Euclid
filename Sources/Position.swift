@@ -25,6 +25,12 @@ public extension Position {
 }
 
 public extension Position {
+    var distance: Distance {
+        Distance(x, y, z)
+    }
+}
+
+public extension Position {
     static func + (lhs: Position, rhs: Distance) -> Position {
         Position(
             x: lhs.x + rhs.x,

@@ -115,12 +115,11 @@ class UtilityTests: XCTestCase {
     // MARK: lines
 
     func testVectorFromPointToLine() {
-        let result = vectorFromPointToLine(
+        let result = distanceFromPointToLine(
             Vector(2, 0),
-            Vector(-1, -1),
-            .x
+            Line(unchecked: Vector(-1, -1), direction: .x)
         )
-        XCTAssertEqual(result, Vector(0, -1, 0))
+        XCTAssertEqual(result, Distance(0, -1, 0))
     }
 
     // MARK: faceNormalForPolygonPoints

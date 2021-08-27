@@ -30,12 +30,12 @@
 //
 
 public struct Line: Hashable {
-    public let origin: Vector
+    public let origin: Position
     public let direction: Direction
 
     /// Creates a line from an origin and direction
-    public init(origin: Vector, direction: Direction) {
-        self.init(unchecked: origin, direction: direction)
+    public init(origin: Position, direction: Direction) {
+        self.init(unchecked: Vector(origin), direction: direction)
     }
 }
 
@@ -48,7 +48,7 @@ extension Line: Codable {
         let line: Line
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             line = try Line(
-                origin: container.decode(Vector.self, forKey: .origin),
+                origin: container.decode(Position.self, forKey: .origin),
                 direction: container.decode(Direction.self, forKey: .direction)
             )
             if line.direction.norm < epsilon {
@@ -61,7 +61,7 @@ extension Line: Codable {
         } else {
             var container = try decoder.unkeyedContainer()
             line = try Line(
-                origin: Vector(from: &container),
+                origin: Position(from: &container),
                 direction: Direction(from: &container)
             )
             if line.direction.norm < epsilon {
@@ -93,16 +93,16 @@ public extension Line {
 
     /// Distance of the line from a given point in 3D
     func distance(from point: Vector) -> Double {
-        vectorFromPointToLine(point, origin, direction).length
+        distanceFromPointToLine(point, self).norm
     }
 
     /// Distance of the line from another line
     func distance(from line: Line) -> Double {
         guard let (p0, p1) = shortestLineBetween(
-            origin,
-            origin + Vector(direction),
-            line.origin,
-            line.origin + Vector(line.direction)
+            Vector(origin),
+            Vector(origin + 1 * direction),
+            Vector(line.origin),
+            Vector(line.origin + 1 * line.direction)
         ) else {
             return 0
         }
@@ -117,10 +117,10 @@ public extension Line {
     /// Intersection point between lines (if any)
     func intersection(with line: Line) -> Vector? {
         lineIntersection(
-            origin,
-            origin + Vector(direction),
-            line.origin,
-            line.origin + Vector(line.direction)
+            Vector(origin),
+            Vector(origin + 1 * direction),
+            Vector(line.origin),
+            Vector(line.origin + 1 * line.direction)
         )
     }
 
@@ -131,12 +131,22 @@ public extension Line {
 }
 
 internal extension Line {
+    #warning("remove")
     init(unchecked origin: Vector, direction: Direction) {
-        self.origin = origin - Vector(direction) * (
-            direction.x != 0 ? origin.x / direction.x :
-                direction.y != 0 ? origin.y / direction.y :
-                origin.z / direction.z
-        )
+        let distance = Line.distanceAlongLineToFirstValidPlane(origin, direction)
+        self.origin = Position(origin) - distance * direction
         self.direction = direction
+    }
+    
+    private static func distanceAlongLineToFirstValidPlane(_ origin: Vector, _ direction: Direction) -> Double {
+        if direction.x != 0 {
+            return origin.x / direction.x
+        }
+        
+        if direction.y != 0 {
+            return origin.y / direction.y
+        }
+        
+        return origin.z / direction.z
     }
 }
