@@ -117,7 +117,7 @@ class UtilityTests: XCTestCase {
     func testVectorFromPointToLine() {
         let result = distanceFromPointToLine(
             Vector(2, 0),
-            Line(unchecked: Vector(-1, -1), direction: .x)
+            Line(origin: Position(x: -1, y: -1, z: 0), direction: .x)
         )
         XCTAssertEqual(result, Distance(0, -1, 0))
     }

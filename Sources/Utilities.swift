@@ -488,7 +488,7 @@ func lineSegmentsContainsPoint(
     _ end: Vector,
     _ point: Vector
 ) -> Bool {
-    let line = Line(unchecked: start, direction: Direction(end - start))
+    let line = Line(origin: Position(start), direction: Direction(end - start))
     assert(distanceFromPointToLine(point, line).norm < epsilon)
     return Bounds(min: min(start, end), max: max(start, end)).containsPoint(point)
 }
