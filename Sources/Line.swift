@@ -35,7 +35,9 @@ public struct Line: Hashable {
 
     /// Creates a line from an origin and direction
     public init(origin: Position, direction: Direction) {
-        self.init(unchecked: Vector(origin), direction: direction)
+        let distance = Line.distanceAlongLineToFirstValidPlane(origin, direction)
+        self.origin = origin - distance * direction
+        self.direction = direction
     }
 }
 
@@ -83,7 +85,7 @@ extension Line: Codable {
 
 public extension Line {
     init(_ segment: LineSegment) {
-        self.init(unchecked: segment.start, direction: segment.direction)
+        self.init(origin: Position(segment.start), direction: segment.direction)
     }
 
     /// Check if point is on line
@@ -130,15 +132,8 @@ public extension Line {
     }
 }
 
-internal extension Line {
-    #warning("remove")
-    init(unchecked origin: Vector, direction: Direction) {
-        let distance = Line.distanceAlongLineToFirstValidPlane(origin, direction)
-        self.origin = Position(origin) - distance * direction
-        self.direction = direction
-    }
-    
-    private static func distanceAlongLineToFirstValidPlane(_ origin: Vector, _ direction: Direction) -> Double {
+private extension Line {
+    static func distanceAlongLineToFirstValidPlane(_ origin: Position, _ direction: Direction) -> Double {
         if direction.x != 0 {
             return origin.x / direction.x
         }
