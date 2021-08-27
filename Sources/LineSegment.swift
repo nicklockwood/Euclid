@@ -89,7 +89,7 @@ public extension LineSegment {
 
     /// Check if point is on line segment
     func containsPoint(_ p: Vector) -> Bool {
-        let v = distanceFromPointToLine(p, Line(unchecked: start, direction: direction))
+        let v = distanceFromPointToLine(p, Line(origin: Position(start), direction: direction))
         guard v.norm < epsilon else {
             return false
         }
