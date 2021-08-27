@@ -315,7 +315,7 @@ class CodingTests: XCTestCase {
             "origin": [0, 0, 1],
             "direction": [0, 1, 0]
         }
-        """), Line(origin: Vector(0, 0, 1), direction: .y))
+        """), Line(origin: Position(0, 0, 1), direction: .y))
     }
 
     func testDecodingKeyedZeroLengthLine() {
@@ -330,7 +330,7 @@ class CodingTests: XCTestCase {
     func testDecodingUnkeyedLine() {
         XCTAssertEqual(
             try decode("[0, 0, 1, 0, 1, 0]"),
-            Line(origin: Vector(0, 0, 1), direction: .y)
+            Line(origin: Position(0, 0, 1), direction: .y)
         )
     }
 
@@ -340,7 +340,7 @@ class CodingTests: XCTestCase {
 
     func testEncodingLine() {
         XCTAssertEqual(
-            try encode(Line(origin: Vector(0, 0, 1), direction: .y)),
+            try encode(Line(origin: Position(0, 0, 1), direction: .y)),
             "[0,0,1,0,1,0]"
         )
     }
