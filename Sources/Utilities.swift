@@ -395,23 +395,24 @@ func cubicBezier(_ p0: Double, _ p1: Double, _ p2: Double, _ p3: Double, _ t: Do
 
 // Shortest line segment between two lines
 // http://paulbourke.net/geometry/pointlineplane/
+#warning("convert to Position")
 func shortestLineBetween(
-    _ p1: Vector,
-    _ p2: Vector,
-    _ p3: Vector,
-    _ p4: Vector
+    _ pa1: Vector,
+    _ pa2: Vector,
+    _ pb1: Vector,
+    _ pb2: Vector
 ) -> (Vector, Vector)? {
-    let p21 = p2 - p1
-    assert(p21.length > 0)
-    let p43 = p4 - p3
-    assert(p43.length > 0)
-    let p13 = p1 - p3
+    let pa = pa2 - pa1
+    assert(pa.length > 0)
+    let pb = pb2 - pb1
+    assert(pb.length > 0)
+    let p13 = pa1 - pb1
 
-    let d1343 = p13.dot(p43)
-    let d4321 = p43.dot(p21)
-    let d1321 = p13.dot(p21)
-    let d4343 = p43.dot(p43)
-    let d2121 = p21.dot(p21)
+    let d1343 = p13.dot(pb)
+    let d4321 = pb.dot(pa)
+    let d1321 = p13.dot(pa)
+    let d4343 = pb.dot(pb)
+    let d2121 = pa.dot(pa)
 
     let denominator = d2121 * d4343 - d4321 * d4321
     guard abs(denominator) > epsilon else {
@@ -423,17 +424,16 @@ func shortestLineBetween(
     let mua = numerator / denominator
     let mub = (d1343 + d4321 * mua) / d4343
 
-    return (p1 + mua * p21, p3 + mub * p43)
+    return (pa1 + mua * pa, pb1 + mub * pb)
 }
 
 // See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-func vectorFromPointToLine(
+func distanceFromPointToLine(
     _ point: Vector,
-    _ lineOrigin: Vector,
-    _ lineDirection: Direction
-) -> Vector {
-    let d = Distance(point - lineOrigin)
-    return Vector(d.dot(lineDirection) * lineDirection - d)
+    _ line: Line
+) -> Distance {
+    let d = Position(point) - line.origin
+    return d.dot(line.direction) * line.direction - d
 }
 
 func lineIntersection(
@@ -468,6 +468,7 @@ func lineSegmentsContainsPoint(
     _ end: Vector,
     _ point: Vector
 ) -> Bool {
-    assert(vectorFromPointToLine(point, start, Direction(end - start)).length < epsilon)
+    let line = Line(unchecked: start, direction: Direction(end - start))
+    assert(distanceFromPointToLine(point, line).norm < epsilon)
     return Bounds(min: min(start, end), max: max(start, end)).containsPoint(point)
 }
