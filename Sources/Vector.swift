@@ -239,7 +239,7 @@ public extension Vector {
 
     /// The nearest point to this point on the specified line
     func project(onto line: Line) -> Vector {
-        self + vectorFromPointToLine(self, line.origin, line.direction)
+        self + Vector(distanceFromPointToLine(self, line))
     }
 }
 

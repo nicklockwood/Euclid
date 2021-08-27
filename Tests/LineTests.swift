@@ -107,38 +107,38 @@ class LineTests: XCTestCase {
     // MARK: Equality
 
     func testEquivalentHorizontalLinesAreEqual() {
-        let l1 = Line(origin: Vector(1, -1, 0), direction: .x)
-        let l2 = Line(origin: Vector(3, -1, 0), direction: .x)
+        let l1 = Line(origin: Position(1, -1, 0), direction: .x)
+        let l2 = Line(origin: Position(3, -1, 0), direction: .x)
         XCTAssertEqual(l1, l2)
         XCTAssert(Set([l1]).contains(l2))
     }
 
     func testEquivalentVerticalLinesAreEqual() {
-        let l1 = Line(origin: Vector(2, 5, 0), direction: .y)
-        let l2 = Line(origin: Vector(2, -1, 0), direction: .y)
+        let l1 = Line(origin: Position(2, 5, 0), direction: .y)
+        let l2 = Line(origin: Position(2, -1, 0), direction: .y)
         XCTAssertEqual(l1, l2)
         XCTAssert(Set([l1]).contains(l2))
     }
 
     func testEquivalentZLinesAreEqual() {
-        let l1 = Line(origin: Vector(2, 5, -2), direction: -.z)
-        let l2 = Line(origin: Vector(2, 5, 7), direction: -.z)
+        let l1 = Line(origin: Position(2, 5, -2), direction: -.z)
+        let l2 = Line(origin: Position(2, 5, 7), direction: -.z)
         XCTAssertEqual(l1, l2)
         XCTAssert(Set([l1]).contains(l2))
     }
 
     func testEquivalentXYLinesAreEqual() {
         let direction = Direction(1, 2, 0)
-        let l1 = Line(origin: Vector(0, 0, -1), direction: direction)
-        let l2 = Line(origin: Vector(1, 2, -1), direction: direction)
+        let l1 = Line(origin: Position(0, 0, -1), direction: direction)
+        let l2 = Line(origin: Position(1, 2, -1), direction: direction)
         XCTAssertEqual(l1, l2)
         XCTAssert(Set([l1]).contains(l2))
     }
 
     func testEquivalentYZLinesAreEqual() {
         let direction = Direction(0, -1, 2)
-        let l1 = Line(origin: Vector(0, 0, 0), direction: direction)
-        let l2 = Line(origin: Vector(0, -1, 2), direction: direction)
+        let l1 = Line(origin: Position(0, 0, 0), direction: direction)
+        let l2 = Line(origin: Position(0, -1, 2), direction: direction)
         XCTAssertEqual(l1, l2)
         XCTAssert(Set([l1]).contains(l2))
     }
