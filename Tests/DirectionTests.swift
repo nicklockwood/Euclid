@@ -30,7 +30,7 @@ class DirectionTests: XCTestCase {
     func testNormedAdditionOnXYPlane() {
         let direction1 = Direction.x
         let direction2 = Direction.y
-        let direction = direction1 + direction2
+        let direction = Direction.mean(direction1, direction2)
         XCTAssertEqual(sqrt(2) / 2, direction.x, accuracy: epsilon)
         XCTAssertEqual(sqrt(2) / 2, direction.y, accuracy: epsilon)
         XCTAssertEqual(0, direction.z)
@@ -39,7 +39,7 @@ class DirectionTests: XCTestCase {
     func testNormedSubtractionOnXYPlane() {
         let direction1 = Direction.x
         let direction2 = Direction.y
-        let direction = direction1 - direction2
+        let direction = Direction.mean(direction1, -direction2)
         XCTAssertEqual(sqrt(2) / 2, direction.x, accuracy: epsilon)
         XCTAssertEqual(-sqrt(2) / 2, direction.y, accuracy: epsilon)
         XCTAssertEqual(0, direction.z)
@@ -48,7 +48,7 @@ class DirectionTests: XCTestCase {
     func testNormedAdditionOnXZPlane() {
         let direction1 = Direction.x
         let direction2 = Direction.z
-        let direction = direction1 + direction2
+        let direction = Direction.mean(direction1, direction2)
         XCTAssertEqual(sqrt(2) / 2, direction.x, accuracy: epsilon)
         XCTAssertEqual(0, direction.y)
         XCTAssertEqual(sqrt(2) / 2, direction.z, accuracy: epsilon)
@@ -57,7 +57,7 @@ class DirectionTests: XCTestCase {
     func testNormedSubtractionOnXZPlane() {
         let direction1 = Direction.x
         let direction2 = Direction.z
-        let direction = direction1 - direction2
+        let direction = Direction.mean(direction1, -direction2)
         XCTAssertEqual(sqrt(2) / 2, direction.x, accuracy: epsilon)
         XCTAssertEqual(0, direction.y)
         XCTAssertEqual(-sqrt(2) / 2, direction.z, accuracy: epsilon)
@@ -66,7 +66,7 @@ class DirectionTests: XCTestCase {
     func testNormedAdditionOnYZPlane() {
         let direction1 = Direction.y
         let direction2 = Direction.z
-        let direction = direction1 + direction2
+        let direction = Direction.mean(direction1, direction2)
         XCTAssertEqual(0, direction.x)
         XCTAssertEqual(sqrt(2) / 2, direction.y, accuracy: epsilon)
         XCTAssertEqual(sqrt(2) / 2, direction.z, accuracy: epsilon)
@@ -75,7 +75,7 @@ class DirectionTests: XCTestCase {
     func testNormedSubtractionOnYZPlane() {
         let direction1 = Direction.y
         let direction2 = Direction.z
-        let direction = direction1 - direction2
+        let direction = Direction.mean(direction1, -direction2)
         XCTAssertEqual(0, direction.x)
         XCTAssertEqual(sqrt(2) / 2, direction.y, accuracy: epsilon)
         XCTAssertEqual(-sqrt(2) / 2, direction.z, accuracy: epsilon)
@@ -84,7 +84,7 @@ class DirectionTests: XCTestCase {
     func testNormedAddition() {
         let direction1 = Direction(x: 1, y: 2, z: 3)
         let direction2 = Direction(x: 5, y: 6, z: 7)
-        let direction = direction1 + direction2
+        let direction = Direction.mean(direction1, direction2)
         XCTAssertEqual(0.37497702770252406, direction.x, accuracy: epsilon)
         XCTAssertEqual(0.55773354233061923, direction.y, accuracy: epsilon)
         XCTAssertEqual(0.74049005695871428, direction.z, accuracy: epsilon)
