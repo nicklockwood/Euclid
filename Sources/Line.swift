@@ -100,15 +100,15 @@ public extension Line {
 
     /// Distance of the line from another line
     func distance(from line: Line) -> Double {
-        guard let (p0, p1) = shortestLineBetween(
-            Vector(origin),
-            Vector(origin + 1 * direction),
-            Vector(line.origin),
-            Vector(line.origin + 1 * line.direction)
+        guard let (p0, p1) = shortestLineSegmentPositionsBetween(
+            origin,
+            origin + 1 * direction,
+            line.origin,
+            line.origin + 1 * line.direction
         ) else {
             return 0
         }
-        return (p1 - p0).length
+        return (p1 - p0).norm
     }
 
     /// Intersection point betwween plane and line (if any)
