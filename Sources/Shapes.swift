@@ -840,11 +840,11 @@ public extension Mesh {
                     vertices.remove(at: 3)
                 } else {
                     if vertices[0].position == vertices[3].position {
-                        vertices[0].normal = vertices[0].normal + vertices[3].normal // auto-normalized
+                        vertices[0].normal = Direction.mean(vertices[0].normal, vertices[3].normal)
                         vertices.remove(at: 3)
                     }
                     if vertices[1].position == vertices[2].position {
-                        vertices[1].normal = vertices[1].normal + vertices[2].normal // auto-normalized
+                        vertices[1].normal = Direction.mean(vertices[1].normal, vertices[2].normal)
                         vertices.remove(at: 2)
                     }
                 }

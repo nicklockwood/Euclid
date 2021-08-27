@@ -111,6 +111,25 @@ public extension CartesianComponentsRepresentable {
     }
 }
 
+internal extension CartesianComponentsRepresentable {
+    // Approximate equality
+    func isEqual(to other: Self, withPrecision p: Double = epsilon) -> Bool {
+        self == other ||
+            (abs(x - other.x) < p && abs(y - other.y) < p && abs(z - other.z) < p)
+    }
+}
+
+public extension CartesianComponentsRepresentable {
+    /// Linearly interpolate between two vectors
+    func lerp(_ a: Self, _ t: Double) -> Self {
+        Self(
+            x: x + (a.x - x) * t,
+            y: y + (a.y - y) * t,
+            z: z + (a.z - z) * t
+        )
+    }
+}
+
 public extension CartesianComponentsRepresentable {
     init(_ vector: Vector) {
         self.init(x: vector.x, y: vector.y, z: vector.z)
