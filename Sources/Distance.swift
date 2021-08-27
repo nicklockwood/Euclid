@@ -69,6 +69,10 @@ public extension Distance {
     func dot(_ direction: Direction) -> Double {
         self.direction.dot(direction) * norm
     }
+    
+    func dot(_ distance: Distance) -> Double {
+      dot(distance.direction) * distance.norm
+    }
 }
 
 public extension Distance {
