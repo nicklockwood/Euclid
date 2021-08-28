@@ -90,6 +90,13 @@ class PlaneTests: XCTestCase {
         XCTAssertNil(plane1.intersection(with: plane2))
     }
 
+    func testIntersectionWithParallelPlaneInvertedNormal() {
+        let plane1 = Plane(unchecked: .y, pointOnPlane: Vector(0, 0, 0))
+        let plane2 = Plane(unchecked: -.y, pointOnPlane: Vector(0, 1, 0))
+
+        XCTAssertNil(plane1.intersection(with: plane2))
+    }
+
     func testIntersectionWithPerpendicularPlane() {
         let plane1 = Plane(unchecked: .y, pointOnPlane: Vector(0, 0, 0))
         let plane2 = Plane(unchecked: .x, pointOnPlane: Vector(0, 0, 0))
@@ -108,6 +115,44 @@ class PlaneTests: XCTestCase {
 
     func testIntersectionWithRandomPlane() {
         let plane1 = Plane(normal: Direction(1.2, 0.4, 5.7), w: 6)
+        let plane2 = Plane(normal: Direction(0.5, 0.7, 0.1), w: 8)
+
+        guard let intersection = plane1.intersection(with: plane2) else {
+            XCTFail()
+            return
+        }
+
+        XCTAssert(abs(intersection.origin.distance.dot(plane1.normal) - plane1.w) < epsilon)
+        XCTAssert(abs(intersection.origin.distance.dot(plane2.normal) - plane2.w) < epsilon)
+
+        XCTAssert(plane1.containsPoint(intersection.origin))
+        XCTAssert(plane2.containsPoint(intersection.origin))
+
+        XCTAssert(plane1.containsPoint(intersection.origin + 1 * intersection.direction))
+        XCTAssert(plane2.containsPoint(intersection.origin + 1 * intersection.direction))
+    }
+
+    func testIntersectionWithRandomPlaneInvertedNormal() {
+        let plane1 = Plane(normal: -Direction(1.2, 0.4, 5.7), w: 6)
+        let plane2 = Plane(normal: Direction(0.5, 0.7, 0.1), w: 8)
+
+        guard let intersection = plane1.intersection(with: plane2) else {
+            XCTFail()
+            return
+        }
+
+        XCTAssert(abs(intersection.origin.distance.dot(plane1.normal) - plane1.w) < epsilon)
+        XCTAssert(abs(intersection.origin.distance.dot(plane2.normal) - plane2.w) < epsilon)
+
+        XCTAssert(plane1.containsPoint(intersection.origin))
+        XCTAssert(plane2.containsPoint(intersection.origin))
+
+        XCTAssert(plane1.containsPoint(intersection.origin + 1 * intersection.direction))
+        XCTAssert(plane2.containsPoint(intersection.origin + 1 * intersection.direction))
+    }
+
+    func testIntersectionWithRandomPlaneInvertedNormalAndDistance() {
+        let plane1 = Plane(normal: -Direction(1.2, 0.4, 5.7), w: -6)
         let plane2 = Plane(normal: Direction(0.5, 0.7, 0.1), w: 8)
 
         guard let intersection = plane1.intersection(with: plane2) else {
