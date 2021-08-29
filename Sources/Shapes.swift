@@ -99,11 +99,19 @@ public extension Path {
             }
 
             return steps.map {
-                .curve(
+                var texcoord: Vector?
+                if let t0 = p0.texcoord, let t1 = p1.texcoord, let t2 = p2.texcoord {
+                    texcoord = Vector(
+                        quadraticBezier(t0.x, t1.x, t2.x, $0),
+                        quadraticBezier(t0.y, t1.y, t2.y, $0),
+                        quadraticBezier(t0.z, t1.z, t2.z, $0)
+                    )
+                }
+                return .curve(Vector(
                     quadraticBezier(p0.position.x, p1.position.x, p2.position.x, $0),
                     quadraticBezier(p0.position.y, p1.position.y, p2.position.y, $0),
                     quadraticBezier(p0.position.z, p1.position.z, p2.position.z, $0)
-                )
+                ), texcoord: texcoord)
             }
         }
 
