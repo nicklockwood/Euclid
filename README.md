@@ -72,6 +72,10 @@ The `Vector` type represents a position or distance in 3D space.
 
 There is no 2D vector type in Euclid, but when working with primarily 2D shapes (such as `Path`s) you can omit the Z coordinate when constructing a `Vector` and it will default to zero.
 
+## Color
+
+The `Color` type represents an RGBA color and can be used as a `Polygon` [material](#materials). 
+
 ## Vertex
 
 The `Vertex` type is used to construct `Polygon`s to form a `Mesh`. Each `Vertex` has the following `Vector` properties:
@@ -212,7 +216,7 @@ Each glyph in the input string maps to a single `Path` in the result, but these 
 
 # Rendering
 
-It's all very well creating interesting 3D geometry, but you probably want to actually *do something* with it.
+After creating some 3D shapes, you probably want to actually *display* them.
 
 Most of the Euclid library is completely self-contained, with no dependencies on any particular rendering technology or framework. However, when running on iOS or macOS you can take advantage of Euclid's built-in SceneKit integration. This is demonstrated in the Example app included with the project.
 
@@ -229,17 +233,17 @@ Every `Polygon` has a `material` property that can be used to apply any kind of 
 
 All primitives and builder methods accept a `material` parameter which will apply that material to every polygon in the resultant `Mesh`. When you later combine meshes using CSG operations, the original materials from the `Mesh`es that contributed to each part of the resultant shape will be preserved.
 
-Since Euclid knows nothing about the `material` type, it can't really do anything with it except pass it around. To use it with SceneKit you need to convert the Euclid material to an `SCNMaterial`.
+Before a material can be used with SceneKit, you need to convert the Euclid material to an `SCNMaterial`. If the material is already an `SCNMaterial` instance it will be used directly. If it's a `Color`, a `UI/NSColor` or `UI/NSImage` it will be converted to an `SCNMaterial` automatically.
 
-If the polygon's material is already an`SCNMaterial`, `UI/NSColor` or `UI/NSImage` this conversion will happen automatically. Otherwise, you can convert materials using the optional closure argument for the Euclid's `SCNGeometry` constructor, which receives the Euclid material as an input and returns an `SCNMaterial`.
+For all other material types, you will need to do this conversion yourself. You can convert materials using the optional closure argument for Euclid's `SCNGeometry` constructor, which receives the Euclid material as an input and returns an `SCNMaterial`.
 
-When serializing Euclid geometry using `Codable`, only specific material types can be supported. Currently, material serialization works for `String`s, `Int`s and any class that conforms to `NSCoding` (which includes many UIKit, AppKit and SceneKit types, such as `UI/NSColor`, `UI/NSImage` and `SCNMaterial`).
+When serializing Euclid geometry using `Codable`, only specific material types can be supported. Currently, material serialization works for `String`s, `Int`s, `Color` and any class that conforms to `NSCoding` (which includes many UIKit, AppKit and SceneKit types, such as `UI/NSColor`, `UI/NSImage` and `SCNMaterial`).
 
-## Color
+## Colors
 
-Euclid currently has no built-in concept of color, and no support for setting colors on a per-vertex basis, but you can apply colors to a `Mesh` or `Polygon` using the material property.
+Euclid currently has no support for setting colors on a per-vertex basis, but you can apply colors to a `Mesh` or `Polygon` using the material property.
 
-The material property is of type `AnyHashable` which basically means it can be anything you want. Any `NSObject`-derived class conforms to `AnyHashable`, so a simple option is to set the `material` to be a `UIColor` or `NSColor`.
+The material property is of type `AnyHashable` which basically means it can be anything you want. You can set the `material` to an instance of Euclid's [`Color` type](#color), or you can use a `UIColor` or `NSColor` instead if you prefer.
 
 This approach is demonstrated in the Example app included in the project.
 

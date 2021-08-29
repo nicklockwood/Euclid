@@ -84,10 +84,10 @@ public extension SCNNode {
     }
 }
 
-#if os(iOS) || os(tvOS)
+#if canImport(UIKit)
 private typealias OSColor = UIColor
 private typealias OSImage = UIImage
-#elseif os(OSX)
+#elseif canImport(AppKit)
 private typealias OSColor = NSColor
 private typealias OSImage = NSImage
 #endif
@@ -95,6 +95,10 @@ private typealias OSImage = NSImage
 private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
     switch material {
     case let material as SCNMaterial:
+        return material
+    case let color as Color:
+        let material = SCNMaterial()
+        material.diffuse.contents = OSColor(color)
         return material
     case let color as OSColor:
         let material = SCNMaterial()

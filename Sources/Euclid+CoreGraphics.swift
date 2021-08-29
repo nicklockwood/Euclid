@@ -39,6 +39,13 @@ public extension Vector {
     }
 }
 
+public extension Color {
+    init(_ cgColor: CGColor) {
+        let components = cgColor.components ?? [1]
+        self.init(unchecked: components.map(Double.init))
+    }
+}
+
 public extension CGPoint {
     init(_ vector: Vector) {
         self.init(x: vector.x, y: vector.y)

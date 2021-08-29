@@ -500,6 +500,13 @@ class CodingTests: XCTestCase {
         XCTAssertThrowsError(try encode(polygon))
     }
 
+    func testEncodingPolygonWithColorMaterial() throws {
+        let polygon = Polygon(shape: .square(), material: Color.red)
+        let encoded = try encode(polygon)
+        let decoded = try decode(encoded) as Euclid.Polygon
+        XCTAssertEqual(decoded.material, polygon?.material)
+    }
+
     func testEncodingPolygonWithOSColorMaterial() throws {
         #if canImport(UIKit)
         let polygon = Polygon(shape: .square(), material: UIColor.red)
@@ -512,6 +519,28 @@ class CodingTests: XCTestCase {
         let encoded = try encode(polygon)
         let decoded = try decode(encoded) as Euclid.Polygon
         XCTAssertEqual(decoded.material, polygon?.material)
+    }
+
+    // MARK: Color
+
+    func testDecodingRGBAColor() {
+        XCTAssertEqual(try decode("[1, 0, 0, 0.5]"), Color.red.withAlpha(0.5))
+    }
+
+    func testEncodingRGBAColor() {
+        XCTAssertEqual(try encode(Color.gray.withAlpha(0.5)), "[0.5,0.5,0.5,0.5]")
+    }
+
+    func testDecodingRGBColor() {
+        XCTAssertEqual(try decode("[1, 1, 0]"), Color.yellow)
+    }
+
+    func testEncodingRGBColor() {
+        XCTAssertEqual(try encode(Color.cyan), "[0,1,1]")
+    }
+
+    func testDecodingInvalidColor() {
+        XCTAssertThrowsError(try decode("[1]") as Color)
     }
 
     // MARK: Mesh

@@ -671,7 +671,7 @@ internal struct CodableMaterial: Codable {
     }
 
     enum CodingKeys: CodingKey {
-        case string, int, data, nscoded
+        case string, int, data, color, nscoded
     }
 
     init(from decoder: Decoder) throws {
@@ -682,6 +682,8 @@ internal struct CodableMaterial: Codable {
                 self.value = int
             } else if let data = try container.decodeIfPresent(Data.self, forKey: .data) {
                 self.value = data
+            } else if let color = try container.decodeIfPresent(Color.self, forKey: .color) {
+                self.value = color
             } else if let data = try container.decodeIfPresent(Data.self, forKey: .nscoded) {
                 guard let value = NSKeyedUnarchiver.unarchiveObject(with: data) as? Polygon.Material else {
                     throw DecodingError.dataCorruptedError(
@@ -716,6 +718,9 @@ internal struct CodableMaterial: Codable {
             try string.encode(to: encoder)
         case let int as Int:
             try int.encode(to: encoder)
+        case let color as Color:
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(color, forKey: .color)
         case let data as Data:
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(data, forKey: .data)
