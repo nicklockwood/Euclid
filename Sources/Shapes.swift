@@ -70,6 +70,11 @@ public extension Path {
     /// Create a closed rectangular path
     static func rectangle(width: Double, height: Double) -> Path {
         let w = width / 2, h = height / 2
+        if height < epsilon {
+            return .line(Vector(-width / 2, 0), Vector(width / 2, 0))
+        } else if width < epsilon {
+            return .line(Vector(-width / 2, 0), Vector(width / 2, 0))
+        }
         return Path(unchecked: [
             .point(-w, h), .point(-w, -h),
             .point(w, -h), .point(w, h),
@@ -948,10 +953,11 @@ public extension Mesh {
     }
 
     /// Stroke a path with the specified line width, depth and material
+    @available(*, deprecated, message: "Use `stroke(width:detail:)` instead")
     static func stroke(
         _ shape: Path,
-        width: Double = 0.01,
-        depth: Double = 0,
+        width: Double,
+        depth: Double,
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
@@ -961,5 +967,24 @@ public extension Mesh {
             faces: faces,
             material: material
         )
+    }
+
+    /// Stroke a path with the specified line width, detail and material
+    static func stroke(
+        _ shape: Path,
+        width: Double = 0.01,
+        detail: Int = 2,
+        material: Material? = nil
+    ) -> Mesh {
+        let path: Path
+        let radius = width / 2
+        switch detail {
+        case 1, 2:
+            path = .line(Vector(-radius, 0), Vector(radius, 0))
+        case let sides:
+            path = .circle(radius: radius, segments: sides)
+        }
+        let faces: Faces = detail == 2 ? .frontAndBack : .front
+        return extrude(path, along: shape, faces: faces, material: material)
     }
 }
