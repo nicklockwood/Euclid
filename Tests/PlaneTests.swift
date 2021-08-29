@@ -73,6 +73,18 @@ class PlaneTests: XCTestCase {
         XCTAssertNotEqual(plane, .xy)
     }
 
+    func testFlatteningPlaneForHorizontalLine() {
+        let points = [Vector(-1, 0), Vector(1, 0)]
+        let plane = FlatteningPlane(points: points, convex: nil)
+        XCTAssertEqual(plane, .xy)
+    }
+
+    func testFlatteningPlaneForVerticalLine() {
+        let points = [Vector(0, -1), Vector(0, 1)]
+        let plane = FlatteningPlane(points: points, convex: nil)
+        XCTAssertEqual(plane, .xy)
+    }
+
     // MARK: Intersections
 
     func testIntersectionWithParallelPlane() {
