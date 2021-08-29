@@ -41,16 +41,14 @@ public extension Path {
 
     /// Create a closed elliptical path
     static func ellipse(width: Double, height: Double, segments: Int = 16) -> Path {
-        var points = [PathPoint]()
         let segments = max(3, segments)
-        let step = Angle.twoPi / Double(segments)
+        let step = 2 / Double(segments) * .pi
+        let to = 2 * .pi + epsilon
         let w = max(abs(width / 2), epsilon)
         let h = max(abs(height / 2), epsilon)
-        for radians in stride(from: 0, through: Angle.twoPi.radians + epsilon, by: step.radians) {
-            let angle = Angle.radians(radians)
-            points.append(.curve(w * -sin(angle), h * cos(angle)))
-        }
-        return Path(unchecked: points, plane: .xy, subpathIndices: [])
+        return Path(unchecked: stride(from: 0, through: to, by: step).map {
+            PathPoint.curve(w * -sin($0), h * cos($0))
+        }, plane: .xy, subpathIndices: [])
     }
 
     /// Create a closed rectangular path
