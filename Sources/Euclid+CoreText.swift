@@ -44,6 +44,17 @@ extension NSAttributedString.Key {
 #endif
 
 public extension Path {
+    /// Create an array of glyph contours from a string and font
+    static func text(
+        _ text: String,
+        font: CTFont? = nil,
+        width: Double? = nil,
+        detail: Int = 2
+    ) -> [Path] {
+        let attributedString = NSAttributedString(string: text, font: font)
+        return self.text(attributedString, width: width, detail: detail)
+    }
+
     /// Create an array of glyph contours from an attributed string
     static func text(
         _ attributedString: NSAttributedString,
@@ -69,10 +80,14 @@ public extension Mesh {
         detail: Int = 2,
         material: Material? = nil
     ) {
-        let font = font ?? CTFontCreateWithName("Helvetica" as CFString, 1, nil)
-        let attributes = [NSAttributedString.Key.font: font]
-        let attributedString = NSAttributedString(string: text, attributes: attributes)
-        self.init(text: attributedString, width: width, depth: depth, detail: detail, material: material)
+        let attributedString = NSAttributedString(string: text, font: font)
+        self.init(
+            text: attributedString,
+            width: width,
+            depth: depth,
+            detail: detail,
+            material: material
+        )
     }
 
     /// Create an extruded text model from an attributed string
@@ -97,6 +112,14 @@ public extension Mesh {
             meshes.append(mesh.translated(by: offset))
         }
         self = .union(meshes)
+    }
+}
+
+private extension NSAttributedString {
+    convenience init(string: String, font: CTFont?) {
+        let font = font ?? CTFontCreateWithName("Helvetica" as CFString, 1, nil)
+        let attributes = [NSAttributedString.Key.font: font]
+        self.init(string: string, attributes: attributes)
     }
 }
 
