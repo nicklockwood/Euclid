@@ -34,6 +34,16 @@ import Foundation
 // MARK: 3D shapes
 
 public extension Path {
+    /// Create a path from a line segment
+    static func line(_ line: LineSegment) -> Path {
+        .line(line.start, line.end)
+    }
+
+    /// Create a path from a start and end point
+    static func line(_ start: Vector, _ end: Vector) -> Path {
+        Path([.point(start), .point(end)])
+    }
+
     /// Create a closed circular path
     static func circle(radius r: Double = 0.5, segments: Int = 16) -> Path {
         ellipse(width: r * 2, height: r * 2, segments: segments)
