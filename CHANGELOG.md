@@ -1,3 +1,14 @@
+## [0.5.10](https://github.com/nicklockwood/Euclid/releases/tag/0.5.10) (2021-08-30)
+
+- Added `Color` type for convenient cross-platform color materials
+- Fixed bug when calculating face normal for very small paths
+- Texture coordinates are now preserved when using the `Path.curve()` constructor
+- Fixed bug where `Angle.atan()` was actually calling `tan()` instead
+- Added `Path.line()` constructor for creating straight lines
+- Added `Path.polygon()` constructor for creating regular polygons
+- Added `Path.text(_:font:)` convenience constructor
+- Improved `Mesh.stroke()` constructor to allow for variable detail
+
 ## [0.5.9](https://github.com/nicklockwood/Euclid/releases/tag/0.5.9) (2021-08-19)
 
 - Fixed relative orientation when extruding along a path

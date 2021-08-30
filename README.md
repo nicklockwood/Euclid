@@ -158,10 +158,13 @@ All `Mesh`es are made of flat polygons, and since true curves cannot be represen
 
 In addition to the 3D `Mesh` primitives listed, there are also 2D `Path` primitives. These are implemented as static constructor methods on the `Path` type instead of `Mesh`:
 
+- `line` - A straight line.
 - `ellipse` - A closed, elliptical `Path`.
 - `circle` - A closed, circular `Path`.
 - `rectangle` - A closed, rectangular `Path`.
 - `square` - Same as `rectangle`, but with equal width and height.
+- `polygon` - A regular polygon shape (not to be confused with Euclid's `Polygon` type)
+- `text` - See the [text section](#text) below.
 
 ## Builders
 
@@ -222,12 +225,12 @@ Most of the Euclid library is completely self-contained, with no dependencies on
 
 SceneKit is Apple's high-level 3D engine, which can use either OpenGL or Metal for rendering on supported devices. Euclid provides extensions for creating an `SCNGeometry` from a `Mesh`, as well as converting Euclid `Vector` and `Rotation` types to `SCNVector` and `SCNQuaternion` respectively.
 
-The SceneKit integration makes it easy to display Euclid geometry on-screen, and to integrate with ARKit, etc. You can also use SceneKit to export Euclid-generated `Mesh`es in standard 3D model formats such as DAE or OBJ.
+The SceneKit integration makes it easy to display Euclid geometry on-screen, and to integrate with ARKit, etc. You can also use SceneKit to export Euclid-generated `Mesh`es in standard 3D model formats such as DAE, STL or OBJ.
 
 
 # Materials
 
-Interesting geometry is all well and good, but to really bring a shape to life it needs colors and textures.
+Interesting geometry is one thing, but to really bring a shape to life it needs colors and textures.
 
 Every `Polygon` has a `material` property that can be used to apply any kind of material you like on a per-polygon basis.
 
