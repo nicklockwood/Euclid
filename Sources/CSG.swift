@@ -60,19 +60,19 @@ public extension Mesh {
                 isConvex: false
             )
         }
-        var aout: [Polygon]? = [], bout: [Polygon]? = []
+        var out: [Polygon]? = []
         let ap = BSP(mesh, isCancelled).clip(
-            boundsTest(intersection, polygons, &aout),
+            boundsTest(intersection, polygons, &out),
             .greaterThan,
             isCancelled
         )
         let bp = BSP(self, isCancelled).clip(
-            boundsTest(intersection, mesh.polygons, &bout),
+            boundsTest(intersection, mesh.polygons, &out),
             .greaterThanEqual,
             isCancelled
         )
         return Mesh(
-            unchecked: aout! + bout! + ap + bp,
+            unchecked: out! + ap + bp,
             bounds: bounds.union(mesh.bounds),
             isConvex: false
         )
