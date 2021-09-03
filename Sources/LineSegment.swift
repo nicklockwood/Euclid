@@ -83,8 +83,8 @@ extension LineSegment: Codable {
 }
 
 public extension LineSegment {
-    var direction: Vector {
-        (end - start).normalized()
+    var direction: Direction {
+        Direction(end - start)
     }
 
     /// Check if point is on line segment
