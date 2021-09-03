@@ -139,11 +139,19 @@ public extension Bounds {
         )
     }
 
+    mutating func formUnion(_ other: Bounds) {
+        self = union(other)
+    }
+
     func intersection(_ other: Bounds) -> Bounds {
         Bounds(
             min: Euclid.max(min, other.min),
             max: Euclid.min(max, other.max)
         )
+    }
+
+    mutating func formIntersection(_ other: Bounds) {
+        self = intersection(other)
     }
 
     func intersects(_ other: Bounds) -> Bool {
