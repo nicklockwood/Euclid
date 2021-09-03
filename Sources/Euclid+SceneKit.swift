@@ -528,16 +528,12 @@ public extension Mesh {
 
     /// Create a mesh from an SCNNode with optional material mapping
     init(_ scnNode: SCNNode, materialLookup: MaterialProvider? = nil) {
-        var mesh = Mesh([])
-        if let geometry = scnNode.geometry,
-           let submesh = Mesh(geometry, materialLookup: materialLookup)
-        {
-            mesh = mesh.merge(submesh)
+        var meshes = [Mesh]()
+        if let mesh = scnNode.geometry.flatMap({ Mesh($0, materialLookup: materialLookup) }) {
+            meshes.append(mesh)
         }
-        for childNode in scnNode.childNodes {
-            mesh = mesh.merge(Mesh(childNode, materialLookup: materialLookup))
-        }
-        self = mesh
+        meshes += scnNode.childNodes.map { Mesh($0, materialLookup: materialLookup) }
+        self = .merge(meshes)
     }
 
     /// Create a mesh from an SCNGeometry object with optional material mapping

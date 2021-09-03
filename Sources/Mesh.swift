@@ -144,6 +144,21 @@ public extension Mesh {
         )
     }
 
+    /// Efficiently merge multiple meshes
+    static func merge(_ meshes: [Mesh]) -> Mesh {
+        if meshes.count == 1 {
+            return meshes[0]
+        }
+        var bounds = Bounds.empty
+        var polygons = [Polygon]()
+        polygons.reserveCapacity(meshes.reduce(0) { $0 + $1.polygons.count })
+        for mesh in meshes {
+            bounds.formUnion(mesh.bounds)
+            polygons += mesh.polygons
+        }
+        return Mesh(unchecked: polygons, bounds: bounds, isConvex: false)
+    }
+
     /// Flips face direction of polygons.
     func inverted() -> Mesh {
         Mesh(

@@ -369,14 +369,13 @@ private extension Mesh {
         using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
         _ isCancelled: @escaping CancellationHandler
     ) -> Mesh {
-        var mesh = Mesh([])
         var meshes = meshes
         var i = 0
         while i < meshes.count {
-            mesh = mesh.merge(reduce(&meshes, at: i, using: fn, isCancelled))
+            _ = reduce(&meshes, at: i, using: fn, isCancelled)
             i += 1
         }
-        return mesh
+        return .merge(meshes)
     }
 
     // Merge each intersecting mesh after i into the mesh at index i using fn

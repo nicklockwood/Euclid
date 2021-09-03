@@ -662,16 +662,14 @@ public extension Mesh {
     ) -> Mesh {
         let subpaths = along.subpaths
         guard subpaths.count == 1 else {
-            var mesh = Mesh([])
-            for subpath in subpaths {
-                mesh = mesh.merge(extrude(
+            return .merge(subpaths.map {
+                extrude(
                     shape,
-                    along: subpath,
+                    along: $0,
                     faces: faces,
                     material: material
-                ))
-            }
-            return mesh
+                )
+            })
         }
         let points = along.points
         guard var p0 = points.first else {
