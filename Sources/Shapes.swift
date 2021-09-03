@@ -606,6 +606,41 @@ public extension Mesh {
         let faces: Faces = detail == 2 ? .frontAndBack : .front
         return extrude(path, along: shape, faces: faces, material: material)
     }
+
+    /// Efficiently stroke a set of line segments (useful for drawing wireframes)
+    static func stroke<T: Collection>(
+        _ lines: T,
+        width: Double = 0.002,
+        detail: Int = 3,
+        material: Material? = nil
+    ) -> Mesh where T.Element == LineSegment {
+        let radius = width / 2
+        let detail = max(3, detail)
+        let path = Path.circle(radius: radius, segments: detail)
+        var bounds = Bounds.empty
+        var polygons = [Polygon]()
+        polygons.reserveCapacity(detail * lines.count)
+        for line in lines {
+            var shape = path
+            let along = Path.line(line)
+            if along.flatteningPlane == .xy {
+                shape = shape.rotated(by: .pitch(.halfPi))
+            }
+            shape = shape.rotated(by: rotationBetweenVectors(line.direction, shape.faceNormal))
+            let shape0 = shape.translated(by: line.start)
+            bounds.formUnion(shape0.bounds)
+            let shape1 = shape.translated(by: line.end)
+            bounds.formUnion(shape1.bounds)
+            loft(
+                unchecked: shape0, shape1,
+                uvstart: 0, uvend: 1,
+                verifiedCoplanar: false,
+                material: material,
+                into: &polygons
+            )
+        }
+        return Mesh(unchecked: polygons, bounds: bounds, isConvex: false)
+    }
 }
 
 private extension Mesh {
@@ -829,6 +864,14 @@ private extension Mesh {
         }
     }
 
+    static func directionBetweenShapes(_ s0: Path, _ s1: Path) -> Vector? {
+        if let p0 = s0.points.first, let p1 = s1.points.first {
+            // TODO: what if p0p1 length is zero? We should try other points
+            return (p1.position - p0.position).normalized()
+        }
+        return nil
+    }
+
     static func loft(
         unchecked shapes: [Path],
         faces: Faces = .default,
@@ -860,14 +903,8 @@ private extension Mesh {
         if count < 3, isClosed {
             return fill(shapes[0], faces: faces, material: material)
         }
-        func directionBetweenShapes(_ s0: Path, _ s1: Path) -> Vector? {
-            if let p0 = s0.points.first, let p1 = s1.points.first {
-                // TODO: what if p0p1 length is zero? We should try other points
-                return (p1.position - p0.position).normalized()
-            }
-            return nil
-        }
         var polygons = [Polygon]()
+        polygons.reserveCapacity(shapes.reduce(0) { $0 + $1.points.count })
         var prev = shapes[0]
         var isCapped = true
         if !isClosed {
@@ -882,78 +919,19 @@ private extension Mesh {
                 polygons += facePolygons
             }
         }
+        var uvx0 = 0.0
         let uvstep = Double(1) / Double(count - 1)
-        var e1 = prev.edgeVertices
-        for i in 1 ..< count {
-            let path = shapes[i]
-            let e0 = e1
-            e1 = path.edgeVertices
-            // TODO: better handling of case where e0 and e1 counts don't match
-            let invert: Bool
-            if let n = prev.plane?.normal,
-               let p0p1 = directionBetweenShapes(prev, path), p0p1.dot(n) > 0
-            {
-                invert = false
-            } else {
-                invert = true
-            }
-            let uvx0 = Double(i - 1) * uvstep
+        for shape in shapes.dropFirst() {
             let uvx1 = uvx0 + uvstep
-            for j in stride(from: 0, to: min(e0.count, e1.count), by: 2) {
-                var vertices = [e0[j], e0[j + 1], e1[j + 1], e1[j]]
-                vertices[0].texcoord = Vector(vertices[0].texcoord.y, uvx0)
-                vertices[1].texcoord = Vector(vertices[1].texcoord.y, uvx0)
-                vertices[2].texcoord = Vector(vertices[2].texcoord.y, uvx1)
-                vertices[3].texcoord = Vector(vertices[3].texcoord.y, uvx1)
-                if vertices[0].position == vertices[1].position {
-                    vertices.remove(at: 0)
-                } else if vertices[2].position == vertices[3].position {
-                    vertices.remove(at: 3)
-                } else {
-                    if vertices[0].position == vertices[3].position {
-                        vertices[0].normal = vertices[0].normal + vertices[3].normal // auto-normalized
-                        vertices.remove(at: 3)
-                    }
-                    if vertices[1].position == vertices[2].position {
-                        vertices[1].normal = vertices[1].normal + vertices[2].normal // auto-normalized
-                        vertices.remove(at: 2)
-                    }
-                }
-                let degenerate = verifiedCoplanar ? false : verticesAreDegenerate(vertices)
-                assert(!verifiedCoplanar || !verticesAreDegenerate(vertices))
-                guard !degenerate else {
-                    // This is a hack to make the best of a bad edge case
-                    // TODO: find a better solution
-                    polygons += triangulateVertices(
-                        vertices,
-                        plane: nil,
-                        isConvex: nil,
-                        material: material,
-                        id: 0
-                    )
-                    continue
-                }
-                let coplanar = verifiedCoplanar || verticesAreCoplanar(vertices)
-                assert(!verifiedCoplanar || verticesAreCoplanar(vertices))
-                if !coplanar {
-                    let vertices2 = [vertices[0], vertices[2], vertices[3]]
-                    vertices.remove(at: 3)
-                    polygons.append(Polygon(
-                        unchecked: invert ? vertices2.reversed() : vertices2,
-                        plane: nil,
-                        isConvex: true,
-                        material: material
-                    ))
-                }
-                polygons.append(Polygon(
-                    unchecked: invert ? vertices.reversed() : vertices,
-                    plane: nil,
-                    isConvex: nil,
-                    material: material
-                ))
-            }
-            // TODO: create triangles for mismatched points
-            prev = path
+            loft(
+                unchecked: prev, shape,
+                uvstart: uvx0, uvend: uvx1,
+                verifiedCoplanar: verifiedCoplanar,
+                material: material,
+                into: &polygons
+            )
+            prev = shape
+            uvx0 = uvx1
         }
         if !isClosed {
             let facePolygons = prev.facePolygons(material: material)
@@ -990,6 +968,76 @@ private extension Mesh {
                 bounds: nil, // TODO: can we calculate this efficiently?
                 isConvex: false
             )
+        }
+    }
+
+    static func loft(
+        unchecked p0: Path, _ p1: Path,
+        uvstart: Double, uvend: Double,
+        verifiedCoplanar: Bool,
+        material: Material?,
+        into polygons: inout [Polygon]
+    ) {
+        let invert: Bool
+        if let p0p1 = directionBetweenShapes(p0, p1), p0p1.dot(p0.faceNormal) > 0 {
+            invert = false
+        } else {
+            invert = true
+        }
+        let e0 = p0.edgeVertices, e1 = p1.edgeVertices
+        // TODO: better handling of case where e0 and e1 counts don't match
+        for j in stride(from: 0, to: min(e0.count, e1.count), by: 2) {
+            var vertices = [e0[j], e0[j + 1], e1[j + 1], e1[j]]
+            vertices[0].texcoord = Vector(vertices[0].texcoord.y, uvstart)
+            vertices[1].texcoord = Vector(vertices[1].texcoord.y, uvstart)
+            vertices[2].texcoord = Vector(vertices[2].texcoord.y, uvend)
+            vertices[3].texcoord = Vector(vertices[3].texcoord.y, uvend)
+            if vertices[0].position == vertices[1].position {
+                vertices.remove(at: 0)
+            } else if vertices[2].position == vertices[3].position {
+                vertices.remove(at: 3)
+            } else {
+                if vertices[0].position == vertices[3].position {
+                    vertices[0].normal = vertices[0].normal + vertices[3].normal // auto-normalized
+                    vertices.remove(at: 3)
+                }
+                if vertices[1].position == vertices[2].position {
+                    vertices[1].normal = vertices[1].normal + vertices[2].normal // auto-normalized
+                    vertices.remove(at: 2)
+                }
+            }
+            let degenerate = verifiedCoplanar ? false : verticesAreDegenerate(vertices)
+            assert(!verifiedCoplanar || !verticesAreDegenerate(vertices))
+            guard !degenerate else {
+                // This is a hack to make the best of a bad edge case
+                // TODO: find a better solution
+                polygons += triangulateVertices(
+                    vertices,
+                    plane: nil,
+                    isConvex: nil,
+                    material: material,
+                    id: 0
+                )
+                continue
+            }
+            let coplanar = verifiedCoplanar || verticesAreCoplanar(vertices)
+            assert(!verifiedCoplanar || verticesAreCoplanar(vertices))
+            if !coplanar {
+                let vertices2 = [vertices[0], vertices[2], vertices[3]]
+                vertices.remove(at: 3)
+                polygons.append(Polygon(
+                    unchecked: invert ? vertices2.reversed() : vertices2,
+                    plane: nil,
+                    isConvex: true,
+                    material: material
+                ))
+            }
+            polygons.append(Polygon(
+                unchecked: invert ? vertices.reversed() : vertices,
+                plane: nil,
+                isConvex: nil,
+                material: material
+            ))
         }
     }
 }
