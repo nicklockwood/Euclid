@@ -429,6 +429,7 @@ public extension Mesh {
             ],
             faces: faces,
             material: material,
+            verifiedCoplanar: true,
             isConvex: Polygon(shape: shape)?.isConvex == true
         )
     }
@@ -531,6 +532,7 @@ public extension Mesh {
             unchecked: shapes,
             faces: faces,
             material: material,
+            verifiedCoplanar: false,
             isConvex: false
         )
     }
@@ -830,7 +832,8 @@ private extension Mesh {
     static func loft(
         unchecked shapes: [Path],
         faces: Faces = .default,
-        material: Material? = nil,
+        material: Material?,
+        verifiedCoplanar: Bool,
         isConvex: Bool
     ) -> Mesh {
         var subpathCount = 0
@@ -848,8 +851,6 @@ private extension Mesh {
             }
             return .xor(subshapes.map { .loft($0, faces: faces, material: material) })
         }
-
-        // TODO: handle subpaths
         let shapes = shapes
         if shapes.isEmpty {
             return Mesh([])
@@ -918,24 +919,9 @@ private extension Mesh {
                         vertices.remove(at: 2)
                     }
                 }
-                if !verticesAreDegenerate(vertices) {
-                    if !verticesAreCoplanar(vertices) {
-                        let vertices2 = [vertices[0], vertices[2], vertices[3]]
-                        vertices.remove(at: 3)
-                        polygons.append(Polygon(
-                            unchecked: invert ? vertices2.reversed() : vertices2,
-                            plane: nil,
-                            isConvex: true,
-                            material: material
-                        ))
-                    }
-                    polygons.append(Polygon(
-                        unchecked: invert ? vertices.reversed() : vertices,
-                        plane: nil,
-                        isConvex: nil,
-                        material: material
-                    ))
-                } else {
+                let degenerate = verifiedCoplanar ? false : verticesAreDegenerate(vertices)
+                assert(!verifiedCoplanar || !verticesAreDegenerate(vertices))
+                guard !degenerate else {
                     // This is a hack to make the best of a bad edge case
                     // TODO: find a better solution
                     polygons += triangulateVertices(
@@ -945,7 +931,26 @@ private extension Mesh {
                         material: material,
                         id: 0
                     )
+                    continue
                 }
+                let coplanar = verifiedCoplanar || verticesAreCoplanar(vertices)
+                assert(!verifiedCoplanar || verticesAreCoplanar(vertices))
+                if !coplanar {
+                    let vertices2 = [vertices[0], vertices[2], vertices[3]]
+                    vertices.remove(at: 3)
+                    polygons.append(Polygon(
+                        unchecked: invert ? vertices2.reversed() : vertices2,
+                        plane: nil,
+                        isConvex: true,
+                        material: material
+                    ))
+                }
+                polygons.append(Polygon(
+                    unchecked: invert ? vertices.reversed() : vertices,
+                    plane: nil,
+                    isConvex: nil,
+                    material: material
+                ))
             }
             // TODO: create triangles for mismatched points
             prev = path
