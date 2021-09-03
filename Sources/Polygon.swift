@@ -244,7 +244,10 @@ public extension Polygon {
 
     /// Tessellates polygon into triangles using the "ear clipping" method
     func triangulate() -> [Polygon] {
-        triangulateVertices(
+        guard vertices.count > 3 else {
+            return [self]
+        }
+        return triangulateVertices(
             vertices,
             plane: plane,
             isConvex: isConvex,
