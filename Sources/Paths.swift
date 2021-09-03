@@ -183,11 +183,6 @@ extension Path: Codable {
             try container.encode(subpaths, forKey: .subpaths)
         }
     }
-
-    // TODO: Make this more robust, then make public
-    var hasZeroArea: Bool {
-        points.count < (isClosed ? 4 : 3)
-    }
 }
 
 public extension Path {
@@ -508,6 +503,11 @@ internal extension Path {
         }
         let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
         return FlatteningPlane(points: positions, convex: nil)
+    }
+
+    // TODO: Make this more robust, then make public
+    var hasZeroArea: Bool {
+        points.count < (isClosed ? 4 : 3)
     }
 
     // flattens z-axis

@@ -1,3 +1,14 @@
+## [0.5.11](https://github.com/nicklockwood/Euclid/releases/tag/0.5.11) (2021-09-03)
+
+- Added `Mesh.stroke()` function variant for generating wireframes
+- Added `Mesh.loft()` optimization for common cases
+- Added optimized `Mesh.merge()` function for merging multiple meshes at once
+- Added `Bounds.formUnion()` and `Bounds.formIntersection()` functions
+- Added fast-path optimization for `Polygon.triangulate()`
+- Improved compilation time for the CSG `Mesh.union()` function
+- Deprecated `Mesh.scaleCorrected()` and `Polygon.scaleCorrected()`
+- Tweaked `Bounds.isEmpty` logic so that zero volume counts as empty
+
 ## [0.5.10](https://github.com/nicklockwood/Euclid/releases/tag/0.5.10) (2021-08-30)
 
 - Added `Color` type for convenient cross-platform color materials
