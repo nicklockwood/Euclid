@@ -67,6 +67,7 @@ extension Transform: Codable {
 public extension Transform {
     static let identity = Transform()
 
+    @available(*, deprecated, message: "No longer needed")
     var isFlipped: Bool {
         var flipped = scale.x < 0
         if scale.y < 0 { flipped = !flipped }
@@ -132,6 +133,7 @@ public extension Mesh {
         )
     }
 
+    @available(*, deprecated, message: "No longer needed")
     func scaleCorrected(for v: Vector) -> Mesh {
         Mesh(
             unchecked: polygons.scaleCorrected(for: v),
@@ -207,6 +209,7 @@ public extension Polygon {
         scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
     }
 
+    @available(*, deprecated, message: "No longer needed")
     func scaleCorrected(for v: Vector) -> Polygon {
         var flipped = v.x < 0
         if v.y < 0 { flipped = !flipped }
@@ -237,6 +240,7 @@ internal extension Collection where Element == Polygon {
         map { $0.scaled(by: f) }
     }
 
+    @available(*, deprecated, message: "No longer needed")
     func scaleCorrected(for v: Vector) -> [Polygon] {
         map { $0.scaleCorrected(for: v) }
     }
