@@ -191,4 +191,26 @@ class TransformTests: XCTestCase {
         let expected = path.transformed(by: transform).plane!
         XCTAssert(plane.transformed(by: transform).isEqual(to: expected))
     }
+
+    // MARK: Mesh transforms
+
+    func testBoundsNotPreservedWhenMeshRotated() {
+        let mesh = Mesh.cube()
+        let transform = Transform(
+            offset: Vector(-7, 3, 4.5),
+            rotation: Rotation(axis: Vector(11, 3, -1).normalized(), angle: .radians(1.3))!,
+            scale: Vector(7, 2.0, 0.3)
+        )
+        XCTAssertNil(mesh.transformed(by: transform).boundsIfSet)
+    }
+
+    func testBoundsPreservedWhenTransformingMeshWithoutRotation() {
+        let mesh = Mesh.cube()
+        let transform = Transform(
+            offset: Vector(-7, 3, 4.5),
+            rotation: .identity,
+            scale: Vector(7, 2.0, 0.3)
+        )
+        XCTAssertNotNil(mesh.transformed(by: transform).boundsIfSet)
+    }
 }

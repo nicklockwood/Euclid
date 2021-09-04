@@ -143,7 +143,9 @@ public extension Mesh {
     func transformed(by t: Transform) -> Mesh {
         Mesh(
             unchecked: polygons.transformed(by: t),
-            bounds: nil, // TODO: preserve bounds if t does not include rotation
+            bounds: boundsIfSet.flatMap {
+                t.rotation == .identity ? $0.transformed(by: t) : nil
+            },
             isConvex: isConvex
         )
     }
