@@ -132,3 +132,15 @@ public extension CartesianComponentsRepresentable {
         )
     }
 }
+
+public extension CartesianComponentsRepresentable {
+    /// Returns a new instance representing the min of the components of the passed instances
+    static func min(_ lhs: Self, _ rhs: Self) -> Self {
+        Self(Swift.min(lhs.x, rhs.x), Swift.min(lhs.y, rhs.y), Swift.min(lhs.z, rhs.z))
+    }
+
+    /// Returns a new instance representing the max of the components of the passed instances
+    static func max(_ lhs: Self, _ rhs: Self) -> Self {
+        Self(Swift.max(lhs.x, rhs.x), Swift.max(lhs.y, rhs.y), Swift.max(lhs.z, rhs.z))
+    }
+}
