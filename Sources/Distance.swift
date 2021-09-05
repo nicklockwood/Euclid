@@ -60,9 +60,13 @@ public extension Distance {
 
 public extension Distance {
     func cross(_ other: Distance) -> Distance {
-        let angle = direction.angle(with: other.direction)
-        let newNorm = norm * other.norm * sin(angle)
-        let normalDirection = direction.cross(other.direction)
+        return other.norm * cross(other.direction)
+    }
+    
+    func cross(_ other: Direction) -> Distance {
+        let angle = direction.angle(with: other)
+        let newNorm = norm * sin(angle)
+        let normalDirection = direction.cross(other)
         return newNorm * normalDirection
     }
 
