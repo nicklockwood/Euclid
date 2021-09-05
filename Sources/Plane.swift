@@ -100,6 +100,11 @@ public extension Plane {
     }
 
     /// Checks if point is on plane
+    func containsPoint(_ p: Vector) -> Bool {
+        containsPoint(Position(p))
+    }
+
+    /// Checks if point is on plane
     func containsPoint(_ p: Position) -> Bool {
         abs(p.distance(from: self)) < epsilon
     }
