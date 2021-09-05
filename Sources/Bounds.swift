@@ -103,15 +103,15 @@ public extension Bounds {
     }
 
     var isEmpty: Bool {
-        max.x < min.x || max.y < min.y || max.z < min.z
+        size == .zero
     }
 
     var size: Vector {
-        isEmpty ? .zero : max - min
+        hasNegativeVolume ? .zero : max - min
     }
 
     var center: Vector {
-        isEmpty ? .zero : min + size / 2
+        hasNegativeVolume ? .zero : min + size / 2
     }
 
     var corners: [Vector] {
@@ -174,6 +174,10 @@ public extension Bounds {
 }
 
 extension Bounds {
+    var hasNegativeVolume: Bool {
+        max.x < min.x || max.y < min.y || max.z < min.z
+    }
+
     // Approximate equality
     func isEqual(to other: Bounds, withPrecision p: Double = epsilon) -> Bool {
         min.isEqual(to: other.min, withPrecision: p) &&

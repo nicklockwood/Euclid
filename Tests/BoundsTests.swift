@@ -69,4 +69,51 @@ class BoundsTests: XCTestCase {
         let c = a.intersection(b)
         XCTAssertEqual(c, .empty)
     }
+
+    // MARK: isEmpty
+
+    func testEmptyBoundsIsEmpty() {
+        let bounds = Bounds.empty
+        XCTAssert(bounds.isEmpty)
+    }
+
+    func testNegativeVolumeBoundsIsEmpty() {
+        let bounds = Bounds(min: Vector(1, 1, 1), max: Vector(-1, -1, -1))
+        XCTAssert(bounds.isEmpty)
+    }
+
+    func testZeroSizedBoundsIsEmpty() {
+        let bounds = Bounds(min: .zero, max: .zero)
+        XCTAssert(bounds.isEmpty)
+    }
+
+    func testBoundsWithNegativeWidthIsEmpty() {
+        let bounds = Bounds(min: .zero, max: Vector(-1, 1, 1))
+        XCTAssert(bounds.isEmpty)
+    }
+
+    func testBoundsWithZeroWidthIsNotEmpty() {
+        let bounds = Bounds(min: .zero, max: Vector(0, 1, 1))
+        XCTAssertFalse(bounds.isEmpty)
+    }
+
+    func testBoundsWithNegativeHeightIsEmpty() {
+        let bounds = Bounds(min: .zero, max: Vector(1, -1, 1))
+        XCTAssert(bounds.isEmpty)
+    }
+
+    func testBoundsWithZeroHeightIsNotEmpty() {
+        let bounds = Bounds(min: .zero, max: Vector(1, 0, 1))
+        XCTAssertFalse(bounds.isEmpty)
+    }
+
+    func testBoundsWithNegativeDepthIsEmpty() {
+        let bounds = Bounds(min: .zero, max: Vector(1, 1, -1))
+        XCTAssert(bounds.isEmpty)
+    }
+
+    func testBoundsWithZeroDepthIsNotEmpty() {
+        let bounds = Bounds(min: .zero, max: Vector(1, 1, 0))
+        XCTAssertFalse(bounds.isEmpty)
+    }
 }
