@@ -48,4 +48,18 @@ class PositionTests: XCTestCase {
         let rotated = position.rotated(around: .z, by: Angle(degrees: 150))
         XCTAssertEqual(Position(x: -sqrt(3), y: 1, z: 1), rotated)
     }
+    
+    // MARK: Distance from plane
+
+    func testDistanceInFrontOfPlane() {
+        let position = Position(2, 1, -2)
+        let plane = Plane(unchecked: .x, pointOnPlane: Vector.zero)
+        XCTAssertEqual(position.distance(from: plane), 2)
+    }
+
+    func testDistanceBehindPlane() {
+        let position = Position(-1.5, 2, 7)
+        let plane = Plane(unchecked: .x, pointOnPlane: Vector.zero)
+        XCTAssertEqual(position.distance(from: plane), -1.5)
+    }
 }
