@@ -55,3 +55,12 @@ public extension Position {
         )
     }
 }
+
+public extension Position {
+    /// Distance of the point from a plane
+    /// A positive value is returned if the point lies in front of the plane
+    /// A negative value is returned if the point lies behind the plane
+    func distance(from plane: Plane) -> Double {
+        distance.dot(plane.normal) - plane.w
+    }
+}

@@ -44,18 +44,4 @@ class VectorTests: XCTestCase {
         let plane = Plane(unchecked: .x, pointOnPlane: Vector.zero)
         XCTAssertEqual(direction.angle(with: plane), .halfPi)
     }
-
-    // MARK: Distance from plane
-
-    func testDistanceInFrontOfPlane() {
-        let position = Vector(2, 1, -2)
-        let plane = Plane(unchecked: .x, pointOnPlane: Vector.zero)
-        XCTAssertEqual(position.distance(from: plane), 2)
-    }
-
-    func testDistanceBehindPlane() {
-        let position = Vector(-1.5, 2, 7)
-        let plane = Plane(unchecked: .x, pointOnPlane: Vector.zero)
-        XCTAssertEqual(position.distance(from: plane), -1.5)
-    }
 }

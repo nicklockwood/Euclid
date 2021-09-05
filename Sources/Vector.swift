@@ -218,17 +218,10 @@ public extension Vector {
         let complementeryAngle = Direction(self).dot(plane.normal)
         return Angle.asin(complementeryAngle)
     }
-
-    /// Distance of the point from a plane
-    /// A positive value is returned if the point lies in front of the plane
-    /// A negative value is returned if the point lies behind the plane
-    func distance(from plane: Plane) -> Double {
-        Distance(self).dot(plane.normal) - plane.w
-    }
-
+    
     /// The nearest point to this point on the specified plane
     func project(onto plane: Plane) -> Vector {
-        let position = Position(self) - distance(from: plane) * plane.normal
+        let position = Position(self) - Position(self).distance(from: plane) * plane.normal
         return Vector(position)
     }
 
@@ -251,7 +244,7 @@ internal extension Vector {
     }
 
     func compare(with plane: Plane) -> PlaneComparison {
-        let t = distance(from: plane)
+        let t = Position(self).distance(from: plane)
         return (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
     }
 

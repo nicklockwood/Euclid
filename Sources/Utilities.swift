@@ -369,7 +369,7 @@ func pointsAreCoplanar(_ points: [Vector]) -> Bool {
         return false
     }
     let plane = Plane(unchecked: Direction(normal), pointOnPlane: b)
-    for p in points[3...] where !plane.containsPoint(p) {
+    for p in points[3...] where !plane.containsPoint(Position(p)) {
         return false
     }
     return true

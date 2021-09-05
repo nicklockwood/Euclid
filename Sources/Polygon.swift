@@ -177,7 +177,7 @@ public extension Polygon {
 
     /// Test if point lies inside the polygon
     func containsPoint(_ p: Vector) -> Bool {
-        guard plane.containsPoint(p) else {
+        guard plane.containsPoint(Position(p)) else {
             return false
         }
         // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
