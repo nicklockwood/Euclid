@@ -286,19 +286,19 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
 // Points are not required to form a convex polygon
 func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Direction {
     let count = points.count
-    let unitZ = Vector(0, 0, 1)
+    let unitZ = Direction.z
     switch count {
     case 0, 1:
         return .z
     case 2:
-        let ab = points[1] - points[0]
+        let ab = Distance(points[1] - points[0])
         let normal = ab.cross(unitZ).cross(ab)
-        let length = normal.length
+        let length = normal.norm
         guard length > 0 else {
             // Points lie along z axis
             return .x
         }
-        return Direction(normal / length)
+        return (normal / length).direction
     default:
         func faceNormalForConvexPoints(_ points: [Vector]) -> Direction {
             var b = points[0]
