@@ -174,10 +174,9 @@ class TransformTests: XCTestCase {
 
     func testRotationIdentityAxis() {
         let r = Rotation.identity
-
-        XCTAssertEqual(r.right, Vector(1, 0, 0))
-        XCTAssertEqual(r.up, Vector(0, 1, 0))
-        XCTAssertEqual(r.forward, Vector(0, 0, 1))
+        XCTAssertEqual(r.right, .x)
+        XCTAssertEqual(r.up, .y)
+        XCTAssertEqual(r.forward, .z)
     }
 
     // MARK: Transform multiplication
