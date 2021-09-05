@@ -218,7 +218,7 @@ public extension Vector {
         let complementeryAngle = Direction(self).dot(plane.normal)
         return Angle.asin(complementeryAngle)
     }
-    
+
     /// The nearest point to this point on the specified plane
     func project(onto plane: Plane) -> Vector {
         let position = Position(self) - Position(self).distance(from: plane) * plane.normal
