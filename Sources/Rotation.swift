@@ -232,16 +232,16 @@ public extension Rotation {
         .atan2(y: m21, x: m11)
     }
 
-    var right: Vector {
-        Vector(m11, m12, m13)
+    var right: Direction {
+        Direction(m11, m12, m13)
     }
 
-    var up: Vector {
-        Vector(m21, m22, m23)
+    var up: Direction {
+        Direction(m21, m22, m23)
     }
 
-    var forward: Vector {
-        Vector(m31, m32, m33)
+    var forward: Direction {
+        Direction(m31, m32, m33)
     }
 
     static prefix func - (rhs: Rotation) -> Rotation {
