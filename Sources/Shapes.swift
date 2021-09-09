@@ -40,8 +40,8 @@ public extension Path {
     }
 
     /// Create a path from a start and end point
-    static func line(_ start: Vector, _ end: Vector) -> Path {
-        Path([.point(start), .point(end)])
+    static func line(_ start: Position, _ end: Position) -> Path {
+        Path([.point(Vector(start)), .point(Vector(end))])
     }
 
     /// Create a closed circular path
@@ -71,9 +71,9 @@ public extension Path {
     static func rectangle(width: Double, height: Double) -> Path {
         let w = width / 2, h = height / 2
         if height < epsilon {
-            return .line(Vector(-w, 0), Vector(w, 0))
+            return .line(Position(x: -w), Position(x: w))
         } else if width < epsilon {
-            return .line(Vector(0, -h), Vector(0, h))
+            return .line(Position(y: -h), Position(y: h))
         }
         return Path(unchecked: [
             .point(-w, h), .point(-w, -h),
@@ -599,7 +599,7 @@ public extension Mesh {
         let radius = width / 2
         switch detail {
         case 1, 2:
-            path = .line(Vector(-radius, 0), Vector(radius, 0))
+            path = .line(Position(x: -radius), Position(x: radius))
         case let sides:
             path = .circle(radius: radius, segments: sides)
         }
@@ -627,9 +627,9 @@ public extension Mesh {
                 shape = shape.rotated(by: .pitch(.halfPi))
             }
             shape = shape.rotated(by: rotationBetweenDirections(line.direction, shape.faceNormal))
-            let shape0 = shape.translated(by: line.start)
+            let shape0 = shape.translated(by: Vector(line.start))
             bounds.formUnion(shape0.bounds)
-            let shape1 = shape.translated(by: line.end)
+            let shape1 = shape.translated(by: Vector(line.end))
             bounds.formUnion(shape1.bounds)
             loft(
                 unchecked: shape0, shape1,

@@ -353,7 +353,7 @@ class CodingTests: XCTestCase {
             "start": [0, 0, 1],
             "end": [0, 1, 0]
         }
-        """), LineSegment(Vector(0, 0, 1), Vector(0, 1, 0)))
+        """), LineSegment(Position(0, 0, 1), Position(0, 1, 0)))
     }
 
     func testDecodingKeyedZeroLengthLineSegment() {
@@ -368,7 +368,7 @@ class CodingTests: XCTestCase {
     func testDecodingUnkeyedLineSegment() {
         XCTAssertEqual(
             try decode("[0, 0, 1, 0, 1, 0]"),
-            LineSegment(Vector(0, 0, 1), Vector(0, 1, 0))
+            LineSegment(Position(0, 0, 1), Position(0, 1, 0))
         )
     }
 
@@ -378,7 +378,7 @@ class CodingTests: XCTestCase {
 
     func testEncodingLineSegment() {
         XCTAssertEqual(
-            try encode(LineSegment(Vector(0, 0, 1), Vector(0, 1, 0))),
+            try encode(LineSegment(Position(0, 0, 1), Position(0, 1, 0))),
             "[0,0,1,0,1,0]"
         )
     }

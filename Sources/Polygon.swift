@@ -133,9 +133,9 @@ public extension Polygon {
     /// Returns a set of polygon edges
     /// The direction of each edge is normalized relative to the origin to facilitate edge-equality comparisons
     var undirectedEdges: Set<LineSegment> {
-        var p0 = vertices.last!.position
+        var p0 = Position(vertices.last!.position)
         return Set(vertices.map {
-            let p1 = $0.position
+            let p1 = Position($0.position)
             defer { p0 = p1 }
             return p0 < p1 ? LineSegment(unchecked: p0, p1) : LineSegment(unchecked: p1, p0)
         })

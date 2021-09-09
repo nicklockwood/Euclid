@@ -280,12 +280,12 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
         return false
     }
     for i in 0 ..< points.count - 2 {
-        let p0 = points[i], p1 = points[i + 1]
+        let p0 = Position(points[i]), p1 = Position(points[i + 1])
         guard let l1 = LineSegment(p0, p1) else {
             continue
         }
         for j in i + 2 ..< points.count - 1 {
-            let p2 = points[j], p3 = points[j + 1]
+            let p2 = Position(points[j]), p3 = Position(points[j + 1])
             guard !p1.isEqual(to: p2), !p1.isEqual(to: p3),
                   !p0.isEqual(to: p2), !p0.isEqual(to: p3),
                   let l2 = LineSegment(p2, p3)
