@@ -85,7 +85,7 @@ extension Line: Codable {
 
 public extension Line {
     init(_ segment: LineSegment) {
-        self.init(origin: Position(segment.start), direction: segment.direction)
+        self.init(origin: segment.start, direction: segment.direction)
     }
 
     /// Check if point is on line

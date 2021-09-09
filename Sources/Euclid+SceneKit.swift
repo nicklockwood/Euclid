@@ -300,8 +300,8 @@ public extension SCNGeometry {
             vertexData.append(vertex)
         }
         for edge in edges {
-            addVertex(edge.start)
-            addVertex(edge.end)
+            addVertex(Vector(edge.start))
+            addVertex(Vector(edge.end))
         }
         self.init(
             sources: [
@@ -335,7 +335,7 @@ public extension SCNGeometry {
     /// Creates line-segment SCNGeometry representing the vertex normals of a Mesh
     convenience init(normals mesh: Mesh, scale: Double = 1) {
         self.init(Set(mesh.polygons.flatMap { $0.vertices }.compactMap {
-            LineSegment($0.position, $0.position + Vector($0.normal) * scale)
+            LineSegment(Position($0.position), Position($0.position) + $0.normal * scale)
         }))
     }
 
