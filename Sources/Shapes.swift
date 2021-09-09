@@ -71,9 +71,9 @@ public extension Path {
     static func rectangle(width: Double, height: Double) -> Path {
         let w = width / 2, h = height / 2
         if height < epsilon {
-            return .line(Vector(-width / 2, 0), Vector(width / 2, 0))
+            return .line(Vector(-w, 0), Vector(w, 0))
         } else if width < epsilon {
-            return .line(Vector(-width / 2, 0), Vector(width / 2, 0))
+            return .line(Vector(0, -h), Vector(0, h))
         }
         return Path(unchecked: [
             .point(-w, h), .point(-w, -h),
