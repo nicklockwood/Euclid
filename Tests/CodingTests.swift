@@ -189,6 +189,13 @@ class CodingTests: XCTestCase {
         )
     }
 
+    func testEncodeDecodeVertexWithTexcoordButWithoutNormal() throws {
+        let vertex = Vertex(.zero, .zero, Vector(0, 1))
+        let encoded = try encode(vertex)
+        XCTAssertEqual(encoded, "[0,0,0,0,0,0,0,1]")
+        XCTAssertEqual(try decode(encoded), vertex)
+    }
+
     // MARK: Plane
 
     func testDecodingKeyedPlane() {
