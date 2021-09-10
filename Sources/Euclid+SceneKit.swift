@@ -103,9 +103,11 @@ public extension SCNNode {
 #if canImport(UIKit)
 private typealias OSColor = UIColor
 private typealias OSImage = UIImage
+private typealias OSColorComponent = Double
 #elseif canImport(AppKit)
 private typealias OSColor = NSColor
 private typealias OSImage = NSImage
+private typealias OSColorComponent = Float
 #endif
 
 private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
@@ -139,9 +141,9 @@ extension SCNGeometrySource {
             vectorCount: colors.count,
             usesFloatComponents: true,
             componentsPerVector: 4,
-            bytesPerComponent: MemoryLayout<Float>.size,
+            bytesPerComponent: MemoryLayout<OSColorComponent>.size,
             dataOffset: 0,
-            dataStride: MemoryLayout<SCNVector4>.size
+            dataStride: 0
         )
     }
 }
