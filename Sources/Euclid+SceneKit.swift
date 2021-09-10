@@ -103,11 +103,11 @@ public extension SCNNode {
 #if canImport(UIKit)
 private typealias OSColor = UIColor
 private typealias OSImage = UIImage
-private typealias OSColorComponent = Double
+private typealias OSColorComponent = Float
 #elseif canImport(AppKit)
 private typealias OSColor = NSColor
 private typealias OSImage = NSImage
-private typealias OSColorComponent = Float
+private typealias OSColorComponent = Double
 #endif
 
 private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
