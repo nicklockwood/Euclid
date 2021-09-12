@@ -38,8 +38,8 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
         let c = a.subtract(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, -0.5),
-            max: Vector(0, 0.5, 0.5)
+            min: Position(-0.5, -0.5, -0.5),
+            max: Position(0, 0.5, 0.5)
         ))
     }
 
@@ -71,8 +71,8 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
         let c = a.xor(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, -0.5),
-            max: Vector(1.0, 0.5, 0.5)
+            min: Position(-0.5, -0.5, -0.5),
+            max: Position(1.0, 0.5, 0.5)
         ))
     }
 
@@ -104,8 +104,8 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
         let c = a.union(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, -0.5),
-            max: Vector(1, 0.5, 0.5)
+            min: Position(-0.5, -0.5, -0.5),
+            max: Position(1, 0.5, 0.5)
         ))
     }
 
@@ -132,8 +132,8 @@ class CSGTests: XCTestCase {
         // TODO: ideally this should probably be empty, but it's not clear
         // how to achieve that while also getting desired planar behavior
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(0.5, -0.5, -0.5),
-            max: Vector(0.5, 0.5, 0.5)
+            min: Position(0.5, -0.5, -0.5),
+            max: Position(0.5, 0.5, 0.5)
         ))
     }
 
@@ -142,8 +142,8 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
         let c = a.intersect(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(0, -0.5, -0.5),
-            max: Vector(0.5, 0.5, 0.5)
+            min: Position(0, -0.5, -0.5),
+            max: Position(0.5, 0.5, 0.5)
         ))
     }
 
@@ -175,8 +175,8 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
         let c = a.subtract(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, 0),
-            max: Vector(0, 0.5, 0)
+            min: Position(-0.5, -0.5, 0),
+            max: Position(0, 0.5, 0)
         ))
     }
 
@@ -201,8 +201,8 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
         let c = a.xor(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, 0),
-            max: Vector(1.0, 0.5, 0)
+            min: Position(-0.5, -0.5, 0),
+            max: Position(1.0, 0.5, 0)
         ))
     }
 
@@ -227,8 +227,8 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
         let c = a.union(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, 0),
-            max: Vector(1, 0.5, 0)
+            min: Position(-0.5, -0.5, 0),
+            max: Position(1, 0.5, 0)
         ))
     }
 
@@ -253,8 +253,8 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
         let c = a.intersect(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(0, -0.5, 0),
-            max: Vector(0.5, 0.5, 0)
+            min: Position(0, -0.5, 0),
+            max: Position(0.5, 0.5, 0)
         ))
     }
 }

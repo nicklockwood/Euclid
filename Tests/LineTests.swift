@@ -14,13 +14,13 @@ class LineTests: XCTestCase {
 
     func testDistanceFromPointSimple() {
         let l = Line(origin: .origin, direction: .x)
-        let p = Vector(15, 2, 0)
+        let p = Position(15, 2, 0)
         XCTAssertEqual(l.distance(from: p), 2)
     }
 
     func testDistanceFromPointHarder() {
         let l = Line(origin: .origin, direction: .x)
-        let p = Vector(15, 2, 3)
+        let p = Position(15, 2, 3)
         XCTAssertEqual(l.distance(from: p), (2 * 2 + 3 * 3).squareRoot())
     }
 
@@ -28,32 +28,32 @@ class LineTests: XCTestCase {
 
     func testProjectPointDown() {
         let l = Line(origin: .origin, direction: .x)
-        let p = Vector(2, -2, 0)
-        XCTAssertEqual(p.project(onto: l), Vector(2, 0, 0))
+        let p = Position(2, -2, 0)
+        XCTAssertEqual(p.project(onto: l), Position(2, 0, 0))
     }
 
     func testProjectPointUp() {
         let l = Line(origin: .origin, direction: .x)
-        let p = Vector(3, 1, 0)
-        XCTAssertEqual(p.project(onto: l), Vector(3, 0, 0))
+        let p = Position(3, 1, 0)
+        XCTAssertEqual(p.project(onto: l), Position(3, 0, 0))
     }
 
     func testProjectPointRight() {
         let l = Line(origin: .origin, direction: .y)
-        let p = Vector(-3, 1, 0)
-        XCTAssertEqual(p.project(onto: l), Vector(0, 1, 0))
+        let p = Position(-3, 1, 0)
+        XCTAssertEqual(p.project(onto: l), Position(0, 1, 0))
     }
 
     func testProjectPointLeft() {
         let l = Line(origin: .origin, direction: .y)
-        let p = Vector(3, -5, 0)
-        XCTAssertEqual(p.project(onto: l), Vector(0, -5, 0))
+        let p = Position(3, -5, 0)
+        XCTAssertEqual(p.project(onto: l), Position(0, -5, 0))
     }
 
     func testProjectPointDiagonal() {
         let l = Line(origin: .origin, direction: Direction(1, 1, 0))
-        let p = Vector(0, 2, 0)
-        XCTAssert(p.project(onto: l).isEqual(to: Vector(1, 1, 0)))
+        let p = Position(0, 2, 0)
+        XCTAssert(p.project(onto: l).isEqual(to: Position(1, 1, 0)))
     }
 
     // MARK: Line intersection
@@ -63,7 +63,7 @@ class LineTests: XCTestCase {
         let l2 = Line(origin: Position(0, 1, 3), direction: -.y)
 
         let intersection = l1.intersection(with: l2)
-        XCTAssertEqual(intersection, Vector(0, 0, 3))
+        XCTAssertEqual(intersection, Position(0, 0, 3))
     }
 
     func testLineIntersectionXZ() {
@@ -71,7 +71,7 @@ class LineTests: XCTestCase {
         let l2 = Line(origin: Position(0, 3, 1), direction: -.z)
 
         let intersection = l1.intersection(with: l2)
-        XCTAssertEqual(intersection, Vector(0, 3, 0))
+        XCTAssertEqual(intersection, Position(0, 3, 0))
     }
 
     func testLineIntersectionYZ() {
@@ -79,7 +79,7 @@ class LineTests: XCTestCase {
         let l2 = Line(origin: Position(3, 0, 1), direction: -.z)
 
         let intersection = l1.intersection(with: l2)
-        XCTAssertEqual(intersection, Vector(3, 0, 0))
+        XCTAssertEqual(intersection, Position(3, 0, 0))
     }
 
     func testCoincidentLineIntersection() {
@@ -91,17 +91,17 @@ class LineTests: XCTestCase {
 
     func testContainsPoint() {
         let line = Line(origin: Position(-2, -1, 0), direction: Direction(2, 1, 0))
-        XCTAssert(line.containsPoint(Vector(-1, -0.5, 0)))
+        XCTAssert(line.containsPoint(Position(-1, -0.5, 0)))
     }
 
     func testContainsPoint2() {
         let line = Line(origin: Position(-2, -1, 0), direction: Direction(2, 1, 0))
-        XCTAssert(line.containsPoint(Vector(-3, -1.5, 0)))
+        XCTAssert(line.containsPoint(Position(-3, -1.5, 0)))
     }
 
     func testDoesNotContainPoint() {
         let line = Line(origin: Position(-2, -1, 0), direction: Direction(2, 1, 0))
-        XCTAssertFalse(line.containsPoint(Vector(-1, -0.6, 0)))
+        XCTAssertFalse(line.containsPoint(Position(-1, -0.6, 0)))
     }
 
     // MARK: Equality

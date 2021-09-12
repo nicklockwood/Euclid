@@ -89,12 +89,12 @@ public extension Line {
     }
 
     /// Check if point is on line
-    func containsPoint(_ p: Vector) -> Bool {
+    func containsPoint(_ p: Position) -> Bool {
         abs(p.distance(from: self)) < epsilon
     }
 
     /// Distance of the line from a given point in 3D
-    func distance(from point: Vector) -> Double {
+    func distance(from point: Position) -> Double {
         distanceFromPointToLine(point, self).norm
     }
 
@@ -112,17 +112,17 @@ public extension Line {
     }
 
     /// Intersection point betwween plane and line (if any)
-    func intersection(with plane: Plane) -> Vector? {
+    func intersection(with plane: Plane) -> Position? {
         plane.intersection(with: self)
     }
 
     /// Intersection point between lines (if any)
-    func intersection(with line: Line) -> Vector? {
+    func intersection(with line: Line) -> Position? {
         lineIntersection(
-            Vector(origin),
-            Vector(origin + 1 * direction),
-            Vector(line.origin),
-            Vector(line.origin + 1 * line.direction)
+            origin,
+            origin + 1 * direction,
+            line.origin,
+            line.origin + 1 * line.direction
         )
     }
 

@@ -218,22 +218,6 @@ public extension Vector {
         let complementeryAngle = Direction(self).dot(plane.normal)
         return Angle.asin(complementeryAngle)
     }
-
-    /// The nearest point to this point on the specified plane
-    func project(onto plane: Plane) -> Vector {
-        let position = Position(self) - Position(self).distance(from: plane) * plane.normal
-        return Vector(position)
-    }
-
-    /// Distance of the point from a line in 3D
-    func distance(from line: Line) -> Double {
-        line.distance(from: self)
-    }
-
-    /// The nearest point to this point on the specified line
-    func project(onto line: Line) -> Vector {
-        self + Vector(distanceFromPointToLine(self, line))
-    }
 }
 
 internal extension Vector {

@@ -448,32 +448,32 @@ func shortestLineSegmentPositionsBetween(
 
 // See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
 func distanceFromPointToLine(
-    _ point: Vector,
+    _ point: Position,
     _ line: Line
 ) -> Distance {
-    let d = Position(point) - line.origin
+    let d = point - line.origin
     return d.dot(line.direction) * line.direction - d
 }
 
 func lineIntersection(
-    _ p0: Vector,
-    _ p1: Vector,
-    _ p2: Vector,
-    _ p3: Vector
-) -> Vector? {
-    guard let (p0, p1) = shortestLineSegmentPositionsBetween(Position(p0), Position(p1), Position(p2), Position(p3))
+    _ p0: Position,
+    _ p1: Position,
+    _ p2: Position,
+    _ p3: Position
+) -> Position? {
+    guard let (p0, p1) = shortestLineSegmentPositionsBetween(p0, p1, p2, p3)
     else {
         return nil
     }
-    return p0.isEqual(to: p1) ? Vector(p0) : nil
+    return p0.isEqual(to: p1) ? p0 : nil
 }
 
 func lineSegmentsIntersection(
-    _ p0: Vector,
-    _ p1: Vector,
-    _ p2: Vector,
-    _ p3: Vector
-) -> Vector? {
+    _ p0: Position,
+    _ p1: Position,
+    _ p2: Position,
+    _ p3: Position
+) -> Position? {
     guard let pi = lineIntersection(p0, p1, p2, p3) else {
         return nil // lines don't intersect
     }
@@ -484,11 +484,13 @@ func lineSegmentsIntersection(
 // Check point lies within range of line segment start/end
 // Point must already lie along the line
 func lineSegmentsContainsPoint(
-    _ start: Vector,
-    _ end: Vector,
-    _ point: Vector
+    _ start: Position,
+    _ end: Position,
+    _ point: Position
 ) -> Bool {
-    let line = Line(origin: Position(start), direction: Direction(end - start))
+    let line = Line(origin: start, direction: (end - start).direction)
     assert(distanceFromPointToLine(point, line).norm < epsilon)
-    return Bounds(min: min(start, end), max: max(start, end)).containsPoint(point)
+    let minPosition = Position.min(start, end)
+    let maxPosition = Position.max(start, end)
+    return Bounds(min: minPosition, max: maxPosition).containsPoint(point)
 }

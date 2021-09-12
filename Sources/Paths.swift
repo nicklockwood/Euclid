@@ -193,7 +193,7 @@ public extension Path {
 
     /// The path bounds
     var bounds: Bounds {
-        Bounds(points: points.map { $0.position })
+        Bounds(points: points.map { Position($0.position) })
     }
 
     /// Face normal for shape
