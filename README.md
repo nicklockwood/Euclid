@@ -134,6 +134,10 @@ The `Angle` type represents an angle in radians or degrees.
 
 A `Rotation` represents an orientation or rotation in 3D space. Internally, `Rotation` is stored as a 3x3 matrix, but that's an implementation detail that may change in future. `Rotation`s can be converted to and from an axis vector and angle, or a set of 3 Euler angles (pitch, yaw and roll).
 
+## Quaternion
+
+A `Quaternion` is an alternative, more compact way to represent an orientation or rotation in 3D space. `Quaternions`s can be converted to and from an axis vector and angle, or a set of 3 Euler angles (pitch, yaw and roll), as well as to and from a `Rotation` matrix.
+
 ## Transform
 
 A `Transform` combines a `Rotation` with a pair of `Vector`s defining the position and scale.

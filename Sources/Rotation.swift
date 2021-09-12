@@ -180,6 +180,21 @@ public extension Rotation {
         self.init(unchecked: axis / length, angle: angle)
     }
 
+    /// Define a rotation from a quaternion
+    init(_ q: Quaternion) {
+        self.init(
+            1 - 2 * (q.y * q.y + q.z * q.z),
+            2 * (q.x * q.y + q.z * q.w),
+            2 * (q.x * q.z - q.y * q.w),
+            2 * (q.x * q.y - q.z * q.w),
+            1 - 2 * (q.x * q.x + q.z * q.z),
+            2 * (q.y * q.z + q.x * q.w),
+            2 * (q.x * q.z + q.y * q.w),
+            2 * (q.y * q.z - q.x * q.w),
+            1 - 2 * (q.x * q.x + q.y * q.y)
+        )
+    }
+
     /// Define a rotation from Euler angles
     // http://planning.cs.uiuc.edu/node102.html
     init(pitch: Angle, yaw: Angle = .zero, roll: Angle = .zero) {

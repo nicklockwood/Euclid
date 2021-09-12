@@ -105,9 +105,18 @@ public extension Mesh {
         )
     }
 
-    func rotated(by m: Rotation) -> Mesh {
+    @_disfavoredOverload
+    func rotated(by r: Rotation) -> Mesh {
         Mesh(
-            unchecked: polygons.rotated(by: m),
+            unchecked: polygons.rotated(by: r),
+            bounds: nil,
+            isConvex: isConvex
+        )
+    }
+
+    func rotated(by q: Quaternion) -> Mesh {
+        Mesh(
+            unchecked: polygons.rotated(by: q),
             bounds: nil,
             isConvex: isConvex
         )
@@ -163,10 +172,20 @@ public extension Polygon {
         )
     }
 
-    func rotated(by m: Rotation) -> Polygon {
+    @_disfavoredOverload
+    func rotated(by r: Rotation) -> Polygon {
         Polygon(
-            unchecked: vertices.rotated(by: m),
-            normal: plane.normal.rotated(by: m),
+            unchecked: vertices.rotated(by: r),
+            normal: plane.normal.rotated(by: r),
+            isConvex: isConvex,
+            material: material
+        )
+    }
+
+    func rotated(by q: Quaternion) -> Polygon {
+        Polygon(
+            unchecked: vertices.rotated(by: q),
+            normal: plane.normal.rotated(by: q),
             isConvex: isConvex,
             material: material
         )
@@ -228,8 +247,13 @@ internal extension Collection where Element == Polygon {
         map { $0.translated(by: v) }
     }
 
-    func rotated(by m: Rotation) -> [Polygon] {
-        map { $0.rotated(by: m) }
+    @_disfavoredOverload
+    func rotated(by r: Rotation) -> [Polygon] {
+        map { $0.rotated(by: r) }
+    }
+
+    func rotated(by q: Quaternion) -> [Polygon] {
+        map { $0.rotated(by: q) }
     }
 
     func scaled(by v: Vector) -> [Polygon] {
@@ -255,8 +279,13 @@ public extension Vertex {
         Vertex(position + v, normal, texcoord)
     }
 
-    func rotated(by m: Rotation) -> Vertex {
-        Vertex(position.rotated(by: m), normal.rotated(by: m), texcoord)
+    @_disfavoredOverload
+    func rotated(by r: Rotation) -> Vertex {
+        Vertex(position.rotated(by: r), normal.rotated(by: r), texcoord)
+    }
+
+    func rotated(by q: Quaternion) -> Vertex {
+        Vertex(position.rotated(by: q), normal.rotated(by: q), texcoord)
     }
 
     func scaled(by v: Vector) -> Vertex {
@@ -278,8 +307,13 @@ internal extension Collection where Element == Vertex {
         map { $0.translated(by: v) }
     }
 
-    func rotated(by m: Rotation) -> [Vertex] {
-        map { $0.rotated(by: m) }
+    @_disfavoredOverload
+    func rotated(by r: Rotation) -> [Vertex] {
+        map { $0.rotated(by: r) }
+    }
+
+    func rotated(by q: Quaternion) -> [Vertex] {
+        map { $0.rotated(by: q) }
     }
 
     func scaled(by v: Vector) -> [Vertex] {
@@ -300,12 +334,20 @@ public extension Vector {
         self + v
     }
 
-    func rotated(by m: Rotation) -> Vector {
+    @_disfavoredOverload
+    func rotated(by r: Rotation) -> Vector {
         Vector(
-            x * m.m11 + y * m.m21 + z * m.m31,
-            x * m.m12 + y * m.m22 + z * m.m32,
-            x * m.m13 + y * m.m23 + z * m.m33
+            x * r.m11 + y * r.m21 + z * r.m31,
+            x * r.m12 + y * r.m22 + z * r.m32,
+            x * r.m13 + y * r.m23 + z * r.m33
         )
+    }
+
+    func rotated(by q: Quaternion) -> Vector {
+        let qv = Vector(q.x, q.y, q.z)
+        let uv = qv.cross(self)
+        let uuv = qv.cross(uv)
+        return self + (uv * 2 * q.w) + (uuv * 2)
     }
 
     func scaled(by v: Vector) -> Vector {
@@ -322,8 +364,13 @@ internal extension Collection where Element == Vector {
         map { $0.translated(by: v) }
     }
 
-    func rotated(by m: Rotation) -> [Vector] {
-        map { $0.rotated(by: m) }
+    @_disfavoredOverload
+    func rotated(by r: Rotation) -> [Vector] {
+        map { $0.rotated(by: r) }
+    }
+
+    func rotated(by q: Quaternion) -> [Vector] {
+        map { $0.rotated(by: q) }
     }
 
     func scaled(by v: Vector) -> [Vector] {
@@ -344,8 +391,13 @@ public extension PathPoint {
         PathPoint(position + v, texcoord: texcoord, isCurved: isCurved)
     }
 
+    @_disfavoredOverload
     func rotated(by r: Rotation) -> PathPoint {
         PathPoint(position.rotated(by: r), texcoord: texcoord, isCurved: isCurved)
+    }
+
+    func rotated(by q: Quaternion) -> PathPoint {
+        PathPoint(position.rotated(by: q), texcoord: texcoord, isCurved: isCurved)
     }
 
     func scaled(by v: Vector) -> PathPoint {
@@ -366,8 +418,13 @@ internal extension Collection where Element == PathPoint {
         map { $0.translated(by: v) }
     }
 
-    func rotated(by m: Rotation) -> [PathPoint] {
-        map { $0.rotated(by: m) }
+    @_disfavoredOverload
+    func rotated(by r: Rotation) -> [PathPoint] {
+        map { $0.rotated(by: r) }
+    }
+
+    func rotated(by q: Quaternion) -> [PathPoint] {
+        map { $0.rotated(by: q) }
     }
 
     func scaled(by v: Vector) -> [PathPoint] {
@@ -391,10 +448,18 @@ public extension Path {
         )
     }
 
+    @_disfavoredOverload
     func rotated(by r: Rotation) -> Path {
         Path(
             unchecked: points.rotated(by: r),
             plane: plane?.rotated(by: r), subpathIndices: subpathIndices
+        )
+    }
+
+    func rotated(by q: Quaternion) -> Path {
+        Path(
+            unchecked: points.rotated(by: q),
+            plane: plane?.rotated(by: q), subpathIndices: subpathIndices
         )
     }
 
@@ -426,8 +491,13 @@ public extension Plane {
         Plane(unchecked: normal, pointOnPlane: normal * w + v)
     }
 
+    @_disfavoredOverload
     func rotated(by r: Rotation) -> Plane {
         Plane(unchecked: normal.rotated(by: r), w: w)
+    }
+
+    func rotated(by q: Quaternion) -> Plane {
+        Plane(unchecked: normal.rotated(by: q), w: w)
     }
 
     func scaled(by v: Vector) -> Plane {
@@ -450,8 +520,13 @@ public extension Bounds {
         Bounds(min: min + v, max: max + v)
     }
 
+    @_disfavoredOverload
     func rotated(by r: Rotation) -> Bounds {
         Bounds(points: corners.rotated(by: r))
+    }
+
+    func rotated(by q: Quaternion) -> Bounds {
+        Bounds(points: corners.rotated(by: q))
     }
 
     func scaled(by v: Vector) -> Bounds {
