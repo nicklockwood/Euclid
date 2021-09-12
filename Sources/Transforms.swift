@@ -437,7 +437,7 @@ internal extension Collection where Element == Position {
 
 public extension PathPoint {
     func translated(by v: Vector) -> PathPoint {
-        PathPoint(position + v, texcoord: texcoord, isCurved: isCurved)
+        PathPoint(position + Distance(v), texcoord: texcoord, isCurved: isCurved)
     }
 
     @_disfavoredOverload
@@ -454,7 +454,7 @@ public extension PathPoint {
     }
 
     func scaled(by f: Double) -> PathPoint {
-        PathPoint(position * f, texcoord: texcoord, isCurved: isCurved)
+        PathPoint(position.scaled(by: f), texcoord: texcoord, isCurved: isCurved)
     }
 
     func transformed(by t: Transform) -> PathPoint {

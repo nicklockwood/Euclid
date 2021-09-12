@@ -39,6 +39,12 @@ public extension Vector {
     }
 }
 
+public extension Position {
+    init(_ cgPoint: CGPoint) {
+        self.init(Double(cgPoint.x), Double(cgPoint.y))
+    }
+}
+
 public extension Color {
     init(_ cgColor: CGColor) {
         let components = cgColor.components ?? [1]
@@ -49,6 +55,10 @@ public extension Color {
 public extension CGPoint {
     init(_ vector: Vector) {
         self.init(x: vector.x, y: vector.y)
+    }
+
+    init(_ position: Position) {
+        self.init(x: position.x, y: position.y)
     }
 }
 
@@ -86,7 +96,7 @@ public extension CGPath {
         typealias SafeElement = (type: CGPathElementType, points: [CGPoint])
         var paths = [Path]()
         var points = [PathPoint]()
-        var startingPoint = Vector.zero
+        var startingPoint = Position.origin
         var firstElement: SafeElement?
         var lastElement: SafeElement?
         func endPath() {
@@ -159,25 +169,25 @@ public extension CGPath {
             case .moveToPoint:
                 endPath()
                 element.points = [$0.points[0]]
-                startingPoint = Vector(element.points[0])
+                startingPoint = Position(element.points[0])
             case .closeSubpath:
                 if points.last?.position != points.first?.position {
                     points.append(points[0])
                 }
-                startingPoint = points.first?.position ?? .zero
+                startingPoint = points.first?.position ?? .origin
                 endPath()
             case .addLineToPoint:
                 let origin = $0.points[0]
                 element.points = [origin]
                 updateLastPoint(nextElement: element)
-                points.append(.point(Vector(origin)))
+                points.append(.point(Position(origin)))
             case .addQuadCurveToPoint:
                 let p1 = $0.points[0], p2 = $0.points[1]
                 element.points = [p1, p2]
                 updateLastPoint(nextElement: element)
                 guard detail > 0 else {
-                    points.append(.curve(Vector(p1)))
-                    points.append(.point(Vector(p2)))
+                    points.append(.curve(Position(p1)))
+                    points.append(.point(Position(p2)))
                     break
                 }
                 let detail = max(detail, 2)
@@ -191,15 +201,15 @@ public extension CGPath {
                         quadraticBezier(p0.position.y, Double(p1.y), Double(p2.y), t)
                     ))
                 }
-                points.append(.point(Vector(p2)))
+                points.append(.point(Position(p2)))
             case .addCurveToPoint:
                 let p1 = $0.points[0], p2 = $0.points[1], p3 = $0.points[2]
                 element.points = [p1, p2, p3]
                 updateLastPoint(nextElement: element)
                 guard detail > 0 else {
-                    points.append(.curve(Vector(p1)))
-                    points.append(.curve(Vector(p2)))
-                    points.append(.point(Vector(p3)))
+                    points.append(.curve(Position(p1)))
+                    points.append(.curve(Position(p2)))
+                    points.append(.point(Position(p3)))
                     break
                 }
                 let detail = max(detail * 2, 3)
@@ -213,7 +223,7 @@ public extension CGPath {
                         cubicBezier(p0.position.y, Double(p1.y), Double(p2.y), Double(p3.y), t)
                     ))
                 }
-                points.append(.point(Vector(p3)))
+                points.append(.point(Position(p3)))
             @unknown default:
                 return
             }

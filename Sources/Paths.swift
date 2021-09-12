@@ -33,7 +33,7 @@ import Foundation
 
 /// A control point on a path. Can represent a corner or a curve.
 public struct PathPoint: Hashable {
-    public var position: Vector
+    public var position: Position
     public var texcoord: Vector?
     public var isCurved: Bool
 }
@@ -45,46 +45,46 @@ extension PathPoint: Codable {
         let y = try container.decode(Double.self)
         switch container.count {
         case 2:
-            self.init(Vector(x, y), texcoord: nil, isCurved: false)
+            self.init(Position(x, y), texcoord: nil, isCurved: false)
         case 3:
             if let isCurved = try? container.decodeIfPresent(Bool.self) {
-                self.init(Vector(x, y), texcoord: nil, isCurved: isCurved)
+                self.init(Position(x, y), texcoord: nil, isCurved: isCurved)
             } else {
                 let z = try container.decode(Double.self)
-                self.init(Vector(x, y, z), texcoord: nil, isCurved: false)
+                self.init(Position(x, y, z), texcoord: nil, isCurved: false)
             }
         case 4:
             let zOrU = try container.decode(Double.self)
             if let isCurved = try? container.decodeIfPresent(Bool.self) {
-                self.init(Vector(x, y, zOrU), texcoord: nil, isCurved: isCurved)
+                self.init(Position(x, y, zOrU), texcoord: nil, isCurved: isCurved)
             } else {
                 let v = try container.decode(Double.self)
-                self.init(Vector(x, y), texcoord: Vector(zOrU, v), isCurved: false)
+                self.init(Position(x, y), texcoord: Vector(zOrU, v), isCurved: false)
             }
         case 5:
             let zOrU = try container.decode(Double.self)
             let uOrV = try container.decode(Double.self)
             if let isCurved = try? container.decodeIfPresent(Bool.self) {
-                self.init(Vector(x, y), texcoord: Vector(zOrU, uOrV), isCurved: isCurved)
+                self.init(Position(x, y), texcoord: Vector(zOrU, uOrV), isCurved: isCurved)
             } else {
                 let v = try container.decode(Double.self)
-                self.init(Vector(x, y, zOrU), texcoord: Vector(uOrV, v), isCurved: false)
+                self.init(Position(x, y, zOrU), texcoord: Vector(uOrV, v), isCurved: false)
             }
         case 6:
             let z = try container.decode(Double.self)
             let u = try container.decode(Double.self)
             let v = try container.decode(Double.self)
             if let isCurved = try? container.decode(Bool.self) {
-                self.init(Vector(x, y, z), texcoord: Vector(u, v), isCurved: isCurved)
+                self.init(Position(x, y, z), texcoord: Vector(u, v), isCurved: isCurved)
             } else {
                 let w = try container.decode(Double.self)
-                self.init(Vector(x, y, z), texcoord: Vector(u, v, w), isCurved: false)
+                self.init(Position(x, y, z), texcoord: Vector(u, v, w), isCurved: false)
             }
         case 7:
             let z = try container.decode(Double.self)
             let texcoord = try Vector(from: &container)
             let isCurved = try container.decode(Bool.self)
-            self.init(Vector(x, y, z), texcoord: texcoord, isCurved: isCurved)
+            self.init(Position(x, y, z), texcoord: texcoord, isCurved: isCurved)
         default:
             throw DecodingError.dataCorruptedError(
                 in: container,
@@ -105,23 +105,23 @@ extension PathPoint: Codable {
 }
 
 public extension PathPoint {
-    static func point(_ position: Vector, texcoord: Vector? = nil) -> PathPoint {
+    static func point(_ position: Position, texcoord: Vector? = nil) -> PathPoint {
         PathPoint(position, texcoord: texcoord, isCurved: false)
     }
 
     static func point(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
-        .point(Vector(x, y, z))
+        .point(Position(x, y, z))
     }
 
-    static func curve(_ position: Vector, texcoord: Vector? = nil) -> PathPoint {
+    static func curve(_ position: Position, texcoord: Vector? = nil) -> PathPoint {
         PathPoint(position, texcoord: texcoord, isCurved: true)
     }
 
     static func curve(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
-        .curve(Vector(x, y, z))
+        .curve(Position(x, y, z))
     }
 
-    init(_ position: Vector, texcoord: Vector?, isCurved: Bool) {
+    init(_ position: Position, texcoord: Vector?, isCurved: Bool) {
         self.position = position.quantized()
         self.texcoord = texcoord
         self.isCurved = isCurved
@@ -193,7 +193,7 @@ public extension Path {
 
     /// The path bounds
     var bounds: Bounds {
-        Bounds(points: points.map { Position($0.position) })
+        Bounds(points: points.map { $0.position })
     }
 
     /// Face normal for shape
@@ -237,7 +237,7 @@ public extension Path {
         let hasTexcoords = polygon.hasTexcoords
         self.init(
             unchecked: polygon.vertices.map {
-                .point($0.position, texcoord: hasTexcoords ? $0.texcoord : nil)
+                .point(Position($0.position), texcoord: hasTexcoords ? $0.texcoord : nil)
             },
             plane: polygon.plane,
             subpathIndices: nil
@@ -311,7 +311,7 @@ public extension Path {
                 [p0.position, p1.position, points[i + 1].position],
                 convex: true
             )
-            vertices.append(Vertex(unchecked: p1.position, normal, texcoord ?? .zero))
+            vertices.append(Vertex(unchecked: Vector(p1.position), normal, texcoord ?? .zero))
             p0 = p1
         }
         guard !verticesAreDegenerate(vertices) else {
@@ -324,12 +324,12 @@ public extension Path {
         var max = Vector(-.infinity, -.infinity)
         let flatteningPlane = FlatteningPlane(normal: faceNormal)
         vertices = vertices.map {
-            let uv = flatteningPlane.flattenPoint($0.position)
+            let uv = flatteningPlane.flattenPoint(Position($0.position))
             min.x = Swift.min(min.x, uv.x)
             min.y = Swift.min(min.y, uv.y)
             max.x = Swift.max(max.x, uv.x)
             max.y = Swift.max(max.y, uv.y)
-            return Vertex(unchecked: $0.position, $0.normal, uv)
+            return Vertex(unchecked: $0.position, $0.normal, Vector(uv))
         }
         let uvScale = Vector(max.x - min.x, max.y - min.y)
         return vertices.map {
@@ -361,7 +361,7 @@ public extension Path {
         case .shrink, .default:
             var prev = points[0].position
             for point in points {
-                let length = (point.position - prev).length
+                let length = (point.position - prev).norm
                 totalLength += length
                 prev = point.position
             }
@@ -401,22 +401,22 @@ public extension Path {
                 ))
             let p0p1 = p1p2
             p1p2 = p2.position - p1.position
-            let n0 = n1 ?? Direction(p0p1).cross(faceNormal)
-            n1 = Direction(p1p2).cross(faceNormal)
+            let n0 = n1 ?? p0p1.direction.cross(faceNormal)
+            n1 = p1p2.direction.cross(faceNormal)
             let uv = Vector(0, v, 0)
             switch wrapMode {
             case .shrink, .default:
-                v += p1p2.length / totalLength
+                v += p1p2.norm / totalLength
             case .tube:
                 v += abs(p1p2.y) / totalLength
             }
             if p1.isCurved {
-                let v = Vertex(p1.position, Direction.mean(n0, n1), uv)
+                let v = Vertex(Vector(p1.position), Direction.mean(n0, n1), uv)
                 vertices.append(v)
                 vertices.append(v)
             } else {
-                vertices.append(Vertex(p1.position, n0, uv))
-                vertices.append(Vertex(p1.position, n1, uv))
+                vertices.append(Vertex(Vector(p1.position), n0, uv))
+                vertices.append(Vertex(Vector(p1.position), n1, uv))
             }
         }
         var first = vertices.removeFirst()
@@ -557,9 +557,8 @@ internal extension Path {
         if rightOfOrigin > leftOfOrigin {
             // Mirror the path about Y axis
             points = points.map {
-                var point = $0
-                point.position.x = -point.position.x
-                return point
+                let position = Position(-$0.position.x, $0.position.y, $0.position.z)
+                return PathPoint(position: position, texcoord: $0.texcoord, isCurved: $0.isCurved)
             }
         }
         // clip path to Y axis
@@ -579,7 +578,7 @@ internal extension Path {
                 } else {
                     let p0p1 = p0.position - p1.position
                     let dy = p0p1.y / p0p1.x * -p1.position.x
-                    points[i].position = Vector(0, p1.position.y + dy)
+                    points[i].position = Position(0, p1.position.y + dy)
                     continue
                 }
             } else if p1.position.x > 0 {
@@ -594,7 +593,7 @@ internal extension Path {
                 } else {
                     let p0p1 = p1.position - p0.position
                     let dy = p0p1.y / p0p1.x * -p0.position.x
-                    points[i - 1].position = Vector(0, p0.position.y + dy)
+                    points[i - 1].position = Position(0, p0.position.y + dy)
                     continue
                 }
             }
@@ -630,7 +629,7 @@ func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
             let b = result[i].position
             let c = result[i + 1].position
             let bc = c - b
-            if ab.cross(bc).length < epsilon, ab.dot(bc) <= epsilon {
+            if ab.cross(bc).norm < epsilon, ab.dot(bc) <= epsilon {
                 // center point makes path degenerate - remove it
                 result.remove(at: i)
                 ab = result[i].position - result[i - 1].position
@@ -685,11 +684,11 @@ func pointsAreClosed(unchecked points: [PathPoint]) -> Bool {
 
 func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint {
     var p0p1 = p1.position - p0.position
-    let length = p0p1.length
+    let length = p0p1.norm
     p0p1 = p0p1 / length
-    let p1p2 = (p2.position - p1.position).normalized()
-    let axis = Direction(p0p1.cross(p1p2))
-    let angle = -p0p1.angle(with: p1p2)
+    let p1p2 = (p2.position - p1.position).direction
+    let axis = p0p1.cross(p1p2).direction
+    let angle = -p0p1.direction.angle(with: p1p2)
     let r = axis != .zero
         ? Rotation(axis: axis, angle: angle)
         : .identity

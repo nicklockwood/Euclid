@@ -90,7 +90,7 @@ public extension Plane {
     /// Generate a plane from a set of coplanar points describing a polygon
     /// The polygon can be convex or concave. The direction of the plane normal is
     /// based on the assumption that the points are wound in an anticlockwise direction
-    init?(points: [Vector]) {
+    init?(points: [Position]) {
         self.init(points: points, convex: nil)
     }
 
@@ -173,21 +173,21 @@ internal extension Plane {
         self.init(normal: normal, w: Distance(pointOnPlane).dot(normal))
     }
 
-    init?(points: [Vector], convex: Bool?) {
+    init?(points: [Position], convex: Bool?) {
         guard !points.isEmpty, !pointsAreDegenerate(points) else {
             return nil
         }
         self.init(unchecked: points, convex: convex)
         // Check all points lie on this plane
-        if points.contains(where: { !containsPoint(Position($0)) }) {
+        if points.contains(where: { !containsPoint($0) }) {
             return nil
         }
     }
 
-    init(unchecked points: [Vector], convex: Bool?) {
+    init(unchecked points: [Position], convex: Bool?) {
         assert(!pointsAreDegenerate(points))
         let normal = faceNormalForPolygonPoints(points, convex: convex)
-        self.init(unchecked: normal, pointOnPlane: points[0])
+        self.init(unchecked: normal, pointOnPlane: Vector(points[0]))
     }
 
     // Approximate equality
@@ -232,7 +232,7 @@ enum FlatteningPlane: RawRepresentable {
         }
     }
 
-    init(points: [Vector], convex: Bool?) {
+    init(points: [Position], convex: Bool?) {
         self.init(normal: faceNormalForPolygonPoints(points, convex: convex))
     }
 
@@ -245,11 +245,11 @@ enum FlatteningPlane: RawRepresentable {
         }
     }
 
-    func flattenPoint(_ point: Vector) -> Vector {
+    func flattenPoint(_ point: Position) -> Position {
         switch self {
-        case .yz: return Vector(point.y, point.z)
-        case .xz: return Vector(point.x, point.z)
-        case .xy: return Vector(point.x, point.y)
+        case .yz: return Position(point.y, point.z)
+        case .xz: return Position(point.x, point.z)
+        case .xy: return Position(point.x, point.y)
         }
     }
 }

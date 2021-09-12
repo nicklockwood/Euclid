@@ -41,7 +41,7 @@ public extension Path {
 
     /// Create a path from a start and end point
     static func line(_ start: Position, _ end: Position) -> Path {
-        Path([.point(Vector(start)), .point(Vector(end))])
+        Path([.point(start), .point(end)])
     }
 
     /// Create a closed circular path
@@ -126,7 +126,7 @@ public extension Path {
                         quadraticBezier(t0.z, t1.z, t2.z, $0)
                     )
                 }
-                return .curve(Vector(
+                return .curve(Position(
                     quadraticBezier(p0.position.x, p1.position.x, p2.position.x, $0),
                     quadraticBezier(p0.position.y, p1.position.y, p2.position.y, $0),
                     quadraticBezier(p0.position.z, p1.position.z, p2.position.z, $0)
@@ -473,9 +473,9 @@ public extension Mesh {
         var shapes = [Path]()
         let count = points.count
         var p1 = points[1]
-        var p0p1 = Direction(p1.position - p0.position)
+        var p0p1 = (p1.position - p0.position).direction
         func addShape(_ p2: PathPoint, _ _p0p2: inout Direction?) {
-            let p1p2 = Direction(p2.position - p1.position)
+            let p1p2 = (p2.position - p1.position).direction
             let p0p2 = Direction.mean(p0p1, p1p2)
             let r: Rotation
             if let _p0p2 = _p0p2 {
@@ -485,7 +485,7 @@ public extension Mesh {
             }
             shape = shape.rotated(by: r)
             if p0p1.isEqual(to: p1p2) {
-                shapes.append(shape.translated(by: p1.position))
+                shapes.append(shape.translated(by: Vector(p1.position)))
             } else {
                 let axis = p0p1.cross(p1p2)
                 let a = (1 / p0p1.dot(p0p2)) - 1
@@ -494,7 +494,7 @@ public extension Mesh {
                 scale.y = abs(scale.y)
                 scale.z = abs(scale.z)
                 scale = scale + Vector(1, 1, 1)
-                shapes.append(shape.scaled(by: scale).translated(by: p1.position))
+                shapes.append(shape.scaled(by: scale).translated(by: Vector(p1.position)))
             }
             p0 = p1
             p1 = p2
@@ -511,13 +511,13 @@ public extension Mesh {
         } else {
             var _p0p2: Direction! = p0p1
             shape = shape.rotated(by: rotationBetweenDirections(p0p1, shapeNormal))
-            shapes.append(shape.translated(by: p0.position))
+            shapes.append(shape.translated(by: Vector(p0.position)))
             for i in 1 ..< count - 1 {
                 let p2 = points[i + 1]
                 addShape(p2, &_p0p2)
             }
             shape = shape.rotated(by: rotationBetweenDirections(p0p1, _p0p2))
-            shapes.append(shape.translated(by: points.last!.position))
+            shapes.append(shape.translated(by: Vector(points.last!.position)))
         }
         return loft(shapes, faces: faces, material: material)
     }
@@ -867,7 +867,7 @@ private extension Mesh {
     static func directionBetweenShapes(_ s0: Path, _ s1: Path) -> Direction? {
         if let p0 = s0.points.first, let p1 = s1.points.first {
             // TODO: what if p0p1 length is zero? We should try other points
-            return Direction(p1.position - p0.position)
+            return (p1.position - p0.position).direction
         }
         return nil
     }
