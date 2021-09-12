@@ -84,7 +84,7 @@ extension Polygon: Codable {
     }
 
     public func encode(to encoder: Encoder) throws {
-        let positions = vertices.map { $0.position }
+        let positions = vertices.map { Position($0.position) }
         if material == nil, plane == Plane(unchecked: positions, convex: isConvex) {
             if vertices.allSatisfy({ $0.texcoord == .zero && $0.normal == plane.normal }) {
                 try positions.encode(to: encoder)
@@ -152,7 +152,7 @@ public extension Polygon {
     /// Polygon can be convex or concave, but vertices must be coplanar and non-degenerate
     /// Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
     init?(_ vertices: [Vertex], material: Material? = nil) {
-        let positions = vertices.map { $0.position }
+        let positions = vertices.map { Position($0.position) }
         let isConvex = pointsAreConvex(positions)
         guard !pointsAreSelfIntersecting(positions),
               // Note: Plane init includes check for degeneracy
@@ -182,8 +182,8 @@ public extension Polygon {
         }
         // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
         let flatteningPlane = FlatteningPlane(normal: plane.normal)
-        let points = vertices.map { flatteningPlane.flattenPoint($0.position) }
-        let p = flatteningPlane.flattenPoint(p)
+        let points = vertices.map { flatteningPlane.flattenPoint(Position($0.position)) }
+        let p = flatteningPlane.flattenPoint(Position(p))
         let count = points.count
         var c = false
         var j = count - 1
@@ -383,7 +383,7 @@ internal extension Polygon {
         id: Int = 0
     ) {
         assert(!verticesAreDegenerate(vertices))
-        let points = vertices.map { $0.position }
+        let points = vertices.map { Position($0.position) }
         assert(isConvex == nil || pointsAreConvex(points) == isConvex)
         assert(sanitizeNormals || vertices.allSatisfy { $0.normal != .zero })
         let plane = plane ?? Plane(unchecked: points, convex: isConvex)

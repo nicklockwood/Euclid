@@ -12,12 +12,12 @@ import XCTest
 class PlaneTests: XCTestCase {
     func testConcavePolygonClockwiseWinding() {
         var transform = Transform.identity
-        var points = [Vector]()
+        var points = [Position]()
         let sides = 5
         for _ in 0 ..< sides {
-            points.append(Vector(0, -0.5).transformed(by: transform))
+            points.append(Position(0, -0.5).transformed(by: transform))
             transform.rotate(by: .roll(.pi / Double(sides)))
-            points.append(Vector(0, -1).transformed(by: transform))
+            points.append(Position(0, -1).transformed(by: transform))
             transform.rotate(by: .roll(.pi / Double(sides)))
         }
         let plane = Plane(points: points)!
@@ -25,13 +25,13 @@ class PlaneTests: XCTestCase {
     }
 
     func testConcavePolygonPlaneTranslation() {
-        let points0: [Vector] = [
-            Vector(-0.707106781187, -0.707106781187, 0.5),
-            Vector(0.353553390593, 0.353553390593, 0.5),
-            Vector(0.353553390593, 0.353553390593, 0),
-            Vector(0.707106781187, 0.707106781187, 0),
-            Vector(0.707106781187, 0.707106781187, 1),
-            Vector(-0.707106781187, -0.707106781187, 1),
+        let points0: [Position] = [
+            Position(-0.707106781187, -0.707106781187, 0.5),
+            Position(0.353553390593, 0.353553390593, 0.5),
+            Position(0.353553390593, 0.353553390593, 0),
+            Position(0.707106781187, 0.707106781187, 0),
+            Position(0.707106781187, 0.707106781187, 1),
+            Position(-0.707106781187, -0.707106781187, 1),
         ]
         let plane0 = Plane(points: points0)
         let translation = Vector(1, 0)
@@ -70,13 +70,13 @@ class PlaneTests: XCTestCase {
     }
 
     func testFlatteningPlaneForHorizontalLine() {
-        let points = [Vector(-1, 0), Vector(1, 0)]
+        let points = [Position(-1, 0), Position(1, 0)]
         let plane = FlatteningPlane(points: points, convex: nil)
         XCTAssertEqual(plane, .xy)
     }
 
     func testFlatteningPlaneForVerticalLine() {
-        let points = [Vector(0, -1), Vector(0, 1)]
+        let points = [Position(0, -1), Position(0, 1)]
         let plane = FlatteningPlane(points: points, convex: nil)
         XCTAssertEqual(plane, .xy)
     }
