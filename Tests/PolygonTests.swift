@@ -25,7 +25,7 @@ class PolygonTests: XCTestCase {
     // MARK: initialization
 
     func testConvexPolygonAnticlockwiseWinding() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         guard let polygon = Polygon([
             Vertex(Vector(-1, 1), normal),
             Vertex(Vector(-1, -1), normal),
@@ -39,7 +39,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testConvexPolygonClockwiseWinding() {
-        let normal = Vector(0, 0, -1)
+        let normal = -Direction.z
         guard let polygon = Polygon([
             Vertex(Vector(-1, -1), normal),
             Vertex(Vector(-1, 1), normal),
@@ -53,7 +53,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testConcavePolygonAnticlockwiseWinding() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         guard let polygon = Polygon([
             Vertex(Vector(-1, 0), normal),
             Vertex(Vector(0, 0), normal),
@@ -69,7 +69,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testConcavePolygonClockwiseWinding() {
-        let normal = Vector(0, 0, -1)
+        let normal = -Direction.z
         guard let polygon = Polygon([
             Vertex(Vector(-1, 0), normal),
             Vertex(Vector(0, 0), normal),
@@ -85,7 +85,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testDegeneratePolygonWithColinearPoints() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         XCTAssertNil(Polygon([
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(0, 0), normal),
@@ -94,7 +94,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testNonDegeneratePolygonWithColinearPoints() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         XCTAssertNotNil(Polygon([
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(0, 0), normal),
@@ -104,7 +104,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testDegeneratePolygonWithSelfIntersectingPoints() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         XCTAssertNil(Polygon([
             Vertex(Vector(0, 0), normal),
             Vertex(Vector(1, 1), normal),
@@ -146,7 +146,7 @@ class PolygonTests: XCTestCase {
     // MARK: merging
 
     func testMerge1() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         let a = Polygon(unchecked: [
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(0, 0), normal),
@@ -167,7 +167,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testMerge2() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         let a = Polygon(unchecked: [
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(1, 0), normal),
@@ -187,7 +187,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testMergeL2RAdjacentRects() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         let a = Polygon(unchecked: [
             Vertex(Vector(-1, 1), normal),
             Vertex(Vector(-1, -1), normal),
@@ -213,7 +213,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testMergeR2LAdjacentRects() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         let a = Polygon(unchecked: [
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(0, -1), normal),
@@ -239,7 +239,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testMergeB2TAdjacentRects() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         let a = Polygon(unchecked: [
             Vertex(Vector(-1, 0), normal),
             Vertex(Vector(-1, -1), normal),
@@ -265,7 +265,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testMergeT2BAdjacentRects() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         let a = Polygon(unchecked: [
             Vertex(Vector(-1, 1), normal),
             Vertex(Vector(-1, 0), normal),
@@ -291,7 +291,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testMergeL2RAdjacentRectAndTriangle() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         let a = Polygon(unchecked: [
             Vertex(Vector(-1, 1), normal),
             Vertex(Vector(-1, -1), normal),
@@ -316,7 +316,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testMergeEdgeCase() {
-        let normal = Vector(0, 0, 1)
+        let normal = Direction.z
         let a = Polygon(unchecked: [
             Vertex(Vector(-0.02, 0.8), normal),
             Vertex(Vector(0.7028203230300001, 0.38267949192000006), normal),
@@ -565,7 +565,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testPolygonWithColinearPointsCorrectlyTriangulated() {
-        let normal = Vector(0, 0, -1)
+        let normal = -Direction.z
         guard let polygon = Polygon([
             Vertex(Vector(0, 0), normal),
             Vertex(Vector(0.5, 0), normal),
@@ -599,7 +599,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testHouseShapedPolygonCorrectlyTriangulated() {
-        let normal = Vector(0, 0, -1)
+        let normal = -Direction.z
         guard let polygon = Polygon([
             Vertex(Vector(0, 0.5), normal),
             Vertex(Vector(1, 0), normal),
@@ -803,7 +803,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testPolygonWithColinearPointsCorrectlyDetessellated() {
-        let normal = Vector(0, 0, -1)
+        let normal = -Direction.z
         let polygon = Polygon(unchecked: [
             Vertex(Vector(0, 0), normal),
             Vertex(Vector(0.5, 0), normal),
@@ -820,7 +820,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testHouseShapedPolygonCorrectlyDetessellated() {
-        let normal = Vector(0, 0, -1)
+        let normal = -Direction.z
         let polygon = Polygon(unchecked: [
             Vertex(Vector(0, 0.5), normal),
             Vertex(Vector(1, 0), normal),
@@ -839,7 +839,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testNonWatertightPolygonsCorrectlyDetessellated() {
-        let normal = Vector(0, 0, -1)
+        let normal = -Direction.z
         let triangles = [
             Polygon(unchecked: [
                 Vertex(Vector(0, -1), normal),

@@ -35,20 +35,18 @@ public struct Vertex: Hashable {
         didSet { position = position.quantized() }
     }
 
-    public var normal: Vector {
-        didSet { normal = normal.normalized() }
-    }
+    public var normal: Direction
 
     public var texcoord: Vector
 
     public init(
         _ position: Vector,
-        _ normal: Vector? = nil,
+        _ normal: Direction? = nil,
         _ texcoord: Vector? = nil
     ) {
         self.init(
             unchecked: position,
-            normal?.normalized() ?? .zero,
+            normal ?? .zero,
             texcoord ?? .zero
         )
     }
@@ -62,18 +60,18 @@ public struct Vertex: Hashable {
         case 6:
             self.init(
                 Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5])
+                Direction(x: values[3], y: values[4], z: values[5])
             )
         case 8:
             self.init(
                 Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5]),
+                Direction(x: values[3], y: values[4], z: values[5]),
                 Vector(values[6], values[7])
             )
         case 9:
             self.init(
                 Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5]),
+                Direction(x: values[3], y: values[4], z: values[5]),
                 Vector(values[6], values[7], values[8])
             )
         default:
@@ -91,7 +89,7 @@ extension Vertex: Codable {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             try self.init(
                 container.decode(Vector.self, forKey: .position),
-                container.decodeIfPresent(Vector.self, forKey: .normal),
+                container.decodeIfPresent(Direction.self, forKey: .normal),
                 container.decodeIfPresent(Vector.self, forKey: .texcoord)
             )
         } else {
@@ -113,7 +111,7 @@ extension Vertex: Codable {
         let hasNormal = hasTexcoord || normal != .zero
         let skipZ = !hasNormal && position.z == 0
         try position.encode(to: &container, skipZ: skipZ)
-        try hasNormal ? normal.encode(to: &container) : ()
+        try hasNormal ? normal.encode(to: &container, skipZ: skipZ) : ()
         try hasTexcoord ? texcoord.encode(to: &container, skipZ: texcoord.z == 0) : ()
     }
 }
@@ -137,14 +135,14 @@ public extension Vertex {
 }
 
 internal extension Vertex {
-    init(unchecked position: Vector, _ normal: Vector, _ texcoord: Vector = .zero) {
+    init(unchecked position: Vector, _ normal: Direction, _ texcoord: Vector = .zero) {
         self.position = position.quantized()
         self.normal = normal
         self.texcoord = texcoord
     }
 
     /// Create copy of vertex with specified normal
-    func with(normal: Vector) -> Vertex {
+    func with(normal: Direction) -> Vertex {
         var vertex = self
         vertex.normal = normal
         return vertex

@@ -55,13 +55,11 @@ public extension Quaternion {
     static let zero = Quaternion(0, 0, 0, 0)
     static let identity = Quaternion(0, 0, 0, 1)
 
-    /// Define a quaternion from an axis vector and an angle
-    init?(axis: Vector, angle: Angle) {
-        let length = axis.length
-        guard length.isFinite, length > epsilon else {
-            return nil
-        }
-        self.init(unchecked: axis / length, angle: angle)
+    /// Define a quaternion from an axis direction and an angle
+    init(axis: Direction, angle: Angle) {
+        let r = -angle / 2
+        let a = axis * sin(r)
+        self.init(a.x, a.y, a.z, cos(r))
     }
 
     /// Define a rotation around the X axis
@@ -199,6 +197,14 @@ public extension Quaternion {
         lhs = lhs * rhs
     }
 
+    static func * <T: CartesianComponentsRepresentable>(lhs: T, rhs: Quaternion) -> T {
+        let v = Vector(lhs)
+        let qv = Vector(rhs.x, rhs.y, rhs.z)
+        let uv = qv.cross(v)
+        let uuv = qv.cross(uv)
+        return T(v + (uv * 2 * rhs.w) + (uuv * 2))
+    }
+
     static func * (lhs: Quaternion, rhs: Double) -> Quaternion {
         Quaternion(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs)
     }
@@ -223,13 +229,6 @@ public extension Quaternion {
 }
 
 internal extension Quaternion {
-    init(unchecked axis: Vector, angle: Angle) {
-        assert(axis.isNormalized)
-        let r = -angle / 2
-        let a = axis * sin(r)
-        self.init(a.x, a.y, a.z, cos(r))
-    }
-
     // Approximate equality
     func isEqual(to other: Quaternion, withPrecision p: Double = epsilon) -> Bool {
         self == other || (

@@ -30,15 +30,12 @@
 //
 
 public struct Line: Hashable {
-    public let origin, direction: Vector
+    public let origin: Vector
+    public let direction: Direction
 
     /// Creates a line from an origin and direction
-    public init?(origin: Vector, direction: Vector) {
-        let length = direction.length
-        guard length.isFinite, length > epsilon else {
-            return nil
-        }
-        self.init(unchecked: origin, direction: direction / length)
+    public init(origin: Vector, direction: Direction) {
+        self.init(unchecked: origin, direction: direction)
     }
 }
 
@@ -48,31 +45,33 @@ extension Line: Codable {
     }
 
     public init(from decoder: Decoder) throws {
+        let line: Line
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
-            guard let line = try Line(
+            line = try Line(
                 origin: container.decode(Vector.self, forKey: .origin),
-                direction: container.decode(Vector.self, forKey: .direction)
-            ) else {
+                direction: container.decode(Direction.self, forKey: .direction)
+            )
+            if line.direction.norm < epsilon {
                 throw DecodingError.dataCorruptedError(
                     forKey: .direction,
                     in: container,
                     debugDescription: "Line direction must have nonzero length"
                 )
             }
-            self = line
         } else {
             var container = try decoder.unkeyedContainer()
-            guard let line = try Line(
+            line = try Line(
                 origin: Vector(from: &container),
-                direction: Vector(from: &container)
-            ) else {
+                direction: Direction(from: &container)
+            )
+            if line.direction.norm < epsilon {
                 throw DecodingError.dataCorruptedError(
                     in: container,
                     debugDescription: "Line direction must have nonzero length"
                 )
             }
-            self = line
         }
+        self = line
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -101,9 +100,9 @@ public extension Line {
     func distance(from line: Line) -> Double {
         guard let (p0, p1) = shortestLineBetween(
             origin,
-            origin + direction,
+            origin + Vector(direction),
             line.origin,
-            line.origin + line.direction
+            line.origin + Vector(line.direction)
         ) else {
             return 0
         }
@@ -119,9 +118,9 @@ public extension Line {
     func intersection(with line: Line) -> Vector? {
         lineIntersection(
             origin,
-            origin + direction,
+            origin + Vector(direction),
             line.origin,
-            line.origin + line.direction
+            line.origin + Vector(line.direction)
         )
     }
 
@@ -132,9 +131,8 @@ public extension Line {
 }
 
 internal extension Line {
-    init(unchecked origin: Vector, direction: Vector) {
-        assert(direction.isNormalized)
-        self.origin = origin - direction * (
+    init(unchecked origin: Vector, direction: Direction) {
+        self.origin = origin - Vector(direction) * (
             direction.x != 0 ? origin.x / direction.x :
                 direction.y != 0 ? origin.y / direction.y :
                 origin.z / direction.z

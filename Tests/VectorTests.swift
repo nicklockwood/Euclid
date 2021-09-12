@@ -40,30 +40,22 @@ class VectorTests: XCTestCase {
     // MARK: Angle with plane
 
     func testRightAngleWithPlane() {
-        let vector1 = Vector(1, 0, 0)
-        let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
-        XCTAssertEqual(vector1.angle(with: plane), .halfPi)
-    }
-
-    func testNonNormalizedAngleWithPlane() {
-        let vector1 = Vector(7, 0, 0)
-        let plane = Plane(normal: vector1, pointOnPlane: Vector.zero)!
-        XCTAssertEqual(vector1.angle(with: plane), .halfPi)
+        let direction = Vector(1, 0, 0)
+        let plane = Plane(unchecked: .x, pointOnPlane: Vector.zero)
+        XCTAssertEqual(direction.angle(with: plane), .halfPi)
     }
 
     // MARK: Distance from plane
 
     func testDistanceInFrontOfPlane() {
-        let vector1 = Vector(1, 0, 0)
-        let vector2 = Vector(2, 1, -2)
-        let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
-        XCTAssertEqual(vector2.distance(from: plane), 2)
+        let position = Vector(2, 1, -2)
+        let plane = Plane(unchecked: .x, pointOnPlane: Vector.zero)
+        XCTAssertEqual(position.distance(from: plane), 2)
     }
 
     func testDistanceBehindPlane() {
-        let vector1 = Vector(1, 0, 0)
-        let vector2 = Vector(-1.5, 2, 7)
-        let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
-        XCTAssertEqual(vector2.distance(from: plane), -1.5)
+        let position = Vector(-1.5, 2, 7)
+        let plane = Plane(unchecked: .x, pointOnPlane: Vector.zero)
+        XCTAssertEqual(position.distance(from: plane), -1.5)
     }
 }

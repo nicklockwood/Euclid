@@ -53,6 +53,14 @@
 		01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2381F23BF4160005EC9DB /* LineSegment.swift */; };
 		0A240137256A64FB00C1535C /* AngleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A240136256A64FB00C1535C /* AngleTests.swift */; };
 		0A24013F256A671600C1535C /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A24013E256A671600C1535C /* Angle.swift */; };
+		0A56CD2D26C2A67900FC6F72 /* Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56CD2826C2A67900FC6F72 /* Distance.swift */; };
+		0A56CD2F26C2A67900FC6F72 /* CartesianComponentsRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56CD2926C2A67900FC6F72 /* CartesianComponentsRepresentable.swift */; };
+		0A56CD3126C2A67900FC6F72 /* AdditiveArithmeticCartesianComponentsRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56CD2A26C2A67900FC6F72 /* AdditiveArithmeticCartesianComponentsRepresentable.swift */; };
+		0A56CD3326C2A67900FC6F72 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56CD2B26C2A67900FC6F72 /* Position.swift */; };
+		0A56CD3526C2A67900FC6F72 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56CD2C26C2A67900FC6F72 /* Direction.swift */; };
+		0A56CD3B26C2A68A00FC6F72 /* DistanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56CD3726C2A68A00FC6F72 /* DistanceTests.swift */; };
+		0A56CD3D26C2A68A00FC6F72 /* DirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56CD3826C2A68A00FC6F72 /* DirectionTests.swift */; };
+		0A56CD3F26C2A68A00FC6F72 /* PositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56CD3926C2A68A00FC6F72 /* PositionTests.swift */; };
 		52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3852D238D6E5700BE8407 /* LineTests.swift */; };
 		52A663A123857D5300FACF9D /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A663A023857D5300FACF9D /* Line.swift */; };
 		52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C844E023854C87009C0A73 /* VectorTests.swift */; };
@@ -139,6 +147,14 @@
 		01F2381F23BF4160005EC9DB /* LineSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegment.swift; sourceTree = "<group>"; };
 		0A240136256A64FB00C1535C /* AngleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleTests.swift; sourceTree = "<group>"; };
 		0A24013E256A671600C1535C /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
+		0A56CD2826C2A67900FC6F72 /* Distance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Distance.swift; sourceTree = "<group>"; };
+		0A56CD2926C2A67900FC6F72 /* CartesianComponentsRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartesianComponentsRepresentable.swift; sourceTree = "<group>"; };
+		0A56CD2A26C2A67900FC6F72 /* AdditiveArithmeticCartesianComponentsRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditiveArithmeticCartesianComponentsRepresentable.swift; sourceTree = "<group>"; };
+		0A56CD2B26C2A67900FC6F72 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
+		0A56CD2C26C2A67900FC6F72 /* Direction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
+		0A56CD3726C2A68A00FC6F72 /* DistanceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceTests.swift; sourceTree = "<group>"; };
+		0A56CD3826C2A68A00FC6F72 /* DirectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionTests.swift; sourceTree = "<group>"; };
+		0A56CD3926C2A68A00FC6F72 /* PositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionTests.swift; sourceTree = "<group>"; };
 		52A3852D238D6E5700BE8407 /* LineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTests.swift; sourceTree = "<group>"; };
 		52A663A023857D5300FACF9D /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		52C844E023854C87009C0A73 /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
@@ -204,6 +220,11 @@
 		016FAB2B21BFE78100AF60DC /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				0A56CD2A26C2A67900FC6F72 /* AdditiveArithmeticCartesianComponentsRepresentable.swift */,
+				0A56CD2926C2A67900FC6F72 /* CartesianComponentsRepresentable.swift */,
+				0A56CD2C26C2A67900FC6F72 /* Direction.swift */,
+				0A56CD2826C2A67900FC6F72 /* Distance.swift */,
+				0A56CD2B26C2A67900FC6F72 /* Position.swift */,
 				0A24013E256A671600C1535C /* Angle.swift */,
 				0188525726D951490079C602 /* Color.swift */,
 				016FAB4521BFE7C100AF60DC /* Utilities.swift */,
@@ -236,6 +257,9 @@
 		016FAB3621BFE78100AF60DC /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				0A56CD3826C2A68A00FC6F72 /* DirectionTests.swift */,
+				0A56CD3726C2A68A00FC6F72 /* DistanceTests.swift */,
+				0A56CD3926C2A68A00FC6F72 /* PositionTests.swift */,
 				0A240136256A64FB00C1535C /* AngleTests.swift */,
 				01D96AB423D8E36A00D0D267 /* BoundsTests.swift */,
 				016FAB5F21BFE7CE00AF60DC /* CSGTests.swift */,
@@ -462,12 +486,16 @@
 				0188525826D951490079C602 /* Color.swift in Sources */,
 				016FAB5421BFE7C200AF60DC /* Mesh.swift in Sources */,
 				01CF789326EBE0C70097907A /* Quaternion.swift in Sources */,
+				0A56CD3126C2A67900FC6F72 /* AdditiveArithmeticCartesianComponentsRepresentable.swift in Sources */,
 				016FAB5721BFE7C200AF60DC /* Transforms.swift in Sources */,
+				0A56CD2D26C2A67900FC6F72 /* Distance.swift in Sources */,
 				016FAB5121BFE7C200AF60DC /* Utilities.swift in Sources */,
 				016FAB5321BFE7C200AF60DC /* Bounds.swift in Sources */,
+				0A56CD3326C2A67900FC6F72 /* Position.swift in Sources */,
 				01BA297C2235E3590088D36B /* Euclid+CoreGraphics.swift in Sources */,
 				0188525A26D952890079C602 /* Euclid+AppKit.swift in Sources */,
 				01E5F54923D59BF100717D58 /* BSP.swift in Sources */,
+				0A56CD3526C2A67900FC6F72 /* Direction.swift in Sources */,
 				01BA29712235A63F0088D36B /* Euclid+CoreText.swift in Sources */,
 				01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */,
 				016FAB5221BFE7C200AF60DC /* Vertex.swift in Sources */,
@@ -475,6 +503,7 @@
 				0188525626D94FCC0079C602 /* Euclid+UIKit.swift in Sources */,
 				52A663A123857D5300FACF9D /* Line.swift in Sources */,
 				016FAB4F21BFE7C200AF60DC /* Vector.swift in Sources */,
+				0A56CD2F26C2A67900FC6F72 /* CartesianComponentsRepresentable.swift in Sources */,
 				016FAB5021BFE7C200AF60DC /* CSG.swift in Sources */,
 				016FAB5621BFE7C200AF60DC /* Euclid+SceneKit.swift in Sources */,
 				0A24013F256A671600C1535C /* Angle.swift in Sources */,
@@ -487,6 +516,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A56CD3B26C2A68A00FC6F72 /* DistanceTests.swift in Sources */,
+				0A56CD3D26C2A68A00FC6F72 /* DirectionTests.swift in Sources */,
 				01A429FA2237A85C00C251A6 /* TextTests.swift in Sources */,
 				0188E98326ACA0040029C253 /* LineSegmentTests.swift in Sources */,
 				0A240137256A64FB00C1535C /* AngleTests.swift in Sources */,
@@ -500,6 +531,7 @@
 				01B299572692339200B80A0D /* MetadataTests.swift in Sources */,
 				0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */,
 				016FAB6521BFE7CE00AF60DC /* CSGTests.swift in Sources */,
+				0A56CD3F26C2A68A00FC6F72 /* PositionTests.swift in Sources */,
 				01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */,
 				01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */,
 				013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */,
