@@ -135,35 +135,17 @@ public extension Rotation {
 
     /// Define a rotation around the X axis
     static func pitch(_ rotation: Angle) -> Rotation {
-        let c = cos(rotation)
-        let s = sin(rotation)
-        return self.init(
-            1, 0, 0,
-            0, c, -s,
-            0, s, c
-        )
+        Rotation(.pitch(rotation))
     }
 
     /// Define a rotation around the Y axis
     static func yaw(_ rotation: Angle) -> Rotation {
-        let c = cos(rotation)
-        let s = sin(rotation)
-        return self.init(
-            c, 0, s,
-            0, 1, 0,
-            -s, 0, c
-        )
+        Rotation(.yaw(rotation))
     }
 
     /// Define a rotation around the Z axis
     static func roll(_ rotation: Angle) -> Rotation {
-        let c = cos(rotation)
-        let s = sin(rotation)
-        return self.init(
-            c, -s, 0,
-            s, c, 0,
-            0, 0, 1
-        )
+        Rotation(.roll(rotation))
     }
 
     /// Creates an identity Rotation
@@ -195,49 +177,34 @@ public extension Rotation {
         )
     }
 
-    /// Define a rotation from Euler angles
-    // http://planning.cs.uiuc.edu/node102.html
+    /// Define a rotation from Euler angles applied in pitch/yaw/roll order
+    /// `pitch` is the angle around the X axis, `yaw` is the angle around Y, and `roll` is the angle around Z
     init(pitch: Angle, yaw: Angle = .zero, roll: Angle = .zero) {
-        self = .pitch(pitch)
-        if yaw != .zero {
-            self *= .yaw(yaw)
-        }
-        if roll != .zero {
-            self *= .roll(roll)
-        }
+        self = .pitch(pitch) * .yaw(yaw) * .roll(roll)
     }
 
+    /// Define a rotation from Euler angles applied in yaw/pitch/roll order
+    /// `yaw` is the angle around the Y axis, `pitch` is the angle around X, and `roll` is the angle around Z
     init(yaw: Angle, pitch: Angle = .zero, roll: Angle = .zero) {
-        self = .yaw(yaw)
-        if pitch != .zero {
-            self *= .pitch(pitch)
-        }
-        if roll != .zero {
-            self *= .roll(roll)
-        }
+        self = .yaw(yaw) * .pitch(pitch) * .roll(roll)
     }
 
+    /// Define a rotation from Euler angles applied in roll/yaw/pitch order
+    /// `roll` is the angle around the Z axis, `yaw` is the angle around Y, and `pitch` is the angle around X
     init(roll: Angle, yaw: Angle = .zero, pitch: Angle = .zero) {
-        self = .roll(roll)
-        if yaw != .zero {
-            self *= .yaw(yaw)
-        }
-        if pitch != .zero {
-            self *= .pitch(pitch)
-        }
+        self = .roll(roll) * .yaw(yaw) * .pitch(pitch)
     }
 
-    // http://planning.cs.uiuc.edu/node103.html
     var pitch: Angle {
-        .atan2(y: m32, x: m33)
+        Quaternion(self).pitch
     }
 
     var yaw: Angle {
-        .atan2(y: -m31, x: sqrt(m32 * m32 + m33 * m33))
+        Quaternion(self).yaw
     }
 
     var roll: Angle {
-        .atan2(y: m21, x: m11)
+        Quaternion(self).roll
     }
 
     var right: Vector {

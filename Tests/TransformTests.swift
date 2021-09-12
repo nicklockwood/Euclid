@@ -36,34 +36,45 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(u.quantized(), Vector(0, 0, 0.5))
     }
 
-    func testPitch() {
+    func testPitchRotation() {
         let r = Rotation(pitch: .halfPi)
-        XCTAssertEqual(r.pitch, .halfPi)
+        XCTAssertEqual(r, .pitch(.halfPi))
+        XCTAssertEqual(r.pitch.radians, .pi / 2, accuracy: epsilon)
         XCTAssertEqual(r.roll, .zero)
         XCTAssertEqual(r.yaw, .zero)
-        let v = Vector(0, 0.5, 0)
-        let u = v.rotated(by: r)
-        XCTAssertEqual(u.quantized(), Vector(0, 0, -0.5))
+        let v = Vector(0, 0.5, 0), u = Vector(0, 0, -0.5)
+        XCTAssertEqual(v.rotated(by: r).quantized(), u)
     }
 
-    func testYaw() {
+    func testYawRotation() {
         let r = Rotation(yaw: .halfPi)
+        XCTAssertEqual(r, .yaw(.halfPi))
+        XCTAssert(r.isEqual(to: Rotation(Quaternion(yaw: .halfPi))))
+        XCTAssertEqual(r.yaw, .halfPi)
         XCTAssertEqual(r.pitch, .zero)
         XCTAssertEqual(r.roll, .zero)
-        XCTAssertEqual(r.yaw, .halfPi)
-        let v = Vector(0.5, 0, 0)
-        let u = v.rotated(by: r)
-        XCTAssertEqual(u.quantized(), Vector(0, 0, 0.5))
+        let v = Vector(0.5, 0, 0), u = Vector(0, 0, 0.5)
+        XCTAssertEqual(v.rotated(by: r).quantized(), u)
     }
 
-    func testRoll() {
+    func testRollRotation() {
         let r = Rotation(roll: .halfPi)
+        XCTAssertEqual(r, .roll(.halfPi))
+        XCTAssertEqual(r.roll.radians, .pi / 2, accuracy: epsilon)
         XCTAssertEqual(r.pitch, .zero)
-        XCTAssertEqual(r.roll, .halfPi)
         XCTAssertEqual(r.yaw, .zero)
-        let v = Vector(0, 0.5, 0)
-        let u = v.rotated(by: r)
-        XCTAssertEqual(u.quantized(), Vector(0.5, 0, 0))
+        let v = Vector(0, 0.5, 0), u = Vector(0.5, 0, 0)
+        XCTAssertEqual(v.rotated(by: r).quantized(), u)
+    }
+
+    func testRotationFromRollYawPitch() {
+        let roll = Angle.radians(2.31)
+        let yaw = Angle.radians(0.2)
+        let pitch = Angle.radians(1.12)
+        let r = Rotation(roll: roll, yaw: yaw, pitch: pitch)
+        XCTAssertEqual(roll.radians, r.roll.radians, accuracy: epsilon)
+        XCTAssertEqual(yaw.radians, r.yaw.radians, accuracy: epsilon)
+        XCTAssertEqual(pitch.radians, r.pitch.radians, accuracy: epsilon)
     }
 
     func testRotationToQuaternion() {
