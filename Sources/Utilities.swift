@@ -34,9 +34,29 @@ let epsilon = 1e-8
 
 public extension CartesianComponentsRepresentable {
     static func == (lhs: Self, rhs: Self) -> Bool {
-        abs(lhs.x - rhs.x) < epsilon
-            && abs(lhs.y - rhs.y) < epsilon
-            && abs(lhs.z - rhs.z) < epsilon
+        if isFinite(lhs), isFinite(rhs) {
+            return abs(lhs.x - rhs.x) < epsilon
+                && abs(lhs.y - rhs.y) < epsilon
+                && abs(lhs.z - rhs.z) < epsilon
+        }
+        return areInfiniteComponentsEqual(lhs.x, rhs.x)
+            && areInfiniteComponentsEqual(lhs.y, rhs.y)
+            && areInfiniteComponentsEqual(lhs.z, rhs.z)
+    }
+
+    private static func isFinite(_ c: Self) -> Bool {
+        c.x.isFinite && c.y.isFinite && c.z.isFinite
+    }
+
+    private static func areInfiniteComponentsEqual(_ a: Double, _ b: Double) -> Bool {
+        switch (a, b) {
+        case (.infinity, .infinity):
+            return true
+        case (-Double.infinity, -Double.infinity):
+            return true
+        default:
+            return false
+        }
     }
 }
 
