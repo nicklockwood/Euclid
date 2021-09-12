@@ -1,3 +1,10 @@
+## [0.5.12](https://github.com/nicklockwood/Euclid/releases/tag/0.5.12) (2021-09-12)
+
+- Added `Quaternion` type as an alternative representation for rotations
+- The `Rotation.pitch`/`yaw`/`roll` properties should now return correct values
+- Fixed bug when defining a zero-width rectangle path
+- Fixed bug when encoding vertices with zeroed normals
+
 ## [0.5.11](https://github.com/nicklockwood/Euclid/releases/tag/0.5.11) (2021-09-03)
 
 - Added `Mesh.stroke()` function variant for generating wireframes
