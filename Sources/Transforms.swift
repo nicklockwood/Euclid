@@ -406,6 +406,35 @@ public extension CartesianComponentsRepresentable {
     }
 }
 
+internal extension Collection where Element: CartesianComponentsRepresentable {
+    @_disfavoredOverload
+    func rotated(by m: Rotation) -> [Element] {
+        map { $0.rotated(by: m) }
+    }
+
+    func rotated(by q: Quaternion) -> [Element] {
+        map { $0.rotated(by: q) }
+    }
+
+    func scaled(by v: Vector) -> [Element] {
+        map { $0.scaled(by: v) }
+    }
+
+    func scaled(by f: Double) -> [Element] {
+        map { $0.scaled(by: f) }
+    }
+}
+
+internal extension Collection where Element == Position {
+    func translated(by v: Vector) -> [Position] {
+        map { $0.translated(by: v) }
+    }
+
+    func transformed(by t: Transform) -> [Position] {
+        map { $0.transformed(by: t) }
+    }
+}
+
 public extension PathPoint {
     func translated(by v: Vector) -> PathPoint {
         PathPoint(position + v, texcoord: texcoord, isCurved: isCurved)
@@ -537,7 +566,7 @@ public extension Plane {
 
 public extension Bounds {
     func translated(by v: Vector) -> Bounds {
-        Bounds(min: min + v, max: max + v)
+        Bounds(min: min + Distance(v), max: max + Distance(v))
     }
 
     @_disfavoredOverload
@@ -554,7 +583,7 @@ public extension Bounds {
     }
 
     func scaled(by f: Double) -> Bounds {
-        Bounds(min: min * f, max: max * f)
+        Bounds(min: min.scaled(by: f), max: max.scaled(by: f))
     }
 
     func transformed(by t: Transform) -> Bounds {

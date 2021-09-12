@@ -256,7 +256,7 @@ public extension Mesh {
             )
         }
         let halfSize = s / 2
-        let bounds = Bounds(min: c - halfSize, max: c + halfSize)
+        let bounds = Bounds(min: Position(c - halfSize), max: Position(c + halfSize))
         switch faces {
         case .front, .default:
             return Mesh(
