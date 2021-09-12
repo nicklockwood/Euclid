@@ -206,7 +206,7 @@ public extension Polygon {
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
         return Polygon(
             unchecked: flipped ? vertices.reversed() : vertices,
-            normal: plane.normal.scaled(by: vn).normalized(),
+            normal: plane.normal.scaled(by: vn),
             isConvex: isConvex,
             material: material
         )
@@ -290,7 +290,11 @@ public extension Vertex {
 
     func scaled(by v: Vector) -> Vertex {
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
-        return Vertex(position.scaled(by: v), normal.scaled(by: vn).normalized(), texcoord)
+        return Vertex(
+            position.scaled(by: v),
+            normal.scaled(by: vn),
+            texcoord
+        )
     }
 
     func scaled(by f: Double) -> Vertex {
@@ -383,6 +387,22 @@ internal extension Collection where Element == Vector {
 
     func transformed(by t: Transform) -> [Vector] {
         map { $0.transformed(by: t) }
+    }
+}
+
+public extension CartesianComponentsRepresentable {
+    func rotated(around axis: Direction, by angle: Angle) -> Self {
+        let rotationMatrix = Rotation(axis: axis, angle: -angle)
+        return rotated(by: rotationMatrix)
+    }
+
+    @_disfavoredOverload
+    func rotated(by r: Rotation) -> Self {
+        self * r
+    }
+
+    func rotated(by q: Quaternion) -> Self {
+        self * q
     }
 }
 
@@ -488,26 +508,26 @@ public extension Path {
 
 public extension Plane {
     func translated(by v: Vector) -> Plane {
-        Plane(unchecked: normal, pointOnPlane: normal * w + v)
+        Plane(unchecked: normal, pointOnPlane: Vector(Position(v) + w * normal))
     }
 
     @_disfavoredOverload
     func rotated(by r: Rotation) -> Plane {
-        Plane(unchecked: normal.rotated(by: r), w: w)
+        Plane(normal: normal.rotated(by: r), w: w)
     }
 
     func rotated(by q: Quaternion) -> Plane {
-        Plane(unchecked: normal.rotated(by: q), w: w)
+        Plane(normal: normal.rotated(by: q), w: w)
     }
 
     func scaled(by v: Vector) -> Plane {
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
-        let p = (normal * w).scaled(by: v)
-        return Plane(unchecked: normal.scaled(by: vn).normalized(), pointOnPlane: p)
+        let p = (w * normal).scaled(by: v)
+        return Plane(unchecked: normal.scaled(by: vn), pointOnPlane: Vector(p))
     }
 
     func scaled(by f: Double) -> Plane {
-        Plane(unchecked: normal, w: w * f)
+        Plane(normal: normal, w: w * f)
     }
 
     func transformed(by t: Transform) -> Plane {

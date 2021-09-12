@@ -32,6 +32,14 @@
 // Tolerance used for calculating approximate equality
 let epsilon = 1e-8
 
+public extension CartesianComponentsRepresentable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        abs(lhs.x - rhs.x) < epsilon
+            && abs(lhs.y - rhs.y) < epsilon
+            && abs(lhs.z - rhs.z) < epsilon
+    }
+}
+
 // Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
     let precision = 1e-12
@@ -183,14 +191,13 @@ func triangulateVertices(
 
 // MARK: Vector utilities
 
-func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
-    let axis = v0.cross(v1)
-    let length = axis.length
-    if length < epsilon {
+func rotationBetweenDirections(_ d0: Direction, _ d1: Direction) -> Rotation {
+    if d0.isColinear(to: d1) {
         return .identity
     }
-    let angle = v0.angle(with: v1)
-    return Rotation(unchecked: axis / length, angle: angle)
+    let axis = d0.cross(d1)
+    let angle = d0.angle(with: d1)
+    return Rotation(axis: axis, angle: angle)
 }
 
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {
@@ -277,23 +284,23 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
 // Points are assumed to be ordered in a counter-clockwise direction
 // Points are not verified to be coplanar or non-degenerate
 // Points are not required to form a convex polygon
-func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Vector {
+func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Direction {
     let count = points.count
     let unitZ = Vector(0, 0, 1)
     switch count {
     case 0, 1:
-        return unitZ
+        return .z
     case 2:
         let ab = points[1] - points[0]
         let normal = ab.cross(unitZ).cross(ab)
         let length = normal.length
         guard length > 0 else {
             // Points lie along z axis
-            return Vector(1, 0, 0)
+            return .x
         }
-        return normal / length
+        return Direction(normal / length)
     default:
-        func faceNormalForConvexPoints(_ points: [Vector]) -> Vector {
+        func faceNormalForConvexPoints(_ points: [Vector]) -> Direction {
             var b = points[0]
             var ab = b - points.last!
             var bestLengthSquared = 0.0
@@ -309,7 +316,10 @@ func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Vector {
                 b = c
                 ab = bc
             }
-            return best ?? Vector(0, 0, 1)
+            if let best = best {
+                return Direction(best)
+            }
+            return .z
         }
         let normal = faceNormalForConvexPoints(points)
         let convex = convex ?? pointsAreConvex(points)
@@ -338,7 +348,7 @@ func pointsAreCoplanar(_ points: [Vector]) -> Bool {
     if length < epsilon {
         return false
     }
-    let plane = Plane(unchecked: normal / length, pointOnPlane: b)
+    let plane = Plane(unchecked: Direction(normal), pointOnPlane: b)
     for p in points[3...] where !plane.containsPoint(p) {
         return false
     }
@@ -420,11 +430,10 @@ func shortestLineBetween(
 func vectorFromPointToLine(
     _ point: Vector,
     _ lineOrigin: Vector,
-    _ lineDirection: Vector
+    _ lineDirection: Direction
 ) -> Vector {
-    assert(lineDirection.isNormalized)
-    let d = point - lineOrigin
-    return lineDirection * d.dot(lineDirection) - d
+    let d = Distance(point - lineOrigin)
+    return Vector(d.dot(lineDirection) * lineDirection - d)
 }
 
 func lineIntersection(
@@ -459,6 +468,6 @@ func lineSegmentsContainsPoint(
     _ end: Vector,
     _ point: Vector
 ) -> Bool {
-    assert(vectorFromPointToLine(point, start, (end - start).normalized()).length < epsilon)
+    assert(vectorFromPointToLine(point, start, Direction(end - start)).length < epsilon)
     return Bounds(min: min(start, end), max: max(start, end)).containsPoint(point)
 }

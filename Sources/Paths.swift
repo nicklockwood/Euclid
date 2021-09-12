@@ -198,7 +198,7 @@ public extension Path {
 
     /// Face normal for shape
     /// If shape is non-planar then this is the average/approximate normal
-    var faceNormal: Vector {
+    var faceNormal: Direction {
         plane?.normal ?? faceNormalForPolygonPoints(
             points.map { $0.position },
             convex: nil
@@ -386,7 +386,7 @@ public extension Path {
         )
         var p2 = points[0]
         var p1p2 = p2.position - p1.position
-        var n1: Vector!
+        var n1: Direction!
         var vertices = [Vertex]()
         var v = 0.0
         let endIndex = count
@@ -401,8 +401,8 @@ public extension Path {
                 ))
             let p0p1 = p1p2
             p1p2 = p2.position - p1.position
-            let n0 = n1 ?? p0p1.cross(faceNormal).normalized()
-            n1 = p1p2.cross(faceNormal).normalized()
+            let n0 = n1 ?? Direction(p0p1).cross(faceNormal)
+            n1 = Direction(p1p2).cross(faceNormal)
             let uv = Vector(0, v, 0)
             switch wrapMode {
             case .shrink, .default:
@@ -411,7 +411,7 @@ public extension Path {
                 v += abs(p1p2.y) / totalLength
             }
             if p1.isCurved {
-                let v = Vertex(p1.position, (n0 + n1).normalized(), uv)
+                let v = Vertex(p1.position, Direction.mean(n0, n1), uv)
                 vertices.append(v)
                 vertices.append(v)
             } else {
@@ -688,9 +688,11 @@ func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint
     let length = p0p1.length
     p0p1 = p0p1 / length
     let p1p2 = (p2.position - p1.position).normalized()
-    let axis = p0p1.cross(p1p2)
+    let axis = Direction(p0p1.cross(p1p2))
     let angle = -p0p1.angle(with: p1p2)
-    let r = Rotation(axis: axis, angle: angle) ?? .identity
+    let r = axis != .zero
+        ? Rotation(axis: axis, angle: angle)
+        : .identity
     let p2pe = p1p2.rotated(by: r) * length
     return .curve(p2.position + p2pe)
 }
