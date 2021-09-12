@@ -72,7 +72,7 @@ func verticesAreDegenerate(_ vertices: [Vertex]) -> Bool {
     guard vertices.count > 2 else {
         return true
     }
-    let positions = vertices.map { $0.position }
+    let positions = vertices.map { Position($0.position) }
     return pointsAreDegenerate(positions) || pointsAreSelfIntersecting(positions)
 }
 
@@ -80,7 +80,7 @@ func verticesAreConvex(_ vertices: [Vertex]) -> Bool {
     guard vertices.count > 3 else {
         return vertices.count > 2
     }
-    return pointsAreConvex(vertices.map { $0.position })
+    return pointsAreConvex(vertices.map { Position($0.position) })
 }
 
 func verticesAreCoplanar(_ vertices: [Vertex]) -> Bool {
@@ -122,7 +122,7 @@ func triangulateVertices(
         ))
         return true
     }
-    let positions = vertices.map { $0.position }
+    let positions = vertices.map { Position($0.position) }
     if isConvex ?? pointsAreConvex(positions) {
         let v0 = vertices[0]
         var v1 = vertices[1]
@@ -140,7 +140,7 @@ func triangulateVertices(
         normal: plane?.normal ??
             faceNormalForPolygonPoints(positions, convex: false)
     )
-    let flattenedPoints = vertices.map { flatteningPlane.flattenPoint($0.position) }
+    let flattenedPoints = vertices.map { flatteningPlane.flattenPoint(Position($0.position)) }
     let isClockwise = flattenedPointsAreClockwise(flattenedPoints)
     if !isClockwise {
         guard flattenedPointsAreClockwise(flattenedPoints.reversed()) else {
@@ -220,19 +220,19 @@ func rotationBetweenDirections(_ d0: Direction, _ d1: Direction) -> Rotation {
     return Rotation(axis: axis, angle: angle)
 }
 
-func pointsAreDegenerate(_ points: [Vector]) -> Bool {
+func pointsAreDegenerate(_ points: [Position]) -> Bool {
     let count = points.count
     guard count > 2, var a = points.last else {
         return false
     }
-    var ab = (points[0] - a).normalized()
+    var ab = (points[0] - a).direction
     for i in 0 ..< count {
         let b = points[i]
         let c = points[(i + 1) % count]
         if b == c || a == b {
             return true
         }
-        let bc = (c - b).normalized()
+        let bc = (c - b).direction
         guard abs(ab.dot(bc) + 1) > 0 else {
             return true
         }
@@ -243,19 +243,19 @@ func pointsAreDegenerate(_ points: [Vector]) -> Bool {
 }
 
 // Note: assumes points are not degenerate
-func pointsAreConvex(_ points: [Vector]) -> Bool {
+func pointsAreConvex(_ points: [Position]) -> Bool {
     let count = points.count
     guard count > 3, let a = points.last else {
         return count > 2
     }
-    var normal: Vector?
+    var normal: Direction?
     var ab = points[0] - a
     for i in 0 ..< count {
         let b = points[i]
         let c = points[(i + 1) % count]
         let bc = c - b
         var n = ab.cross(bc)
-        let length = n.length
+        let length = n.norm
         // check result is large enough to be reliable
         if length > epsilon {
             n = n / length
@@ -264,7 +264,7 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
                     return false
                 }
             } else {
-                normal = n
+                normal = n.direction
             }
         }
         ab = bc
@@ -274,18 +274,18 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
 
 // Test if path is self-intersecting
 // TODO: optimize by using http://www.webcitation.org/6ahkPQIsN
-func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
+func pointsAreSelfIntersecting(_ points: [Position]) -> Bool {
     guard points.count > 2 else {
         // A triangle can't be self-intersecting
         return false
     }
     for i in 0 ..< points.count - 2 {
-        let p0 = Position(points[i]), p1 = Position(points[i + 1])
+        let p0 = points[i], p1 = points[i + 1]
         guard let l1 = LineSegment(p0, p1) else {
             continue
         }
         for j in i + 2 ..< points.count - 1 {
-            let p2 = Position(points[j]), p3 = Position(points[j + 1])
+            let p2 = points[j], p3 = points[j + 1]
             guard !p1.isEqual(to: p2), !p1.isEqual(to: p3),
                   !p0.isEqual(to: p2), !p0.isEqual(to: p3),
                   let l2 = LineSegment(p2, p3)
@@ -304,14 +304,14 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
 // Points are assumed to be ordered in a counter-clockwise direction
 // Points are not verified to be coplanar or non-degenerate
 // Points are not required to form a convex polygon
-func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Direction {
+func faceNormalForPolygonPoints(_ points: [Position], convex: Bool?) -> Direction {
     let count = points.count
     let unitZ = Direction.z
     switch count {
     case 0, 1:
         return .z
     case 2:
-        let ab = Distance(points[1] - points[0])
+        let ab = points[1] - points[0]
         let normal = ab.cross(unitZ).cross(ab)
         let length = normal.norm
         guard length > 0 else {
@@ -320,15 +320,15 @@ func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Direction 
         }
         return (normal / length).direction
     default:
-        func faceNormalForConvexPoints(_ points: [Vector]) -> Direction {
+        func faceNormalForConvexPoints(_ points: [Position]) -> Direction {
             var b = points[0]
             var ab = b - points.last!
             var bestLengthSquared = 0.0
-            var best: Vector?
+            var best: Distance?
             for c in points {
                 let bc = c - b
                 let normal = ab.cross(bc)
-                let lengthSquared = normal.lengthSquared
+                let lengthSquared = normal.norm
                 if lengthSquared > bestLengthSquared {
                     bestLengthSquared = lengthSquared
                     best = normal / lengthSquared.squareRoot()
@@ -337,7 +337,7 @@ func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Direction 
                 ab = bc
             }
             if let best = best {
-                return Direction(best)
+                return best.direction
             }
             return .z
         }
@@ -376,9 +376,9 @@ func pointsAreCoplanar(_ points: [Vector]) -> Bool {
 }
 
 // https://stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order#1165943
-func flattenedPointsAreClockwise(_ points: [Vector]) -> Bool {
+func flattenedPointsAreClockwise(_ points: [Position]) -> Bool {
     assert(!points.contains(where: { $0.z != 0 }))
-    let points = (points.first == points.last) ? points.dropLast() : [Vector].SubSequence(points)
+    let points = (points.first == points.last) ? points.dropLast() : [Position].SubSequence(points)
     guard points.count > 2, var a = points.last else {
         return false
     }

@@ -14,24 +14,24 @@ class UtilityTests: XCTestCase {
 
     func testConvexnessResultNotAffectedByTranslation() {
         let vectors = [
-            Vector(-0.10606601717798211, 0, -0.10606601717798216),
-            Vector(-0.0574025148547635, 0, -0.138581929876693),
-            Vector(-0.15648794521398243, 0, -0.1188726123511085),
-            Vector(-0.16970931752558446, 0, -0.09908543035921899),
-            Vector(-0.16346853203274558, 0, -0.06771088298918408),
+            Position(-0.10606601717798211, 0, -0.10606601717798216),
+            Position(-0.0574025148547635, 0, -0.138581929876693),
+            Position(-0.15648794521398243, 0, -0.1188726123511085),
+            Position(-0.16970931752558446, 0, -0.09908543035921899),
+            Position(-0.16346853203274558, 0, -0.06771088298918408),
         ]
         XCTAssertTrue(pointsAreConvex(vectors))
         let offset = Vector(0, 0, 3)
-        let vertices = vectors.map { Vertex($0, .y).translated(by: offset) }
+        let vertices = vectors.map { Vertex(Vector($0), .y).translated(by: offset) }
         XCTAssertTrue(verticesAreConvex(vertices))
     }
 
     func testColinearPointsDontPreventConvexness() {
         let vectors = [
-            Vector(0, 1),
-            Vector(0, 0),
-            Vector(0, -1),
-            Vector(1, -1),
+            Position(0, 1),
+            Position(0, 0),
+            Position(0, -1),
+            Position(1, -1),
         ]
         XCTAssertTrue(pointsAreConvex(vectors))
     }
@@ -125,17 +125,17 @@ class UtilityTests: XCTestCase {
     // MARK: faceNormalForPolygonPoints
 
     func testFaceNormalForZAxisLine() {
-        let result = faceNormalForPolygonPoints([.zero, Vector(0, 0, 1)], convex: nil)
+        let result = faceNormalForPolygonPoints([.origin, Position(0, 0, 1)], convex: nil)
         XCTAssertEqual(result, .x)
     }
 
     func testFaceNormalForVerticalLine() {
-        let result = faceNormalForPolygonPoints([.zero, Vector(0, 1, 0)], convex: nil)
+        let result = faceNormalForPolygonPoints([.origin, Position(0, 1, 0)], convex: nil)
         XCTAssertEqual(result, .z)
     }
 
     func testFaceNormalForHorizontalLine() {
-        let result = faceNormalForPolygonPoints([.zero, Vector(1, 0, 0)], convex: nil)
+        let result = faceNormalForPolygonPoints([.origin, Position(1, 0, 0)], convex: nil)
         XCTAssertEqual(result, .z)
     }
 }

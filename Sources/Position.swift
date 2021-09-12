@@ -18,6 +18,10 @@ public struct Position: CartesianComponentsRepresentable {
         self.y = y
         self.z = z
     }
+
+    public init(_ x: Double, _ y: Double) {
+        self.init(x, y, 0)
+    }
 }
 
 public extension Position {
