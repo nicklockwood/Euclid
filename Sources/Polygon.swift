@@ -107,7 +107,7 @@ public extension Polygon {
     /// Public properties
     var vertices: [Vertex] { storage.vertices }
     var plane: Plane { storage.plane }
-    var bounds: Bounds { Bounds(points: vertices.map { $0.position }) }
+    var bounds: Bounds { Bounds(points: vertices.map { Position($0.position) }) }
     var isConvex: Bool { storage.isConvex }
     var material: Material? {
         get { storage.material }

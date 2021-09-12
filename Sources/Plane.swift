@@ -154,7 +154,7 @@ public extension Plane {
     }
 
     /// Returns point intersection between plane and line
-    func intersection(with line: Line) -> Vector? {
+    func intersection(with line: Line) -> Position? {
         // https://en.wikipedia.org/wiki/Line–plane_intersection#Algebraic_form
         let lineDirectionDotPlaneNormal = line.direction.dot(normal)
         guard abs(lineDirectionDotPlaneNormal) > epsilon else {
@@ -164,7 +164,7 @@ public extension Plane {
         let planePoint = Position.origin + w * normal
         let d = (planePoint - line.origin).dot(normal) / lineDirectionDotPlaneNormal
         let intersection = line.origin + d * line.direction
-        return Vector(intersection)
+        return intersection
     }
 }
 

@@ -131,6 +131,14 @@ public extension CartesianComponentsRepresentable {
             z: z * vn.z
         )
     }
+
+    func scaled(by f: Double) -> Self {
+        Self(
+            x: x * f,
+            y: y * f,
+            z: z * f
+        )
+    }
 }
 
 public extension CartesianComponentsRepresentable {

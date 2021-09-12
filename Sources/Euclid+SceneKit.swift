@@ -487,6 +487,12 @@ public extension Vector {
     }
 }
 
+public extension Position {
+    init(_ v: SCNVector3) {
+        self.init(Double(v.x), Double(v.y), Double(v.z))
+    }
+}
+
 public extension Rotation {
     init(_ q: SCNQuaternion) {
         let d = sqrt(1 - Double(q.w * q.w))
@@ -512,7 +518,7 @@ public extension Transform {
 
 public extension Bounds {
     init(_ scnBoundingBox: (min: SCNVector3, max: SCNVector3)) {
-        self.init(min: Vector(scnBoundingBox.min), max: Vector(scnBoundingBox.max))
+        self.init(min: Position(scnBoundingBox.min), max: Position(scnBoundingBox.max))
     }
 }
 

@@ -179,21 +179,21 @@ class PlaneTests: XCTestCase {
     func testIntersectWithNormalLine() {
         let line = Line(origin: Position(1, 5, 60), direction: .z)
         let plane = Plane(unchecked: .z, pointOnPlane: Vector(-3, 2, 0))
-        let expected = Vector(1, 5, 0)
+        let expected = Position(1, 5, 0)
         XCTAssertEqual(expected, plane.intersection(with: line))
     }
 
     func testIntersectionWithAxisLine() {
         let line = Line(origin: .origin, direction: Direction(4, 3, 0))
         let plane = Plane(normal: .y, w: 3)
-        let expected = Vector(4, 3, 0)
+        let expected = Position(4, 3, 0)
         XCTAssertEqual(expected, plane.intersection(with: line))
     }
 
     func testIntersectionWithSkewedLine() {
         let line = Line(origin: Position(8, 8, 10), direction: Direction(1, 1, 1))
         let plane = Plane(unchecked: .z, pointOnPlane: Vector(5, -7, 2))
-        let expected = Vector(0, 0, 2)
+        let expected = Position(0, 0, 2)
         XCTAssertEqual(expected, plane.intersection(with: line))
     }
 }
