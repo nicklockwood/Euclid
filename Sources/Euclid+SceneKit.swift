@@ -37,6 +37,10 @@ public extension SCNVector3 {
     init(_ v: Vector) {
         self.init(v.x, v.y, v.z)
     }
+    
+    init<T: CartesianComponentsRepresentable>(_ cartesian: T) {
+        self.init(cartesian.x, cartesian.y, cartesian.z)
+    }
 }
 
 public extension SCNQuaternion {
@@ -487,7 +491,7 @@ public extension Vector {
     }
 }
 
-public extension Position {
+public extension CartesianComponentsRepresentable {
     init(_ v: SCNVector3) {
         self.init(Double(v.x), Double(v.y), Double(v.z))
     }
@@ -509,7 +513,7 @@ public extension Rotation {
 public extension Transform {
     static func transform(from scnNode: SCNNode) -> Transform {
         Transform(
-            offset: Vector(scnNode.position),
+            offset: Distance(scnNode.position),
             rotation: Rotation(scnNode.orientation),
             scale: Vector(scnNode.scale)
         )

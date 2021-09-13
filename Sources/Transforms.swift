@@ -32,11 +32,11 @@
 import Foundation
 
 public struct Transform: Hashable {
-    public var offset: Vector
+    public var offset: Distance
     public var rotation: Rotation
     public var scale: Vector
 
-    public init(offset: Vector? = nil, rotation: Rotation? = nil, scale: Vector? = nil) {
+    public init(offset: Distance? = nil, rotation: Rotation? = nil, scale: Vector? = nil) {
         self.offset = offset ?? .zero
         self.rotation = rotation ?? .identity
         self.scale = scale ?? Vector(1, 1, 1)
@@ -50,7 +50,7 @@ extension Transform: Codable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let offset = try container.decodeIfPresent(Vector.self, forKey: .offset)
+        let offset = try container.decodeIfPresent(Distance.self, forKey: .offset)
         let rotation = try container.decodeIfPresent(Rotation.self, forKey: .rotation)
         let scale = try container.decodeIfPresent(Vector.self, forKey: .scale)
         self.init(offset: offset, rotation: rotation, scale: scale)
@@ -75,7 +75,7 @@ public extension Transform {
         return flipped
     }
 
-    mutating func translate(by v: Vector) {
+    mutating func translate(by v: Distance) {
         offset = offset + v.scaled(by: scale).rotated(by: rotation)
     }
 
@@ -97,10 +97,10 @@ public extension Transform {
 }
 
 public extension Mesh {
-    func translated(by v: Vector) -> Mesh {
+    func translated(by v: Distance) -> Mesh {
         Mesh(
             unchecked: polygons.translated(by: v),
-            bounds: boundsIfSet?.translated(by: v),
+            bounds: boundsIfSet?.translated(by: Vector(v)),
             isConvex: isConvex
         )
     }
@@ -163,7 +163,7 @@ public extension Mesh {
 }
 
 public extension Polygon {
-    func translated(by v: Vector) -> Polygon {
+    func translated(by v: Distance) -> Polygon {
         Polygon(
             unchecked: vertices.translated(by: v),
             normal: plane.normal,
@@ -243,7 +243,7 @@ public extension Polygon {
 }
 
 internal extension Collection where Element == Polygon {
-    func translated(by v: Vector) -> [Polygon] {
+    func translated(by v: Distance) -> [Polygon] {
         map { $0.translated(by: v) }
     }
 
@@ -275,8 +275,8 @@ internal extension Collection where Element == Polygon {
 }
 
 public extension Vertex {
-    func translated(by v: Vector) -> Vertex {
-        Vertex(position + v, normal, texcoord)
+    func translated(by v: Distance) -> Vertex {
+        Vertex(position + Vector(v), normal, texcoord)
     }
 
     @_disfavoredOverload
@@ -307,7 +307,7 @@ public extension Vertex {
 }
 
 internal extension Collection where Element == Vertex {
-    func translated(by v: Vector) -> [Vertex] {
+    func translated(by v: Distance) -> [Vertex] {
         map { $0.translated(by: v) }
     }
 
@@ -359,7 +359,7 @@ public extension Vector {
     }
 
     func transformed(by t: Transform) -> Vector {
-        scaled(by: t.scale).rotated(by: t.rotation) + t.offset
+        scaled(by: t.scale).rotated(by: t.rotation) + Vector(t.offset)
     }
 }
 
@@ -426,7 +426,7 @@ internal extension Collection where Element: CartesianComponentsRepresentable {
 }
 
 internal extension Collection where Element == Position {
-    func translated(by v: Vector) -> [Position] {
+    func translated(by v: Distance) -> [Position] {
         map { $0.translated(by: v) }
     }
 
@@ -436,8 +436,8 @@ internal extension Collection where Element == Position {
 }
 
 public extension PathPoint {
-    func translated(by v: Vector) -> PathPoint {
-        PathPoint(position + Distance(v), texcoord: texcoord, isCurved: isCurved)
+    func translated(by v: Distance) -> PathPoint {
+        PathPoint(position + v, texcoord: texcoord, isCurved: isCurved)
     }
 
     @_disfavoredOverload
@@ -463,7 +463,7 @@ public extension PathPoint {
 }
 
 internal extension Collection where Element == PathPoint {
-    func translated(by v: Vector) -> [PathPoint] {
+    func translated(by v: Distance) -> [PathPoint] {
         map { $0.translated(by: v) }
     }
 
@@ -490,7 +490,7 @@ internal extension Collection where Element == PathPoint {
 }
 
 public extension Path {
-    func translated(by v: Vector) -> Path {
+    func translated(by v: Distance) -> Path {
         Path(
             unchecked: points.translated(by: v),
             plane: plane?.translated(by: v), subpathIndices: subpathIndices
@@ -536,8 +536,8 @@ public extension Path {
 }
 
 public extension Plane {
-    func translated(by v: Vector) -> Plane {
-        Plane(unchecked: normal, pointOnPlane: Vector(Position(v) + w * normal))
+    func translated(by v: Distance) -> Plane {
+        Plane(unchecked: normal, pointOnPlane: Vector(v + w * normal))
     }
 
     @_disfavoredOverload

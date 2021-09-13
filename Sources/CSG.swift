@@ -336,7 +336,7 @@ public extension Mesh {
                 material: material
             )
             .rotated(by: rotation)
-            .translated(by: Vector(plane.w * plane.normal))
+            .translated(by: plane.w * plane.normal)
             // Clip rect
             return Mesh(
                 unchecked: mesh.polygons + BSP(self) { false }

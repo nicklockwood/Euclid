@@ -34,7 +34,7 @@ class PlaneTests: XCTestCase {
             Position(-0.707106781187, -0.707106781187, 1),
         ]
         let plane0 = Plane(points: points0)
-        let translation = Vector(1, 0)
+        let translation = Distance(1, 0)
         let points1 = points0.translated(by: translation)
         let plane1 = Plane(points: points1)
         let expected = plane0?.translated(by: translation)
