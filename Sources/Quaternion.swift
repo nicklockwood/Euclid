@@ -64,19 +64,19 @@ public extension Quaternion {
 
     /// Define a rotation around the X axis
     static func pitch(_ rotation: Angle) -> Quaternion {
-        let r = -rotation.radians * 0.5
+        let r = -rotation * 0.5
         return Quaternion(sin(r), 0, 0, cos(r))
     }
 
     /// Define a rotation around the Y axis
     static func yaw(_ rotation: Angle) -> Quaternion {
-        let r = -rotation.radians * 0.5
+        let r = -rotation * 0.5
         return Quaternion(0, sin(r), 0, cos(r))
     }
 
     /// Define a rotation around the Z axis
     static func roll(_ rotation: Angle) -> Quaternion {
-        let r = -rotation.radians * 0.5
+        let r = -rotation * 0.5
         return Quaternion(0, 0, sin(r), cos(r))
     }
 
