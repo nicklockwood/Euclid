@@ -21,7 +21,7 @@ class UtilityTests: XCTestCase {
             Position(-0.16346853203274558, 0, -0.06771088298918408),
         ]
         XCTAssertTrue(pointsAreConvex(vectors))
-        let offset = Vector(0, 0, 3)
+        let offset = Distance(0, 0, 3)
         let vertices = vectors.map { Vertex(Vector($0), .y).translated(by: offset) }
         XCTAssertTrue(verticesAreConvex(vertices))
     }

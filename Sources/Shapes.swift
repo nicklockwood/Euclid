@@ -418,7 +418,7 @@ public extension Mesh {
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        let offset = Vector(shape.faceNormal) * (depth / 2)
+        let offset = (depth / 2) * shape.faceNormal
         if offset.isEqual(to: .zero) {
             return fill(shape, faces: faces, material: material)
         }
@@ -485,7 +485,7 @@ public extension Mesh {
             }
             shape = shape.rotated(by: r)
             if p0p1.isEqual(to: p1p2) {
-                shapes.append(shape.translated(by: Vector(p1.position)))
+                shapes.append(shape.translated(by: p1.position.distance))
             } else {
                 let axis = p0p1.cross(p1p2)
                 let a = (1 / p0p1.dot(p0p2)) - 1
@@ -494,7 +494,7 @@ public extension Mesh {
                 scale.y = abs(scale.y)
                 scale.z = abs(scale.z)
                 scale = scale + Vector(1, 1, 1)
-                shapes.append(shape.scaled(by: scale).translated(by: Vector(p1.position)))
+                shapes.append(shape.scaled(by: scale).translated(by: p1.position.distance))
             }
             p0 = p1
             p1 = p2
@@ -511,13 +511,13 @@ public extension Mesh {
         } else {
             var _p0p2: Direction! = p0p1
             shape = shape.rotated(by: rotationBetweenDirections(p0p1, shapeNormal))
-            shapes.append(shape.translated(by: Vector(p0.position)))
+            shapes.append(shape.translated(by: p0.position.distance))
             for i in 1 ..< count - 1 {
                 let p2 = points[i + 1]
                 addShape(p2, &_p0p2)
             }
             shape = shape.rotated(by: rotationBetweenDirections(p0p1, _p0p2))
-            shapes.append(shape.translated(by: Vector(points.last!.position)))
+            shapes.append(shape.translated(by: points.last!.position.distance))
         }
         return loft(shapes, faces: faces, material: material)
     }
@@ -627,9 +627,9 @@ public extension Mesh {
                 shape = shape.rotated(by: .pitch(.halfPi))
             }
             shape = shape.rotated(by: rotationBetweenDirections(line.direction, shape.faceNormal))
-            let shape0 = shape.translated(by: Vector(line.start))
+            let shape0 = shape.translated(by: line.start.distance)
             bounds.formUnion(shape0.bounds)
-            let shape1 = shape.translated(by: Vector(line.end))
+            let shape1 = shape.translated(by: line.end.distance)
             bounds.formUnion(shape1.bounds)
             loft(
                 unchecked: shape0, shape1,

@@ -45,6 +45,12 @@ public extension Position {
     }
 }
 
+public extension Distance {
+    init(_ cgPoint: CGPoint) {
+        self.init(Double(cgPoint.x), Double(cgPoint.y))
+    }
+}
+
 public extension Color {
     init(_ cgColor: CGColor) {
         let components = cgColor.components ?? [1]
@@ -59,6 +65,10 @@ public extension CGPoint {
 
     init(_ position: Position) {
         self.init(x: position.x, y: position.y)
+    }
+    
+    init(_ distance: Distance) {
+        self.init(x: distance.x, y: distance.y)
     }
 }
 
