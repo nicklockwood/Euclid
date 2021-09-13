@@ -184,18 +184,18 @@ class TransformTests: XCTestCase {
     func testRotationMultipliedByTranslation() {
         let r = Rotation(roll: .zero, yaw: .pi / 4, pitch: .zero)
         let a = Transform(rotation: r)
-        let b = Transform(offset: Vector(1, 0, 0))
+        let b = Transform(offset: Distance(1, 0, 0))
         let c = a * b
-        XCTAssertEqual(c.offset, Vector(1, 0, 0))
+        XCTAssertEqual(c.offset, Distance(1, 0, 0))
         XCTAssertEqual(c.rotation, r)
     }
 
     func testTranslationMultipliedByRotation() {
         let r = Rotation(roll: .zero, yaw: .pi / 4, pitch: .zero)
-        let a = Transform(offset: Vector(1, 0, 0))
+        let a = Transform(offset: Distance(1, 0, 0))
         let b = Transform(rotation: r)
         let c = a * b
-        XCTAssertEqual(c.offset.quantized(), Vector(sqrt(2) / 2, 0, sqrt(2) / 2).quantized())
+        XCTAssertEqual(c.offset.quantized(), Distance(sqrt(2) / 2, 0, sqrt(2) / 2).quantized())
         XCTAssertEqual(c.offset, a.offset.rotated(by: r))
         XCTAssertEqual(c.rotation, r)
     }
@@ -219,10 +219,10 @@ class TransformTests: XCTestCase {
     }
 
     func testTranslationMultipliedByScale() {
-        let a = Transform(offset: Vector(1, 0, 0))
+        let a = Transform(offset: Distance(1, 0, 0))
         let b = Transform(scale: Vector(2, 1, 1))
         let c = a * b
-        XCTAssertEqual(c.offset, Vector(2, 0, 0))
+        XCTAssertEqual(c.offset, Distance(2, 0, 0))
         XCTAssertEqual(c.scale, Vector(2, 1, 1))
     }
 
@@ -231,7 +231,7 @@ class TransformTests: XCTestCase {
     func testTransformVector() {
         let v = Vector(1, 1, 1)
         let t = Transform(
-            offset: Vector(0.5, 0, 0),
+            offset: Distance(0.5, 0, 0),
             rotation: .roll(.halfPi),
             scale: Vector(1, 0.1, 0.1)
         )
@@ -244,8 +244,8 @@ class TransformTests: XCTestCase {
         let normal = Direction(0.5, 1, 0.5)
         let position = Vector(10, 5, -3)
         let plane = Plane(unchecked: normal, pointOnPlane: position)
-        let offset = Vector(12, 3, 4)
-        let expected = Plane(unchecked: normal, pointOnPlane: position + offset)
+        let offset = Distance(12, 3, 4)
+        let expected = Plane(unchecked: normal, pointOnPlane: position + Vector(offset))
         XCTAssert(plane.translated(by: offset).isEqual(to: expected))
     }
 
@@ -287,7 +287,7 @@ class TransformTests: XCTestCase {
         ])
         let plane = path.plane!
         let transform = Transform(
-            offset: Vector(-7, 3, 4.5),
+            offset: Distance(-7, 3, 4.5),
             rotation: Rotation(axis: Direction(11, 3, -1), angle: .radians(1.3)),
             scale: Vector(7, 2.0, 0.3)
         )
@@ -300,7 +300,7 @@ class TransformTests: XCTestCase {
     func testBoundsNotPreservedWhenMeshRotated() {
         let mesh = Mesh.cube()
         let transform = Transform(
-            offset: Vector(-7, 3, 4.5),
+            offset: Distance(-7, 3, 4.5),
             rotation: Rotation(axis: Direction(11, 3, -1), angle: .radians(1.3)),
             scale: Vector(7, 2.0, 0.3)
         )
@@ -310,7 +310,7 @@ class TransformTests: XCTestCase {
     func testBoundsPreservedWhenTransformingMeshWithoutRotation() {
         let mesh = Mesh.cube()
         let transform = Transform(
-            offset: Vector(-7, 3, 4.5),
+            offset: Distance(-7, 3, 4.5),
             rotation: .identity,
             scale: Vector(7, 2.0, 0.3)
         )

@@ -217,7 +217,7 @@ class ShapeTests: XCTestCase {
     func testLoftParallelEdges() {
         let shapes = [
             Path.square(),
-            Path.square().translated(by: Vector(0.0, 1.0, 0.0)),
+            Path.square().translated(by: Distance(0.0, 1.0, 0.0)),
         ]
 
         let loft = Mesh.loft(shapes)

@@ -91,7 +91,7 @@ public extension Position {
         self + distanceFromPointToLine(self, line)
     }
 
-    func translated(by v: Vector) -> Position {
+    func translated(by v: Distance) -> Position {
         Position(x + v.x, y + v.y, z + v.z)
     }
 
