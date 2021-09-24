@@ -238,7 +238,7 @@ public extension Mesh {
             )
             return Polygon(
                 unchecked: indexData.map { i in
-                    let pos = c + s.scaled(by: Vector(
+                    let pos = c + s.scaled(by: Distance(
                         i & 1 > 0 ? 0.5 : -0.5,
                         i & 2 > 0 ? 0.5 : -0.5,
                         i & 4 > 0 ? 0.5 : -0.5
@@ -489,11 +489,7 @@ public extension Mesh {
             } else {
                 let axis = p0p1.cross(p1p2)
                 let a = (1 / p0p1.dot(p0p2)) - 1
-                var scale = Vector(a * axis.cross(p0p2))
-                scale.x = abs(scale.x)
-                scale.y = abs(scale.y)
-                scale.z = abs(scale.z)
-                scale = scale + Vector(1, 1, 1)
+                let scale = (a * axis.cross(p0p2)).absolute + Distance(1, 1, 1)
                 shapes.append(shape.scaled(by: scale).translated(by: p1.position.distance))
             }
             p0 = p1

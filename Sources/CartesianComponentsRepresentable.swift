@@ -124,7 +124,7 @@ public extension CartesianComponentsRepresentable {
         self.init(x: vector.x, y: vector.y, z: vector.z)
     }
 
-    func scaled(by vn: Vector) -> Self {
+    func scaled(by vn: Distance) -> Self {
         Self(
             x: x * vn.x,
             y: y * vn.y,
@@ -138,6 +138,10 @@ public extension CartesianComponentsRepresentable {
             y: y * f,
             z: z * f
         )
+    }
+    
+    var absolute: Self {
+        Self(abs(x), abs(y), abs(z))
     }
 }
 
