@@ -152,4 +152,14 @@ class DistanceTests: XCTestCase {
         let normalComponent = distance.normal(to: .x)
         XCTAssertEqual(Distance(y: 1, z: 3), normalComponent)
     }
+    
+    func testAbsolutePositiveComponents() {
+        let distance = Distance(1, 2, 3)
+        XCTAssertEqual(Distance(1, 2, 3), distance.absolute)
+    }
+    
+    func testAbsoluteNegativeComponents() {
+        let distance = Distance(-1, -2, -3)
+        XCTAssertEqual(Distance(1, 2, 3), distance.absolute)
+    }
 }
