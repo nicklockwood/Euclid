@@ -515,7 +515,7 @@ public extension Transform {
         Transform(
             offset: Distance(scnNode.position),
             rotation: Rotation(scnNode.orientation),
-            scale: Vector(scnNode.scale)
+            scale: Distance(scnNode.scale)
         )
     }
 }
