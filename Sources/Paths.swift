@@ -234,10 +234,9 @@ public extension Path {
 
     /// Create a path from a polygon
     init(polygon: Polygon) {
-        let hasTexcoords = polygon.hasTexcoords
         self.init(
             unchecked: polygon.vertices.map {
-                .point(Position($0.position), texcoord: hasTexcoords ? $0.texcoord : nil)
+                .point($0.position, texcoord: polygon.hasTextureCoordinates ? $0.texcoord : nil)
             },
             plane: polygon.plane,
             subpathIndices: nil
@@ -311,7 +310,7 @@ public extension Path {
                 [p0.position, p1.position, points[i + 1].position],
                 convex: true
             )
-            vertices.append(Vertex(unchecked: Vector(p1.position), normal, texcoord ?? .zero))
+            vertices.append(Vertex(unchecked: p1.position, normal, texcoord ?? .zero))
             p0 = p1
         }
         guard !verticesAreDegenerate(vertices) else {
@@ -324,7 +323,7 @@ public extension Path {
         var max = Vector(-.infinity, -.infinity)
         let flatteningPlane = FlatteningPlane(normal: faceNormal)
         vertices = vertices.map {
-            let uv = flatteningPlane.flattenPoint(Position($0.position))
+            let uv = flatteningPlane.flattenPoint($0.position)
             min.x = Swift.min(min.x, uv.x)
             min.y = Swift.min(min.y, uv.y)
             max.x = Swift.max(max.x, uv.x)
@@ -411,12 +410,12 @@ public extension Path {
                 v += abs(p1p2.y) / totalLength
             }
             if p1.isCurved {
-                let v = Vertex(Vector(p1.position), Direction.mean(n0, n1), uv)
+                let v = Vertex(p1.position, Direction.mean(n0, n1), uv)
                 vertices.append(v)
                 vertices.append(v)
             } else {
-                vertices.append(Vertex(Vector(p1.position), n0, uv))
-                vertices.append(Vertex(Vector(p1.position), n1, uv))
+                vertices.append(Vertex(p1.position, n0, uv))
+                vertices.append(Vertex(p1.position, n1, uv))
             }
         }
         var first = vertices.removeFirst()

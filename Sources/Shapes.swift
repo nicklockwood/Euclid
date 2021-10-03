@@ -216,8 +216,8 @@ public extension Mesh {
 
     /// Construct an axis-aligned cuboid mesh
     static func cube(
-        center c: Vector = .init(0, 0, 0),
-        size s: Vector,
+        center c: Position = .init(0, 0, 0),
+        size s: Distance,
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
@@ -256,7 +256,7 @@ public extension Mesh {
             )
         }
         let halfSize = s / 2
-        let bounds = Bounds(min: Position(c - halfSize), max: Position(c + halfSize))
+        let bounds = Bounds(min: c - halfSize, max: c + halfSize)
         switch faces {
         case .front, .default:
             return Mesh(
@@ -280,12 +280,12 @@ public extension Mesh {
     }
 
     static func cube(
-        center c: Vector = .init(0, 0, 0),
+        center c: Position = .init(0, 0, 0),
         size s: Double = 1,
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
+        cube(center: c, size: Distance(s, s, s), faces: faces, material: material)
     }
 
     /// Construct a sphere mesh
@@ -742,13 +742,13 @@ private extension Mesh {
                         )
                         let v2 = Vertex(
                             unchecked:
-                            Vector(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
+                            Position(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
                             Direction(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
                             Vector(v1.texcoord.x + t0, v1.texcoord.y, 0)
                         )
                         let v3 = Vertex(
                             unchecked:
-                            Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
+                            Position(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
                             Direction(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
                             Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
                         )
@@ -768,13 +768,13 @@ private extension Mesh {
                     )
                     let v2 = Vertex(
                         unchecked:
-                        Vector(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
+                        Position(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
                         Direction(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
                         Vector(v0.texcoord.x + t1, v0.texcoord.y, 0)
                     )
                     let v3 = Vertex(
                         unchecked:
-                        Vector(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
+                        Position(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
                         Direction(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
                         Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
                     )
@@ -788,25 +788,25 @@ private extension Mesh {
                     // quad face
                     let v2 = Vertex(
                         unchecked:
-                        Vector(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
+                        Position(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
                         Direction(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
                         Vector(v0.texcoord.x + t1, v0.texcoord.y, 0)
                     )
                     let v3 = Vertex(
                         unchecked:
-                        Vector(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
+                        Position(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
                         Direction(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
                         Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
                     )
                     let v4 = Vertex(
                         unchecked:
-                        Vector(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
+                        Position(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
                         Direction(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
                         Vector(v1.texcoord.x + t0, v1.texcoord.y, 0)
                     )
                     let v5 = Vertex(
                         unchecked:
-                        Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
+                        Position(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
                         Direction(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
                         Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
                     )

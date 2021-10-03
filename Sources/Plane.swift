@@ -80,7 +80,7 @@ public extension Plane {
     static let xy = Plane(normal: .z, w: 0)
 
     /// Creates a plane from a point and surface normal
-    init?(normal: Direction, pointOnPlane: Vector) {
+    init?(normal: Direction, pointOnPlane: Position) {
         guard normal.norm > epsilon else {
             return nil
         }
@@ -169,8 +169,8 @@ public extension Plane {
 }
 
 internal extension Plane {
-    init(unchecked normal: Direction, pointOnPlane: Vector) {
-        self.init(normal: normal, w: Distance(pointOnPlane).dot(normal))
+    init(unchecked normal: Direction, pointOnPlane: Position) {
+        self.init(normal: normal, w: pointOnPlane.distance.dot(normal))
     }
 
     init?(points: [Position], convex: Bool?) {
@@ -187,7 +187,7 @@ internal extension Plane {
     init(unchecked points: [Position], convex: Bool?) {
         assert(!pointsAreDegenerate(points))
         let normal = faceNormalForPolygonPoints(points, convex: convex)
-        self.init(unchecked: normal, pointOnPlane: Vector(points[0]))
+        self.init(unchecked: normal, pointOnPlane: points[0])
     }
 
     // Approximate equality

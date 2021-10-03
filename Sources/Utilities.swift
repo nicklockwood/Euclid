@@ -72,7 +72,7 @@ func verticesAreDegenerate(_ vertices: [Vertex]) -> Bool {
     guard vertices.count > 2 else {
         return true
     }
-    let positions = vertices.map { Position($0.position) }
+    let positions = vertices.map { $0.position }
     return pointsAreDegenerate(positions) || pointsAreSelfIntersecting(positions)
 }
 
@@ -80,7 +80,7 @@ func verticesAreConvex(_ vertices: [Vertex]) -> Bool {
     guard vertices.count > 3 else {
         return vertices.count > 2
     }
-    return pointsAreConvex(vertices.map { Position($0.position) })
+    return pointsAreConvex(vertices.map { $0.position })
 }
 
 func verticesAreCoplanar(_ vertices: [Vertex]) -> Bool {
@@ -122,7 +122,7 @@ func triangulateVertices(
         ))
         return true
     }
-    let positions = vertices.map { Position($0.position) }
+    let positions = vertices.map { $0.position }
     if isConvex ?? pointsAreConvex(positions) {
         let v0 = vertices[0]
         var v1 = vertices[1]
@@ -140,7 +140,7 @@ func triangulateVertices(
         normal: plane?.normal ??
             faceNormalForPolygonPoints(positions, convex: false)
     )
-    let flattenedPoints = vertices.map { flatteningPlane.flattenPoint(Position($0.position)) }
+    let flattenedPoints = vertices.map { flatteningPlane.flattenPoint($0.position) }
     let isClockwise = flattenedPointsAreClockwise(flattenedPoints)
     if !isClockwise {
         guard flattenedPointsAreClockwise(flattenedPoints.reversed()) else {
@@ -171,7 +171,7 @@ func triangulateVertices(
         let p2 = vertices[(i + 1) % vertices.count]
         // check for colinear points
         let p0p1 = p0.position - p1.position, p2p1 = p2.position - p1.position
-        if p0p1.cross(p2p1).length < epsilon {
+        if p0p1.cross(p2p1).norm < epsilon {
             // vertices are colinear, so we can't form a triangle
             if p0p1.dot(p2p1) > 0 {
                 // center point makes path degenerate - remove it
@@ -356,7 +356,7 @@ func faceNormalForPolygonPoints(_ points: [Position], convex: Bool?) -> Directio
     }
 }
 
-func pointsAreCoplanar(_ points: [Vector]) -> Bool {
+func pointsAreCoplanar(_ points: [Position]) -> Bool {
     if points.count < 4 {
         return true
     }
@@ -364,12 +364,12 @@ func pointsAreCoplanar(_ points: [Vector]) -> Bool {
     let ab = b - points[0]
     let bc = points[2] - b
     let normal = ab.cross(bc)
-    let length = normal.length
+    let length = normal.norm
     if length < epsilon {
         return false
     }
-    let plane = Plane(unchecked: Direction(normal), pointOnPlane: b)
-    for p in points[3...] where !plane.containsPoint(Position(p)) {
+    let plane = Plane(unchecked: normal.direction, pointOnPlane: b)
+    for p in points[3...] where !plane.containsPoint(p) {
         return false
     }
     return true

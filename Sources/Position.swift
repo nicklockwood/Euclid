@@ -32,6 +32,10 @@ public extension Position {
     var distance: Distance {
         Distance(x, y, z)
     }
+    
+    init(_ distance: Distance) {
+        self.init(x: distance.x, y: distance.y, z: distance.z)
+    }
 }
 
 public extension Position {

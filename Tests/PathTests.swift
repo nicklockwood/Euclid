@@ -283,14 +283,14 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 8)
         guard vertices.count >= 8 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Vector(-1, 1))
-        XCTAssertEqual(vertices[1].position, Vector(-1, -1))
-        XCTAssertEqual(vertices[2].position, Vector(-1, -1))
-        XCTAssertEqual(vertices[3].position, Vector(1, -1))
-        XCTAssertEqual(vertices[4].position, Vector(1, -1))
-        XCTAssertEqual(vertices[5].position, Vector(1, 1))
-        XCTAssertEqual(vertices[6].position, Vector(1, 1))
-        XCTAssertEqual(vertices[7].position, Vector(-1, 1))
+        XCTAssertEqual(vertices[0].position, Position(-1, 1))
+        XCTAssertEqual(vertices[1].position, Position(-1, -1))
+        XCTAssertEqual(vertices[2].position, Position(-1, -1))
+        XCTAssertEqual(vertices[3].position, Position(1, -1))
+        XCTAssertEqual(vertices[4].position, Position(1, -1))
+        XCTAssertEqual(vertices[5].position, Position(1, 1))
+        XCTAssertEqual(vertices[6].position, Position(1, 1))
+        XCTAssertEqual(vertices[7].position, Position(-1, 1))
         // texture coords
         XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
         XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.25))
@@ -322,12 +322,12 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 6)
         guard vertices.count >= 6 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Vector(0, 1))
-        XCTAssertEqual(vertices[1].position, Vector(-1, 1))
-        XCTAssertEqual(vertices[2].position, Vector(-1, 1))
-        XCTAssertEqual(vertices[3].position, Vector(-1, -1))
-        XCTAssertEqual(vertices[4].position, Vector(-1, -1))
-        XCTAssertEqual(vertices[5].position, Vector(0, -1))
+        XCTAssertEqual(vertices[0].position, Position(0, 1))
+        XCTAssertEqual(vertices[1].position, Position(-1, 1))
+        XCTAssertEqual(vertices[2].position, Position(-1, 1))
+        XCTAssertEqual(vertices[3].position, Position(-1, -1))
+        XCTAssertEqual(vertices[4].position, Position(-1, -1))
+        XCTAssertEqual(vertices[5].position, Position(0, -1))
         // texture coords
         XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
         XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.25))
@@ -357,12 +357,12 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 6)
         guard vertices.count >= 6 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Vector(0, 1))
-        XCTAssertEqual(vertices[1].position, Vector(-1, 1))
-        XCTAssertEqual(vertices[2].position, Vector(-1, 1))
-        XCTAssertEqual(vertices[3].position, Vector(-1, -1))
-        XCTAssertEqual(vertices[4].position, Vector(-1, -1))
-        XCTAssertEqual(vertices[5].position, Vector(0, -1))
+        XCTAssertEqual(vertices[0].position, Position(0, 1))
+        XCTAssertEqual(vertices[1].position, Position(-1, 1))
+        XCTAssertEqual(vertices[2].position, Position(-1, 1))
+        XCTAssertEqual(vertices[3].position, Position(-1, -1))
+        XCTAssertEqual(vertices[4].position, Position(-1, -1))
+        XCTAssertEqual(vertices[5].position, Position(0, -1))
         // texture coords
         XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
         XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.25))
@@ -385,14 +385,14 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 8)
         guard vertices.count >= 8 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Vector(0, 1))
-        XCTAssertEqual(vertices[1].position, Vector(-1, 0))
-        XCTAssertEqual(vertices[2].position, Vector(-1, 0))
-        XCTAssertEqual(vertices[3].position, Vector(0, -1))
-        XCTAssertEqual(vertices[4].position, Vector(0, -1))
-        XCTAssertEqual(vertices[5].position, Vector(1, 0))
-        XCTAssertEqual(vertices[6].position, Vector(1, 0))
-        XCTAssertEqual(vertices[7].position, Vector(0, 1))
+        XCTAssertEqual(vertices[0].position, Position(0, 1))
+        XCTAssertEqual(vertices[1].position, Position(-1, 0))
+        XCTAssertEqual(vertices[2].position, Position(-1, 0))
+        XCTAssertEqual(vertices[3].position, Position(0, -1))
+        XCTAssertEqual(vertices[4].position, Position(0, -1))
+        XCTAssertEqual(vertices[5].position, Position(1, 0))
+        XCTAssertEqual(vertices[6].position, Position(1, 0))
+        XCTAssertEqual(vertices[7].position, Position(0, 1))
         // texture coords
         XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
         XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.25))
@@ -419,14 +419,14 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 8)
         guard vertices.count >= 8 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Vector(0, 1))
-        XCTAssertEqual(vertices[1].position, Vector(-2, 0))
-        XCTAssertEqual(vertices[2].position, Vector(-2, 0))
-        XCTAssertEqual(vertices[3].position, Vector(0, -1))
-        XCTAssertEqual(vertices[4].position, Vector(0, -1))
-        XCTAssertEqual(vertices[5].position, Vector(2, 0))
-        XCTAssertEqual(vertices[6].position, Vector(2, 0))
-        XCTAssertEqual(vertices[7].position, Vector(0, 1))
+        XCTAssertEqual(vertices[0].position, Position(0, 1))
+        XCTAssertEqual(vertices[1].position, Position(-2, 0))
+        XCTAssertEqual(vertices[2].position, Position(-2, 0))
+        XCTAssertEqual(vertices[3].position, Position(0, -1))
+        XCTAssertEqual(vertices[4].position, Position(0, -1))
+        XCTAssertEqual(vertices[5].position, Position(2, 0))
+        XCTAssertEqual(vertices[6].position, Position(2, 0))
+        XCTAssertEqual(vertices[7].position, Position(0, 1))
         // texture coords
         XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
         XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.25))
@@ -457,10 +457,10 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 4)
         guard vertices.count >= 4 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Vector(0, 1))
-        XCTAssertEqual(vertices[1].position, Vector(-1, 0))
-        XCTAssertEqual(vertices[2].position, Vector(-1, 0))
-        XCTAssertEqual(vertices[3].position, Vector(0, -1))
+        XCTAssertEqual(vertices[0].position, Position(0, 1))
+        XCTAssertEqual(vertices[1].position, Position(-1, 0))
+        XCTAssertEqual(vertices[2].position, Position(-1, 0))
+        XCTAssertEqual(vertices[3].position, Position(0, -1))
         // texture coords
         XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
         XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.5))
@@ -482,8 +482,8 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 2)
         guard vertices.count >= 2 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Vector(-1, 1))
-        XCTAssertEqual(vertices[1].position, Vector(-1, -1))
+        XCTAssertEqual(vertices[0].position, Position(-1, 1))
+        XCTAssertEqual(vertices[1].position, Position(-1, -1))
         // texture coords
         XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
         XCTAssertEqual(vertices[1].texcoord, Vector(0, 1))
@@ -503,12 +503,12 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 6)
         guard vertices.count >= 6 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Vector(0, 0))
-        XCTAssertEqual(vertices[1].position, Vector(1, 0))
-        XCTAssertEqual(vertices[2].position, Vector(1, 0))
-        XCTAssertEqual(vertices[3].position, Vector(0, 1))
-        XCTAssertEqual(vertices[4].position, Vector(0, 1))
-        XCTAssertEqual(vertices[5].position, Vector(1, 1))
+        XCTAssertEqual(vertices[0].position, Position(0, 0))
+        XCTAssertEqual(vertices[1].position, Position(1, 0))
+        XCTAssertEqual(vertices[2].position, Position(1, 0))
+        XCTAssertEqual(vertices[3].position, Position(0, 1))
+        XCTAssertEqual(vertices[4].position, Position(0, 1))
+        XCTAssertEqual(vertices[5].position, Position(1, 1))
         // texture coords
         XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
         XCTAssertEqual(vertices[5].texcoord, Vector(0, 1))

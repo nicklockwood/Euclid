@@ -22,7 +22,7 @@ class UtilityTests: XCTestCase {
         ]
         XCTAssertTrue(pointsAreConvex(vectors))
         let offset = Distance(0, 0, 3)
-        let vertices = vectors.map { Vertex(Vector($0), .y).translated(by: offset) }
+        let vertices = vectors.map { Vertex($0, .y).translated(by: offset) }
         XCTAssertTrue(verticesAreConvex(vertices))
     }
 
@@ -41,9 +41,9 @@ class UtilityTests: XCTestCase {
     func testDegenerateColinearVertices() {
         let normal = Direction.z
         let vertices = [
-            Vertex(Vector(0, 1), normal),
-            Vertex(Vector(0, 0), normal),
-            Vertex(Vector(0, -2), normal),
+            Vertex(Position(0, 1), normal),
+            Vertex(Position(0, 0), normal),
+            Vertex(Position(0, -2), normal),
         ]
         XCTAssertTrue(verticesAreDegenerate(vertices))
     }
@@ -51,10 +51,10 @@ class UtilityTests: XCTestCase {
     func testNonDegenerateColinearVertices() {
         let normal = Direction.z
         let vertices = [
-            Vertex(Vector(0, 1), normal),
-            Vertex(Vector(0, 0), normal),
-            Vertex(Vector(0, -2), normal),
-            Vertex(Vector(1.5, -1), normal),
+            Vertex(Position(0, 1), normal),
+            Vertex(Position(0, 0), normal),
+            Vertex(Position(0, -2), normal),
+            Vertex(Position(1.5, -1), normal),
         ]
         XCTAssertFalse(verticesAreDegenerate(vertices))
     }
@@ -62,10 +62,10 @@ class UtilityTests: XCTestCase {
     func testDegenerateVerticesWithZeroLengthEdge() {
         let normal = Direction.z
         let vertices = [
-            Vertex(Vector(0, 1), normal),
-            Vertex(Vector(0, -1), normal),
-            Vertex(Vector(0, -1), normal),
-            Vertex(Vector(1.5, 0), normal),
+            Vertex(Position(0, 1), normal),
+            Vertex(Position(0, -1), normal),
+            Vertex(Position(0, -1), normal),
+            Vertex(Position(1.5, 0), normal),
         ]
         XCTAssertTrue(verticesAreDegenerate(vertices))
     }

@@ -225,7 +225,7 @@ class ShapeTests: XCTestCase {
         // Every vertex in the loft should be contained by one of our shapes
         let vertices = loft.polygons.flatMap { $0.vertices }
         XCTAssert(vertices.allSatisfy { vertex in
-            shapes.contains(where: { $0.points.contains(where: { $0.position == Position(vertex.position) }) })
+            shapes.contains(where: { $0.points.contains(where: { $0.position == vertex.position }) })
         })
     }
 
@@ -248,7 +248,7 @@ class ShapeTests: XCTestCase {
         // Every vertex in the loft should be contained by one of our shapes
         let vertices = loft.polygons.flatMap { $0.vertices }
         XCTAssert(vertices.allSatisfy { vertex in
-            shapes.contains(where: { $0.points.contains(where: { $0.position == Position(vertex.position) }) })
+            shapes.contains(where: { $0.points.contains(where: { $0.position == vertex.position }) })
         })
     }
 

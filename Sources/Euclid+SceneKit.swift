@@ -339,7 +339,7 @@ public extension SCNGeometry {
     /// Creates line-segment SCNGeometry representing the vertex normals of a Mesh
     convenience init(normals mesh: Mesh, scale: Double = 1) {
         self.init(Set(mesh.polygons.flatMap { $0.vertices }.compactMap {
-            LineSegment(Position($0.position), Position($0.position) + $0.normal * scale)
+            LineSegment($0.position, $0.position + $0.normal * scale)
         }))
     }
 
@@ -347,7 +347,7 @@ public extension SCNGeometry {
     convenience init(_ path: Path) {
         var indexData = Data()
         var vertexData = Data()
-        var indicesByPoint = [Vector: UInt32]()
+        var indicesByPoint = [Position: UInt32]()
         for path in path.subpaths {
             for vertex in path.edgeVertices {
                 let origin = vertex.position
@@ -476,8 +476,8 @@ private extension Data {
         return Double(float)
     }
 
-    func vector(at index: Int) -> Vector {
-        Vector(
+    func position(at index: Int) -> Position {
+        Position(
             float(at: index),
             float(at: index + 4),
             float(at: index + 8)
@@ -562,7 +562,7 @@ public extension Mesh {
         for source in scnGeometry.sources {
             let count = source.vectorCount
             if vertices.isEmpty {
-                vertices = Array(repeating: Vertex(.zero, .zero), count: count)
+                vertices = Array(repeating: Vertex(.origin, .zero), count: count)
             } else if vertices.count != source.vectorCount {
                 return nil
             }
@@ -572,12 +572,12 @@ public extension Mesh {
             switch source.semantic {
             case .vertex:
                 for i in 0 ..< count {
-                    vertices[i].position = data.vector(at: offset)
+                    vertices[i].position = data.position(at: offset)
                     offset += stride
                 }
             case .normal:
                 for i in 0 ..< count {
-                    vertices[i].normal = Direction(data.vector(at: offset))
+                    vertices[i].normal = data.position(at: offset).distance.direction
                     offset += stride
                 }
             case .texcoord:

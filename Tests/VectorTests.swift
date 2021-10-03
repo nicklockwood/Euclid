@@ -41,7 +41,7 @@ class VectorTests: XCTestCase {
 
     func testRightAngleWithPlane() {
         let direction = Vector(1, 0, 0)
-        let plane = Plane(unchecked: .x, pointOnPlane: Vector.zero)
+        let plane = Plane(unchecked: .x, pointOnPlane: .origin)
         XCTAssertEqual(direction.angle(with: plane), .halfPi)
     }
 }
