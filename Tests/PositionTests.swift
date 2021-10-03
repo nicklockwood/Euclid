@@ -53,13 +53,13 @@ class PositionTests: XCTestCase {
 
     func testDistanceInFrontOfPlane() {
         let position = Position(2, 1, -2)
-        let plane = Plane(unchecked: .x, pointOnPlane: Vector.zero)
+        let plane = Plane(unchecked: .x, pointOnPlane: .origin)
         XCTAssertEqual(position.distance(from: plane), 2)
     }
 
     func testDistanceBehindPlane() {
         let position = Position(-1.5, 2, 7)
-        let plane = Plane(unchecked: .x, pointOnPlane: Vector.zero)
+        let plane = Plane(unchecked: .x, pointOnPlane: .origin)
         XCTAssertEqual(position.distance(from: plane), -1.5)
     }
 }

@@ -242,16 +242,16 @@ class TransformTests: XCTestCase {
 
     func testTranslatePlane() {
         let normal = Direction(0.5, 1, 0.5)
-        let position = Vector(10, 5, -3)
+        let position = Position(10, 5, -3)
         let plane = Plane(unchecked: normal, pointOnPlane: position)
         let offset = Distance(12, 3, 4)
-        let expected = Plane(unchecked: normal, pointOnPlane: position + Vector(offset))
+        let expected = Plane(unchecked: normal, pointOnPlane: position + offset)
         XCTAssert(plane.translated(by: offset).isEqual(to: expected))
     }
 
     func testRotatePlane() {
         let normal = Direction(0.5, 1, 0.5)
-        let position = Vector(10, 5, -3)
+        let position = Position(10, 5, -3)
         let plane = Plane(unchecked: normal, pointOnPlane: position)
         let rotation = Rotation(axis: Direction(12, 3, 4), angle: .radians(0.2))
         let rotatedNormal = normal.rotated(by: rotation)
@@ -262,7 +262,7 @@ class TransformTests: XCTestCase {
 
     func testScalePlane() {
         let normal = Direction(0.5, 1, 0.5)
-        let position = Vector(10, 5, -3)
+        let position = Position(10, 5, -3)
         let plane = Plane(unchecked: normal, pointOnPlane: position)
         let scale = Distance(0.5, 3.0, 0.1)
         let expectedNormal = normal.scaled(by: Distance(1 / scale.x, 1 / scale.y, 1 / scale.z))
@@ -272,10 +272,10 @@ class TransformTests: XCTestCase {
 
     func testScalePlaneUniformly() {
         let normal = Direction(0.5, 1, 0.5)
-        let position = Vector(10, 5, -3)
+        let position = Position(10, 5, -3)
         let plane = Plane(unchecked: normal, pointOnPlane: position)
         let scale = 0.5
-        let expected = Plane(unchecked: normal, pointOnPlane: position * scale)
+        let expected = Plane(unchecked: normal, pointOnPlane: position.scaled(by: scale))
         XCTAssert(plane.scaled(by: scale).isEqual(to: expected))
     }
 

@@ -86,8 +86,8 @@ public extension Bounds {
         var max = negativeInfinity
         for p in polygons {
             for v in p.vertices {
-                min = Position.min(min, Position(v.position))
-                max = Position.max(max, Position(v.position))
+                min = Position.min(min, v.position)
+                max = Position.max(max, v.position)
             }
         }
         self.min = min
