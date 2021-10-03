@@ -84,22 +84,22 @@ class PlaneTests: XCTestCase {
     // MARK: Intersections
 
     func testIntersectionWithParallelPlane() {
-        let plane1 = Plane(unchecked: .y, pointOnPlane: Vector(0, 0, 0))
-        let plane2 = Plane(unchecked: .y, pointOnPlane: Vector(0, 1, 0))
+        let plane1 = Plane(unchecked: .y, pointOnPlane: Position(0, 0, 0))
+        let plane2 = Plane(unchecked: .y, pointOnPlane: Position(0, 1, 0))
 
         XCTAssertNil(plane1.intersection(with: plane2))
     }
 
     func testIntersectionWithParallelPlaneInvertedNormal() {
-        let plane1 = Plane(unchecked: .y, pointOnPlane: Vector(0, 0, 0))
-        let plane2 = Plane(unchecked: -.y, pointOnPlane: Vector(0, 1, 0))
+        let plane1 = Plane(unchecked: .y, pointOnPlane: Position(0, 0, 0))
+        let plane2 = Plane(unchecked: -.y, pointOnPlane: Position(0, 1, 0))
 
         XCTAssertNil(plane1.intersection(with: plane2))
     }
 
     func testIntersectionWithPerpendicularPlane() {
-        let plane1 = Plane(unchecked: .y, pointOnPlane: Vector(0, 0, 0))
-        let plane2 = Plane(unchecked: .x, pointOnPlane: Vector(0, 0, 0))
+        let plane1 = Plane(unchecked: .y, pointOnPlane: Position(0, 0, 0))
+        let plane2 = Plane(unchecked: .x, pointOnPlane: Position(0, 0, 0))
 
         guard let intersection = plane1.intersection(with: plane2) else {
             XCTFail()
@@ -172,13 +172,13 @@ class PlaneTests: XCTestCase {
 
     func testIntersectWithParallelLine() {
         let line = Line(origin: .origin, direction: Direction(4, -5, 0))
-        let plane = Plane(unchecked: .z, pointOnPlane: Vector(-3, 2, 0))
+        let plane = Plane(unchecked: .z, pointOnPlane: Position(-3, 2, 0))
         XCTAssertNil(plane.intersection(with: line))
     }
 
     func testIntersectWithNormalLine() {
         let line = Line(origin: Position(1, 5, 60), direction: .z)
-        let plane = Plane(unchecked: .z, pointOnPlane: Vector(-3, 2, 0))
+        let plane = Plane(unchecked: .z, pointOnPlane: Position(-3, 2, 0))
         let expected = Position(1, 5, 0)
         XCTAssertEqual(expected, plane.intersection(with: line))
     }
@@ -192,7 +192,7 @@ class PlaneTests: XCTestCase {
 
     func testIntersectionWithSkewedLine() {
         let line = Line(origin: Position(8, 8, 10), direction: Direction(1, 1, 1))
-        let plane = Plane(unchecked: .z, pointOnPlane: Vector(5, -7, 2))
+        let plane = Plane(unchecked: .z, pointOnPlane: Position(5, -7, 2))
         let expected = Position(0, 0, 2)
         XCTAssertEqual(expected, plane.intersection(with: line))
     }

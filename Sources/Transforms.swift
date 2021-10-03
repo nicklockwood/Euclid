@@ -276,7 +276,7 @@ internal extension Collection where Element == Polygon {
 
 public extension Vertex {
     func translated(by v: Distance) -> Vertex {
-        Vertex(position + Vector(v), normal, texcoord)
+        Vertex(position + v, normal, texcoord)
     }
 
     @_disfavoredOverload
@@ -298,7 +298,7 @@ public extension Vertex {
     }
 
     func scaled(by f: Double) -> Vertex {
-        Vertex(position * f, normal, texcoord)
+        Vertex(position.scaled(by: f), normal, texcoord)
     }
 
     func transformed(by t: Transform) -> Vertex {
@@ -537,7 +537,7 @@ public extension Path {
 
 public extension Plane {
     func translated(by v: Distance) -> Plane {
-        Plane(unchecked: normal, pointOnPlane: Vector(v + w * normal))
+        Plane(unchecked: normal, pointOnPlane: Position(v + w * normal))
     }
 
     @_disfavoredOverload
@@ -551,8 +551,8 @@ public extension Plane {
 
     func scaled(by v: Distance) -> Plane {
         let vn = Distance(1 / v.x, 1 / v.y, 1 / v.z)
-        let p = (w * normal).scaled(by: v)
-        return Plane(unchecked: normal.scaled(by: vn), pointOnPlane: Vector(p))
+        let p = Position((w * normal).scaled(by: v))
+        return Plane(unchecked: normal.scaled(by: vn), pointOnPlane: p)
     }
 
     func scaled(by f: Double) -> Plane {

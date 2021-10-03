@@ -84,7 +84,7 @@ extension Polygon: Codable {
     }
 
     public func encode(to encoder: Encoder) throws {
-        let positions = vertices.map { Position($0.position) }
+        let positions = vertices.map { $0.position }
         if material == nil, plane == Plane(unchecked: positions, convex: isConvex) {
             if vertices.allSatisfy({ $0.texcoord == .zero && $0.normal == plane.normal }) {
                 try positions.encode(to: encoder)
@@ -107,7 +107,7 @@ public extension Polygon {
     /// Public properties
     var vertices: [Vertex] { storage.vertices }
     var plane: Plane { storage.plane }
-    var bounds: Bounds { Bounds(points: vertices.map { Position($0.position) }) }
+    var bounds: Bounds { Bounds(points: vertices.map { $0.position }) }
     var isConvex: Bool { storage.isConvex }
     var material: Material? {
         get { storage.material }
@@ -126,16 +126,16 @@ public extension Polygon {
     }
 
     /// Does polygon include texture coordinates?
-    var hasTexcoords: Bool {
+    var hasTextureCoordinates: Bool {
         vertices.contains(where: { $0.texcoord != .zero })
     }
 
     /// Returns a set of polygon edges
     /// The direction of each edge is normalized relative to the origin to facilitate edge-equality comparisons
     var undirectedEdges: Set<LineSegment> {
-        var p0 = Position(vertices.last!.position)
+        var p0 = vertices.last!.position
         return Set(vertices.map {
-            let p1 = Position($0.position)
+            let p1 = $0.position
             defer { p0 = p1 }
             return p0 < p1 ? LineSegment(unchecked: p0, p1) : LineSegment(unchecked: p1, p0)
         })
@@ -152,7 +152,7 @@ public extension Polygon {
     /// Polygon can be convex or concave, but vertices must be coplanar and non-degenerate
     /// Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
     init?(_ vertices: [Vertex], material: Material? = nil) {
-        let positions = vertices.map { Position($0.position) }
+        let positions = vertices.map { $0.position }
         let isConvex = pointsAreConvex(positions)
         guard !pointsAreSelfIntersecting(positions),
               // Note: Plane init includes check for degeneracy
@@ -171,19 +171,19 @@ public extension Polygon {
 
     /// Create a polygon from a set of vertex positions
     /// Vertex normals will be set to match face normal
-    init?(_ vertices: [Vector], material: Material? = nil) {
+    init?(_ vertices: [Position], material: Material? = nil) {
         self.init(vertices.map { Vertex($0) }, material: material)
     }
 
     /// Test if point lies inside the polygon
-    func containsPoint(_ p: Vector) -> Bool {
-        guard plane.containsPoint(Position(p)) else {
+    func containsPoint(_ p: Position) -> Bool {
+        guard plane.containsPoint(p) else {
             return false
         }
         // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
         let flatteningPlane = FlatteningPlane(normal: plane.normal)
-        let points = vertices.map { flatteningPlane.flattenPoint(Position($0.position)) }
-        let p = flatteningPlane.flattenPoint(Position(p))
+        let points = vertices.map { flatteningPlane.flattenPoint($0.position) }
+        let p = flatteningPlane.flattenPoint(p)
         let count = points.count
         var c = false
         var j = count - 1
@@ -383,7 +383,7 @@ internal extension Polygon {
         id: Int = 0
     ) {
         assert(!verticesAreDegenerate(vertices))
-        let points = vertices.map { Position($0.position) }
+        let points = vertices.map { $0.position }
         assert(isConvex == nil || pointsAreConvex(points) == isConvex)
         assert(sanitizeNormals || vertices.allSatisfy { $0.normal != .zero })
         let plane = plane ?? Plane(unchecked: points, convex: isConvex)
@@ -448,8 +448,8 @@ internal extension Polygon {
         // can the merged points be removed?
         func testPoint(_ index: Int) {
             let prev = (index == 0) ? result.count - 1 : index - 1
-            let va = (result[index].position - result[prev].position).normalized()
-            let vb = (result[(index + 1) % result.count].position - result[index].position).normalized()
+            let va = (result[index].position - result[prev].position).direction
+            let vb = (result[(index + 1) % result.count].position - result[index].position).direction
             // check if point is redundant
             if abs(va.dot(vb) - 1) < epsilon {
                 // TODO: should we check that normal and uv ~= slerp of values either side?
@@ -485,7 +485,7 @@ internal extension Polygon {
         var p0 = vertices.last!.position
         for v1 in vertices {
             let p1 = v1.position
-            let tangent = Direction(p1 - p0)
+            let tangent = (p1 - p0).direction
             let normal = tangent.cross(plane.normal)
             guard let plane = Plane(normal: normal, pointOnPlane: p0) else {
                 assertionFailure()
@@ -605,7 +605,7 @@ internal extension Polygon {
             }
             let tj = vj.position.compare(with: plane)
             if ti.rawValue | tj.rawValue == PlaneComparison.spanning.rawValue {
-                let t = (plane.w - Distance(vi.position).dot(plane.normal)) / Distance(vj.position - vi.position)
+                let t = (plane.w - vi.position.distance.dot(plane.normal)) / (vj.position - vi.position)
                     .dot(plane.normal)
                 let v = vi.lerp(vj, t)
                 if f.last?.position != v.position, f.first?.position != v.position {

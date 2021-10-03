@@ -31,7 +31,7 @@
 
 /// A polygon vertex
 public struct Vertex: Hashable {
-    public var position: Vector {
+    public var position: Position {
         didSet { position = position.quantized() }
     }
 
@@ -40,7 +40,7 @@ public struct Vertex: Hashable {
     public var texcoord: Vector
 
     public init(
-        _ position: Vector,
+        _ position: Position,
         _ normal: Direction? = nil,
         _ texcoord: Vector? = nil
     ) {
@@ -54,23 +54,23 @@ public struct Vertex: Hashable {
     public init?(_ values: [Double]) {
         switch values.count {
         case 2:
-            self.init(Vector(values[0], values[1]))
+            self.init(Position(values[0], values[1]))
         case 3:
-            self.init(Vector(values[0], values[1], values[2]))
+            self.init(Position(values[0], values[1], values[2]))
         case 6:
             self.init(
-                Vector(values[0], values[1], values[2]),
+                Position(values[0], values[1], values[2]),
                 Direction(x: values[3], y: values[4], z: values[5])
             )
         case 8:
             self.init(
-                Vector(values[0], values[1], values[2]),
+                Position(values[0], values[1], values[2]),
                 Direction(x: values[3], y: values[4], z: values[5]),
                 Vector(values[6], values[7])
             )
         case 9:
             self.init(
-                Vector(values[0], values[1], values[2]),
+                Position(values[0], values[1], values[2]),
                 Direction(x: values[3], y: values[4], z: values[5]),
                 Vector(values[6], values[7], values[8])
             )
@@ -88,7 +88,7 @@ extension Vertex: Codable {
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             try self.init(
-                container.decode(Vector.self, forKey: .position),
+                container.decode(Position.self, forKey: .position),
                 container.decodeIfPresent(Direction.self, forKey: .normal),
                 container.decodeIfPresent(Vector.self, forKey: .texcoord)
             )
@@ -135,7 +135,7 @@ public extension Vertex {
 }
 
 internal extension Vertex {
-    init(unchecked position: Vector, _ normal: Direction, _ texcoord: Vector = .zero) {
+    init(unchecked position: Position, _ normal: Direction, _ texcoord: Vector = .zero) {
         self.position = position.quantized()
         self.normal = normal
         self.texcoord = texcoord
