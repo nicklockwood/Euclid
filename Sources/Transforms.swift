@@ -82,7 +82,7 @@ public extension Transform {
     mutating func rotate(by r: Rotation) {
         rotation *= r
     }
-    
+
     mutating func scale(by v: Distance) {
         scale = scale.scaled(by: v)
     }
@@ -196,7 +196,8 @@ public extension Polygon {
         let v = Distance(
             v.x < 0 ? min(v.x, -limit) : max(v.x, limit),
             v.y < 0 ? min(v.y, -limit) : max(v.y, limit),
-            v.z < 0 ? min(v.z, -limit) : max(v.z, limit))
+            v.z < 0 ? min(v.z, -limit) : max(v.z, limit)
+        )
 
         var flipped = v.x < 0
         if v.y < 0 { flipped = !flipped }

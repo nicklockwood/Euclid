@@ -139,7 +139,7 @@ public extension CartesianComponentsRepresentable {
             z: z * f
         )
     }
-    
+
     var absolute: Self {
         Self(abs(x), abs(y), abs(z))
     }
