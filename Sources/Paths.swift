@@ -319,18 +319,16 @@ public extension Path {
         if hasTexcoords {
             return vertices
         }
-        var min = Vector(.infinity, .infinity)
-        var max = Vector(-.infinity, -.infinity)
+        var min = Position(.infinity, .infinity)
+        var max = Position(-.infinity, -.infinity)
         let flatteningPlane = FlatteningPlane(normal: faceNormal)
         vertices = vertices.map {
             let uv = flatteningPlane.flattenPoint($0.position)
-            min.x = Swift.min(min.x, uv.x)
-            min.y = Swift.min(min.y, uv.y)
-            max.x = Swift.max(max.x, uv.x)
-            max.y = Swift.max(max.y, uv.y)
+            min = Position.min(min, uv)
+            max = Position.max(max, uv)
             return Vertex(unchecked: $0.position, $0.normal, uv)
         }
-        let uvScale = Vector(max.x - min.x, max.y - min.y)
+        let uvScale = Distance(max.x - min.x, max.y - min.y)
         return vertices.map {
             let uv = Position(
                 ($0.texcoord.x - min.x) / uvScale.x,
