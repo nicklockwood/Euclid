@@ -34,32 +34,6 @@ class CodingTests: XCTestCase {
         XCTAssertEqual(try decode("{\"degrees\": 180}"), Angle.pi)
     }
 
-    // MARK: Vector
-
-    func testDecodingVector3() {
-        XCTAssertEqual(try decode("[1, 2, 3]"), Position(1, 2, 3))
-    }
-
-    func testDecodingVector2() {
-        XCTAssertEqual(try decode("[1, 2]"), Position(1, 2, 0))
-    }
-
-    func testDecodingKeyedVector() {
-        XCTAssertEqual(try decode("{\"z\": 1}"), Position(0, 0, 1))
-    }
-
-    func testDecodingInvalidVectors() {
-        XCTAssertThrowsError(try decode("[1]") as Vector)
-    }
-
-    func testEncodingVector3() {
-        XCTAssertEqual(try encode(Vector(1, 2, 3)), "[1,2,3]")
-    }
-
-    func testEncodingVector2() {
-        XCTAssertEqual(try encode(Vector(1, 2, 0)), "[1,2]")
-    }
-
     // MARK: Position
 
     func testDecodingPosition3() {
