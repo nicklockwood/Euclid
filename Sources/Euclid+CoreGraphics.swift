@@ -168,9 +168,9 @@ public extension CGPath {
             @unknown default:
                 return
             }
-            let d0 = Vector(Double(p1.x - p0.x), Double(p1.y - p0.y)).normalized()
-            let d1 = Vector(Double(p2.x - p1.x), Double(p2.y - p1.y)).normalized()
-            let isTangent = abs(d0.dot(d1)) > 0.99
+            let d0 = Direction(x: Double(p1.x - p0.x), y: Double(p1.y - p0.y))
+            let d1 = Direction(x: Double(p2.x - p1.x), y: Double(p2.y - p1.y))
+            let isTangent = d0.isColinear(to: d1)
             points[points.count - 1].isCurved = isTangent
         }
         enumerateElements {
