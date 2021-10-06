@@ -118,9 +118,9 @@ public extension Path {
             }
 
             return steps.map {
-                var texcoord: Vector?
+                var texcoord: Position?
                 if let t0 = p0.texcoord, let t1 = p1.texcoord, let t2 = p2.texcoord {
-                    texcoord = Vector(
+                    texcoord = Position(
                         quadraticBezier(t0.x, t1.x, t2.x, $0),
                         quadraticBezier(t0.y, t1.y, t2.y, $0),
                         quadraticBezier(t0.z, t1.z, t2.z, $0)
@@ -243,7 +243,7 @@ public extension Mesh {
                         i & 2 > 0 ? 0.5 : -0.5,
                         i & 4 > 0 ? 0.5 : -0.5
                     ))
-                    let uv = Vector(
+                    let uv = Position(
                         (1 ... 2).contains(index) ? 1 : 0,
                         (0 ... 1).contains(index) ? 1 : 0
                     )
@@ -738,19 +738,19 @@ private extension Mesh {
                         let v0 = Vertex(
                             unchecked: v0.position,
                             Direction(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                            Vector(v0.texcoord.x + (t0 + t1) / 2, v0.texcoord.y, 0)
+                            Position(v0.texcoord.x + (t0 + t1) / 2, v0.texcoord.y, 0)
                         )
                         let v2 = Vertex(
                             unchecked:
                             Position(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
                             Direction(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                            Vector(v1.texcoord.x + t0, v1.texcoord.y, 0)
+                            Position(v1.texcoord.x + t0, v1.texcoord.y, 0)
                         )
                         let v3 = Vertex(
                             unchecked:
                             Position(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
                             Direction(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
-                            Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
+                            Position(v1.texcoord.x + t1, v1.texcoord.y, 0)
                         )
                         polygons.append(Polygon(
                             unchecked: [v0, v2, v3],
@@ -764,19 +764,19 @@ private extension Mesh {
                     let v1 = Vertex(
                         unchecked: v1.position,
                         Direction(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                        Vector(v1.texcoord.x + (t0 + t1) / 2, v1.texcoord.y, 0)
+                        Position(v1.texcoord.x + (t0 + t1) / 2, v1.texcoord.y, 0)
                     )
                     let v2 = Vertex(
                         unchecked:
                         Position(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
                         Direction(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0)
+                        Position(v0.texcoord.x + t1, v0.texcoord.y, 0)
                     )
                     let v3 = Vertex(
                         unchecked:
                         Position(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
                         Direction(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
+                        Position(v0.texcoord.x + t0, v0.texcoord.y, 0)
                     )
                     polygons.append(Polygon(
                         unchecked: [v2, v3, v1],
@@ -790,25 +790,25 @@ private extension Mesh {
                         unchecked:
                         Position(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
                         Direction(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0)
+                        Position(v0.texcoord.x + t1, v0.texcoord.y, 0)
                     )
                     let v3 = Vertex(
                         unchecked:
                         Position(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
                         Direction(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
+                        Position(v0.texcoord.x + t0, v0.texcoord.y, 0)
                     )
                     let v4 = Vertex(
                         unchecked:
                         Position(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
                         Direction(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                        Vector(v1.texcoord.x + t0, v1.texcoord.y, 0)
+                        Position(v1.texcoord.x + t0, v1.texcoord.y, 0)
                     )
                     let v5 = Vertex(
                         unchecked:
                         Position(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
                         Direction(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
-                        Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
+                        Position(v1.texcoord.x + t1, v1.texcoord.y, 0)
                     )
                     let vertices = [v2, v3, v4, v5]
                     if !verticesAreDegenerate(vertices) {
@@ -984,10 +984,10 @@ private extension Mesh {
         // TODO: better handling of case where e0 and e1 counts don't match
         for j in stride(from: 0, to: min(e0.count, e1.count), by: 2) {
             var vertices = [e0[j], e0[j + 1], e1[j + 1], e1[j]]
-            vertices[0].texcoord = Vector(vertices[0].texcoord.y, uvstart)
-            vertices[1].texcoord = Vector(vertices[1].texcoord.y, uvstart)
-            vertices[2].texcoord = Vector(vertices[2].texcoord.y, uvend)
-            vertices[3].texcoord = Vector(vertices[3].texcoord.y, uvend)
+            vertices[0].texcoord = Position(vertices[0].texcoord.y, uvstart)
+            vertices[1].texcoord = Position(vertices[1].texcoord.y, uvstart)
+            vertices[2].texcoord = Position(vertices[2].texcoord.y, uvend)
+            vertices[3].texcoord = Position(vertices[3].texcoord.y, uvend)
             if vertices[0].position == vertices[1].position {
                 vertices.remove(at: 0)
             } else if vertices[2].position == vertices[3].position {

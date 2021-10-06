@@ -84,7 +84,7 @@ extension LineSegment: Codable {
 
 public extension LineSegment {
     var direction: Direction {
-        Direction(Vector(end - start))
+        (end - start).direction
     }
 
     /// Check if point is on line segment

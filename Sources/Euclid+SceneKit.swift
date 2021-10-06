@@ -292,8 +292,8 @@ public extension SCNGeometry {
     convenience init<T: Collection>(_ edges: T) where T.Element == LineSegment {
         var indexData = Data()
         var vertexData = Data()
-        var indicesByVertex = [Vector: UInt32]()
-        func addVertex(_ vertex: Vector) {
+        var indicesByVertex = [Position: UInt32]()
+        func addVertex(_ vertex: Position) {
             if let index = indicesByVertex[vertex] {
                 indexData.append(index)
                 return
@@ -304,8 +304,8 @@ public extension SCNGeometry {
             vertexData.append(vertex)
         }
         for edge in edges {
-            addVertex(Vector(edge.start))
-            addVertex(Vector(edge.end))
+            addVertex(edge.start)
+            addVertex(edge.end)
         }
         self.init(
             sources: [
@@ -582,7 +582,7 @@ public extension Mesh {
                 }
             case .texcoord:
                 for i in 0 ..< count {
-                    vertices[i].texcoord = Vector(
+                    vertices[i].texcoord = Position(
                         data.float(at: offset),
                         data.float(at: offset + 4)
                     )

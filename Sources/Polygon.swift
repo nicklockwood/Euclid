@@ -86,7 +86,7 @@ extension Polygon: Codable {
     public func encode(to encoder: Encoder) throws {
         let positions = vertices.map { $0.position }
         if material == nil, plane == Plane(unchecked: positions, convex: isConvex) {
-            if vertices.allSatisfy({ $0.texcoord == .zero && $0.normal == plane.normal }) {
+            if vertices.allSatisfy({ $0.texcoord == .origin && $0.normal == plane.normal }) {
                 try positions.encode(to: encoder)
             } else {
                 try vertices.encode(to: encoder)
@@ -127,7 +127,7 @@ public extension Polygon {
 
     /// Does polygon include texture coordinates?
     var hasTextureCoordinates: Bool {
-        vertices.contains(where: { $0.texcoord != .zero })
+        vertices.contains(where: { $0.texcoord != .origin })
     }
 
     /// Returns a set of polygon edges

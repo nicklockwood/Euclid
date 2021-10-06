@@ -326,10 +326,10 @@ public extension Mesh {
             }
             let rect = Polygon(
                 unchecked: [
-                    Vertex(Position(-radius, radius, 0), -normal, .zero),
-                    Vertex(Position(radius, radius, 0), -normal, Vector(1, 0, 0)),
-                    Vertex(Position(radius, -radius, 0), -normal, Vector(1, 1, 0)),
-                    Vertex(Position(-radius, -radius, 0), -normal, Vector(0, 1, 0)),
+                    Vertex(Position(-radius, radius, 0), -normal, .origin),
+                    Vertex(Position(radius, radius, 0), -normal, Position(1, 0, 0)),
+                    Vertex(Position(radius, -radius, 0), -normal, Position(1, 1, 0)),
+                    Vertex(Position(-radius, -radius, 0), -normal, Position(0, 1, 0)),
                 ],
                 normal: -normal,
                 isConvex: true,
