@@ -52,6 +52,12 @@ extension Quaternion: Codable {
 }
 
 public extension Quaternion {
+    init<T: CartesianComponentsRepresentable>(_ cartesian: T) {
+        self.init(cartesian.x, cartesian.y, cartesian.z, 0)
+    }
+}
+
+public extension Quaternion {
     static let zero = Quaternion(0, 0, 0, 0)
     static let identity = Quaternion(0, 0, 0, 1)
 
@@ -168,6 +174,10 @@ public extension Quaternion {
         Quaternion(-q.x, -q.y, -q.z, q.w)
     }
 
+    func conjugate() -> Quaternion {
+        -self
+    }
+
     static func + (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
         Quaternion(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w)
     }
@@ -195,14 +205,6 @@ public extension Quaternion {
 
     static func *= (lhs: inout Quaternion, rhs: Quaternion) {
         lhs = lhs * rhs
-    }
-
-    static func * <T: CartesianComponentsRepresentable>(lhs: T, rhs: Quaternion) -> T {
-        let v = Vector(lhs)
-        let qv = Vector(rhs.x, rhs.y, rhs.z)
-        let uv = qv.cross(v)
-        let uuv = qv.cross(uv)
-        return T(v + (uv * 2 * rhs.w) + (uuv * 2))
     }
 
     static func * (lhs: Quaternion, rhs: Double) -> Quaternion {
