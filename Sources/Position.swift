@@ -80,9 +80,9 @@ public extension Position {
     }
 
     /// The nearest point to this point on the specified plane
-    func project(onto plane: Plane) -> Vector {
+    func project(onto plane: Plane) -> Position {
         let position = self - distance(from: plane) * plane.normal
-        return Vector(position)
+        return position
     }
 
     /// Distance of the point from a line in 3D

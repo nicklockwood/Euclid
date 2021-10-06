@@ -100,7 +100,7 @@ public extension Mesh {
     func translated(by v: Distance) -> Mesh {
         Mesh(
             unchecked: polygons.translated(by: v),
-            bounds: boundsIfSet?.translated(by: Vector(v)),
+            bounds: boundsIfSet?.translated(by: v),
             isConvex: isConvex
         )
     }
@@ -570,8 +570,8 @@ public extension Plane {
 }
 
 public extension Bounds {
-    func translated(by v: Vector) -> Bounds {
-        Bounds(min: min + Distance(v), max: max + Distance(v))
+    func translated(by v: Distance) -> Bounds {
+        Bounds(min: min + v, max: max + v)
     }
 
     @_disfavoredOverload

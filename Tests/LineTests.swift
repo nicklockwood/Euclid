@@ -10,7 +10,7 @@
 import XCTest
 
 class LineTests: XCTestCase {
-    // MARK: Vector distance
+    // MARK: Distance
 
     func testDistanceFromPointSimple() {
         let l = Line(origin: .origin, direction: .x)

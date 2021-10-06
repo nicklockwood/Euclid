@@ -100,11 +100,6 @@ public extension Plane {
     }
 
     /// Checks if point is on plane
-    func containsPoint(_ p: Vector) -> Bool {
-        containsPoint(Position(p))
-    }
-
-    /// Checks if point is on plane
     func containsPoint(_ p: Position) -> Bool {
         abs(p.distance(from: self)) < epsilon
     }
@@ -112,8 +107,8 @@ public extension Plane {
     /// Distance of the point from a plane
     /// A positive value is returned if the point lies in front of the plane
     /// A negative value is returned if the point lies behind the plane
-    func distance(from p: Vector) -> Double {
-        Distance(p.x, p.y, p.z).dot(normal) - w
+    func distance(from p: Position) -> Double {
+        p.distance.dot(normal) - w
     }
 
     /// Returns line of intersection between planes

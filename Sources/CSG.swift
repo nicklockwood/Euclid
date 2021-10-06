@@ -311,7 +311,7 @@ public extension Mesh {
             var radius = 0.0
             for corner in mesh.bounds.corners {
                 let p = corner.project(onto: plane)
-                radius = max(radius, p.lengthSquared)
+                radius = max(radius, p.norm)
             }
             radius = radius.squareRoot()
             // Create back face
