@@ -37,7 +37,7 @@ public extension SCNVector3 {
     init(_ v: Vector) {
         self.init(v.x, v.y, v.z)
     }
-    
+
     init<T: CartesianComponentsRepresentable>(_ cartesian: T) {
         self.init(cartesian.x, cartesian.y, cartesian.z)
     }

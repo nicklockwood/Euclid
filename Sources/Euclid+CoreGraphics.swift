@@ -66,7 +66,7 @@ public extension CGPoint {
     init(_ position: Position) {
         self.init(x: position.x, y: position.y)
     }
-    
+
     init(_ distance: Distance) {
         self.init(x: distance.x, y: distance.y)
     }
