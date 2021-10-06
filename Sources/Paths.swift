@@ -34,7 +34,7 @@ import Foundation
 /// A control point on a path. Can represent a corner or a curve.
 public struct PathPoint: Hashable {
     public var position: Position
-    public var texcoord: Vector?
+    public var texcoord: Position?
     public var isCurved: Bool
 }
 
@@ -59,30 +59,30 @@ extension PathPoint: Codable {
                 self.init(Position(x, y, zOrU), texcoord: nil, isCurved: isCurved)
             } else {
                 let v = try container.decode(Double.self)
-                self.init(Position(x, y), texcoord: Vector(zOrU, v), isCurved: false)
+                self.init(Position(x, y), texcoord: Position(zOrU, v), isCurved: false)
             }
         case 5:
             let zOrU = try container.decode(Double.self)
             let uOrV = try container.decode(Double.self)
             if let isCurved = try? container.decodeIfPresent(Bool.self) {
-                self.init(Position(x, y), texcoord: Vector(zOrU, uOrV), isCurved: isCurved)
+                self.init(Position(x, y), texcoord: Position(zOrU, uOrV), isCurved: isCurved)
             } else {
                 let v = try container.decode(Double.self)
-                self.init(Position(x, y, zOrU), texcoord: Vector(uOrV, v), isCurved: false)
+                self.init(Position(x, y, zOrU), texcoord: Position(uOrV, v), isCurved: false)
             }
         case 6:
             let z = try container.decode(Double.self)
             let u = try container.decode(Double.self)
             let v = try container.decode(Double.self)
             if let isCurved = try? container.decode(Bool.self) {
-                self.init(Position(x, y, z), texcoord: Vector(u, v), isCurved: isCurved)
+                self.init(Position(x, y, z), texcoord: Position(u, v), isCurved: isCurved)
             } else {
                 let w = try container.decode(Double.self)
-                self.init(Position(x, y, z), texcoord: Vector(u, v, w), isCurved: false)
+                self.init(Position(x, y, z), texcoord: Position(u, v, w), isCurved: false)
             }
         case 7:
             let z = try container.decode(Double.self)
-            let texcoord = try Vector(from: &container)
+            let texcoord = try Position(from: &container)
             let isCurved = try container.decode(Bool.self)
             self.init(Position(x, y, z), texcoord: texcoord, isCurved: isCurved)
         default:
@@ -105,7 +105,7 @@ extension PathPoint: Codable {
 }
 
 public extension PathPoint {
-    static func point(_ position: Position, texcoord: Vector? = nil) -> PathPoint {
+    static func point(_ position: Position, texcoord: Position? = nil) -> PathPoint {
         PathPoint(position, texcoord: texcoord, isCurved: false)
     }
 
@@ -113,7 +113,7 @@ public extension PathPoint {
         .point(Position(x, y, z))
     }
 
-    static func curve(_ position: Position, texcoord: Vector? = nil) -> PathPoint {
+    static func curve(_ position: Position, texcoord: Position? = nil) -> PathPoint {
         PathPoint(position, texcoord: texcoord, isCurved: true)
     }
 
@@ -121,14 +121,14 @@ public extension PathPoint {
         .curve(Position(x, y, z))
     }
 
-    init(_ position: Position, texcoord: Vector?, isCurved: Bool) {
+    init(_ position: Position, texcoord: Position?, isCurved: Bool) {
         self.position = position.quantized()
         self.texcoord = texcoord
         self.isCurved = isCurved
     }
 
     func lerp(_ other: PathPoint, _ t: Double) -> PathPoint {
-        let texcoord: Vector?
+        let texcoord: Position?
         switch (self.texcoord, other.texcoord) {
         case let (lhs?, rhs?):
             texcoord = lhs.lerp(rhs, t)
@@ -310,7 +310,7 @@ public extension Path {
                 [p0.position, p1.position, points[i + 1].position],
                 convex: true
             )
-            vertices.append(Vertex(unchecked: p1.position, normal, texcoord ?? .zero))
+            vertices.append(Vertex(unchecked: p1.position, normal, texcoord ?? .origin))
             p0 = p1
         }
         guard !verticesAreDegenerate(vertices) else {
@@ -328,11 +328,11 @@ public extension Path {
             min.y = Swift.min(min.y, uv.y)
             max.x = Swift.max(max.x, uv.x)
             max.y = Swift.max(max.y, uv.y)
-            return Vertex(unchecked: $0.position, $0.normal, Vector(uv))
+            return Vertex(unchecked: $0.position, $0.normal, uv)
         }
         let uvScale = Vector(max.x - min.x, max.y - min.y)
         return vertices.map {
-            let uv = Vector(
+            let uv = Position(
                 ($0.texcoord.x - min.x) / uvScale.x,
                 1 - ($0.texcoord.y - min.y) / uvScale.y,
                 0
@@ -402,7 +402,7 @@ public extension Path {
             p1p2 = p2.position - p1.position
             let n0 = n1 ?? p0p1.direction.cross(faceNormal)
             n1 = p1p2.direction.cross(faceNormal)
-            let uv = Vector(0, v, 0)
+            let uv = Position(0, v, 0)
             switch wrapMode {
             case .shrink, .default:
                 v += p1p2.norm / totalLength
@@ -420,7 +420,7 @@ public extension Path {
         }
         var first = vertices.removeFirst()
         if isClosed {
-            first.texcoord = Vector(0, v, 0)
+            first.texcoord = Position(0, v, 0)
             vertices.append(first)
         } else {
             vertices.removeLast()

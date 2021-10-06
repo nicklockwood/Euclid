@@ -37,17 +37,17 @@ public struct Vertex: Hashable {
 
     public var normal: Direction
 
-    public var texcoord: Vector
+    public var texcoord: Position
 
     public init(
         _ position: Position,
         _ normal: Direction? = nil,
-        _ texcoord: Vector? = nil
+        _ texcoord: Position? = nil
     ) {
         self.init(
             unchecked: position,
             normal ?? .zero,
-            texcoord ?? .zero
+            texcoord ?? .origin
         )
     }
 
@@ -66,13 +66,13 @@ public struct Vertex: Hashable {
             self.init(
                 Position(values[0], values[1], values[2]),
                 Direction(x: values[3], y: values[4], z: values[5]),
-                Vector(values[6], values[7])
+                Position(values[6], values[7])
             )
         case 9:
             self.init(
                 Position(values[0], values[1], values[2]),
                 Direction(x: values[3], y: values[4], z: values[5]),
-                Vector(values[6], values[7], values[8])
+                Position(values[6], values[7], values[8])
             )
         default:
             return nil
@@ -90,7 +90,7 @@ extension Vertex: Codable {
             try self.init(
                 container.decode(Position.self, forKey: .position),
                 container.decodeIfPresent(Direction.self, forKey: .normal),
-                container.decodeIfPresent(Vector.self, forKey: .texcoord)
+                container.decodeIfPresent(Position.self, forKey: .texcoord)
             )
         } else {
             let container = try decoder.singleValueContainer()
@@ -107,7 +107,7 @@ extension Vertex: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        let hasTexcoord = texcoord != .zero
+        let hasTexcoord = texcoord != .origin
         let hasNormal = hasTexcoord || normal != .zero
         let skipZ = !hasNormal && position.z == 0
         try position.encode(to: &container, skipZ: skipZ)
@@ -135,7 +135,7 @@ public extension Vertex {
 }
 
 internal extension Vertex {
-    init(unchecked position: Position, _ normal: Direction, _ texcoord: Vector = .zero) {
+    init(unchecked position: Position, _ normal: Direction, _ texcoord: Position = .origin) {
         self.position = position.quantized()
         self.normal = normal
         self.texcoord = texcoord
