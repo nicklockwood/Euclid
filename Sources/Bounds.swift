@@ -115,8 +115,8 @@ public extension Bounds {
 
     var center: Position {
         hasNegativeVolume
-        ? .origin
-        : min + Distance(size) / 2
+            ? .origin
+            : min + Distance(size) / 2
     }
 
     var corners: [Position] {

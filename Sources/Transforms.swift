@@ -402,8 +402,12 @@ public extension CartesianComponentsRepresentable {
         self * r
     }
 
+    // https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Using_quaternions_as_rotations
+    // https://en.wikipedia.org/wiki/Quaternion#Conjugation,_the_norm,_and_reciprocal
     func rotated(by q: Quaternion) -> Self {
-        self * q
+        let p = Quaternion(self)
+        let result = q * p * q.conjugate()
+        return Self(result.x, result.y, result.z)
     }
 }
 
