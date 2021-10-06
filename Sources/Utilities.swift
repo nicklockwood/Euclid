@@ -209,8 +209,6 @@ func triangulateVertices(
     return triangles
 }
 
-// MARK: Vector utilities
-
 func rotationBetweenDirections(_ d0: Direction, _ d1: Direction) -> Rotation {
     if d0.isColinear(to: d1) {
         return .identity
