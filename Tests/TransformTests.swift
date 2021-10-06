@@ -14,23 +14,23 @@ class TransformTests: XCTestCase {
 
     func testAxisAngleRotation1() {
         let r = Rotation(axis: .z, angle: .halfPi)
-        let v = Vector(0, 0.5, 0)
+        let v = Position(0, 0.5, 0)
         let u = v.rotated(by: r)
-        XCTAssertEqual(u.quantized(), Vector(0.5, 0, 0))
+        XCTAssertEqual(u.quantized(), Position(0.5, 0, 0))
     }
 
     func testAxisAngleRotation2() {
         let r = Rotation(axis: .z, angle: .halfPi)
-        let v = Vector(0.5, 0, 0)
+        let v = Position(0.5, 0, 0)
         let u = v.rotated(by: r)
-        XCTAssertEqual(u.quantized(), Vector(0, -0.5, 0))
+        XCTAssertEqual(u.quantized(), Position(0, -0.5, 0))
     }
 
     func testAxisAngleRotation3() {
         let r = Rotation(axis: .z, angle: .halfPi)
-        let v = Vector(0, 0, 0.5)
+        let v = Position(0, 0, 0.5)
         let u = v.rotated(by: r)
-        XCTAssertEqual(u.quantized(), Vector(0, 0, 0.5))
+        XCTAssertEqual(u.quantized(), Position(0, 0, 0.5))
     }
 
     func testPitchRotation() {
@@ -39,7 +39,7 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(r.pitch.radians, .pi / 2, accuracy: epsilon)
         XCTAssertEqual(r.roll, .zero)
         XCTAssertEqual(r.yaw, .zero)
-        let v = Vector(0, 0.5, 0), u = Vector(0, 0, -0.5)
+        let v = Position(0, 0.5, 0), u = Position(0, 0, -0.5)
         XCTAssertEqual(v.rotated(by: r).quantized(), u)
     }
 
@@ -50,7 +50,7 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(r.yaw, .halfPi)
         XCTAssertEqual(r.pitch, .zero)
         XCTAssertEqual(r.roll, .zero)
-        let v = Vector(0.5, 0, 0), u = Vector(0, 0, 0.5)
+        let v = Position(0.5, 0, 0), u = Position(0, 0, 0.5)
         XCTAssertEqual(v.rotated(by: r).quantized(), u)
     }
 
@@ -60,7 +60,7 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(r.roll.radians, .pi / 2, accuracy: epsilon)
         XCTAssertEqual(r.pitch, .zero)
         XCTAssertEqual(r.yaw, .zero)
-        let v = Vector(0, 0.5, 0), u = Vector(0.5, 0, 0)
+        let v = Position(0, 0.5, 0), u = Position(0.5, 0, 0)
         XCTAssertEqual(v.rotated(by: r).quantized(), u)
     }
 
@@ -89,23 +89,23 @@ class TransformTests: XCTestCase {
 
     func testAxisAngleQuaternion1() {
         let q = Quaternion(axis: .z, angle: .halfPi)
-        let v = Vector(0, 0.5, 0)
+        let v = Position(0, 0.5, 0)
         let u = v.rotated(by: Rotation(q))
-        XCTAssertEqual(u.quantized(), Vector(0.5, 0, 0))
+        XCTAssertEqual(u.quantized(), Position(0.5, 0, 0))
     }
 
     func testAxisAngleQuaternion2() {
         let q = Quaternion(axis: .z, angle: .halfPi)
-        let v = Vector(0.5, 0, 0)
+        let v = Position(0.5, 0, 0)
         let u = v.rotated(by: Rotation(q))
-        XCTAssertEqual(u.quantized(), Vector(0, -0.5, 0))
+        XCTAssertEqual(u.quantized(), Position(0, -0.5, 0))
     }
 
     func testAxisAngleQuaternion3() {
         let q = Quaternion(axis: .z, angle: .halfPi)
-        let v = Vector(0, 0, 0.5)
+        let v = Position(0, 0, 0.5)
         let u = v.rotated(by: Rotation(q))
-        XCTAssertEqual(u.quantized(), Vector(0, 0, 0.5))
+        XCTAssertEqual(u.quantized(), Position(0, 0, 0.5))
     }
 
     func testQuaternionFromPitch() {
@@ -113,7 +113,7 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(q.pitch.radians, .pi / 2, accuracy: epsilon)
         XCTAssertEqual(q.yaw, .zero)
         XCTAssertEqual(q.roll, .zero)
-        let v = Vector(0, 0.5, 0), u = Vector(0, 0, -0.5)
+        let v = Position(0, 0.5, 0), u = Position(0, 0, -0.5)
         XCTAssertEqual(v.rotated(by: q).quantized(), u)
     }
 
@@ -122,7 +122,7 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(q.yaw, .halfPi)
         XCTAssertEqual(q.roll, .zero)
         XCTAssertEqual(q.pitch, .zero)
-        let v = Vector(0.5, 0, 0), u = Vector(0, 0, 0.5)
+        let v = Position(0.5, 0, 0), u = Position(0, 0, 0.5)
         XCTAssertEqual(v.rotated(by: q).quantized(), u)
     }
 
@@ -131,7 +131,7 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(q.roll.radians, .pi / 2, accuracy: epsilon)
         XCTAssertEqual(q.yaw, .zero)
         XCTAssertEqual(q.pitch, .zero)
-        let v = Vector(0, 0.5, 0), u = Vector(0.5, 0, 0)
+        let v = Position(0, 0.5, 0), u = Position(0.5, 0, 0)
         XCTAssertEqual(v.rotated(by: q).quantized(), u)
     }
 
@@ -158,12 +158,12 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(q2.pitch.radians, q.pitch.radians, accuracy: epsilon)
     }
 
-    func testQuaternionVectorRotation() {
+    func testQuaternionPositionRotation() {
         let q = Quaternion(pitch: .halfPi)
         let r = Rotation(pitch: .halfPi)
         let r2 = Rotation(q)
         let q2 = Rotation(q)
-        let v = Vector(0, 0.5, 0), u = Vector(0, 0, -0.5)
+        let v = Position(0, 0.5, 0), u = Position(0, 0, -0.5)
         XCTAssertEqual(v.rotated(by: q).quantized(), u)
         XCTAssertEqual(v.rotated(by: q2).quantized(), u)
         XCTAssertEqual(v.rotated(by: r).quantized(), u)
@@ -226,16 +226,16 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(c.scale, Distance(2, 1, 1))
     }
 
-    // MARK: Vector transform
+    // MARK: Position transform
 
-    func testTransformVector() {
-        let v = Vector(1, 1, 1)
+    func testTransformPosition() {
+        let v = Position(1, 1, 1)
         let t = Transform(
             offset: Distance(0.5, 0, 0),
             rotation: .roll(.halfPi),
             scale: Distance(1, 0.1, 0.1)
         )
-        XCTAssertEqual(v.transformed(by: t).quantized(), Vector(0.6, -1.0, 0.1).quantized())
+        XCTAssertEqual(v.transformed(by: t).quantized(), Position(0.6, -1.0, 0.1).quantized())
     }
 
     // MARK: Plane transforms
