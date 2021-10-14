@@ -6,7 +6,7 @@
 //  Copyright © 2021 Nick Lockwood. All rights reserved.
 //
 
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 
 import AppKit
 
