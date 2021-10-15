@@ -65,8 +65,8 @@ extension Plane: Codable {
             self.w = try container.decode(Double.self)
         } else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            normal = try container.decode(Vector.self, forKey: .normal).normalized()
-            w = try container.decode(Double.self, forKey: .w)
+            self.normal = try container.decode(Vector.self, forKey: .normal).normalized()
+            self.w = try container.decode(Double.self, forKey: .w)
         }
     }
 
