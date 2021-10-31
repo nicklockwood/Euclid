@@ -614,6 +614,20 @@ public extension Mesh {
                         polygons.append($0)
                     }
                 }
+            case let type where type.rawValue == 4: // polygon
+                let polyCount = element.primitiveCount
+                var index = polyCount
+                for i in 0 ..< polyCount {
+                    let vertexCount = indexData.index(at: i, bytes: indexSize)
+                    var vertices = [Vertex]()
+                    for _ in 0 ..< vertexCount {
+                        vertices.append(vertex(at: index))
+                        index += 1
+                    }
+                    Polygon(vertices, material: material).map {
+                        polygons.append($0)
+                    }
+                }
             default:
                 // TODO: throw detailed error message instead
                 return nil

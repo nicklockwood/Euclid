@@ -43,7 +43,7 @@ class SceneKitTests: XCTestCase {
         let geometry = try XCTUnwrap(SCNGeometry(
             polygons: cube, materialLookup: nil
         ))
-        XCTAssertNil(Mesh(geometry, materialLookup: nil))
+        XCTAssertNotNil(Mesh(geometry, materialLookup: nil))
     }
 }
 
