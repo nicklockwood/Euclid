@@ -598,7 +598,8 @@ public extension Mesh {
                     }
                 }
             default:
-                break // TODO:
+                // TODO: throw detailed error message instead
+                return nil
             }
         }
         let isConvex: Bool
