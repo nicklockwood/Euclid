@@ -349,7 +349,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1310;
 				ORGANIZATIONNAME = "Nick Lockwood";
 				TargetAttributes = {
 					016FAB2821BFE78100AF60DC = {
@@ -604,7 +604,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -664,7 +664,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -696,7 +696,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.13;
+				MARKETING_VERSION = 0.5.14;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=75";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
@@ -728,7 +728,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.13;
+				MARKETING_VERSION = 0.5.14;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=75";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
