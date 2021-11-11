@@ -71,6 +71,7 @@ extension Mesh: Codable {
             try container.encode(polygons, forKey: .polygons)
         } else {
             try container.encode(materials.map { CodableMaterial($0) }, forKey: .materials)
+            let polygonsByMaterial = self.polygonsByMaterial
             try container.encode(materials.map { material -> [Polygon] in
                 polygonsByMaterial[material]!.map { $0.with(material: nil) }
             }, forKey: .polygons)
@@ -89,13 +90,7 @@ public extension Mesh {
 
     /// Polygons grouped by material
     var polygonsByMaterial: [Material?: [Polygon]] {
-        var polygonsByMaterial = [Material?: [Polygon]]()
-        for material in storage.materials {
-            if polygonsByMaterial[material] == nil {
-                polygonsByMaterial[material] = polygons.filter { $0.material == material }
-            }
-        }
-        return polygonsByMaterial
+        polygons.groupedByMaterial()
     }
 
     /// Returns all unique polygon edges in the mesh

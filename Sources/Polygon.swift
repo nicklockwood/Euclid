@@ -326,6 +326,13 @@ internal extension Collection where Element == Polygon {
     func sortedByPlane() -> [Polygon] {
         sorted(by: { $0.plane < $1.plane })
     }
+
+    /// Group by material
+    func groupedByMaterial() -> [Polygon.Material?: [Polygon]] {
+        var polygonsByMaterial = [Polygon.Material?: [Polygon]]()
+        forEach { polygonsByMaterial[$0.material, default: []].append($0) }
+        return polygonsByMaterial
+    }
 }
 
 internal extension MutableCollection where Element == Polygon, Index == Int {
