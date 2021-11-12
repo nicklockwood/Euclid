@@ -302,7 +302,7 @@ public extension Vertex {
     func scaled(by f: Double) -> Vertex {
         Vertex(position.scaled(by: f), normal, texcoord, color)
     }
-
+    
     func transformed(by t: Transform) -> Vertex {
         scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
     }
