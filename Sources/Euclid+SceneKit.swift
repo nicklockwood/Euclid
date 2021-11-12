@@ -43,6 +43,12 @@ public extension SCNVector3 {
     }
 }
 
+public extension SCNVector4 {
+    init(_ c: Color) {
+        self.init(c.r, c.g, c.b, c.a)
+    }
+}
+
 public extension SCNQuaternion {
     init(_ m: Rotation) {
         let x = sqrt(max(0, 1 + m.m11 - m.m22 - m.m33)) / 2
@@ -120,6 +126,23 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial
         return material
     default:
         return nil
+    }
+}
+
+extension SCNGeometrySource {
+    convenience init(colors: [SCNVector4]) {
+        let data = Data(bytes: colors, count: colors.count * MemoryLayout<SCNVector4>.size)
+
+        self.init(
+            data: data,
+            semantic: .color,
+            vectorCount: colors.count,
+            usesFloatComponents: true,
+            componentsPerVector: 4,
+            bytesPerComponent: MemoryLayout<Float>.size,
+            dataOffset: 0,
+            dataStride: MemoryLayout<SCNVector4>.size
+        )
     }
 }
 
@@ -206,6 +229,54 @@ public extension SCNGeometry {
             }
         )
         self.materials = materials
+    }
+
+    convenience init(_ mesh: Mesh) {
+        var vertexCache: [Vertex: UInt32] = [:]
+        var vertices: [SCNVector3] = []
+        var normals: [SCNVector3] = []
+        var colors: [SCNVector4] = []
+        var uvs: [CGPoint] = []
+        var meshIndices: [UInt32] = []
+
+        for (_, polygons) in mesh.polygonsByMaterial {
+            var indices: [UInt32] = []
+
+            for polygon in polygons {
+                for triangle in polygon.triangulate() {
+                    for vertex in triangle.vertices {
+                        if let index = vertexCache[vertex] {
+                            indices.append(index)
+
+                            continue
+                        }
+
+                        let index = UInt32(vertexCache.count)
+
+                        vertexCache[vertex] = index
+
+                        indices.append(index)
+
+                        vertices.append(SCNVector3(vertex.position))
+                        normals.append(SCNVector3(vertex.normal))
+                        colors.append(SCNVector4(vertex.color))
+                        uvs.append(CGPoint(x: vertex.texcoord.x, y: vertex.texcoord.y))
+                    }
+                }
+            }
+
+            meshIndices.append(contentsOf: indices)
+        }
+
+        self.init(
+            sources: [
+                SCNGeometrySource(vertices: vertices),
+                SCNGeometrySource(normals: normals),
+                SCNGeometrySource(colors: colors),
+                SCNGeometrySource(textureCoordinates: uvs),
+            ],
+            elements: [SCNGeometryElement(indices: meshIndices, primitiveType: .triangles)]
+        )
     }
 
     /// Creates an SCNGeometry from a Mesh using convex polygons

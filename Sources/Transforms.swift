@@ -277,16 +277,16 @@ internal extension Collection where Element == Polygon {
 
 public extension Vertex {
     func translated(by v: Distance) -> Vertex {
-        Vertex(position + v, normal, texcoord)
+        Vertex(position + v, normal, texcoord, color)
     }
 
     @_disfavoredOverload
     func rotated(by r: Rotation) -> Vertex {
-        Vertex(position.rotated(by: r), normal.rotated(by: r), texcoord)
+        Vertex(position.rotated(by: r), normal.rotated(by: r), texcoord, color)
     }
 
     func rotated(by q: Quaternion) -> Vertex {
-        Vertex(position.rotated(by: q), normal.rotated(by: q), texcoord)
+        Vertex(position.rotated(by: q), normal.rotated(by: q), texcoord, color)
     }
 
     func scaled(by v: Distance) -> Vertex {
@@ -294,12 +294,13 @@ public extension Vertex {
         return Vertex(
             position.scaled(by: v),
             normal.scaled(by: vn),
-            texcoord
+            texcoord,
+            color
         )
     }
 
     func scaled(by f: Double) -> Vertex {
-        Vertex(position.scaled(by: f), normal, texcoord)
+        Vertex(position.scaled(by: f), normal, texcoord, color)
     }
 
     func transformed(by t: Transform) -> Vertex {

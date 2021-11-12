@@ -61,7 +61,7 @@ extension Color: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        try encode(to: &container)
+        try encode(to: &container, skipA: a == 1)
     }
 }
 
@@ -102,6 +102,11 @@ public extension Color {
     func withAlpha(_ a: Double) -> Color {
         Color(r, g, b, a)
     }
+
+    /// Linearly interpolate between two colors
+    func lerp(_ a: Color, _ t: Double) -> Color {
+        self + (a - self) * t
+    }
 }
 
 internal extension Color {
@@ -124,10 +129,28 @@ internal extension Color {
         self.a = try container.decodeIfPresent(Double.self) ?? 1
     }
 
-    func encode(to container: inout UnkeyedEncodingContainer) throws {
+    func encode(to container: inout UnkeyedEncodingContainer, skipA: Bool) throws {
         try container.encode(r)
         try container.encode(g)
         try container.encode(b)
-        try a == 1 ? () : container.encode(a)
+        try skipA ? () : container.encode(a)
+    }
+
+    static func - (lhs: Color, rhs: Color) -> Color {
+        Color(lhs.r - rhs.r, lhs.g - rhs.g, lhs.b - rhs.b, lhs.a - rhs.a)
+    }
+
+    static func + (lhs: Color, rhs: Color) -> Color {
+        Color(lhs.r + rhs.r, lhs.g + rhs.g, lhs.b + rhs.b, lhs.a + rhs.a)
+    }
+
+    static func * (lhs: Color, rhs: Double) -> Color {
+        Color(lhs.r * rhs, lhs.g * rhs, lhs.b * rhs, lhs.a * rhs)
+    }
+
+    // Approximate equality
+    func isEqual(to other: Color, withPrecision p: Double = epsilon) -> Bool {
+        self == other ||
+            (abs(r - other.r) < p && abs(g - other.g) < p && abs(b - other.b) < p && abs(a - other.a) < p)
     }
 }

@@ -74,7 +74,7 @@ There is no 2D vector type in Euclid, but when working with primarily 2D shapes 
 
 ## Color
 
-The `Color` type represents an RGBA color and can be used as a `Polygon` [material](#materials). 
+The `Color` type represents an RGBA color and can be used either as a `Polygon` [material](#materials) or to set the color of a specific `Vertex`.
 
 ## Vertex
 
@@ -83,6 +83,7 @@ The `Vertex` type is used to construct `Polygon`s to form a `Mesh`. Each `Vertex
 - `position` - the `Vertex`'s location in 3D space
 - `normal` - the surface normal of a `Mesh` at the vertex's position (used for lighting)
 - `texcoord` - a 2D texture coordinate used for texture mapping the `Polygon`
+- `color` - a `Color` struct defining the color components for the vertex.
 
 **Note:** The position of each `Vertex` is automatically *quantized* (rounded to the nearest point in a very fine grid) in order to avoid the creation of very tiny polygons, or hairline cracks in surfaces. For that reason, to avoid accumulating rounding errors you should generally avoid applying multiple `Transform`s to the same geometry in sequence.
 
@@ -248,7 +249,7 @@ When serializing Euclid geometry using `Codable`, only specific material types c
 
 ## Colors
 
-Euclid currently has no support for setting colors on a per-vertex basis, but you can apply colors to a `Mesh` or `Polygon` using the material property.
+Colors can be applied either per-vertex, or to an entire `Polygon` or `Mesh` using the `material` property.
 
 The material property is of type `AnyHashable` which basically means it can be anything you want. You can set the `material` to an instance of Euclid's [`Color` type](#color), or you can use a `UIColor` or `NSColor` instead if you prefer.
 
