@@ -113,6 +113,14 @@ class PolygonTests: XCTestCase {
         ]))
     }
 
+    func testPolygonWithOnlyTwoPoints() {
+        let normal = Vector(0, 0, 1)
+        XCTAssertNil(Polygon([
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, -1), normal),
+        ]))
+    }
+
     func testZeroNormals() {
         guard let polygon = Polygon([
             Vertex(Vector(-1, 1), .zero),
