@@ -215,8 +215,30 @@ public extension Vector {
 
     func angle(with plane: Plane) -> Angle {
         // We know that plane.normal.length == 1
-        let complementeryAngle = Direction(self).dot(plane.normal)
+        let complementeryAngle = dot(plane.normal) / length
         return Angle.asin(complementeryAngle)
+    }
+
+    /// Distance of the point from a plane
+    /// A positive value is returned if the point lies in front of the plane
+    /// A negative value is returned if the point lies behind the plane
+    func distance(from plane: Plane) -> Double {
+        plane.normal.dot(self) - plane.w
+    }
+
+    /// The nearest point to this point on the specified plane
+    func project(onto plane: Plane) -> Vector {
+        self - plane.normal * distance(from: plane)
+    }
+
+    /// Distance of the point from a line in 3D
+    func distance(from line: Line) -> Double {
+        line.distance(from: self)
+    }
+
+    /// The nearest point to this point on the specified line
+    func project(onto line: Line) -> Vector {
+        self + vectorFromPointToLine(self, line.origin, line.direction)
     }
 }
 
@@ -228,7 +250,7 @@ internal extension Vector {
     }
 
     func compare(with plane: Plane) -> PlaneComparison {
-        let t = Position(self).distance(from: plane)
+        let t = distance(from: plane)
         return (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
     }
 
@@ -249,11 +271,5 @@ internal extension Vector {
         self.x = try container.decode(Double.self)
         self.y = try container.decode(Double.self)
         self.z = try container.decodeIfPresent(Double.self) ?? 0
-    }
-}
-
-public extension Vector {
-    init<T: CartesianComponentsRepresentable>(_ cartesian: T) {
-        self.init(cartesian.x, cartesian.y, cartesian.z)
     }
 }

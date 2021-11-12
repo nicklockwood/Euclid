@@ -2,7 +2,7 @@
 //  AngleTests.swift
 //  EuclidTests
 //
-//  Created by Ioannis Kaliakatsos on 22.11.2020.
+//  Created by Ioannis Kaliakatsos on 22.11.20.
 //  Copyright © 2020 Nick Lockwood. All rights reserved.
 //
 
@@ -102,27 +102,22 @@ class AngleTests: XCTestCase {
         XCTAssertEqual(-30, angle.degrees, accuracy: epsilon)
     }
 
-    func testAtan() {
-        let angle = Angle.atan(1)
-        XCTAssertEqual(45, angle.degrees, accuracy: epsilon)
-    }
-
-    func testAtan2FirstQuadrant() {
+    func testAtanFirstQuadrant() {
         let angle = Angle.atan2(y: 1, x: sqrt(3))
         XCTAssertEqual(30, angle.degrees, accuracy: epsilon)
     }
 
-    func testAtan2SecondQuadrant() {
+    func testAtanSecondQuadrant() {
         let angle = Angle.atan2(y: 1, x: -sqrt(3))
         XCTAssertEqual(150, angle.degrees, accuracy: epsilon)
     }
 
-    func testAtan2ThirdQuadrant() {
+    func testAtanThirdQuadrant() {
         let angle = Angle.atan2(y: -1, x: -sqrt(3))
         XCTAssertEqual(-150, angle.degrees, accuracy: epsilon)
     }
 
-    func testAtan2FourthQuadrant() {
+    func testAtanFourthQuadrant() {
         let angle = Angle.atan2(y: -1, x: sqrt(3))
         XCTAssertEqual(-30, angle.degrees, accuracy: epsilon)
     }

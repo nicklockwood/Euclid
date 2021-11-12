@@ -52,37 +52,33 @@ extension Quaternion: Codable {
 }
 
 public extension Quaternion {
-    init<T: CartesianComponentsRepresentable>(_ cartesian: T) {
-        self.init(cartesian.x, cartesian.y, cartesian.z, 0)
-    }
-}
-
-public extension Quaternion {
     static let zero = Quaternion(0, 0, 0, 0)
     static let identity = Quaternion(0, 0, 0, 1)
 
-    /// Define a quaternion from an axis direction and an angle
-    init(axis: Direction, angle: Angle) {
-        let r = -angle / 2
-        let a = axis * sin(r)
-        self.init(a.x, a.y, a.z, cos(r))
+    /// Define a quaternion from an axis vector and an angle
+    init?(axis: Vector, angle: Angle) {
+        let length = axis.length
+        guard length.isFinite, length > epsilon else {
+            return nil
+        }
+        self.init(unchecked: axis / length, angle: angle)
     }
 
     /// Define a rotation around the X axis
     static func pitch(_ rotation: Angle) -> Quaternion {
-        let r = -rotation * 0.5
+        let r = -rotation.radians * 0.5
         return Quaternion(sin(r), 0, 0, cos(r))
     }
 
     /// Define a rotation around the Y axis
     static func yaw(_ rotation: Angle) -> Quaternion {
-        let r = -rotation * 0.5
+        let r = -rotation.radians * 0.5
         return Quaternion(0, sin(r), 0, cos(r))
     }
 
     /// Define a rotation around the Z axis
     static func roll(_ rotation: Angle) -> Quaternion {
-        let r = -rotation * 0.5
+        let r = -rotation.radians * 0.5
         return Quaternion(0, 0, sin(r), cos(r))
     }
 
@@ -174,10 +170,6 @@ public extension Quaternion {
         Quaternion(-q.x, -q.y, -q.z, q.w)
     }
 
-    func conjugate() -> Quaternion {
-        -self
-    }
-
     static func + (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
         Quaternion(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w)
     }
@@ -231,6 +223,13 @@ public extension Quaternion {
 }
 
 internal extension Quaternion {
+    init(unchecked axis: Vector, angle: Angle) {
+        assert(axis.isNormalized)
+        let r = -angle / 2
+        let a = axis * sin(r)
+        self.init(a.x, a.y, a.z, cos(r))
+    }
+
     // Approximate equality
     func isEqual(to other: Quaternion, withPrecision p: Double = epsilon) -> Bool {
         self == other || (

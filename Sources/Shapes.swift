@@ -40,7 +40,7 @@ public extension Path {
     }
 
     /// Create a path from a start and end point
-    static func line(_ start: Position, _ end: Position) -> Path {
+    static func line(_ start: Vector, _ end: Vector) -> Path {
         Path([.point(start), .point(end)])
     }
 
@@ -71,9 +71,9 @@ public extension Path {
     static func rectangle(width: Double, height: Double) -> Path {
         let w = width / 2, h = height / 2
         if height < epsilon {
-            return .line(Position(x: -w), Position(x: w))
+            return .line(Vector(-w, 0), Vector(w, 0))
         } else if width < epsilon {
-            return .line(Position(y: -h), Position(y: h))
+            return .line(Vector(0, -h), Vector(0, h))
         }
         return Path(unchecked: [
             .point(-w, h), .point(-w, -h),
@@ -118,15 +118,15 @@ public extension Path {
             }
 
             return steps.map {
-                var texcoord: Position?
+                var texcoord: Vector?
                 if let t0 = p0.texcoord, let t1 = p1.texcoord, let t2 = p2.texcoord {
-                    texcoord = Position(
+                    texcoord = Vector(
                         quadraticBezier(t0.x, t1.x, t2.x, $0),
                         quadraticBezier(t0.y, t1.y, t2.y, $0),
                         quadraticBezier(t0.z, t1.z, t2.z, $0)
                     )
                 }
-                return .curve(Position(
+                return .curve(Vector(
                     quadraticBezier(p0.position.x, p1.position.x, p2.position.x, $0),
                     quadraticBezier(p0.position.y, p1.position.y, p2.position.y, $0),
                     quadraticBezier(p0.position.z, p1.position.z, p2.position.z, $0)
@@ -216,8 +216,8 @@ public extension Mesh {
 
     /// Construct an axis-aligned cuboid mesh
     static func cube(
-        center c: Position = .init(0, 0, 0),
-        size s: Distance,
+        center c: Vector = .init(0, 0, 0),
+        size s: Vector,
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
@@ -231,19 +231,19 @@ public extension Mesh {
         ].map {
             var index = 0
             let (indexData, normalData) = ($0[0], $0[1])
-            let normal = Direction(
+            let normal = Vector(
                 Double(normalData[0]),
                 Double(normalData[1]),
                 Double(normalData[2])
             )
             return Polygon(
                 unchecked: indexData.map { i in
-                    let pos = c + s.scaled(by: Distance(
+                    let pos = c + s.scaled(by: Vector(
                         i & 1 > 0 ? 0.5 : -0.5,
                         i & 2 > 0 ? 0.5 : -0.5,
                         i & 4 > 0 ? 0.5 : -0.5
                     ))
-                    let uv = Position(
+                    let uv = Vector(
                         (1 ... 2).contains(index) ? 1 : 0,
                         (0 ... 1).contains(index) ? 1 : 0
                     )
@@ -280,12 +280,12 @@ public extension Mesh {
     }
 
     static func cube(
-        center c: Position = .init(0, 0, 0),
+        center c: Vector = .init(0, 0, 0),
         size s: Double = 1,
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        cube(center: c, size: Distance(s, s, s), faces: faces, material: material)
+        cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
     }
 
     /// Construct a sphere mesh
@@ -418,7 +418,7 @@ public extension Mesh {
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        let offset = (depth / 2) * shape.faceNormal
+        let offset = shape.faceNormal * (depth / 2)
         if offset.isEqual(to: .zero) {
             return fill(shape, faces: faces, material: material)
         }
@@ -459,7 +459,7 @@ public extension Mesh {
         var shape = shape
         let shapePlane = shape.flatteningPlane
         let pathPlane = along.flatteningPlane
-        let shapeNormal: Direction
+        let shapeNormal: Vector
         switch (shapePlane, pathPlane) {
         case (.xy, .xy):
             shape = shape.rotated(by: .pitch(.halfPi))
@@ -473,24 +473,28 @@ public extension Mesh {
         var shapes = [Path]()
         let count = points.count
         var p1 = points[1]
-        var p0p1 = (p1.position - p0.position).direction
-        func addShape(_ p2: PathPoint, _ _p0p2: inout Direction?) {
-            let p1p2 = (p2.position - p1.position).direction
-            let p0p2 = Direction.mean(p0p1, p1p2)
+        var p0p1 = (p1.position - p0.position).normalized()
+        func addShape(_ p2: PathPoint, _ _p0p2: inout Vector?) {
+            let p1p2 = (p2.position - p1.position).normalized()
+            let p0p2 = (p0p1 + p1p2).normalized()
             let r: Rotation
             if let _p0p2 = _p0p2 {
-                r = rotationBetweenDirections(p0p2, _p0p2)
+                r = rotationBetweenVectors(p0p2, _p0p2)
             } else {
-                r = rotationBetweenDirections(p0p2, shapeNormal)
+                r = rotationBetweenVectors(p0p2, shapeNormal)
             }
             shape = shape.rotated(by: r)
             if p0p1.isEqual(to: p1p2) {
-                shapes.append(shape.translated(by: p1.position.distance))
+                shapes.append(shape.translated(by: p1.position))
             } else {
                 let axis = p0p1.cross(p1p2)
                 let a = (1 / p0p1.dot(p0p2)) - 1
-                let scale = (a * axis.cross(p0p2)).absolute + Distance(1, 1, 1)
-                shapes.append(shape.scaled(by: scale).translated(by: p1.position.distance))
+                var scale = axis.cross(p0p2).normalized() * a
+                scale.x = abs(scale.x)
+                scale.y = abs(scale.y)
+                scale.z = abs(scale.z)
+                scale = scale + Vector(1, 1, 1)
+                shapes.append(shape.scaled(by: scale).translated(by: p1.position))
             }
             p0 = p1
             p1 = p2
@@ -498,22 +502,22 @@ public extension Mesh {
             _p0p2 = p0p2
         }
         if along.isClosed {
-            var _p0p2: Direction?
+            var _p0p2: Vector?
             for i in 1 ..< count {
                 let p2 = points[(i < count - 1) ? i + 1 : 1]
                 addShape(p2, &_p0p2)
             }
             shapes.append(shapes[0])
         } else {
-            var _p0p2: Direction! = p0p1
-            shape = shape.rotated(by: rotationBetweenDirections(p0p1, shapeNormal))
-            shapes.append(shape.translated(by: p0.position.distance))
+            var _p0p2: Vector! = p0p1
+            shape = shape.rotated(by: rotationBetweenVectors(p0p1, shapeNormal))
+            shapes.append(shape.translated(by: p0.position))
             for i in 1 ..< count - 1 {
                 let p2 = points[i + 1]
                 addShape(p2, &_p0p2)
             }
-            shape = shape.rotated(by: rotationBetweenDirections(p0p1, _p0p2))
-            shapes.append(shape.translated(by: points.last!.position.distance))
+            shape = shape.rotated(by: rotationBetweenVectors(p0p1, _p0p2))
+            shapes.append(shape.translated(by: points.last!.position))
         }
         return loft(shapes, faces: faces, material: material)
     }
@@ -595,7 +599,7 @@ public extension Mesh {
         let radius = width / 2
         switch detail {
         case 1, 2:
-            path = .line(Position(x: -radius), Position(x: radius))
+            path = .line(Vector(-radius, 0), Vector(radius, 0))
         case let sides:
             path = .circle(radius: radius, segments: sides)
         }
@@ -622,10 +626,10 @@ public extension Mesh {
             if along.flatteningPlane == .xy {
                 shape = shape.rotated(by: .pitch(.halfPi))
             }
-            shape = shape.rotated(by: rotationBetweenDirections(line.direction, shape.faceNormal))
-            let shape0 = shape.translated(by: line.start.distance)
+            shape = shape.rotated(by: rotationBetweenVectors(line.direction, shape.faceNormal))
+            let shape0 = shape.translated(by: line.start)
             bounds.formUnion(shape0.bounds)
-            let shape1 = shape.translated(by: line.end.distance)
+            let shape1 = shape.translated(by: line.end)
             bounds.formUnion(shape1.bounds)
             loft(
                 unchecked: shape0, shape1,
@@ -698,7 +702,7 @@ private extension Mesh {
                 let v0v1 = v0.lerp(v1, 0.5)
                 return subdivide(times - 1, v0, v0v1) + [v0v1, v1]
             }
-            func isVertical(_ normal: Direction) -> Bool {
+            func isVertical(_ normal: Vector) -> Bool {
                 abs(normal.x) < epsilon && abs(normal.z) < epsilon
             }
             var i = 0
@@ -737,20 +741,20 @@ private extension Mesh {
                         // top triangle
                         let v0 = Vertex(
                             unchecked: v0.position,
-                            Direction(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                            Position(v0.texcoord.x + (t0 + t1) / 2, v0.texcoord.y, 0)
+                            Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
+                            Vector(v0.texcoord.x + (t0 + t1) / 2, v0.texcoord.y, 0)
                         )
                         let v2 = Vertex(
                             unchecked:
-                            Position(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
-                            Direction(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                            Position(v1.texcoord.x + t0, v1.texcoord.y, 0)
+                            Vector(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
+                            Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
+                            Vector(v1.texcoord.x + t0, v1.texcoord.y, 0)
                         )
                         let v3 = Vertex(
                             unchecked:
-                            Position(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
-                            Direction(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
-                            Position(v1.texcoord.x + t1, v1.texcoord.y, 0)
+                            Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
+                            Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
+                            Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
                         )
                         polygons.append(Polygon(
                             unchecked: [v0, v2, v3],
@@ -763,20 +767,20 @@ private extension Mesh {
                     // bottom triangle
                     let v1 = Vertex(
                         unchecked: v1.position,
-                        Direction(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                        Position(v1.texcoord.x + (t0 + t1) / 2, v1.texcoord.y, 0)
+                        Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
+                        Vector(v1.texcoord.x + (t0 + t1) / 2, v1.texcoord.y, 0)
                     )
                     let v2 = Vertex(
                         unchecked:
-                        Position(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
-                        Direction(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
-                        Position(v0.texcoord.x + t1, v0.texcoord.y, 0)
+                        Vector(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
+                        Vector(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
+                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0)
                     )
                     let v3 = Vertex(
                         unchecked:
-                        Position(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
-                        Direction(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                        Position(v0.texcoord.x + t0, v0.texcoord.y, 0)
+                        Vector(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
+                        Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
+                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
                     )
                     polygons.append(Polygon(
                         unchecked: [v2, v3, v1],
@@ -788,27 +792,27 @@ private extension Mesh {
                     // quad face
                     let v2 = Vertex(
                         unchecked:
-                        Position(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
-                        Direction(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
-                        Position(v0.texcoord.x + t1, v0.texcoord.y, 0)
+                        Vector(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
+                        Vector(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
+                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0)
                     )
                     let v3 = Vertex(
                         unchecked:
-                        Position(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
-                        Direction(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                        Position(v0.texcoord.x + t0, v0.texcoord.y, 0)
+                        Vector(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
+                        Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
+                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
                     )
                     let v4 = Vertex(
                         unchecked:
-                        Position(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
-                        Direction(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                        Position(v1.texcoord.x + t0, v1.texcoord.y, 0)
+                        Vector(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
+                        Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
+                        Vector(v1.texcoord.x + t0, v1.texcoord.y, 0)
                     )
                     let v5 = Vertex(
                         unchecked:
-                        Position(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
-                        Direction(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
-                        Position(v1.texcoord.x + t1, v1.texcoord.y, 0)
+                        Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
+                        Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
+                        Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
                     )
                     let vertices = [v2, v3, v4, v5]
                     if !verticesAreDegenerate(vertices) {
@@ -860,10 +864,10 @@ private extension Mesh {
         }
     }
 
-    static func directionBetweenShapes(_ s0: Path, _ s1: Path) -> Direction? {
+    static func directionBetweenShapes(_ s0: Path, _ s1: Path) -> Vector? {
         if let p0 = s0.points.first, let p1 = s1.points.first {
             // TODO: what if p0p1 length is zero? We should try other points
-            return (p1.position - p0.position).direction
+            return (p1.position - p0.position).normalized()
         }
         return nil
     }
@@ -984,21 +988,21 @@ private extension Mesh {
         // TODO: better handling of case where e0 and e1 counts don't match
         for j in stride(from: 0, to: min(e0.count, e1.count), by: 2) {
             var vertices = [e0[j], e0[j + 1], e1[j + 1], e1[j]]
-            vertices[0].texcoord = Position(vertices[0].texcoord.y, uvstart)
-            vertices[1].texcoord = Position(vertices[1].texcoord.y, uvstart)
-            vertices[2].texcoord = Position(vertices[2].texcoord.y, uvend)
-            vertices[3].texcoord = Position(vertices[3].texcoord.y, uvend)
+            vertices[0].texcoord = Vector(vertices[0].texcoord.y, uvstart)
+            vertices[1].texcoord = Vector(vertices[1].texcoord.y, uvstart)
+            vertices[2].texcoord = Vector(vertices[2].texcoord.y, uvend)
+            vertices[3].texcoord = Vector(vertices[3].texcoord.y, uvend)
             if vertices[0].position == vertices[1].position {
                 vertices.remove(at: 0)
             } else if vertices[2].position == vertices[3].position {
                 vertices.remove(at: 3)
             } else {
                 if vertices[0].position == vertices[3].position {
-                    vertices[0].normal = .mean(vertices[0].normal, vertices[3].normal)
+                    vertices[0].normal = vertices[0].normal + vertices[3].normal // auto-normalized
                     vertices.remove(at: 3)
                 }
                 if vertices[1].position == vertices[2].position {
-                    vertices[1].normal = .mean(vertices[1].normal, vertices[2].normal)
+                    vertices[1].normal = vertices[1].normal + vertices[2].normal // auto-normalized
                     vertices.remove(at: 2)
                 }
             }

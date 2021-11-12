@@ -30,10 +30,10 @@
 //
 
 public struct LineSegment: Hashable {
-    public let start, end: Position
+    public let start, end: Vector
 
     /// Creates a line segment from a start and end point
-    public init?(_ start: Position, _ end: Position) {
+    public init?(_ start: Vector, _ end: Vector) {
         guard start != end else {
             return nil
         }
@@ -50,8 +50,8 @@ extension LineSegment: Codable {
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             guard let segment = try LineSegment(
-                container.decode(Position.self, forKey: .start),
-                container.decode(Position.self, forKey: .end)
+                container.decode(Vector.self, forKey: .start),
+                container.decode(Vector.self, forKey: .end)
             ) else {
                 throw DecodingError.dataCorruptedError(
                     forKey: .end,
@@ -63,8 +63,8 @@ extension LineSegment: Codable {
         } else {
             var container = try decoder.unkeyedContainer()
             guard let segment = try LineSegment(
-                Position(from: &container),
-                Position(from: &container)
+                Vector(from: &container),
+                Vector(from: &container)
             ) else {
                 throw DecodingError.dataCorruptedError(
                     in: container,
@@ -83,21 +83,21 @@ extension LineSegment: Codable {
 }
 
 public extension LineSegment {
-    var direction: Direction {
-        (end - start).direction
+    var direction: Vector {
+        (end - start).normalized()
     }
 
     /// Check if point is on line segment
-    func containsPoint(_ p: Position) -> Bool {
-        let v = distanceFromPointToLine(p, Line(origin: start, direction: direction))
-        guard v.norm < epsilon else {
+    func containsPoint(_ p: Vector) -> Bool {
+        let v = vectorFromPointToLine(p, start, direction)
+        guard v.length < epsilon else {
             return false
         }
         return lineSegmentsContainsPoint(start, end, p + v)
     }
 
     /// Intersection point between lines (if any)
-    func intersection(with segment: LineSegment) -> Position? {
+    func intersection(with segment: LineSegment) -> Vector? {
         lineSegmentsIntersection(start, end, segment.start, segment.end)
     }
 
@@ -108,7 +108,7 @@ public extension LineSegment {
 }
 
 internal extension LineSegment {
-    init(unchecked start: Position, _ end: Position) {
+    init(unchecked start: Vector, _ end: Vector) {
         assert(start != end)
         self.start = start
         self.end = end

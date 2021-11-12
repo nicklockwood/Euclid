@@ -69,13 +69,13 @@ extension Rotation: Codable {
         guard var container = try? decoder.unkeyedContainer() else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let angle = try container.decodeIfPresent(Angle.self, forKey: .radians)
-            var axis = try container.decodeIfPresent(Direction.self, forKey: .axis)
+            var axis = try container.decodeIfPresent(Vector.self, forKey: .axis)
             if let x = try container.decodeIfPresent(Double.self, forKey: .x) {
                 let y = try container.decode(Double.self, forKey: .y)
                 let z = try container.decode(Double.self, forKey: .z)
-                axis = Direction(x, y, z)
+                axis = Vector(x, y, z)
             }
-            self.init(axis: axis ?? .z, angle: angle ?? .zero)
+            self.init(unchecked: axis?.normalized() ?? Vector(0, 0, 1), angle: angle ?? .zero)
             return
         }
         switch container.count ?? 0 {
@@ -90,9 +90,9 @@ extension Rotation: Codable {
             let roll = try container.decode(Angle.self)
             self.init(pitch: pitch, yaw: yaw, roll: roll)
         case 4:
-            let axis = try Direction(from: &container)
+            let axis = try Vector(from: &container).normalized()
             let angle = try container.decode(Angle.self)
-            self.init(axis: axis, angle: angle)
+            self.init(unchecked: axis, angle: angle)
         default:
             let m11 = try container.decode(Double.self)
             let m12 = try container.decode(Double.self)
@@ -153,20 +153,13 @@ public extension Rotation {
         self.init(1, 0, 0, 0, 1, 0, 0, 0, 1)
     }
 
-    /// Define a rotation from an axis direction and an angle
-    init(axis: Direction, angle: Angle) {
-        // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
-        let c = cos(angle)
-        let s = sin(angle)
-        let t = 1 - c
-        let x = axis.x
-        let y = axis.y
-        let z = axis.z
-        self.init(
-            t * x * x + c, t * x * y - z * s, t * x * z + y * s,
-            t * x * y + z * s, t * y * y + c, t * y * z - x * s,
-            t * x * z - y * s, t * y * z + x * s, t * z * z + c
-        )
+    /// Define a rotation from an axis vector and an angle
+    init?(axis: Vector, angle: Angle) {
+        let length = axis.length
+        guard length.isFinite, length > epsilon else {
+            return nil
+        }
+        self.init(unchecked: axis / length, angle: angle)
     }
 
     /// Define a rotation from a quaternion
@@ -214,16 +207,16 @@ public extension Rotation {
         Quaternion(self).roll
     }
 
-    var right: Direction {
-        Direction(m11, m12, m13)
+    var right: Vector {
+        Vector(m11, m12, m13)
     }
 
-    var up: Direction {
-        Direction(m21, m22, m23)
+    var up: Vector {
+        Vector(m21, m22, m23)
     }
 
-    var forward: Direction {
-        Direction(m31, m32, m33)
+    var forward: Vector {
+        Vector(m31, m32, m33)
     }
 
     static prefix func - (rhs: Rotation) -> Rotation {
@@ -258,22 +251,6 @@ public extension Rotation {
     static func *= (lhs: inout Rotation, rhs: Rotation) {
         lhs = lhs * rhs
     }
-
-    static func * <T: CartesianComponentsRepresentable>(lhs: T, rhs: Rotation) -> T {
-        let x = lhs.x * rhs.m11
-            + lhs.y * rhs.m21
-            + lhs.z * rhs.m31
-
-        let y = lhs.x * rhs.m12
-            + lhs.y * rhs.m22
-            + lhs.z * rhs.m32
-
-        let z = lhs.x * rhs.m13
-            + lhs.y * rhs.m23
-            + lhs.z * rhs.m33
-
-        return T(x: x, y: y, z: z)
-    }
 }
 
 internal extension Rotation {
@@ -287,12 +264,32 @@ internal extension Rotation {
             - m13 * m22 * m31
     }
 
+    var adjugate: Rotation {
+        Rotation(
+            m22 * m33 - m23 * m32,
+            m13 * m32 - m12 * m33,
+            m12 * m23 - m13 * m22,
+            m23 * m31 - m21 * m33,
+            m11 * m33 - m13 * m31,
+            m13 * m21 - m11 * m23,
+            m21 * m32 - m22 * m31,
+            m12 * m31 - m11 * m32,
+            m11 * m22 - m12 * m21
+        )
+    }
+
     var transpose: Rotation {
         Rotation(m11, m21, m31, m12, m22, m32, m13, m23, m33)
     }
 
     var inverse: Rotation {
-        transpose
+        let a = adjugate
+        let d = determinant
+        return Rotation(
+            a.m11 / d, a.m12 / d, a.m13 / d,
+            a.m21 / d, a.m22 / d, a.m23 / d,
+            a.m31 / d, a.m32 / d, a.m33 / d
+        )
     }
 
     var isRotationMatrix: Bool {
@@ -311,6 +308,22 @@ internal extension Rotation {
         if abs(m12 * m31 - m11 * m32 - m23) > epsilon { return false }
         if abs(m11 * m22 - m12 * m21 - m33) > epsilon { return false }
         return true
+    }
+
+    // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
+    init(unchecked axis: Vector, angle: Angle) {
+        assert(axis.isNormalized)
+        let c = cos(angle)
+        let s = sin(angle)
+        let t = 1 - c
+        let x = axis.x
+        let y = axis.y
+        let z = axis.z
+        self.init(
+            t * x * x + c, t * x * y - z * s, t * x * z + y * s,
+            t * x * y + z * s, t * y * y + c, t * y * z - x * s,
+            t * x * z - y * s, t * y * z + x * s, t * z * z + c
+        )
     }
 
     // Approximate equality

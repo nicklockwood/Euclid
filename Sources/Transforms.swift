@@ -32,14 +32,14 @@
 import Foundation
 
 public struct Transform: Hashable {
-    public var offset: Distance
+    public var offset: Vector
     public var rotation: Rotation
-    public var scale: Distance
+    public var scale: Vector
 
-    public init(offset: Distance? = nil, rotation: Rotation? = nil, scale: Distance? = nil) {
+    public init(offset: Vector? = nil, rotation: Rotation? = nil, scale: Vector? = nil) {
         self.offset = offset ?? .zero
         self.rotation = rotation ?? .identity
-        self.scale = scale ?? Distance(1, 1, 1)
+        self.scale = scale ?? Vector(1, 1, 1)
     }
 }
 
@@ -50,9 +50,9 @@ extension Transform: Codable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let offset = try container.decodeIfPresent(Distance.self, forKey: .offset)
+        let offset = try container.decodeIfPresent(Vector.self, forKey: .offset)
         let rotation = try container.decodeIfPresent(Rotation.self, forKey: .rotation)
-        let scale = try container.decodeIfPresent(Distance.self, forKey: .scale)
+        let scale = try container.decodeIfPresent(Vector.self, forKey: .scale)
         self.init(offset: offset, rotation: rotation, scale: scale)
     }
 
@@ -60,7 +60,7 @@ extension Transform: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try offset == .zero ? () : container.encode(offset, forKey: .offset)
         try rotation == .identity ? () : container.encode(rotation, forKey: .rotation)
-        try scale == Distance(1, 1, 1) ? () : container.encode(scale, forKey: .scale)
+        try scale == Vector(1, 1, 1) ? () : container.encode(scale, forKey: .scale)
     }
 }
 
@@ -75,7 +75,7 @@ public extension Transform {
         return flipped
     }
 
-    mutating func translate(by v: Distance) {
+    mutating func translate(by v: Vector) {
         offset = offset + v.scaled(by: scale).rotated(by: rotation)
     }
 
@@ -83,7 +83,7 @@ public extension Transform {
         rotation *= r
     }
 
-    mutating func scale(by v: Distance) {
+    mutating func scale(by v: Vector) {
         scale = scale.scaled(by: v)
     }
 
@@ -97,7 +97,7 @@ public extension Transform {
 }
 
 public extension Mesh {
-    func translated(by v: Distance) -> Mesh {
+    func translated(by v: Vector) -> Mesh {
         Mesh(
             unchecked: polygons.translated(by: v),
             bounds: boundsIfSet?.translated(by: v),
@@ -122,7 +122,7 @@ public extension Mesh {
         )
     }
 
-    func scaled(by v: Distance) -> Mesh {
+    func scaled(by v: Vector) -> Mesh {
         if v.x == v.y, v.y == v.z {
             // optimization - avoids scaling normals
             return scaled(by: v.x)
@@ -163,7 +163,7 @@ public extension Mesh {
 }
 
 public extension Polygon {
-    func translated(by v: Distance) -> Polygon {
+    func translated(by v: Vector) -> Polygon {
         Polygon(
             unchecked: vertices.translated(by: v),
             normal: plane.normal,
@@ -191,23 +191,22 @@ public extension Polygon {
         )
     }
 
-    func scaled(by v: Distance) -> Polygon {
+    func scaled(by v: Vector) -> Polygon {
+        var v = v
         let limit = 0.001
-        let v = Distance(
-            v.x < 0 ? min(v.x, -limit) : max(v.x, limit),
-            v.y < 0 ? min(v.y, -limit) : max(v.y, limit),
-            v.z < 0 ? min(v.z, -limit) : max(v.z, limit)
-        )
+        v.x = v.x < 0 ? min(v.x, -limit) : max(v.x, limit)
+        v.y = v.y < 0 ? min(v.y, -limit) : max(v.y, limit)
+        v.z = v.z < 0 ? min(v.z, -limit) : max(v.z, limit)
 
         var flipped = v.x < 0
         if v.y < 0 { flipped = !flipped }
         if v.z < 0 { flipped = !flipped }
 
         let vertices = self.vertices.scaled(by: v)
-        let vn = Distance(1 / v.x, 1 / v.y, 1 / v.z)
+        let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
         return Polygon(
             unchecked: flipped ? vertices.reversed() : vertices,
-            normal: plane.normal.scaled(by: vn),
+            normal: plane.normal.scaled(by: vn).normalized(),
             isConvex: isConvex,
             material: material
         )
@@ -244,7 +243,7 @@ public extension Polygon {
 }
 
 internal extension Collection where Element == Polygon {
-    func translated(by v: Distance) -> [Polygon] {
+    func translated(by v: Vector) -> [Polygon] {
         map { $0.translated(by: v) }
     }
 
@@ -257,7 +256,7 @@ internal extension Collection where Element == Polygon {
         map { $0.rotated(by: q) }
     }
 
-    func scaled(by v: Distance) -> [Polygon] {
+    func scaled(by v: Vector) -> [Polygon] {
         map { $0.scaled(by: v) }
     }
 
@@ -289,18 +288,13 @@ public extension Vertex {
         Vertex(position.rotated(by: q), normal.rotated(by: q), texcoord, color)
     }
 
-    func scaled(by v: Distance) -> Vertex {
-        let vn = Distance(1 / v.x, 1 / v.y, 1 / v.z)
-        return Vertex(
-            position.scaled(by: v),
-            normal.scaled(by: vn),
-            texcoord,
-            color
-        )
+    func scaled(by v: Vector) -> Vertex {
+        let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
+        return Vertex(position.scaled(by: v), normal.scaled(by: vn).normalized(), texcoord, color)
     }
 
     func scaled(by f: Double) -> Vertex {
-        Vertex(position.scaled(by: f), normal, texcoord, color)
+        Vertex(position * f, normal, texcoord, color)
     }
     
     func transformed(by t: Transform) -> Vertex {
@@ -309,7 +303,7 @@ public extension Vertex {
 }
 
 internal extension Collection where Element == Vertex {
-    func translated(by v: Distance) -> [Vertex] {
+    func translated(by v: Vector) -> [Vertex] {
         map { $0.translated(by: v) }
     }
 
@@ -322,7 +316,7 @@ internal extension Collection where Element == Vertex {
         map { $0.rotated(by: q) }
     }
 
-    func scaled(by v: Distance) -> [Vertex] {
+    func scaled(by v: Vector) -> [Vertex] {
         map { $0.scaled(by: v) }
     }
 
@@ -356,12 +350,12 @@ public extension Vector {
         return self + (uv * 2 * q.w) + (uuv * 2)
     }
 
-    func scaled(by v: Distance) -> Vector {
+    func scaled(by v: Vector) -> Vector {
         Vector(x * v.x, y * v.y, z * v.z)
     }
 
     func transformed(by t: Transform) -> Vector {
-        scaled(by: t.scale).rotated(by: t.rotation) + Vector(t.offset)
+        scaled(by: t.scale).rotated(by: t.rotation) + t.offset
     }
 }
 
@@ -379,7 +373,7 @@ internal extension Collection where Element == Vector {
         map { $0.rotated(by: q) }
     }
 
-    func scaled(by v: Distance) -> [Vector] {
+    func scaled(by v: Vector) -> [Vector] {
         map { $0.scaled(by: v) }
     }
 
@@ -392,57 +386,8 @@ internal extension Collection where Element == Vector {
     }
 }
 
-public extension CartesianComponentsRepresentable {
-    func rotated(around axis: Direction, by angle: Angle) -> Self {
-        let rotationMatrix = Rotation(axis: axis, angle: -angle)
-        return rotated(by: rotationMatrix)
-    }
-
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> Self {
-        self * r
-    }
-
-    // https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Using_quaternions_as_rotations
-    // https://en.wikipedia.org/wiki/Quaternion#Conjugation,_the_norm,_and_reciprocal
-    func rotated(by q: Quaternion) -> Self {
-        let p = Quaternion(self)
-        let result = q * p * q.conjugate()
-        return Self(result.x, result.y, result.z)
-    }
-}
-
-internal extension Collection where Element: CartesianComponentsRepresentable {
-    @_disfavoredOverload
-    func rotated(by m: Rotation) -> [Element] {
-        map { $0.rotated(by: m) }
-    }
-
-    func rotated(by q: Quaternion) -> [Element] {
-        map { $0.rotated(by: q) }
-    }
-
-    func scaled(by v: Distance) -> [Element] {
-        map { $0.scaled(by: v) }
-    }
-
-    func scaled(by f: Double) -> [Element] {
-        map { $0.scaled(by: f) }
-    }
-}
-
-internal extension Collection where Element == Position {
-    func translated(by v: Distance) -> [Position] {
-        map { $0.translated(by: v) }
-    }
-
-    func transformed(by t: Transform) -> [Position] {
-        map { $0.transformed(by: t) }
-    }
-}
-
 public extension PathPoint {
-    func translated(by v: Distance) -> PathPoint {
+    func translated(by v: Vector) -> PathPoint {
         PathPoint(position + v, texcoord: texcoord, isCurved: isCurved)
     }
 
@@ -455,12 +400,12 @@ public extension PathPoint {
         PathPoint(position.rotated(by: q), texcoord: texcoord, isCurved: isCurved)
     }
 
-    func scaled(by v: Distance) -> PathPoint {
+    func scaled(by v: Vector) -> PathPoint {
         PathPoint(position.scaled(by: v), texcoord: texcoord, isCurved: isCurved)
     }
 
     func scaled(by f: Double) -> PathPoint {
-        PathPoint(position.scaled(by: f), texcoord: texcoord, isCurved: isCurved)
+        PathPoint(position * f, texcoord: texcoord, isCurved: isCurved)
     }
 
     func transformed(by t: Transform) -> PathPoint {
@@ -469,7 +414,7 @@ public extension PathPoint {
 }
 
 internal extension Collection where Element == PathPoint {
-    func translated(by v: Distance) -> [PathPoint] {
+    func translated(by v: Vector) -> [PathPoint] {
         map { $0.translated(by: v) }
     }
 
@@ -482,7 +427,7 @@ internal extension Collection where Element == PathPoint {
         map { $0.rotated(by: q) }
     }
 
-    func scaled(by v: Distance) -> [PathPoint] {
+    func scaled(by v: Vector) -> [PathPoint] {
         map { $0.scaled(by: v) }
     }
 
@@ -496,7 +441,7 @@ internal extension Collection where Element == PathPoint {
 }
 
 public extension Path {
-    func translated(by v: Distance) -> Path {
+    func translated(by v: Vector) -> Path {
         Path(
             unchecked: points.translated(by: v),
             plane: plane?.translated(by: v), subpathIndices: subpathIndices
@@ -518,7 +463,7 @@ public extension Path {
         )
     }
 
-    func scaled(by v: Distance) -> Path {
+    func scaled(by v: Vector) -> Path {
         Path(
             unchecked: points.scaled(by: v),
             plane: plane?.scaled(by: v), subpathIndices: subpathIndices
@@ -542,27 +487,27 @@ public extension Path {
 }
 
 public extension Plane {
-    func translated(by v: Distance) -> Plane {
-        Plane(unchecked: normal, pointOnPlane: Position(v + w * normal))
+    func translated(by v: Vector) -> Plane {
+        Plane(unchecked: normal, pointOnPlane: normal * w + v)
     }
 
     @_disfavoredOverload
     func rotated(by r: Rotation) -> Plane {
-        Plane(normal: normal.rotated(by: r), w: w)
+        Plane(unchecked: normal.rotated(by: r), w: w)
     }
 
     func rotated(by q: Quaternion) -> Plane {
-        Plane(normal: normal.rotated(by: q), w: w)
+        Plane(unchecked: normal.rotated(by: q), w: w)
     }
 
-    func scaled(by v: Distance) -> Plane {
-        let vn = Distance(1 / v.x, 1 / v.y, 1 / v.z)
-        let p = Position((w * normal).scaled(by: v))
-        return Plane(unchecked: normal.scaled(by: vn), pointOnPlane: p)
+    func scaled(by v: Vector) -> Plane {
+        let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
+        let p = (normal * w).scaled(by: v)
+        return Plane(unchecked: normal.scaled(by: vn).normalized(), pointOnPlane: p)
     }
 
     func scaled(by f: Double) -> Plane {
-        Plane(normal: normal, w: w * f)
+        Plane(unchecked: normal, w: w * f)
     }
 
     func transformed(by t: Transform) -> Plane {
@@ -571,7 +516,7 @@ public extension Plane {
 }
 
 public extension Bounds {
-    func translated(by v: Distance) -> Bounds {
+    func translated(by v: Vector) -> Bounds {
         Bounds(min: min + v, max: max + v)
     }
 
@@ -584,12 +529,12 @@ public extension Bounds {
         Bounds(points: corners.rotated(by: q))
     }
 
-    func scaled(by v: Distance) -> Bounds {
+    func scaled(by v: Vector) -> Bounds {
         Bounds(min: min.scaled(by: v), max: max.scaled(by: v))
     }
 
     func scaled(by f: Double) -> Bounds {
-        Bounds(min: min.scaled(by: f), max: max.scaled(by: f))
+        Bounds(min: min * f, max: max * f)
     }
 
     func transformed(by t: Transform) -> Bounds {

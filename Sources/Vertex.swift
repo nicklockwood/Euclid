@@ -31,26 +31,34 @@
 
 /// A polygon vertex
 public struct Vertex: Hashable {
-    public var position: Position {
+    public var position: Vector {
         didSet { position = position.quantized() }
     }
 
+<<<<<<< HEAD
     public var normal: Direction
 
     public var texcoord: Position
     
+=======
+    public var normal: Vector {
+        didSet { normal = normal.normalized() }
+    }
+
+    public var texcoord: Vector
+>>>>>>> 27b6a49 (Revert "Merge branch 'develop' into feature/vertex_color_component")
     public var color: Color
 
     public init(
-        _ position: Position,
-        _ normal: Direction? = nil,
-        _ texcoord: Position? = nil,
+        _ position: Vector,
+        _ normal: Vector? = nil,
+        _ texcoord: Vector? = nil,
         _ color: Color? = nil
     ) {
         self.init(
             unchecked: position,
-            normal ?? .zero,
-            texcoord ?? .origin,
+            normal?.normalized() ?? .zero,
+            texcoord ?? .zero,
             color ?? .clear
         )
     }
@@ -58,25 +66,25 @@ public struct Vertex: Hashable {
     public init?(_ values: [Double]) {
         switch values.count {
         case 2:
-            self.init(Position(values[0], values[1]))
+            self.init(Vector(values[0], values[1]))
         case 3:
-            self.init(Position(values[0], values[1], values[2]))
+            self.init(Vector(values[0], values[1], values[2]))
         case 6:
             self.init(
-                Position(values[0], values[1], values[2]),
-                Direction(x: values[3], y: values[4], z: values[5])
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5])
             )
         case 8:
             self.init(
-                Position(values[0], values[1], values[2]),
-                Direction(x: values[3], y: values[4], z: values[5]),
-                Position(values[6], values[7])
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5]),
+                Vector(values[6], values[7])
             )
         case 9:
             self.init(
-                Position(values[0], values[1], values[2]),
-                Direction(x: values[3], y: values[4], z: values[5]),
-                Position(values[6], values[7], values[8])
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5]),
+                Vector(values[6], values[7], values[8])
             )
         case 12:
             self.init(
@@ -106,9 +114,15 @@ extension Vertex: Codable {
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             try self.init(
+<<<<<<< HEAD
                 container.decode(Position.self, forKey: .position),
                 container.decodeIfPresent(Direction.self, forKey: .normal),
                 container.decodeIfPresent(Position.self, forKey: .texcoord),
+=======
+                container.decode(Vector.self, forKey: .position),
+                container.decodeIfPresent(Vector.self, forKey: .normal),
+                container.decodeIfPresent(Vector.self, forKey: .texcoord),
+>>>>>>> 27b6a49 (Revert "Merge branch 'develop' into feature/vertex_color_component")
                 container.decodeIfPresent(Color.self, forKey: .color)
             )
         } else {
@@ -127,7 +141,7 @@ extension Vertex: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         let hasColor = color != .clear
-        let hasTexcoord = hasColor || texcoord != .origin
+        let hasTexcoord = hasColor || texcoord != .zero
         let hasNormal = hasTexcoord || normal != .zero
         let skipPositionZ = !hasNormal && position.z == 0
         let skipTextureZ = !hasColor && texcoord.z == 0
@@ -158,7 +172,7 @@ public extension Vertex {
 }
 
 internal extension Vertex {
-    init(unchecked position: Position, _ normal: Direction, _ texcoord: Position = .origin, _ color: Color = .clear) {
+    init(unchecked position: Vector, _ normal: Vector, _ texcoord: Vector = .zero, _ color: Color = .clear) {
         self.position = position.quantized()
         self.normal = normal
         self.texcoord = texcoord
@@ -166,7 +180,7 @@ internal extension Vertex {
     }
 
     /// Create copy of vertex with specified normal
-    func with(normal: Direction) -> Vertex {
+    func with(normal: Vector) -> Vertex {
         var vertex = self
         vertex.normal = normal
         return vertex

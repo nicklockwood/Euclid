@@ -86,7 +86,7 @@ extension Polygon: Codable {
     public func encode(to encoder: Encoder) throws {
         let positions = vertices.map { $0.position }
         if material == nil, plane == Plane(unchecked: positions, convex: isConvex) {
-            if vertices.allSatisfy({ $0.texcoord == .origin && $0.normal == plane.normal }) {
+            if vertices.allSatisfy({ $0.texcoord == .zero && $0.normal == plane.normal }) {
                 try positions.encode(to: encoder)
             } else {
                 try vertices.encode(to: encoder)
@@ -126,8 +126,8 @@ public extension Polygon {
     }
 
     /// Does polygon include texture coordinates?
-    var hasTextureCoordinates: Bool {
-        vertices.contains(where: { $0.texcoord != .origin })
+    var hasTexcoords: Bool {
+        vertices.contains(where: { $0.texcoord != .zero })
     }
 
     /// Returns a set of polygon edges
@@ -171,12 +171,12 @@ public extension Polygon {
 
     /// Create a polygon from a set of vertex positions
     /// Vertex normals will be set to match face normal
-    init?(_ vertices: [Position], material: Material? = nil) {
+    init?(_ vertices: [Vector], material: Material? = nil) {
         self.init(vertices.map { Vertex($0) }, material: material)
     }
 
     /// Test if point lies inside the polygon
-    func containsPoint(_ p: Position) -> Bool {
+    func containsPoint(_ p: Vector) -> Bool {
         guard plane.containsPoint(p) else {
             return false
         }
@@ -358,7 +358,7 @@ internal extension Polygon {
     // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
     init(
         unchecked vertices: [Vertex],
-        normal: Direction,
+        normal: Vector,
         isConvex: Bool,
         material: Material?
     ) {
@@ -448,8 +448,8 @@ internal extension Polygon {
         // can the merged points be removed?
         func testPoint(_ index: Int) {
             let prev = (index == 0) ? result.count - 1 : index - 1
-            let va = (result[index].position - result[prev].position).direction
-            let vb = (result[(index + 1) % result.count].position - result[index].position).direction
+            let va = (result[index].position - result[prev].position).normalized()
+            let vb = (result[(index + 1) % result.count].position - result[index].position).normalized()
             // check if point is redundant
             if abs(va.dot(vb) - 1) < epsilon {
                 // TODO: should we check that normal and uv ~= slerp of values either side?
@@ -485,8 +485,8 @@ internal extension Polygon {
         var p0 = vertices.last!.position
         for v1 in vertices {
             let p1 = v1.position
-            let tangent = (p1 - p0).direction
-            let normal = tangent.cross(plane.normal)
+            let tangent = p1 - p0
+            let normal = tangent.cross(plane.normal).normalized()
             guard let plane = Plane(normal: normal, pointOnPlane: p0) else {
                 assertionFailure()
                 return []
@@ -605,8 +605,7 @@ internal extension Polygon {
             }
             let tj = vj.position.compare(with: plane)
             if ti.rawValue | tj.rawValue == PlaneComparison.spanning.rawValue {
-                let t = (plane.w - vi.position.distance.dot(plane.normal)) / (vj.position - vi.position)
-                    .dot(plane.normal)
+                let t = (plane.w - plane.normal.dot(vi.position)) / plane.normal.dot(vj.position - vi.position)
                 let v = vi.lerp(vj, t)
                 if f.last?.position != v.position, f.first?.position != v.position {
                     f.append(v)

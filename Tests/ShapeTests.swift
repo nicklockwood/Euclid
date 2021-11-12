@@ -160,7 +160,7 @@ class ShapeTests: XCTestCase {
         ])
         let mesh = Mesh.fill(shape)
         XCTAssertEqual(mesh.polygons.count, 2)
-        XCTAssertEqual(mesh.polygons.first?.plane.normal, .z)
+        XCTAssertEqual(mesh.polygons.first?.plane.normal, Vector(0, 0, 1))
     }
 
     func testFillAnticlockwiseQuad() {
@@ -173,7 +173,7 @@ class ShapeTests: XCTestCase {
         ])
         let mesh = Mesh.fill(shape)
         XCTAssertEqual(mesh.polygons.count, 2)
-        XCTAssertEqual(mesh.polygons.first?.plane.normal, -.z)
+        XCTAssertEqual(mesh.polygons.first?.plane.normal, Vector(0, 0, -1))
     }
 
     func testFillSelfIntersectingPath() {
@@ -217,7 +217,7 @@ class ShapeTests: XCTestCase {
     func testLoftParallelEdges() {
         let shapes = [
             Path.square(),
-            Path.square().translated(by: Distance(0.0, 1.0, 0.0)),
+            Path.square().translated(by: Vector(0.0, 1.0, 0.0)),
         ]
 
         let loft = Mesh.loft(shapes)
@@ -288,19 +288,19 @@ class ShapeTests: XCTestCase {
     // MARK: Stroke
 
     func testStrokeLine() {
-        let path = Path.line(Position(-1, 0, 0), Position(1, 0, 0))
+        let path = Path.line(Vector(-1, 0), Vector(1, 0))
         let mesh = Mesh.stroke(path, detail: 2)
         XCTAssertEqual(mesh.polygons.count, 2)
     }
 
     func testStrokeLineSingleSided() {
-        let path = Path.line(Position(-1, 0, 0), Position(1, 0, 0))
+        let path = Path.line(Vector(-1, 0), Vector(1, 0))
         let mesh = Mesh.stroke(path, detail: 1)
         XCTAssertEqual(mesh.polygons.count, 1)
     }
 
     func testStrokeLineWithTriangle() {
-        let path = Path.line(Position(-1, 0, 0), Position(1, 0, 0))
+        let path = Path.line(Vector(-1, 0), Vector(1, 0))
         let mesh = Mesh.stroke(path, detail: 3)
         XCTAssertEqual(mesh.polygons.count, 5)
     }

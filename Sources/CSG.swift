@@ -311,32 +311,32 @@ public extension Mesh {
             var radius = 0.0
             for corner in mesh.bounds.corners {
                 let p = corner.project(onto: plane)
-                radius = max(radius, p.norm)
+                radius = max(radius, p.lengthSquared)
             }
             radius = radius.squareRoot()
             // Create back face
-            let normal = Direction.z
+            let normal = Vector(0, 0, 1)
             let angle = -normal.angle(with: plane.normal)
             let rotation: Rotation
             if angle == .zero {
                 rotation = .identity
             } else {
-                let axis = normal.cross(plane.normal)
-                rotation = Rotation(axis: axis, angle: angle)
+                let axis = normal.cross(plane.normal).normalized()
+                rotation = Rotation(unchecked: axis, angle: angle)
             }
             let rect = Polygon(
                 unchecked: [
-                    Vertex(Position(-radius, radius, 0), -normal, .origin),
-                    Vertex(Position(radius, radius, 0), -normal, Position(1, 0, 0)),
-                    Vertex(Position(radius, -radius, 0), -normal, Position(1, 1, 0)),
-                    Vertex(Position(-radius, -radius, 0), -normal, Position(0, 1, 0)),
+                    Vertex(Vector(-radius, radius, 0), -normal, .zero),
+                    Vertex(Vector(radius, radius, 0), -normal, Vector(1, 0, 0)),
+                    Vertex(Vector(radius, -radius, 0), -normal, Vector(1, 1, 0)),
+                    Vertex(Vector(-radius, -radius, 0), -normal, Vector(0, 1, 0)),
                 ],
                 normal: -normal,
                 isConvex: true,
                 material: material
             )
             .rotated(by: rotation)
-            .translated(by: plane.w * plane.normal)
+            .translated(by: plane.normal * plane.w)
             // Clip rect
             return Mesh(
                 unchecked: mesh.polygons + BSP(self) { false }

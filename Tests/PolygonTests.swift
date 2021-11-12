@@ -25,12 +25,12 @@ class PolygonTests: XCTestCase {
     // MARK: initialization
 
     func testConvexPolygonAnticlockwiseWinding() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         guard let polygon = Polygon([
-            Vertex(Position(-1, 1), normal),
-            Vertex(Position(-1, -1), normal),
-            Vertex(Position(1, -1), normal),
-            Vertex(Position(1, 1), normal),
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, -1), normal),
+            Vertex(Vector(1, -1), normal),
+            Vertex(Vector(1, 1), normal),
         ]) else {
             XCTFail()
             return
@@ -39,12 +39,12 @@ class PolygonTests: XCTestCase {
     }
 
     func testConvexPolygonClockwiseWinding() {
-        let normal = -Direction.z
+        let normal = Vector(0, 0, -1)
         guard let polygon = Polygon([
-            Vertex(Position(-1, -1), normal),
-            Vertex(Position(-1, 1), normal),
-            Vertex(Position(1, 1), normal),
-            Vertex(Position(1, -1), normal),
+            Vertex(Vector(-1, -1), normal),
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(1, 1), normal),
+            Vertex(Vector(1, -1), normal),
         ]) else {
             XCTFail()
             return
@@ -53,14 +53,14 @@ class PolygonTests: XCTestCase {
     }
 
     func testConcavePolygonAnticlockwiseWinding() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         guard let polygon = Polygon([
-            Vertex(Position(-1, 0), normal),
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(0, -1), normal),
-            Vertex(Position(1, -1), normal),
-            Vertex(Position(1, 1), normal),
-            Vertex(Position(-1, 1), normal),
+            Vertex(Vector(-1, 0), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(0, -1), normal),
+            Vertex(Vector(1, -1), normal),
+            Vertex(Vector(1, 1), normal),
+            Vertex(Vector(-1, 1), normal),
         ]) else {
             XCTFail()
             return
@@ -69,14 +69,14 @@ class PolygonTests: XCTestCase {
     }
 
     func testConcavePolygonClockwiseWinding() {
-        let normal = -Direction.z
+        let normal = Vector(0, 0, -1)
         guard let polygon = Polygon([
-            Vertex(Position(-1, 0), normal),
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(0, 1), normal),
-            Vertex(Position(1, 1), normal),
-            Vertex(Position(1, -1), normal),
-            Vertex(Position(-1, -1), normal),
+            Vertex(Vector(-1, 0), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(0, 1), normal),
+            Vertex(Vector(1, 1), normal),
+            Vertex(Vector(1, -1), normal),
+            Vertex(Vector(-1, -1), normal),
         ]) else {
             XCTFail()
             return
@@ -85,40 +85,40 @@ class PolygonTests: XCTestCase {
     }
 
     func testDegeneratePolygonWithColinearPoints() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         XCTAssertNil(Polygon([
-            Vertex(Position(0, 1), normal),
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(0, -2), normal),
+            Vertex(Vector(0, 1), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(0, -2), normal),
         ]))
     }
 
     func testNonDegeneratePolygonWithColinearPoints() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         XCTAssertNotNil(Polygon([
-            Vertex(Position(0, 1), normal),
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(0, -2), normal),
-            Vertex(Position(1.5, -1), normal),
+            Vertex(Vector(0, 1), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(0, -2), normal),
+            Vertex(Vector(1.5, -1), normal),
         ]))
     }
 
     func testDegeneratePolygonWithSelfIntersectingPoints() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         XCTAssertNil(Polygon([
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(1, 1), normal),
-            Vertex(Position(1, 0), normal),
-            Vertex(Position(0, 1), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(1, 1), normal),
+            Vertex(Vector(1, 0), normal),
+            Vertex(Vector(0, 1), normal),
         ]))
     }
 
     func testZeroNormals() {
         guard let polygon = Polygon([
-            Vertex(Position(-1, 1), .zero),
-            Vertex(Position(-1, -1), .zero),
-            Vertex(Position(1, -1), .zero),
-            Vertex(Position(1, 1), .zero),
+            Vertex(Vector(-1, 1), .zero),
+            Vertex(Vector(-1, -1), .zero),
+            Vertex(Vector(1, -1), .zero),
+            Vertex(Vector(1, 1), .zero),
         ]) else {
             XCTFail()
             return
@@ -130,10 +130,10 @@ class PolygonTests: XCTestCase {
 
     func testPolygonFromVectors() {
         guard let polygon = Polygon([
-            Position(-1, 1),
-            Position(-1, -1),
-            Position(1, -1),
-            Position(1, 1),
+            Vector(-1, 1),
+            Vector(-1, -1),
+            Vector(1, -1),
+            Vector(1, 1),
         ]) else {
             XCTFail()
             return
@@ -146,196 +146,196 @@ class PolygonTests: XCTestCase {
     // MARK: merging
 
     func testMerge1() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         let a = Polygon(unchecked: [
-            Vertex(Position(0, 1), normal),
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(1, 1), normal),
+            Vertex(Vector(0, 1), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(1, 1), normal),
         ])
         let b = Polygon(unchecked: [
-            Vertex(Position(1, 1), normal),
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(1, 0), normal),
+            Vertex(Vector(1, 1), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(1, 0), normal),
         ])
         let c = Polygon(unchecked: [
-            Vertex(Position(0, 1), normal),
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(1, 0), normal),
-            Vertex(Position(1, 1), normal),
+            Vertex(Vector(0, 1), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(1, 0), normal),
+            Vertex(Vector(1, 1), normal),
         ])
         XCTAssertEqual(a.merge(b), c)
     }
 
     func testMerge2() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         let a = Polygon(unchecked: [
-            Vertex(Position(0, 1), normal),
-            Vertex(Position(1, 0), normal),
-            Vertex(Position(1, 1), normal),
+            Vertex(Vector(0, 1), normal),
+            Vertex(Vector(1, 0), normal),
+            Vertex(Vector(1, 1), normal),
         ])
         let b = Polygon(unchecked: [
-            Vertex(Position(2, 1), normal),
-            Vertex(Position(1, 1), normal),
-            Vertex(Position(1, 0), normal),
+            Vertex(Vector(2, 1), normal),
+            Vertex(Vector(1, 1), normal),
+            Vertex(Vector(1, 0), normal),
         ])
         let c = Polygon(unchecked: [
-            Vertex(Position(0, 1), normal),
-            Vertex(Position(1, 0), normal),
-            Vertex(Position(2, 1), normal),
+            Vertex(Vector(0, 1), normal),
+            Vertex(Vector(1, 0), normal),
+            Vertex(Vector(2, 1), normal),
         ])
         XCTAssertEqual(a.merge(b), c)
     }
 
     func testMergeL2RAdjacentRects() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         let a = Polygon(unchecked: [
-            Vertex(Position(-1, 1), normal),
-            Vertex(Position(-1, -1), normal),
-            Vertex(Position(0, -1), normal),
-            Vertex(Position(0, 1), normal),
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, -1), normal),
+            Vertex(Vector(0, -1), normal),
+            Vertex(Vector(0, 1), normal),
         ])
         let b = Polygon(unchecked: [
-            Vertex(Position(0, 1), normal),
-            Vertex(Position(0, -1), normal),
-            Vertex(Position(1, -1), normal),
-            Vertex(Position(1, 1), normal),
+            Vertex(Vector(0, 1), normal),
+            Vertex(Vector(0, -1), normal),
+            Vertex(Vector(1, -1), normal),
+            Vertex(Vector(1, 1), normal),
         ])
         guard let c = a.merge(b) else {
             XCTFail()
             return
         }
         XCTAssertEqual(c, Polygon(unchecked: [
-            Vertex(Position(-1, 1), normal),
-            Vertex(Position(-1, -1), normal),
-            Vertex(Position(1, -1), normal),
-            Vertex(Position(1, 1), normal),
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, -1), normal),
+            Vertex(Vector(1, -1), normal),
+            Vertex(Vector(1, 1), normal),
         ]))
     }
 
     func testMergeR2LAdjacentRects() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         let a = Polygon(unchecked: [
-            Vertex(Position(0, 1), normal),
-            Vertex(Position(0, -1), normal),
-            Vertex(Position(1, -1), normal),
-            Vertex(Position(1, 1), normal),
+            Vertex(Vector(0, 1), normal),
+            Vertex(Vector(0, -1), normal),
+            Vertex(Vector(1, -1), normal),
+            Vertex(Vector(1, 1), normal),
         ])
         let b = Polygon(unchecked: [
-            Vertex(Position(-1, 1), normal),
-            Vertex(Position(-1, -1), normal),
-            Vertex(Position(0, -1), normal),
-            Vertex(Position(0, 1), normal),
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, -1), normal),
+            Vertex(Vector(0, -1), normal),
+            Vertex(Vector(0, 1), normal),
         ])
         guard let c = a.merge(b) else {
             XCTFail()
             return
         }
         XCTAssertEqual(c, Polygon(unchecked: [
-            Vertex(Position(1, -1), normal),
-            Vertex(Position(1, 1), normal),
-            Vertex(Position(-1, 1), normal),
-            Vertex(Position(-1, -1), normal),
+            Vertex(Vector(1, -1), normal),
+            Vertex(Vector(1, 1), normal),
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, -1), normal),
         ]))
     }
 
     func testMergeB2TAdjacentRects() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         let a = Polygon(unchecked: [
-            Vertex(Position(-1, 0), normal),
-            Vertex(Position(-1, -1), normal),
-            Vertex(Position(1, -1), normal),
-            Vertex(Position(1, 0), normal),
+            Vertex(Vector(-1, 0), normal),
+            Vertex(Vector(-1, -1), normal),
+            Vertex(Vector(1, -1), normal),
+            Vertex(Vector(1, 0), normal),
         ])
         let b = Polygon(unchecked: [
-            Vertex(Position(-1, 1), normal),
-            Vertex(Position(-1, 0), normal),
-            Vertex(Position(1, 0), normal),
-            Vertex(Position(1, 1), normal),
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, 0), normal),
+            Vertex(Vector(1, 0), normal),
+            Vertex(Vector(1, 1), normal),
         ])
         guard let c = a.merge(b) else {
             XCTFail()
             return
         }
         XCTAssertEqual(c, Polygon(unchecked: [
-            Vertex(Position(-1, -1), normal),
-            Vertex(Position(1, -1), normal),
-            Vertex(Position(1, 1), normal),
-            Vertex(Position(-1, 1), normal),
+            Vertex(Vector(-1, -1), normal),
+            Vertex(Vector(1, -1), normal),
+            Vertex(Vector(1, 1), normal),
+            Vertex(Vector(-1, 1), normal),
         ]))
     }
 
     func testMergeT2BAdjacentRects() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         let a = Polygon(unchecked: [
-            Vertex(Position(-1, 1), normal),
-            Vertex(Position(-1, 0), normal),
-            Vertex(Position(1, 0), normal),
-            Vertex(Position(1, 1), normal),
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, 0), normal),
+            Vertex(Vector(1, 0), normal),
+            Vertex(Vector(1, 1), normal),
         ])
         let b = Polygon(unchecked: [
-            Vertex(Position(-1, 0), normal),
-            Vertex(Position(-1, -1), normal),
-            Vertex(Position(1, -1), normal),
-            Vertex(Position(1, 0), normal),
+            Vertex(Vector(-1, 0), normal),
+            Vertex(Vector(-1, -1), normal),
+            Vertex(Vector(1, -1), normal),
+            Vertex(Vector(1, 0), normal),
         ])
         guard let c = a.merge(b) else {
             XCTFail()
             return
         }
         XCTAssertEqual(c, Polygon(unchecked: [
-            Vertex(Position(1, 1), normal),
-            Vertex(Position(-1, 1), normal),
-            Vertex(Position(-1, -1), normal),
-            Vertex(Position(1, -1), normal),
+            Vertex(Vector(1, 1), normal),
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, -1), normal),
+            Vertex(Vector(1, -1), normal),
         ]))
     }
 
     func testMergeL2RAdjacentRectAndTriangle() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         let a = Polygon(unchecked: [
-            Vertex(Position(-1, 1), normal),
-            Vertex(Position(-1, -1), normal),
-            Vertex(Position(0, -1), normal),
-            Vertex(Position(0, 1), normal),
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, -1), normal),
+            Vertex(Vector(0, -1), normal),
+            Vertex(Vector(0, 1), normal),
         ])
         let b = Polygon(unchecked: [
-            Vertex(Position(0, 1), normal),
-            Vertex(Position(0, -1), normal),
-            Vertex(Position(1, 1), normal),
+            Vertex(Vector(0, 1), normal),
+            Vertex(Vector(0, -1), normal),
+            Vertex(Vector(1, 1), normal),
         ])
         guard let c = a.merge(b) else {
             XCTFail()
             return
         }
         XCTAssertEqual(c, Polygon(unchecked: [
-            Vertex(Position(-1, 1), normal),
-            Vertex(Position(-1, -1), normal),
-            Vertex(Position(0, -1), normal),
-            Vertex(Position(1, 1), normal),
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, -1), normal),
+            Vertex(Vector(0, -1), normal),
+            Vertex(Vector(1, 1), normal),
         ]))
     }
 
     func testMergeEdgeCase() {
-        let normal = Direction.z
+        let normal = Vector(0, 0, 1)
         let a = Polygon(unchecked: [
-            Vertex(Position(-0.02, 0.8), normal),
-            Vertex(Position(0.7028203230300001, 0.38267949192000006), normal),
-            Vertex(Position(0.7028203230300001, -0.38267949192000006), normal),
+            Vertex(Vector(-0.02, 0.8), normal),
+            Vertex(Vector(0.7028203230300001, 0.38267949192000006), normal),
+            Vertex(Vector(0.7028203230300001, -0.38267949192000006), normal),
         ])
         let b = Polygon(unchecked: [
-            Vertex(Position(0.7028203230300001, -0.38267949192000006), normal),
-            Vertex(Position(-0.02, -0.8), normal),
-            Vertex(Position(-0.6828203230300001, -0.41732050808000004), normal),
-            Vertex(Position(-0.6828203230300001, 0.41732050808000004), normal),
-            Vertex(Position(-0.02, 0.8), normal),
+            Vertex(Vector(0.7028203230300001, -0.38267949192000006), normal),
+            Vertex(Vector(-0.02, -0.8), normal),
+            Vertex(Vector(-0.6828203230300001, -0.41732050808000004), normal),
+            Vertex(Vector(-0.6828203230300001, 0.41732050808000004), normal),
+            Vertex(Vector(-0.02, 0.8), normal),
         ])
         let c = Polygon(unchecked: [
-            Vertex(Position(0.7028203230300001, 0.38267949192000006), normal),
-            Vertex(Position(0.7028203230300001, -0.38267949192000006), normal),
-            Vertex(Position(-0.02, -0.8), normal),
-            Vertex(Position(-0.6828203230300001, -0.41732050808000004), normal),
-            Vertex(Position(-0.6828203230300001, 0.41732050808000004), normal),
-            Vertex(Position(-0.02, 0.8), normal),
+            Vertex(Vector(0.7028203230300001, 0.38267949192000006), normal),
+            Vertex(Vector(0.7028203230300001, -0.38267949192000006), normal),
+            Vertex(Vector(-0.02, -0.8), normal),
+            Vertex(Vector(-0.6828203230300001, -0.41732050808000004), normal),
+            Vertex(Vector(-0.6828203230300001, 0.41732050808000004), normal),
+            Vertex(Vector(-0.02, 0.8), normal),
         ])
         XCTAssertEqual(a.merge(b), c)
     }
@@ -354,15 +354,15 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertTrue(polygon.containsPoint(Position(0, 0)))
-        XCTAssertTrue(polygon.containsPoint(Position(-0.999, 0.999)))
-        XCTAssertTrue(polygon.containsPoint(Position(0.999, 0.999)))
-        XCTAssertTrue(polygon.containsPoint(Position(0.999, -0.999)))
-        XCTAssertTrue(polygon.containsPoint(Position(-0.999, -0.999)))
-        XCTAssertFalse(polygon.containsPoint(Position(-1.001, 0)))
-        XCTAssertFalse(polygon.containsPoint(Position(1.001, 0)))
-        XCTAssertFalse(polygon.containsPoint(Position(0, -1.001)))
-        XCTAssertFalse(polygon.containsPoint(Position(0, 1.001)))
+        XCTAssertTrue(polygon.containsPoint(Vector(0, 0)))
+        XCTAssertTrue(polygon.containsPoint(Vector(-0.999, 0.999)))
+        XCTAssertTrue(polygon.containsPoint(Vector(0.999, 0.999)))
+        XCTAssertTrue(polygon.containsPoint(Vector(0.999, -0.999)))
+        XCTAssertTrue(polygon.containsPoint(Vector(-0.999, -0.999)))
+        XCTAssertFalse(polygon.containsPoint(Vector(-1.001, 0)))
+        XCTAssertFalse(polygon.containsPoint(Vector(1.001, 0)))
+        XCTAssertFalse(polygon.containsPoint(Vector(0, -1.001)))
+        XCTAssertFalse(polygon.containsPoint(Vector(0, 1.001)))
     }
 
     func testConvexClockwisePolygonContainsPoint() {
@@ -377,15 +377,15 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertTrue(polygon.containsPoint(Position(0, 0)))
-        XCTAssertTrue(polygon.containsPoint(Position(-0.999, 0.999)))
-        XCTAssertTrue(polygon.containsPoint(Position(0.999, 0.999)))
-        XCTAssertTrue(polygon.containsPoint(Position(0.999, -0.999)))
-        XCTAssertTrue(polygon.containsPoint(Position(-0.999, -0.999)))
-        XCTAssertFalse(polygon.containsPoint(Position(-1.001, 0)))
-        XCTAssertFalse(polygon.containsPoint(Position(1.001, 0)))
-        XCTAssertFalse(polygon.containsPoint(Position(0, -1.001)))
-        XCTAssertFalse(polygon.containsPoint(Position(0, 1.001)))
+        XCTAssertTrue(polygon.containsPoint(Vector(0, 0)))
+        XCTAssertTrue(polygon.containsPoint(Vector(-0.999, 0.999)))
+        XCTAssertTrue(polygon.containsPoint(Vector(0.999, 0.999)))
+        XCTAssertTrue(polygon.containsPoint(Vector(0.999, -0.999)))
+        XCTAssertTrue(polygon.containsPoint(Vector(-0.999, -0.999)))
+        XCTAssertFalse(polygon.containsPoint(Vector(-1.001, 0)))
+        XCTAssertFalse(polygon.containsPoint(Vector(1.001, 0)))
+        XCTAssertFalse(polygon.containsPoint(Vector(0, -1.001)))
+        XCTAssertFalse(polygon.containsPoint(Vector(0, 1.001)))
     }
 
     func testConcaveAnticlockwisePolygonContainsPoint() {
@@ -402,10 +402,10 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertTrue(polygon.containsPoint(Position(-0.5, 0.5)))
-        XCTAssertTrue(polygon.containsPoint(Position(0.5, 0.5)))
-        XCTAssertFalse(polygon.containsPoint(Position(-0.5, -0.5)))
-        XCTAssertTrue(polygon.containsPoint(Position(0.5, -0.5)))
+        XCTAssertTrue(polygon.containsPoint(Vector(-0.5, 0.5)))
+        XCTAssertTrue(polygon.containsPoint(Vector(0.5, 0.5)))
+        XCTAssertFalse(polygon.containsPoint(Vector(-0.5, -0.5)))
+        XCTAssertTrue(polygon.containsPoint(Vector(0.5, -0.5)))
     }
 
     func testConcaveAnticlockwisePolygonContainsPoint2() {
@@ -420,12 +420,12 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertTrue(polygon.containsPoint(Position(0.75, 0)))
-        XCTAssertFalse(polygon.containsPoint(Position(0.25, 0)))
-        XCTAssertFalse(polygon.containsPoint(Position(0.25, 0.25)))
-        XCTAssertFalse(polygon.containsPoint(Position(0.25, -0.25)))
-        XCTAssertTrue(polygon.containsPoint(Position(0.25, 0.5)))
-        XCTAssertTrue(polygon.containsPoint(Position(0.25, -0.5)))
+        XCTAssertTrue(polygon.containsPoint(Vector(0.75, 0)))
+        XCTAssertFalse(polygon.containsPoint(Vector(0.25, 0)))
+        XCTAssertFalse(polygon.containsPoint(Vector(0.25, 0.25)))
+        XCTAssertFalse(polygon.containsPoint(Vector(0.25, -0.25)))
+        XCTAssertTrue(polygon.containsPoint(Vector(0.25, 0.5)))
+        XCTAssertTrue(polygon.containsPoint(Vector(0.25, -0.5)))
     }
 
     // MARK: tessellation
@@ -449,15 +449,15 @@ class PolygonTests: XCTestCase {
         }
         let a = Set(polygons[0].vertices.map { $0.position })
         let expectedA = Set([
-            Position(0, 1),
-            Position(0.5, 0),
-            Position(1, 0),
+            Vector(0, 1),
+            Vector(0.5, 0),
+            Vector(1, 0),
         ])
         let b = Set(polygons[1].vertices.map { $0.position })
         let expectedB = Set([
-            Position(0.5, 0),
-            Position(1, 0),
-            Position(0, -1),
+            Vector(0.5, 0),
+            Vector(1, 0),
+            Vector(0, -1),
         ])
         XCTAssert(a == expectedA || a == expectedB)
         XCTAssert(b == expectedA || b == expectedB)
@@ -482,15 +482,15 @@ class PolygonTests: XCTestCase {
         }
         let a = Set(polygons[0].vertices.map { $0.position })
         let expectedA = Set([
-            Position(0, 1),
-            Position(1, 0),
-            Position(0.5, 0),
+            Vector(0, 1),
+            Vector(1, 0),
+            Vector(0.5, 0),
         ])
         let b = Set(polygons[1].vertices.map { $0.position })
         let expectedB = Set([
-            Position(0.5, 0),
-            Position(1, 0),
-            Position(0, -1),
+            Vector(0.5, 0),
+            Vector(1, 0),
+            Vector(0, -1),
         ])
         XCTAssert(a == expectedA || a == expectedB)
         XCTAssert(b == expectedA || b == expectedB)
@@ -517,15 +517,15 @@ class PolygonTests: XCTestCase {
         }
         let a = Set(triangles[0].vertices.map { $0.position })
         let expectedA = Set([
-            Position(0, 1),
-            Position(0.5, 0),
-            Position(1, 0),
+            Vector(0, 1),
+            Vector(0.5, 0),
+            Vector(1, 0),
         ])
         let b = Set(triangles[1].vertices.map { $0.position })
         let expectedB = Set([
-            Position(0.5, 0),
-            Position(1, 0),
-            Position(0, -1),
+            Vector(0.5, 0),
+            Vector(1, 0),
+            Vector(0, -1),
         ])
         XCTAssert(a == expectedA || a == expectedB)
         XCTAssert(b == expectedA || b == expectedB)
@@ -550,28 +550,28 @@ class PolygonTests: XCTestCase {
         }
         let a = Set(triangles[0].vertices.map { $0.position })
         let expectedA = Set([
-            Position(0, 1),
-            Position(1, 0),
-            Position(0.5, 0),
+            Vector(0, 1),
+            Vector(1, 0),
+            Vector(0.5, 0),
         ])
         let b = Set(triangles[1].vertices.map { $0.position })
         let expectedB = Set([
-            Position(0.5, 0),
-            Position(1, 0),
-            Position(0, -1),
+            Vector(0.5, 0),
+            Vector(1, 0),
+            Vector(0, -1),
         ])
         XCTAssert(a == expectedA || a == expectedB)
         XCTAssert(b == expectedA || b == expectedB)
     }
 
     func testPolygonWithColinearPointsCorrectlyTriangulated() {
-        let normal = -Direction.z
+        let normal = Vector(0, 0, -1)
         guard let polygon = Polygon([
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(0.5, 0), normal),
-            Vertex(Position(0.5, 1), normal),
-            Vertex(Position(-0.5, 1), normal),
-            Vertex(Position(-0.5, 0), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(0.5, 0), normal),
+            Vertex(Vector(0.5, 1), normal),
+            Vertex(Vector(-0.5, 1), normal),
+            Vertex(Vector(-0.5, 0), normal),
         ]) else {
             XCTFail()
             return
@@ -582,32 +582,32 @@ class PolygonTests: XCTestCase {
             return
         }
         XCTAssertEqual(triangles[0], Polygon([
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(0.5, 0), normal),
-            Vertex(Position(0.5, 1), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(0.5, 0), normal),
+            Vertex(Vector(0.5, 1), normal),
         ]))
         XCTAssertEqual(triangles[1], Polygon([
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(0.5, 1), normal),
-            Vertex(Position(-0.5, 1), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(0.5, 1), normal),
+            Vertex(Vector(-0.5, 1), normal),
         ]))
         XCTAssertEqual(triangles[2], Polygon([
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(-0.5, 1), normal),
-            Vertex(Position(-0.5, 0), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(-0.5, 1), normal),
+            Vertex(Vector(-0.5, 0), normal),
         ]))
     }
 
     func testHouseShapedPolygonCorrectlyTriangulated() {
-        let normal = -Direction.z
+        let normal = Vector(0, 0, -1)
         guard let polygon = Polygon([
-            Vertex(Position(0, 0.5), normal),
-            Vertex(Position(1, 0), normal),
-            Vertex(Position(0.5, -epsilon), normal),
-            Vertex(Position(0.5, -1), normal),
-            Vertex(Position(-0.5, -1), normal),
-            Vertex(Position(-0.5, -epsilon), normal),
-            Vertex(Position(-1, 0), normal),
+            Vertex(Vector(0, 0.5), normal),
+            Vertex(Vector(1, 0), normal),
+            Vertex(Vector(0.5, -epsilon), normal),
+            Vertex(Vector(0.5, -1), normal),
+            Vertex(Vector(-0.5, -1), normal),
+            Vertex(Vector(-0.5, -epsilon), normal),
+            Vertex(Vector(-1, 0), normal),
         ]) else {
             XCTFail()
             return
@@ -618,19 +618,19 @@ class PolygonTests: XCTestCase {
             return
         }
         XCTAssertEqual(triangles[0], Polygon([
-            Vertex(Position(-1, 0), normal),
-            Vertex(Position(0, 0.5), normal),
-            Vertex(Position(1, 0), normal),
+            Vertex(Vector(-1, 0), normal),
+            Vertex(Vector(0, 0.5), normal),
+            Vertex(Vector(1, 0), normal),
         ]))
         XCTAssertEqual(triangles[1], Polygon([
-            Vertex(Position(0.5, -epsilon), normal),
-            Vertex(Position(0.5, -1), normal),
-            Vertex(Position(-0.5, -1), normal),
+            Vertex(Vector(0.5, -epsilon), normal),
+            Vertex(Vector(0.5, -1), normal),
+            Vertex(Vector(-0.5, -1), normal),
         ]))
         XCTAssertEqual(triangles[2], Polygon([
-            Vertex(Position(0.5, -epsilon), normal),
-            Vertex(Position(-0.5, -1), normal),
-            Vertex(Position(-0.5, -epsilon), normal),
+            Vertex(Vector(0.5, -epsilon), normal),
+            Vertex(Vector(-0.5, -1), normal),
+            Vertex(Vector(-0.5, -epsilon), normal),
         ]))
     }
 
@@ -671,19 +671,19 @@ class PolygonTests: XCTestCase {
         let points = triangles.map { $0.vertices.map { $0.position } }
         XCTAssertEqual(points, [
             [
-                Position(0.9349999999999999, 0.0, 0.16999999999999998),
-                Position(1.086, 0.0, 0.16999999999999998),
-                Position(1.086, 0.0, 0.13999999999999999),
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
+                Vector(1.086, 0.0, 0.16999999999999998),
+                Vector(1.086, 0.0, 0.13999999999999999),
             ],
             [
-                Position(0.9349999999999999, 0.0, 0.16999999999999998),
-                Position(1.086, 0.0, 0.13999999999999999),
-                Position(0.95, offset, 0.13999999999999999),
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
+                Vector(1.086, 0.0, 0.13999999999999999),
+                Vector(0.95, offset, 0.13999999999999999),
             ],
             [
-                Position(0.95, offset, 0.13999999999999999),
-                Position(0.9349999999999999, 0.0, 0.09999999999999999),
-                Position(0.9349999999999999, 0.0, 0.16999999999999998),
+                Vector(0.95, offset, 0.13999999999999999),
+                Vector(0.9349999999999999, 0.0, 0.09999999999999999),
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
             ],
         ])
         let merged = triangles.detessellate(ensureConvex: false)
@@ -709,19 +709,19 @@ class PolygonTests: XCTestCase {
         let points = triangles.map { $0.vertices.map { $0.position } }
         XCTAssertEqual(points, [
             [
-                Position(1.086, 0.0, 0.13999999999999999),
-                Position(1.086, 0.0, 0.16999999999999998),
-                Position(0.9349999999999999, 0.0, 0.16999999999999998),
+                Vector(1.086, 0.0, 0.13999999999999999),
+                Vector(1.086, 0.0, 0.16999999999999998),
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
             ],
             [
-                Position(0.95, offset, 0.13999999999999999),
-                Position(1.086, 0.0, 0.13999999999999999),
-                Position(0.9349999999999999, 0.0, 0.16999999999999998),
+                Vector(0.95, offset, 0.13999999999999999),
+                Vector(1.086, 0.0, 0.13999999999999999),
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
             ],
             [
-                Position(0.9349999999999999, 0.0, 0.16999999999999998),
-                Position(0.9349999999999999, 0.0, 0.09999999999999999),
-                Position(0.95, offset, 0.13999999999999999),
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
+                Vector(0.9349999999999999, 0.0, 0.09999999999999999),
+                Vector(0.95, offset, 0.13999999999999999),
             ],
         ])
         let merged = triangles.detessellate(ensureConvex: false)
@@ -803,13 +803,13 @@ class PolygonTests: XCTestCase {
     }
 
     func testPolygonWithColinearPointsCorrectlyDetessellated() {
-        let normal = -Direction.z
+        let normal = Vector(0, 0, -1)
         let polygon = Polygon(unchecked: [
-            Vertex(Position(0, 0), normal),
-            Vertex(Position(0.5, 0), normal),
-            Vertex(Position(0.5, 1), normal),
-            Vertex(Position(-0.5, 1), normal),
-            Vertex(Position(-0.5, 0), normal),
+            Vertex(Vector(0, 0), normal),
+            Vertex(Vector(0.5, 0), normal),
+            Vertex(Vector(0.5, 1), normal),
+            Vertex(Vector(-0.5, 1), normal),
+            Vertex(Vector(-0.5, 0), normal),
         ])
         let triangles = polygon.triangulate()
         XCTAssertEqual(triangles.count, 3)
@@ -820,15 +820,15 @@ class PolygonTests: XCTestCase {
     }
 
     func testHouseShapedPolygonCorrectlyDetessellated() {
-        let normal = -Direction.z
+        let normal = Vector(0, 0, -1)
         let polygon = Polygon(unchecked: [
-            Vertex(Position(0, 0.5), normal),
-            Vertex(Position(1, 0), normal),
-            Vertex(Position(0.5, 0), normal),
-            Vertex(Position(0.5, -1), normal),
-            Vertex(Position(-0.5, -1), normal),
-            Vertex(Position(-0.5, 0), normal),
-            Vertex(Position(-1, 0), normal),
+            Vertex(Vector(0, 0.5), normal),
+            Vertex(Vector(1, 0), normal),
+            Vertex(Vector(0.5, 0), normal),
+            Vertex(Vector(0.5, -1), normal),
+            Vertex(Vector(-0.5, -1), normal),
+            Vertex(Vector(-0.5, 0), normal),
+            Vertex(Vector(-1, 0), normal),
         ])
         let triangles = polygon.triangulate()
         XCTAssertEqual(triangles.count, 5)
@@ -839,32 +839,32 @@ class PolygonTests: XCTestCase {
     }
 
     func testNonWatertightPolygonsCorrectlyDetessellated() {
-        let normal = -Direction.z
+        let normal = Vector(0, 0, -1)
         let triangles = [
             Polygon(unchecked: [
-                Vertex(Position(0, -1), normal),
-                Vertex(Position(-2, 0), normal),
-                Vertex(Position(2, 0), normal),
+                Vertex(Vector(0, -1), normal),
+                Vertex(Vector(-2, 0), normal),
+                Vertex(Vector(2, 0), normal),
             ]),
             Polygon(unchecked: [
-                Vertex(Position(-2, 0), normal),
-                Vertex(Position(0, 1), normal),
-                Vertex(Position(0, 0), normal),
+                Vertex(Vector(-2, 0), normal),
+                Vertex(Vector(0, 1), normal),
+                Vertex(Vector(0, 0), normal),
             ]),
             Polygon(unchecked: [
-                Vertex(Position(2, 0), normal),
-                Vertex(Position(0, 0), normal),
-                Vertex(Position(0, 1), normal),
+                Vertex(Vector(2, 0), normal),
+                Vertex(Vector(0, 0), normal),
+                Vertex(Vector(0, 1), normal),
             ]),
         ]
         let result = triangles.detessellate()
         XCTAssertEqual(result.count, 1)
         XCTAssertEqual(result, [
             Polygon(unchecked: [
-                Vertex(Position(0, -1), normal),
-                Vertex(Position(-2, 0), normal),
-                Vertex(Position(0, 1), normal),
-                Vertex(Position(2, 0), normal),
+                Vertex(Vector(0, -1), normal),
+                Vertex(Vector(-2, 0), normal),
+                Vertex(Vector(0, 1), normal),
+                Vertex(Vector(2, 0), normal),
             ]),
         ])
     }

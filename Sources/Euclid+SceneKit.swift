@@ -37,10 +37,6 @@ public extension SCNVector3 {
     init(_ v: Vector) {
         self.init(v.x, v.y, v.z)
     }
-
-    init<T: CartesianComponentsRepresentable>(_ cartesian: T) {
-        self.init(cartesian.x, cartesian.y, cartesian.z)
-    }
 }
 
 public extension SCNVector4 {
@@ -83,12 +79,6 @@ private extension Data {
         append(vector.x)
         append(vector.y)
         append(vector.z)
-    }
-
-    mutating func append<T: CartesianComponentsRepresentable>(_ cartesianComponentsRepresentable: T) {
-        append(cartesianComponentsRepresentable.x)
-        append(cartesianComponentsRepresentable.y)
-        append(cartesianComponentsRepresentable.z)
     }
 }
 
@@ -359,8 +349,8 @@ public extension SCNGeometry {
     convenience init<T: Collection>(_ edges: T) where T.Element == LineSegment {
         var indexData = Data()
         var vertexData = Data()
-        var indicesByVertex = [Position: UInt32]()
-        func addVertex(_ vertex: Position) {
+        var indicesByVertex = [Vector: UInt32]()
+        func addVertex(_ vertex: Vector) {
             if let index = indicesByVertex[vertex] {
                 indexData.append(index)
                 return
@@ -414,7 +404,7 @@ public extension SCNGeometry {
     convenience init(_ path: Path) {
         var indexData = Data()
         var vertexData = Data()
-        var indicesByPoint = [Position: UInt32]()
+        var indicesByPoint = [Vector: UInt32]()
         for path in path.subpaths {
             for vertex in path.edgeVertices {
                 let origin = vertex.position
@@ -543,8 +533,8 @@ private extension Data {
         return Double(float)
     }
 
-    func position(at index: Int) -> Position {
-        Position(
+    func vector(at index: Int) -> Vector {
+        Vector(
             float(at: index),
             float(at: index + 4),
             float(at: index + 8)
@@ -558,12 +548,6 @@ public extension Vector {
     }
 }
 
-public extension CartesianComponentsRepresentable {
-    init(_ v: SCNVector3) {
-        self.init(Double(v.x), Double(v.y), Double(v.z))
-    }
-}
-
 public extension Rotation {
     init(_ q: SCNQuaternion) {
         let d = sqrt(1 - Double(q.w * q.w))
@@ -571,25 +555,25 @@ public extension Rotation {
             self = .identity
             return
         }
-        let axis = Direction(Double(q.x) / d, Double(q.y) / d, Double(q.z) / d)
+        let axis = Vector(Double(q.x) / d, Double(q.y) / d, Double(q.z) / d)
         let rotation = 2 * Angle.acos(Double(-q.w))
-        self.init(axis: axis, angle: rotation)
+        self.init(unchecked: axis.normalized(), angle: rotation)
     }
 }
 
 public extension Transform {
     static func transform(from scnNode: SCNNode) -> Transform {
         Transform(
-            offset: Distance(scnNode.position),
+            offset: Vector(scnNode.position),
             rotation: Rotation(scnNode.orientation),
-            scale: Distance(scnNode.scale)
+            scale: Vector(scnNode.scale)
         )
     }
 }
 
 public extension Bounds {
     init(_ scnBoundingBox: (min: SCNVector3, max: SCNVector3)) {
-        self.init(min: Position(scnBoundingBox.min), max: Position(scnBoundingBox.max))
+        self.init(min: Vector(scnBoundingBox.min), max: Vector(scnBoundingBox.max))
     }
 }
 
@@ -629,7 +613,7 @@ public extension Mesh {
         for source in scnGeometry.sources {
             let count = source.vectorCount
             if vertices.isEmpty {
-                vertices = Array(repeating: Vertex(.origin, .zero), count: count)
+                vertices = Array(repeating: Vertex(.zero, .zero), count: count)
             } else if vertices.count != source.vectorCount {
                 return nil
             }
@@ -639,17 +623,17 @@ public extension Mesh {
             switch source.semantic {
             case .vertex:
                 for i in 0 ..< count {
-                    vertices[i].position = data.position(at: offset)
+                    vertices[i].position = data.vector(at: offset)
                     offset += stride
                 }
             case .normal:
                 for i in 0 ..< count {
-                    vertices[i].normal = data.position(at: offset).distance.direction
+                    vertices[i].normal = data.vector(at: offset)
                     offset += stride
                 }
             case .texcoord:
                 for i in 0 ..< count {
-                    vertices[i].texcoord = Position(
+                    vertices[i].texcoord = Vector(
                         data.float(at: offset),
                         data.float(at: offset + 4)
                     )

@@ -101,7 +101,7 @@ public extension Mesh {
         var meshes = [Mesh]()
         var cache = [CGPath: Mesh]()
         for (cgPath, cgPoint) in cgPaths(for: text, width: width) {
-            let offset = Distance(cgPoint)
+            let offset = Vector(cgPoint)
             guard let mesh = cache[cgPath] else {
                 let path = Path(cgPath: cgPath)
                 let mesh = Mesh.extrude(path, depth: depth, material: material)

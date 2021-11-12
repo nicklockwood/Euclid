@@ -32,34 +32,6 @@
 // Tolerance used for calculating approximate equality
 let epsilon = 1e-8
 
-public extension CartesianComponentsRepresentable {
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        if isFinite(lhs), isFinite(rhs) {
-            return abs(lhs.x - rhs.x) < epsilon
-                && abs(lhs.y - rhs.y) < epsilon
-                && abs(lhs.z - rhs.z) < epsilon
-        }
-        return areInfiniteComponentsEqual(lhs.x, rhs.x)
-            && areInfiniteComponentsEqual(lhs.y, rhs.y)
-            && areInfiniteComponentsEqual(lhs.z, rhs.z)
-    }
-
-    private static func isFinite(_ c: Self) -> Bool {
-        c.x.isFinite && c.y.isFinite && c.z.isFinite
-    }
-
-    private static func areInfiniteComponentsEqual(_ a: Double, _ b: Double) -> Bool {
-        switch (a, b) {
-        case (.infinity, .infinity):
-            return true
-        case (-Double.infinity, -Double.infinity):
-            return true
-        default:
-            return false
-        }
-    }
-}
-
 // Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
     let precision = 1e-12
@@ -171,7 +143,7 @@ func triangulateVertices(
         let p2 = vertices[(i + 1) % vertices.count]
         // check for colinear points
         let p0p1 = p0.position - p1.position, p2p1 = p2.position - p1.position
-        if p0p1.cross(p2p1).norm < epsilon {
+        if p0p1.cross(p2p1).length < epsilon {
             // vertices are colinear, so we can't form a triangle
             if p0p1.dot(p2p1) > 0 {
                 // center point makes path degenerate - remove it
@@ -209,28 +181,31 @@ func triangulateVertices(
     return triangles
 }
 
-func rotationBetweenDirections(_ d0: Direction, _ d1: Direction) -> Rotation {
-    if d0.isColinear(to: d1) {
+// MARK: Vector utilities
+
+func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
+    let axis = v0.cross(v1)
+    let length = axis.length
+    if length < epsilon {
         return .identity
     }
-    let axis = d0.cross(d1)
-    let angle = d0.angle(with: d1)
-    return Rotation(axis: axis, angle: angle)
+    let angle = v0.angle(with: v1)
+    return Rotation(unchecked: axis / length, angle: angle)
 }
 
-func pointsAreDegenerate(_ points: [Position]) -> Bool {
+func pointsAreDegenerate(_ points: [Vector]) -> Bool {
     let count = points.count
     guard count > 2, var a = points.last else {
         return false
     }
-    var ab = (points[0] - a).direction
+    var ab = (points[0] - a).normalized()
     for i in 0 ..< count {
         let b = points[i]
         let c = points[(i + 1) % count]
         if b == c || a == b {
             return true
         }
-        let bc = (c - b).direction
+        let bc = (c - b).normalized()
         guard abs(ab.dot(bc) + 1) > 0 else {
             return true
         }
@@ -241,19 +216,19 @@ func pointsAreDegenerate(_ points: [Position]) -> Bool {
 }
 
 // Note: assumes points are not degenerate
-func pointsAreConvex(_ points: [Position]) -> Bool {
+func pointsAreConvex(_ points: [Vector]) -> Bool {
     let count = points.count
     guard count > 3, let a = points.last else {
         return count > 2
     }
-    var normal: Direction?
+    var normal: Vector?
     var ab = points[0] - a
     for i in 0 ..< count {
         let b = points[i]
         let c = points[(i + 1) % count]
         let bc = c - b
         var n = ab.cross(bc)
-        let length = n.norm
+        let length = n.length
         // check result is large enough to be reliable
         if length > epsilon {
             n = n / length
@@ -262,7 +237,7 @@ func pointsAreConvex(_ points: [Position]) -> Bool {
                     return false
                 }
             } else {
-                normal = n.direction
+                normal = n
             }
         }
         ab = bc
@@ -272,7 +247,7 @@ func pointsAreConvex(_ points: [Position]) -> Bool {
 
 // Test if path is self-intersecting
 // TODO: optimize by using http://www.webcitation.org/6ahkPQIsN
-func pointsAreSelfIntersecting(_ points: [Position]) -> Bool {
+func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
     guard points.count > 2 else {
         // A triangle can't be self-intersecting
         return false
@@ -302,31 +277,31 @@ func pointsAreSelfIntersecting(_ points: [Position]) -> Bool {
 // Points are assumed to be ordered in a counter-clockwise direction
 // Points are not verified to be coplanar or non-degenerate
 // Points are not required to form a convex polygon
-func faceNormalForPolygonPoints(_ points: [Position], convex: Bool?) -> Direction {
+func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Vector {
     let count = points.count
-    let unitZ = Direction.z
+    let unitZ = Vector(0, 0, 1)
     switch count {
     case 0, 1:
-        return .z
+        return unitZ
     case 2:
         let ab = points[1] - points[0]
         let normal = ab.cross(unitZ).cross(ab)
-        let length = normal.norm
+        let length = normal.length
         guard length > 0 else {
             // Points lie along z axis
-            return .x
+            return Vector(1, 0, 0)
         }
-        return (normal / length).direction
+        return normal / length
     default:
-        func faceNormalForConvexPoints(_ points: [Position]) -> Direction {
+        func faceNormalForConvexPoints(_ points: [Vector]) -> Vector {
             var b = points[0]
             var ab = b - points.last!
             var bestLengthSquared = 0.0
-            var best: Distance?
+            var best: Vector?
             for c in points {
                 let bc = c - b
                 let normal = ab.cross(bc)
-                let lengthSquared = normal.norm
+                let lengthSquared = normal.lengthSquared
                 if lengthSquared > bestLengthSquared {
                     bestLengthSquared = lengthSquared
                     best = normal / lengthSquared.squareRoot()
@@ -334,10 +309,7 @@ func faceNormalForPolygonPoints(_ points: [Position], convex: Bool?) -> Directio
                 b = c
                 ab = bc
             }
-            if let best = best {
-                return best.direction
-            }
-            return .z
+            return best ?? Vector(0, 0, 1)
         }
         let normal = faceNormalForConvexPoints(points)
         let convex = convex ?? pointsAreConvex(points)
@@ -354,7 +326,7 @@ func faceNormalForPolygonPoints(_ points: [Position], convex: Bool?) -> Directio
     }
 }
 
-func pointsAreCoplanar(_ points: [Position]) -> Bool {
+func pointsAreCoplanar(_ points: [Vector]) -> Bool {
     if points.count < 4 {
         return true
     }
@@ -362,11 +334,11 @@ func pointsAreCoplanar(_ points: [Position]) -> Bool {
     let ab = b - points[0]
     let bc = points[2] - b
     let normal = ab.cross(bc)
-    let length = normal.norm
+    let length = normal.length
     if length < epsilon {
         return false
     }
-    let plane = Plane(unchecked: normal.direction, pointOnPlane: b)
+    let plane = Plane(unchecked: normal / length, pointOnPlane: b)
     for p in points[3...] where !plane.containsPoint(p) {
         return false
     }
@@ -374,9 +346,9 @@ func pointsAreCoplanar(_ points: [Position]) -> Bool {
 }
 
 // https://stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order#1165943
-func flattenedPointsAreClockwise(_ points: [Position]) -> Bool {
+func flattenedPointsAreClockwise(_ points: [Vector]) -> Bool {
     assert(!points.contains(where: { $0.z != 0 }))
-    let points = (points.first == points.last) ? points.dropLast() : [Position].SubSequence(points)
+    let points = (points.first == points.last) ? points.dropLast() : [Vector].SubSequence(points)
     guard points.count > 2, var a = points.last else {
         return false
     }
@@ -413,23 +385,23 @@ func cubicBezier(_ p0: Double, _ p1: Double, _ p2: Double, _ p3: Double, _ t: Do
 
 // Shortest line segment between two lines
 // http://paulbourke.net/geometry/pointlineplane/
-func shortestLineSegmentPositionsBetween(
-    _ p1: Position,
-    _ p2: Position,
-    _ p3: Position,
-    _ p4: Position
-) -> (Position, Position)? {
-    let p2p1 = p2 - p1
-    assert(p2p1.norm > 0)
-    let p4p3 = p4 - p3
-    assert(p4p3.norm > 0)
+func shortestLineBetween(
+    _ p1: Vector,
+    _ p2: Vector,
+    _ p3: Vector,
+    _ p4: Vector
+) -> (Vector, Vector)? {
+    let p21 = p2 - p1
+    assert(p21.length > 0)
+    let p43 = p4 - p3
+    assert(p43.length > 0)
     let p13 = p1 - p3
 
-    let d1343 = p13.dot(p4p3)
-    let d4321 = p4p3.dot(p2p1)
-    let d1321 = p13.dot(p2p1)
-    let d4343 = p4p3.dot(p4p3)
-    let d2121 = p2p1.dot(p2p1)
+    let d1343 = p13.dot(p43)
+    let d4321 = p43.dot(p21)
+    let d1321 = p13.dot(p21)
+    let d4343 = p43.dot(p43)
+    let d2121 = p21.dot(p21)
 
     let denominator = d2121 * d4343 - d4321 * d4321
     guard abs(denominator) > epsilon else {
@@ -441,37 +413,38 @@ func shortestLineSegmentPositionsBetween(
     let mua = numerator / denominator
     let mub = (d1343 + d4321 * mua) / d4343
 
-    return (p1 + mua * p2p1, p3 + mub * p4p3)
+    return (p1 + mua * p21, p3 + mub * p43)
 }
 
 // See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-func distanceFromPointToLine(
-    _ point: Position,
-    _ line: Line
-) -> Distance {
-    let d = point - line.origin
-    return d.dot(line.direction) * line.direction - d
+func vectorFromPointToLine(
+    _ point: Vector,
+    _ lineOrigin: Vector,
+    _ lineDirection: Vector
+) -> Vector {
+    assert(lineDirection.isNormalized)
+    let d = point - lineOrigin
+    return lineDirection * d.dot(lineDirection) - d
 }
 
 func lineIntersection(
-    _ p0: Position,
-    _ p1: Position,
-    _ p2: Position,
-    _ p3: Position
-) -> Position? {
-    guard let (p0, p1) = shortestLineSegmentPositionsBetween(p0, p1, p2, p3)
-    else {
+    _ p0: Vector,
+    _ p1: Vector,
+    _ p2: Vector,
+    _ p3: Vector
+) -> Vector? {
+    guard let (p0, p1) = shortestLineBetween(p0, p1, p2, p3) else {
         return nil
     }
     return p0.isEqual(to: p1) ? p0 : nil
 }
 
 func lineSegmentsIntersection(
-    _ p0: Position,
-    _ p1: Position,
-    _ p2: Position,
-    _ p3: Position
-) -> Position? {
+    _ p0: Vector,
+    _ p1: Vector,
+    _ p2: Vector,
+    _ p3: Vector
+) -> Vector? {
     guard let pi = lineIntersection(p0, p1, p2, p3) else {
         return nil // lines don't intersect
     }
@@ -482,13 +455,10 @@ func lineSegmentsIntersection(
 // Check point lies within range of line segment start/end
 // Point must already lie along the line
 func lineSegmentsContainsPoint(
-    _ start: Position,
-    _ end: Position,
-    _ point: Position
+    _ start: Vector,
+    _ end: Vector,
+    _ point: Vector
 ) -> Bool {
-    let line = Line(origin: start, direction: (end - start).direction)
-    assert(distanceFromPointToLine(point, line).norm < epsilon)
-    let minPosition = Position.min(start, end)
-    let maxPosition = Position.max(start, end)
-    return Bounds(min: minPosition, max: maxPosition).containsPoint(point)
+    assert(vectorFromPointToLine(point, start, (end - start).normalized()).length < epsilon)
+    return Bounds(min: min(start, end), max: max(start, end)).containsPoint(point)
 }

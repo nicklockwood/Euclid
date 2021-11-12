@@ -30,14 +30,15 @@
 //
 
 public struct Line: Hashable {
-    public let origin: Position
-    public let direction: Direction
+    public let origin, direction: Vector
 
     /// Creates a line from an origin and direction
-    public init(origin: Position, direction: Direction) {
-        let distance = Line.distanceAlongLineToFirstValidPlane(origin, direction)
-        self.origin = origin - distance * direction
-        self.direction = direction
+    public init?(origin: Vector, direction: Vector) {
+        let length = direction.length
+        guard length.isFinite, length > epsilon else {
+            return nil
+        }
+        self.init(unchecked: origin, direction: direction / length)
     }
 }
 
@@ -47,33 +48,31 @@ extension Line: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        let line: Line
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
-            line = try Line(
-                origin: container.decode(Position.self, forKey: .origin),
-                direction: container.decode(Direction.self, forKey: .direction)
-            )
-            if line.direction.norm < epsilon {
+            guard let line = try Line(
+                origin: container.decode(Vector.self, forKey: .origin),
+                direction: container.decode(Vector.self, forKey: .direction)
+            ) else {
                 throw DecodingError.dataCorruptedError(
                     forKey: .direction,
                     in: container,
                     debugDescription: "Line direction must have nonzero length"
                 )
             }
+            self = line
         } else {
             var container = try decoder.unkeyedContainer()
-            line = try Line(
-                origin: Position(from: &container),
-                direction: Direction(from: &container)
-            )
-            if line.direction.norm < epsilon {
+            guard let line = try Line(
+                origin: Vector(from: &container),
+                direction: Vector(from: &container)
+            ) else {
                 throw DecodingError.dataCorruptedError(
                     in: container,
                     debugDescription: "Line direction must have nonzero length"
                 )
             }
+            self = line
         }
-        self = line
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -85,44 +84,44 @@ extension Line: Codable {
 
 public extension Line {
     init(_ segment: LineSegment) {
-        self.init(origin: segment.start, direction: segment.direction)
+        self.init(unchecked: segment.start, direction: segment.direction)
     }
 
     /// Check if point is on line
-    func containsPoint(_ p: Position) -> Bool {
+    func containsPoint(_ p: Vector) -> Bool {
         abs(p.distance(from: self)) < epsilon
     }
 
     /// Distance of the line from a given point in 3D
-    func distance(from point: Position) -> Double {
-        distanceFromPointToLine(point, self).norm
+    func distance(from point: Vector) -> Double {
+        vectorFromPointToLine(point, origin, direction).length
     }
 
     /// Distance of the line from another line
     func distance(from line: Line) -> Double {
-        guard let (p0, p1) = shortestLineSegmentPositionsBetween(
+        guard let (p0, p1) = shortestLineBetween(
             origin,
-            origin + 1 * direction,
+            origin + direction,
             line.origin,
-            line.origin + 1 * line.direction
+            line.origin + line.direction
         ) else {
             return 0
         }
-        return (p1 - p0).norm
+        return (p1 - p0).length
     }
 
     /// Intersection point betwween plane and line (if any)
-    func intersection(with plane: Plane) -> Position? {
+    func intersection(with plane: Plane) -> Vector? {
         plane.intersection(with: self)
     }
 
     /// Intersection point between lines (if any)
-    func intersection(with line: Line) -> Position? {
+    func intersection(with line: Line) -> Vector? {
         lineIntersection(
             origin,
-            origin + 1 * direction,
+            origin + direction,
             line.origin,
-            line.origin + 1 * line.direction
+            line.origin + line.direction
         )
     }
 
@@ -132,16 +131,14 @@ public extension Line {
     }
 }
 
-private extension Line {
-    static func distanceAlongLineToFirstValidPlane(_ origin: Position, _ direction: Direction) -> Double {
-        if direction.x != 0 {
-            return origin.x / direction.x
-        }
-
-        if direction.y != 0 {
-            return origin.y / direction.y
-        }
-
-        return origin.z / direction.z
+internal extension Line {
+    init(unchecked origin: Vector, direction: Vector) {
+        assert(direction.isNormalized)
+        self.origin = origin - direction * (
+            direction.x != 0 ? origin.x / direction.x :
+                direction.y != 0 ? origin.y / direction.y :
+                origin.z / direction.z
+        )
+        self.direction = direction
     }
 }

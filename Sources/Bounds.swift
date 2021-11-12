@@ -31,9 +31,9 @@
 
 /// An axially-aligned bounding box
 public struct Bounds: Hashable {
-    public let min, max: Position
+    public let min, max: Vector
 
-    public init(min: Position, max: Position) {
+    public init(min: Vector, max: Vector) {
         self.min = min
         self.max = max
     }
@@ -45,14 +45,14 @@ extension Bounds: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        let min, max: Position
+        let min, max: Vector
         if var container = try? decoder.unkeyedContainer() {
-            min = try Position(from: &container)
-            max = try Position(from: &container)
+            min = try Vector(from: &container)
+            max = try Vector(from: &container)
         } else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            min = try container.decode(Position.self, forKey: .min)
-            max = try container.decode(Position.self, forKey: .max)
+            min = try container.decode(Vector.self, forKey: .min)
+            max = try container.decode(Vector.self, forKey: .max)
         }
         self.init(min: min, max: max)
     }
@@ -64,30 +64,27 @@ extension Bounds: Codable {
     }
 }
 
-private let positiveInfinity = Position(.infinity, .infinity, .infinity)
-private let negativeInfinity = Position(-.infinity, -.infinity, -.infinity)
-
 public extension Bounds {
     static let empty = Bounds()
 
-    init(points: [Position] = []) {
-        var min = positiveInfinity
-        var max = negativeInfinity
+    init(points: [Vector] = []) {
+        var min = Vector(.infinity, .infinity, .infinity)
+        var max = Vector(-.infinity, -.infinity, -.infinity)
         for p in points {
-            min = Position.min(min, p)
-            max = Position.max(max, p)
+            min = Euclid.min(min, p)
+            max = Euclid.max(max, p)
         }
         self.min = min
         self.max = max
     }
 
     init(polygons: [Polygon]) {
-        var min = positiveInfinity
-        var max = negativeInfinity
+        var min = Vector(.infinity, .infinity, .infinity)
+        var max = Vector(-.infinity, -.infinity, -.infinity)
         for p in polygons {
             for v in p.vertices {
-                min = Position.min(min, v.position)
-                max = Position.max(max, v.position)
+                min = Euclid.min(min, v.position)
+                max = Euclid.max(max, v.position)
             }
         }
         self.min = min
@@ -95,11 +92,11 @@ public extension Bounds {
     }
 
     init(bounds: [Bounds]) {
-        var min = positiveInfinity
-        var max = negativeInfinity
+        var min = Vector(.infinity, .infinity, .infinity)
+        var max = Vector(-.infinity, -.infinity, -.infinity)
         for b in bounds {
-            min = Position.min(min, b.min)
-            max = Position.max(max, b.max)
+            min = Euclid.min(min, b.min)
+            max = Euclid.max(max, b.max)
         }
         self.min = min
         self.max = max
@@ -110,25 +107,23 @@ public extension Bounds {
     }
 
     var size: Vector {
-        hasNegativeVolume ? .zero : Vector(max - min)
+        hasNegativeVolume ? .zero : max - min
     }
 
-    var center: Position {
-        hasNegativeVolume
-            ? .origin
-            : min + Distance(size) / 2
+    var center: Vector {
+        hasNegativeVolume ? .zero : min + size / 2
     }
 
-    var corners: [Position] {
+    var corners: [Vector] {
         [
             min,
-            Position(min.x, max.y, min.z),
-            Position(max.x, max.y, min.z),
-            Position(max.x, min.y, min.z),
-            Position(min.x, min.y, max.z),
-            Position(min.x, max.y, max.z),
+            Vector(min.x, max.y, min.z),
+            Vector(max.x, max.y, min.z),
+            Vector(max.x, min.y, min.z),
+            Vector(min.x, min.y, max.z),
+            Vector(min.x, max.y, max.z),
             max,
-            Position(max.x, min.y, max.z),
+            Vector(max.x, min.y, max.z),
         ]
     }
 
@@ -139,8 +134,8 @@ public extension Bounds {
             return self
         }
         return Bounds(
-            min: Position.min(min, other.min),
-            max: Position.max(max, other.max)
+            min: Euclid.min(min, other.min),
+            max: Euclid.max(max, other.max)
         )
     }
 
@@ -150,8 +145,8 @@ public extension Bounds {
 
     func intersection(_ other: Bounds) -> Bounds {
         Bounds(
-            min: Position.max(min, other.min),
-            max: Position.min(max, other.max)
+            min: Euclid.max(min, other.min),
+            max: Euclid.min(max, other.max)
         )
     }
 
@@ -171,7 +166,7 @@ public extension Bounds {
         compare(with: plane) == .spanning
     }
 
-    func containsPoint(_ p: Position) -> Bool {
+    func containsPoint(_ p: Vector) -> Bool {
         p.x >= min.x && p.x <= max.x &&
             p.y >= min.y && p.y <= max.y &&
             p.z >= min.z && p.z <= max.z
