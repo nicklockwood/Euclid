@@ -189,7 +189,6 @@
 		016FAB1F21BFE78100AF60DC = {
 			isa = PBXGroup;
 			children = (
-				1AA6D9B5273DF09E001E2AD8 /* Documentation.docc */,
 				016FAB2B21BFE78100AF60DC /* Sources */,
 				016FAB3621BFE78100AF60DC /* Tests */,
 				016FABEB21C078E400AF60DC /* Example */,
@@ -213,6 +212,7 @@
 		016FAB2B21BFE78100AF60DC /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1AA6D9B5273DF09E001E2AD8 /* Documentation.docc */,
 				0A24013E256A671600C1535C /* Angle.swift */,
 				016FAB4721BFE7C200AF60DC /* Bounds.swift */,
 				0188525726D951490079C602 /* Color.swift */,
