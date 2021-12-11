@@ -38,6 +38,12 @@ func quantize(_ value: Double) -> Double {
     return (value / precision).rounded() * precision
 }
 
+extension Double {
+    func isEqual(to other: Double, withPrecision p: Double) -> Bool {
+        abs(self - other) < p
+    }
+}
+
 // MARK: Vertex utilities
 
 func verticesAreDegenerate(_ vertices: [Vertex]) -> Bool {
