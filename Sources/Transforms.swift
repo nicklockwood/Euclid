@@ -130,7 +130,7 @@ public extension Mesh {
         return Mesh(
             unchecked: polygons.scaled(by: v),
             bounds: boundsIfSet?.scaled(by: v),
-            isConvex: isConvex // TODO: what if v has negative components?
+            isConvex: isConvex && v.x > 0 && v.y > 0 && v.y > 0
         )
     }
 
@@ -478,7 +478,6 @@ public extension Path {
     }
 
     func transformed(by t: Transform) -> Path {
-        // TODO: manually transform plane so we can make this more efficient
         Path(
             unchecked: points.transformed(by: t),
             plane: plane?.transformed(by: t), subpathIndices: subpathIndices
