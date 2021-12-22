@@ -42,6 +42,16 @@ public struct LineSegment: Hashable {
     }
 }
 
+extension LineSegment: Comparable {
+    /// Provides a stable sort order for LineSegments
+    public static func < (lhs: LineSegment, rhs: LineSegment) -> Bool {
+        if lhs.start == rhs.start {
+            return lhs.end < rhs.end
+        }
+        return lhs.start < rhs.start
+    }
+}
+
 extension LineSegment: Codable {
     private enum CodingKeys: CodingKey {
         case start, end
