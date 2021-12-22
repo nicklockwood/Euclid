@@ -195,6 +195,16 @@ public extension Mesh {
             isConvex: isConvex
         )
     }
+
+    /// Removes hairline cracks by inserting additional vertices without altering the shape.
+    /// Will not always be successful. Check `isWatertight` afterwards to verify.
+    func makeWatertight() -> Mesh {
+        Mesh(
+            unchecked: polygons.makeWatertight(),
+            bounds: boundsIfSet,
+            isConvex: isConvex
+        )
+    }
 }
 
 internal extension Mesh {

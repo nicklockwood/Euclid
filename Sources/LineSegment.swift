@@ -97,6 +97,10 @@ public extension LineSegment {
         (end - start).normalized()
     }
 
+    var length: Double {
+        (end - start).length
+    }
+
     /// Check if point is on line segment
     func containsPoint(_ p: Vector) -> Bool {
         let v = vectorFromPointToLine(p, start, direction)

@@ -277,6 +277,31 @@ internal extension Collection where Element == Polygon {
         return edgeCounts.values.allSatisfy { $0 >= 2 && $0 % 2 == 0 }
     }
 
+    /// Insert missing vertices needed to prevent hairline cracks
+    func makeWatertight() -> [Polygon] {
+        var polygonsByEdge = [LineSegment: Int]()
+        for polygon in self {
+            for edge in polygon.undirectedEdges {
+                polygonsByEdge[edge, default: 0] += 1
+            }
+        }
+        var points = Set<Vector>()
+        let edges = polygonsByEdge.filter { !$0.value.isMultiple(of: 2) }.keys
+        for edge in edges.sorted() {
+            points.insert(edge.start)
+            points.insert(edge.end)
+        }
+        var polygons = Array(self)
+        let sortedPoints = points.sorted()
+        for i in polygons.indices {
+            let bounds = polygons[i].bounds.inset(by: -epsilon)
+            for point in sortedPoints where bounds.containsPoint(point) {
+                _ = polygons[i].insertEdgePoint(point)
+            }
+        }
+        return polygons
+    }
+
     /// Flip each polygon along its plane
     func inverted() -> [Polygon] {
         map { $0.inverted() }
@@ -640,6 +665,35 @@ internal extension Polygon {
                 id: polygon.id
             ))
         }
+    }
+
+    mutating func insertEdgePoint(_ p: Vector) -> Bool {
+        guard var last = vertices.last else {
+            assertionFailure()
+            return false
+        }
+        if vertices.contains(where: { $0.position == p }) {
+            return false
+        }
+        for (i, v) in vertices.enumerated() {
+            let s = LineSegment(unchecked: last.position, v.position)
+            guard s.containsPoint(p) else {
+                last = v
+                continue
+            }
+            var vertices = self.vertices
+            let t = (p - s.start).length / s.length
+            vertices.insert(last.lerp(v, t), at: i)
+            self = Polygon(
+                unchecked: vertices,
+                plane: plane,
+                isConvex: isConvex,
+                material: material,
+                id: id
+            )
+            return true
+        }
+        return false
     }
 }
 

@@ -29,9 +29,11 @@ class SceneViewController: UIViewController {
         let start = CFAbsoluteTimeGetCurrent()
         let cube = Mesh.cube(size: 0.8, material: UIColor.red)
         let sphere = Mesh.sphere(slices: 120, material: UIColor.blue)
-        let mesh = cube.subtract(sphere)
+        let mesh = cube.subtract(sphere).makeWatertight()
         print("Time:", CFAbsoluteTimeGetCurrent() - start)
-        print("Polys:", mesh.polygons.count)
+        print("Polygons:", mesh.polygons.count)
+        print("Triangles:", mesh.triangulate().polygons.count)
+        print("Watertight:", mesh.isWatertight)
 
         // create SCNNode
         let geometry = SCNGeometry(mesh)

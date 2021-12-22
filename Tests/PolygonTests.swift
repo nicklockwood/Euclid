@@ -936,4 +936,33 @@ class PolygonTests: XCTestCase {
         XCTAssertFalse(mesh.isWatertight)
         XCTAssertFalse(mesh.polygons.areWatertight)
     }
+
+    // MARK: makeWatertight
+
+    func testAddMissingTriangleVertex() {
+        let a = Polygon([
+            Vector(0, 0),
+            Vector(0, -2),
+            Vector(2, 0),
+        ])!
+        let b = Polygon([
+            Vector(2, 0),
+            Vector(1, -1),
+            Vector(2, -2),
+        ])!
+        let m = Mesh([a, b])
+        let m2 = m.makeWatertight()
+        XCTAssertEqual(m2.polygons[0].vertices.count, 4)
+    }
+
+    func testMakeWatertightIsDeterministic() {
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: 16)
+        let c = a.subtract(b)
+        XCTAssertFalse(c.isWatertight)
+        XCTAssertEqual(c.triangulate().polygons.count, 326)
+        let d = c.makeWatertight()
+        XCTAssertTrue(d.isWatertight)
+        XCTAssertEqual(d.triangulate().polygons.count, 425)
+    }
 }

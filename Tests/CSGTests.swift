@@ -50,6 +50,13 @@ class CSGTests: XCTestCase {
         XCTAssertEqual(b.subtract(a), b)
     }
 
+    func testSubtractIsDeterministic() {
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: 16)
+        let c = a.subtract(b)
+        XCTAssertEqual(c.polygons.count, 184)
+    }
+
     // MARK: XOR
 
     func testXorCoincidingCubes() {
@@ -83,6 +90,13 @@ class CSGTests: XCTestCase {
         XCTAssertEqual(b.xor(a), b)
     }
 
+    func testXorIsDeterministic() {
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: 16)
+        let c = a.xor(b)
+        XCTAssertEqual(c.polygons.count, 318)
+    }
+
     // MARK: Union
 
     func testUnionOfCoincidingBoxes() {
@@ -114,6 +128,13 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube()
         XCTAssertEqual(a.union(b).bounds, b.bounds)
         XCTAssertEqual(b.union(a).bounds, b.bounds)
+    }
+
+    func testUnionIsDeterministic() {
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: 16)
+        let c = a.union(b)
+        XCTAssertEqual(c.polygons.count, 232)
     }
 
     // MARK: Intersection
@@ -152,6 +173,13 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube()
         XCTAssert(a.intersect(b).bounds.isEmpty)
         XCTAssert(b.intersect(a).bounds.isEmpty)
+    }
+
+    func testIntersectIsDeterministic() {
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: 16)
+        let c = a.intersect(b)
+        XCTAssertEqual(c.polygons.count, 86)
     }
 
     // MARK: Planar subtraction
