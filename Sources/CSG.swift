@@ -273,9 +273,14 @@ public extension Mesh {
             for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
                 front.append(polygon)
             }
+            if front.isEmpty {
+                return (nil, self)
+            } else if back.isEmpty {
+                return (self, nil)
+            }
             return (
-                front.isEmpty ? nil : Mesh(unchecked: front, bounds: nil, isConvex: false),
-                back.isEmpty ? nil : Mesh(unchecked: back, bounds: nil, isConvex: false)
+                Mesh(unchecked: front, bounds: nil, isConvex: false),
+                Mesh(unchecked: back, bounds: nil, isConvex: false)
             )
         }
     }
