@@ -119,12 +119,7 @@ public extension Mesh {
     func replacing(_ old: Material?, with new: Material?) -> Mesh {
         Mesh(
             unchecked: polygons.map {
-                if $0.material == old {
-                    var polygon = $0
-                    polygon.material = new
-                    return polygon
-                }
-                return $0
+                $0.material == old ? $0.with(material: new) : $0
             },
             bounds: boundsIfSet,
             isConvex: isConvex,

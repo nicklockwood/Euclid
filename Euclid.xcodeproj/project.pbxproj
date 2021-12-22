@@ -47,6 +47,7 @@
 		01BA29712235A63F0088D36B /* Euclid+CoreText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA29702235A63F0088D36B /* Euclid+CoreText.swift */; };
 		01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA29792235E34C0088D36B /* CGPathTests.swift */; };
 		01BA297C2235E3590088D36B /* Euclid+CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA297B2235E3580088D36B /* Euclid+CoreGraphics.swift */; };
+		01CBE2682775E3EE00B7ED45 /* MeshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CBE2672775E3EE00B7ED45 /* MeshTests.swift */; };
 		01CF789326EBE0C70097907A /* Quaternion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF789226EBE0C70097907A /* Quaternion.swift */; };
 		01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D96AB423D8E36A00D0D267 /* BoundsTests.swift */; };
 		01E5F54923D59BF100717D58 /* BSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5F54823D59BF100717D58 /* BSP.swift */; };
@@ -133,6 +134,7 @@
 		01BA29702235A63F0088D36B /* Euclid+CoreText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+CoreText.swift"; sourceTree = "<group>"; };
 		01BA29792235E34C0088D36B /* CGPathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPathTests.swift; sourceTree = "<group>"; };
 		01BA297B2235E3580088D36B /* Euclid+CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Euclid+CoreGraphics.swift"; sourceTree = "<group>"; };
+		01CBE2672775E3EE00B7ED45 /* MeshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshTests.swift; sourceTree = "<group>"; };
 		01CF789226EBE0C70097907A /* Quaternion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quaternion.swift; sourceTree = "<group>"; };
 		01D96AB423D8E36A00D0D267 /* BoundsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundsTests.swift; sourceTree = "<group>"; };
 		01E5F54823D59BF100717D58 /* BSP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSP.swift; sourceTree = "<group>"; };
@@ -238,21 +240,22 @@
 			children = (
 				0A240136256A64FB00C1535C /* AngleTests.swift */,
 				01D96AB423D8E36A00D0D267 /* BoundsTests.swift */,
+				01BA29792235E34C0088D36B /* CGPathTests.swift */,
+				0101BAF425687A450096B1E7 /* CodingTests.swift */,
 				016FAB5F21BFE7CE00AF60DC /* CSGTests.swift */,
+				0188E98226ACA0040029C253 /* LineSegmentTests.swift */,
+				52A3852D238D6E5700BE8407 /* LineTests.swift */,
+				01CBE2672775E3EE00B7ED45 /* MeshTests.swift */,
+				013B5BE426923087000860DC /* MetadataTests.swift */,
 				016FAB5C21BFE7CD00AF60DC /* PathTests.swift */,
 				016FAB5E21BFE7CE00AF60DC /* PolygonTests.swift */,
 				013312DC21CA532A00626F1B /* PlaneTests.swift */,
+				014AC60D2505963800F54349 /* SceneKitTests.swift */,
 				016FAB6021BFE7CE00AF60DC /* ShapeTests.swift */,
+				01A429F92237A85C00C251A6 /* TextTests.swift */,
 				016FAB5B21BFE7CD00AF60DC /* TransformTests.swift */,
 				016FAB5D21BFE7CE00AF60DC /* UtilityTests.swift */,
-				01BA29792235E34C0088D36B /* CGPathTests.swift */,
-				014AC60D2505963800F54349 /* SceneKitTests.swift */,
-				01A429F92237A85C00C251A6 /* TextTests.swift */,
 				52C844E023854C87009C0A73 /* VectorTests.swift */,
-				0101BAF425687A450096B1E7 /* CodingTests.swift */,
-				52A3852D238D6E5700BE8407 /* LineTests.swift */,
-				0188E98226ACA0040029C253 /* LineSegmentTests.swift */,
-				013B5BE426923087000860DC /* MetadataTests.swift */,
 				016FAB3921BFE78100AF60DC /* Info.plist */,
 			);
 			path = Tests;
@@ -493,6 +496,7 @@
 				52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */,
 				016FAB6621BFE7CE00AF60DC /* ShapeTests.swift in Sources */,
 				016FAB6321BFE7CE00AF60DC /* UtilityTests.swift in Sources */,
+				01CBE2682775E3EE00B7ED45 /* MeshTests.swift in Sources */,
 				016FAB6221BFE7CE00AF60DC /* PathTests.swift in Sources */,
 				014AC60E2505963800F54349 /* SceneKitTests.swift in Sources */,
 				016FAB6121BFE7CE00AF60DC /* TransformTests.swift in Sources */,
@@ -611,6 +615,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -696,7 +701,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.14;
+				MARKETING_VERSION = 0.5.15;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=75";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
@@ -728,7 +733,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.14;
+				MARKETING_VERSION = 0.5.15;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=75";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";

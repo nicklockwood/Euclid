@@ -1,6 +1,18 @@
+## [0.5.15](https://github.com/nicklockwood/Euclid/releases/tag/0.5.15) (2021-12-22)
+
+- Added `Mesh.makeWatertight()` method, for removing hairline cracks in meshes
+- Vector `==` operator now returns approximate equality, solving some issues with quantization
+- The `Mesh.isWatertight` getter is now a stored property, so cheaper to access
+- Added unordered min/max point initializer for `Bounds`
+- Added convenience initializer for uniform-sized Vectors
+- Fixed assertion failure when creating a polygon with < 3 points
+- Improved performance for `Mesh.polygonsByMaterial` getter
+- Added `Mesh.edges(intersecting:)` method
+- Added `Bounds.inset()` methods
+
 ## [0.5.14](https://github.com/nicklockwood/Euclid/releases/tag/0.5.14) (2021-11-01)
 
-- Added support for `triangeStrip` and `polygon` primitives when creating a `Mesh` from `SCNGeometry`
+- Added support for `triangleStrip` and `polygon` primitives when creating a `Mesh` from `SCNGeometry`
 - Creating a `Mesh` from an `SCNGeometry` now returns nil if the mesh can't be loaded
 
 ## [0.5.13](https://github.com/nicklockwood/Euclid/releases/tag/0.5.13) (2021-10-15)
