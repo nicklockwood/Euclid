@@ -181,6 +181,18 @@ public extension Bounds {
             p.y >= min.y && p.y <= max.y &&
             p.z >= min.z && p.z <= max.z
     }
+
+    /// Returns bounds inset by specified amount.
+    /// Use negative values to expand the bounds.
+    func inset(by v: Vector) -> Bounds {
+        Bounds(min: min + v, max: max - v)
+    }
+
+    /// Returns bounds inset by specified amount.
+    /// Use a negative value to expand the bounds.
+    func inset(by d: Double) -> Bounds {
+        inset(by: Vector(size: d))
+    }
 }
 
 extension Bounds {
