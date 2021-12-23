@@ -199,7 +199,7 @@ public extension Mesh {
 
 internal extension Mesh {
     init(unchecked polygons: [Polygon], bounds: Bounds?, isConvex: Bool) {
-        self.storage = Storage(
+        self.storage = polygons.isEmpty ? .empty : Storage(
             polygons: polygons,
             bounds: bounds,
             isConvex: isConvex
@@ -216,6 +216,12 @@ private extension Mesh {
         var boundsIfSet: Bounds?
         var materialsIfSet: [Material?]?
         let isConvex: Bool
+
+        static let empty = Storage(
+            polygons: [],
+            bounds: .empty,
+            isConvex: true
+        )
 
         var materials: [Material?] {
             if materialsIfSet == nil {
@@ -248,8 +254,9 @@ private extension Mesh {
 
         init(polygons: [Polygon], bounds: Bounds?, isConvex: Bool) {
             self.polygons = polygons
-            self.boundsIfSet = bounds
-            self.isConvex = isConvex
+            self.boundsIfSet = polygons.isEmpty ? .empty : bounds
+            self.isConvex = isConvex || polygons.isEmpty
+            self.watertightIfSet = isWatertight
         }
     }
 }
