@@ -129,6 +129,11 @@ public extension Vector {
         }
     }
 
+    /// Create a vector of uniform size
+    init(size: Double) {
+        self.init(size, size, size)
+    }
+
     var components: [Double] {
         [x, y, z]
     }
