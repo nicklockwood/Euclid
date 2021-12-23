@@ -55,7 +55,8 @@ extension Mesh: Codable {
             self.init(
                 unchecked: polygons,
                 bounds: boundsIfSet,
-                isConvex: isConvex
+                isConvex: isConvex,
+                isWatertight: nil
             )
         } else {
             let polygons = try [Polygon](from: decoder)
@@ -101,12 +102,17 @@ public extension Mesh {
     /// Returns true if polygon is watertight, i.e. every edge is attached to at least 2 polygons.
     /// Note: doesn't verify that mesh is not self-intersecting or inside-out.
     var isWatertight: Bool {
-        isConvex || polygons.areWatertight
+        storage.isWatertight
     }
 
     /// Construct a Mesh from an array of `Polygon` instances.
     init(_ polygons: [Polygon]) {
-        self.init(unchecked: polygons, bounds: nil, isConvex: false)
+        self.init(
+            unchecked: polygons,
+            bounds: nil,
+            isConvex: false,
+            isWatertight: nil
+        )
     }
 
     /// Replaces one material with another
@@ -121,7 +127,8 @@ public extension Mesh {
                 return $0
             },
             bounds: boundsIfSet,
-            isConvex: isConvex
+            isConvex: isConvex,
+            isWatertight: watertightIfSet
         )
     }
 
@@ -135,7 +142,8 @@ public extension Mesh {
         return Mesh(
             unchecked: polygons + mesh.polygons,
             bounds: boundsIfSet,
-            isConvex: false
+            isConvex: false,
+            isWatertight: watertightIfSet
         )
     }
 
@@ -157,7 +165,12 @@ public extension Mesh {
                 $0.formUnion($1.bounds)
             }
         }
-        return Mesh(unchecked: polygons, bounds: boundsIfSet, isConvex: false)
+        return Mesh(
+            unchecked: polygons,
+            bounds: boundsIfSet,
+            isConvex: false,
+            isWatertight: nil
+        )
     }
 
     /// Flips face direction of polygons.
@@ -165,7 +178,8 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.inverted(),
             bounds: boundsIfSet,
-            isConvex: false
+            isConvex: false,
+            isWatertight: watertightIfSet
         )
     }
 
@@ -174,7 +188,8 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.tessellate(),
             bounds: boundsIfSet,
-            isConvex: isConvex
+            isConvex: isConvex,
+            isWatertight: nil // TODO: fix triangulate() then see if this is fixed
         )
     }
 
@@ -183,7 +198,8 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.triangulate(),
             bounds: boundsIfSet,
-            isConvex: isConvex
+            isConvex: isConvex,
+            isWatertight: nil // TODO: work out why this sometimes introduces holes
         )
     }
 
@@ -192,47 +208,56 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.sortedByPlane().detessellate(),
             bounds: boundsIfSet,
-            isConvex: isConvex
+            isConvex: isConvex,
+            isWatertight: nil // TODO: can this be done without introducing holes?
         )
     }
 
     /// Removes hairline cracks by inserting additional vertices without altering the shape.
     /// Will not always be successful. Check `isWatertight` afterwards to verify.
     func makeWatertight() -> Mesh {
-        Mesh(
+        isWatertight ? self : Mesh(
             unchecked: polygons.makeWatertight(),
             bounds: boundsIfSet,
-            isConvex: isConvex
+            isConvex: isConvex,
+            isWatertight: nil
         )
     }
 }
 
 internal extension Mesh {
-    init(unchecked polygons: [Polygon], bounds: Bounds?, isConvex: Bool) {
+    init(
+        unchecked polygons: [Polygon],
+        bounds: Bounds?,
+        isConvex: Bool,
+        isWatertight: Bool?
+    ) {
         self.storage = polygons.isEmpty ? .empty : Storage(
             polygons: polygons,
             bounds: bounds,
-            isConvex: isConvex
+            isConvex: isConvex,
+            isWatertight: isWatertight
         )
     }
 
     var boundsIfSet: Bounds? { storage.boundsIfSet }
+    var watertightIfSet: Bool? { storage.watertightIfSet }
     var isConvex: Bool { storage.isConvex }
 }
 
 private extension Mesh {
     final class Storage: Hashable {
         let polygons: [Polygon]
-        var boundsIfSet: Bounds?
-        var materialsIfSet: [Material?]?
         let isConvex: Bool
 
         static let empty = Storage(
             polygons: [],
             bounds: .empty,
-            isConvex: true
+            isConvex: true,
+            isWatertight: true
         )
 
+        private(set) var materialsIfSet: [Material?]?
         var materials: [Material?] {
             if materialsIfSet == nil {
                 var materials = [Material?]()
@@ -247,11 +272,20 @@ private extension Mesh {
             return materialsIfSet!
         }
 
+        private(set) var boundsIfSet: Bounds?
         var bounds: Bounds {
             if boundsIfSet == nil {
                 boundsIfSet = Bounds(polygons: polygons)
             }
             return boundsIfSet!
+        }
+
+        private(set) var watertightIfSet: Bool?
+        var isWatertight: Bool {
+            if watertightIfSet == nil {
+                watertightIfSet = polygons.areWatertight
+            }
+            return watertightIfSet!
         }
 
         static func == (lhs: Storage, rhs: Storage) -> Bool {
@@ -262,11 +296,17 @@ private extension Mesh {
             hasher.combine(polygons)
         }
 
-        init(polygons: [Polygon], bounds: Bounds?, isConvex: Bool) {
+        init(
+            polygons: [Polygon],
+            bounds: Bounds?,
+            isConvex: Bool,
+            isWatertight: Bool?
+        ) {
+            assert(isWatertight == nil || isWatertight == polygons.areWatertight)
             self.polygons = polygons
             self.boundsIfSet = polygons.isEmpty ? .empty : bounds
             self.isConvex = isConvex || polygons.isEmpty
-            self.watertightIfSet = isWatertight
+            self.watertightIfSet = polygons.isEmpty ? true : isWatertight
         }
     }
 }

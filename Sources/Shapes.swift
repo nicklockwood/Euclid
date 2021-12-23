@@ -262,19 +262,22 @@ public extension Mesh {
             return Mesh(
                 unchecked: polygons,
                 bounds: bounds,
-                isConvex: true
+                isConvex: true,
+                isWatertight: true
             )
         case .back:
             return Mesh(
                 unchecked: polygons.inverted(),
                 bounds: bounds,
-                isConvex: false
+                isConvex: false,
+                isWatertight: true
             )
         case .frontAndBack:
             return Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: bounds,
-                isConvex: false
+                isConvex: false,
+                isWatertight: true
             )
         }
     }
@@ -312,7 +315,8 @@ public extension Mesh {
             faces: faces,
             wrapMode: wrapMode,
             material: material,
-            isConvex: true
+            isConvex: true,
+            isWatertight: true
         )
     }
 
@@ -342,7 +346,8 @@ public extension Mesh {
             faces: faces,
             wrapMode: wrapMode,
             material: material,
-            isConvex: true
+            isConvex: true,
+            isWatertight: true
         )
     }
 
@@ -373,7 +378,8 @@ public extension Mesh {
             faces: faces,
             wrapMode: wrapMode,
             material: material,
-            isConvex: true
+            isConvex: true,
+            isWatertight: true
         )
     }
 
@@ -407,7 +413,8 @@ public extension Mesh {
             faces: faces,
             wrapMode: wrapMode,
             material: material,
-            isConvex: false
+            isConvex: false, // TODO: Can we work out if profile is convex?
+            isWatertight: nil // TODO: Can we work this out?
         )
     }
 
@@ -422,6 +429,7 @@ public extension Mesh {
         if offset.isEqual(to: .zero) {
             return fill(shape, faces: faces, material: material)
         }
+        let polygon = Polygon(shape: shape)
         return loft(
             unchecked: [
                 shape.translated(by: offset),
@@ -430,7 +438,8 @@ public extension Mesh {
             faces: faces,
             material: material,
             verifiedCoplanar: true,
-            isConvex: Polygon(shape: shape)?.isConvex == true
+            isConvex: polygon?.isConvex == true,
+            isWatertight: polygon.map { _ in true } // TODO: make less strict
         )
     }
 
@@ -533,7 +542,8 @@ public extension Mesh {
             faces: faces,
             material: material,
             verifiedCoplanar: false,
-            isConvex: false
+            isConvex: false,
+            isWatertight: nil
         )
     }
 
@@ -554,19 +564,22 @@ public extension Mesh {
             return Mesh(
                 unchecked: polygons,
                 bounds: nil,
-                isConvex: false
+                isConvex: false,
+                isWatertight: false
             )
         case .back:
             return Mesh(
                 unchecked: polygons.map { $0.inverted() },
                 bounds: nil,
-                isConvex: false
+                isConvex: false,
+                isWatertight: false
             )
         case .frontAndBack, .default:
             return Mesh(
                 unchecked: polygons + polygons.map { $0.inverted() },
                 bounds: nil,
-                isConvex: polygons.count == 1 && polygons[0].isConvex
+                isConvex: polygons.count == 1 && polygons[0].isConvex,
+                isWatertight: true
             )
         }
     }
@@ -639,7 +652,12 @@ public extension Mesh {
                 into: &polygons
             )
         }
-        return Mesh(unchecked: polygons, bounds: bounds, isConvex: false)
+        return Mesh(
+            unchecked: polygons,
+            bounds: bounds,
+            isConvex: false,
+            isWatertight: nil
+        )
     }
 }
 
@@ -652,7 +670,8 @@ private extension Mesh {
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
         material: Material? = nil,
-        isConvex: Bool
+        isConvex: Bool,
+        isWatertight: Bool?
     ) -> Mesh {
         let subpaths = profile.subpaths
         if subpaths.count > 1 {
@@ -827,25 +846,32 @@ private extension Mesh {
             }
         }
 
-        let isSealed = isConvex && !pointsAreSelfIntersecting(profile.points.map { $0.position })
+        let isSealed = (isWatertight == true) || (
+            isConvex &&
+                !pointsAreSelfIntersecting(profile.points.map { $0.position })
+        )
+        let isWatertight = isSealed ? true : isWatertight
         switch faces {
         case .default where isSealed, .front:
             return Mesh(
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
-                isConvex: isConvex
+                isConvex: isConvex,
+                isWatertight: isWatertight
             )
         case .back:
             return Mesh(
                 unchecked: polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
-                isConvex: false
+                isConvex: false,
+                isWatertight: isWatertight
             )
         case .frontAndBack:
             return Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
-                isConvex: false
+                isConvex: false,
+                isWatertight: isWatertight
             )
         case .default:
             // seal loose ends
@@ -859,7 +885,8 @@ private extension Mesh {
             return Mesh(
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
-                isConvex: false
+                isConvex: false,
+                isWatertight: isWatertight
             )
         }
     }
@@ -877,7 +904,8 @@ private extension Mesh {
         faces: Faces = .default,
         material: Material?,
         verifiedCoplanar: Bool,
-        isConvex: Bool
+        isConvex: Bool,
+        isWatertight: Bool?
     ) -> Mesh {
         var subpathCount = 0
         let arrayOfSubpaths: [[Path]] = shapes.map {
@@ -945,6 +973,7 @@ private extension Mesh {
                 polygons += facePolygons
             }
         }
+        let isWatertight = isCapped ? true : isWatertight
         if !isCapped, count > 1, let first = shapes.first, let last = shapes.last {
             isCapped = first.isClosed && first.hasZeroArea &&
                 last.isClosed && last.hasZeroArea
@@ -954,19 +983,22 @@ private extension Mesh {
             return Mesh(
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
-                isConvex: isConvex
+                isConvex: isConvex,
+                isWatertight: isWatertight
             )
         case .back:
             return Mesh(
                 unchecked: polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
-                isConvex: false
+                isConvex: false,
+                isWatertight: isWatertight
             )
         case .frontAndBack, .default:
             return Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
-                isConvex: false
+                isConvex: false,
+                isWatertight: isWatertight
             )
         }
     }

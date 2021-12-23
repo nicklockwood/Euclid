@@ -963,6 +963,7 @@ class PolygonTests: XCTestCase {
         XCTAssertEqual(c.triangulate().polygons.count, 326)
         let d = c.makeWatertight()
         XCTAssertTrue(d.isWatertight)
+        XCTAssertTrue(d.polygons.areWatertight)
         XCTAssertEqual(d.triangulate().polygons.count, 425)
     }
 }

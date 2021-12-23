@@ -57,7 +57,8 @@ public extension Mesh {
             return Mesh(
                 unchecked: polys,
                 bounds: bounds.union(mesh.bounds),
-                isConvex: false
+                isConvex: false,
+                isWatertight: nil
             )
         }
         var out: [Polygon]? = []
@@ -74,7 +75,8 @@ public extension Mesh {
         return Mesh(
             unchecked: out! + ap + bp,
             bounds: bounds.union(mesh.bounds),
-            isConvex: false
+            isConvex: false,
+            isWatertight: nil
         )
     }
 
@@ -117,7 +119,8 @@ public extension Mesh {
         return Mesh(
             unchecked: aout! + ap + bp.map { $0.inverted() },
             bounds: nil, // TODO: is there a way to preserve this efficiently?
-            isConvex: false
+            isConvex: false,
+            isWatertight: nil
         )
     }
 
@@ -158,7 +161,8 @@ public extension Mesh {
         return Mesh(
             unchecked: lhs + rhs,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
-            isConvex: false
+            isConvex: false,
+            isWatertight: nil
         )
     }
 
@@ -205,7 +209,8 @@ public extension Mesh {
         return Mesh(
             unchecked: ap + bp,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
-            isConvex: isConvex && mesh.isConvex
+            isConvex: isConvex && mesh.isConvex,
+            isWatertight: nil
         )
     }
 
@@ -245,7 +250,8 @@ public extension Mesh {
         return Mesh(
             unchecked: aout! + outside + inside.map { $0.with(material: material) },
             bounds: bounds,
-            isConvex: isConvex
+            isConvex: isConvex,
+            isWatertight: nil
         )
     }
 
@@ -279,8 +285,18 @@ public extension Mesh {
                 return (self, nil)
             }
             return (
-                Mesh(unchecked: front, bounds: nil, isConvex: false),
-                Mesh(unchecked: back, bounds: nil, isConvex: false)
+                Mesh(
+                    unchecked: front,
+                    bounds: nil,
+                    isConvex: false,
+                    isWatertight: nil
+                ),
+                Mesh(
+                    unchecked: back,
+                    bounds: nil,
+                    isConvex: false,
+                    isWatertight: nil
+                )
             )
         }
     }
@@ -307,7 +323,8 @@ public extension Mesh {
             let mesh = Mesh(
                 unchecked: front,
                 bounds: nil,
-                isConvex: false
+                isConvex: false,
+                isWatertight: nil
             )
             guard let material = fill else {
                 return mesh
@@ -347,7 +364,8 @@ public extension Mesh {
                 unchecked: mesh.polygons + BSP(self) { false }
                     .clip([rect], .lessThan) { false },
                 bounds: nil,
-                isConvex: isConvex
+                isConvex: isConvex,
+                isWatertight: watertightIfSet
             )
         }
     }
