@@ -41,7 +41,7 @@ extension Mesh: Codable {
 
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
-            let bounds = try container.decodeIfPresent(Bounds.self, forKey: .bounds)
+            let boundsIfSet = try container.decodeIfPresent(Bounds.self, forKey: .bounds)
             let isConvex = try container.decodeIfPresent(Bool.self, forKey: .isConvex) ?? false
             let polygons: [Polygon]
             if let materials = try container.decodeIfPresent([CodableMaterial].self, forKey: .materials) {
@@ -54,7 +54,7 @@ extension Mesh: Codable {
             }
             self.init(
                 unchecked: polygons,
-                bounds: bounds,
+                bounds: boundsIfSet,
                 isConvex: isConvex
             )
         } else {
@@ -128,13 +128,13 @@ public extension Mesh {
     /// Returns a new Mesh that includes all polygons from both the
     /// parameter and receiver. Polygons are neither split nor removed.
     func merge(_ mesh: Mesh) -> Mesh {
-        var bounds: Bounds?
-        if let ab = boundsIfSet, let bb = mesh.boundsIfSet {
-            bounds = ab.union(bb)
+        var boundsIfSet: Bounds?
+        if let ab = self.boundsIfSet, let bb = mesh.boundsIfSet {
+            boundsIfSet = ab.union(bb)
         }
         return Mesh(
             unchecked: polygons + mesh.polygons,
-            bounds: bounds,
+            bounds: boundsIfSet,
             isConvex: false
         )
     }
@@ -144,21 +144,27 @@ public extension Mesh {
         if meshes.count == 1 {
             return meshes[0]
         }
-        var bounds = Bounds.empty
+        var allBoundsSet = true
         var polygons = [Polygon]()
         polygons.reserveCapacity(meshes.reduce(0) { $0 + $1.polygons.count })
         for mesh in meshes {
-            bounds.formUnion(mesh.bounds)
+            allBoundsSet = allBoundsSet && mesh.boundsIfSet != nil
             polygons += mesh.polygons
         }
-        return Mesh(unchecked: polygons, bounds: bounds, isConvex: false)
+        var boundsIfSet: Bounds?
+        if allBoundsSet {
+            boundsIfSet = meshes.reduce(into: Bounds.empty) {
+                $0.formUnion($1.bounds)
+            }
+        }
+        return Mesh(unchecked: polygons, bounds: boundsIfSet, isConvex: false)
     }
 
     /// Flips face direction of polygons.
     func inverted() -> Mesh {
         Mesh(
             unchecked: polygons.inverted(),
-            bounds: bounds,
+            bounds: boundsIfSet,
             isConvex: false
         )
     }
@@ -167,7 +173,7 @@ public extension Mesh {
     func tessellate() -> Mesh {
         Mesh(
             unchecked: polygons.tessellate(),
-            bounds: bounds,
+            bounds: boundsIfSet,
             isConvex: isConvex
         )
     }
@@ -176,7 +182,7 @@ public extension Mesh {
     func triangulate() -> Mesh {
         Mesh(
             unchecked: polygons.triangulate(),
-            bounds: bounds,
+            bounds: boundsIfSet,
             isConvex: isConvex
         )
     }
@@ -185,7 +191,7 @@ public extension Mesh {
     func detessellate() -> Mesh {
         Mesh(
             unchecked: polygons.sortedByPlane().detessellate(),
-            bounds: bounds,
+            bounds: boundsIfSet,
             isConvex: isConvex
         )
     }
