@@ -93,7 +93,7 @@ public extension LineSegment {
         guard v.length < epsilon else {
             return false
         }
-        return lineSegmentsContainsPoint(start, end, p + v)
+        return Bounds(start, end).containsPoint(p)
     }
 
     /// Intersection point between lines (if any)

@@ -448,17 +448,5 @@ func lineSegmentsIntersection(
     guard let pi = lineIntersection(p0, p1, p2, p3) else {
         return nil // lines don't intersect
     }
-    return lineSegmentsContainsPoint(p0, p1, pi) &&
-        lineSegmentsContainsPoint(p2, p3, pi) ? pi : nil
-}
-
-// Check point lies within range of line segment start/end
-// Point must already lie along the line
-func lineSegmentsContainsPoint(
-    _ start: Vector,
-    _ end: Vector,
-    _ point: Vector
-) -> Bool {
-    assert(vectorFromPointToLine(point, start, (end - start).normalized()).length < epsilon)
-    return Bounds(min: min(start, end), max: max(start, end)).containsPoint(point)
+    return Bounds(p0, p1).containsPoint(pi) && Bounds(p2, p3).containsPoint(pi) ? pi : nil
 }
