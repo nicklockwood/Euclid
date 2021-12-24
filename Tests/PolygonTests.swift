@@ -964,7 +964,7 @@ class PolygonTests: XCTestCase {
         let d = c.makeWatertight()
         XCTAssertTrue(d.isWatertight)
         XCTAssertTrue(d.polygons.areWatertight)
-        XCTAssertEqual(d.triangulate().polygons.count, 425)
+        XCTAssertEqual(d.triangulate().polygons.count, 421)
     }
 
     // MARK: plane intersection

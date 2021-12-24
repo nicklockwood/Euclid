@@ -625,20 +625,19 @@ internal extension Polygon {
             return
         }
         var f = [Vertex](), b = [Vertex]()
-        for i in polygon.vertices.indices {
-            let j = (i + 1) % polygon.vertices.count
-            let vi = polygon.vertices[i], vj = polygon.vertices[j]
-            let ti = vi.position.compare(with: plane)
-            if ti != .back {
-                f.append(vi)
+        var v0 = polygon.vertices.last!, t0 = v0.position.compare(with: plane)
+        for v1 in polygon.vertices {
+            if t0 != .back {
+                f.append(v0)
             }
-            if ti != .front {
-                b.append(vi)
+            if t0 != .front {
+                b.append(v0)
             }
-            let tj = vj.position.compare(with: plane)
-            if ti.rawValue | tj.rawValue == PlaneComparison.spanning.rawValue {
-                let t = (plane.w - plane.normal.dot(vi.position)) / plane.normal.dot(vj.position - vi.position)
-                let v = vi.lerp(vj, t)
+            let t1 = v1.position.compare(with: plane)
+            if t0.union(t1) == .spanning {
+                let t = (plane.w - plane.normal.dot(v0.position)) /
+                    plane.normal.dot(v1.position - v0.position)
+                let v = v0.lerp(v1, t)
                 if f.last?.position != v.position, f.first?.position != v.position {
                     f.append(v)
                 }
@@ -646,6 +645,8 @@ internal extension Polygon {
                     b.append(v)
                 }
             }
+            v0 = v1
+            t0 = t1
         }
         if !verticesAreDegenerate(f) {
             front.append(Polygon(
