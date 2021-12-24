@@ -263,44 +263,6 @@ public extension Mesh {
         reduce(meshes, using: { $0.stencil($1, isCancelled: $2) }, isCancelled)
     }
 
-    /// Split mesh along a plane
-    func split(along plane: Plane) -> (Mesh?, Mesh?) {
-        switch bounds.compare(with: plane) {
-        case .front:
-            return (self, nil)
-        case .back:
-            return (nil, self)
-        case .spanning, .coplanar:
-            var id = 0
-            var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
-            for polygon in polygons {
-                polygon.split(along: plane, &coplanar, &front, &back, &id)
-            }
-            for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
-                front.append(polygon)
-            }
-            if front.isEmpty {
-                return (nil, self)
-            } else if back.isEmpty {
-                return (self, nil)
-            }
-            return (
-                Mesh(
-                    unchecked: front,
-                    bounds: nil,
-                    isConvex: false,
-                    isWatertight: nil
-                ),
-                Mesh(
-                    unchecked: back,
-                    bounds: nil,
-                    isConvex: false,
-                    isWatertight: nil
-                )
-            )
-        }
-    }
-
     /// Clip mesh to a plane and optionally fill sheared faces with specified material
     func clip(to plane: Plane, fill: Material? = nil) -> Mesh {
         guard !polygons.isEmpty else {

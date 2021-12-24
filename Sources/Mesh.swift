@@ -173,6 +173,53 @@ public extension Mesh {
         )
     }
 
+    /// Split mesh along a plane
+    func split(along plane: Plane) -> (Mesh?, Mesh?) {
+        switch bounds.compare(with: plane) {
+        case .front:
+            return (self, nil)
+        case .back:
+            return (nil, self)
+        case .spanning, .coplanar:
+            var id = 0
+            var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
+            for polygon in polygons {
+                polygon.split(along: plane, &coplanar, &front, &back, &id)
+            }
+            for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
+                front.append(polygon)
+            }
+            if front.isEmpty {
+                return (nil, self)
+            } else if back.isEmpty {
+                return (self, nil)
+            }
+            return (
+                Mesh(
+                    unchecked: front,
+                    bounds: nil,
+                    isConvex: false,
+                    isWatertight: nil
+                ),
+                Mesh(
+                    unchecked: back,
+                    bounds: nil,
+                    isConvex: false,
+                    isWatertight: nil
+                )
+            )
+        }
+    }
+
+    /// Return a set of edges where the mesh intersects the plane.
+    func edges(intersecting plane: Plane) -> Set<LineSegment> {
+        var edges = Set<LineSegment>()
+        for polygon in polygons {
+            polygon.intersect(with: plane, edges: &edges)
+        }
+        return edges
+    }
+
     /// Flips face direction of polygons.
     func inverted() -> Mesh {
         Mesh(

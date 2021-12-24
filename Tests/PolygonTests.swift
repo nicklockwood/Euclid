@@ -966,4 +966,60 @@ class PolygonTests: XCTestCase {
         XCTAssertTrue(d.polygons.areWatertight)
         XCTAssertEqual(d.triangulate().polygons.count, 425)
     }
+
+    // MARK: plane intersection
+
+    func testCubePlaneIntersection() {
+        let mesh = Mesh.cube()
+        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let edges = mesh.edges(intersecting: plane)
+        XCTAssertEqual(edges, [
+            LineSegment(Vector(0, 0.5, -0.5), Vector(0, 0.5, 0.5)),
+            LineSegment(Vector(0, -0.5, -0.5), Vector(0, -0.5, 0.5)),
+            LineSegment(Vector(0, -0.5, 0.5), Vector(0, 0.5, 0.5)),
+            LineSegment(Vector(0, -0.5, -0.5), Vector(0, 0.5, -0.5)),
+        ])
+    }
+
+    func testCubeTouchingPlane() {
+        let mesh = Mesh.cube().translated(by: Vector(-0.5, 0, 0))
+        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let edges = mesh.edges(intersecting: plane)
+        XCTAssertEqual(edges, [
+            LineSegment(Vector(0, 0.5, -0.5), Vector(0, 0.5, 0.5)),
+            LineSegment(Vector(0, -0.5, -0.5), Vector(0, -0.5, 0.5)),
+            LineSegment(Vector(0, -0.5, 0.5), Vector(0, 0.5, 0.5)),
+            LineSegment(Vector(0, -0.5, -0.5), Vector(0, 0.5, -0.5)),
+        ])
+    }
+
+    func testCubeTouchingPlane2() {
+        let mesh = Mesh.cube().translated(by: Vector(0.5, 0, 0))
+        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let edges = mesh.edges(intersecting: plane)
+        XCTAssertEqual(edges, [
+            LineSegment(Vector(0, 0.5, -0.5), Vector(0, 0.5, 0.5)),
+            LineSegment(Vector(0, -0.5, -0.5), Vector(0, -0.5, 0.5)),
+            LineSegment(Vector(0, -0.5, 0.5), Vector(0, 0.5, 0.5)),
+            LineSegment(Vector(0, -0.5, -0.5), Vector(0, 0.5, -0.5)),
+        ])
+    }
+
+    func testPentagonSpanningPlane() {
+        let mesh = Mesh.fill(.circle(segments: 5))
+        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let edges = mesh.edges(intersecting: plane)
+        XCTAssertEqual(edges, [
+            LineSegment(Vector(0, -0.404508497187, 0), Vector(0, 0.5, 0)),
+        ])
+    }
+
+    func testDiamondSpanningPlane() {
+        let mesh = Mesh.fill(.circle(segments: 4))
+        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let edges = mesh.edges(intersecting: plane)
+        XCTAssertEqual(edges, [
+            LineSegment(Vector(0, -0.5, 0), Vector(0, 0.5, 0)),
+        ])
+    }
 }

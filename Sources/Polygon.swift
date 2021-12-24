@@ -137,7 +137,7 @@ public extension Polygon {
         return Set(vertices.map {
             let p1 = $0.position
             defer { p0 = p1 }
-            return p0 < p1 ? LineSegment(unchecked: p0, p1) : LineSegment(unchecked: p1, p0)
+            return LineSegment(normalized: p0, p1)
         })
     }
 
@@ -617,7 +617,7 @@ internal extension Polygon {
             id += 1
             polygon.id = id
         }
-        if !polygon.isConvex {
+        guard polygon.isConvex else {
             var coplanar = [Polygon]()
             polygon.tessellate().forEach {
                 $0.split(along: plane, &coplanar, &front, &back, &id)
@@ -665,6 +665,51 @@ internal extension Polygon {
                 id: polygon.id
             ))
         }
+    }
+
+    // Return all intersections with the plane
+    func intersect(with plane: Plane, edges: inout Set<LineSegment>) {
+        var wasFront = false, wasBack = false
+        for edge in undirectedEdges {
+            switch edge.compare(with: plane) {
+            case .front where wasBack, .back where wasFront, .spanning:
+                intersect(spanning: plane, intersections: &edges)
+                return
+            case .coplanar:
+                edges.insert(edge)
+            case .front:
+                wasFront = true
+            case .back:
+                wasBack = true
+            }
+        }
+    }
+
+    func intersect(spanning plane: Plane, intersections: inout Set<LineSegment>) {
+        assert(compare(with: plane) == .spanning)
+        guard isConvex else {
+            tessellate().forEach {
+                $0.intersect(spanning: plane, intersections: &intersections)
+            }
+            return
+        }
+        var start: Vector?
+        var p0 = vertices.last!.position, t0 = p0.compare(with: plane)
+        for v in vertices {
+            let p1 = v.position, t1 = p1.compare(with: plane)
+            if t0 == .coplanar || t0.union(t1) == .spanning {
+                let t = (plane.w - plane.normal.dot(p0)) / plane.normal.dot(p1 - p0)
+                let p = p0.lerp(p1, t)
+                if let start = start {
+                    intersections.insert(LineSegment(normalized: start, p))
+                    return
+                }
+                start = p
+            }
+            p0 = p1
+            t0 = t1
+        }
+        assertionFailure()
     }
 
     mutating func insertEdgePoint(_ p: Vector) -> Bool {

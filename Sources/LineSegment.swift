@@ -127,4 +127,27 @@ internal extension LineSegment {
         self.start = start
         self.end = end
     }
+
+    init(normalized start: Vector, _ end: Vector) {
+        if start < end {
+            self.init(unchecked: start, end)
+        } else {
+            self.init(unchecked: end, start)
+        }
+    }
+
+    func compare(with plane: Plane) -> PlaneComparison {
+        switch (start.compare(with: plane), end.compare(with: plane)) {
+        case (.coplanar, .coplanar):
+            return .coplanar
+        case (.front, .back), (.back, .front):
+            return .spanning
+        case (.front, _), (_, .front):
+            return .front
+        case (.back, _), (_, .back):
+            return .back
+        case (.spanning, _), (_, .spanning):
+            preconditionFailure()
+        }
+    }
 }
