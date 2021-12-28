@@ -27,11 +27,13 @@ class SceneViewController: UIViewController {
 
         // create some geometry using Euclid
         let start = CFAbsoluteTimeGetCurrent()
-        let cube = Mesh.cube(size: 0.8, material: Color.red)
-        let sphere = Mesh.sphere(slices: 120, material: Color.blue)
-        let mesh = cube.subtract(sphere)
+        let cube = Mesh.cube(size: 0.8, material: UIColor.red)
+        let sphere = Mesh.sphere(slices: 120, material: UIColor.blue)
+        let mesh = cube.subtract(sphere).makeWatertight()
         print("Time:", CFAbsoluteTimeGetCurrent() - start)
-        print("Polys:", mesh.polygons.count)
+        print("Polygons:", mesh.polygons.count)
+        print("Triangles:", mesh.triangulate().polygons.count)
+        print("Watertight:", mesh.isWatertight)
 
         // create SCNNode
         let geometry = SCNGeometry(mesh)
@@ -45,19 +47,6 @@ class SceneViewController: UIViewController {
         scnView.allowsCameraControl = true
         scnView.showsStatistics = true
         scnView.backgroundColor = .white
-
-        // create shader program for rendering geometry
-        guard let device = scnView.device else {
-            fatalError("Unable to create device library")
-        }
-
-        let library = device.makeDefaultLibrary()
-        let program = SCNProgram()
-
-        program.library = library
-        program.fragmentFunctionName = "fragment_shader"
-        program.vertexFunctionName = "vertex_shader"
-        node.geometry?.program = program
     }
 
     override var shouldAutorotate: Bool {

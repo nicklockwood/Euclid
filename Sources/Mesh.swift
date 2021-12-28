@@ -41,7 +41,7 @@ extension Mesh: Codable {
 
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
-            let bounds = try container.decodeIfPresent(Bounds.self, forKey: .bounds)
+            let boundsIfSet = try container.decodeIfPresent(Bounds.self, forKey: .bounds)
             let isConvex = try container.decodeIfPresent(Bool.self, forKey: .isConvex) ?? false
             let polygons: [Polygon]
             if let materials = try container.decodeIfPresent([CodableMaterial].self, forKey: .materials) {
@@ -54,8 +54,9 @@ extension Mesh: Codable {
             }
             self.init(
                 unchecked: polygons,
-                bounds: bounds,
-                isConvex: isConvex
+                bounds: boundsIfSet,
+                isConvex: isConvex,
+                isWatertight: nil
             )
         } else {
             let polygons = try [Polygon](from: decoder)
@@ -71,6 +72,7 @@ extension Mesh: Codable {
             try container.encode(polygons, forKey: .polygons)
         } else {
             try container.encode(materials.map { CodableMaterial($0) }, forKey: .materials)
+            let polygonsByMaterial = self.polygonsByMaterial
             try container.encode(materials.map { material -> [Polygon] in
                 polygonsByMaterial[material]!.map { $0.with(material: nil) }
             }, forKey: .polygons)
@@ -89,13 +91,7 @@ public extension Mesh {
 
     /// Polygons grouped by material
     var polygonsByMaterial: [Material?: [Polygon]] {
-        var polygonsByMaterial = [Material?: [Polygon]]()
-        for material in storage.materials {
-            if polygonsByMaterial[material] == nil {
-                polygonsByMaterial[material] = polygons.filter { $0.material == material }
-            }
-        }
-        return polygonsByMaterial
+        polygons.groupedByMaterial()
     }
 
     /// Returns all unique polygon edges in the mesh
@@ -106,41 +102,43 @@ public extension Mesh {
     /// Returns true if polygon is watertight, i.e. every edge is attached to at least 2 polygons.
     /// Note: doesn't verify that mesh is not self-intersecting or inside-out.
     var isWatertight: Bool {
-        isConvex || polygons.areWatertight
+        storage.isWatertight
     }
 
     /// Construct a Mesh from an array of `Polygon` instances.
     init(_ polygons: [Polygon]) {
-        self.init(unchecked: polygons, bounds: nil, isConvex: false)
+        self.init(
+            unchecked: polygons,
+            bounds: nil,
+            isConvex: false,
+            isWatertight: nil
+        )
     }
 
     /// Replaces one material with another
     func replacing(_ old: Material?, with new: Material?) -> Mesh {
         Mesh(
             unchecked: polygons.map {
-                if $0.material == old {
-                    var polygon = $0
-                    polygon.material = new
-                    return polygon
-                }
-                return $0
+                $0.material == old ? $0.with(material: new) : $0
             },
             bounds: boundsIfSet,
-            isConvex: isConvex
+            isConvex: isConvex,
+            isWatertight: watertightIfSet
         )
     }
 
     /// Returns a new Mesh that includes all polygons from both the
     /// parameter and receiver. Polygons are neither split nor removed.
     func merge(_ mesh: Mesh) -> Mesh {
-        var bounds: Bounds?
-        if let ab = boundsIfSet, let bb = mesh.boundsIfSet {
-            bounds = ab.union(bb)
+        var boundsIfSet: Bounds?
+        if let ab = self.boundsIfSet, let bb = mesh.boundsIfSet {
+            boundsIfSet = ab.union(bb)
         }
         return Mesh(
             unchecked: polygons + mesh.polygons,
-            bounds: bounds,
-            isConvex: false
+            bounds: boundsIfSet,
+            isConvex: false,
+            isWatertight: watertightIfSet
         )
     }
 
@@ -149,22 +147,81 @@ public extension Mesh {
         if meshes.count == 1 {
             return meshes[0]
         }
-        var bounds = Bounds.empty
+        var allBoundsSet = true
         var polygons = [Polygon]()
         polygons.reserveCapacity(meshes.reduce(0) { $0 + $1.polygons.count })
         for mesh in meshes {
-            bounds.formUnion(mesh.bounds)
+            allBoundsSet = allBoundsSet && mesh.boundsIfSet != nil
             polygons += mesh.polygons
         }
-        return Mesh(unchecked: polygons, bounds: bounds, isConvex: false)
+        var boundsIfSet: Bounds?
+        if allBoundsSet {
+            boundsIfSet = meshes.reduce(into: Bounds.empty) {
+                $0.formUnion($1.bounds)
+            }
+        }
+        return Mesh(
+            unchecked: polygons,
+            bounds: boundsIfSet,
+            isConvex: false,
+            isWatertight: nil
+        )
+    }
+
+    /// Split mesh along a plane
+    func split(along plane: Plane) -> (Mesh?, Mesh?) {
+        switch bounds.compare(with: plane) {
+        case .front:
+            return (self, nil)
+        case .back:
+            return (nil, self)
+        case .spanning, .coplanar:
+            var id = 0
+            var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
+            for polygon in polygons {
+                polygon.split(along: plane, &coplanar, &front, &back, &id)
+            }
+            for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
+                front.append(polygon)
+            }
+            if front.isEmpty {
+                return (nil, self)
+            } else if back.isEmpty {
+                return (self, nil)
+            }
+            return (
+                Mesh(
+                    unchecked: front,
+                    bounds: nil,
+                    isConvex: false,
+                    isWatertight: nil
+                ),
+                Mesh(
+                    unchecked: back,
+                    bounds: nil,
+                    isConvex: false,
+                    isWatertight: nil
+                )
+            )
+        }
+    }
+
+    /// Return a set of edges where the mesh intersects the plane.
+    func edges(intersecting plane: Plane) -> Set<LineSegment> {
+        var edges = Set<LineSegment>()
+        for polygon in polygons {
+            polygon.intersect(with: plane, edges: &edges)
+        }
+        return edges
     }
 
     /// Flips face direction of polygons.
     func inverted() -> Mesh {
         Mesh(
             unchecked: polygons.inverted(),
-            bounds: bounds,
-            isConvex: false
+            bounds: boundsIfSet,
+            isConvex: false,
+            isWatertight: watertightIfSet
         )
     }
 
@@ -172,8 +229,9 @@ public extension Mesh {
     func tessellate() -> Mesh {
         Mesh(
             unchecked: polygons.tessellate(),
-            bounds: bounds,
-            isConvex: isConvex
+            bounds: boundsIfSet,
+            isConvex: isConvex,
+            isWatertight: nil // TODO: fix triangulate() then see if this is fixed
         )
     }
 
@@ -181,8 +239,9 @@ public extension Mesh {
     func triangulate() -> Mesh {
         Mesh(
             unchecked: polygons.triangulate(),
-            bounds: bounds,
-            isConvex: isConvex
+            bounds: boundsIfSet,
+            isConvex: isConvex,
+            isWatertight: nil // TODO: work out why this sometimes introduces holes
         )
     }
 
@@ -190,32 +249,57 @@ public extension Mesh {
     func detessellate() -> Mesh {
         Mesh(
             unchecked: polygons.sortedByPlane().detessellate(),
-            bounds: bounds,
-            isConvex: isConvex
+            bounds: boundsIfSet,
+            isConvex: isConvex,
+            isWatertight: nil // TODO: can this be done without introducing holes?
+        )
+    }
+
+    /// Removes hairline cracks by inserting additional vertices without altering the shape.
+    /// Will not always be successful. Check `isWatertight` afterwards to verify.
+    func makeWatertight() -> Mesh {
+        isWatertight ? self : Mesh(
+            unchecked: polygons.makeWatertight(),
+            bounds: boundsIfSet,
+            isConvex: isConvex,
+            isWatertight: nil
         )
     }
 }
 
 internal extension Mesh {
-    init(unchecked polygons: [Polygon], bounds: Bounds?, isConvex: Bool) {
-        self.storage = Storage(
+    init(
+        unchecked polygons: [Polygon],
+        bounds: Bounds?,
+        isConvex: Bool,
+        isWatertight: Bool?
+    ) {
+        self.storage = polygons.isEmpty ? .empty : Storage(
             polygons: polygons,
             bounds: bounds,
-            isConvex: isConvex
+            isConvex: isConvex,
+            isWatertight: isWatertight
         )
     }
 
     var boundsIfSet: Bounds? { storage.boundsIfSet }
+    var watertightIfSet: Bool? { storage.watertightIfSet }
     var isConvex: Bool { storage.isConvex }
 }
 
 private extension Mesh {
     final class Storage: Hashable {
         let polygons: [Polygon]
-        var boundsIfSet: Bounds?
-        var materialsIfSet: [Material?]?
         let isConvex: Bool
 
+        static let empty = Storage(
+            polygons: [],
+            bounds: .empty,
+            isConvex: true,
+            isWatertight: true
+        )
+
+        private(set) var materialsIfSet: [Material?]?
         var materials: [Material?] {
             if materialsIfSet == nil {
                 var materials = [Material?]()
@@ -230,11 +314,20 @@ private extension Mesh {
             return materialsIfSet!
         }
 
+        private(set) var boundsIfSet: Bounds?
         var bounds: Bounds {
             if boundsIfSet == nil {
                 boundsIfSet = Bounds(polygons: polygons)
             }
             return boundsIfSet!
+        }
+
+        private(set) var watertightIfSet: Bool?
+        var isWatertight: Bool {
+            if watertightIfSet == nil {
+                watertightIfSet = polygons.areWatertight
+            }
+            return watertightIfSet!
         }
 
         static func == (lhs: Storage, rhs: Storage) -> Bool {
@@ -245,10 +338,17 @@ private extension Mesh {
             hasher.combine(polygons)
         }
 
-        init(polygons: [Polygon], bounds: Bounds?, isConvex: Bool) {
+        init(
+            polygons: [Polygon],
+            bounds: Bounds?,
+            isConvex: Bool,
+            isWatertight: Bool?
+        ) {
+            assert(isWatertight == nil || isWatertight == polygons.areWatertight)
             self.polygons = polygons
-            self.boundsIfSet = bounds
-            self.isConvex = isConvex
+            self.boundsIfSet = polygons.isEmpty ? .empty : bounds
+            self.isConvex = isConvex || polygons.isEmpty
+            self.watertightIfSet = polygons.isEmpty ? true : isWatertight
         }
     }
 }

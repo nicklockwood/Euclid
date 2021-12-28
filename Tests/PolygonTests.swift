@@ -113,6 +113,14 @@ class PolygonTests: XCTestCase {
         ]))
     }
 
+    func testPolygonWithOnlyTwoPoints() {
+        let normal = Vector(0, 0, 1)
+        XCTAssertNil(Polygon([
+            Vertex(Vector(-1, 1), normal),
+            Vertex(Vector(-1, -1), normal),
+        ]))
+    }
+
     func testZeroNormals() {
         guard let polygon = Polygon([
             Vertex(Position(-1, 1), .zero),
@@ -867,65 +875,5 @@ class PolygonTests: XCTestCase {
                 Vertex(Position(2, 0), normal),
             ]),
         ])
-    }
-
-    // MARK: uniqueEdges
-
-    func testUniqueEdgesForCube() {
-        let mesh = Mesh.cube()
-        let edges = mesh.uniqueEdges
-        XCTAssertEqual(edges.count, 12)
-    }
-
-    func testUniqueEdgesForSphere() {
-        let mesh = Mesh.sphere(slices: 4)
-        let edges = Array(mesh.uniqueEdges)
-        XCTAssertEqual(edges.count, 12)
-    }
-
-    // MARK: isWatertight
-
-    func testCubeIsWatertight() {
-        let mesh = Mesh.cube()
-        XCTAssert(mesh.isWatertight)
-        XCTAssert(mesh.polygons.areWatertight)
-    }
-
-    func testSphereIsWatertight() {
-        let mesh = Mesh.sphere()
-        XCTAssert(mesh.isWatertight)
-        XCTAssert(mesh.polygons.areWatertight)
-    }
-
-    func testLatheIsWatertight() {
-        let mesh = Mesh.lathe(.circle())
-        XCTAssert(mesh.isWatertight)
-        XCTAssert(mesh.polygons.areWatertight)
-    }
-
-    func testDoubleSidedFaceIsWatertight() {
-        let mesh = Mesh.fill(.square())
-        XCTAssert(mesh.isWatertight)
-        XCTAssert(mesh.polygons.areWatertight)
-    }
-
-    func testSingleSidedFaceIsNotWatertight() {
-        let mesh = Mesh.fill(.square(), faces: .front)
-        XCTAssertFalse(mesh.isWatertight)
-        XCTAssertFalse(mesh.polygons.areWatertight)
-    }
-
-    func testOpenShapeExtrusionIsWatertight() {
-        let path = Path([.point(0, 0), .point(1, 0), .point(1, 1), .point(0, 1)])
-        let mesh = Mesh.extrude(path)
-        XCTAssert(mesh.isWatertight)
-        XCTAssert(mesh.polygons.areWatertight)
-    }
-
-    func testSingleSidedOpenShapeExtrusionIsNotWatertight() {
-        let path = Path([.point(0, 0), .point(1, 0), .point(1, 1), .point(0, 1)])
-        let mesh = Mesh.extrude(path, faces: .front)
-        XCTAssertFalse(mesh.isWatertight)
-        XCTAssertFalse(mesh.polygons.areWatertight)
     }
 }

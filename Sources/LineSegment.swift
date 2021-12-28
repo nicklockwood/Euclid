@@ -42,6 +42,16 @@ public struct LineSegment: Hashable {
     }
 }
 
+extension LineSegment: Comparable {
+    /// Provides a stable sort order for LineSegments
+    public static func < (lhs: LineSegment, rhs: LineSegment) -> Bool {
+        if lhs.start == rhs.start {
+            return lhs.end < rhs.end
+        }
+        return lhs.start < rhs.start
+    }
+}
+
 extension LineSegment: Codable {
     private enum CodingKeys: CodingKey {
         case start, end
@@ -87,13 +97,17 @@ public extension LineSegment {
         (end - start).direction
     }
 
+    var length: Double {
+        (end - start).length
+    }
+
     /// Check if point is on line segment
     func containsPoint(_ p: Position) -> Bool {
         let v = distanceFromPointToLine(p, Line(origin: start, direction: direction))
         guard v.norm < epsilon else {
             return false
         }
-        return lineSegmentsContainsPoint(start, end, p + v)
+        return Bounds(start, end).containsPoint(p)
     }
 
     /// Intersection point between lines (if any)
@@ -112,5 +126,28 @@ internal extension LineSegment {
         assert(start != end)
         self.start = start
         self.end = end
+    }
+
+    init(normalized start: Vector, _ end: Vector) {
+        if start < end {
+            self.init(unchecked: start, end)
+        } else {
+            self.init(unchecked: end, start)
+        }
+    }
+
+    func compare(with plane: Plane) -> PlaneComparison {
+        switch (start.compare(with: plane), end.compare(with: plane)) {
+        case (.coplanar, .coplanar):
+            return .coplanar
+        case (.front, .back), (.back, .front):
+            return .spanning
+        case (.front, _), (_, .front):
+            return .front
+        case (.back, _), (_, .back):
+            return .back
+        case (.spanning, _), (_, .spanning):
+            preconditionFailure()
+        }
     }
 }

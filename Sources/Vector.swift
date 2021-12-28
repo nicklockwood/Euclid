@@ -40,6 +40,17 @@ public struct Vector: Hashable {
         self.y = y
         self.z = z
     }
+
+    public func hash(into hasher: inout Hasher) {
+        let precision = 1e-6
+        hasher.combine((x / precision).rounded() * precision)
+        hasher.combine((y / precision).rounded() * precision)
+        hasher.combine((z / precision).rounded() * precision)
+    }
+
+    public static func == (lhs: Vector, rhs: Vector) -> Bool {
+        lhs.isEqual(to: rhs, withPrecision: 1e-10)
+    }
 }
 
 extension Vector: Comparable {
@@ -116,6 +127,11 @@ public extension Vector {
         case 2: self.init(components[0], components[1], components[0])
         default: self.init(components)
         }
+    }
+
+    /// Create a vector of uniform size
+    init(size: Double) {
+        self.init(size, size, size)
     }
 
     var components: [Double] {
@@ -221,10 +237,17 @@ public extension Vector {
 }
 
 internal extension Vector {
+    func isIdentical(to other: Vector) -> Bool {
+        x == other.x && y == other.y && z == other.z
+    }
+
     // Approximate equality
     func isEqual(to other: Vector, withPrecision p: Double = epsilon) -> Bool {
-        self == other ||
-            (abs(x - other.x) < p && abs(y - other.y) < p && abs(z - other.z) < p)
+        isIdentical(to: other) || (
+            x.isEqual(to: other.x, withPrecision: p) &&
+                y.isEqual(to: other.y, withPrecision: p) &&
+                z.isEqual(to: other.z, withPrecision: p)
+        )
     }
 
     func compare(with plane: Plane) -> PlaneComparison {

@@ -57,7 +57,8 @@ public extension Mesh {
             return Mesh(
                 unchecked: polys,
                 bounds: bounds.union(mesh.bounds),
-                isConvex: false
+                isConvex: false,
+                isWatertight: nil
             )
         }
         var out: [Polygon]? = []
@@ -74,7 +75,8 @@ public extension Mesh {
         return Mesh(
             unchecked: out! + ap + bp,
             bounds: bounds.union(mesh.bounds),
-            isConvex: false
+            isConvex: false,
+            isWatertight: nil
         )
     }
 
@@ -117,7 +119,8 @@ public extension Mesh {
         return Mesh(
             unchecked: aout! + ap + bp.map { $0.inverted() },
             bounds: nil, // TODO: is there a way to preserve this efficiently?
-            isConvex: false
+            isConvex: false,
+            isWatertight: nil
         )
     }
 
@@ -158,7 +161,8 @@ public extension Mesh {
         return Mesh(
             unchecked: lhs + rhs,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
-            isConvex: false
+            isConvex: false,
+            isWatertight: nil
         )
     }
 
@@ -205,7 +209,8 @@ public extension Mesh {
         return Mesh(
             unchecked: ap + bp,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
-            isConvex: isConvex && mesh.isConvex
+            isConvex: isConvex && mesh.isConvex,
+            isWatertight: nil
         )
     }
 
@@ -245,7 +250,8 @@ public extension Mesh {
         return Mesh(
             unchecked: aout! + outside + inside.map { $0.with(material: material) },
             bounds: bounds,
-            isConvex: isConvex
+            isConvex: isConvex,
+            isWatertight: nil
         )
     }
 
@@ -255,29 +261,6 @@ public extension Mesh {
         isCancelled: @escaping CancellationHandler = { false }
     ) -> Mesh {
         reduce(meshes, using: { $0.stencil($1, isCancelled: $2) }, isCancelled)
-    }
-
-    /// Split mesh along a plane
-    func split(along plane: Plane) -> (Mesh?, Mesh?) {
-        switch bounds.compare(with: plane) {
-        case .front:
-            return (self, nil)
-        case .back:
-            return (nil, self)
-        case .spanning, .coplanar:
-            var id = 0
-            var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
-            for polygon in polygons {
-                polygon.split(along: plane, &coplanar, &front, &back, &id)
-            }
-            for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
-                front.append(polygon)
-            }
-            return (
-                front.isEmpty ? nil : Mesh(unchecked: front, bounds: nil, isConvex: false),
-                back.isEmpty ? nil : Mesh(unchecked: back, bounds: nil, isConvex: false)
-            )
-        }
     }
 
     /// Clip mesh to a plane and optionally fill sheared faces with specified material
@@ -302,7 +285,8 @@ public extension Mesh {
             let mesh = Mesh(
                 unchecked: front,
                 bounds: nil,
-                isConvex: false
+                isConvex: false,
+                isWatertight: nil
             )
             guard let material = fill else {
                 return mesh
@@ -342,7 +326,8 @@ public extension Mesh {
                 unchecked: mesh.polygons + BSP(self) { false }
                     .clip([rect], .lessThan) { false },
                 bounds: nil,
-                isConvex: isConvex
+                isConvex: isConvex,
+                isWatertight: watertightIfSet
             )
         }
     }

@@ -99,7 +99,7 @@ class PathTests: XCTestCase {
             .point(-1, 1),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testConvexClosedPathClockwiseWinding() {
@@ -111,7 +111,7 @@ class PathTests: XCTestCase {
             .point(-1, -1),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, -.z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
     }
 
     func testConvexOpenPathAnticlockwiseWinding() {
@@ -121,7 +121,7 @@ class PathTests: XCTestCase {
             .point(1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testConvexOpenPathClockwiseWinding() {
@@ -131,7 +131,7 @@ class PathTests: XCTestCase {
             .point(1, 1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, -.z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
     }
 
     func testConcaveClosedPathAnticlockwiseWinding() {
@@ -145,7 +145,7 @@ class PathTests: XCTestCase {
             .point(-1, 0),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testConcaveClosedPathClockwiseWinding() {
@@ -159,7 +159,7 @@ class PathTests: XCTestCase {
             .point(-1, 0),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, -.z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
     }
 
     func testConcaveClosedPathClockwiseWinding2() {
@@ -174,7 +174,7 @@ class PathTests: XCTestCase {
         }
         points.append(.point(0, -0.5))
         let path = Path(points)
-        XCTAssertEqual(path.plane?.normal, -.z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
     }
 
     func testConcaveOpenPathAnticlockwiseWinding() {
@@ -186,7 +186,7 @@ class PathTests: XCTestCase {
             .point(-1, 1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testConcaveOpenPathClockwiseWinding() {
@@ -198,7 +198,7 @@ class PathTests: XCTestCase {
             .point(-1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, -.z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
     }
 
     func testStraightLinePathAnticlockwiseWinding() {
@@ -207,7 +207,7 @@ class PathTests: XCTestCase {
             .point(-1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testStraightLinePathAnticlockwiseWinding2() {
@@ -216,7 +216,7 @@ class PathTests: XCTestCase {
             .point(-1, 1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testStraightLinePathAnticlockwiseWinding3() {
@@ -225,7 +225,7 @@ class PathTests: XCTestCase {
             .point(1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     // MARK: faceVertices
@@ -283,32 +283,32 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 8)
         guard vertices.count >= 8 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Position(-1, 1))
-        XCTAssertEqual(vertices[1].position, Position(-1, -1))
-        XCTAssertEqual(vertices[2].position, Position(-1, -1))
-        XCTAssertEqual(vertices[3].position, Position(1, -1))
-        XCTAssertEqual(vertices[4].position, Position(1, -1))
-        XCTAssertEqual(vertices[5].position, Position(1, 1))
-        XCTAssertEqual(vertices[6].position, Position(1, 1))
-        XCTAssertEqual(vertices[7].position, Position(-1, 1))
+        XCTAssertEqual(vertices[0].position, Vector(-1, 1))
+        XCTAssertEqual(vertices[1].position, Vector(-1, -1))
+        XCTAssertEqual(vertices[2].position, Vector(-1, -1))
+        XCTAssertEqual(vertices[3].position, Vector(1, -1))
+        XCTAssertEqual(vertices[4].position, Vector(1, -1))
+        XCTAssertEqual(vertices[5].position, Vector(1, 1))
+        XCTAssertEqual(vertices[6].position, Vector(1, 1))
+        XCTAssertEqual(vertices[7].position, Vector(-1, 1))
         // texture coords
-        XCTAssertEqual(vertices[0].texcoord, Position(0, 0))
-        XCTAssertEqual(vertices[1].texcoord, Position(0, 0.25))
-        XCTAssertEqual(vertices[2].texcoord, Position(0, 0.25))
-        XCTAssertEqual(vertices[3].texcoord, Position(0, 0.5))
-        XCTAssertEqual(vertices[4].texcoord, Position(0, 0.5))
-        XCTAssertEqual(vertices[5].texcoord, Position(0, 0.75))
-        XCTAssertEqual(vertices[6].texcoord, Position(0, 0.75))
-        XCTAssertEqual(vertices[7].texcoord, Position(0, 1))
+        XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
+        XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[2].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[3].texcoord, Vector(0, 0.5))
+        XCTAssertEqual(vertices[4].texcoord, Vector(0, 0.5))
+        XCTAssertEqual(vertices[5].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[6].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[7].texcoord, Vector(0, 1))
         // normals
-        XCTAssertEqual(vertices[0].normal.quantized(), Direction(x: -1, y: 1).quantized())
-        XCTAssertEqual(vertices[1].normal.quantized(), Direction(x: -1, y: -1).quantized())
-        XCTAssertEqual(vertices[2].normal.quantized(), Direction(x: -1, y: -1).quantized())
-        XCTAssertEqual(vertices[3].normal.quantized(), Direction(x: 1, y: -1).quantized())
-        XCTAssertEqual(vertices[4].normal.quantized(), Direction(x: 1, y: -1).quantized())
-        XCTAssertEqual(vertices[5].normal.quantized(), Direction(x: 1, y: 1).quantized())
-        XCTAssertEqual(vertices[6].normal.quantized(), Direction(x: 1, y: 1).quantized())
-        XCTAssertEqual(vertices[7].normal.quantized(), Direction(x: -1, y: 1).quantized())
+        XCTAssertEqual(vertices[0].normal, Vector(-1, 1).normalized())
+        XCTAssertEqual(vertices[1].normal, Vector(-1, -1).normalized())
+        XCTAssertEqual(vertices[2].normal, Vector(-1, -1).normalized())
+        XCTAssertEqual(vertices[3].normal, Vector(1, -1).normalized())
+        XCTAssertEqual(vertices[4].normal, Vector(1, -1).normalized())
+        XCTAssertEqual(vertices[5].normal, Vector(1, 1).normalized())
+        XCTAssertEqual(vertices[6].normal, Vector(1, 1).normalized())
+        XCTAssertEqual(vertices[7].normal, Vector(-1, 1).normalized())
     }
 
     func testEdgeVerticesForSmoothedCylinder() {
@@ -322,28 +322,26 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 6)
         guard vertices.count >= 6 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Position(0, 1))
-        XCTAssertEqual(vertices[1].position, Position(-1, 1))
-        XCTAssertEqual(vertices[2].position, Position(-1, 1))
-        XCTAssertEqual(vertices[3].position, Position(-1, -1))
-        XCTAssertEqual(vertices[4].position, Position(-1, -1))
-        XCTAssertEqual(vertices[5].position, Position(0, -1))
+        XCTAssertEqual(vertices[0].position, Vector(0, 1))
+        XCTAssertEqual(vertices[1].position, Vector(-1, 1))
+        XCTAssertEqual(vertices[2].position, Vector(-1, 1))
+        XCTAssertEqual(vertices[3].position, Vector(-1, -1))
+        XCTAssertEqual(vertices[4].position, Vector(-1, -1))
+        XCTAssertEqual(vertices[5].position, Vector(0, -1))
         // texture coords
-        XCTAssertEqual(vertices[0].texcoord, Position(0, 0))
-        XCTAssertEqual(vertices[1].texcoord, Position(0, 0.25))
-        XCTAssertEqual(vertices[2].texcoord, Position(0, 0.25))
-        XCTAssertEqual(vertices[3].texcoord, Position(0, 0.75))
-        XCTAssertEqual(vertices[4].texcoord, Position(0, 0.75))
-        XCTAssertEqual(vertices[5].texcoord, Position(0, 1))
+        XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
+        XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[2].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[3].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[4].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[5].texcoord, Vector(0, 1))
         // normals
-        XCTAssertEqual(vertices[0].normal, Direction(x: 0, y: 1))
-        XCTAssertEqual(vertices[1].normal.quantized(), Direction(x: -1, y: 1).quantized())
-        XCTAssertEqual(vertices[2].normal.quantized(), Direction(x: -1, y: 1).quantized())
-        XCTAssertEqual(vertices[3].normal.quantized(), Direction(x: -1, y: -1).quantized())
-        XCTAssertEqual(vertices[4].normal.quantized(), Direction(x: -1, y: -1).quantized())
-        XCTAssertEqual(vertices[5].normal, Direction(x: 0, y: -1))
-        XCTAssertEqual(vertices[0].normal, .y)
-        XCTAssertEqual(vertices[5].normal, -.y)
+        XCTAssertEqual(vertices[0].normal, Vector(0, 1))
+        XCTAssertEqual(vertices[1].normal, Vector(-1, 1).normalized())
+        XCTAssertEqual(vertices[2].normal, Vector(-1, 1).normalized())
+        XCTAssertEqual(vertices[3].normal, Vector(-1, -1).normalized())
+        XCTAssertEqual(vertices[4].normal, Vector(-1, -1).normalized())
+        XCTAssertEqual(vertices[5].normal, Vector(0, -1))
     }
 
     func testEdgeVerticesForSharpEdgedCylinder() {
@@ -357,26 +355,26 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 6)
         guard vertices.count >= 6 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Position(0, 1))
-        XCTAssertEqual(vertices[1].position, Position(-1, 1))
-        XCTAssertEqual(vertices[2].position, Position(-1, 1))
-        XCTAssertEqual(vertices[3].position, Position(-1, -1))
-        XCTAssertEqual(vertices[4].position, Position(-1, -1))
-        XCTAssertEqual(vertices[5].position, Position(0, -1))
+        XCTAssertEqual(vertices[0].position, Vector(0, 1))
+        XCTAssertEqual(vertices[1].position, Vector(-1, 1))
+        XCTAssertEqual(vertices[2].position, Vector(-1, 1))
+        XCTAssertEqual(vertices[3].position, Vector(-1, -1))
+        XCTAssertEqual(vertices[4].position, Vector(-1, -1))
+        XCTAssertEqual(vertices[5].position, Vector(0, -1))
         // texture coords
-        XCTAssertEqual(vertices[0].texcoord, Position(0, 0))
-        XCTAssertEqual(vertices[1].texcoord, Position(0, 0.25))
-        XCTAssertEqual(vertices[2].texcoord, Position(0, 0.25))
-        XCTAssertEqual(vertices[3].texcoord, Position(0, 0.75))
-        XCTAssertEqual(vertices[4].texcoord, Position(0, 0.75))
-        XCTAssertEqual(vertices[5].texcoord, Position(0, 1))
+        XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
+        XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[2].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[3].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[4].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[5].texcoord, Vector(0, 1))
         // normals
-        XCTAssertEqual(vertices[0].normal, .y)
-        XCTAssertEqual(vertices[1].normal, .y)
-        XCTAssertEqual(vertices[2].normal, -.x)
-        XCTAssertEqual(vertices[3].normal, -.x)
-        XCTAssertEqual(vertices[4].normal, -.y)
-        XCTAssertEqual(vertices[5].normal, -.y)
+        XCTAssertEqual(vertices[0].normal, Vector(0, 1))
+        XCTAssertEqual(vertices[1].normal, Vector(0, 1))
+        XCTAssertEqual(vertices[2].normal, Vector(-1, 0))
+        XCTAssertEqual(vertices[3].normal, Vector(-1, 0))
+        XCTAssertEqual(vertices[4].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[5].normal, Vector(0, -1))
     }
 
     func testEdgeVerticesForCircle() {
@@ -385,32 +383,32 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 8)
         guard vertices.count >= 8 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Position(0, 1))
-        XCTAssertEqual(vertices[1].position, Position(-1, 0))
-        XCTAssertEqual(vertices[2].position, Position(-1, 0))
-        XCTAssertEqual(vertices[3].position, Position(0, -1))
-        XCTAssertEqual(vertices[4].position, Position(0, -1))
-        XCTAssertEqual(vertices[5].position, Position(1, 0))
-        XCTAssertEqual(vertices[6].position, Position(1, 0))
-        XCTAssertEqual(vertices[7].position, Position(0, 1))
+        XCTAssertEqual(vertices[0].position, Vector(0, 1))
+        XCTAssertEqual(vertices[1].position, Vector(-1, 0))
+        XCTAssertEqual(vertices[2].position, Vector(-1, 0))
+        XCTAssertEqual(vertices[3].position, Vector(0, -1))
+        XCTAssertEqual(vertices[4].position, Vector(0, -1))
+        XCTAssertEqual(vertices[5].position, Vector(1, 0))
+        XCTAssertEqual(vertices[6].position, Vector(1, 0))
+        XCTAssertEqual(vertices[7].position, Vector(0, 1))
         // texture coords
-        XCTAssertEqual(vertices[0].texcoord, Position(0, 0))
-        XCTAssertEqual(vertices[1].texcoord, Position(0, 0.25))
-        XCTAssertEqual(vertices[2].texcoord, Position(0, 0.25))
-        XCTAssertEqual(vertices[3].texcoord, Position(0, 0.5))
-        XCTAssertEqual(vertices[4].texcoord, Position(0, 0.5))
-        XCTAssertEqual(vertices[5].texcoord, Position(0, 0.75))
-        XCTAssertEqual(vertices[6].texcoord, Position(0, 0.75))
-        XCTAssertEqual(vertices[7].texcoord, Position(0, 1))
+        XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
+        XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[2].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[3].texcoord, Vector(0, 0.5))
+        XCTAssertEqual(vertices[4].texcoord, Vector(0, 0.5))
+        XCTAssertEqual(vertices[5].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[6].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[7].texcoord, Vector(0, 1))
         // normals
-        XCTAssertEqual(vertices[0].normal, .y)
-        XCTAssertEqual(vertices[1].normal, -.x)
-        XCTAssertEqual(vertices[2].normal, -.x)
-        XCTAssertEqual(vertices[3].normal, -.y)
-        XCTAssertEqual(vertices[4].normal, -.y)
-        XCTAssertEqual(vertices[5].normal, .x)
-        XCTAssertEqual(vertices[6].normal, .x)
-        XCTAssertEqual(vertices[7].normal, .y)
+        XCTAssertEqual(vertices[0].normal, Vector(0, 1))
+        XCTAssertEqual(vertices[1].normal, Vector(-1, 0))
+        XCTAssertEqual(vertices[2].normal, Vector(-1, 0))
+        XCTAssertEqual(vertices[3].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[4].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[5].normal, Vector(1, 0))
+        XCTAssertEqual(vertices[6].normal, Vector(1, 0))
+        XCTAssertEqual(vertices[7].normal, Vector(0, 1))
     }
 
     func testEdgeVerticesForEllipse() {
@@ -419,32 +417,32 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 8)
         guard vertices.count >= 8 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Position(0, 1))
-        XCTAssertEqual(vertices[1].position, Position(-2, 0))
-        XCTAssertEqual(vertices[2].position, Position(-2, 0))
-        XCTAssertEqual(vertices[3].position, Position(0, -1))
-        XCTAssertEqual(vertices[4].position, Position(0, -1))
-        XCTAssertEqual(vertices[5].position, Position(2, 0))
-        XCTAssertEqual(vertices[6].position, Position(2, 0))
-        XCTAssertEqual(vertices[7].position, Position(0, 1))
+        XCTAssertEqual(vertices[0].position, Vector(0, 1))
+        XCTAssertEqual(vertices[1].position, Vector(-2, 0))
+        XCTAssertEqual(vertices[2].position, Vector(-2, 0))
+        XCTAssertEqual(vertices[3].position, Vector(0, -1))
+        XCTAssertEqual(vertices[4].position, Vector(0, -1))
+        XCTAssertEqual(vertices[5].position, Vector(2, 0))
+        XCTAssertEqual(vertices[6].position, Vector(2, 0))
+        XCTAssertEqual(vertices[7].position, Vector(0, 1))
         // texture coords
-        XCTAssertEqual(vertices[0].texcoord, Position(0, 0))
-        XCTAssertEqual(vertices[1].texcoord, Position(0, 0.25))
-        XCTAssertEqual(vertices[2].texcoord, Position(0, 0.25))
-        XCTAssertEqual(vertices[3].texcoord, Position(0, 0.5))
-        XCTAssertEqual(vertices[4].texcoord, Position(0, 0.5))
-        XCTAssertEqual(vertices[5].texcoord, Position(0, 0.75))
-        XCTAssertEqual(vertices[6].texcoord, Position(0, 0.75))
-        XCTAssertEqual(vertices[7].texcoord, Position(0, 1))
+        XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
+        XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[2].texcoord, Vector(0, 0.25))
+        XCTAssertEqual(vertices[3].texcoord, Vector(0, 0.5))
+        XCTAssertEqual(vertices[4].texcoord, Vector(0, 0.5))
+        XCTAssertEqual(vertices[5].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[6].texcoord, Vector(0, 0.75))
+        XCTAssertEqual(vertices[7].texcoord, Vector(0, 1))
         // normals
-        XCTAssertEqual(vertices[0].normal, .y)
-        XCTAssertEqual(vertices[1].normal, -.x)
-        XCTAssertEqual(vertices[2].normal, -.x)
-        XCTAssertEqual(vertices[3].normal, -.y)
-        XCTAssertEqual(vertices[4].normal, -.y)
-        XCTAssertEqual(vertices[5].normal, .x)
-        XCTAssertEqual(vertices[6].normal, .x)
-        XCTAssertEqual(vertices[7].normal, .y)
+        XCTAssertEqual(vertices[0].normal, Vector(0, 1))
+        XCTAssertEqual(vertices[1].normal, Vector(-1, 0))
+        XCTAssertEqual(vertices[2].normal, Vector(-1, 0))
+        XCTAssertEqual(vertices[3].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[4].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[5].normal, Vector(1, 0))
+        XCTAssertEqual(vertices[6].normal, Vector(1, 0))
+        XCTAssertEqual(vertices[7].normal, Vector(0, 1))
     }
 
     func testEdgeVerticesForSemicircle() {
@@ -457,20 +455,20 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 4)
         guard vertices.count >= 4 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Position(0, 1))
-        XCTAssertEqual(vertices[1].position, Position(-1, 0))
-        XCTAssertEqual(vertices[2].position, Position(-1, 0))
-        XCTAssertEqual(vertices[3].position, Position(0, -1))
+        XCTAssertEqual(vertices[0].position, Vector(0, 1))
+        XCTAssertEqual(vertices[1].position, Vector(-1, 0))
+        XCTAssertEqual(vertices[2].position, Vector(-1, 0))
+        XCTAssertEqual(vertices[3].position, Vector(0, -1))
         // texture coords
-        XCTAssertEqual(vertices[0].texcoord, Position(0, 0))
-        XCTAssertEqual(vertices[1].texcoord, Position(0, 0.5))
-        XCTAssertEqual(vertices[2].texcoord, Position(0, 0.5))
-        XCTAssertEqual(vertices[3].texcoord, Position(0, 1))
+        XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
+        XCTAssertEqual(vertices[1].texcoord, Vector(0, 0.5))
+        XCTAssertEqual(vertices[2].texcoord, Vector(0, 0.5))
+        XCTAssertEqual(vertices[3].texcoord, Vector(0, 1))
         // normals
-        XCTAssertEqual(vertices[0].normal, .y)
-        XCTAssertEqual(vertices[1].normal, -.x)
-        XCTAssertEqual(vertices[2].normal, -.x)
-        XCTAssertEqual(vertices[3].normal, -.y)
+        XCTAssertEqual(vertices[0].normal, Vector(0, 1))
+        XCTAssertEqual(vertices[1].normal, Vector(-1, 0))
+        XCTAssertEqual(vertices[2].normal, Vector(-1, 0))
+        XCTAssertEqual(vertices[3].normal, Vector(0, -1))
     }
 
     func testEdgeVerticesForVerticalPath() {
@@ -482,14 +480,14 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 2)
         guard vertices.count >= 2 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Position(-1, 1))
-        XCTAssertEqual(vertices[1].position, Position(-1, -1))
+        XCTAssertEqual(vertices[0].position, Vector(-1, 1))
+        XCTAssertEqual(vertices[1].position, Vector(-1, -1))
         // texture coords
-        XCTAssertEqual(vertices[0].texcoord, Position(0, 0))
-        XCTAssertEqual(vertices[1].texcoord, Position(0, 1))
+        XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
+        XCTAssertEqual(vertices[1].texcoord, Vector(0, 1))
         // normals
-        XCTAssertEqual(vertices[0].normal, -.x)
-        XCTAssertEqual(vertices[1].normal, -.x)
+        XCTAssertEqual(vertices[0].normal, Vector(-1, 0))
+        XCTAssertEqual(vertices[1].normal, Vector(-1, 0))
     }
 
     func testEdgeVerticesForZigZag() {
@@ -503,26 +501,22 @@ class PathTests: XCTestCase {
         XCTAssertEqual(vertices.count, 6)
         guard vertices.count >= 6 else { return }
         // positions
-        XCTAssertEqual(vertices[0].position, Position(0, 0))
-        XCTAssertEqual(vertices[1].position, Position(1, 0))
-        XCTAssertEqual(vertices[2].position, Position(1, 0))
-        XCTAssertEqual(vertices[3].position, Position(0, 1))
-        XCTAssertEqual(vertices[4].position, Position(0, 1))
-        XCTAssertEqual(vertices[5].position, Position(1, 1))
+        XCTAssertEqual(vertices[0].position, Vector(0, 0))
+        XCTAssertEqual(vertices[1].position, Vector(1, 0))
+        XCTAssertEqual(vertices[2].position, Vector(1, 0))
+        XCTAssertEqual(vertices[3].position, Vector(0, 1))
+        XCTAssertEqual(vertices[4].position, Vector(0, 1))
+        XCTAssertEqual(vertices[5].position, Vector(1, 1))
         // texture coords
-        XCTAssertEqual(vertices[0].texcoord, Position(0, 0))
-        XCTAssertEqual(vertices[5].texcoord, Position(0, 1))
+        XCTAssertEqual(vertices[0].texcoord, Vector(0, 0))
+        XCTAssertEqual(vertices[5].texcoord, Vector(0, 1))
         // normals
-        XCTAssertEqual(vertices[0].normal, Direction(x: 0, y: -1))
-        XCTAssertEqual(vertices[1].normal, Direction(x: 0, y: -1))
-        XCTAssert(vertices[2].normal.isEqual(to: Direction(x: 1, y: 1)))
-        XCTAssert(vertices[3].normal.isEqual(to: Direction(x: 1, y: 1)))
-        XCTAssertEqual(vertices[4].normal, Direction(x: 0, y: -1))
-        XCTAssertEqual(vertices[5].normal, Direction(x: 0, y: -1))
-        XCTAssertEqual(vertices[0].normal, -.y)
-        XCTAssertEqual(vertices[1].normal, -.y)
-        XCTAssertEqual(vertices[4].normal, -.y)
-        XCTAssertEqual(vertices[5].normal, -.y)
+        XCTAssertEqual(vertices[0].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[1].normal, Vector(0, -1))
+        XCTAssert(vertices[2].normal.isEqual(to: Vector(1, 1).normalized()))
+        XCTAssert(vertices[3].normal.isEqual(to: Vector(1, 1).normalized()))
+        XCTAssertEqual(vertices[4].normal, Vector(0, -1))
+        XCTAssertEqual(vertices[5].normal, Vector(0, -1))
     }
 
     // MARK: Y-axis clipping
@@ -600,13 +594,13 @@ class PathTests: XCTestCase {
             .point(0, -1),
         ])
         XCTAssertEqual(path.subpaths, [path])
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testSimpleClosedPathHasNoSubpaths() {
         let path = Path.square()
         XCTAssertEqual(path.subpaths, [path])
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testPathWithLineEndingInLoopHasCorrectSubpaths() {
@@ -631,7 +625,7 @@ class PathTests: XCTestCase {
                 .point(1, 0),
             ]),
         ])
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testPathWithLoopEndingInLineHasCorrectSubpaths() {
@@ -656,7 +650,7 @@ class PathTests: XCTestCase {
                 .point(-1, 0),
             ]),
         ])
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testPathWithConjoinedLoopsHasCorrectSubpaths() {
@@ -719,7 +713,7 @@ class PathTests: XCTestCase {
                 .point(2, 0),
             ]),
         ])
-        XCTAssertEqual(path.plane?.normal, .z)
+        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
     }
 
     func testNestedSubpathsAreFlattenedCorrectly() {
@@ -735,13 +729,13 @@ class PathTests: XCTestCase {
             .point(2, 1),
             .point(2, 0),
         ])
-        XCTAssertEqual(path1.plane?.normal, .z)
+        XCTAssertEqual(path1.plane?.normal, Vector(0, 0, 1))
         let path2 = Path([
             .point(5, 1),
             .point(4, -1),
             .point(5, -1),
         ])
-        XCTAssertEqual(path2.plane?.normal, .z)
+        XCTAssertEqual(path2.plane?.normal, Vector(0, 0, 1))
         let path3 = Path(subpaths: [path1, path2])
         XCTAssertEqual(path3.subpaths, [
             Path([

@@ -717,6 +717,7 @@ public extension Mesh {
             }
         }
         let isConvex: Bool
+        let isWatertight: Bool?
         switch scnGeometry {
         case is SCNBox,
              is SCNPyramid,
@@ -725,11 +726,18 @@ public extension Mesh {
              is SCNCone,
              is SCNCapsule:
             isConvex = true
+            isWatertight = true
         default:
             isConvex = false
+            isWatertight = nil
         }
         let bounds = Bounds(scnGeometry.boundingBox)
-        self.init(unchecked: polygons, bounds: bounds, isConvex: isConvex)
+        self.init(
+            unchecked: polygons,
+            bounds: bounds,
+            isConvex: isConvex,
+            isWatertight: isWatertight
+        )
     }
 
     /// Convenience function to create a mesh from an SCNGeometry with specified material

@@ -50,6 +50,13 @@ class CSGTests: XCTestCase {
         XCTAssertEqual(b.subtract(a), b)
     }
 
+    func testSubtractIsDeterministic() {
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: 16)
+        let c = a.subtract(b)
+        XCTAssertEqual(c.polygons.count, 184)
+    }
+
     // MARK: XOR
 
     func testXorCoincidingCubes() {
@@ -83,6 +90,13 @@ class CSGTests: XCTestCase {
         XCTAssertEqual(b.xor(a), b)
     }
 
+    func testXorIsDeterministic() {
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: 16)
+        let c = a.xor(b)
+        XCTAssertEqual(c.polygons.count, 318)
+    }
+
     // MARK: Union
 
     func testUnionOfCoincidingBoxes() {
@@ -114,6 +128,13 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube()
         XCTAssertEqual(a.union(b).bounds, b.bounds)
         XCTAssertEqual(b.union(a).bounds, b.bounds)
+    }
+
+    func testUnionIsDeterministic() {
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: 16)
+        let c = a.union(b)
+        XCTAssertEqual(c.polygons.count, 232)
     }
 
     // MARK: Intersection
@@ -152,6 +173,13 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube()
         XCTAssert(a.intersect(b).bounds.isEmpty)
         XCTAssert(b.intersect(a).bounds.isEmpty)
+    }
+
+    func testIntersectIsDeterministic() {
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: 16)
+        let c = a.intersect(b)
+        XCTAssertEqual(c.polygons.count, 86)
     }
 
     // MARK: Planar subtraction
@@ -256,5 +284,31 @@ class CSGTests: XCTestCase {
             min: Position(0, -0.5, 0),
             max: Position(0.5, 0.5, 0)
         ))
+    }
+
+    // MARK: Plane clipping
+
+    func testSquareClippedToPlane() {
+        let a = Mesh.fill(.square())
+        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let b = a.clip(to: plane)
+        XCTAssertEqual(b.bounds, .init(Vector(0, -0.5), Vector(0.5, 0.5)))
+    }
+
+    func testPentagonClippedToPlane() {
+        let a = Mesh.fill(.circle(segments: 5))
+        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let b = a.clip(to: plane)
+        XCTAssertEqual(b.bounds, .init(
+            Vector(0, -0.404508497187),
+            Vector(0.475528258148, 0.5)
+        ))
+    }
+
+    func testDiamondClippedToPlane() {
+        let a = Mesh.fill(.circle(segments: 4))
+        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let b = a.clip(to: plane)
+        XCTAssertEqual(b.bounds, .init(Vector(0, -0.5), Vector(0.5, 0.5)))
     }
 }
