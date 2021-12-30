@@ -310,10 +310,10 @@ public extension Mesh {
             }
             let rect = Polygon(
                 unchecked: [
-                    Vertex(Vector(-radius, radius, 0), -normal, .zero),
-                    Vertex(Vector(radius, radius, 0), -normal, Vector(1, 0, 0)),
-                    Vertex(Vector(radius, -radius, 0), -normal, Vector(1, 1, 0)),
-                    Vertex(Vector(-radius, -radius, 0), -normal, Vector(0, 1, 0)),
+                    Vertex(unchecked: Vector(-radius, radius), -normal, .zero),
+                    Vertex(unchecked: Vector(radius, radius), -normal, Vector(1, 0)),
+                    Vertex(unchecked: Vector(radius, -radius), -normal, Vector(1, 1)),
+                    Vertex(unchecked: Vector(-radius, -radius), -normal, Vector(0, 1)),
                 ],
                 normal: -normal,
                 isConvex: true,

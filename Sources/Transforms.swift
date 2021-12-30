@@ -283,25 +283,37 @@ internal extension Collection where Element == Polygon {
 
 public extension Vertex {
     func translated(by v: Vector) -> Vertex {
-        Vertex(position + v, normal, texcoord)
+        Vertex(unchecked: position + v, normal, texcoord)
     }
 
     @_disfavoredOverload
     func rotated(by r: Rotation) -> Vertex {
-        Vertex(position.rotated(by: r), normal.rotated(by: r), texcoord)
+        Vertex(
+            unchecked: position.rotated(by: r),
+            normal.rotated(by: r),
+            texcoord
+        )
     }
 
     func rotated(by q: Quaternion) -> Vertex {
-        Vertex(position.rotated(by: q), normal.rotated(by: q), texcoord)
+        Vertex(
+            unchecked: position.rotated(by: q),
+            normal.rotated(by: q),
+            texcoord
+        )
     }
 
     func scaled(by v: Vector) -> Vertex {
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
-        return Vertex(position.scaled(by: v), normal.scaled(by: vn).normalized(), texcoord)
+        return Vertex(
+            unchecked: position.scaled(by: v),
+            normal.scaled(by: vn).normalized(),
+            texcoord
+        )
     }
 
     func scaled(by f: Double) -> Vertex {
-        Vertex(position * f, normal, texcoord)
+        Vertex(unchecked: position * f, normal, texcoord)
     }
 
     func transformed(by t: Transform) -> Vertex {

@@ -248,7 +248,7 @@ public extension Mesh {
                         (0 ... 1).contains(index) ? 1 : 0
                     )
                     index += 1
-                    return Vertex(pos, normal, uv)
+                    return Vertex(unchecked: pos, normal, uv)
                 },
                 normal: normal,
                 isConvex: true,
