@@ -46,11 +46,7 @@ public struct Vertex: Hashable {
         _ normal: Vector? = nil,
         _ texcoord: Vector? = nil
     ) {
-        self.init(
-            unchecked: position,
-            normal?.normalized() ?? .zero,
-            texcoord ?? .zero
-        )
+        self.init(unchecked: position, normal?.normalized(), texcoord)
     }
 
     public init?(_ values: [Double]) {
@@ -137,10 +133,10 @@ public extension Vertex {
 }
 
 internal extension Vertex {
-    init(unchecked position: Vector, _ normal: Vector, _ texcoord: Vector = .zero) {
+    init(unchecked position: Vector, _ normal: Vector?, _ texcoord: Vector?) {
         self.position = position.quantized()
-        self.normal = normal
-        self.texcoord = texcoord
+        self.normal = normal ?? .zero
+        self.texcoord = texcoord ?? .zero
     }
 
     /// Create copy of vertex with specified normal

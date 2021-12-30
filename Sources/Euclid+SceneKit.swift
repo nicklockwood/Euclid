@@ -419,7 +419,7 @@ public extension Mesh {
         for source in scnGeometry.sources {
             let count = source.vectorCount
             if vertices.isEmpty {
-                vertices = Array(repeating: Vertex(.zero, .zero), count: count)
+                vertices = Array(repeating: Vertex(.zero), count: count)
             } else if vertices.count != source.vectorCount {
                 return nil
             }

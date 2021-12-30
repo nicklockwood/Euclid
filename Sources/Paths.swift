@@ -311,7 +311,7 @@ public extension Path {
                 [p0.position, p1.position, points[i + 1].position],
                 convex: true
             )
-            vertices.append(Vertex(unchecked: p1.position, normal, texcoord ?? .zero))
+            vertices.append(Vertex(unchecked: p1.position, normal, texcoord))
             p0 = p1
         }
         guard !verticesAreDegenerate(vertices) else {
