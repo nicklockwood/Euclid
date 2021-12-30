@@ -40,13 +40,15 @@ public struct Vertex: Hashable {
     }
 
     public var texcoord: Vector
+    public var color: Color
 
     public init(
         _ position: Vector,
         _ normal: Vector? = nil,
-        _ texcoord: Vector? = nil
+        _ texcoord: Vector? = nil,
+        _ color: Color? = nil
     ) {
-        self.init(unchecked: position, normal?.normalized(), texcoord)
+        self.init(unchecked: position, normal?.normalized(), texcoord, color)
     }
 
     public init?(_ values: [Double]) {
@@ -72,6 +74,20 @@ public struct Vertex: Hashable {
                 Vector(values[3], values[4], values[5]),
                 Vector(values[6], values[7], values[8])
             )
+        case 12:
+            self.init(
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5]),
+                Vector(values[6], values[7], values[8]),
+                Color(values[9], values[10], values[11])
+            )
+        case 13:
+            self.init(
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5]),
+                Vector(values[6], values[7], values[8]),
+                Color(values[9], values[10], values[11], values[12])
+            )
         default:
             return nil
         }
@@ -80,7 +96,7 @@ public struct Vertex: Hashable {
 
 extension Vertex: Codable {
     private enum CodingKeys: CodingKey {
-        case position, normal, texcoord
+        case position, normal, texcoord, color
     }
 
     public init(from decoder: Decoder) throws {
@@ -88,7 +104,8 @@ extension Vertex: Codable {
             try self.init(
                 container.decode(Vector.self, forKey: .position),
                 container.decodeIfPresent(Vector.self, forKey: .normal),
-                container.decodeIfPresent(Vector.self, forKey: .texcoord)
+                container.decodeIfPresent(Vector.self, forKey: .texcoord),
+                container.decodeIfPresent(Color.self, forKey: .color)
             )
         } else {
             let container = try decoder.singleValueContainer()
@@ -105,12 +122,15 @@ extension Vertex: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        let hasTexcoord = texcoord != .zero
+        let hasColor = color != .clear
+        let hasTexcoord = hasColor || texcoord != .zero
         let hasNormal = hasTexcoord || normal != .zero
-        let skipZ = !hasNormal && position.z == 0
-        try position.encode(to: &container, skipZ: skipZ)
-        try hasNormal ? normal.encode(to: &container) : ()
-        try hasTexcoord ? texcoord.encode(to: &container, skipZ: texcoord.z == 0) : ()
+        let skipPositionZ = !hasNormal && position.z == 0
+        let skipTextureZ = !hasColor && texcoord.z == 0
+        try position.encode(to: &container, skipZ: skipPositionZ)
+        try hasNormal ? normal.encode(to: &container, skipZ: false) : ()
+        try hasTexcoord ? texcoord.encode(to: &container, skipZ: skipTextureZ) : ()
+        try hasColor ? color.encode(to: &container, skipA: color.a == 1) : ()
     }
 }
 
@@ -118,7 +138,7 @@ public extension Vertex {
     /// Invert all orientation-specific data (e.g. vertex normal). Called when the
     /// orientation of a polygon is flipped.
     func inverted() -> Vertex {
-        Vertex(unchecked: position, -normal, texcoord)
+        Vertex(unchecked: position, -normal, texcoord, color)
     }
 
     /// Linearly interpolate between two vertices.
@@ -127,16 +147,23 @@ public extension Vertex {
         Vertex(
             unchecked: position.lerp(other.position, t),
             normal.lerp(other.normal, t),
-            texcoord.lerp(other.texcoord, t)
+            texcoord.lerp(other.texcoord, t),
+            color.lerp(other.color, t)
         )
     }
 }
 
 internal extension Vertex {
-    init(unchecked position: Vector, _ normal: Vector?, _ texcoord: Vector?) {
+    init(
+        unchecked position: Vector,
+        _ normal: Vector?,
+        _ texcoord: Vector?,
+        _ color: Color? = nil
+    ) {
         self.position = position.quantized()
         self.normal = normal ?? .zero
         self.texcoord = texcoord ?? .zero
+        self.color = color ?? .clear
     }
 
     /// Create copy of vertex with specified normal
@@ -150,6 +177,7 @@ internal extension Vertex {
     func isEqual(to other: Vertex, withPrecision p: Double = epsilon) -> Bool {
         position.isEqual(to: other.position, withPrecision: p) &&
             normal.isEqual(to: other.normal, withPrecision: p) &&
-            texcoord.isEqual(to: other.texcoord, withPrecision: p)
+            texcoord.isEqual(to: other.texcoord, withPrecision: p) &&
+            color.isEqual(to: other.color, withPrecision: p)
     }
 }

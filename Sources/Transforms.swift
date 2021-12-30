@@ -283,7 +283,7 @@ internal extension Collection where Element == Polygon {
 
 public extension Vertex {
     func translated(by v: Vector) -> Vertex {
-        Vertex(unchecked: position + v, normal, texcoord)
+        Vertex(unchecked: position + v, normal, texcoord, color)
     }
 
     @_disfavoredOverload
@@ -291,7 +291,8 @@ public extension Vertex {
         Vertex(
             unchecked: position.rotated(by: r),
             normal.rotated(by: r),
-            texcoord
+            texcoord,
+            color
         )
     }
 
@@ -299,7 +300,8 @@ public extension Vertex {
         Vertex(
             unchecked: position.rotated(by: q),
             normal.rotated(by: q),
-            texcoord
+            texcoord,
+            color
         )
     }
 
@@ -308,12 +310,13 @@ public extension Vertex {
         return Vertex(
             unchecked: position.scaled(by: v),
             normal.scaled(by: vn).normalized(),
-            texcoord
+            texcoord,
+            color
         )
     }
 
     func scaled(by f: Double) -> Vertex {
-        Vertex(unchecked: position * f, normal, texcoord)
+        Vertex(unchecked: position * f, normal, texcoord, color)
     }
 
     func transformed(by t: Transform) -> Vertex {

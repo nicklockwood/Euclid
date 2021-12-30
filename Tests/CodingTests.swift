@@ -72,6 +72,17 @@ class CodingTests: XCTestCase {
         """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1)))
     }
 
+    func testDecodingVertexWithColor() {
+        XCTAssertEqual(try decode("""
+        {
+            "position": [1, 2, 2],
+            "normal": [1, 0, 0],
+            "texcoord": [0, 1],
+            "color": [1, 0, 0],
+        }
+        """), Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1), .red))
+    }
+
     func testDecodingVertexWithTexcoord3D() {
         XCTAssertEqual(try decode("""
         {
@@ -86,6 +97,20 @@ class CodingTests: XCTestCase {
         XCTAssertEqual(
             try decode("[1, 2, 2, 1, 0, 0, 0, 1]"),
             Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1))
+        )
+    }
+
+    func testDecodingFlattenedVertexWithOpaqueColor() {
+        XCTAssertEqual(
+            try decode("[1, 2, 2, 1, 0, 0, 0, 1, 0, 1, 0, 0]"),
+            Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1), .red)
+        )
+    }
+
+    func testDecodingFlattenedVertexWithTranslucentColor() {
+        XCTAssertEqual(
+            try decode("[1, 2, 2, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0.5]"),
+            Vertex(Vector(1, 2, 2), Vector(1, 0, 0), Vector(0, 1), Color(1, 0, 0, 0.5))
         )
     }
 
@@ -126,7 +151,7 @@ class CodingTests: XCTestCase {
         )
     }
 
-    func testEncodingVertexWithoutTexcoord() {
+    func testEncodingVertexWithoutTexcoordOrColor() {
         XCTAssertEqual(
             try encode(Vertex(Vector(1, 2, 2), Vector(1, 0, 0))),
             "[1,2,2,1,0,0]"
@@ -193,6 +218,44 @@ class CodingTests: XCTestCase {
         let vertex = Vertex(.zero, .zero, Vector(0, 1))
         let encoded = try encode(vertex)
         XCTAssertEqual(encoded, "[0,0,0,0,0,0,0,1]")
+        XCTAssertEqual(try decode(encoded), vertex)
+    }
+
+    func testEncodingVertex2DWithOpaqueColor() {
+        XCTAssertEqual(
+            try encode(Vertex(
+                Vector(1, 2),
+                Vector(1, 0, 0),
+                Vector(0, 1),
+                .green
+            )),
+            "[1,2,0,1,0,0,0,1,0,0,1,0]"
+        )
+    }
+
+    func testEncodingVertex3DWithTranslucentColor() {
+        XCTAssertEqual(
+            try encode(Vertex(
+                Vector(1, 2, 2),
+                Vector(1, 0, 0),
+                Vector(0, 1),
+                Color(0, 1, 0, 0.5)
+            )),
+            "[1,2,2,1,0,0,0,1,0,0,1,0,0.5]"
+        )
+    }
+
+    func testEncodeDecodeVertexWithZeroTexcoord() throws {
+        let vertex = Vertex(.zero, Vector(0, 1, 0), .zero, .black)
+        let encoded = try encode(vertex)
+        XCTAssertEqual(encoded, "[0,0,0,0,1,0,0,0,0,0,0,0]")
+        XCTAssertEqual(try decode(encoded), vertex)
+    }
+
+    func testEncodeDecodeVertexWithZeroNormalAndTexcoord() throws {
+        let vertex = Vertex(.zero, .zero, .zero, .black)
+        let encoded = try encode(vertex)
+        XCTAssertEqual(encoded, "[0,0,0,0,0,0,0,0,0,0,0,0]")
         XCTAssertEqual(try decode(encoded), vertex)
     }
 

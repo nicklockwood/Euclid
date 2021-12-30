@@ -39,6 +39,12 @@ public extension SCNVector3 {
     }
 }
 
+public extension SCNVector4 {
+    init(_ c: Color) {
+        self.init(c.r, c.g, c.b, c.a)
+    }
+}
+
 public extension SCNQuaternion {
     init(_ m: Rotation) {
         let x = sqrt(max(0, 1 + m.m11 - m.m22 - m.m33)) / 2
@@ -74,9 +80,11 @@ public extension SCNNode {
 #if canImport(UIKit)
 private typealias OSColor = UIColor
 private typealias OSImage = UIImage
+private typealias OSColorComponent = Float
 #elseif canImport(AppKit)
 private typealias OSColor = NSColor
 private typealias OSImage = NSImage
+private typealias OSColorComponent = Double
 #endif
 
 private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
@@ -100,6 +108,23 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial
     }
 }
 
+extension SCNGeometrySource {
+    convenience init(colors: [SCNVector4]) {
+        let data = Data(bytes: colors, count: colors.count * MemoryLayout<SCNVector4>.size)
+
+        self.init(
+            data: data,
+            semantic: .color,
+            vectorCount: colors.count,
+            usesFloatComponents: true,
+            componentsPerVector: 4,
+            bytesPerComponent: MemoryLayout<OSColorComponent>.size,
+            dataOffset: 0,
+            dataStride: 0
+        )
+    }
+}
+
 public extension SCNGeometry {
     typealias SCNMaterialProvider = (Polygon.Material?) -> SCNMaterial?
 
@@ -114,6 +139,7 @@ public extension SCNGeometry {
         var vertices = [SCNVector3]()
         var normals = [SCNVector3]()
         var texcoords = [CGPoint]()
+        var colors = [SCNVector4]()
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
         let materialLookup = materialLookup ?? defaultMaterialLookup
@@ -130,6 +156,7 @@ public extension SCNGeometry {
                 vertices.append(SCNVector3(vertex.position))
                 normals.append(SCNVector3(vertex.normal))
                 texcoords.append(CGPoint(vertex.texcoord))
+                colors.append(SCNVector4(vertex.color))
             }
             materials.append(materialLookup(material) ?? SCNMaterial())
             for polygon in polygons {
@@ -144,6 +171,7 @@ public extension SCNGeometry {
                 SCNGeometrySource(vertices: vertices),
                 SCNGeometrySource(normals: normals),
                 SCNGeometrySource(textureCoordinates: texcoords),
+                SCNGeometrySource(colors: colors),
             ],
             elements: elementIndices.map { indices in
                 SCNGeometryElement(indices: indices, primitiveType: .triangles)
@@ -159,6 +187,7 @@ public extension SCNGeometry {
         var vertices = [SCNVector3]()
         var normals = [SCNVector3]()
         var texcoords = [CGPoint]()
+        var colors = [SCNVector4]()
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
         let materialLookup = materialLookup ?? defaultMaterialLookup
@@ -175,6 +204,7 @@ public extension SCNGeometry {
                 vertices.append(SCNVector3(vertex.position))
                 normals.append(SCNVector3(vertex.normal))
                 texcoords.append(CGPoint(vertex.texcoord))
+                colors.append(SCNVector4(vertex.color))
             }
             materials.append(materialLookup(material) ?? SCNMaterial())
             let polygons = polygons.tessellate()
@@ -191,6 +221,7 @@ public extension SCNGeometry {
                 SCNGeometrySource(vertices: vertices),
                 SCNGeometrySource(normals: normals),
                 SCNGeometrySource(textureCoordinates: texcoords),
+                SCNGeometrySource(colors: colors),
             ],
             elements: elementData.map { count, indexData in
                 SCNGeometryElement(
