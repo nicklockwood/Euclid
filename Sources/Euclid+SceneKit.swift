@@ -61,19 +61,6 @@ private extension Data {
             append(UnsafeBufferPointer(start: pointer, count: 1))
         }
     }
-
-    mutating func append(_ double: Double) {
-        var float = Float(double)
-        withUnsafeMutablePointer(to: &float) { pointer in
-            append(UnsafeBufferPointer(start: pointer, count: 1))
-        }
-    }
-
-    mutating func append(_ vector: Vector) {
-        append(vector.x)
-        append(vector.y)
-        append(vector.z)
-    }
 }
 
 public extension SCNNode {
@@ -123,25 +110,26 @@ public extension SCNGeometry {
 
     /// Creates an SCNGeometry from a Mesh using triangles
     convenience init(triangles mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
-        var elementData = [Data]()
-        var vertexData = Data()
+        var elementIndices = [[UInt32]]()
+        var vertices = [SCNVector3]()
+        var normals = [SCNVector3]()
+        var texcoords = [CGPoint]()
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
         let materialLookup = materialLookup ?? defaultMaterialLookup
         for (material, polygons) in mesh.polygonsByMaterial {
-            var indexData = Data()
+            var indices = [UInt32]()
             func addVertex(_ vertex: Vertex) {
                 if let index = indicesByVertex[vertex] {
-                    indexData.append(index)
+                    indices.append(index)
                     return
                 }
                 let index = UInt32(indicesByVertex.count)
                 indicesByVertex[vertex] = index
-                indexData.append(index)
-                vertexData.append(vertex.position)
-                vertexData.append(vertex.normal)
-                vertexData.append(vertex.texcoord.x)
-                vertexData.append(vertex.texcoord.y)
+                indices.append(index)
+                vertices.append(SCNVector3(vertex.position))
+                normals.append(SCNVector3(vertex.normal))
+                texcoords.append(CGPoint(vertex.texcoord))
             }
             materials.append(materialLookup(material) ?? SCNMaterial())
             for polygon in polygons {
@@ -149,50 +137,16 @@ public extension SCNGeometry {
                     triangle.vertices.forEach(addVertex)
                 }
             }
-            elementData.append(indexData)
+            elementIndices.append(indices)
         }
-        let vertexStride = 12 + 12 + 8
-        let vertexCount = vertexData.count / vertexStride
         self.init(
             sources: [
-                SCNGeometrySource(
-                    data: vertexData,
-                    semantic: .vertex,
-                    vectorCount: vertexCount,
-                    usesFloatComponents: true,
-                    componentsPerVector: 3,
-                    bytesPerComponent: 4,
-                    dataOffset: 0,
-                    dataStride: vertexStride
-                ),
-                SCNGeometrySource(
-                    data: vertexData,
-                    semantic: .normal,
-                    vectorCount: vertexCount,
-                    usesFloatComponents: true,
-                    componentsPerVector: 3,
-                    bytesPerComponent: 4,
-                    dataOffset: 12,
-                    dataStride: vertexStride
-                ),
-                SCNGeometrySource(
-                    data: vertexData,
-                    semantic: .texcoord,
-                    vectorCount: vertexCount,
-                    usesFloatComponents: true,
-                    componentsPerVector: 2,
-                    bytesPerComponent: 4,
-                    dataOffset: 24,
-                    dataStride: vertexStride
-                ),
+                SCNGeometrySource(vertices: vertices),
+                SCNGeometrySource(normals: normals),
+                SCNGeometrySource(textureCoordinates: texcoords),
             ],
-            elements: elementData.map { indexData in
-                SCNGeometryElement(
-                    data: indexData,
-                    primitiveType: .triangles,
-                    primitiveCount: indexData.count / 12,
-                    bytesPerIndex: 4
-                )
+            elements: elementIndices.map { indices in
+                SCNGeometryElement(indices: indices, primitiveType: .triangles)
             }
         )
         self.materials = materials
@@ -202,7 +156,9 @@ public extension SCNGeometry {
     @available(OSX 10.12, iOS 10.0, tvOS 10.0, *)
     convenience init(polygons mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
         var elementData = [(Int, Data)]()
-        var vertexData = Data()
+        var vertices = [SCNVector3]()
+        var normals = [SCNVector3]()
+        var texcoords = [CGPoint]()
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
         let materialLookup = materialLookup ?? defaultMaterialLookup
@@ -216,10 +172,9 @@ public extension SCNGeometry {
                 let index = UInt32(indicesByVertex.count)
                 indicesByVertex[vertex] = index
                 indexData.append(index)
-                vertexData.append(vertex.position)
-                vertexData.append(vertex.normal)
-                vertexData.append(vertex.texcoord.x)
-                vertexData.append(vertex.texcoord.y)
+                vertices.append(SCNVector3(vertex.position))
+                normals.append(SCNVector3(vertex.normal))
+                texcoords.append(CGPoint(vertex.texcoord))
             }
             materials.append(materialLookup(material) ?? SCNMaterial())
             let polygons = polygons.tessellate()
@@ -231,40 +186,11 @@ public extension SCNGeometry {
             }
             elementData.append((polygons.count, indexData))
         }
-        let vertexStride = 12 + 12 + 8
-        let vertexCount = vertexData.count / vertexStride
         self.init(
             sources: [
-                SCNGeometrySource(
-                    data: vertexData,
-                    semantic: .vertex,
-                    vectorCount: vertexCount,
-                    usesFloatComponents: true,
-                    componentsPerVector: 3,
-                    bytesPerComponent: 4,
-                    dataOffset: 0,
-                    dataStride: vertexStride
-                ),
-                SCNGeometrySource(
-                    data: vertexData,
-                    semantic: .normal,
-                    vectorCount: vertexCount,
-                    usesFloatComponents: true,
-                    componentsPerVector: 3,
-                    bytesPerComponent: 4,
-                    dataOffset: 12,
-                    dataStride: vertexStride
-                ),
-                SCNGeometrySource(
-                    data: vertexData,
-                    semantic: .texcoord,
-                    vectorCount: vertexCount,
-                    usesFloatComponents: true,
-                    componentsPerVector: 2,
-                    bytesPerComponent: 4,
-                    dataOffset: 24,
-                    dataStride: vertexStride
-                ),
+                SCNGeometrySource(vertices: vertices),
+                SCNGeometrySource(normals: normals),
+                SCNGeometrySource(textureCoordinates: texcoords),
             ],
             elements: elementData.map { count, indexData in
                 SCNGeometryElement(
@@ -280,43 +206,27 @@ public extension SCNGeometry {
 
     /// Creates a wireframe SCNGeometry from a collection of LineSegments
     convenience init<T: Collection>(_ edges: T) where T.Element == LineSegment {
-        var indexData = Data()
-        var vertexData = Data()
+        var indices = [UInt32]()
+        var vertices = [SCNVector3]()
         var indicesByVertex = [Vector: UInt32]()
         func addVertex(_ vertex: Vector) {
             if let index = indicesByVertex[vertex] {
-                indexData.append(index)
+                indices.append(index)
                 return
             }
             let index = UInt32(indicesByVertex.count)
             indicesByVertex[vertex] = index
-            indexData.append(index)
-            vertexData.append(vertex)
+            indices.append(index)
+            vertices.append(SCNVector3(vertex))
         }
         for edge in edges {
             addVertex(edge.start)
             addVertex(edge.end)
         }
         self.init(
-            sources: [
-                SCNGeometrySource(
-                    data: vertexData,
-                    semantic: .vertex,
-                    vectorCount: vertexData.count / 12,
-                    usesFloatComponents: true,
-                    componentsPerVector: 3,
-                    bytesPerComponent: 4,
-                    dataOffset: 0,
-                    dataStride: 0
-                ),
-            ],
+            sources: [SCNGeometrySource(vertices: vertices)],
             elements: [
-                SCNGeometryElement(
-                    data: indexData,
-                    primitiveType: .line,
-                    primitiveCount: indexData.count / 8,
-                    bytesPerIndex: 4
-                ),
+                SCNGeometryElement(indices: indices, primitiveType: .line),
             ]
         )
     }
@@ -335,52 +245,33 @@ public extension SCNGeometry {
 
     /// Creates a line-segment SCNGeometry from a Path
     convenience init(_ path: Path) {
-        var indexData = Data()
-        var vertexData = Data()
+        var indices = [UInt32]()
+        var vertices = [SCNVector3]()
         var indicesByPoint = [Vector: UInt32]()
         for path in path.subpaths {
             for vertex in path.edgeVertices {
-                let origin = vertex.position
-                if let index = indicesByPoint[origin] {
-                    indexData.append(index)
+                let position = vertex.position
+                if let index = indicesByPoint[position] {
+                    indices.append(index)
                     continue
                 }
                 let index = UInt32(indicesByPoint.count)
-                indicesByPoint[origin] = index
-                indexData.append(index)
-                vertexData.append(origin)
+                indicesByPoint[position] = index
+                indices.append(index)
+                vertices.append(SCNVector3(position))
             }
         }
         self.init(
-            sources: [
-                SCNGeometrySource(
-                    data: vertexData,
-                    semantic: .vertex,
-                    vectorCount: vertexData.count / 8,
-                    usesFloatComponents: true,
-                    componentsPerVector: 3,
-                    bytesPerComponent: 4,
-                    dataOffset: 0,
-                    dataStride: 0
-                ),
-            ],
+            sources: [SCNGeometrySource(vertices: vertices)],
             elements: [
-                SCNGeometryElement(
-                    data: indexData,
-                    primitiveType: .line,
-                    primitiveCount: indexData.count / 8,
-                    bytesPerIndex: 4
-                ),
+                SCNGeometryElement(indices: indices, primitiveType: .line),
             ]
         )
     }
 
     /// Creates a line-segment bounding-box SCNGeometry from a Bounds
     convenience init(_ bounds: Bounds) {
-        var vertexData = Data()
-        for origin in bounds.corners {
-            vertexData.append(origin)
-        }
+        let vertices = bounds.corners.map { SCNVector3($0) }
         let indices: [UInt32] = [
             // bottom
             0, 1, 1, 2, 2, 3, 3, 0,
@@ -389,28 +280,10 @@ public extension SCNGeometry {
             // columns
             0, 4, 1, 5, 2, 6, 3, 7,
         ]
-        var indexData = Data()
-        indices.forEach { indexData.append($0) }
         self.init(
-            sources: [
-                SCNGeometrySource(
-                    data: vertexData,
-                    semantic: .vertex,
-                    vectorCount: vertexData.count / 8,
-                    usesFloatComponents: true,
-                    componentsPerVector: 3,
-                    bytesPerComponent: 4,
-                    dataOffset: 0,
-                    dataStride: 0
-                ),
-            ],
+            sources: [SCNGeometrySource(vertices: vertices)],
             elements: [
-                SCNGeometryElement(
-                    data: indexData,
-                    primitiveType: .line,
-                    primitiveCount: indexData.count / 8,
-                    bytesPerIndex: 4
-                ),
+                SCNGeometryElement(indices: indices, primitiveType: .line),
             ]
         )
     }
