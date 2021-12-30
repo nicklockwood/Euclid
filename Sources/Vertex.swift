@@ -122,7 +122,7 @@ extension Vertex: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        let hasColor = color != .clear
+        let hasColor = color != .white
         let hasTexcoord = hasColor || texcoord != .zero
         let hasNormal = hasTexcoord || normal != .zero
         let skipPositionZ = !hasNormal && position.z == 0
@@ -163,7 +163,7 @@ internal extension Vertex {
         self.position = position.quantized()
         self.normal = normal ?? .zero
         self.texcoord = texcoord ?? .zero
-        self.color = color ?? .clear
+        self.color = color ?? .white
     }
 
     /// Create copy of vertex with specified normal
