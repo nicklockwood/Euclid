@@ -20,7 +20,7 @@ class MeshTests: XCTestCase {
 
     func testUniqueEdgesForSphere() {
         let mesh = Mesh.sphere(slices: 4)
-        let edges = Array(mesh.uniqueEdges)
+        let edges = mesh.uniqueEdges
         XCTAssertEqual(edges.count, 12)
     }
 
