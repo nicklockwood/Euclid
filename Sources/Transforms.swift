@@ -410,28 +410,58 @@ internal extension Collection where Element == Vector {
 
 public extension PathPoint {
     func translated(by v: Vector) -> PathPoint {
-        PathPoint(position + v, texcoord: texcoord, isCurved: isCurved)
+        PathPoint(
+            position + v,
+            texcoord: texcoord,
+            color: color,
+            isCurved: isCurved
+        )
     }
 
     @_disfavoredOverload
     func rotated(by r: Rotation) -> PathPoint {
-        PathPoint(position.rotated(by: r), texcoord: texcoord, isCurved: isCurved)
+        PathPoint(
+            position.rotated(by: r),
+            texcoord: texcoord,
+            color: color,
+            isCurved: isCurved
+        )
     }
 
     func rotated(by q: Quaternion) -> PathPoint {
-        PathPoint(position.rotated(by: q), texcoord: texcoord, isCurved: isCurved)
+        PathPoint(
+            position.rotated(by: q),
+            texcoord: texcoord,
+            color: color,
+            isCurved: isCurved
+        )
     }
 
     func scaled(by v: Vector) -> PathPoint {
-        PathPoint(position.scaled(by: v), texcoord: texcoord, isCurved: isCurved)
+        PathPoint(
+            position.scaled(by: v),
+            texcoord: texcoord,
+            color: color,
+            isCurved: isCurved
+        )
     }
 
     func scaled(by f: Double) -> PathPoint {
-        PathPoint(position * f, texcoord: texcoord, isCurved: isCurved)
+        PathPoint(
+            position * f,
+            texcoord: texcoord,
+            color: color,
+            isCurved: isCurved
+        )
     }
 
     func transformed(by t: Transform) -> PathPoint {
-        PathPoint(position.transformed(by: t), texcoord: texcoord, isCurved: isCurved)
+        PathPoint(
+            position.transformed(by: t),
+            texcoord: texcoord,
+            color: color,
+            isCurved: isCurved
+        )
     }
 }
 

@@ -158,7 +158,7 @@ internal extension Vertex {
         unchecked position: Vector,
         _ normal: Vector?,
         _ texcoord: Vector?,
-        _ color: Color? = nil
+        _ color: Color?
     ) {
         self.position = position.quantized()
         self.normal = normal ?? .zero

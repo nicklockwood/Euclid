@@ -35,6 +35,7 @@ import Foundation
 public struct PathPoint: Hashable {
     public var position: Vector
     public var texcoord: Vector?
+    public var color: Color?
     public var isCurved: Bool
 }
 
@@ -45,46 +46,139 @@ extension PathPoint: Codable {
         let y = try container.decode(Double.self)
         switch container.count {
         case 2:
-            self.init(Vector(x, y), texcoord: nil, isCurved: false)
+            self.init(Vector(x, y), texcoord: nil, color: nil, isCurved: false)
         case 3:
             if let isCurved = try? container.decodeIfPresent(Bool.self) {
-                self.init(Vector(x, y), texcoord: nil, isCurved: isCurved)
+                self.init(
+                    Vector(x, y),
+                    texcoord: nil,
+                    color: nil,
+                    isCurved: isCurved
+                )
             } else {
-                let z = try container.decode(Double.self)
-                self.init(Vector(x, y, z), texcoord: nil, isCurved: false)
+                self.init(
+                    Vector(x, y, try container.decode(Double.self)),
+                    texcoord: nil,
+                    color: nil,
+                    isCurved: false
+                )
             }
         case 4:
             let zOrU = try container.decode(Double.self)
             if let isCurved = try? container.decodeIfPresent(Bool.self) {
-                self.init(Vector(x, y, zOrU), texcoord: nil, isCurved: isCurved)
+                self.init(
+                    Vector(x, y, zOrU),
+                    texcoord: nil,
+                    color: nil,
+                    isCurved: isCurved
+                )
             } else {
-                let v = try container.decode(Double.self)
-                self.init(Vector(x, y), texcoord: Vector(zOrU, v), isCurved: false)
+                self.init(
+                    Vector(x, y),
+                    texcoord: Vector(zOrU, try container.decode(Double.self)),
+                    color: nil,
+                    isCurved: false
+                )
             }
         case 5:
             let zOrU = try container.decode(Double.self)
             let uOrV = try container.decode(Double.self)
             if let isCurved = try? container.decodeIfPresent(Bool.self) {
-                self.init(Vector(x, y), texcoord: Vector(zOrU, uOrV), isCurved: isCurved)
+                self.init(
+                    Vector(x, y),
+                    texcoord: Vector(zOrU, uOrV),
+                    color: nil,
+                    isCurved: isCurved
+                )
             } else {
-                let v = try container.decode(Double.self)
-                self.init(Vector(x, y, zOrU), texcoord: Vector(uOrV, v), isCurved: false)
+                self.init(
+                    Vector(x, y, zOrU),
+                    texcoord: Vector(uOrV, try container.decode(Double.self)),
+                    color: nil,
+                    isCurved: false
+                )
             }
         case 6:
-            let z = try container.decode(Double.self)
+            let position = Vector(x, y, try container.decode(Double.self))
             let u = try container.decode(Double.self)
             let v = try container.decode(Double.self)
             if let isCurved = try? container.decode(Bool.self) {
-                self.init(Vector(x, y, z), texcoord: Vector(u, v), isCurved: isCurved)
+                self.init(
+                    position,
+                    texcoord: Vector(u, v),
+                    color: nil,
+                    isCurved: isCurved
+                )
             } else {
-                let w = try container.decode(Double.self)
-                self.init(Vector(x, y, z), texcoord: Vector(u, v, w), isCurved: false)
+                self.init(
+                    position,
+                    texcoord: Vector(u, v, try container.decode(Double.self)),
+                    color: nil,
+                    isCurved: false
+                )
             }
         case 7:
-            let z = try container.decode(Double.self)
+            let position = Vector(x, y, try container.decode(Double.self))
+            let uOrR = try container.decode(Double.self)
+            let vOrG = try container.decode(Double.self)
+            let wOrB = try container.decode(Double.self)
+            if let isCurved = try? container.decode(Bool.self) {
+                self.init(
+                    position,
+                    texcoord: Vector(uOrR, vOrG, wOrB),
+                    color: nil,
+                    isCurved: isCurved
+                )
+            } else {
+                self.init(
+                    position,
+                    texcoord: nil,
+                    color: Color(uOrR, vOrG, wOrB, try container.decode(Double.self)),
+                    isCurved: false
+                )
+            }
+        case 8:
+            self.init(
+                Vector(x, y, try container.decode(Double.self)),
+                texcoord: nil,
+                color: try Color(from: &container),
+                isCurved: try container.decode(Bool.self)
+            )
+        case 9:
+            self.init(
+                Vector(x, y, try container.decode(Double.self)),
+                texcoord: try Vector(from: &container),
+                color: try Color(from: &container),
+                isCurved: false
+            )
+        case 10:
+            let position = Vector(x, y, try container.decode(Double.self))
             let texcoord = try Vector(from: &container)
-            let isCurved = try container.decode(Bool.self)
-            self.init(Vector(x, y, z), texcoord: texcoord, isCurved: isCurved)
+            let r = try container.decode(Double.self)
+            let g = try container.decode(Double.self)
+            let b = try container.decode(Double.self)
+            if let isCurved = try? container.decode(Bool.self) {
+                self.init(
+                    position,
+                    texcoord: texcoord,
+                    color: Color(r, g, b),
+                    isCurved: isCurved
+                )
+            } else {
+                self.init(
+                    position,
+                    texcoord: texcoord,
+                    color: Color(r, g, b, try container.decode(Double.self)),
+                    isCurved: false
+                )
+            }
+        case 11:
+            self.init(
+                Vector(x, y, try container.decode(Double.self)),
+                texcoord: try Vector(from: &container),
+                color: try Color(from: &container),
+                isCurved: try container.decode(Bool.self)
+            )
         default:
             throw DecodingError.dataCorruptedError(
                 in: container,
@@ -95,35 +189,62 @@ extension PathPoint: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        let skipZ = position.z == 0 && texcoord?.z ?? 0 == 0
-        try position.encode(to: &container, skipZ: skipZ)
-        if let texcoord = texcoord {
-            try texcoord.encode(to: &container, skipZ: texcoord.z == 0)
-        }
+        let skipTextureZ = texcoord?.z ?? 0 == 0
+        let skipPositionZ = color == nil && position.z == 0 && skipTextureZ
+        let skipAlpha = texcoord != nil && color?.a ?? 1 == 1
+        try position.encode(to: &container, skipZ: skipPositionZ)
+        try texcoord?.encode(to: &container, skipZ: skipTextureZ)
+        try color?.encode(to: &container, skipA: skipAlpha)
         try isCurved ? container.encode(true) : ()
     }
 }
 
 public extension PathPoint {
-    static func point(_ position: Vector, texcoord: Vector? = nil) -> PathPoint {
-        PathPoint(position, texcoord: texcoord, isCurved: false)
+    static func point(
+        _ position: Vector,
+        texcoord: Vector? = nil,
+        color: Color? = nil
+    ) -> PathPoint {
+        PathPoint(position, texcoord: texcoord, color: color, isCurved: false)
     }
 
-    static func point(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
-        .point(Vector(x, y, z))
+    static func point(
+        _ x: Double,
+        _ y: Double,
+        _ z: Double = 0,
+        texcoord: Vector? = nil,
+        color: Color? = nil
+    ) -> PathPoint {
+        .point(Vector(x, y, z), texcoord: texcoord, color: color)
     }
 
-    static func curve(_ position: Vector, texcoord: Vector? = nil) -> PathPoint {
-        PathPoint(position, texcoord: texcoord, isCurved: true)
+    static func curve(
+        _ position: Vector,
+        texcoord: Vector? = nil,
+        color: Color? = nil
+    ) -> PathPoint {
+        PathPoint(position, texcoord: texcoord, color: color, isCurved: true)
     }
 
-    static func curve(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
-        .curve(Vector(x, y, z))
+    static func curve(
+        _ x: Double,
+        _ y: Double,
+        _ z: Double = 0,
+        texcoord: Vector? = nil,
+        color: Color? = nil
+    ) -> PathPoint {
+        .curve(Vector(x, y, z), texcoord: texcoord, color: color)
     }
 
+    @available(*, deprecated, message: "Use init(_:texcoord:color:isCurved:) instead")
     init(_ position: Vector, texcoord: Vector?, isCurved: Bool) {
+        self.init(position, texcoord: texcoord, color: nil, isCurved: isCurved)
+    }
+
+    init(_ position: Vector, texcoord: Vector?, color: Color?, isCurved: Bool) {
         self.position = position.quantized()
         self.texcoord = texcoord
+        self.color = color
         self.isCurved = isCurved
     }
 
@@ -135,12 +256,29 @@ public extension PathPoint {
         case let (lhs, rhs):
             texcoord = lhs ?? rhs
         }
+        let color: Color?
+        switch (self.color, other.color) {
+        case let (lhs?, rhs?):
+            color = lhs.lerp(rhs, t)
+        case let (lhs, rhs):
+            color = lhs ?? rhs
+        }
         let isCurved = self.isCurved || other.isCurved
         return PathPoint(
             position.lerp(other.position, t),
             texcoord: texcoord,
+            color: color,
             isCurved: isCurved
         )
+    }
+}
+
+internal extension PathPoint {
+    /// Replace/remove point color
+    func with(color: Color?) -> PathPoint {
+        var point = self
+        point.color = color
+        return point
     }
 }
 
@@ -315,7 +453,12 @@ public extension Path {
                 [p0.position, p1.position, points[i + 1].position],
                 convex: true
             )
-            vertices.append(Vertex(unchecked: p1.position, normal, texcoord))
+            vertices.append(Vertex(
+                unchecked: p1.position,
+                normal,
+                texcoord,
+                p1.color
+            ))
             p0 = p1
         }
         guard !verticesAreDegenerate(vertices) else {
@@ -333,7 +476,7 @@ public extension Path {
             min.y = Swift.min(min.y, uv.y)
             max.x = Swift.max(max.x, uv.x)
             max.y = Swift.max(max.y, uv.y)
-            return Vertex(unchecked: $0.position, $0.normal, uv)
+            return Vertex(unchecked: $0.position, $0.normal, uv, $0.color)
         }
         let uvScale = Vector(max.x - min.x, max.y - min.y)
         return vertices.map {
@@ -342,7 +485,7 @@ public extension Path {
                 1 - ($0.texcoord.y - min.y) / uvScale.y,
                 0
             )
-            return Vertex(unchecked: $0.position, $0.normal, uv)
+            return Vertex(unchecked: $0.position, $0.normal, uv, $0.color)
         }
     }
 
@@ -418,13 +561,14 @@ public extension Path {
                 let v = Vertex(
                     unchecked: p1.position,
                     (n0 + n1).normalized(),
-                    uv
+                    uv,
+                    p1.color
                 )
                 vertices.append(v)
                 vertices.append(v)
             } else {
-                vertices.append(Vertex(unchecked: p1.position, n0, uv))
-                vertices.append(Vertex(unchecked: p1.position, n1, uv))
+                vertices.append(Vertex(unchecked: p1.position, n0, uv, p1.color))
+                vertices.append(Vertex(unchecked: p1.position, n1, uv, p1.color))
             }
         }
         var first = vertices.removeFirst()
@@ -493,6 +637,13 @@ internal extension Path {
         }
     }
 
+    /// Replace/remove path point colors
+    func with(color: Color?) -> Path {
+        Path(unchecked: points.map {
+            $0.with(color: color)
+        }, plane: plane, subpathIndices: subpathIndices)
+    }
+
     // Test if path is self-intersecting
     var isSimple: Bool {
         // TODO: what should we do about subpaths?
@@ -527,6 +678,7 @@ internal extension Path {
             PathPoint(
                 flatteningPlane.flattenPoint($0.position),
                 texcoord: $0.texcoord,
+                color: $0.color,
                 isCurved: $0.isCurved
             )
         }), plane: flatteningPlane.rawValue, subpathIndices: [])

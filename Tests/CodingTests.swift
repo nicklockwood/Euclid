@@ -727,10 +727,34 @@ class CodingTests: XCTestCase {
         XCTAssertEqual(encoded, "[1,2,3,4]")
     }
 
+    func testEncodingPathPoint2DWithTexcoord3D() throws {
+        let encoded = try encode(PathPoint.point(Vector(1, 2), texcoord: Vector(3, 4, 5)))
+        XCTAssertEqual(encoded, "[1,2,0,3,4,5]")
+    }
+
+    func testEncodingPathPoint2DWithOpaqueColor() throws {
+        let encoded = try encode(PathPoint.point(Vector(1, 2), color: .red))
+        XCTAssertEqual(encoded, "[1,2,0,1,0,0,1]")
+    }
+
     func testDecodingPathPoint3DWithTexcoord() {
         XCTAssertEqual(
             try decode("[1, 2, 3, 4, 5]"),
             PathPoint.point(Vector(1, 2, 3), texcoord: Vector(4, 5))
+        )
+    }
+
+    func testDecodingPathPoint3DWithOpaqueColor() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 1, 0, 0, 1]"),
+            PathPoint.point(Vector(1, 2, 3), color: .red)
+        )
+    }
+
+    func testDecodingPathPoint3DWithTranslucentColor() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 1, 0, 0, 0.5]"),
+            PathPoint.point(Vector(1, 2, 3), color: Color.red.withAlpha(0.5))
         )
     }
 
@@ -758,6 +782,20 @@ class CodingTests: XCTestCase {
         )
     }
 
+    func testDecodingCurvedPathPoint2DWithOpaqueColor() {
+        XCTAssertEqual(
+            try decode("[1, 2, 0, 1, 0, 0, 1, true]"),
+            PathPoint.curve(Vector(1, 2, 0), color: .red)
+        )
+    }
+
+    func testDecodingCurvedPathPoint2DWithTranslucentColor() {
+        XCTAssertEqual(
+            try decode("[1, 2, 0, 1, 0, 0, 0.5, true]"),
+            PathPoint.curve(Vector(1, 2), color: Color.red.withAlpha(0.5))
+        )
+    }
+
     func testEncodingCurvedPathPoint2DWithTexcoord() throws {
         let encoded = try encode(PathPoint.curve(Vector(1, 2), texcoord: Vector(3, 4)))
         XCTAssertEqual(encoded, "[1,2,3,4,true]")
@@ -766,6 +804,11 @@ class CodingTests: XCTestCase {
     func testEncodingCurvedPathPoint2DWithTexcoord3D() throws {
         let encoded = try encode(PathPoint.curve(Vector(1, 2), texcoord: Vector(3, 4, 5)))
         XCTAssertEqual(encoded, "[1,2,0,3,4,5,true]")
+    }
+
+    func testEncodingCurvedPathPoint2DWithOpaqueColor() throws {
+        let encoded = try encode(PathPoint.curve(Vector(1, 2), color: .red))
+        XCTAssertEqual(encoded, "[1,2,0,1,0,0,1,true]")
     }
 
     func testDecodingCurvedPathPoint3DWithTexcoord() {
@@ -782,14 +825,68 @@ class CodingTests: XCTestCase {
         )
     }
 
+    func testDecodingCurvedPathPoint3DWithTexcoord3DAndOpaqueColor() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 4, 5, 6, 1, 0, 0, true]"),
+            PathPoint.curve(Vector(1, 2, 3), texcoord: Vector(4, 5, 6), color: .red)
+        )
+    }
+
+    func testDecodingCurvedPathPoint3DWithTexcoord3DAndTranslucentColor() {
+        XCTAssertEqual(
+            try decode("[1, 2, 3, 4, 5, 6, 1, 0, 0, 0.5, true]"),
+            PathPoint.curve(
+                Vector(1, 2, 3),
+                texcoord: Vector(4, 5, 6),
+                color: Color.red.withAlpha(0.5)
+            )
+        )
+    }
+
     func testEncodingCurvedPathPoint3DWithTexcoord() throws {
         let encoded = try encode(PathPoint.curve(Vector(1, 2, 3), texcoord: Vector(4, 5)))
         XCTAssertEqual(encoded, "[1,2,3,4,5,true]")
     }
 
+    func testEncodingCurvedPathPoint3DWithTexcoordAndOpaqueColor() throws {
+        let encoded = try encode(PathPoint.curve(
+            Vector(1, 2, 3),
+            texcoord: Vector(4, 5),
+            color: .red
+        ))
+        XCTAssertEqual(encoded, "[1,2,3,4,5,1,0,0,true]")
+    }
+
+    func testEncodingCurvedPathPoint3DWithTexcoordAndTranslucentColor() throws {
+        let encoded = try encode(PathPoint.curve(
+            Vector(1, 2, 3),
+            texcoord: Vector(4, 5),
+            color: Color.red.withAlpha(0.5)
+        ))
+        XCTAssertEqual(encoded, "[1,2,3,4,5,1,0,0,0.5,true]")
+    }
+
     func testEncodingCurvedPathPoint3DWithTexcoord3D() throws {
         let encoded = try encode(PathPoint.curve(Vector(1, 2, 3), texcoord: Vector(4, 5, 6)))
         XCTAssertEqual(encoded, "[1,2,3,4,5,6,true]")
+    }
+
+    func testEncodingCurvedPathPoint3DWithTexcoord3DAndOpaqueColor() throws {
+        let encoded = try encode(PathPoint.curve(
+            Vector(1, 2, 3),
+            texcoord: Vector(4, 5, 6),
+            color: .red
+        ))
+        XCTAssertEqual(encoded, "[1,2,3,4,5,6,1,0,0,true]")
+    }
+
+    func testEncodingCurvedPathPoint3DWithTexcoord3DAndTranslucentColor() throws {
+        let encoded = try encode(PathPoint.curve(
+            Vector(1, 2, 3),
+            texcoord: Vector(4, 5, 6),
+            color: Color.red.withAlpha(0.5)
+        ))
+        XCTAssertEqual(encoded, "[1,2,3,4,5,6,1,0,0,0.5,true]")
     }
 
     // MARK: Path

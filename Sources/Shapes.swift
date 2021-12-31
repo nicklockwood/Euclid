@@ -128,11 +128,19 @@ public extension Path {
                         quadraticBezier(t0.z, t1.z, t2.z, $0)
                     )
                 }
+                var color: Color?
+                if p0.color != nil || p1.color != nil || p2.color != nil {
+                    color = [
+                        p0.color ?? .white,
+                        p1.color ?? .white,
+                        p2.color ?? .white,
+                    ].lerp($0)
+                }
                 return .curve(Vector(
                     quadraticBezier(p0.position.x, p1.position.x, p2.position.x, $0),
                     quadraticBezier(p0.position.y, p1.position.y, p2.position.y, $0),
                     quadraticBezier(p0.position.z, p1.position.z, p2.position.z, $0)
-                ), texcoord: texcoord)
+                ), texcoord: texcoord, color: color)
             }
         }
 
@@ -250,7 +258,7 @@ public extension Mesh {
                         (0 ... 1).contains(index) ? 1 : 0
                     )
                     index += 1
-                    return Vertex(unchecked: pos, normal, uv)
+                    return Vertex(unchecked: pos, normal, uv, nil)
                 },
                 normal: normal,
                 isConvex: true,
@@ -495,6 +503,9 @@ public extension Mesh {
                 r = rotationBetweenVectors(p0p2, shapeNormal)
             }
             shape = shape.rotated(by: r)
+            if let color = p2.color {
+                shape = shape.with(color: color)
+            }
             if p0p1.isEqual(to: p1p2) {
                 shapes.append(shape.translated(by: p1.position))
             } else {
@@ -522,12 +533,18 @@ public extension Mesh {
         } else {
             var _p0p2: Vector! = p0p1
             shape = shape.rotated(by: rotationBetweenVectors(p0p1, shapeNormal))
+            if let color = p0.color {
+                shape = shape.with(color: color)
+            }
             shapes.append(shape.translated(by: p0.position))
             for i in 1 ..< count - 1 {
                 let p2 = points[i + 1]
                 addShape(p2, &_p0p2)
             }
             shape = shape.rotated(by: rotationBetweenVectors(p0p1, _p0p2))
+            if let color = points.last?.color {
+                shape = shape.with(color: color)
+            }
             shapes.append(shape.translated(by: points.last!.position))
         }
         return loft(shapes, faces: faces, material: material)
@@ -763,19 +780,22 @@ private extension Mesh {
                         let v0 = Vertex(
                             unchecked: v0.position,
                             Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                            Vector(v0.texcoord.x + (t0 + t1) / 2, v0.texcoord.y, 0)
+                            Vector(v0.texcoord.x + (t0 + t1) / 2, v0.texcoord.y, 0),
+                            v0.color
                         )
                         let v2 = Vertex(
                             unchecked:
                             Vector(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
                             Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                            Vector(v1.texcoord.x + t0, v1.texcoord.y, 0)
+                            Vector(v1.texcoord.x + t0, v1.texcoord.y, 0),
+                            v1.color
                         )
                         let v3 = Vertex(
                             unchecked:
                             Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
                             Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
-                            Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
+                            Vector(v1.texcoord.x + t1, v1.texcoord.y, 0),
+                            v1.color
                         )
                         polygons.append(Polygon(
                             unchecked: [v0, v2, v3],
@@ -789,19 +809,22 @@ private extension Mesh {
                     let v1 = Vertex(
                         unchecked: v1.position,
                         Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                        Vector(v1.texcoord.x + (t0 + t1) / 2, v1.texcoord.y, 0)
+                        Vector(v1.texcoord.x + (t0 + t1) / 2, v1.texcoord.y, 0),
+                        v1.color
                     )
                     let v2 = Vertex(
                         unchecked:
                         Vector(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
                         Vector(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0)
+                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0),
+                        v0.color
                     )
                     let v3 = Vertex(
                         unchecked:
                         Vector(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
                         Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
+                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0),
+                        v0.color
                     )
                     polygons.append(Polygon(
                         unchecked: [v2, v3, v1],
@@ -815,25 +838,29 @@ private extension Mesh {
                         unchecked:
                         Vector(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
                         Vector(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0)
+                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0),
+                        v0.color
                     )
                     let v3 = Vertex(
                         unchecked:
                         Vector(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
                         Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0)
+                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0),
+                        v0.color
                     )
                     let v4 = Vertex(
                         unchecked:
                         Vector(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
                         Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                        Vector(v1.texcoord.x + t0, v1.texcoord.y, 0)
+                        Vector(v1.texcoord.x + t0, v1.texcoord.y, 0),
+                        v1.color
                     )
                     let v5 = Vertex(
                         unchecked:
                         Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
                         Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
-                        Vector(v1.texcoord.x + t1, v1.texcoord.y, 0)
+                        Vector(v1.texcoord.x + t1, v1.texcoord.y, 0),
+                        v1.color
                     )
                     let vertices = [v2, v3, v4, v5]
                     if !verticesAreDegenerate(vertices) {

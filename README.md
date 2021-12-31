@@ -114,7 +114,7 @@ The `LineSegment` type represents a finite line segment in 3D space. It is defin
 
 ## PathPoint
 
-A `PathPoint` is a control point along a path. `PathPoint`s have a position `Vector`, but no normal. Instead, the `isCurved` property is used to indicate if a point is sharp or smooth, allowing the normal to be inferred automatically when required.
+A `PathPoint` is a control point along a path. `PathPoint`s have a `position` vector and (optionally) a `texcoord` and/or `color`, but no normal. Instead, the `isCurved` property is used to indicate if a point is sharp or smooth, allowing the normal to be inferred automatically when required.
 
 ## Path
 

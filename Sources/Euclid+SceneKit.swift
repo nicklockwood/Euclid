@@ -278,6 +278,7 @@ public extension SCNGeometry {
     convenience init(_ path: Path) {
         var indices = [UInt32]()
         var vertices = [SCNVector3]()
+        var colors = [SCNVector4]()
         var indicesByPoint = [Vector: UInt32]()
         for path in path.subpaths {
             for vertex in path.edgeVertices {
@@ -290,10 +291,14 @@ public extension SCNGeometry {
                 indicesByPoint[position] = index
                 indices.append(index)
                 vertices.append(SCNVector3(position))
+                colors.append(SCNVector4(vertex.color))
             }
         }
         self.init(
-            sources: [SCNGeometrySource(vertices: vertices)],
+            sources: [
+                SCNGeometrySource(vertices: vertices),
+                SCNGeometrySource(colors: colors),
+            ],
             elements: [
                 SCNGeometryElement(indices: indices, primitiveType: .line),
             ]
