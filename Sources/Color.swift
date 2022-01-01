@@ -109,6 +109,22 @@ public extension Color {
     }
 }
 
+public extension Collection where Element == Color, Index == Int {
+    /// Linearly interpolate between multiple colors
+    func lerp(_ t: Double) -> Color {
+        let steps = count - 1
+        guard steps > -1 else {
+            return .clear
+        }
+        let t = t * Double(steps)
+        let index = Int(t)
+        guard index < steps else {
+            return self[steps]
+        }
+        return self[index].lerp(self[index + 1], t - t.rounded(.down))
+    }
+}
+
 internal extension Color {
     init(unchecked components: [Double]) {
         switch components.count {
