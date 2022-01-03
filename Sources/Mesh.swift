@@ -94,6 +94,16 @@ public extension Mesh {
         polygons.groupedByMaterial()
     }
 
+    /// Does mesh include texture coordinates?
+    var hasTexcoords: Bool {
+        polygons.hasTexcoords
+    }
+
+    /// Does mesh include vertex colors?
+    var hasVertexColors: Bool {
+        polygons.hasVertexColors
+    }
+
     /// Returns all unique polygon edges in the mesh
     var uniqueEdges: Set<LineSegment> {
         polygons.uniqueEdges

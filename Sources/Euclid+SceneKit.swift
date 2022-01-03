@@ -142,6 +142,8 @@ public extension SCNGeometry {
         var colors = [SCNVector4]()
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
+        let hasTexcoords = mesh.hasTexcoords
+        let hasVertexColors = mesh.hasVertexColors
         let materialLookup = materialLookup ?? defaultMaterialLookup
         for (material, polygons) in mesh.polygonsByMaterial {
             var indices = [UInt32]()
@@ -155,8 +157,12 @@ public extension SCNGeometry {
                 indices.append(index)
                 vertices.append(SCNVector3(vertex.position))
                 normals.append(SCNVector3(vertex.normal))
-                texcoords.append(CGPoint(vertex.texcoord))
-                colors.append(SCNVector4(vertex.color))
+                if hasTexcoords {
+                    texcoords.append(CGPoint(vertex.texcoord))
+                }
+                if hasVertexColors {
+                    colors.append(SCNVector4(vertex.color))
+                }
             }
             materials.append(materialLookup(material) ?? SCNMaterial())
             for polygon in polygons {
@@ -166,13 +172,18 @@ public extension SCNGeometry {
             }
             elementIndices.append(indices)
         }
+        var sources = [
+            SCNGeometrySource(vertices: vertices),
+            SCNGeometrySource(normals: normals),
+        ]
+        if hasTexcoords {
+            sources.append(SCNGeometrySource(textureCoordinates: texcoords))
+        }
+        if hasVertexColors {
+            sources.append(SCNGeometrySource(colors: colors))
+        }
         self.init(
-            sources: [
-                SCNGeometrySource(vertices: vertices),
-                SCNGeometrySource(normals: normals),
-                SCNGeometrySource(textureCoordinates: texcoords),
-                SCNGeometrySource(colors: colors),
-            ],
+            sources: sources,
             elements: elementIndices.map { indices in
                 SCNGeometryElement(indices: indices, primitiveType: .triangles)
             }
@@ -190,6 +201,8 @@ public extension SCNGeometry {
         var colors = [SCNVector4]()
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
+        let hasTexcoords = mesh.hasTexcoords
+        let hasVertexColors = mesh.hasVertexColors
         let materialLookup = materialLookup ?? defaultMaterialLookup
         for (material, polygons) in mesh.polygonsByMaterial {
             var indexData = Data()
@@ -203,8 +216,12 @@ public extension SCNGeometry {
                 indexData.append(index)
                 vertices.append(SCNVector3(vertex.position))
                 normals.append(SCNVector3(vertex.normal))
-                texcoords.append(CGPoint(vertex.texcoord))
-                colors.append(SCNVector4(vertex.color))
+                if hasTexcoords {
+                    texcoords.append(CGPoint(vertex.texcoord))
+                }
+                if hasVertexColors {
+                    colors.append(SCNVector4(vertex.color))
+                }
             }
             materials.append(materialLookup(material) ?? SCNMaterial())
             let polygons = polygons.tessellate()
@@ -216,13 +233,18 @@ public extension SCNGeometry {
             }
             elementData.append((polygons.count, indexData))
         }
+        var sources = [
+            SCNGeometrySource(vertices: vertices),
+            SCNGeometrySource(normals: normals),
+        ]
+        if hasTexcoords {
+            sources.append(SCNGeometrySource(textureCoordinates: texcoords))
+        }
+        if hasVertexColors {
+            sources.append(SCNGeometrySource(colors: colors))
+        }
         self.init(
-            sources: [
-                SCNGeometrySource(vertices: vertices),
-                SCNGeometrySource(normals: normals),
-                SCNGeometrySource(textureCoordinates: texcoords),
-                SCNGeometrySource(colors: colors),
-            ],
+            sources: sources,
             elements: elementData.map { count, indexData in
                 SCNGeometryElement(
                     data: indexData,
@@ -280,6 +302,7 @@ public extension SCNGeometry {
         var vertices = [SCNVector3]()
         var colors = [SCNVector4]()
         var indicesByPoint = [Vector: UInt32]()
+        let hasColors = path.hasColors
         for path in path.subpaths {
             for vertex in path.edgeVertices {
                 let position = vertex.position
@@ -291,14 +314,17 @@ public extension SCNGeometry {
                 indicesByPoint[position] = index
                 indices.append(index)
                 vertices.append(SCNVector3(position))
-                colors.append(SCNVector4(vertex.color))
+                if hasColors {
+                    colors.append(SCNVector4(vertex.color))
+                }
             }
         }
+        var sources = [SCNGeometrySource(vertices: vertices)]
+        if hasColors {
+            sources.append(SCNGeometrySource(colors: colors))
+        }
         self.init(
-            sources: [
-                SCNGeometrySource(vertices: vertices),
-                SCNGeometrySource(colors: colors),
-            ],
+            sources: sources,
             elements: [
                 SCNGeometryElement(indices: indices, primitiveType: .line),
             ]

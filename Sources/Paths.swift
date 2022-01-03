@@ -637,6 +637,11 @@ internal extension Path {
         }
     }
 
+    /// Does path contain vertex colors?
+    var hasColors: Bool {
+        points.contains(where: { $0.color != nil })
+    }
+
     /// Replace/remove path point colors
     func with(color: Color?) -> Path {
         Path(unchecked: points.map {

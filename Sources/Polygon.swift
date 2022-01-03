@@ -132,6 +132,11 @@ public extension Polygon {
         vertices.contains(where: { $0.texcoord != .zero })
     }
 
+    /// Does polygon include vertex colors?
+    var hasVertexColors: Bool {
+        vertices.contains(where: { $0.color != .white })
+    }
+
     /// Returns a set of polygon edges
     /// The direction of each edge is normalized relative to the origin to facilitate edge-equality comparisons
     var undirectedEdges: Set<LineSegment> {
@@ -260,6 +265,16 @@ public extension Polygon {
 }
 
 internal extension Collection where Element == Polygon {
+    /// Does any polygon include texture coordinates?
+    var hasTexcoords: Bool {
+        contains(where: { $0.hasTexcoords })
+    }
+
+    /// Does any polygon have vertex colors?
+    var hasVertexColors: Bool {
+        contains(where: { $0.hasVertexColors })
+    }
+
     /// Return a set of all unique edges across all the polygons
     var uniqueEdges: Set<LineSegment> {
         var edges = Set<LineSegment>()
