@@ -54,8 +54,8 @@ public extension CGPoint {
 
 public extension Path {
     /// Create a Path from a CGPath. The returned path may contain nested subpaths
-    init(cgPath: CGPath, detail: Int = 4) {
-        self.init(subpaths: cgPath.paths(detail: detail))
+    init(cgPath: CGPath, detail: Int = 4, color: Color? = nil) {
+        self.init(subpaths: cgPath.paths(detail: detail, color: color))
     }
 }
 
@@ -82,7 +82,7 @@ public extension CGPath {
 
     /// Create a flat array of Paths from a CGPath. Returned paths are
     /// guaranteed not to contain nested subpaths
-    func paths(detail: Int = 4) -> [Path] {
+    func paths(detail: Int = 4, color: Color? = nil) -> [Path] {
         typealias SafeElement = (type: CGPathElementType, points: [CGPoint])
         var paths = [Path]()
         var points = [PathPoint]()
@@ -105,7 +105,7 @@ public extension CGPath {
         }
         func updateLastPoint(nextElement: SafeElement) {
             if points.isEmpty {
-                points.append(.point(startingPoint))
+                points.append(.point(startingPoint, color: color))
                 return
             }
             guard let lastElement = lastElement else {
@@ -170,42 +170,43 @@ public extension CGPath {
                 let origin = $0.points[0]
                 element.points = [origin]
                 updateLastPoint(nextElement: element)
-                points.append(.point(Vector(origin)))
+                points.append(.point(Vector(origin), color: color))
             case .addQuadCurveToPoint:
                 let p1 = $0.points[0], p2 = $0.points[1]
                 element.points = [p1, p2]
                 updateLastPoint(nextElement: element)
                 guard detail > 0 else {
-                    points.append(.curve(Vector(p1)))
-                    points.append(.point(Vector(p2)))
+                    points.append(.curve(Vector(p1), color: color))
+                    points.append(.point(Vector(p2), color: color))
                     break
                 }
                 let detail = max(detail, 2)
                 var t = 0.0
                 let step = 1 / Double(detail)
-                let p0 = points.last ?? .point(startingPoint)
+                let p0 = points.last ?? .point(startingPoint, color: color)
                 for _ in 1 ..< detail {
                     t += step
                     points.append(.curve(
                         quadraticBezier(p0.position.x, Double(p1.x), Double(p2.x), t),
-                        quadraticBezier(p0.position.y, Double(p1.y), Double(p2.y), t)
+                        quadraticBezier(p0.position.y, Double(p1.y), Double(p2.y), t),
+                        color: color
                     ))
                 }
-                points.append(.point(Vector(p2)))
+                points.append(.point(Vector(p2), color: color))
             case .addCurveToPoint:
                 let p1 = $0.points[0], p2 = $0.points[1], p3 = $0.points[2]
                 element.points = [p1, p2, p3]
                 updateLastPoint(nextElement: element)
                 guard detail > 0 else {
-                    points.append(.curve(Vector(p1)))
-                    points.append(.curve(Vector(p2)))
-                    points.append(.point(Vector(p3)))
+                    points.append(.curve(Vector(p1), color: color))
+                    points.append(.curve(Vector(p2), color: color))
+                    points.append(.point(Vector(p3), color: color))
                     break
                 }
                 let detail = max(detail * 2, 3)
                 var t = 0.0
                 let step = 1 / Double(detail)
-                let p0 = points.last ?? .point(startingPoint)
+                let p0 = points.last ?? .point(startingPoint, color: color)
                 for _ in 1 ..< detail {
                     t += step
                     points.append(.curve(
@@ -213,7 +214,7 @@ public extension CGPath {
                         cubicBezier(p0.position.y, Double(p1.y), Double(p2.y), Double(p3.y), t)
                     ))
                 }
-                points.append(.point(Vector(p3)))
+                points.append(.point(Vector(p3), color: color))
             @unknown default:
                 return
             }

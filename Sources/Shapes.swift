@@ -35,42 +35,64 @@ import Foundation
 
 public extension Path {
     /// Create a path from a line segment
-    static func line(_ line: LineSegment) -> Path {
-        .line(line.start, line.end)
+    static func line(_ line: LineSegment, color: Color? = nil) -> Path {
+        .line(line.start, line.end, color: color)
     }
 
     /// Create a path from a start and end point
-    static func line(_ start: Vector, _ end: Vector) -> Path {
+    static func line(_ start: Vector, _ end: Vector, color _: Color? = nil) -> Path {
         Path([.point(start), .point(end)])
     }
 
     /// Create a closed circular path
-    static func circle(radius r: Double = 0.5, segments: Int = 16) -> Path {
-        ellipse(width: r * 2, height: r * 2, segments: segments)
+    static func circle(
+        radius r: Double = 0.5,
+        segments: Int = 16,
+        color: Color? = nil
+    ) -> Path {
+        ellipse(width: r * 2, height: r * 2, segments: segments, color: color)
     }
 
     /// Create a closed elliptical path
-    static func ellipse(width: Double, height: Double, segments: Int = 16) -> Path {
+    static func ellipse(
+        width: Double,
+        height: Double,
+        segments: Int = 16,
+        color: Color? = nil
+    ) -> Path {
         let segments = max(3, segments)
         let step = 2 / Double(segments) * .pi
         let to = 2 * .pi + epsilon
         let w = max(abs(width / 2), epsilon)
         let h = max(abs(height / 2), epsilon)
         return Path(unchecked: stride(from: 0, through: to, by: step).map {
-            PathPoint.curve(w * -sin($0), h * cos($0))
+            PathPoint.curve(w * -sin($0), h * cos($0), color: color)
         }, plane: .xy, subpathIndices: [])
     }
 
     /// Create a closed regular polygon
-    static func polygon(radius: Double = 0.5, sides: Int) -> Path {
+    static func polygon(
+        radius: Double = 0.5,
+        sides: Int,
+        color: Color? = nil
+    ) -> Path {
         let circle = self.circle(radius: radius, segments: sides)
         return Path(unchecked: circle.points.map {
-            .point($0.position)
+            .point($0.position, color: color)
         }, plane: .xy, subpathIndices: [])
     }
 
+    /// Create a closed square path
+    static func square(size: Double = 1, color: Color? = nil) -> Path {
+        rectangle(width: size, height: size, color: color)
+    }
+
     /// Create a closed rectangular path
-    static func rectangle(width: Double, height: Double) -> Path {
+    static func rectangle(
+        width: Double,
+        height: Double,
+        color: Color? = nil
+    ) -> Path {
         let w = width / 2, h = height / 2
         if height < epsilon {
             return .line(Vector(-w, 0), Vector(w, 0))
@@ -78,15 +100,10 @@ public extension Path {
             return .line(Vector(0, -h), Vector(0, h))
         }
         return Path(unchecked: [
-            .point(-w, h), .point(-w, -h),
-            .point(w, -h), .point(w, h),
-            .point(-w, h),
+            .point(-w, h, color: color), .point(-w, -h, color: color),
+            .point(w, -h, color: color), .point(w, h, color: color),
+            .point(-w, h, color: color),
         ], plane: .xy, subpathIndices: [])
-    }
-
-    /// Create a closed square path
-    static func square(size: Double = 1) -> Path {
-        rectangle(width: size, height: size)
     }
 
     /// Create a quadratic bezier spline
