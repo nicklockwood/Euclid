@@ -43,6 +43,14 @@ extension NSAttributedString.Key {
 
 #endif
 
+#if canImport(AppKit)
+import AppKit
+private typealias OSColor = NSColor
+#elseif canImport(UIKit)
+import UIKit
+private typealias OSColor = UIColor
+#endif
+
 public extension Path {
     /// Create an array of glyph contours from a string and font
     static func text(
@@ -65,7 +73,7 @@ public extension Path {
             let cgPath = CGMutablePath()
             let transform = CGAffineTransform(translationX: $1.x, y: $1.y)
             cgPath.addPath($0, transform: transform)
-            return Path(cgPath: cgPath, detail: detail)
+            return Path(cgPath: cgPath, detail: detail, color: $2)
         }
     }
 }
@@ -100,10 +108,10 @@ public extension Mesh {
     ) {
         var meshes = [Mesh]()
         var cache = [CGPath: Mesh]()
-        for (cgPath, cgPoint) in cgPaths(for: text, width: width) {
+        for (cgPath, cgPoint, color) in cgPaths(for: text, width: width) {
             let offset = Vector(cgPoint)
             guard let mesh = cache[cgPath] else {
-                let path = Path(cgPath: cgPath)
+                let path = Path(cgPath: cgPath, color: color)
                 let mesh = Mesh.extrude(path, depth: depth, material: material)
                 cache[cgPath] = mesh
                 meshes.append(mesh.translated(by: offset))
@@ -127,7 +135,7 @@ private extension NSAttributedString {
 private func cgPaths(
     for attributedString: NSAttributedString,
     width: Double?
-) -> [(glyph: CGPath, offset: CGPoint)] {
+) -> [(glyph: CGPath, offset: CGPoint, color: Color?)] {
     let framesetter = CTFramesetterCreateWithAttributedString(attributedString as CFAttributedString)
 
     let range = CFRangeMake(0, 0)
@@ -140,12 +148,13 @@ private func cgPaths(
     var origins = Array(repeating: CGPoint.zero, count: lines.count)
     CTFrameGetLineOrigins(frame, range, &origins)
 
-    var paths = [(CGPath, CGPoint)]()
+    var paths = [(CGPath, CGPoint, Color?)]()
     for (line, origin) in zip(lines, origins) {
         let runs = CTLineGetGlyphRuns(line) as! [CTRun]
         for run in runs {
             let attributes = CTRunGetAttributes(run) as! [NSAttributedString.Key: Any]
             let font = attributes[.font] as! CTFont
+            let color = attributes[.foregroundColor] as? OSColor
 
             var glyph = CGGlyph()
             for index in 0 ..< CTRunGetGlyphCount(run) {
@@ -159,7 +168,7 @@ private func cgPaths(
                 CTRunGetPositions(run, range, &position)
                 position.x += origin.x
                 position.y += origin.y - origins[0].y
-                paths.append((letter, position))
+                paths.append((letter, position, color.map(Color.init)))
             }
         }
     }
