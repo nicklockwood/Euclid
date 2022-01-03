@@ -287,7 +287,7 @@ class TransformTests: XCTestCase {
     }
 
     func testTransformPlane() {
-        let path = Path(unchecked: [
+        let path = Path([
             .point(1, 2, 3),
             .point(7, -2, 12),
             .point(-2, 7, 14),

@@ -218,7 +218,11 @@ public extension Path {
 
     /// Create a path from an array of `PathPoint`s
     init(_ points: [PathPoint]) {
-        self.init(unchecked: sanitizePoints(points))
+        self.init(
+            unchecked: sanitizePoints(points),
+            plane: nil,
+            subpathIndices: nil
+        )
     }
 
     /// Create a composite path from an array of subpaths
@@ -487,11 +491,6 @@ internal extension Path {
                 self.plane = plane
             }
         }
-    }
-
-    // Convenience initializer
-    init(unchecked points: [PathPoint]) {
-        self.init(unchecked: points, plane: nil, subpathIndices: nil)
     }
 
     // Test if path is self-intersecting

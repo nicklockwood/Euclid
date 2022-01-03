@@ -64,7 +64,9 @@ public extension Path {
     /// Create a closed regular polygon
     static func polygon(radius: Double = 0.5, sides: Int) -> Path {
         let circle = self.circle(radius: radius, segments: sides)
-        return Path(unchecked: circle.points.map { .point($0.position) })
+        return Path(unchecked: circle.points.map {
+            .point($0.position)
+        }, plane: .xy, subpathIndices: [])
     }
 
     /// Create a closed rectangular path
