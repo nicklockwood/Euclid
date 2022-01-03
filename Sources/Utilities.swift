@@ -456,3 +456,95 @@ func lineSegmentsIntersection(
     }
     return Bounds(p0, p1).containsPoint(pi) && Bounds(p2, p3).containsPoint(pi) ? pi : nil
 }
+
+// MARK: Path utilities
+
+// Sanitize a set of path points by removing duplicates and invalid points
+// Should be safe to use on sets of points representing a compound path (with subpaths)
+func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
+    var result = [PathPoint]()
+    var last: PathPoint?
+    // Remove duplicate points
+    // TODO: In future, compound paths may support duplicate points
+    for point in points where point.position != last?.position {
+        result.append(point)
+        last = point
+    }
+    // Remove invalid points
+    let isClosed = pointsAreClosed(unchecked: result)
+    if result.count > (isClosed ? 3 : 2), let a = result.first?.position {
+        var ab = result[1].position - a
+        var i = 1
+        while i < result.count - 1 {
+            let b = result[i].position
+            let c = result[i + 1].position
+            let bc = c - b
+            if ab.cross(bc).length < epsilon, ab.dot(bc) <= epsilon {
+                // center point makes path degenerate - remove it
+                result.remove(at: i)
+                ab = result[i].position - result[i - 1].position
+                continue
+            }
+            i += 1
+            ab = bc
+        }
+    }
+    // Ensure closed path start and end match
+    if isClosed {
+        if result.first != result.last {
+            result[0] = result.last!
+        }
+        if result.count < 3 {
+            return []
+        }
+    } else if result.count < 2 {
+        return []
+    }
+    return result
+}
+
+func subpathIndicesFor(_ points: [PathPoint]) -> [Int] {
+    // TODO: ensure closing points are of the same type as the opening point;
+    // should this be part of the sanitize function?
+    var lastIndex = 0
+    var indices = [Int]()
+    for (i, p) in points.enumerated() {
+        for j in lastIndex ..< i {
+            if points[j].position == p.position {
+                if j > lastIndex, j < i - 1 {
+                    indices.append(j)
+                }
+                indices.append(i)
+                lastIndex = i
+                break
+            }
+        }
+    }
+    if !indices.isEmpty, indices.last != points.count - 1 {
+        indices.append(points.count - 1)
+        return indices
+    }
+    // If only one path, return an empty array
+    return indices.count > 1 ? indices : []
+}
+
+func pointsAreClosed(unchecked points: [PathPoint]) -> Bool {
+    points.last?.position == points.first?.position
+}
+
+func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint {
+    var p0p1 = p1.position - p0.position
+    let length = p0p1.length
+    p0p1 = p0p1 / length
+    let p1p2 = (p2.position - p1.position).normalized()
+    let axis = p0p1.cross(p1p2)
+    let angle = -p0p1.angle(with: p1p2)
+    let r = Rotation(axis: axis, angle: angle) ?? .identity
+    let p2pe = p1p2.rotated(by: r) * length
+    return .curve(p2.position + p2pe)
+}
+
+func extrapolate(_ p0: PathPoint, _ p1: PathPoint) -> PathPoint {
+    let p0p1 = p1.position - p0.position
+    return .point(p1.position + p0p1)
+}
