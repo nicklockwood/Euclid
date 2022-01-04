@@ -1,3 +1,11 @@
+## [0.5.16](https://github.com/nicklockwood/Euclid/releases/tag/0.5.16) (2022-01-04)
+
+- Added `Vertex.color` property
+- Added `PathPoint.color` property
+- Added `color` parameters for `Path` constructors
+- Added `lerp()` functions for `Color` collections
+- Added check to skip all-zero texture coordinates when exporting to SceneKit
+
 ## [0.5.15](https://github.com/nicklockwood/Euclid/releases/tag/0.5.15) (2021-12-22)
 
 - Added `Mesh.makeWatertight()` method, for removing hairline cracks in meshes
