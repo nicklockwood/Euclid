@@ -8,6 +8,9 @@
 
 import Foundation
 
+/// A struct that is an alternative, more compact, way to represent an orientation or rotation in 3D space.
+///
+/// A quaternions can be converted to and from an axis-vector and angle, or a set of 3 Euler angles (pitch, yaw and roll), as well as to and from a ``Rotation``.
 public struct Quaternion: Hashable {
     public var x, y, z, w: Double
 

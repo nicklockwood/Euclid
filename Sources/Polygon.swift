@@ -31,7 +31,10 @@
 
 import Foundation
 
-/// A planar polygon
+/// A planar polygon in 3D space.
+///
+/// A polygon must be composed of three or more ``Vertex``, and those vertices must all lie in the same plane.
+/// The edge of a polygon can be either convex or concave, but not self-intersecting.
 public struct Polygon: Hashable {
     private var storage: Storage
 

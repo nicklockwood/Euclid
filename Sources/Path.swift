@@ -31,7 +31,132 @@
 
 import Foundation
 
-/// A 3D path
+/// A control point that contributes to representing a path.
+///
+/// A path point can represent a corner or a curve, and has a `position`, but no normal.
+/// Instead, the ``PathPoint/isCurved`` property  indicates if a point is sharp or smooth, allowing the normal to be inferred automatically when required.
+public struct PathPoint: Hashable {
+    public var position: Vector
+    public var texcoord: Vector?
+    public var isCurved: Bool
+}
+
+extension PathPoint: Codable {
+    public init(from decoder: Decoder) throws {
+        var container = try decoder.unkeyedContainer()
+        let x = try container.decode(Double.self)
+        let y = try container.decode(Double.self)
+        switch container.count {
+        case 2:
+            self.init(Vector(x, y), texcoord: nil, isCurved: false)
+        case 3:
+            if let isCurved = try? container.decodeIfPresent(Bool.self) {
+                self.init(Vector(x, y), texcoord: nil, isCurved: isCurved)
+            } else {
+                let z = try container.decode(Double.self)
+                self.init(Vector(x, y, z), texcoord: nil, isCurved: false)
+            }
+        case 4:
+            let zOrU = try container.decode(Double.self)
+            if let isCurved = try? container.decodeIfPresent(Bool.self) {
+                self.init(Vector(x, y, zOrU), texcoord: nil, isCurved: isCurved)
+            } else {
+                let v = try container.decode(Double.self)
+                self.init(Vector(x, y), texcoord: Vector(zOrU, v), isCurved: false)
+            }
+        case 5:
+            let zOrU = try container.decode(Double.self)
+            let uOrV = try container.decode(Double.self)
+            if let isCurved = try? container.decodeIfPresent(Bool.self) {
+                self.init(Vector(x, y), texcoord: Vector(zOrU, uOrV), isCurved: isCurved)
+            } else {
+                let v = try container.decode(Double.self)
+                self.init(Vector(x, y, zOrU), texcoord: Vector(uOrV, v), isCurved: false)
+            }
+        case 6:
+            let z = try container.decode(Double.self)
+            let u = try container.decode(Double.self)
+            let v = try container.decode(Double.self)
+            if let isCurved = try? container.decode(Bool.self) {
+                self.init(Vector(x, y, z), texcoord: Vector(u, v), isCurved: isCurved)
+            } else {
+                let w = try container.decode(Double.self)
+                self.init(Vector(x, y, z), texcoord: Vector(u, v, w), isCurved: false)
+            }
+        case 7:
+            let z = try container.decode(Double.self)
+            let texcoord = try Vector(from: &container)
+            let isCurved = try container.decode(Bool.self)
+            self.init(Vector(x, y, z), texcoord: texcoord, isCurved: isCurved)
+        default:
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Cannot decode path point"
+            )
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        let skipZ = position.z == 0 && texcoord?.z ?? 0 == 0
+        try position.encode(to: &container, skipZ: skipZ)
+        if let texcoord = texcoord {
+            try texcoord.encode(to: &container, skipZ: texcoord.z == 0)
+        }
+        try isCurved ? container.encode(true) : ()
+    }
+}
+
+public extension PathPoint {
+    static func point(_ position: Vector, texcoord: Vector? = nil) -> PathPoint {
+        PathPoint(position, texcoord: texcoord, isCurved: false)
+    }
+
+    static func point(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
+        .point(Vector(x, y, z))
+    }
+
+    static func curve(_ position: Vector, texcoord: Vector? = nil) -> PathPoint {
+        PathPoint(position, texcoord: texcoord, isCurved: true)
+    }
+
+    static func curve(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
+        .curve(Vector(x, y, z))
+    }
+
+    init(_ position: Vector, texcoord: Vector?, isCurved: Bool) {
+        self.position = position.quantized()
+        self.texcoord = texcoord
+        self.isCurved = isCurved
+    }
+
+    func lerp(_ other: PathPoint, _ t: Double) -> PathPoint {
+        let texcoord: Vector?
+        switch (self.texcoord, other.texcoord) {
+        case let (lhs?, rhs?):
+            texcoord = lhs.lerp(rhs, t)
+        case let (lhs, rhs):
+            texcoord = lhs ?? rhs
+        }
+        let isCurved = self.isCurved || other.isCurved
+        return PathPoint(
+            position.lerp(other.position, t),
+            texcoord: texcoord,
+            isCurved: isCurved
+        )
+    }
+}
+
+/// A path is a sequence of path points that represent a line or curve,
+///
+/// The line or curve is formed from straight segments joined end-to-end.
+/// A ``Path`` can be either open (a *polyline*) or closed (a *polygon*), but should not be self-intersecting or otherwise degenerate.
+///
+/// A path may be formed from multiple subpaths, which can be accessed via the ``Path/subpaths`` property.
+/// A closed, flat ``Path`` without nested subpaths can be converted into a ``Polygon``, but it can also be used for other purposes, such as defining a cross-section or profile of a 3D shape.
+///
+/// Paths are typically 2-dimensional, but because ``PathPoint`` positions have a Z coordinate, they are not *required* to be.
+/// Even a flat ``Path`` (where all points lie on the same plane) can be translated or rotated so that its points do not necessarily lie on the *XY* plane.
 public struct Path: Hashable {
     public let points: [PathPoint]
     public let isClosed: Bool

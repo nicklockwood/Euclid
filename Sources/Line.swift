@@ -29,6 +29,9 @@
 //  SOFTWARE.
 //
 
+/// A struct that represents an infinite line in 3D space.
+///
+/// A line is defined by an `origin` point and a normalized `direction` vector.
 public struct Line: Hashable {
     public let origin, direction: Vector
 

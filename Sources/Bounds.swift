@@ -29,7 +29,7 @@
 //  SOFTWARE.
 //
 
-/// An axially-aligned bounding box
+/// An axially-aligned bounding box for a 3D shape or collection of shapes.
 public struct Bounds: Hashable {
     public let min, max: Vector
 

@@ -31,7 +31,10 @@
 
 import Foundation
 
-/// A distance or position in 3D space
+/// A distance or position in 3D space.
+///
+/// Euclid doesn't include 2D vector types.
+/// When working with primarily 2D shapes, such as  creating``Path`` objects, omit the Z coordinate when constructing a `Vector` and it defaults to zero.
 public struct Vector: Hashable {
     public var x, y, z: Double
 
@@ -93,12 +96,12 @@ extension Vector: Codable {
     }
 }
 
-/// Returns a new vector representing the min of the components of the passed vectors
+/// Returns a new vector that represents the mininum of the components of the two vectors.
 public func min(_ lhs: Vector, _ rhs: Vector) -> Vector {
     Vector(min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z))
 }
 
-/// Returns a new vector representing the max of the components of the passed vectors
+/// Returns a new vector representing the maximum of the components of the two vectors.
 public func max(_ lhs: Vector, _ rhs: Vector) -> Vector {
     Vector(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z))
 }

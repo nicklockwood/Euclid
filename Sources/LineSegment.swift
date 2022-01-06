@@ -29,6 +29,9 @@
 //  SOFTWARE.
 //
 
+/// A struct that represents a finite-length line segment in 3D space.
+///
+/// A line sgement is defined by a `start` point and an `end` point.
 public struct LineSegment: Hashable {
     public let start, end: Vector
 

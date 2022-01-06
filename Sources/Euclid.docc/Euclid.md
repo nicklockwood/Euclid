@@ -13,3 +13,35 @@ If you would like to support the development of Euclid, please consider buying a
 **Note:** Euclid is a fairly complex piece of code, at a fairly early stage of development. You should expect some bugs and breaking changes over the first few releases, and the documentation is a little sparse. Please report any issues you encounter, and I will do my best to fix them.
 
 ## Topics
+
+### Using Euclid
+
+- <doc:ConstructingMeshes>
+- <doc:RenderingMeshes>
+
+### Types
+
+- ``Vector``
+- ``Color``
+- ``Vertex``
+- ``Polygon``
+- ``Mesh``
+- ``Bounds``
+- ``Plane``
+- ``Line``
+- ``LineSegment``
+- ``PathPoint``
+- ``Path``
+- ``Angle``
+- ``Rotation``
+- ``Quaternion``
+- ``Rotation``
+- ``Transform``
+
+### Supporting Functions
+
+- ``sin(_:)``
+- ``cos(_:)``
+- ``tan(_:)``
+- ``min(_:_:)``
+- ``max(_:_:)``
