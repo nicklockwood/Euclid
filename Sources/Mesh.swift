@@ -29,7 +29,10 @@
 //  SOFTWARE.
 //
 
-/// A 3D surface constructed from polygons
+/// A 3D surface that is represented by multiple polygons.
+///
+/// A mesh surface can be convex or concave, and can have zero volume (for example, a flat shape such as a square) but shouldn't contain holes or exposed back-faces.
+/// The result of constructive solid geometry operations on meshes that have holes or exposed back-faces is undefined.
 public struct Mesh: Hashable {
     private let storage: Storage
 }

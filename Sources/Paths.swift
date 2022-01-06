@@ -31,7 +31,10 @@
 
 import Foundation
 
-/// A control point on a path. Can represent a corner or a curve.
+/// A control point that contributes to representing a path.
+///
+/// A path point can represent a corner or a curve, and has a `position`, but no normal.
+/// Instead, the ``PathPoint/isCurved`` property  indicates if a point is sharp or smooth, allowing the normal to be inferred automatically when required.
 public struct PathPoint: Hashable {
     public var position: Vector
     public var texcoord: Vector?
@@ -144,7 +147,16 @@ public extension PathPoint {
     }
 }
 
-/// A 3D path
+/// A path is a sequence of path points that represent a line or curve,
+///
+/// The line or curve is formed from straight segments joined end-to-end.
+/// A ``Path`` can be either open (a *polyline*) or closed (a *polygon*), but should not be self-intersecting or otherwise degenerate.
+///
+/// A path may be formed from multiple subpaths, which can be accessed via the ``Path/subpaths`` property.
+/// A closed, flat ``Path`` without nested subpaths can be converted into a ``Polygon``, but it can also be used for other purposes, such as defining a cross-section or profile of a 3D shape.
+///
+/// Paths are typically 2-dimensional, but because ``PathPoint`` positions have a Z coordinate, they are not *required* to be.
+/// Even a flat ``Path`` (where all points lie on the same plane) can be translated or rotated so that its points do not necessarily lie on the *XY* plane.
 public struct Path: Hashable {
     public let points: [PathPoint]
     public let isClosed: Bool

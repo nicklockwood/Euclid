@@ -31,6 +31,10 @@
 
 import Foundation
 
+/// A transform is a matrix representation of a rotation, position, and scale that can be applied to a 3D point or object.
+///
+/// A transform is a convenient way to store and manipulate the location, orientation and size of a ``Mesh`` without directly modifying the vertex positions.
+/// Directly updating vertex positions can be problematic due to the buildup of rounding errors.
 public struct Transform: Hashable {
     public var offset: Vector
     public var rotation: Rotation

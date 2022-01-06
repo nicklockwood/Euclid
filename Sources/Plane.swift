@@ -29,7 +29,9 @@
 //  SOFTWARE.
 //
 
-/// Represents a 2D plane in 3D space.
+/// A struct that represents an infinite 2D plane in 3D space.
+///
+/// A plane is defined by a surface normal ``Vector`` and a `w` value that indicates the distance of the center of the `Plane` from the world origin.
 public struct Plane: Hashable {
     public let normal: Vector
     public let w: Double

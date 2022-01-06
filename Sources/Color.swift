@@ -29,6 +29,9 @@
 //  SOFTWARE.
 //
 
+/// A struct that represents a color in RGBA format.
+///
+/// Color can be used as a ``Polygon/material-swift.property``.
 public struct Color: Hashable {
     public var r, g, b, a: Double
 

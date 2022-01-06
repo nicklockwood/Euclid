@@ -29,7 +29,12 @@
 //  SOFTWARE.
 //
 
-/// A polygon vertex
+/// A vertex represent a point in three dimension space with additional characteristics.
+///
+/// The additional characteristics (``Vertex/normal`` and ``Vertex/texcoord``) define how to represent the point in space when combined with other vertex instances to create a polygon.
+///
+/// The ``Vertex/position`` of each ``Vertex`` is automatically *quantized* (rounded to the nearest point in a very fine grid) in order to avoid the creation of very tiny polygons, or hairline cracks in surfaces.
+/// To avoid accumulating rounding errors avoid applying multiple ``Transform`` to the same geometry in sequence.
 public struct Vertex: Hashable {
     public var position: Vector {
         didSet { position = position.quantized() }
