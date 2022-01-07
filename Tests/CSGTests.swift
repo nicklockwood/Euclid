@@ -54,7 +54,7 @@ class CSGTests: XCTestCase {
         let a = Mesh.cube(size: 0.8)
         let b = Mesh.sphere(slices: 16)
         let c = a.subtract(b)
-        XCTAssertEqual(c.polygons.count, 184)
+        XCTAssertEqual(c.polygons.count, 185)
     }
 
     // MARK: XOR
@@ -94,7 +94,7 @@ class CSGTests: XCTestCase {
         let a = Mesh.cube(size: 0.8)
         let b = Mesh.sphere(slices: 16)
         let c = a.xor(b)
-        XCTAssertEqual(c.polygons.count, 318)
+        XCTAssertEqual(c.polygons.count, 319)
     }
 
     // MARK: Union
@@ -134,7 +134,7 @@ class CSGTests: XCTestCase {
         let a = Mesh.cube(size: 0.8)
         let b = Mesh.sphere(slices: 16)
         let c = a.union(b)
-        XCTAssertEqual(c.polygons.count, 232)
+        XCTAssertEqual(c.polygons.count, 233)
     }
 
     // MARK: Intersection

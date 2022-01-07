@@ -300,8 +300,9 @@ func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Vector {
         return normal / length
     default:
         func faceNormalForConvexPoints(_ points: [Vector]) -> Vector {
-            var b = points[0]
-            var ab = b - points.last!
+            let count = points.count
+            var b = points[count - 1]
+            var ab = b - points[count - 2]
             var bestLengthSquared = 0.0
             var best: Vector?
             for c in points {
