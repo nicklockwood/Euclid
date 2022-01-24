@@ -19,7 +19,7 @@ You can also use SceneKit to export Euclid-generated ``Mesh`` in standard 3D mod
 
 Interesting geometry is one thing, but to really bring a shape to life it needs colors and textures.
 
-Every ``Polygon`` has a ``Polygon/material`` property that can be used to apply any kind of material you like on a per-polygon basis.
+Every ``Polygon`` has a ``Polygon/material-swift.property`` property that can be used to apply any kind of material you like on a per-polygon basis.
 
 All primitives and builder methods accept a `material` parameter which will apply that material to every polygon in the resultant ``Mesh``.
 When you later combine meshes using CSG operations, the original materials from the `Mesh` that contributed to each part of the resultant shape are preserved.

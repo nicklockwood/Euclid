@@ -55,7 +55,7 @@ That's where *Beziers* come in.
 Beziers allow you to specify complex curves using just a few control points. 
 Euclid exposes this feature via the ``Path/curve(_:detail:)`` constructor method.
 
-The ``Path/curve(_:detail:)`` method takes an array of ``PathPoint`` and a ``detail`` argument. 
+The ``Path/curve(_:detail:)`` method takes an array of ``PathPoint`` and a `detail` argument. 
 Normally, the ``PathPoint/isCurved`` property is used to calculate surface normals (for lighting purposes), but with the ``Path/curve(_:detail:)`` method it affects the shape of the ``Path``.
 
 A sequence of regular (non-curved) ``PathPoint`` create sharp corners in the ``Path`` as normal, but curved ones are treated as off-curve Bezier control points. 

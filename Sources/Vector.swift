@@ -34,7 +34,8 @@ import Foundation
 /// A distance or position in 3D space.
 ///
 /// Euclid doesn't include 2D vector types.
-/// When working with primarily 2D shapes, such as  creating``Path`` objects, omit the Z coordinate when constructing a `Vector` and it defaults to zero.
+/// When working with primarily 2D shapes, such as  creating ``Path`` objects, omit the Z coordinate when constructing a `Vector` and it defaults to zero.
+/// 
 public struct Vector: Hashable {
     public var x, y, z: Double
 
