@@ -411,6 +411,8 @@ private extension Data {
 }
 
 public extension Vector {
+    /// Creates a new vector from the SceneKit vector.
+    /// - Parameter v: The SceneKit vector.
     init(_ v: SCNVector3) {
         self.init(Double(v.x), Double(v.y), Double(v.z))
     }
