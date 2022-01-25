@@ -35,6 +35,32 @@ import Foundation
 ///
 /// Euclid doesn't include 2D vector types.
 /// When working with primarily 2D shapes, such as  creating ``Path`` objects, omit the Z coordinate when constructing a `Vector` and it defaults to zero.
+///
+/// ## Topics
+///
+/// ### Creating Vectors
+///
+/// - ``init(_:_:_:)``
+/// - ``init(_:)-63ct7``
+/// - ``init(size:)-8b34m``
+/// - ``init(size:)-nkyk``
+/// - ``init(_:)-228p6``
+/// - ``init(_:)-4eop9``
+///
+/// ### Inspecting Vectors
+///
+/// - ``x``
+/// - ``y``
+/// - ``z``
+/// - ``components``
+/// - ``isNormalized``
+/// - ``length``
+/// - ``lengthSquared``
+///
+/// ### Computing with Vectors
+///
+/// - ``*(_:_:)-48gl1``
+/// - ``*(_:_:)-5mcy5``
 /// 
 public struct Vector: Hashable {
     public var x, y, z: Double
