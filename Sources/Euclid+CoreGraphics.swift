@@ -34,6 +34,8 @@
 import CoreGraphics
 
 public extension Vector {
+    /// Creates a new vector from a CoreGraphics point.
+    /// - Parameter cgPoint: the CoreGraphics point.
     init(_ cgPoint: CGPoint) {
         self.init(Double(cgPoint.x), Double(cgPoint.y))
     }
