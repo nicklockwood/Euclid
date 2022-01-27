@@ -201,17 +201,57 @@ public extension Path {
 }
 
 public extension Mesh {
+    /// A choice of the face directions that Euclid generates for polygons.
+    ///
+    /// ## Topics
+    ///
+    /// ### Faces
+    ///
+    /// - ``Faces/default``
+    /// - ``Faces/front``
+    /// - ``Faces/back``
+    /// - ``Faces/frontAndBack``
+    ///
+    /// ### Comparing Faces
+    ///
+    /// - ``Faces/!=(_:_:)``
+    ///
     enum Faces {
+        /// Render the front faces of the polygon.
+        ///
+        /// The same effect as ``Mesh/Faces/front``.
+        case `default`
+        /// Render the front faces of the polygon.
         case front
+        /// Render the back faces of the polygon.
         case back
+        /// Render both the front and back faces of the polygon.
         case frontAndBack
-        case `default`
     }
-
+    
+    /// A choice of how the edges of a path are used to generate a mesh.
+    ///
+    /// ## Topics
+    ///
+    /// ### Wrap Modes
+    ///
+    /// - ``WrapMode/default``
+    /// - ``WrapMode/shrink``
+    /// - ``WrapMode/tube``
+    ///
+    /// ### Comparing Wrap modes
+    ///
+    /// - ``WrapMode/!=(_:_:)``
+    ///
     enum WrapMode {
-        case shrink
-        case tube
+        /// Vertex choices shrink to the smallest choice on a path, rendering the path directly.
+        ///
+        /// The same effect as ``Mesh/WrapMode/shrink``.
         case `default`
+        /// Vertex choices shrink to the smallest choice on a path, rendering the path directly.
+        case shrink
+        /// Vertex choices include points around a path, creating a tube around the path.
+        case tube
     }
 
     /// Construct an axis-aligned cuboid mesh
