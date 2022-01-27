@@ -19,24 +19,32 @@ If you would like to support the development of Euclid, please consider buying a
 - <doc:ConstructingMeshes>
 - <doc:RenderingMeshes>
 
-### Types
+### Surfaces
+
+- ``Mesh``
+- ``Polygon``
+- ``Plane``
+
+### Lines and Paths
+
+- ``Path``
+- ``PathPoint``
+- ``Line``
+- ``LineSegment``
+
+### Rotations and Transforms
+
+- ``Rotation``
+- ``Transform``
+- ``Quaternion``
+- ``Angle``
+
+### Fundamental Types
 
 - ``Vector``
 - ``Color``
 - ``Vertex``
-- ``Polygon``
-- ``Mesh``
 - ``Bounds``
-- ``Plane``
-- ``Line``
-- ``LineSegment``
-- ``PathPoint``
-- ``Path``
-- ``Angle``
-- ``Rotation``
-- ``Quaternion``
-- ``Rotation``
-- ``Transform``
 
 ### Supporting Functions
 
