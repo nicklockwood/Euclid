@@ -73,4 +73,3 @@
 ### Interpolating Vectors
 
 - ``Vector/lerp(_:_:)``
-
