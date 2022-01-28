@@ -9,10 +9,9 @@
 - ``Mesh/init(_:materialLookup:)-7p5hd``
 - ``Mesh/init(_:materialLookup:)-ilb2``
 - ``Mesh/init(url:materialLookup:)``
-- ``Mesh/init(scnGeometry:materialLookup:)``
-
 - ``Mesh/Material``
 - ``Mesh/MaterialProvider``
+- ``Mesh/init(scnGeometry:materialLookup:)``
 
 ### Creating Meshes of Geometric Primitives
 
@@ -32,6 +31,9 @@
 - ``Mesh/extrude(_:depth:faces:material:)``
 - ``Mesh/fill(_:faces:material:)``
 - ``Mesh/loft(_:faces:material:)``
+- ``Mesh/stroke(_:width:detail:material:)-9mb5w``
+- ``Mesh/stroke(_:width:detail:material:)-uzi1``
+- ``Mesh/stroke(_:width:depth:faces:material:)``
 
 ### Creating Text Meshes
 
@@ -79,6 +81,22 @@
 - ``Mesh/detessellate()``
 - ``Mesh/makeWatertight()``
 
+### Building with Constructive Solid Geometery
+
+- ``Mesh/union(_:isCancelled:)-swift.method``
+- ``Mesh/union(_:isCancelled:)-swift.type.method``
+- ``Mesh/intersect(_:isCancelled:)``
+- ``Mesh/intersection(_:isCancelled:)``
+- ``Mesh/subtract(_:isCancelled:)``
+- ``Mesh/difference(_:isCancelled:)``
+- ``Mesh/clip(to:fill:)``
+- ``Mesh/xor(_:isCancelled:)-swift.method``
+- ``Mesh/xor(_:isCancelled:)-swift.type.method``
+- ``Mesh/stencil(_:isCancelled:)-swift.method``
+- ``Mesh/stencil(_:isCancelled:)-swift.type.method``
+
+- ``Mesh/CancellationHandler``
+
 ### Encoding and Decoding Meshes
 
 - ``Mesh/encode(to:)``
@@ -87,21 +105,3 @@
 ### Comparing Meshes
 
 - ``Mesh/!=(_:_:)``
-
-### All The Stuff
-
-- ``Mesh/CancellationHandler``
-- ``Mesh/clip(to:fill:)``
-- ``Mesh/difference(_:isCancelled:)``
-- ``Mesh/intersect(_:isCancelled:)``
-- ``Mesh/intersection(_:isCancelled:)``
-- ``Mesh/stencil(_:isCancelled:)-swift.method``
-- ``Mesh/stencil(_:isCancelled:)-swift.type.method``
-- ``Mesh/stroke(_:width:depth:faces:material:)``
-- ``Mesh/stroke(_:width:detail:material:)-9mb5w``
-- ``Mesh/stroke(_:width:detail:material:)-uzi1``
-- ``Mesh/subtract(_:isCancelled:)``
-- ``Mesh/union(_:isCancelled:)-swift.method``
-- ``Mesh/union(_:isCancelled:)-swift.type.method``
-- ``Mesh/xor(_:isCancelled:)-swift.method``
-- ``Mesh/xor(_:isCancelled:)-swift.type.method``
