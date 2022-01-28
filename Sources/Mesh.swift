@@ -68,7 +68,7 @@ extension Mesh: Codable {
             self.init(polygons)
         }
     }
-    
+
     /// Encodes this mesh into the given encoder.
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
