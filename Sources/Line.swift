@@ -49,7 +49,8 @@ extension Line: Codable {
     private enum CodingKeys: CodingKey {
         case origin, direction
     }
-
+    /// Creates a new line by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             guard let line = try Line(
@@ -78,6 +79,8 @@ extension Line: Codable {
         }
     }
 
+    /// Encodes this line into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         try origin.encode(to: &container)
@@ -86,21 +89,28 @@ extension Line: Codable {
 }
 
 public extension Line {
+    /// Creates a new line with the line segments you provide.
+    /// - Parameter segment: The line segments.
     init(_ segment: LineSegment) {
         self.init(unchecked: segment.start, direction: segment.direction)
     }
 
-    /// Check if point is on line
+    /// Returns a Boolean value that indicates whether the point is on the line.
+    /// - Parameter p: The point to compare.
     func containsPoint(_ p: Vector) -> Bool {
         abs(p.distance(from: self)) < epsilon
     }
 
-    /// Distance of the line from a given point in 3D
+    /// Returns the distance of the line from a given point in 3D.
+    /// - Parameter point: The point to compare.
+    /// - Returns: The distance between the point and line.
     func distance(from point: Vector) -> Double {
         vectorFromPointToLine(point, origin, direction).length
     }
 
-    /// Distance of the line from another line
+    /// Returns the distance of this line from another line.
+    /// - Parameter line: The line to compare.
+    /// - Returns: The distance to the line.
     func distance(from line: Line) -> Double {
         guard let (p0, p1) = shortestLineBetween(
             origin,
@@ -113,12 +123,16 @@ public extension Line {
         return (p1 - p0).length
     }
 
-    /// Intersection point betwween plane and line (if any)
+    /// Returns a point that represents the Intersection between the plane you provide and the line.
+    /// - Parameter plane: The plane to compare.
+    /// - Returns: Returns `nil` if the plane doesn't intersect the line.
     func intersection(with plane: Plane) -> Vector? {
         plane.intersection(with: self)
     }
 
-    /// Intersection point between lines (if any)
+    /// Returns a point that indicates the Intersection between the lines.
+    /// - Parameter line: The line to compare.
+    /// - Returns: Returns `nil` if the lines don't intersect.
     func intersection(with line: Line) -> Vector? {
         lineIntersection(
             origin,
@@ -128,7 +142,8 @@ public extension Line {
         )
     }
 
-    /// Returns true if the lines intersect
+    /// Returns a Boolean value that indicates whether the lines intersect.
+    /// - Parameter line: The line to compare.
     func intersects(_ line: Line) -> Bool {
         intersection(with: line) != nil
     }

@@ -33,15 +33,22 @@ import Foundation
 
 /// A control point that contributes to representing a path.
 ///
-/// A path point can represent a corner or a curve, and has a `position`, but no normal.
+/// A path point can represent a corner or a curve, and has a ``PathPoint/position``, but no normal.
 /// Instead, the ``PathPoint/isCurved`` property  indicates if a point is sharp or smooth, allowing the normal to be inferred automatically when required.
 public struct PathPoint: Hashable {
+    /// The position  of the path point.
     public var position: Vector
+    /// The texture coordinate of the path point.
     public var texcoord: Vector?
+    /// Indicates whether the point is curved.
+    ///
+    /// If `false`, the path point is sharp.
     public var isCurved: Bool
 }
 
 extension PathPoint: Codable {
+    /// Creates a new path point by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         var container = try decoder.unkeyedContainer()
         let x = try container.decode(Double.self)
@@ -96,6 +103,8 @@ extension PathPoint: Codable {
         }
     }
 
+    /// Encodes this path point into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         let skipZ = position.z == 0 && texcoord?.z ?? 0 == 0
@@ -108,28 +117,57 @@ extension PathPoint: Codable {
 }
 
 public extension PathPoint {
+    /// Creates a path point at the provided position using the location you provide.
+    /// - Parameters:
+    ///   - position: The location of the path point.
+    ///   - texcoord: The texture coordinate corresponding to this path point.
     static func point(_ position: Vector, texcoord: Vector? = nil) -> PathPoint {
         PathPoint(position, texcoord: texcoord, isCurved: false)
     }
-
+    
+    /// Creates a path point at the provided position using the location coordinates you provide.
+    /// - Parameters:
+    ///   - x: The X coordinate of the path point.
+    ///   - y: The Y coordinate of the path point.
+    ///   - z: The Z coordinate of the path point.
     static func point(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
         .point(Vector(x, y, z))
     }
 
+    /// Creates a curved path point at the provided position using the location you provide.
+    /// - Parameters:
+    ///   - position: The location of the path point.
+    ///   - texcoord: The texture coordinate corresponding to this path point.
     static func curve(_ position: Vector, texcoord: Vector? = nil) -> PathPoint {
         PathPoint(position, texcoord: texcoord, isCurved: true)
     }
 
+    /// Creates a curved path point at the provided position using the location coordinates you provide.
+    /// - Parameters:
+    ///   - x: The X coordinate of the path point.
+    ///   - y: The Y coordinate of the path point.
+    ///   - z: The Z coordinate of the path point.
     static func curve(_ x: Double, _ y: Double, _ z: Double = 0) -> PathPoint {
         .curve(Vector(x, y, z))
     }
 
+    
+    /// Creates a path point.
+    /// - Parameters:
+    ///   - position: The position of the path point.
+    ///   - texcoord: The texture coordinate corresponding to this path point.
+    ///   - isCurved: A Boolean value indicating whether the path point represents a curved path.
     init(_ position: Vector, texcoord: Vector?, isCurved: Bool) {
         self.position = position.quantized()
         self.texcoord = texcoord
         self.isCurved = isCurved
     }
-
+    
+    /// Linearly interpolate between this path point and another, at the unit interval you provide.
+    /// - Parameters:
+    ///   - other: The path point to interpolate towards.
+    ///   - t: The unit interval between this point and the path point provided.
+    /// - Returns: A new path at the linearly interpolated position.
     func lerp(_ other: PathPoint, _ t: Double) -> PathPoint {
         let texcoord: Vector?
         switch (self.texcoord, other.texcoord) {
@@ -158,8 +196,11 @@ public extension PathPoint {
 /// Paths are typically 2-dimensional, but because ``PathPoint`` positions have a Z coordinate, they are not *required* to be.
 /// Even a flat ``Path`` (where all points lie on the same plane) can be translated or rotated so that its points do not necessarily lie on the *XY* plane.
 public struct Path: Hashable {
+    /// The collection of path points that makes up this path.
     public let points: [PathPoint]
+    /// Indicates whether the path is a closed path.
     public let isClosed: Bool
+    /// The plane upon which this path resides.
     public private(set) var plane: Plane?
     let subpathIndices: [Int]
 }
@@ -169,6 +210,8 @@ extension Path: Codable {
         case points, subpaths
     }
 
+    /// Creates a new path by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             let points = try container.decodeIfPresent([PathPoint].self, forKey: .points)
@@ -186,6 +229,8 @@ extension Path: Codable {
         }
     }
 
+    /// Encodes this path into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         let subpaths = self.subpaths
         if subpaths.count < 2 {
@@ -198,17 +243,18 @@ extension Path: Codable {
 }
 
 public extension Path {
-    /// Returns true if all the path's points lie on as single plane
+    /// Indicates whether all the path's points lie on as single plane.
     var isPlanar: Bool {
         plane != nil
     }
 
-    /// The path bounds
+    /// The bounds of the path.
     var bounds: Bounds {
         Bounds(points: points.map { $0.position })
     }
 
-    /// Face normal for shape
+    /// The face normal for path.
+    ///
     /// If shape is non-planar then this is the average/approximate normal
     var faceNormal: Vector {
         plane?.normal ?? faceNormalForPolygonPoints(
@@ -217,8 +263,9 @@ public extension Path {
         )
     }
 
-    /// Returns a closed path by joining last point to first
-    /// Returns `self` if already closed, or if path cannot be closed
+    /// Returns a closed path by joining last point to first.
+    ///
+    /// This method returns `self` if already closed, or if path cannot be closed
     func closed() -> Path {
         if isClosed || self.points.isEmpty {
             return self
@@ -228,12 +275,12 @@ public extension Path {
         return Path(unchecked: points, plane: plane, subpathIndices: nil)
     }
 
-    /// Create a path from an array of `PathPoint`s
+    /// Creates a path from an array of  path points.
     init(_ points: [PathPoint]) {
         self.init(unchecked: sanitizePoints(points))
     }
 
-    /// Create a composite path from an array of subpaths
+    /// Creates a composite path from an array of subpaths.
     init(subpaths: [Path]) {
         guard subpaths.count > 1 else {
             self = subpaths.first ?? Path([])
@@ -244,7 +291,7 @@ public extension Path {
         self.init(unchecked: points, plane: nil, subpathIndices: nil)
     }
 
-    /// Create a path from a polygon
+    /// Creates a path from a polygon.
     init(polygon: Polygon) {
         let hasTexcoords = polygon.hasTexcoords
         self.init(
@@ -256,8 +303,9 @@ public extension Path {
         )
     }
 
-    /// A list of subpaths making up the path. For paths without nested
-    /// subpaths, this will return an array containing only `self`
+    /// A list of the subpaths that make up the path.
+    ///
+    /// For paths without nested subpaths, this will return an array containing only `self`.
     var subpaths: [Path] {
         var startIndex = 0
         var paths = [Path]()
@@ -283,8 +331,9 @@ public extension Path {
         return paths.isEmpty && !points.isEmpty ? [self] : paths
     }
 
-    /// Get one or more polygons needed to fill the path
-    /// Polygon vertices include normals and uv coordinates normalized to the bounding rectangle of the path
+    /// Returns one or more polygons needed to fill the path.
+    ///
+    /// Polygon vertices include normals and uv coordinates normalized to the bounding rectangle of the path.
     func facePolygons(material: Mesh.Material? = nil) -> [Polygon] {
         guard subpaths.count <= 1 else {
             return subpaths.flatMap { $0.facePolygons(material: material) }
@@ -304,9 +353,10 @@ public extension Path {
         ).detessellate(ensureConvex: false)
     }
 
-    /// Get vertices suitable for constructing a polygon from the path
+    /// The vertices suitable for constructing a polygon from the path.
+    ///
     /// Vertices include normals and uv coordinates normalized to the bounding
-    /// rectangle of the path. Returns nil if path is open or has subpaths
+    /// rectangle of the path. The value is `nil` if path is open or has subpaths.
     var faceVertices: [Vertex]? {
         let count = points.count
         guard isClosed, subpaths.count <= 1, count > 1 else {
@@ -354,14 +404,17 @@ public extension Path {
         }
     }
 
-    /// Get edge vertices suitable for converting into a solid shape using lathe or extrusion
-    /// Returns an empty array if path has subpaths
+    /// The edge vertices suitable for converting into a solid shape using lathe or extrusion.
+    ///
+    /// The value is an empty array if path has subpaths.
     var edgeVertices: [Vertex] {
         edgeVertices(for: .default)
     }
 
-    /// Get edge vertices suitable for converting into a solid shape using lathe or extrusion
-    /// Returns an empty array if path has subpaths
+    /// Returns the edge vertices suitable for converting into a solid shape using lathe or extrusion.
+    ///
+    /// - Parameter wrapMode: The wrap mode to determine to edge vertices.
+    /// - Returns: The edge vertices, or an empty array if path has subpaths.
     func edgeVertices(for wrapMode: Mesh.WrapMode) -> [Vertex] {
         guard subpaths.count <= 1, points.count >= 2 else {
             return []
@@ -443,8 +496,9 @@ public extension Path {
 }
 
 public extension Polygon {
-    /// Create a polygon from a path
-    /// Path may be convex or concave, but must be closed, planar and non-degenerate
+    /// Creates a polygon from a path.
+    ///
+    /// Path may be convex or concave, but must be closed, planar and non-degenerate.
     init?(shape: Path, material: Material? = nil) {
         guard let vertices = shape.faceVertices, let plane = shape.plane else {
             return nil
