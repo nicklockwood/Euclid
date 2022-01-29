@@ -24,6 +24,22 @@
 - ``Mesh/WrapMode``
 - ``Mesh/Faces``
 
+### Building with Constructive Solid Geometery
+
+- ``Mesh/union(_:isCancelled:)-swift.method``
+- ``Mesh/union(_:isCancelled:)-swift.type.method``
+- ``Mesh/intersect(_:isCancelled:)``
+- ``Mesh/intersection(_:isCancelled:)``
+- ``Mesh/subtract(_:isCancelled:)``
+- ``Mesh/difference(_:isCancelled:)``
+- ``Mesh/clip(to:fill:)``
+- ``Mesh/xor(_:isCancelled:)-swift.method``
+- ``Mesh/xor(_:isCancelled:)-swift.type.method``
+- ``Mesh/stencil(_:isCancelled:)-swift.method``
+- ``Mesh/stencil(_:isCancelled:)-swift.type.method``
+
+- ``Mesh/CancellationHandler``
+
 ### Creating Meshes from Paths
 
 - ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:)``
@@ -80,22 +96,6 @@
 - ``Mesh/triangulate()``
 - ``Mesh/detessellate()``
 - ``Mesh/makeWatertight()``
-
-### Building with Constructive Solid Geometery
-
-- ``Mesh/union(_:isCancelled:)-swift.method``
-- ``Mesh/union(_:isCancelled:)-swift.type.method``
-- ``Mesh/intersect(_:isCancelled:)``
-- ``Mesh/intersection(_:isCancelled:)``
-- ``Mesh/subtract(_:isCancelled:)``
-- ``Mesh/difference(_:isCancelled:)``
-- ``Mesh/clip(to:fill:)``
-- ``Mesh/xor(_:isCancelled:)-swift.method``
-- ``Mesh/xor(_:isCancelled:)-swift.type.method``
-- ``Mesh/stencil(_:isCancelled:)-swift.method``
-- ``Mesh/stencil(_:isCancelled:)-swift.type.method``
-
-- ``Mesh/CancellationHandler``
 
 ### Encoding and Decoding Meshes
 

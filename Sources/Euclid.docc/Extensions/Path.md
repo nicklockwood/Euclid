@@ -9,6 +9,25 @@
 - ``Path/init(polygon:)``
 - ``Path/init(cgPath:detail:)``
 
+### Creating Paths of Lines and Curves
+
+- ``Path/curve(_:detail:)``
+- ``Path/line(_:_:)``
+- ``Path/line(_:)``
+
+### Creating Shape Paths
+
+- ``Path/circle(radius:segments:)``
+- ``Path/ellipse(width:height:segments:)``
+- ``Path/rectangle(width:height:)``
+- ``Path/square(size:)``
+- ``Path/polygon(radius:sides:)``
+
+### Creating Text Paths
+
+- ``Path/text(_:font:width:detail:)``
+- ``Path/text(_:width:detail:)``
+
 ### Inspecting Paths
 
 - ``Path/points``
@@ -46,17 +65,3 @@
 - ``Path/scaled(by:)-84xdd``
 - ``Path/transformed(by:)``
 - ``Path/translated(by:)``
-
-### Everything Else
-
-- ``Path/circle(radius:segments:)``
-
-- ``Path/curve(_:detail:)``
-- ``Path/ellipse(width:height:segments:)``
-- ``Path/line(_:_:)``
-- ``Path/line(_:)``
-- ``Path/polygon(radius:sides:)``
-- ``Path/rectangle(width:height:)``
-- ``Path/square(size:)``
-- ``Path/text(_:font:width:detail:)``
-- ``Path/text(_:width:detail:)``
