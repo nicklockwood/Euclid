@@ -31,7 +31,10 @@
 
 /// An axially-aligned bounding box for a 3D shape or collection of shapes.
 public struct Bounds: Hashable {
-    public let min, max: Vector
+    /// The minimum location for the bounds.
+    public let min: Vector
+    /// The maximum location for the bounds.
+    public let max: Vector
 
     /// Create a bounds with min and max points
     /// If max < min, bounds is considered to be empty
@@ -76,7 +79,7 @@ public extension Bounds {
         self.max = Euclid.max(p0, p1)
     }
 
-    /// Create a bounds from an array of points
+    /// Create a bounds from an array of points.
     init(points: [Vector] = []) {
         var min = Vector(.infinity, .infinity, .infinity)
         var max = Vector(-.infinity, -.infinity, -.infinity)
