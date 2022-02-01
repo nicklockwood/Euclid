@@ -64,7 +64,7 @@ public extension Path {
     /// The returned path may contain nested subpaths.
     /// - Parameters:
     ///   - cgPath: The CoreGraphics path to convert.
-    ///   - detail: <#detail description#>
+    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
     init(cgPath: CGPath, detail: Int = 4, color: Color? = nil) {
         self.init(subpaths: cgPath.paths(detail: detail, color: color))
     }
@@ -94,7 +94,7 @@ public extension CGPath {
     /// Creates  a flat array of paths from a CoreGraphics path.
     ///
     /// Returned paths are guaranteed not to contain nested subpaths.
-    /// - Parameter detail: <#detail description#>
+    /// - Parameter detail: The number line segments are used to create a cubic or quadratic bezier curve.
     func paths(detail: Int = 4, color: Color? = nil) -> [Path] {
         typealias SafeElement = (type: CGPathElementType, points: [CGPoint])
         var paths = [Path]()
