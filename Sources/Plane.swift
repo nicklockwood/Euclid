@@ -190,11 +190,16 @@ internal extension Plane {
     }
 }
 
-// An enum of relationships between a group of points and a plane
+
+/// The relationship between a group of points and a plane.
 enum PlaneComparison: Int {
+    /// The values all reside on the same plane.
     case coplanar = 0
+    /// The values reside in front of the plane.
     case front = 1
+    /// The values reside behind the plane.
     case back = 2
+    /// The values span both the front and back of the plane.
     case spanning = 3
 
     func union(_ other: PlaneComparison) -> PlaneComparison {

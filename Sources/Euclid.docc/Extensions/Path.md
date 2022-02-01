@@ -48,15 +48,6 @@
 
 - ``Path/closed()``
 
-### Comparing Paths
-
-- ``Path/!=(_:_:)``
-
-### Encoding and Decoding Paths
-
-- ``Path/encode(to:)``
-- ``Path/init(from:)``
-
 ### Transforming Paths
 
 - ``Path/rotated(by:)-3qnnh``
@@ -65,3 +56,12 @@
 - ``Path/scaled(by:)-84xdd``
 - ``Path/transformed(by:)``
 - ``Path/translated(by:)``
+
+### Comparing Paths
+
+- ``Path/!=(_:_:)``
+
+### Encoding and Decoding Paths
+
+- ``Path/encode(to:)``
+- ``Path/init(from:)``
