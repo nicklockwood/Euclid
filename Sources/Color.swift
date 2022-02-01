@@ -33,7 +33,14 @@
 ///
 /// Color can be used as a ``Polygon/material-swift.property``.
 public struct Color: Hashable {
-    public var r, g, b, a: Double
+    /// The red component of the color.
+    public var r: Double
+    /// The green component of the color.
+    public var g: Double
+    /// The blue component of the color.
+    public var b: Double
+    /// The alpha component of the color.
+    public var a: Double
 
     /// Create a color from RGB values and optional alpha component
     public init(_ r: Double, _ g: Double, _ b: Double, _ a: Double = 1) {
@@ -48,7 +55,9 @@ extension Color: Codable {
     private enum CodingKeys: String, CodingKey {
         case r, g, b, a
     }
-
+    
+    /// Creates a new mesh by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         if var container = try? decoder.unkeyedContainer() {
             try self.init(from: &container)
@@ -61,7 +70,9 @@ extension Color: Codable {
             self.init(r, g, b, a ?? 1)
         }
     }
-
+    
+    /// Encodes this mesh into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         try encode(to: &container, skipA: a == 1)
@@ -89,14 +100,15 @@ public extension Color {
         self.a = a
     }
 
-    /// Create a color from an array of components
+    /// Creates a color from an array of components
     init?(_ components: [Double]) {
         guard (1 ... 4).contains(components.count) else {
             return nil
         }
         self.init(unchecked: components)
     }
-
+    
+    /// The red, green, blue, and alpha components of the color.
     var components: [Double] {
         [r, g, b, a]
     }

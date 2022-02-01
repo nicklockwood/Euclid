@@ -42,6 +42,8 @@ public extension Vector {
 }
 
 public extension Color {
+    /// Creates a color from a CoreGraphics color instance.
+    /// - Parameter cgColor: The core graphics color instance.
     init(_ cgColor: CGColor) {
         let components = cgColor.components ?? [1]
         self.init(unchecked: components.map(Double.init))
@@ -49,13 +51,20 @@ public extension Color {
 }
 
 public extension CGPoint {
+    /// Creates a point from the first two components of a vector.
+    /// - Parameter vector: The vector to convert into a point.
     init(_ vector: Vector) {
         self.init(x: vector.x, y: vector.y)
     }
 }
 
 public extension Path {
-    /// Create a Path from a CGPath. The returned path may contain nested subpaths
+    /// Create a Path from a CGPath.
+    ///
+    /// The returned path may contain nested subpaths.
+    /// - Parameters:
+    ///   - cgPath: The CoreGraphics path to convert.
+    ///   - detail: <#detail description#>
     init(cgPath: CGPath, detail: Int = 4, color: Color? = nil) {
         self.init(subpaths: cgPath.paths(detail: detail, color: color))
     }
@@ -82,8 +91,10 @@ public extension CGPath {
         }
     }
 
-    /// Create a flat array of Paths from a CGPath. Returned paths are
-    /// guaranteed not to contain nested subpaths
+    /// Creates  a flat array of paths from a CoreGraphics path.
+    ///
+    /// Returned paths are guaranteed not to contain nested subpaths.
+    /// - Parameter detail: <#detail description#>
     func paths(detail: Int = 4, color: Color? = nil) -> [Path] {
         typealias SafeElement = (type: CGPathElementType, points: [CGPoint])
         var paths = [Path]()
