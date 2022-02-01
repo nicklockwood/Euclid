@@ -34,22 +34,33 @@ import Foundation
 // MARK: 3D shapes
 
 public extension Path {
-    /// Create a path from a line segment
+    /// Creates a path from a line segment.
+    /// - Parameter line: The line segment that represents the path.
     static func line(_ line: LineSegment) -> Path {
         .line(line.start, line.end)
     }
 
-    /// Create a path from a start and end point
+    /// Creates a straight path from a start and end point.
+    /// - Parameters:
+    ///   - start: The start of the path.
+    ///   - end: The end of the path.
     static func line(_ start: Vector, _ end: Vector) -> Path {
         Path([.point(start), .point(end)])
     }
 
-    /// Create a closed circular path
+    /// Creates a closed circular path.
+    /// - Parameters:
+    ///   - r: The radius of the circle. The default is `0.5`.
+    ///   - segments: The number of segments in the circle. The default is `16`.
     static func circle(radius r: Double = 0.5, segments: Int = 16) -> Path {
         ellipse(width: r * 2, height: r * 2, segments: segments)
     }
 
-    /// Create a closed elliptical path
+    /// Creates a closed elliptical path.
+    /// - Parameters:
+    ///   - width: The width of the ellipse.
+    ///   - height: The height of the ellipse.
+    ///   - segments: The number of segments in the ellipse. The default is `16`.
     static func ellipse(width: Double, height: Double, segments: Int = 16) -> Path {
         let segments = max(3, segments)
         let step = 2 / Double(segments) * .pi
@@ -61,13 +72,19 @@ public extension Path {
         }, plane: .xy, subpathIndices: [])
     }
 
-    /// Create a closed regular polygon
+    /// Creates a closed regular polygon.
+    /// - Parameters:
+    ///   - radius: The outer radius of the polygon.
+    ///   - sides: The number of sides for the polygon.
     static func polygon(radius: Double = 0.5, sides: Int) -> Path {
         let circle = self.circle(radius: radius, segments: sides)
         return Path(unchecked: circle.points.map { .point($0.position) })
     }
 
-    /// Create a closed rectangular path
+    /// Creates a closed rectangular path.
+    /// - Parameters:
+    ///   - width: The width of the rectangle.
+    ///   - height: The height of the rectangle.
     static func rectangle(width: Double, height: Double) -> Path {
         let w = width / 2, h = height / 2
         if height < epsilon {
@@ -82,12 +99,16 @@ public extension Path {
         ], plane: .xy, subpathIndices: [])
     }
 
-    /// Create a closed square path
+    /// Creates a closed square path.
+    /// - Parameter size: The height or width of the square. The default is `1`.
     static func square(size: Double = 1) -> Path {
         rectangle(width: size, height: size)
     }
 
-    /// Create a quadratic bezier spline
+    /// Creates a quadratic bezier spline
+    /// - Parameters:
+    ///   - points: The control points for the curve.
+    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
     static func curve(_ points: [PathPoint], detail: Int = 4) -> Path {
         enum ArcRange {
             case lhs, rhs, all
@@ -254,7 +275,12 @@ public extension Mesh {
         case tube
     }
 
-    /// Construct an axis-aligned cuboid mesh
+    /// Creates an axis-aligned cuboid mesh.
+    /// - Parameters:
+    ///   - c: The center point of the mesh.
+    ///   - s: The size of the cuboid mesh.
+    ///   - faces: The direction the polygon faces.
+    ///   - material: The optional material for the mesh.
     static func cube(
         center c: Vector = .init(0, 0, 0),
         size s: Vector,
@@ -321,7 +347,13 @@ public extension Mesh {
             )
         }
     }
-
+    
+    /// Creates a cube mesh.
+    /// - Parameters:
+    ///   - c: The center point of the mesh.
+    ///   - s: The size of the cuboid mesh.
+    ///   - faces: The direction the polygon faces.
+    ///   - material: The optional material for the mesh.
     static func cube(
         center c: Vector = .init(0, 0, 0),
         size s: Double = 1,
@@ -331,7 +363,15 @@ public extension Mesh {
         cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
     }
 
-    /// Construct a sphere mesh
+    /// Creates a sphere mesh.
+    /// - Parameters:
+    ///   - r: The radius of the sphere.
+    ///   - slices: The number of vertical slices that make up the sphere.
+    ///   - stacks: The number of horizontal stacks that make up the sphere.
+    ///   - poleDetail: <#poleDetail description#>
+    ///   - faces: The direction the polygon faces.
+    ///   - wrapMode: The mode in which the vertexes are mapped to edges.
+    ///   - material: The optional material for the mesh.
     static func sphere(
         radius r: Double = 0.5,
         slices: Int = 16,
@@ -360,7 +400,15 @@ public extension Mesh {
         )
     }
 
-    /// Construct a cylindrical mesh
+    /// Creates a cylindrical mesh.
+    /// - Parameters:
+    ///   - r: The radius of the cylinder.
+    ///   - h: The height of the cylinder.
+    ///   - slices: The number of vertical slices that make up the cylinder.
+    ///   - poleDetail: The number of segments used to make the pole.
+    ///   - faces: The direction the polygon faces.
+    ///   - wrapMode: The mode in which the vertexes are mapped to edges.
+    ///   - material: The optional material for the mesh.
     static func cylinder(
         radius r: Double = 0.5,
         height h: Double = 1,
@@ -391,7 +439,16 @@ public extension Mesh {
         )
     }
 
-    /// Construct as conical mesh
+    /// Creates a conical mesh.
+    /// - Parameters:
+    ///   - r: The radius of the cone.
+    ///   - h: The height of the cone.
+    ///   - slices: The number of vertical slices that make up the cone.
+    ///   - poleDetail: The number of segments used to make the pole.
+    ///   - addDetailAtBottomPole: A Boolean value that indicates whether to add detail to the bottom pole of the cone.
+    ///   - faces: The direction the polygon faces.
+    ///   - wrapMode: The mode in which the vertexes are mapped to edges.
+    ///   - material: The optional material for the mesh.
     static func cone(
         radius r: Double = 0.5,
         height h: Double = 1,
@@ -423,19 +480,28 @@ public extension Mesh {
         )
     }
 
-    /// Create a rotationally symmetrical shape by rotating the supplied path
-    /// around an axis. The path consists of an array of xy coordinate pairs
-    /// defining the profile of the shape. Some notes on path coordinates:
+    /// Creates a rotationally symmetrical mesh by rotating the path you provide around an axis.
+    ///
+    /// The path consists of an array of `x`,`y` coordinate pairs
+    /// that define the profile of the shape. Some notes on path coordinates:
     ///
     /// * The path can be open or closed. Define a closed path by ending with
     ///   the same coordinate pair that you started with
     ///
-    /// * The path can be placed on either the left or right of the Y axis,
-    ///   however the behavior is undefined for paths that cross the Y axis
+    /// * The path can be placed on either the left or right of the `Y` axis,
+    ///   however the behavior is undefined for paths that cross the `Y` axis
     ///
-    /// * Open paths that do not start and end on the Y axis will produce
+    /// * Open paths that do not start and end on the `Y` axis will produce
     ///   a shape with a hole in it
     ///
+    /// - Parameters:
+    ///   - profile: The path to use as the profile for the mesh.
+    ///   - slices: The number of slices that make up the lathed mesh.
+    ///   - poleDetail: The number of segments used to make the pole.
+    ///   - addDetailForFlatPoles: A Boolean value that indicates whether to add detail to the poles.
+    ///   - faces: The direction the polygon faces.
+    ///   - wrapMode: The mode in which the vertexes are mapped to edges.
+    ///   - material: The optional material for the mesh.
     static func lathe(
         _ profile: Path,
         slices: Int = 16,
@@ -458,7 +524,12 @@ public extension Mesh {
         )
     }
 
-    /// Extrude a path along its face normal
+    /// Creates a mesh by extruding a path along its face normal.
+    /// - Parameters:
+    ///   - shape: The path to extrude to create the mesh.
+    ///   - depth: The depth of the extrusion.
+    ///   - faces: The direction the polygon faces.
+    ///   - material: The optional material for the mesh.
     static func extrude(
         _ shape: Path,
         depth: Double = 1,
@@ -483,7 +554,12 @@ public extension Mesh {
         )
     }
 
-    /// Extrude a path along another path
+    /// Creates a mesh by extruding a path along another path.
+    /// - Parameters:
+    ///   - shape: The shape to extrude into a mesh.
+    ///   - along: The path in which to extrude the shape.
+    ///   - faces: The direction the polygon faces.
+    ///   - material: The optional material for the mesh.
     static func extrude(
         _ shape: Path,
         along: Path,
@@ -571,7 +647,11 @@ public extension Mesh {
         return loft(shapes, faces: faces, material: material)
     }
 
-    /// Connect multiple 3D paths
+    /// Creates a mesh that is the connection of multiple 3D paths.
+    /// - Parameters:
+    ///   - shapes: The paths to connect.
+    ///   - faces: The direction the polygon faces.
+    ///   - material: The optional material for the mesh.
     static func loft(
         _ shapes: [Path],
         faces: Faces = .default,
@@ -587,7 +667,11 @@ public extension Mesh {
         )
     }
 
-    /// Fill a path to form one or more polygons
+    /// Creates a mesh by filling a path to form one or more polygons.
+    /// - Parameters:
+    ///   - shape: The shape to be filled.
+    ///   - faces: The direction the polygon faces.
+    ///   - material: The optional material for the mesh.
     static func fill(
         _ shape: Path,
         faces: Faces = .default,
@@ -641,7 +725,12 @@ public extension Mesh {
         )
     }
 
-    /// Stroke a path with the specified line width, detail and material
+    /// Creates a mesh by stroking a path with the line width, detail, and material you provide.
+    /// - Parameters:
+    ///   - shape: The path to stroke.
+    ///   - width: The line width of the stroke.
+    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    ///   - material: The optional material for the mesh.
     static func stroke(
         _ shape: Path,
         width: Double = 0.01,
@@ -661,6 +750,11 @@ public extension Mesh {
     }
 
     /// Efficiently stroke a set of line segments (useful for drawing wireframes)
+    /// - Parameters:
+    ///   - lines: The collection of lines to stroke.
+    ///   - width: The line width of the strokes.
+    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    ///   - material: The optional material for the mesh.
     static func stroke<T: Collection>(
         _ lines: T,
         width: Double = 0.002,

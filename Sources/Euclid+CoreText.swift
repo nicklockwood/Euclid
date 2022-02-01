@@ -49,7 +49,7 @@ public extension Path {
     ///   - text: The text to convert.
     ///   - font: The font to use for the text glyphs.
     ///   - width: The optional width at which to render the paths.
-    ///   - detail: <#detail description#>
+    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
     static func text(
         _ text: String,
         font: CTFont? = nil,
@@ -64,8 +64,7 @@ public extension Path {
     /// - Parameters:
     ///   - attributedString: The text to convert.
     ///   - width: The optional width at which to render the paths.
-    ///   - detail: <#detail description#>
-
+    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
     static func text(
         _ attributedString: NSAttributedString,
         width: Double? = nil,
@@ -88,7 +87,7 @@ public extension Mesh {
     ///   - width: The optional width at which to render the model.
     ///   - depth: The depth at which to render the model.
     ///   - material: The material to apply to the model.
-    ///   - detail: <#detail description#>
+    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
     init(
         text: String,
         font: CTFont? = nil,
@@ -112,7 +111,7 @@ public extension Mesh {
     ///   - text: The text to convert into a model
     ///   - width: The optional width at which to render the model.
     ///   - depth: The depth at which to render the model.
-    ///   - _: <#_ description#>
+    ///   - _:  The number line segments are used to create a cubic or quadratic bezier curve.
     ///   - material: The material to apply to the model.
     init(
         text: NSAttributedString,
