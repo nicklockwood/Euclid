@@ -11,6 +11,8 @@
 import AppKit
 
 public extension NSColor {
+    /// Creates an NSColor from a color.
+    /// - Parameter color: The color to convert.
     convenience init(_ color: Color) {
         self.init(
             red: CGFloat(color.r),
@@ -22,6 +24,8 @@ public extension NSColor {
 }
 
 public extension Color {
+    /// Creates a color from `NSColor`.
+    /// - Parameter nsColor: The `NSColor` to convert.
     init(_ nsColor: NSColor) {
         self.init(nsColor.cgColor)
     }
