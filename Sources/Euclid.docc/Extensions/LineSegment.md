@@ -26,6 +26,9 @@
 - ``LineSegment/_=(_:_:)-5dvuy``
 - ``LineSegment/_=(_:_:)-8q2nt``
 - ``LineSegment/!=(_:_:)``
+
+### Range Expressions
+
 - ``LineSegment/.._(_:_:)``
 - ``LineSegment/.._(_:)``
 - ``LineSegment/...(_:_:)``

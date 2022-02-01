@@ -11,6 +11,11 @@
 - ``init(_:)-228p6``
 - ``init(_:)-4eop9``
 
+### Default Vectors
+
+- ``Vector/zero``
+- ``Vector/one``
+
 ### Inspecting Vectors
 
 - ``x``
@@ -55,10 +60,9 @@
 - ``Vector/project(onto:)-817o2``
 - ``Vector/project(onto:)-rksk``
 
-### Default Vectors
+### Interpolating Vectors
 
-- ``Vector/zero``
-- ``Vector/one``
+- ``Vector/lerp(_:_:)``
 
 ### Comparing Vectors
 
@@ -70,6 +74,7 @@
 - ``Vector/_=(_:_:)-9s7pp``
 - ``Vector/hash(into:)``
 
-### Interpolating Vectors
+### Encoding and Decoding Vectors
 
-- ``Vector/lerp(_:_:)``
+- ``Vector/encode(to:)``
+- ``Vector/init(from:)``

@@ -97,11 +97,12 @@
 - ``Mesh/detessellate()``
 - ``Mesh/makeWatertight()``
 
+### Comparing Meshes
+
+- ``Mesh/!=(_:_:)``
+
 ### Encoding and Decoding Meshes
 
 - ``Mesh/encode(to:)``
 - ``Mesh/init(from:)``
 
-### Comparing Meshes
-
-- ``Mesh/!=(_:_:)``

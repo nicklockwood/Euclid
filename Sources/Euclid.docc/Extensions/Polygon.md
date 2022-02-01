@@ -18,15 +18,6 @@
 - ``Polygon/hasTexcoords``
 - ``Polygon/Material-swift.typealias``
 
-### Encoding and Decoding Polygons
-
-- ``Polygon/encode(to:)``
-- ``Polygon/init(from:)``
-
-### Comparing Polygons
-
-- ``Polygon/!=(_:_:)``
-
 ### Geometrically Comparing Polygons
 
 - ``Polygon/containsPoint(_:)``
@@ -49,3 +40,13 @@
 - ``Polygon/transformed(by:)``
 - ``Polygon/translated(by:)``
 - ``Polygon/scaleCorrected(for:)``
+
+### Comparing Polygons
+
+- ``Polygon/!=(_:_:)``
+
+### Encoding and Decoding Polygons
+
+- ``Polygon/encode(to:)``
+- ``Polygon/init(from:)``
+

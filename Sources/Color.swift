@@ -92,7 +92,7 @@ public extension Color {
     static let magenta = Color(1, 0, 1)
     static let orange = Color(1, 0.5, 0)
 
-    /// Create a color from a luminance value and optional alpha component
+    /// Creates a color from a luminance value and optional alpha component.
     init(_ rgb: Double, _ a: Double = 1) {
         self.r = rgb
         self.g = rgb
@@ -100,7 +100,7 @@ public extension Color {
         self.a = a
     }
 
-    /// Creates a color from an array of components
+    /// Creates a color from an array of components.
     init?(_ components: [Double]) {
         guard (1 ... 4).contains(components.count) else {
             return nil
@@ -113,7 +113,7 @@ public extension Color {
         [r, g, b, a]
     }
 
-    /// Return a copy of the color with specified alpha
+    /// Creates a copy of the color updated with the alpha you provide.
     func withAlpha(_ a: Double) -> Color {
         Color(r, g, b, a)
     }

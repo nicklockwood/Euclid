@@ -36,16 +36,24 @@
 /// The ``Vertex/position`` of each ``Vertex`` is automatically *quantized* (rounded to the nearest point in a very fine grid) in order to avoid the creation of very tiny polygons, or hairline cracks in surfaces.
 /// To avoid accumulating rounding errors avoid applying multiple ``Transform`` to the same geometry in sequence.
 public struct Vertex: Hashable {
+    /// The position of the vertex.
     public var position: Vector {
         didSet { position = position.quantized() }
     }
-
+    
+    /// The normal for the vertex.
     public var normal: Vector {
         didSet { normal = normal.normalized() }
     }
-
+    
+    /// Texture coordinates for the vertex.
     public var texcoord: Vector
-
+    
+    /// Creates a new vertex.
+    /// - Parameters:
+    ///   - position: The position of the vertex.
+    ///   - normal: The normal for the vertex.
+    ///   - texcoord: The texture coordinates for the vertex.
     public init(
         _ position: Vector,
         _ normal: Vector? = nil,
@@ -57,7 +65,12 @@ public struct Vertex: Hashable {
             texcoord ?? .zero
         )
     }
-
+    
+    /// Creates a vertex from a flat array of values.
+    /// - Parameter values: The array of values.
+    ///
+    /// The first three values are applies as the position of the vertex, the second three are applied as the vertex normal, and the last two make up the texture coordinates.
+    /// Values beyond the eighth element are ignored.
     public init?(_ values: [Double]) {
         switch values.count {
         case 2:
@@ -92,6 +105,8 @@ extension Vertex: Codable {
         case position, normal, texcoord
     }
 
+    /// Creates a new vector by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             try self.init(
@@ -112,6 +127,8 @@ extension Vertex: Codable {
         }
     }
 
+    /// Encodes this date into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         let hasTexcoord = texcoord != .zero
@@ -124,14 +141,20 @@ extension Vertex: Codable {
 }
 
 public extension Vertex {
-    /// Invert all orientation-specific data (e.g. vertex normal). Called when the
-    /// orientation of a polygon is flipped.
+    /// Returns a new vertex with normal inverted.
+    ///
+    /// Called when the orientation of a polygon is flipped.
     func inverted() -> Vertex {
         Vertex(unchecked: position, -normal, texcoord)
     }
 
     /// Linearly interpolate between two vertices.
+    ///
     /// Interpolation is applied to the position, texture coordinate and normal.
+    /// - Parameters:
+    ///   - other: The vertex to interpolate towards.
+    ///   - t: The unit value that indicates the distance between of this vertex and the target vertex.
+    /// - Returns: A new vertex with values interpolated between the two vertices.
     func lerp(_ other: Vertex, _ t: Double) -> Vertex {
         Vertex(
             unchecked: position.lerp(other.position, t),
