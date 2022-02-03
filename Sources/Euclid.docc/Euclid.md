@@ -23,7 +23,6 @@ If you would like to support the development of Euclid, please consider buying a
 
 - ``Mesh``
 - ``Polygon``
-- ``Plane``
 
 ### Lines and Paths
 
@@ -42,9 +41,10 @@ If you would like to support the development of Euclid, please consider buying a
 ### Fundamental Types
 
 - ``Vector``
-- ``Color``
-- ``Vertex``
 - ``Bounds``
+- ``Plane``
+- ``Vertex``
+- ``Color``
 
 ### Supporting Functions
 

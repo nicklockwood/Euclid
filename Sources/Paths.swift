@@ -185,7 +185,7 @@ public extension PathPoint {
     }
 }
 
-/// A path is a sequence of path points that represent a line or curve,
+/// A struct that represents a path as a sequence of path points making up a line or curve.
 ///
 /// The line or curve is formed from straight segments joined end-to-end.
 /// A ``Path`` can be either open (a *polyline*) or closed (a *polygon*), but should not be self-intersecting or otherwise degenerate.
