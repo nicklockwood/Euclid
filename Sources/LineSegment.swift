@@ -120,7 +120,7 @@ public extension LineSegment {
     /// - Returns: `true` if the point lies on the line segment and `false` otherwise.
     func containsPoint(_ p: Vector) -> Bool {
         let v = vectorFromPointToLine(p, start, direction)
-        guard v.length < epsilon else {
+        guard v.isEqual(to: .zero, withPrecision: epsilon) else {
             return false
         }
         return Bounds(start, end).containsPoint(p)
