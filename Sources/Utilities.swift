@@ -147,10 +147,8 @@ func triangulateVertices(
         let p0 = vertices[(i - 1 + vertices.count) % vertices.count]
         let p1 = vertices[i]
         let p2 = vertices[(i + 1) % vertices.count]
-        // check for colinear points
         let p0p1 = p0.position - p1.position, p2p1 = p2.position - p1.position
-        if p0p1.cross(p2p1).length < epsilon {
-            // vertices are colinear, so we can't form a triangle
+        if vectorsAreCollinear(p0p1, p2p1) {
             if p0p1.dot(p2p1) > 0 {
                 // center point makes path degenerate - remove it
                 removeVertex()
@@ -197,6 +195,14 @@ func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
     }
     let angle = v0.angle(with: v1)
     return Rotation(unchecked: axis / length, angle: angle)
+}
+
+func vectorsAreCollinear(_ v0: Vector, _ v1: Vector) -> Bool {
+    v0.cross(v1).isEqual(to: .zero, withPrecision: epsilon)
+}
+
+func pointsAreCollinear(_ a: Vector, _ b: Vector, _ c: Vector) -> Bool {
+    vectorsAreCollinear(b - a, c - a)
 }
 
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {

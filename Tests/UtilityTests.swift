@@ -10,6 +10,36 @@
 import XCTest
 
 class UtilityTests: XCTestCase {
+    // MARK: collinearity
+
+    func testRightAngleNotCollinear() {
+        let a = Vector(0, 1)
+        let b = Vector(0, 0)
+        let c = Vector(1, 0)
+        XCTAssertFalse(pointsAreCollinear(a, b, c))
+    }
+
+    func testVerticalPointsCollinear() {
+        let a = Vector(0, 1)
+        let b = Vector(0, 0)
+        let c = Vector(0, -1)
+        XCTAssert(pointsAreCollinear(a, b, c))
+    }
+
+    func testHorizontalPointsCollinear() {
+        let a = Vector(1, 0)
+        let b = Vector(0, 0)
+        let c = Vector(-1, 0)
+        XCTAssert(pointsAreCollinear(a, b, c))
+    }
+
+    func testOverlappingPointsCollinear() {
+        let a = Vector(1, 0)
+        let b = Vector(0, 0)
+        let c = Vector(1, 0)
+        XCTAssert(pointsAreCollinear(a, b, c))
+    }
+
     // MARK: convexness
 
     func testConvexnessResultNotAffectedByTranslation() {
@@ -27,7 +57,7 @@ class UtilityTests: XCTestCase {
         XCTAssertTrue(verticesAreConvex(vertices))
     }
 
-    func testColinearPointsDontPreventConvexness() {
+    func testCollinearPointsDontPreventConvexness() {
         let vectors = [
             Vector(0, 1),
             Vector(0, 0),
@@ -39,7 +69,7 @@ class UtilityTests: XCTestCase {
 
     // MARK: degeneracy
 
-    func testDegenerateColinearVertices() {
+    func testDegenerateCollinearVertices() {
         let normal = Vector.unitZ
         let vertices = [
             Vertex(Vector(0, 1), normal),
@@ -49,7 +79,7 @@ class UtilityTests: XCTestCase {
         XCTAssertTrue(verticesAreDegenerate(vertices))
     }
 
-    func testNonDegenerateColinearVertices() {
+    func testNonDegenerateCollinearVertices() {
         let normal = Vector.unitZ
         let vertices = [
             Vertex(Vector(0, 1), normal),
@@ -91,7 +121,7 @@ class UtilityTests: XCTestCase {
         XCTAssertEqual(result.count, result2.count)
     }
 
-    func testRemoveZeroAreaColinearPointRemoved() {
+    func testRemoveZeroAreaCollinearPointRemoved() {
         let points: [PathPoint] = [
             .point(0.18, 0.245),
             .point(0.18, 0.255),

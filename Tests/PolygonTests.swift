@@ -84,7 +84,7 @@ class PolygonTests: XCTestCase {
         XCTAssertEqual(polygon.plane.normal, normal)
     }
 
-    func testDegeneratePolygonWithColinearPoints() {
+    func testDegeneratePolygonWithCollinearPoints() {
         let normal = Vector.unitZ
         XCTAssertNil(Polygon([
             Vertex(Vector(0, 1), normal),
@@ -93,7 +93,7 @@ class PolygonTests: XCTestCase {
         ]))
     }
 
-    func testNonDegeneratePolygonWithColinearPoints() {
+    func testNonDegeneratePolygonWithCollinearPoints() {
         let normal = Vector.unitZ
         XCTAssertNotNil(Polygon([
             Vertex(Vector(0, 1), normal),
@@ -572,7 +572,7 @@ class PolygonTests: XCTestCase {
         XCTAssert(b == expectedA || b == expectedB)
     }
 
-    func testPolygonWithColinearPointsCorrectlyTriangulated() {
+    func testPolygonWithCollinearPointsCorrectlyTriangulated() {
         let normal = -Vector.unitZ
         guard let polygon = Polygon([
             Vertex(Vector(0, 0), normal),
@@ -642,7 +642,7 @@ class PolygonTests: XCTestCase {
         ]))
     }
 
-    func testPathWithZeroAreaColinearPointTriangulated() {
+    func testPathWithZeroAreaCollinearPointTriangulated() {
         let path = Path([
             .point(0.18, 0.245),
             .point(0.18, 0.255),
@@ -810,7 +810,7 @@ class PolygonTests: XCTestCase {
         XCTAssertEqual(Set(result.first?.vertices ?? []), Set(polygon.vertices))
     }
 
-    func testPolygonWithColinearPointsCorrectlyDetessellated() {
+    func testPolygonWithCollinearPointsCorrectlyDetessellated() {
         let normal = -Vector.unitZ
         let polygon = Polygon(unchecked: [
             Vertex(Vector(0, 0), normal),
