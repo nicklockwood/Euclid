@@ -104,7 +104,10 @@ public extension Path {
         ], plane: .xy, subpathIndices: [])
     }
 
-    /// Create a quadratic bezier spline
+    /// Creates a quadratic bezier spline
+    /// - Parameters:
+    ///   - points: The control points for the curve.
+    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
     static func curve(_ points: [PathPoint], detail: Int = 4) -> Path {
         enum ArcRange {
             case lhs, rhs, all

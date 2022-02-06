@@ -31,15 +31,26 @@
 
 import Foundation
 
-/// A control point on a path. Can represent a corner or a curve.
+/// A control point that contributes to representing a path.
+///
+/// A path point can represent a corner or a curve, and has a ``PathPoint/position``, but no normal.
+/// Instead, the ``PathPoint/isCurved`` property  indicates if a point is sharp or smooth, allowing the normal to be inferred automatically when required.
 public struct PathPoint: Hashable {
+    /// The position  of the path point.
     public var position: Vector
+    /// The texture coordinate of the path point.
     public var texcoord: Vector?
+    /// The color of the path point.
     public var color: Color?
+    /// Indicates whether the point is curved.
+    ///
+    /// If `false`, the path point is sharp.
     public var isCurved: Bool
 }
 
 extension PathPoint: Codable {
+    /// Creates a new path point by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         var container = try decoder.unkeyedContainer()
         let x = try container.decode(Double.self)
@@ -187,6 +198,8 @@ extension PathPoint: Codable {
         }
     }
 
+    /// Encodes this path point into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         let skipTextureZ = texcoord?.z ?? 0 == 0
@@ -200,6 +213,10 @@ extension PathPoint: Codable {
 }
 
 public extension PathPoint {
+    /// Creates a path point at the provided position using the location you provide.
+    /// - Parameters:
+    ///   - position: The location of the path point.
+    ///   - texcoord: The texture coordinate corresponding to this path point.
     static func point(
         _ position: Vector,
         texcoord: Vector? = nil,
@@ -208,6 +225,11 @@ public extension PathPoint {
         PathPoint(position, texcoord: texcoord, color: color, isCurved: false)
     }
 
+    /// Creates a path point at the provided position using the location coordinates you provide.
+    /// - Parameters:
+    ///   - x: The X coordinate of the path point.
+    ///   - y: The Y coordinate of the path point.
+    ///   - z: The Z coordinate of the path point.
     static func point(
         _ x: Double,
         _ y: Double,
@@ -218,6 +240,10 @@ public extension PathPoint {
         .point(Vector(x, y, z), texcoord: texcoord, color: color)
     }
 
+    /// Creates a curved path point at the provided position using the location you provide.
+    /// - Parameters:
+    ///   - position: The location of the path point.
+    ///   - texcoord: The texture coordinate corresponding to this path point.
     static func curve(
         _ position: Vector,
         texcoord: Vector? = nil,
@@ -226,6 +252,11 @@ public extension PathPoint {
         PathPoint(position, texcoord: texcoord, color: color, isCurved: true)
     }
 
+    /// Creates a curved path point at the provided position using the location coordinates you provide.
+    /// - Parameters:
+    ///   - x: The X coordinate of the path point.
+    ///   - y: The Y coordinate of the path point.
+    ///   - z: The Z coordinate of the path point.
     static func curve(
         _ x: Double,
         _ y: Double,
@@ -248,6 +279,11 @@ public extension PathPoint {
         self.isCurved = isCurved
     }
 
+    /// Linearly interpolate between this path point and another, at the unit interval you provide.
+    /// - Parameters:
+    ///   - other: The path point to interpolate towards.
+    ///   - t: The unit interval between this point and the path point provided.
+    /// - Returns: A new path at the linearly interpolated position.
     func lerp(_ other: PathPoint, _ t: Double) -> PathPoint {
         let texcoord: Vector?
         switch (self.texcoord, other.texcoord) {
