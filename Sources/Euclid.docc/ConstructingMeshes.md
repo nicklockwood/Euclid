@@ -25,12 +25,12 @@ Control the quality of these approximations by using the `slices` and/or `stacks
 In addition to the 3D ``Mesh`` primitives listed, there are also 2D ``Path`` primitives. 
 These are implemented as static constructor methods on the ``Path`` type instead of ``Mesh``:
 
-- ``Path/line(_:)`` - A straight line.
-- ``Path/ellipse(width:height:segments:)``- A closed, elliptical ``Path``.
-- ``Path/circle(radius:segments:)``  - A closed, circular ``Path``.
-- ``Path/rectangle(width:height:)`` - A closed, rectangular ``Path``.
-- ``Path/square(size:)`` - Same as ``Path/rectangle(width:height:)``, but with equal width and height.
-- ``Path/polygon(radius:sides:)`` - A regular polygon shape (not to be confused with Euclid's ``Polygon`` type).
+- ``Path/line(_:color:)`` - A straight line.
+- ``Path/ellipse(width:height:segments:color:)``- A closed, elliptical ``Path``.
+- ``Path/circle(radius:segments:color:)``  - A closed, circular ``Path``.
+- ``Path/rectangle(width:height:color:)`` - A closed, rectangular ``Path``.
+- ``Path/square(size:color:)`` - Same as ``Path/rectangle(width:height:color:)``, but with equal width and height.
+- ``Path/polygon(radius:sides:color:)`` - A regular polygon shape (not to be confused with Euclid's ``Polygon`` type).
 
 ### Builders
 

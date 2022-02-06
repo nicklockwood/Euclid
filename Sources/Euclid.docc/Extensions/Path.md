@@ -17,8 +17,8 @@
 
 ### Creating Shape Paths
 
-- ``Path/circle(radius:segments:)``
-- ``Path/ellipse(width:height:segments:)``
+- ``Path/circle(radius:segments:color:)``
+- ``Path/ellipse(width:height:segments:color:)``
 - ``Path/rectangle(width:height:color:)``
 - ``Path/square(size:color:)``
 - ``Path/polygon(radius:sides:color:)``
