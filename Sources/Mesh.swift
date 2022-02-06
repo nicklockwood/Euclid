@@ -29,7 +29,10 @@
 //  SOFTWARE.
 //
 
-/// A 3D surface constructed from polygons
+/// A 3D surface made up of multiple polygons.
+///
+/// A mesh surface can be convex or concave, and can have zero volume (for example, a flat shape such as a square) but shouldn't contain holes or exposed back-faces.
+/// The result of constructive solid geometry operations on meshes that have holes or exposed back-faces is undefined.
 public struct Mesh: Hashable {
     private let storage: Storage
 }
@@ -39,6 +42,8 @@ extension Mesh: Codable {
         case polygons, bounds, isConvex = "convex", materials
     }
 
+    /// Creates a new mesh by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             let boundsIfSet = try container.decodeIfPresent(Bounds.self, forKey: .bounds)
@@ -64,6 +69,8 @@ extension Mesh: Codable {
         }
     }
 
+    /// Encodes this mesh into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(bounds, forKey: .bounds)
@@ -81,41 +88,45 @@ extension Mesh: Codable {
 }
 
 public extension Mesh {
-    /// Material used by a given polygon
+    /// The type used as a material for a given polygon.
     typealias Material = Polygon.Material
 
-    /// Public properties
+    /// The collection of materials used for the mash.
     var materials: [Material?] { storage.materials }
+    /// The collection of polygons that make up the mesh.
     var polygons: [Polygon] { storage.polygons }
+    /// The bounds of the mesh.
     var bounds: Bounds { storage.bounds }
 
-    /// Polygons grouped by material
+    /// The polygons of the mesh, grouped by material.
     var polygonsByMaterial: [Material?: [Polygon]] {
         polygons.groupedByMaterial()
     }
 
-    /// Does mesh include texture coordinates?
+    /// A Boolean value that indicates whether the mesh includes texture coordinates.
     var hasTexcoords: Bool {
         polygons.hasTexcoords
     }
 
-    /// Does mesh include vertex colors?
+    /// A Boolean value that indicates whether the mesh includes vertex colors.
     var hasVertexColors: Bool {
         polygons.hasVertexColors
     }
 
-    /// Returns all unique polygon edges in the mesh
+    /// The unique polygon edges in the mesh.
     var uniqueEdges: Set<LineSegment> {
         polygons.uniqueEdges
     }
 
-    /// Returns true if polygon is watertight, i.e. every edge is attached to at least 2 polygons.
-    /// Note: doesn't verify that mesh is not self-intersecting or inside-out.
+    /// A Boolean value that indicates whether the mesh is watertight.
+    ///
+    /// For example, the value is `true` if every edge is attached to at least 2 polygons.
+    /// > Note: A mesh being watertight doesn't verify that mesh is not self-intersecting or inside-out.
     var isWatertight: Bool {
         storage.isWatertight
     }
 
-    /// Construct a Mesh from an array of `Polygon` instances.
+    /// Creates a new mesh from an array of polygons.
     init(_ polygons: [Polygon]) {
         self.init(
             unchecked: polygons,
@@ -125,7 +136,7 @@ public extension Mesh {
         )
     }
 
-    /// Replaces one material with another
+    /// Replaces a material with another that you provide.
     func replacing(_ old: Material?, with new: Material?) -> Mesh {
         Mesh(
             unchecked: polygons.map {
@@ -137,8 +148,9 @@ public extension Mesh {
         )
     }
 
-    /// Returns a new Mesh that includes all polygons from both the
-    /// parameter and receiver. Polygons are neither split nor removed.
+    /// Returns a new mesh that includes all polygons from both this mesh and the mesh you provide.
+    ///
+    /// Polygons are neither split nor removed.
     func merge(_ mesh: Mesh) -> Mesh {
         var boundsIfSet: Bounds?
         if let ab = self.boundsIfSet, let bb = mesh.boundsIfSet {
@@ -152,7 +164,7 @@ public extension Mesh {
         )
     }
 
-    /// Efficiently merge multiple meshes
+    /// Creates a new mesh that is the combination of the provided meshes.
     static func merge(_ meshes: [Mesh]) -> Mesh {
         if meshes.count == 1 {
             return meshes[0]
@@ -178,7 +190,9 @@ public extension Mesh {
         )
     }
 
-    /// Split mesh along a plane
+    /// Split mesh along a plane.
+    ///
+    /// If the plane doesn't intersect the mesh, one of the returning meshes will be `nil`.
     func split(along plane: Plane) -> (Mesh?, Mesh?) {
         switch bounds.compare(with: plane) {
         case .front:
@@ -216,7 +230,7 @@ public extension Mesh {
         }
     }
 
-    /// Return a set of edges where the mesh intersects the plane.
+    /// Returns a set of edges where the mesh intersects the plane.
     func edges(intersecting plane: Plane) -> Set<LineSegment> {
         var edges = Set<LineSegment>()
         for polygon in polygons {
@@ -225,7 +239,7 @@ public extension Mesh {
         return edges
     }
 
-    /// Flips face direction of polygons.
+    /// Flips face direction of polygons within the mesh.
     func inverted() -> Mesh {
         Mesh(
             unchecked: polygons.inverted(),
@@ -235,7 +249,7 @@ public extension Mesh {
         )
     }
 
-    /// Split concave polygons into 2 or more convex polygons.
+    /// Splits concave polygons into 2 or more convex polygons.
     func tessellate() -> Mesh {
         Mesh(
             unchecked: polygons.tessellate(),
@@ -245,7 +259,7 @@ public extension Mesh {
         )
     }
 
-    /// Tessellate polygons into triangles.
+    /// Tessellates the meshes polygons into triangles.
     func triangulate() -> Mesh {
         Mesh(
             unchecked: polygons.triangulate(),
@@ -255,7 +269,7 @@ public extension Mesh {
         )
     }
 
-    /// Merge coplanar polygons that share one or more edges
+    /// Merges coplanar polygons that share one or more edges.
     func detessellate() -> Mesh {
         Mesh(
             unchecked: polygons.sortedByPlane().detessellate(),
@@ -266,7 +280,8 @@ public extension Mesh {
     }
 
     /// Removes hairline cracks by inserting additional vertices without altering the shape.
-    /// Will not always be successful. Check `isWatertight` afterwards to verify.
+    ///
+    /// > Note: This method is not always be successful in making a mesh watertight. Check ``Mesh/isWatertight`` afterwards to verify.
     func makeWatertight() -> Mesh {
         isWatertight ? self : Mesh(
             unchecked: polygons.makeWatertight(),

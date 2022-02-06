@@ -29,8 +29,18 @@
 //  SOFTWARE.
 //
 
+/// A struct that represents a color in RGBA format.
+///
+/// Color can be used as a ``Polygon/material-swift.property``.
 public struct Color: Hashable {
-    public var r, g, b, a: Double
+    /// The red component of the color.
+    public var r: Double
+    /// The green component of the color.
+    public var g: Double
+    /// The blue component of the color.
+    public var b: Double
+    /// The alpha component of the color.
+    public var a: Double
 
     /// Create a color from RGB values and optional alpha component
     public init(_ r: Double, _ g: Double, _ b: Double, _ a: Double = 1) {
@@ -46,6 +56,8 @@ extension Color: Codable {
         case r, g, b, a
     }
 
+    /// Creates a new mesh by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         if var container = try? decoder.unkeyedContainer() {
             try self.init(from: &container)
@@ -59,6 +71,8 @@ extension Color: Codable {
         }
     }
 
+    /// Encodes this mesh into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         try encode(to: &container, skipA: a == 1)
@@ -78,7 +92,7 @@ public extension Color {
     static let magenta = Color(1, 0, 1)
     static let orange = Color(1, 0.5, 0)
 
-    /// Create a color from a luminance value and optional alpha component
+    /// Creates a color from a luminance value and optional alpha component.
     init(_ rgb: Double, _ a: Double = 1) {
         self.r = rgb
         self.g = rgb
@@ -86,7 +100,7 @@ public extension Color {
         self.a = a
     }
 
-    /// Create a color from an array of components
+    /// Creates a color from an array of components.
     init?(_ components: [Double]) {
         guard (1 ... 4).contains(components.count) else {
             return nil
@@ -94,11 +108,12 @@ public extension Color {
         self.init(unchecked: components)
     }
 
+    /// The red, green, blue, and alpha components of the color.
     var components: [Double] {
         [r, g, b, a]
     }
 
-    /// Return a copy of the color with specified alpha
+    /// Creates a copy of the color updated with the alpha you provide.
     func withAlpha(_ a: Double) -> Color {
         Color(r, g, b, a)
     }

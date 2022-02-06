@@ -11,6 +11,8 @@
 import UIKit
 
 public extension UIColor {
+    /// Creates an UIColor from a color.
+    /// - Parameter color: The color to convert.
     convenience init(_ color: Color) {
         self.init(
             red: CGFloat(color.r),
@@ -22,6 +24,8 @@ public extension UIColor {
 }
 
 public extension Color {
+    /// Creates a color from `UIColor`.
+    /// - Parameter uiColor: The `UIColor` to convert.
     init(_ uiColor: UIColor) {
         self.init(uiColor.cgColor)
     }
