@@ -31,7 +31,7 @@
 
 import Foundation
 
-/// A type-safe struct for all API related to angles
+/// A struct that represents an angle in radians or degrees.
 public struct Angle: Hashable, Comparable {
     public var radians: Double
 
@@ -62,14 +62,20 @@ extension Angle: Codable {
     }
 }
 
+/// Returns the  trigonometric cosine value for the angle you provide.
+/// - Parameter angle: The angle to use to calculate the cosine.
 public func cos(_ angle: Angle) -> Double {
     cos(angle.radians)
 }
 
+/// Returns the  trigonometric sine value for the angle you provide.
+/// - Parameter angle: The angle to use to calculate the sine.
 public func sin(_ angle: Angle) -> Double {
     sin(angle.radians)
 }
 
+/// Returns the  trigonometric tangent value for the angle you provide.
+/// - Parameter angle: The angle to use to calculate the tangent.
 public func tan(_ angle: Angle) -> Double {
     tan(angle.radians)
 }

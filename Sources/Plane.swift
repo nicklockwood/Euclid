@@ -29,9 +29,15 @@
 //  SOFTWARE.
 //
 
-/// Represents a 2D plane in 3D space.
+/// A struct that represents an infinite 2D plane in 3D space.
+///
+/// A plane is defined by a ``Plane/normal``, a surface normal ``Vector``, and ``Plane/w``,  the distance from the the center of the plane from the world origin coordinates.
 public struct Plane: Hashable {
+    /// The surface normal vector.
+    ///
+    /// A surface normal vector is perpendicular to the plane.
     public let normal: Vector
+    /// The distance from the center of the plane to the world origin coordinates.
     public let w: Double
 
     /// Creates a plane from a surface normal and a distance from the world origin
@@ -59,6 +65,8 @@ extension Plane: Codable {
         case normal, w
     }
 
+    /// Creates a new plane by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         if var container = try? decoder.unkeyedContainer() {
             self.normal = try Vector(from: &container).normalized()
@@ -70,6 +78,8 @@ extension Plane: Codable {
         }
     }
 
+    /// Encodes this plane into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         try normal.encode(to: &container)
@@ -78,8 +88,11 @@ extension Plane: Codable {
 }
 
 public extension Plane {
+    /// A plane at the origin, aligned with the Y and Z coordinates.
     static let yz = Plane(unchecked: Vector(1, 0, 0), w: 0)
+    /// A plane at the origin, aligned with the X and Z coordinates.
     static let xz = Plane(unchecked: Vector(0, 1, 0), w: 0)
+    /// A plane at the origin, aligned with the X and Y coordinates.
     static let xy = Plane(unchecked: Vector(0, 0, 1), w: 0)
 
     /// Creates a plane from a point and surface normal
@@ -91,31 +104,33 @@ public extension Plane {
         self.init(unchecked: normal / length, pointOnPlane: pointOnPlane)
     }
 
-    /// Generate a plane from a set of coplanar points describing a polygon
+    /// Creates a plane from a set of coplanar points describing a polygon.
+    ///
     /// The polygon can be convex or concave. The direction of the plane normal is
-    /// based on the assumption that the points are wound in an anticlockwise direction
+    /// based on the assumption that the points are wind in an anti-clockwise direction.
     init?(points: [Vector]) {
         self.init(points: points, convex: nil)
     }
 
-    /// Returns the flipside of the plane
+    /// Returns the flip-side of the plane.
     func inverted() -> Plane {
         Plane(unchecked: -normal, w: -w)
     }
 
-    /// Checks if point is on plane
+    /// Returns a Boolean value that indicates whether a point is on the plane.
     func containsPoint(_ p: Vector) -> Bool {
         abs(p.distance(from: self)) < epsilon
     }
 
-    /// Distance of the point from a plane
-    /// A positive value is returned if the point lies in front of the plane
-    /// A negative value is returned if the point lies behind the plane
+    /// Returns the distance of the point from a plane.
+    ///
+    /// A positive value is returned if the point lies in front of the plane.
+    /// A negative value is returned if the point lies behind the plane.
     func distance(from p: Vector) -> Double {
         normal.dot(p) - w
     }
 
-    /// Returns line of intersection between planes
+    /// Returns a line that describes the intersection between this plane and the plane you provide.
     func intersection(with p: Plane) -> Line? {
         guard !normal.isEqual(to: p.normal),
               let origin = solveSimultaneousEquationsWith(self, p)
@@ -126,7 +141,7 @@ public extension Plane {
         return Line(origin: origin, direction: normal.cross(p.normal))
     }
 
-    /// Returns point intersection between plane and line
+    /// Returns a point that describes the intersection between plane and a line you provide.
     func intersection(with line: Line) -> Vector? {
         // https://en.wikipedia.org/wiki/Line–plane_intersection#Algebraic_form
         let lineDotPlaneNormal = line.direction.dot(normal)
@@ -175,11 +190,15 @@ internal extension Plane {
     }
 }
 
-// An enum of relationships between a group of points and a plane
+/// The relationship between a group of points and a plane.
 enum PlaneComparison: Int {
+    /// The values all reside on the same plane.
     case coplanar = 0
+    /// The values reside in front of the plane.
     case front = 1
+    /// The values reside behind the plane.
     case back = 2
+    /// The values span both the front and back of the plane.
     case spanning = 3
 
     func union(_ other: PlaneComparison) -> PlaneComparison {
