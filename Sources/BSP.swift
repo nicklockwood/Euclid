@@ -46,7 +46,7 @@ extension BSP {
 
     init(_ mesh: Mesh, _ isCancelled: CancellationHandler) {
         self.nodes = [BSPNode]()
-        self.isConvex = mesh.isConvex
+        self.isConvex = mesh.isKnownConvex
         initialize(mesh.polygons, isCancelled)
     }
 

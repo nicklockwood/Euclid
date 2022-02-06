@@ -237,7 +237,7 @@ public extension Mesh {
         return Mesh(
             unchecked: ap + bp,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
-            isConvex: isConvex && mesh.isConvex,
+            isConvex: isKnownConvex && mesh.isKnownConvex,
             isWatertight: nil
         )
     }
@@ -286,7 +286,7 @@ public extension Mesh {
         return Mesh(
             unchecked: aout! + outside + inside.map { $0.with(material: material) },
             bounds: bounds,
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: nil
         )
     }
@@ -371,7 +371,7 @@ public extension Mesh {
                 unchecked: mesh.polygons + BSP(self) { false }
                     .clip([rect], .lessThan) { false },
                 bounds: nil,
-                isConvex: isConvex,
+                isConvex: isKnownConvex,
                 isWatertight: watertightIfSet
             )
         }

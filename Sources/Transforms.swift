@@ -127,7 +127,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.translated(by: v),
             bounds: boundsIfSet?.translated(by: v),
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: watertightIfSet
         )
     }
@@ -139,7 +139,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.rotated(by: r),
             bounds: nil,
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: watertightIfSet
         )
     }
@@ -150,7 +150,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.rotated(by: q),
             bounds: nil,
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: watertightIfSet
         )
     }
@@ -165,7 +165,7 @@ public extension Mesh {
         return Mesh(
             unchecked: polygons.scaled(by: v),
             bounds: boundsIfSet?.scaled(by: v),
-            isConvex: isConvex && v.x > 0 && v.y > 0 && v.y > 0,
+            isConvex: isKnownConvex && v.x > 0 && v.y > 0 && v.y > 0,
             isWatertight: watertightIfSet
         )
     }
@@ -176,7 +176,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.scaled(by: f),
             bounds: boundsIfSet?.scaled(by: f),
-            isConvex: isConvex && f > 0,
+            isConvex: isKnownConvex && f > 0,
             isWatertight: watertightIfSet
         )
     }
@@ -186,7 +186,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.scaleCorrected(for: v),
             bounds: boundsIfSet,
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: watertightIfSet
         )
     }
@@ -199,7 +199,7 @@ public extension Mesh {
             bounds: boundsIfSet.flatMap {
                 t.rotation == .identity ? $0.transformed(by: t) : nil
             },
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: watertightIfSet
         )
     }

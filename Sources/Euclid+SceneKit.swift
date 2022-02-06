@@ -631,7 +631,7 @@ public extension Mesh {
                 return nil
             }
         }
-        let isConvex: Bool
+        let isKnownConvex: Bool
         let isWatertight: Bool?
         switch scnGeometry {
         case is SCNPlane,
@@ -641,23 +641,23 @@ public extension Mesh {
              is SCNCylinder,
              is SCNCone,
              is SCNCapsule:
-            isConvex = true
+            isKnownConvex = true
             isWatertight = true
         case is SCNTube,
              is SCNTorus,
              is SCNText,
              is SCNShape:
-            isConvex = false
+            isKnownConvex = false
             isWatertight = true
         default:
-            isConvex = false
+            isKnownConvex = false
             isWatertight = nil
         }
         let bounds = Bounds(scnGeometry.boundingBox)
         self.init(
             unchecked: polygons,
             bounds: bounds,
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: isWatertight
         )
     }

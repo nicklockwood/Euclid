@@ -76,7 +76,7 @@ extension Mesh: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(bounds, forKey: .bounds)
-        try isConvex ? container.encode(true, forKey: .isConvex) : ()
+        try isKnownConvex ? container.encode(true, forKey: .isConvex) : ()
         if materials == [nil] {
             try container.encode(polygons, forKey: .polygons)
         } else {
@@ -153,7 +153,7 @@ public extension Mesh {
                 $0.material == old ? $0.with(material: new) : $0
             },
             bounds: boundsIfSet,
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: watertightIfSet
         )
     }
@@ -276,7 +276,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.tessellate(),
             bounds: boundsIfSet,
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: nil // TODO: fix triangulate() then see if this is fixed
         )
     }
@@ -287,7 +287,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.triangulate(),
             bounds: boundsIfSet,
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: nil // TODO: work out why this sometimes introduces holes
         )
     }
@@ -298,7 +298,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.sortedByPlane().detessellate(),
             bounds: boundsIfSet,
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: nil // TODO: can this be done without introducing holes?
         )
     }
@@ -311,7 +311,7 @@ public extension Mesh {
         isWatertight ? self : Mesh(
             unchecked: polygons.makeWatertight(),
             bounds: boundsIfSet,
-            isConvex: isConvex,
+            isConvex: isKnownConvex,
             isWatertight: nil
         )
     }
@@ -334,7 +334,7 @@ internal extension Mesh {
 
     var boundsIfSet: Bounds? { storage.boundsIfSet }
     var watertightIfSet: Bool? { storage.watertightIfSet }
-    var isConvex: Bool { storage.isConvex }
+    var isKnownConvex: Bool { storage.isConvex }
 }
 
 private extension Mesh {
