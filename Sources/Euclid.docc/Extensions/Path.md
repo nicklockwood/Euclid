@@ -7,21 +7,21 @@
 - ``Path/init(_:)``
 - ``Path/init(subpaths:)``
 - ``Path/init(polygon:)``
-- ``Path/init(cgPath:detail:)``
+- ``Path/init(cgPath:detail:color:)``
 
 ### Creating Paths of Lines and Curves
 
 - ``Path/curve(_:detail:)``
-- ``Path/line(_:_:)``
-- ``Path/line(_:)``
+- ``Path/line(_:_:color:)``
+- ``Path/line(_:color:)``
 
 ### Creating Shape Paths
 
 - ``Path/circle(radius:segments:)``
 - ``Path/ellipse(width:height:segments:)``
-- ``Path/rectangle(width:height:)``
-- ``Path/square(size:)``
-- ``Path/polygon(radius:sides:)``
+- ``Path/rectangle(width:height:color:)``
+- ``Path/square(size:color:)``
+- ``Path/polygon(radius:sides:color:)``
 
 ### Creating Text Paths
 
