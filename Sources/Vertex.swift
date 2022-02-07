@@ -29,34 +29,32 @@
 //  SOFTWARE.
 //
 
-/// A vertex represent a point in three dimension space with additional characteristics.
-///
-/// The additional characteristics (``Vertex/normal`` and ``Vertex/texcoord``) define how to represent the point in space when combined with other vertex instances to create a polygon.
-///
-/// The ``Vertex/position`` of each ``Vertex`` is automatically *quantized* (rounded to the nearest point in a very fine grid) in order to avoid the creation of very tiny polygons, or hairline cracks in surfaces.
-/// To avoid accumulating rounding errors avoid applying multiple ``Transform`` to the same geometry in sequence.
+/// A vertex represents a corner of a ``Polygon`` or a point on the surface of a ``Mesh``.
 public struct Vertex: Hashable {
     /// The position of the vertex.
     public var position: Vector {
         didSet { position = position.quantized() }
     }
 
-    /// The normal for the vertex.
+    /// The surface normal of the vertex, used to calculate lighting.
+    /// Set this to zero if you want the normal to be calculated automatically from the polygon face normal.
     public var normal: Vector {
         didSet { normal = normal.normalized() }
     }
 
-    /// Texture coordinates for the vertex.
+    /// Texture coordinates for the vertex. Set this to zero if you are not using a texture map.
     public var texcoord: Vector
 
     /// The color for the vertex.
+    /// This will be multiplied by the material color, so set it to white if you do not require per-vertex colors.
     public var color: Color
 
     /// Creates a new vertex.
     /// - Parameters:
-    ///   - position: The position of the vertex.
-    ///   - normal: The normal for the vertex.
-    ///   - texcoord: The texture coordinates for the vertex.
+    ///   - position: The position of the vertex in 3D space.
+    ///   - normal: The surface normal for the vertex (defaults to zero).
+    ///   - texcoord: The optional texture coordinates for the vertex (defaults to zero).
+    ///   - color: The optional vertex color (defaults to white).
     public init(
         _ position: Vector,
         _ normal: Vector? = nil,
@@ -69,8 +67,16 @@ public struct Vertex: Hashable {
     /// Creates a vertex from a flat array of values.
     /// - Parameter values: The array of values.
     ///
-    /// The first three values are applies as the position of the vertex, the second three are applied as the vertex normal, and the last two make up the texture coordinates.
-    /// Values beyond the eighth element are ignored.
+    /// The number of values specified determines how each value is interpreted. The following patterns are
+    /// supported (P = position, N = normal, T = texcoord, RGB[A] = color):
+    ///
+    /// PP
+    /// PPP
+    /// PPP NNN
+    /// PPP NNN TT
+    /// PPP NNN TTT
+    /// PPP NNN TTT RGB
+    /// PPP NNN TTT RGBA
     public init?(_ values: [Double]) {
         switch values.count {
         case 2:
@@ -119,7 +125,7 @@ extension Vertex: Codable {
         case position, normal, texcoord, color
     }
 
-    /// Creates a new vector by decoding from the given decoder.
+    /// Creates a new vertex by decoding from the given decoder.
     /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
@@ -142,7 +148,7 @@ extension Vertex: Codable {
         }
     }
 
-    /// Encodes this date into the given encoder.
+    /// Encodes this vertex into the given encoder.
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
@@ -159,20 +165,18 @@ extension Vertex: Codable {
 }
 
 public extension Vertex {
-    /// Returns a new vertex with normal inverted.
-    ///
-    /// Called when the orientation of a polygon is flipped.
+    /// Returns a new vertex with the normal inverted.
     func inverted() -> Vertex {
         Vertex(unchecked: position, -normal, texcoord, color)
     }
 
-    /// Linearly interpolate between two vertices.
-    ///
-    /// Interpolation is applied to the position, texture coordinate and normal.
+    /// Linearly interpolates between two vertices.
     /// - Parameters:
     ///   - other: The vertex to interpolate towards.
     ///   - t: The unit value that indicates the distance between of this vertex and the target vertex.
     /// - Returns: A new vertex with values interpolated between the two vertices.
+    ///
+    /// > Note:  Interpolation is applied to the texture coordinate, normal and color, as well as the position.
     func lerp(_ other: Vertex, _ t: Double) -> Vertex {
         Vertex(
             unchecked: position.lerp(other.position, t),
@@ -196,7 +200,7 @@ internal extension Vertex {
         self.color = color ?? .white
     }
 
-    /// Create copy of vertex with specified normal
+    /// Creates a copy of the vertex with the specified normal.
     func with(normal: Vector) -> Vertex {
         var vertex = self
         vertex.normal = normal

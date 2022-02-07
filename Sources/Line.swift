@@ -29,13 +29,17 @@
 //  SOFTWARE.
 //
 
-/// A struct that represents an infinite line in 3D space.
-///
-/// A line is defined by an `origin` point and a normalized `direction` vector.
+/// An infinite line in 3D space.
 public struct Line: Hashable {
-    public let origin, direction: Vector
+    // An arbitrary point on the line selected as the origin.
+    public let origin: Vector
+    // The normalized direction of the line.
+    public let direction: Vector
 
-    /// Creates a line from an origin and direction
+    /// Creates a line from an origin and direction.
+    /// - Parameters:
+    ///   - origin: An arbitrary point on the line selected as the origin.
+    ///   - direction: The direction of the line, emanating from the origin.
     public init?(origin: Vector, direction: Vector) {
         let length = direction.length
         guard length.isFinite, length > epsilon else {
@@ -90,28 +94,29 @@ extension Line: Codable {
 }
 
 public extension Line {
-    /// Creates a new line with the line segments you provide.
-    /// - Parameter segment: The line segments.
+    /// Creates a new line from the specified line segment.
+    /// - Parameter segment: A segment somewhere on the line.
     init(_ segment: LineSegment) {
         self.init(unchecked: segment.start, direction: segment.direction)
     }
 
-    /// Returns a Boolean value that indicates whether the point is on the line.
-    /// - Parameter p: The point to compare.
-    func containsPoint(_ p: Vector) -> Bool {
-        abs(p.distance(from: self)) < epsilon
+    /// Returns a Boolean value that indicates whether the specified point lies on the line.
+    /// - Parameter point: The point to test.
+    /// - Returns: `true` if the point lies on the line and `false` otherwise.
+    func containsPoint(_ point: Vector) -> Bool {
+        abs(point.distance(from: self)) < epsilon
     }
 
-    /// Returns the distance of the line from a given point in 3D.
+    /// Returns the perpendicular distance of the line from a specified point.
     /// - Parameter point: The point to compare.
-    /// - Returns: The distance between the point and line.
+    /// - Returns: The absolute perpendicular distance between the point and line.
     func distance(from point: Vector) -> Double {
         vectorFromPointToLine(point, origin, direction).length
     }
 
-    /// Returns the distance of this line from another line.
+    /// Returns the perpendicular distance from another line to this one.
     /// - Parameter line: The line to compare.
-    /// - Returns: The distance to the line.
+    /// - Returns: The perpendicular distance from the other line.
     func distance(from line: Line) -> Double {
         guard let (p0, p1) = shortestLineBetween(
             origin,
@@ -124,16 +129,16 @@ public extension Line {
         return (p1 - p0).length
     }
 
-    /// Returns a point that represents the Intersection between the plane you provide and the line.
-    /// - Parameter plane: The plane to compare.
-    /// - Returns: Returns `nil` if the plane doesn't intersect the line.
+    /// Returns the point where the specified plane intersects the line.
+    /// - Parameter plane: The plane to compare with.
+    /// - Returns: The point of intersection, or `nil` if the line and plane are parallel (don't intersect).
     func intersection(with plane: Plane) -> Vector? {
         plane.intersection(with: self)
     }
 
-    /// Returns a point that indicates the Intersection between the lines.
-    /// - Parameter line: The line to compare.
-    /// - Returns: Returns `nil` if the lines don't intersect.
+    /// Returns the point where the specified line intersects this one.
+    /// - Parameter line: The line to compare with.
+    /// - Returns: The point of intersection, or `nil` if the lines don't intersect.
     func intersection(with line: Line) -> Vector? {
         lineIntersection(
             origin,
@@ -144,7 +149,8 @@ public extension Line {
     }
 
     /// Returns a Boolean value that indicates whether the lines intersect.
-    /// - Parameter line: The line to compare.
+    /// - Parameter line: The line to compare with.
+    /// - Returns: `true` if the lines intersect and `false` otherwise.
     func intersects(_ line: Line) -> Bool {
         intersection(with: line) != nil
     }

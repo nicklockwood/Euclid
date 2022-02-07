@@ -8,12 +8,18 @@
 
 import Foundation
 
-/// A struct that is an alternative, more compact, way to represent an orientation or rotation in 3D space.
+/// An orientation or rotation in 3D space.
 ///
-/// A quaternions can be converted to and from an axis-vector and angle, or a set of 3 Euler angles (pitch, yaw and roll), as well as to and from a ``Rotation``.
+/// A quaternion can be created from a from a ``Rotation`` matrix, or directly from an axis vector and
+/// angle, or a from a set of 3 Euler angles (pitch, yaw and roll).
+///
+/// In addition to being more compact than a 3x3 rotation matrix, quaternions also avoid a
+/// problem known as gymbal lock.
 public struct Quaternion: Hashable {
+    /// The quaternion component values.
     public var x, y, z, w: Double
 
+    /// Creates a quaternion from raw component values.
     public init(_ x: Double, _ y: Double, _ z: Double, _ w: Double) {
         self.x = x
         self.y = y
@@ -27,6 +33,8 @@ extension Quaternion: Codable {
         case x, y, z, w
     }
 
+    /// Creates a new quaternion by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         if var container = try? decoder.unkeyedContainer() {
             switch container.count {
@@ -45,6 +53,8 @@ extension Quaternion: Codable {
         }
     }
 
+    /// Encodes this quaternion into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         if self == .identity {
@@ -55,10 +65,15 @@ extension Quaternion: Codable {
 }
 
 public extension Quaternion {
+    /// The zero quaternion.
     static let zero = Quaternion(0, 0, 0, 0)
+    /// The identity quaternion (i.e. no rotation).
     static let identity = Quaternion(0, 0, 0, 1)
 
-    /// Define a quaternion from an axis vector and an angle
+    /// Creates a quaternion from an axis and angle.
+    /// - Parameters:
+    ///   - axis: A vector defining the axis of rotation.
+    ///   - angle: The angle of rotation around the axis.
     init?(axis: Vector, angle: Angle) {
         let length = axis.length
         guard length.isFinite, length > epsilon else {
@@ -67,31 +82,38 @@ public extension Quaternion {
         self.init(unchecked: axis / length, angle: angle)
     }
 
-    /// Define a rotation around the X axis
+    /// Creates a quaternion representing a rotation around the X axis.
+    /// - Parameter rotation: The angle to rotate by.
     static func pitch(_ rotation: Angle) -> Quaternion {
         let r = -rotation.radians * 0.5
         return Quaternion(sin(r), 0, 0, cos(r))
     }
 
-    /// Define a rotation around the Y axis
+    /// Creates a quaternion representing a rotation around the Y axis.
+    /// - Parameter rotation: The angle to rotate by.
     static func yaw(_ rotation: Angle) -> Quaternion {
         let r = -rotation.radians * 0.5
         return Quaternion(0, sin(r), 0, cos(r))
     }
 
-    /// Define a rotation around the Z axis
+    /// Creates a quaternion representing a rotation around the Z axis.
+    /// - Parameter rotation: The angle to rotate by.
     static func roll(_ rotation: Angle) -> Quaternion {
         let r = -rotation.radians * 0.5
         return Quaternion(0, 0, sin(r), cos(r))
     }
 
-    /// Define a quaternion from Euler angles
-    /// `roll` is the angle around the Z axis, `yaw` is the angle around Y, and `pitch` is the angle around X.
+    /// Creates a rotation from Euler angles applied in roll/yaw/pitch order.
+    /// - Parameters:
+    ///   - roll: The angle of rotation around the Z axis. This is applied first.
+    ///   - yaw: The angle of rotation around the Y axis. This is applied second.
+    ///   - pitch: The angle of rotation around the X axis. This is applied last.
     init(roll: Angle = .zero, yaw: Angle = .zero, pitch: Angle = .zero) {
         self = .roll(roll) * .yaw(yaw) * .pitch(pitch)
     }
 
-    // Create a quaternion from a rotation matrix
+    /// Creates a quaternion from a rotation matrix.
+    /// - Parameter r: A rotation matrix.
     init(_ r: Rotation) {
         let x = sqrt(max(0, 1 + r.m11 - r.m22 - r.m33)) / 2
         let y = sqrt(max(0, 1 - r.m11 + r.m22 - r.m33)) / 2
@@ -105,7 +127,8 @@ public extension Quaternion {
         )
     }
 
-    // Create a quaternion from components
+    // Creates a quaternion from raw components.
+    /// - Parameter components: An array of 4 floating-point values.
     init?(_ components: [Double]) {
         guard components.count == 4 else {
             return nil
@@ -113,41 +136,50 @@ public extension Quaternion {
         self.init(components[0], components[1], components[2], components[3])
     }
 
+    /// An array containing the raw components of the quaternion.
     var components: [Double] {
         [x, y, z]
     }
 
-    var lengthSquared: Double {
-        dot(self)
-    }
-
+    /// The magnitude of the quaternion.
     var length: Double {
         sqrt(lengthSquared)
     }
 
-    // Rotation around Z-axis
+    /// The square of the length of the quaternion. This is less expensive to compute than the length itself.
+    var lengthSquared: Double {
+        dot(self)
+    }
+
+    // The angle of rotation around the Z-axis.
     var roll: Angle {
         -.atan2(y: 2 * (w * z + x * y), x: 1 - 2 * (y * y + z * z))
     }
 
-    // Rotation around Y-axis
+    // The angle of rotation around the Y-axis.
     var yaw: Angle {
         -.asin(min(1, max(-1, 2 * (w * y - z * x))))
     }
 
-    // Rotation around X-axis
+    // The angle of rotation around the X-axis.
     var pitch: Angle {
         -.atan2(y: 2 * (w * x + y * z), x: 1 - 2 * (x * x + y * y))
     }
 
+    /// Computes the dot-product of this quaternion and another.
+    /// - Parameter a: The quaternion with which to compute the dot product.
+    /// - Returns: The dot product of the two quaternions.
     func dot(_ q: Quaternion) -> Double {
         x * q.x + y * q.y + z * q.z + w * q.w
     }
 
+    /// A Boolean value that indicates whether the quaternion has a length of `1`.
     var isNormalized: Bool {
         abs(lengthSquared - 1) < epsilon
     }
 
+    /// Returns the normalized quaternion.
+    /// - Returns: The normalized quaternion (with a length of `1`) or  ``zero`` if the length is `0`.
     func normalized() -> Quaternion {
         let lengthSquared = self.lengthSquared
         if lengthSquared == 0 || lengthSquared == 1 {
@@ -156,7 +188,11 @@ public extension Quaternion {
         return self / sqrt(lengthSquared)
     }
 
-    // Spherical interpolation between two quaternions
+    // Performs a spherical interpolation between two quaternions.
+    /// - Parameters:
+    ///   - q: A quaternion to interpolate with.
+    ///   - t: The normalized extent of interpolation, from 0 to 1.
+    /// - Returns: The interpolated quaternion.
     func slerp(_ q: Quaternion, _ t: Double) -> Quaternion {
         let dot = max(-1, min(1, self.dot(q)))
         if abs(abs(dot) - 1) < epsilon {
@@ -169,26 +205,32 @@ public extension Quaternion {
         return t1 + t2
     }
 
+    /// Returns the reverse quaternion rotation.
     static prefix func - (q: Quaternion) -> Quaternion {
         Quaternion(-q.x, -q.y, -q.z, q.w)
     }
 
+    /// Returns the sum of two quaternion rotations.
     static func + (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
         Quaternion(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w)
     }
 
+    /// Adds the quaternion rotation on the right to the one on the left.
     static func += (lhs: inout Quaternion, rhs: Quaternion) {
         lhs = lhs + rhs
     }
 
+    /// Returns the difference between two quaternion rotations,.
     static func - (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
         Quaternion(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w)
     }
 
+    /// Subtracts the quaternion rotation on the right from the one on the left.
     static func -= (lhs: inout Quaternion, rhs: Quaternion) {
         lhs = lhs - rhs
     }
 
+    /// Returns the product of two quaternions (i.e. the effect of rotating the left by the right).
     static func * (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
         Quaternion(
             lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y,
@@ -198,14 +240,17 @@ public extension Quaternion {
         )
     }
 
+    /// Multiplies the quaternion rotation on the left by the one on the right.
     static func *= (lhs: inout Quaternion, rhs: Quaternion) {
         lhs = lhs * rhs
     }
 
+    /// Returns a quaternion with its components multiplied by the specified value.
     static func * (lhs: Quaternion, rhs: Double) -> Quaternion {
         Quaternion(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs)
     }
 
+    /// Multiplies the components of the quaternion by the specified value.
     static func *= (lhs: inout Quaternion, rhs: Double) {
         lhs.x *= rhs
         lhs.y *= rhs
@@ -213,10 +258,12 @@ public extension Quaternion {
         lhs.w *= rhs
     }
 
+    /// Returns a quaternion with its components divided by the specified value.
     static func / (lhs: Quaternion, rhs: Double) -> Quaternion {
         Quaternion(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs, lhs.w / rhs)
     }
 
+    /// Divides the components of the vector by the specified value.
     static func /= (lhs: inout Quaternion, rhs: Double) {
         lhs.x /= rhs
         lhs.y /= rhs

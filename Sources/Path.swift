@@ -31,24 +31,26 @@
 
 import Foundation
 
-/// A struct that represents a path as a sequence of path points making up a line or curve.
+/// A path made up of a sequence of straight line segments between points.
 ///
-/// The line or curve is formed from straight segments joined end-to-end.
-/// A ``Path`` can be either open (a *polyline*) or closed (a *polygon*), but should not be self-intersecting or otherwise degenerate.
+/// A ``Path`` can be either open (a *polyline*) or closed (a *polygon*), but should not be
+/// self-intersecting or otherwise degenerate.
 ///
 /// A path may be formed from multiple subpaths, which can be accessed via the ``Path/subpaths`` property.
-/// A closed, flat ``Path`` without nested subpaths can be converted into a ``Polygon``, but it can also be used for other purposes, such as defining a cross-section or profile of a 3D shape.
+/// A closed ``Path`` can be converted to one or more ``Polygon``s, but it can also be used for other
+/// purposes, such as defining a cross-section or profile of a 3D shape.
 ///
-/// Paths are typically 2-dimensional, but because ``PathPoint`` positions have a Z coordinate, they are not *required* to be.
-/// Even a flat ``Path`` (where all points lie on the same plane) can be translated or rotated so that its points do not necessarily lie on the *XY* plane.
+/// Paths are typically 2-dimensional, but because ``PathPoint`` positions have a Z coordinate, they are
+/// not *required* to be. Even a flat ``Path`` (where all points lie on the same plane) can be translated or
+/// rotated so that its points do not necessarily lie on the *XY* plane.
 public struct Path: Hashable {
-    /// The collection of path points that makes up this path.
+    let subpathIndices: [Int]
+    /// The array of points that makes up this path.
     public let points: [PathPoint]
     /// Indicates whether the path is a closed path.
     public let isClosed: Bool
-    /// The plane upon which this path resides.
+    /// The plane upon which all path points lie. Will be nil for non-planar paths.
     public private(set) var plane: Plane?
-    let subpathIndices: [Int]
 }
 
 extension Path: Codable {
@@ -89,19 +91,19 @@ extension Path: Codable {
 }
 
 public extension Path {
-    /// Indicates whether all the path's points lie on as single plane.
+    /// Indicates whether all the path's points lie on a single plane.
     var isPlanar: Bool {
         plane != nil
     }
 
-    /// The bounds of the path.
+    /// The bounds of all the path's points.
     var bounds: Bounds {
         Bounds(points: points.map { $0.position })
     }
 
-    /// The face normal for path.
+    /// The face normal for the path.
     ///
-    /// If shape is non-planar then this is the average/approximate normal
+    /// > Note: If path is non-planar then this returns an average/approximate normal.
     var faceNormal: Vector {
         plane?.normal ?? faceNormalForPolygonPoints(
             points.map { $0.position },
@@ -109,9 +111,8 @@ public extension Path {
         )
     }
 
-    /// Returns a closed path by joining last point to first.
-    ///
-    /// This method returns `self` if already closed, or if path cannot be closed
+    /// Closes the path by joining last point to first.
+    /// - Returns: A new path, or `self` if the path is already closed, or cannot be closed.
     func closed() -> Path {
         if isClosed || self.points.isEmpty {
             return self
@@ -122,6 +123,7 @@ public extension Path {
     }
 
     /// Creates a path from an array of  path points.
+    /// - Parameter points: An array of ``PathPoint`` making up the path.
     init(_ points: [PathPoint]) {
         self.init(
             unchecked: sanitizePoints(points),
@@ -131,6 +133,7 @@ public extension Path {
     }
 
     /// Creates a composite path from an array of subpaths.
+    /// - Parameter subpaths: An array of paths.
     init(subpaths: [Path]) {
         guard subpaths.count > 1 else {
             self = subpaths.first ?? Path([])
@@ -142,6 +145,7 @@ public extension Path {
     }
 
     /// Creates a path from a polygon.
+    /// - Parameter polygon: A ``Polygon`` to convert to a path.
     init(polygon: Polygon) {
         let hasTexcoords = polygon.hasTexcoords
         self.init(
@@ -153,7 +157,7 @@ public extension Path {
         )
     }
 
-    /// A list of the subpaths that make up the path.
+    /// An array of the subpaths that make up the path.
     ///
     /// For paths without nested subpaths, this will return an array containing only `self`.
     var subpaths: [Path] {
@@ -182,8 +186,12 @@ public extension Path {
     }
 
     /// Returns one or more polygons needed to fill the path.
+    /// - Parameter material: An optional ``Polygon/Material-swift.typealias`` to apply to the polygons.
+    /// - Returns: An array of polygons needed to fill the path, or an empty array if path is not closed.
     ///
-    /// Polygon vertices include normals and uv coordinates normalized to the bounding rectangle of the path.
+    /// > Note: Polygon normals are calculated automatically based on the curvature of the path points.
+    /// If the path points do not include textcoords, they will be calculated automatically based on the
+    /// path point positions relative to the bounding rectangle of the path.
     func facePolygons(material: Mesh.Material? = nil) -> [Polygon] {
         guard subpaths.count <= 1 else {
             return subpaths.flatMap { $0.facePolygons(material: material) }
@@ -203,10 +211,10 @@ public extension Path {
         ).detessellate(ensureConvex: false)
     }
 
-    /// The vertices suitable for constructing a polygon from the path.
+    /// An array of vertices suitable for constructing a polygon from the path.
     ///
-    /// Vertices include normals and uv coordinates normalized to the bounding
-    /// rectangle of the path. The value is `nil` if path is open or has subpaths.
+    /// > Note: Vertices include normals and uv coordinates normalized to the bounding
+    /// rectangle of the path. Returns `nil` if path is not closed, or has subpaths.
     var faceVertices: [Vertex]? {
         let count = points.count
         guard isClosed, subpaths.count <= 1, count > 1 else {
@@ -259,16 +267,15 @@ public extension Path {
         }
     }
 
-    /// The edge vertices suitable for converting into a solid shape using lathe or extrusion.
+    /// An array of vertices suitable for constructing a set of edge polygons for the path.
     ///
-    /// The value is an empty array if path has subpaths.
+    /// > Note: Returns an empty array if the path has subpaths.
     var edgeVertices: [Vertex] {
         edgeVertices(for: .default)
     }
 
-    /// Returns the edge vertices suitable for converting into a solid shape using lathe or extrusion.
-    ///
-    /// - Parameter wrapMode: The wrap mode to determine to edge vertices.
+    /// An array of vertices suitable for constructing a set of edge polygons for the path.
+    /// - Parameter wrapMode: The wrap mode to use for generating texture coordinates.
     /// - Returns: The edge vertices, or an empty array if path has subpaths.
     func edgeVertices(for wrapMode: Mesh.WrapMode) -> [Vertex] {
         guard subpaths.count <= 1, points.count >= 2 else {
@@ -356,9 +363,13 @@ public extension Path {
 }
 
 public extension Polygon {
-    /// Creates a polygon from a path.
+    /// Creates a single polygon from a path.
+    /// - Parameters
+    ///   - shape: The ``Path`` to convert to a polygon.
+    ///   - material: An optional ``Material-swift.typealias`` to apply to the polygon.
     ///
-    /// Path may be convex or concave, but must be closed, planar and non-degenerate.
+    /// Path may be convex or concave, but must be closed, planar and non-degenerate, and must not
+    /// include subpaths. For a non-planar path, or one with subpaths, use ``Path/facePolygons(material:)``.
     init?(shape: Path, material: Material? = nil) {
         guard let vertices = shape.faceVertices, let plane = shape.plane else {
             return nil

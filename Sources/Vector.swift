@@ -33,28 +33,28 @@ import Foundation
 
 /// A distance or position in 3D space.
 ///
-/// Euclid doesn't include 2D vector types.
-/// When working with primarily 2D shapes, such as  creating ``Path`` objects, omit the Z coordinate when constructing a `Vector` and it defaults to zero.
+/// > Note: Euclid doesn't have a 2D vector type. When working with primarily 2D shapes, such as
+/// ``Path``s, you can omit the ``z`` component when constructing vector and it will default to zero.
 public struct Vector: Hashable {
-    /// The first component of the vector, frequently representing the value on the X axis.
+    /// The X component of the vector.
     public var x: Double
-    /// The second component of the vector, frequently representing the value on the Y axis.
+    /// The Y component of the vector.
     public var y: Double
-    /// The third component of the vector, frequently representing the value on the Z axis.
+    /// The Z component of the vector.
     public var z: Double
 
     /// Creates a vector from the values you provide.
     /// - Parameters:
-    ///   - x: The ``x`` value for the vector.
-    ///   - y: The ``y`` value for the vector.
-    ///   - z: The ``z`` value for the vector.
+    ///   - x: The X component of the vector.
+    ///   - y: The Y component of the vector.
+    ///   - z: The Z component of the vector.
     public init(_ x: Double, _ y: Double, _ z: Double = 0) {
         self.x = x
         self.y = y
         self.z = z
     }
 
-    /// Hashes the essential components of the vector by feeding them into the hasher you provide.
+    /// Hashes the essential components of the vector at reduced precision.
     /// - Parameter hasher: The hasher to use when combining the components of this instance.
     public func hash(into hasher: inout Hasher) {
         let precision = 1e-6
@@ -63,14 +63,15 @@ public struct Vector: Hashable {
         hasher.combine((z / precision).rounded() * precision)
     }
 
-    /// Returns a Boolean value that indicates if the two vectors are approximately equal, within a precision of 1e-10.
+    /// Returns a Boolean value that indicates if the two vectors are approximately equal.
     public static func == (lhs: Vector, rhs: Vector) -> Bool {
         lhs.isEqual(to: rhs, withPrecision: 1e-10)
     }
 }
 
 extension Vector: Comparable {
-    /// Returns a Boolean value that compares two vectors to provide a stable sort order.
+    /// Returns whether the leftmost vector has the lower value.
+    /// This provides a stable order when sorting collections of vectors.
     public static func < (lhs: Vector, rhs: Vector) -> Bool {
         if lhs.x < rhs.x {
             return true
@@ -105,7 +106,7 @@ extension Vector: Codable {
         }
     }
 
-    /// Encodes this date into the given encoder.
+    /// Encodes the vector into the given encoder.
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
@@ -130,7 +131,7 @@ public extension Vector {
     static let one = Vector(1, 1, 1)
 
     /// Creates a vector from an array of coordinates.
-    /// - Parameter components: An array of coordinate positions.
+    /// - Parameter components: An array of vector components.
     ///
     /// Omitted values default to `0` and extra components are ignored.
     init(_ components: [Double]) {
@@ -143,10 +144,10 @@ public extension Vector {
     }
 
     /// Creates a size/scale vector from an array of two coordinates.
-    /// - Parameter components: An array of coordinate positions.
+    /// - Parameter components: An array of vector components.
     ///
-    /// Omitted values are defaulted to `0` and extra components are ignored.
-    /// An empty array of coordinates defaults to ``one``.
+    /// Omitted values are set equal to the first value specified.
+    /// If no values as specified, the size defaults to ``one``.
     init(size components: [Double]) {
         switch components.count {
         case 0: self = .one
@@ -156,69 +157,64 @@ public extension Vector {
         }
     }
 
-    /// Creates a vector of uniform size that you provide.
+    /// Creates a vector of uniform size.
+    /// - Parameter size: The value to use for all components.
     init(size: Double) {
         self.init(size, size, size)
     }
 
-    /// An array of the components of the vector.
+    /// An array containing the X, Y, and Z components of the vector.
     var components: [Double] {
         [x, y, z]
     }
 
-    /// Returns a vector with the values inverted.
+    /// Returns a vector with all components inverted.
     static prefix func - (rhs: Vector) -> Vector {
         Vector(-rhs.x, -rhs.y, -rhs.z)
     }
 
-    /// Returns a vector that is the sum of the vectors you provide.
-    /// - Parameters:
-    ///   - lhs: The first vector.
-    ///   - rhs: The second vector.
+    /// Returns the componentwise sum of two vectors.
     static func + (lhs: Vector, rhs: Vector) -> Vector {
         Vector(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
     }
 
-    /// Extends the vector by a vector you provide.
+    /// Adds the components of the vector on the right to the ones on the left.
     static func += (lhs: inout Vector, rhs: Vector) {
         lhs.x += rhs.x
         lhs.y += rhs.y
         lhs.z += rhs.z
     }
 
-    /// Returns a vector that is the difference of the vectors you provide.
-    /// - Parameters:
-    ///   - lhs: The first vector.
-    ///   - rhs: The second vector.
+    /// Returns the componentwise difference between two vectors.
     static func - (lhs: Vector, rhs: Vector) -> Vector {
         Vector(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z)
     }
 
-    /// Reduces the vector by a vector you provide.
+    /// Subtracts the components of the vector on the right from the ones on the left.
     static func -= (lhs: inout Vector, rhs: Vector) {
         lhs.x -= rhs.x
         lhs.y -= rhs.y
         lhs.z -= rhs.z
     }
 
-    /// Returns a vector with its components multiplied by the value you provide.
+    /// Returns a vector with its components multiplied by the specified value.
     static func * (lhs: Vector, rhs: Double) -> Vector {
         Vector(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs)
     }
 
-    /// Returns a vector with its components multiplied by the value you provide.
+    /// Returns a vector with its components multiplied by the specified value.
     static func * (lhs: Double, rhs: Vector) -> Vector {
         Vector(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z)
     }
 
-    /// Multiplies the components of the vector by the value you provide.
+    /// Multiplies the components of the vector by the specified value.
     static func *= (lhs: inout Vector, rhs: Double) {
         lhs.x *= rhs
         lhs.y *= rhs
         lhs.z *= rhs
     }
 
-    /// Returns a vector with its components divided by the value you provide.
+    /// Returns a vector with its components divided by the specified value.
     static func / (lhs: Vector, rhs: Double) -> Vector {
         Vector(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs)
     }
@@ -230,51 +226,46 @@ public extension Vector {
         lhs.z /= rhs
     }
 
-    /// The length of vector, squared.
-    var lengthSquared: Double {
-        dot(self)
-    }
-
-    /// The length of vector.
+    /// The magnitude of the vector.
     var length: Double {
         lengthSquared.squareRoot()
     }
 
-    /// Computes the dot-product of this vector and another you provide.
-    /// - Parameter a: The vector against which to compute a dot product.
-    /// - Returns: A double that indicates the value to which one vector applies to another.
+    /// The square of the length of the vector. This is less expensive to compute than the length itself.
+    var lengthSquared: Double {
+        dot(self)
+    }
+
+    /// Computes the dot-product of this vector and another.
+    /// - Parameter a: The vector with which to compute the dot product.
+    /// - Returns: The dot product of the two vectors.
     func dot(_ a: Vector) -> Double {
         x * a.x + y * a.y + z * a.z
     }
 
-    /// Computes the cross-product of this vector and another you provide.
-    /// - Parameter a: The vector against which to compute a cross product.
+    /// Computes the cross-product of this vector and another.
+    /// - Parameter a: The vector with which to compute the cross product.
     /// - Returns: Returns a vector that is orthogonal to the two vectors used to compute the cross product.
     func cross(_ a: Vector) -> Vector {
-        Vector(
-            y * a.z - z * a.y,
-            z * a.x - x * a.z,
-            x * a.y - y * a.x
-        )
+        Vector(y * a.z - z * a.y, z * a.x - x * a.z, x * a.y - y * a.x)
     }
 
-    /// A Boolean value that indicates the vector has a length effectively equivalent to `1`.
+    /// A Boolean value that indicates whether the vector has a length of `1`.
     var isNormalized: Bool {
         abs(lengthSquared - 1) < epsilon
     }
 
-    /// Returns a normalized vector..
-    /// - Returns: The normalized vector with a length of `1`, or the ``zero`` vector if the length is `0`.
+    /// Returns a normalized vector.
+    /// - Returns: The normalized vector (with a length of `1`) or the ``zero`` vector if the length is `0`.
     func normalized() -> Vector {
         let length = self.length
         return length == 0 ? .zero : self / length
     }
 
-    /// Linearly interpolate between this vector and another you provide.
+    /// Linearly interpolate between this vector and another.
     /// - Parameters:
     ///   - a: The vector to interpolate towards.
-    ///   - t: A value, typically between `0` and `1`, to indicate the position  to interpolate between the two vectors.
-    /// - Returns: <#description#>
+    ///   - t: The normalized extent of interpolation, from 0 to 1.
     func lerp(_ a: Vector, _ t: Double) -> Vector {
         self + (a - self) * t
     }
@@ -286,42 +277,46 @@ public extension Vector {
         Vector(quantize(x), quantize(y), quantize(z))
     }
 
-    /// Returns the angle between this vector and another that you provide.
-    /// - Parameter a: The vector to compare.
+    /// Returns the angle between this vector and another.
+    /// - Parameter a: The vector to compare with.
     func angle(with a: Vector) -> Angle {
         let cosineAngle = (dot(a) / (length * a.length))
         return Angle.acos(cosineAngle)
     }
 
-    /// Returns the angle between this vector and the plane that you provide.
-    /// - Parameter plane: The plane to compare.
+    /// Returns the angle between this vector and the specified plane.
+    /// - Parameter plane: The plane to compare with.
     func angle(with plane: Plane) -> Angle {
         // We know that plane.normal.length == 1
         let complementeryAngle = dot(plane.normal) / length
         return Angle.asin(complementeryAngle)
     }
 
-    /// Returns the distance of the vector represented as a point from the plane you provide.
-    /// - Parameter plane: The plane to compare.
-    /// - Returns: The distance between the point and the plane. The value is positive if the point lies in front of the plane, and negative if behind.
+    /// Returns the distance between the vector (representing a position in space) from the specified plane.
+    /// - Parameter plane: The plane to compare with.
+    /// - Returns: The distance between the point and the plane. The value is positive if the point lies
+    ///   in front of the plane, and negative if behind.
     func distance(from plane: Plane) -> Double {
         plane.normal.dot(self) - plane.w
     }
 
-    /// Returns the nearest point to the vector representing a point on the specified plane.
-    /// - Parameter plane: The plane to compare.
+    /// Returns the nearest point on the specified plane to the vector (representing a position in space).
+    /// - Parameter plane: The plane to project onto.
+    /// - Returns: The nearest point in 3D space that lies on the plane.
     func project(onto plane: Plane) -> Vector {
         self - plane.normal * distance(from: plane)
     }
 
-    /// Returns the distance of the vector representing a point to a line in 3D.
-    /// - Parameter line: The line to compare.
+    /// Returns the distance between the vector (representing a position in space) from the specified line.
+    /// - Parameter line: The line to compare with.
+    /// - Returns: The absolute perpendicular distance between the point and line.
     func distance(from line: Line) -> Double {
         line.distance(from: self)
     }
 
-    /// Returns a vector that represents the nearest point on the line you provide.
-    /// - Parameter line: The line to compare.
+    /// Returns the nearest point on the specified line to the vector (representing a position in space).
+    /// - Parameter line: The line to project onto.
+    /// - Returns: The nearest point in 3D space that lies on the line.
     func project(onto line: Line) -> Vector {
         self + vectorFromPointToLine(self, line.origin, line.direction)
     }

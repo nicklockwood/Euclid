@@ -31,10 +31,13 @@
 
 import Foundation
 
-/// A struct that represents an angle in radians or degrees.
+/// An angle or 2D rotation.
 public struct Angle: Hashable, Comparable {
+    /// The angle in radians.
     public var radians: Double
 
+    /// Creates an angle from a radians value.
+    /// - Parameter radians: The angle in radians.
     public init(radians: Double) {
         self.radians = radians
     }
@@ -45,6 +48,8 @@ extension Angle: Codable {
         case radians, degrees
     }
 
+    /// Creates a new angle by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         guard let container = try? decoder.container(keyedBy: CodingKeys.self) else {
             self.init(radians: try Double(from: decoder))
@@ -57,108 +62,145 @@ extension Angle: Codable {
         self = .degrees(try container.decode(Double.self, forKey: .degrees))
     }
 
+    /// Encodes this angle into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         try radians.encode(to: encoder)
     }
 }
 
-/// Returns the  trigonometric cosine value for the angle you provide.
-/// - Parameter angle: The angle to use to calculate the cosine.
+/// Computes the trigonometric cosine of an angle.
+/// - Parameter angle: The angle to calculate the cosine for.
+/// - Returns: The trigonometric cosine of the angle.
 public func cos(_ angle: Angle) -> Double {
     cos(angle.radians)
 }
 
-/// Returns the  trigonometric sine value for the angle you provide.
-/// - Parameter angle: The angle to use to calculate the sine.
+/// Computes the trigonometric sine of an angle.
+/// - Parameter angle: The angle to calculate the sine for.
+/// - Returns: The trigonometric sine of the angle.
 public func sin(_ angle: Angle) -> Double {
     sin(angle.radians)
 }
 
-/// Returns the  trigonometric tangent value for the angle you provide.
-/// - Parameter angle: The angle to use to calculate the tangent.
+/// Computes the trigonometric tangent of an angle.
+/// - Parameter angle: The angle to calculate the tangent for.
+/// - Returns: The trigonometric tangent of the angle.
 public func tan(_ angle: Angle) -> Double {
     tan(angle.radians)
 }
 
 public extension Angle {
+    /// Angle representing a zero (identity) rotation.
     static var zero = Angle.radians(0)
+    /// Angle representing a quarter rotation.
     static var halfPi = Angle.radians(.pi / 2)
+    /// Angle representing a half-rotation.
     static var pi = Angle.radians(.pi)
+    /// Angle representing a full rotation.
     static var twoPi = Angle.radians(.pi * 2)
 
+    /// The angle in degrees.
     var degrees: Double {
         get { radians * 180 / .pi }
         set { radians = newValue / 180 * .pi }
     }
 
+    /// Creates an Angle from a degrees value.
+    /// - Parameter degrees: The angle in degrees.
     init(degrees: Double) {
         self.init(radians: degrees / 180 * .pi)
     }
 
+    /// Creates an angle from a degrees value.
+    /// - Parameter degrees: The angle in degrees.
     static func degrees(_ degrees: Double) -> Angle {
         Angle(degrees: degrees)
     }
 
+    /// Creates an angle from a radians value.
+    /// - Parameter radians: The angle in radians.
     static func radians(_ radians: Double) -> Angle {
         Angle(radians: radians)
     }
 
+    /// Creates an angle representing the trigonometric arc cosine of the value you provide.
+    /// - Parameter cos: The cosine value to use to calculate the angle.
     static func acos(_ cos: Double) -> Angle {
         .radians(Foundation.acos(cos))
     }
 
+    /// Creates an angle representing the trigonometric arc sine of the value you provide.
+    /// - Parameter sin: The sine value to use to calculate the angle.
     static func asin(_ sin: Double) -> Angle {
         .radians(Foundation.asin(sin))
     }
 
+    /// Creates an angle representing the trigonometric arc tangent of the value you provide.
+    /// - Parameter tan: The tangent value to use to calculate the angle.
     static func atan(_ tan: Double) -> Angle {
         .radians(Foundation.atan(tan))
     }
 
+    /// Creates an angle representing the trigonometric arc tangent of the vector you provide.
+    /// - Parameters
+    ///   - y: The Y component of the input vector
+    ///   - x: The X component of the input vector
     static func atan2(y: Double, x: Double) -> Angle {
         .radians(Foundation.atan2(y, x))
     }
 
+    /// Returns the sum of two angles.
     static func + (lhs: Angle, rhs: Angle) -> Angle {
         .radians(lhs.radians + rhs.radians)
     }
 
+    /// Adds the angle on the right to the one on the left.
     static func += (lhs: inout Angle, rhs: Angle) {
         lhs.radians += rhs.radians
     }
 
+    /// Returns the difference between two angles.
     static func - (lhs: Angle, rhs: Angle) -> Angle {
         .radians(lhs.radians - rhs.radians)
     }
 
+    /// Subtracts the angle on the right from the one on the left.
     static func -= (lhs: inout Angle, rhs: Angle) {
         lhs.radians -= rhs.radians
     }
 
+    /// Returns the product of an angle and numeric multiplier.
     static func * (lhs: Angle, rhs: Double) -> Angle {
         .radians(lhs.radians * rhs)
     }
 
+    /// Returns the product of a numeric multiplier and an angle.
     static func * (lhs: Double, rhs: Angle) -> Angle {
         .radians(lhs * rhs.radians)
     }
 
+    /// Multiplies the angle by a numeric value.
     static func *= (lhs: inout Angle, rhs: Double) {
         lhs.radians *= rhs
     }
 
+    /// Returns the angle divided by a numeric denominator.
     static func / (lhs: Angle, rhs: Double) -> Angle {
         .radians(lhs.radians / rhs)
     }
 
+    /// Divides the angle by a numeric denominator.
     static func /= (lhs: inout Angle, rhs: Double) {
         lhs.radians /= rhs
     }
 
+    /// Returns the inverse angle.
     static prefix func - (angle: Angle) -> Angle {
         .radians(-angle.radians)
     }
 
+    /// Returns whether the leftmost angle has the lower value.
     static func < (lhs: Angle, rhs: Angle) -> Bool {
         lhs.degrees < rhs.degrees
     }

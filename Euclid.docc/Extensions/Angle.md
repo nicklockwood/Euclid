@@ -2,7 +2,6 @@
 
 ## Topics
 
-
 ### Creating Angles
 
 - ``Angle/init(degrees:)``

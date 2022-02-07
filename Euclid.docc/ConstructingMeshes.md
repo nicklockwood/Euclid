@@ -70,7 +70,7 @@ This approach to curve generation is based on the popular [TrueType (TTF) font s
 For more complex curves, on macOS and iOS you can create Euclid ``Path`` from a Core Graphics `CGPath` by using the `CGPath.paths()` extension method. 
 `CGPath` supports cubic bezier curves as well as quadratic, and has handy constructors for rounded rectangles and other shapes.
 
-## Constructive Solid Geometry (CSG)
+### Constructive Solid Geometry (CSG)
 
 CSG is another powerful tool for creating intricate geometry. 
 CSG allows you to perform boolean operations (logical AND, OR, etc) on solid shapes. 
