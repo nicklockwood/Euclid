@@ -202,7 +202,7 @@ public extension Angle {
 
     /// Returns whether the leftmost angle has the lower value.
     static func < (lhs: Angle, rhs: Angle) -> Bool {
-        lhs.degrees < rhs.degrees
+        lhs.radians < rhs.radians
     }
 }
 
