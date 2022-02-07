@@ -50,19 +50,17 @@ public extension Mesh {
     /// - ``Faces/!=(_:_:)``
     ///
     enum Faces {
-        /// Render the front faces of the polygon.
-        ///
-        /// The same effect as ``Mesh/Faces/front``.
+        /// The default face generation behavior. Context-dependent.
         case `default`
-        /// Render the front faces of the polygon.
+        /// Generate front faces.
         case front
-        /// Render the back faces of the polygon.
+        /// Generate back faces.
         case back
-        /// Render both the front and back faces of the polygon.
+        /// Generate both the front and back faces.
         case frontAndBack
     }
 
-    /// A choice of how the edges of a path are used to generate a mesh.
+    /// A choice of how texture coordinates should be generated.
     ///
     /// ## Topics
     ///
@@ -77,21 +75,19 @@ public extension Mesh {
     /// - ``WrapMode/!=(_:_:)``
     ///
     enum WrapMode {
-        /// Vertex choices shrink to the smallest choice on a path, rendering the path directly.
-        ///
-        /// The same effect as ``Mesh/WrapMode/shrink``.
+        /// The default wrap behavior. Context-dependent.
         case `default`
-        /// Vertex choices shrink to the smallest choice on a path, rendering the path directly.
+        /// Texture is shrink-wrapped.
         case shrink
-        /// Vertex choices include points around a path, creating a tube around the path.
+        /// Texture is tube-wrapped.
         case tube
     }
 
-    /// Creates an axis-aligned cuboid mesh.
+    /// Creates an axis-aligned cuboidal mesh.
     /// - Parameters:
-    ///   - c: The center point of the mesh.
-    ///   - s: The size of the cuboid mesh.
-    ///   - faces: The direction the polygon faces.
+    ///   - center: The center point of the mesh.
+    ///   - size: The size of the cuboid mesh.
+    ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     static func cube(
         center c: Vector = .init(0, 0, 0),
@@ -160,11 +156,11 @@ public extension Mesh {
         }
     }
 
-    /// Creates a cube mesh.
+    /// Creates an axis-aligned cubical mesh.
     /// - Parameters:
-    ///   - c: The center point of the mesh.
-    ///   - s: The size of the cuboid mesh.
-    ///   - faces: The direction the polygon faces.
+    ///   - center: The center point of the mesh.
+    ///   - size: The size of the mesh.
+    ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     static func cube(
         center c: Vector = .init(0, 0, 0),
@@ -175,17 +171,17 @@ public extension Mesh {
         cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
     }
 
-    /// Creates a sphere mesh.
+    /// Creates a spherical mesh.
     /// - Parameters:
-    ///   - r: The radius of the sphere.
+    ///   - radius: The radius of the sphere.
     ///   - slices: The number of vertical slices that make up the sphere.
     ///   - stacks: The number of horizontal stacks that make up the sphere.
-    ///   - poleDetail: <#poleDetail description#>
+    ///   - poleDetail: Optionally add extra detail around poles to prevent texture warping
     ///   - faces: The direction the polygon faces.
-    ///   - wrapMode: The mode in which the vertexes are mapped to edges.
+    ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
     ///   - material: The optional material for the mesh.
     static func sphere(
-        radius r: Double = 0.5,
+        radius: Double = 0.5,
         slices: Int = 16,
         stacks: Int? = nil,
         poleDetail: Int = 0,
@@ -195,10 +191,10 @@ public extension Mesh {
     ) -> Mesh {
         var semicircle = [PathPoint]()
         let stacks = max(2, stacks ?? (slices / 2))
-        let r = max(abs(r), epsilon)
+        let radius = max(abs(radius), epsilon)
         for i in 0 ... stacks {
             let a = Double(i) / Double(stacks) * Angle.pi
-            semicircle.append(.curve(-sin(a) * r, cos(a) * r))
+            semicircle.append(.curve(-sin(a) * radius, cos(a) * radius))
         }
         return lathe(
             unchecked: Path(unchecked: semicircle, plane: .xy, subpathIndices: []),
@@ -214,12 +210,12 @@ public extension Mesh {
 
     /// Creates a cylindrical mesh.
     /// - Parameters:
-    ///   - r: The radius of the cylinder.
-    ///   - h: The height of the cylinder.
+    ///   - radius: The radius of the cylinder.
+    ///   - height: The height of the cylinder.
     ///   - slices: The number of vertical slices that make up the cylinder.
-    ///   - poleDetail: The number of segments used to make the pole.
-    ///   - faces: The direction the polygon faces.
-    ///   - wrapMode: The mode in which the vertexes are mapped to edges.
+    ///   - poleDetail: Optionally add extra detail around poles to prevent texture warping.
+    ///   - faces: The direction of the generated polygon faces.
+    ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
     ///   - material: The optional material for the mesh.
     static func cylinder(
         radius r: Double = 0.5,
@@ -253,14 +249,17 @@ public extension Mesh {
 
     /// Creates a conical mesh.
     /// - Parameters:
-    ///   - r: The radius of the cone.
-    ///   - h: The height of the cone.
+    ///   - radius: The radius of the cone.
+    ///   - height: The height of the cone.
     ///   - slices: The number of vertical slices that make up the cone.
-    ///   - poleDetail: The number of segments used to make the pole.
-    ///   - addDetailAtBottomPole: A Boolean value that indicates whether to add detail to the bottom pole of the cone.
-    ///   - faces: The direction the polygon faces.
-    ///   - wrapMode: The mode in which the vertexes are mapped to edges.
+    ///   - poleDetail: Optionally add extra detail around top pole to prevent texture warping.
+    ///   - addDetailAtBottomPole: Whether detail should be added at bottom pil.
+    ///   - faces: The direction of the generated polygon faces.
+    ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
     ///   - material: The optional material for the mesh.
+    ///
+    /// > Note: The default `nil` value for poleDetail will derive value automatically.
+    /// Use zero instead if you wish to add no extra detail at the poles.
     static func cone(
         radius r: Double = 0.5,
         height h: Double = 1,
@@ -292,16 +291,13 @@ public extension Mesh {
         )
     }
 
-    /// Creates a rotationally symmetrical mesh by rotating the path you provide around an axis.
+    /// Creates a rotationally symmetrical mesh by turning the specified path around the Y axis.
     ///
-    /// The path consists of an array of `x`,`y` coordinate pairs
-    /// that define the profile of the shape. Some notes on path coordinates:
+    /// * The profile path can be open or closed. Define a closed path by ending with
+    ///   the same point that you started with.
     ///
-    /// * The path can be open or closed. Define a closed path by ending with
-    ///   the same coordinate pair that you started with
-    ///
-    /// * The path can be placed on either the left or right of the `Y` axis,
-    ///   however the behavior is undefined for paths that cross the `Y` axis
+    /// * The path can be placed on either side of the `Y` axis,
+    ///   however the behavior is undefined for paths that cross the axis
     ///
     /// * Open paths that do not start and end on the `Y` axis will produce
     ///   a shape with a hole in it
@@ -311,8 +307,8 @@ public extension Mesh {
     ///   - slices: The number of slices that make up the lathed mesh.
     ///   - poleDetail: The number of segments used to make the pole.
     ///   - addDetailForFlatPoles: A Boolean value that indicates whether to add detail to the poles.
-    ///   - faces: The direction the polygon faces.
-    ///   - wrapMode: The mode in which the vertexes are mapped to edges.
+    ///   - faces: The direction of the generated polygon faces.
+    ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
     ///   - material: The optional material for the mesh.
     static func lathe(
         _ profile: Path,
@@ -338,9 +334,9 @@ public extension Mesh {
 
     /// Creates a mesh by extruding a path along its face normal.
     /// - Parameters:
-    ///   - shape: The path to extrude to create the mesh.
+    ///   - shape: The path to extrude in order to create the mesh.
     ///   - depth: The depth of the extrusion.
-    ///   - faces: The direction the polygon faces.
+    ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     static func extrude(
         _ shape: Path,
@@ -366,11 +362,11 @@ public extension Mesh {
         )
     }
 
-    /// Creates a mesh by extruding a path along another path.
+    /// Creates a mesh by extruding one path along another path.
     /// - Parameters:
     ///   - shape: The shape to extrude into a mesh.
-    ///   - along: The path in which to extrude the shape.
-    ///   - faces: The direction the polygon faces.
+    ///   - along: The path along which to extrude the shape.
+    ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     static func extrude(
         _ shape: Path,
@@ -468,10 +464,10 @@ public extension Mesh {
         return loft(shapes, faces: faces, material: material)
     }
 
-    /// Creates a mesh that is the connection of multiple 3D paths.
+    /// Creates a mesh by connecting a series of 3D paths representing the cross sections
     /// - Parameters:
     ///   - shapes: The paths to connect.
-    ///   - faces: The direction the polygon faces.
+    ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     static func loft(
         _ shapes: [Path],
@@ -550,7 +546,7 @@ public extension Mesh {
     /// - Parameters:
     ///   - shape: The path to stroke.
     ///   - width: The line width of the stroke.
-    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    ///   - detail: The number of sides to use for the cross-sectional shape of the stroked mesh.
     ///   - material: The optional material for the mesh.
     static func stroke(
         _ shape: Path,
@@ -570,11 +566,11 @@ public extension Mesh {
         return extrude(path, along: shape, faces: faces, material: material)
     }
 
-    /// Efficiently stroke a set of line segments (useful for drawing wireframes)
+    /// Efficiently strokes a set of line segments (useful for drawing wireframes)
     /// - Parameters:
-    ///   - lines: The collection of lines to stroke.
+    ///   - lines: A collection of ``LineSegment`` to stroke.
     ///   - width: The line width of the strokes.
-    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    ///   - detail: The number of sides to use for the cross-sectional shape of the stroked mesh.
     ///   - material: The optional material for the mesh.
     static func stroke<T: Collection>(
         _ lines: T,

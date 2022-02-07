@@ -29,19 +29,21 @@
 //  SOFTWARE.
 //
 
-/// An axially-aligned bounding box for a 3D shape or collection of shapes.
+/// An axially-aligned bounding box in 3D space.
+///
+/// Used for efficient intersection elimination between more complex shapes.
 public struct Bounds: Hashable {
-    /// The minimum location for the bounds.
+    /// The minimum coordinate of the bounds.
     public let min: Vector
-    /// The maximum location for the bounds.
+    /// The maximum coordinate of the bounds.
     public let max: Vector
 
-    /// Creates a bounds with min and max points.
-    ///
-    /// If the value you provide for max is less than the value for min, the bounds is considered to be empty.
+    /// Creates a bounds with min and max coordinates.
     /// - Parameters:
-    ///   - min: The minimum value.
-    ///   - max: The maximum value.
+    ///   - min: The minimum coordinate value.
+    ///   - max: The maximum coordinate value.
+    ///
+    /// > Note: If the value for max is less than the value for min, the bounds is considered to be empty.
     public init(min: Vector, max: Vector) {
         self.min = min
         self.max = max
@@ -68,7 +70,7 @@ extension Bounds: Codable {
         self.init(min: min, max: max)
     }
 
-    /// Encodes this date into the given encoder.
+    /// Encodes this bounds into the given encoder.
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
@@ -82,18 +84,18 @@ public extension Bounds {
     static let empty = Bounds()
 
     /// Creates a bounds from two points.
-    ///
-    /// Unlike the `init(min:max:)` constructor, the order of the points doesn't matter
     /// - Parameters:
     ///   - p0: The first point.
     ///   - p1: The second point.
+    ///
+    /// > Note: Unlike the `init(min:max:)` constructor, the order of the points doesn't matter.
     init(_ p0: Vector, _ p1: Vector) {
         self.min = Euclid.min(p0, p1)
         self.max = Euclid.max(p0, p1)
     }
 
-    /// Create a bounds from an array of points.
-    /// - Parameter points: The array of points that the bounds surrounds.
+    /// Creates a bounds from an array of points.
+    /// - Parameter points: An array of points that the bounds contains.
     init(points: [Vector] = []) {
         var min = Vector(.infinity, .infinity, .infinity)
         var max = Vector(-.infinity, -.infinity, -.infinity)
@@ -104,9 +106,9 @@ public extension Bounds {
         self.min = min
         self.max = max
     }
-    
+
     /// Create a bounds from an array of points.
-    /// - Parameter polygons: The array of polygons that the bounds surrounds.
+    /// - Parameter polygons: An array of polygons that the bounds contains.
     init(polygons: [Polygon]) {
         var min = Vector(.infinity, .infinity, .infinity)
         var max = Vector(-.infinity, -.infinity, -.infinity)
@@ -119,9 +121,9 @@ public extension Bounds {
         self.min = min
         self.max = max
     }
-    
-    /// Creates a bounds from a list of bounds.
-    /// - Parameter bounds: The bounds to accumulate into a larger bounds.
+
+    /// Creates a bounds from a set of bounds.
+    /// - Parameter bounds: An array of existing bounds that the bounds contains.
     init(bounds: [Bounds]) {
         var min = Vector(.infinity, .infinity, .infinity)
         var max = Vector(-.infinity, -.infinity, -.infinity)
@@ -132,22 +134,22 @@ public extension Bounds {
         self.min = min
         self.max = max
     }
-    
-    /// A Boolean value that indicates whether the bounds is empty.
+
+    /// A Boolean value that indicates whether the bounds is empty (has zero volume).
     var isEmpty: Bool {
         size == .zero
     }
-    
-    /// The size of the bounds.
+
+    /// The size of the bounds. The minimum returned size is zero, even if max < min.
     var size: Vector {
         hasNegativeVolume ? .zero : max - min
     }
-    
-    /// The center of the bounds.
+
+    /// The center of the bounds. If the bounds is empty this will return the zero vector.
     var center: Vector {
         hasNegativeVolume ? .zero : min + size / 2
     }
-    
+
     /// The points that make up the corners of the bounds.
     var corners: [Vector] {
         [
@@ -161,9 +163,10 @@ public extension Bounds {
             Vector(max.x, min.y, max.z),
         ]
     }
-    
-    /// Creates a new bounds by joining the current bounds to another.
-    /// - Parameter other: The bounds to be included.
+
+    /// Creates a new bounds that contains both the specified bounds and this one.
+    /// - Parameter other: The other bounds to be included.
+    /// - Returns: The combined bounds.
     func union(_ other: Bounds) -> Bounds {
         if isEmpty {
             return other
@@ -175,30 +178,32 @@ public extension Bounds {
             max: Euclid.max(max, other.max)
         )
     }
-    
-    /// Expands the boundaries of this bounds to include the volume of it and the bounds you provide.
+
+    /// Expands this bounds (if necessary) to contain the specified bounds.
     /// - Parameter other: The bounds to be included.
     mutating func formUnion(_ other: Bounds) {
         self = union(other)
     }
-    
-    /// Returns a new bounds that is the intersection of this bounds and another you provide.
+
+    /// Creates a new bounds representing the intersection between the specified bounds and this one.
     /// - Parameter other: The bounds with which to intersect.
+    /// - Returns: The combined bounds, which may be empty if the bounds don't intersect.
     func intersection(_ other: Bounds) -> Bounds {
         Bounds(
             min: Euclid.max(min, other.min),
             max: Euclid.min(max, other.max)
         )
     }
-    
-    /// Decreaeses the boundaries of this bounds to the intersection of it and the other bounds you provide.
+
+    /// Reduces the bounds to contain just the intersection of itself and the specified bounds.
     /// - Parameter other: The bounds with which to intersect.
     mutating func formIntersection(_ other: Bounds) {
         self = intersection(other)
     }
-    
+
     /// Returns a Boolean value that indicates whether the two bounds intersect.
     /// - Parameter other: The bounds to compare.
+    /// - Returns: `true` if the bounds intersect, and `false` otherwise.
     func intersects(_ other: Bounds) -> Bool {
         !(
             other.max.x + epsilon < min.x || other.min.x > max.x + epsilon ||
@@ -206,53 +211,52 @@ public extension Bounds {
                 other.max.z + epsilon < min.z || other.min.z > max.z + epsilon
         )
     }
-    
-    /// Returns a Boolean value that indicates if the plane you provide intersects this bounds.
+
+    /// Returns a Boolean value that indicates if the bounds intersects the specified plane.
     /// - Parameter plane: The plane to compare.
+    /// - Returns: `true` if the plane intersects the bounds, and `false` otherwise.
     func intersects(_ plane: Plane) -> Bool {
         compare(with: plane) == .spanning
     }
-    
-    /// Returns a Boolean value that indicates if the point you provide is within this bounds.
+
+    /// Returns a Boolean value that indicates if the specified point is within the bounds.
     /// - Parameter p: The point to compare.
+    /// - Returns: `true` if the point lies inside the bounds, and `false` otherwise.
     func containsPoint(_ p: Vector) -> Bool {
         p.x >= min.x && p.x <= max.x &&
             p.y >= min.y && p.y <= max.y &&
             p.z >= min.z && p.z <= max.z
     }
 
-    /// Returns a new bounds inset by specified amount.
-    ///
-    /// Use negative values to expand the bounds.
+    /// Returns a new bounds inset by the specified distance.
+    /// - Parameter v: The distance to inset the bounds by. Use negative values to expand the bounds.
+    /// - Returns: The inset bounds.
     func inset(by v: Vector) -> Bounds {
         Bounds(min: min + v, max: max - v)
     }
 
-    /// Returns a new bounds inset by specified amount.
-    ///
-    /// Use a negative value to expand the bounds.
+    /// Returns a new bounds inset by the specified amount.
+    /// - Parameter d: The amount to inset the bounds by. Use a negative value to expand the bounds.
+    /// - Returns: The inset bounds.
     func inset(by d: Double) -> Bounds {
         inset(by: Vector(size: d))
     }
 }
 
 extension Bounds {
-    /// A Boolean value that indicates the bounds has a negative volume.
+    // A Boolean value that indicates the bounds has a negative volume.
     var hasNegativeVolume: Bool {
         max.x < min.x || max.y < min.y || max.z < min.z
     }
 
-    /// Returns a Boolean value that indicates the bounds are approximately equal based on the amount of precision you provide.
-    /// - Parameters:
-    ///   - other: The bounds to compare.
-    ///   - p: The precision to use for the comparison.
+    // Approximate equality
     func isEqual(to other: Bounds, withPrecision p: Double = epsilon) -> Bool {
         min.isEqual(to: other.min, withPrecision: p) &&
             max.isEqual(to: other.max, withPrecision: p)
     }
-    
-    /// Compares a region defined by the bounds with a plane to determine the relationship of the points that make up the bounds to the plane.
-    /// - Parameter plane: The plane to compare.
+
+    // Compares a region defined by the bounds with a plane to determine the
+    // relationship of the points that make up the bounds to the plane.
     func compare(with plane: Plane) -> PlaneComparison {
         var comparison = PlaneComparison.coplanar
         for point in corners {

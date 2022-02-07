@@ -29,9 +29,10 @@
 //  SOFTWARE.
 //
 
-/// A struct that represents a color in RGBA format.
+/// A color in RGBA format.
 ///
-/// Color can be used as a ``Polygon/material-swift.property``.
+/// Color can be used as a ``Polygon/material-swift.property``
+/// or as a ``Vertex/color-swift.property``.
 public struct Color: Hashable {
     /// The red component of the color.
     public var r: Double
@@ -43,6 +44,11 @@ public struct Color: Hashable {
     public var a: Double
 
     /// Create a color from RGB values and optional alpha component
+    /// - Parameters:
+    ///   - r: The red component of the color, from 0 to 1.
+    ///   - g: The green component of the color, from 0 to 1.
+    ///   - b: The blue component of the color, from 0 to 1.
+    ///   - a: The alpha component of the color. Defaults to 1 (fully opaque)
     public init(_ r: Double, _ g: Double, _ b: Double, _ a: Double = 1) {
         self.r = r
         self.g = g
@@ -56,7 +62,7 @@ extension Color: Codable {
         case r, g, b, a
     }
 
-    /// Creates a new mesh by decoding from the given decoder.
+    /// Creates a new color by decoding from the given decoder.
     /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         if var container = try? decoder.unkeyedContainer() {
@@ -71,7 +77,7 @@ extension Color: Codable {
         }
     }
 
-    /// Encodes this mesh into the given encoder.
+    /// Encodes this color into the given encoder.
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
@@ -93,6 +99,9 @@ public extension Color {
     static let orange = Color(1, 0.5, 0)
 
     /// Creates a color from a luminance value and optional alpha component.
+    /// - Parameters:
+    ///   - rgb: The luminance value, from 0 to 1.
+    ///   - a: The alpha component. Defaults to 1 (fully opaque)
     init(_ rgb: Double, _ a: Double = 1) {
         self.r = rgb
         self.g = rgb
@@ -100,7 +109,15 @@ public extension Color {
         self.a = a
     }
 
-    /// Creates a color from an array of components.
+    /// Creates a color from an array of component values.
+    ///
+    /// The number of values specified determines how each value is interpreted. The following patterns are
+    /// supported (R = red, G = green, B = blue, A = alpha, L = luminance):
+    ///
+    /// L
+    /// LA
+    /// RGB
+    /// RGBA
     init?(_ components: [Double]) {
         guard (1 ... 4).contains(components.count) else {
             return nil
@@ -108,30 +125,36 @@ public extension Color {
         self.init(unchecked: components)
     }
 
-    /// The red, green, blue, and alpha components of the color.
+    /// Returns an array containing the red, green, blue, and alpha components of the color.
     var components: [Double] {
         [r, g, b, a]
     }
 
-    /// Creates a copy of the color updated with the alpha you provide.
+    /// Creates a copy of the color updated with the specified alpha.
     func withAlpha(_ a: Double) -> Color {
         Color(r, g, b, a)
     }
 
-    /// Linearly interpolate between two colors
+    /// Linearly interpolate between two colors.
+    /// - Parameters:
+    ///   - a: The color to interpolate towards.
+    ///   - t: The normalized extent of interpolation, from 0 to 1.
+    /// - Returns: The interpolated color.
     func lerp(_ a: Color, _ t: Double) -> Color {
-        self + (a - self) * t
+        self + (a - self) * max(0, min(1, t))
     }
 }
 
 public extension Collection where Element == Color, Index == Int {
-    /// Linearly interpolate between multiple colors
+    /// Linearly interpolate between multiple colors.
+    /// - Parameter t: The normalized extent of interpolation between all the colors, from 0 to 1.
+    /// - Returns: The interpolated color.
     func lerp(_ t: Double) -> Color {
         let steps = count - 1
         guard steps > -1 else {
             return .clear
         }
-        let t = t * Double(steps)
+        let t = Swift.max(0, Swift.min(1, t)) * Double(steps)
         let index = Int(t)
         guard index < steps else {
             return self[steps]

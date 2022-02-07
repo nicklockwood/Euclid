@@ -32,7 +32,8 @@
 // Inspired by: https://github.com/evanw/csg.js
 
 public extension Mesh {
-    /// Callback used to cancel a long-running operation
+    /// Callback used to cancel a long-running operation.
+    /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
     typealias CancellationHandler = () -> Bool
 
     /// Returns a new mesh representing the combined volume of the
@@ -47,6 +48,10 @@ public extension Mesh {
     ///          |       |            |       |
     ///          +-------+            +-------+
     ///
+    /// - Parameters
+    ///   - mesh: The mesh to form a union with.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: a new mesh representing the union of the input meshes.
     func union(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         guard !intersection.isEmpty else {
@@ -80,7 +85,11 @@ public extension Mesh {
         )
     }
 
-    /// Efficiently form union from multiple meshes
+    /// Efficiently forms a union from multiple meshes.
+    /// - Parameters
+    ///   - meshes: The meshes to form a union from.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: a new mesh representing the union of the input meshes.
     static func union(
         _ meshes: [Mesh],
         isCancelled: @escaping CancellationHandler = { false }
@@ -100,6 +109,10 @@ public extension Mesh {
     ///          |       |
     ///          +-------+
     ///
+    /// - Parameters
+    ///   - mesh: The mesh to subtract from this one.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: a new mesh representing the result of the subtraction.
     func subtract(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         guard !intersection.isEmpty else {
@@ -124,7 +137,11 @@ public extension Mesh {
         )
     }
 
-    /// Efficiently subtract multiple meshes
+    /// Efficiently gets the difference between multiple meshes.
+    /// - Parameters
+    ///   - meshes: An array of meshes. All but the first will be subtracted from the first.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: a new mesh representing the difference between the meshes.
     static func difference(
         _ meshes: [Mesh],
         isCancelled: @escaping CancellationHandler = { false }
@@ -144,6 +161,10 @@ public extension Mesh {
     ///          |       |            |       |
     ///          +-------+            +-------+
     ///
+    /// - Parameters
+    ///   - mesh: The mesh to be XORed with this one.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: a new mesh representing the XOR of the meshes.
     func xor(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         guard !intersection.isEmpty else {
@@ -166,7 +187,11 @@ public extension Mesh {
         )
     }
 
-    /// Efficiently xor multiple meshes
+    /// Efficiently XORs multiple meshes.
+    /// - Parameters
+    ///   - meshes: An array of meshes. All but the first will be subtracted from the first.
+    ///   - isCancelled: Callback used to cancel the operation
+    /// - Returns: a new mesh representing the XOR of the meshes.
     static func xor(
         _ meshes: [Mesh],
         isCancelled: @escaping CancellationHandler = { false }
@@ -174,9 +199,8 @@ public extension Mesh {
         multimerge(meshes, using: { $0.xor($1, isCancelled: $2) }, isCancelled)
     }
 
-    /// Returns a new mesh reprenting the volume shared by both the mesh
-    /// parameter and the receiver. If these do not intersect, an empty
-    /// mesh will be returned.
+    /// Returns a new mesh representing the volume shared by both the mesh
+    /// parameter and the receiver. If these do not intersect, an empty mesh will be returned.
     ///
     ///     +-------+
     ///     |       |
@@ -187,6 +211,10 @@ public extension Mesh {
     ///          |       |
     ///          +-------+
     ///
+    /// - Parameters
+    ///   - mesh: The mesh to be intersected with this one.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: a new mesh representing the intersection of the meshes.
     func intersect(
         _ mesh: Mesh,
         isCancelled: CancellationHandler = { false }
@@ -214,7 +242,11 @@ public extension Mesh {
         )
     }
 
-    /// Efficiently compute intersection of multiple meshes
+    /// Efficiently computes the intersection of multiple meshes.
+    /// - Parameters
+    ///   - meshes: An array of meshes to intersect.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: a new mesh representing the intersection of the meshes.
     static func intersection(
         _ meshes: [Mesh],
         isCancelled: @escaping CancellationHandler = { false }
@@ -234,6 +266,10 @@ public extension Mesh {
     ///          |       |
     ///          +-------+
     ///
+    /// - Parameters
+    ///   - mesh: The mesh to be stencilled onto this one.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: a new mesh representing the result of stencilling.
     func stencil(
         _ mesh: Mesh,
         isCancelled: CancellationHandler = { false }
@@ -255,7 +291,11 @@ public extension Mesh {
         )
     }
 
-    /// Efficiently perform stencil with multiple meshes
+    /// Efficiently performs a stencil with multiple meshes.
+    /// - Parameters
+    ///   - meshes: An array of meshes. All but the first will be stencilled onto the first.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: a new mesh representing the result of stencilling.
     static func stencil(
         _ meshes: [Mesh],
         isCancelled: @escaping CancellationHandler = { false }
@@ -263,7 +303,12 @@ public extension Mesh {
         reduce(meshes, using: { $0.stencil($1, isCancelled: $2) }, isCancelled)
     }
 
-    /// Clip mesh to a plane and optionally fill sheared faces with specified material
+    /// Clip mesh to the specified plane and optionally fill sheared faces with specified material.
+    /// - Parameters
+    ///   - plane: The plane to clip the mesh to
+    ///   - fill: The material to fill the sheared face(s) with.
+    ///
+    /// > Note: Specifying nil for the fill material will leave the sheared face unfilled.
     func clip(to plane: Plane, fill: Material? = nil) -> Mesh {
         guard !polygons.isEmpty else {
             return self

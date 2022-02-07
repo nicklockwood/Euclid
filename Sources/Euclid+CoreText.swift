@@ -55,9 +55,9 @@ public extension Path {
     /// Creates an array of glyph contours from a string and font you provide.
     /// - Parameters:
     ///   - text: The text to convert.
-    ///   - font: The font to use for the text glyphs.
-    ///   - width: The optional width at which to render the paths.
-    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    ///   - font: The font to use for the text.
+    ///   - width: The optional width at which to line-wrap the text.
+    ///   - detail: The number line segments used to approximate glyph curves.
     static func text(
         _ text: String,
         font: CTFont? = nil,
@@ -68,11 +68,11 @@ public extension Path {
         return self.text(attributedString, width: width, detail: detail)
     }
 
-    /// Creates an array of glyph contours from an attributed string
+    /// Creates an array of glyph contours from an attributed string.
     /// - Parameters:
     ///   - attributedString: The text to convert.
-    ///   - width: The optional width at which to render the paths.
-    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    ///   - width: The optional width at which to line-wrap the text.
+    ///   - detail: The number line segments used to approximate glyph curves.
     static func text(
         _ attributedString: NSAttributedString,
         width: Double? = nil,
@@ -88,14 +88,14 @@ public extension Path {
 }
 
 public extension Mesh {
-    /// Create an extruded text model from a String
+    /// Creates an extruded text model from a string.
     /// - Parameters:
     ///   - text: The text to convert into a model
     ///   - font: The font to use for the text glyphs.
-    ///   - width: The optional width at which to render the model.
-    ///   - depth: The depth at which to render the model.
-    ///   - material: The material to apply to the model.
-    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    ///   - width: The optional width at which to line-wrap the text.
+    ///   - depth: The depth of the extruded text.
+    ///   - detail: The number line segments used to approximate glyph curves.
+    ///   - material: An optional material to apply to the mesh.
     init(
         text: String,
         font: CTFont? = nil,
@@ -117,10 +117,10 @@ public extension Mesh {
     /// Create an extruded text model from an attributed string
     /// - Parameters:
     ///   - text: The text to convert into a model
-    ///   - width: The optional width at which to render the model.
-    ///   - depth: The depth at which to render the model.
-    ///   - _:  The number line segments are used to create a cubic or quadratic bezier curve.
-    ///   - material: The material to apply to the model.
+    ///   - width: The optional width at which to line-wrap the text.
+    ///   - depth: The depth of the extruded text.
+    ///   - detail: The number line segments used to approximate glyph curves.
+    ///   - material: Optional material to apply to the mesh.
     init(
         text: NSAttributedString,
         width: Double? = nil,
@@ -146,10 +146,7 @@ public extension Mesh {
 }
 
 private extension NSAttributedString {
-    /// Create a new attributed string using text in the font you provide.
-    /// - Parameters:
-    ///   - string: The string to convert.
-    ///   - font: The font to use for the text.
+    // Creates a new attributed string using text in the font you provide.
     convenience init(string: String, font: CTFont?) {
         let font = font ?? CTFontCreateWithName("Helvetica" as CFString, 1, nil)
         let attributes = [NSAttributedString.Key.font: font]
@@ -157,7 +154,8 @@ private extension NSAttributedString {
     }
 }
 
-/// Returns an array of path, position tuples for the glyphs in an attributed string
+// Returns an array of (path, position, color) tuples
+// for the glyphs in an attributed string
 private func cgPaths(
     for attributedString: NSAttributedString,
     width: Double?

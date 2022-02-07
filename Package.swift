@@ -8,7 +8,17 @@ let package = Package(
         .library(name: "Euclid", targets: ["Euclid"]),
     ],
     targets: [
-        .target(name: "Euclid", path: "Sources"),
-        .testTarget(name: "EuclidTests", dependencies: ["Euclid"], path: "Tests"),
+        .target(
+            name: "Euclid",
+            path: "Sources",
+            exclude: ["Info.plist"]
+        ),
+        .testTarget(
+            name: "EuclidTests",
+            dependencies: ["Euclid"],
+            path: "Tests",
+            exclude: ["Info.plist"],
+            resources: [.copy("Cube.stl")]
+        ),
     ]
 )

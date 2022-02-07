@@ -56,7 +56,6 @@
 		01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2381F23BF4160005EC9DB /* LineSegment.swift */; };
 		0A240137256A64FB00C1535C /* AngleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A240136256A64FB00C1535C /* AngleTests.swift */; };
 		0A24013F256A671600C1535C /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A24013E256A671600C1535C /* Angle.swift */; };
-		1AA6D9B6273DF09F001E2AD8 /* Euclid.docc in Sources */ = {isa = PBXBuildFile; fileRef = 1AA6D9B5273DF09E001E2AD8 /* Euclid.docc */; };
 		52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3852D238D6E5700BE8407 /* LineTests.swift */; };
 		52A663A123857D5300FACF9D /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A663A023857D5300FACF9D /* Line.swift */; };
 		52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C844E023854C87009C0A73 /* VectorTests.swift */; };
@@ -146,7 +145,6 @@
 		01F2381F23BF4160005EC9DB /* LineSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegment.swift; sourceTree = "<group>"; };
 		0A240136256A64FB00C1535C /* AngleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleTests.swift; sourceTree = "<group>"; };
 		0A24013E256A671600C1535C /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
-		1AA6D9B5273DF09E001E2AD8 /* Euclid.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Euclid.docc; sourceTree = "<group>"; };
 		52A3852D238D6E5700BE8407 /* LineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTests.swift; sourceTree = "<group>"; };
 		52A663A023857D5300FACF9D /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		52C844E023854C87009C0A73 /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
@@ -212,7 +210,6 @@
 		016FAB2B21BFE78100AF60DC /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				1AA6D9B5273DF09E001E2AD8 /* Euclid.docc */,
 				0A24013E256A671600C1535C /* Angle.swift */,
 				016FAB4721BFE7C200AF60DC /* Bounds.swift */,
 				0188525726D951490079C602 /* Color.swift */,
@@ -490,7 +487,6 @@
 				52A663A123857D5300FACF9D /* Line.swift in Sources */,
 				016FAB4F21BFE7C200AF60DC /* Vector.swift in Sources */,
 				016FAB5021BFE7C200AF60DC /* Mesh+CSG.swift in Sources */,
-				1AA6D9B6273DF09F001E2AD8 /* Euclid.docc in Sources */,
 				016FAB5621BFE7C200AF60DC /* Euclid+SceneKit.swift in Sources */,
 				0A24013F256A671600C1535C /* Angle.swift in Sources */,
 				016FAB5921BFE7C200AF60DC /* Plane.swift in Sources */,

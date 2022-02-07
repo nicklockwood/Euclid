@@ -32,17 +32,31 @@
 import Foundation
 
 public extension Path {
-    /// Create a path from a line segment
+    /// Creates a linear path from a line segment.
+    /// - Parameters:
+    ///   - line: The ``LineSegment`` defining the path.
+    ///   - color: An optional ``Color`` to apply to the path's points.
     static func line(_ line: LineSegment, color: Color? = nil) -> Path {
         .line(line.start, line.end, color: color)
     }
 
-    /// Create a path from a start and end point
+    /// Create a linear path from a start and end point.
+    /// - Parameters:
+    ///   - start: The starting point of the line.
+    ///   - end: The ending point of the line.
+    ///   - color: An optional ``Color`` to apply to the path's points.
     static func line(_ start: Vector, _ end: Vector, color _: Color? = nil) -> Path {
         Path([.point(start), .point(end)])
     }
 
-    /// Create a closed circular path
+    /// Creates a closed circular path.
+    /// - Parameters:
+    ///   - radius: The distance from the center of the circle to each point used to approximate its shape.
+    ///   - segments: The number of line segments used to approximate the circle.
+    ///   - color: An optional ``Color`` to apply to the path's points.
+    ///
+    /// > Note: Because the circle is approximated using line segments, its radius is not uniform. The radius
+    /// specified is the *outer* radius, i.e. the radius at the corners of the polygon.
     static func circle(
         radius r: Double = 0.5,
         segments: Int = 16,
@@ -51,7 +65,12 @@ public extension Path {
         ellipse(width: r * 2, height: r * 2, segments: segments, color: color)
     }
 
-    /// Create a closed elliptical path
+    /// Creates a closed elliptical path.
+    /// - Parameters:
+    ///   - width: The horizontal diameter of the ellipse.
+    ///   - height: The vertical diameter of the ellipse.
+    ///   - segments: The number of line segments used to approximate the ellipse.
+    ///   - color: An optional ``Color`` to apply to the path's points.
     static func ellipse(
         width: Double,
         height: Double,
@@ -68,7 +87,11 @@ public extension Path {
         }, plane: .xy, subpathIndices: [])
     }
 
-    /// Create a closed regular polygon
+    /// Creates a closed regular polygon.
+    /// - Parameters:
+    ///   - radius: The distance from the center of the polygon to each point.
+    ///   - sides: The number of sides on the polygon.
+    ///   - color: An optional ``Color`` to apply to the path's points.
     static func polygon(
         radius: Double = 0.5,
         sides: Int,
@@ -80,12 +103,19 @@ public extension Path {
         }, plane: .xy, subpathIndices: [])
     }
 
-    /// Create a closed square path
+    /// Creates a closed square path.
+    /// - Parameters:
+    ///   - size: The width and height of the square.
+    ///   - color: An optional ``Color`` to apply to the path's points.
     static func square(size: Double = 1, color: Color? = nil) -> Path {
         rectangle(width: size, height: size, color: color)
     }
 
-    /// Create a closed rectangular path
+    /// Creates a closed rectangular path.
+    /// - Parameters:
+    ///   - width: The width of the rectangle.
+    ///   - height: The height of the rectangle.
+    ///   - color: An optional ``Color`` to apply to the path's points.
     static func rectangle(
         width: Double,
         height: Double,
@@ -104,10 +134,32 @@ public extension Path {
         ], plane: .xy, subpathIndices: [])
     }
 
-    /// Creates a quadratic bezier spline
+    /// Creates a quadratic bezier spline.
+    ///
+    /// The method takes an array of ``PathPoint`` and a `detail` argument.
+    /// Normally, the ``PathPoint/isCurved`` property is used to calculate surface normals
+    /// (for lighting purposes), but with the ``Path/curve(_:detail:)`` method it actually affects
+    /// the shape of the ``Path``.
+    ///
+    /// A sequence of regular (non-curved) ``PathPoint``s creates sharp corners in the ``Path`` as
+    /// normal, but curved points are treated as off-curve Bezier control points.
+    ///
+    /// The method uses second-order (quadratic) Bezier curves, where each curve has two on-curve end
+    /// points and a single off-curve control point. If two curved ``PathPoint`` are used in sequence
+    /// then an on-curve point is interpolated between them. It is therefore  possible to create curves
+    /// entirely out of curved (off-curve) control points.
+    ///
+    /// This approach to curve generation is based on the popular [TrueType (TTF) font system](
+    /// https://developer.apple.com/fonts/TrueType-Reference-Manual/RM01/Chap1.html
+    /// ), and provides a good balance between simplicity and flexibility.
+    ///
+    /// For more complex curves, on macOS and iOS you can create Euclid ``Path`` from a `CGPath`
+    /// by using the `CGPath.paths()` extension method. `CGPath` supports cubic bezier curves as
+    /// well as quadratic, and has convenience constructors for rounded rectangles and other shapes.
+    ///
     /// - Parameters:
     ///   - points: The control points for the curve.
-    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    ///   - detail: The number line segments used to approximate curved sections.
     static func curve(_ points: [PathPoint], detail: Int = 4) -> Path {
         enum ArcRange {
             case lhs, rhs, all

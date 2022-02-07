@@ -29,18 +29,17 @@
 //  SOFTWARE.
 //
 
-/// A struct that represents an infinite 2D plane in 3D space.
-///
-/// A plane is defined by a ``Plane/normal``, a surface normal ``Vector``, and ``Plane/w``,  the distance from the the center of the plane from the world origin coordinates.
+/// An infinite 2D plane in 3D space.
 public struct Plane: Hashable {
-    /// The surface normal vector.
-    ///
-    /// A surface normal vector is perpendicular to the plane.
+    /// A surface normal vector, perpendicular to the plane.
     public let normal: Vector
-    /// The distance from the center of the plane to the world origin coordinates.
+    /// The perpendicular distance from the world origin to the plane.
     public let w: Double
 
-    /// Creates a plane from a surface normal and a distance from the world origin
+    /// Creates a plane from a surface normal and a distance from the world origin.
+    /// - Parameters:
+    ///   - normal: The surface normal of the plane.
+    ///   - w: The perpendicular distance from the world origin to the plane.
     init?(normal: Vector, w: Double) {
         let length = normal.length
         guard length.isFinite, length > epsilon else {
@@ -51,7 +50,8 @@ public struct Plane: Hashable {
 }
 
 extension Plane: Comparable {
-    /// Provides a stable sort order for Planes
+    /// Returns whether the leftmost plane has the lower value.
+    /// This provides a stable order when sorting collections of planes.
     public static func < (lhs: Plane, rhs: Plane) -> Bool {
         if lhs.normal == rhs.normal {
             return lhs.w < rhs.w
@@ -88,14 +88,17 @@ extension Plane: Codable {
 }
 
 public extension Plane {
-    /// A plane at the origin, aligned with the Y and Z coordinates.
+    /// A plane located at the origin, aligned with the Y and Z axes.
     static let yz = Plane(unchecked: Vector(1, 0, 0), w: 0)
-    /// A plane at the origin, aligned with the X and Z coordinates.
+    /// A plane located at the origin, aligned with the X and Z axes.
     static let xz = Plane(unchecked: Vector(0, 1, 0), w: 0)
-    /// A plane at the origin, aligned with the X and Y coordinates.
+    /// A plane located at the origin, aligned with the X and Y axes.
     static let xy = Plane(unchecked: Vector(0, 0, 1), w: 0)
 
-    /// Creates a plane from a point and surface normal
+    /// Creates a plane from a point and surface normal.
+    /// - Parameters:
+    ///   - normal: The surface normal of the plane.
+    ///   - pointOnPlane: An arbitrary point on the plane.
     init?(normal: Vector, pointOnPlane: Vector) {
         let length = normal.length
         guard length.isFinite, length > epsilon else {
@@ -104,10 +107,11 @@ public extension Plane {
         self.init(unchecked: normal / length, pointOnPlane: pointOnPlane)
     }
 
-    /// Creates a plane from a set of coplanar points describing a polygon.
+    /// Creates a plane from a set of points.
+    /// - Parameter points: A set of coplanar points describing a polygon.
     ///
-    /// The polygon can be convex or concave. The direction of the plane normal is
-    /// based on the assumption that the points are wind in an anti-clockwise direction.
+    /// > Note: The polygon can be convex or concave. The direction of the plane normal is
+    /// based on the assumption that the points are wound in an anti-clockwise direction.
     init?(points: [Vector]) {
         self.init(points: points, convex: nil)
     }
@@ -117,31 +121,37 @@ public extension Plane {
         Plane(unchecked: -normal, w: -w)
     }
 
-    /// Returns a Boolean value that indicates whether a point is on the plane.
-    func containsPoint(_ p: Vector) -> Bool {
-        abs(p.distance(from: self)) < epsilon
+    /// Returns a Boolean value that indicates whether a point lies on the plane.
+    /// - Parameter point: The point to test.
+    /// - Returns: `true` if the point lies on the plane and `false` otherwise.
+    func containsPoint(_ point: Vector) -> Bool {
+        abs(point.distance(from: self)) < epsilon
     }
 
-    /// Returns the distance of the point from a plane.
-    ///
-    /// A positive value is returned if the point lies in front of the plane.
-    /// A negative value is returned if the point lies behind the plane.
-    func distance(from p: Vector) -> Double {
-        normal.dot(p) - w
+    /// Returns the distance between a point and the plane.
+    /// - Parameter point: The point to compare with.
+    /// - Returns: The distance between the point and the plane. The value is positive if the point lies
+    ///   in front of the plane, and negative if behind.
+    func distance(from point: Vector) -> Double {
+        normal.dot(point) - w
     }
 
-    /// Returns a line that describes the intersection between this plane and the plane you provide.
-    func intersection(with p: Plane) -> Line? {
-        guard !normal.isEqual(to: p.normal),
-              let origin = solveSimultaneousEquationsWith(self, p)
+    /// Computes the line of intersection between two planes.
+    /// - Parameter plane: The plane to compare with.
+    /// - Returns: The line of intersection between the planes, or `nil` if the planes are parallel.
+    func intersection(with plane: Plane) -> Line? {
+        guard !normal.isEqual(to: plane.normal),
+              let origin = solveSimultaneousEquationsWith(self, plane)
         else {
             // Planes do not intersect
             return nil
         }
-        return Line(origin: origin, direction: normal.cross(p.normal))
+        return Line(origin: origin, direction: normal.cross(plane.normal))
     }
 
-    /// Returns a point that describes the intersection between plane and a line you provide.
+    /// Computes the point of intersection between a line and a place.
+    /// - Parameter line: The ``Line`` to compare with.
+    /// - Returns: The point of intersection between the line and plane, or `nil` if they are parallel.
     func intersection(with line: Line) -> Vector? {
         // https://en.wikipedia.org/wiki/Line–plane_intersection#Algebraic_form
         let lineDotPlaneNormal = line.direction.dot(normal)

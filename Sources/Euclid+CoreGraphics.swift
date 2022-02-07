@@ -34,7 +34,7 @@
 import CoreGraphics
 
 public extension Vector {
-    /// Creates a new vector from a CoreGraphics point.
+    /// Creates a vector from a CoreGraphics `CGPoint`.
     /// - Parameter cgPoint: the CoreGraphics point.
     init(_ cgPoint: CGPoint) {
         self.init(Double(cgPoint.x), Double(cgPoint.y))
@@ -42,8 +42,8 @@ public extension Vector {
 }
 
 public extension Color {
-    /// Creates a color from a CoreGraphics color instance.
-    /// - Parameter cgColor: The core graphics color instance.
+    /// Creates a color from a CoreGraphics `CGColor`.
+    /// - Parameter cgColor: The CoreGraphics color instance.
     init(_ cgColor: CGColor) {
         let components = cgColor.components ?? [1]
         self.init(unchecked: components.map(Double.init))
@@ -51,7 +51,7 @@ public extension Color {
 }
 
 public extension CGPoint {
-    /// Creates a point from the first two components of a vector.
+    /// Creates a `CGPoint` from the ``Vector/x`` and ``Vector/y`` components of a vector.
     /// - Parameter vector: The vector to convert into a point.
     init(_ vector: Vector) {
         self.init(x: vector.x, y: vector.y)
@@ -59,42 +59,21 @@ public extension CGPoint {
 }
 
 public extension Path {
-    /// Create a Path from a CGPath.
-    ///
-    /// The returned path may contain nested subpaths.
+    /// Creates a Path from a `CGPath`. The returned path may contain nested subpaths.
     /// - Parameters:
     ///   - cgPath: The CoreGraphics path to convert.
-    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    ///   - detail: The number of line segments used to approximate cubic or quadratic bezier curves.
+    ///   - color: An optional ``Color`` to apply to the path vertices.
     init(cgPath: CGPath, detail: Int = 4, color: Color? = nil) {
         self.init(subpaths: cgPath.paths(detail: detail, color: color))
     }
 }
 
 public extension CGPath {
-    private func enumerateElements(_ block: @convention(block) (CGPathElement) -> Void) {
-        if #available(iOS 11.0, tvOS 11.0, OSX 10.13, *) {
-            applyWithBlock { block($0.pointee) }
-            return
-        }
-
-        // Fallback for earlier OSes
-        typealias Block = @convention(block) (CGPathElement) -> Void
-        let callback: @convention(c) (
-            UnsafeMutableRawPointer,
-            UnsafePointer<CGPathElement>
-        ) -> Void = { info, element in
-            unsafeBitCast(info, to: Block.self)(element.pointee)
-        }
-        withoutActuallyEscaping(block) { block in
-            let block = unsafeBitCast(block, to: UnsafeMutableRawPointer.self)
-            self.apply(info: block, function: unsafeBitCast(callback, to: CGPathApplierFunction.self))
-        }
-    }
-
-    /// Creates  a flat array of paths from a CoreGraphics path.
-    ///
-    /// Returned paths are guaranteed not to contain nested subpaths.
-    /// - Parameter detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    /// Creates an array of paths from a CoreGraphics path. Returned paths will not contain nested subpaths.
+    /// - Parameters
+    ///   - detail: The number of line segments used to approximate cubic or quadratic bezier curves.
+    ///   - color: An optional color to apply to the path vertices.
     func paths(detail: Int = 4, color: Color? = nil) -> [Path] {
         typealias SafeElement = (type: CGPathElementType, points: [CGPoint])
         var paths = [Path]()
@@ -238,6 +217,28 @@ public extension CGPath {
         }
         endPath()
         return paths
+    }
+}
+
+private extension CGPath {
+    func enumerateElements(_ block: @convention(block) (CGPathElement) -> Void) {
+        if #available(iOS 11.0, tvOS 11.0, OSX 10.13, *) {
+            applyWithBlock { block($0.pointee) }
+            return
+        }
+
+        // Fallback for earlier OSes
+        typealias Block = @convention(block) (CGPathElement) -> Void
+        let callback: @convention(c) (
+            UnsafeMutableRawPointer,
+            UnsafePointer<CGPathElement>
+        ) -> Void = { info, element in
+            unsafeBitCast(info, to: Block.self)(element.pointee)
+        }
+        withoutActuallyEscaping(block) { block in
+            let block = unsafeBitCast(block, to: UnsafeMutableRawPointer.self)
+            self.apply(info: block, function: unsafeBitCast(callback, to: CGPathApplierFunction.self))
+        }
     }
 }
 
