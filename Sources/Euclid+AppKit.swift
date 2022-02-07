@@ -11,7 +11,7 @@
 import AppKit
 
 public extension NSColor {
-    /// Creates an NSColor from a color.
+    /// Creates an `NSColor` from a color.
     /// - Parameter color: The color to convert.
     convenience init(_ color: Color) {
         self.init(

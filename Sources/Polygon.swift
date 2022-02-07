@@ -33,8 +33,8 @@ import Foundation
 
 /// A planar polygon in 3D space.
 ///
-/// A polygon must be composed of three or more ``Vertex``, and those vertices must all lie in the same plane.
-/// The edge of a polygon can be either convex or concave, but not self-intersecting.
+/// A polygon must be composed of three or more ``Vertex`` instances, and those vertices must all lie on
+/// the same plane. The edges of a polygon can be either convex or concave, but not self-intersecting.
 public struct Polygon: Hashable {
     private var storage: Storage
 
@@ -110,14 +110,16 @@ extension Polygon: Codable {
 }
 
 public extension Polygon {
-    /// Material used by a given polygon
+    /// Material used by a given polygon.
+    /// This can be any type that conforms to `Hashable`, but encoding/decoding is only supported
+    /// for the following types: `Color`, `String`, `Int`, `Data` or any `NSCodable` type.
     typealias Material = AnyHashable
 
-    /// The collection of vertices that make up the polygon.
+    /// The array of vertices that make up the polygon.
     var vertices: [Vertex] { storage.vertices }
-    /// The plane that describes the polygon's face.
+    /// The plane on which all vertices lie.
     var plane: Plane { storage.plane }
-    /// The bounds of the polygon.
+    /// The bounding box containing the polygon.
     var bounds: Bounds { Bounds(points: vertices.map { $0.position }) }
     /// A Boolean value that indicates whether the polygon is convex.
     var isConvex: Bool { storage.isConvex }
@@ -148,9 +150,9 @@ public extension Polygon {
         vertices.contains(where: { $0.color != .white })
     }
 
-    /// Returns a set of polygon edges.
+    /// The unordered set of polygon edges.
     ///
-    /// The direction of each edge is normalized relative to the origin to facilitate edge-equality comparisons.
+    /// The direction of each edge is normalized relative to the origin to simplify edge-equality comparisons.
     var undirectedEdges: Set<LineSegment> {
         var p0 = vertices.last!.position
         return Set(vertices.map {
@@ -160,17 +162,17 @@ public extension Polygon {
         })
     }
 
-    /// Creates a copy of polygon with specified material.
+    /// Creates a copy of the polygon with the specified material.
     func with(material: Material?) -> Polygon {
         var polygon = self
         polygon.material = material
         return polygon
     }
 
-    /// Creates a polygon from a set of vertices.
+    /// Creates a polygon from an array of vertices.
     ///
     /// A polygon can be convex or concave, but vertices must be coplanar and non-degenerate.
-    /// Vertices are assumed to be in anti-clockwise order for the purpose of deriving the plane.
+    /// Vertices are assumed to be in anti-clockwise order for the purpose of deriving the face normal.
     init?(_ vertices: [Vertex], material: Material? = nil) {
         let positions = vertices.map { $0.position }
         let isConvex = pointsAreConvex(positions)
@@ -191,12 +193,12 @@ public extension Polygon {
 
     /// Creates a polygon from a set of vertex positions.
     ///
-    /// Vertex normals will be set to match face normal.
+    /// Vertex normals will be set to face normal. Texture coordinates will be zero. Vertex colors will be white.
     init?(_ vertices: [Vector], material: Material? = nil) {
         self.init(vertices.map { Vertex($0) }, material: material)
     }
 
-    /// Returns a Boolean value that indicates whether a point lies inside the polygon.
+    /// Returns a Boolean value that indicates whether a point lies inside the polygon, on the same plane.
     func containsPoint(_ p: Vector) -> Bool {
         guard plane.containsPoint(p) else {
             return false
@@ -233,7 +235,7 @@ public extension Polygon {
         return merge(unchecked: other, ensureConvex: ensureConvex)
     }
 
-    /// Flips the polygon along its plane.
+    /// Flips the polygon along its plane and reverses the order and surface normals of the vertices.
     func inverted() -> Polygon {
         Polygon(
             unchecked: vertices.reversed().map { $0.inverted() },
@@ -244,7 +246,8 @@ public extension Polygon {
         )
     }
 
-    /// Converts a concave polygon into 2 or more convex polygons using the "ear clipping" method.
+    /// Splits a concave polygon into two or more convex polygons using the "ear clipping" method.
+    /// If the polygon is already convex then the original polygon is returned unchanged.
     func tessellate() -> [Polygon] {
         if isConvex {
             return [self]
@@ -263,7 +266,8 @@ public extension Polygon {
         return polygons
     }
 
-    /// Tessellates polygon into triangles using the "ear clipping" method.
+    /// Tessellates the polygon into triangles.
+    /// If the polygon is already a triangle then it is returned unchanged.
     func triangulate() -> [Polygon] {
         guard vertices.count > 3 else {
             return [self]

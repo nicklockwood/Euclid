@@ -68,6 +68,8 @@ extension Rotation: Codable {
         case axis, x, y, z, radians
     }
 
+    /// Creates a new rotation by decoding from the given decoder.
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         guard var container = try? decoder.unkeyedContainer() else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -116,6 +118,8 @@ extension Rotation: Codable {
         }
     }
 
+    /// Encodes this rotation into the given encoder.
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         if self == .identity {
@@ -134,29 +138,36 @@ extension Rotation: Codable {
 }
 
 public extension Rotation {
+    /// The identity rotation (i.e. no rotation).
     static let identity = Rotation()
 
-    /// Define a rotation around the X axis
+    /// Creates a rotation around the X axis.
+    /// - Parameter rotation: The angle to rotate by.
     static func pitch(_ rotation: Angle) -> Rotation {
         Rotation(.pitch(rotation))
     }
 
-    /// Define a rotation around the Y axis
+    /// Creates a rotation around the Y axis.
+    /// - Parameter rotation: The angle to rotate by.
     static func yaw(_ rotation: Angle) -> Rotation {
         Rotation(.yaw(rotation))
     }
 
-    /// Define a rotation around the Z axis
+    /// Creates a rotation around the Z axis.
+    /// - Parameter rotation: The angle to rotate by.
     static func roll(_ rotation: Angle) -> Rotation {
         Rotation(.roll(rotation))
     }
 
-    /// Creates an identity Rotation
+    /// Creates a new identity rotation.
     init() {
         self.init(1, 0, 0, 0, 1, 0, 0, 0, 1)
     }
 
-    /// Define a rotation from an axis vector and an angle
+    /// Creates a rotation from an axis and angle.
+    /// - Parameters:
+    ///   - axis: A vector defining the axis of rotation.
+    ///   - end: The angle of rotation around the axis.
     init?(axis: Vector, angle: Angle) {
         let length = axis.length
         guard length.isFinite, length > epsilon else {
@@ -165,7 +176,8 @@ public extension Rotation {
         self.init(unchecked: axis / length, angle: angle)
     }
 
-    /// Define a rotation from a quaternion
+    /// Creates a rotation from a quaternion.
+    /// - Parameter q: A quaternion defining a rotation.
     init(_ q: Quaternion) {
         self.init(
             1 - 2 * (q.y * q.y + q.z * q.z),
@@ -180,48 +192,64 @@ public extension Rotation {
         )
     }
 
-    /// Define a rotation from Euler angles applied in pitch/yaw/roll order
-    /// `pitch` is the angle around the X axis, `yaw` is the angle around Y, and `roll` is the angle around Z
+    /// Creates a rotation from Euler angles applied in pitch/yaw/roll order.
+    /// - Parameters:
+    ///   - pitch: The angle of rotation around the X axis. This is applied first.
+    ///   - yaw: The angle of rotation around the Y axis. This is applied second.
+    ///   - roll: The angle of rotation around the Z axis. This is applied last.
     init(pitch: Angle, yaw: Angle = .zero, roll: Angle = .zero) {
         self = .pitch(pitch) * .yaw(yaw) * .roll(roll)
     }
 
-    /// Define a rotation from Euler angles applied in yaw/pitch/roll order
-    /// `yaw` is the angle around the Y axis, `pitch` is the angle around X, and `roll` is the angle around Z
+    /// Creates a rotation from Euler angles applied in yaw/pitch/roll order.
+    /// - Parameters:
+    ///   - yaw: The angle of rotation around the Y axis. This is applied first.
+    ///   - pitch: The angle of rotation around the X axis. This is applied second.
+    ///   - roll: The angle of rotation around the Z axis. This is applied last.
     init(yaw: Angle, pitch: Angle = .zero, roll: Angle = .zero) {
         self = .yaw(yaw) * .pitch(pitch) * .roll(roll)
     }
 
-    /// Define a rotation from Euler angles applied in roll/yaw/pitch order
-    /// `roll` is the angle around the Z axis, `yaw` is the angle around Y, and `pitch` is the angle around X
+    /// Creates a rotation from Euler angles applied in roll/yaw/pitch order.
+    /// - Parameters:
+    ///   - roll: The angle of rotation around the Z axis. This is applied first.
+    ///   - yaw: The angle of rotation around the Y axis. This is applied second.
+    ///   - pitch: The angle of rotation around the X axis. This is applied last.
     init(roll: Angle, yaw: Angle = .zero, pitch: Angle = .zero) {
         self = .roll(roll) * .yaw(yaw) * .pitch(pitch)
     }
 
+    /// The angle of rotation around the X axis.
     var pitch: Angle {
         Quaternion(self).pitch
     }
 
+    /// The angle of rotation around the Y axis.
     var yaw: Angle {
         Quaternion(self).yaw
     }
 
+    /// The angle of rotation around the Z axis.
     var roll: Angle {
         Quaternion(self).roll
     }
 
+    /// A normalized direction vector pointing rightwards relative to the current rotaion.
     var right: Vector {
         Vector(m11, m12, m13)
     }
 
+    /// A normalized direction vector pointing upwards relative to the current rotaion.
     var up: Vector {
         Vector(m21, m22, m23)
     }
 
+    /// A normalized direction vector pointing forwards relative to the current rotaion.
     var forward: Vector {
         Vector(m31, m32, m33)
     }
 
+    /// Returns the reverse (aka transpose) rotation.
     static prefix func - (rhs: Rotation) -> Rotation {
         // transpose matrix
         Rotation(
@@ -237,6 +265,7 @@ public extension Rotation {
         )
     }
 
+    /// Combines two rotations to get the cumulative rotation.
     static func * (lhs: Rotation, rhs: Rotation) -> Rotation {
         Rotation(
             lhs.m11 * rhs.m11 + lhs.m21 * rhs.m12 + lhs.m31 * rhs.m13,
@@ -251,6 +280,7 @@ public extension Rotation {
         )
     }
 
+    /// Combine with the specified rotation.
     static func *= (lhs: inout Rotation, rhs: Rotation) {
         lhs = lhs * rhs
     }

@@ -34,7 +34,7 @@
 import SceneKit
 
 public extension SCNVector3 {
-    /// Creates a new SceneKit vector from a vector.
+    /// Creates a 3D SceneKit vector from a vector.
     /// - Parameter v: The vector to convert.
     init(_ v: Vector) {
         self.init(v.x, v.y, v.z)
@@ -42,14 +42,19 @@ public extension SCNVector3 {
 }
 
 public extension SCNVector4 {
+    /// Creates a 4D SceneKit vector from a color.
+    /// - Parameter c: The color to convert.
     init(_ c: Color) {
         self.init(c.r, c.g, c.b, c.a)
     }
 }
 
 public extension SCNQuaternion {
-    /// Creates a new SceneKit Quaternion from a rotation
+    /// Creates a new SceneKit quaternion from a rotation
     /// - Parameter m: The rotation to convert.
+    ///
+    /// > Note: ``SCNQuaternion`` is actually just a typealias for ``SCNVector4`` so be
+    /// careful to avoid type ambiguity when using this value.
     init(_ m: Rotation) {
         let x = sqrt(max(0, 1 + m.m11 - m.m22 - m.m33)) / 2
         let y = sqrt(max(0, 1 - m.m11 + m.m22 - m.m33)) / 2
@@ -134,21 +139,21 @@ extension SCNGeometrySource {
 }
 
 public extension SCNGeometry {
-    /// A closure that provides a lookup from a material on a polygon to a SceneKit material.
+    /// A closure that maps a Euclid material to a SceneKit material.
     typealias SCNMaterialProvider = (Polygon.Material?) -> SCNMaterial?
 
-    /// Creates an SCNGeometry using the default tessellation method
+    /// Creates an SCNGeometry from a mesh using the default tessellation method.
     /// - Parameters:
-    ///   - mesh: The mesh to convert into a geometry.
-    ///   - materialLookup: The closure that provides a lookup from the material on the polygon to a SceneKit material.
+    ///   - mesh: The mesh to convert into a SceneKit geometry.
+    ///   - materialLookup: A closure to map the polygon material to a SceneKit material.
     convenience init(_ mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
         self.init(triangles: mesh, materialLookup: materialLookup)
     }
 
-    /// Creates an SCNGeometry from a Mesh using triangles
+    /// Creates an SCNGeometry from a mesh using triangles.
     /// - Parameters:
-    ///   - mesh: The mesh to convert into a geometry.
-    ///   - materialLookup: The closure that provides a lookup from the material on the polygon to a SceneKit material.
+    ///   - mesh: The mesh to convert into a SceneKit geometry.
+    ///   - materialLookup: A closure to map the polygon material to a SceneKit material.
     convenience init(triangles mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
         var elementIndices = [[UInt32]]()
         var vertices = [SCNVector3]()
@@ -206,11 +211,10 @@ public extension SCNGeometry {
         self.materials = materials
     }
 
-    /// Creates an SCNGeometry from a Mesh using convex polygons
-    ///
+    /// Creates an SCNGeometry from a mesh using convex polygons.
     /// - Parameters:
-    ///   - mesh: The mesh to convert into a geometry.
-    ///   - materialLookup: The closure that provides a lookup from the material on the polygon to a SceneKit material.
+    ///   - mesh: The mesh to convert into a SceneKit geometry.
+    ///   - materialLookup: A closure to map the polygon material to a SceneKit material.
     @available(OSX 10.12, iOS 10.0, tvOS 10.0, *)
     convenience init(polygons mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
         var elementData = [(Int, Data)]()
@@ -277,7 +281,7 @@ public extension SCNGeometry {
     }
 
     /// Creates a wireframe `SCNGeometry` from a collection of line segments.
-    /// - Parameter edges: The collection of edges to render into a line segment geometry.
+    /// - Parameter edges: The collection of line segments to convert.
     convenience init<T: Collection>(_ edges: T) where T.Element == LineSegment {
         var indices = [UInt32]()
         var vertices = [SCNVector3]()
@@ -304,7 +308,7 @@ public extension SCNGeometry {
         )
     }
 
-    /// Creates a wireframe `SCNGeometry` from a mesh using line segments.
+    /// Creates a wireframe `SCNGeometry` from a mesh.
     /// - Parameter mesh: The mesh to use for the wireframe geometry.
     convenience init(wireframe mesh: Mesh) {
         self.init(mesh.uniqueEdges)
@@ -312,15 +316,15 @@ public extension SCNGeometry {
 
     /// Creates line-segment `SCNGeometry` representing the vertex normals of a mesh.
     /// - Parameters:
-    ///   - mesh: The mesh that provides the polygons with normals for the wireframe geometry.
-    ///   - scale: The scaling factor for the normal indicators.
+    ///   - mesh: The input mesh.
+    ///   - scale: The line length of the normal indicators.
     convenience init(normals mesh: Mesh, scale: Double = 1) {
         self.init(Set(mesh.polygons.flatMap { $0.vertices }.compactMap {
             LineSegment($0.position, $0.position + $0.normal * scale)
         }))
     }
 
-    /// Creates a line-segment `SCNGeometry` from a path.
+    /// Creates a wrieframe `SCNGeometry` from a path.
     /// - Parameter path: The path to convert into a geometry.
     convenience init(_ path: Path) {
         var indices = [UInt32]()
@@ -356,7 +360,7 @@ public extension SCNGeometry {
         )
     }
 
-    /// Creates a bounding-box `SCNGeometry` using line segments from a bounds.
+    /// Creates a wireframe `SCNGeometry` from a bounding box.
     /// - Parameter bounds: The bounds to convert into a geometry.
     convenience init(_ bounds: Bounds) {
         let vertices = bounds.corners.map { SCNVector3($0) }
@@ -437,7 +441,7 @@ private extension Data {
 }
 
 public extension Vector {
-    /// Creates a new vector from the SceneKit vector.
+    /// Creates a new vector from a SceneKit vector.
     /// - Parameter v: The SceneKit vector.
     init(_ v: SCNVector3) {
         self.init(Double(v.x), Double(v.y), Double(v.z))
@@ -460,7 +464,7 @@ public extension Rotation {
 }
 
 public extension Transform {
-    /// Creates a transform from the current state of a SceneKit node.
+    /// Creates a transform from the current position, scale and orientation of a SceneKit node.
     /// - Parameter scnNode: The node from which to determine the transform.
     static func transform(from scnNode: SCNNode) -> Transform {
         Transform(
@@ -473,20 +477,25 @@ public extension Transform {
 
 public extension Bounds {
     /// Creates a bounds from two SceneKit vectors.
-    /// - Parameter scnBoundingBox: A tuple of two `SCNVector3` that represent opposite corners of the bounding box volume.
+    /// - Parameter scnBoundingBox: A tuple of two `SCNVector3` that
+    ///   represent opposite corners of the bounding box volume.
     init(_ scnBoundingBox: (min: SCNVector3, max: SCNVector3)) {
-        self.init(min: Vector(scnBoundingBox.min), max: Vector(scnBoundingBox.max))
+        self.init(
+            min: Vector(scnBoundingBox.min),
+            max: Vector(scnBoundingBox.max)
+        )
     }
 }
 
 public extension Mesh {
-    /// A closure that converts a SceneKit material into a material.
+    /// A closure that maps a SceneKit material to a Euclid material.
     typealias MaterialProvider = (SCNMaterial) -> Material?
 
     /// Loads a mesh from a file using any format supported by SceneKit,  with optional material mapping.
     /// - Parameters:
-    ///   - url: The url of the file to to load.
-    ///   - materialLookup: A closure that converts a SceneKit material into a material.
+    ///   - url: The url of the file to be loaded.
+    ///   - materialLookup: An optional closure to map the SceneKit materials to Euclid materials.
+    ///     If omitted, the `SCNMaterial` will be directly assigned as the mesh material.
     init(url: URL, materialLookup: MaterialProvider? = nil) throws {
         var options: [SCNSceneSource.LoadingOption: Any] = [
             .flattenScene: true,
@@ -502,20 +511,26 @@ public extension Mesh {
     /// Creates a mesh from an `SCNNode` with optional material mapping.
     /// - Parameters:
     ///   - scnNode: The node to convert into a mesh.
-    ///   - materialLookup: A closure that converts a SceneKit material into a material.
+    ///   - materialLookup: An optional closure to map the SceneKit materials to Euclid materials.
+    ///     If omitted, the `SCNMaterial` will be directly assigned as the mesh material.
     init(_ scnNode: SCNNode, materialLookup: MaterialProvider? = nil) {
         var meshes = [Mesh]()
-        if let mesh = scnNode.geometry.flatMap({ Mesh($0, materialLookup: materialLookup) }) {
+        if let mesh = scnNode.geometry.flatMap({
+            Mesh($0, materialLookup: materialLookup)
+        }) {
             meshes.append(mesh)
         }
-        meshes += scnNode.childNodes.map { Mesh($0, materialLookup: materialLookup) }
+        meshes += scnNode.childNodes.map {
+            Mesh($0, materialLookup: materialLookup)
+        }
         self = .merge(meshes)
     }
 
-    /// Create a mesh from an `SCNGeometry` object with optional material mapping.
+    /// Creates a mesh from an `SCNGeometry` object with optional material mapping.
     /// - Parameters:
     ///   - scnGeometry: The geometry to convert into a mesh.
-    ///   - materialLookup: A closure that converts a SceneKit material into a material.
+    ///   - materialLookup: An optional closure to map the SceneKit materials to Euclid materials.
+    ///     If omitted, the `SCNMaterial` will be directly assigned as the mesh material.
     init?(_ scnGeometry: SCNGeometry, materialLookup: MaterialProvider? = nil) {
         // Force properties to update
         let scnGeometry = scnGeometry.copy() as! SCNGeometry
@@ -639,7 +654,7 @@ public extension Mesh {
     /// Creates a mesh from an `SCNGeometry` with the material you provide.
     /// - Parameters:
     ///   - scnGeometry: The geometry to convert.
-    ///   - material: The material to apply to the geometry.
+    ///   - material: An optional material to apply to the geometry. This will replace any existing materials.
     init?(_ scnGeometry: SCNGeometry, material: Material?) {
         self.init(scnGeometry) { _ in material }
     }

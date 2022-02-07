@@ -42,8 +42,8 @@ public extension Vector {
 }
 
 public extension Color {
-    /// Creates a color from a CoreGraphics color instance.
-    /// - Parameter cgColor: The core graphics color instance.
+    /// Creates a color from a CoreGraphics color.
+    /// - Parameter cgColor: The CoreGraphics color instance.
     init(_ cgColor: CGColor) {
         let components = cgColor.components ?? [1]
         self.init(unchecked: components.map(Double.init))
@@ -51,7 +51,7 @@ public extension Color {
 }
 
 public extension CGPoint {
-    /// Creates a point from the first two components of a vector.
+    /// Creates a `CGPoint` from the X and Y components of a vector.
     /// - Parameter vector: The vector to convert into a point.
     init(_ vector: Vector) {
         self.init(x: vector.x, y: vector.y)
@@ -59,12 +59,11 @@ public extension CGPoint {
 }
 
 public extension Path {
-    /// Create a Path from a CGPath.
-    ///
-    /// The returned path may contain nested subpaths.
+    /// Creates a Path from a CGPath. The returned path may contain nested subpaths.
     /// - Parameters:
     ///   - cgPath: The CoreGraphics path to convert.
-    ///   - detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    ///   - detail: The number of line segments used to approximate cubic or quadratic bezier curves.
+    ///   - color: An optional color to apply to the path vertices.
     init(cgPath: CGPath, detail: Int = 4, color: Color? = nil) {
         self.init(subpaths: cgPath.paths(detail: detail, color: color))
     }
@@ -91,10 +90,10 @@ public extension CGPath {
         }
     }
 
-    /// Creates  a flat array of paths from a CoreGraphics path.
-    ///
-    /// Returned paths are guaranteed not to contain nested subpaths.
-    /// - Parameter detail: The number line segments are used to create a cubic or quadratic bezier curve.
+    /// Creates an array of paths from a CoreGraphics path. Returned paths will not contain nested subpaths.
+    /// - Parameters
+    ///   - detail: The number of line segments used to approximate cubic or quadratic bezier curves.
+    ///   - color: An optional color to apply to the path vertices.
     func paths(detail: Int = 4, color: Color? = nil) -> [Path] {
         typealias SafeElement = (type: CGPathElementType, points: [CGPoint])
         var paths = [Path]()

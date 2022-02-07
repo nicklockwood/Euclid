@@ -29,11 +29,14 @@
 //  SOFTWARE.
 //
 
-/// A struct that represents a finite-length line segment in 3D space.
+/// A struct that represents a finite line segment in 3D space.
 ///
-/// A line sgement is defined by a `start` point and an `end` point.
+/// A line sgement is defined by a `start` and `end` point.
 public struct LineSegment: Hashable {
-    public let start, end: Vector
+    // The starting point of the line segment.
+    public let start: Vector
+    // The end point of the line segment.
+    public let end: Vector
 
     /// Creates a line segment from a start and end point.
     /// - Parameters:
@@ -49,10 +52,8 @@ public struct LineSegment: Hashable {
 }
 
 extension LineSegment: Comparable {
-    /// Returns a Boolean value that compares two line segments to provide a stable sort order.
-    /// - Parameters:
-    ///   - lhs: The first line segment to compare.
-    ///   - rhs: The second line segment to compare.
+    /// Returns whether the leftmost line segment has the lower value.
+    /// This provides a stable order when sorting collections of line segments.
     public static func < (lhs: LineSegment, rhs: LineSegment) -> Bool {
         if lhs.start == rhs.start {
             return lhs.end < rhs.end
@@ -116,8 +117,8 @@ public extension LineSegment {
         (end - start).length
     }
 
-    /// Returns a Boolean value that indicates whether the point is on the line segment.
-    /// - Parameter p: The point to compare.
+    /// Returns a Boolean value that indicates whether the specified point lies on the line segment.
+    /// - Parameter p: The point to compare with.
     func containsPoint(_ p: Vector) -> Bool {
         let v = vectorFromPointToLine(p, start, direction)
         guard v.length < epsilon else {
@@ -126,15 +127,15 @@ public extension LineSegment {
         return Bounds(start, end).containsPoint(p)
     }
 
-    /// Returns a point that indicates the intersection of the line segement you provide.
-    /// - Parameter segment: The line segment to compare.
-    /// - Returns: The point of intersection, or `nil` if the segments don't intersect.
+    /// Returns the intersection point between the specified line segment and this one.
+    /// - Parameter segment: The line segment to compare with.
+    /// - Returns: The point of intersection, or `nil` if the line segments don't intersect.
     func intersection(with segment: LineSegment) -> Vector? {
         lineSegmentsIntersection(start, end, segment.start, segment.end)
     }
 
-    /// Returns a Boolean value that indicates whether line segement intersects.
-    /// - Parameter segment: The line segment to compare.
+    /// Returns a Boolean value that indicates whether two line segements intersect.
+    /// - Parameter segment: The line segment to compare with.
     func intersects(_ segment: LineSegment) -> Bool {
         intersection(with: segment) != nil
     }
