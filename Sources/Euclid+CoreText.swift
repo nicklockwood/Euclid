@@ -125,7 +125,7 @@ public extension Mesh {
         text: NSAttributedString,
         width: Double? = nil,
         depth: Double = 1,
-        detail _: Int = 2,
+        detail: Int = 2,
         material: Material? = nil
     ) {
         var meshes = [Mesh]()
@@ -133,7 +133,7 @@ public extension Mesh {
         for (cgPath, cgPoint, color) in cgPaths(for: text, width: width) {
             let offset = Vector(cgPoint)
             guard let mesh = cache[cgPath] else {
-                let path = Path(cgPath: cgPath, color: color)
+                let path = Path(cgPath: cgPath, detail: detail, color: color)
                 let mesh = Mesh.extrude(path, depth: depth, material: material)
                 cache[cgPath] = mesh
                 meshes.append(mesh.translated(by: offset))
