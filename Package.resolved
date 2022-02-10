@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "swift-docc-plugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-docc-plugin",
+      "state" : {
+        "branch" : "main",
+        "revision" : "5dcf30207f2f7ea93d7673a5f66df09f4c61621a"
+      }
+    }
+  ],
+  "version" : 2
+}
