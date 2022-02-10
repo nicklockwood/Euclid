@@ -149,6 +149,70 @@ class PathShapeTests: XCTestCase {
         XCTAssert(path.isClosed)
     }
 
+    // MARK: Rounded rect
+
+    func testSimpleRoundedRect() {
+        let path = Path.roundedRectangle(width: 1, height: 1, radius: 0.25)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.points.count, 21)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(-0.5, -0.5),
+            max: Vector(0.5, 0.5)
+        ))
+    }
+
+    func testCircularRoundedRect() {
+        let path = Path.roundedRectangle(width: 1, height: 1, radius: 0.5)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.points.count, 17)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(-0.5, -0.5),
+            max: Vector(0.5, 0.5)
+        ))
+    }
+
+    func testPortraitRoundedRect() {
+        let path = Path.roundedRectangle(width: 1, height: 2, radius: 0.5)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.points.count, 19)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(-0.5, -1),
+            max: Vector(0.5, 1)
+        ))
+    }
+
+    func testLandscapeRoundedRect() {
+        let path = Path.roundedRectangle(width: 2, height: 1, radius: 0.5)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.points.count, 19)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(-1, -0.5),
+            max: Vector(1, 0.5)
+        ))
+    }
+
+    func testLowResRoundedRect() {
+        let path = Path.roundedRectangle(width: 1, height: 1, radius: 0.25, detail: 1)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.points.count, 9)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(-0.5, -0.5),
+            max: Vector(0.5, 0.5)
+        ))
+    }
+
+    func testZeroDetailRoundedRect() {
+        let path = Path.roundedRectangle(width: 1, height: 1, radius: 0.5, detail: 0)
+        XCTAssertEqual(path, Path(Path.rectangle(width: 1, height: 1).points.map {
+            PathPoint.curve($0.position)
+        }))
+    }
+
+    func testZeroRadiusRoundedRect() {
+        let path = Path.roundedRectangle(width: 1, height: 1, radius: 0)
+        XCTAssertEqual(path, .rectangle(width: 1, height: 1))
+    }
+
     // MARK: Fill
 
     func testFillClockwiseQuad() {

@@ -65,7 +65,7 @@ public extension Path {
             let cgPath = CGMutablePath()
             let transform = CGAffineTransform(translationX: $1.x, y: $1.y)
             cgPath.addPath($0, transform: transform)
-            return Path(cgPath: cgPath, detail: detail, color: $2)
+            return Path(cgPath, detail: detail, color: $2)
         }
     }
 }
@@ -115,7 +115,7 @@ public extension Mesh {
         for (cgPath, cgPoint, color) in text.cgPaths(width: width) {
             let offset = Vector(cgPoint)
             guard let mesh = cache[cgPath] else {
-                let path = Path(cgPath: cgPath, detail: detail, color: color)
+                let path = Path(cgPath, detail: detail, color: color)
                 let mesh = Mesh.extrude(path, depth: depth, material: material)
                 cache[cgPath] = mesh
                 meshes.append(mesh.translated(by: offset))

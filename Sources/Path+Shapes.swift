@@ -134,6 +134,56 @@ public extension Path {
         ], plane: .xy, subpathIndices: [])
     }
 
+    /// Creates a rounded rectangle path.
+    /// - Parameters:
+    ///   - width: The width of the rectangle.
+    ///   - height: The height of the rectangle.
+    ///   - radius: The corner radius,
+    ///   - detail: The number of line segments used to approximate each corner curve.
+    ///   - color: An optional ``Color`` to apply to the path's points.
+    static func roundedRectangle(
+        width: Double,
+        height: Double,
+        radius: Double,
+        detail: Int = 4,
+        color: Color? = nil
+    ) -> Path {
+        guard radius > epsilon, width > epsilon, height > epsilon else {
+            return .rectangle(width: width, height: height, color: color)
+        }
+        let w = abs(width / 2), h = abs(height / 2)
+        guard detail > 0 else {
+            return Path(unchecked: [
+                .curve(-w, h, color: color), .curve(-w, -h, color: color),
+                .curve(w, -h, color: color), .curve(w, h, color: color),
+                .curve(-w, h, color: color),
+            ], plane: .xy, subpathIndices: [])
+        }
+        let r = min(radius, w, h)
+        var points = [PathPoint]()
+        let step = Double.pi / Double(detail * 2)
+        let toX = Double.pi / 2 + (r < w ? epsilon : -epsilon)
+        let toY = Double.pi / 2 + (r < h ? epsilon : -epsilon)
+        var x = r - w, y = r - h
+        for a in stride(from: 0, through: toX, by: step) {
+            points.append(.curve(x - r * cos(a), y - r * sin(a), color: color))
+        }
+        x = w - r
+        for a in stride(from: 0, through: toY, by: step) {
+            points.append(.curve(x + r * sin(a), y - r * cos(a), color: color))
+        }
+        y = h - r
+        for a in stride(from: 0, through: toX, by: step) {
+            points.append(.curve(x + r * cos(a), y + r * sin(a), color: color))
+        }
+        x = r - w
+        for a in stride(from: 0, through: toY, by: step) {
+            points.append(.curve(x - r * sin(a), y + r * cos(a), color: color))
+        }
+        points.append(points[0])
+        return Path(unchecked: points, plane: .xy, subpathIndices: [])
+    }
+
     /// Creates a quadratic bezier spline.
     ///
     /// The method takes an array of ``PathPoint`` and a `detail` argument.
@@ -159,7 +209,7 @@ public extension Path {
     ///
     /// - Parameters:
     ///   - points: The control points for the curve.
-    ///   - detail: The number line segments used to approximate curved sections.
+    ///   - detail: The number of line segments used to approximate curved sections.
     static func curve(_ points: [PathPoint], detail: Int = 4) -> Path {
         enum ArcRange {
             case lhs, rhs, all

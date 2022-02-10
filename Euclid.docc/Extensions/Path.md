@@ -20,6 +20,7 @@
 - ``Path/circle(radius:segments:color:)``
 - ``Path/ellipse(width:height:segments:color:)``
 - ``Path/rectangle(width:height:color:)``
+- ``Path/roundedRectangle(width:height:radius:detail:color:)``
 - ``Path/square(size:color:)``
 - ``Path/polygon(radius:sides:color:)``
 
