@@ -637,7 +637,7 @@ internal extension Array where Element == Polygon {
     mutating func addPoint(
         _ point: Vector,
         material: Polygon.Material?,
-        verticesByPosition: [Vector: [Vertex]]
+        verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]]
     ) {
         var facing = [Polygon](), coplanar = [Vector: [Polygon]]()
         loop: for (i, polygon) in enumerated().reversed() {
@@ -684,8 +684,8 @@ internal extension Array where Element == Polygon {
                 let vertices = points.map { p -> Vertex in
                     let matches = verticesByPosition[p] ?? []
                     var best: Vertex?, bestDot = 1.0
-                    for v in matches {
-                        let dot = abs(1 - v.normal.dot(faceNormal))
+                    for (n, v) in matches {
+                        let dot = abs(1 - n.dot(faceNormal))
                         if dot < bestDot {
                             bestDot = dot
                             best = v

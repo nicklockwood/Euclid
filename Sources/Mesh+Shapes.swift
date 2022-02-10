@@ -696,10 +696,10 @@ private extension Mesh {
     ) -> Mesh {
         assert(startingMesh?.isKnownConvex != false)
         var polygons = startingMesh?.polygons ?? []
-        var verticesByPosition = [Vector: [Vertex]]()
+        var verticesByPosition = [Vector: [(faceNormal: Vector, Vertex)]]()
         for p in polygonsToAdd + polygons {
             for v in p.vertices {
-                verticesByPosition[v.position, default: []].append(v)
+                verticesByPosition[v.position, default: []].append((p.plane.normal, v))
             }
         }
         var polygonsToAdd = polygonsToAdd
