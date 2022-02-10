@@ -7,4 +7,6 @@
 --wrapcollections before-first
 --maxwidth 120
 
+--lintonly unusedArguments
+
 --exclude Tests/XCTestManifests.swift

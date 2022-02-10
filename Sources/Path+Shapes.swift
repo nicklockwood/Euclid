@@ -45,8 +45,8 @@ public extension Path {
     ///   - start: The starting point of the line.
     ///   - end: The ending point of the line.
     ///   - color: An optional ``Color`` to apply to the path's points.
-    static func line(_ start: Vector, _ end: Vector, color _: Color? = nil) -> Path {
-        Path([.point(start), .point(end)])
+    static func line(_ start: Vector, _ end: Vector, color: Color? = nil) -> Path {
+        Path([.point(start, color: color), .point(end, color: color)])
     }
 
     /// Creates a closed circular path.
