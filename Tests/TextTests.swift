@@ -28,7 +28,7 @@ class TextTests: XCTestCase {
         let font = CTFontCreateWithName("Helvetica" as CFString, 12, nil)
         let attributes = [NSAttributedString.Key.font: font]
         let string = NSAttributedString(string: text, attributes: attributes)
-        let mesh = Mesh(text: string, depth: 1.0)
+        let mesh = Mesh.text(string, depth: 1.0)
         XCTAssertEqual(mesh.bounds.min.z, -0.5)
         XCTAssertEqual(mesh.bounds.max.z, 0.5)
         XCTAssert(mesh.bounds.max.x > 20)
@@ -40,7 +40,7 @@ class TextTests: XCTestCase {
         #if canImport(CoreText)
         let text = "Hello"
         let font = CTFontCreateWithName("Helvetica" as CFString, 12, nil)
-        let mesh = Mesh(text: text, font: font, depth: 1.0)
+        let mesh = Mesh.text(text, font: font, depth: 1.0)
         XCTAssertEqual(mesh.bounds.min.z, -0.5)
         XCTAssertEqual(mesh.bounds.max.z, 0.5)
         XCTAssert(mesh.bounds.max.x > 20)

@@ -34,23 +34,6 @@
 import CoreText
 import Foundation
 
-#if os(watchOS)
-
-// Workaround for missing constants on watchOS
-extension NSAttributedString.Key {
-    static let font = NSAttributedString.Key(rawValue: "NSFont")
-}
-
-#endif
-
-#if canImport(AppKit)
-import AppKit
-private typealias OSColor = NSColor
-#elseif canImport(UIKit)
-import UIKit
-private typealias OSColor = UIColor
-#endif
-
 public extension Path {
     /// Creates an array of glyph contours from a string and font you provide.
     /// - Parameters:
@@ -70,15 +53,15 @@ public extension Path {
 
     /// Creates an array of glyph contours from an attributed string.
     /// - Parameters:
-    ///   - attributedString: The text to convert.
+    ///   - text: The text to convert.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
     static func text(
-        _ attributedString: NSAttributedString,
+        _ text: NSAttributedString,
         width: Double? = nil,
         detail: Int = 2
     ) -> [Path] {
-        cgPaths(for: attributedString, width: width).map {
+        text.cgPaths(width: width).map {
             let cgPath = CGMutablePath()
             let transform = CGAffineTransform(translationX: $1.x, y: $1.y)
             cgPath.addPath($0, transform: transform)
@@ -96,17 +79,16 @@ public extension Mesh {
     ///   - depth: The depth of the extruded text.
     ///   - detail: The number line segments used to approximate glyph curves.
     ///   - material: An optional material to apply to the mesh.
-    init(
-        text: String,
+    static func text(
+        _ text: String,
         font: CTFont? = nil,
         width: Double? = nil,
         depth: Double = 1,
         detail: Int = 2,
         material: Material? = nil
-    ) {
-        let attributedString = NSAttributedString(string: text, font: font)
-        self.init(
-            text: attributedString,
+    ) -> Mesh {
+        .text(
+            NSAttributedString(string: text, font: font),
             width: width,
             depth: depth,
             detail: detail,
@@ -121,16 +103,16 @@ public extension Mesh {
     ///   - depth: The depth of the extruded text.
     ///   - detail: The number line segments used to approximate glyph curves.
     ///   - material: Optional material to apply to the mesh.
-    init(
-        text: NSAttributedString,
+    static func text(
+        _ text: NSAttributedString,
         width: Double? = nil,
         depth: Double = 1,
         detail: Int = 2,
         material: Material? = nil
-    ) {
+    ) -> Mesh {
         var meshes = [Mesh]()
         var cache = [CGPath: Mesh]()
-        for (cgPath, cgPoint, color) in cgPaths(for: text, width: width) {
+        for (cgPath, cgPoint, color) in text.cgPaths(width: width) {
             let offset = Vector(cgPoint)
             guard let mesh = cache[cgPath] else {
                 let path = Path(cgPath: cgPath, detail: detail, color: color)
@@ -141,9 +123,60 @@ public extension Mesh {
             }
             meshes.append(mesh.translated(by: offset))
         }
-        self = .union(meshes)
+        return .union(meshes)
+    }
+
+    @available(*, deprecated, message: "Use Mesh.text() instead")
+    init(
+        text: String,
+        font: CTFont? = nil,
+        width: Double? = nil,
+        depth: Double = 1,
+        detail: Int = 2,
+        material: Material? = nil
+    ) {
+        self = .text(
+            text,
+            font: font,
+            width: width,
+            depth: depth,
+            detail: detail,
+            material: material
+        )
+    }
+
+    @available(*, deprecated, message: "Use Mesh.text() instead")
+    init(
+        text: NSAttributedString,
+        width: Double? = nil,
+        depth: Double = 1,
+        detail: Int = 2,
+        material: Material? = nil
+    ) {
+        self = .text(
+            text,
+            width: width,
+            depth: depth,
+            detail: detail,
+            material: material
+        )
     }
 }
+
+#if os(watchOS)
+// Workaround for missing constants on watchOS
+extension NSAttributedString.Key {
+    static let font = NSAttributedString.Key(rawValue: "NSFont")
+}
+#endif
+
+#if canImport(UIKit)
+import UIKit
+private typealias OSColor = UIColor
+#elseif canImport(AppKit)
+import AppKit
+private typealias OSColor = NSColor
+#endif
 
 private extension NSAttributedString {
     // Creates a new attributed string using text in the font you provide.
@@ -152,51 +185,48 @@ private extension NSAttributedString {
         let attributes = [NSAttributedString.Key.font: font]
         self.init(string: string, attributes: attributes)
     }
-}
 
-// Returns an array of (path, position, color) tuples
-// for the glyphs in an attributed string
-private func cgPaths(
-    for attributedString: NSAttributedString,
-    width: Double?
-) -> [(glyph: CGPath, offset: CGPoint, color: Color?)] {
-    let framesetter = CTFramesetterCreateWithAttributedString(attributedString as CFAttributedString)
+    // Returns an array of (path, position, color) tuples
+    // for the glyphs in an attributed string
+    func cgPaths(width: Double?) -> [(glyph: CGPath, offset: CGPoint, color: Color?)] {
+        let framesetter = CTFramesetterCreateWithAttributedString(self as CFAttributedString)
 
-    let range = CFRangeMake(0, 0)
-    let maxSize = CGSize(width: width ?? .greatestFiniteMagnitude, height: .greatestFiniteMagnitude)
-    let size = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, range, nil, maxSize, nil)
-    let rectPath = CGPath(rect: CGRect(origin: .zero, size: size), transform: nil)
-    let frame = CTFramesetterCreateFrame(framesetter, range, rectPath, nil)
-    let lines = CTFrameGetLines(frame) as! [CTLine]
+        let range = CFRangeMake(0, 0)
+        let maxSize = CGSize(width: width ?? .greatestFiniteMagnitude, height: .greatestFiniteMagnitude)
+        let size = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, range, nil, maxSize, nil)
+        let rectPath = CGPath(rect: CGRect(origin: .zero, size: size), transform: nil)
+        let frame = CTFramesetterCreateFrame(framesetter, range, rectPath, nil)
+        let lines = CTFrameGetLines(frame) as! [CTLine]
 
-    var origins = Array(repeating: CGPoint.zero, count: lines.count)
-    CTFrameGetLineOrigins(frame, range, &origins)
+        var origins = Array(repeating: CGPoint.zero, count: lines.count)
+        CTFrameGetLineOrigins(frame, range, &origins)
 
-    var paths = [(CGPath, CGPoint, Color?)]()
-    for (line, origin) in zip(lines, origins) {
-        let runs = CTLineGetGlyphRuns(line) as! [CTRun]
-        for run in runs {
-            let attributes = CTRunGetAttributes(run) as! [NSAttributedString.Key: Any]
-            let font = attributes[.font] as! CTFont
-            let color = attributes[.foregroundColor] as? OSColor
+        var paths = [(CGPath, CGPoint, Color?)]()
+        for (line, origin) in zip(lines, origins) {
+            let runs = CTLineGetGlyphRuns(line) as! [CTRun]
+            for run in runs {
+                let attributes = CTRunGetAttributes(run) as! [NSAttributedString.Key: Any]
+                let font = attributes[.font] as! CTFont
+                let color = attributes[.foregroundColor] as? OSColor
 
-            var glyph = CGGlyph()
-            for index in 0 ..< CTRunGetGlyphCount(run) {
-                let range = CFRangeMake(index, 1)
-                CTRunGetGlyphs(run, range, &glyph)
-                guard let letter = CTFontCreatePathForGlyph(font, glyph, nil) else {
-                    continue
+                var glyph = CGGlyph()
+                for index in 0 ..< CTRunGetGlyphCount(run) {
+                    let range = CFRangeMake(index, 1)
+                    CTRunGetGlyphs(run, range, &glyph)
+                    guard let letter = CTFontCreatePathForGlyph(font, glyph, nil) else {
+                        continue
+                    }
+
+                    var position = CGPoint.zero
+                    CTRunGetPositions(run, range, &position)
+                    position.x += origin.x
+                    position.y += origin.y - origins[0].y
+                    paths.append((letter, position, color.map(Color.init)))
                 }
-
-                var position = CGPoint.zero
-                CTRunGetPositions(run, range, &position)
-                position.x += origin.x
-                position.y += origin.y - origins[0].y
-                paths.append((letter, position, color.map(Color.init)))
             }
         }
+        return paths
     }
-    return paths
 }
 
 #endif

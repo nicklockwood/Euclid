@@ -51,10 +51,10 @@
 - ``Mesh/stroke(_:width:detail:material:)-uzi1``
 - ``Mesh/stroke(_:width:depth:faces:material:)``
 
-### Creating Text Meshes
+### Creating Meshes from Text
 
-- ``Mesh/init(text:font:width:depth:detail:material:)``
-- ``Mesh/init(text:width:depth:detail:material:)``
+- ``Mesh/text(_:font:width:depth:detail:material:)``
+- ``Mesh/text(_:width:depth:detail:material:)``
 
 ### Inspecting Meshes
 
