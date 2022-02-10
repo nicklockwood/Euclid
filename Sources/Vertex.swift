@@ -64,6 +64,12 @@ public struct Vertex: Hashable {
         self.init(unchecked: position, normal?.normalized(), texcoord, color)
     }
 
+    /// Creates a new vertex from a position with default values for normal, texcoord and color.
+    /// - Parameter position: The position of the vertex in 3D space.
+    public init(_ position: Vector) {
+        self.init(unchecked: position, nil, nil, nil)
+    }
+
     /// Creates a vertex from a flat array of values.
     /// - Parameter values: The array of values.
     ///

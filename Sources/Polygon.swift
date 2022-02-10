@@ -203,7 +203,7 @@ public extension Polygon {
     /// > Note: Vertex normals will be set to match the overall face normal of the polygon.
     /// Texture coordinates will be set to zero. Vertex colors will be defaulted to white.
     init?(_ vertices: [Vector], material: Material? = nil) {
-        self.init(vertices.map { Vertex($0) }, material: material)
+        self.init(vertices.map(Vertex.init), material: material)
     }
 
     /// Returns a Boolean value that indicates whether a point lies inside the polygon, on the same plane.
