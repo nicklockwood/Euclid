@@ -138,7 +138,7 @@ public extension Quaternion {
 
     /// An array containing the raw components of the quaternion.
     var components: [Double] {
-        [x, y, z]
+        [x, y, z, w]
     }
 
     /// The magnitude of the quaternion.
