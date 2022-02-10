@@ -4,6 +4,7 @@
 
 ### Creating Meshes
 
+- ``Mesh/empty``
 - ``Mesh/init(_:)``
 - ``Mesh/init(_:material:)``
 - ``Mesh/init(_:materialLookup:)-7p5hd``

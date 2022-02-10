@@ -44,7 +44,7 @@ class CSGTests: XCTestCase {
     }
 
     func testSubtractEmptyMesh() {
-        let a = Mesh([])
+        let a = Mesh.empty
         let b = Mesh.cube()
         XCTAssertEqual(a.subtract(b), a)
         XCTAssertEqual(b.subtract(a), b)
@@ -84,7 +84,7 @@ class CSGTests: XCTestCase {
     }
 
     func testXorWithEmptyMesh() {
-        let a = Mesh([])
+        let a = Mesh.empty
         let b = Mesh.cube()
         XCTAssertEqual(a.xor(b), b)
         XCTAssertEqual(b.xor(a), b)
@@ -124,7 +124,7 @@ class CSGTests: XCTestCase {
     }
 
     func testUnionWithEmptyMesh() {
-        let a = Mesh([])
+        let a = Mesh.empty
         let b = Mesh.cube()
         XCTAssertEqual(a.union(b).bounds, b.bounds)
         XCTAssertEqual(b.union(a).bounds, b.bounds)
@@ -169,7 +169,7 @@ class CSGTests: XCTestCase {
     }
 
     func testIntersectionWithEmptyMesh() {
-        let a = Mesh([])
+        let a = Mesh.empty
         let b = Mesh.cube()
         XCTAssert(a.intersect(b).bounds.isEmpty)
         XCTAssert(b.intersect(a).bounds.isEmpty)

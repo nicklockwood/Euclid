@@ -221,7 +221,7 @@ public extension Mesh {
     ) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         guard !intersection.isEmpty else {
-            return Mesh([])
+            return .empty
         }
         var aout: [Polygon]?, bout: [Polygon]?
         let ap = BSP(mesh, isCancelled).clip(
@@ -317,7 +317,7 @@ public extension Mesh {
         case .front:
             return self
         case .back:
-            return Mesh([])
+            return .empty
         case .spanning, .coplanar:
             var id = 0
             var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()

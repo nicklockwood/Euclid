@@ -94,6 +94,9 @@ public extension Mesh {
     /// See ``Polygon/Material-swift.typealias`` for details.
     typealias Material = Polygon.Material
 
+    /// An empty mesh.
+    static let empty: Mesh = .init([])
+
     /// All materials used by the mesh.
     /// The array may contain `nil` if some or all of the mesh uses the default material.
     var materials: [Material?] { storage.materials }

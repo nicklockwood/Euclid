@@ -387,7 +387,7 @@ public extension Mesh {
         }
         let points = along.points
         guard var p0 = points.first else {
-            return Mesh([])
+            return .empty
         }
         var shape = shape
         let shapePlane = shape.flatteningPlane
@@ -641,7 +641,7 @@ private extension Mesh {
 
         var profile = profile
         if profile.points.count < 2 {
-            return Mesh([])
+            return .empty
         }
 
         // min slices
@@ -650,7 +650,7 @@ private extension Mesh {
         // normalize profile
         profile = profile.flattened().clippedToYAxis()
         guard let normal = profile.plane?.normal else {
-            return Mesh([])
+            return .empty
         }
         if normal.z < 0 {
             profile = Path(
@@ -885,7 +885,7 @@ private extension Mesh {
         }
         let shapes = shapes
         if shapes.isEmpty {
-            return Mesh([])
+            return .empty
         }
         let count = shapes.count
         let isClosed = (shapes.first == shapes.last)
