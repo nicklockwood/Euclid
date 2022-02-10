@@ -634,13 +634,20 @@ public extension Mesh {
         let isConvex: Bool
         let isWatertight: Bool?
         switch scnGeometry {
-        case is SCNBox,
+        case is SCNPlane,
+             is SCNBox,
              is SCNPyramid,
              is SCNSphere,
              is SCNCylinder,
              is SCNCone,
              is SCNCapsule:
             isConvex = true
+            isWatertight = true
+        case is SCNTube,
+             is SCNTorus,
+             is SCNText,
+             is SCNShape:
+            isConvex = false
             isWatertight = true
         default:
             isConvex = false
@@ -664,7 +671,7 @@ public extension Mesh {
         self.init(scnGeometry) { _ in material }
     }
 
-    @available(*, deprecated, message: "Use version with unnamed parameter instead")
+    @available(*, deprecated, message: "Use init(_:materialLookup:) instead")
     init?(scnGeometry: SCNGeometry, materialLookup: MaterialProvider? = nil) {
         self.init(scnGeometry, materialLookup: materialLookup)
     }
