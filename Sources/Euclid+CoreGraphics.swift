@@ -39,6 +39,12 @@ public extension Vector {
     init(_ cgPoint: CGPoint) {
         self.init(Double(cgPoint.x), Double(cgPoint.y))
     }
+
+    /// Creates a new vector from a CoreGraphics size.
+    /// - Parameter cgSize: the CoreGraphics size.
+    init(_ cgSize: CGSize) {
+        self.init(Double(cgSize.width), Double(cgSize.height))
+    }
 }
 
 public extension Color {
@@ -55,6 +61,14 @@ public extension CGPoint {
     /// - Parameter vector: The vector to convert into a point.
     init(_ vector: Vector) {
         self.init(x: vector.x, y: vector.y)
+    }
+}
+
+public extension CGSize {
+    /// Creates a `CGSize` from the X and Y components of a vector.
+    /// - Parameter vector: The vector to convert into a point.
+    init(_ vector: Vector) {
+        self.init(width: vector.x, height: vector.y)
     }
 }
 
