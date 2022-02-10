@@ -429,7 +429,7 @@ public extension Mesh {
                 scale.x = abs(scale.x)
                 scale.y = abs(scale.y)
                 scale.z = abs(scale.z)
-                scale = scale + Vector(1, 1, 1)
+                scale = scale + .one
                 shapes.append(shape.scaled(by: scale).translated(by: p1.position))
             }
             p0 = p1

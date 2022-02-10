@@ -78,7 +78,7 @@ class BoundsTests: XCTestCase {
     }
 
     func testNegativeVolumeBoundsIsEmpty() {
-        let bounds = Bounds(min: Vector(1, 1, 1), max: Vector(-1, -1, -1))
+        let bounds = Bounds(min: .one, max: -.one)
         XCTAssert(bounds.isEmpty)
     }
 

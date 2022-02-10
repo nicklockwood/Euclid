@@ -51,7 +51,7 @@ public struct Transform: Hashable {
     public init(offset: Vector? = nil, rotation: Rotation? = nil, scale: Vector? = nil) {
         self.offset = offset ?? .zero
         self.rotation = rotation ?? .identity
-        self.scale = scale ?? Vector(1, 1, 1)
+        self.scale = scale ?? .one
     }
 }
 
@@ -76,7 +76,7 @@ extension Transform: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try offset == .zero ? () : container.encode(offset, forKey: .offset)
         try rotation == .identity ? () : container.encode(rotation, forKey: .rotation)
-        try scale == Vector(1, 1, 1) ? () : container.encode(scale, forKey: .scale)
+        try scale == .one ? () : container.encode(scale, forKey: .scale)
     }
 }
 
