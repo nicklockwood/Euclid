@@ -18,7 +18,7 @@ class CGPathTests: XCTestCase {
         #if canImport(CoreGraphics)
         let cgRect = CGRect(x: 0, y: 0, width: 1, height: 2)
         let cgPath = CGPath(rect: cgRect, transform: nil)
-        let path = Path(cgPath: cgPath)
+        let path = Path(cgPath)
         XCTAssertTrue(path.isClosed)
         XCTAssertEqual(path.points, [
             .point(0, 0),
@@ -34,7 +34,7 @@ class CGPathTests: XCTestCase {
         #if canImport(CoreGraphics)
         let cgRect = CGRect(x: -1, y: -1, width: 2, height: 2)
         let cgPath = CGPath(roundedRect: cgRect, cornerWidth: 0.5, cornerHeight: 0.5, transform: nil)
-        let path = Path(cgPath: cgPath, detail: 1)
+        let path = Path(cgPath, detail: 1)
         XCTAssertTrue(path.isClosed)
         XCTAssertEqual(path.points.count, 18)
         #endif
@@ -46,7 +46,7 @@ class CGPathTests: XCTestCase {
         cgPath.move(to: .zero)
         cgPath.addLine(to: CGPoint(x: 2, y: 0))
         cgPath.addQuadCurve(to: CGPoint(x: 0, y: 0), control: CGPoint(x: 1, y: 1))
-        let path = Path(cgPath: cgPath, detail: 1)
+        let path = Path(cgPath, detail: 1)
         XCTAssertTrue(path.isClosed)
         XCTAssertEqual(path.points, [
             .point(0, 0),
@@ -64,7 +64,7 @@ class CGPathTests: XCTestCase {
         cgPath.addLine(to: CGPoint(x: 2, y: 0))
         cgPath.addQuadCurve(to: CGPoint(x: 0, y: 0), control: CGPoint(x: 1, y: 1))
         cgPath.closeSubpath()
-        let path = Path(cgPath: cgPath, detail: 1)
+        let path = Path(cgPath, detail: 1)
         XCTAssertTrue(path.isClosed)
         XCTAssertEqual(path.points, [
             .point(0, 0),
@@ -81,7 +81,7 @@ class CGPathTests: XCTestCase {
         cgPath.move(to: .zero)
         cgPath.addLine(to: CGPoint(x: 2, y: 0))
         cgPath.addCurve(to: CGPoint(x: 0, y: 0), control1: CGPoint(x: 1.5, y: 1), control2: CGPoint(x: 0.5, y: 1))
-        let path = Path(cgPath: cgPath, detail: 1)
+        let path = Path(cgPath, detail: 1)
         XCTAssertTrue(path.isClosed)
         XCTAssertEqual(path.points.count, 5)
         #endif

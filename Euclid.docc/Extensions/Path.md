@@ -7,7 +7,7 @@
 - ``Path/init(_:)``
 - ``Path/init(subpaths:)``
 - ``Path/init(polygon:)``
-- ``Path/init(cgPath:detail:color:)``
+- ``Path/init(_:detail:color:)``
 
 ### Creating Paths of Lines and Curves
 

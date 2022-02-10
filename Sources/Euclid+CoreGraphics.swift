@@ -64,6 +64,11 @@ public extension Path {
     ///   - cgPath: The CoreGraphics path to convert.
     ///   - detail: The number of line segments used to approximate cubic or quadratic bezier curves.
     ///   - color: An optional ``Color`` to apply to the path vertices.
+    init(_ cgPath: CGPath, detail: Int = 4, color: Color? = nil) {
+        self.init(subpaths: cgPath.paths(detail: detail, color: color))
+    }
+
+    @available(*, deprecated, message: "Use init(_:detail:color:) instead")
     init(cgPath: CGPath, detail: Int = 4, color: Color? = nil) {
         self.init(subpaths: cgPath.paths(detail: detail, color: color))
     }
