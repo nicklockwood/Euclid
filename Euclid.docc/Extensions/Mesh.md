@@ -2,16 +2,6 @@
 
 ## Topics
 
-### Creating Meshes
-
-- ``Mesh/init(_:)``
-- ``Mesh/init(_:material:)``
-- ``Mesh/init(_:ignoringTransforms:materialLookup:)``
-- ``Mesh/init(url:ignoringTransforms:materialLookup:)``
-
-- ``Mesh/Material``
-- ``Mesh/MaterialProvider``
-
 ### Default Meshes
 
 - ``Mesh/empty``
@@ -30,7 +20,6 @@
 ### Creating Meshes from Other Meshes
 
 - ``Mesh/convexHull(of:)-6c896``
-- ``Mesh/convexHull(of:)-8x4al``
 - ``Mesh/union(_:isCancelled:)-swift.method``
 - ``Mesh/union(_:isCancelled:)-swift.type.method``
 - ``Mesh/intersect(_:isCancelled:)``
@@ -43,6 +32,11 @@
 - ``Mesh/stencil(_:isCancelled:)-swift.type.method``
 
 - ``Mesh/CancellationHandler``
+
+### Creating Meshes from Polygons
+
+- ``Mesh/init(_:)``
+- ``Mesh/convexHull(of:)-8x4al``
 
 ### Creating Meshes from Paths
 
@@ -57,10 +51,25 @@
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-85o14``
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-9mn9o``
 
+### Creating Meshes from Vertices or LineSegments
+
+- ``Mesh/convexHull(of:material:)-6176``
+- ``Mesh/convexHull(of:material:)-75on2``
+- ``Mesh/convexHull(of:material:)-91swk``
+
 ### Creating Meshes from Text
 
 - ``Mesh/text(_:font:width:depth:detail:material:)``
 - ``Mesh/text(_:width:depth:detail:material:)``
+
+### Creating Meshes from SceneKit Models
+
+- ``Mesh/init(_:material:)``
+- ``Mesh/init(_:ignoringTransforms:materialLookup:)``
+- ``Mesh/init(url:ignoringTransforms:materialLookup:)``
+
+- ``Mesh/Material``
+- ``Mesh/MaterialProvider``
 
 ### Mesh Properties
 

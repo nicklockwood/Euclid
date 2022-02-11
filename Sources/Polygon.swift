@@ -677,23 +677,12 @@ internal extension Array where Element == Polygon {
         // Create triangles from point to edges
         func addTriangles(with edges: [LineSegment], faceNormal: Vector?) {
             for edge in edges {
-                let points = [point, edge.start, edge.end]
-                let faceNormal = faceNormal ?? faceNormalForPolygonPoints(
-                    points, convex: true
-                )
-                let vertices = points.map { p -> Vertex in
-                    let matches = verticesByPosition[p] ?? []
-                    var best: Vertex?, bestDot = 1.0
-                    for (n, v) in matches {
-                        let dot = abs(1 - n.dot(faceNormal))
-                        if dot < bestDot {
-                            bestDot = dot
-                            best = v
-                        }
-                    }
-                    return best ?? Vertex(p)
-                }
-                guard let triangle = Polygon(vertices, material: material) else {
+                guard let triangle = Polygon(
+                    points: [point, edge.start, edge.end],
+                    verticesByPosition: verticesByPosition,
+                    faceNormal: faceNormal,
+                    material: material
+                ) else {
                     assertionFailure()
                     continue
                 }
@@ -719,6 +708,34 @@ internal extension Array where Element == Polygon {
 }
 
 internal extension Polygon {
+    // Create polygon from points with nearest matches in a vertex collection
+    init?<T: Collection>(
+        points: T,
+        verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]],
+        faceNormal: Vector?,
+        material: Polygon.Material?
+    ) where T.Element == Vector {
+        let faceNormal = faceNormal ?? faceNormalForPolygonPoints(
+            Array(points), convex: true
+        )
+        let vertices = points.map { p -> Vertex in
+            let matches = verticesByPosition[p] ?? []
+            var best: Vertex?, bestDot = 1.0
+            for (n, v) in matches {
+                let dot = abs(1 - n.dot(faceNormal))
+                if dot <= bestDot {
+                    bestDot = dot
+                    best = v
+                }
+            }
+            if bestDot == 1 {
+                best?.normal = .zero
+            }
+            return best ?? Vertex(p)
+        }
+        self.init(vertices, material: material)
+    }
+
     // Create polygon from vertices and face normal without performing validation
     // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
     init(
