@@ -197,12 +197,15 @@ public extension Polygon {
 
     /// Creates a polygon from a set of vertex positions.
     /// - Parameters:
-    ///   - vertices: An array of ``Vector`` positions for the polygon vertices.
+    ///   - vertices: A collection of ``Vector`` positions for the polygon vertices.
     ///   - material: An optional ``Material-swift.typealias`` to use for the polygon.
     ///
     /// > Note: Vertex normals will be set to match the overall face normal of the polygon.
     /// Texture coordinates will be set to zero. Vertex colors will be defaulted to white.
-    init?(_ vertices: [Vector], material: Material? = nil) {
+    init?<T: Sequence>(
+        _ vertices: T,
+        material: Material? = nil
+    ) where T.Element == Vector {
         self.init(vertices.map(Vertex.init), material: material)
     }
 

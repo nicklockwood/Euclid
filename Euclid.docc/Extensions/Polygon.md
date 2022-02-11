@@ -4,7 +4,7 @@
 
 ### Creating Polygons
 
-- ``Polygon/init(_:material:)-5ryug``
+- ``Polygon/init(_:material:)-8gsiw``
 - ``Polygon/init(_:material:)-9mns5``
 - ``Polygon/init(shape:material:)``
 
