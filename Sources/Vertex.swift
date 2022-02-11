@@ -215,3 +215,9 @@ internal extension Vertex {
             color.isEqual(to: other.color, withPrecision: p)
     }
 }
+
+internal extension Collection where Element == Vertex {
+    func inverted() -> [Vertex] {
+        reversed().map { $0.inverted() }
+    }
+}
