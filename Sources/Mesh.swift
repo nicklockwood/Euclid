@@ -329,6 +329,18 @@ public extension Mesh {
             isWatertight: nil
         )
     }
+
+    /// Smooth vertex normals for corners with angles greater than the specified threshold.
+    /// - Parameter threshold: The minimum edge angle that should appear smooth.
+    ///   Values should be in the range zero (no smoothing) to pi (smooth all edges).
+    func smoothNormals(_ threshold: Angle) -> Mesh {
+        Mesh(
+            unchecked: polygons.smoothNormals(threshold),
+            bounds: boundsIfSet,
+            isConvex: isKnownConvex,
+            isWatertight: watertightIfSet
+        )
+    }
 }
 
 internal extension Mesh {

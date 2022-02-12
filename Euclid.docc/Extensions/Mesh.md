@@ -90,3 +90,4 @@
 - ``Mesh/detessellate()``
 - ``Mesh/detriangulate()``
 - ``Mesh/makeWatertight()``
+- ``Mesh/smoothNormals(_:)``

@@ -359,6 +359,26 @@ internal extension Collection where Element == Polygon {
         return polygons
     }
 
+    /// Smooth vertex normals
+    func smoothNormals(_ threshold: Angle) -> [Polygon] {
+        map { p0 in
+            let n0 = p0.plane.normal
+            return Polygon(
+                unchecked: p0.vertices.map { v0 in
+                    v0.with(normal: Set(compactMap { p1 in
+                        let n1 = p1.plane.normal
+                        return p1.vertices.contains(where: { v1 in
+                            v0.position == v1.position
+                        }) && n0.angle(with: n1) <= threshold ? n1 : nil
+                    }).reduce(.zero) { $0 + $1 })
+                },
+                plane: p0.plane,
+                isConvex: p0.isConvex,
+                material: p0.material
+            )
+        }
+    }
+
     /// Flip each polygon along its plane
     func inverted() -> [Polygon] {
         map { $0.inverted() }
