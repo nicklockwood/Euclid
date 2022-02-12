@@ -74,15 +74,16 @@ There is no 2D vector type in Euclid, but when working with primarily 2D shapes 
 
 ## Color
 
-The `Color` type represents an RGBA color and can be used as a `Polygon` [material](#materials). 
+The `Color` type represents an RGBA color and can be used as a `Polygon` [material](#materials) or `Vertex` [color](#colors). 
 
 ## Vertex
 
-The `Vertex` type is used to construct `Polygon`s to form a `Mesh`. Each `Vertex` has the following `Vector` properties:
+The `Vertex` type is used to construct `Polygon`s to form a `Mesh`. Each `Vertex` has the following properties:
 
-- `position` - the `Vertex`'s location in 3D space
-- `normal` - the surface normal of a `Mesh` at the vertex's position (used for lighting)
-- `texcoord` - a 2D texture coordinate used for texture mapping the `Polygon`
+- `position` - a `Vector` defining the vertex's location in 3D space
+- `normal` - a `Vector` defining the surface normal of a `Mesh` at the vertex's position (used for lighting)
+- `texcoord` - a `Vector` defining the texture coordinate (used for texture mapping the `Polygon`)
+- `color` - a `Color` to be applied to the vertex
 
 **Note:** The position of each `Vertex` is automatically *quantized* (rounded to the nearest point in a very fine grid) in order to avoid the creation of very tiny polygons, or hairline cracks in surfaces. For that reason, to avoid accumulating rounding errors you should generally avoid applying multiple `Transform`s to the same geometry in sequence.
 
@@ -248,7 +249,7 @@ When serializing Euclid geometry using `Codable`, only specific material types c
 
 ## Colors
 
-Euclid currently has no support for setting colors on a per-vertex basis, but you can apply colors to a `Mesh` or `Polygon` using the material property.
+Euclid can apply colors uniformly to a `Mesh` or `Polygon` using the `material` property, or to individual vertices using the `Vertex.color` or `PathPoint.color` properties. If a color is applied to both a `Polygon` material and also to individual vertices, the components of each color will be multiplied together.
 
 The material property is of type `AnyHashable` which basically means it can be anything you want. You can set the `material` to an instance of Euclid's [`Color` type](#color), or you can use a `UIColor` or `NSColor` instead if you prefer.
 
