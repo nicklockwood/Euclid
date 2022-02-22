@@ -139,14 +139,38 @@ public extension Plane {
     /// Computes the line of intersection between two planes.
     /// - Parameter plane: The plane to compare with.
     /// - Returns: The line of intersection between the planes, or `nil` if the planes are parallel.
-    func intersection(with plane: Plane) -> Line? {
-        guard !normal.isEqual(to: plane.normal),
-              let origin = solveSimultaneousEquationsWith(self, plane)
-        else {
-            // Planes do not intersect
+    func intersection(with p: Plane) -> Line? {
+        let direction = normal.cross(p.normal)
+        guard direction.length > epsilon else {
+            // Planes are parallel
             return nil
         }
-        return Line(origin: origin, direction: normal.cross(plane.normal))
+
+        let n1 = normal.components
+        let n2 = p.normal.components
+
+        // http://geomalgorithms.com/a05-_intersect-1.html
+        func findCommonPoint(_ a: Int, _ b: Int) -> Vector {
+            let a1 = n1[a], b1 = n1[b]
+            let a2 = n2[a], b2 = n2[b]
+
+            var result: [Double] = [0, 0, 0]
+            result[a] = (b2 * w - b1 * p.w) / (a1 * b2 - a2 * b1)
+            result[b] = (a1 * p.w - a2 * w) / (a1 * b2 - a2 * b1)
+
+            return Vector(result)
+        }
+
+        let origin: Vector
+        if abs(direction.z) >= abs(direction.x), abs(direction.z) >= abs(direction.y) {
+            origin = findCommonPoint(0, 1)
+        } else if abs(direction.y) >= abs(direction.z), abs(direction.y) >= abs(direction.x) {
+            origin = findCommonPoint(2, 0)
+        } else {
+            origin = findCommonPoint(1, 2)
+        }
+
+        return Line(origin: origin, direction: direction)
     }
 
     /// Computes the point of intersection between a line and a place.
@@ -260,57 +284,4 @@ enum FlatteningPlane: RawRepresentable {
         case .xy: return Vector(point.x, point.y)
         }
     }
-}
-
-// Solve simultaneous equations using Gaussian elimination
-// http://mathsfirst.massey.ac.nz/Algebra/SystemsofLinEq/EMeth.htm
-private func performGaussianElimination(v1: Vector, w1: Double, v2: Vector, w2: Double) -> Vector? {
-    if v1.x == 0 {
-        return nil
-    }
-
-    // Assume z = 0 always
-
-    // Multiply the two equations until they have an equal leading coefficient
-    let n1 = v1 * v2.x
-    let n2 = v2 * v1.x
-    let ww1 = w1 * v2.x
-    let ww2 = w2 * v1.x
-
-    // Subtract the second from the first
-    let diff = n1 - n2
-    let wdiff = ww1 - ww2
-
-    // Solve this new equation for y:
-    // diff.y * y = wdiff
-    if diff.y == 0 {
-        return nil
-    }
-    let y = wdiff / diff.y
-
-    // Substitute this back in to the first equation
-    // self.normal.x * x + self.normal.y * y = self.w
-    // self.normal.x * x = self.w - self.normal.y * y
-    // x = (self.w - self.normal.y * y) / self.normal.x
-    let x = (w1 - v1.y * y) / v1.x
-
-    return Vector(x, y, 0)
-}
-
-// Try all the permutations of the equations we could solve until we find a solvable combination
-private func solveSimultaneousEquationsWith(_ p1: Plane, _ p2: Plane) -> Vector? {
-    let n1 = p1.normal.components, n2 = p2.normal.components
-    for i in 0 ... 2 {
-        for j in 0 ... 2 where i != j {
-            for k in 0 ... 2 where i != k && j != k {
-                let v1 = Vector(n1[i], n1[j], n1[k]), v2 = Vector(n2[i], n2[j], n2[k])
-                if let point = performGaussianElimination(v1: v1, w1: p1.w, v2: v2, w2: p2.w) {
-                    let n = point.components
-                    // Rotate the variables back in to their proper place
-                    return Vector(n[i], n[j], n[k])
-                }
-            }
-        }
-    }
-    return nil
 }

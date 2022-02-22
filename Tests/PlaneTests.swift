@@ -91,19 +91,39 @@ class PlaneTests: XCTestCase {
     }
 
     func testIntersectionWithPerpendicularPlane() {
-        let plane1 = Plane(unchecked: .unitY, pointOnPlane: .zero)
-        let plane2 = Plane(unchecked: .unitX, pointOnPlane: .zero)
+        let plane1 = Plane(unchecked: .unitZ, w: 1)
+        let plane2 = Plane(unchecked: -.unitX, w: 1)
 
         guard let intersection = plane1.intersection(with: plane2) else {
             XCTFail()
             return
         }
 
-        XCTAssert(plane1.containsPoint(intersection.origin))
-        XCTAssert(plane2.containsPoint(intersection.origin))
+        XCTAssertEqual(intersection, Line(origin: Vector(-1, 0, 1), direction: -.unitY))
+    }
 
-        XCTAssert(plane1.containsPoint(intersection.origin + intersection.direction))
-        XCTAssert(plane2.containsPoint(intersection.origin + intersection.direction))
+    func testIntersectionWithPerpendicularPlane2() {
+        let plane1 = Plane(unchecked: -.unitX, w: 1)
+        let plane2 = Plane(unchecked: .unitZ, w: 1)
+
+        guard let intersection = plane1.intersection(with: plane2) else {
+            XCTFail()
+            return
+        }
+
+        XCTAssertEqual(intersection, Line(origin: Vector(-1, 0, 1), direction: .unitY))
+    }
+
+    func testIntersectionWithPerpendicularPlane3() {
+        let plane1 = Plane(unchecked: .unitX, w: 1)
+        let plane2 = Plane(unchecked: -.unitY, w: 1)
+
+        guard let intersection = plane1.intersection(with: plane2) else {
+            XCTFail()
+            return
+        }
+
+        XCTAssertEqual(intersection, Line(origin: Vector(1, -1, 0), direction: -.unitZ))
     }
 
     func testIntersectionWithRandomPlane() {
