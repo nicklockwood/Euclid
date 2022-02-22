@@ -761,38 +761,46 @@ extension Collection where Element == Polygon {
 
     /// Inset along face normals
     func insetFaces(by distance: Double) -> [Polygon] {
-        map { p0 in
+        var planesByVertex: [Vector: [Plane]] = [:]
+        for p in self {
+            for v in p.vertices {
+                if !planesByVertex[v.position, default: []].contains(where: {
+                    $0.isEqual(to: p.plane)
+                }) {
+                    planesByVertex[v.position, default: []].append(p.plane)
+                }
+            }
+        }
+        let positionsByVertex: [Vector: Vector] = Dictionary(
+            uniqueKeysWithValues: planesByVertex.map { p, planes in
+                switch planes.count {
+                case 2:
+                    let normal = planes.map { $0.normal }.reduce(.zero) { $0 + $1 }.normalized()
+                    let distance = -(distance / planes[0].normal.dot(normal))
+                    return (p, p + normal * distance)
+                case 3...:
+                    let planes = planes.map { $0.translated(by: $0.normal * -distance) }
+                    if let line = planes[0].intersection(with: planes[1]),
+                       let p2 = line.intersection(with: planes[2])
+                    {
+                        return (p, p2)
+                    } else {
+                        fallthrough
+                    }
+                default:
+                    return (p, p + planes[0].normal * -distance)
+                }
+            }
+        )
+        return map { p0 in
             Polygon(
-                unchecked: p0.vertices.map { v0 in
-                    var planes: [Plane] = [p0.plane]
-                    for p1 in self where p1.vertices.contains(where: {
-                        $0.position.isEqual(to: v0.position)
-                    }) {
-                        let plane = p1.plane
-                        if !planes.contains(where: { $0.isEqual(to: plane) }) {
-                            planes.append(plane)
-                        }
-                    }
-                    let position: Vector
-                    switch planes.count {
-                    case 2:
-                        let normal = planes.map { $0.normal }.reduce(.zero) { $0 + $1 }.normalized()
-                        let distance = -(distance / p0.plane.normal.dot(normal))
-                        position = v0.position.translated(by: normal * distance)
-                    case 3...:
-                        planes = planes.map { $0.translated(by: $0.normal * -distance) }
-                        if let line = planes[0].intersection(with: planes[1]),
-                           let p = line.intersection(with: planes[2])
-                        {
-                            position = p
-                        } else {
-                            print(planes.count)
-                            fallthrough
-                        }
-                    default:
-                        position = v0.position.translated(by: p0.plane.normal * -distance)
-                    }
-                    return Vertex(unchecked: position, v0.normal, v0.texcoord, v0.color)
+                unchecked: p0.vertices.map { v in
+                    Vertex(
+                        unchecked: positionsByVertex[v.position] ?? v.position,
+                        v.normal,
+                        v.texcoord,
+                        v.color
+                    )
                 },
                 plane: p0.plane.translated(by: p0.plane.normal * -distance),
                 isConvex: nil,
