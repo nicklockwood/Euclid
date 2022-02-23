@@ -33,7 +33,7 @@
 public struct Vertex: Hashable {
     /// The position of the vertex.
     public var position: Vector {
-        didSet { position = position.quantized() }
+        didSet { position = position._quantized() }
     }
 
     /// The surface normal of the vertex, used to calculate lighting.
@@ -200,7 +200,7 @@ internal extension Vertex {
         _ texcoord: Vector?,
         _ color: Color?
     ) {
-        self.position = position.quantized()
+        self.position = position._quantized()
         self.normal = normal ?? .zero
         self.texcoord = texcoord ?? .zero
         self.color = color ?? .white

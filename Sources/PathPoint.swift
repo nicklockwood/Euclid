@@ -285,7 +285,7 @@ public extension PathPoint {
     ///   - color: An optional vertex color for this path point.
     ///   - isCurved: A Boolean indicating if point should be curved or sharp.
     init(_ position: Vector, texcoord: Vector?, color: Color?, isCurved: Bool) {
-        self.position = position.quantized()
+        self.position = position._quantized()
         self.texcoord = texcoord
         self.color = color
         self.isCurved = isCurved

@@ -270,12 +270,8 @@ public extension Vector {
         self + (a - self) * t
     }
 
-    /// Returns a vectors with its component values explicitly rounded to the nearest quanta.
-    ///
-    /// The precion of the quantized value is defined within Euclid to round off values to avoid cracks, breaks, and math errors while computing surface within constructive solid geometry operations.
-    func quantized() -> Vector {
-        Vector(quantize(x), quantize(y), quantize(z))
-    }
+    @available(*, deprecated, message: "Obsolete. Do not use.")
+    func quantized() -> Vector { _quantized() }
 
     /// Returns the angle between this vector and another.
     /// - Parameter a: The vector to compare with.
@@ -323,6 +319,10 @@ internal extension Vector {
     static let unitX = Vector(1, 0, 0)
     static let unitY = Vector(0, 1, 0)
     static let unitZ = Vector(0, 0, 1)
+
+    func _quantized() -> Vector {
+        Vector(quantize(x), quantize(y), quantize(z))
+    }
 
     func isIdentical(to other: Vector) -> Bool {
         x == other.x && y == other.y && z == other.z

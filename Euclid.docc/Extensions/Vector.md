@@ -43,7 +43,6 @@
 
 ### Transforming Vectors
 
-- ``Vector/quantized()``
 - ``Vector/normalized()``
 - ``Vector/rotated(by:)-6owvr``
 - ``Vector/rotated(by:)-7qu0o``
