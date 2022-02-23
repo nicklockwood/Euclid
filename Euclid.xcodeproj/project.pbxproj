@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101BAF425687A450096B1E7 /* CodingTests.swift */; };
+		0125478027AFD53900C442C3 /* MeshShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125477F27AFD53900C442C3 /* MeshShapeTests.swift */; };
 		013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013312DC21CA532A00626F1B /* PlaneTests.swift */; };
 		013ED08F23C0E60900FEEE5C /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013ED08E23C0E60900FEEE5C /* Rotation.swift */; };
 		0148ECA4278378D100B3F836 /* Path+Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0148ECA3278378D100B3F836 /* Path+Shapes.swift */; };
@@ -33,7 +34,7 @@
 		016FAB6321BFE7CE00AF60DC /* UtilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB5D21BFE7CE00AF60DC /* UtilityTests.swift */; };
 		016FAB6421BFE7CE00AF60DC /* PolygonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB5E21BFE7CE00AF60DC /* PolygonTests.swift */; };
 		016FAB6521BFE7CE00AF60DC /* CSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB5F21BFE7CE00AF60DC /* CSGTests.swift */; };
-		016FAB6621BFE7CE00AF60DC /* ShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB6021BFE7CE00AF60DC /* ShapeTests.swift */; };
+		016FAB6621BFE7CE00AF60DC /* PathShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB6021BFE7CE00AF60DC /* PathShapeTests.swift */; };
 		016FABED21C078E400AF60DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABEC21C078E400AF60DC /* AppDelegate.swift */; };
 		016FABF121C078E400AF60DC /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABF021C078E400AF60DC /* SceneViewController.swift */; };
 		016FABF421C078E400AF60DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF221C078E400AF60DC /* Main.storyboard */; };
@@ -94,6 +95,7 @@
 
 /* Begin PBXFileReference section */
 		0101BAF425687A450096B1E7 /* CodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingTests.swift; sourceTree = "<group>"; };
+		0125477F27AFD53900C442C3 /* MeshShapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshShapeTests.swift; sourceTree = "<group>"; };
 		013312DC21CA532A00626F1B /* PlaneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneTests.swift; sourceTree = "<group>"; };
 		013B5BE426923087000860DC /* MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataTests.swift; sourceTree = "<group>"; };
 		013ED08E23C0E60900FEEE5C /* Rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
@@ -122,7 +124,7 @@
 		016FAB5D21BFE7CE00AF60DC /* UtilityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityTests.swift; sourceTree = "<group>"; };
 		016FAB5E21BFE7CE00AF60DC /* PolygonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonTests.swift; sourceTree = "<group>"; };
 		016FAB5F21BFE7CE00AF60DC /* CSGTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSGTests.swift; sourceTree = "<group>"; };
-		016FAB6021BFE7CE00AF60DC /* ShapeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeTests.swift; sourceTree = "<group>"; };
+		016FAB6021BFE7CE00AF60DC /* PathShapeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathShapeTests.swift; sourceTree = "<group>"; };
 		016FABEA21C078E400AF60DC /* EuclidExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EuclidExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		016FABEC21C078E400AF60DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		016FABF021C078E400AF60DC /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
@@ -252,12 +254,13 @@
 				0188E98226ACA0040029C253 /* LineSegmentTests.swift */,
 				52A3852D238D6E5700BE8407 /* LineTests.swift */,
 				01CBE2672775E3EE00B7ED45 /* MeshTests.swift */,
+				0125477F27AFD53900C442C3 /* MeshShapeTests.swift */,
 				013B5BE426923087000860DC /* MetadataTests.swift */,
 				016FAB5C21BFE7CD00AF60DC /* PathTests.swift */,
+				016FAB6021BFE7CE00AF60DC /* PathShapeTests.swift */,
 				016FAB5E21BFE7CE00AF60DC /* PolygonTests.swift */,
 				013312DC21CA532A00626F1B /* PlaneTests.swift */,
 				014AC60D2505963800F54349 /* SceneKitTests.swift */,
-				016FAB6021BFE7CE00AF60DC /* ShapeTests.swift */,
 				01A429F92237A85C00C251A6 /* TextTests.swift */,
 				016FAB5B21BFE7CD00AF60DC /* TransformTests.swift */,
 				016FAB5D21BFE7CE00AF60DC /* UtilityTests.swift */,
@@ -502,7 +505,7 @@
 				0188E98326ACA0040029C253 /* LineSegmentTests.swift in Sources */,
 				0A240137256A64FB00C1535C /* AngleTests.swift in Sources */,
 				52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */,
-				016FAB6621BFE7CE00AF60DC /* ShapeTests.swift in Sources */,
+				016FAB6621BFE7CE00AF60DC /* PathShapeTests.swift in Sources */,
 				016FAB6321BFE7CE00AF60DC /* UtilityTests.swift in Sources */,
 				01CBE2682775E3EE00B7ED45 /* MeshTests.swift in Sources */,
 				016FAB6221BFE7CE00AF60DC /* PathTests.swift in Sources */,
@@ -513,6 +516,7 @@
 				0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */,
 				016FAB6521BFE7CE00AF60DC /* CSGTests.swift in Sources */,
 				01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */,
+				0125478027AFD53900C442C3 /* MeshShapeTests.swift in Sources */,
 				01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */,
 				013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */,
 				52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */,

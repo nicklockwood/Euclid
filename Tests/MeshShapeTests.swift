@@ -1,153 +1,15 @@
 //
-//  ShapeTests.swift
-//  GeometryScriptTests
+//  MeshShapeTests.swift
+//  EuclidTests
 //
-//  Created by Nick Lockwood on 09/10/2018.
-//  Copyright © 2018 Nick Lockwood. All rights reserved.
+//  Created by Nick Lockwood on 06/02/2022.
+//  Copyright © 2022 Nick Lockwood. All rights reserved.
 //
 
 @testable import Euclid
 import XCTest
 
-class ShapeTests: XCTestCase {
-    // MARK: Curve
-
-    func testCurveWithConsecutiveMixedTypePointsWithSamePosition() {
-        let points: [PathPoint] = [
-            .point(-1, 1),
-            .point(-1, -1),
-            .point(1, -1),
-            .curve(1, -1),
-            .point(1, 1),
-            .point(-1, 1),
-        ]
-        _ = Path(points)
-    }
-
-    func testSimpleCurvedPath() {
-        let points: [PathPoint] = [
-            .point(-1, -1),
-            .curve(0, 1),
-            .point(1, -1),
-        ]
-        XCTAssertEqual(Path.curve(points, detail: 0).points, points)
-        XCTAssertEqual(Path.curve(points, detail: 1).points, [
-            .point(-1, -1),
-            .curve(-1 / 3, -1 / 9),
-            .curve(1 / 3, -1 / 9),
-            .point(1, -1),
-        ] as [PathPoint])
-        XCTAssertEqual(Path.curve(points, detail: 2).points, [
-            .point(-1, -1),
-            .curve(-0.5, -0.25),
-            .curve(0, 0),
-            .curve(0.5, -0.25),
-            .point(1, -1),
-        ])
-    }
-
-    func testSimpleCurveEndedPath() {
-        let points: [PathPoint] = [
-            .curve(0, 1),
-            .point(-1, 0),
-            .curve(0, -1),
-        ]
-        XCTAssertEqual(Path.curve(points, detail: 0).points, points)
-        XCTAssertEqual(Path.curve(points, detail: 1).points, [
-            .curve(0, 0.5),
-            .point(-1, 0),
-            .curve(0, -0.5),
-        ])
-    }
-
-    func testClosedCurvedPath() {
-        let points: [PathPoint] = [
-            .curve(-1, 1),
-            .curve(1, 1),
-            .curve(1, -1),
-            .curve(-1, -1),
-            .curve(-1, 1),
-        ]
-        XCTAssertEqual(Path.curve(points, detail: 0).points, points)
-        XCTAssertEqual(Path.curve(points, detail: 1).points, [
-            .curve(-1, 0),
-            .curve(-0.75, 0.75),
-            .curve(0, 1),
-            .curve(0.75, 0.75),
-            .curve(1, 0),
-            .curve(0.75, -0.75),
-            .curve(0, -1),
-            .curve(-0.75, -0.75),
-            .curve(-1, 0),
-        ])
-    }
-
-    func testClosedCurvedPathWithSharpFirstCorner() {
-        let points: [PathPoint] = [
-            .point(-1, 1),
-            .curve(1, 1),
-            .curve(1, -1),
-            .curve(-1, -1),
-            .point(-1, 1),
-        ]
-        XCTAssertEqual(Path.curve(points, detail: 0).points, points)
-        XCTAssertEqual(Path.curve(points, detail: 1).points, [
-            .point(-1, 1),
-            .curve(0.5, 0.75),
-            .curve(1, 0),
-            .curve(0.75, -0.75),
-            .curve(0, -1),
-            .curve(-0.75, -0.5),
-            .point(-1, 1),
-        ])
-    }
-
-    func testClosedCurvedPathWithSharpSecondCorner() {
-        let points: [PathPoint] = [
-            .curve(-1, 1),
-            .point(1, 1),
-            .curve(1, -1),
-            .curve(-1, -1),
-            .curve(-1, 1),
-        ]
-        XCTAssertEqual(Path.curve(points, detail: 0).points, points)
-        XCTAssertEqual(Path.curve(points, detail: 1).points, [
-            .curve(-1, 0),
-            .curve(-0.5, 0.75),
-            .point(1, 1),
-            .curve(0.75, -0.5),
-            .curve(0, -1),
-            .curve(-0.75, -0.75),
-            .curve(-1, 0),
-        ])
-    }
-
-    func testClosedCurvedPathWithSharpSecondAndThirdCorner() {
-        let points: [PathPoint] = [
-            .curve(-1, 1),
-            .point(1, 1),
-            .point(1, -1),
-            .curve(-1, -1),
-            .curve(-1, 1),
-        ]
-        XCTAssertEqual(Path.curve(points, detail: 0).points, points)
-        XCTAssertEqual(Path.curve(points, detail: 1).points, [
-            .curve(-1, 0),
-            .curve(-0.5, 0.75),
-            .point(1, 1),
-            .point(1, -1),
-            .curve(-0.5, -0.75),
-            .curve(-1, 0),
-        ])
-    }
-
-    // MARK: Circle
-
-    func testCircleIsClosed() {
-        let path = Path.circle(radius: 0.50, segments: 25)
-        XCTAssert(path.isClosed)
-    }
-
+class MeshShapeTests: XCTestCase {
     // MARK: Fill
 
     func testFillClockwiseQuad() {
