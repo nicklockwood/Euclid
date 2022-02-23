@@ -1,3 +1,12 @@
+## [0.5.17](https://github.com/nicklockwood/Euclid/releases/tag/0.5.17) (2022-02-23)
+
+- Euclid now includes full DocC documentation (big thanks to Joseph Heck for making this happen)
+- Fixed unused vertex color parameter in `Path.line()` constructor
+- Added missing `w` component to `Quaternion.components` property
+- Fixed unused detail argument in `Mesh(text:)` constructor
+- Fixed a bug in the `faceNormalForPolygonPoints()` utility function
+- Fixed bug in `Plane.intersection(with: Plane)` calculation
+
 ## [0.5.16](https://github.com/nicklockwood/Euclid/releases/tag/0.5.16) (2022-01-04)
 
 - Added `Vertex.color` property

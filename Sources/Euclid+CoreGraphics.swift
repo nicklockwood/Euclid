@@ -103,7 +103,7 @@ public extension CGPath {
             guard let lastElement = lastElement else {
                 return
             }
-            let p0: CGPoint, p1: CGPoint, p2: CGPoint, isCurved: Bool
+            let p0, p1, p2: CGPoint, isCurved: Bool
             switch nextElement.type {
             case .moveToPoint:
                 points[points.count - 1].isCurved = false

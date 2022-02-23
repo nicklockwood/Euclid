@@ -280,16 +280,13 @@ public extension Vector {
     /// Returns the angle between this vector and another.
     /// - Parameter a: The vector to compare with.
     func angle(with a: Vector) -> Angle {
-        let cosineAngle = (dot(a) / (length * a.length))
-        return Angle.acos(cosineAngle)
+        .acos(normalized().dot(a.normalized()))
     }
 
     /// Returns the angle between this vector and the specified plane.
     /// - Parameter plane: The plane to compare with.
     func angle(with plane: Plane) -> Angle {
-        // We know that plane.normal.length == 1
-        let complementeryAngle = dot(plane.normal) / length
-        return Angle.asin(complementeryAngle)
+        .asin(normalized().dot(plane.normal))
     }
 
     /// Returns the distance between the vector (representing a position in space) from the specified plane.
