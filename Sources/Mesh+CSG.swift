@@ -344,7 +344,7 @@ public extension Mesh {
             }
             radius = radius.squareRoot()
             // Create back face
-            let normal = Vector(0, 0, 1)
+            let normal = Vector.unitZ
             let angle = -normal.angle(with: plane.normal)
             let rotation: Rotation
             if angle == .zero {

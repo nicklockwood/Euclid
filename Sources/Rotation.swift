@@ -80,7 +80,7 @@ extension Rotation: Codable {
                 let z = try container.decode(Double.self, forKey: .z)
                 axis = Vector(x, y, z)
             }
-            self.init(unchecked: axis?.normalized() ?? Vector(0, 0, 1), angle: angle ?? .zero)
+            self.init(unchecked: axis?.normalized() ?? .unitZ, angle: angle ?? .zero)
             return
         }
         switch container.count ?? 0 {

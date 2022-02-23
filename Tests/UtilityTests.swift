@@ -21,7 +21,7 @@ class UtilityTests: XCTestCase {
             Vector(-0.16346853203274558, 0, -0.06771088298918408),
         ]
         XCTAssertTrue(pointsAreConvex(vectors))
-        let normal = Vector(0, 1, 0)
+        let normal = Vector.unitY
         let offset = Vector(0, 0, 3)
         let vertices = vectors.map { Vertex($0, normal).translated(by: offset) }
         XCTAssertTrue(verticesAreConvex(vertices))
@@ -40,7 +40,7 @@ class UtilityTests: XCTestCase {
     // MARK: degeneracy
 
     func testDegenerateColinearVertices() {
-        let normal = Vector(0, 0, 1)
+        let normal = Vector.unitZ
         let vertices = [
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(0, 0), normal),
@@ -50,7 +50,7 @@ class UtilityTests: XCTestCase {
     }
 
     func testNonDegenerateColinearVertices() {
-        let normal = Vector(0, 0, 1)
+        let normal = Vector.unitZ
         let vertices = [
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(0, 0), normal),
@@ -61,7 +61,7 @@ class UtilityTests: XCTestCase {
     }
 
     func testDegenerateVerticesWithZeroLengthEdge() {
-        let normal = Vector(0, 0, 1)
+        let normal = Vector.unitZ
         let vertices = [
             Vertex(Vector(0, 1), normal),
             Vertex(Vector(0, -1), normal),
@@ -121,23 +121,23 @@ class UtilityTests: XCTestCase {
             Vector(-1, -1),
             Vector(1, 0)
         )
-        XCTAssertEqual(result, Vector(0, -1, 0))
+        XCTAssertEqual(result, -.unitY)
     }
 
     // MARK: faceNormalForPolygonPoints
 
     func testFaceNormalForZAxisLine() {
-        let result = faceNormalForPolygonPoints([.zero, Vector(0, 0, 1)], convex: nil)
-        XCTAssertEqual(result, Vector(1, 0, 0))
+        let result = faceNormalForPolygonPoints([.zero, .unitZ], convex: nil)
+        XCTAssertEqual(result, .unitX)
     }
 
     func testFaceNormalForVerticalLine() {
-        let result = faceNormalForPolygonPoints([.zero, Vector(0, 1, 0)], convex: nil)
-        XCTAssertEqual(result, Vector(0, 0, 1))
+        let result = faceNormalForPolygonPoints([.zero, .unitY], convex: nil)
+        XCTAssertEqual(result, .unitZ)
     }
 
     func testFaceNormalForHorizontalLine() {
-        let result = faceNormalForPolygonPoints([.zero, Vector(1, 0, 0)], convex: nil)
-        XCTAssertEqual(result, Vector(0, 0, 1))
+        let result = faceNormalForPolygonPoints([.zero, .unitX], convex: nil)
+        XCTAssertEqual(result, .unitZ)
     }
 }

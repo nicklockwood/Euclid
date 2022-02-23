@@ -323,6 +323,10 @@ public extension Vector {
 }
 
 internal extension Vector {
+    static let unitX = Vector(1, 0, 0)
+    static let unitY = Vector(0, 1, 0)
+    static let unitZ = Vector(0, 0, 1)
+
     func isIdentical(to other: Vector) -> Bool {
         x == other.x && y == other.y && z == other.z
     }

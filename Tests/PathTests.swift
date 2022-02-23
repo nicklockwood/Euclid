@@ -99,7 +99,7 @@ class PathTests: XCTestCase {
             .point(-1, 1),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     func testConvexClosedPathClockwiseWinding() {
@@ -111,7 +111,7 @@ class PathTests: XCTestCase {
             .point(-1, -1),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
+        XCTAssertEqual(path.plane?.normal, -.unitZ)
     }
 
     func testConvexOpenPathAnticlockwiseWinding() {
@@ -121,7 +121,7 @@ class PathTests: XCTestCase {
             .point(1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     func testConvexOpenPathClockwiseWinding() {
@@ -131,7 +131,7 @@ class PathTests: XCTestCase {
             .point(1, 1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
+        XCTAssertEqual(path.plane?.normal, -.unitZ)
     }
 
     func testConcaveClosedPathAnticlockwiseWinding() {
@@ -145,7 +145,7 @@ class PathTests: XCTestCase {
             .point(-1, 0),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     func testConcaveClosedPathClockwiseWinding() {
@@ -159,7 +159,7 @@ class PathTests: XCTestCase {
             .point(-1, 0),
         ])
         XCTAssertTrue(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
+        XCTAssertEqual(path.plane?.normal, -.unitZ)
     }
 
     func testConcaveClosedPathClockwiseWinding2() {
@@ -174,7 +174,7 @@ class PathTests: XCTestCase {
         }
         points.append(.point(0, -0.5))
         let path = Path(points)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
+        XCTAssertEqual(path.plane?.normal, -.unitZ)
     }
 
     func testConcaveOpenPathAnticlockwiseWinding() {
@@ -186,7 +186,7 @@ class PathTests: XCTestCase {
             .point(-1, 1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     func testConcaveOpenPathClockwiseWinding() {
@@ -198,7 +198,7 @@ class PathTests: XCTestCase {
             .point(-1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, -1))
+        XCTAssertEqual(path.plane?.normal, -.unitZ)
     }
 
     func testStraightLinePathAnticlockwiseWinding() {
@@ -207,7 +207,7 @@ class PathTests: XCTestCase {
             .point(-1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     func testStraightLinePathAnticlockwiseWinding2() {
@@ -216,7 +216,7 @@ class PathTests: XCTestCase {
             .point(-1, 1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     func testStraightLinePathAnticlockwiseWinding3() {
@@ -225,7 +225,7 @@ class PathTests: XCTestCase {
             .point(1, -1),
         ])
         XCTAssertFalse(path.isClosed)
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     // MARK: faceVertices
@@ -594,13 +594,13 @@ class PathTests: XCTestCase {
             .point(0, -1),
         ])
         XCTAssertEqual(path.subpaths, [path])
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     func testSimpleClosedPathHasNoSubpaths() {
         let path = Path.square()
         XCTAssertEqual(path.subpaths, [path])
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     func testPathWithLineEndingInLoopHasCorrectSubpaths() {
@@ -625,7 +625,7 @@ class PathTests: XCTestCase {
                 .point(1, 0),
             ]),
         ])
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     func testPathWithLoopEndingInLineHasCorrectSubpaths() {
@@ -650,7 +650,7 @@ class PathTests: XCTestCase {
                 .point(-1, 0),
             ]),
         ])
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     func testPathWithConjoinedLoopsHasCorrectSubpaths() {
@@ -713,7 +713,7 @@ class PathTests: XCTestCase {
                 .point(2, 0),
             ]),
         ])
-        XCTAssertEqual(path.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
     func testNestedSubpathsAreFlattenedCorrectly() {
@@ -729,13 +729,13 @@ class PathTests: XCTestCase {
             .point(2, 1),
             .point(2, 0),
         ])
-        XCTAssertEqual(path1.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path1.plane?.normal, .unitZ)
         let path2 = Path([
             .point(5, 1),
             .point(4, -1),
             .point(5, -1),
         ])
-        XCTAssertEqual(path2.plane?.normal, Vector(0, 0, 1))
+        XCTAssertEqual(path2.plane?.normal, .unitZ)
         let path3 = Path(subpaths: [path1, path2])
         XCTAssertEqual(path3.subpaths, [
             Path([

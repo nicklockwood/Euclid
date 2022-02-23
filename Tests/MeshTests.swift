@@ -104,7 +104,7 @@ class MeshTests: XCTestCase {
 
     func testCubePlaneIntersection() {
         let mesh = Mesh.cube()
-        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
             LineSegment(Vector(0, 0.5, -0.5), Vector(0, 0.5, 0.5)),
@@ -116,7 +116,7 @@ class MeshTests: XCTestCase {
 
     func testCubeTouchingPlane() {
         let mesh = Mesh.cube().translated(by: Vector(-0.5, 0, 0))
-        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
             LineSegment(Vector(0, 0.5, -0.5), Vector(0, 0.5, 0.5)),
@@ -128,7 +128,7 @@ class MeshTests: XCTestCase {
 
     func testCubeTouchingPlane2() {
         let mesh = Mesh.cube().translated(by: Vector(0.5, 0, 0))
-        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
             LineSegment(Vector(0, 0.5, -0.5), Vector(0, 0.5, 0.5)),
@@ -140,7 +140,7 @@ class MeshTests: XCTestCase {
 
     func testPentagonSpanningPlane() {
         let mesh = Mesh.fill(.circle(segments: 5))
-        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
             LineSegment(Vector(0, -0.404508497187, 0), Vector(0, 0.5, 0)),
@@ -149,7 +149,7 @@ class MeshTests: XCTestCase {
 
     func testDiamondSpanningPlane() {
         let mesh = Mesh.fill(.circle(segments: 4))
-        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
             LineSegment(Vector(0, -0.5, 0), Vector(0, 0.5, 0)),

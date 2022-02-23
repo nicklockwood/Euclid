@@ -28,7 +28,7 @@ class CSGTests: XCTestCase {
 
     func testSubtractAdjacentBoxes() {
         let a = Mesh.cube()
-        let b = Mesh.cube().translated(by: Vector(1, 0, 0))
+        let b = Mesh.cube().translated(by: .unitX)
         let c = a.subtract(b)
         XCTAssertEqual(c.bounds, a.bounds)
     }
@@ -68,7 +68,7 @@ class CSGTests: XCTestCase {
 
     func testXorAdjacentCubes() {
         let a = Mesh.cube()
-        let b = Mesh.cube().translated(by: Vector(1, 0, 0))
+        let b = Mesh.cube().translated(by: .unitX)
         let c = a.xor(b)
         XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
     }
@@ -108,7 +108,7 @@ class CSGTests: XCTestCase {
 
     func testUnionOfAdjacentBoxes() {
         let a = Mesh.cube()
-        let b = Mesh.cube().translated(by: Vector(1, 0, 0))
+        let b = Mesh.cube().translated(by: .unitX)
         let c = a.union(b)
         XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
     }
@@ -148,7 +148,7 @@ class CSGTests: XCTestCase {
 
     func testIntersectionOfAdjacentBoxes() {
         let a = Mesh.cube()
-        let b = Mesh.cube().translated(by: Vector(1, 0, 0))
+        let b = Mesh.cube().translated(by: .unitX)
         let c = a.intersect(b)
         // TODO: ideally this should probably be empty, but it's not clear
         // how to achieve that while also getting desired planar behavior
@@ -193,7 +193,7 @@ class CSGTests: XCTestCase {
 
     func testSubtractAdjacentSquares() {
         let a = Mesh.fill(.square())
-        let b = Mesh.fill(.square()).translated(by: Vector(1, 0, 0))
+        let b = Mesh.fill(.square()).translated(by: .unitX)
         let c = a.subtract(b)
         XCTAssertEqual(c.bounds, a.bounds)
     }
@@ -219,7 +219,7 @@ class CSGTests: XCTestCase {
 
     func testXorAdjacentSquares() {
         let a = Mesh.fill(.square())
-        let b = Mesh.fill(.square()).translated(by: Vector(1, 0, 0))
+        let b = Mesh.fill(.square()).translated(by: .unitX)
         let c = a.xor(b)
         XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
     }
@@ -245,7 +245,7 @@ class CSGTests: XCTestCase {
 
     func testUnionOfAdjacentSquares() {
         let a = Mesh.fill(.square())
-        let b = Mesh.fill(.square()).translated(by: Vector(1, 0, 0))
+        let b = Mesh.fill(.square()).translated(by: .unitX)
         let c = a.union(b)
         XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
     }
@@ -271,7 +271,7 @@ class CSGTests: XCTestCase {
 
     func testIntersectionOfAdjacentSquares() {
         let a = Mesh.fill(.square())
-        let b = Mesh.fill(.square()).translated(by: Vector(1, 0, 0))
+        let b = Mesh.fill(.square()).translated(by: .unitX)
         let c = a.intersect(b)
         XCTAssert(c.polygons.isEmpty)
     }
@@ -290,14 +290,14 @@ class CSGTests: XCTestCase {
 
     func testSquareClippedToPlane() {
         let a = Mesh.fill(.square())
-        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let b = a.clip(to: plane)
         XCTAssertEqual(b.bounds, .init(Vector(0, -0.5), Vector(0.5, 0.5)))
     }
 
     func testPentagonClippedToPlane() {
         let a = Mesh.fill(.circle(segments: 5))
-        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let b = a.clip(to: plane)
         XCTAssertEqual(b.bounds, .init(
             Vector(0, -0.404508497187),
@@ -307,7 +307,7 @@ class CSGTests: XCTestCase {
 
     func testDiamondClippedToPlane() {
         let a = Mesh.fill(.circle(segments: 4))
-        let plane = Plane(unchecked: Vector(1, 0, 0), pointOnPlane: .zero)
+        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let b = a.clip(to: plane)
         XCTAssertEqual(b.bounds, .init(Vector(0, -0.5), Vector(0.5, 0.5)))
     }

@@ -160,7 +160,7 @@ class ShapeTests: XCTestCase {
         ])
         let mesh = Mesh.fill(shape)
         XCTAssertEqual(mesh.polygons.count, 2)
-        XCTAssertEqual(mesh.polygons.first?.plane.normal, Vector(0, 0, 1))
+        XCTAssertEqual(mesh.polygons.first?.plane.normal, .unitZ)
     }
 
     func testFillAnticlockwiseQuad() {
@@ -173,7 +173,7 @@ class ShapeTests: XCTestCase {
         ])
         let mesh = Mesh.fill(shape)
         XCTAssertEqual(mesh.polygons.count, 2)
-        XCTAssertEqual(mesh.polygons.first?.plane.normal, Vector(0, 0, -1))
+        XCTAssertEqual(mesh.polygons.first?.plane.normal, -.unitZ)
     }
 
     func testFillSelfIntersectingPath() {

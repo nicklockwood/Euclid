@@ -13,7 +13,7 @@ class VectorTests: XCTestCase {
     // MARK: Vector length
 
     func testAxisAlignedLength() {
-        let vector = Vector(1, 0, 0)
+        let vector = Vector.unitX
         XCTAssertEqual(vector.length, 1)
     }
 
@@ -26,8 +26,8 @@ class VectorTests: XCTestCase {
     // MARK: Angle with vector
 
     func testRightAngle() {
-        let vector1 = Vector(1, 0, 0)
-        let vector2 = Vector(0, 1, 0)
+        let vector1 = Vector.unitX
+        let vector2 = Vector.unitY
         XCTAssertEqual(vector1.angle(with: vector2), .halfPi)
     }
 
@@ -40,7 +40,7 @@ class VectorTests: XCTestCase {
     // MARK: Angle with plane
 
     func testRightAngleWithPlane() {
-        let vector1 = Vector(1, 0, 0)
+        let vector1 = Vector.unitX
         let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
         XCTAssertEqual(vector1.angle(with: plane), .halfPi)
     }
@@ -54,14 +54,14 @@ class VectorTests: XCTestCase {
     // MARK: Distance from plane
 
     func testDistanceInFrontOfPlane() {
-        let vector1 = Vector(1, 0, 0)
+        let vector1 = Vector.unitX
         let vector2 = Vector(2, 1, -2)
         let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
         XCTAssertEqual(vector2.distance(from: plane), 2)
     }
 
     func testDistanceBehindPlane() {
-        let vector1 = Vector(1, 0, 0)
+        let vector1 = Vector.unitX
         let vector2 = Vector(-1.5, 2, 7)
         let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
         XCTAssertEqual(vector2.distance(from: plane), -1.5)

@@ -13,24 +13,21 @@ class TransformTests: XCTestCase {
     // MARK: Rotation
 
     func testAxisAngleRotation1() {
-        let axis = Vector(0, 0, 1)
-        let r = Rotation(unchecked: axis, angle: .halfPi)
+        let r = Rotation(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0, 0.5, 0)
         let u = v.rotated(by: r)
         XCTAssertEqual(u, Vector(0.5, 0, 0))
     }
 
     func testAxisAngleRotation2() {
-        let axis = Vector(0, 0, 1)
-        let r = Rotation(unchecked: axis, angle: .halfPi)
+        let r = Rotation(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0.5, 0, 0)
         let u = v.rotated(by: r)
         XCTAssertEqual(u, Vector(0, -0.5, 0))
     }
 
     func testAxisAngleRotation3() {
-        let axis = Vector(0, 0, 1)
-        let r = Rotation(unchecked: axis, angle: .halfPi)
+        let r = Rotation(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0, 0, 0.5)
         let u = v.rotated(by: r)
         XCTAssertEqual(u, Vector(0, 0, 0.5))
@@ -91,24 +88,21 @@ class TransformTests: XCTestCase {
     // MARK: Quaternions
 
     func testAxisAngleQuaternion1() {
-        let axis = Vector(0, 0, 1)
-        let q = Quaternion(unchecked: axis, angle: .halfPi)
+        let q = Quaternion(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0, 0.5, 0)
         let u = v.rotated(by: Rotation(q))
         XCTAssertEqual(u, Vector(0.5, 0, 0))
     }
 
     func testAxisAngleQuaternion2() {
-        let axis = Vector(0, 0, 1)
-        let q = Quaternion(unchecked: axis, angle: .halfPi)
+        let q = Quaternion(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0.5, 0, 0)
         let u = v.rotated(by: Rotation(q))
         XCTAssertEqual(u, Vector(0, -0.5, 0))
     }
 
     func testAxisAngleQuaternion3() {
-        let axis = Vector(0, 0, 1)
-        let q = Quaternion(unchecked: axis, angle: .halfPi)
+        let q = Quaternion(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0, 0, 0.5)
         let u = v.rotated(by: Rotation(q))
         XCTAssertEqual(u, Vector(0, 0, 0.5))
@@ -181,9 +175,9 @@ class TransformTests: XCTestCase {
     func testRotationIdentityAxis() {
         let r = Rotation.identity
 
-        XCTAssertEqual(r.right, Vector(1, 0, 0))
-        XCTAssertEqual(r.up, Vector(0, 1, 0))
-        XCTAssertEqual(r.forward, Vector(0, 0, 1))
+        XCTAssertEqual(r.right, .unitX)
+        XCTAssertEqual(r.up, .unitY)
+        XCTAssertEqual(r.forward, .unitZ)
     }
 
     // MARK: Transform multiplication
@@ -191,15 +185,15 @@ class TransformTests: XCTestCase {
     func testRotationMultipliedByTranslation() {
         let r = Rotation(roll: .zero, yaw: .pi / 4, pitch: .zero)
         let a = Transform(rotation: r)
-        let b = Transform(offset: Vector(1, 0, 0))
+        let b = Transform(offset: .unitX)
         let c = a * b
-        XCTAssertEqual(c.offset, Vector(1, 0, 0))
+        XCTAssertEqual(c.offset, .unitX)
         XCTAssertEqual(c.rotation, r)
     }
 
     func testTranslationMultipliedByRotation() {
         let r = Rotation(roll: .zero, yaw: .pi / 4, pitch: .zero)
-        let a = Transform(offset: Vector(1, 0, 0))
+        let a = Transform(offset: .unitX)
         let b = Transform(rotation: r)
         let c = a * b
         XCTAssertEqual(c.offset, Vector(sqrt(2) / 2, 0, sqrt(2) / 2))
@@ -226,7 +220,7 @@ class TransformTests: XCTestCase {
     }
 
     func testTranslationMultipliedByScale() {
-        let a = Transform(offset: Vector(1, 0, 0))
+        let a = Transform(offset: .unitX)
         let b = Transform(scale: Vector(2, 1, 1))
         let c = a * b
         XCTAssertEqual(c.offset, Vector(2, 0, 0))
