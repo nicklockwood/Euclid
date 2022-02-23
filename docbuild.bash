@@ -13,6 +13,10 @@ $(xcrun --find swift) build --target Euclid \
 -Xswiftc -emit-symbol-graph \
 -Xswiftc -emit-symbol-graph-dir -Xswiftc .build/symbol-graphs
 
+# Enables deterministic output
+# - useful when you're committing the results to host on github pages
+export DOCC_JSON_PRETTYPRINT=YES
+
 $(xcrun --find docc) convert Euclid.docc \
 --analyze \
 --fallback-display-name Euclid \
