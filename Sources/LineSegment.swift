@@ -123,7 +123,7 @@ public extension LineSegment {
         guard v.isEqual(to: .zero, withPrecision: epsilon) else {
             return false
         }
-        return Bounds(start, end).containsPoint(point)
+        return Bounds(start, end).inset(by: -epsilon).containsPoint(point)
     }
 
     /// Returns the intersection point between the specified line segment and this one.
