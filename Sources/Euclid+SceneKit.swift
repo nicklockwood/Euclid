@@ -662,13 +662,13 @@ public extension Mesh {
              is SCNCone,
              is SCNCapsule:
             isKnownConvex = true
-            isWatertight = true
+            isWatertight = nil
         case is SCNTube,
              is SCNTorus,
              is SCNText,
              is SCNShape:
             isKnownConvex = false
-            isWatertight = true
+            isWatertight = nil
         default:
             isKnownConvex = false
             isWatertight = nil
