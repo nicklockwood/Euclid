@@ -401,7 +401,7 @@ internal extension Path {
                 ).plane else {
                     return true
                 }
-                return plane.isEqual(to: expectedPlane, withPrecision: epsilon * 10)
+                return plane.isEqual(to: expectedPlane, withPrecision: epsilon)
             }())
         } else if subpathIndices.isEmpty {
             self.plane = Plane(points: positions)

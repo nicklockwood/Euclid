@@ -608,6 +608,7 @@ class PolygonTests: XCTestCase {
 
     func testHouseShapedPolygonCorrectlyTriangulated() {
         let normal = -Vector.unitZ
+        let epsilon = 1e-8
         guard let polygon = Polygon([
             Vertex(Vector(0, 0.5), normal),
             Vertex(Vector(1, 0), normal),

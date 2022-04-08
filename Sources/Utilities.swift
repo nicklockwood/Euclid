@@ -30,7 +30,7 @@
 //
 
 // Tolerance used for calculating approximate equality
-let epsilon = 1e-8
+let epsilon = 1e-7
 
 // Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
