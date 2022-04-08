@@ -23,7 +23,7 @@ class SceneKitTests: XCTestCase {
     func testImportedSTLFileHasFixedNormals() throws {
         let cubeFile = URL(fileURLWithPath: #file)
             .deletingLastPathComponent().appendingPathComponent("Cube.stl")
-        let cube = try Mesh(url: cubeFile)
+        let cube = try Mesh(url: cubeFile, ignoringTransforms: false)
         XCTAssert(cube.polygons.allSatisfy { polygon in
             polygon.vertices.allSatisfy { $0.normal == polygon.plane.normal }
         })

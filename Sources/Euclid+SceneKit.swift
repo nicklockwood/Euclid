@@ -498,9 +498,10 @@ public extension Mesh {
     /// Loads a mesh from a file using any format supported by SceneKit,  with optional material mapping.
     /// - Parameters:
     ///   - url: The `URL` of the file to be loaded.
+    ///   - ignoringTransforms: Should node transforms from the input file be ignored.
     ///   - materialLookup: An optional closure to map the SceneKit materials to Euclid materials.
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
-    init(url: URL, materialLookup: MaterialProvider? = nil) throws {
+    init(url: URL, ignoringTransforms: Bool, materialLookup: MaterialProvider? = nil) throws {
         var options: [SCNSceneSource.LoadingOption: Any] = [
             .flattenScene: true,
             .createNormalsIfAbsent: true,
@@ -509,15 +510,25 @@ public extension Mesh {
             options[.convertToYUp] = true
         }
         let importedScene = try SCNScene(url: url, options: options)
-        self.init(importedScene.rootNode, materialLookup: materialLookup)
+        self.init(
+            importedScene.rootNode,
+            ignoringTransforms: ignoringTransforms,
+            materialLookup: materialLookup
+        )
+    }
+
+    @available(*, deprecated, message: "Use init(url:ignoringTransforms:materialLookup:) instead")
+    init(url: URL, materialLookup: MaterialProvider? = nil) throws {
+        try self.init(url: url, ignoringTransforms: true, materialLookup: materialLookup)
     }
 
     /// Creates a mesh from an SceneKit node, with optional material mapping.
     /// - Parameters:
     ///   - scnNode: The `SCNNode` to convert into a mesh.
+    ///   - ignoringTransforms: Should transforms from the input node and its children be ignored.
     ///   - materialLookup: An optional closure to map the SceneKit materials to Euclid materials.
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
-    init(_ scnNode: SCNNode, materialLookup: MaterialProvider? = nil) {
+    init(_ scnNode: SCNNode, ignoringTransforms: Bool, materialLookup: MaterialProvider? = nil) {
         var meshes = [Mesh]()
         if let mesh = scnNode.geometry.flatMap({
             Mesh($0, materialLookup: materialLookup)
@@ -525,9 +536,18 @@ public extension Mesh {
             meshes.append(mesh)
         }
         meshes += scnNode.childNodes.map {
-            Mesh($0, materialLookup: materialLookup)
+            Mesh($0, ignoringTransforms: ignoringTransforms, materialLookup: materialLookup)
         }
-        self = .merge(meshes)
+        var mesh = Mesh.merge(meshes)
+        if !ignoringTransforms {
+            mesh = mesh.transformed(by: .transform(from: scnNode))
+        }
+        self = mesh
+    }
+
+    @available(*, deprecated, message: "Use init(_:ignoringTransforms:materialLookup:) instead")
+    init(_ scnNode: SCNNode, materialLookup: MaterialProvider? = nil) {
+        self.init(scnNode, ignoringTransforms: true, materialLookup: materialLookup)
     }
 
     /// Creates a mesh from a SceneKit geometry, with optional material mapping.
