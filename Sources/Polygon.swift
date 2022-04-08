@@ -212,14 +212,14 @@ public extension Polygon {
     /// Returns a Boolean value that indicates whether a point lies inside the polygon, on the same plane.
     /// - Parameter point: The point to test.
     /// - Returns: `true` if the point lies inside the polygon and `false` otherwise.
-    func containsPoint(_ p: Vector) -> Bool {
-        guard plane.containsPoint(p) else {
+    func containsPoint(_ point: Vector) -> Bool {
+        guard plane.containsPoint(point) else {
             return false
         }
         // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
         let flatteningPlane = FlatteningPlane(normal: plane.normal)
         let points = vertices.map { flatteningPlane.flattenPoint($0.position) }
-        let p = flatteningPlane.flattenPoint(p)
+        let p = flatteningPlane.flattenPoint(point)
         let count = points.count
         var c = false
         var j = count - 1
@@ -331,7 +331,7 @@ internal extension Collection where Element == Polygon {
                 edgeCounts[edge, default: 0] += 1
             }
         }
-        return edgeCounts.values.allSatisfy { $0 >= 2 && $0 % 2 == 0 }
+        return edgeCounts.values.allSatisfy { $0.isMultiple(of: 2) }
     }
 
     /// Insert missing vertices needed to prevent hairline cracks

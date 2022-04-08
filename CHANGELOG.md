@@ -1,3 +1,17 @@
+## [0.5.18](https://github.com/nicklockwood/Euclid/releases/tag/0.5.18) (2022-04-08)
+
+- Added `Mesh.empty` constant
+- Added `Path.roundedRectangle()` method
+- Fixed assertion failure due to incorrect `isWatertight` assumption
+- Fixed precision issue with `LineSegment.containsPoint()` method
+- The `Polygon(_: [Vector])` constructor now takes any `Vector` sequence
+- Added `Vector` -> `CGize` conversion functions
+- Renamed `Path(cgPath:)` to `Path(_:)` for consistency
+- Renamed `Mesh(text:)` constructor to `Mesh.text()`
+- Replaced broken `SCNNode`/`URL` Mesh initializers
+- Deprecated `Vector.quantized()` method
+- Fixed warnings on Xcode 13.3
+
 ## [0.5.17](https://github.com/nicklockwood/Euclid/releases/tag/0.5.17) (2022-02-23)
 
 - Euclid now includes full DocC documentation (big thanks to Joseph Heck for making this happen)
