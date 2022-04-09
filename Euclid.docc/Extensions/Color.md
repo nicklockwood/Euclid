@@ -10,7 +10,7 @@
 - ``Color/init(_:)-53lhy``
 - ``Color/init(_:)-7d8un``
 
-### Built-in Colors
+### Default Colors
 
 - ``Color/clear``
 - ``Color/black``
@@ -24,24 +24,7 @@
 - ``Color/magenta``
 - ``Color/orange``
 
-### Inspecting a Color
 
-- ``Color/r``
-- ``Color/g``
-- ``Color/b``
-- ``Color/a``
-- ``Color/components``
-
-### Updating a Color
+### Mutating Colors
 
 - ``Color/withAlpha(_:)``
-
-### Comparing a Color
-
-- ``Color/!=(_:_:)``
-
-### Encoding and Decoding a Color
-
-- ``Color/encode(to:)``
-- ``Color/init(from:)``
-

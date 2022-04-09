@@ -10,28 +10,18 @@
 - ``Bounds/init(min:max:)``
 - ``Bounds/init(points:)``
 - ``Bounds/init(polygons:)``
+
+### Default Bounds
+
 - ``Bounds/empty``
 
-### Inspecting Bounds
-
-- ``Bounds/min``
-- ``Bounds/max``
-- ``Bounds/isEmpty``
-- ``Bounds/center``
-- ``Bounds/corners``
-- ``Bounds/size``
-
 ### Comparing Bounds
-
-- ``Bounds/!=(_:_:)``
-
-### Geometric Comparisons with Bounds
 
 - ``Bounds/containsPoint(_:)``
 - ``Bounds/intersects(_:)-7br6p``
 - ``Bounds/intersects(_:)-95v17``
 
-### Updating Bounds
+### Combining and Modifying Bounds
 
 - ``Bounds/inset(by:)-49ykf``
 - ``Bounds/inset(by:)-4gk62``
@@ -48,10 +38,3 @@
 - ``Bounds/scaled(by:)-6epo6``
 - ``Bounds/transformed(by:)``
 - ``Bounds/translated(by:)``
-
-### Encoding and Decoding Bounds
-
-- ``Bounds/encode(to:)``
-- ``Bounds/init(from:)``
-
-

@@ -11,15 +11,9 @@
 - ``PathPoint/curve(_:_:_:texcoord:color:)``
 - ``PathPoint/curve(_:texcoord:color:)``
 
-### Interpolating between Path Points
+### Interpolating Path Points
 
 - ``PathPoint/lerp(_:_:)``
-
-### Inspecting Path Points
-
-- ``PathPoint/position``
-- ``PathPoint/texcoord``
-- ``PathPoint/isCurved``
 
 ### Transforming Path Points
 
@@ -29,12 +23,3 @@
 - ``PathPoint/scaled(by:)-7e3o7``
 - ``PathPoint/transformed(by:)``
 - ``PathPoint/translated(by:)``
-
-### Comparing Path Points
-
-- ``PathPoint/!=(_:_:)``
-
-### Encoding and Decoding Path Points
-
-- ``PathPoint/encode(to:)``
-- ``PathPoint/init(from:)``

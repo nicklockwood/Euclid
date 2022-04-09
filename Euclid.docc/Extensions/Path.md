@@ -29,23 +29,7 @@
 - ``Path/text(_:font:width:detail:)``
 - ``Path/text(_:width:detail:)``
 
-### Inspecting Paths
-
-- ``Path/points``
-- ``Path/isClosed``
-- ``Path/plane``
-
-- ``Path/isPlanar``
-- ``Path/bounds``
-- ``Path/faceNormal``
-- ``Path/subpaths``
-
-- ``Path/facePolygons(material:)``
-- ``Path/faceVertices``
-- ``Path/edgeVertices``
-- ``Path/edgeVertices(for:)``
-
-### Updating Paths
+### Mutating Paths
 
 - ``Path/closed()``
 
@@ -57,12 +41,3 @@
 - ``Path/scaled(by:)-84xdd``
 - ``Path/transformed(by:)``
 - ``Path/translated(by:)``
-
-### Comparing Paths
-
-- ``Path/!=(_:_:)``
-
-### Encoding and Decoding Paths
-
-- ``Path/encode(to:)``
-- ``Path/init(from:)``

@@ -4,17 +4,20 @@
 
 ### Creating Meshes
 
-- ``Mesh/empty``
 - ``Mesh/init(_:)``
 - ``Mesh/init(_:material:)``
 - ``Mesh/init(_:materialLookup:)-7p5hd``
-- ``Mesh/init(_:materialLookup:)-ilb2``
-- ``Mesh/init(url:materialLookup:)``
+- ``Mesh/init(_:ignoringTransforms:materialLookup:)``
+- ``Mesh/init(url:ignoringTransforms:materialLookup:)``
+
 - ``Mesh/Material``
 - ``Mesh/MaterialProvider``
-- ``Mesh/init(scnGeometry:materialLookup:)``
 
-### Creating Meshes of Geometric Primitives
+### Default Meshes
+
+- ``Mesh/empty``
+
+### Geometric Primitives
 
 - ``Mesh/cone(radius:height:slices:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)``
 - ``Mesh/cube(center:size:faces:material:)-7wdr2``
@@ -25,7 +28,7 @@
 - ``Mesh/WrapMode``
 - ``Mesh/Faces``
 
-### Building with Constructive Solid Geometery
+### Constructive Solid Geometry
 
 - ``Mesh/union(_:isCancelled:)-swift.method``
 - ``Mesh/union(_:isCancelled:)-swift.type.method``
@@ -50,23 +53,13 @@
 - ``Mesh/loft(_:faces:material:)``
 - ``Mesh/stroke(_:width:detail:material:)-9mb5w``
 - ``Mesh/stroke(_:width:detail:material:)-uzi1``
-- ``Mesh/stroke(_:width:depth:faces:material:)``
 
 ### Creating Meshes from Text
 
 - ``Mesh/text(_:font:width:depth:detail:material:)``
 - ``Mesh/text(_:width:depth:detail:material:)``
 
-### Inspecting Meshes
-
-- ``Mesh/materials``
-- ``Mesh/polygons``
-- ``Mesh/bounds``
-- ``Mesh/polygonsByMaterial``
-- ``Mesh/uniqueEdges``
-- ``Mesh/isWatertight``
-
-### Moving Meshes
+### Transforming Meshes
 
 - ``Mesh/translated(by:)``
 - ``Mesh/rotated(by:)-266e9``
@@ -74,13 +67,12 @@
 - ``Mesh/scaled(by:)-90bab``
 - ``Mesh/scaled(by:)-94kks``
 - ``Mesh/transformed(by:)``
-- ``Mesh/scaleCorrected(for:)``
 
-### Updating the Mesh Materials
+### Updating Mesh Materials
 
 - ``Mesh/replacing(_:with:)``
 
-### Combining Meshes
+### Merging Meshes
 
 - ``Mesh/merge(_:)-swift.method``
 - ``Mesh/merge(_:)-swift.type.method``
@@ -90,20 +82,10 @@
 - ``Mesh/split(along:)``
 - ``Mesh/edges(intersecting:)``
 
-### Adjusting Polygons within Meshes
+### Adjusting Mesh Topology
 
 - ``Mesh/inverted()``
 - ``Mesh/tessellate()``
 - ``Mesh/triangulate()``
 - ``Mesh/detessellate()``
 - ``Mesh/makeWatertight()``
-
-### Comparing Meshes
-
-- ``Mesh/!=(_:_:)``
-
-### Encoding and Decoding Meshes
-
-- ``Mesh/encode(to:)``
-- ``Mesh/init(from:)``
-

@@ -8,22 +8,12 @@
 - ``Polygon/init(_:material:)-9mns5``
 - ``Polygon/init(shape:material:)``
 
-### Inspecting Polygons
-
-- ``Polygon/vertices``
-- ``Polygon/plane``
-- ``Polygon/bounds``
-- ``Polygon/isConvex``
-- ``Polygon/material-swift.property``
-- ``Polygon/hasTexcoords``
-- ``Polygon/Material-swift.typealias``
-
-### Geometrically Comparing Polygons
+### Comparing Polygons
 
 - ``Polygon/containsPoint(_:)``
 - ``Polygon/undirectedEdges``
 
-### Updating Polygons
+### Mutating Polygons
 
 - ``Polygon/merge(_:ensureConvex:)``
 - ``Polygon/inverted()``
@@ -40,13 +30,3 @@
 - ``Polygon/transformed(by:)``
 - ``Polygon/translated(by:)``
 - ``Polygon/scaleCorrected(for:)``
-
-### Comparing Polygons
-
-- ``Polygon/!=(_:_:)``
-
-### Encoding and Decoding Polygons
-
-- ``Polygon/encode(to:)``
-- ``Polygon/init(from:)``
-

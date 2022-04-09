@@ -29,6 +29,7 @@ These are implemented as static constructor methods on the ``Path`` type instead
 - ``Path/ellipse(width:height:segments:color:)``- A closed, elliptical ``Path``.
 - ``Path/circle(radius:segments:color:)``  - A closed, circular ``Path``.
 - ``Path/rectangle(width:height:color:)`` - A closed, rectangular ``Path``.
+- ``Path/roundedRectangle(width:height:radius:detail:color:)`` - A closed, rectangular ``Path`` with rounded corners.
 - ``Path/square(size:color:)`` - Same as ``Path/rectangle(width:height:color:)``, but with equal width and height.
 - ``Path/polygon(radius:sides:color:)`` - A regular polygon shape (not to be confused with Euclid's ``Polygon`` type).
 
@@ -51,15 +52,14 @@ The following builders are defined as static constructor functions on the ``Mesh
 Builders are a powerful tool for creating interesting ``Mesh`` instances from one or more ``Path`` instances, but what about creating an interesting ``Path`` in the first place?
 
 Creating a polygonal ``Path`` by specifying points individually is straightforward, but creating *curves* that way is tedious.
-That's where *Beziers* come in. 
-Beziers allow you to specify complex curves using just a few control points. 
+That's where *Bezier* curves come in. Beziers allow you to specify complex curves using just a few control points. 
 Euclid exposes this feature via the ``Path/curve(_:detail:)`` constructor method.
 
 The ``Path/curve(_:detail:)`` method takes an array of ``PathPoint`` and a `detail` argument. 
-Normally, the ``PathPoint/isCurved`` property is used to calculate surface normals (for lighting purposes), but with the ``Path/curve(_:detail:)`` method it affects the shape of the ``Path``.
+Normally, the ``PathPoint/isCurved`` property is used to calculate surface normals (for lighting purposes), but with the ``Path/curve(_:detail:)`` method it actually affects the shape of the ``Path``.
 
-A sequence of regular (non-curved) ``PathPoint`` create sharp corners in the ``Path`` as normal, but curved ones are treated as off-curve Bezier control points. 
-The `detail` argument of the ``Path/curve(_:detail:)`` method controls how many straight line segments are used to approximate the curve.
+A sequence of regular (non-curved) ``PathPoint``s create sharp corners in the ``Path`` as normal, but curved ones are treated as off-curve Bezier control points. 
+The `detail` argument of the ``Path/curve(_:detail:)`` method controls how many line segments are used to approximate the curve.
 
 The ``Path/curve(_:detail:)`` method uses second-order (quadratic) Bezier curves, where each curve has two on-curve end points and a single off-curve control point. 
 If two curved ``PathPoint`` are used in sequence then an on-curve point is interpolated between them. 
@@ -68,12 +68,12 @@ It is therefore  possible to create curves entirely out of curved (off-curve) co
 This approach to curve generation is based on the popular [TrueType (TTF) font system](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM01/Chap1.html), and provides a good balance between simplicity and flexibility.
 
 For more complex curves, on macOS and iOS you can create Euclid ``Path`` from a Core Graphics `CGPath` by using the `CGPath.paths()` extension method. 
-`CGPath` supports cubic bezier curves as well as quadratic, and has handy constructors for rounded rectangles and other shapes.
+`CGPath` supports cubic bezier curves as well as quadratic.
 
 ### Constructive Solid Geometry (CSG)
 
 CSG is another powerful tool for creating intricate geometry. 
-CSG allows you to perform boolean operations (logical AND, OR, etc) on solid shapes. 
+CSG allows you to perform boolean operations (logical AND, OR, etc.) on solid shapes. 
 The following CSG operations are defined as methods on the ``Mesh`` type:
 
 - ``Mesh/subtract(_:isCancelled:)`` - Subtracts the volume of one `Mesh` from another.
@@ -91,7 +91,7 @@ On macOS and iOS you can make use of Euclid's Core Text integration to create 2D
 
 The ``Path/text(_:width:detail:)`` method produces an array of 2D ``Path`` that represent the contours of each glyph in an `AttributedString`. You can use these paths with either ``Mesh/fill(_:faces:material:)`` or ``Mesh/extrude(_:along:faces:material:)`` builder methods to create solid text.
 
-Alternatively, the ``Mesh/init(text:width:depth:detail:material:)`` constructor directly produces an extruded 3D text model from a `String` or `AttributedString`.
+Alternatively, the ``Mesh/text(_:font:width:depth:detail:material:)`` constructor directly produces an extruded 3D text model from a `String` or `AttributedString`.
 
 Each glyph in the input string maps to a single ``Path`` in the result, but these ``Path``s may contain nested subpaths. 
 Glyphs formed from multiple subpaths will be filled using the even-odd rule (equivalent to an `xor` between the individually filled or extruded subpaths).

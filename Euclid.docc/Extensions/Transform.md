@@ -4,32 +4,19 @@
 
 ### Creating Transforms
 
-- ``Transform/identity``
 - ``Transform/init(offset:rotation:scale:)``
 - ``Transform/transform(from:)``
 
-### Inspecting Transforms
+### Default Transforms
 
-- ``Transform/rotation``
-- ``Transform/scale``
-- ``Transform/offset``
-- ``Transform/isFlipped``
+- ``Transform/identity``
 
-### Updating Transforms 
+### Computing Transforms
+
+- ``Transform/*(_:_:)``
+
+### Mutating Transforms 
 
 - ``Transform/rotate(by:)``
 - ``Transform/scale(by:)``
 - ``Transform/translate(by:)``
-
-### Multiplying Transforms
-
-- ``Transform/*(_:_:)``
-
-### Comparing Transforms
-
-- ``Transform/!=(_:_:)``
-
-### Encoding and Decoding Transforms
-
-- ``Transform/encode(to:)``
-- ``Transform/init(from:)``

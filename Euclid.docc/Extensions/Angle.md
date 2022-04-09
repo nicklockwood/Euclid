@@ -9,12 +9,7 @@
 - ``Angle/degrees(_:)``
 - ``Angle/radians(_:)``
 
-### Inspecting Angles
-
-- ``Angle/degrees``
-- ``Angle/radians``
-
-### Common Angles
+### Default Angles
 
 - ``Angle/zero``
 - ``Angle/halfPi``
@@ -34,30 +29,9 @@
 - ``Angle/atan(_:)``
 - ``Angle/atan2(y:x:)``
 
-### Updating Angles
+### Mutating Angles
 
 - ``Angle/+=(_:_:)``
 - ``Angle/-=(_:_:)``
 - ``Angle/*=(_:_:)``
 - ``Angle//=(_:_:)``
-
-### Comparing Angles
-
-- ``Angle/!=(_:_:)``
-- ``Angle/_(_:_:)-1aqv9``
-- ``Angle/_(_:_:)-filj``
-- ``Angle/_=(_:_:)-375to``
-- ``Angle/_=(_:_:)-9rm6o``
-
-### Range Expressions
-
-- ``Angle/.._(_:_:)``
-- ``Angle/.._(_:)``
-- ``Angle/...(_:_:)``
-- ``Angle/...(_:)-3s6ak``
-- ``Angle/...(_:)-7xdsm``
-
-### Encoding and Decoding Angles
-
-- ``Angle/encode(to:)``
-- ``Angle/init(from:)``
