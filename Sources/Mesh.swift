@@ -420,6 +420,7 @@ private extension Mesh {
             isConvex: Bool,
             isWatertight: Bool?
         ) {
+            let polygons = polygons.mergingSimilarVertices()
             assert(isWatertight == nil || isWatertight == polygons.areWatertight)
             self.polygons = polygons
             self.boundsIfSet = polygons.isEmpty ? .empty : bounds

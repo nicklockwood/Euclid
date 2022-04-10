@@ -359,6 +359,23 @@ internal extension Collection where Element == Polygon {
         return polygons
     }
 
+    /// Merge vertices with similar positions.
+    func mergingSimilarVertices() -> [Polygon] {
+        var positions = [Vector]()
+        return compactMap { polygon in
+            let vertices: [Vertex] = polygon.vertices.map { vertex in
+                if let position = positions.first(where: {
+                    $0.isEqual(to: vertex.position, withPrecision: epsilon)
+                }) {
+                    return vertex.with(position: position)
+                }
+                positions.append(vertex.position)
+                return vertex
+            }
+            return Polygon(vertices, material: polygon.material)
+        }
+    }
+
     /// Smooth vertex normals
     func smoothNormals(_ threshold: Angle) -> [Polygon] {
         guard threshold > .zero else {

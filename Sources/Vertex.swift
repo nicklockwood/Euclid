@@ -213,7 +213,14 @@ internal extension Vertex {
         return vertex
     }
 
-    // Approximate equality
+    /// Creates a copy of the vertex with the specified position.
+    func with(position: Vector) -> Vertex {
+        var vertex = self
+        vertex.position = position._quantized()
+        return vertex
+    }
+
+    /// Approximate equality
     func isEqual(to other: Vertex, withPrecision p: Double = epsilon) -> Bool {
         position.isEqual(to: other.position, withPrecision: p) &&
             normal.isEqual(to: other.normal, withPrecision: p) &&
