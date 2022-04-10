@@ -363,9 +363,19 @@ internal extension Collection where Element == Polygon {
     func mergingSimilarVertices() -> [Polygon] {
         var positions = VectorSet()
         return compactMap {
-            Polygon($0.vertices.map {
-                $0.with(position: positions.insert($0.position))
-            }, material: $0.material)
+            var vertices = [Vertex]()
+            for v in $0.vertices {
+                let u = v.with(position: positions.insert(v.position))
+                if let w = vertices.last, w.position == u.position {
+                    vertices[vertices.count - 1] = w.lerp(u, 0.5)
+                } else {
+                    vertices.append(u)
+                }
+            }
+            if let w = vertices.first, w.position == vertices.last?.position {
+                vertices[0] = w.lerp(vertices.removeLast(), 0.5)
+            }
+            return Polygon(vertices, material: $0.material)
         }
     }
 
