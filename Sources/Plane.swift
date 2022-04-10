@@ -220,7 +220,8 @@ internal extension Plane {
 
     // Approximate equality
     func isEqual(to other: Plane, withPrecision p: Double = epsilon) -> Bool {
-        abs(w - other.w) < p && normal.isEqual(to: other.normal, withPrecision: p)
+        w.isEqual(to: other.w, withPrecision: p) &&
+            normal.isEqual(to: other.normal, withPrecision: p)
     }
 }
 

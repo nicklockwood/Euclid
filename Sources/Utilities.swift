@@ -40,7 +40,7 @@ func quantize(_ value: Double) -> Double {
 
 extension Double {
     func isEqual(to other: Double, withPrecision p: Double) -> Bool {
-        abs(self - other) < p
+        self == other || abs(self - other) < p
     }
 }
 

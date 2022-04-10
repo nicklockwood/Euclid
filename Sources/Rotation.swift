@@ -361,14 +361,14 @@ internal extension Rotation {
 
     // Approximate equality
     func isEqual(to other: Rotation, withPrecision p: Double = epsilon) -> Bool {
-        abs(m11 - other.m11) < p
-            && abs(m12 - other.m12) < p
-            && abs(m13 - other.m13) < p
-            && abs(m21 - other.m21) < p
-            && abs(m22 - other.m22) < p
-            && abs(m23 - other.m23) < p
-            && abs(m31 - other.m31) < p
-            && abs(m32 - other.m32) < p
-            && abs(m33 - other.m33) < p
+        m11.isEqual(to: other.m11, withPrecision: p) &&
+            m12.isEqual(to: other.m12, withPrecision: p) &&
+            m13.isEqual(to: other.m13, withPrecision: p) &&
+            m21.isEqual(to: other.m21, withPrecision: p) &&
+            m22.isEqual(to: other.m22, withPrecision: p) &&
+            m23.isEqual(to: other.m23, withPrecision: p) &&
+            m31.isEqual(to: other.m31, withPrecision: p) &&
+            m32.isEqual(to: other.m32, withPrecision: p) &&
+            m33.isEqual(to: other.m33, withPrecision: p)
     }
 }

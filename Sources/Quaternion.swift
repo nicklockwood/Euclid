@@ -282,10 +282,10 @@ internal extension Quaternion {
 
     // Approximate equality
     func isEqual(to other: Quaternion, withPrecision p: Double = epsilon) -> Bool {
-        self == other || (
-            abs(x - other.x) < p && abs(y - other.y) < p &&
-                abs(z - other.z) < p && abs(w - other.w) < p
-        )
+        w.isEqual(to: other.w, withPrecision: p) &&
+            x.isEqual(to: other.x, withPrecision: p) &&
+            y.isEqual(to: other.y, withPrecision: p) &&
+            z.isEqual(to: other.z, withPrecision: p)
     }
 
     /// Encode directly into an unkeyedContainer

@@ -203,7 +203,9 @@ internal extension Color {
 
     // Approximate equality
     func isEqual(to other: Color, withPrecision p: Double = epsilon) -> Bool {
-        self == other ||
-            (abs(r - other.r) < p && abs(g - other.g) < p && abs(b - other.b) < p && abs(a - other.a) < p)
+        r.isEqual(to: other.r, withPrecision: p) &&
+            g.isEqual(to: other.g, withPrecision: p) &&
+            b.isEqual(to: other.b, withPrecision: p) &&
+            a.isEqual(to: other.a, withPrecision: p)
     }
 }

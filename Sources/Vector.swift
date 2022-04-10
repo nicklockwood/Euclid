@@ -324,17 +324,11 @@ internal extension Vector {
         Vector(quantize(x), quantize(y), quantize(z))
     }
 
-    func isIdentical(to other: Vector) -> Bool {
-        x == other.x && y == other.y && z == other.z
-    }
-
     // Approximate equality
     func isEqual(to other: Vector, withPrecision p: Double = epsilon) -> Bool {
-        isIdentical(to: other) || (
-            x.isEqual(to: other.x, withPrecision: p) &&
-                y.isEqual(to: other.y, withPrecision: p) &&
-                z.isEqual(to: other.z, withPrecision: p)
-        )
+        x.isEqual(to: other.x, withPrecision: p) &&
+            y.isEqual(to: other.y, withPrecision: p) &&
+            z.isEqual(to: other.z, withPrecision: p)
     }
 
     func compare(with plane: Plane) -> PlaneComparison {
