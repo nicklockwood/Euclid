@@ -361,18 +361,11 @@ internal extension Collection where Element == Polygon {
 
     /// Merge vertices with similar positions.
     func mergingSimilarVertices() -> [Polygon] {
-        var positions = [Vector]()
-        return compactMap { polygon in
-            let vertices: [Vertex] = polygon.vertices.map { vertex in
-                if let position = positions.first(where: {
-                    $0.isEqual(to: vertex.position, withPrecision: epsilon)
-                }) {
-                    return vertex.with(position: position)
-                }
-                positions.append(vertex.position)
-                return vertex
-            }
-            return Polygon(vertices, material: polygon.material)
+        var positions = VectorSet()
+        return compactMap {
+            Polygon($0.vertices.map {
+                $0.with(position: positions.insert($0.position))
+            }, material: $0.material)
         }
     }
 
@@ -828,7 +821,7 @@ internal extension Polygon {
             assertionFailure()
             return false
         }
-        if vertices.contains(where: { $0.position == p }) {
+        if vertices.contains(where: { $0.position.isEqual(to: p) }) {
             return false
         }
         for (i, v) in vertices.enumerated() {
@@ -843,7 +836,7 @@ internal extension Polygon {
             self = Polygon(
                 unchecked: vertices,
                 plane: plane,
-                isConvex: isConvex,
+                isConvex: nil, // Inserting a point can sometimes affect this
                 material: material,
                 id: id
             )

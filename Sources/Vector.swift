@@ -315,6 +315,29 @@ public extension Vector {
     }
 }
 
+struct VectorSet {
+    private var storage = [Vector: [Vector]]()
+
+    /// If vector is unique, inserts it and returns the same value
+    /// otherwise, returns nearest match
+    mutating func insert(_ vector: Vector) -> Vector {
+        let hash = Vector(
+            round(vector.x / epsilon) * epsilon,
+            round(vector.y / epsilon) * epsilon,
+            round(vector.z / epsilon) * epsilon
+        )
+        if let point = storage[hash]?.first(where: {
+            $0.isEqual(to: vector, withPrecision: epsilon)
+        }) {
+            return point
+        }
+        vector.hashValues.forEach {
+            storage[$0, default: []].append(vector)
+        }
+        return vector
+    }
+}
+
 internal extension Vector {
     static let unitX = Vector(1, 0, 0)
     static let unitY = Vector(0, 1, 0)
@@ -322,6 +345,25 @@ internal extension Vector {
 
     func _quantized() -> Vector {
         Vector(quantize(x), quantize(y), quantize(z))
+    }
+
+    var hashValues: Set<Vector> {
+        let xf = floor(x / epsilon) * epsilon
+        let xc = ceil(x / epsilon) * epsilon
+        let yf = floor(y / epsilon) * epsilon
+        let yc = ceil(y / epsilon) * epsilon
+        let zf = floor(z / epsilon) * epsilon
+        let zc = ceil(z / epsilon) * epsilon
+        return [
+            Vector(xf, yf, zf),
+            Vector(xf, yf, zc),
+            Vector(xf, yc, zf),
+            Vector(xf, yc, zc),
+            Vector(xc, yf, zf),
+            Vector(xc, yf, zc),
+            Vector(xc, yc, zf),
+            Vector(xc, yc, zc),
+        ]
     }
 
     // Approximate equality
