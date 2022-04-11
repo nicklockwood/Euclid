@@ -674,6 +674,9 @@ public extension Mesh {
             isWatertight = nil
         }
         let bounds = Bounds(scnGeometry.boundingBox)
+        if isWatertight == true {
+            polygons = polygons.mergingSimilarVertices()
+        }
         self.init(
             unchecked: polygons,
             bounds: bounds,

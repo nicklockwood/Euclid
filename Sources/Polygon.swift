@@ -336,6 +336,7 @@ internal extension Collection where Element == Polygon {
 
     /// Insert missing vertices needed to prevent hairline cracks
     func makeWatertight() -> [Polygon] {
+        var polygons = mergingSimilarVertices()
         var polygonsByEdge = [LineSegment: Int]()
         for polygon in self {
             for edge in polygon.undirectedEdges {
@@ -348,7 +349,6 @@ internal extension Collection where Element == Polygon {
             points.insert(edge.start)
             points.insert(edge.end)
         }
-        var polygons = Array(self)
         let sortedPoints = points.sorted()
         for i in polygons.indices {
             let bounds = polygons[i].bounds.inset(by: -epsilon)
@@ -356,7 +356,7 @@ internal extension Collection where Element == Polygon {
                 _ = polygons[i].insertEdgePoint(point)
             }
         }
-        return polygons
+        return polygons.mergingSimilarVertices() // TODO: why is this needed?
     }
 
     /// Merge vertices with similar positions.
