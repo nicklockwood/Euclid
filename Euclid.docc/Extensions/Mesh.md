@@ -88,4 +88,5 @@
 - ``Mesh/tessellate()``
 - ``Mesh/triangulate()``
 - ``Mesh/detessellate()``
+- ``Mesh/detriangulate()``
 - ``Mesh/makeWatertight()``

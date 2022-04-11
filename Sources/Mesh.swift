@@ -306,6 +306,17 @@ public extension Mesh {
         )
     }
 
+    /// Merges coplanar polygons that share one or more edges, provided the result will be convex.
+    /// - Returns: A new mesh containing the merged polygons.
+    func detriangulate() -> Mesh {
+        Mesh(
+            unchecked: polygons.sortedByPlane().detessellate(ensureConvex: true),
+            bounds: boundsIfSet,
+            isConvex: isKnownConvex,
+            isWatertight: nil // TODO: can this be done without introducing holes?
+        )
+    }
+
     /// Removes hairline cracks by inserting additional vertices without altering the shape.
     /// - Returns: A new mesh with new vertices inserted if needed.
     ///
