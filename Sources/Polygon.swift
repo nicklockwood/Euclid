@@ -403,10 +403,10 @@ internal extension Collection where Element == Polygon {
             return Polygon(
                 unchecked: p0.vertices.map { v0 in
                     let polygons = polygonsByVertex[v0.position] ?? []
-                    return v0.with(normal: Set(polygons.compactMap { p1 in
+                    return v0.with(normal: polygons.compactMap { p1 in
                         let n1 = p1.plane.normal
-                        return n0.angle(with: n1) <= threshold ? n1 : nil
-                    }).reduce(.zero) { $0 + $1 })
+                        return .acos(n0.dot(n1)) <= threshold ? n1 : nil
+                    }.reduce(.zero) { $0 + $1 })
                 },
                 plane: p0.plane,
                 isConvex: p0.isConvex,
