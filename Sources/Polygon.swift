@@ -361,6 +361,17 @@ internal extension Collection where Element == Polygon {
 
     /// Smooth vertex normals
     func smoothNormals(_ threshold: Angle) -> [Polygon] {
+        guard threshold > .zero else {
+            return map { p0 in
+                let n0 = p0.plane.normal
+                return Polygon(
+                    unchecked: p0.vertices.map { $0.with(normal: n0) },
+                    plane: p0.plane,
+                    isConvex: p0.isConvex,
+                    material: p0.material
+                )
+            }
+        }
         var polygonsByVertex = [Vector: [Polygon]]()
         forEach { polygon in
             polygon.vertices.forEach { vertex in
