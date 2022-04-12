@@ -405,7 +405,7 @@ internal extension Collection where Element == Polygon {
                     let polygons = polygonsByVertex[v0.position] ?? []
                     return v0.with(normal: polygons.compactMap { p1 in
                         let n1 = p1.plane.normal
-                        return .acos(n0.dot(n1)) <= threshold ? n1 : nil
+                        return .acos(n0.dot(n1)) < threshold ? n1 : nil
                     }.reduce(.zero) { $0 + $1 })
                 },
                 plane: p0.plane,
