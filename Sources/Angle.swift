@@ -127,13 +127,13 @@ public extension Angle {
     /// Creates an angle representing the trigonometric arc cosine of the value you provide.
     /// - Parameter cos: The cosine value to use to calculate the angle.
     static func acos(_ cos: Double) -> Angle {
-        .radians(Foundation.acos(cos))
+        .radians(Foundation.acos(min(1, max(-1, cos))))
     }
 
     /// Creates an angle representing the trigonometric arc sine of the value you provide.
     /// - Parameter sin: The sine value to use to calculate the angle.
     static func asin(_ sin: Double) -> Angle {
-        .radians(Foundation.asin(sin))
+        .radians(Foundation.asin(min(1, max(-1, sin))))
     }
 
     /// Creates an angle representing the trigonometric arc tangent of the value you provide.
