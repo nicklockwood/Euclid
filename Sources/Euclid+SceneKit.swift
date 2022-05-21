@@ -548,6 +548,9 @@ public extension Mesh {
         }
         var mesh = Mesh.merge(meshes)
         if !ignoringTransforms {
+            if !SCNMatrix4IsIdentity(scnNode.pivot) {
+                mesh = mesh.transformed(by: Transform(SCNMatrix4Invert(scnNode.pivot)))
+            }
             mesh = mesh.transformed(by: .transform(from: scnNode))
         }
         self = mesh
