@@ -466,6 +466,14 @@ public extension Rotation {
 }
 
 public extension Transform {
+    /// Creates a transform from a SceneKit transform matrix.
+    /// - Parameter scnMatrix: The `SCNMatrix4` from which to determine the transform.
+    init(_ scnMatrix: SCNMatrix4) {
+        let node = SCNNode()
+        node.transform = scnMatrix
+        self = .transform(from: node)
+    }
+
     /// Creates a transform from the current position, scale and orientation of a SceneKit node.
     /// - Parameter scnNode: The `SCNNode` from which to determine the transform.
     static func transform(from scnNode: SCNNode) -> Transform {
