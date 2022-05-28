@@ -407,6 +407,18 @@ public extension Mesh {
         let count = points.count
         var p1 = points[1]
         var p0p1 = (p1.position - p0.position).normalized()
+
+        func addShape(_ p: PathPoint, _ s: Vector?) {
+            var shape = shape
+            if let color = p.color {
+                shape = shape.with(color: color)
+            }
+            if let scale = s {
+                shape = shape.scaled(by: scale)
+            }
+            shapes.append(shape.translated(by: p.position))
+        }
+
         func addShape(_ p2: PathPoint, _ _p0p2: inout Vector?) {
             let p1p2 = (p2.position - p1.position).normalized()
             let p0p2 = (p0p1 + p1p2).normalized()
@@ -417,11 +429,8 @@ public extension Mesh {
                 r = rotationBetweenVectors(p0p2, shapeNormal)
             }
             shape = shape.rotated(by: r)
-            if let color = p2.color {
-                shape = shape.with(color: color)
-            }
             if p0p1.isEqual(to: p1p2) {
-                shapes.append(shape.translated(by: p1.position))
+                addShape(p1, nil)
             } else {
                 let axis = p0p1.cross(p1p2)
                 let a = (1 / p0p1.dot(p0p2)) - 1
@@ -430,7 +439,7 @@ public extension Mesh {
                 scale.y = abs(scale.y)
                 scale.z = abs(scale.z)
                 scale = scale + .one
-                shapes.append(shape.scaled(by: scale).translated(by: p1.position))
+                addShape(p1, scale)
             }
             p0 = p1
             p1 = p2
@@ -447,19 +456,13 @@ public extension Mesh {
         } else {
             var _p0p2: Vector! = p0p1
             shape = shape.rotated(by: rotationBetweenVectors(p0p1, shapeNormal))
-            if let color = p0.color {
-                shape = shape.with(color: color)
-            }
-            shapes.append(shape.translated(by: p0.position))
+            addShape(p0, nil)
             for i in 1 ..< count - 1 {
                 let p2 = points[i + 1]
                 addShape(p2, &_p0p2)
             }
             shape = shape.rotated(by: rotationBetweenVectors(p0p1, _p0p2))
-            if let color = points.last?.color {
-                shape = shape.with(color: color)
-            }
-            shapes.append(shape.translated(by: points.last!.position))
+            addShape(points[count - 1], nil)
         }
         return loft(shapes, faces: faces, material: material)
     }
