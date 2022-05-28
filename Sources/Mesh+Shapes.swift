@@ -407,6 +407,7 @@ public extension Mesh {
         let count = points.count
         var p1 = points[1]
         var p0p1 = (p1.position - p0.position).normalized()
+        var r = rotationBetweenVectors(p0p1, shapeNormal)
 
         func addShape(_ p: PathPoint, _ s: Vector?) {
             var shape = shape
@@ -416,52 +417,33 @@ public extension Mesh {
             if let scale = s {
                 shape = shape.scaled(by: scale)
             }
-            shapes.append(shape.translated(by: p.position))
+            shapes.append(shape.rotated(by: r).translated(by: p.position))
         }
 
-        func addShape(_ p2: PathPoint, _ _p0p2: inout Vector?) {
+        func addShape(_ p2: PathPoint) {
             let p1p2 = (p2.position - p1.position).normalized()
-            let p0p2 = (p0p1 + p1p2).normalized()
-            let r: Rotation
-            if let _p0p2 = _p0p2 {
-                r = rotationBetweenVectors(p0p2, _p0p2)
-            } else {
-                r = rotationBetweenVectors(p0p2, shapeNormal)
-            }
-            shape = shape.rotated(by: r)
-            if p0p1.isEqual(to: p1p2) {
-                addShape(p1, nil)
-            } else {
-                let axis = p0p1.cross(p1p2)
-                let a = (1 / p0p1.dot(p0p2)) - 1
-                var scale = axis.cross(p0p2).normalized() * a
-                scale.x = abs(scale.x)
-                scale.y = abs(scale.y)
-                scale.z = abs(scale.z)
-                scale = scale + .one
-                addShape(p1, scale)
-            }
+
+            let angle = p1p2.angle(with: p0p1) / 2
+            let axis = p1p2.cross(p0p1).normalized()
+            let rotation = Rotation(unchecked: axis, angle: angle)
+            r *= rotation
+            addShape(p1, Vector(1 / cos(angle), 1, 1))
+            r *= rotation
             p0 = p1
             p1 = p2
             p0p1 = p1p2
-            _p0p2 = p0p2
         }
+
         if along.isClosed {
-            var _p0p2: Vector?
             for i in 1 ..< count {
-                let p2 = points[(i < count - 1) ? i + 1 : 1]
-                addShape(p2, &_p0p2)
+                addShape(points[(i < count - 1) ? i + 1 : 1])
             }
             shapes.append(shapes[0])
         } else {
-            var _p0p2: Vector! = p0p1
-            shape = shape.rotated(by: rotationBetweenVectors(p0p1, shapeNormal))
             addShape(p0, nil)
             for i in 1 ..< count - 1 {
-                let p2 = points[i + 1]
-                addShape(p2, &_p0p2)
+                addShape(points[i + 1])
             }
-            shape = shape.rotated(by: rotationBetweenVectors(p0p1, _p0p2))
             addShape(points[count - 1], nil)
         }
         return loft(shapes, faces: faces, material: material)
