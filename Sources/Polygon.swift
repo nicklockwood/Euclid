@@ -360,8 +360,9 @@ internal extension Collection where Element == Polygon {
     }
 
     /// Merge vertices with similar positions.
-    func mergingSimilarVertices() -> [Polygon] {
-        var positions = VectorSet()
+    /// - Parameter precision: The maximum distance between vertices.
+    func mergingSimilarVertices(withPrecision precision: Double = epsilon) -> [Polygon] {
+        var positions = PointSet(precision: precision)
         return compactMap {
             var vertices = [Vertex]()
             for v in $0.vertices {

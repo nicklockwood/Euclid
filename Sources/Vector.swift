@@ -315,26 +315,36 @@ public extension Vector {
     }
 }
 
-struct VectorSet {
+struct PointSet {
     private var storage = [Vector: [Vector]]()
 
-    /// If vector is unique, inserts it and returns the same value
+    /// The maximum distance between points.
+    let precision: Double
+
+    /// Creates a point set with specified precision.
+    /// - Parameter precision: The maximum distance between points.
+    init(precision: Double) {
+        self.precision = precision
+    }
+
+    /// If point is unique, inserts it and returns the same value
     /// otherwise, returns nearest match
-    mutating func insert(_ vector: Vector) -> Vector {
+    /// - Parameter point: The point to insert.
+    mutating func insert(_ point: Vector) -> Vector {
         let hash = Vector(
-            round(vector.x / epsilon) * epsilon,
-            round(vector.y / epsilon) * epsilon,
-            round(vector.z / epsilon) * epsilon
+            round(point.x / precision) * precision,
+            round(point.y / precision) * precision,
+            round(point.z / precision) * precision
         )
         if let point = storage[hash]?.first(where: {
-            $0.isEqual(to: vector, withPrecision: epsilon)
+            $0.isEqual(to: point, withPrecision: precision)
         }) {
             return point
         }
-        vector.hashValues.forEach {
-            storage[$0, default: []].append(vector)
+        point.hashValues(withPrecision: precision).forEach {
+            storage[$0, default: []].append(point)
         }
-        return vector
+        return point
     }
 }
 
@@ -347,13 +357,13 @@ internal extension Vector {
         Vector(quantize(x), quantize(y), quantize(z))
     }
 
-    var hashValues: Set<Vector> {
-        let xf = floor(x / epsilon) * epsilon
-        let xc = ceil(x / epsilon) * epsilon
-        let yf = floor(y / epsilon) * epsilon
-        let yc = ceil(y / epsilon) * epsilon
-        let zf = floor(z / epsilon) * epsilon
-        let zc = ceil(z / epsilon) * epsilon
+    func hashValues(withPrecision precision: Double) -> Set<Vector> {
+        let xf = floor(x / precision) * precision
+        let xc = ceil(x / precision) * precision
+        let yf = floor(y / precision) * precision
+        let yc = ceil(y / precision) * precision
+        let zf = floor(z / precision) * precision
+        let zc = ceil(z / precision) * precision
         return [
             Vector(xf, yf, zf),
             Vector(xf, yf, zc),
