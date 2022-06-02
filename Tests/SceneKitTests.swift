@@ -47,10 +47,12 @@ class SceneKitTests: XCTestCase {
     }
 
     func testSCNBoxIsWatertight() throws {
-        let cube = SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0)
-        let mesh = try XCTUnwrap(Mesh(cube))
-        XCTAssert(mesh.isWatertight)
-        XCTAssert(mesh.polygons.areWatertight)
+        for s in [0.2, 0.8, 1, 10] as [CGFloat] {
+            let cube = SCNBox(width: s, height: s, length: s, chamferRadius: 0)
+            let mesh = try XCTUnwrap(Mesh(cube))
+            XCTAssert(mesh.isWatertight)
+            XCTAssert(mesh.polygons.areWatertight)
+        }
     }
 
     func testSCNSphereIsWatertight() throws {
