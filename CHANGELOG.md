@@ -1,3 +1,8 @@
+## [0.5.22](https://github.com/nicklockwood/Euclid/releases/tag/0.5.22) (2022-06-02)
+
+- Reduced epsilon precision to fix assertion when creating `Mesh` from `SCNGeometry`
+- Added WASM (Web Assembly) compatibility tests
+
 ## [0.5.21](https://github.com/nicklockwood/Euclid/releases/tag/0.5.21) (2022-05-28)
 
 - Fixed a glitch with how stroke or extrude-along was applied to paths with sharp corners
