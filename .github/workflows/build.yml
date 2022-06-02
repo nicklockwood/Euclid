@@ -32,3 +32,11 @@ jobs:
       - name: Build and Test
         run: swift test --enable-test-discovery
 
+  swiftwasm_test_5_6:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: swiftwasm/swiftwasm-action@v5.6
+        with:
+          shell-action: carton test
