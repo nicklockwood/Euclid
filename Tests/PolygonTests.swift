@@ -436,6 +436,18 @@ class PolygonTests: XCTestCase {
         XCTAssertTrue(polygon.containsPoint(Vector(0.25, -0.5)))
     }
 
+    // MARK: merging
+
+    func testMergingSimilarVerticesCrash() throws {
+        let polygon = try XCTUnwrap(Polygon([
+            Vector(0.01478207252, 0.006122934918, 0.04),
+            Vector(0.014782086265, 0.006122896504, 0.04),
+            Vector(0.01478208, 0.006122928, 0.04),
+            Vector(0.014782069226, 0.0061229441239999995, 0.04),
+        ]))
+        XCTAssert([polygon].mergingSimilarVertices().isEmpty)
+    }
+
     // MARK: tessellation
 
     func testConcaveAnticlockwisePolygonCorrectlyTessellated() {

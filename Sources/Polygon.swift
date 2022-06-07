@@ -373,7 +373,9 @@ internal extension Collection where Element == Polygon {
                     vertices.append(u)
                 }
             }
-            if let w = vertices.first, w.position == vertices.last?.position {
+            if vertices.count > 1, let w = vertices.first,
+               w.position == vertices.last?.position
+            {
                 vertices[0] = w.lerp(vertices.removeLast(), 0.5)
             }
             return Polygon(vertices, material: $0.material)
