@@ -1,3 +1,9 @@
+## [0.5.23](https://github.com/nicklockwood/Euclid/releases/tag/0.5.23) (2022-06-09)
+
+- Fix crash in `mergingSimilarVertices()` function
+- Used heuristic for `mergingSimilarVertices()` instead of hard-coded epsilon
+- Increase epsilon precision again to fix cracking issues (and add tests)
+
 ## [0.5.22](https://github.com/nicklockwood/Euclid/releases/tag/0.5.22) (2022-06-02)
 
 - Reduced epsilon precision to fix assertion when creating `Mesh` from `SCNGeometry`
