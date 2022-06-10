@@ -143,6 +143,35 @@ class UtilityTests: XCTestCase {
         ])
     }
 
+    func testSanitizeValidClosedPath() {
+        var points: [PathPoint] = [
+            .point(-0.0, 0.0025),
+            .point(-0.002377641291, 0.000772542486),
+            .point(-0.001469463131, -0.002022542486),
+            .point(0.001469463131, -0.002022542486),
+            .point(0.002377641291, 0.000772542486),
+            .point(0.0, 0.0025),
+        ]
+        for _ in 0 ..< 5 {
+            let result = sanitizePoints(points)
+            XCTAssertEqual(result.count, points.count)
+            XCTAssertEqual(result, points)
+            points = points.map { $0.scaled(by: 0.5) }
+        }
+    }
+
+    func testSanitizeValidOpenPath() {
+        let points: [PathPoint] = [
+            .point(0, 0.5),
+            .point(-0.5, 0.5),
+            .point(-0.5, -0.5),
+            .point(0, -0.5),
+        ]
+        let result = sanitizePoints(points)
+        XCTAssertEqual(result.count, points.count)
+        XCTAssertEqual(result, points)
+    }
+
     // MARK: lines
 
     func testVectorFromPointToLine() {

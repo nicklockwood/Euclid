@@ -30,7 +30,7 @@
 //
 
 // Tolerance used for calculating approximate equality
-let epsilon = 1e-5
+let epsilon = 1e-8
 
 // Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
@@ -484,9 +484,7 @@ func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
         var i = 1
         while i < result.count - 1 {
             let bc = result[i + 1].position - result[i].position
-            if ab.cross(bc).isEqual(to: .zero, withPrecision: epsilon),
-               ab.dot(bc) <= epsilon
-            {
+            if ab.cross(bc).isEqual(to: .zero), ab.dot(bc) < epsilon {
                 // center point makes path degenerate - remove it
                 result.remove(at: i)
                 ab = result[i].position - result[i - 1].position
