@@ -334,9 +334,25 @@ internal extension Collection where Element == Polygon {
         return edgeCounts.values.allSatisfy { $0.isMultiple(of: 2) }
     }
 
-    /// Insert missing vertices needed to prevent hairline cracks
+    /// Get the approximate size of the smallest edge dimension.
+    /// This is useful for deciding precision values to use for merging, etc.
+    var polygonScale: Double {
+        var scale = Double.infinity
+        for p in self {
+            var a = p.vertices.last!.position
+            for v in p.vertices {
+                let b = v.position
+                let ab = b - a
+                scale = Swift.min(scale, Swift.max(abs(ab.x), abs(ab.y), abs(ab.z)))
+                a = b
+            }
+        }
+        return scale
+    }
+
+    /// Insert missing vertices needed to prevent hairline cracks.
     func makeWatertight() -> [Polygon] {
-        var polygons = mergingSimilarVertices()
+        var polygons = mergingVertices(withPrecision: epsilon)
         var polygonsByEdge = [LineSegment: Int]()
         for polygon in self {
             for edge in polygon.undirectedEdges {
@@ -356,12 +372,13 @@ internal extension Collection where Element == Polygon {
                 _ = polygons[i].insertEdgePoint(point)
             }
         }
-        return polygons.mergingSimilarVertices() // TODO: why is this needed?
+        // TODO: why is this needed?
+        return polygons.mergingVertices(withPrecision: epsilon)
     }
 
     /// Merge vertices with similar positions.
     /// - Parameter precision: The maximum distance between vertices.
-    func mergingSimilarVertices(withPrecision precision: Double = epsilon) -> [Polygon] {
+    func mergingVertices(withPrecision precision: Double) -> [Polygon] {
         var positions = PointSet(precision: precision)
         return compactMap {
             var vertices = [Vertex]()

@@ -422,7 +422,7 @@ private extension Mesh {
         ) {
             assert(
                 isWatertight == nil || isWatertight == polygons.areWatertight &&
-                    polygons == polygons.mergingSimilarVertices()
+                    polygons == polygons.mergingVertices(withPrecision: epsilon)
             )
             self.polygons = polygons
             self.boundsIfSet = polygons.isEmpty ? .empty : bounds
