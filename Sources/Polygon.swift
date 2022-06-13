@@ -325,13 +325,22 @@ internal extension Collection where Element == Polygon {
     /// Check if polygons form a watertight mesh, i.e. every edge is attached to at least 2 polygons.
     /// Note: doesn't verify that mesh is not self-intersecting or inside-out.
     var areWatertight: Bool {
-        var edgeCounts = [LineSegment: Int]()
+        holeEdges.isEmpty
+    }
+
+    /// Returns all edges that exist at the boundary of a hole.
+    var holeEdges: Set<LineSegment> {
+        var edges = Set<LineSegment>()
         for polygon in self {
             for edge in polygon.undirectedEdges {
-                edgeCounts[edge, default: 0] += 1
+                if let index = edges.firstIndex(of: edge) {
+                    edges.remove(at: index)
+                } else {
+                    edges.insert(edge)
+                }
             }
         }
-        return edgeCounts.values.allSatisfy { $0.isMultiple(of: 2) }
+        return edges
     }
 
     /// Get the approximate size of the smallest edge dimension.
@@ -353,14 +362,8 @@ internal extension Collection where Element == Polygon {
     /// Insert missing vertices needed to prevent hairline cracks.
     func makeWatertight() -> [Polygon] {
         var polygons = mergingVertices(withPrecision: epsilon)
-        var polygonsByEdge = [LineSegment: Int]()
-        for polygon in polygons {
-            for edge in polygon.undirectedEdges {
-                polygonsByEdge[edge, default: 0] += 1
-            }
-        }
         var points = Set<Vector>()
-        let edges = polygonsByEdge.filter { !$0.value.isMultiple(of: 2) }.keys
+        let edges = polygons.holeEdges
         for edge in edges.sorted() {
             points.insert(edge.start)
             points.insert(edge.end)
