@@ -322,11 +322,23 @@ public extension Mesh {
     ///
     /// > Note: This method is not always successful. Check ``Mesh/isWatertight`` after to verify.
     func makeWatertight() -> Mesh {
-        isWatertight ? self : Mesh(
-            unchecked: polygons.makeWatertight(),
+        if watertightIfSet == true {
+            return self
+        }
+        let holeEdges = polygons.holeEdges
+        let polygons: [Polygon], isWatertight: Bool?
+        if holeEdges.isEmpty {
+            polygons = self.polygons
+            isWatertight = true
+        } else {
+            polygons = self.polygons.makeWatertight(with: holeEdges)
+            isWatertight = nil
+        }
+        return Mesh(
+            unchecked: polygons,
             bounds: boundsIfSet,
-            isConvex: isKnownConvex,
-            isWatertight: nil
+            isConvex: false,
+            isWatertight: isWatertight
         )
     }
 

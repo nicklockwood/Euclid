@@ -360,14 +360,13 @@ internal extension Collection where Element == Polygon {
     }
 
     /// Insert missing vertices needed to prevent hairline cracks.
-    func makeWatertight() -> [Polygon] {
-        var polygons = mergingVertices(withPrecision: epsilon)
+    func makeWatertight(with holeEdges: Set<LineSegment>) -> [Polygon] {
         var points = Set<Vector>()
-        let edges = polygons.holeEdges
-        for edge in edges.sorted() {
+        for edge in holeEdges.sorted() {
             points.insert(edge.start)
             points.insert(edge.end)
         }
+        var polygons = Array(self)
         let sortedPoints = points.sorted()
         for i in polygons.indices {
             let bounds = polygons[i].bounds.inset(by: -epsilon)
