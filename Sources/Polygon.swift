@@ -384,13 +384,18 @@ internal extension Collection where Element == Polygon {
         var positions = PointSet(precision: precision)
         return compactMap {
             var vertices = [Vertex]()
+            var modified = false
             for v in $0.vertices {
                 let u = v.with(position: positions.insert(v.position))
+                modified = modified || v.position != u.position
                 if let w = vertices.last, w.position == u.position {
                     vertices[vertices.count - 1] = w.lerp(u, 0.5)
                 } else {
                     vertices.append(u)
                 }
+            }
+            if !modified {
+                return $0
             }
             if vertices.count > 1, let w = vertices.first,
                w.position == vertices.last?.position
