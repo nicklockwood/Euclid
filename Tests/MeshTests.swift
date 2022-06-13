@@ -102,7 +102,7 @@ class MeshTests: XCTestCase {
         XCTAssertTrue(d.isWatertight)
         XCTAssertTrue(d.polygons.areWatertight)
         #if arch(wasm32)
-        XCTAssertEqual(d.triangulate().polygons.count, 464)
+        XCTAssertEqual(d.triangulate().polygons.count, 462)
         #else
         XCTAssertEqual(d.triangulate().polygons.count, 429)
         #endif

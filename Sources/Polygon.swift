@@ -354,7 +354,7 @@ internal extension Collection where Element == Polygon {
     func makeWatertight() -> [Polygon] {
         var polygons = mergingVertices(withPrecision: epsilon)
         var polygonsByEdge = [LineSegment: Int]()
-        for polygon in self {
+        for polygon in polygons {
             for edge in polygon.undirectedEdges {
                 polygonsByEdge[edge, default: 0] += 1
             }
