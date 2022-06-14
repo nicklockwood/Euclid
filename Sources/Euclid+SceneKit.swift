@@ -688,7 +688,8 @@ public extension Mesh {
         if isWatertight == true {
             let holeEdges = polygons.holeEdges
             let distance = holeEdges.separationDistance
-            polygons = polygons.mergingVertices(withPrecision: distance)
+            let endPoints = holeEdges.endPoints
+            polygons = polygons.mergingVertices(endPoints, withPrecision: distance)
         }
         self.init(
             unchecked: polygons,

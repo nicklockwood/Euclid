@@ -305,6 +305,16 @@ public extension Polygon {
 }
 
 internal extension Collection where Element == LineSegment {
+    /// Set of all unique start/end points in edge collection.
+    var endPoints: Set<Vector> {
+        var endPoints = Set<Vector>()
+        for edge in self {
+            endPoints.insert(edge.start)
+            endPoints.insert(edge.end)
+        }
+        return endPoints
+    }
+
     /// Returns the largest separation distance between a set of edges endpoints.
     /// Useful for calculating the threshold to use when merging vertex coordinates to eliminate holes.
     var separationDistance: Double {
@@ -386,28 +396,45 @@ internal extension Collection where Element == Polygon {
     /// Merge vertices with similar positions.
     /// - Parameter precision: The maximum distance between vertices.
     func mergingVertices(withPrecision precision: Double) -> [Polygon] {
+        mergingVertices(nil, withPrecision: precision)
+    }
+
+    /// Merge vertices with similar positions.
+    /// - Parameters
+    ///   - vertices: The vertices to merge. If nil then all vertices are merged.
+    ///   - precision: The maximum distance between vertices.
+    func mergingVertices(
+        _ vertices: Set<Vector>?,
+        withPrecision precision: Double
+    ) -> [Polygon] {
         var positions = PointSet(precision: precision)
         return compactMap {
-            var vertices = [Vertex]()
+            var merged = [Vertex]()
             var modified = false
             for v in $0.vertices {
-                let u = v.with(position: positions.insert(v.position))
-                modified = modified || v.position != u.position
-                if let w = vertices.last, w.position == u.position {
-                    vertices[vertices.count - 1] = w.lerp(u, 0.5)
-                } else {
-                    vertices.append(u)
+                if let vertices = vertices, !vertices.contains(v.position) {
+                    merged.append(v)
+                    continue
                 }
+                let u = v.with(position: positions.insert(v.position))
+                if modified || v.position != u.position {
+                    modified = true
+                    if let w = merged.last, w.position == u.position {
+                        merged[merged.count - 1] = w.lerp(u, 0.5)
+                        continue
+                    }
+                }
+                merged.append(u)
             }
             if !modified {
                 return $0
             }
-            if vertices.count > 1, let w = vertices.first,
-               w.position == vertices.last?.position
+            if merged.count > 1, let w = merged.first,
+               w.position == merged.last?.position
             {
-                vertices[0] = w.lerp(vertices.removeLast(), 0.5)
+                merged[0] = w.lerp(merged.removeLast(), 0.5)
             }
-            return Polygon(vertices, material: $0.material)
+            return Polygon(merged, material: $0.material)
         }
     }
 
