@@ -304,6 +304,27 @@ public extension Polygon {
     }
 }
 
+internal extension Collection where Element == LineSegment {
+    /// Returns the largest separation distance between a set of edges endpoints.
+    /// Useful for calculating the threshold to use when merging vertex coordinates to eliminate holes.
+    var separationDistance: Double {
+        var distance = 0.0
+        for (i, a) in dropLast().enumerated() {
+            var best = Double.infinity
+            for b in dropFirst(i) {
+                let d = Swift.max((b.start - a.start).length, (b.end - a.end).length)
+                if d > 0, d < best {
+                    best = d
+                }
+            }
+            if best.isFinite, best > distance {
+                distance = best
+            }
+        }
+        return distance
+    }
+}
+
 internal extension Collection where Element == Polygon {
     /// Does any polygon include texture coordinates?
     var hasTexcoords: Bool {
@@ -341,22 +362,6 @@ internal extension Collection where Element == Polygon {
             }
         }
         return edges
-    }
-
-    /// Get the approximate size of the smallest edge dimension.
-    /// This is useful for deciding precision values to use for merging, etc.
-    var polygonScale: Double {
-        var scale = Double.infinity
-        for p in self {
-            var a = p.vertices.last!.position
-            for v in p.vertices {
-                let b = v.position
-                let ab = b - a
-                scale = Swift.min(scale, Swift.max(abs(ab.x), abs(ab.y), abs(ab.z)))
-                a = b
-            }
-        }
-        return scale
     }
 
     /// Insert missing vertices needed to prevent hairline cracks.
