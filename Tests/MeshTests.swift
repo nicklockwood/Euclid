@@ -70,6 +70,22 @@ class MeshTests: XCTestCase {
         XCTAssertFalse(mesh.polygons.areWatertight)
     }
 
+    func testMergedMeshNotAssumedToBeWatertight() {
+        let cube = Mesh.cube()
+        XCTAssert(cube.isWatertight)
+        let mesh = cube.merge(.sphere())
+        XCTAssertNil(mesh.watertightIfSet)
+        XCTAssert(mesh.isWatertight)
+    }
+
+    func testMultimergedMeshesNotAssumedToBeWatertight() {
+        let cube = Mesh.cube()
+        XCTAssert(cube.isWatertight)
+        let mesh = Mesh.merge([cube, .sphere(), .cylinder()])
+        XCTAssertNil(mesh.watertightIfSet)
+        XCTAssert(mesh.isWatertight)
+    }
+
     // MARK: makeWatertight
 
     func testAddMissingTriangleVertex() {

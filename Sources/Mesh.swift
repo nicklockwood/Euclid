@@ -175,7 +175,7 @@ public extension Mesh {
             unchecked: polygons + mesh.polygons,
             bounds: boundsIfSet,
             isConvex: false,
-            isWatertight: watertightIfSet
+            isWatertight: nil
         )
     }
 
