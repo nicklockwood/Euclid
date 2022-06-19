@@ -167,8 +167,21 @@ class MeshShapeTests: XCTestCase {
         XCTAssertEqual(mesh.polygons.count, 5)
     }
 
-    func testStrokeSqaureWithTriangle() {
+    func testStrokeSquareWithTriangle() {
         let mesh = Mesh.stroke(.square(), detail: 3)
         XCTAssertEqual(mesh.polygons.count, 12)
+    }
+
+    func testStrokePathWithCollinearPoints() {
+        let path = Path([
+            .point(0, 0),
+            .point(0.5, 0),
+            .point(0.5, 1),
+            .point(-0.5, 1),
+            .point(-0.5, 0),
+            .point(0, 0),
+        ])
+        let mesh = Mesh.stroke(path, detail: 3)
+        XCTAssertEqual(mesh.polygons.count, 15)
     }
 }

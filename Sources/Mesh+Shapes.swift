@@ -422,9 +422,11 @@ public extension Mesh {
 
         func addShape(_ p2: PathPoint) {
             let p1p2 = (p2.position - p1.position).normalized()
-
             let angle = p1p2.angle(with: p0p1) / 2
-            let axis = p1p2.cross(p0p1).normalized()
+            var axis = p1p2.cross(p0p1).normalized()
+            if axis == .zero {
+                axis = along.faceNormal
+            }
             let rotation = Rotation(unchecked: axis, angle: angle)
             r *= rotation
             addShape(p1, Vector(1 / cos(angle), 1, 1))
