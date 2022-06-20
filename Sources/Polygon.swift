@@ -530,6 +530,27 @@ internal extension Collection where Element == Polygon {
         forEach { polygonsByMaterial[$0.material, default: []].append($0) }
         return polygonsByMaterial
     }
+
+    /// Group by touching vertices
+    func groupedBySubmesh() -> [[Polygon]] {
+        var unsorted = Array(self)
+        var meshes = [[Polygon]]()
+        while let p = unsorted.popLast() {
+            var mesh = [p], temp = [Polygon]()
+            var vertices = Set(p.vertices.map { $0.position })
+            while let p = unsorted.popLast() {
+                if p.vertices.contains(where: { vertices.contains($0.position) }) {
+                    vertices.formUnion(p.vertices.map { $0.position })
+                    mesh.append(p)
+                } else {
+                    temp.append(p)
+                }
+            }
+            unsorted = temp
+            meshes.append(mesh)
+        }
+        return meshes
+    }
 }
 
 internal extension MutableCollection where Element == Polygon, Index == Int {
@@ -883,6 +904,12 @@ internal extension Polygon {
             t0 = t1
         }
         assertionFailure()
+    }
+
+    func hasVerticesInCommon(with p: Polygon) -> Bool {
+        p.vertices.contains(where: { v in
+            vertices.contains(where: { $0.position == v.position })
+        })
     }
 
     mutating func insertEdgePoint(_ p: Vector) -> Bool {
