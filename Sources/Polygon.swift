@@ -377,7 +377,7 @@ internal extension Collection where Element == Polygon {
     /// Insert missing vertices needed to prevent hairline cracks.
     func makeWatertight(with holeEdges: Set<LineSegment>) -> [Polygon] {
         var points = Set<Vector>()
-        for edge in holeEdges.sorted() {
+        for edge in holeEdges {
             points.insert(edge.start)
             points.insert(edge.end)
         }

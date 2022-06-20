@@ -11,6 +11,7 @@
 		0125478027AFD53900C442C3 /* MeshShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125477F27AFD53900C442C3 /* MeshShapeTests.swift */; };
 		013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013312DC21CA532A00626F1B /* PlaneTests.swift */; };
 		013ED08F23C0E60900FEEE5C /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013ED08E23C0E60900FEEE5C /* Rotation.swift */; };
+		0141CAEF2857DBF4006ADFDB /* Euclid+Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0141CAEE2857DBF4006ADFDB /* Euclid+Testing.swift */; };
 		0148ECA4278378D100B3F836 /* Path+Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0148ECA3278378D100B3F836 /* Path+Shapes.swift */; };
 		0148ECA62783796A00B3F836 /* PathPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0148ECA52783796A00B3F836 /* PathPoint.swift */; };
 		014AC60E2505963800F54349 /* SceneKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014AC60D2505963800F54349 /* SceneKitTests.swift */; };
@@ -99,6 +100,7 @@
 		013312DC21CA532A00626F1B /* PlaneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneTests.swift; sourceTree = "<group>"; };
 		013B5BE426923087000860DC /* MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataTests.swift; sourceTree = "<group>"; };
 		013ED08E23C0E60900FEEE5C /* Rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
+		0141CAEE2857DBF4006ADFDB /* Euclid+Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+Testing.swift"; sourceTree = "<group>"; };
 		0148ECA3278378D100B3F836 /* Path+Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Path+Shapes.swift"; sourceTree = "<group>"; };
 		0148ECA52783796A00B3F836 /* PathPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathPoint.swift; sourceTree = "<group>"; };
 		014AC60D2505963800F54349 /* SceneKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitTests.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				016FAB5B21BFE7CD00AF60DC /* TransformTests.swift */,
 				016FAB5D21BFE7CE00AF60DC /* UtilityTests.swift */,
 				52C844E023854C87009C0A73 /* VectorTests.swift */,
+				0141CAEE2857DBF4006ADFDB /* Euclid+Testing.swift */,
 				016FAB3921BFE78100AF60DC /* Info.plist */,
 			);
 			path = Tests;
@@ -519,6 +522,7 @@
 				0125478027AFD53900C442C3 /* MeshShapeTests.swift in Sources */,
 				01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */,
 				013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */,
+				0141CAEF2857DBF4006ADFDB /* Euclid+Testing.swift in Sources */,
 				52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -53,20 +53,6 @@ public struct Vector: Hashable {
         self.y = y
         self.z = z
     }
-
-    /// Hashes the essential components of the vector at reduced precision.
-    /// - Parameter hasher: The hasher to use when combining the components of this instance.
-    public func hash(into hasher: inout Hasher) {
-        let precision = 1e-6
-        hasher.combine((x / precision).rounded() * precision)
-        hasher.combine((y / precision).rounded() * precision)
-        hasher.combine((z / precision).rounded() * precision)
-    }
-
-    /// Returns a Boolean value that indicates if the two vectors are approximately equal.
-    public static func == (lhs: Vector, rhs: Vector) -> Bool {
-        lhs.isEqual(to: rhs, withPrecision: 1e-10)
-    }
 }
 
 extension Vector: Comparable {
