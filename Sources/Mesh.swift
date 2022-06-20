@@ -291,7 +291,7 @@ public extension Mesh {
             unchecked: polygons.triangulate(),
             bounds: boundsIfSet,
             isConvex: isKnownConvex,
-            isWatertight: nil // TODO: work out why this sometimes introduces holes
+            isWatertight: watertightIfSet
         )
     }
 
@@ -420,10 +420,7 @@ private extension Mesh {
             isConvex: Bool,
             isWatertight: Bool?
         ) {
-            assert(
-                isWatertight == nil || isWatertight == polygons.areWatertight &&
-                    polygons == polygons.mergingVertices(withPrecision: epsilon)
-            )
+            assert(isWatertight == nil || isWatertight == polygons.areWatertight)
             self.polygons = polygons
             self.boundsIfSet = polygons.isEmpty ? .empty : bounds
             self.isConvex = isConvex || polygons.isEmpty

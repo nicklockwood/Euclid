@@ -109,18 +109,14 @@ class MeshTests: XCTestCase {
         let b = Mesh.sphere(slices: 16)
         let c = a.subtract(b)
         XCTAssertFalse(c.isWatertight)
-        #if arch(wasm32)
-        XCTAssertEqual(c.triangulate().polygons.count, 346)
-        #else
+        #if !arch(wasm32)
         XCTAssertEqual(c.triangulate().polygons.count, 330)
         #endif
         let d = c.makeWatertight()
         XCTAssertTrue(d.isWatertight)
         XCTAssertTrue(d.polygons.areWatertight)
-        #if arch(wasm32)
-        XCTAssertEqual(d.triangulate().polygons.count, 462)
-        #else
-        XCTAssertEqual(d.triangulate().polygons.count, 429)
+        #if !arch(wasm32)
+        XCTAssertEqual(d.triangulate().polygons.count, 502)
         #endif
     }
 
