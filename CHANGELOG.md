@@ -1,8 +1,19 @@
+## [0.5.24](https://github.com/nicklockwood/Euclid/releases/tag/0.5.24) (2022-06-26)
+
+- Fixed crash when extruding along collinear points
+- Fixed bug when lofting intermediate open paths
+- Improved makeWatertight() implementation
+- Improved vertex merging logic to only merge vertices that cause holes
+- Fixed bugs in triangulation logic that could introduce holes
+- Fixed case where mesh was incorrectly assumed to be watertight
+- Vector equality is now exact again, instead of using quantization internally
+- Fixed spurious assertion when using compound paths
+
 ## [0.5.23](https://github.com/nicklockwood/Euclid/releases/tag/0.5.23) (2022-06-09)
 
-- Fix crash in `mergingSimilarVertices()` function
+- Fixed crash in `mergingSimilarVertices()` function
 - Used heuristic for `mergingSimilarVertices()` instead of hard-coded epsilon
-- Increase epsilon precision again to fix cracking issues (and add tests)
+- Increased epsilon precision again to fix cracking issues (and added tests)
 
 ## [0.5.22](https://github.com/nicklockwood/Euclid/releases/tag/0.5.22) (2022-06-02)
 
