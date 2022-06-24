@@ -875,7 +875,7 @@ private extension Mesh {
             return .empty
         }
         let count = shapes.count
-        let isClosed = (shapes.first == shapes.last)
+        let isClosed = (shapes.first == shapes.last) && shapes.allSatisfy { $0.isClosed }
         if count < 3, isClosed {
             return fill(shapes[0], faces: faces, material: material)
         }

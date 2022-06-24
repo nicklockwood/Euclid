@@ -76,7 +76,9 @@ func triangulateVertices(
     id: Int
 ) -> [Polygon] {
     guard vertices.count > 3 else {
-        assert(vertices.count > 2)
+        guard vertices.count > 2 else {
+            return []
+        }
         return [Polygon(
             unchecked: vertices,
             plane: plane,
