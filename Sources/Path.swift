@@ -385,24 +385,15 @@ public extension Polygon {
 
 internal extension Path {
     init(unchecked points: [PathPoint], plane: Plane?, subpathIndices: [Int]?) {
-        assert(points == sanitizePoints(points))
         self.points = points
         self.isClosed = pointsAreClosed(unchecked: points)
         let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
         let subpathIndices = subpathIndices ?? subpathIndicesFor(points)
         self.subpathIndices = subpathIndices
+        assert(subpaths.allSatisfy { $0.points == sanitizePoints($0.points) })
         if let plane = plane {
             self.plane = plane
-            assert({
-                guard positions.count > 2, let expectedPlane = Path(
-                    unchecked: points,
-                    plane: nil,
-                    subpathIndices: subpathIndices
-                ).plane else {
-                    return true
-                }
-                return plane.isEqual(to: expectedPlane, withPrecision: epsilon)
-            }())
+            assert(points.allSatisfy { plane.containsPoint($0.position) })
         } else if subpathIndices.isEmpty {
             self.plane = Plane(points: positions)
         } else {
