@@ -146,6 +146,30 @@ class MeshShapeTests: XCTestCase {
         XCTAssertEqual(loft, .empty)
     }
 
+    func testLoftClosedToOpenToClosedPath() {
+        let shapes = [
+            Path([
+                .point(-1, -1, 0),
+                .point(1, -1, 0),
+                .point(1, 1, 0),
+                .point(-1, 1, 0),
+                .point(-1, -1, 0),
+            ]),
+            Path([
+                .point(-1, -1, 1),
+                .point(1, -1, 1),
+                .point(1, 1, 1),
+                .point(-1, 1, 1),
+            ]),
+            Path.square().translated(by: Vector(0, 0, 2)),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssert(loft.isWatertight)
+        XCTAssert(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 22)
+    }
+
     func testExtrudeSelfIntersectingPath() {
         let path = Path([
             .point(0, 0),

@@ -839,12 +839,8 @@ private extension Mesh {
         }
     }
 
-    static func directionBetweenShapes(_ s0: Path, _ s1: Path) -> Vector? {
-        if let p0 = s0.points.first, let p1 = s1.points.first {
-            // TODO: what if p0p1 length is zero? We should try other points
-            return (p1.position - p0.position).normalized()
-        }
-        return nil
+    static func directionBetweenShapes(_ s0: Path, _ s1: Path) -> Vector {
+        (s1.bounds.center - s0.bounds.center).normalized()
     }
 
     static func loft(
@@ -871,33 +867,32 @@ private extension Mesh {
             return .xor(subshapes.map { .loft($0, faces: faces, material: material) })
         }
         let shapes = shapes
-        if shapes.isEmpty {
+        guard let first = shapes.first, let last = shapes.last else {
             return .empty
         }
         let count = shapes.count
         let isClosed = (shapes.first == shapes.last) && shapes.allSatisfy { $0.isClosed }
         if count < 3, isClosed {
-            return fill(shapes[0], faces: faces, material: material)
+            return fill(first, faces: faces, material: material)
         }
         var polygons = [Polygon]()
         polygons.reserveCapacity(shapes.reduce(0) { $0 + $1.points.count })
-        var prev = shapes[0]
         var isCapped = true
         if !isClosed {
-            let facePolygons = prev.facePolygons(material: material)
+            let facePolygons = first.facePolygons(material: material)
             if facePolygons.isEmpty {
                 isCapped = false
-            } else if let p0p1 = directionBetweenShapes(prev, shapes[1]) {
+            } else {
+                let p0p1 = directionBetweenShapes(first, shapes[1])
                 polygons += facePolygons.map {
                     p0p1.dot($0.plane.normal) > 0 ? $0.inverted() : $0
                 }
-            } else {
-                polygons += facePolygons
             }
         }
         var uvx0 = 0.0
         let uvstep = Double(1) / Double(count - 1)
-        for shape in shapes.dropFirst() {
+        var prev = first
+        for shape in shapes.dropFirst() where shape != prev {
             let uvx1 = uvx0 + uvstep
             loft(
                 unchecked: prev, shape,
@@ -910,24 +905,24 @@ private extension Mesh {
             uvx0 = uvx1
         }
         if !isClosed {
-            let facePolygons = prev.facePolygons(material: material)
+            let facePolygons = last.facePolygons(material: material)
             if facePolygons.isEmpty {
                 isCapped = false
-            } else if let p0p1 = directionBetweenShapes(shapes[shapes.count - 2], prev) {
+            } else {
+                let p0p1 = directionBetweenShapes(shapes[shapes.count - 2], last)
                 polygons += facePolygons.map {
                     p0p1.dot($0.plane.normal) < 0 ? $0.inverted() : $0
                 }
-            } else {
-                polygons += facePolygons
             }
         }
-        let isWatertight = isCapped ? true : isWatertight
-        if !isCapped, count > 1, let first = shapes.first, let last = shapes.last {
+        if !isCapped, count > 1 {
             isCapped = first.isClosed && first.hasZeroArea &&
                 last.isClosed && last.hasZeroArea
         }
+        let isWatertight = isWatertight ?? isCapped && shapes
+            .dropFirst().dropLast().allSatisfy { $0.isClosed }
         switch faces {
-        case .default where isCapped, .front:
+        case .default where isWatertight, .front:
             return Mesh(
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
@@ -946,7 +941,7 @@ private extension Mesh {
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
                 isConvex: false,
-                isWatertight: isWatertight
+                isWatertight: isWatertight ? true : nil
             )
         }
     }
@@ -958,12 +953,7 @@ private extension Mesh {
         material: Material?,
         into polygons: inout [Polygon]
     ) {
-        let invert: Bool
-        if let p0p1 = directionBetweenShapes(p0, p1), p0p1.dot(p0.faceNormal) > 0 {
-            invert = false
-        } else {
-            invert = true
-        }
+        let invert = directionBetweenShapes(p0, p1).dot(p0.faceNormal) <= 0
         let e0 = p0.edgeVertices, e1 = p1.edgeVertices
         // TODO: better handling of case where e0 and e1 counts don't match
         for j in stride(from: 0, to: min(e0.count, e1.count), by: 2) {
