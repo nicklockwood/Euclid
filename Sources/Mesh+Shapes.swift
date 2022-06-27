@@ -585,7 +585,7 @@ public extension Mesh {
             loft(
                 unchecked: shape0, shape1,
                 uvstart: 0, uvend: 1,
-                verifiedCoplanar: false,
+                verifiedCoplanar: true,
                 material: material,
                 into: &polygons
             )
