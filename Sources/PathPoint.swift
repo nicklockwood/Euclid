@@ -59,95 +59,71 @@ extension PathPoint: Codable {
         case 2:
             self.init(Vector(x, y), texcoord: nil, color: nil, isCurved: false)
         case 3:
-            if let isCurved = try? container.decodeIfPresent(Bool.self) {
-                self.init(
-                    Vector(x, y),
-                    texcoord: nil,
-                    color: nil,
-                    isCurved: isCurved
-                )
-            } else {
-                self.init(
-                    Vector(x, y, try container.decode(Double.self)),
-                    texcoord: nil,
-                    color: nil,
-                    isCurved: false
-                )
+            let isCurved: Bool, position: Vector
+            do {
+                isCurved = try container.decodeIfPresent(Bool.self) ?? false
+                position = Vector(x, y)
+            } catch {
+                isCurved = false
+                position = Vector(x, y, try container.decode(Double.self))
             }
+            self.init(position, texcoord: nil, color: nil, isCurved: isCurved)
         case 4:
             let zOrU = try container.decode(Double.self)
-            if let isCurved = try? container.decodeIfPresent(Bool.self) {
-                self.init(
-                    Vector(x, y, zOrU),
-                    texcoord: nil,
-                    color: nil,
-                    isCurved: isCurved
-                )
-            } else {
-                self.init(
-                    Vector(x, y),
-                    texcoord: Vector(zOrU, try container.decode(Double.self)),
-                    color: nil,
-                    isCurved: false
-                )
+            let isCurved: Bool, position: Vector, texcoord: Vector?
+            do {
+                isCurved = try container.decodeIfPresent(Bool.self) ?? false
+                position = Vector(x, y, zOrU)
+                texcoord = nil
+            } catch {
+                isCurved = false
+                position = Vector(x, y)
+                texcoord = Vector(zOrU, try container.decode(Double.self))
             }
+            self.init(position, texcoord: texcoord, color: nil, isCurved: isCurved)
         case 5:
             let zOrU = try container.decode(Double.self)
             let uOrV = try container.decode(Double.self)
-            if let isCurved = try? container.decodeIfPresent(Bool.self) {
-                self.init(
-                    Vector(x, y),
-                    texcoord: Vector(zOrU, uOrV),
-                    color: nil,
-                    isCurved: isCurved
-                )
-            } else {
-                self.init(
-                    Vector(x, y, zOrU),
-                    texcoord: Vector(uOrV, try container.decode(Double.self)),
-                    color: nil,
-                    isCurved: false
-                )
+            let isCurved: Bool, position: Vector, texcoord: Vector?
+            do {
+                isCurved = try container.decodeIfPresent(Bool.self) ?? false
+                position = Vector(x, y)
+                texcoord = Vector(zOrU, uOrV)
+            } catch {
+                isCurved = false
+                position = Vector(x, y, zOrU)
+                texcoord = Vector(uOrV, try container.decode(Double.self))
             }
+            self.init(position, texcoord: texcoord, color: nil, isCurved: isCurved)
         case 6:
             let position = Vector(x, y, try container.decode(Double.self))
             let u = try container.decode(Double.self)
             let v = try container.decode(Double.self)
-            if let isCurved = try? container.decode(Bool.self) {
-                self.init(
-                    position,
-                    texcoord: Vector(u, v),
-                    color: nil,
-                    isCurved: isCurved
-                )
-            } else {
-                self.init(
-                    position,
-                    texcoord: Vector(u, v, try container.decode(Double.self)),
-                    color: nil,
-                    isCurved: false
-                )
+            let isCurved: Bool, texcoord: Vector?
+            do {
+                isCurved = try container.decodeIfPresent(Bool.self) ?? false
+                texcoord = Vector(u, v)
+            } catch {
+                isCurved = false
+                texcoord = Vector(u, v, try container.decode(Double.self))
             }
+            self.init(position, texcoord: texcoord, color: nil, isCurved: isCurved)
         case 7:
             let position = Vector(x, y, try container.decode(Double.self))
             let uOrR = try container.decode(Double.self)
             let vOrG = try container.decode(Double.self)
             let wOrB = try container.decode(Double.self)
-            if let isCurved = try? container.decode(Bool.self) {
-                self.init(
-                    position,
-                    texcoord: Vector(uOrR, vOrG, wOrB),
-                    color: nil,
-                    isCurved: isCurved
-                )
-            } else {
-                self.init(
-                    position,
-                    texcoord: nil,
-                    color: Color(uOrR, vOrG, wOrB, try container.decode(Double.self)),
-                    isCurved: false
-                )
+            let isCurved: Bool, texcoord: Vector?, color: Color?
+            do {
+                isCurved = try container.decodeIfPresent(Bool.self) ?? false
+                texcoord = Vector(uOrR, vOrG, wOrB)
+                color = nil
+            } catch {
+                isCurved = false
+                texcoord = nil
+                color = Color(uOrR, vOrG, wOrB, try container.decode(Double.self))
             }
+            self.init(position, texcoord: texcoord, color: color, isCurved: isCurved)
         case 8:
             self.init(
                 Vector(x, y, try container.decode(Double.self)),
@@ -168,21 +144,15 @@ extension PathPoint: Codable {
             let r = try container.decode(Double.self)
             let g = try container.decode(Double.self)
             let b = try container.decode(Double.self)
-            if let isCurved = try? container.decode(Bool.self) {
-                self.init(
-                    position,
-                    texcoord: texcoord,
-                    color: Color(r, g, b),
-                    isCurved: isCurved
-                )
-            } else {
-                self.init(
-                    position,
-                    texcoord: texcoord,
-                    color: Color(r, g, b, try container.decode(Double.self)),
-                    isCurved: false
-                )
+            let isCurved: Bool, color: Color?
+            do {
+                isCurved = try container.decodeIfPresent(Bool.self) ?? false
+                color = Color(r, g, b)
+            } catch {
+                isCurved = false
+                color = Color(r, g, b, try container.decode(Double.self))
             }
+            self.init(position, texcoord: texcoord, color: color, isCurved: isCurved)
         case 11:
             self.init(
                 Vector(x, y, try container.decode(Double.self)),
