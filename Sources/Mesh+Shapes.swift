@@ -1041,6 +1041,16 @@ private extension Mesh {
             (t0, t1, r, invert) = (t1, t0, -r, !invert)
             (e0, e1, uvstart, uvend) = (e1, e0, uvend, uvstart)
         }
+        // ensure points are have same orientation
+        let fp0 = p0.flatteningPlane, fp1 = p1.flatteningPlane
+        if flattenedPointsAreClockwise(e0.map {
+            fp0.flattenPoint($0.position)
+        }) != flattenedPointsAreClockwise(e1.map {
+            fp1.flattenPoint($0.position)
+        }) {
+            e0.reverse()
+            // TODO: fix mirrored texture coords
+        }
         // map nearest e1 edges to e0 points
         var prev: Int?
         for i in stride(from: 0, to: e1.count, by: 2) {
