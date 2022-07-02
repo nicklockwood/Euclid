@@ -87,7 +87,9 @@ class MeshShapeTests: XCTestCase {
         // Every vertex in the loft should be contained by one of our shapes
         let vertices = loft.polygons.flatMap { $0.vertices }
         XCTAssert(vertices.allSatisfy { vertex in
-            shapes.contains(where: { $0.points.contains(where: { $0.position == vertex.position }) })
+            shapes.contains(where: {
+                $0.points.contains(where: { $0.position == vertex.position })
+            })
         })
     }
 
@@ -105,13 +107,30 @@ class MeshShapeTests: XCTestCase {
 
         let loft = Mesh.loft(shapes)
 
-        XCTAssert(loft.polygons.allSatisfy { pointsAreCoplanar($0.vertices.map { $0.position }) })
+        XCTAssert(loft.polygons.allSatisfy {
+            pointsAreCoplanar($0.vertices.map { $0.position })
+        })
 
         // Every vertex in the loft should be contained by one of our shapes
         let vertices = loft.polygons.flatMap { $0.vertices }
         XCTAssert(vertices.allSatisfy { vertex in
-            shapes.contains(where: { $0.points.contains(where: { $0.position == vertex.position }) })
+            shapes.contains(where: {
+                $0.points.contains(where: { $0.position == vertex.position })
+            })
         })
+    }
+
+    func testLoftNonParallelEdges2() {
+        let shapes = [
+            Path.circle().rotated(by: Rotation(yaw: .pi / 8)),
+            Path.circle().rotated(by: Rotation(yaw: -.pi / 8))
+                .translated(by: Vector(0, 0, 1)),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssert(loft.isWatertight)
+        XCTAssert(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 18)
     }
 
     func testLoftCoincidentClosedPaths() {
@@ -121,8 +140,9 @@ class MeshShapeTests: XCTestCase {
         ]
 
         let loft = Mesh.loft(shapes)
-        XCTAssertEqual(loft.polygons.count, 2)
+        XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 2)
     }
 
     func testLoftOffsetOpenPaths() {
@@ -148,13 +168,7 @@ class MeshShapeTests: XCTestCase {
 
     func testLoftClosedToOpenToClosedPath() {
         let shapes = [
-            Path([
-                .point(-1, -1, 0),
-                .point(1, -1, 0),
-                .point(1, 1, 0),
-                .point(-1, 1, 0),
-                .point(-1, -1, 0),
-            ]),
+            Path.square(),
             Path([
                 .point(-1, -1, 1),
                 .point(1, -1, 1),
@@ -167,7 +181,7 @@ class MeshShapeTests: XCTestCase {
         let loft = Mesh.loft(shapes)
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
-        XCTAssertEqual(loft.polygons.count, 22)
+        XCTAssertEqual(loft.polygons.count, 20)
     }
 
     func testExtrudeSelfIntersectingPath() {
@@ -189,6 +203,8 @@ class MeshShapeTests: XCTestCase {
             .point(0, 0),
         ])
         let mesh = Mesh.extrude(path)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.polygons.count, 2)
         XCTAssertEqual(mesh, .extrude(path, faces: .front))
     }
@@ -199,6 +215,8 @@ class MeshShapeTests: XCTestCase {
             .point(0, 1),
         ])
         let mesh = Mesh.extrude(path)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.polygons.count, 2)
         XCTAssertEqual(mesh, .extrude(path, faces: .frontAndBack))
     }
@@ -209,6 +227,8 @@ class MeshShapeTests: XCTestCase {
             .point(0, 1),
         ])
         let mesh = Mesh.extrude(path, along: .square())
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.polygons.count, 8)
         XCTAssertEqual(mesh, .extrude(path, along: .square(), faces: .frontAndBack))
     }
@@ -219,8 +239,68 @@ class MeshShapeTests: XCTestCase {
             .point(0, 1),
         ])
         let mesh = Mesh.extrude(path, along: path)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.polygons.count, 2)
         XCTAssertEqual(mesh, .extrude(path, along: path, faces: .frontAndBack))
+    }
+
+    func testLoftCircleToSquare() {
+        let shapes = [
+            Path.circle(),
+            Path.square().translated(by: Vector(0, 0, 1)),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssert(loft.isWatertight)
+        XCTAssert(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 22)
+    }
+
+    func testLoftSquareToCircle() {
+        let shapes = [
+            Path.square(),
+            Path.circle().translated(by: Vector(0, 0, 1)),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssert(loft.isWatertight)
+        XCTAssert(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 22)
+    }
+
+    func testLoftCircleToOpenPath() {
+        let shapes = [
+            Path.circle(),
+            Path([
+                .point(-1, -1, 1),
+                .point(1, -1, 1),
+                .point(1, 1, 1),
+                .point(-1, -1, 1),
+            ]),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssert(loft.isWatertight)
+        XCTAssert(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 21)
+    }
+
+    func testLoftOpenPathToCircle() {
+        let shapes = [
+            Path([
+                .point(-1, -1),
+                .point(1, -1),
+                .point(1, 1),
+                .point(-1, -1),
+            ]),
+            Path.circle().translated(by: Vector(0, 0, 1)),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssert(loft.isWatertight)
+        XCTAssert(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 21)
     }
 
     func testLoftEmptyPathToPath() {

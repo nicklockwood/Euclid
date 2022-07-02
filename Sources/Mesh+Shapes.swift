@@ -953,11 +953,21 @@ private extension Mesh {
         material: Material?,
         into polygons: inout [Polygon]
     ) {
-        let invert = directionBetweenShapes(p0, p1).dot(p0.faceNormal) <= 0
-        let e0 = p0.edgeVertices, e1 = p1.edgeVertices
-        // TODO: better handling of case where e0 and e1 counts don't match
-        for j in stride(from: 0, to: min(e0.count, e1.count), by: 2) {
-            var vertices = [e0[j], e0[j + 1], e1[j + 1], e1[j]]
+        var invert = directionBetweenShapes(p0, p1).dot(p0.faceNormal) <= 0
+        var uvstart = uvstart, uvend = uvend
+        var e0 = p0.edgeVertices, e1 = p1.edgeVertices
+        var t0 = -p0.bounds.center, t1 = -p1.bounds.center
+        var r = rotationBetweenVectors(p0.faceNormal, p1.faceNormal)
+        func makePolygon(_ vertices: [Vertex]) -> Polygon {
+            Polygon(
+                unchecked: invert ? vertices.reversed() : vertices,
+                plane: nil,
+                isConvex: true,
+                material: material
+            )
+        }
+        func addFace(_ a: Vertex, _ b: Vertex, _ c: Vertex, _ d: Vertex) {
+            var vertices = [a, b, c, d]
             vertices[0].texcoord = Vector(vertices[0].texcoord.y, uvstart)
             vertices[1].texcoord = Vector(vertices[1].texcoord.y, uvstart)
             vertices[2].texcoord = Vector(vertices[2].texcoord.y, uvend)
@@ -988,26 +998,77 @@ private extension Mesh {
                     material: material,
                     id: 0
                 )
-                continue
+                return
             }
-            let coplanar = verifiedCoplanar || verticesAreCoplanar(vertices)
-            assert(!verifiedCoplanar || verticesAreCoplanar(vertices))
-            if !coplanar {
-                let vertices2 = [vertices[0], vertices[2], vertices[3]]
-                vertices.remove(at: 3)
-                polygons.append(Polygon(
-                    unchecked: invert ? vertices2.reversed() : vertices2,
-                    plane: nil,
-                    isConvex: true,
-                    material: material
-                ))
+            if vertices.count == 4 {
+                let c = vertices[0], d = vertices[1], b = vertices[2], a = vertices[3]
+                let bcd = makePolygon([b, c, d])
+                switch a.position.compare(with: bcd.plane) {
+                case .coplanar, .spanning:
+                    polygons.append(makePolygon([c, d, b, a]))
+                case .back:
+                    polygons += [makePolygon([c, b, a]), bcd]
+                case .front:
+                    polygons += [makePolygon([c, d, a]), makePolygon([b, a, d])]
+                }
+            } else {
+                polygons.append(makePolygon(vertices))
             }
-            polygons.append(Polygon(
-                unchecked: invert ? vertices.reversed() : vertices,
-                plane: nil,
-                isConvex: nil,
-                material: material
-            ))
+        }
+        func nearestIndex(to a: Vector, in e: [Vertex]) -> Int {
+            let a = a.translated(by: t1).rotated(by: r)
+            let e = e.map { $0.with(position: $0.position.translated(by: t0)) }
+            var closestIndex = 0
+            var best = Double.infinity
+            for i in stride(from: 0, to: e.count, by: 2) {
+                let b = e[i]
+                let d = (b.position - a).length
+                if d < best {
+                    closestIndex = i
+                    best = d
+                }
+            }
+            return closestIndex
+        }
+        if verifiedCoplanar || e0.count == e1.count {
+            for j in stride(from: 0, to: e0.count, by: 2) {
+                addFace(e0[j], e0[j + 1], e1[j + 1], e1[j])
+            }
+            return
+        }
+        // ensure e1 count > e0
+        if e0.count > e1.count {
+            (t0, t1, r, invert) = (t1, t0, -r, !invert)
+            (e0, e1, uvstart, uvend) = (e1, e0, uvend, uvstart)
+        }
+        // map nearest e1 edges to e0 points
+        var prev: Int?
+        for i in stride(from: 0, to: e1.count, by: 2) {
+            let a = e1[i], b = e1[i + 1]
+            let ai = nearestIndex(to: a.position, in: e0)
+            if let prev = prev {
+                var ai = ai
+                if ai == 0, prev == e0.count - 2 {
+                    ai += e0.count
+                }
+                if ai > prev {
+                    for j in stride(from: prev, to: ai, by: 2) {
+                        let c = e0[j % e0.count], d = e0[(j + 1) % e0.count]
+                        addFace(c, d, a, a)
+                    }
+                }
+            }
+            let bi = nearestIndex(to: b.position, in: e0)
+            let c = e0[ai]
+            if ai == bi || (ai == e0.count - 1 && bi == 0) {
+                addFace(c, c, b, a)
+                prev = ai
+            } else {
+                assert((ai + 2) % e0.count == bi || ai + 1 == bi)
+                let d = e0[(ai + 1) % e0.count]
+                addFace(c, d, b, a)
+                prev = ai + 2
+            }
         }
     }
 }
