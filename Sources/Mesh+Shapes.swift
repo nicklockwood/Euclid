@@ -866,7 +866,7 @@ private extension Mesh {
             }
             return .xor(subshapes.map { .loft($0, faces: faces, material: material) })
         }
-        let shapes = shapes
+        let shapes = shapes.filter { !$0.points.isEmpty }
         guard let first = shapes.first, let last = shapes.last else {
             return .empty
         }

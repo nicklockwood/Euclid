@@ -223,6 +223,30 @@ class MeshShapeTests: XCTestCase {
         XCTAssertEqual(mesh, .extrude(path, along: path, faces: .frontAndBack))
     }
 
+    func testLoftEmptyPathToPath() {
+        let shapes = [
+            Path([]),
+            Path.square(),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssert(loft.isWatertight)
+        XCTAssert(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 2)
+    }
+
+    func testLoftPathToEmptyPath() {
+        let shapes = [
+            Path.square(),
+            Path([]),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssert(loft.isWatertight)
+        XCTAssert(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 2)
+    }
+
     // MARK: Stroke
 
     func testStrokeLine() {
