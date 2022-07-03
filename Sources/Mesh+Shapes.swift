@@ -417,7 +417,11 @@ public extension Mesh {
             if let scale = s {
                 shape = shape.scaled(by: scale)
             }
-            shapes.append(shape.rotated(by: r).translated(by: p.position))
+            shape = shape.rotated(by: r).translated(by: p.position)
+            shapes.append(shape)
+            if !p.isCurved, s != nil {
+                shapes.append(shape)
+            }
         }
 
         func addShape(_ p2: PathPoint) {
@@ -584,6 +588,7 @@ public extension Mesh {
             bounds.formUnion(shape1.bounds)
             loft(
                 unchecked: shape0, shape1,
+                curvestart: true, curveend: true,
                 uvstart: 0, uvend: 1,
                 verifiedCoplanar: true,
                 material: material,
@@ -870,7 +875,12 @@ private extension Mesh {
         guard let first = shapes.first, let last = shapes.last else {
             return .empty
         }
-        let count = shapes.count
+        var count = 1
+        var prev = first
+        for shape in shapes.dropFirst() where shape != prev {
+            count += 1
+            prev = shape
+        }
         let isClosed = (shapes.first == shapes.last) && shapes.allSatisfy { $0.isClosed }
         if count < 3, isClosed {
             return fill(first, faces: faces, material: material)
@@ -891,17 +901,28 @@ private extension Mesh {
         }
         var uvx0 = 0.0
         let uvstep = Double(1) / Double(count - 1)
-        var prev = first
-        for shape in shapes.dropFirst() where shape != prev {
+        prev = first
+        var curvestart = true
+        for (i, shape) in shapes.enumerated().dropFirst() {
             let uvx1 = uvx0 + uvstep
+            if shape == prev {
+                curvestart = false
+                continue
+            }
+            var curveend = true
+            if i < shapes.count - 1, shape == shapes[i + 1] {
+                curveend = false
+            }
             loft(
                 unchecked: prev, shape,
+                curvestart: curvestart, curveend: curveend,
                 uvstart: uvx0, uvend: uvx1,
                 verifiedCoplanar: verifiedCoplanar,
                 material: material,
                 into: &polygons
             )
             prev = shape
+            curvestart = true
             uvx0 = uvx1
         }
         if !isClosed {
@@ -948,14 +969,27 @@ private extension Mesh {
 
     static func loft(
         unchecked p0: Path, _ p1: Path,
+        curvestart: Bool, curveend: Bool,
         uvstart: Double, uvend: Double,
         verifiedCoplanar: Bool,
         material: Material?,
         into polygons: inout [Polygon]
     ) {
-        var invert = directionBetweenShapes(p0, p1).dot(p0.faceNormal) <= 0
+        var direction = directionBetweenShapes(p0, p1)
+        var invert = direction.dot(p0.faceNormal) <= 0
+        if invert {
+            direction = -direction
+        }
         var uvstart = uvstart, uvend = uvend
         var e0 = p0.edgeVertices, e1 = p1.edgeVertices
+        if !curvestart {
+            let r = rotationBetweenVectors(direction, p0.faceNormal)
+            e0 = e0.map { $0.with(normal: $0.normal.rotated(by: r)) }
+        }
+        if !curveend {
+            let r = rotationBetweenVectors(direction, p1.faceNormal)
+            e1 = e1.map { $0.with(normal: $0.normal.rotated(by: r)) }
+        }
         var t0 = -p0.bounds.center, t1 = -p1.bounds.center
         var r = rotationBetweenVectors(p0.faceNormal, p1.faceNormal)
         func makePolygon(_ vertices: [Vertex]) -> Polygon {
