@@ -1,3 +1,10 @@
+## [0.5.25](https://github.com/nicklockwood/Euclid/releases/tag/0.5.25) (2022-07-03)
+
+- Added `Mesh.submeshes` property
+- Loft now supports path sections with differing point counts
+- Fixed normals at joints between multipart loft or extrusion shapes
+- Fixed crash when lofting empty paths
+
 ## [0.5.24](https://github.com/nicklockwood/Euclid/releases/tag/0.5.24) (2022-06-26)
 
 - Fixed crash when extruding along collinear points
