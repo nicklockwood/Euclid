@@ -30,7 +30,7 @@
 //
 
 /// A finite line segment in 3D space.
-public struct LineSegment: Hashable {
+public struct LineSegment: Hashable, Sendable {
     // The starting point of the line segment.
     public let start: Vector
     // The end point of the line segment.

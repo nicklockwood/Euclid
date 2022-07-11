@@ -35,7 +35,7 @@
 /// but shouldn't contain holes or exposed back-faces.
 ///
 /// The result of CSG operations on meshes that have holes or exposed back-faces is undefined.
-public struct Mesh: Hashable {
+public struct Mesh: Hashable, Sendable {
     private let storage: Storage
 }
 
@@ -462,3 +462,7 @@ private extension Mesh {
         }
     }
 }
+
+#if !swift(<5.7)
+extension Mesh.Storage: @unchecked Sendable {}
+#endif

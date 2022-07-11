@@ -32,7 +32,7 @@
 /// A color in RGBA format.
 ///
 /// Color can be used as a ``Polygon/material-swift.property`` or as a ``Vertex/color``.
-public struct Color: Hashable {
+public struct Color: Hashable, Sendable {
     /// The red component of the color.
     public var r: Double
     /// The green component of the color.

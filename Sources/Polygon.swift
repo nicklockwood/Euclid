@@ -35,7 +35,7 @@ import Foundation
 ///
 /// A polygon must be composed of three or more vertices, and those vertices must all lie on the same
 /// plane. The edges of a polygon can be either convex or concave, but not self-intersecting.
-public struct Polygon: Hashable {
+public struct Polygon: Hashable, Sendable {
     private var storage: Storage
 
     // Used to track split/join.
@@ -993,6 +993,10 @@ private extension Polygon {
         }
     }
 }
+
+#if !swift(<5.7)
+extension Polygon.Storage: @unchecked Sendable {}
+#endif
 
 internal struct CodableMaterial: Codable {
     let value: Polygon.Material?

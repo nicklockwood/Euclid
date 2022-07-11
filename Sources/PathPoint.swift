@@ -37,7 +37,7 @@ import Foundation
 /// a ``PathPoint/texcoord`` and/or ``PathPoint/color``, but no normal. The
 /// ``PathPoint/isCurved`` property  indicates if the point is sharp or smooth, allowing the normal to
 /// be computed automatically.
-public struct PathPoint: Hashable {
+public struct PathPoint: Hashable, Sendable {
     /// The position  of the path point.
     public var position: Vector
     /// The texture coordinate of the path point (optional). If omitted, will be inferred automatically.

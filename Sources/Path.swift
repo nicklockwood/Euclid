@@ -43,7 +43,7 @@ import Foundation
 /// Paths are typically 2-dimensional, but because ``PathPoint`` positions have a Z coordinate, they are
 /// not *required* to be. Even a flat ``Path`` (where all points lie on the same plane) can be translated or
 /// rotated so that its points do not necessarily lie on the *XY* plane.
-public struct Path: Hashable {
+public struct Path: Hashable, Sendable {
     let subpathIndices: [Int]
     /// The array of points that makes up this path.
     public let points: [PathPoint]

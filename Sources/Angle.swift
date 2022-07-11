@@ -32,7 +32,7 @@
 import Foundation
 
 /// An angle or 2D rotation.
-public struct Angle: Hashable, Comparable {
+public struct Angle: Hashable, Comparable, Sendable {
     /// The angle in radians.
     public var radians: Double
 

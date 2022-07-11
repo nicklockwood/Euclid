@@ -30,7 +30,7 @@
 //
 
 /// An infinite line in 3D space.
-public struct Line: Hashable {
+public struct Line: Hashable, Sendable {
     // An arbitrary point on the line selected as the origin.
     public let origin: Vector
     // The normalized direction of the line.

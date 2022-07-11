@@ -29,6 +29,10 @@
 //  SOFTWARE.
 //
 
+#if swift(<5.7)
+public protocol Sendable {}
+#endif
+
 // Tolerance used for calculating approximate equality
 let epsilon = 1e-8
 

@@ -35,7 +35,7 @@ import Foundation
 ///
 /// Internally, a rotation is stored as a 3x3 matrix, but that's an implementation detail that may change in future.
 /// A rotation can be converted to and from an axis vector and angle, or a set of 3 Euler angles (pitch, yaw and roll).
-public struct Rotation: Hashable {
+public struct Rotation: Hashable, Sendable {
     var m11, m12, m13, m21, m22, m23, m31, m32, m33: Double
 
     /// Define a rotation using 3x3 matrix coefficients

@@ -32,7 +32,7 @@
 import Foundation
 
 /// A vertex represents a corner of a ``Polygon`` or a point on the surface of a ``Mesh``.
-public struct Vertex: Hashable {
+public struct Vertex: Hashable, Sendable {
     /// The position of the vertex.
     public var position: Vector {
         didSet { position = position._quantized() }

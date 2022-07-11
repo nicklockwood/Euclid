@@ -30,7 +30,7 @@
 //
 
 /// An infinite 2D plane in 3D space.
-public struct Plane: Hashable {
+public struct Plane: Hashable, Sendable {
     /// A surface normal vector, perpendicular to the plane.
     public let normal: Vector
     /// The perpendicular distance from the world origin to the plane.

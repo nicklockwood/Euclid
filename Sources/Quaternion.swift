@@ -15,7 +15,7 @@ import Foundation
 ///
 /// In addition to being more compact than a 3x3 rotation matrix, quaternions also avoid a
 /// problem known as gymbal lock.
-public struct Quaternion: Hashable {
+public struct Quaternion: Hashable, Sendable {
     /// The quaternion component values.
     public var x, y, z, w: Double
 
