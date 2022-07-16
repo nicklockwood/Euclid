@@ -296,6 +296,18 @@ class TransformTests: XCTestCase {
         XCTAssert(plane.transformed(by: transform).isEqual(to: expected))
     }
 
+    // MARK: Path transforms
+
+    func testPathScaleZero() {
+        let path = Path([
+            .point(1, 2, 3),
+            .point(7, -2, 12),
+            .point(-2, 7, 14),
+        ])
+        let zeroPath = path.scaled(by: .zero)
+        XCTAssertFalse(zeroPath.edgeVertices.isEmpty)
+    }
+
     // MARK: Mesh transforms
 
     func testBoundsNotPreservedWhenMeshRotated() {

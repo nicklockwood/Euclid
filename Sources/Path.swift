@@ -292,9 +292,6 @@ public extension Path {
                 totalLength += length
                 prev = point.position
             }
-            guard totalLength > 0 else {
-                return []
-            }
         case .tube:
             var min = Double.infinity
             var max = -Double.infinity
@@ -390,7 +387,6 @@ internal extension Path {
         let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
         let subpathIndices = subpathIndices ?? subpathIndicesFor(points)
         self.subpathIndices = subpathIndices
-        assert(subpaths.allSatisfy { $0.points == sanitizePoints($0.points) })
         if let plane = plane {
             self.plane = plane
             assert(points.allSatisfy { plane.containsPoint($0.position) })
