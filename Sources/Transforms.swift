@@ -654,8 +654,11 @@ public extension Plane {
     /// Returns a scaled copy of the plane.
     /// - Parameter v: A scale vector to apply to the plane.
     func scaled(by v: Vector) -> Plane {
-        let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
+        if v.x == v.y, v.y == v.z {
+            return scaled(by: v.x)
+        }
         let p = (normal * w).scaled(by: v)
+        let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
         return Plane(unchecked: normal.scaled(by: vn).normalized(), pointOnPlane: p)
     }
 
