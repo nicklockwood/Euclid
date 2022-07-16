@@ -32,6 +32,9 @@
 // Tolerance used for calculating approximate equality
 let epsilon = 1e-8
 
+// Smallest valid scale factor
+let scaleLimit = 1e-8
+
 // Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
     let precision = 1e-12

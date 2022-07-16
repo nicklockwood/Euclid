@@ -58,11 +58,12 @@ public extension Path {
     /// > Note: Because the circle is approximated using line segments, its radius is not uniform. The radius
     /// specified is the *outer* radius, i.e. the radius at the corners of the polygon.
     static func circle(
-        radius r: Double = 0.5,
+        radius: Double = 0.5,
         segments: Int = 16,
         color: Color? = nil
     ) -> Path {
-        ellipse(width: r * 2, height: r * 2, segments: segments, color: color)
+        let d = radius * 2
+        return ellipse(width: d, height: d, segments: segments, color: color)
     }
 
     /// Creates a closed elliptical path.
@@ -80,8 +81,8 @@ public extension Path {
         let segments = max(3, segments)
         let step = 2 / Double(segments) * .pi
         let to = 2 * .pi + epsilon
-        let w = max(abs(width / 2), epsilon)
-        let h = max(abs(height / 2), epsilon)
+        let w = max(abs(width / 2), scaleLimit / 2)
+        let h = max(abs(height / 2), scaleLimit / 2)
         return Path(unchecked: stride(from: 0, through: to, by: step).map {
             PathPoint.curve(w * -sin($0), h * cos($0), color: color)
         }, plane: .xy, subpathIndices: [])
@@ -121,7 +122,7 @@ public extension Path {
         height: Double,
         color: Color? = nil
     ) -> Path {
-        let w = width / 2, h = height / 2
+        let w = abs(width / 2), h = abs(height / 2)
         if height < epsilon {
             return .line(Vector(-w, 0), Vector(w, 0))
         } else if width < epsilon {
@@ -148,7 +149,10 @@ public extension Path {
         detail: Int = 4,
         color: Color? = nil
     ) -> Path {
-        guard radius > epsilon, width > epsilon, height > epsilon else {
+        guard radius > scaleLimit / 2,
+              width > scaleLimit,
+              height > scaleLimit
+        else {
             return .rectangle(width: width, height: height, color: color)
         }
         let w = abs(width / 2), h = abs(height / 2)

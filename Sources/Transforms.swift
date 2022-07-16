@@ -41,7 +41,9 @@ public struct Transform: Hashable {
     /// The rotation or orientation component of the transform.
     public var rotation: Rotation
     /// The size or scale component of the transform.
-    public var scale: Vector
+    public var scale: Vector {
+        didSet { scale = scale.clamped() }
+    }
 
     /// Creates a new transform.
     /// - Parameters:
@@ -51,7 +53,7 @@ public struct Transform: Hashable {
     public init(offset: Vector? = nil, rotation: Rotation? = nil, scale: Vector? = nil) {
         self.offset = offset ?? .zero
         self.rotation = rotation ?? .identity
-        self.scale = scale ?? .one
+        self.scale = scale?.clamped() ?? .one
     }
 }
 
@@ -243,12 +245,7 @@ public extension Polygon {
     /// Returns a scaled copy of the polygon.
     /// - Parameter f: A scale vector to apply to the polygon.
     func scaled(by v: Vector) -> Polygon {
-        var v = v
-        let limit = 0.001
-        v.x = v.x < 0 ? min(v.x, -limit) : max(v.x, limit)
-        v.y = v.y < 0 ? min(v.y, -limit) : max(v.y, limit)
-        v.z = v.z < 0 ? min(v.z, -limit) : max(v.z, limit)
-
+        let v = v.clamped()
         var flipped = v.x < 0
         if v.y < 0 { flipped = !flipped }
         if v.z < 0 { flipped = !flipped }
@@ -266,8 +263,7 @@ public extension Polygon {
     /// Returns a scaled copy of the polygon.
     /// - Parameter f: A scale factor to apply to the polygon.
     func scaled(by f: Double) -> Polygon {
-        let limit = 0.001
-        let f = f < 0 ? min(f, -limit) : max(f, limit)
+        let f = f.clamped()
         let polygon = Polygon(
             unchecked: vertices.scaled(by: f),
             normal: plane.normal,
@@ -606,7 +602,8 @@ public extension Path {
     /// Returns a scaled copy of the path.
     /// - Parameter f: A scale vector to apply to the path.
     func scaled(by v: Vector) -> Path {
-        Path(
+        let v = v.clamped()
+        return Path(
             unchecked: points.scaled(by: v),
             plane: plane?.scaled(by: v), subpathIndices: subpathIndices
         )
@@ -615,7 +612,8 @@ public extension Path {
     /// Returns a scaled copy of the path.
     /// - Parameter f: A scale factor to apply to the path.
     func scaled(by f: Double) -> Path {
-        Path(
+        let f = f.clamped()
+        return Path(
             unchecked: points.scaled(by: f),
             plane: plane?.scaled(by: f), subpathIndices: subpathIndices
         )
@@ -657,6 +655,7 @@ public extension Plane {
         if v.x == v.y, v.y == v.z {
             return scaled(by: v.x)
         }
+        let v = v.clamped()
         let p = (normal * w).scaled(by: v)
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
         return Plane(unchecked: normal.scaled(by: vn).normalized(), pointOnPlane: p)
@@ -665,7 +664,7 @@ public extension Plane {
     /// Returns a scaled copy of the plane.
     /// - Parameter f: A scale factor to apply to the plane.
     func scaled(by f: Double) -> Plane {
-        Plane(unchecked: normal, w: w * f)
+        Plane(unchecked: normal, w: w * f.clamped())
     }
 
     /// Returns a transformed copy of the plane.
@@ -708,18 +707,32 @@ public extension Bounds {
     /// Returns a scaled copy of the bounds.
     /// - Parameter v: A scale vector to apply to the bounds.
     func scaled(by v: Vector) -> Bounds {
-        Bounds(min: min.scaled(by: v), max: max.scaled(by: v))
+        let v = v.clamped()
+        return Bounds(min: min.scaled(by: v), max: max.scaled(by: v))
     }
 
     /// Returns a scaled copy of the bounds.
     /// - Parameter f: A scale factor to apply to the bounds.
     func scaled(by f: Double) -> Bounds {
-        Bounds(min: min * f, max: max * f)
+        let f = f.clamped()
+        return Bounds(min: min * f, max: max * f)
     }
 
     /// Returns a transformed copy of the bounds.
     /// - Parameter t: A transform to apply to the bounds.
     func transformed(by t: Transform) -> Bounds {
         Bounds(points: corners.transformed(by: t))
+    }
+}
+
+private extension Double {
+    func clamped() -> Double {
+        self < 0 ? min(self, -scaleLimit) : max(self, scaleLimit)
+    }
+}
+
+private extension Vector {
+    func clamped() -> Self {
+        Self(x.clamped(), y.clamped(), z.clamped())
     }
 }
