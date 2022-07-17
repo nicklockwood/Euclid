@@ -895,7 +895,7 @@ private extension Mesh {
         if !isClosed {
             let facePolygons = first.facePolygons(material: material)
             if facePolygons.isEmpty {
-                isCapped = false
+                isCapped = isCapped && first.isClosed && first.hasZeroArea
             } else {
                 let p0p1 = directionBetweenShapes(first, shapes[1])
                 polygons += facePolygons.map {
@@ -932,17 +932,13 @@ private extension Mesh {
         if !isClosed {
             let facePolygons = last.facePolygons(material: material)
             if facePolygons.isEmpty {
-                isCapped = false
+                isCapped = isCapped && last.isClosed && last.hasZeroArea
             } else {
                 let p0p1 = directionBetweenShapes(shapes[shapes.count - 2], last)
                 polygons += facePolygons.map {
                     p0p1.dot($0.plane.normal) < 0 ? $0.inverted() : $0
                 }
             }
-        }
-        if !isCapped, count > 1 {
-            isCapped = first.isClosed && first.hasZeroArea &&
-                last.isClosed && last.hasZeroArea
         }
         let isWatertight = isWatertight ?? isCapped && shapes
             .dropFirst().dropLast().allSatisfy { $0.isClosed }
