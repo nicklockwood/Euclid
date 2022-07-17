@@ -32,6 +32,9 @@
 // Tolerance used for calculating approximate equality
 let epsilon = 1e-8
 
+// Plane equality threshold
+let planeEpsilon = 1e-6
+
 // Smallest valid scale factor
 let scaleLimit = 1e-8
 

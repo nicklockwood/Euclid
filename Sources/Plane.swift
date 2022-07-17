@@ -219,7 +219,7 @@ internal extension Plane {
     }
 
     // Approximate equality
-    func isEqual(to other: Plane, withPrecision p: Double = epsilon) -> Bool {
+    func isEqual(to other: Plane, withPrecision p: Double = planeEpsilon) -> Bool {
         w.isEqual(to: other.w, withPrecision: p) &&
             normal.isEqual(to: other.normal, withPrecision: p)
     }

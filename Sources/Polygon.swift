@@ -529,7 +529,7 @@ internal extension Collection where Element == Polygon {
         var sorted = [Polygon]()
         var groups = [(Plane, [Polygon])]()
         for p in polygons {
-            if p.plane.w.isEqual(to: prev.plane.w, withPrecision: epsilon) {
+            if p.plane.w.isEqual(to: prev.plane.w, withPrecision: planeEpsilon) {
                 if let i = groups.lastIndex(where: { $0.0.isEqual(to: p.plane) }) {
                     groups[i].0 = p.plane
                     groups[i].1.append(p)
