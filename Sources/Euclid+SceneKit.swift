@@ -685,12 +685,10 @@ public extension Mesh {
             isWatertight = nil
         }
         let bounds = Bounds(scnGeometry.boundingBox)
-        if isWatertight == true {
-            let holeEdges = polygons.holeEdges
-            let distance = holeEdges.separationDistance
-            let endPoints = holeEdges.endPoints
-            polygons = polygons.mergingVertices(endPoints, withPrecision: distance)
-        }
+        let holeEdges = polygons.holeEdges
+        let maxLength = (holeEdges.map { $0.length }.min() ?? 0) / 2
+        let distance = max(min(holeEdges.separationDistance, maxLength), 1e-6)
+        polygons = polygons.mergingVertices(withPrecision: distance)
         self.init(
             unchecked: polygons,
             bounds: bounds,

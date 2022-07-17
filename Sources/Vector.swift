@@ -301,39 +301,6 @@ public extension Vector {
     }
 }
 
-struct PointSet {
-    private var storage = [Vector: [Vector]]()
-
-    /// The maximum distance between points.
-    let precision: Double
-
-    /// Creates a point set with specified precision.
-    /// - Parameter precision: The maximum distance between points.
-    init(precision: Double) {
-        self.precision = precision
-    }
-
-    /// If point is unique, inserts it and returns the same value
-    /// otherwise, returns nearest match
-    /// - Parameter point: The point to insert.
-    mutating func insert(_ point: Vector) -> Vector {
-        let hash = Vector(
-            round(point.x / precision) * precision,
-            round(point.y / precision) * precision,
-            round(point.z / precision) * precision
-        )
-        if let point = storage[hash]?.first(where: {
-            $0.isEqual(to: point, withPrecision: precision)
-        }) {
-            return point
-        }
-        point.hashValues(withPrecision: precision).forEach {
-            storage[$0, default: []].append(point)
-        }
-        return point
-    }
-}
-
 internal extension Vector {
     static let unitX = Vector(1, 0, 0)
     static let unitY = Vector(0, 1, 0)

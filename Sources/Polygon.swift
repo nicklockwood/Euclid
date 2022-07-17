@@ -407,7 +407,7 @@ internal extension Collection where Element == Polygon {
         _ vertices: Set<Vector>?,
         withPrecision precision: Double
     ) -> [Polygon] {
-        var positions = PointSet(precision: precision)
+        var positions = VertexSet(precision: precision)
         return compactMap {
             var merged = [Vertex]()
             var modified = false
@@ -416,11 +416,11 @@ internal extension Collection where Element == Polygon {
                     merged.append(v)
                     continue
                 }
-                let u = v.with(position: positions.insert(v.position))
-                if modified || v.position != u.position {
+                let u = positions.insert(v)
+                if modified || v != u {
                     modified = true
                     if let w = merged.last, w.position == u.position {
-                        merged[merged.count - 1] = w.lerp(u, 0.5)
+                        merged[merged.count - 1] = w.lerp(v, 0.5).with(position: u.position)
                         continue
                     }
                 }
@@ -521,7 +521,29 @@ internal extension Collection where Element == Polygon {
 
     /// Sort polygons by plane
     func sortedByPlane() -> [Polygon] {
-        sorted(by: { $0.plane < $1.plane })
+        if isEmpty {
+            return []
+        }
+        let polygons = sorted(by: { $0.plane.w < $1.plane.w })
+        var prev = polygons[0]
+        var sorted = [Polygon]()
+        var groups = [(Plane, [Polygon])]()
+        for p in polygons {
+            if p.plane.w.isEqual(to: prev.plane.w, withPrecision: epsilon) {
+                if let i = groups.lastIndex(where: { $0.0.isEqual(to: p.plane) }) {
+                    groups[i].0 = p.plane
+                    groups[i].1.append(p)
+                } else {
+                    groups.append((p.plane, [p]))
+                }
+            } else {
+                sorted += groups.flatMap { $0.1 }
+                groups = [(p.plane, [p])]
+            }
+            prev = p
+        }
+        sorted += groups.flatMap { $0.1 }
+        return sorted
     }
 
     /// Group by material
