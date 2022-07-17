@@ -268,6 +268,10 @@ public extension Path {
             }
         }
 
+        if points.count == 1 {
+            return Path(unchecked: points, plane: nil, subpathIndices: nil)
+        }
+
         let points = sanitizePoints(points)
         guard detail > 0, !points.isEmpty else {
             return Path(unchecked: points, plane: nil, subpathIndices: nil)

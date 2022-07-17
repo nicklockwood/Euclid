@@ -462,6 +462,9 @@ func lineSegmentsIntersection(
 // Sanitize a set of path points by removing duplicates and invalid points
 // Should be safe to use on sets of points representing a compound path (with subpaths)
 func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
+    if points.count == 1 {
+        return points
+    }
     var result = [PathPoint]()
     var last: PathPoint?
     // Remove duplicate points
