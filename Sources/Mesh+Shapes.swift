@@ -675,13 +675,13 @@ private extension Mesh {
             while i < vertices.count {
                 let v0 = vertices[i]
                 let v1 = vertices[i + 1]
-                if v0.position.x == 0 {
+                if abs(v0.position.x) < epsilon {
                     if v1.position.x != 0, addDetailForFlatPoles || !isVertical(v0.normal) {
                         let s = subdivide(poleDetail, v0, v1)
                         vertices.replaceSubrange(i ... i + 1, with: s)
                         i += s.count - 2
                     }
-                } else if v1.position.x == 0, addDetailForFlatPoles || !isVertical(v1.normal) {
+                } else if abs(v1.position.x) < 0, addDetailForFlatPoles || !isVertical(v1.normal) {
                     let s = subdivide(poleDetail, v1, v0).reversed()
                     vertices.replaceSubrange(i ... i + 1, with: s)
                     i += s.count - 2
@@ -702,7 +702,7 @@ private extension Mesh {
             let sin1 = sin(a1)
             for j in stride(from: 1, to: vertices.count, by: 2) {
                 let v0 = vertices[j - 1], v1 = vertices[j]
-                if v0.position.x == 0 {
+                if abs(v0.position.x) < epsilon {
                     if abs(v1.position.x) >= epsilon {
                         // top triangle
                         let v0 = Vertex(
@@ -732,7 +732,7 @@ private extension Mesh {
                             material: material
                         ))
                     }
-                } else if v1.position.x == 0 {
+                } else if abs(v1.position.x) < epsilon {
                     // bottom triangle
                     let v1 = Vertex(
                         unchecked: v1.position,

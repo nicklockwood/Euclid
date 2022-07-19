@@ -501,7 +501,7 @@ internal extension Path {
             if p0.position.x > 0 {
                 if p0 == p1 {
                     points.remove(at: i)
-                } else if p1.position.x == 0 {
+                } else if abs(p1.position.x) < epsilon {
                     points.remove(at: i)
                 } else if p1.position.x > 0 {
                     points.remove(at: i)
