@@ -1,3 +1,17 @@
+## [0.5.26](https://github.com/nicklockwood/Euclid/releases/tag/0.5.26) (2022-07-24)
+
+- SceneKit meshes are now more reliably sealed at import time
+- Improved triangulation/tessellation of complex convex polygons
+- Fixed case where `loft` could produce a mesh with redundant back-face polygons
+- You can now create `Path`s with a single point (useful when lofting)
+- Fixed crash when lofting zero-scale path
+- Fixed assertion failure when scaling path by zero vector
+- Reduced false negatives when comparing `Plane` equality
+- Improved performance of uniform `Plane` scaling
+- Added `Sendable` conformance to all applicable types when building with Xcode 14
+- Converted unintended static `var` values to `let`
+- Fixed warnings in Xcode 14 beta
+
 ## [0.5.25](https://github.com/nicklockwood/Euclid/releases/tag/0.5.25) (2022-07-03)
 
 - Added `Mesh.submeshes` property
@@ -9,7 +23,7 @@
 
 - Fixed crash when extruding along collinear points
 - Fixed bug when lofting intermediate open paths
-- Improved makeWatertight() implementation
+- Improved `makeWatertight()` implementation
 - Improved vertex merging logic to only merge vertices that cause holes
 - Fixed bugs in triangulation logic that could introduce holes
 - Fixed case where mesh was incorrectly assumed to be watertight
@@ -61,7 +75,7 @@
 - Renamed `Mesh(text:)` constructor to `Mesh.text()`
 - Replaced broken `SCNNode`/`URL` Mesh initializers
 - Deprecated `Vector.quantized()` method
-- Fixed warnings on Xcode 13.3
+- Fixed warnings in Xcode 13.3
 
 ## [0.5.17](https://github.com/nicklockwood/Euclid/releases/tag/0.5.17) (2022-02-23)
 
