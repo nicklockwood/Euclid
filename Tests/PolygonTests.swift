@@ -619,6 +619,23 @@ class PolygonTests: XCTestCase {
         XCTAssertEqual(triangles.count, 3)
     }
 
+    func testPolygonWithCollinearPointsCorrectlyTriangulated3() throws {
+        var vertices = [
+            Vector(0.4912109375, -0.071044921875),
+            Vector(0.4248046875, 0.02783203125),
+            Vector(0.4248046875, 0.0869140625),
+            Vector(0.4248046875, 0.39599609375),
+        ]
+        for _ in 0 ..< vertices.count {
+            vertices.append(vertices.removeFirst())
+            let polygon = try XCTUnwrap(Polygon(vertices))
+            var triangles = polygon.triangulate()
+            XCTAssertEqual(triangles.count, 2)
+            triangles = polygon.inverted().triangulate()
+            XCTAssertEqual(triangles.count, 2)
+        }
+    }
+
     func testHouseShapedPolygonCorrectlyTriangulated() {
         let normal = -Vector.unitZ
         let epsilon = 1e-8
@@ -713,19 +730,19 @@ class PolygonTests: XCTestCase {
         let points = triangles.map { $0.vertices.map { $0.position } }
         XCTAssertEqual(points, [
             [
-                Vector(1.086, 0.0, 0.13999999999999999),
-                Vector(1.086, 0.0, 0.16999999999999998),
-                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
-            ],
-            [
-                Vector(0.95, offset, 0.13999999999999999),
-                Vector(1.086, 0.0, 0.13999999999999999),
-                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
-            ],
-            [
                 Vector(0.9349999999999999, 0.0, 0.16999999999999998),
                 Vector(0.9349999999999999, 0.0, 0.09999999999999999),
                 Vector(0.95, offset, 0.13999999999999999),
+            ],
+            [
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
+                Vector(0.95, offset, 0.13999999999999999),
+                Vector(1.086, 0.0, 0.13999999999999999),
+            ],
+            [
+                Vector(0.9349999999999999, 0.0, 0.16999999999999998),
+                Vector(1.086, 0.0, 0.13999999999999999),
+                Vector(1.086, 0.0, 0.16999999999999998),
             ],
         ])
         let merged = triangles.detessellate(ensureConvex: false)
@@ -762,6 +779,36 @@ class PolygonTests: XCTestCase {
         }
         let polygons = polygon.tessellate()
         XCTAssert(polygons.allSatisfy { $0.id == 5 })
+    }
+
+    func testComplexCharacterPathTriangulated() {
+        #if canImport(CoreText)
+        let font = CTFontCreateWithName("Courier" as CFString, 2, nil)
+        let paths = Path.text("p", font: font, width: nil, detail: 2)
+        for path in paths.flatMap({ $0.subpaths }) {
+            XCTAssertFalse(path.facePolygons().triangulate().isEmpty)
+        }
+        #endif
+    }
+
+    func testComplexCharacterPathTriangulated2() {
+        #if canImport(CoreText)
+        let font = CTFontCreateWithName("Courier" as CFString, 2, nil)
+        let paths = Path.text("n", font: font, width: nil, detail: 2)
+        for path in paths.flatMap({ $0.subpaths }) {
+            XCTAssertFalse(path.facePolygons().triangulate().isEmpty)
+        }
+        #endif
+    }
+
+    func testComplexCharacterPathTriangulated3() {
+        #if canImport(CoreText)
+        let font = CTFontCreateWithName("Times" as CFString, 2, nil)
+        let paths = Path.text("H", font: font, width: nil, detail: 2)
+        for path in paths.flatMap({ $0.subpaths }) {
+            XCTAssertFalse(path.facePolygons().triangulate().isEmpty)
+        }
+        #endif
     }
 
     // MARK: detessellation

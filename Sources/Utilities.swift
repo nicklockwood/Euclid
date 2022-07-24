@@ -83,7 +83,8 @@ func triangulateVertices(
     plane: Plane?,
     isConvex: Bool?,
     material: Mesh.Material?,
-    id: Int
+    id: Int,
+    flipped: Bool = false
 ) -> [Polygon] {
     guard vertices.count > 3 else {
         guard vertices.count > 2 else {
@@ -111,43 +112,10 @@ func triangulateVertices(
         ))
         return true
     }
-    let positions = vertices.map { $0.position }
-    let isConvex = isConvex ?? pointsAreConvex(positions)
-    if !isConvex {
-        // Note: this solves a problem when anticlockwise-ordered concave polygons
-        // would be incorrectly triangulated. However it's not clear why this is
-        // necessary, or if it will do the correct thing in all circumstances
-        let flatteningPlane = FlatteningPlane(
-            normal: plane?.normal ??
-                faceNormalForPolygonPoints(positions, convex: false)
-        )
-        let flattenedPoints = vertices.map { flatteningPlane.flattenPoint($0.position) }
-        let isClockwise = flattenedPointsAreClockwise(flattenedPoints)
-        if !isClockwise {
-            guard flattenedPointsAreClockwise(flattenedPoints.reversed()) else {
-                // Points are self-intersecting, or otherwise degenerate
-                return []
-            }
-            return triangulateVertices(
-                vertices.reversed().map { $0.inverted() },
-                plane: plane?.inverted(),
-                isConvex: isConvex,
-                material: material,
-                id: id
-            ).inverted()
-        }
-    }
     var start = 0, i = 0
     outer: while start < vertices.count {
         var attempts = 0
         var vertices = vertices
-        func removeVertex() {
-            attempts = 0
-            vertices.remove(at: i)
-            if i == vertices.count {
-                i = 0
-            }
-        }
         while vertices.count > 3 {
             let j = (i - 1 + vertices.count) % vertices.count
             let k = (i + 1) % vertices.count
@@ -167,16 +135,32 @@ func triangulateVertices(
                         continue outer
                     }
                 }
-            } else if addTriangle(triangle!.vertices) {
-                removeVertex()
+            } else {
+                triangles.append(triangle!.with(id: id))
+                attempts = 0
+                vertices.remove(at: i)
+                if i == vertices.count {
+                    i = 0
+                }
             }
         }
-        if addTriangle(vertices) {
+        // TODO: find better solution for when addTriangle fails
+        if vertices.count == 3, addTriangle(vertices) || flipped {
             break
         }
         triangles.removeAll()
         start += 1
         i = start
+    }
+    if !flipped, triangles.isEmpty {
+        return triangulateVertices(
+            vertices.reversed().map { $0.inverted() },
+            plane: plane?.inverted(),
+            isConvex: isConvex,
+            material: material,
+            id: id,
+            flipped: true
+        ).inverted()
     }
 //    assert(triangles.count == vertices.count - 2)
     return triangles
