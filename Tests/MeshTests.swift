@@ -175,4 +175,15 @@ class MeshTests: XCTestCase {
             LineSegment(Vector(0, -0.5, 0), Vector(0, 0.5, 0)),
         ])
     }
+
+    // MARK: submeshes
+
+    func testSubmeshes() {
+        let sphere = Mesh.sphere()
+        let cube = Mesh.cube(size: 0.8)
+        let mesh = sphere.merge(cube)
+        XCTAssertEqual(mesh.submeshes.count, 2)
+        XCTAssertEqual(mesh.submeshes.first, sphere)
+        XCTAssertEqual(Set(mesh.submeshes.last?.polygons ?? []), Set(cube.polygons))
+    }
 }

@@ -555,23 +555,30 @@ internal extension Collection where Element == Polygon {
 
     /// Group by touching vertices
     func groupedBySubmesh() -> [[Polygon]] {
-        var unsorted = Array(self)
-        var meshes = [[Polygon]]()
-        while let p = unsorted.popLast() {
-            var mesh = [p], temp = [Polygon]()
-            var vertices = Set(p.vertices.map { $0.position })
-            while let p = unsorted.popLast() {
-                if p.vertices.contains(where: { vertices.contains($0.position) }) {
-                    vertices.formUnion(p.vertices.map { $0.position })
-                    mesh.append(p)
-                } else {
-                    temp.append(p)
+        var submeshes = [[Polygon]]()
+        var points = [Set<Vector>]()
+        for poly in self {
+            let positions = Set(poly.vertices.map { $0.position })
+            var lastMatch: Int?
+            for i in points.indices.reversed() {
+                if !points[i].isDisjoint(with: positions) {
+                    submeshes[i].append(poly)
+                    points[i].formUnion(positions)
+                    if let j = lastMatch {
+                        for p in submeshes.remove(at: j) where !submeshes[i].contains(p) {
+                            submeshes[i].append(p)
+                        }
+                        points[i].formUnion(points.remove(at: j))
+                    }
+                    lastMatch = i
                 }
             }
-            unsorted = temp
-            meshes.append(mesh)
+            if lastMatch == nil {
+                submeshes.append([poly])
+                points.append(positions)
+            }
         }
-        return meshes
+        return submeshes
     }
 }
 
