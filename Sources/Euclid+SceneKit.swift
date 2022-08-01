@@ -653,8 +653,18 @@ public extension Mesh {
                         vertices.append(vertex(at: index))
                         index += 1
                     }
-                    Polygon(vertices, material: material).map {
-                        polygons.append($0)
+                    if let polygon = Polygon(vertices, material: material) {
+                        polygons.append(polygon)
+                    } else {
+                        for triangle in triangulateVertices(
+                            vertices,
+                            plane: nil,
+                            isConvex: nil,
+                            material: material,
+                            id: 0
+                        ) {
+                            polygons.append(triangle)
+                        }
                     }
                 }
             default:
