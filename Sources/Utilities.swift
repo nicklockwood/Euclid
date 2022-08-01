@@ -120,7 +120,7 @@ func triangulateVertices(
             let j = (i - 1 + vertices.count) % vertices.count
             let k = (i + 1) % vertices.count
             let p0 = vertices[j], p1 = vertices[i], p2 = vertices[k]
-            let triangle = Polygon([p0, p1, p2])
+            let triangle = Polygon([p0, p1, p2], material: material)
             if triangle == nil || vertices.enumerated().contains(where: { index, v in
                 ![i, j, k].contains(index) && triangle!.containsPoint(v.position)
             }) || plane.map({ triangle!.plane.normal.dot($0.normal) <= 0 }) ?? false {
