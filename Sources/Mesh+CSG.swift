@@ -92,7 +92,7 @@ public extension Mesh {
     /// - Returns: a new mesh representing the union of the input meshes.
     static func union(
         _ meshes: [Mesh],
-        isCancelled: @escaping CancellationHandler = { false }
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         multimerge(meshes, using: { $0.union($1, isCancelled: $2) }, isCancelled)
     }
@@ -144,7 +144,7 @@ public extension Mesh {
     /// - Returns: a new mesh representing the difference between the meshes.
     static func difference(
         _ meshes: [Mesh],
-        isCancelled: @escaping CancellationHandler = { false }
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         reduce(meshes, using: { $0.subtract($1, isCancelled: $2) }, isCancelled)
     }
@@ -194,7 +194,7 @@ public extension Mesh {
     /// - Returns: a new mesh representing the XOR of the meshes.
     static func xor(
         _ meshes: [Mesh],
-        isCancelled: @escaping CancellationHandler = { false }
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         multimerge(meshes, using: { $0.xor($1, isCancelled: $2) }, isCancelled)
     }
@@ -249,7 +249,7 @@ public extension Mesh {
     /// - Returns: a new mesh representing the intersection of the meshes.
     static func intersection(
         _ meshes: [Mesh],
-        isCancelled: @escaping CancellationHandler = { false }
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         reduce(meshes, using: { $0.intersect($1, isCancelled: $2) }, isCancelled)
     }
@@ -298,7 +298,7 @@ public extension Mesh {
     /// - Returns: a new mesh representing the result of stencilling.
     static func stencil(
         _ meshes: [Mesh],
-        isCancelled: @escaping CancellationHandler = { false }
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         reduce(meshes, using: { $0.stencil($1, isCancelled: $2) }, isCancelled)
     }
@@ -397,7 +397,7 @@ private extension Mesh {
     static func multimerge(
         _ meshes: [Mesh],
         using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
-        _ isCancelled: @escaping CancellationHandler
+        _ isCancelled: CancellationHandler
     ) -> Mesh {
         var meshes = meshes
         var i = 0
@@ -412,7 +412,7 @@ private extension Mesh {
     static func reduce(
         _ meshes: [Mesh],
         using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
-        _ isCancelled: @escaping CancellationHandler
+        _ isCancelled: CancellationHandler
     ) -> Mesh {
         var meshes = meshes
         return reduce(&meshes, at: 0, using: fn, isCancelled)
@@ -422,14 +422,16 @@ private extension Mesh {
         _ meshes: inout [Mesh],
         at i: Int,
         using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
-        _ isCancelled: @escaping CancellationHandler
+        _ isCancelled: CancellationHandler
     ) -> Mesh {
         var m = meshes[i]
         var j = i + 1
         while j < meshes.count {
             let n = meshes[j]
             if m.bounds.intersects(n.bounds) {
-                m = fn(m, n, isCancelled)
+                withoutActuallyEscaping(isCancelled) { isCancelled in
+                    m = fn(m, n, isCancelled)
+                }
                 meshes[i] = m
                 meshes.remove(at: j)
                 j = i
