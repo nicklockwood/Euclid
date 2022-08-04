@@ -537,4 +537,11 @@ internal extension Path {
             subpathIndices: nil
         )
     }
+
+    /// Approximate equality
+    func isEqual(to other: Path, withPrecision p: Double = epsilon) -> Bool {
+        points.count == other.points.count && zip(points, other.points).allSatisfy {
+            $0.isEqual(to: $1, withPrecision: p)
+        }
+    }
 }

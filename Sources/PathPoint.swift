@@ -298,4 +298,11 @@ internal extension PathPoint {
         point.color = color
         return point
     }
+
+    /// Approximate equality
+    func isEqual(to other: PathPoint, withPrecision p: Double = epsilon) -> Bool {
+        isCurved == other.isCurved &&
+            position.isEqual(to: other.position, withPrecision: p) &&
+            texcoord == other.texcoord && color == other.color
+    }
 }
