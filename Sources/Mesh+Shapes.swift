@@ -369,6 +369,37 @@ public extension Mesh {
         )
     }
 
+    /// Efficiently extrudes an array of paths along their respective face normals, avoiding duplicate work.
+    /// - Parameters:
+    ///   - shapes: The array of paths to extrude in order to create the mesh.
+    ///   - depth: The depth of the extrusion.
+    ///   - faces: The direction of the generated polygon faces.
+    ///   - material: The optional material for the mesh.
+    static func extrude(
+        _ shapes: [Path],
+        depth: Double = 1,
+        faces: Faces = .default,
+        material: Material? = nil
+    ) -> Mesh {
+        var cache = [Path: Mesh]()
+        return .union(shapes.map {
+            let (p, offset) = $0.withNormalizedPosition()
+            guard let mesh = cache.first(where: { path, _ in
+                p.isEqual(to: path, withPrecision: epsilon)
+            })?.value else {
+                let mesh = extrude(
+                    p,
+                    depth: depth,
+                    faces: faces,
+                    material: material
+                )
+                cache[p] = mesh
+                return mesh.translated(by: offset)
+            }
+            return mesh.translated(by: offset)
+        })
+    }
+
     /// Creates a mesh by extruding one path along another path.
     /// - Parameters:
     ///   - shape: The shape to extrude into a mesh.
@@ -524,6 +555,30 @@ public extension Mesh {
                 submeshes: []
             )
         }
+    }
+
+    /// Efficiently fills an array of paths, avoiding unecessary work if there are duplicates.
+    /// - Parameters:
+    ///   - shapes: The array of paths to be filled.
+    ///   - faces: The direction the polygon faces.
+    ///   - material: The optional material for the mesh.
+    static func fill(
+        _ shapes: [Path],
+        faces: Faces = .default,
+        material: Material? = nil
+    ) -> Mesh {
+        var cache = [Path: Mesh]()
+        return .union(shapes.map {
+            let (p, offset) = $0.withNormalizedPosition()
+            guard let mesh = cache.first(where: { path, _ in
+                p.isEqual(to: path, withPrecision: epsilon)
+            })?.value else {
+                let mesh = fill(p, faces: faces, material: material)
+                cache[p] = mesh
+                return mesh.translated(by: offset)
+            }
+            return mesh.translated(by: offset)
+        })
     }
 
     /// Stroke a path with the specified line width, depth and material

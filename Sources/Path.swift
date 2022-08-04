@@ -544,4 +544,12 @@ internal extension Path {
             $0.isEqual(to: $1, withPrecision: p)
         }
     }
+
+    // Returns the path with its first point recentered on the origin
+    func withNormalizedPosition() -> (Path, Vector) {
+        guard let offset = points.first?.position, offset != .zero else {
+            return (self, .zero)
+        }
+        return (translated(by: -offset), offset)
+    }
 }
