@@ -40,7 +40,7 @@ public extension Path {
         .line(line.start, line.end, color: color)
     }
 
-    /// Create a linear path from a start and end point.
+    /// Creates a linear path from a start and end point.
     /// - Parameters:
     ///   - start: The starting point of the line.
     ///   - end: The ending point of the line.

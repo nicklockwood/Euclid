@@ -935,12 +935,6 @@ internal extension Polygon {
         assertionFailure()
     }
 
-    func hasVerticesInCommon(with p: Polygon) -> Bool {
-        p.vertices.contains(where: { v in
-            vertices.contains(where: { $0.position == v.position })
-        })
-    }
-
     mutating func insertEdgePoint(_ p: Vector) -> Bool {
         guard var last = vertices.last else {
             assertionFailure()

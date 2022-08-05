@@ -96,7 +96,7 @@ public extension Mesh {
         )
     }
 
-    /// Create an extruded text model from an attributed string
+    /// Creates an extruded text model from an attributed string
     /// - Parameters:
     ///   - text: The text to convert into a model
     ///   - width: The optional width at which to line-wrap the text.

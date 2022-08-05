@@ -669,6 +669,7 @@ public extension Mesh {
                 }
             default:
                 // TODO: throw detailed error message instead
+                print("Unsupported SCNGeometryPrimitiveType: \(element.primitiveType.rawValue)")
                 return nil
             }
         }

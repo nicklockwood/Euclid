@@ -47,12 +47,15 @@
 ### Creating Meshes from Paths
 
 - ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:)``
-- ``Mesh/extrude(_:along:faces:material:)``
+- ``Mesh/extrude(_:along:faces:material:isCancelled:)``
 - ``Mesh/extrude(_:depth:faces:material:)``
+- ``Mesh/extrude(_:depth:faces:material:isCancelled:)``
 - ``Mesh/fill(_:faces:material:)``
-- ``Mesh/loft(_:faces:material:)``
-- ``Mesh/stroke(_:width:detail:material:)-9mb5w``
-- ``Mesh/stroke(_:width:detail:material:)-uzi1``
+- ``Mesh/fill(_:faces:material:)``
+- ``Mesh/loft(_:faces:material:isCancelled:)``
+- ``Mesh/stroke(_:width:detail:material:)``
+- ``Mesh/stroke(_:width:detail:material:isCancelled:)-85o14``
+- ``Mesh/stroke(_:width:detail:material:isCancelled:)-9mn9o``
 
 ### Creating Meshes from Text
 
@@ -81,6 +84,7 @@
 
 - ``Mesh/split(along:)``
 - ``Mesh/edges(intersecting:)``
+- ``Mesh/submeshes``
 
 ### Adjusting Mesh Topology
 

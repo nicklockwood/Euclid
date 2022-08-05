@@ -1,3 +1,14 @@
+## [0.5.27](https://github.com/nicklockwood/Euclid/releases/tag/0.5.27) (2022-08-06)
+ 
+- Added efficient methods for filling, extruding and stroking multiple paths
+- Imported meshes that contain non-planar polygons are now tessellated instead of having holes
+- Improved logic for removing hairline cracks in imported meshes
+- Fixed bug where material could be lost when triangulating/tessellating polygons
+- Fixed bug where `Mesh.submeshes` returned too many submeshes
+- Fixed retain cycle in `Mesh.submeshes`
+- Submeshes are now cached for faster access
+- All cancellation callbacks are now non-escaping
+
 ## [0.5.26](https://github.com/nicklockwood/Euclid/releases/tag/0.5.26) (2022-07-24)
 
 - SceneKit meshes are now more reliably sealed at import time

@@ -96,7 +96,7 @@ public extension Mesh {
         _ meshes: [Mesh],
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        multimerge(meshes, using: { $0.union($1, isCancelled: $2) }, isCancelled)
+        merge(meshes, using: { $0.union($1, isCancelled: $2) }, isCancelled)
     }
 
     /// Returns a new mesh created by subtracting the volume of the
@@ -200,7 +200,7 @@ public extension Mesh {
         _ meshes: [Mesh],
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        multimerge(meshes, using: { $0.xor($1, isCancelled: $2) }, isCancelled)
+        merge(meshes, using: { $0.xor($1, isCancelled: $2) }, isCancelled)
     }
 
     /// Returns a new mesh representing the volume shared by both the mesh
@@ -402,7 +402,7 @@ private func boundsTest(
 
 private extension Mesh {
     // Merge all the meshes into a single mesh using fn
-    static func multimerge(
+    static func merge(
         _ meshes: [Mesh],
         using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
         _ isCancelled: CancellationHandler

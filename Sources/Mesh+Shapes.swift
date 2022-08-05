@@ -481,7 +481,7 @@ public extension Mesh {
         return loft(shapes, faces: faces, material: material)
     }
 
-    /// Creates a mesh by connecting a series of 3D paths representing the cross sections
+    /// Creates a mesh by connecting a series of 3D paths representing the cross sections.
     /// - Parameters:
     ///   - shapes: The paths to connect.
     ///   - faces: The direction of the generated polygon faces.
@@ -561,7 +561,7 @@ public extension Mesh {
         }, isCancelled: isCancelled), isCancelled: isCancelled)
     }
 
-    /// Stroke a path with the specified line width, depth and material
+    /// Strokes a path with the specified line width, depth and material
     @available(*, deprecated, message: "Use `stroke(width:detail:)` instead")
     static func stroke(
         _ shape: Path,
@@ -631,7 +631,7 @@ public extension Mesh {
         )
     }
 
-    /// Efficiently strokes a set of line segments (useful for drawing wireframes)
+    /// Efficiently strokes a collection of line segments (useful for drawing wireframes).
     /// - Parameters:
     ///   - lines: A collection of ``LineSegment`` to stroke.
     ///   - width: The line width of the strokes.
