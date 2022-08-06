@@ -186,4 +186,15 @@ class MeshTests: XCTestCase {
         XCTAssertEqual(mesh.submeshes.first, sphere)
         XCTAssertEqual(Set(mesh.submeshes.last?.polygons ?? []), Set(cube.polygons))
     }
+
+    func testSubmeshesDontCreateCircularReference() {
+        weak var material: AnyObject?
+        do {
+            let temp = NSObject()
+            material = temp
+            let mesh = Mesh.sphere(material: temp)
+            XCTAssertEqual(mesh.submeshes, [mesh])
+        }
+        XCTAssertNil(material)
+    }
 }

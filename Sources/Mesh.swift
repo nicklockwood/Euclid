@@ -427,17 +427,19 @@ private extension Mesh {
         var submeshes: [Mesh] {
             if submeshesIfSet == nil {
                 if isConvex {
-                    submeshesIfSet = [Mesh(storage: self)]
+                    submeshesIfSet = []
                 } else {
                     let groups = polygons.groupedBySubmesh()
                     if groups.count == 1 {
-                        submeshesIfSet = [Mesh(storage: self)]
+                        submeshesIfSet = []
                     } else {
                         submeshesIfSet = groups.map(Mesh.init)
                     }
                 }
             }
-            return submeshesIfSet!
+            return submeshesIfSet.map {
+                $0.isEmpty ? [Mesh(storage: self)] : $0
+            } ?? []
         }
 
         static func == (lhs: Storage, rhs: Storage) -> Bool {
