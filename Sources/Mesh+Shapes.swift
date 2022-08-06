@@ -588,7 +588,8 @@ public extension Mesh {
         _ shape: Path,
         width: Double = 0.01,
         detail: Int = 2,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         let path: Path
         let radius = width / 2
@@ -599,7 +600,35 @@ public extension Mesh {
             path = .circle(radius: radius, segments: sides)
         }
         let faces: Faces = detail == 2 ? .frontAndBack : .front
-        return extrude(path, along: shape, faces: faces, material: material)
+        return extrude(
+            path,
+            along: shape,
+            faces: faces,
+            material: material,
+            isCancelled: isCancelled
+        )
+    }
+
+    /// Efficiently strokes an array of paths, avoiding duplicate work.
+    /// - Parameters:
+    ///   - shapes: The paths to stroke.
+    ///   - width: The line width of the stroke.
+    ///   - detail: The number of sides to use for the cross-sectional shape of each stroked mesh.
+    ///   - material: The optional material for the mesh.
+    static func stroke(
+        _ shapes: [Path],
+        width: Double = 0.01,
+        detail: Int = 2,
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        stroke(
+            Path(subpaths: shapes),
+            width: width,
+            detail: detail,
+            material: material,
+            isCancelled: isCancelled
+        )
     }
 
     /// Efficiently strokes a set of line segments (useful for drawing wireframes)
