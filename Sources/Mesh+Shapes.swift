@@ -379,25 +379,12 @@ public extension Mesh {
         _ shapes: [Path],
         depth: Double = 1,
         faces: Faces = .default,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        var cache = [Path: Mesh]()
-        return .union(shapes.map {
-            let (p, offset) = $0.withNormalizedPosition()
-            guard let mesh = cache.first(where: { path, _ in
-                p.isEqual(to: path, withPrecision: epsilon)
-            })?.value else {
-                let mesh = extrude(
-                    p,
-                    depth: depth,
-                    faces: faces,
-                    material: material
-                )
-                cache[p] = mesh
-                return mesh.translated(by: offset)
-            }
-            return mesh.translated(by: offset)
-        })
+        .union(build(shapes, using: {
+            extrude($0, depth: depth, faces: faces, material: material)
+        }, isCancelled: isCancelled), isCancelled: isCancelled)
     }
 
     /// Creates a mesh by extruding one path along another path.
@@ -410,18 +397,19 @@ public extension Mesh {
         _ shape: Path,
         along: Path,
         faces: Faces = .default,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         let subpaths = along.subpaths
         guard subpaths.count == 1 else {
-            return .merge(subpaths.map {
+            return .merge(build(subpaths, using: {
                 extrude(
                     shape,
                     along: $0,
                     faces: faces,
                     material: material
                 )
-            })
+            }, isCancelled: isCancelled))
         }
         let points = along.points
         guard var p0 = points.first else {
@@ -565,20 +553,12 @@ public extension Mesh {
     static func fill(
         _ shapes: [Path],
         faces: Faces = .default,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        var cache = [Path: Mesh]()
-        return .union(shapes.map {
-            let (p, offset) = $0.withNormalizedPosition()
-            guard let mesh = cache.first(where: { path, _ in
-                p.isEqual(to: path, withPrecision: epsilon)
-            })?.value else {
-                let mesh = fill(p, faces: faces, material: material)
-                cache[p] = mesh
-                return mesh.translated(by: offset)
-            }
-            return mesh.translated(by: offset)
-        })
+        .union(build(shapes, using: {
+            fill($0, faces: faces, material: material)
+        }, isCancelled: isCancelled), isCancelled: isCancelled)
     }
 
     /// Stroke a path with the specified line width, depth and material
@@ -1183,5 +1163,31 @@ private extension Mesh {
                 prev = ai + 2
             }
         }
+    }
+
+    static func build(
+        _ shapes: [Path],
+        using fn: (Path) -> Mesh,
+        isCancelled: CancellationHandler = { false }
+    ) -> [Mesh] {
+        var cache = [Path: Mesh]()
+        var meshes = [Mesh]()
+        meshes.reserveCapacity(shapes.count)
+        for path in shapes {
+            if isCancelled() {
+                break
+            }
+            let (p, offset) = path.withNormalizedPosition()
+            if let mesh = cache.first(where: { q, _ in
+                p.isEqual(to: q, withPrecision: epsilon)
+            })?.value {
+                meshes.append(mesh.translated(by: offset))
+            } else {
+                let mesh = fn(p)
+                cache[p] = mesh
+                meshes.append(mesh.translated(by: offset))
+            }
+        }
+        return meshes
     }
 }
