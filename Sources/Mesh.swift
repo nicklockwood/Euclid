@@ -426,16 +426,8 @@ private extension Mesh {
         private var submeshesIfSet: [Mesh]?
         var submeshes: [Mesh] {
             if submeshesIfSet == nil {
-                if isConvex {
-                    submeshesIfSet = []
-                } else {
-                    let groups = polygons.groupedBySubmesh()
-                    if groups.count == 1 {
-                        submeshesIfSet = []
-                    } else {
-                        submeshesIfSet = groups.map(Mesh.init)
-                    }
-                }
+                let groups = isConvex ? [] : polygons.groupedBySubmesh()
+                submeshesIfSet = groups.count <= 1 ? [] : groups.map(Mesh.init)
             }
             return submeshesIfSet.map {
                 $0.isEmpty ? [Mesh(storage: self)] : $0
@@ -457,10 +449,12 @@ private extension Mesh {
             isWatertight: Bool?
         ) {
             assert(isWatertight == nil || isWatertight == polygons.areWatertight)
+            assert(!isConvex || polygons.groupedBySubmesh().count <= 1)
             self.polygons = polygons
             self.boundsIfSet = polygons.isEmpty ? .empty : bounds
             self.isConvex = isConvex || polygons.isEmpty
             self.watertightIfSet = polygons.isEmpty ? true : isWatertight
+            self.submeshesIfSet = isConvex ? [] : nil
         }
     }
 }
