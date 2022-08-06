@@ -130,7 +130,8 @@ public extension Mesh {
             unchecked: polygons.translated(by: v),
             bounds: boundsIfSet?.translated(by: v),
             isConvex: isKnownConvex,
-            isWatertight: watertightIfSet
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
         )
     }
 
@@ -142,7 +143,8 @@ public extension Mesh {
             unchecked: polygons.rotated(by: r),
             bounds: nil,
             isConvex: isKnownConvex,
-            isWatertight: watertightIfSet
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
         )
     }
 
@@ -153,7 +155,8 @@ public extension Mesh {
             unchecked: polygons.rotated(by: q),
             bounds: nil,
             isConvex: isKnownConvex,
-            isWatertight: watertightIfSet
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
         )
     }
 
@@ -168,7 +171,8 @@ public extension Mesh {
             unchecked: polygons.scaled(by: v),
             bounds: boundsIfSet?.scaled(by: v),
             isConvex: isKnownConvex && v.x > 0 && v.y > 0 && v.y > 0,
-            isWatertight: watertightIfSet
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
         )
     }
 
@@ -179,7 +183,8 @@ public extension Mesh {
             unchecked: polygons.scaled(by: f),
             bounds: boundsIfSet?.scaled(by: f),
             isConvex: isKnownConvex && f > 0,
-            isWatertight: watertightIfSet
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
         )
     }
 
@@ -189,7 +194,8 @@ public extension Mesh {
             unchecked: polygons.scaleCorrected(for: v),
             bounds: boundsIfSet,
             isConvex: isKnownConvex,
-            isWatertight: watertightIfSet
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
         )
     }
 
@@ -202,7 +208,8 @@ public extension Mesh {
                 t.rotation == .identity ? $0.transformed(by: t) : nil
             },
             isConvex: isKnownConvex,
-            isWatertight: watertightIfSet
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
         )
     }
 }

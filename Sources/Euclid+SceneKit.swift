@@ -674,6 +674,7 @@ public extension Mesh {
         }
         let isKnownConvex: Bool
         let isWatertight: Bool?
+        let noSubmeshes: Bool
         switch scnGeometry {
         case is SCNPlane,
              is SCNBox,
@@ -684,15 +685,21 @@ public extension Mesh {
              is SCNCapsule:
             isKnownConvex = true
             isWatertight = true
+            noSubmeshes = true
         case is SCNTube,
-             is SCNTorus,
-             is SCNText,
+             is SCNTorus:
+            isKnownConvex = false
+            isWatertight = true
+            noSubmeshes = true
+        case is SCNText,
              is SCNShape:
             isKnownConvex = false
             isWatertight = true
+            noSubmeshes = false
         default:
             isKnownConvex = false
             isWatertight = nil
+            noSubmeshes = false
         }
         let bounds = Bounds(scnGeometry.boundingBox)
         let holeEdges = polygons.holeEdges
@@ -703,7 +710,8 @@ public extension Mesh {
             unchecked: polygons,
             bounds: bounds,
             isConvex: isKnownConvex,
-            isWatertight: isWatertight
+            isWatertight: isWatertight,
+            submeshes: noSubmeshes ? [] : nil
         )
     }
 

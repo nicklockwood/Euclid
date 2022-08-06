@@ -140,21 +140,24 @@ public extension Mesh {
                 unchecked: polygons,
                 bounds: bounds,
                 isConvex: true,
-                isWatertight: true
+                isWatertight: true,
+                submeshes: []
             )
         case .back:
             return Mesh(
                 unchecked: polygons.inverted(),
                 bounds: bounds,
                 isConvex: false,
-                isWatertight: true
+                isWatertight: true,
+                submeshes: []
             )
         case .frontAndBack:
             return Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: bounds,
                 isConvex: false,
-                isWatertight: true
+                isWatertight: true,
+                submeshes: []
             )
         }
     }
@@ -501,21 +504,24 @@ public extension Mesh {
                 unchecked: polygons,
                 bounds: nil,
                 isConvex: false,
-                isWatertight: false
+                isWatertight: false,
+                submeshes: []
             )
         case .back:
             return Mesh(
                 unchecked: polygons.map { $0.inverted() },
                 bounds: nil,
                 isConvex: false,
-                isWatertight: false
+                isWatertight: false,
+                submeshes: []
             )
         case .frontAndBack, .default:
             return Mesh(
                 unchecked: polygons + polygons.map { $0.inverted() },
                 bounds: nil,
                 isConvex: polygons.count == 1 && polygons[0].isConvex,
-                isWatertight: true
+                isWatertight: true,
+                submeshes: []
             )
         }
     }
@@ -603,7 +609,8 @@ public extension Mesh {
             unchecked: polygons,
             bounds: bounds,
             isConvex: false,
-            isWatertight: nil
+            isWatertight: nil,
+            submeshes: nil
         )
     }
 }
@@ -814,21 +821,24 @@ private extension Mesh {
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
                 isConvex: isConvex,
-                isWatertight: isWatertight
+                isWatertight: isWatertight,
+                submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .back:
             return Mesh(
                 unchecked: polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
                 isConvex: false,
-                isWatertight: isWatertight
+                isWatertight: isWatertight,
+                submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .frontAndBack:
             return Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
                 isConvex: false,
-                isWatertight: isWatertight
+                isWatertight: isWatertight,
+                submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .default:
             // seal loose ends
@@ -843,7 +853,8 @@ private extension Mesh {
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
                 isConvex: false,
-                isWatertight: isWatertight
+                isWatertight: isWatertight,
+                submeshes: nil // TODO: Can we calculate this efficiently?
             )
         }
     }
@@ -948,21 +959,24 @@ private extension Mesh {
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
                 isConvex: isConvex,
-                isWatertight: isWatertight
+                isWatertight: isWatertight,
+                submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .back:
             return Mesh(
                 unchecked: polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
                 isConvex: false,
-                isWatertight: isWatertight
+                isWatertight: isWatertight,
+                submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .frontAndBack, .default:
             return Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
                 isConvex: false,
-                isWatertight: isWatertight ? true : nil
+                isWatertight: isWatertight ? true : nil,
+                submeshes: nil // TODO: Can we calculate this efficiently?
             )
         }
     }
