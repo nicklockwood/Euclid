@@ -701,14 +701,19 @@ public extension Mesh {
             isWatertight = nil
             noSubmeshes = false
         }
-        let bounds = Bounds(scnGeometry.boundingBox)
         let holeEdges = polygons.holeEdges
-        let maxLength = (holeEdges.map { $0.length }.min() ?? 0) / 2
-        let distance = max(min(holeEdges.separationDistance, maxLength), 1e-6)
-        polygons = polygons.mergingVertices(withPrecision: distance)
+        if !holeEdges.isEmpty {
+            let holePoints = holeEdges.reduce(into: Set<Vector>()) {
+                $0.insert($1.start)
+                $0.insert($1.end)
+            }
+            let maxLength = holeEdges.map { $0.length }.min() ?? 0
+            let distance = max(min(holeEdges.separationDistance, maxLength), epsilon)
+            polygons = polygons.mergingVertices(holePoints, withPrecision: distance)
+        }
         self.init(
             unchecked: polygons,
-            bounds: bounds,
+            bounds: Bounds(scnGeometry.boundingBox),
             isConvex: isKnownConvex,
             isWatertight: isWatertight,
             submeshes: noSubmeshes ? [] : nil
