@@ -40,6 +40,7 @@
 
 ### Creating Meshes from Paths
 
+- ``Mesh/convexHull(of:material:)-4hvi3``
 - ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:)``
 - ``Mesh/extrude(_:along:faces:material:isCancelled:)``
 - ``Mesh/extrude(_:depth:faces:material:)``
@@ -51,11 +52,12 @@
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-85o14``
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-9mn9o``
 
-### Creating Meshes from Vertices or LineSegments
+### Creating Meshes from Vertices, Points or LineSegments
 
 - ``Mesh/convexHull(of:material:)-6176``
 - ``Mesh/convexHull(of:material:)-75on2``
 - ``Mesh/convexHull(of:material:)-91swk``
+- ``Mesh/convexHull(of:material:)-5ztum``
 
 ### Creating Meshes from Text
 
