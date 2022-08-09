@@ -54,17 +54,15 @@ public extension Mesh {
     /// - Returns: a new mesh representing the union of the input meshes.
     func union(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
-        guard !intersection.isEmpty else {
-            // This is basically just a merge.
-            // The slightly weird logic is to replicate the boundsTest behavior.
-            // It's not clear why this matters, but it breaks certain projects.
-            let polys = polygons.reversed() + Array(mesh.polygons.reversed())
+        if intersection.isEmpty {
             return Mesh(
-                unchecked: polys,
+                unchecked: polygons + mesh.polygons,
                 bounds: bounds.union(mesh.bounds),
                 isConvex: false,
-                isWatertight: nil,
-                submeshes: nil // TODO: can this be preserved?
+                isWatertight: watertightIfSet.flatMap { isWatertight in
+                    mesh.watertightIfSet.map { $0 && isWatertight }
+                },
+                submeshes: [self, mesh]
             )
         }
         var out: [Polygon]? = []
