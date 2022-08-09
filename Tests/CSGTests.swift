@@ -66,6 +66,15 @@ class CSGTests: XCTestCase {
         XCTAssertEqual(c, .difference([a, b]))
     }
 
+    func testDifferenceOfOne() {
+        let mesh = Mesh.cube()
+        XCTAssertEqual(mesh, .difference([mesh]))
+    }
+
+    func testDifferenceOfNone() {
+        XCTAssertEqual(Mesh.empty, .difference([]))
+    }
+
     // MARK: XOR
 
     func testXorCoincidingCubes() {
@@ -114,6 +123,15 @@ class CSGTests: XCTestCase {
         XCTAssertEqual(c, .xor([a, b]))
     }
 
+    func testXorOfOne() {
+        let mesh = Mesh.cube()
+        XCTAssertEqual(mesh, .xor([mesh]))
+    }
+
+    func testXorOfNone() {
+        XCTAssertEqual(Mesh.empty, .xor([]))
+    }
+
     // MARK: Union
 
     func testUnionOfCoincidingBoxes() {
@@ -160,6 +178,15 @@ class CSGTests: XCTestCase {
         XCTAssertEqual(c.polygons.count, 237)
         #endif
         XCTAssertEqual(c, .union([a, b]))
+    }
+
+    func testUnionOfOne() {
+        let mesh = Mesh.cube()
+        XCTAssertEqual(mesh, .union([mesh]))
+    }
+
+    func testUnionOfNone() {
+        XCTAssertEqual(Mesh.empty, .union([]))
     }
 
     // MARK: Intersection
@@ -217,6 +244,15 @@ class CSGTests: XCTestCase {
         let c = a.intersect(b)
         XCTAssertEqual(c.polygons.count, 86)
         XCTAssertEqual(c, .intersection([a, b]))
+    }
+
+    func testIntersectonOfOne() {
+        let mesh = Mesh.cube()
+        XCTAssertEqual(mesh, .intersection([mesh]))
+    }
+
+    func testIntersectionOfNone() {
+        XCTAssertEqual(Mesh.empty, .intersection([]))
     }
 
     // MARK: Planar subtraction

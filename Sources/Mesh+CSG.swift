@@ -428,7 +428,7 @@ private extension Mesh {
         _ isCancelled: CancellationHandler
     ) -> Mesh {
         var meshes = meshes
-        return reduce(&meshes, at: 0, using: fn, isCancelled)
+        return meshes.isEmpty ? .empty : reduce(&meshes, at: 0, using: fn, isCancelled)
     }
 
     static func reduce(
