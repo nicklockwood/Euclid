@@ -382,6 +382,15 @@ public extension Mesh {
         }
         return true
     }
+
+    /// Applies a uniform inset to the faces of the mesh.
+    /// - Parameter distance: The distance by which to inset the polygon faces.
+    /// - Returns: A copy of the mesh, inset by the specified distance.
+    ///
+    /// > Note: Passing a negative `distance` will expand the mesh instead of shrinking it.
+    func inset(by distance: Double) -> Mesh {
+        Mesh(polygons.insetFaces(by: distance))
+    }
 }
 
 extension Mesh {
