@@ -17,6 +17,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube()
         let c = a.subtract(b)
         XCTAssert(c.polygons.isEmpty)
+        XCTAssertEqual(c, .difference([a, b]))
     }
 
     func testSubtractCoincidingBoxesWhenTriangulated() {
@@ -24,6 +25,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube().triangulate()
         let c = a.subtract(b)
         XCTAssert(c.polygons.isEmpty)
+        XCTAssertEqual(c, .difference([a, b]))
     }
 
     func testSubtractAdjacentBoxes() {
@@ -31,6 +33,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube().translated(by: .unitX)
         let c = a.subtract(b)
         XCTAssertEqual(c.bounds, a.bounds)
+        XCTAssertEqual(c, .difference([a, b]))
     }
 
     func testSubtractOverlappingBoxes() {
@@ -41,6 +44,7 @@ class CSGTests: XCTestCase {
             min: Vector(-0.5, -0.5, -0.5),
             max: Vector(0, 0.5, 0.5)
         ))
+        XCTAssertEqual(c, .difference([a, b]))
     }
 
     func testSubtractEmptyMesh() {
@@ -48,6 +52,8 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube()
         XCTAssertEqual(a.subtract(b), a)
         XCTAssertEqual(b.subtract(a), b)
+        XCTAssertEqual(a.subtract(b), .difference([a, b]))
+        XCTAssertEqual(b.subtract(a), .difference([b, a]))
     }
 
     func testSubtractIsDeterministic() {
@@ -57,6 +63,7 @@ class CSGTests: XCTestCase {
         #if !arch(wasm32)
         XCTAssertEqual(c.polygons.count, 189)
         #endif
+        XCTAssertEqual(c, .difference([a, b]))
     }
 
     // MARK: XOR
@@ -66,6 +73,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube()
         let c = a.xor(b)
         XCTAssert(c.polygons.isEmpty)
+        XCTAssertEqual(c, .xor([a, b]))
     }
 
     func testXorAdjacentCubes() {
@@ -73,6 +81,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube().translated(by: .unitX)
         let c = a.xor(b)
         XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
+        XCTAssertEqual(c, .xor([a, b]))
     }
 
     func testXorOverlappingCubes() {
@@ -83,6 +92,7 @@ class CSGTests: XCTestCase {
             min: Vector(-0.5, -0.5, -0.5),
             max: Vector(1.0, 0.5, 0.5)
         ))
+        XCTAssertEqual(c, .xor([a, b]))
     }
 
     func testXorWithEmptyMesh() {
@@ -90,6 +100,8 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube()
         XCTAssertEqual(a.xor(b), b)
         XCTAssertEqual(b.xor(a), b)
+        XCTAssertEqual(a.xor(b), .xor([a, b]))
+        XCTAssertEqual(b.xor(a), .xor([b, a]))
     }
 
     func testXorIsDeterministic() {
@@ -99,6 +111,7 @@ class CSGTests: XCTestCase {
         #if !arch(wasm32)
         XCTAssertEqual(c.polygons.count, 323)
         #endif
+        XCTAssertEqual(c, .xor([a, b]))
     }
 
     // MARK: Union
@@ -108,6 +121,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube()
         let c = a.union(b)
         XCTAssertEqual(c.bounds, a.bounds)
+        XCTAssertEqual(c, .union([a, b]))
     }
 
     func testUnionOfAdjacentBoxes() {
@@ -115,6 +129,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube().translated(by: .unitX)
         let c = a.union(b)
         XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
+        XCTAssertEqual(c, .union([a, b]))
     }
 
     func testUnionOfOverlappingBoxes() {
@@ -125,6 +140,7 @@ class CSGTests: XCTestCase {
             min: Vector(-0.5, -0.5, -0.5),
             max: Vector(1, 0.5, 0.5)
         ))
+        XCTAssertEqual(c, .union([a, b]))
     }
 
     func testUnionWithEmptyMesh() {
@@ -132,6 +148,8 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube()
         XCTAssertEqual(a.union(b).bounds, b.bounds)
         XCTAssertEqual(b.union(a).bounds, b.bounds)
+        XCTAssertEqual(a.union(b), .union([a, b]))
+        XCTAssertEqual(b.union(a), .union([b, a]))
     }
 
     func testUnionIsDeterministic() {
@@ -141,6 +159,7 @@ class CSGTests: XCTestCase {
         #if !arch(wasm32)
         XCTAssertEqual(c.polygons.count, 237)
         #endif
+        XCTAssertEqual(c, .union([a, b]))
     }
 
     // MARK: Intersection
@@ -150,6 +169,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.cube()
         let c = a.intersect(b)
         XCTAssertEqual(c.bounds, a.bounds)
+        XCTAssertEqual(c, .intersection([a, b]))
     }
 
     func testIntersectionOfAdjacentBoxes() {
@@ -162,6 +182,7 @@ class CSGTests: XCTestCase {
             min: Vector(0.5, -0.5, -0.5),
             max: Vector(0.5, 0.5, 0.5)
         ))
+        XCTAssertEqual(c, .intersection([a, b]))
     }
 
     func testIntersectionOfOverlappingBoxes() {
@@ -172,6 +193,15 @@ class CSGTests: XCTestCase {
             min: Vector(0, -0.5, -0.5),
             max: Vector(0.5, 0.5, 0.5)
         ))
+        XCTAssertEqual(c, .intersection([a, b]))
+    }
+
+    func testIntersectionOfNonOverlappingBoxes() {
+        let a = Mesh.cube()
+        let b = Mesh.cube().translated(by: Vector(2, 0, 0))
+        let c = a.intersect(b)
+        XCTAssertEqual(c, .empty)
+        XCTAssertEqual(c, .intersection([a, b]))
     }
 
     func testIntersectionWithEmptyMesh() {
@@ -186,6 +216,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.sphere(slices: 16)
         let c = a.intersect(b)
         XCTAssertEqual(c.polygons.count, 86)
+        XCTAssertEqual(c, .intersection([a, b]))
     }
 
     // MARK: Planar subtraction
@@ -195,6 +226,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square())
         let c = a.subtract(b)
         XCTAssert(c.polygons.isEmpty)
+        XCTAssertEqual(c, .difference([a, b]))
     }
 
     func testSubtractAdjacentSquares() {
@@ -202,6 +234,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square()).translated(by: .unitX)
         let c = a.subtract(b)
         XCTAssertEqual(c.bounds, a.bounds)
+        XCTAssertEqual(c, .difference([a, b]))
     }
 
     func testSubtractOverlappingSquares() {
@@ -212,6 +245,7 @@ class CSGTests: XCTestCase {
             min: Vector(-0.5, -0.5, 0),
             max: Vector(0, 0.5, 0)
         ))
+        XCTAssertEqual(c, .difference([a, b]))
     }
 
     // MARK: Planar XOR
@@ -221,6 +255,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square())
         let c = a.xor(b)
         XCTAssert(c.polygons.isEmpty)
+        XCTAssertEqual(c, .xor([a, b]))
     }
 
     func testXorAdjacentSquares() {
@@ -228,6 +263,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square()).translated(by: .unitX)
         let c = a.xor(b)
         XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
+        XCTAssertEqual(c, .xor([a, b]))
     }
 
     func testXorOverlappingSquares() {
@@ -238,6 +274,7 @@ class CSGTests: XCTestCase {
             min: Vector(-0.5, -0.5, 0),
             max: Vector(1.0, 0.5, 0)
         ))
+        XCTAssertEqual(c, .xor([a, b]))
     }
 
     // MARK: Planar union
@@ -247,6 +284,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square())
         let c = a.union(b)
         XCTAssertEqual(c.bounds, a.bounds)
+        XCTAssertEqual(c, .union([a, b]))
     }
 
     func testUnionOfAdjacentSquares() {
@@ -254,6 +292,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square()).translated(by: .unitX)
         let c = a.union(b)
         XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
+        XCTAssertEqual(c, .union([a, b]))
     }
 
     func testUnionOfOverlappingSquares() {
@@ -264,6 +303,7 @@ class CSGTests: XCTestCase {
             min: Vector(-0.5, -0.5, 0),
             max: Vector(1, 0.5, 0)
         ))
+        XCTAssertEqual(c, .union([a, b]))
     }
 
     // MARK: Planar intersection
@@ -273,6 +313,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square())
         let c = a.intersect(b)
         XCTAssertEqual(c.bounds, a.bounds)
+        XCTAssertEqual(c, .intersection([a, b]))
     }
 
     func testIntersectionOfAdjacentSquares() {
@@ -280,6 +321,7 @@ class CSGTests: XCTestCase {
         let b = Mesh.fill(.square()).translated(by: .unitX)
         let c = a.intersect(b)
         XCTAssert(c.polygons.isEmpty)
+        XCTAssertEqual(c, .intersection([a, b]))
     }
 
     func testIntersectionOfOverlappingSquares() {
@@ -290,6 +332,7 @@ class CSGTests: XCTestCase {
             min: Vector(0, -0.5, 0),
             max: Vector(0.5, 0.5, 0)
         ))
+        XCTAssertEqual(c, .intersection([a, b]))
     }
 
     // MARK: Plane clipping

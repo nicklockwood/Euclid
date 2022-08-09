@@ -254,7 +254,14 @@ public extension Mesh {
         _ meshes: [Mesh],
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        reduce(meshes, using: { $0.intersect($1, isCancelled: $2) }, isCancelled)
+        let head = meshes.first ?? .empty, tail = meshes.dropFirst()
+        let bounds = tail.reduce(into: head.bounds) { $0.formUnion($1.bounds) }
+        if bounds.isEmpty {
+            return .empty
+        }
+        return tail.reduce(into: head) {
+            $0 = $0.intersect($1, isCancelled: isCancelled)
+        }
     }
 
     /// Returns a new mesh that retains the shape of the receiver, but with
