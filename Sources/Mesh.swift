@@ -193,9 +193,9 @@ public extension Mesh {
     /// - Returns: A new mesh that includes all polygons from all meshes.
     ///
     /// > Note: No attempt is made to deduplicate or join meshes. Polygons are neither split nor removed.
-    static func merge(_ meshes: [Mesh]) -> Mesh {
-        if meshes.count == 1 {
-            return meshes[0]
+    static func merge<T: Collection>(_ meshes: T) -> Mesh where T.Element == Mesh {
+        if meshes.count <= 1 {
+            return meshes.first ?? .empty
         }
         var allBoundsSet = true
         var polygons = [Polygon]()

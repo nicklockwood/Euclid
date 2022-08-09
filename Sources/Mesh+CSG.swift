@@ -51,7 +51,7 @@ public extension Mesh {
     /// - Parameters
     ///   - mesh: The mesh to form a union with.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: a new mesh representing the union of the input meshes.
+    /// - Returns: A new mesh representing the union of the input meshes.
     func union(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         if intersection.isEmpty {
@@ -87,13 +87,13 @@ public extension Mesh {
 
     /// Efficiently forms a union from multiple meshes.
     /// - Parameters
-    ///   - meshes: The meshes to form a union from.
+    ///   - meshes: A collection of meshes to be unioned.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: a new mesh representing the union of the input meshes.
-    static func union(
-        _ meshes: [Mesh],
+    /// - Returns: A new mesh representing the union of the input meshes.
+    static func union<T: Collection>(
+        _ meshes: T,
         isCancelled: CancellationHandler = { false }
-    ) -> Mesh {
+    ) -> Mesh where T.Element == Mesh {
         merge(meshes, using: { $0.union($1, isCancelled: $2) }, isCancelled)
     }
 
@@ -112,7 +112,7 @@ public extension Mesh {
     /// - Parameters
     ///   - mesh: The mesh to subtract from this one.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: a new mesh representing the result of the subtraction.
+    /// - Returns: A new mesh representing the result of the subtraction.
     func subtract(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         guard !intersection.isEmpty else {
@@ -140,13 +140,13 @@ public extension Mesh {
 
     /// Efficiently gets the difference between multiple meshes.
     /// - Parameters
-    ///   - meshes: An array of meshes. All but the first will be subtracted from the first.
+    ///   - meshes: An ordered collection of meshes. All but the first will be subtracted from the first.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: a new mesh representing the difference between the meshes.
-    static func difference(
-        _ meshes: [Mesh],
+    /// - Returns: A new mesh representing the difference between the meshes.
+    static func difference<T: Collection>(
+        _ meshes: T,
         isCancelled: CancellationHandler = { false }
-    ) -> Mesh {
+    ) -> Mesh where T.Element == Mesh {
         reduce(meshes, using: { $0.subtract($1, isCancelled: $2) }, isCancelled)
     }
 
@@ -165,7 +165,7 @@ public extension Mesh {
     /// - Parameters
     ///   - mesh: The mesh to be XORed with this one.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: a new mesh representing the XOR of the meshes.
+    /// - Returns: A new mesh representing the XOR of the meshes.
     func xor(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         guard !intersection.isEmpty else {
@@ -191,13 +191,13 @@ public extension Mesh {
 
     /// Efficiently XORs multiple meshes.
     /// - Parameters
-    ///   - meshes: An array of meshes. All but the first will be subtracted from the first.
+    ///   - meshes: A collection of meshes to be XORed.
     ///   - isCancelled: Callback used to cancel the operation
-    /// - Returns: a new mesh representing the XOR of the meshes.
-    static func xor(
-        _ meshes: [Mesh],
+    /// - Returns: A new mesh representing the XOR of the meshes.
+    static func xor<T: Collection>(
+        _ meshes: T,
         isCancelled: CancellationHandler = { false }
-    ) -> Mesh {
+    ) -> Mesh where T.Element == Mesh {
         merge(meshes, using: { $0.xor($1, isCancelled: $2) }, isCancelled)
     }
 
@@ -216,7 +216,7 @@ public extension Mesh {
     /// - Parameters
     ///   - mesh: The mesh to be intersected with this one.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: a new mesh representing the intersection of the meshes.
+    /// - Returns: A new mesh representing the intersection of the meshes.
     func intersect(
         _ mesh: Mesh,
         isCancelled: CancellationHandler = { false }
@@ -247,13 +247,13 @@ public extension Mesh {
 
     /// Efficiently computes the intersection of multiple meshes.
     /// - Parameters
-    ///   - meshes: An array of meshes to intersect.
+    ///   - meshes: A collection of meshes to be intersected.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: a new mesh representing the intersection of the meshes.
-    static func intersection(
-        _ meshes: [Mesh],
+    /// - Returns: A new mesh representing the intersection of the meshes.
+    static func intersection<T: Collection>(
+        _ meshes: T,
         isCancelled: CancellationHandler = { false }
-    ) -> Mesh {
+    ) -> Mesh where T.Element == Mesh {
         let head = meshes.first ?? .empty, tail = meshes.dropFirst()
         let bounds = tail.reduce(into: head.bounds) { $0.formUnion($1.bounds) }
         if bounds.isEmpty {
@@ -279,7 +279,7 @@ public extension Mesh {
     /// - Parameters
     ///   - mesh: The mesh to be stencilled onto this one.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: a new mesh representing the result of stencilling.
+    /// - Returns: A new mesh representing the result of stencilling.
     func stencil(
         _ mesh: Mesh,
         isCancelled: CancellationHandler = { false }
@@ -304,13 +304,13 @@ public extension Mesh {
 
     /// Efficiently performs a stencil with multiple meshes.
     /// - Parameters
-    ///   - meshes: An array of meshes. All but the first will be stencilled onto the first.
+    ///   - meshes: An ordered collection of meshes. All but the first will be stencilled onto the first.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: a new mesh representing the result of stencilling.
-    static func stencil(
-        _ meshes: [Mesh],
+    /// - Returns: A new mesh representing the result of stencilling.
+    static func stencil<T: Collection>(
+        _ meshes: T,
         isCancelled: CancellationHandler = { false }
-    ) -> Mesh {
+    ) -> Mesh where T.Element == Mesh {
         reduce(meshes, using: { $0.stencil($1, isCancelled: $2) }, isCancelled)
     }
 
@@ -407,12 +407,12 @@ private func boundsTest(
 
 private extension Mesh {
     // Merge all the meshes into a single mesh using fn
-    static func merge(
-        _ meshes: [Mesh],
+    static func merge<T: Collection>(
+        _ meshes: T,
         using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
         _ isCancelled: CancellationHandler
-    ) -> Mesh {
-        var meshes = meshes
+    ) -> Mesh where T.Element == Mesh {
+        var meshes = Array(meshes)
         var i = 0
         while i < meshes.count {
             _ = reduce(&meshes, at: i, using: fn, isCancelled)
@@ -422,12 +422,12 @@ private extension Mesh {
     }
 
     // Merge each intersecting mesh after i into the mesh at index i using fn
-    static func reduce(
-        _ meshes: [Mesh],
+    static func reduce<T: Collection>(
+        _ meshes: T,
         using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
         _ isCancelled: CancellationHandler
-    ) -> Mesh {
-        var meshes = meshes
+    ) -> Mesh where T.Element == Mesh {
+        var meshes = Array(meshes)
         return meshes.isEmpty ? .empty : reduce(&meshes, at: 0, using: fn, isCancelled)
     }
 
