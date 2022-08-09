@@ -78,6 +78,32 @@ extension BSP {
             return (lhs, rhs!)
         }
     }
+
+    func containsPoint(_ point: Vector) -> Bool {
+        guard var node = nodes.first else {
+            return false
+        }
+        while true {
+            switch point.compare(with: node.plane) {
+            case .coplanar, .spanning:
+                if node.polygons.contains(where: { $0.containsPoint(point) }) {
+                    return true
+                }
+                fallthrough
+            case .front:
+                guard node.front > 0 else {
+                    return false
+                }
+                node = nodes[node.front]
+            case .back:
+                guard node.back > 0 else {
+                    return true
+                }
+                node = nodes[node.back]
+            }
+        }
+        preconditionFailure()
+    }
 }
 
 private extension BSP {

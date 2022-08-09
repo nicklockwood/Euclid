@@ -197,4 +197,115 @@ class MeshTests: XCTestCase {
         }
         XCTAssertNil(material)
     }
+
+    // MARK: containsPoint
+
+    func testCubeContainsPoint() {
+        let edgePoints: [Vector] = [
+            Vector(0.5, 0, 0),
+            Vector(0, 0.5, 0),
+            Vector(0, 0, 0.5),
+            Vector(0.5, 0.5, 0),
+            Vector(0, 0.5, 0.5),
+            Vector(0.5, 0, 0.5),
+            Vector(-0.5, 0, 0),
+            Vector(0, -0.5, 0),
+            Vector(0, 0, -0.5),
+            Vector(-0.5, -0.5, 0),
+            Vector(0, -0.5, -0.5),
+            Vector(-0.5, 0, -0.5),
+        ]
+        let insidePoints = [.zero] + edgePoints.map { $0 * 0.999 }
+        let outsidePoints = edgePoints.map { $0 * 1.001 }
+        let mesh = Mesh.cube()
+        let bsp = BSP(mesh) { false }
+        for point in insidePoints {
+            XCTAssertTrue(mesh.containsPoint(point))
+            XCTAssertTrue(bsp.containsPoint(point))
+        }
+        for point in outsidePoints {
+            XCTAssertFalse(mesh.containsPoint(point))
+            XCTAssertFalse(bsp.containsPoint(point))
+        }
+    }
+
+    func testSquareContainsPoint() {
+        let edgePoints: [Vector] = [
+            Vector(0.5, 0),
+            Vector(0, 0.5),
+            Vector(0.5, 0.5),
+            Vector(-0.5, 0),
+            Vector(0, -0.5),
+            Vector(-0.5, -0.5),
+        ]
+        let insidePoints = [.zero] + edgePoints.map { $0 * 0.999 }
+        let outsidePoints = edgePoints.map { $0 * 1.001 }
+            + insidePoints.translated(by: Vector(0, 0, epsilon))
+            + insidePoints.translated(by: Vector(0, 0, -epsilon))
+        let mesh = Mesh.fill(.square())
+        let bsp = BSP(mesh) { false }
+        let r = Rotation(roll: .pi / 3)
+        for point in insidePoints {
+            XCTAssertTrue(mesh.containsPoint(point))
+            XCTAssertTrue(bsp.containsPoint(point))
+            XCTAssertTrue(mesh.rotated(by: r).containsPoint(point.rotated(by: r)))
+        }
+        for point in outsidePoints {
+            XCTAssertFalse(mesh.containsPoint(point))
+            XCTAssertFalse(bsp.containsPoint(point))
+            XCTAssertFalse(mesh.rotated(by: r).containsPoint(point.rotated(by: r)))
+        }
+    }
+
+    func testSphereContainsPoint() {
+        let edgePoints: [Vector] = [
+            Vector(0.5, 0, 0),
+            Vector(0, 0.5, 0),
+            Vector(0, 0, 0.5),
+            Vector(0.5, 0.5, 0),
+            Vector(0, 0.5, 0.5),
+            Vector(0.5, 0, 0.5),
+            Vector(-0.5, 0, 0),
+            Vector(0, -0.5, 0),
+            Vector(0, 0, -0.5),
+            Vector(-0.5, -0.5, 0),
+            Vector(0, -0.5, -0.5),
+            Vector(-0.5, 0, -0.5),
+        ].map { $0.normalized() * 0.5 }
+        let insidePoints = [.zero] + edgePoints.map { $0 * 0.999 }
+        let outsidePoints = edgePoints.map { $0 * 1.001 }
+        let mesh = Mesh.sphere(slices: 8, stacks: 4)
+        let bsp = BSP(mesh) { false }
+        for point in insidePoints {
+            XCTAssertTrue(mesh.containsPoint(point))
+            XCTAssertTrue(bsp.containsPoint(point))
+        }
+        for point in outsidePoints {
+            XCTAssertFalse(mesh.containsPoint(point))
+            XCTAssertFalse(bsp.containsPoint(point))
+        }
+    }
+
+    func testLContainsPoint() {
+        let edgePoints: [Vector] = [
+            Vector(0, 0, 0),
+            Vector(0, 0.5, 0),
+            Vector(-0.5, 0, 0),
+        ].translated(by: Vector(-0.25, 0.25))
+        let insidePoints = [.zero] + edgePoints.map { $0 * 0.999 }
+        let outsidePoints = edgePoints.map { $0 * 1.001 }
+        let mesh = Mesh
+            .cube(size: Vector(2, 2, 1))
+            .subtract(Mesh.cube().translated(by: Vector(-0.5, 0.5, 0)))
+            .translated(by: Vector(-0.25, 0.25))
+        let bsp = BSP(mesh) { false }
+        for point in insidePoints {
+            XCTAssertTrue(mesh.containsPoint(point))
+            XCTAssertTrue(bsp.containsPoint(point))
+        }
+        for point in outsidePoints {
+            XCTAssertFalse(mesh.containsPoint(point))
+            XCTAssertFalse(bsp.containsPoint(point))
+        }
+    }
 }
