@@ -1,3 +1,10 @@
+## [0.5.28](https://github.com/nicklockwood/Euclid/releases/tag/0.5.28) (2022-08-12)
+
+- Fixed crash when bulk CSG methods were called with an empty array
+- Fixed incorrect result from bulk `Mesh.intersection()` method when input meshes are non-intersecting 
+- Removed legacy behavior in `Mesh.union()` where polygon order was flipped unnecessarily
+- Bulk CSG methods now work with arbitrary `Collection`s of `Mesh`, not just an `Array`
+
 ## [0.5.27](https://github.com/nicklockwood/Euclid/releases/tag/0.5.27) (2022-08-06)
  
 - Added efficient methods for filling, extruding and stroking multiple paths
