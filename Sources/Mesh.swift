@@ -350,11 +350,11 @@ public extension Mesh {
     /// - Parameter point: The point to compare.
     /// - Returns: `true` if the point lies inside the mesh, and `false` otherwise.
     func containsPoint(_ point: Vector) -> Bool {
-        if !bounds.containsPoint(point) {
-            return false
-        }
         guard isKnownConvex else {
             return BSP(self) { false }.containsPoint(point)
+        }
+        if !bounds.containsPoint(point) {
+            return false
         }
         for polygon in polygons {
             switch point.compare(with: polygon.plane) {
