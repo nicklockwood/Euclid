@@ -32,6 +32,7 @@
 struct BSP {
     private var nodes: [BSPNode]
     private(set) var isConvex: Bool
+    private(set) var isInverted: Bool
 }
 
 extension BSP {
@@ -47,6 +48,7 @@ extension BSP {
     init(_ mesh: Mesh, _ isCancelled: CancellationHandler) {
         self.nodes = [BSPNode]()
         self.isConvex = mesh.isKnownConvex
+        self.isInverted = false
         initialize(mesh.polygons, isCancelled)
     }
 
@@ -142,11 +144,13 @@ private extension BSP {
             guard !polygons.isEmpty else {
                 return
             }
+            let startPlane = polygons[0].plane
             // Randomly shuffle polygons to reduce average number of splits
             let polygons = polygons.shuffled(using: &rng)
             nodes.reserveCapacity(polygons.count)
-            nodes.append(BSPNode(plane: polygons[0].plane))
+            nodes.append(BSPNode(plane: startPlane))
             insert(polygons, isCancelled)
+            isInverted = containsPoint(startPlane.normal * .greatestFiniteMagnitude)
             return
         }
 
