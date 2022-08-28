@@ -697,7 +697,7 @@ public extension Bounds {
     /// to recalculate the bounds rather than trying to rotate the previous bounds.
     @_disfavoredOverload
     func rotated(by r: Rotation) -> Bounds {
-        Bounds(points: corners.rotated(by: r))
+        isEmpty ? self : Bounds(points: corners.rotated(by: r))
     }
 
     /// Returns a rotated copy of the bounds.
@@ -708,27 +708,30 @@ public extension Bounds {
     /// the size, so this is a potentially irreversible operation. In general, after rotating a shape it is better
     /// to recalculate the bounds rather than trying to rotate the previous bounds.
     func rotated(by q: Quaternion) -> Bounds {
-        Bounds(points: corners.rotated(by: q))
+        isEmpty ? self : Bounds(points: corners.rotated(by: q))
     }
 
     /// Returns a scaled copy of the bounds.
     /// - Parameter v: A scale vector to apply to the bounds.
     func scaled(by v: Vector) -> Bounds {
         let v = v.clamped()
-        return Bounds(min: min.scaled(by: v), max: max.scaled(by: v))
+        return isEmpty ? self : Bounds(
+            min: min.scaled(by: v),
+            max: max.scaled(by: v)
+        )
     }
 
     /// Returns a scaled copy of the bounds.
     /// - Parameter f: A scale factor to apply to the bounds.
     func scaled(by f: Double) -> Bounds {
         let f = f.clamped()
-        return Bounds(min: min * f, max: max * f)
+        return isEmpty ? self : Bounds(min: min * f, max: max * f)
     }
 
     /// Returns a transformed copy of the bounds.
     /// - Parameter t: A transform to apply to the bounds.
     func transformed(by t: Transform) -> Bounds {
-        Bounds(points: corners.transformed(by: t))
+        scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
     }
 }
 

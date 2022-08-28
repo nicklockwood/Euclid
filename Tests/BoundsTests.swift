@@ -116,4 +116,28 @@ class BoundsTests: XCTestCase {
         let bounds = Bounds(min: .zero, max: Vector(1, 1, 0))
         XCTAssertFalse(bounds.isEmpty)
     }
+
+    func testRotatedEmptyBoundsIsEmpty() {
+        let rotation = Rotation(
+            roll: .radians(-0.5 * .pi),
+            yaw: .radians(-0.4999 * .pi),
+            pitch: .radians(-0.5 * .pi)
+        )
+        XCTAssert(Bounds.empty.rotated(by: rotation).isEmpty)
+        XCTAssert(Bounds.empty.rotated(by: Quaternion(rotation)).isEmpty)
+        XCTAssert(Bounds.empty.transformed(by: Transform(rotation: rotation)).isEmpty)
+    }
+
+    func testTranslatedEmptyBoundsIsEmpty() {
+        let offset = Vector(2.5539, 0.5531, 0.0131)
+        XCTAssert(Bounds.empty.translated(by: offset).isEmpty)
+        XCTAssert(Bounds.empty.transformed(by: Transform(offset: offset)).isEmpty)
+    }
+
+    func testScaledEmptyBoundsIsEmpty() {
+        XCTAssert(Bounds.empty.scaled(by: 0).isEmpty)
+        XCTAssert(Bounds.empty.scaled(by: -1).isEmpty)
+        XCTAssert(Bounds.empty.transformed(by: Transform(scale: .zero)).isEmpty)
+        XCTAssert(Bounds.empty.transformed(by: Transform(scale: -.one)).isEmpty)
+    }
 }
