@@ -382,7 +382,7 @@ public extension SCNGeometry {
         )
     }
 
-    @available(*, deprecated, message: "Use version with unnamed parameter instead")
+    @available(*, renamed: "init(_:)")
     convenience init(bounds: Bounds) {
         self.init(bounds)
     }
@@ -730,7 +730,7 @@ public extension Mesh {
         self.init(scnGeometry) { _ in material }
     }
 
-    @available(*, deprecated, message: "Use init(_:materialLookup:) instead")
+    @available(*, renamed: "init(_:material:)")
     init?(scnGeometry: SCNGeometry, materialLookup: MaterialProvider? = nil) {
         self.init(scnGeometry, materialLookup: materialLookup)
     }

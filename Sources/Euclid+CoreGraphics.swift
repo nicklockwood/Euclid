@@ -82,7 +82,7 @@ public extension Path {
         self.init(subpaths: cgPath.paths(detail: detail, color: color))
     }
 
-    @available(*, deprecated, message: "Use init(_:detail:color:) instead")
+    @available(*, renamed: "init(_:detail:color:)")
     init(cgPath: CGPath, detail: Int = 4, color: Color? = nil) {
         self.init(subpaths: cgPath.paths(detail: detail, color: color))
     }
