@@ -1,3 +1,10 @@
+## [0.5.29](https://github.com/nicklockwood/Euclid/releases/tag/0.5.29) (2022-09-03)
+
+- Fixed bug where transforming an empty bounds led to nan coordinates
+- Fixed assertion failure when flattening non-horizontal paths
+- Added `Mesh.containsPoint()` method
+- Improved some deprecation messages
+
 ## [0.5.28](https://github.com/nicklockwood/Euclid/releases/tag/0.5.28) (2022-08-12)
 
 - Fixed crash when bulk CSG methods were called with an empty array

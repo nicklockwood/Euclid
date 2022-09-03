@@ -222,12 +222,12 @@
 				016FAB4621BFE7C100AF60DC /* Vertex.swift */,
 				016FAB4C21BFE7C200AF60DC /* Polygon.swift */,
 				01E5F54823D59BF100717D58 /* BSP.swift */,
+				016FAB4921BFE7C200AF60DC /* Path.swift */,
 				016FAB4821BFE7C200AF60DC /* Mesh.swift */,
 				016FAB4421BFE7C100AF60DC /* Mesh+CSG.swift */,
 				016FAB4E21BFE7C200AF60DC /* Mesh+Shapes.swift */,
 				016FAB4D21BFE7C200AF60DC /* Plane.swift */,
 				0148ECA52783796A00B3F836 /* PathPoint.swift */,
-				016FAB4921BFE7C200AF60DC /* Path.swift */,
 				0148ECA3278378D100B3F836 /* Path+Shapes.swift */,
 				52A663A023857D5300FACF9D /* Line.swift */,
 				01F2381F23BF4160005EC9DB /* LineSegment.swift */,
@@ -722,7 +722,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.28;
+				MARKETING_VERSION = 0.5.29;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=75";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
@@ -755,7 +755,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.28;
+				MARKETING_VERSION = 0.5.29;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=75";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";

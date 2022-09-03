@@ -62,6 +62,18 @@
 - ``Mesh/text(_:font:width:depth:detail:material:)``
 - ``Mesh/text(_:width:depth:detail:material:)``
 
+### Comparing Meshes
+
+- ``Mesh/bounds``
+- ``Mesh/containsPoint(_:)``
+- ``Mesh/hasTexcoords``
+- ``Mesh/hasVertexColors``
+- ``Mesh/isWatertight``
+- ``Mesh/materials``
+- ``Mesh/polygons``
+- ``Mesh/polygonsByMaterial``
+- ``Mesh/uniqueEdges``
+
 ### Transforming Meshes
 
 - ``Mesh/translated(by:)``
