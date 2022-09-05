@@ -761,4 +761,17 @@ class PathTests: XCTestCase {
         ])
         XCTAssertNil(path3.plane)
     }
+
+    // MARK: flattening
+
+    func testFlattenVerticalPath() {
+        let p = Path([
+            .point(0, 0, 0),
+            .point(0, 0, 1),
+            .point(0, 1, 1),
+        ])
+        let q = p.flattened()
+        // Flattened path is always on xy
+        XCTAssertEqual(q.plane, .xy)
+    }
 }

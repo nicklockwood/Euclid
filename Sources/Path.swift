@@ -392,7 +392,7 @@ internal extension Path {
         self.subpathIndices = subpathIndices
         if let plane = plane {
             self.plane = plane
-            assert(points.allSatisfy { plane.containsPoint($0.position) })
+            assert(positions.allSatisfy { plane.containsPoint($0) })
         } else if subpathIndices.isEmpty {
             self.plane = Plane(points: positions)
         } else {
@@ -457,7 +457,7 @@ internal extension Path {
                 color: $0.color,
                 isCurved: $0.isCurved
             )
-        }), plane: flatteningPlane.rawValue, subpathIndices: [])
+        }), plane: .xy, subpathIndices: [])
     }
 
     func clippedToYAxis() -> Path {
