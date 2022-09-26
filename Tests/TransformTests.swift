@@ -329,4 +329,18 @@ class TransformTests: XCTestCase {
         )
         XCTAssertNotNil(mesh.transformed(by: transform).boundsIfSet)
     }
+
+    // MARK: Bounds transforms
+
+    func testBoundsInvertedScale() {
+        let bounds = Bounds(min: -.one, max: .one)
+        let transform = Transform(scale: -.one)
+        XCTAssertEqual(bounds.transformed(by: transform), bounds)
+    }
+
+    func testBoundsInvertedScale2() {
+        let bounds = Bounds(min: -.one, max: .one)
+        let transform = Transform(scale: -Vector(-1, 1, 1))
+        XCTAssertEqual(bounds.transformed(by: transform), bounds)
+    }
 }

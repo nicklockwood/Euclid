@@ -715,17 +715,14 @@ public extension Bounds {
     /// - Parameter v: A scale vector to apply to the bounds.
     func scaled(by v: Vector) -> Bounds {
         let v = v.clamped()
-        return isEmpty ? self : Bounds(
-            min: min.scaled(by: v),
-            max: max.scaled(by: v)
-        )
+        return isEmpty ? self : Bounds(min.scaled(by: v), max.scaled(by: v))
     }
 
     /// Returns a scaled copy of the bounds.
     /// - Parameter f: A scale factor to apply to the bounds.
     func scaled(by f: Double) -> Bounds {
         let f = f.clamped()
-        return isEmpty ? self : Bounds(min: min * f, max: max * f)
+        return isEmpty ? self : Bounds(min * f, max * f)
     }
 
     /// Returns a transformed copy of the bounds.
