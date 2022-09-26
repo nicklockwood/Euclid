@@ -1,3 +1,7 @@
+## [0.5.30](https://github.com/nicklockwood/Euclid/releases/tag/0.5.30) (2022-09-26)
+
+- Fixed bug where applying negative scale to bounds made it empty
+
 ## [0.5.29](https://github.com/nicklockwood/Euclid/releases/tag/0.5.29) (2022-09-03)
 
 - Fixed bug where transforming an empty bounds led to nan coordinates
