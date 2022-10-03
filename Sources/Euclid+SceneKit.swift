@@ -167,7 +167,9 @@ public extension SCNGeometry {
         let hasTexcoords = mesh.hasTexcoords
         let hasVertexColors = mesh.hasVertexColors
         let materialLookup = materialLookup ?? defaultMaterialLookup
-        for (material, polygons) in mesh.polygonsByMaterial {
+        let polygonsByMaterial = mesh.polygonsByMaterial
+        for material in mesh.materials {
+            let polygons = polygonsByMaterial[material] ?? []
             var indices = [UInt32]()
             func addVertex(_ vertex: Vertex) {
                 if let index = indicesByVertex[vertex] {
@@ -229,7 +231,9 @@ public extension SCNGeometry {
         let hasTexcoords = mesh.hasTexcoords
         let hasVertexColors = mesh.hasVertexColors
         let materialLookup = materialLookup ?? defaultMaterialLookup
-        for (material, polygons) in mesh.polygonsByMaterial {
+        let polygonsByMaterial = mesh.polygonsByMaterial
+        for material in mesh.materials {
+            var polygons = polygonsByMaterial[material] ?? []
             var indexData = Data()
             func addVertex(_ vertex: Vertex) {
                 if let index = indicesByVertex[vertex] {
@@ -249,7 +253,7 @@ public extension SCNGeometry {
                 }
             }
             materials.append(materialLookup(material) ?? SCNMaterial())
-            let polygons = polygons.tessellate()
+            polygons = polygons.tessellate()
             for polygon in polygons {
                 indexData.append(UInt32(polygon.vertices.count))
             }
