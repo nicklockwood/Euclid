@@ -643,9 +643,9 @@ internal extension Polygon {
         let plane = plane ?? Plane(unchecked: points, convex: isConvex)
         let isConvex = isConvex ?? pointsAreConvex(points)
         self.storage = Storage(
-            vertices: vertices.map {
+            vertices: sanitizeNormals ? vertices.map {
                 $0.with(normal: $0.normal == .zero ? plane.normal : $0.normal)
-            },
+            } : vertices,
             plane: plane,
             isConvex: isConvex,
             material: material
