@@ -963,7 +963,7 @@ class CodingTests: XCTestCase {
     }
 
     func testEncodingIdentityQuaternion() {
-        XCTAssertEqual(try encode(Rotation.identity), "[]")
+        XCTAssertEqual(try encode(Quaternion.identity), "[]")
     }
 
     func testEncodingAndDecodingQuaternion() throws {

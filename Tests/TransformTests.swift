@@ -90,21 +90,27 @@ class TransformTests: XCTestCase {
     func testAxisAngleQuaternion1() {
         let q = Quaternion(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0, 0.5, 0)
-        let u = v.rotated(by: Rotation(q))
+        let u = v.rotated(by: q)
+        let w = v.rotated(by: Rotation(q))
+        XCTAssertEqual(u, w)
         XCTAssertEqual(u, Vector(0.5, 0, 0))
     }
 
     func testAxisAngleQuaternion2() {
         let q = Quaternion(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0.5, 0, 0)
-        let u = v.rotated(by: Rotation(q))
+        let u = v.rotated(by: q)
+        let w = v.rotated(by: Rotation(q))
+        XCTAssertEqual(u, w)
         XCTAssertEqual(u, Vector(0, -0.5, 0))
     }
 
     func testAxisAngleQuaternion3() {
         let q = Quaternion(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0, 0, 0.5)
-        let u = v.rotated(by: Rotation(q))
+        let u = v.rotated(by: q)
+        let w = v.rotated(by: Rotation(q))
+        XCTAssertEqual(u, w)
         XCTAssertEqual(u, Vector(0, 0, 0.5))
     }
 
