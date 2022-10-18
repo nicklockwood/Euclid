@@ -65,19 +65,26 @@ public extension Mesh {
                 submeshes: [self, mesh]
             )
         }
-        var out: [Polygon]? = []
-        let ap = BSP(mesh, isCancelled).clip(
-            boundsTest(intersection, polygons, &out),
-            .greaterThan,
-            isCancelled
-        )
-        let bp = BSP(self, isCancelled).clip(
-            boundsTest(intersection, mesh.polygons, &out),
-            .greaterThanEqual,
-            isCancelled
-        )
+        var lhs: [Polygon] = [], rhs: [Polygon] = []
+        inParallel({
+            var aout: [Polygon]? = []
+            let ap = BSP(mesh, isCancelled).clip(
+                boundsTest(intersection, polygons, &aout),
+                .greaterThan,
+                isCancelled
+            )
+            lhs = aout! + ap
+        }, {
+            var bout: [Polygon]? = []
+            let bp = BSP(self, isCancelled).clip(
+                boundsTest(intersection, mesh.polygons, &bout),
+                .greaterThanEqual,
+                isCancelled
+            )
+            rhs = bout! + bp
+        })
         return Mesh(
-            unchecked: out! + ap + bp,
+            unchecked: lhs + rhs,
             bounds: bounds.union(mesh.bounds),
             isConvex: false,
             isWatertight: nil,
@@ -118,19 +125,26 @@ public extension Mesh {
         guard !intersection.isEmpty else {
             return self
         }
-        var aout: [Polygon]? = [], bout: [Polygon]?
-        let ap = BSP(mesh, isCancelled).clip(
-            boundsTest(intersection, polygons, &aout),
-            .greaterThan,
-            isCancelled
-        )
-        let bp = BSP(self, isCancelled).clip(
-            boundsTest(intersection, mesh.polygons, &bout),
-            .lessThan,
-            isCancelled
-        )
+        var lhs: [Polygon] = [], rhs: [Polygon] = []
+        inParallel({
+            var aout: [Polygon]? = []
+            let ap = BSP(mesh, isCancelled).clip(
+                boundsTest(intersection, polygons, &aout),
+                .greaterThan,
+                isCancelled
+            )
+            lhs = aout! + ap
+        }, {
+            var bout: [Polygon]?
+            let bp = BSP(self, isCancelled).clip(
+                boundsTest(intersection, mesh.polygons, &bout),
+                .lessThan,
+                isCancelled
+            )
+            rhs = bp.inverted()
+        })
         return Mesh(
-            unchecked: aout! + ap + bp.inverted(),
+            unchecked: lhs + rhs,
             bounds: nil, // TODO: is there a way to preserve this efficiently?
             isConvex: false,
             isWatertight: nil,
@@ -171,15 +185,25 @@ public extension Mesh {
         guard !intersection.isEmpty else {
             return merge(mesh)
         }
-        let absp = BSP(self, isCancelled), bbsp = BSP(mesh, isCancelled)
-        var aout: [Polygon]? = [], bout: [Polygon]? = []
-        let ap = boundsTest(intersection, polygons, &aout)
-        let bp = boundsTest(intersection, mesh.polygons, &bout)
-        let (ap1, ap2) = bbsp.split(ap, .greaterThan, .lessThan, isCancelled)
-        let (bp2, bp1) = absp.split(bp, .greaterThan, .lessThan, isCancelled)
-        // Avoids slow compilation from long expression
-        let lhs = aout! + ap1 + bp1.inverted()
-        let rhs = bout! + bp2 + ap2.inverted()
+        var absp, bbsp: BSP!
+        inParallel({
+            absp = BSP(self, isCancelled)
+        }, {
+            bbsp = BSP(mesh, isCancelled)
+        })
+        var lhs: [Polygon] = [], rhs: [Polygon] = []
+        inParallel({
+            var aout: [Polygon]? = []
+            let ap = boundsTest(intersection, polygons, &aout)
+            let (ap1, ap2) = bbsp.split(ap, .greaterThan, .lessThan, isCancelled)
+            lhs = aout! + ap1 + ap2.inverted()
+        }, {
+            var bout: [Polygon]? = []
+            let bp = boundsTest(intersection, mesh.polygons, &bout)
+            let (bp2, bp1) = absp.split(bp, .greaterThan, .lessThan, isCancelled)
+            rhs = bout! + bp2 + bp1.inverted()
+        })
+
         return Mesh(
             unchecked: lhs + rhs,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
@@ -225,19 +249,23 @@ public extension Mesh {
         guard !intersection.isEmpty else {
             return .empty
         }
-        var aout: [Polygon]?, bout: [Polygon]?
-        let ap = BSP(mesh, isCancelled).clip(
-            boundsTest(intersection, polygons, &aout),
-            .lessThan,
-            isCancelled
-        )
-        let bp = BSP(self, isCancelled).clip(
-            boundsTest(intersection, mesh.polygons, &bout),
-            .lessThanEqual,
-            isCancelled
-        )
+        var out: [Polygon]?
+        var lhs: [Polygon] = [], rhs: [Polygon] = []
+        inParallel({
+            lhs = BSP(mesh, isCancelled).clip(
+                boundsTest(intersection, polygons, &out),
+                .lessThan,
+                isCancelled
+            )
+        }, {
+            rhs = BSP(self, isCancelled).clip(
+                boundsTest(intersection, mesh.polygons, &out),
+                .lessThanEqual,
+                isCancelled
+            )
+        })
         return Mesh(
-            unchecked: ap + bp,
+            unchecked: lhs + rhs,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
             isConvex: isKnownConvex && mesh.isKnownConvex,
             isWatertight: nil,
@@ -454,3 +482,25 @@ private extension Mesh {
         return m
     }
 }
+
+#if canImport(Dispatch) && !arch(wasm32)
+
+import Dispatch
+
+private func inParallel(_ op1: () -> Void, _ op2: () -> Void) {
+    DispatchQueue.concurrentPerform(iterations: 2) { index in
+        switch index {
+        case 0: op1()
+        default: op2()
+        }
+    }
+}
+
+#else
+
+private func inParallel(_ op1: () -> Void, _ op2: () -> Void) {
+    op1()
+    op2()
+}
+
+#endif
