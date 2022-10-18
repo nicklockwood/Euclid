@@ -135,7 +135,6 @@ private extension BSP {
     }
 
     mutating func initialize(_ polygons: [Polygon], _ isCancelled: CancellationHandler) {
-        nodes.reserveCapacity(polygons.count)
         var rng = DeterministicRNG()
 
         guard isConvex else {
@@ -144,32 +143,26 @@ private extension BSP {
             }
             // Randomly shuffle polygons to reduce average number of splits
             let polygons = polygons.shuffled(using: &rng)
+            nodes.reserveCapacity(polygons.count)
             nodes.append(BSPNode(plane: polygons[0].plane))
             insert(polygons, isCancelled)
             return
         }
 
-        // Sort polygons by plane
-        let polygons = polygons.sortedByPlane()
-
         // Create nodes
-        var parent: Int?
-        for polygon in polygons {
-            if let parent = parent, polygon.plane.isEqual(to: nodes[parent].plane) {
-                nodes[parent].polygons.append(polygon)
-                continue
+        nodes = polygons
+            .groupedByPlane()
+            .shuffled(using: &rng)
+            .enumerated()
+            .map { i, group in
+                var node = BSPNode(plane: group.plane)
+                node.polygons = group.polygons
+                node.back = i + 1
+                return node
             }
-            parent = nodes.count
-            nodes.append(BSPNode(polygon: polygon))
-        }
 
-        // Randomly shuffle nodes to reduce average number of splits
-        nodes.shuffle(using: &rng)
-
-        // Use fast BSP construction
-        for i in 0 ..< nodes.count - 1 {
-            nodes[i].back = i + 1
-        }
+        // Fixup last node
+        nodes[nodes.count - 1].back = 0
     }
 
     mutating func insert(_ polygons: [Polygon], _ isCancelled: CancellationHandler) {

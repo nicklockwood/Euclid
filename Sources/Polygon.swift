@@ -519,31 +519,28 @@ internal extension Collection where Element == Polygon {
         return polygons
     }
 
-    /// Sort polygons by plane
-    func sortedByPlane() -> [Polygon] {
+    /// Group polygons by plane
+    func groupedByPlane() -> [(plane: Plane, polygons: [Polygon])] {
         if isEmpty {
             return []
         }
         let polygons = sorted(by: { $0.plane.w < $1.plane.w })
-        var prev = polygons[0]
-        var sorted = [Polygon]()
-        var groups = [(Plane, [Polygon])]()
-        for p in polygons {
-            if p.plane.w.isEqual(to: prev.plane.w, withPrecision: planeEpsilon) {
-                if let i = groups.lastIndex(where: { $0.0.isEqual(to: p.plane) }) {
-                    groups[i].0 = p.plane
-                    groups[i].1.append(p)
-                } else {
-                    groups.append((p.plane, [p]))
-                }
+        var prev = polygons[0].plane
+        var groups = [(prev, [polygons[0]])]
+        for p in polygons.dropFirst() {
+            if prev.isEqual(to: p.plane) {
+                groups[groups.count - 1].1.append(p)
             } else {
-                sorted += groups.flatMap { $0.1 }
-                groups = [(p.plane, [p])]
+                groups.append((p.plane, [p]))
             }
-            prev = p
+            prev = p.plane
         }
-        sorted += groups.flatMap { $0.1 }
-        return sorted
+        return groups
+    }
+
+    /// Sort polygons by plane
+    func sortedByPlane() -> [Polygon] {
+        groupedByPlane().flatMap { $0.polygons }
     }
 
     /// Group by material
