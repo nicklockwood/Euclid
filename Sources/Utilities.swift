@@ -154,7 +154,7 @@ func triangulateVertices(
     }
     if !flipped, triangles.isEmpty {
         return triangulateVertices(
-            vertices.reversed().map { $0.inverted() },
+            vertices.inverted(),
             plane: plane?.inverted(),
             isConvex: isConvex,
             material: material,

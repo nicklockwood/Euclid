@@ -528,7 +528,7 @@ public extension Mesh {
             )
         case .back:
             return Mesh(
-                unchecked: polygons.map { $0.inverted() },
+                unchecked: polygons.inverted(),
                 bounds: nil,
                 isConvex: false,
                 isWatertight: false,
@@ -536,7 +536,7 @@ public extension Mesh {
             )
         case .frontAndBack, .default:
             return Mesh(
-                unchecked: polygons + polygons.map { $0.inverted() },
+                unchecked: polygons + polygons.inverted(),
                 bounds: nil,
                 isConvex: polygons.count == 1 && polygons[0].isConvex,
                 isWatertight: true,

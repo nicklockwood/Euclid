@@ -130,7 +130,7 @@ public extension Mesh {
             isCancelled
         )
         return Mesh(
-            unchecked: aout! + ap + bp.map { $0.inverted() },
+            unchecked: aout! + ap + bp.inverted(),
             bounds: nil, // TODO: is there a way to preserve this efficiently?
             isConvex: false,
             isWatertight: nil,
@@ -178,8 +178,8 @@ public extension Mesh {
         let (ap1, ap2) = bbsp.split(ap, .greaterThan, .lessThan, isCancelled)
         let (bp2, bp1) = absp.split(bp, .greaterThan, .lessThan, isCancelled)
         // Avoids slow compilation from long expression
-        let lhs = aout! + ap1 + bp1.map { $0.inverted() }
-        let rhs = bout! + bp2 + ap2.map { $0.inverted() }
+        let lhs = aout! + ap1 + bp1.inverted()
+        let rhs = bout! + bp2 + ap2.inverted()
         return Mesh(
             unchecked: lhs + rhs,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
