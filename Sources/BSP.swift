@@ -55,9 +55,11 @@ extension BSP {
         _ keeping: ClipRule,
         _ isCancelled: CancellationHandler
     ) -> [Polygon] {
-        var id = 0
-        var out: [Polygon]?
-        return clip(polygons.map { $0.with(id: 0) }, keeping, &out, &id, isCancelled)
+        batch(polygons, stride: 50) { polygons in
+            var id = 0
+            var out: [Polygon]?
+            return clip(polygons.map { $0.with(id: 0) }, keeping, &out, &id, isCancelled)
+        }
     }
 
     func split(

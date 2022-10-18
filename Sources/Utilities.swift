@@ -29,6 +29,8 @@
 //  SOFTWARE.
 //
 
+import Foundation
+
 #if swift(<5.7)
 public protocol Sendable {}
 #endif
@@ -537,3 +539,75 @@ func extrapolate(_ p0: PathPoint, _ p1: PathPoint) -> PathPoint {
     let p0p1 = p1.position - p0.position
     return .point(p1.position + p0p1)
 }
+
+// MARK: Parallel processing
+
+#if canImport(Dispatch) && !arch(wasm32)
+
+import Dispatch
+
+private let minBatchCount = 2
+private let cpuCores = ProcessInfo.processInfo.activeProcessorCount
+
+func batch<T, U>(
+    _ elements: [T],
+    stride minBatchSize: Int,
+    fn: ([T]) -> [U]
+) -> [U] {
+    let batchCount = min(max(elements.count / minBatchSize, 1), cpuCores * 3, 24)
+    let batchSize = Int(ceil(Double(elements.count) / Double(batchCount)))
+    if batchCount < minBatchCount || batchSize < minBatchSize {
+        return fn(elements)
+    }
+    #if DEBUG
+    print("batch: \(batchSize)×\(batchCount)/\(cpuCores)")
+    #endif
+    let parts = stride(from: 0, to: elements.count, by: batchSize).map {
+        Array(elements[$0 ..< min($0 + batchSize, elements.count)])
+    }
+    var a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x: [U]?
+    DispatchQueue.concurrentPerform(iterations: parts.count) { index in
+        let result = fn(parts[index])
+        switch index {
+        case 0: a = result
+        case 1: b = result
+        case 2: c = result
+        case 3: d = result
+        case 4: e = result
+        case 5: f = result
+        case 6: g = result
+        case 7: h = result
+        case 8: i = result
+        case 9: j = result
+        case 10: k = result
+        case 11: l = result
+        case 12: m = result
+        case 13: n = result
+        case 14: o = result
+        case 15: p = result
+        case 16: q = result
+        case 17: r = result
+        case 18: s = result
+        case 19: t = result
+        case 20: u = result
+        case 21: v = result
+        case 22: w = result
+        case 23: x = result
+        default: preconditionFailure()
+        }
+    }
+    let z = [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x]
+    return z[..<parts.count].flatMap { $0! }
+}
+
+#else
+
+func batch<T, U>(
+    _ elements: [T],
+    stride _: Int,
+    fn: ([T]) -> [U]
+) -> [U] {
+    fn(elements)
+}
+
+#endif
