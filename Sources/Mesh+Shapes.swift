@@ -1210,8 +1210,8 @@ private extension Mesh {
             uniquePaths.append(p)
             return (uniquePaths.count - 1, offset)
         }
-        let meshes = uniquePaths.map {
-            isCancelled() ? .empty : fn($0)
+        let meshes = batch(uniquePaths, stride: 1) { paths -> [Mesh] in
+            paths.map { isCancelled() ? .empty : fn($0) }
         }
         return isCancelled() ? [] : indexesAndOffsets.map { index, offset in
             meshes[index].translated(by: offset)
