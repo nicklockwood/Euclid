@@ -35,7 +35,7 @@ import Foundation
 ///
 /// > Note: Euclid doesn't have a 2D vector type. When working with primarily 2D shapes, such as
 /// ``Path``s, you can omit the ``z`` component when constructing vector and it will default to zero.
-public struct Vector: Hashable, Sendable {
+public struct Vector: Hashable, Sendable, AdditiveArithmetic {
     /// The X component of the vector.
     public var x: Double
     /// The Y component of the vector.
@@ -164,23 +164,9 @@ public extension Vector {
         Vector(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
     }
 
-    /// Adds the components of the vector on the right to the ones on the left.
-    static func += (lhs: inout Vector, rhs: Vector) {
-        lhs.x += rhs.x
-        lhs.y += rhs.y
-        lhs.z += rhs.z
-    }
-
     /// Returns the componentwise difference between two vectors.
     static func - (lhs: Vector, rhs: Vector) -> Vector {
         Vector(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z)
-    }
-
-    /// Subtracts the components of the vector on the right from the ones on the left.
-    static func -= (lhs: inout Vector, rhs: Vector) {
-        lhs.x -= rhs.x
-        lhs.y -= rhs.y
-        lhs.z -= rhs.z
     }
 
     /// Returns a vector with its components multiplied by the specified value.

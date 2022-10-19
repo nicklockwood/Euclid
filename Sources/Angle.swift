@@ -32,7 +32,7 @@
 import Foundation
 
 /// An angle or 2D rotation.
-public struct Angle: Hashable, Comparable, Sendable {
+public struct Angle: Hashable, Comparable, Sendable, AdditiveArithmetic {
     /// The angle in radians.
     public var radians: Double
 
@@ -155,19 +155,9 @@ public extension Angle {
         .radians(lhs.radians + rhs.radians)
     }
 
-    /// Adds the angle on the right to the one on the left.
-    static func += (lhs: inout Angle, rhs: Angle) {
-        lhs.radians += rhs.radians
-    }
-
     /// Returns the difference between two angles.
     static func - (lhs: Angle, rhs: Angle) -> Angle {
         .radians(lhs.radians - rhs.radians)
-    }
-
-    /// Subtracts the angle on the right from the one on the left.
-    static func -= (lhs: inout Angle, rhs: Angle) {
-        lhs.radians -= rhs.radians
     }
 
     /// Returns the product of an angle and numeric multiplier.
