@@ -546,7 +546,7 @@ internal extension Path {
     }
 
     // Returns the path with its first point recentered on the origin
-    func withNormalizedPosition() -> (Path, Vector) {
+    func withNormalizedPosition() -> (path: Path, offset: Vector) {
         guard let offset = points.first?.position, offset != .zero else {
             return (self, .zero)
         }

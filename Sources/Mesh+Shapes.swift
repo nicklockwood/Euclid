@@ -1199,24 +1199,22 @@ private extension Mesh {
         using fn: (Path) -> Mesh,
         isCancelled: CancellationHandler = { false }
     ) -> [Mesh] {
-        var cache = [Path: Mesh]()
-        var meshes = [Mesh]()
-        meshes.reserveCapacity(shapes.count)
-        for path in shapes {
-            if isCancelled() {
-                break
-            }
+        var uniquePaths = [Path]()
+        let indexesAndOffsets = shapes.map { path -> (Int, Vector) in
             let (p, offset) = path.withNormalizedPosition()
-            if let mesh = cache.first(where: { q, _ in
-                p.isEqual(to: q, withPrecision: epsilon)
-            })?.value {
-                meshes.append(mesh.translated(by: offset))
-            } else {
-                let mesh = fn(p)
-                cache[p] = mesh
-                meshes.append(mesh.translated(by: offset))
+            if let index = uniquePaths.firstIndex(where: {
+                p.isEqual(to: $0, withPrecision: epsilon)
+            }) {
+                return (index, offset)
             }
+            uniquePaths.append(p)
+            return (uniquePaths.count - 1, offset)
         }
-        return meshes
+        let meshes = uniquePaths.map {
+            isCancelled() ? .empty : fn($0)
+        }
+        return isCancelled() ? [] : indexesAndOffsets.map { index, offset in
+            meshes[index].translated(by: offset)
+        }
     }
 }
