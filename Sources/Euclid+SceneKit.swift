@@ -102,20 +102,18 @@ private typealias OSColorComponent = Double
 
 private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
     switch material {
-    case let material as SCNMaterial:
-        return material
+    case let scnMaterial as SCNMaterial:
+        return scnMaterial
     case let color as Color:
-        let material = SCNMaterial()
-        material.diffuse.contents = OSColor(color)
-        return material
-    case let color as OSColor:
-        let material = SCNMaterial()
-        material.diffuse.contents = color
-        return material
-    case let image as OSImage:
-        let material = SCNMaterial()
-        material.diffuse.contents = image
-        return material
+        return defaultMaterialLookup(OSColor(color))
+    case let cfType as CFTypeRef where [
+        CGImage.typeID, CGColor.typeID,
+    ].contains(CFGetTypeID(cfType)):
+        fallthrough
+    case is OSColor, is OSImage:
+        let scnMaterial = SCNMaterial()
+        scnMaterial.diffuse.contents = material
+        return scnMaterial
     default:
         return nil
     }
@@ -215,7 +213,7 @@ public extension SCNGeometry {
         self.materials = materials
     }
 
-    /// Creates an geometry from a ``Mesh`` using convex polygons.
+    /// Creates a geometry from a ``Mesh`` using convex polygons.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a SceneKit geometry.
     ///   - materialLookup: A closure to map the polygon material to a SceneKit material.
