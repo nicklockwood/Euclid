@@ -125,15 +125,8 @@ extension Rotation: Codable {
         if self == .identity {
             return
         }
-        try container.encode(m11)
-        try container.encode(m12)
-        try container.encode(m13)
-        try container.encode(m21)
-        try container.encode(m22)
-        try container.encode(m23)
-        try container.encode(m31)
-        try container.encode(m32)
-        try container.encode(m33)
+        try axis.encode(to: &container, skipZ: false)
+        try container.encode(angle)
     }
 }
 
