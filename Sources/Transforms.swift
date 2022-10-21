@@ -425,11 +425,7 @@ public extension Vector {
     /// - Parameter r: A rotation to apply to the vector.
     @_disfavoredOverload
     func rotated(by r: Rotation) -> Vector {
-        Vector(
-            x * r.m11 + y * r.m21 + z * r.m31,
-            x * r.m12 + y * r.m22 + z * r.m32,
-            x * r.m13 + y * r.m23 + z * r.m33
-        )
+        rotated(by: Quaternion(r))
     }
 
     /// Returns a rotated copy of the vector.
@@ -461,7 +457,7 @@ internal extension Collection where Element == Vector {
 
     @_disfavoredOverload
     func rotated(by r: Rotation) -> [Vector] {
-        map { $0.rotated(by: r) }
+        map { $0.rotated(by: Quaternion(r)) }
     }
 
     func rotated(by q: Quaternion) -> [Vector] {

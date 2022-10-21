@@ -113,18 +113,9 @@ public extension Quaternion {
     }
 
     /// Creates a quaternion from a rotation matrix.
-    /// - Parameter r: A rotation matrix.
-    init(_ r: Rotation) {
-        let x = sqrt(max(0, 1 + r.m11 - r.m22 - r.m33)) / 2
-        let y = sqrt(max(0, 1 - r.m11 + r.m22 - r.m33)) / 2
-        let z = sqrt(max(0, 1 - r.m11 - r.m22 + r.m33)) / 2
-        let w = sqrt(max(0, 1 + r.m11 + r.m22 + r.m33)) / 2
-        self.init(
-            x * (x * (r.m32 - r.m23) < 0 ? 1 : -1),
-            y * (y * (r.m13 - r.m31) < 0 ? 1 : -1),
-            z * (z * (r.m21 - r.m12) < 0 ? 1 : -1),
-            w
-        )
+    /// - Parameter rotation: A rotation matrix.
+    init(_ rotation: Rotation) {
+        self = rotation.quaternion
     }
 
     /// Creates a quaternion from raw components.
@@ -303,7 +294,7 @@ internal extension Quaternion {
             z.isEqual(to: other.z, withPrecision: p)
     }
 
-    /// Encode directly into an unkeyedContainer
+    // Encode directly into an unkeyedContainer
     func encode(to container: inout UnkeyedEncodingContainer) throws {
         try container.encode(x)
         try container.encode(y)
@@ -311,7 +302,7 @@ internal extension Quaternion {
         try container.encode(w)
     }
 
-    /// Decode directly from an unkeyedContainer
+    // Decode directly from an unkeyedContainer
     init(from container: inout UnkeyedDecodingContainer) throws {
         self.x = try container.decode(Double.self)
         self.y = try container.decode(Double.self)

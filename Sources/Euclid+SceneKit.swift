@@ -50,22 +50,22 @@ public extension SCNVector4 {
 }
 
 public extension SCNQuaternion {
-    /// Creates a new SceneKit quaternion from a rotation
-    /// - Parameter m: The rotation to convert.
+    /// Creates a new SceneKit quaternion from a `Rotation`
+    /// - Parameter rotation: The rotation to convert.
     ///
     /// > Note: ``SCNQuaternion`` is actually just a typealias for ``SCNVector4`` so be
     /// careful to avoid type ambiguity when using this value.
-    init(_ m: Rotation) {
-        let x = sqrt(max(0, 1 + m.m11 - m.m22 - m.m33)) / 2
-        let y = sqrt(max(0, 1 - m.m11 + m.m22 - m.m33)) / 2
-        let z = sqrt(max(0, 1 - m.m11 - m.m22 + m.m33)) / 2
-        let w = sqrt(max(0, 1 + m.m11 + m.m22 + m.m33)) / 2
-        self.init(
-            x * (x * (m.m32 - m.m23) > 0 ? 1 : -1),
-            y * (y * (m.m13 - m.m31) > 0 ? 1 : -1),
-            z * (z * (m.m21 - m.m12) > 0 ? 1 : -1),
-            -w
-        )
+    init(_ rotation: Rotation) {
+        self.init(rotation.quaternion)
+    }
+
+    /// Creates a new SceneKit quaternion from a Euclid `Quaternion`
+    /// - Parameter quaternion: The quaternion to convert.
+    ///
+    /// > Note: ``SCNQuaternion`` is actually just a typealias for ``SCNVector4`` so be
+    /// careful to avoid type ambiguity when using this value.
+    init(_ quaternion: Quaternion) {
+        self.init(quaternion.x, quaternion.y, quaternion.z, quaternion.w)
     }
 }
 
@@ -456,16 +456,17 @@ public extension Vector {
 
 public extension Rotation {
     /// Creates a rotation from a SceneKit quaternion.
+    /// - Parameter quaternion: The `SCNQuaternion` to convert.
+    init(_ quaternion: SCNQuaternion) {
+        self.init(.init(quaternion))
+    }
+}
+
+public extension Quaternion {
+    /// Creates a Euclid `Quaternion` from a SceneKit quaternion.
     /// - Parameter q: The `SCNQuaternion` to convert.
     init(_ q: SCNQuaternion) {
-        let d = sqrt(1 - Double(q.w * q.w))
-        guard d > epsilon else {
-            self = .identity
-            return
-        }
-        let axis = Vector(Double(q.x) / d, Double(q.y) / d, Double(q.z) / d)
-        let rotation = 2 * Angle.acos(Double(-q.w))
-        self.init(unchecked: axis.normalized(), angle: rotation)
+        self.init(Double(q.x), Double(q.y), Double(q.z), Double(q.w))
     }
 }
 
