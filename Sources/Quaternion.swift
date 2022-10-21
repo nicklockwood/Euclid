@@ -127,7 +127,7 @@ public extension Quaternion {
         )
     }
 
-    // Creates a quaternion from raw components.
+    /// Creates a quaternion from raw components.
     /// - Parameter components: An array of 4 floating-point values.
     init?(_ components: [Double]) {
         guard components.count == 4 else {
@@ -151,19 +151,34 @@ public extension Quaternion {
         dot(self)
     }
 
-    // The angle of rotation around the Z-axis.
+    /// The angle of rotation around the Z-axis.
     var roll: Angle {
         -.atan2(y: 2 * (w * z + x * y), x: 1 - 2 * (y * y + z * z))
     }
 
-    // The angle of rotation around the Y-axis.
+    /// The angle of rotation around the Y-axis.
     var yaw: Angle {
         -.asin(min(1, max(-1, 2 * (w * y - z * x))))
     }
 
-    // The angle of rotation around the X-axis.
+    /// The angle of rotation around the X-axis.
     var pitch: Angle {
         -.atan2(y: 2 * (w * x + y * z), x: 1 - 2 * (x * x + y * y))
+    }
+
+    /// The axis of rotation.
+    var axis: Vector {
+        let s = sqrt(1 - w * w)
+        guard w > epsilon else {
+            // if angle close to zero, direction is not important
+            return .unitZ
+        }
+        return Vector(x, y, z) / -s
+    }
+
+    /// The angle of rotation.
+    var angle: Angle {
+        .radians(2 * acos(w))
     }
 
     /// Computes the dot-product of this quaternion and another.

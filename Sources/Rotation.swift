@@ -234,6 +234,16 @@ public extension Rotation {
         Quaternion(self).roll
     }
 
+    /// Axis of rotation
+    var axis: Vector {
+        Quaternion(self).axis
+    }
+
+    /// The angle of rotation.
+    var angle: Angle {
+        Quaternion(self).angle
+    }
+
     /// A normalized direction vector pointing rightwards relative to the current rotaion.
     var right: Vector {
         Vector(m11, m12, m13)
