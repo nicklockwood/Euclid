@@ -101,7 +101,7 @@
 ### Adjusting Mesh Topology
 
 - ``Mesh/inverted()``
-- ``Mesh/tessellate()``
+- ``Mesh/tessellate(maxSides:)``
 - ``Mesh/triangulate()``
 - ``Mesh/detessellate()``
 - ``Mesh/detriangulate()``

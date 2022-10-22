@@ -21,7 +21,7 @@
 
 ### Transforming Polygons
 
-- ``Polygon/tessellate()``
+- ``Polygon/tessellate(maxSides:)``
 - ``Polygon/triangulate()``
 - ``Polygon/rotated(by:)-3e445``
 - ``Polygon/rotated(by:)-8zgb0``

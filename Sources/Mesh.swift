@@ -286,11 +286,13 @@ public extension Mesh {
         )
     }
 
-    /// Splits all concave polygons in the mesh into two or more convex polygons.
+    /// Splits all polygons in the mesh that are concave or have more than the specified number of
+    /// sides into two or more convex polygons.
+    /// - Parameter maxSides: The maximum number of sides each polygon may have.
     /// - Returns: A new mesh containing the convex polygons.
-    func tessellate() -> Mesh {
+    func tessellate(maxSides: Int = .max) -> Mesh {
         Mesh(
-            unchecked: polygons.tessellate(),
+            unchecked: polygons.tessellate(maxSides: maxSides),
             bounds: boundsIfSet,
             isConvex: isKnownConvex,
             isWatertight: nil, // TODO: fix triangulate() then see if this is fixed
