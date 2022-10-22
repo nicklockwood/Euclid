@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101BAF425687A450096B1E7 /* CodingTests.swift */; };
+		0112D5C928EE29BB00A1C085 /* Euclid+RealityKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112D5C828EE29BB00A1C085 /* Euclid+RealityKit.swift */; };
 		0125478027AFD53900C442C3 /* MeshShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125477F27AFD53900C442C3 /* MeshShapeTests.swift */; };
 		013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013312DC21CA532A00626F1B /* PlaneTests.swift */; };
 		013499932902FB5900CED6BE /* Euclid+SIMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013499922902FB5900CED6BE /* Euclid+SIMD.swift */; };
+		0134999729043ACC00CED6BE /* RealityKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134999629043ACC00CED6BE /* RealityKitViewController.swift */; };
 		013ED08F23C0E60900FEEE5C /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013ED08E23C0E60900FEEE5C /* Rotation.swift */; };
 		0141CAEF2857DBF4006ADFDB /* Euclid+Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0141CAEE2857DBF4006ADFDB /* Euclid+Testing.swift */; };
 		0148ECA4278378D100B3F836 /* Path+Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0148ECA3278378D100B3F836 /* Path+Shapes.swift */; };
@@ -38,7 +40,7 @@
 		016FAB6521BFE7CE00AF60DC /* CSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB5F21BFE7CE00AF60DC /* CSGTests.swift */; };
 		016FAB6621BFE7CE00AF60DC /* PathShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB6021BFE7CE00AF60DC /* PathShapeTests.swift */; };
 		016FABED21C078E400AF60DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABEC21C078E400AF60DC /* AppDelegate.swift */; };
-		016FABF121C078E400AF60DC /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABF021C078E400AF60DC /* SceneViewController.swift */; };
+		016FABF121C078E400AF60DC /* SceneKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABF021C078E400AF60DC /* SceneKitViewController.swift */; };
 		016FABF421C078E400AF60DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF221C078E400AF60DC /* Main.storyboard */; };
 		016FABF621C078E500AF60DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF521C078E500AF60DC /* Assets.xcassets */; };
 		016FABF921C078E500AF60DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF721C078E500AF60DC /* LaunchScreen.storyboard */; };
@@ -98,9 +100,11 @@
 
 /* Begin PBXFileReference section */
 		0101BAF425687A450096B1E7 /* CodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingTests.swift; sourceTree = "<group>"; };
+		0112D5C828EE29BB00A1C085 /* Euclid+RealityKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+RealityKit.swift"; sourceTree = "<group>"; };
 		0125477F27AFD53900C442C3 /* MeshShapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshShapeTests.swift; sourceTree = "<group>"; };
 		013312DC21CA532A00626F1B /* PlaneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneTests.swift; sourceTree = "<group>"; };
 		013499922902FB5900CED6BE /* Euclid+SIMD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Euclid+SIMD.swift"; sourceTree = "<group>"; };
+		0134999629043ACC00CED6BE /* RealityKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitViewController.swift; sourceTree = "<group>"; };
 		013B5BE426923087000860DC /* MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataTests.swift; sourceTree = "<group>"; };
 		013ED08E23C0E60900FEEE5C /* Rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
 		0141CAEE2857DBF4006ADFDB /* Euclid+Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+Testing.swift"; sourceTree = "<group>"; };
@@ -132,7 +136,7 @@
 		016FAB6021BFE7CE00AF60DC /* PathShapeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathShapeTests.swift; sourceTree = "<group>"; };
 		016FABEA21C078E400AF60DC /* EuclidExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EuclidExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		016FABEC21C078E400AF60DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		016FABF021C078E400AF60DC /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
+		016FABF021C078E400AF60DC /* SceneKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitViewController.swift; sourceTree = "<group>"; };
 		016FABF321C078E400AF60DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		016FABF521C078E500AF60DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		016FABF821C078E500AF60DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -239,6 +243,7 @@
 				01CF789226EBE0C70097907A /* Quaternion.swift */,
 				016FAB4B21BFE7C200AF60DC /* Transforms.swift */,
 				016FAB4A21BFE7C200AF60DC /* Euclid+SceneKit.swift */,
+				0112D5C828EE29BB00A1C085 /* Euclid+RealityKit.swift */,
 				01BA297B2235E3580088D36B /* Euclid+CoreGraphics.swift */,
 				01BA29702235A63F0088D36B /* Euclid+CoreText.swift */,
 				0188525926D952890079C602 /* Euclid+AppKit.swift */,
@@ -283,7 +288,8 @@
 			isa = PBXGroup;
 			children = (
 				016FABEC21C078E400AF60DC /* AppDelegate.swift */,
-				016FABF021C078E400AF60DC /* SceneViewController.swift */,
+				016FABF021C078E400AF60DC /* SceneKitViewController.swift */,
+				0134999629043ACC00CED6BE /* RealityKitViewController.swift */,
 				016FABF221C078E400AF60DC /* Main.storyboard */,
 				016FABF521C078E500AF60DC /* Assets.xcassets */,
 				016FABF721C078E500AF60DC /* LaunchScreen.storyboard */,
@@ -369,7 +375,7 @@
 		016FAB2021BFE78100AF60DC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = "Nick Lockwood";
 				TargetAttributes = {
@@ -485,6 +491,7 @@
 				0188525826D951490079C602 /* Color.swift in Sources */,
 				016FAB5421BFE7C200AF60DC /* Mesh.swift in Sources */,
 				01CF789326EBE0C70097907A /* Quaternion.swift in Sources */,
+				0112D5C928EE29BB00A1C085 /* Euclid+RealityKit.swift in Sources */,
 				016FAB5721BFE7C200AF60DC /* Transforms.swift in Sources */,
 				016FAB5121BFE7C200AF60DC /* Utilities.swift in Sources */,
 				016FAB5321BFE7C200AF60DC /* Bounds.swift in Sources */,
@@ -541,7 +548,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				016FABF121C078E400AF60DC /* SceneViewController.swift in Sources */,
+				016FABF121C078E400AF60DC /* SceneKitViewController.swift in Sources */,
+				0134999729043ACC00CED6BE /* RealityKitViewController.swift in Sources */,
 				016FABED21C078E400AF60DC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -829,7 +837,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8VQKF583ED;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -850,7 +858,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8VQKF583ED;
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

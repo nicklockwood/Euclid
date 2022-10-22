@@ -10,7 +10,7 @@ import Euclid
 import SceneKit
 import UIKit
 
-class SceneViewController: UIViewController {
+class SceneKitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,7 +23,7 @@ class SceneViewController: UIViewController {
         scene.rootNode.addChildNode(cameraNode)
 
         // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 3)
+        cameraNode.position = SCNVector3(x: 0, y: 0, z: 2)
 
         // create some geometry using Euclid
         let start = CFAbsoluteTimeGetCurrent()
@@ -46,7 +46,6 @@ class SceneViewController: UIViewController {
         scnView.scene = scene
         scnView.autoenablesDefaultLighting = true
         scnView.allowsCameraControl = true
-        scnView.showsStatistics = true
         scnView.backgroundColor = .white
     }
 
