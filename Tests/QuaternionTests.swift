@@ -15,21 +15,32 @@ class QuaternionTests: XCTestCase {
         XCTAssertEqual(q.normalized(), .zero)
     }
 
+    func testReverseQuaternionRotation() {
+        let q = Quaternion(roll: -.pi * 0.5)
+        let q2 = Quaternion(roll: .pi * 1.5)
+        let vector = Vector(0.5, 0.5, 0.5)
+        XCTAssertEqual(vector.rotated(by: q), vector.rotated(by: q2))
+        XCTAssertEqual(vector.rotated(by: q).rotated(by: -q), vector)
+        XCTAssertEqual(vector.rotated(by: q2).rotated(by: -q2), vector)
+        XCTAssertNotEqual(vector.rotated(by: q), vector.rotated(by: -q))
+        XCTAssertNotEqual(vector.rotated(by: q2), vector.rotated(by: -q2))
+    }
+
     func testAxisAngle() {
         let q = Quaternion(axis: .unitX, angle: .halfPi)
         XCTAssertEqual(q?.axis, .unitX)
-        XCTAssertEqual(q?.angle, .halfPi)
+        XCTAssert(q?.angle.isEqual(to: .halfPi) == true)
     }
 
     func testAxisAngle2() {
         let q = Quaternion(axis: .unitY, angle: .pi * 0.75)
         XCTAssertEqual(q?.axis, .unitY)
-        XCTAssertEqual(q?.angle, .pi * 0.75)
+        XCTAssert(q?.angle.isEqual(to: .pi * 0.75) == true)
     }
 
     func testAxisAngle3() {
         let q = Quaternion(axis: .unitZ, angle: .halfPi)
         XCTAssertEqual(q?.axis, .unitZ)
-        XCTAssertEqual(q?.angle, .halfPi)
+        XCTAssert(q?.angle.isEqual(to: .halfPi) == true)
     }
 }

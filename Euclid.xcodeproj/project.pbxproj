@@ -10,6 +10,7 @@
 		0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101BAF425687A450096B1E7 /* CodingTests.swift */; };
 		0125478027AFD53900C442C3 /* MeshShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125477F27AFD53900C442C3 /* MeshShapeTests.swift */; };
 		013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013312DC21CA532A00626F1B /* PlaneTests.swift */; };
+		013499932902FB5900CED6BE /* Euclid+SIMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013499922902FB5900CED6BE /* Euclid+SIMD.swift */; };
 		013ED08F23C0E60900FEEE5C /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013ED08E23C0E60900FEEE5C /* Rotation.swift */; };
 		0141CAEF2857DBF4006ADFDB /* Euclid+Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0141CAEE2857DBF4006ADFDB /* Euclid+Testing.swift */; };
 		0148ECA4278378D100B3F836 /* Path+Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0148ECA3278378D100B3F836 /* Path+Shapes.swift */; };
@@ -99,6 +100,7 @@
 		0101BAF425687A450096B1E7 /* CodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingTests.swift; sourceTree = "<group>"; };
 		0125477F27AFD53900C442C3 /* MeshShapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshShapeTests.swift; sourceTree = "<group>"; };
 		013312DC21CA532A00626F1B /* PlaneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneTests.swift; sourceTree = "<group>"; };
+		013499922902FB5900CED6BE /* Euclid+SIMD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Euclid+SIMD.swift"; sourceTree = "<group>"; };
 		013B5BE426923087000860DC /* MetadataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataTests.swift; sourceTree = "<group>"; };
 		013ED08E23C0E60900FEEE5C /* Rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
 		0141CAEE2857DBF4006ADFDB /* Euclid+Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+Testing.swift"; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				01BA29702235A63F0088D36B /* Euclid+CoreText.swift */,
 				0188525926D952890079C602 /* Euclid+AppKit.swift */,
 				0188525526D94FCC0079C602 /* Euclid+UIKit.swift */,
+				013499922902FB5900CED6BE /* Euclid+SIMD.swift */,
 				016FAB2C21BFE78100AF60DC /* Euclid.h */,
 				016FAB2D21BFE78100AF60DC /* Info.plist */,
 			);
@@ -487,6 +490,7 @@
 				016FAB5321BFE7C200AF60DC /* Bounds.swift in Sources */,
 				01BA297C2235E3590088D36B /* Euclid+CoreGraphics.swift in Sources */,
 				0148ECA62783796A00B3F836 /* PathPoint.swift in Sources */,
+				013499932902FB5900CED6BE /* Euclid+SIMD.swift in Sources */,
 				0188525A26D952890079C602 /* Euclid+AppKit.swift in Sources */,
 				01E5F54923D59BF100717D58 /* BSP.swift in Sources */,
 				01BA29712235A63F0088D36B /* Euclid+CoreText.swift in Sources */,
