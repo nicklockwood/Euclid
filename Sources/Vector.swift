@@ -248,9 +248,6 @@ public extension Vector {
         self + (a - self) * t
     }
 
-    @available(*, deprecated, message: "Obsolete. Do not use.")
-    func quantized() -> Vector { _quantized() }
-
     /// Returns the angle between this vector and another.
     /// - Parameter a: The vector to compare with.
     func angle(with a: Vector) -> Angle {
@@ -294,7 +291,6 @@ public extension Vector {
 }
 
 internal extension Vector {
-
     func _quantized() -> Vector {
         Vector(quantize(x), quantize(y), quantize(z))
     }

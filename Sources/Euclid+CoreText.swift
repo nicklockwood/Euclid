@@ -125,42 +125,6 @@ public extension Mesh {
         }
         return .union(meshes)
     }
-
-    @available(*, deprecated, message: "Use Mesh.text() instead")
-    init(
-        text: String,
-        font: CTFont? = nil,
-        width: Double? = nil,
-        depth: Double = 1,
-        detail: Int = 2,
-        material: Material? = nil
-    ) {
-        self = .text(
-            text,
-            font: font,
-            width: width,
-            depth: depth,
-            detail: detail,
-            material: material
-        )
-    }
-
-    @available(*, deprecated, message: "Use Mesh.text() instead")
-    init(
-        text: NSAttributedString,
-        width: Double? = nil,
-        depth: Double = 1,
-        detail: Int = 2,
-        material: Material? = nil
-    ) {
-        self = .text(
-            text,
-            width: width,
-            depth: depth,
-            detail: detail,
-            material: material
-        )
-    }
 }
 
 #if os(watchOS)

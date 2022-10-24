@@ -528,11 +528,6 @@ public extension Mesh {
         )
     }
 
-    @available(*, deprecated, message: "Use init(url:ignoringTransforms:materialLookup:) instead")
-    init(url: URL, materialLookup: MaterialProvider? = nil) throws {
-        try self.init(url: url, ignoringTransforms: true, materialLookup: materialLookup)
-    }
-
     /// Creates a mesh from an SceneKit node, with optional material mapping.
     /// - Parameters:
     ///   - scnNode: The `SCNNode` to convert into a mesh.
@@ -557,11 +552,6 @@ public extension Mesh {
             mesh = mesh.transformed(by: .transform(from: scnNode))
         }
         self = mesh
-    }
-
-    @available(*, deprecated, message: "Use init(_:ignoringTransforms:materialLookup:) instead")
-    init(_ scnNode: SCNNode, materialLookup: MaterialProvider? = nil) {
-        self.init(scnNode, ignoringTransforms: true, materialLookup: materialLookup)
     }
 
     /// Creates a mesh from a SceneKit geometry, with optional material mapping.

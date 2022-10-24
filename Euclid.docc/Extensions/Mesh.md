@@ -6,7 +6,6 @@
 
 - ``Mesh/init(_:)``
 - ``Mesh/init(_:material:)``
-- ``Mesh/init(_:materialLookup:)-7p5hd``
 - ``Mesh/init(_:ignoringTransforms:materialLookup:)``
 - ``Mesh/init(url:ignoringTransforms:materialLookup:)``
 

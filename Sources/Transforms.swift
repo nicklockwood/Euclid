@@ -189,17 +189,6 @@ public extension Mesh {
         )
     }
 
-    @available(*, deprecated, message: "No longer needed")
-    func scaleCorrected(for v: Vector) -> Mesh {
-        Mesh(
-            unchecked: polygons.scaleCorrected(for: v),
-            bounds: boundsIfSet,
-            isConvex: isKnownConvex,
-            isWatertight: watertightIfSet,
-            submeshes: submeshesIfEmpty
-        )
-    }
-
     /// Returns a transformed copy of the mesh.
     /// - Parameter t: A transform to apply to the mesh.
     func transformed(by t: Transform) -> Mesh {
@@ -286,19 +275,6 @@ public extension Polygon {
     func transformed(by t: Transform) -> Polygon {
         scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
     }
-
-    @available(*, deprecated, message: "No longer needed")
-    func scaleCorrected(for v: Vector) -> Polygon {
-        var flipped = v.x < 0
-        if v.y < 0 { flipped = !flipped }
-        if v.z < 0 { flipped = !flipped }
-        return Polygon(
-            unchecked: flipped ? vertices.reversed() : vertices,
-            normal: plane.normal,
-            isConvex: isConvex,
-            material: material
-        )
-    }
 }
 
 internal extension Collection where Element == Polygon {
@@ -321,11 +297,6 @@ internal extension Collection where Element == Polygon {
 
     func scaled(by f: Double) -> [Polygon] {
         map { $0.scaled(by: f) }
-    }
-
-    @available(*, deprecated, message: "No longer needed")
-    func scaleCorrected(for v: Vector) -> [Polygon] {
-        map { $0.scaleCorrected(for: v) }
     }
 
     func transformed(by t: Transform) -> [Polygon] {

@@ -5,7 +5,6 @@
 ### Creating Path Points
 
 - ``PathPoint/init(_:texcoord:color:isCurved:)``
-- ``PathPoint/init(_:texcoord:isCurved:)``
 - ``PathPoint/point(_:_:_:texcoord:color:)``
 - ``PathPoint/point(_:texcoord:color:)``
 - ``PathPoint/curve(_:_:_:texcoord:color:)``

@@ -243,11 +243,6 @@ public extension PathPoint {
         .curve(Vector(x, y, z), texcoord: texcoord, color: color)
     }
 
-    @available(*, deprecated, message: "Use init(_:texcoord:color:isCurved:) instead")
-    init(_ position: Vector, texcoord: Vector?, isCurved: Bool) {
-        self.init(position, texcoord: texcoord, color: nil, isCurved: isCurved)
-    }
-
     /// Creates a path point.
     /// - Parameters:
     ///   - position: The location of the path point.

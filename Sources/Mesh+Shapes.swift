@@ -561,23 +561,6 @@ public extension Mesh {
         }, isCancelled: isCancelled), isCancelled: isCancelled)
     }
 
-    /// Strokes a path with the specified line width, depth and material
-    @available(*, deprecated, message: "Use `stroke(width:detail:)` instead")
-    static func stroke(
-        _ shape: Path,
-        width: Double,
-        depth: Double,
-        faces: Faces = .default,
-        material: Material? = nil
-    ) -> Mesh {
-        extrude(
-            .rectangle(width: width, height: depth),
-            along: shape,
-            faces: faces,
-            material: material
-        )
-    }
-
     /// Creates a mesh by stroking a path with the line width, detail, and material you provide.
     /// - Parameters:
     ///   - shape: The path to stroke.
