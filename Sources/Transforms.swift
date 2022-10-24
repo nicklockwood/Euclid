@@ -86,7 +86,8 @@ public extension Transform {
     /// The identity transform (i.e. no transform).
     static let identity = Transform()
 
-    @available(*, deprecated, message: "No longer needed")
+    /// Does the transform apply a mirror operation (negative scale).
+    /// - Parameter v: An offset vector to apply to the transform.
     var isFlipped: Bool {
         var flipped = scale.x < 0
         if scale.y < 0 { flipped = !flipped }
