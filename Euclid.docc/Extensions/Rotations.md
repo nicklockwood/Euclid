@@ -28,7 +28,11 @@
 - ``Rotation/roll``
 - ``Rotation/yaw``
 
-### Computing with Rotations
+### Interpolating Rotations
+
+- ``Rotation/slerp(_:_:)``
+
+### Computing Rotations
 
 - ``Rotation/-(_:)``
 - ``Rotation/*(_:_:)``

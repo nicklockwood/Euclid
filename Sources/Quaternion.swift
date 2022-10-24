@@ -245,9 +245,9 @@ public extension Quaternion {
         return self / sqrt(lengthSquared)
     }
 
-    // Performs a spherical interpolation between two quaternions.
+    // Performs a spherical linear interpolation between two quaternions.
     /// - Parameters:
-    ///   - q: A quaternion to interpolate with.
+    ///   - q: The quaternion to interpolate towards.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
     /// - Returns: The interpolated quaternion.
     func slerp(_ q: Quaternion, _ t: Double) -> Quaternion {

@@ -261,6 +261,15 @@ public extension Rotation {
         Vector.unitZ.rotated(by: self)
     }
 
+    // Performs a spherical linear interpolation between two rotations.
+    /// - Parameters:
+    ///   - r: The rotation to interpolate towards.
+    ///   - t: The normalized extent of interpolation, from 0 to 1.
+    /// - Returns: The interpolated rotation.
+    func slerp(_ r: Rotation, _ t: Double) -> Rotation {
+        .init(quaternion.slerp(r.quaternion, t))
+    }
+
     /// Returns the reverse (aka transpose) rotation.
     static prefix func - (rhs: Rotation) -> Rotation {
         .init(-rhs.quaternion)
