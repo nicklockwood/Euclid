@@ -115,6 +115,12 @@ public extension Vector {
     static let zero = Vector(0, 0, 0)
     /// A vector with all coordinates set to `1`.
     static let one = Vector(1, 1, 1)
+    /// A vector of length `1` along the X axis.
+    static let unitX = Vector(1, 0, 0)
+    /// A vector of length `1` along the Y axis.
+    static let unitY = Vector(0, 1, 0)
+    /// A vector of length `1` along the Z axis.
+    static let unitZ = Vector(0, 0, 1)
 
     /// Creates a vector from an array of coordinates.
     /// - Parameter components: An array of vector components.
@@ -288,9 +294,6 @@ public extension Vector {
 }
 
 internal extension Vector {
-    static let unitX = Vector(1, 0, 0)
-    static let unitY = Vector(0, 1, 0)
-    static let unitZ = Vector(0, 0, 1)
 
     func _quantized() -> Vector {
         Vector(quantize(x), quantize(y), quantize(z))

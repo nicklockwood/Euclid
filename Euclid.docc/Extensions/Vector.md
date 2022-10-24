@@ -15,6 +15,9 @@
 
 - ``Vector/zero``
 - ``Vector/one``
+- ``Vector/unitX``
+- ``Vector/unitY``
+- ``Vector/unitZ``
 
 ### Computing Vectors
 
