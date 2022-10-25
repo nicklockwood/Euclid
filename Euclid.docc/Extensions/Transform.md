@@ -28,7 +28,3 @@
 - ``Transform/rotate(by:)``
 - ``Transform/scale(by:)``
 - ``Transform/translate(by:)``
-
-### Inspecting Transforms
-
-- ``Transform/isFlipped``

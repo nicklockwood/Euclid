@@ -4,9 +4,11 @@
 
 ### Creating Quaternions
 
-- ``Quaternion/init(_:_:_:_:)``
+- ``Quaternion/init(_:)-27eol``
 - ``Quaternion/init(_:)-7xa5o``
+- ``Quaternion/init(_:)-b3v3``
 - ``Quaternion/init(_:)-fyhx``
+- ``Quaternion/init(_:_:_:_:)``
 - ``Quaternion/init(axis:angle:)``
 - ``Quaternion/init(roll:yaw:pitch:)``
 - ``Quaternion/pitch(_:)``
@@ -36,6 +38,9 @@
 - ``Quaternion//(_:_:)``
 - ``Quaternion/+(_:_:)``
 - ``Quaternion/dot(_:)``
+
+### Interpolating Quaternions
+
 - ``Quaternion/slerp(_:_:)``
 
 ### Mutating Quaternions

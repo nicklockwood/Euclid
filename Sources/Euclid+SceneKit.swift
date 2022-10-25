@@ -528,7 +528,7 @@ public extension Mesh {
         )
     }
 
-    /// Creates a mesh from an SceneKit node, with optional material mapping.
+    /// Creates a mesh from a SceneKit node, with optional material mapping.
     /// - Parameters:
     ///   - scnNode: The `SCNNode` to convert into a mesh.
     ///   - ignoringTransforms: Should transforms from the input node and its children be ignored.
@@ -714,7 +714,7 @@ public extension Mesh {
         )
     }
 
-    /// Creates a mesh from an SceneKit geometry, with the material you provide.
+    /// Creates a mesh from a SceneKit geometry, with the material you provide.
     /// - Parameters:
     ///   - scnGeometry: The `SCNGeometry` to convert.
     ///   - material: A ``Material`` to apply to the geometry, replacing any existing materials.

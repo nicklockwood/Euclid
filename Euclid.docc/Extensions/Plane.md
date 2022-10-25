@@ -13,6 +13,11 @@
 - ``Plane/xz``
 - ``Plane/yz``
 
+### Plane Properties
+
+- ``Plane/normal``
+- ``Plane/w``
+
 ### Comparing Planes
 
 - ``Plane/containsPoint(_:)``

@@ -7,6 +7,11 @@
 - ``Line/init(_:)``
 - ``Line/init(origin:direction:)``
 
+### Line Properties
+
+- ``Line/origin``
+- ``Line/direction``
+
 ### Comparing Lines
 
 - ``Line/containsPoint(_:)``

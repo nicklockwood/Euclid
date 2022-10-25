@@ -1,3 +1,22 @@
+## [0.6.0](https://github.com/nicklockwood/Euclid/releases/tag/0.6.0) (2022-10-22)
+
+- Added support for rendering Euclid meshes using `RealityKit`
+- CSG polygon clip operations now run concurrently (Note: `isCancelled` may now be called on any thread)
+- Euclid `Rotation` now uses a quaternion representation internally rather than a 3x3 matrix
+- Rotations are now serialized as a more compact 4-element axis/angle array when using `Codable`
+- Added `axis` and `angle` property getters to `Rotation` and `Quaternion`
+- Added `slerp()` (spherical linear interpolation) method to `Rotation`
+- Added `Vector.unitX/Y/Z` constants
+- The material order when generating `SCNGeometry` is now deterministic
+- Euclid's `Quaternion` implementation now uses the SIMD framework if available
+- The `tessellate()` methods now accept an optional `maxSides:` argument
+- The `Angle` and `Vector` types now conform to the `AdditiveArithmetic` protocol
+- Polygon materials of type `CGColor` or `CGImage` are now supported automatically in SceneKit
+- Fixed some common assertion failures when running in debug mode
+- Improved performance when applying transforms with null/identity values
+- Removed previously deprecated methods and properties
+- Raised minimum supported iOS version to 11
+
 ## [0.5.30](https://github.com/nicklockwood/Euclid/releases/tag/0.5.30) (2022-09-26)
 
 - Fixed bug where applying negative scale to bounds made it empty

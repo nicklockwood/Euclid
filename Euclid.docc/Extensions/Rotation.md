@@ -4,13 +4,17 @@
 
 ### Creating Rotations
 
+- ``Rotation/init()``
 - ``Rotation/init(_:)-5w6mn``
 - ``Rotation/init(_:)-68leo``
-- ``Rotation/init()``
+- ``Rotation/init(_:)-7j4ql``
 - ``Rotation/init(axis:angle:)``
 - ``Rotation/init(pitch:yaw:roll:)``
 - ``Rotation/init(roll:yaw:pitch:)``
 - ``Rotation/init(yaw:pitch:roll:)``
+
+### Default Quaternions
+
 - ``Rotation/identity``
 
 ### Creating Rotations Around an Axis
@@ -19,14 +23,16 @@
 - ``Rotation/roll(_:)``
 - ``Rotation/yaw(_:)``
 
-### Inspecting Rotations
+### Rotation Properties
 
-- ``Rotation/forward``
-- ``Rotation/right``
-- ``Rotation/up``
 - ``Rotation/pitch``
 - ``Rotation/roll``
 - ``Rotation/yaw``
+- ``Rotation/axis``
+- ``Rotation/angle``
+- ``Rotation/forward``
+- ``Rotation/right``
+- ``Rotation/up``
 - ``Rotation/isIdentity``
 
 ### Interpolating Rotations
@@ -38,15 +44,10 @@
 - ``Rotation/-(_:)``
 - ``Rotation/*(_:_:)``
 
-### Updating Rotations
+### Mutating Rotations
 
 - ``Rotation/*=(_:_:)``
 
 ### Comparing Rotations
 
 - ``Rotation/!=(_:_:)``
-
-### Encoding and Decoding Rotations
-
-- ``Rotation/encode(to:)``
-- ``Rotation/init(from:)``

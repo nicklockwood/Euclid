@@ -8,16 +8,21 @@
 - ``Polygon/init(_:material:)-9mns5``
 - ``Polygon/init(shape:material:)``
 
+### Polygon Properties
+
+- ``Polygon/vertices``
+- ``Polygon/plane``
+- ``Polygon/bounds``
+- ``Polygon/material-swift.property``
+- ``Polygon/isConvex``
+- ``Polygon/hasTexcoords``
+- ``Polygon/hasVertexColors``
+- ``Polygon/undirectedEdges``
+
 ### Comparing Polygons
 
 - ``Polygon/containsPoint(_:)``
 - ``Polygon/undirectedEdges``
-
-### Mutating Polygons
-
-- ``Polygon/merge(_:ensureConvex:)``
-- ``Polygon/inverted()``
-- ``Polygon/with(material:)``
 
 ### Transforming Polygons
 
@@ -29,4 +34,6 @@
 - ``Polygon/scaled(by:)-8sjrv``
 - ``Polygon/transformed(by:)``
 - ``Polygon/translated(by:)``
-- ``Polygon/scaleCorrected(for:)``
+- ``Polygon/merge(_:ensureConvex:)``
+- ``Polygon/inverted()``
+- ``Polygon/with(material:)``

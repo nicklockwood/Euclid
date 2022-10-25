@@ -15,6 +15,15 @@
 
 - ``Bounds/empty``
 
+### Bounds Properties
+
+- ``Bounds/min``
+- ``Bounds/max``
+- ``Bounds/size``
+- ``Bounds/center``
+- ``Bounds/corners``
+- ``Bounds/isEmpty``
+
 ### Comparing Bounds
 
 - ``Bounds/containsPoint(_:)``

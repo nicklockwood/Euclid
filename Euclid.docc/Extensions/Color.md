@@ -24,6 +24,12 @@
 - ``Color/magenta``
 - ``Color/orange``
 
+### Color properties
+
+- ``Color/r``
+- ``Color/g``
+- ``Color/b``
+- ``Color/a``
 
 ### Mutating Colors
 

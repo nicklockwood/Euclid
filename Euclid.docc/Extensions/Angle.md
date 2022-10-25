@@ -16,6 +16,11 @@
 - ``Angle/pi``
 - ``Angle/twoPi``
 
+### Angle Properties
+
+- ``Angle/degrees``
+- ``Angle/radians``
+
 ### Computing Angles
 
 - ``Angle/-(_:)``

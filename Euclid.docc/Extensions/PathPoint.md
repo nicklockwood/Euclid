@@ -10,6 +10,13 @@
 - ``PathPoint/curve(_:_:_:texcoord:color:)``
 - ``PathPoint/curve(_:texcoord:color:)``
 
+### Path Point Properties
+
+- ``PathPoint/position``
+- ``PathPoint/color``
+- ``PathPoint/texcoord``
+- ``PathPoint/isCurved``
+
 ### Interpolating Path Points
 
 - ``PathPoint/lerp(_:_:)``

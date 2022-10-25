@@ -51,7 +51,7 @@
 - ``Mesh/extrude(_:depth:faces:material:isCancelled:)``
 - ``Mesh/fill(_:faces:material:)``
 - ``Mesh/fill(_:faces:material:)``
-- ``Mesh/loft(_:faces:material:isCancelled:)``
+- ``Mesh/loft(_:faces:material:)``
 - ``Mesh/stroke(_:width:detail:material:)``
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-85o14``
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-9mn9o``
@@ -61,17 +61,20 @@
 - ``Mesh/text(_:font:width:depth:detail:material:)``
 - ``Mesh/text(_:width:depth:detail:material:)``
 
-### Comparing Meshes
+### Mesh Properties
 
+- ``Mesh/polygons``
+- ``Mesh/materials``
 - ``Mesh/bounds``
-- ``Mesh/containsPoint(_:)``
 - ``Mesh/hasTexcoords``
 - ``Mesh/hasVertexColors``
 - ``Mesh/isWatertight``
-- ``Mesh/materials``
-- ``Mesh/polygons``
 - ``Mesh/polygonsByMaterial``
 - ``Mesh/uniqueEdges``
+
+### Comparing Meshes
+
+- ``Mesh/containsPoint(_:)``
 
 ### Transforming Meshes
 

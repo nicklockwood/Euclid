@@ -43,13 +43,13 @@ pod 'Euclid', '~> 0.5'
 To install using Carthage, add this to your Cartfile:
 
 ```ogdl
-github "nicklockwood/Euclid" ~> 0.5
+github "nicklockwood/Euclid" ~> 0.6
 ```
 
 To install using Swift Package Manage, add this to the `dependencies:` section in your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.5.0")),
+.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.6.0")),
 ```
 
 
@@ -62,7 +62,7 @@ If you wish to contribute improvements to the documentation or the code itself, 
 
 # Example
 
-See the included project for an example of how Euclid can be used in conjunction with SceneKit to generate and render a nontrivial 3D shape on iOS.
+See the included project for an example of how Euclid can be used in conjunction with SceneKit or RealityKit to generate and render a nontrivial 3D shape on iOS.
 
 
 # Documentation

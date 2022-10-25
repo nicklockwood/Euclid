@@ -4,12 +4,14 @@
 
 ### Creating Vectors
 
-- ``Vector/init(_:_:_:)``
-- ``Vector/init(_:)-63ct7``
-- ``Vector/init(size:)-8b34m``
-- ``Vector/init(size:)-nkyk``
 - ``Vector/init(_:)-228p6``
 - ``Vector/init(_:)-4eop9``
+- ``Vector/init(_:)-5n3j``
+- ``Vector/init(_:)-63ct7``
+- ``Vector/init(_:)-6nlm``
+- ``Vector/init(_:_:_:)``
+- ``Vector/init(size:)-8b34m``
+- ``Vector/init(size:)-nkyk``
 
 ### Default Vectors
 
@@ -18,6 +20,14 @@
 - ``Vector/unitX``
 - ``Vector/unitY``
 - ``Vector/unitZ``
+
+### Vector Properties
+
+- ``Vector/x``
+- ``Vector/y``
+- ``Vector/z``
+- ``Vector/length``
+- ``Vector/lengthSquared``
 
 ### Computing Vectors
 
@@ -33,6 +43,9 @@
 - ``Vector//=(_:_:)``
 - ``Vector/dot(_:)``
 - ``Vector/cross(_:)``
+
+### Interpolating Vectors
+
 - ``Vector/lerp(_:_:)``
 
 ### Transforming Vectors

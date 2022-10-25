@@ -7,7 +7,7 @@
 - ``init(_:_:_:_:)``
 - ``init(_:)``
 
-### Inspecting Vertices
+### Vertex Properties
 
 - ``position``
 - ``normal``

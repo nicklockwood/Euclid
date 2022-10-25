@@ -8,9 +8,7 @@
 - ``Path/init(subpaths:)``
 - ``Path/init(polygon:)``
 - ``Path/init(_:detail:color:)``
-
-### Creating Paths of Lines and Curves
-
+- ``Path/init(cgPath:detail:color:)``
 - ``Path/curve(_:detail:)``
 - ``Path/line(_:_:color:)``
 - ``Path/line(_:color:)``
@@ -29,9 +27,13 @@
 - ``Path/text(_:font:width:detail:)``
 - ``Path/text(_:width:detail:)``
 
-### Mutating Paths
+### Path Properties
 
-- ``Path/closed()``
+- ``Path/points``
+- ``Path/plane``
+- ``Path/bounds``
+- ``Path/isClosed``
+- ``Path/isPlanar``
 
 ### Transforming Paths
 
@@ -41,3 +43,4 @@
 - ``Path/scaled(by:)-84xdd``
 - ``Path/transformed(by:)``
 - ``Path/translated(by:)``
+- ``Path/closed()``
