@@ -27,6 +27,7 @@
 - ``Rotation/pitch``
 - ``Rotation/roll``
 - ``Rotation/yaw``
+- ``Rotation/isIdentity``
 
 ### Interpolating Rotations
 

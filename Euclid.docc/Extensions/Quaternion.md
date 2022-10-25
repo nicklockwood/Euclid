@@ -16,6 +16,16 @@
 ### Default Quaternions
 
 - ``Quaternion/zero``
+- ``Quaternion/identity``
+
+### Quaternion Properties
+
+- ``Quaternion/pitch``
+- ``Quaternion/roll``
+- ``Quaternion/yaw``
+- ``Quaternion/axis``
+- ``Quaternion/angle``
+- ``Quaternion/isIdentity``
 
 ### Computing Quaternions
 

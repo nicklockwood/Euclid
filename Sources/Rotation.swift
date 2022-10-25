@@ -221,6 +221,11 @@ public extension Rotation {
         self = .roll(roll) * .yaw(yaw) * .pitch(pitch)
     }
 
+    /// Rotation has no effect.
+    var isIdentity: Bool {
+        quaternion.isIdentity
+    }
+
     /// The angle of rotation around the X-axis.
     var pitch: Angle {
         quaternion.pitch

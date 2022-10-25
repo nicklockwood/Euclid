@@ -11,6 +11,14 @@
 
 - ``Transform/identity``
 
+### Transform properties
+
+- ``Transform/rotation``
+- ``Transform/scale``
+- ``Transform/offset``
+- ``Transform/isFlipped``
+- ``Transform/isIdentity``
+
 ### Computing Transforms
 
 - ``Transform/*(_:_:)``

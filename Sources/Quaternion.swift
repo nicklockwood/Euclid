@@ -439,6 +439,11 @@ public extension Quaternion {
         self.init(components[0], components[1], components[2], components[3])
     }
 
+    /// Quaternion has no effect.
+    var isIdentity: Bool {
+        abs(1 - w) < epsilon
+    }
+
     /// An array containing the raw components of the quaternion.
     var components: [Double] {
         [x, y, z, w]

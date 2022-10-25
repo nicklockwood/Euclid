@@ -76,15 +76,20 @@ extension Transform: Codable {
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try offset == .zero ? () : container.encode(offset, forKey: .offset)
-        try rotation == .identity ? () : container.encode(rotation, forKey: .rotation)
-        try scale == .one ? () : container.encode(scale, forKey: .scale)
+        try offset.isEqual(to: .zero) ? () : container.encode(offset, forKey: .offset)
+        try rotation.isIdentity ? () : container.encode(rotation, forKey: .rotation)
+        try scale.isEqual(to: .one) ? () : container.encode(scale, forKey: .scale)
     }
 }
 
 public extension Transform {
     /// The identity transform (i.e. no transform).
     static let identity = Transform()
+
+    /// Transform has no effect.
+    var isIdentity: Bool {
+        rotation.isIdentity && offset.isEqual(to: .zero) && scale.isEqual(to: .one)
+    }
 
     /// Does the transform apply a mirror operation (negative scale).
     /// - Parameter v: An offset vector to apply to the transform.
@@ -127,7 +132,7 @@ public extension Mesh {
     /// Returns a translated copy of the mesh.
     /// - Parameter v: An offset vector to apply to the mesh.
     func translated(by v: Vector) -> Mesh {
-        Mesh(
+        v.isEqual(to: .zero) ? self : Mesh(
             unchecked: polygons.translated(by: v),
             bounds: boundsIfSet?.translated(by: v),
             isConvex: isKnownConvex,
@@ -140,7 +145,7 @@ public extension Mesh {
     /// - Parameter r: A rotation to apply to the mesh.
     @_disfavoredOverload
     func rotated(by r: Rotation) -> Mesh {
-        Mesh(
+        r.isIdentity ? self : Mesh(
             unchecked: polygons.rotated(by: r),
             bounds: nil,
             isConvex: isKnownConvex,
@@ -152,7 +157,7 @@ public extension Mesh {
     /// Returns a rotated copy of the mesh.
     /// - Parameter q: A quaternion to apply to the mesh.
     func rotated(by q: Quaternion) -> Mesh {
-        Mesh(
+        q.isIdentity ? self : Mesh(
             unchecked: polygons.rotated(by: q),
             bounds: nil,
             isConvex: isKnownConvex,
@@ -180,7 +185,7 @@ public extension Mesh {
     /// Returns a scaled copy of the mesh.
     /// - Parameter f: A scale factor to apply to the mesh.
     func scaled(by f: Double) -> Mesh {
-        Mesh(
+        f.isEqual(to: 1, withPrecision: epsilon) ? self : Mesh(
             unchecked: polygons.scaled(by: f),
             bounds: boundsIfSet?.scaled(by: f),
             isConvex: isKnownConvex && f > 0,
@@ -192,10 +197,10 @@ public extension Mesh {
     /// Returns a transformed copy of the mesh.
     /// - Parameter t: A transform to apply to the mesh.
     func transformed(by t: Transform) -> Mesh {
-        Mesh(
+        t.isIdentity ? self : Mesh(
             unchecked: polygons.transformed(by: t),
             bounds: boundsIfSet.flatMap {
-                t.rotation == .identity ? $0.transformed(by: t) : nil
+                t.rotation.isIdentity ? $0.transformed(by: t) : nil
             },
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
@@ -208,7 +213,7 @@ public extension Polygon {
     /// Returns a translated copy of the polygon.
     /// - Parameter v: An offset vector to apply to the polygon.
     func translated(by v: Vector) -> Polygon {
-        Polygon(
+        v.isEqual(to: .zero) ? self : Polygon(
             unchecked: vertices.translated(by: v),
             normal: plane.normal,
             isConvex: isConvex,
@@ -220,7 +225,7 @@ public extension Polygon {
     /// - Parameter r: A rotation to apply to the polygon.
     @_disfavoredOverload
     func rotated(by r: Rotation) -> Polygon {
-        Polygon(
+        r.isIdentity ? self : Polygon(
             unchecked: vertices.rotated(by: r),
             normal: plane.normal.rotated(by: r),
             isConvex: isConvex,
@@ -231,7 +236,7 @@ public extension Polygon {
     /// Returns a rotated copy of the polygon.
     /// - Parameter q: A quaternion to apply to the polygon.
     func rotated(by q: Quaternion) -> Polygon {
-        Polygon(
+        q.isIdentity ? self : Polygon(
             unchecked: vertices.rotated(by: q),
             normal: plane.normal.rotated(by: q),
             isConvex: isConvex,
@@ -242,6 +247,11 @@ public extension Polygon {
     /// Returns a scaled copy of the polygon.
     /// - Parameter f: A scale vector to apply to the polygon.
     func scaled(by v: Vector) -> Polygon {
+        if v.x == v.y, v.y == v.z {
+            // optimization - avoids scaling normals
+            return scaled(by: v.x)
+        }
+
         let v = v.clamped()
         var flipped = v.x < 0
         if v.y < 0 { flipped = !flipped }
@@ -260,6 +270,9 @@ public extension Polygon {
     /// Returns a scaled copy of the polygon.
     /// - Parameter f: A scale factor to apply to the polygon.
     func scaled(by f: Double) -> Polygon {
+        if f.isEqual(to: 1, withPrecision: epsilon) {
+            return self
+        }
         let f = f.clamped()
         let polygon = Polygon(
             unchecked: vertices.scaled(by: f),
@@ -279,28 +292,28 @@ public extension Polygon {
 
 internal extension Collection where Element == Polygon {
     func translated(by v: Vector) -> [Polygon] {
-        map { $0.translated(by: v) }
+        v.isEqual(to: .zero) ? Array(self) : map { $0.translated(by: v) }
     }
 
     @_disfavoredOverload
     func rotated(by r: Rotation) -> [Polygon] {
-        map { $0.rotated(by: r) }
+        r.isIdentity ? Array(self) : map { $0.rotated(by: r) }
     }
 
     func rotated(by q: Quaternion) -> [Polygon] {
-        map { $0.rotated(by: q) }
+        q.isIdentity ? Array(self) : map { $0.rotated(by: q) }
     }
 
     func scaled(by v: Vector) -> [Polygon] {
-        map { $0.scaled(by: v) }
+        v.isEqual(to: .one) ? Array(self) : map { $0.scaled(by: v) }
     }
 
     func scaled(by f: Double) -> [Polygon] {
-        map { $0.scaled(by: f) }
+        f.isEqual(to: 1, withPrecision: epsilon) ? Array(self) : map { $0.scaled(by: f) }
     }
 
     func transformed(by t: Transform) -> [Polygon] {
-        map { $0.transformed(by: t) }
+        t.isIdentity ? Array(self) : map { $0.transformed(by: t) }
     }
 }
 
@@ -361,28 +374,28 @@ public extension Vertex {
 
 internal extension Collection where Element == Vertex {
     func translated(by v: Vector) -> [Vertex] {
-        map { $0.translated(by: v) }
+        v.isEqual(to: .zero) ? Array(self) : map { $0.translated(by: v) }
     }
 
     @_disfavoredOverload
     func rotated(by r: Rotation) -> [Vertex] {
-        map { $0.rotated(by: r) }
+        r.isIdentity ? Array(self) : map { $0.rotated(by: r) }
     }
 
     func rotated(by q: Quaternion) -> [Vertex] {
-        map { $0.rotated(by: q) }
+        q.isIdentity ? Array(self) : map { $0.rotated(by: q) }
     }
 
     func scaled(by v: Vector) -> [Vertex] {
-        map { $0.scaled(by: v) }
+        v.isEqual(to: .one) ? Array(self) : map { $0.scaled(by: v) }
     }
 
     func scaled(by f: Double) -> [Vertex] {
-        map { $0.scaled(by: f) }
+        f.isEqual(to: 1, withPrecision: epsilon) ? Array(self) : map { $0.scaled(by: f) }
     }
 
     func transformed(by t: Transform) -> [Vertex] {
-        map { $0.transformed(by: t) }
+        t.isIdentity ? Array(self) : map { $0.transformed(by: t) }
     }
 }
 
@@ -424,7 +437,7 @@ public extension Vector {
 
 internal extension Collection where Element == Vector {
     func translated(by v: Vector) -> [Vector] {
-        map { $0.translated(by: v) }
+        v.isEqual(to: .zero) ? Array(self) : map { $0.translated(by: v) }
     }
 
     @_disfavoredOverload
@@ -520,28 +533,28 @@ public extension PathPoint {
 
 internal extension Collection where Element == PathPoint {
     func translated(by v: Vector) -> [PathPoint] {
-        map { $0.translated(by: v) }
+        v.isEqual(to: .zero) ? Array(self) : map { $0.translated(by: v) }
     }
 
     @_disfavoredOverload
     func rotated(by r: Rotation) -> [PathPoint] {
-        map { $0.rotated(by: r) }
+        r.isIdentity ? Array(self) : map { $0.rotated(by: r) }
     }
 
     func rotated(by q: Quaternion) -> [PathPoint] {
-        map { $0.rotated(by: q) }
+        q.isIdentity ? Array(self) : map { $0.rotated(by: q) }
     }
 
     func scaled(by v: Vector) -> [PathPoint] {
-        map { $0.scaled(by: v) }
+        v.isEqual(to: .one) ? Array(self) : map { $0.scaled(by: v) }
     }
 
     func scaled(by f: Double) -> [PathPoint] {
-        map { $0.scaled(by: f) }
+        f.isEqual(to: 1, withPrecision: epsilon) ? Array(self) : map { $0.scaled(by: f) }
     }
 
     func transformed(by t: Transform) -> [PathPoint] {
-        map { $0.transformed(by: t) }
+        t.isIdentity ? Array(self) : map { $0.transformed(by: t) }
     }
 }
 
@@ -699,6 +712,28 @@ public extension Bounds {
         scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
     }
 }
+
+// extension Array: Transformable where Element: Transformable {
+//    public func translated(by v: Vector) -> [Element] {
+//        v.isEqual(to: .zero) ? self : map { $0.translated(by: v) }
+//    }
+//
+//    public func rotated(by q: Quaternion) -> [Element] {
+//        q.isIdentity ? self : map { $0.rotated(by: q) }
+//    }
+//
+//    public func scaled(by v: Vector) -> [Element] {
+//        v.isEqual(to: .one) ? self : map { $0.scaled(by: v) }
+//    }
+//
+//    public func scaled(by f: Double) -> [Element] {
+//        f.isEqual(to: 1, withPrecision: epsilon) ? self : map { $0.scaled(by: f) }
+//    }
+//
+//    public func transformed(by t: Transform) -> [Element] {
+//        t.isIdentity ? self : map { $0.transformed(by: t) }
+//    }
+// }
 
 private extension Double {
     func clamped() -> Double {
