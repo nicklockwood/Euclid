@@ -621,7 +621,7 @@ internal extension Polygon {
     init(
         unchecked vertices: [Vertex],
         normal: Vector,
-        isConvex: Bool,
+        isConvex: Bool?,
         material: Material?
     ) {
         self.init(

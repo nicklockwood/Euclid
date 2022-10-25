@@ -252,7 +252,7 @@ public extension Polygon {
         return Polygon(
             unchecked: flipped ? vertices.reversed() : vertices,
             normal: plane.normal.scaled(by: vn).normalized(),
-            isConvex: isConvex,
+            isConvex: nil,
             material: material
         )
     }
