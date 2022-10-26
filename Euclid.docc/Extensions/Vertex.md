@@ -5,8 +5,7 @@
 ### Creating Vertices
 
 - ``init(_:_:_:_:)``
-- ``init(_:)-5517j``
-- ``init(_:)-5wpw1``
+- ``init(_:)``
 
 ### Inspecting Vertices
 

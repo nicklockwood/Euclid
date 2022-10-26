@@ -65,67 +65,6 @@ public struct Vertex: Hashable, Sendable {
     ) {
         self.init(unchecked: position, normal?.normalized(), texcoord, color)
     }
-
-    /// Creates a new vertex from a position with default values for normal, texcoord and color.
-    /// - Parameter position: The position of the vertex in 3D space.
-    public init(_ position: Vector) {
-        self.init(unchecked: position, nil, nil, nil)
-    }
-
-    /// Creates a vertex from a flat array of values.
-    /// - Parameter values: The array of values.
-    ///
-    /// The number of values specified determines how each value is interpreted. The following patterns are
-    /// supported (P = position, N = normal, T = texcoord, RGB[A] = color):
-    ///
-    /// PP
-    /// PPP
-    /// PPP NNN
-    /// PPP NNN TT
-    /// PPP NNN TTT
-    /// PPP NNN TTT RGB
-    /// PPP NNN TTT RGBA
-    public init?(_ values: [Double]) {
-        switch values.count {
-        case 2:
-            self.init(Vector(values[0], values[1]))
-        case 3:
-            self.init(Vector(values[0], values[1], values[2]))
-        case 6:
-            self.init(
-                Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5])
-            )
-        case 8:
-            self.init(
-                Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5]),
-                Vector(values[6], values[7])
-            )
-        case 9:
-            self.init(
-                Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5]),
-                Vector(values[6], values[7], values[8])
-            )
-        case 12:
-            self.init(
-                Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5]),
-                Vector(values[6], values[7], values[8]),
-                Color(values[9], values[10], values[11])
-            )
-        case 13:
-            self.init(
-                Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5]),
-                Vector(values[6], values[7], values[8]),
-                Color(values[9], values[10], values[11], values[12])
-            )
-        default:
-            return nil
-        }
-    }
 }
 
 extension Vertex: Codable {
@@ -173,6 +112,12 @@ extension Vertex: Codable {
 }
 
 public extension Vertex {
+    /// Creates a new vertex from a position with default values for normal, texcoord and color.
+    /// - Parameter position: The position of the vertex in 3D space.
+    init(_ position: Vector) {
+        self.init(unchecked: position, nil, nil, nil)
+    }
+
     /// Returns a new vertex with the normal inverted.
     func inverted() -> Vertex {
         Vertex(unchecked: position, -normal, texcoord, color)
@@ -206,6 +151,61 @@ internal extension Vertex {
         self.normal = normal ?? .zero
         self.texcoord = texcoord ?? .zero
         self.color = color ?? .white
+    }
+
+    /// Creates a vertex from a flat array of values.
+    /// - Parameter values: The array of values.
+    ///
+    /// The number of values specified determines how each value is interpreted. The following patterns are
+    /// supported (P = position, N = normal, T = texcoord, RGB[A] = color):
+    ///
+    /// PP
+    /// PPP
+    /// PPP NNN
+    /// PPP NNN TT
+    /// PPP NNN TTT
+    /// PPP NNN TTT RGB
+    /// PPP NNN TTT RGBA
+    init?(_ values: [Double]) {
+        switch values.count {
+        case 2:
+            self.init(Vector(values[0], values[1]))
+        case 3:
+            self.init(Vector(values[0], values[1], values[2]))
+        case 6:
+            self.init(
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5])
+            )
+        case 8:
+            self.init(
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5]),
+                Vector(values[6], values[7])
+            )
+        case 9:
+            self.init(
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5]),
+                Vector(values[6], values[7], values[8])
+            )
+        case 12:
+            self.init(
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5]),
+                Vector(values[6], values[7], values[8]),
+                Color(values[9], values[10], values[11])
+            )
+        case 13:
+            self.init(
+                Vector(values[0], values[1], values[2]),
+                Vector(values[3], values[4], values[5]),
+                Vector(values[6], values[7], values[8]),
+                Color(values[9], values[10], values[11], values[12])
+            )
+        default:
+            return nil
+        }
     }
 
     /// Creates a copy of the vertex with the specified normal.
