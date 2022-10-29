@@ -34,8 +34,8 @@ import Foundation
 /// Protocol for transformable types
 public protocol Transformable {
     /// Returns a rotated copy of the value.
-    /// - Parameter quaternion: A rotation to apply to the value.
-    func rotated(by quaternion: Quaternion) -> Self
+    /// - Parameter rotation: A rotation to apply to the value.
+    func rotated(by rotation: Rotation) -> Self
 
     /// Returns a translated copy of the value.
     /// - Parameter offset: An offset vector to apply to the value.
@@ -62,9 +62,9 @@ public extension Transformable {
     }
 
     /// Rotate the value in place.
-    /// - Parameter quaternion: A rotation to apply to the value.
-    mutating func rotate(by quaternion: Quaternion) {
-        self = rotated(by: quaternion)
+    /// - Parameter rotation: A rotation to apply to the value.
+    mutating func rotate(by rotation: Rotation) {
+        self = rotated(by: rotation)
     }
 
     /// Translate the value in place.
@@ -92,17 +92,17 @@ public extension Transformable {
     }
 
     /// Returns a rotated copy of the value.
-    /// - Parameter rotation: A rotation to apply to the value.
+    /// - Parameter quaternion: A rotation to apply to the value.
     @_disfavoredOverload
-    func rotated(by rotation: Rotation) -> Self {
-        rotated(by: Quaternion(rotation))
+    func rotated(by quaternion: Quaternion) -> Self {
+        rotated(by: Rotation(quaternion))
     }
 
     /// Rotate the value in place.
-    /// - Parameter rotation: A rotation to apply to the value.
+    /// - Parameter quaternion: A rotation to apply to the value.
     @_disfavoredOverload
-    mutating func rotate(by rotation: Rotation) {
-        self = rotated(by: rotation)
+    mutating func rotate(by quaternion: Quaternion) {
+        self = rotated(by: quaternion)
     }
 
     /// Returns a transformed copy of the value.
@@ -168,10 +168,10 @@ extension Transform: Codable {
 }
 
 extension Transform: Transformable {
-    public func rotated(by quaternion: Quaternion) -> Transform {
+    public func rotated(by rotation: Rotation) -> Transform {
         Transform(
             offset: offset,
-            rotation: rotation * Rotation(quaternion),
+            rotation: self.rotation * rotation,
             scale: scale
         )
     }
@@ -238,9 +238,9 @@ extension Mesh: Transformable {
         )
     }
 
-    public func rotated(by q: Quaternion) -> Mesh {
-        q.isIdentity ? self : Mesh(
-            unchecked: polygons.rotated(by: q),
+    public func rotated(by r: Rotation) -> Mesh {
+        r.isIdentity ? self : Mesh(
+            unchecked: polygons.rotated(by: r),
             bounds: nil,
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
@@ -297,10 +297,10 @@ extension Polygon: Transformable {
         )
     }
 
-    public func rotated(by q: Quaternion) -> Polygon {
-        q.isIdentity ? self : Polygon(
-            unchecked: vertices.rotated(by: q),
-            normal: plane.normal.rotated(by: q),
+    public func rotated(by r: Rotation) -> Polygon {
+        r.isIdentity ? self : Polygon(
+            unchecked: vertices.rotated(by: r),
+            normal: plane.normal.rotated(by: r),
             isConvex: isConvex,
             material: material
         )
@@ -347,7 +347,7 @@ extension Vertex: Transformable {
         Vertex(unchecked: position + v, normal, texcoord, color)
     }
 
-    public func rotated(by q: Quaternion) -> Vertex {
+    public func rotated(by q: Rotation) -> Vertex {
         Vertex(
             unchecked: position.rotated(by: q),
             normal.rotated(by: q),
@@ -376,7 +376,8 @@ extension Vector: Transformable {
         self + v
     }
 
-    public func rotated(by q: Quaternion) -> Vector {
+    public func rotated(by r: Rotation) -> Vector {
+        let q = r.quaternion
         let qv = Vector(q.x, q.y, q.z)
         let uv = qv.cross(self)
         let uuv = qv.cross(uv)
@@ -402,9 +403,9 @@ extension PathPoint: Transformable {
         )
     }
 
-    public func rotated(by q: Quaternion) -> PathPoint {
+    public func rotated(by r: Rotation) -> PathPoint {
         PathPoint(
-            position.rotated(by: q),
+            position.rotated(by: r),
             texcoord: texcoord,
             color: color,
             isCurved: isCurved
@@ -447,10 +448,10 @@ extension Path: Transformable {
         )
     }
 
-    public func rotated(by q: Quaternion) -> Path {
+    public func rotated(by r: Rotation) -> Path {
         Path(
-            unchecked: points.rotated(by: q),
-            plane: plane?.rotated(by: q), subpathIndices: subpathIndices
+            unchecked: points.rotated(by: r),
+            plane: plane?.rotated(by: r), subpathIndices: subpathIndices
         )
     }
 
@@ -483,8 +484,8 @@ extension Plane: Transformable {
         Plane(unchecked: normal, pointOnPlane: normal * w + v)
     }
 
-    public func rotated(by q: Quaternion) -> Plane {
-        Plane(unchecked: normal.rotated(by: q), w: w)
+    public func rotated(by r: Rotation) -> Plane {
+        Plane(unchecked: normal.rotated(by: r), w: w)
     }
 
     public func scaled(by v: Vector) -> Plane {
@@ -508,14 +509,14 @@ extension Bounds: Transformable {
     }
 
     /// Returns a rotated copy of the bounds.
-    /// - Parameter quaternion: A quaternion to apply to the bounds.
+    /// - Parameter rotation: A quaternion to apply to the bounds.
     ///
     /// > Note: Because a bounds must be axially-aligned, rotating by an angle that is not a multiple of
     /// 90 degrees will result in the bounds being increased in size. Rotating it back again will not reduce
     /// the size, so this is a potentially irreversible operation. In general, after rotating a shape it is better
     /// to recalculate the bounds rather than trying to rotate the previous bounds.
-    public func rotated(by quaternion: Quaternion) -> Bounds {
-        isEmpty ? self : Bounds(points: corners.rotated(by: quaternion))
+    public func rotated(by rotation: Rotation) -> Bounds {
+        isEmpty ? self : Bounds(points: corners.rotated(by: rotation))
     }
 
     public func scaled(by v: Vector) -> Bounds {
@@ -536,8 +537,8 @@ extension Array: Transformable where Element: Transformable {
         v.isEqual(to: .zero) ? self : map { $0.translated(by: v) }
     }
 
-    public func rotated(by q: Quaternion) -> [Element] {
-        q.isIdentity ? self : map { $0.rotated(by: q) }
+    public func rotated(by r: Rotation) -> [Element] {
+        r.isIdentity ? self : map { $0.rotated(by: r) }
     }
 
     public func scaled(by v: Vector) -> [Element] {
