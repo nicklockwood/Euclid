@@ -342,6 +342,24 @@ extension Polygon: Transformable {
     }
 }
 
+extension LineSegment: Transformable {
+    public func translated(by v: Vector) -> Self {
+        .init(unchecked: start.translated(by: v), end.translated(by: v))
+    }
+
+    public func rotated(by r: Rotation) -> Self {
+        .init(unchecked: start.rotated(by: r), end.rotated(by: r))
+    }
+
+    public func scaled(by v: Vector) -> Self {
+        .init(unchecked: start.scaled(by: v), end.scaled(by: v))
+    }
+
+    public func scaled(by f: Double) -> Self {
+        .init(unchecked: start.scaled(by: f), end.scaled(by: f))
+    }
+}
+
 extension Vertex: Transformable {
     public func translated(by v: Vector) -> Vertex {
         Vertex(unchecked: position + v, normal, texcoord, color)
