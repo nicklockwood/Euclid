@@ -536,17 +536,25 @@ internal extension Collection where Element == Polygon {
             return []
         }
         let polygons = sorted(by: { $0.plane.w < $1.plane.w })
-        var prev = polygons[0].plane
-        var groups = [(prev, [polygons[0]])]
-        for p in polygons.dropFirst() {
-            if prev.isEqual(to: p.plane) {
-                groups[groups.count - 1].1.append(p)
+        var prev = polygons[0]
+        var sorted = [(Plane, [Polygon])]()
+        var groups = [(Plane, [Polygon])]()
+        for p in polygons {
+            if p.plane.w.isEqual(to: prev.plane.w, withPrecision: planeEpsilon) {
+                if let i = groups.lastIndex(where: { $0.0.isEqual(to: p.plane) }) {
+                    groups[i].0 = p.plane
+                    groups[i].1.append(p)
+                } else {
+                    groups.append((p.plane, [p]))
+                }
             } else {
-                groups.append((p.plane, [p]))
+                sorted += groups
+                groups = [(p.plane, [p])]
             }
-            prev = p.plane
+            prev = p
         }
-        return groups
+        sorted += groups
+        return sorted
     }
 
     /// Sort polygons by plane
