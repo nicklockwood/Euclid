@@ -37,10 +37,9 @@
 
 ### Transforming Paths
 
-- ``Path/rotated(by:)-3qnnh``
-- ``Path/rotated(by:)-4iaqb``
+- ``Path/rotated(by:)``
 - ``Path/scaled(by:)-19jpq``
 - ``Path/scaled(by:)-84xdd``
-- ``Path/transformed(by:)``
 - ``Path/translated(by:)``
+- ``Path/transformed(by:)``
 - ``Path/closed()``

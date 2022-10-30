@@ -17,12 +17,11 @@
 ### Transforming Vertices
 
 - ``Vertex/inverted()``
-- ``Vertex/rotated(by:)-57p4w``
-- ``Vertex/rotated(by:)-8pqx8``
+- ``Vertex/rotated(by:)``
 - ``Vertex/scaled(by:)-1dtbr``
 - ``Vertex/scaled(by:)-20sq4``
-- ``Vertex/transformed(by:)``
 - ``Vertex/translated(by:)``
+- ``Vertex/transformed(by:)``
 
 ### Interpolating Vertices
 

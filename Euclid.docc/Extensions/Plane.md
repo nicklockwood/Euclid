@@ -28,9 +28,8 @@
 ### Transforming Planes
 
 - ``Plane/inverted()``
-- ``Plane/rotated(by:)-2z48u``
-- ``Plane/rotated(by:)-y8cz``
+- ``Plane/rotated(by:)``
 - ``Plane/scaled(by:)-29v7y``
 - ``Plane/scaled(by:)-6axqe``
-- ``Plane/transformed(by:)``
 - ``Plane/translated(by:)``
+- ``Plane/transformed(by:)``

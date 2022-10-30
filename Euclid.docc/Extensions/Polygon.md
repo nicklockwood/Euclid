@@ -28,12 +28,11 @@
 
 - ``Polygon/tessellate(maxSides:)``
 - ``Polygon/triangulate()``
-- ``Polygon/rotated(by:)-3e445``
-- ``Polygon/rotated(by:)-8zgb0``
+- ``Polygon/rotated(by:)``
 - ``Polygon/scaled(by:)-69m6m``
 - ``Polygon/scaled(by:)-8sjrv``
-- ``Polygon/transformed(by:)``
 - ``Polygon/translated(by:)``
+- ``Polygon/transformed(by:)``
 - ``Polygon/merge(_:ensureConvex:)``
 - ``Polygon/inverted()``
 - ``Polygon/with(material:)``

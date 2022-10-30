@@ -31,6 +31,91 @@
 
 import Foundation
 
+/// Protocol for transformable types
+public protocol Transformable {
+    /// Returns a rotated copy of the value.
+    /// - Parameter quaternion: A rotation to apply to the value.
+    func rotated(by quaternion: Quaternion) -> Self
+
+    /// Returns a translated copy of the value.
+    /// - Parameter offset: An offset vector to apply to the value.
+    func translated(by offset: Vector) -> Self
+
+    /// Returns a scaled copy of the value.
+    /// - Parameter scale: A scale vector to apply to the value.
+    func scaled(by scale: Vector) -> Self
+
+    /// Returns a scaled copy of the value.
+    /// - Parameter factor: A uniform scale factor to apply to the value.
+    func scaled(by factor: Double) -> Self
+
+    /// Returns a transformed copy of the value.
+    /// - Parameter t: A transform to apply to the value.
+    func transformed(by transform: Transform) -> Self
+}
+
+public extension Transformable {
+    func transformed(by transform: Transform) -> Self {
+        scaled(by: transform.scale)
+            .rotated(by: transform.rotation)
+            .translated(by: transform.offset)
+    }
+
+    /// Rotate the value in place.
+    /// - Parameter quaternion: A rotation to apply to the value.
+    mutating func rotate(by quaternion: Quaternion) {
+        self = rotated(by: quaternion)
+    }
+
+    /// Translate the value in place.
+    /// - Parameter offset: A translation to apply to the value.
+    mutating func translate(by offset: Vector) {
+        self = translated(by: offset)
+    }
+
+    /// Scale the value in place.
+    /// - Parameter scale: A scale vector to apply to the value.
+    mutating func scale(by scale: Vector) {
+        self = scaled(by: scale)
+    }
+
+    /// Scale the value in place.
+    /// - Parameter scale: A uniform scale factor to apply to the value.
+    mutating func scale(by factor: Double) {
+        self = scaled(by: factor)
+    }
+
+    /// Transform the value in place.
+    /// - Parameter transform: A transform to apply to the value.
+    mutating func transform(by transform: Transform) {
+        self = transformed(by: transform)
+    }
+
+    /// Returns a rotated copy of the value.
+    /// - Parameter rotation: A rotation to apply to the value.
+    @_disfavoredOverload
+    func rotated(by rotation: Rotation) -> Self {
+        rotated(by: Quaternion(rotation))
+    }
+
+    /// Rotate the value in place.
+    /// - Parameter rotation: A rotation to apply to the value.
+    @_disfavoredOverload
+    mutating func rotate(by rotation: Rotation) {
+        self = rotated(by: rotation)
+    }
+
+    /// Returns a transformed copy of the value.
+    static func * (lhs: Self, rhs: Transform) -> Self {
+        lhs.transformed(by: rhs)
+    }
+
+    /// Transform the value in place.
+    static func *= (lhs: inout Self, rhs: Transform) {
+        lhs.transform(by: rhs)
+    }
+}
+
 /// A combined rotation, position, and scale that can be applied to a 3D object.
 ///
 /// Working with intermediate transform objects instead of directly updating the vertex positions of a mesh
@@ -82,6 +167,47 @@ extension Transform: Codable {
     }
 }
 
+extension Transform: Transformable {
+    public func rotated(by quaternion: Quaternion) -> Transform {
+        Transform(
+            offset: offset,
+            rotation: rotation * Rotation(quaternion),
+            scale: scale
+        )
+    }
+
+    public func translated(by offset: Vector) -> Transform {
+        Transform(
+            offset: self.offset + offset.scaled(by: scale).rotated(by: rotation),
+            rotation: rotation,
+            scale: scale
+        )
+    }
+
+    public func scaled(by scale: Vector) -> Transform {
+        Transform(
+            offset: offset,
+            rotation: rotation,
+            scale: self.scale.scaled(by: scale)
+        )
+    }
+
+    public func scaled(by factor: Double) -> Transform {
+        Transform(
+            offset: offset,
+            rotation: rotation,
+            scale: scale * factor
+        )
+    }
+
+    public func transformed(by transform: Transform) -> Transform {
+        transform
+            .translated(by: offset)
+            .scaled(by: scale)
+            .rotated(by: rotation)
+    }
+}
+
 public extension Transform {
     /// The identity transform (i.e. no transform).
     static let identity = Transform()
@@ -99,39 +225,10 @@ public extension Transform {
         if scale.z < 0 { flipped = !flipped }
         return flipped
     }
-
-    /// Translates the transform.
-    /// - Parameter v: An offset vector to apply to the transform.
-    mutating func translate(by v: Vector) {
-        offset = offset + v.scaled(by: scale).rotated(by: rotation)
-    }
-
-    /// Rotates the transform.
-    /// - Parameter r: A rotation to apply to the transform.
-    mutating func rotate(by r: Rotation) {
-        rotation *= r
-    }
-
-    /// Scales the transform.
-    /// - Parameter v: A vector scale factor.
-    mutating func scale(by v: Vector) {
-        scale = scale.scaled(by: v)
-    }
-
-    /// Combines two transforms to get the cumulative transform.
-    static func * (lhs: Transform, rhs: Transform) -> Transform {
-        var result = rhs
-        result.translate(by: lhs.offset)
-        result.scale(by: lhs.scale)
-        result.rotation *= lhs.rotation
-        return result
-    }
 }
 
-public extension Mesh {
-    /// Returns a translated copy of the mesh.
-    /// - Parameter v: An offset vector to apply to the mesh.
-    func translated(by v: Vector) -> Mesh {
+extension Mesh: Transformable {
+    public func translated(by v: Vector) -> Mesh {
         v.isEqual(to: .zero) ? self : Mesh(
             unchecked: polygons.translated(by: v),
             bounds: boundsIfSet?.translated(by: v),
@@ -141,22 +238,7 @@ public extension Mesh {
         )
     }
 
-    /// Returns a rotated copy of the mesh.
-    /// - Parameter r: A rotation to apply to the mesh.
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> Mesh {
-        r.isIdentity ? self : Mesh(
-            unchecked: polygons.rotated(by: r),
-            bounds: nil,
-            isConvex: isKnownConvex,
-            isWatertight: watertightIfSet,
-            submeshes: submeshesIfEmpty
-        )
-    }
-
-    /// Returns a rotated copy of the mesh.
-    /// - Parameter q: A quaternion to apply to the mesh.
-    func rotated(by q: Quaternion) -> Mesh {
+    public func rotated(by q: Quaternion) -> Mesh {
         q.isIdentity ? self : Mesh(
             unchecked: polygons.rotated(by: q),
             bounds: nil,
@@ -166,9 +248,7 @@ public extension Mesh {
         )
     }
 
-    /// Returns a scaled copy of the mesh.
-    /// - Parameter v: A scale vector to apply to the mesh.
-    func scaled(by v: Vector) -> Mesh {
+    public func scaled(by v: Vector) -> Mesh {
         if v.x == v.y, v.y == v.z {
             // optimization - avoids scaling normals
             return scaled(by: v.x)
@@ -182,9 +262,7 @@ public extension Mesh {
         )
     }
 
-    /// Returns a scaled copy of the mesh.
-    /// - Parameter f: A scale factor to apply to the mesh.
-    func scaled(by f: Double) -> Mesh {
+    public func scaled(by f: Double) -> Mesh {
         f.isEqual(to: 1, withPrecision: epsilon) ? self : Mesh(
             unchecked: polygons.scaled(by: f),
             bounds: boundsIfSet?.scaled(by: f),
@@ -196,7 +274,7 @@ public extension Mesh {
 
     /// Returns a transformed copy of the mesh.
     /// - Parameter t: A transform to apply to the mesh.
-    func transformed(by t: Transform) -> Mesh {
+    public func transformed(by t: Transform) -> Mesh {
         t.isIdentity ? self : Mesh(
             unchecked: polygons.transformed(by: t),
             bounds: boundsIfSet.flatMap {
@@ -209,10 +287,8 @@ public extension Mesh {
     }
 }
 
-public extension Polygon {
-    /// Returns a translated copy of the polygon.
-    /// - Parameter v: An offset vector to apply to the polygon.
-    func translated(by v: Vector) -> Polygon {
+extension Polygon: Transformable {
+    public func translated(by v: Vector) -> Polygon {
         v.isEqual(to: .zero) ? self : Polygon(
             unchecked: vertices.translated(by: v),
             normal: plane.normal,
@@ -221,21 +297,7 @@ public extension Polygon {
         )
     }
 
-    /// Returns a rotated copy of the polygon.
-    /// - Parameter r: A rotation to apply to the polygon.
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> Polygon {
-        r.isIdentity ? self : Polygon(
-            unchecked: vertices.rotated(by: r),
-            normal: plane.normal.rotated(by: r),
-            isConvex: isConvex,
-            material: material
-        )
-    }
-
-    /// Returns a rotated copy of the polygon.
-    /// - Parameter q: A quaternion to apply to the polygon.
-    func rotated(by q: Quaternion) -> Polygon {
+    public func rotated(by q: Quaternion) -> Polygon {
         q.isIdentity ? self : Polygon(
             unchecked: vertices.rotated(by: q),
             normal: plane.normal.rotated(by: q),
@@ -244,9 +306,7 @@ public extension Polygon {
         )
     }
 
-    /// Returns a scaled copy of the polygon.
-    /// - Parameter f: A scale vector to apply to the polygon.
-    func scaled(by v: Vector) -> Polygon {
+    public func scaled(by v: Vector) -> Polygon {
         if v.x == v.y, v.y == v.z {
             // optimization - avoids scaling normals
             return scaled(by: v.x)
@@ -267,9 +327,7 @@ public extension Polygon {
         )
     }
 
-    /// Returns a scaled copy of the polygon.
-    /// - Parameter f: A scale factor to apply to the polygon.
-    func scaled(by f: Double) -> Polygon {
+    public func scaled(by f: Double) -> Polygon {
         if f.isEqual(to: 1, withPrecision: epsilon) {
             return self
         }
@@ -282,63 +340,14 @@ public extension Polygon {
         )
         return f < 0 ? polygon.inverted() : polygon
     }
-
-    /// Returns a transformed copy of the polygon.
-    /// - Parameter t: A transform to apply to the polygon.
-    func transformed(by t: Transform) -> Polygon {
-        scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
-    }
 }
 
-internal extension Collection where Element == Polygon {
-    func translated(by v: Vector) -> [Polygon] {
-        v.isEqual(to: .zero) ? Array(self) : map { $0.translated(by: v) }
-    }
-
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> [Polygon] {
-        r.isIdentity ? Array(self) : map { $0.rotated(by: r) }
-    }
-
-    func rotated(by q: Quaternion) -> [Polygon] {
-        q.isIdentity ? Array(self) : map { $0.rotated(by: q) }
-    }
-
-    func scaled(by v: Vector) -> [Polygon] {
-        v.isEqual(to: .one) ? Array(self) : map { $0.scaled(by: v) }
-    }
-
-    func scaled(by f: Double) -> [Polygon] {
-        f.isEqual(to: 1, withPrecision: epsilon) ? Array(self) : map { $0.scaled(by: f) }
-    }
-
-    func transformed(by t: Transform) -> [Polygon] {
-        t.isIdentity ? Array(self) : map { $0.transformed(by: t) }
-    }
-}
-
-public extension Vertex {
-    /// Returns a translated copy of the vertex.
-    /// - Parameter v: An offset vector to apply to the vertex.
-    func translated(by v: Vector) -> Vertex {
+extension Vertex: Transformable {
+    public func translated(by v: Vector) -> Vertex {
         Vertex(unchecked: position + v, normal, texcoord, color)
     }
 
-    /// Returns a rotated copy of the vertex.
-    /// - Parameter r: A rotation to apply to the vertex.
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> Vertex {
-        Vertex(
-            unchecked: position.rotated(by: r),
-            normal.rotated(by: r),
-            texcoord,
-            color
-        )
-    }
-
-    /// Returns a rotated copy of the vertex.
-    /// - Parameter q: A quaternion to apply to the vertex.
-    func rotated(by q: Quaternion) -> Vertex {
+    public func rotated(by q: Quaternion) -> Vertex {
         Vertex(
             unchecked: position.rotated(by: q),
             normal.rotated(by: q),
@@ -347,9 +356,7 @@ public extension Vertex {
         )
     }
 
-    /// Returns a scaled copy of the vertex.
-    /// - Parameter v: A scale vector to apply to the vertex.
-    func scaled(by v: Vector) -> Vertex {
+    public func scaled(by v: Vector) -> Vertex {
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
         return Vertex(
             unchecked: position.scaled(by: v),
@@ -359,113 +366,34 @@ public extension Vertex {
         )
     }
 
-    /// Returns a scaled copy of the vertex.
-    /// - Parameter f: A scale factor to apply to the vertex.
-    func scaled(by f: Double) -> Vertex {
+    public func scaled(by f: Double) -> Vertex {
         Vertex(unchecked: position * f, normal, texcoord, color)
     }
-
-    /// Returns a transformed copy of the vertex.
-    /// - Parameter t: A transform to apply to the vertex.
-    func transformed(by t: Transform) -> Vertex {
-        scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
-    }
 }
 
-internal extension Collection where Element == Vertex {
-    func translated(by v: Vector) -> [Vertex] {
-        v.isEqual(to: .zero) ? Array(self) : map { $0.translated(by: v) }
-    }
-
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> [Vertex] {
-        r.isIdentity ? Array(self) : map { $0.rotated(by: r) }
-    }
-
-    func rotated(by q: Quaternion) -> [Vertex] {
-        q.isIdentity ? Array(self) : map { $0.rotated(by: q) }
-    }
-
-    func scaled(by v: Vector) -> [Vertex] {
-        v.isEqual(to: .one) ? Array(self) : map { $0.scaled(by: v) }
-    }
-
-    func scaled(by f: Double) -> [Vertex] {
-        f.isEqual(to: 1, withPrecision: epsilon) ? Array(self) : map { $0.scaled(by: f) }
-    }
-
-    func transformed(by t: Transform) -> [Vertex] {
-        t.isIdentity ? Array(self) : map { $0.transformed(by: t) }
-    }
-}
-
-public extension Vector {
-    /// Returns a translated copy of the vector.
-    /// - Parameter v: An offset vector to apply to the original vector.
-    func translated(by v: Vector) -> Vector {
+extension Vector: Transformable {
+    public func translated(by v: Vector) -> Vector {
         self + v
     }
 
-    /// Returns a rotated copy of the vector.
-    /// - Parameter r: A rotation to apply to the vector.
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> Vector {
-        rotated(by: Quaternion(r))
-    }
-
-    /// Returns a rotated copy of the vector.
-    /// - Parameter q: A quaternion to apply to the vector.
-    func rotated(by q: Quaternion) -> Vector {
+    public func rotated(by q: Quaternion) -> Vector {
         let qv = Vector(q.x, q.y, q.z)
         let uv = qv.cross(self)
         let uuv = qv.cross(uv)
         return self + (uv * 2 * q.w) + (uuv * 2)
     }
 
-    /// Returns a scaled copy of the vector.
-    /// - Parameter v: A scale vector to apply to the vector.
-    func scaled(by v: Vector) -> Vector {
+    public func scaled(by v: Vector) -> Vector {
         Vector(x * v.x, y * v.y, z * v.z)
     }
 
-    /// Returns a transformed copy of the vector.
-    /// - Parameter t: A transform to apply to the vector.
-    func transformed(by t: Transform) -> Vector {
-        scaled(by: t.scale).rotated(by: t.rotation) + t.offset
+    public func scaled(by factor: Double) -> Vector {
+        self * factor
     }
 }
 
-internal extension Collection where Element == Vector {
-    func translated(by v: Vector) -> [Vector] {
-        v.isEqual(to: .zero) ? Array(self) : map { $0.translated(by: v) }
-    }
-
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> [Vector] {
-        map { $0.rotated(by: Quaternion(r)) }
-    }
-
-    func rotated(by q: Quaternion) -> [Vector] {
-        map { $0.rotated(by: q) }
-    }
-
-    func scaled(by v: Vector) -> [Vector] {
-        map { $0.scaled(by: v) }
-    }
-
-    func scaled(by f: Double) -> [Vector] {
-        map { $0 * f }
-    }
-
-    func transformed(by t: Transform) -> [Vector] {
-        map { $0.transformed(by: t) }
-    }
-}
-
-public extension PathPoint {
-    /// Returns a translated copy of the path point.
-    /// - Parameter v: An offset vector to apply to the path point.
-    func translated(by v: Vector) -> PathPoint {
+extension PathPoint: Transformable {
+    public func translated(by v: Vector) -> PathPoint {
         PathPoint(
             position + v,
             texcoord: texcoord,
@@ -474,21 +402,7 @@ public extension PathPoint {
         )
     }
 
-    /// Returns a rotated copy of the path point.
-    /// - Parameter r: A rotation to apply to the path point.
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> PathPoint {
-        PathPoint(
-            position.rotated(by: r),
-            texcoord: texcoord,
-            color: color,
-            isCurved: isCurved
-        )
-    }
-
-    /// Returns a rotated copy of the path point.
-    /// - Parameter q: A quaternion to apply to the path point.
-    func rotated(by q: Quaternion) -> PathPoint {
+    public func rotated(by q: Quaternion) -> PathPoint {
         PathPoint(
             position.rotated(by: q),
             texcoord: texcoord,
@@ -497,9 +411,7 @@ public extension PathPoint {
         )
     }
 
-    /// Returns a scaled copy of the path point.
-    /// - Parameter v: A scale vector to apply to the path point.
-    func scaled(by v: Vector) -> PathPoint {
+    public func scaled(by v: Vector) -> PathPoint {
         PathPoint(
             position.scaled(by: v),
             texcoord: texcoord,
@@ -508,9 +420,7 @@ public extension PathPoint {
         )
     }
 
-    /// Returns a scaled copy of the path point.
-    /// - Parameter f: A scale factor to apply to the path point.
-    func scaled(by f: Double) -> PathPoint {
+    public func scaled(by f: Double) -> PathPoint {
         PathPoint(
             position * f,
             texcoord: texcoord,
@@ -519,9 +429,7 @@ public extension PathPoint {
         )
     }
 
-    /// Returns a transformed copy of the path point.
-    /// - Parameter t: A transform to apply to the path point.
-    func transformed(by t: Transform) -> PathPoint {
+    public func transformed(by t: Transform) -> PathPoint {
         PathPoint(
             position.transformed(by: t),
             texcoord: texcoord,
@@ -531,65 +439,22 @@ public extension PathPoint {
     }
 }
 
-internal extension Collection where Element == PathPoint {
-    func translated(by v: Vector) -> [PathPoint] {
-        v.isEqual(to: .zero) ? Array(self) : map { $0.translated(by: v) }
-    }
-
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> [PathPoint] {
-        r.isIdentity ? Array(self) : map { $0.rotated(by: r) }
-    }
-
-    func rotated(by q: Quaternion) -> [PathPoint] {
-        q.isIdentity ? Array(self) : map { $0.rotated(by: q) }
-    }
-
-    func scaled(by v: Vector) -> [PathPoint] {
-        v.isEqual(to: .one) ? Array(self) : map { $0.scaled(by: v) }
-    }
-
-    func scaled(by f: Double) -> [PathPoint] {
-        f.isEqual(to: 1, withPrecision: epsilon) ? Array(self) : map { $0.scaled(by: f) }
-    }
-
-    func transformed(by t: Transform) -> [PathPoint] {
-        t.isIdentity ? Array(self) : map { $0.transformed(by: t) }
-    }
-}
-
-public extension Path {
-    /// Returns a translated copy of the path.
-    /// - Parameter v: An offset vector to apply to the path.
-    func translated(by v: Vector) -> Path {
+extension Path: Transformable {
+    public func translated(by v: Vector) -> Path {
         Path(
             unchecked: points.translated(by: v),
             plane: plane?.translated(by: v), subpathIndices: subpathIndices
         )
     }
 
-    /// Returns a rotated copy of the path.
-    /// - Parameter r: A rotation to apply to the path.
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> Path {
-        Path(
-            unchecked: points.rotated(by: r),
-            plane: plane?.rotated(by: r), subpathIndices: subpathIndices
-        )
-    }
-
-    /// Returns a rotated copy of the path.
-    /// - Parameter q: A quaternion to apply to the path.
-    func rotated(by q: Quaternion) -> Path {
+    public func rotated(by q: Quaternion) -> Path {
         Path(
             unchecked: points.rotated(by: q),
             plane: plane?.rotated(by: q), subpathIndices: subpathIndices
         )
     }
 
-    /// Returns a scaled copy of the path.
-    /// - Parameter f: A scale vector to apply to the path.
-    func scaled(by v: Vector) -> Path {
+    public func scaled(by v: Vector) -> Path {
         let v = v.clamped()
         return Path(
             unchecked: points.scaled(by: v),
@@ -597,9 +462,7 @@ public extension Path {
         )
     }
 
-    /// Returns a scaled copy of the path.
-    /// - Parameter f: A scale factor to apply to the path.
-    func scaled(by f: Double) -> Path {
+    public func scaled(by f: Double) -> Path {
         let f = f.clamped()
         return Path(
             unchecked: points.scaled(by: f),
@@ -607,9 +470,7 @@ public extension Path {
         )
     }
 
-    /// Returns a transformed copy of the path.
-    /// - Parameter t: A transform to apply to the path.
-    func transformed(by t: Transform) -> Path {
+    public func transformed(by t: Transform) -> Path {
         Path(
             unchecked: points.transformed(by: t),
             plane: plane?.transformed(by: t), subpathIndices: subpathIndices
@@ -617,29 +478,16 @@ public extension Path {
     }
 }
 
-public extension Plane {
-    /// Returns a translated copy of the plane.
-    /// - Parameter v: An offset vector to apply to the plane.
-    func translated(by v: Vector) -> Plane {
+extension Plane: Transformable {
+    public func translated(by v: Vector) -> Plane {
         Plane(unchecked: normal, pointOnPlane: normal * w + v)
     }
 
-    /// Returns a rotated copy of the plane.
-    /// - Parameter r: A quaternion to apply to the plane.
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> Plane {
-        Plane(unchecked: normal.rotated(by: r), w: w)
-    }
-
-    /// Returns a rotated copy of the plane.
-    /// - Parameter q: A quaternion to apply to the plane.
-    func rotated(by q: Quaternion) -> Plane {
+    public func rotated(by q: Quaternion) -> Plane {
         Plane(unchecked: normal.rotated(by: q), w: w)
     }
 
-    /// Returns a scaled copy of the plane.
-    /// - Parameter v: A scale vector to apply to the plane.
-    func scaled(by v: Vector) -> Plane {
+    public func scaled(by v: Vector) -> Plane {
         if v.x == v.y, v.y == v.z {
             return scaled(by: v.x)
         }
@@ -649,91 +497,61 @@ public extension Plane {
         return Plane(unchecked: normal.scaled(by: vn).normalized(), pointOnPlane: p)
     }
 
-    /// Returns a scaled copy of the plane.
-    /// - Parameter f: A scale factor to apply to the plane.
-    func scaled(by f: Double) -> Plane {
+    public func scaled(by f: Double) -> Plane {
         Plane(unchecked: normal, w: w * f.clamped())
-    }
-
-    /// Returns a transformed copy of the plane.
-    /// - Parameter t: A transform to apply to the plane.
-    func transformed(by t: Transform) -> Plane {
-        scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
     }
 }
 
-public extension Bounds {
-    /// Returns a translated copy of the bounds.
-    /// - Parameter v: An offset vector to apply to the bounds.
-    func translated(by v: Vector) -> Bounds {
+extension Bounds: Transformable {
+    public func translated(by v: Vector) -> Bounds {
         Bounds(min: min + v, max: max + v)
     }
 
     /// Returns a rotated copy of the bounds.
-    /// - Parameter r: A rotation to apply to the bounds.
+    /// - Parameter quaternion: A quaternion to apply to the bounds.
     ///
     /// > Note: Because a bounds must be axially-aligned, rotating by an angle that is not a multiple of
     /// 90 degrees will result in the bounds being increased in size. Rotating it back again will not reduce
     /// the size, so this is a potentially irreversible operation. In general, after rotating a shape it is better
     /// to recalculate the bounds rather than trying to rotate the previous bounds.
-    @_disfavoredOverload
-    func rotated(by r: Rotation) -> Bounds {
-        isEmpty ? self : Bounds(points: corners.rotated(by: r))
+    public func rotated(by quaternion: Quaternion) -> Bounds {
+        isEmpty ? self : Bounds(points: corners.rotated(by: quaternion))
     }
 
-    /// Returns a rotated copy of the bounds.
-    /// - Parameter q: A quaternion to apply to the bounds.
-    ///
-    /// > Note: Because a bounds must be axially-aligned, rotating by an angle that is not a multiple of
-    /// 90 degrees will result in the bounds being increased in size. Rotating it back again will not reduce
-    /// the size, so this is a potentially irreversible operation. In general, after rotating a shape it is better
-    /// to recalculate the bounds rather than trying to rotate the previous bounds.
-    func rotated(by q: Quaternion) -> Bounds {
-        isEmpty ? self : Bounds(points: corners.rotated(by: q))
-    }
-
-    /// Returns a scaled copy of the bounds.
-    /// - Parameter v: A scale vector to apply to the bounds.
-    func scaled(by v: Vector) -> Bounds {
+    public func scaled(by v: Vector) -> Bounds {
         let v = v.clamped()
         return isEmpty ? self : Bounds(min.scaled(by: v), max.scaled(by: v))
     }
 
     /// Returns a scaled copy of the bounds.
     /// - Parameter f: A scale factor to apply to the bounds.
-    func scaled(by f: Double) -> Bounds {
+    public func scaled(by f: Double) -> Bounds {
         let f = f.clamped()
         return isEmpty ? self : Bounds(min * f, max * f)
     }
-
-    /// Returns a transformed copy of the bounds.
-    /// - Parameter t: A transform to apply to the bounds.
-    func transformed(by t: Transform) -> Bounds {
-        scaled(by: t.scale).rotated(by: t.rotation).translated(by: t.offset)
-    }
 }
 
-// extension Array: Transformable where Element: Transformable {
-//    public func translated(by v: Vector) -> [Element] {
-//        v.isEqual(to: .zero) ? self : map { $0.translated(by: v) }
-//    }
-//
-//    public func rotated(by q: Quaternion) -> [Element] {
-//        q.isIdentity ? self : map { $0.rotated(by: q) }
-//    }
-//
-//    public func scaled(by v: Vector) -> [Element] {
-//        v.isEqual(to: .one) ? self : map { $0.scaled(by: v) }
-//    }
-//
-//    public func scaled(by f: Double) -> [Element] {
-//        f.isEqual(to: 1, withPrecision: epsilon) ? self : map { $0.scaled(by: f) }
-//    }
-//
-//    public func transformed(by t: Transform) -> [Element] {
-//        t.isIdentity ? self : map { $0.transformed(by: t) }
-//    }
-// }
+extension Array: Transformable where Element: Transformable {
+    public func translated(by v: Vector) -> [Element] {
+        v.isEqual(to: .zero) ? self : map { $0.translated(by: v) }
+    }
+
+    public func rotated(by q: Quaternion) -> [Element] {
+        q.isIdentity ? self : map { $0.rotated(by: q) }
+    }
+
+    public func scaled(by v: Vector) -> [Element] {
+        v.isEqual(to: .one) ? self : map { $0.scaled(by: v) }
+    }
+
+    public func scaled(by f: Double) -> [Element] {
+        f.isEqual(to: 1, withPrecision: epsilon) ? self : map { $0.scaled(by: f) }
+    }
+
+    public func transformed(by t: Transform) -> [Element] {
+        t.isIdentity ? self : map { $0.transformed(by: t) }
+    }
+}
 
 private extension Double {
     func clamped() -> Double {

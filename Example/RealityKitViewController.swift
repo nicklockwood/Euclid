@@ -77,7 +77,7 @@ class RealityKitViewController: UIViewController {
         let rotationSpeed = Angle.pi / 4
 
         updateSubscription = arView.scene.subscribe(to: SceneEvents.Update.self) { event in
-            cameraOffset = cameraOffset.rotated(by: .yaw(rotationSpeed * event.deltaTime))
+            cameraOffset.rotate(by: .yaw(rotationSpeed * event.deltaTime))
 
             let cameraTranslation = SIMD3<Float>(cameraOffset)
             camera.transform = Transform(translation: cameraTranslation)

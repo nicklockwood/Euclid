@@ -38,7 +38,7 @@
 - ``Vector/-=(_:_:)``
 - ``Vector/*(_:_:)-48gl1``
 - ``Vector/*(_:_:)-5mcy5``
-- ``Vector/*=(_:_:)``
+- ``Vector/*=(_:_:)-3ur4e``
 - ``Vector//(_:_:)``
 - ``Vector//=(_:_:)``
 - ``Vector/dot(_:)``
@@ -51,11 +51,11 @@
 ### Transforming Vectors
 
 - ``Vector/normalized()``
-- ``Vector/rotated(by:)-6owvr``
-- ``Vector/rotated(by:)-7qu0o``
-- ``Vector/scaled(by:)``
-- ``Vector/transformed(by:)``
+- ``Vector/rotated(by:)``
+- ``Vector/scaled(by:)-350oy``
+- ``Vector/scaled(by:)-356zr``
 - ``Vector/translated(by:)``
+- ``Vector/transformed(by:)``
 
 ### Comparing Vectors
 

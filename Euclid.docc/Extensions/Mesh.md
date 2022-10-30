@@ -78,11 +78,10 @@
 
 ### Transforming Meshes
 
-- ``Mesh/translated(by:)``
-- ``Mesh/rotated(by:)-266e9``
-- ``Mesh/rotated(by:)-38lip``
+- ``Mesh/rotated(by:)``
 - ``Mesh/scaled(by:)-90bab``
 - ``Mesh/scaled(by:)-94kks``
+- ``Mesh/translated(by:)``
 - ``Mesh/transformed(by:)``
 
 ### Updating Mesh Materials

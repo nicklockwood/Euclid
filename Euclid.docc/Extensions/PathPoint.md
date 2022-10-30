@@ -23,9 +23,8 @@
 
 ### Transforming Path Points
 
-- ``PathPoint/rotated(by:)-8zjfc``
-- ``PathPoint/rotated(by:)-9koyv``
+- ``PathPoint/rotated(by:)``
 - ``PathPoint/scaled(by:)-4wtbg``
 - ``PathPoint/scaled(by:)-7e3o7``
-- ``PathPoint/transformed(by:)``
 - ``PathPoint/translated(by:)``
+- ``PathPoint/transformed(by:)``

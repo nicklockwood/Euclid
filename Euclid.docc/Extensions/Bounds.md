@@ -41,9 +41,8 @@
 
 ### Transforming Bounds
 
-- ``Bounds/rotated(by:)-4qxyv``
-- ``Bounds/rotated(by:)-5g62b``
+- ``Bounds/rotated(by:)``
 - ``Bounds/scaled(by:)-5dvvh``
 - ``Bounds/scaled(by:)-6epo6``
-- ``Bounds/transformed(by:)``
 - ``Bounds/translated(by:)``
+- ``Bounds/transformed(by:)``

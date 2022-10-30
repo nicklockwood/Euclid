@@ -156,7 +156,7 @@ class UtilityTests: XCTestCase {
             let result = sanitizePoints(points)
             XCTAssertEqual(result.count, points.count)
             XCTAssertEqual(result, points)
-            points = points.map { $0.scaled(by: 0.5) }
+            points.scale(by: 0.5)
         }
     }
 

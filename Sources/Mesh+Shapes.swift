@@ -421,10 +421,10 @@ public extension Mesh {
         let shapeNormal: Vector
         switch (shapePlane, pathPlane) {
         case (.xy, .xy):
-            shape = shape.rotated(by: .pitch(.halfPi))
+            shape.rotate(by: .pitch(.halfPi))
             shapeNormal = shapePlane.rawValue.normal.rotated(by: .pitch(.halfPi))
         case (.yz, .yz), (.xz, .xz):
-            shape = shape.rotated(by: .roll(.halfPi))
+            shape.rotate(by: .roll(.halfPi))
             shapeNormal = shapePlane.rawValue.normal.rotated(by: .roll(.halfPi))
         default:
             shapeNormal = shapePlane.rawValue.normal
@@ -441,9 +441,10 @@ public extension Mesh {
                 shape = shape.with(color: color)
             }
             if let scale = s {
-                shape = shape.scaled(by: scale)
+                shape.scale(by: scale)
             }
-            shape = shape.rotated(by: r).translated(by: p.position)
+            shape.rotate(by: r)
+            shape.translate(by: p.position)
             shapes.append(shape)
             if !p.isCurved, s != nil {
                 shapes.append(shape)
@@ -636,9 +637,9 @@ public extension Mesh {
             var shape = path
             let along = Path.line(line)
             if along.flatteningPlane == .xy {
-                shape = shape.rotated(by: .pitch(.halfPi))
+                shape.rotate(by: .pitch(.halfPi))
             }
-            shape = shape.rotated(by: rotationBetweenVectors(line.direction, shape.faceNormal))
+            shape.rotate(by: rotationBetweenVectors(line.direction, shape.faceNormal))
             let shape0 = shape.translated(by: line.start)
             bounds.formUnion(shape0.bounds)
             let shape1 = shape.translated(by: line.end)

@@ -19,12 +19,12 @@
 - ``Transform/isFlipped``
 - ``Transform/isIdentity``
 
-### Computing Transforms
+### Combining Transforms 
 
+- ``Transform/rotated(by:)``
+- ``Transform/scaled(by:)-19ukh``
+- ``Transform/scaled(by:)-9vwak``
+- ``Transform/translated(by:)``
+- ``Transform/transformed(by:)``
 - ``Transform/*(_:_:)``
-
-### Mutating Transforms 
-
-- ``Transform/rotate(by:)``
-- ``Transform/scale(by:)``
-- ``Transform/translate(by:)``
+- ``Transform/*=(_:_:)``
