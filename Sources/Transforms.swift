@@ -253,7 +253,7 @@ extension Mesh: Transformable {
         return Mesh(
             unchecked: polygons.scaled(by: v),
             bounds: boundsIfSet?.scaled(by: v),
-            isConvex: isKnownConvex && v.x > 0 && v.y > 0 && v.y > 0,
+            isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
         )
@@ -263,7 +263,7 @@ extension Mesh: Transformable {
         f.isEqual(to: 1, withPrecision: epsilon) ? self : Mesh(
             unchecked: polygons.scaled(by: f),
             bounds: boundsIfSet?.scaled(by: f),
-            isConvex: isKnownConvex && f > 0,
+            isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
         )
@@ -325,13 +325,13 @@ extension Polygon: Transformable {
             return self
         }
         let f = f.clamped()
-        let polygon = Polygon(
-            unchecked: vertices.scaled(by: f),
-            normal: plane.normal,
+        let vertices = self.vertices.scaled(by: f)
+        return Polygon(
+            unchecked: f < 0 ? vertices.reversed() : vertices,
+            normal: f < 0 ? -plane.normal : plane.normal,
             isConvex: isConvex,
             material: material
         )
-        return f < 0 ? polygon.inverted() : polygon
     }
 }
 
@@ -378,7 +378,12 @@ extension Vertex: Transformable {
     }
 
     public func scaled(by f: Double) -> Vertex {
-        Vertex(unchecked: position * f, normal, texcoord, color)
+        Vertex(
+            unchecked: position * f,
+            f < 0 ? -normal : normal,
+            texcoord,
+            color
+        )
     }
 }
 
