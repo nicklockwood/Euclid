@@ -170,6 +170,13 @@ func triangulateVertices(
 
 // MARK: Vector utilities
 
+func isFlippedScale(_ scale: Vector) -> Bool {
+    var flipped = scale.x < 0
+    if scale.y < 0 { flipped = !flipped }
+    if scale.z < 0 { flipped = !flipped }
+    return flipped
+}
+
 func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
     let axis = v0.cross(v1)
     let length = axis.length

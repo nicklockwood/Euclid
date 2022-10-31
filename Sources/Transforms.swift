@@ -220,10 +220,7 @@ public extension Transform {
     /// Does the transform apply a mirror operation (negative scale).
     /// - Parameter v: An offset vector to apply to the transform.
     var isFlipped: Bool {
-        var flipped = scale.x < 0
-        if scale.y < 0 { flipped = !flipped }
-        if scale.z < 0 { flipped = !flipped }
-        return flipped
+        isFlippedScale(scale)
     }
 }
 
@@ -313,14 +310,10 @@ extension Polygon: Transformable {
         }
 
         let v = v.clamped()
-        var flipped = v.x < 0
-        if v.y < 0 { flipped = !flipped }
-        if v.z < 0 { flipped = !flipped }
-
         let vertices = self.vertices.scaled(by: v)
         let vn = Vector(1 / v.x, 1 / v.y, 1 / v.z)
         return Polygon(
-            unchecked: flipped ? vertices.reversed() : vertices,
+            unchecked: isFlippedScale(v) ? vertices.reversed() : vertices,
             normal: plane.normal.scaled(by: vn).normalized(),
             isConvex: nil,
             material: material
