@@ -514,11 +514,15 @@ public extension Mesh {
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
     init(url: URL, ignoringTransforms: Bool, materialLookup: MaterialProvider? = nil) throws {
         var options: [SCNSceneSource.LoadingOption: Any] = [
+            .checkConsistency: false,
             .flattenScene: true,
             .createNormalsIfAbsent: true,
         ]
         if #available(iOS 11, tvOS 11, macOS 10.10, *) {
             options[.convertToYUp] = true
+        }
+        if #available(iOS 13, tvOS 13, macOS 10.12, *) {
+            options[.preserveOriginalTopology] = true
         }
         let importedScene = try SCNScene(url: url, options: options)
         self.init(
