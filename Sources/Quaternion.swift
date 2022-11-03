@@ -45,11 +45,6 @@ public struct Quaternion: Sendable {
         set { storage.vector.w = newValue }
         get { storage.vector.w }
     }
-
-    /// Creates a quaternion from raw component values.
-    public init(_ x: Double, _ y: Double, _ z: Double, _ w: Double) {
-        self.storage = simd_quatd(vector: .init(x, y, z, w))
-    }
 }
 
 extension Quaternion: Hashable {
@@ -59,6 +54,12 @@ extension Quaternion: Hashable {
 }
 
 public extension Quaternion {
+    /// Creates a quaternion from raw component values.
+    init(_ x: Double, _ y: Double, _ z: Double, _ w: Double) {
+        let vector = simd_normalize(simd_double4(x, y, z, w))
+        self.init(simd_quatd(vector: vector))
+    }
+
     /// The axis of rotation.
     var axis: Vector {
         .init(-simd_axis(storage))
@@ -84,11 +85,6 @@ public extension Quaternion {
     /// - Returns: The dot product of the two quaternions.
     func dot(_ q: Quaternion) -> Double {
         simd_dot(storage, q.storage)
-    }
-
-    /// A Boolean value that indicates whether the quaternion has a length of `1`.
-    var isNormalized: Bool {
-        abs(lengthSquared - 1) < epsilon
     }
 
     /// Returns the normalized quaternion.
@@ -166,6 +162,11 @@ public extension Quaternion {
 }
 
 internal extension Quaternion {
+    init(unchecked x: Double, _ y: Double, _ z: Double, _ w: Double) {
+        self.init(simd_quatd(vector: simd_double4(x, y, z, w)))
+        assert(isNormalized || lengthSquared == 0)
+    }
+
     init(unchecked axis: Vector, angle: Angle) {
         assert(axis.isNormalized)
         self.init(simd_quatd(
@@ -194,6 +195,7 @@ public struct Quaternion: Hashable, Sendable {
         self.y = y
         self.z = z
         self.w = w
+        self = normalized()
     }
 }
 
@@ -230,11 +232,6 @@ public extension Quaternion {
         x * q.x + y * q.y + z * q.z + w * q.w
     }
 
-    /// A Boolean value that indicates whether the quaternion has a length of `1`.
-    var isNormalized: Bool {
-        abs(lengthSquared - 1) < epsilon
-    }
-
     /// Returns the normalized quaternion.
     /// - Returns: The normalized quaternion (with a length of `1`) or  ``zero`` if the length is `0`.
     func normalized() -> Quaternion {
@@ -264,12 +261,12 @@ public extension Quaternion {
 
     /// Returns the reverse quaternion rotation.
     static prefix func - (q: Quaternion) -> Quaternion {
-        .init(q.x, q.y, q.z, -q.w)
+        .init(unchecked: q.x, q.y, q.z, -q.w)
     }
 
     /// Returns the sum of two quaternion rotations.
     static func + (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
-        .init(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w)
+        .init(unchecked: lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w)
     }
 
     /// Adds the quaternion rotation on the right to the one on the left.
@@ -279,7 +276,7 @@ public extension Quaternion {
 
     /// Returns the difference between two quaternion rotations,.
     static func - (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
-        .init(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w)
+        .init(unchecked: lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w)
     }
 
     /// Subtracts the quaternion rotation on the right from the one on the left.
@@ -290,6 +287,7 @@ public extension Quaternion {
     /// Returns the product of two quaternions (i.e. the effect of rotating the left by the right).
     static func * (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
         .init(
+            unchecked:
             lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y,
             lhs.w * rhs.y + lhs.y * rhs.w + lhs.z * rhs.x - lhs.x * rhs.z,
             lhs.w * rhs.z + lhs.z * rhs.w + lhs.x * rhs.y - lhs.y * rhs.x,
@@ -304,7 +302,7 @@ public extension Quaternion {
 
     /// Returns a quaternion with its components multiplied by the specified value.
     static func * (lhs: Quaternion, rhs: Double) -> Quaternion {
-        Quaternion(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs)
+        .init(unchecked: lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs)
     }
 
     /// Multiplies the components of the quaternion by the specified value.
@@ -317,7 +315,7 @@ public extension Quaternion {
 
     /// Returns a quaternion with its components divided by the specified value.
     static func / (lhs: Quaternion, rhs: Double) -> Quaternion {
-        Quaternion(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs, lhs.w / rhs)
+        .init(unchecked: lhs.x / rhs, lhs.y / rhs, lhs.z / rhs, lhs.w / rhs)
     }
 
     /// Divides the components of the vector by the specified value.
@@ -330,11 +328,19 @@ public extension Quaternion {
 }
 
 internal extension Quaternion {
+    init(unchecked x: Double, _ y: Double, _ z: Double, _ w: Double) {
+        self.x = x
+        self.y = y
+        self.z = z
+        self.w = w
+        assert(isNormalized || lengthSquared == 0)
+    }
+
     init(unchecked axis: Vector, angle: Angle) {
         assert(axis.isNormalized)
         let r = -angle / 2
         let a = axis * sin(r)
-        self.init(a.x, a.y, a.z, cos(r))
+        self.init(unchecked: a.x, a.y, a.z, cos(r))
     }
 }
 
@@ -378,9 +384,9 @@ extension Quaternion: Codable {
 
 public extension Quaternion {
     /// The zero quaternion.
-    static let zero = Quaternion(0, 0, 0, 0)
+    static let zero = Quaternion(unchecked: 0, 0, 0, 0)
     /// The identity quaternion (i.e. no rotation).
-    static let identity = Quaternion(0, 0, 0, 1)
+    static let identity = Quaternion(unchecked: 0, 0, 0, 1)
 
     /// Creates a quaternion from an axis and angle.
     /// - Parameters:
@@ -398,21 +404,21 @@ public extension Quaternion {
     /// - Parameter rotation: The angle to rotate by.
     static func pitch(_ rotation: Angle) -> Quaternion {
         let r = -rotation.radians * 0.5
-        return Quaternion(sin(r), 0, 0, cos(r))
+        return .init(unchecked: sin(r), 0, 0, cos(r))
     }
 
     /// Creates a quaternion representing a rotation around the Y axis.
     /// - Parameter rotation: The angle to rotate by.
     static func yaw(_ rotation: Angle) -> Quaternion {
         let r = -rotation.radians * 0.5
-        return Quaternion(0, sin(r), 0, cos(r))
+        return .init(unchecked: 0, sin(r), 0, cos(r))
     }
 
     /// Creates a quaternion representing a rotation around the Z axis.
     /// - Parameter rotation: The angle to rotate by.
     static func roll(_ rotation: Angle) -> Quaternion {
         let r = -rotation.radians * 0.5
-        return Quaternion(0, 0, sin(r), cos(r))
+        return .init(unchecked: 0, 0, sin(r), cos(r))
     }
 
     /// Creates a rotation from Euler angles applied in roll/yaw/pitch order.
@@ -442,6 +448,11 @@ public extension Quaternion {
     /// Quaternion has no effect.
     var isIdentity: Bool {
         abs(1 - w) < epsilon
+    }
+
+    /// A Boolean value that indicates whether the quaternion has a length of `1`.
+    var isNormalized: Bool {
+        abs(lengthSquared - 1) < epsilon
     }
 
     /// An array containing the raw components of the quaternion.

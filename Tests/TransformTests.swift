@@ -85,6 +85,24 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(q.pitch.radians, r.pitch.radians, accuracy: 0.01)
     }
 
+    func testRotationDoesntAffectNormalization() {
+        let v = Vector(
+            -0.9667550262674225,
+            -0.13739397231926284,
+            -0.21565624395553415
+        )
+        XCTAssert(v.isNormalized)
+        let q = Quaternion(
+            0.681812047958374,
+            -0.0165534820407629,
+            -0.028187578544020653,
+            0.7307965755462646
+        )
+        XCTAssert(q.isNormalized)
+        let u = v.rotated(by: q)
+        XCTAssert(u.isNormalized)
+    }
+
     // MARK: Quaternions
 
     func testAxisAngleQuaternion1() {
