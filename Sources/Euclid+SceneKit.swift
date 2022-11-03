@@ -69,6 +69,16 @@ public extension SCNQuaternion {
     }
 }
 
+public extension SCNMatrix4 {
+    /// Creates a new SceneKit matrix from a `Transform`
+    /// - Parameter transform: The transform to convert
+    init(_ transform: Transform) {
+        let node = SCNNode()
+        node.setTransform(transform)
+        self = node.transform
+    }
+}
+
 private extension Data {
     mutating func append(_ int: UInt32) {
         var int = int

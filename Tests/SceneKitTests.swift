@@ -78,6 +78,39 @@ class SceneKitTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
     }
+
+    // MARK: Transforms
+
+    func testIdentityTransformToFromMatrix() {
+        let transform = Transform.identity
+        let matrix = SCNMatrix4(transform)
+        XCTAssert(SCNMatrix4EqualToMatrix4(matrix, SCNMatrix4Identity))
+        XCTAssertEqual(transform, Transform(matrix))
+    }
+
+    func testScaleTransformToFromMatrix() {
+        let transform = Transform(scale: .init(size: [1.5]))
+        let matrix = SCNMatrix4(transform)
+        let expected = SCNMatrix4MakeScale(1.5, 1.5, 1.5)
+        XCTAssert(SCNMatrix4EqualToMatrix4(matrix, expected))
+        XCTAssertEqual(transform, Transform(matrix))
+    }
+
+    func testOffsetTransformToFromMatrix() {
+        let transform = Transform(offset: .init(1, 2, 3))
+        let matrix = SCNMatrix4(transform)
+        let expected = SCNMatrix4MakeTranslation(1, 2, 3)
+        XCTAssert(SCNMatrix4EqualToMatrix4(matrix, expected))
+        XCTAssertEqual(transform, Transform(matrix))
+    }
+
+    func testRotationTransformToFromMatrix() {
+        let transform = Transform(rotation: .init(.yaw(-.pi)))
+        let matrix = SCNMatrix4(transform)
+        XCTAssertEqual(transform.scale, .one)
+        XCTAssertEqual(transform.offset, .zero)
+        XCTAssert(transform.rotation.isEqual(to: Transform(matrix).rotation))
+    }
 }
 
 #endif
