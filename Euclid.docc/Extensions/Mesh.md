@@ -35,7 +35,6 @@
 - ``Mesh/intersection(_:isCancelled:)``
 - ``Mesh/subtract(_:isCancelled:)``
 - ``Mesh/difference(_:isCancelled:)``
-- ``Mesh/clip(to:fill:)``
 - ``Mesh/xor(_:isCancelled:)-swift.method``
 - ``Mesh/xor(_:isCancelled:)-swift.type.method``
 - ``Mesh/stencil(_:isCancelled:)-swift.method``
@@ -83,6 +82,7 @@
 - ``Mesh/scaled(by:)-94kks``
 - ``Mesh/translated(by:)``
 - ``Mesh/transformed(by:)``
+- ``Mesh/inverted()``
 
 ### Updating Mesh Materials
 
@@ -95,13 +95,13 @@
 
 ### Splitting Meshes
 
+- ``Mesh/clip(to:fill:)``
 - ``Mesh/split(along:)``
 - ``Mesh/edges(intersecting:)``
 - ``Mesh/submeshes``
 
 ### Adjusting Mesh Topology
 
-- ``Mesh/inverted()``
 - ``Mesh/tessellate(maxSides:)``
 - ``Mesh/triangulate()``
 - ``Mesh/detessellate()``

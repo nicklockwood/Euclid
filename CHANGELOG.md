@@ -1,3 +1,16 @@
+## [0.6.1](https://github.com/nicklockwood/Euclid/releases/tag/0.6.1) (2022-11-02)
+
+- Added `Transformable` protocol for all types that can be transformed
+- Added initializer to create an `SCNMatrix4` from a `Transform`
+- Transformable types (`Vector`, `Polygon`, `Mesh`, etc.) now support in-place transforms
+- Swapped disfavored rotation method overloads from `Rotation` to `Quaternion`
+- Added transform methods and `Transformable` conformance to `LineSegment`
+- Normalized `Quaternion` at creation time (which fixes an assertion failure in `Plane`)
+- Attempting to load a `Mesh` from an inaccessible URL now throws instead of failing silently
+- Fixed assertion failure due to `sortedByPlane()` regression in 0.6.0
+- Negative scale factors now behave as expected when applied to `Vertex`
+- Topology is now preserved when loading a `Mesh` from a URL
+
 ## [0.6.0](https://github.com/nicklockwood/Euclid/releases/tag/0.6.0) (2022-10-22)
 
 - Added support for rendering Euclid meshes using `RealityKit`

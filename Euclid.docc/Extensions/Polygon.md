@@ -22,7 +22,6 @@
 ### Comparing Polygons
 
 - ``Polygon/containsPoint(_:)``
-- ``Polygon/undirectedEdges``
 
 ### Transforming Polygons
 
