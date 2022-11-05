@@ -17,6 +17,7 @@
 - ``Polygon/isConvex``
 - ``Polygon/hasTexcoords``
 - ``Polygon/hasVertexColors``
+- ``Polygon/orderedEdges``
 - ``Polygon/undirectedEdges``
 
 ### Comparing Polygons

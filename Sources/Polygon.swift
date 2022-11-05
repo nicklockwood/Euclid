@@ -151,6 +151,16 @@ public extension Polygon {
         vertices.contains(where: { $0.color != .white })
     }
 
+    /// Returns the ordered array of polygon edges
+    var orderedEdges: [LineSegment] {
+        var p0 = vertices.last!.position
+        return vertices.map {
+            let p1 = $0.position
+            defer { p0 = p1 }
+            return LineSegment(unchecked: p0, p1)
+        }
+    }
+
     /// An unordered set of polygon edges.
     /// The direction of each edge is normalized relative to the origin to simplify edge-equality comparisons.
     var undirectedEdges: Set<LineSegment> {
@@ -750,21 +760,14 @@ internal extension Polygon {
         )
     }
 
+    func edgePlane(for edge: LineSegment) -> Plane {
+        let tangent = edge.end - edge.start
+        let normal = tangent.cross(plane.normal).normalized()
+        return Plane(unchecked: normal, pointOnPlane: edge.start)
+    }
+
     var edgePlanes: [Plane] {
-        var planes = [Plane]()
-        var p0 = vertices.last!.position
-        for v1 in vertices {
-            let p1 = v1.position
-            let tangent = p1 - p0
-            let normal = tangent.cross(plane.normal).normalized()
-            guard let plane = Plane(normal: normal, pointOnPlane: p0) else {
-                assertionFailure()
-                return []
-            }
-            planes.append(plane)
-            p0 = p1
-        }
-        return planes
+        orderedEdges.map(edgePlane(for:))
     }
 
     func compare(with plane: Plane) -> PlaneComparison {
