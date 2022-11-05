@@ -1,3 +1,9 @@
+## [0.6.2](https://github.com/nicklockwood/Euclid/releases/tag/0.6.2) (2022-11-05)
+
+- Added `Mesh.convexHull()` shape constructors
+- Added `Polygon.orderedEdges` property
+- Added `LineSegment.inverted()` method
+
 ## [0.6.1](https://github.com/nicklockwood/Euclid/releases/tag/0.6.1) (2022-11-02)
 
 - Added `Transformable` protocol for all types that can be transformed

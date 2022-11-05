@@ -46,6 +46,7 @@ The following builders are defined as static constructor functions on the ``Mesh
 - ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:)`` - This builder takes a 2D ``Path`` and rotates it around the Y-axis to create a rotationally symmetrical ``Mesh``. This is an easy way to create complex shapes like candlesticks, chess pieces, rocket ships, etc.
 - ``Mesh/extrude(_:along:faces:material:isCancelled:)`` - This builder fills a ``Path`` and extrudes it along its axis, or another path. This can turn a circular path into a tube, or a square into a cube etc.
 - ``Mesh/loft(_:faces:material:)`` - This builder is similar to ``Mesh/extrude(_:along:faces:material:isCancelled:)``, but takes multiple ``Path`` instances and joins them. The sequence of ``Path`` instances do not need to be the same shape, but must all have the same number of points and subpaths. To work correctly, each ``Path`` must be pre-positioned in 3D space so they do not all lie on the same plane.
+- ``Mesh/convexHull(of:material:)-4hvi3`` - Similar the the ``Mesh/loft(_:faces:material:)`` builder, this method can form a Mesh by wrapping a skin around one or more ``Path`` instances. But unlike the other builders, in addition to paths you can also form a convex hull around a collection of meshes, polygons, vertices or points.
 
 ### Curves
 
