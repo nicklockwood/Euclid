@@ -26,3 +26,4 @@
 - ``LineSegment/scaled(by:)-37r1v``
 - ``LineSegment/translated(by:)``
 - ``LineSegment/transformed(by:)``
+- ``LineSegment/inverted()``

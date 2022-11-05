@@ -115,6 +115,11 @@ public extension LineSegment {
         (end - start).length
     }
 
+    /// Flip the direction of the line segment
+    func inverted() -> LineSegment {
+        .init(unchecked: end, start)
+    }
+
     /// Returns a Boolean value that indicates whether the specified point lies on the line segment.
     /// - Parameter point: The point to test.
     /// - Returns: `true` if the point lies on the line segment and `false` otherwise.
