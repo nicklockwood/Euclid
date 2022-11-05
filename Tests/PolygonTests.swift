@@ -19,6 +19,12 @@ extension Euclid.Polygon {
             material: nil
         )
     }
+
+    // Convenience constructor for testing
+    init(unchecked points: [Vector]) {
+        let normal = faceNormalForPolygonPoints(points, convex: nil)
+        self.init(unchecked: points.map { Vertex($0, normal) })
+    }
 }
 
 class PolygonTests: XCTestCase {

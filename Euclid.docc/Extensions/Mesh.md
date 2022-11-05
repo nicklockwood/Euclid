@@ -27,8 +27,10 @@
 - ``Mesh/WrapMode``
 - ``Mesh/Faces``
 
-### Constructive Solid Geometry
+### Creating Meshes from Other Meshes
 
+- ``Mesh/convexHull(of:)-6c896``
+- ``Mesh/convexHull(of:)-8x4al``
 - ``Mesh/union(_:isCancelled:)-swift.method``
 - ``Mesh/union(_:isCancelled:)-swift.type.method``
 - ``Mesh/intersect(_:isCancelled:)``

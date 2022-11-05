@@ -633,6 +633,91 @@ internal extension MutableCollection where Element == Polygon, Index == Int {
     }
 }
 
+internal extension Array where Element == Polygon {
+    mutating func addPoint(
+        _ point: Vector,
+        material: Polygon.Material?,
+        verticesByPosition: [Vector: [Vertex]]
+    ) {
+        var facing = [Polygon](), coplanar = [Vector: [Polygon]]()
+        loop: for (i, polygon) in enumerated().reversed() {
+            switch point.compare(with: polygon.plane) {
+            case .front:
+                facing.append(polygon)
+                remove(at: i)
+            case .coplanar:
+                if polygon.vertices.contains(where: { $0.position == point }) {
+                    return
+                }
+                if polygon.containsPoint(point) {
+                    coplanar[polygon.plane.normal] = [polygon]
+                    break loop
+                }
+                coplanar[polygon.plane.normal, default: []].append(polygon)
+            case .back, .spanning:
+                continue
+            }
+        }
+        // Find bounding edges
+        func boundingEdges(in polygons: [Polygon]) -> [LineSegment] {
+            var edges = [LineSegment]()
+            for polygon in polygons {
+                for edge in polygon.orderedEdges {
+                    if let index = edges.firstIndex(where: {
+                        $0.start == edge.end && $0.end == edge.start
+                    }) {
+                        edges.remove(at: index)
+                    } else {
+                        edges.append(edge)
+                    }
+                }
+            }
+            return edges
+        }
+        // Create triangles from point to edges
+        func addTriangles(with edges: [LineSegment], faceNormal: Vector?) {
+            for edge in edges {
+                let points = [point, edge.start, edge.end]
+                let faceNormal = faceNormal ?? faceNormalForPolygonPoints(
+                    points, convex: true
+                )
+                let vertices = points.map { p -> Vertex in
+                    let matches = verticesByPosition[p] ?? []
+                    var best: Vertex?, bestDot = 1.0
+                    for v in matches {
+                        let dot = abs(1 - v.normal.dot(faceNormal))
+                        if dot < bestDot {
+                            bestDot = dot
+                            best = v
+                        }
+                    }
+                    return best ?? Vertex(p)
+                }
+                guard let triangle = Polygon(vertices, material: material) else {
+                    assertionFailure()
+                    continue
+                }
+                append(triangle)
+            }
+        }
+        // Extend polygons to include point
+        guard facing.isEmpty else {
+            addTriangles(with: boundingEdges(in: facing), faceNormal: nil)
+            return
+        }
+        for (faceNormal, polygons) in coplanar {
+            guard let polygon = polygons.first else { continue }
+            addTriangles(with: boundingEdges(in: polygons).compactMap {
+                let edgePlane = polygon.edgePlane(for: $0)
+                if point.compare(with: edgePlane) == .front {
+                    return $0.inverted()
+                }
+                return nil
+            }, faceNormal: faceNormal)
+        }
+    }
+}
+
 internal extension Polygon {
     // Create polygon from vertices and face normal without performing validation
     // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
