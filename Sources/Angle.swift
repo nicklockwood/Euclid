@@ -72,6 +72,7 @@ extension Angle: Codable {
 /// Computes the trigonometric cosine of an angle.
 /// - Parameter angle: The angle to calculate the cosine for.
 /// - Returns: The trigonometric cosine of the angle.
+@_disfavoredOverload
 public func cos(_ angle: Angle) -> Double {
     cos(angle.radians)
 }
@@ -79,6 +80,7 @@ public func cos(_ angle: Angle) -> Double {
 /// Computes the trigonometric sine of an angle.
 /// - Parameter angle: The angle to calculate the sine for.
 /// - Returns: The trigonometric sine of the angle.
+@_disfavoredOverload
 public func sin(_ angle: Angle) -> Double {
     sin(angle.radians)
 }
@@ -86,6 +88,7 @@ public func sin(_ angle: Angle) -> Double {
 /// Computes the trigonometric tangent of an angle.
 /// - Parameter angle: The angle to calculate the tangent for.
 /// - Returns: The trigonometric tangent of the angle.
+@_disfavoredOverload
 public func tan(_ angle: Angle) -> Double {
     tan(angle.radians)
 }
