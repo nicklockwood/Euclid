@@ -436,6 +436,7 @@ internal extension Path {
     }
 
     // TODO: Make this more robust, then make public
+    // TODO: Could this make use of Polygon.area?
     var hasZeroArea: Bool {
         points.count < (isClosed ? 4 : 3)
     }

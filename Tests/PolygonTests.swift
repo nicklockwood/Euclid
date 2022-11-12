@@ -925,4 +925,79 @@ class PolygonTests: XCTestCase {
             ]),
         ])
     }
+
+    // MARK: area
+
+    func testAreaOfClockwiseSquare() {
+        let polygon = Polygon(unchecked: [
+            Vector(0, 0),
+            Vector(0, 1),
+            Vector(1, 1),
+            Vector(1, 0),
+        ])
+        XCTAssertEqual(polygon.area, 1)
+    }
+
+    func testAreaOfAnticlockwiseSquare() {
+        let polygon = Polygon(unchecked: [
+            Vector(0, 0),
+            Vector(0, -1),
+            Vector(1, -1),
+            Vector(1, 0),
+        ])
+        XCTAssertEqual(polygon.area, 1)
+    }
+
+    func testAreaOfAnticlockwiseTriangle() {
+        let polygon = Polygon(unchecked: [
+            Vector(0, 0),
+            Vector(0, -1),
+            Vector(1, 0),
+        ])
+        XCTAssertEqual(polygon.area, 0.5)
+    }
+
+    func testAreaOfAnticlockwiseTrapezium() {
+        let polygon = Polygon(unchecked: [
+            Vector(0, 0),
+            Vector(-1, -1),
+            Vector(2, -1),
+            Vector(1, 0),
+        ])
+        XCTAssertEqual(polygon.area, 2)
+    }
+
+    func testAreaOfLShapedClockwisePolygon() {
+        let polygon = Polygon(unchecked: [
+            Vector(0, 0),
+            Vector(0, 2),
+            Vector(1, 2),
+            Vector(1, 1),
+            Vector(2, 1),
+            Vector(2, 0),
+        ])
+        XCTAssertEqual(polygon.area, 3)
+    }
+
+    func testAreaOfRotatedAnticlockwiseSquare() {
+        for _ in 0 ..< 10 {
+            guard let rotation = Rotation(
+                axis: Vector(
+                    .random(in: -1 ... 1),
+                    .random(in: -1 ... 1),
+                    .random(in: -1 ... 1)
+                ),
+                angle: .radians(.random(in: 0 ..< .pi * 2))
+            ) else {
+                continue
+            }
+            let polygon = Polygon(unchecked: [
+                Vector(0, 0),
+                Vector(0, -1),
+                Vector(1, -1),
+                Vector(1, 0),
+            ]).rotated(by: rotation)
+            XCTAssertEqual(polygon.area, 1, accuracy: epsilon)
+        }
+    }
 }

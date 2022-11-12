@@ -151,7 +151,7 @@ public extension Polygon {
         vertices.contains(where: { $0.color != .white })
     }
 
-    /// Returns the ordered array of polygon edges
+    /// Returns the ordered array of polygon edges.
     var orderedEdges: [LineSegment] {
         var p0 = vertices.last!.position
         return vertices.map {
@@ -170,6 +170,21 @@ public extension Polygon {
             defer { p0 = p1 }
             return LineSegment(normalized: p0, p1)
         })
+    }
+
+    /// Returns the area of the polygon.
+    var area: Double {
+        var vertices = self.vertices
+        if !vertices.allSatisfy({ $0.position.z == 0 }) {
+            let r = rotationBetweenVectors(plane.normal, .unitZ)
+            vertices = vertices.map { Vertex($0.position.rotated(by: -r)) }
+            assert(vertices.allSatisfy { abs($0.position.z) < epsilon })
+        }
+        var prev = vertices.last!.position
+        return abs(vertices.reduce(0) { area, v in
+            defer { prev = v.position }
+            return area + (prev.x - v.position.x) * (prev.y + v.position.y)
+        } / 2)
     }
 
     /// Creates a copy of the polygon with the specified material.

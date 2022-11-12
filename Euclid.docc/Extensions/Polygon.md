@@ -19,6 +19,7 @@
 - ``Polygon/hasVertexColors``
 - ``Polygon/orderedEdges``
 - ``Polygon/undirectedEdges``
+- ``Polygon/area``
 
 ### Comparing Polygons
 
