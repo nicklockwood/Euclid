@@ -355,6 +355,31 @@ public extension Polygon {
         )
     }
 
+    /// Applies a uniform inset to the edges of the polygon.
+    /// - Parameter distance: The distance by which to inset the polygon edges.
+    /// - Returns: A copy of the polygon, inset by the specified distance.
+    ///
+    /// > Note: Passing a negative `distance` will expand the polygon instead of shrinking it.
+    func inset(by distance: Double) -> Polygon? {
+        let count = vertices.count
+        var v1 = vertices[count - 1]
+        var v2 = vertices[0]
+        var p1p2 = v2.position - v1.position
+        var n1: Vector!
+        return Polygon((0 ..< count).map { i in
+            v1 = v2
+            v2 = i < count - 1 ? vertices[i + 1] : vertices[0]
+            let p0p1 = p1p2
+            p1p2 = v2.position - v1.position
+            let faceNormal = plane.normal
+            let n0 = n1 ?? p0p1.cross(faceNormal).normalized()
+            n1 = p1p2.cross(faceNormal).normalized()
+            // TODO: do we need to inset texcoord as well? If so, by how much?
+            let normal = (n0 + n1).normalized()
+            return v1.translated(by: normal * -(distance / n0.dot(normal)))
+        })
+    }
+
     /// Splits a polygon into two or more convex polygons using the "ear clipping" method.
     /// - Parameter maxSides: The maximum number of sides each polygon may have.
     /// - Returns: An array of convex polygons.

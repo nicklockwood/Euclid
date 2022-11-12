@@ -1114,4 +1114,44 @@ class PolygonTests: XCTestCase {
         ])
         XCTAssert(polygon.isConvex)
     }
+
+    // MARK: inset
+
+    func testInsetSquare() {
+        let polygon = Polygon(unchecked: [
+            Vector(-1, 1),
+            Vector(-1, -1),
+            Vector(1, -1),
+            Vector(1, 1),
+        ])
+        let expected = Polygon(unchecked: [
+            Vector(-0.75, 0.75),
+            Vector(-0.75, -0.75),
+            Vector(0.75, -0.75),
+            Vector(0.75, 0.75),
+        ])
+        let result = polygon.inset(by: 0.25)
+        XCTAssertEqual(result, expected)
+    }
+
+    func testInsetLShape() {
+        let polygon = Polygon(unchecked: [
+            Vector(0, 0),
+            Vector(0, 2),
+            Vector(1, 2),
+            Vector(1, 1),
+            Vector(2, 1),
+            Vector(2, 0),
+        ])
+        let expected = Polygon(unchecked: [
+            Vector(0.25, 0.25),
+            Vector(0.25, 1.75),
+            Vector(0.75, 1.75),
+            Vector(0.75, 0.75),
+            Vector(1.75, 0.75),
+            Vector(1.75, 0.25),
+        ])
+        let result = polygon.inset(by: 0.25)
+        XCTAssertEqual(result, expected)
+    }
 }
