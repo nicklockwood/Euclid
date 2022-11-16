@@ -187,6 +187,16 @@ class MeshShapeTests: XCTestCase {
         XCTAssertEqual(loft, .empty)
     }
 
+    func testLoftEmptyPathsArray() {
+        let loft = Mesh.loft([])
+        XCTAssertEqual(loft, .empty)
+    }
+
+    func testLoftSinglePath() {
+        let loft = Mesh.loft([.circle()])
+        XCTAssertEqual(loft, .fill(.circle()))
+    }
+
     func testLoftClosedToOpenToClosedPath() {
         let shapes = [
             Path.square(),
@@ -203,67 +213,6 @@ class MeshShapeTests: XCTestCase {
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
         XCTAssertEqual(loft.polygons.count, 20)
-    }
-
-    func testExtrudeSelfIntersectingPath() {
-        let path = Path([
-            .point(0, 0),
-            .point(1, 1),
-            .point(1, 0),
-            .point(0, 1),
-        ])
-        let mesh = Mesh.extrude(path)
-        XCTAssertFalse(mesh.polygons.isEmpty)
-        XCTAssertEqual(mesh, .extrude(path, faces: .frontAndBack))
-    }
-
-    func testExtrudeClosedLine() {
-        let path = Path([
-            .point(0, 0),
-            .point(0, 1),
-            .point(0, 0),
-        ])
-        let mesh = Mesh.extrude(path)
-        XCTAssert(mesh.isWatertight)
-        XCTAssert(mesh.polygons.areWatertight)
-        XCTAssertEqual(mesh.polygons.count, 2)
-        XCTAssertEqual(mesh, .extrude(path, faces: .front))
-    }
-
-    func testExtrudeOpenLine() {
-        let path = Path([
-            .point(0, 0),
-            .point(0, 1),
-        ])
-        let mesh = Mesh.extrude(path)
-        XCTAssert(mesh.isWatertight)
-        XCTAssert(mesh.polygons.areWatertight)
-        XCTAssertEqual(mesh.polygons.count, 2)
-        XCTAssertEqual(mesh, .extrude(path, faces: .frontAndBack))
-    }
-
-    func testExtrudeOpenLineAlongClosedPath() {
-        let path = Path([
-            .point(0, 0),
-            .point(0, 1),
-        ])
-        let mesh = Mesh.extrude(path, along: .square())
-        XCTAssert(mesh.isWatertight)
-        XCTAssert(mesh.polygons.areWatertight)
-        XCTAssertEqual(mesh.polygons.count, 8)
-        XCTAssertEqual(mesh, .extrude(path, along: .square(), faces: .frontAndBack))
-    }
-
-    func testExtrudeOpenLineAlongOpenPath() {
-        let path = Path([
-            .point(0, 0),
-            .point(0, 1),
-        ])
-        let mesh = Mesh.extrude(path, along: path)
-        XCTAssert(mesh.isWatertight)
-        XCTAssert(mesh.polygons.areWatertight)
-        XCTAssertEqual(mesh.polygons.count, 2)
-        XCTAssertEqual(mesh, .extrude(path, along: path, faces: .frontAndBack))
     }
 
     func testLoftCircleToSquare() {
@@ -378,6 +327,79 @@ class MeshShapeTests: XCTestCase {
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
         XCTAssertEqual(loft.polygons.count, 5)
+    }
+
+    // MARK: Extrude
+
+    func testExtrudeSelfIntersectingPath() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 1),
+            .point(1, 0),
+            .point(0, 1),
+        ])
+        let mesh = Mesh.extrude(path)
+        XCTAssertFalse(mesh.polygons.isEmpty)
+        XCTAssertEqual(mesh, .extrude(path, faces: .frontAndBack))
+    }
+
+    func testExtrudeClosedLine() {
+        let path = Path([
+            .point(0, 0),
+            .point(0, 1),
+            .point(0, 0),
+        ])
+        let mesh = Mesh.extrude(path)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.polygons.count, 2)
+        XCTAssertEqual(mesh, .extrude(path, faces: .front))
+    }
+
+    func testExtrudeOpenLine() {
+        let path = Path([
+            .point(0, 0),
+            .point(0, 1),
+        ])
+        let mesh = Mesh.extrude(path)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.polygons.count, 2)
+        XCTAssertEqual(mesh, .extrude(path, faces: .frontAndBack))
+    }
+
+    func testExtrudeOpenLineAlongClosedPath() {
+        let path = Path([
+            .point(0, 0),
+            .point(0, 1),
+        ])
+        let mesh = Mesh.extrude(path, along: .square())
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.polygons.count, 8)
+        XCTAssertEqual(mesh, .extrude(path, along: .square(), faces: .frontAndBack))
+    }
+
+    func testExtrudeOpenLineAlongOpenPath() {
+        let path = Path([
+            .point(0, 0),
+            .point(0, 1),
+        ])
+        let mesh = Mesh.extrude(path, along: path)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.polygons.count, 2)
+        XCTAssertEqual(mesh, .extrude(path, along: path, faces: .frontAndBack))
+    }
+
+    func testExtrudeAlongEmptyPath() {
+        let mesh = Mesh.extrude(.circle(), along: .empty)
+        XCTAssertEqual(mesh, .empty)
+    }
+
+    func testExtrudeAlongSinglePointPath() {
+        let mesh = Mesh.extrude(.circle(), along: .init([.point(1, 0.5)]))
+        XCTAssertEqual(mesh, .fill(Path.circle().translated(by: .init(1, 0.5))))
     }
 
     // MARK: Stroke

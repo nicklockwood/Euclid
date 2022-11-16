@@ -91,6 +91,9 @@ extension Path: Codable {
 }
 
 public extension Path {
+    /// An empty path.
+    static let empty: Path = .init([])
+
     /// Indicates whether all the path's points lie on a single plane.
     var isPlanar: Bool {
         plane != nil

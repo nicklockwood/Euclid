@@ -416,6 +416,10 @@ public extension Mesh {
             return .empty
         }
         var shape = shape
+        let count = points.count
+        guard count > 1 else {
+            return .fill(shape.translated(by: p0.position), material: material)
+        }
         let shapePlane = shape.flatteningPlane
         let pathPlane = along.flatteningPlane
         let shapeNormal: Vector
@@ -430,7 +434,6 @@ public extension Mesh {
             shapeNormal = shapePlane.rawValue.normal
         }
         var shapes = [Path]()
-        let count = points.count
         var p1 = points[1]
         var p0p1 = (p1.position - p0.position).normalized()
         var r = rotationBetweenVectors(p0p1, shapeNormal)

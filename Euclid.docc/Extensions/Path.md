@@ -1,6 +1,10 @@
 # ``Euclid/Path``
 
-## Topics 
+## Topics
+
+### Default Paths
+
+- ``Path/empty``
 
 ### Creating Paths
 
