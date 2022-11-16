@@ -62,7 +62,11 @@ public extension Quaternion {
 
     /// The axis of rotation.
     var axis: Vector {
-        .init(-simd_axis(storage))
+        guard abs(w - 1) > epsilon else {
+            // if angle close to zero, direction is not important
+            return .unitZ
+        }
+        return .init(-simd_axis(storage))
     }
 
     /// The angle of rotation.
@@ -203,7 +207,7 @@ public extension Quaternion {
     /// The axis of rotation.
     var axis: Vector {
         let s = sqrt(1 - w * w)
-        guard w > epsilon else {
+        guard s > epsilon else {
             // if angle close to zero, direction is not important
             return .unitZ
         }

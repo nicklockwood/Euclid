@@ -43,4 +43,10 @@ class QuaternionTests: XCTestCase {
         XCTAssertEqual(q?.axis, .unitZ)
         XCTAssert(q?.angle.isEqual(to: .halfPi) == true)
     }
+
+    func testAxisAngle4() {
+        let q = Quaternion(axis: .unitZ, angle: .zero)
+        XCTAssertEqual(q?.axis, .unitZ)
+        XCTAssert(q?.angle.isEqual(to: .zero) == true)
+    }
 }
