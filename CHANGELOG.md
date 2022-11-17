@@ -1,3 +1,10 @@
+## [0.6.3](https://github.com/nicklockwood/Euclid/releases/tag/0.6.3) (2022-11-17)
+
+- Fixed crash when extruding single-point path
+- Fixed `Quaternion.axis` when angle is zero
+- Disfavored `Angle.cos`/`sin`/`tan` overloads to improve ergonomics
+- Added `Polygon.area` property
+
 ## [0.6.2](https://github.com/nicklockwood/Euclid/releases/tag/0.6.2) (2022-11-05)
 
 - Added `Mesh.convexHull()` shape constructors
