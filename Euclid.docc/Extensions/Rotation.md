@@ -42,12 +42,12 @@
 ### Computing Rotations
 
 - ``Rotation/-(_:)``
-- ``Rotation/*(_:_:)``
+- ``Rotation/*(_:_:)-55zcf``
+- ``Rotation/*(_:_:)-5fe82``
+- ``Rotation//(_:_:)``
 
 ### Mutating Rotations
 
-- ``Rotation/*=(_:_:)``
-
-### Comparing Rotations
-
-- ``Rotation/!=(_:_:)``
+- ``Rotation/*=(_:_:)-68kkw``
+- ``Rotation/*=(_:_:)-7u9hf``
+- ``Rotation//=(_:_:)``

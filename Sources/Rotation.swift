@@ -289,6 +289,26 @@ public extension Rotation {
     static func *= (lhs: inout Rotation, rhs: Rotation) {
         lhs.quaternion *= rhs.quaternion
     }
+
+    /// Returns a rotation multiplied by the specified value.
+    static func * (lhs: Rotation, rhs: Double) -> Rotation {
+        .init(unchecked: lhs.axis, angle: lhs.angle * rhs)
+    }
+
+    /// Multiplies the rotation angle by the specified value.
+    static func *= (lhs: inout Rotation, rhs: Double) {
+        lhs = lhs * rhs
+    }
+
+    /// Returns a rotation divided by the specified value.
+    static func / (lhs: Rotation, rhs: Double) -> Rotation {
+        .init(unchecked: lhs.axis, angle: lhs.angle / rhs)
+    }
+
+    /// Divides the rotation angle by the specified value.
+    static func /= (lhs: inout Rotation, rhs: Double) {
+        lhs = lhs / rhs
+    }
 }
 
 internal extension Rotation {
