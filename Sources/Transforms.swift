@@ -31,7 +31,7 @@
 
 import Foundation
 
-/// Protocol for transformable types
+/// Protocol for transformable types.
 public protocol Transformable {
     /// Returns a rotated copy of the value.
     /// - Parameter rotation: A rotation to apply to the value.
