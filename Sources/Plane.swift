@@ -89,11 +89,11 @@ extension Plane: Codable {
 
 public extension Plane {
     /// A plane located at the origin, aligned with the Y and Z axes.
-    static let yz = Plane(unchecked: Vector(1, 0, 0), w: 0)
+    static let yz = Plane(unchecked: .unitX, w: 0)
     /// A plane located at the origin, aligned with the X and Z axes.
-    static let xz = Plane(unchecked: Vector(0, 1, 0), w: 0)
+    static let xz = Plane(unchecked: .unitY, w: 0)
     /// A plane located at the origin, aligned with the X and Y axes.
-    static let xy = Plane(unchecked: Vector(0, 0, 1), w: 0)
+    static let xy = Plane(unchecked: .unitZ, w: 0)
 
     /// Creates a plane from a point and surface normal.
     /// - Parameters:

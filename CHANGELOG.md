@@ -1,3 +1,10 @@
+## [0.6.4](https://github.com/nicklockwood/Euclid/releases/tag/0.6.4) (2022-11-21)
+
+- Improved default alignment heuristic when extruding along non-planar paths
+- Added `Alignment` enum for controlling shape alignment when extruding along a path
+- Fixed bug in face normal calculation for open paths
+- Added scalar multiply/divide operators for `Rotation`
+
 ## [0.6.3](https://github.com/nicklockwood/Euclid/releases/tag/0.6.3) (2022-11-17)
 
 - Fixed crash when extruding single-point path
