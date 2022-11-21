@@ -92,7 +92,9 @@ extension Polygon: Codable {
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         let positions = vertices.map { $0.position }
-        if material == nil, plane == Plane(unchecked: positions, convex: isConvex) {
+        if material == nil, plane == Plane(
+            unchecked: positions, convex: isConvex, closed: true
+        ) {
             if vertices.allSatisfy({
                 $0.texcoord == .zero && $0.normal == plane.normal && $0.color == .white
             }) {
@@ -207,7 +209,7 @@ public extension Polygon {
         let isConvex = pointsAreConvex(positions)
         guard positions.count > 2, !pointsAreSelfIntersecting(positions),
               // Note: Plane init includes check for degeneracy
-              let plane = Plane(points: positions, convex: isConvex)
+              let plane = Plane(points: positions, convex: isConvex, closed: true)
         else {
             return nil
         }
@@ -731,7 +733,7 @@ internal extension Polygon {
         material: Polygon.Material?
     ) where T.Element == Vector {
         let faceNormal = faceNormal ?? faceNormalForPolygonPoints(
-            Array(points), convex: true
+            Array(points), convex: true, closed: true
         )
         let vertices = points.map { p -> Vertex in
             let matches = verticesByPosition[p] ?? []
@@ -783,7 +785,7 @@ internal extension Polygon {
         let points = vertices.map { $0.position }
         assert(isConvex == nil || pointsAreConvex(points) == isConvex)
         assert(sanitizeNormals || vertices.allSatisfy { $0.normal != .zero })
-        let plane = plane ?? Plane(unchecked: points, convex: isConvex)
+        let plane = plane ?? Plane(unchecked: points, convex: isConvex, closed: true)
         let isConvex = isConvex ?? pointsAreConvex(points)
         self.storage = Storage(
             vertices: sanitizeNormals ? vertices.map {

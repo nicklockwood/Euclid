@@ -110,7 +110,8 @@ public extension Path {
     var faceNormal: Vector {
         plane?.normal ?? faceNormalForPolygonPoints(
             points.map { $0.position },
-            convex: nil
+            convex: nil,
+            closed: isClosed
         )
     }
 
@@ -232,7 +233,8 @@ public extension Path {
             hasTexcoords = hasTexcoords && texcoord != nil
             let normal = plane?.normal ?? faceNormalForPolygonPoints(
                 [p0.position, p1.position, points[i + 1].position],
-                convex: true
+                convex: true,
+                closed: isClosed
             )
             vertices.append(Vertex(
                 unchecked: p1.position,
@@ -397,7 +399,7 @@ internal extension Path {
             self.plane = plane
             assert(positions.allSatisfy { plane.containsPoint($0) })
         } else if subpathIndices.isEmpty {
-            self.plane = Plane(points: positions)
+            self.plane = Plane(points: positions, convex: nil, closed: isClosed)
         } else {
             for path in subpaths {
                 guard let plane = path.plane else {

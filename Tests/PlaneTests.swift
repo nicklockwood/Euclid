@@ -71,13 +71,13 @@ class PlaneTests: XCTestCase {
 
     func testFlatteningPlaneForHorizontalLine() {
         let points = [Vector(-1, 0), Vector(1, 0)]
-        let plane = FlatteningPlane(points: points, convex: nil)
+        let plane = FlatteningPlane(points: points)
         XCTAssertEqual(plane, .xy)
     }
 
     func testFlatteningPlaneForVerticalLine() {
         let points = [Vector(0, -1), Vector(0, 1)]
-        let plane = FlatteningPlane(points: points, convex: nil)
+        let plane = FlatteningPlane(points: points)
         XCTAssertEqual(plane, .xy)
     }
 

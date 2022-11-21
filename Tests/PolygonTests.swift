@@ -22,7 +22,7 @@ extension Euclid.Polygon {
 
     // Convenience constructor for testing
     init(unchecked points: [Vector]) {
-        let normal = faceNormalForPolygonPoints(points, convex: nil)
+        let normal = faceNormalForPolygonPoints(points, convex: nil, closed: nil)
         self.init(unchecked: points.map { Vertex($0, normal) })
     }
 }

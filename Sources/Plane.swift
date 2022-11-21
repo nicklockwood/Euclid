@@ -113,7 +113,7 @@ public extension Plane {
     /// > Note: The polygon can be convex or concave. The direction of the plane normal is
     /// based on the assumption that the points are wound in an anti-clockwise direction.
     init?(points: [Vector]) {
-        self.init(points: points, convex: nil)
+        self.init(points: points, convex: nil, closed: nil)
     }
 
     /// Returns the flip-side of the plane.
@@ -201,20 +201,20 @@ internal extension Plane {
         self.init(unchecked: normal, w: normal.dot(pointOnPlane))
     }
 
-    init?(points: [Vector], convex: Bool?) {
+    init?(points: [Vector], convex: Bool?, closed: Bool?) {
         guard !points.isEmpty, !pointsAreDegenerate(points) else {
             return nil
         }
-        self.init(unchecked: points, convex: convex)
+        self.init(unchecked: points, convex: convex, closed: closed)
         // Check all points lie on this plane
         if points.contains(where: { !containsPoint($0) }) {
             return nil
         }
     }
 
-    init(unchecked points: [Vector], convex: Bool?) {
+    init(unchecked points: [Vector], convex: Bool?, closed: Bool?) {
         assert(!pointsAreDegenerate(points))
-        let normal = faceNormalForPolygonPoints(points, convex: convex)
+        let normal = faceNormalForPolygonPoints(points, convex: convex, closed: closed)
         self.init(unchecked: normal, pointOnPlane: points[0])
     }
 
@@ -265,8 +265,10 @@ enum FlatteningPlane: RawRepresentable {
         }
     }
 
-    init(points: [Vector], convex: Bool?) {
-        self.init(normal: faceNormalForPolygonPoints(points, convex: convex))
+    init(points: [Vector]) {
+        self.init(normal: faceNormalForPolygonPoints(
+            points, convex: nil, closed: nil
+        ))
     }
 
     init?(rawValue: Plane) {

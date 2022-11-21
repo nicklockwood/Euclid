@@ -279,7 +279,11 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
 // Points are assumed to be ordered in a counter-clockwise direction
 // Points are not verified to be coplanar or non-degenerate
 // Points are not required to form a convex polygon
-func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Vector {
+func faceNormalForPolygonPoints(
+    _ points: [Vector],
+    convex: Bool?,
+    closed: Bool?
+) -> Vector {
     let count = points.count
     switch count {
     case 0, 1:
@@ -290,17 +294,18 @@ func faceNormalForPolygonPoints(_ points: [Vector], convex: Bool?) -> Vector {
         let length = normal.length
         guard length > 0 else {
             // Points lie along z axis
-            return .unitX
+            return .unitY
         }
         return normal / length
     default:
+        let closed = (closed ?? false) && points.first != points.last
         func faceNormalForConvexPoints(_ points: [Vector]) -> Vector {
             let count = points.count
-            var b = points[count - 1]
-            var ab = b - points[count - 2]
+            var b = closed ? points[count - 1] : points[1]
+            var ab = b - (closed ? points[count - 2] : points[0])
             var bestLengthSquared = 0.0
             var best: Vector?
-            for c in points {
+            for c in points[(closed ? 0 : 2)...] {
                 let bc = c - b
                 let normal = ab.cross(bc)
                 let lengthSquared = normal.lengthSquared
