@@ -415,56 +415,108 @@ public extension Mesh {
         guard var p0 = points.first else {
             return .empty
         }
-        var shape = shape
         let count = points.count
         guard count > 1 else {
             return .fill(shape.translated(by: p0.position), material: material)
         }
-        let shapePlane = shape.flatteningPlane
-        let pathPlane = along.flatteningPlane
-        let shapeNormal: Vector
-        switch (shapePlane, pathPlane) {
-        case (.xy, .xy):
-            shape.rotate(by: .pitch(.halfPi))
-            shapeNormal = shapePlane.rawValue.normal.rotated(by: .pitch(.halfPi))
-        case (.yz, .yz), (.xz, .xz):
-            shape.rotate(by: .roll(.halfPi))
-            shapeNormal = shapePlane.rawValue.normal.rotated(by: .roll(.halfPi))
-        default:
-            shapeNormal = shapePlane.rawValue.normal
+        // Get flattening plane
+        let plane: Plane
+        switch along.flatteningPlane {
+        case .xy:
+            plane = along.faceNormal.z > 0 ? .xy : Plane.xy.inverted()
+        case .yz:
+            plane = along.faceNormal.x > 0 ? .yz : Plane.yz.inverted()
+        case .xz:
+            plane = along.faceNormal.y > 0 ? .xz : Plane.xz.inverted()
         }
+        // Get alignment mode
+        let axisAligned: Bool = {
+            var p0 = points[0]
+            for p1 in points.dropFirst() {
+                let v = p1.position - p0.position
+                let l = v.project(onto: plane).length
+                if l < v.length * 0.9 {
+                    return false
+                }
+                p0 = p1
+            }
+            return true
+        }()
+        // Get initial shape orientation
+        var shapeNormal: Vector
+        var upVector: Vector
+        switch shape.flatteningPlane {
+        case .xy:
+            shapeNormal = .unitZ
+            upVector = .unitY
+        case .xz:
+            shapeNormal = .unitY
+            upVector = .unitZ
+        case .yz:
+            shapeNormal = .unitX
+            upVector = .unitY
+        }
+
+        var shape = shape
+        func rotateShape(by rotation: Rotation) {
+            shape.rotate(by: rotation)
+            shapeNormal.rotate(by: rotation)
+            upVector.rotate(by: rotation)
+        }
+
+        // Rotate shape to be perpendicular to plane
+        rotateShape(by: rotationBetweenVectors(plane.normal, upVector))
+
+        // Add first shape
         var shapes = [Path]()
         var p1 = points[1]
-        var p0p1 = (p1.position - p0.position).normalized()
-        var r = rotationBetweenVectors(p0p1, shapeNormal)
+        var p0p1 = (p1.position - p0.position)
+        rotateShape(by: rotationBetweenVectors(p0p1, shapeNormal))
+        if axisAligned {
+            p0p1 = p0p1.project(onto: plane)
+        }
 
-        func addShape(_ p: PathPoint, _ s: Vector?) {
+        func rotationBetween(_ a: Path?, _ b: Path, checkSign: Bool = true) -> Rotation {
+            guard let a = a else { return .identity }
+            let r = rotationBetweenVectors(a.faceNormal, b.faceNormal)
+            let b = b.rotated(by: -r)
+            let points0 = a.points, points1 = b.points
+            let delta = (points0[1].position - points0[0].position)
+                .angle(with: points1[1].position - points1[0].position)
+            let rotation = Rotation(unchecked: b.faceNormal, angle: delta)
+            if checkSign, rotationBetween(
+                a,
+                b.rotated(by: rotation),
+                checkSign: false
+            ).angle > delta {
+                // TODO: this is pretty weird - find better solution
+                return Rotation(unchecked: b.faceNormal, angle: -delta)
+            }
+            return rotation
+        }
+
+        func addShape(_ p: PathPoint, _ scale: Double?) {
             var shape = shape
             if let color = p.color {
                 shape = shape.with(color: color)
             }
-            if let scale = s {
-                shape.scale(by: scale)
+            if let scale = scale, let line = Line(origin: .zero, direction: upVector) {
+                shape.stretch(by: scale, along: line)
             }
-            shape.rotate(by: r)
             shape.translate(by: p.position)
             shapes.append(shape)
-            if !p.isCurved, s != nil {
-                shapes.append(shape)
-            }
         }
 
         func addShape(_ p2: PathPoint) {
-            let p1p2 = (p2.position - p1.position).normalized()
-            let angle = p1p2.angle(with: p0p1) / 2
-            var axis = p1p2.cross(p0p1).normalized()
-            if axis == .zero {
-                axis = along.faceNormal
+            var p1p2 = (p2.position - p1.position)
+            if axisAligned {
+                p1p2 = p1p2.project(onto: plane)
             }
-            let rotation = Rotation(unchecked: axis, angle: angle)
-            r *= rotation
-            addShape(p1, Vector(1 / cos(angle), 1, 1))
-            r *= rotation
+            let r = rotationBetweenVectors(p1p2, p0p1) / 2
+            rotateShape(by: r)
+            upVector = (p1p2.normalized() + p0p1.normalized()).normalized().cross(r.axis)
+            addShape(p1, 1 / cos(r.angle))
+            rotateShape(by: r)
             p0 = p1
             p1 = p2
             p0p1 = p1p2
@@ -474,13 +526,42 @@ public extension Mesh {
             for i in 1 ..< count {
                 addShape(points[(i < count - 1) ? i + 1 : 1])
             }
-            shapes.append(shapes[0])
+            addShape(points[2])
+            shape = shapes.last!
+            shapes[shapes.count - 1] = shapes[0]
         } else {
             addShape(p0, nil)
-            for i in 1 ..< count - 1 {
-                addShape(points[i + 1])
+            for point in points.dropFirst(2) {
+                addShape(point)
             }
-            addShape(points[count - 1], nil)
+            addShape(points.last!, nil)
+            shape = shapes.last!
+        }
+
+        // Fix up angles
+        if along.isClosed {
+            let r = rotationBetween(shapes[0], shape)
+            let delta = r.axis.dot(shapes[0].faceNormal) > 0 ? r.angle : -r.angle
+            let step = delta / Double(count - (along.isClosed ? -1 : 1))
+            var angle = step
+            let endIndex = count - (along.isClosed ? 1 : 0)
+            for i in 1 ..< endIndex {
+                var shape = shapes[i]
+                let offset = shape.bounds.center
+                shape.translate(by: -offset)
+                shape.rotate(by: .init(unchecked: shape.faceNormal, angle: angle))
+                shape.translate(by: offset)
+                shapes[i] = shape
+                angle += step
+                if delta > .zero ? angle > delta : angle < delta {
+                    angle = delta
+                }
+            }
+        }
+        // Double up shapes at sharp corners
+        let startIndex = along.isClosed ? 0 : 1
+        for i in (startIndex ..< count - 1).reversed() where !points[i].isCurved {
+            shapes.insert(shapes[i], at: i)
         }
         return loft(shapes, faces: faces, material: material)
     }
