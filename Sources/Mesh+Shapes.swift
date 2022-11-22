@@ -419,22 +419,39 @@ public extension Mesh {
         guard count > 1 else {
             return .fill(shape.translated(by: p0.position), material: material)
         }
-        // Get flattening plane
-        let plane: Plane
-        switch along.flatteningPlane {
-        case .xy:
-            plane = along.faceNormal.z > 0 ? .xy : Plane.xy.inverted()
-        case .yz:
-            plane = along.faceNormal.x > 0 ? .yz : Plane.yz.inverted()
-        case .xz:
-            plane = along.faceNormal.y > 0 ? .xz : Plane.xz.inverted()
+        // Get initial shape orientation
+        var shape = shape
+        var shapeNormal, upVector: Vector
+        let pathPlane = along.flatteningPlane
+        switch (shape.flatteningPlane, pathPlane) {
+        case (.xy, .xy):
+            shape.rotate(by: .pitch(.halfPi))
+            shapeNormal = .unitY
+            upVector = -.unitZ
+        case (.yz, .yz):
+            shape.rotate(by: .roll(.halfPi))
+            shapeNormal = -.unitY
+            upVector = .unitX
+        case (.xz, .xz):
+            shape.rotate(by: .roll(.halfPi))
+            shapeNormal = .unitX
+            upVector = .unitZ
+        case (.xy, _):
+            shapeNormal = .unitZ
+            upVector = .unitY
+        case (.yz, _):
+            shapeNormal = .unitX
+            upVector = .unitY
+        case (.xz, _):
+            shapeNormal = .unitY
+            upVector = .unitZ
         }
         // Get alignment mode
         let axisAligned: Bool = {
             var p0 = points[0]
             for p1 in points.dropFirst() {
                 let v = p1.position - p0.position
-                let l = v.project(onto: plane).length
+                let l = v.project(onto: pathPlane.rawValue).length
                 if l < v.length * 0.9 {
                     return false
                 }
@@ -442,30 +459,12 @@ public extension Mesh {
             }
             return true
         }()
-        // Get initial shape orientation
-        var shapeNormal: Vector
-        var upVector: Vector
-        switch shape.flatteningPlane {
-        case .xy:
-            shapeNormal = .unitZ
-            upVector = .unitY
-        case .xz:
-            shapeNormal = .unitY
-            upVector = .unitZ
-        case .yz:
-            shapeNormal = .unitX
-            upVector = .unitY
-        }
 
-        var shape = shape
         func rotateShape(by rotation: Rotation) {
             shape.rotate(by: rotation)
             shapeNormal.rotate(by: rotation)
             upVector.rotate(by: rotation)
         }
-
-        // Rotate shape to be perpendicular to plane
-        rotateShape(by: rotationBetweenVectors(plane.normal, upVector))
 
         // Add first shape
         var shapes = [Path]()
@@ -473,7 +472,7 @@ public extension Mesh {
         var p0p1 = (p1.position - p0.position)
         rotateShape(by: rotationBetweenVectors(p0p1, shapeNormal))
         if axisAligned {
-            p0p1 = p0p1.project(onto: plane)
+            p0p1 = p0p1.project(onto: pathPlane.rawValue)
         }
 
         func rotationBetween(_ a: Path?, _ b: Path, checkSign: Bool = true) -> Rotation {
@@ -510,7 +509,7 @@ public extension Mesh {
         func addShape(_ p2: PathPoint) {
             var p1p2 = (p2.position - p1.position)
             if axisAligned {
-                p1p2 = p1p2.project(onto: plane)
+                p1p2 = p1p2.project(onto: pathPlane.rawValue)
             }
             let r = rotationBetweenVectors(p1p2, p0p1) / 2
             rotateShape(by: r)
