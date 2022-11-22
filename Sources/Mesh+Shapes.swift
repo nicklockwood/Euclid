@@ -34,21 +34,7 @@ import Foundation
 // MARK: 3D shapes
 
 public extension Mesh {
-    /// A choice of the face directions that Euclid generates for polygons.
-    ///
-    /// ## Topics
-    ///
-    /// ### Faces
-    ///
-    /// - ``Faces/default``
-    /// - ``Faces/front``
-    /// - ``Faces/back``
-    /// - ``Faces/frontAndBack``
-    ///
-    /// ### Comparing Faces
-    ///
-    /// - ``Faces/!=(_:_:)``
-    ///
+    /// The face generation policy for Euclid to use when creating a mesh.
     enum Faces {
         /// The default face generation behavior. Context-dependent.
         case `default`
@@ -60,20 +46,7 @@ public extension Mesh {
         case frontAndBack
     }
 
-    /// A choice of how texture coordinates should be generated.
-    ///
-    /// ## Topics
-    ///
-    /// ### Wrap Modes
-    ///
-    /// - ``WrapMode/default``
-    /// - ``WrapMode/shrink``
-    /// - ``WrapMode/tube``
-    ///
-    /// ### Comparing Wrap modes
-    ///
-    /// - ``WrapMode/!=(_:_:)``
-    ///
+    /// The texture wrapping mode to use when generating a mesh.
     enum WrapMode {
         /// The default wrap behavior. Context-dependent.
         case `default`
@@ -81,6 +54,17 @@ public extension Mesh {
         case shrink
         /// Texture is tube-wrapped.
         case tube
+    }
+
+    /// Alignment mode to use when extruding along a path.
+    enum Alignment {
+        /// Use default alignment heuristic for the given path.
+        case `default`
+        /// Align extruded cross-sections to the tangent of the path curve.
+        case tangent
+        /// Align extruded cross-sections with the X, Y or Z axis
+        /// (whichever is most perpendicular to the extrusion path).
+        case axis
     }
 
     /// Creates an axis-aligned cuboidal mesh.
@@ -391,11 +375,13 @@ public extension Mesh {
     /// - Parameters:
     ///   - shape: The shape to extrude into a mesh.
     ///   - along: The path along which to extrude the shape.
+    ///   - align: The alignment mode to use for the extruded shape.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     static func extrude(
         _ shape: Path,
         along: Path,
+        align: Alignment = .default,
         faces: Faces = .default,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
@@ -447,18 +433,26 @@ public extension Mesh {
             upVector = .unitZ
         }
         // Get alignment mode
-        let axisAligned: Bool = {
+        let axisAligned: Bool
+        switch align {
+        case .axis:
+            axisAligned = true
+        case .tangent:
+            axisAligned = false
+        case .default:
+            var aligned = true
             var p0 = points[0]
             for p1 in points.dropFirst() {
                 let v = p1.position - p0.position
                 let l = v.project(onto: pathPlane.rawValue).length
                 if l < v.length * 0.9 {
-                    return false
+                    aligned = false
+                    break
                 }
                 p0 = p1
             }
-            return true
-        }()
+            axisAligned = aligned
+        }
 
         func rotateShape(by rotation: Rotation) {
             shape.rotate(by: rotation)
@@ -470,8 +464,11 @@ public extension Mesh {
         var shapes = [Path]()
         var p1 = points[1]
         var p0p1 = (p1.position - p0.position)
+        if align == .axis {
+            p0p1 = p0p1.project(onto: pathPlane.rawValue)
+        }
         rotateShape(by: rotationBetweenVectors(p0p1, shapeNormal))
-        if axisAligned {
+        if align != .axis, axisAligned {
             p0p1 = p0p1.project(onto: pathPlane.rawValue)
         }
 

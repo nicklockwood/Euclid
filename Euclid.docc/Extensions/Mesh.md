@@ -42,7 +42,7 @@
 
 - ``Mesh/convexHull(of:material:)-4hvi3``
 - ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:)``
-- ``Mesh/extrude(_:along:faces:material:isCancelled:)``
+- ``Mesh/extrude(_:along::align:faces:material:isCancelled:)``
 - ``Mesh/extrude(_:depth:faces:material:)``
 - ``Mesh/extrude(_:depth:faces:material:isCancelled:)``
 - ``Mesh/fill(_:faces:material:)``
