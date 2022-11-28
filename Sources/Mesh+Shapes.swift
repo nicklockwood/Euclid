@@ -326,25 +326,37 @@ public extension Mesh {
     /// - Parameters:
     ///   - shape: The path to extrude in order to create the mesh.
     ///   - depth: The depth of the extrusion.
+    ///   - twist: Angular twist to apply along the extrusion.
+    ///   - sections: Number of sections to create along extrusion.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     static func extrude(
         _ shape: Path,
         depth: Double = 1,
+        twist: Angle = .zero,
+        sections: Int = 0,
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        let depth = max(abs(depth), scaleLimit)
-        let offset = shape.faceNormal * depth / 2
-        if offset.isEqual(to: .zero) {
+        let depth = abs(depth)
+        if depth < scaleLimit {
             return fill(shape, faces: faces, material: material)
+        }
+        let faceNormal = shape.faceNormal
+        let offset = faceNormal * depth
+        let sections = max(1, sections)
+        let step = offset / Double(sections)
+        let rotation = Rotation(unchecked: faceNormal, angle: twist / Double(sections))
+        var shape = shape.translated(by: -offset / 2)
+        var shapes = [shape]
+        for _ in 0 ..< sections {
+            shape.translate(by: step)
+            shape.rotate(by: rotation)
+            shapes.append(shape)
         }
         let polygon = Polygon(shape: shape)
         return loft(
-            unchecked: [
-                shape.translated(by: offset),
-                shape.translated(by: -offset),
-            ],
+            unchecked: shapes,
             faces: faces,
             material: material,
             verifiedCoplanar: true,
@@ -357,17 +369,28 @@ public extension Mesh {
     /// - Parameters:
     ///   - shapes: The array of paths to extrude in order to create the mesh.
     ///   - depth: The depth of the extrusion.
+    ///   - twist: Angular twist to apply along the extrusion.
+    ///   - sections: Number of sections to create along extrusion.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     static func extrude(
         _ shapes: [Path],
         depth: Double = 1,
+        twist: Angle = .zero,
+        sections: Int = 0,
         faces: Faces = .default,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         .union(build(shapes, using: {
-            extrude($0, depth: depth, faces: faces, material: material)
+            extrude(
+                $0,
+                depth: depth,
+                twist: twist,
+                sections: sections,
+                faces: faces,
+                material: material
+            )
         }, isCancelled: isCancelled), isCancelled: isCancelled)
     }
 
@@ -375,12 +398,14 @@ public extension Mesh {
     /// - Parameters:
     ///   - shape: The shape to extrude into a mesh.
     ///   - along: The path along which to extrude the shape.
+    ///   - twist: Angular twist to apply along the extrusion.
     ///   - align: The alignment mode to use for the extruded shape.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     static func extrude(
         _ shape: Path,
         along: Path,
+        twist: Angle = .zero,
         align: Alignment = .default,
         faces: Faces = .default,
         material: Material? = nil,
@@ -392,6 +417,7 @@ public extension Mesh {
                 extrude(
                     shape,
                     along: $0,
+                    twist: twist,
                     faces: faces,
                     material: material
                 )
@@ -460,7 +486,8 @@ public extension Mesh {
             upVector.rotate(by: rotation)
         }
 
-        // Add first shape
+        // Prepare initial shape
+        let length = along.length
         var shapes = [Path]()
         var p1 = points[1]
         var p0p1 = (p1.position - p0.position)
@@ -503,6 +530,13 @@ public extension Mesh {
             shapes.append(shape)
         }
 
+        func twistShape(_ p1p2: Vector) {
+            if !twist.isEqual(to: .zero) {
+                let angle = twist * (p1p2.length / length)
+                rotateShape(by: Rotation(unchecked: shapeNormal, angle: angle))
+            }
+        }
+
         func addShape(_ p2: PathPoint) {
             var p1p2 = (p2.position - p1.position)
             if axisAligned {
@@ -510,6 +544,7 @@ public extension Mesh {
             }
             let r = rotationBetweenVectors(p1p2, p0p1) / 2
             rotateShape(by: r)
+            twistShape(p1p2)
             upVector = (p1p2.normalized() + p0p1.normalized()).normalized().cross(r.axis)
             addShape(p1, 1 / cos(r.angle))
             rotateShape(by: r)
@@ -530,15 +565,16 @@ public extension Mesh {
             for point in points.dropFirst(2) {
                 addShape(point)
             }
+            let last2 = points.suffix(2).map { $0.position }
+            twistShape(last2[1] - last2[0])
             addShape(points.last!, nil)
             shape = shapes.last!
         }
 
         // Fix up angles
-        if along.isClosed {
-            let r = rotationBetween(shapes[0], shape)
+        let r = rotationBetween(shapes[0], shape)
+        if along.isClosed, !r.isEqual(to: .identity) {
             let delta = r.axis.dot(shapes[0].faceNormal) > 0 ? r.angle : -r.angle
-            let total = along.length
             var distance = 0.0
             var prev = along.points[0].position
             let endIndex = count - (along.isClosed ? 1 : 0)
@@ -549,10 +585,18 @@ public extension Mesh {
                 var shape = shapes[i]
                 let offset = shape.bounds.center
                 shape.translate(by: -offset)
-                let angle = delta * (distance / total)
+                let angle = delta * (distance / length)
                 shape.rotate(by: .init(unchecked: shape.faceNormal, angle: angle))
                 shape.translate(by: offset)
                 shapes[i] = shape
+            }
+            if along.isClosed {
+                var shape = shapes[count - 1]
+                let offset = shape.bounds.center
+                shape.translate(by: -offset)
+                shape.rotate(by: .init(unchecked: shape.faceNormal, angle: twist))
+                shape.translate(by: offset)
+                shapes[count - 1] = shape
             }
         }
         // Double up shapes at sharp corners
