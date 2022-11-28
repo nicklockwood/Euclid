@@ -538,20 +538,21 @@ public extension Mesh {
         if along.isClosed {
             let r = rotationBetween(shapes[0], shape)
             let delta = r.axis.dot(shapes[0].faceNormal) > 0 ? r.angle : -r.angle
-            let step = delta / Double(count - (along.isClosed ? -1 : 1))
-            var angle = step
+            let total = along.length
+            var distance = 0.0
+            var prev = along.points[0].position
             let endIndex = count - (along.isClosed ? 1 : 0)
             for i in 1 ..< endIndex {
+                let position = along.points[i].position
+                distance += (position - prev).length
+                prev = position
                 var shape = shapes[i]
                 let offset = shape.bounds.center
                 shape.translate(by: -offset)
+                let angle = delta * (distance / total)
                 shape.rotate(by: .init(unchecked: shape.faceNormal, angle: angle))
                 shape.translate(by: offset)
                 shapes[i] = shape
-                angle += step
-                if delta > .zero ? angle > delta : angle < delta {
-                    angle = delta
-                }
             }
         }
         // Double up shapes at sharp corners
