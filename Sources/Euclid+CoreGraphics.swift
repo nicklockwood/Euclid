@@ -33,26 +33,35 @@
 
 import CoreGraphics
 
-public extension Vector {
-    /// Creates a vector from a CoreGraphics `CGPoint`.
-    /// - Parameter cgPoint: the CoreGraphics point.
-    init(_ cgPoint: CGPoint) {
-        self.init(Double(cgPoint.x), Double(cgPoint.y))
+extension CGPoint: XYZRepresentable {
+    public var xyzComponents: (x: Double, y: Double, z: Double) {
+        (Double(x), Double(y), 0)
     }
 
-    /// Creates a new vector from a CoreGraphics size.
-    /// - Parameter cgSize: the CoreGraphics size.
-    init(_ cgSize: CGSize) {
-        self.init(Double(cgSize.width), Double(cgSize.height))
+    public init(x: Double, y: Double, z _: Double) {
+        self.init(x: x, y: y)
     }
 }
 
-public extension Color {
-    /// Creates a color from a CoreGraphics `CGColor`.
-    /// - Parameter cgColor: The CoreGraphics color instance.
-    init(_ cgColor: CGColor) {
-        let components = cgColor.components ?? [1]
-        self.init(unchecked: components.map(Double.init))
+extension CGSize: XYZRepresentable {
+    public var xyzComponents: (x: Double, y: Double, z: Double) {
+        (Double(width), Double(height), 0)
+    }
+
+    public init(x: Double, y: Double, z _: Double) {
+        self.init(width: x, height: y)
+    }
+}
+
+extension CGColor: RGBAConvertible {
+    public var rgbaComponents: (r: Double, g: Double, b: Double, a: Double) {
+        let c = components?.map(Double.init) ?? [1]
+        switch c.count {
+        case 1: return (c[0], c[0], c[0], 1)
+        case 2: return (c[0], c[0], c[0], c[1])
+        case 3: return (c[0], c[1], c[2], 1)
+        default: return (c[0], c[1], c[2], 1)
+        }
     }
 }
 

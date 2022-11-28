@@ -10,9 +10,12 @@
 - ``Vector/init(_:)-228p6``
 - ``Vector/init(_:)-6nlm``
 - ``Vector/init(_:)-3hpag``
+- ``Vector/init(x:y:z:)``
 - ``Vector/init(_:_:_:)``
 - ``Vector/init(size:)-8y52g``
 - ``Vector/init(size:)-nkyk``
+- ``Vector/init(_:)-63ct7``
+- ``Vector/init(_:)-602vn``
 
 ### Default Vectors
 
