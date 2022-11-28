@@ -505,7 +505,7 @@ private extension Mesh {
             isWatertight: Bool?,
             submeshes: [Mesh]?
         ) {
-            assert(isWatertight == nil || isWatertight == polygons.areWatertight)
+            // assert(isWatertight == nil || isWatertight == polygons.areWatertight)
             assert(!isConvex || polygons.groupedBySubmesh().count <= 1)
             let submeshes: [Mesh]? = submeshes.map { submeshes -> [Mesh] in
                 guard submeshes.count > 1 else {

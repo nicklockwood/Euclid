@@ -93,6 +93,24 @@ extension Vertex: Comparable {
     }
 }
 
+extension Vertex: ExpressibleByArrayLiteral {
+    public init(arrayLiteral elements: Double...) {
+        self.init(Vector(elements))
+    }
+}
+
+extension Vertex: CustomStringConvertible {
+    public var description: String {
+        let p = "[\(position.x), \(position.y)\(position.z == 0 ? "" : ", \(position.z)")]"
+        let t = texcoord == .zero ? "" :
+            ", [\(texcoord.x), \(texcoord.y)\(texcoord.z == 0 ? "" : ", \(texcoord.z)")]"
+        let n = texcoord == .zero && normal == .zero ? "" :
+            ", [\(normal.x), \(normal.y), \(normal.z)]"
+        let c = color == .white ? "" : ", \(color)"
+        return "Vertex(\(p)\(n)\(t)\(c))"
+    }
+}
+
 extension Vertex: Codable {
     private enum CodingKeys: CodingKey {
         case position, normal, texcoord, color

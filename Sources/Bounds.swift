@@ -50,6 +50,12 @@ public struct Bounds: Hashable, Sendable {
     }
 }
 
+extension Bounds: CustomStringConvertible {
+    public var description: String {
+        "Bounds(min: [\(min.components)], max: [\(max.components)])"
+    }
+}
+
 extension Bounds: Codable {
     private enum CodingKeys: CodingKey {
         case min, max
