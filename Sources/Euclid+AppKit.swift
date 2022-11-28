@@ -33,6 +33,16 @@
 
 import AppKit
 
+typealias OSColor = NSColor
+typealias OSImage = NSImage
+typealias OSColorComponent = Double
+
+extension OSImage {
+    var cgImage: CGImage? {
+        cgImage(forProposedRect: nil, context: nil, hints: nil)
+    }
+}
+
 public extension NSColor {
     /// Creates an `NSColor` from a ``Color``.
     /// - Parameter color: The color to convert.

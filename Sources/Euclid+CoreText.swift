@@ -134,14 +134,6 @@ extension NSAttributedString.Key {
 }
 #endif
 
-#if canImport(UIKit)
-import UIKit
-private typealias OSColor = UIColor
-#elseif canImport(AppKit)
-import AppKit
-private typealias OSColor = NSColor
-#endif
-
 private extension NSAttributedString {
     // Creates a new attributed string using text in the font you provide.
     convenience init(string: String, font: CTFont?) {

@@ -31,29 +31,8 @@
 
 #if canImport(RealityKit) && swift(>=5.4)
 
+import CoreGraphics
 import RealityKit
-
-#if canImport(UIKit)
-
-import UIKit
-private typealias OSColor = UIColor
-private typealias OSImage = UIImage
-private typealias OSColorComponent = Float
-
-#elseif canImport(AppKit)
-
-import AppKit
-private typealias OSColor = NSColor
-private typealias OSImage = NSImage
-private typealias OSColorComponent = Double
-
-private extension OSImage {
-    var cgImage: CGImage? {
-        cgImage(forProposedRect: nil, context: nil, hints: nil)
-    }
-}
-
-#endif
 
 @available(macOS 10.15, iOS 13.0, *)
 public extension RealityKit.Transform {

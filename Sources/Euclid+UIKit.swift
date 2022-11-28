@@ -33,6 +33,10 @@
 
 import UIKit
 
+typealias OSColor = UIColor
+typealias OSImage = UIImage
+typealias OSColorComponent = Float
+
 public extension UIColor {
     /// Creates a UIKit color from a ``Color``.
     /// - Parameter color: The color to convert.
