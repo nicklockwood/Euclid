@@ -33,6 +33,8 @@
 
 import SceneKit
 
+let scnMaterialTypes: [AnyClass] = [SCNMaterial.self]
+
 public extension SCNVector3 {
     /// Creates a 3D SceneKit vector from a vector.
     /// - Parameter v: The vector to convert.
@@ -727,5 +729,9 @@ public extension Mesh {
         self.init(scnGeometry, materialLookup: materialLookup)
     }
 }
+
+#else
+
+let scnMaterialTypes: [AnyClass] = []
 
 #endif
