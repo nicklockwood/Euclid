@@ -104,6 +104,16 @@ public extension Path {
         Bounds(points: points.map { $0.position })
     }
 
+    /// The total length of the path.
+    var length: Double {
+        var prev = points.first?.position ?? .zero
+        return points.dropFirst().reduce(0.0) {
+            let position = $1.position
+            defer { prev = position }
+            return $0 + (position - prev).length
+        }
+    }
+
     /// The face normal for the path.
     ///
     /// > Note: If path is non-planar then this returns an average/approximate normal.

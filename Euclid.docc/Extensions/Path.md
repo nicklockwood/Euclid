@@ -36,6 +36,7 @@
 - ``Path/points``
 - ``Path/plane``
 - ``Path/bounds``
+- ``Path/length``
 - ``Path/isClosed``
 - ``Path/isPlanar``
 
