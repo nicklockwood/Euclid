@@ -56,11 +56,9 @@ public extension NSColor {
     }
 }
 
-public extension Color {
-    /// Creates a color from an `NSColor`.
-    /// - Parameter nsColor: The `NSColor` to convert.
-    init(_ nsColor: NSColor) {
-        self.init(nsColor.cgColor)
+extension NSColor: RGBAConvertible {
+    public var rgbaComponents: (r: Double, g: Double, b: Double, a: Double) {
+        cgColor.rgbaComponents
     }
 }
 

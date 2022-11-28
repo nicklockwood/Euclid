@@ -50,11 +50,9 @@ public extension UIColor {
     }
 }
 
-public extension Color {
-    /// Creates a color from a `UIColor`.
-    /// - Parameter uiColor: The `UIColor` to convert.
-    init(_ uiColor: UIColor) {
-        self.init(uiColor.cgColor)
+extension UIColor: RGBAConvertible {
+    public var rgbaComponents: (r: Double, g: Double, b: Double, a: Double) {
+        cgColor.rgbaComponents
     }
 }
 
