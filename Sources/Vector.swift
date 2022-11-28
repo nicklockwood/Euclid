@@ -96,6 +96,18 @@ extension Vector: XYZRepresentable {
     }
 }
 
+extension Vector: ExpressibleByArrayLiteral {
+    public init(arrayLiteral elements: Double...) {
+        self.init(elements)
+    }
+}
+
+extension Vector: CustomStringConvertible {
+    public var description: String {
+        "Vector(\(x), \(y)\(z == 0 ? "" : ", \(z)"))"
+    }
+}
+
 extension Vector: Comparable {
     /// Returns whether the leftmost vector has the lower value.
     /// This provides a stable order when sorting collections of vectors.
