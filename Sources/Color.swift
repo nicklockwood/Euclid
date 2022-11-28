@@ -29,6 +29,31 @@
 //  SOFTWARE.
 //
 
+/// Protocol for types that can be converted to RGBA color components.
+public protocol RGBAConvertible {
+    /// Get RGBA color components.
+    var rgbaComponents: (r: Double, g: Double, b: Double, a: Double) { get }
+}
+
+/// Protocol for types that can be represented by RGBA color components.
+public protocol RGBARepresentable: RGBAConvertible {
+    /// Initialize with RGBA components.
+    /// - Parameters:
+    ///   - r: The red component of the color, from 0 to 1.
+    ///   - g: The green component of the color, from 0 to 1.
+    ///   - b: The blue component of the color, from 0 to 1.
+    ///   - a: The alpha component of the color, from 0 to 1.
+    init(r: Double, g: Double, b: Double, a: Double)
+}
+
+public extension RGBARepresentable {
+    /// Initialize with an RGBAConvertible value.
+    init(_ value: RGBAConvertible) {
+        let components = value.rgbaComponents
+        self.init(r: components.r, g: components.g, b: components.b, a: components.a)
+    }
+}
+
 /// A color in RGBA format.
 ///
 /// Color can be used as a ``Polygon/material-swift.property`` or as a ``Vertex/color``.
@@ -64,6 +89,16 @@ extension Color: Comparable {
         guard lhs.g == rhs.g else { return lhs.g < rhs.g }
         guard lhs.b == rhs.b else { return lhs.b < rhs.b }
         return lhs.a < rhs.a
+    }
+}
+
+extension Color: RGBARepresentable {
+    public var rgbaComponents: (r: Double, g: Double, b: Double, a: Double) {
+        (r, g, b, a)
+    }
+
+    public init(r: Double = 0, g: Double = 0, b: Double = 0, a: Double = 1) {
+        self.init(r, g, b, a)
     }
 }
 

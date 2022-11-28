@@ -33,47 +33,82 @@
 
 import simd
 
-public extension simd_double3 {
-    /// Creates a simd vector 3 from a Euclid `Vector`.
-    /// - Parameter vector: A Euclid vector.
-    init(_ vector: Vector) {
-        self.init(vector.x, vector.y, vector.z)
+extension SIMD3: XYZConvertible where Scalar: FloatingPoint {
+    public var xyzComponents: (x: Double, y: Double, z: Double) {
+        switch self {
+        case let value as simd_double3:
+            return (value.x, value.y, value.z)
+        case let value as simd_float3:
+            return (Double(value.x), Double(value.y), Double(value.z))
+        default:
+            preconditionFailure()
+        }
     }
 }
 
-public extension simd_float3 {
-    /// Creates a simd float vector 3 from a Euclid `Vector`.
-    /// - Parameter vector: A Euclid vector.
-    init(_ vector: Vector) {
-        self.init(Float(vector.x), Float(vector.y), Float(vector.z))
+extension SIMD3: XYZRepresentable where Scalar: FloatingPoint {
+    @_disfavoredOverload
+    public init(x: Double, y: Double, z: Double) {
+        switch Self.self {
+        case let type as simd_double3.Type:
+            self = type.init(x, y, z) as! Self
+        case let type as simd_float3.Type:
+            self = type.init(Float(x), Float(y), Float(z)) as! Self
+        default:
+            preconditionFailure()
+        }
     }
 }
 
-public extension simd_float2 {
-    /// Creates a simd float vector 2 from a Euclid `Vector`.
-    /// - Parameter vector: A Euclid vector.
-    init(_ vector: Vector) {
-        self.init(Float(vector.x), Float(vector.y))
+extension SIMD2: XYZConvertible where Scalar: FloatingPoint {
+    public var xyzComponents: (x: Double, y: Double, z: Double) {
+        switch self {
+        case let value as simd_double2:
+            return (value.x, value.y, 0)
+        case let value as simd_float2:
+            return (Double(value.x), Double(value.y), 0)
+        default:
+            preconditionFailure()
+        }
     }
 }
 
-public extension Vector {
-    /// Creates a `Vector` from a simd vector 3.
-    /// - Parameter vector: A simd vector.
-    init(_ vector: simd_double3) {
-        self.init(vector.x, vector.y, vector.z)
+extension SIMD2: XYZRepresentable where Scalar: FloatingPoint {
+    public init(x: Double, y: Double, z _: Double) {
+        switch Self.self {
+        case let type as simd_double2.Type:
+            self = type.init(x, y) as! Self
+        case let type as simd_float2.Type:
+            self = type.init(Float(x), Float(y)) as! Self
+        default:
+            preconditionFailure()
+        }
     }
+}
 
-    /// Creates a `Vector` from a simd vector 3.
-    /// - Parameter vector: A simd vector.
-    init(_ vector: simd_float3) {
-        self.init(Double(vector.x), Double(vector.y), Double(vector.z))
+extension SIMD4: RGBAConvertible where Scalar: FloatingPoint {
+    public var rgbaComponents: (r: Double, g: Double, b: Double, a: Double) {
+        switch self {
+        case let value as simd_double4:
+            return (value.x, value.y, value.z, value.w)
+        case let value as simd_float4:
+            return (Double(value.x), Double(value.y), Double(value.z), Double(value.w))
+        default:
+            preconditionFailure()
+        }
     }
+}
 
-    /// Creates a `Vector` from a simd vector 2.
-    /// - Parameter vector: A simd vector.
-    init(_ vector: simd_float2) {
-        self.init(Double(vector.x), Double(vector.y))
+extension SIMD4: RGBARepresentable where Scalar: FloatingPoint {
+    public init(r: Double, g: Double, b: Double, a: Double) {
+        switch Self.self {
+        case let type as simd_double4.Type:
+            self = type.init(r, g, b, a) as! Self
+        case let type as simd_float4.Type:
+            self = type.init(Float(r), Float(g), Float(b), Float(a)) as! Self
+        default:
+            preconditionFailure()
+        }
     }
 }
 

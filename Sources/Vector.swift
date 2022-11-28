@@ -31,6 +31,37 @@
 
 import Foundation
 
+/// Protocol for types that can be converted to XYZ components.
+public protocol XYZConvertible {
+    /// Get XYZ vector components.
+    var xyzComponents: (x: Double, y: Double, z: Double) { get }
+}
+
+/// Protocol for types that can be represented by XYZ vector components.
+public protocol XYZRepresentable: XYZConvertible {
+    /// Initialize with XYZ components.
+    /// - Parameters:
+    ///   - x: The X component of the vector.
+    ///   - y: The Y component of the vector.
+    ///   - z: The Z component of the vector.
+    init(x: Double, y: Double, z: Double)
+}
+
+public extension XYZRepresentable {
+    /// Initialize with some XYZConvertible value.
+    init<T: XYZConvertible>(_ value: T) {
+        let components = value.xyzComponents
+        self.init(x: components.x, y: components.y, z: components.z)
+    }
+
+    /// Initialize with any XYZConvertible value.
+    @_disfavoredOverload
+    init(_ value: XYZConvertible) {
+        let components = value.xyzComponents
+        self.init(x: components.x, y: components.y, z: components.z)
+    }
+}
+
 /// A distance or position in 3D space.
 ///
 /// > Note: Euclid doesn't have a 2D vector type. When working with primarily 2D shapes, such as
@@ -52,6 +83,16 @@ public struct Vector: Hashable, Sendable, AdditiveArithmetic {
         self.x = x
         self.y = y
         self.z = z
+    }
+}
+
+extension Vector: XYZRepresentable {
+    public var xyzComponents: (x: Double, y: Double, z: Double) {
+        (x, y, z)
+    }
+
+    public init(x: Double = 0, y: Double = 0, z: Double = 0) {
+        self.init(x, y, z)
     }
 }
 
