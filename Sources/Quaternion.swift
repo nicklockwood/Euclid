@@ -418,6 +418,13 @@ extension Quaternion: Codable {
 }
 
 @available(*, deprecated)
+extension Quaternion: CustomStringConvertible {
+    public var description: String {
+        "Quaternion(\(x), \(y), \(z), \(w))"
+    }
+}
+
+@available(*, deprecated)
 public extension Quaternion {
     /// The zero quaternion.
     static let zero = Quaternion(unchecked: 0, 0, 0, 0)
