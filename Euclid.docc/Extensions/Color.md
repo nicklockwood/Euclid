@@ -4,11 +4,11 @@
 
 ### Creating a Color
 
+- ``Color/init(r:g:b:a:)``
 - ``Color/init(_:_:_:_:)``
 - ``Color/init(_:_:)``
-- ``Color/init(_:)-25eby``
 - ``Color/init(_:)-53lhy``
-- ``Color/init(_:)-7d8un``
+- ``Color/init(_:)-9bvpm``
 
 ### Default Colors
 
