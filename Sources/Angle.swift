@@ -34,7 +34,9 @@ import Foundation
 /// An angle or 2D rotation.
 public struct Angle: Hashable, Comparable, Sendable, AdditiveArithmetic {
     /// The angle in radians.
-    public var radians: Double
+    public var radians: Double {
+        didSet { radians = radians.isFinite ? radians : 0 }
+    }
 
     /// Creates an angle from a radians value.
     /// - Parameter radians: The angle in radians.
@@ -124,7 +126,7 @@ public extension Angle {
     /// Creates an angle from a radians value.
     /// - Parameter radians: The angle in radians.
     static func radians(_ radians: Double) -> Angle {
-        Angle(radians: radians)
+        Angle(radians: radians.isFinite ? radians : 0)
     }
 
     /// Creates an angle representing the trigonometric arc cosine of the value you provide.
