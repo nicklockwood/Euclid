@@ -1218,8 +1218,8 @@ private extension Mesh {
             let facePolygons = first.facePolygons(material: material)
             if facePolygons.isEmpty {
                 isCapped = isCapped && first.isClosed && first.hasZeroArea
-            } else {
-                let p0p1 = directionBetweenShapes(first, shapes[1])
+            } else if let next = shapes.first(where: { $0 != first }) {
+                let p0p1 = directionBetweenShapes(first, next)
                 polygons += facePolygons.map {
                     p0p1.dot($0.plane.normal) > 0 ? $0.inverted() : $0
                 }
@@ -1255,8 +1255,8 @@ private extension Mesh {
             let facePolygons = last.facePolygons(material: material)
             if facePolygons.isEmpty {
                 isCapped = isCapped && last.isClosed && last.hasZeroArea
-            } else {
-                let p0p1 = directionBetweenShapes(shapes[shapes.count - 2], last)
+            } else if let prev = shapes.last(where: { $0 != last }) {
+                let p0p1 = directionBetweenShapes(prev, last)
                 polygons += facePolygons.map {
                     p0p1.dot($0.plane.normal) < 0 ? $0.inverted() : $0
                 }
