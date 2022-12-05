@@ -284,6 +284,14 @@ public extension PathPoint {
             isCurved: isCurved
         )
     }
+
+    /// Curve or uncurve the point.
+    /// - Parameter isCurved: Whether the resultant point should be curved.
+    func curved(_ isCurved: Bool = true) -> PathPoint {
+        var point = self
+        point.isCurved = isCurved
+        return point
+    }
 }
 
 internal extension PathPoint {
