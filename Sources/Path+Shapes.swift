@@ -336,4 +336,209 @@ public extension Path {
         assert(path.isClosed == isClosed)
         return path
     }
+
+    /// Alignment mode to use when extruding along a path.
+    enum Alignment {
+        /// Use default alignment heuristic for the given path.
+        case `default`
+        /// Align extruded cross-sections to the tangent of the path curve.
+        case tangent
+        /// Align extruded cross-sections with the X, Y or Z axis
+        /// (whichever is most perpendicular to the extrusion path).
+        case axis
+    }
+
+    /// Creates an array of contours by extruding one path along another path.
+    /// - Parameters:
+    ///   - along: The path along which to extrude the shape.
+    ///   - twist: Angular twist to apply along the extrusion.
+    ///   - align: The alignment mode to use for the extruded shape.
+    func extrusionContours(
+        along: Path,
+        twist: Angle = .zero,
+        align: Alignment = .default
+    ) -> [Path] {
+        let points = along.points
+        guard var p0 = points.first else {
+            return []
+        }
+        let count = points.count
+        guard count > 1 else {
+            return [translated(by: p0.position)]
+        }
+        // Get initial shape orientation
+        var shape = self
+        var shapeNormal, upVector: Vector
+        let pathPlane = along.flatteningPlane
+        switch (shape.flatteningPlane, pathPlane) {
+        case (.xy, .xy):
+            shape.rotate(by: .pitch(.halfPi))
+            shapeNormal = .unitY
+            upVector = -.unitZ
+        case (.yz, .yz):
+            shape.rotate(by: .roll(.halfPi))
+            shapeNormal = -.unitY
+            upVector = .unitX
+        case (.xz, .xz):
+            shape.rotate(by: .roll(.halfPi))
+            shapeNormal = .unitX
+            upVector = .unitZ
+        case (.xy, _):
+            shapeNormal = .unitZ
+            upVector = .unitY
+        case (.yz, _):
+            shapeNormal = .unitX
+            upVector = .unitY
+        case (.xz, _):
+            shapeNormal = .unitY
+            upVector = .unitZ
+        }
+        // Get alignment mode
+        let axisAligned: Bool
+        switch align {
+        case .axis:
+            axisAligned = true
+        case .tangent:
+            axisAligned = false
+        case .default:
+            var aligned = true
+            var p0 = points[0]
+            for p1 in points.dropFirst() {
+                let v = p1.position - p0.position
+                let l = v.project(onto: pathPlane.rawValue).length
+                if l < v.length * 0.9 {
+                    aligned = false
+                    break
+                }
+                p0 = p1
+            }
+            axisAligned = aligned
+        }
+
+        func rotateShape(by rotation: Rotation) {
+            shape.rotate(by: rotation)
+            shapeNormal.rotate(by: rotation)
+            upVector.rotate(by: rotation)
+        }
+
+        // Prepare initial shape
+        let length = along.length
+        var shapes = [Path]()
+        var p1 = points[1]
+        var p0p1 = (p1.position - p0.position)
+        if align == .axis {
+            p0p1 = p0p1.project(onto: pathPlane.rawValue)
+        }
+        rotateShape(by: rotationBetweenVectors(p0p1, shapeNormal))
+        if align != .axis, axisAligned {
+            p0p1 = p0p1.project(onto: pathPlane.rawValue)
+        }
+
+        func rotationBetween(_ a: Path?, _ b: Path, checkSign: Bool = true) -> Rotation {
+            guard let a = a else { return .identity }
+            let r = rotationBetweenVectors(a.faceNormal, b.faceNormal)
+            let b = b.rotated(by: -r)
+            let points0 = a.points, points1 = b.points
+            let delta = (points0[1].position - points0[0].position)
+                .angle(with: points1[1].position - points1[0].position)
+            let rotation = Rotation(unchecked: b.faceNormal, angle: delta)
+            if checkSign, rotationBetween(
+                a,
+                b.rotated(by: rotation),
+                checkSign: false
+            ).angle > delta {
+                // TODO: this is pretty weird - find better solution
+                return Rotation(unchecked: b.faceNormal, angle: -delta)
+            }
+            return rotation
+        }
+
+        func addShape(_ p: PathPoint, _ scale: Double?) {
+            var shape = shape
+            if let color = p.color {
+                shape = shape.with(color: color)
+            }
+            if let scale = scale, let line = Line(origin: .zero, direction: upVector) {
+                shape.stretch(by: scale, along: line)
+            }
+            shape.translate(by: p.position)
+            shapes.append(shape)
+        }
+
+        func twistShape(_ p1p2: Vector) {
+            if !twist.isEqual(to: .zero) {
+                let angle = twist * (p1p2.length / length)
+                rotateShape(by: Rotation(unchecked: shapeNormal, angle: angle))
+            }
+        }
+
+        func addShape(_ p2: PathPoint) {
+            var p1p2 = (p2.position - p1.position)
+            if axisAligned {
+                p1p2 = p1p2.project(onto: pathPlane.rawValue)
+            }
+            let r = rotationBetweenVectors(p1p2, p0p1) / 2
+            rotateShape(by: r)
+            twistShape(p1p2)
+            upVector = (p1p2.normalized() + p0p1.normalized()).normalized().cross(r.axis)
+            addShape(p1, 1 / cos(r.angle))
+            rotateShape(by: r)
+            p0 = p1
+            p1 = p2
+            p0p1 = p1p2
+        }
+
+        if along.isClosed {
+            for i in 1 ..< count {
+                addShape(points[(i < count - 1) ? i + 1 : 1])
+            }
+            addShape(points[2])
+            shape = shapes.last!
+            shapes[shapes.count - 1] = shapes[0]
+        } else {
+            addShape(p0, nil)
+            for point in points.dropFirst(2) {
+                addShape(point)
+            }
+            let last2 = points.suffix(2).map { $0.position }
+            twistShape(last2[1] - last2[0])
+            addShape(points.last!, nil)
+            shape = shapes.last!
+        }
+
+        // Fix up angles
+        let r = rotationBetween(shapes[0], shape)
+        if along.isClosed, !r.isEqual(to: .identity) {
+            let delta = r.axis.dot(shapes[0].faceNormal) > 0 ? r.angle : -r.angle
+            var distance = 0.0
+            var prev = along.points[0].position
+            let endIndex = count - (along.isClosed ? 1 : 0)
+            for i in 1 ..< endIndex {
+                let position = along.points[i].position
+                distance += (position - prev).length
+                prev = position
+                var shape = shapes[i]
+                let offset = shape.bounds.center
+                shape.translate(by: -offset)
+                let angle = delta * (distance / length)
+                shape.rotate(by: .init(unchecked: shape.faceNormal, angle: angle))
+                shape.translate(by: offset)
+                shapes[i] = shape
+            }
+            if along.isClosed {
+                var shape = shapes[count - 1]
+                let offset = shape.bounds.center
+                shape.translate(by: -offset)
+                shape.rotate(by: .init(unchecked: shape.faceNormal, angle: twist))
+                shape.translate(by: offset)
+                shapes[count - 1] = shape
+            }
+        }
+        // Double up shapes at sharp corners
+        let startIndex = along.isClosed ? 0 : 1
+        for i in (startIndex ..< count - 1).reversed() where !points[i].isCurved {
+            shapes.insert(shapes[i], at: i)
+        }
+        return shapes
+    }
 }
