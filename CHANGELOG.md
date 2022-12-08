@@ -1,3 +1,11 @@
+## [0.6.5](https://github.com/nicklockwood/Euclid/releases/tag/0.6.5) (2022-12-08)
+
+- Added `twist` and `sections` parameters for `Mesh.extrude()` methods
+- Angle correction is now distributed evenly along extrusion length
+- Added `Path.extrusionContours()` method
+- Fixed crash when angle is infinite or NaN
+- Fixed end caps for loft/extrusion shapes
+
 ## [0.6.4](https://github.com/nicklockwood/Euclid/releases/tag/0.6.4) (2022-11-21)
 
 - Improved default alignment heuristic when extruding along non-planar paths
