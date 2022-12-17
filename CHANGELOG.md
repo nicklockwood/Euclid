@@ -1,3 +1,7 @@
+## [0.6.6](https://github.com/nicklockwood/Euclid/releases/tag/0.6.6) (2022-12-17)
+
+- Reduced compilation time for some complex expressions to fix Linux build
+
 ## [0.6.5](https://github.com/nicklockwood/Euclid/releases/tag/0.6.5) (2022-12-08)
 
 - Added `twist` and `sections` parameters for `Mesh.extrude()` methods
