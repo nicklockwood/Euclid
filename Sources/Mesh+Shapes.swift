@@ -71,45 +71,38 @@ public extension Mesh {
         faces: Faces = .default,
         material: Material? = nil
     ) -> Mesh {
-        let polygons: [Polygon] = [
-            [[5, 1, 3, 7], [+1, 0, 0]],
-            [[0, 4, 6, 2], [-1, 0, 0]],
-            [[6, 7, 3, 2], [0, +1, 0]],
-            [[0, 1, 5, 4], [0, -1, 0]],
-            [[4, 5, 7, 6], [0, 0, +1]],
-            [[1, 0, 2, 3], [0, 0, -1]],
-        ].map {
-            var index = 0
-            let (indexData, normalData) = ($0[0], $0[1])
-            let normal = Vector(
-                Double(normalData[0]),
-                Double(normalData[1]),
-                Double(normalData[2])
-            )
-            return Polygon(
-                unchecked: indexData.map { i in
+        let coordinates: [(indices: [Int], normal: Vector)] = [
+            ([5, 1, 3, 7], .unitX),
+            ([0, 4, 6, 2], -.unitX),
+            ([6, 7, 3, 2], .unitY),
+            ([0, 1, 5, 4], -.unitY),
+            ([4, 5, 7, 6], .unitZ),
+            ([1, 0, 2, 3], -.unitZ),
+        ]
+        let polygons: [Polygon] = coordinates.map { indices, normal in
+            Polygon(
+                unchecked: indices.enumerated().map { index, i in
                     let pos = center + Vector(
                         i & 1 > 0 ? 0.5 : -0.5,
                         i & 2 > 0 ? 0.5 : -0.5,
                         i & 4 > 0 ? 0.5 : -0.5
-                    )
+                    ).scaled(by: size)
                     let uv = Vector(
                         (1 ... 2).contains(index) ? 1 : 0,
                         (0 ... 1).contains(index) ? 1 : 0
                     )
-                    index += 1
                     return Vertex(unchecked: pos, normal, uv, nil)
                 },
                 normal: normal,
                 isConvex: true,
                 material: material
-            ).scaled(by: size)
+            )
         }
-        let halfSize = Vector(size: 0.5)
+        let halfSize = size / 2
         let bounds = Bounds(
             min: center - halfSize,
             max: center + halfSize
-        ).scaled(by: size)
+        )
         switch faces {
         case .front, .default:
             return Mesh(
