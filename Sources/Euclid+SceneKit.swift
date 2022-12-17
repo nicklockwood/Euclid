@@ -323,9 +323,9 @@ public extension SCNGeometry {
     ///   - mesh: The input ``Mesh``.
     ///   - scale: The line length of the normal indicators.
     convenience init(normals mesh: Mesh, scale: Double = 1) {
-        self.init(Set(mesh.polygons.flatMap { $0.vertices }.compactMap {
+        self.init(Set(mesh.polygons.flatMap { $0.vertices.compactMap {
             LineSegment($0.position, $0.position + $0.normal * scale)
-        }))
+        }}))
     }
 
     /// Creates a wrieframe geometry from a path.
