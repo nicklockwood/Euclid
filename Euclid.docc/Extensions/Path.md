@@ -8,11 +8,10 @@
 
 ### Creating Paths
 
-- ``Path/init(_:)``
+- ``Path/init(_:)-3c0eo``
+- ``Path/init(_:)-4jhkw``
 - ``Path/init(subpaths:)``
-- ``Path/init(polygon:)``
 - ``Path/init(_:detail:color:)``
-- ``Path/init(cgPath:detail:color:)``
 - ``Path/curve(_:detail:)``
 - ``Path/line(_:_:color:)``
 - ``Path/line(_:color:)``

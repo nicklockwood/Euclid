@@ -158,8 +158,26 @@ public extension Path {
         self.init(unchecked: points, plane: nil, subpathIndices: nil)
     }
 
-    /// Creates a path from a polygon.
+    /// Creates a closed path from a polygon.
     /// - Parameter polygon: A ``Polygon`` to convert to a path.
+    init(_ polygon: Polygon) {
+        let hasTexcoords = polygon.hasTexcoords
+        let hasVertexColors = polygon.hasVertexColors
+        let points = polygon.vertices.map {
+            PathPoint.point(
+                $0.position,
+                texcoord: hasTexcoords ? $0.texcoord : nil,
+                color: hasVertexColors ? $0.color : nil
+            )
+        }
+        self.init(
+            unchecked: points + [points[0]],
+            plane: polygon.plane,
+            subpathIndices: nil
+        )
+    }
+
+    @available(*, deprecated, message: "Use `init(_:)` instead")
     init(polygon: Polygon) {
         let hasTexcoords = polygon.hasTexcoords
         self.init(
