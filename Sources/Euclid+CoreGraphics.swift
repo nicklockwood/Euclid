@@ -164,12 +164,12 @@ public extension CGPath {
             let isTangent = abs(d0.dot(d1)) > 0.99
             points[points.count - 1].isCurved = isTangent
         }
-        enumerateElements {
-            var element: SafeElement = ($0.type, [])
+        applyWithBlock {
+            var element: SafeElement = ($0.pointee.type, [])
             switch element.type {
             case .moveToPoint:
                 endPath()
-                element.points = [$0.points[0]]
+                element.points = [$0.pointee.points[0]]
                 startingPoint = Vector(element.points[0])
             case .closeSubpath:
                 if points.last?.position != points.first?.position {
@@ -178,12 +178,12 @@ public extension CGPath {
                 startingPoint = points.first?.position ?? .zero
                 endPath()
             case .addLineToPoint:
-                let origin = $0.points[0]
+                let origin = $0.pointee.points[0]
                 element.points = [origin]
                 updateLastPoint(nextElement: element)
                 points.append(.point(Vector(origin), color: color))
             case .addQuadCurveToPoint:
-                let p1 = $0.points[0], p2 = $0.points[1]
+                let p1 = $0.pointee.points[0], p2 = $0.pointee.points[1]
                 element.points = [p1, p2]
                 updateLastPoint(nextElement: element)
                 guard detail > 0 else {
@@ -205,7 +205,9 @@ public extension CGPath {
                 }
                 points.append(.point(Vector(p2), color: color))
             case .addCurveToPoint:
-                let p1 = $0.points[0], p2 = $0.points[1], p3 = $0.points[2]
+                let p1 = $0.pointee.points[0],
+                    p2 = $0.pointee.points[1],
+                    p3 = $0.pointee.points[2]
                 element.points = [p1, p2, p3]
                 updateLastPoint(nextElement: element)
                 guard detail > 0 else {
@@ -236,28 +238,6 @@ public extension CGPath {
         }
         endPath()
         return paths
-    }
-}
-
-private extension CGPath {
-    func enumerateElements(_ block: @convention(block) (CGPathElement) -> Void) {
-        if #available(iOS 11.0, tvOS 11.0, OSX 10.13, *) {
-            applyWithBlock { block($0.pointee) }
-            return
-        }
-
-        // Fallback for earlier OSes
-        typealias Block = @convention(block) (CGPathElement) -> Void
-        let callback: @convention(c) (
-            UnsafeMutableRawPointer,
-            UnsafePointer<CGPathElement>
-        ) -> Void = { info, element in
-            unsafeBitCast(info, to: Block.self)(element.pointee)
-        }
-        withoutActuallyEscaping(block) { block in
-            let block = unsafeBitCast(block, to: UnsafeMutableRawPointer.self)
-            self.apply(info: block, function: unsafeBitCast(callback, to: CGPathApplierFunction.self))
-        }
     }
 }
 
