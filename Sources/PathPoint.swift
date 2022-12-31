@@ -182,6 +182,19 @@ extension PathPoint: Codable {
     }
 }
 
+public extension Vertex {
+    /// Creates a vertex from a path point.
+    /// - Parameter point: The path point to create the vertex from.
+    init(_ point: PathPoint) {
+        self.init(
+            unchecked: point.position,
+            nil,
+            point.texcoord,
+            point.color
+        )
+    }
+}
+
 public extension PathPoint {
     /// Creates a corner path point at the specified position.
     /// - Parameters:
@@ -254,6 +267,17 @@ public extension PathPoint {
         self.texcoord = texcoord
         self.color = color
         self.isCurved = isCurved
+    }
+
+    /// Creates a path point from a vertex.
+    /// - Parameter vertex: The vertex to create the point from.
+    init(_ vertex: Vertex) {
+        self.init(
+            vertex.position,
+            texcoord: vertex.texcoord,
+            color: vertex.color,
+            isCurved: false
+        )
     }
 
     /// Linearly interpolates between two path points.

@@ -5,7 +5,8 @@
 ### Creating Vertices
 
 - ``init(_:_:_:_:)``
-- ``init(_:)``
+- ``init(_:)-5517j``
+- ``init(_:)-7go25``
 
 ### Vertex Properties
 

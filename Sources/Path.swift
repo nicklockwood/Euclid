@@ -312,10 +312,8 @@ public extension Path {
     /// - Returns: The edge vertices, or an empty array if path has subpaths.
     func edgeVertices(for wrapMode: Mesh.WrapMode) -> [Vertex] {
         guard subpaths.count <= 1, points.count >= 2 else {
-            if let p = points.first {
-                return [Vertex(p.position, nil, p.texcoord, p.color)]
-            }
-            return []
+            // TODO: does this actually match the documented behavior?
+            return points.first.map { [Vertex($0)] } ?? []
         }
 
         // get path length

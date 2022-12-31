@@ -641,9 +641,7 @@ public extension Mesh {
         of points: T,
         material: Material? = nil
     ) -> Mesh where T.Element == PathPoint {
-        convexHull(of: points.map {
-            Vertex($0.position, nil, $0.texcoord, $0.color)
-        }, material: material)
+        convexHull(of: points.map(Vertex.init), material: material)
     }
 
     /// Computes the convex hull of a set of vertices.
