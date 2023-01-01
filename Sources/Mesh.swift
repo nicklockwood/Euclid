@@ -152,6 +152,12 @@ public extension Mesh {
         )
     }
 
+    /// Creates a composite mesh from an array of submeshes.
+    /// - Parameter submeshes: An array of meshes.
+    init(submeshes: [Mesh]) {
+        self = .merge(submeshes)
+    }
+
     /// Replaces an existing material with the specified new one.
     /// - Parameters:
     ///     - old: The ``Material`` to be replaced.

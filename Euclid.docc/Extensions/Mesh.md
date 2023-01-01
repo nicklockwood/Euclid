@@ -19,6 +19,7 @@
 
 ### Creating Meshes from Other Meshes
 
+- ``Mesh/init(submeshes:)``
 - ``Mesh/convexHull(of:)-6c896``
 - ``Mesh/union(_:isCancelled:)-swift.method``
 - ``Mesh/union(_:isCancelled:)-swift.type.method``
