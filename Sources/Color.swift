@@ -162,6 +162,26 @@ public extension Collection where Element == Color, Index == Int {
     }
 }
 
+extension Color: UnkeyedCodable {
+    init(from container: inout UnkeyedDecodingContainer) throws {
+        self.r = try container.decode(Double.self)
+        self.g = try container.decode(Double.self)
+        self.b = try container.decode(Double.self)
+        self.a = try container.decodeIfPresent(Double.self) ?? 1
+    }
+
+    func encode(to container: inout UnkeyedEncodingContainer) throws {
+        try encode(to: &container, skipA: false)
+    }
+
+    func encode(to container: inout UnkeyedEncodingContainer, skipA: Bool) throws {
+        try container.encode(r)
+        try container.encode(g)
+        try container.encode(b)
+        try skipA ? () : container.encode(a)
+    }
+}
+
 internal extension Color {
     init(unchecked components: [Double]) {
         switch components.count {
@@ -173,20 +193,6 @@ internal extension Color {
             assertionFailure()
             self = .clear
         }
-    }
-
-    init(from container: inout UnkeyedDecodingContainer) throws {
-        self.r = try container.decode(Double.self)
-        self.g = try container.decode(Double.self)
-        self.b = try container.decode(Double.self)
-        self.a = try container.decodeIfPresent(Double.self) ?? 1
-    }
-
-    func encode(to container: inout UnkeyedEncodingContainer, skipA: Bool) throws {
-        try container.encode(r)
-        try container.encode(g)
-        try container.encode(b)
-        try skipA ? () : container.encode(a)
     }
 
     static func - (lhs: Color, rhs: Color) -> Color {

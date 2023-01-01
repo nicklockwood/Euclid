@@ -551,6 +551,17 @@ func extrapolate(_ p0: PathPoint, _ p1: PathPoint) -> PathPoint {
     return .point(p1.position + p0p1)
 }
 
+// MARK: Coding
+
+// Protocol for types that can be encoded directly into an unkeyed
+// buffer. Typically applies to vectors with a fixed size.
+protocol UnkeyedCodable {
+    /// Decode directly from an unkeyedContainer
+    init(from container: inout UnkeyedDecodingContainer) throws
+    /// Encode directly into an unkeyedContainer
+    func encode(to container: inout UnkeyedEncodingContainer) throws
+}
+
 // MARK: Parallel processing
 
 #if canImport(Dispatch) && !arch(wasm32)

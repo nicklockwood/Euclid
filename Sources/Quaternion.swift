@@ -503,16 +503,7 @@ public extension Quaternion {
     }
 }
 
-internal extension Quaternion {
-    // Approximate equality
-    func isEqual(to other: Quaternion, withPrecision p: Double = epsilon) -> Bool {
-        w.isEqual(to: other.w, withPrecision: p) &&
-            x.isEqual(to: other.x, withPrecision: p) &&
-            y.isEqual(to: other.y, withPrecision: p) &&
-            z.isEqual(to: other.z, withPrecision: p)
-    }
-
-    // Encode directly into an unkeyedContainer
+extension Quaternion: UnkeyedCodable {
     func encode(to container: inout UnkeyedEncodingContainer) throws {
         try container.encode(x)
         try container.encode(y)
@@ -520,12 +511,21 @@ internal extension Quaternion {
         try container.encode(w)
     }
 
-    // Decode directly from an unkeyedContainer
     init(from container: inout UnkeyedDecodingContainer) throws {
         let x = try container.decode(Double.self)
         let y = try container.decode(Double.self)
         let z = try container.decode(Double.self)
         let w = try container.decode(Double.self)
         self.init(x, y, z, w)
+    }
+}
+
+internal extension Quaternion {
+    // Approximate equality
+    func isEqual(to other: Quaternion, withPrecision p: Double = epsilon) -> Bool {
+        w.isEqual(to: other.w, withPrecision: p) &&
+            x.isEqual(to: other.x, withPrecision: p) &&
+            y.isEqual(to: other.y, withPrecision: p) &&
+            z.isEqual(to: other.z, withPrecision: p)
     }
 }

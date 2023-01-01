@@ -290,6 +290,24 @@ public extension Vector {
     }
 }
 
+extension Vector: UnkeyedCodable {
+    func encode(to container: inout UnkeyedEncodingContainer) throws {
+        try encode(to: &container, skipZ: false)
+    }
+
+    func encode(to container: inout UnkeyedEncodingContainer, skipZ: Bool) throws {
+        try container.encode(x)
+        try container.encode(y)
+        try skipZ ? () : container.encode(z)
+    }
+
+    init(from container: inout UnkeyedDecodingContainer) throws {
+        self.x = try container.decode(Double.self)
+        self.y = try container.decode(Double.self)
+        self.z = try container.decodeIfPresent(Double.self) ?? 0
+    }
+}
+
 internal extension Vector {
     func _quantized() -> Vector {
         Vector(quantize(x), quantize(y), quantize(z))
@@ -319,7 +337,7 @@ internal extension Vector {
         x.isEqual(to: y) && y.isEqual(to: z)
     }
 
-    // Approximate equality
+    /// Approximate equality
     func isEqual(to other: Vector, withPrecision p: Double = epsilon) -> Bool {
         x.isEqual(to: other.x, withPrecision: p) &&
             y.isEqual(to: other.y, withPrecision: p) &&
@@ -329,24 +347,5 @@ internal extension Vector {
     func compare(with plane: Plane) -> PlaneComparison {
         let t = distance(from: plane)
         return (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
-    }
-
-    /// Encode directly into an unkeyedContainer
-    func encode(to container: inout UnkeyedEncodingContainer) throws {
-        try encode(to: &container, skipZ: false)
-    }
-
-    /// Encode directly into an unkeyedContainer
-    func encode(to container: inout UnkeyedEncodingContainer, skipZ: Bool) throws {
-        try container.encode(x)
-        try container.encode(y)
-        try skipZ ? () : container.encode(z)
-    }
-
-    /// Decode directly from an unkeyedContainer
-    init(from container: inout UnkeyedDecodingContainer) throws {
-        self.x = try container.decode(Double.self)
-        self.y = try container.decode(Double.self)
-        self.z = try container.decodeIfPresent(Double.self) ?? 0
     }
 }
