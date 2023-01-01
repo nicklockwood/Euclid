@@ -158,7 +158,7 @@ public extension Path {
     /// - Parameter subpaths: An array of paths.
     init(subpaths: [Path]) {
         guard subpaths.count > 1 else {
-            self = subpaths.first ?? Path([])
+            self = subpaths.first ?? .empty
             return
         }
         let points = subpaths.flatMap { $0.points }

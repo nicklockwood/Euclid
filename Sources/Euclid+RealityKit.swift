@@ -46,7 +46,7 @@ public extension RealityKit.Transform {
 }
 
 @available(macOS 12.0, iOS 15.0, *)
-private func defaultMaterialLookup(_ material: Polygon.Material?) -> Material? {
+private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.Material? {
     switch material {
     case let material as RealityKit.Material:
         return material
@@ -161,7 +161,7 @@ public extension ModelEntity {
     /// A closure that maps a Euclid material to a RealityKit material.
     /// - Parameter m: A Euclid material to convert, or `nil` for the default material.
     /// - Returns: A `Material` used by RealityKit.
-    typealias MaterialProvider = (_ m: Polygon.Material?) -> Material?
+    typealias MaterialProvider = (_ m: Polygon.Material?) -> RealityKit.Material?
 
     /// Creates a model entity from a ``Mesh`` using the default tessellation method.
     /// - Parameters:

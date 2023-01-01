@@ -210,15 +210,9 @@ public extension Mesh {
             allBoundsSet = allBoundsSet && mesh.boundsIfSet != nil
             polygons += mesh.polygons
         }
-        var boundsIfSet: Bounds?
-        if allBoundsSet {
-            boundsIfSet = meshes.reduce(into: Bounds.empty) {
-                $0.formUnion($1.bounds)
-            }
-        }
         return Mesh(
             unchecked: polygons,
-            bounds: boundsIfSet,
+            bounds: allBoundsSet ? Bounds(bounds: meshes.map { $0.bounds }) : nil,
             isConvex: false,
             isWatertight: nil,
             submeshes: nil // TODO: can we preserve this?
@@ -425,6 +419,7 @@ internal extension Mesh {
     var boundsIfSet: Bounds? { storage.boundsIfSet }
     var watertightIfSet: Bool? { storage.watertightIfSet }
     var isKnownConvex: Bool { storage.isConvex }
+    // Note: we don't expose submeshesIfSet because it's unsafe to reuse
     var submeshesIfEmpty: [Mesh]? {
         storage.submeshesIfSet.flatMap { $0.isEmpty ? [] : nil }
     }

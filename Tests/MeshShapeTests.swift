@@ -275,7 +275,7 @@ class MeshShapeTests: XCTestCase {
 
     func testLoftEmptyPathToPath() {
         let shapes = [
-            Path([]),
+            Path.empty,
             Path.square(),
         ]
 
@@ -288,7 +288,7 @@ class MeshShapeTests: XCTestCase {
     func testLoftPathToEmptyPath() {
         let shapes = [
             Path.square(),
-            Path([]),
+            Path.empty,
         ]
 
         let loft = Mesh.loft(shapes)

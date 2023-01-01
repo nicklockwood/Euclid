@@ -1,3 +1,15 @@
+# Change Log
+
+## [0.6.7](https://github.com/nicklockwood/Euclid/releases/tag/0.6.7) (2023-01-01)
+
+- Fixed use of duplicate cross-sections to create sharp junctions in `loft` shapes
+- Fixed `Path(polygon:)` initializer to create closed path and preserve colors
+- Added convenience initializers to convert between `Vertex` and `PathPoint`
+- Added `Path.with(color:)` and `PathPoint.with(color:)` helpers
+- Added `Mesh(submeshes:)` convenience initializer
+- Added convenience initializers for `Transform`
+- Removed obsolete backwards compatibility code
+
 ## [0.6.6](https://github.com/nicklockwood/Euclid/releases/tag/0.6.6) (2022-12-17)
 
 - Reduced compilation time for some complex expressions to fix Linux build

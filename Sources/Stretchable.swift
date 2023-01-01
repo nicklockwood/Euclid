@@ -31,10 +31,18 @@
 
 /// Protocol for stretchable types.
 protocol Stretchable {
+    /// Returns a stretched copy of the value.
+    /// - Parameters
+    ///   - scaleFactor: A scale factor to apply to the value.
+    ///   - along: The axis along which to apply the scale factor.
     func stretched(by scaleFactor: Double, along: Line) -> Self
 }
 
 extension Stretchable {
+    /// Stretch the value in place.
+    /// - Parameters
+    ///   - scaleFactor: A scale factor to apply to the value.
+    ///   - along: The axis along which to apply the scale factor.
     mutating func stretch(by scaleFactor: Double, along: Line) {
         self = stretched(by: scaleFactor, along: along)
     }
