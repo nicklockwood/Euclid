@@ -316,16 +316,17 @@ public extension PathPoint {
         point.isCurved = isCurved
         return point
     }
-}
 
-internal extension PathPoint {
-    /// Replace/remove point color
+    /// Replace/remove point color.
+    /// - Parameter color: The color to apply to the point.
     func with(color: Color?) -> PathPoint {
         var point = self
         point.color = color
         return point
     }
+}
 
+internal extension PathPoint {
     /// Approximate equality
     func isEqual(to other: PathPoint, withPrecision p: Double = epsilon) -> Bool {
         isCurved == other.isCurved &&

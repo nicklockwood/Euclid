@@ -125,6 +125,14 @@ public extension Path {
         )
     }
 
+    /// Replace/remove path point colors.
+    /// - Parameter color: The color to apply to each point in the path.
+    func with(color: Color?) -> Path {
+        Path(unchecked: points.map {
+            $0.with(color: color)
+        }, plane: plane, subpathIndices: subpathIndices)
+    }
+
     /// Closes the path by joining last point to first.
     /// - Returns: A new path, or `self` if the path is already closed, or cannot be closed.
     func closed() -> Path {
@@ -446,13 +454,6 @@ internal extension Path {
     /// Does path contain vertex colors?
     var hasColors: Bool {
         points.contains(where: { $0.color != nil })
-    }
-
-    /// Replace/remove path point colors
-    func with(color: Color?) -> Path {
-        Path(unchecked: points.map {
-            $0.with(color: color)
-        }, plane: plane, subpathIndices: subpathIndices)
     }
 
     // Test if path is self-intersecting

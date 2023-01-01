@@ -46,4 +46,5 @@
 - ``Path/scaled(by:)-84xdd``
 - ``Path/translated(by:)``
 - ``Path/transformed(by:)``
+- ``Path/with(color:)``
 - ``Path/closed()``
