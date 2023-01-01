@@ -566,7 +566,16 @@ extension Array: Transformable where Element: Transformable {
     }
 
     public func transformed(by t: Transform) -> [Element] {
-        t.isIdentity ? self : map { $0.transformed(by: t) }
+        if t.scale.isEqual(to: .one) {
+            if t.offset == .zero {
+                return rotated(by: t.rotation)
+            } else if t.isIdentity {
+                return translated(by: t.offset)
+            }
+        } else if t.rotation == .identity, t.offset == .zero {
+            return scaled(by: t.scale)
+        }
+        return map { $0.transformed(by: t) }
     }
 }
 
