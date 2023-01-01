@@ -212,6 +212,30 @@ public extension Transform {
     /// The identity transform (i.e. no transform).
     static let identity = Transform()
 
+    /// Creates a offset transform.
+    /// - Parameter offset: An offset distance.
+    static func offset(_ offset: Vector) -> Transform {
+        .init(offset: offset)
+    }
+
+    /// Creates a rotation transform.
+    /// - Parameter rotation: A rotation to apply.
+    static func rotation(_ rotation: Rotation) -> Transform {
+        .init(rotation: rotation)
+    }
+
+    /// Creates a scale transform.
+    /// - Parameter scale: A vector scale factor apply.
+    static func scale(_ scale: Vector) -> Transform {
+        .init(scale: scale)
+    }
+
+    /// Creates a uniform scale transform.
+    /// - Parameter factor: A uniform scale factor to apply.
+    static func scale(_ scale: Double) -> Transform {
+        .init(scale: Vector(size: scale))
+    }
+
     /// Transform has no effect.
     var isIdentity: Bool {
         rotation.isIdentity && offset.isEqual(to: .zero) && scale.isEqual(to: .one)

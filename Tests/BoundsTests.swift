@@ -125,19 +125,19 @@ class BoundsTests: XCTestCase {
         )
         XCTAssert(Bounds.empty.rotated(by: rotation).isEmpty)
         XCTAssert(Bounds.empty.rotated(by: Quaternion(rotation)).isEmpty)
-        XCTAssert(Bounds.empty.transformed(by: Transform(rotation: rotation)).isEmpty)
+        XCTAssert(Bounds.empty.transformed(by: .rotation(rotation)).isEmpty)
     }
 
     func testTranslatedEmptyBoundsIsEmpty() {
         let offset = Vector(2.5539, 0.5531, 0.0131)
         XCTAssert(Bounds.empty.translated(by: offset).isEmpty)
-        XCTAssert(Bounds.empty.transformed(by: Transform(offset: offset)).isEmpty)
+        XCTAssert(Bounds.empty.transformed(by: .offset(offset)).isEmpty)
     }
 
     func testScaledEmptyBoundsIsEmpty() {
         XCTAssert(Bounds.empty.scaled(by: 0).isEmpty)
         XCTAssert(Bounds.empty.scaled(by: -1).isEmpty)
-        XCTAssert(Bounds.empty.transformed(by: Transform(scale: .zero)).isEmpty)
-        XCTAssert(Bounds.empty.transformed(by: Transform(scale: -.one)).isEmpty)
+        XCTAssert(Bounds.empty.transformed(by: .scale(.zero)).isEmpty)
+        XCTAssert(Bounds.empty.transformed(by: .scale(-.one)).isEmpty)
     }
 }

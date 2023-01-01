@@ -5,6 +5,10 @@
 ### Creating Transforms
 
 - ``Transform/init(offset:rotation:scale:)``
+- ``Transform/offset(_:)``
+- ``Transform/rotation(_:)``
+- ``Transform/scale(_:)-55t4p``
+- ``Transform/scale(_:)-7a30s``
 - ``Transform/transform(from:)``
 
 ### Default Transforms
