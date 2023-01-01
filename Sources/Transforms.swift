@@ -558,7 +558,7 @@ extension Array: Transformable where Element: Transformable {
     }
 
     public func scaled(by v: Vector) -> [Element] {
-        v.isEqual(to: .one) ? self : map { $0.scaled(by: v) }
+        v.isUniform ? scaled(by: v.x) : map { $0.scaled(by: v) }
     }
 
     public func scaled(by f: Double) -> [Element] {

@@ -314,6 +314,11 @@ internal extension Vector {
         ]
     }
 
+    /// Are all components equal
+    var isUniform: Bool {
+        x.isEqual(to: y) && y.isEqual(to: z)
+    }
+
     // Approximate equality
     func isEqual(to other: Vector, withPrecision p: Double = epsilon) -> Bool {
         x.isEqual(to: other.x, withPrecision: p) &&
