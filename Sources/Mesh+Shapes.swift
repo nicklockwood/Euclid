@@ -1151,23 +1151,16 @@ private extension Mesh {
         material: Material?,
         into polygons: inout [Polygon]
     ) {
+        let n0 = p0.faceNormal, n1 = p1.faceNormal
         var direction = directionBetweenShapes(p0, p1)
-        var invert = direction.dot(p0.faceNormal) <= 0
+        var invert = direction.dot(n0) <= 0
         if invert {
             direction = -direction
         }
         var uvstart = uvstart, uvend = uvend
         var e0 = p0.edgeVertices, e1 = p1.edgeVertices
-        if !curvestart {
-            let r = rotationBetweenVectors(direction, p0.faceNormal)
-            e0 = e0.map { $0.with(normal: $0.normal.rotated(by: r)) }
-        }
-        if !curveend {
-            let r = rotationBetweenVectors(direction, p1.faceNormal)
-            e1 = e1.map { $0.with(normal: $0.normal.rotated(by: r)) }
-        }
         var t0 = -p0.bounds.center, t1 = -p1.bounds.center
-        var r = rotationBetweenVectors(p0.faceNormal, p1.faceNormal)
+        var r = rotationBetweenVectors(n0, n1)
         func makePolygon(_ vertices: [Vertex]) -> Polygon {
             Polygon(
                 unchecked: invert ? vertices.reversed() : vertices,
@@ -1178,6 +1171,23 @@ private extension Mesh {
         }
         func addFace(_ a: Vertex, _ b: Vertex, _ c: Vertex, _ d: Vertex) {
             var vertices = [a, b, c, d]
+            let n = faceNormalForPolygonPoints(
+                vertices.map { $0.position },
+                convex: true,
+                closed: true
+            )
+            if !curvestart {
+                var r = rotationBetweenVectors(n, n0)
+                r = Rotation(unchecked: r.axis, angle: r.angle - .halfPi)
+                vertices[0].normal.rotate(by: r)
+                vertices[1].normal.rotate(by: r)
+            }
+            if !curveend {
+                var r = rotationBetweenVectors(n, n1)
+                r = Rotation(unchecked: r.axis, angle: r.angle - .halfPi)
+                vertices[2].normal.rotate(by: r)
+                vertices[3].normal.rotate(by: r)
+            }
             vertices[0].texcoord = Vector(vertices[0].texcoord.y, uvstart)
             vertices[1].texcoord = Vector(vertices[1].texcoord.y, uvstart)
             vertices[2].texcoord = Vector(vertices[2].texcoord.y, uvend)
