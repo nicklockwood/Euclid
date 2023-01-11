@@ -539,13 +539,15 @@ public extension Mesh {
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        stroke(
-            Path(subpaths: shapes),
-            width: width,
-            detail: detail,
-            material: material,
-            isCancelled: isCancelled
-        )
+        .union(build(shapes, using: {
+            stroke(
+                $0,
+                width: width,
+                detail: detail,
+                material: material,
+                isCancelled: isCancelled
+            )
+        }, isCancelled: isCancelled))
     }
 
     /// Efficiently strokes a collection of line segments (useful for drawing wireframes).
