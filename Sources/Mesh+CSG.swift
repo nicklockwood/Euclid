@@ -428,27 +428,18 @@ public extension Mesh {
             }
             radius = radius.squareRoot()
             // Create back face
-            let normal = Vector.unitZ
-            let angle = -normal.angle(with: plane.normal)
-            let rotation: Rotation
-            if angle == .zero {
-                rotation = .identity
-            } else {
-                let axis = normal.cross(plane.normal).normalized()
-                rotation = Rotation(unchecked: axis, angle: angle)
-            }
             let rect = Polygon(
                 unchecked: [
-                    Vertex(unchecked: Vector(-radius, radius), -normal, .zero, nil),
-                    Vertex(unchecked: Vector(radius, radius), -normal, Vector(1, 0), nil),
-                    Vertex(unchecked: Vector(radius, -radius), -normal, Vector(1, 1), nil),
-                    Vertex(unchecked: Vector(-radius, -radius), -normal, Vector(0, 1), nil),
+                    Vertex(unchecked: Vector(-radius, radius), .unitZ, .zero, nil),
+                    Vertex(unchecked: Vector(-radius, -radius), .unitZ, Vector(0, 1), nil),
+                    Vertex(unchecked: Vector(radius, -radius), .unitZ, Vector(1, 1), nil),
+                    Vertex(unchecked: Vector(radius, radius), .unitZ, Vector(1, 0), nil),
                 ],
-                normal: -normal,
+                normal: .unitZ,
                 isConvex: true,
                 material: material
             )
-            .rotated(by: rotation)
+            .rotated(by: -rotationBetweenVectors(.unitZ, -plane.normal))
             .translated(by: plane.normal * plane.w)
             // Clip rect
             return Mesh(
