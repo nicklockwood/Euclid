@@ -453,7 +453,7 @@ public extension Mesh {
             // Clip rect
             return Mesh(
                 unchecked: mesh.polygons + BSP(self) { false }
-                    .clip([rect], .lessThan) { false },
+                    .clip([rect], .lessThanEqual) { false },
                 bounds: nil,
                 isConvex: isKnownConvex,
                 isWatertight: watertightIfSet,
