@@ -221,10 +221,10 @@ public extension Mesh {
 
     /// Split the mesh along a plane.
     /// - Parameter along: The ``Plane`` to split the mesh along.
-    /// - Returns: A tuple of two new meshes representing the parts behind and in front of the plane.
+    /// - Returns: A pair of meshes representing the parts in front of and behind the plane respectively.
     ///
     /// > Note: If the plane and mesh do not intersect, one of the returned meshes will be `nil`.
-    func split(along plane: Plane) -> (back: Mesh?, front: Mesh?) {
+    func split(along plane: Plane) -> (front: Mesh?, back: Mesh?) {
         switch bounds.compare(with: plane) {
         case .front:
             return (self, nil)

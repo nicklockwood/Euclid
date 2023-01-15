@@ -396,4 +396,16 @@ class CSGTests: XCTestCase {
         let b = a.clip(to: plane)
         XCTAssertEqual(b.bounds, .init(Vector(0, -0.5), Vector(0.5, 0.5)))
     }
+
+    // MARK: Plane splitting
+
+    func testSquareSplitAlongPlane() {
+        let a = Mesh.fill(.square())
+        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
+        let b = a.split(along: plane)
+        XCTAssertEqual(b.0?.bounds, .init(Vector(0, -0.5), Vector(0.5, 0.5)))
+        XCTAssertEqual(b.1?.bounds, .init(Vector(-0.5, -0.5), Vector(0, 0.5)))
+        XCTAssertEqual(b.front, b.0)
+        XCTAssertEqual(b.back, b.1)
+    }
 }
