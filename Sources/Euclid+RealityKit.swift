@@ -96,12 +96,20 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.
 
 @available(macOS 12.0, iOS 15.0, *)
 public extension MeshDescriptor {
+    private typealias SIMDVertexData = (
+        positions: [simd_float3],
+        normals: [simd_float3],
+        texcoords: [simd_float2]?,
+        indices: [UInt32],
+        materialIndices: [UInt32]
+    )
+
     /// Creates a mesh descriptor from a ``Mesh`` using triangles.
     /// - Parameter triangles: The mesh to convert into a RealityKit mesh descriptor.
     init(triangles mesh: Mesh) {
         self.init()
         var counts: [UInt8]?
-        let data = mesh.getVertexData(maxSides: 3, counts: &counts)
+        let data: SIMDVertexData = mesh.getVertexData(maxSides: 3, counts: &counts)
         self.positions = .init(data.positions)
         self.normals = .init(data.normals)
         self.textureCoordinates = data.texcoords.map(MeshBuffers.TextureCoordinates.init)
@@ -118,7 +126,7 @@ public extension MeshDescriptor {
     init(polygons mesh: Mesh) {
         self.init()
         var counts: [UInt8]? = []
-        let data = mesh.getVertexData(maxSides: 255, counts: &counts)
+        let data: SIMDVertexData = mesh.getVertexData(maxSides: 255, counts: &counts)
         self.positions = .init(data.positions)
         self.normals = .init(data.normals)
         self.textureCoordinates = data.texcoords.map(MeshBuffers.TextureCoordinates.init)
@@ -135,7 +143,7 @@ public extension MeshDescriptor {
     init(quads mesh: Mesh) {
         self.init()
         var counts: [UInt8]? = []
-        let data = mesh.getVertexData(maxSides: 4, counts: &counts)
+        let data: SIMDVertexData = mesh.getVertexData(maxSides: 4, counts: &counts)
         self.positions = .init(data.positions)
         self.normals = .init(data.normals)
         self.textureCoordinates = data.texcoords.map(MeshBuffers.TextureCoordinates.init)
@@ -231,56 +239,6 @@ private extension Mesh {
     func materials(for materialLookup: ModelEntity.MaterialProvider?) -> [RealityKit.Material] {
         let materialLookup = materialLookup ?? defaultMaterialLookup
         return materials.map { materialLookup($0) ?? SimpleMaterial() }
-    }
-
-    func getVertexData(maxSides: UInt8, counts: inout [UInt8]?) -> (
-        positions: [SIMD3<Float>],
-        normals: [SIMD3<Float>],
-        texcoords: [SIMD2<Float>]?,
-        indices: [UInt32],
-        materialIndices: [UInt32]
-    ) {
-        var positions: [SIMD3<Float>] = []
-        var normals: [SIMD3<Float>] = [] // looks bad with default normals
-        var texcoords: [SIMD2<Float>]? = hasTexcoords ? [] : nil
-        var indices = [UInt32]()
-        var materialIndices = [UInt32]()
-        var indicesByVertex = [Vertex: UInt32]()
-        let polygonsByMaterial = self.polygonsByMaterial
-        let perFaceMaterials = materials.count > 1
-        for (materialIndex, material) in materials.enumerated() {
-            let polygons = polygonsByMaterial[material] ?? []
-            for polygon in polygons.tessellate(maxSides: Int(maxSides)) {
-                counts?.append(UInt8(polygon.vertices.count))
-                for var vertex in polygon.vertices {
-                    vertex.color = .white // Note: vertex colors are not supported
-                    if let index = indicesByVertex[vertex] {
-                        indices.append(index)
-                        continue
-                    }
-                    let index = UInt32(indicesByVertex.count)
-                    indicesByVertex[vertex] = index
-                    indices.append(index)
-                    positions.append(.init(vertex.position))
-                    normals.append(.init(vertex.normal))
-                    if texcoords != nil {
-                        var texcoord = vertex.texcoord
-                        texcoord.y = 1 - texcoord.y
-                        texcoords?.append(.init(texcoord))
-                    }
-                }
-                if perFaceMaterials {
-                    materialIndices.append(UInt32(materialIndex))
-                }
-            }
-        }
-        return (
-            positions: positions,
-            normals: normals,
-            texcoords: texcoords,
-            indices: indices,
-            materialIndices: materialIndices
-        )
     }
 }
 
