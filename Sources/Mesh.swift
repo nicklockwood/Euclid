@@ -219,61 +219,6 @@ public extension Mesh {
         )
     }
 
-    /// Split the mesh along a plane.
-    /// - Parameter along: The ``Plane`` to split the mesh along.
-    /// - Returns: A pair of meshes representing the parts in front of and behind the plane respectively.
-    ///
-    /// > Note: If the plane and mesh do not intersect, one of the returned meshes will be `nil`.
-    func split(along plane: Plane) -> (front: Mesh?, back: Mesh?) {
-        switch bounds.compare(with: plane) {
-        case .front:
-            return (self, nil)
-        case .back:
-            return (nil, self)
-        case .spanning, .coplanar:
-            var id = 0
-            var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
-            for polygon in polygons {
-                polygon.split(along: plane, &coplanar, &front, &back, &id)
-            }
-            for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
-                front.append(polygon)
-            }
-            if front.isEmpty {
-                return (nil, self)
-            } else if back.isEmpty {
-                return (self, nil)
-            }
-            return (
-                Mesh(
-                    unchecked: front,
-                    bounds: nil,
-                    isConvex: false,
-                    isWatertight: nil,
-                    submeshes: nil
-                ),
-                Mesh(
-                    unchecked: back,
-                    bounds: nil,
-                    isConvex: false,
-                    isWatertight: nil,
-                    submeshes: nil
-                )
-            )
-        }
-    }
-
-    /// Computes a set of edges where the mesh intersects a plane.
-    /// - Parameter plane: A ``Plane`` to test against the mesh.
-    /// - Returns: A `Set` of ``LineSegment`` representing the polygon edges intersecting the plane.
-    func edges(intersecting plane: Plane) -> Set<LineSegment> {
-        var edges = Set<LineSegment>()
-        for polygon in polygons {
-            polygon.intersect(with: plane, edges: &edges)
-        }
-        return edges
-    }
-
     /// Flips the face direction and vertex normals of all polygons within the mesh.
     /// - Returns: The inverted mesh.
     func inverted() -> Mesh {

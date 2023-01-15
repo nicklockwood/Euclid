@@ -88,6 +88,7 @@
 ### Comparing Meshes
 
 - ``Mesh/containsPoint(_:)``
+- ``Mesh/edges(intersecting:)``
 
 ### Transforming Meshes
 
@@ -97,9 +98,6 @@
 - ``Mesh/translated(by:)``
 - ``Mesh/transformed(by:)``
 - ``Mesh/inverted()``
-
-### Updating Mesh Materials
-
 - ``Mesh/replacing(_:with:)``
 
 ### Merging Meshes
@@ -111,7 +109,6 @@
 
 - ``Mesh/clip(to:fill:)``
 - ``Mesh/split(along:)``
-- ``Mesh/edges(intersecting:)``
 - ``Mesh/submeshes``
 
 ### Adjusting Mesh Topology

@@ -1,5 +1,5 @@
 //
-//  CSG.swift
+//  Mesh+CSG.swift
 //  Euclid
 //
 //  Created by Nick Lockwood on 03/07/2018.
@@ -342,6 +342,50 @@ public extension Mesh {
         reduce(meshes, using: { $0.stencil($1, isCancelled: $2) }, isCancelled)
     }
 
+    /// Split the mesh along a plane.
+    /// - Parameter along: The ``Plane`` to split the mesh along.
+    /// - Returns: A pair of meshes representing the parts in front of and behind the plane respectively.
+    ///
+    /// > Note: If the plane and mesh do not intersect, one of the returned meshes will be `nil`.
+    func split(along plane: Plane) -> (front: Mesh?, back: Mesh?) {
+        switch bounds.compare(with: plane) {
+        case .front:
+            return (self, nil)
+        case .back:
+            return (nil, self)
+        case .spanning, .coplanar:
+            var id = 0
+            var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
+            for polygon in polygons {
+                polygon.split(along: plane, &coplanar, &front, &back, &id)
+            }
+            for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
+                front.append(polygon)
+            }
+            if front.isEmpty {
+                return (nil, self)
+            } else if back.isEmpty {
+                return (self, nil)
+            }
+            return (
+                Mesh(
+                    unchecked: front,
+                    bounds: nil,
+                    isConvex: false,
+                    isWatertight: nil,
+                    submeshes: nil
+                ),
+                Mesh(
+                    unchecked: back,
+                    bounds: nil,
+                    isConvex: false,
+                    isWatertight: nil,
+                    submeshes: nil
+                )
+            )
+        }
+    }
+
     /// Clip mesh to the specified plane and optionally fill sheared faces with specified material.
     /// - Parameters
     ///   - plane: The plane to clip the mesh to
@@ -416,6 +460,17 @@ public extension Mesh {
                 submeshes: isKnownConvex ? submeshesIfEmpty : nil
             )
         }
+    }
+
+    /// Computes a set of edges where the mesh intersects a plane.
+    /// - Parameter plane: A ``Plane`` to test against the mesh.
+    /// - Returns: A `Set` of ``LineSegment`` representing the polygon edges intersecting the plane.
+    func edges(intersecting plane: Plane) -> Set<LineSegment> {
+        var edges = Set<LineSegment>()
+        for polygon in polygons {
+            polygon.intersect(with: plane, edges: &edges)
+        }
+        return edges
     }
 }
 
