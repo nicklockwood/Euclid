@@ -359,8 +359,9 @@ public extension Mesh {
             for polygon in polygons {
                 polygon.split(along: plane, &coplanar, &front, &back, &id)
             }
-            for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
-                front.append(polygon)
+            for polygon in coplanar {
+                plane.normal.dot(polygon.plane.normal) > 0 ?
+                    front.append(polygon) : back.append(polygon)
             }
             if front.isEmpty {
                 return (nil, self)

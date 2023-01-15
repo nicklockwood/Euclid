@@ -446,4 +446,20 @@ class CSGTests: XCTestCase {
         XCTAssertEqual(b.front, b.0)
         XCTAssertEqual(b.back, b.1)
     }
+
+    func testSquareSplitAlongItsOwnPlane() {
+        let a = Mesh.fill(.square())
+        let plane = Plane(unchecked: .unitZ, pointOnPlane: .zero)
+        let b = a.split(along: plane)
+        XCTAssertEqual(b.front?.polygons, [a.polygons[0]])
+        XCTAssertEqual(b.back?.polygons, [a.polygons[1]])
+    }
+
+    func testSquareSplitAlongReversePlane() {
+        let a = Mesh.fill(.square())
+        let plane = Plane(unchecked: -.unitZ, pointOnPlane: .zero)
+        let b = a.split(along: plane)
+        XCTAssertEqual(b.front?.polygons, [a.polygons[1]])
+        XCTAssertEqual(b.back?.polygons, [a.polygons[0]])
+    }
 }
