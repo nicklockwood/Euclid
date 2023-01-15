@@ -189,6 +189,15 @@ extension SCNGeometrySource {
 }
 
 public extension SCNGeometry {
+    private typealias SCNVertexData = (
+        positions: [SCNVector3],
+        normals: [SCNVector3],
+        texcoords: [CGPoint]?,
+        colors: [SCNVector4]?,
+        indices: [UInt32],
+        materialIndices: [UInt32]
+    )
+
     /// A closure that maps a Euclid material to a SceneKit material.
     /// - Parameter m: A Euclid material to convert, or `nil` for the default material.
     /// - Returns: An `SCNMaterial` used by SceneKit.
