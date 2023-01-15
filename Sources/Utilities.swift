@@ -181,7 +181,11 @@ func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
     let axis = v0.cross(v1)
     let length = axis.length
     if length < epsilon {
-        return .identity
+        if v0.dot(v1) > epsilon {
+            return .identity
+        }
+        let axis = faceNormalForPolygonPoints([v0, v1], convex: false, closed: false)
+        return Rotation(unchecked: axis, angle: .pi)
     }
     let angle = v0.angle(with: v1)
     return Rotation(unchecked: axis / length, angle: angle)
