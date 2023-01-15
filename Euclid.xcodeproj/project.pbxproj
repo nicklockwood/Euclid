@@ -37,7 +37,7 @@
 		016FAB6221BFE7CE00AF60DC /* PathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB5C21BFE7CD00AF60DC /* PathTests.swift */; };
 		016FAB6321BFE7CE00AF60DC /* UtilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB5D21BFE7CE00AF60DC /* UtilityTests.swift */; };
 		016FAB6421BFE7CE00AF60DC /* PolygonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB5E21BFE7CE00AF60DC /* PolygonTests.swift */; };
-		016FAB6521BFE7CE00AF60DC /* CSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB5F21BFE7CE00AF60DC /* CSGTests.swift */; };
+		016FAB6521BFE7CE00AF60DC /* MeshCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB5F21BFE7CE00AF60DC /* MeshCSGTests.swift */; };
 		016FAB6621BFE7CE00AF60DC /* PathShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB6021BFE7CE00AF60DC /* PathShapeTests.swift */; };
 		016FABED21C078E400AF60DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABEC21C078E400AF60DC /* AppDelegate.swift */; };
 		016FABF121C078E400AF60DC /* SceneKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABF021C078E400AF60DC /* SceneKitViewController.swift */; };
@@ -62,11 +62,13 @@
 		01E5F54923D59BF100717D58 /* BSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5F54823D59BF100717D58 /* BSP.swift */; };
 		01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2381F23BF4160005EC9DB /* LineSegment.swift */; };
 		01F2465428FD4A020071AE64 /* QuaternionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2465228FD499F0071AE64 /* QuaternionTests.swift */; };
+		01FAE7BD29744E08008DB288 /* PolygonCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */; };
 		0A240137256A64FB00C1535C /* AngleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A240136256A64FB00C1535C /* AngleTests.swift */; };
 		0A24013F256A671600C1535C /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A24013E256A671600C1535C /* Angle.swift */; };
 		52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3852D238D6E5700BE8407 /* LineTests.swift */; };
 		52A663A123857D5300FACF9D /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A663A023857D5300FACF9D /* Line.swift */; };
 		52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C844E023854C87009C0A73 /* VectorTests.swift */; };
+		EA6F2219296C5A9000B530BE /* Polygon+CSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,7 +136,7 @@
 		016FAB5C21BFE7CD00AF60DC /* PathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathTests.swift; sourceTree = "<group>"; };
 		016FAB5D21BFE7CE00AF60DC /* UtilityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityTests.swift; sourceTree = "<group>"; };
 		016FAB5E21BFE7CE00AF60DC /* PolygonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonTests.swift; sourceTree = "<group>"; };
-		016FAB5F21BFE7CE00AF60DC /* CSGTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSGTests.swift; sourceTree = "<group>"; };
+		016FAB5F21BFE7CE00AF60DC /* MeshCSGTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeshCSGTests.swift; sourceTree = "<group>"; };
 		016FAB6021BFE7CE00AF60DC /* PathShapeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathShapeTests.swift; sourceTree = "<group>"; };
 		016FABEA21C078E400AF60DC /* EuclidExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EuclidExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		016FABEC21C078E400AF60DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -159,11 +161,13 @@
 		01E5F54823D59BF100717D58 /* BSP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSP.swift; sourceTree = "<group>"; };
 		01F2381F23BF4160005EC9DB /* LineSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegment.swift; sourceTree = "<group>"; };
 		01F2465228FD499F0071AE64 /* QuaternionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuaternionTests.swift; sourceTree = "<group>"; };
+		01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonCSGTests.swift; sourceTree = "<group>"; };
 		0A240136256A64FB00C1535C /* AngleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleTests.swift; sourceTree = "<group>"; };
 		0A24013E256A671600C1535C /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		52A3852D238D6E5700BE8407 /* LineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTests.swift; sourceTree = "<group>"; };
 		52A663A023857D5300FACF9D /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		52C844E023854C87009C0A73 /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
+		EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Polygon+CSG.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +237,7 @@
 				016FAB4321BFE7C100AF60DC /* Vector.swift */,
 				016FAB4621BFE7C100AF60DC /* Vertex.swift */,
 				016FAB4C21BFE7C200AF60DC /* Polygon.swift */,
+				EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */,
 				01E5F54823D59BF100717D58 /* BSP.swift */,
 				016FAB4921BFE7C200AF60DC /* Path.swift */,
 				016FAB4821BFE7C200AF60DC /* Mesh.swift */,
@@ -267,15 +272,16 @@
 				01D96AB423D8E36A00D0D267 /* BoundsTests.swift */,
 				01BA29792235E34C0088D36B /* CGPathTests.swift */,
 				0101BAF425687A450096B1E7 /* CodingTests.swift */,
-				016FAB5F21BFE7CE00AF60DC /* CSGTests.swift */,
 				0188E98226ACA0040029C253 /* LineSegmentTests.swift */,
 				52A3852D238D6E5700BE8407 /* LineTests.swift */,
 				01CBE2672775E3EE00B7ED45 /* MeshTests.swift */,
+				016FAB5F21BFE7CE00AF60DC /* MeshCSGTests.swift */,
 				0125477F27AFD53900C442C3 /* MeshShapeTests.swift */,
 				013B5BE426923087000860DC /* MetadataTests.swift */,
 				016FAB5C21BFE7CD00AF60DC /* PathTests.swift */,
 				016FAB6021BFE7CE00AF60DC /* PathShapeTests.swift */,
 				016FAB5E21BFE7CE00AF60DC /* PolygonTests.swift */,
+				01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */,
 				013312DC21CA532A00626F1B /* PlaneTests.swift */,
 				014AC60D2505963800F54349 /* SceneKitTests.swift */,
 				01A429F92237A85C00C251A6 /* TextTests.swift */,
@@ -498,6 +504,7 @@
 				016FAB5421BFE7C200AF60DC /* Mesh.swift in Sources */,
 				01CF789326EBE0C70097907A /* Quaternion.swift in Sources */,
 				0112D5C928EE29BB00A1C085 /* Euclid+RealityKit.swift in Sources */,
+				EA6F2219296C5A9000B530BE /* Polygon+CSG.swift in Sources */,
 				016FAB5721BFE7C200AF60DC /* Transforms.swift in Sources */,
 				016FAB5121BFE7C200AF60DC /* Utilities.swift in Sources */,
 				016FAB5321BFE7C200AF60DC /* Bounds.swift in Sources */,
@@ -527,6 +534,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01FAE7BD29744E08008DB288 /* PolygonCSGTests.swift in Sources */,
 				01F2465428FD4A020071AE64 /* QuaternionTests.swift in Sources */,
 				01A429FA2237A85C00C251A6 /* TextTests.swift in Sources */,
 				0188E98326ACA0040029C253 /* LineSegmentTests.swift in Sources */,
@@ -542,7 +550,7 @@
 				016FAB6421BFE7CE00AF60DC /* PolygonTests.swift in Sources */,
 				01B299572692339200B80A0D /* MetadataTests.swift in Sources */,
 				0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */,
-				016FAB6521BFE7CE00AF60DC /* CSGTests.swift in Sources */,
+				016FAB6521BFE7CE00AF60DC /* MeshCSGTests.swift in Sources */,
 				01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */,
 				0125478027AFD53900C442C3 /* MeshShapeTests.swift in Sources */,
 				01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */,

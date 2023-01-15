@@ -24,11 +24,10 @@
 ### Comparing Polygons
 
 - ``Polygon/containsPoint(_:)``
+- ``Polygon/edges(intersecting:)``
 
 ### Transforming Polygons
 
-- ``Polygon/tessellate(maxSides:)``
-- ``Polygon/triangulate()``
 - ``Polygon/rotated(by:)``
 - ``Polygon/scaled(by:)-69m6m``
 - ``Polygon/scaled(by:)-8sjrv``
@@ -37,3 +36,10 @@
 - ``Polygon/merge(_:ensureConvex:)``
 - ``Polygon/inverted()``
 - ``Polygon/with(material:)``
+
+### Splitting Polygons
+
+- ``Polygon/clip(to:)``
+- ``Polygon/split(along:)``
+- ``Polygon/tessellate(maxSides:)``
+- ``Polygon/triangulate()``
