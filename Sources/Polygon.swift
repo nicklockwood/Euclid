@@ -1170,7 +1170,7 @@ struct CodableMaterial: Codable {
                 self.value = color
             } else if let data = try container.decodeIfPresent(Data.self, forKey: .nscoded) {
                 guard let value = try NSKeyedUnarchiver.unarchivedObject(
-                    ofClasses: Polygon.codableClasses, from: data
+                    ofClasses: NSSet(array: Polygon.codableClasses) as! Set<AnyHashable>, from: data
                 ) as? Polygon.Material else {
                     throw DecodingError.dataCorruptedError(
                         forKey: .nscoded,

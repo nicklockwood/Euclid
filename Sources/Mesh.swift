@@ -396,6 +396,63 @@ extension Mesh {
     func getBSP(_ isCancelled: CancellationHandler) -> BSP {
         storage.getBSP(isCancelled)
     }
+
+    func getVertexData<
+        Position: XYZRepresentable,
+        Normal: XYZRepresentable,
+        Texcoord: XYZRepresentable
+    >(maxSides: UInt8, counts: inout [UInt8]?) -> (
+        positions: [Position],
+        normals: [Normal],
+        texcoords: [Texcoord],
+        indices: [UInt32],
+        materialIndices: [UInt32]
+    ) {
+        var positions: [Position] = []
+        var normals: [Normal] = []
+        var texcoords: [Texcoord] = []
+        var indices = [UInt32]()
+        var materialIndices = [UInt32]()
+        let hasTexcoords = self.hasTexcoords
+        var indicesByVertex = [Vertex: UInt32]()
+        let polygonsByMaterial = self.polygonsByMaterial
+        let perFaceMaterials = materials.count > 1
+        for (materialIndex, material) in materials.enumerated() {
+            let polygons = polygonsByMaterial[material] ?? []
+            for polygon in polygons {
+                for polygon in polygon.tessellate(maxSides: Int(maxSides)) {
+                    counts?.append(UInt8(polygon.vertices.count))
+                    for vertex in polygon.vertices {
+                        if let index = indicesByVertex[vertex] {
+                            indices.append(index)
+                            continue
+                        }
+                        let index = UInt32(indicesByVertex.count)
+                        indicesByVertex[vertex] = index
+                        indices.append(index)
+                        positions.append(.init(vertex.position))
+                        normals.append(.init(vertex.normal))
+                        if hasTexcoords {
+                            var texcoord = vertex.texcoord
+                            texcoord.y = 1 - texcoord.y
+                            texcoords.append(.init(texcoord))
+                        }
+                        // Note: vertex colors are not supported
+                    }
+                    if perFaceMaterials {
+                        materialIndices.append(UInt32(materialIndex))
+                    }
+                }
+            }
+        }
+        return (
+            positions: positions,
+            normals: normals,
+            texcoords: texcoords,
+            indices: indices,
+            materialIndices: materialIndices
+        )
+    }
 }
 
 private extension Mesh {
