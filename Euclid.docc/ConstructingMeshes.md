@@ -44,8 +44,8 @@ The following builders are defined as static constructor functions on the ``Mesh
 - ``Mesh/fill(_:faces:material:)`` - This builder fills a single `Path` to create a pair of `Polygon`s (front and back faces).
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-85o14`` - This builder strokes a single `Path` to create a strip or tube. A second variant (``Mesh/stroke(_:width:detail:material:)``) of the function accepts an array of ``LineSegment``, which is convenient for creating a wireframe geometry from the `uniqueEdges` of a ``Mesh``.
 - ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:)`` - This builder takes a 2D ``Path`` and rotates it around the Y-axis to create a rotationally symmetrical ``Mesh``. This is an easy way to create complex shapes like candlesticks, chess pieces, rocket ships, etc.
-- ``Mesh/extrude(_:along:faces:material:isCancelled:)`` - This builder fills a ``Path`` and extrudes it along its axis, or another path. This can turn a circular path into a tube, or a square into a cube etc.
-- ``Mesh/loft(_:faces:material:)`` - This builder is similar to ``Mesh/extrude(_:along:faces:material:isCancelled:)``, but takes multiple ``Path`` instances and joins them. The sequence of ``Path`` instances do not need to be the same shape, but must all have the same number of points and subpaths. To work correctly, each ``Path`` must be pre-positioned in 3D space so they do not all lie on the same plane.
+- ``Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)`` - This builder fills a ``Path`` and extrudes it along its axis, or another path. This can turn a circular path into a tube, or a square into a cube etc.
+- ``Mesh/loft(_:faces:material:)`` - This builder is similar to ``Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)``, but takes multiple ``Path`` instances and joins them. The sequence of ``Path`` instances do not need to be the same shape, but must all have the same number of points and subpaths. To work correctly, each ``Path`` must be pre-positioned in 3D space so they do not all lie on the same plane.
 - ``Mesh/convexHull(of:material:)-4hvi3`` - Similar the the ``Mesh/loft(_:faces:material:)`` builder, this method can form a Mesh by wrapping a skin around one or more ``Path`` instances. But unlike the other builders, in addition to paths you can also form a convex hull around a collection of meshes, polygons, vertices or points.
 
 ### Curves
@@ -90,7 +90,7 @@ Using a CSG operation on a mesh that isn't sealed may result in unexpected resul
 
 On macOS and iOS you can make use of Euclid's Core Text integration to create 2D or 3D extruded text.
 
-The ``Path/text(_:width:detail:)`` method produces an array of 2D ``Path`` that represent the contours of each glyph in an `AttributedString`. You can use these paths with either ``Mesh/fill(_:faces:material:)`` or ``Mesh/extrude(_:depth:faces:material:isCancelled:)`` builder methods to create solid text.
+The ``Path/text(_:width:detail:)`` method produces an array of 2D ``Path`` that represent the contours of each glyph in an `AttributedString`. You can use these paths with either ``Mesh/fill(_:faces:material:)`` or ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)`` builder methods to create solid text.
 
 Alternatively, the ``Mesh/text(_:font:width:depth:detail:material:)`` constructor directly produces an extruded 3D text model from a `String` or `AttributedString`.
 

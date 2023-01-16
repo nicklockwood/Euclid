@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.6.8](https://github.com/nicklockwood/Euclid/releases/tag/0.6.8) (2023-01-16)
+
+- Fixed flipped front/back return values for `Mesh.split(along:)` function return value order
+- Fixed `Mesh.stroke(_ shapes:)` multi-path stroke function when used with open paths
+- Fixed `align` parameter in `Mesh.extrude(_:along:)` when the extruded shape has subpaths
+- Fixed internal `rotationBetweenVectors()` function when vectors are parallel and opposite
+- Fixed assertion failure in `Mesh.clip(to:)` when using `fill` argument
+- Fixed assertion inverted fill plane in `Mesh.clip(to:)` when input is inverted Z plane
+- Fixed bug where splitting planar mesh along its plane had no effect
+- Added `Polygon.split(along:)` and `Polygon.clip(to:)` methods
+
 ## [0.6.7](https://github.com/nicklockwood/Euclid/releases/tag/0.6.7) (2023-01-01)
 
 - Fixed use of duplicate cross-sections to create sharp junctions in `loft` shapes
