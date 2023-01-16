@@ -13,6 +13,8 @@
 		0112D5C928EE29BB00A1C085 /* Euclid+RealityKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112D5C828EE29BB00A1C085 /* Euclid+RealityKit.swift */; };
 		0125478027AFD53900C442C3 /* MeshShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125477F27AFD53900C442C3 /* MeshShapeTests.swift */; };
 		0128EEBB2ABA607A00E60976 /* EuclidMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0128EEBA2ABA607A00E60976 /* EuclidMesh.swift */; };
+		0131216A2A9E61B500BC8683 /* Path+CSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013121692A9E61B500BC8683 /* Path+CSG.swift */; };
+		0131216D2AA2987500BC8683 /* PolygonCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0131216B2AA2979900BC8683 /* PolygonCSGTests.swift */; };
 		013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013312DC21CA532A00626F1B /* PlaneTests.swift */; };
 		013499932902FB5900CED6BE /* Euclid+SIMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013499922902FB5900CED6BE /* Euclid+SIMD.swift */; };
 		0134999729043ACC00CED6BE /* RealityKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134999629043ACC00CED6BE /* RealityKitViewController.swift */; };
@@ -70,7 +72,7 @@
 		01E5F54923D59BF100717D58 /* BSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5F54823D59BF100717D58 /* BSP.swift */; };
 		01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2381F23BF4160005EC9DB /* LineSegment.swift */; };
 		01F2465428FD4A020071AE64 /* QuaternionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2465228FD499F0071AE64 /* QuaternionTests.swift */; };
-		01FAE7BD29744E08008DB288 /* PolygonCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */; };
+		01FAE7BD29744E08008DB288 /* PathCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FAE7BB29744C22008DB288 /* PathCSGTests.swift */; };
 		0A240137256A64FB00C1535C /* AngleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A240136256A64FB00C1535C /* AngleTests.swift */; };
 		0A24013F256A671600C1535C /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A24013E256A671600C1535C /* Angle.swift */; };
 		52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3852D238D6E5700BE8407 /* LineTests.swift */; };
@@ -117,6 +119,8 @@
 		0112D5C828EE29BB00A1C085 /* Euclid+RealityKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+RealityKit.swift"; sourceTree = "<group>"; };
 		0125477F27AFD53900C442C3 /* MeshShapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshShapeTests.swift; sourceTree = "<group>"; };
 		0128EEBA2ABA607A00E60976 /* EuclidMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EuclidMesh.swift; sourceTree = "<group>"; };
+		013121692A9E61B500BC8683 /* Path+CSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Path+CSG.swift"; sourceTree = "<group>"; };
+		0131216B2AA2979900BC8683 /* PolygonCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonCSGTests.swift; sourceTree = "<group>"; };
 		013312DC21CA532A00626F1B /* PlaneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneTests.swift; sourceTree = "<group>"; };
 		013499922902FB5900CED6BE /* Euclid+SIMD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Euclid+SIMD.swift"; sourceTree = "<group>"; };
 		0134999629043ACC00CED6BE /* RealityKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitViewController.swift; sourceTree = "<group>"; };
@@ -177,7 +181,7 @@
 		01E5F54823D59BF100717D58 /* BSP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSP.swift; sourceTree = "<group>"; };
 		01F2381F23BF4160005EC9DB /* LineSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegment.swift; sourceTree = "<group>"; };
 		01F2465228FD499F0071AE64 /* QuaternionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuaternionTests.swift; sourceTree = "<group>"; };
-		01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonCSGTests.swift; sourceTree = "<group>"; };
+		01FAE7BB29744C22008DB288 /* PathCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCSGTests.swift; sourceTree = "<group>"; };
 		0A240136256A64FB00C1535C /* AngleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleTests.swift; sourceTree = "<group>"; };
 		0A24013E256A671600C1535C /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		52A3852D238D6E5700BE8407 /* LineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTests.swift; sourceTree = "<group>"; };
@@ -255,7 +259,6 @@
 				016FAB4C21BFE7C200AF60DC /* Polygon.swift */,
 				EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */,
 				01E5F54823D59BF100717D58 /* BSP.swift */,
-				016FAB4921BFE7C200AF60DC /* Path.swift */,
 				016FAB4821BFE7C200AF60DC /* Mesh.swift */,
 				016FAB4421BFE7C100AF60DC /* Mesh+CSG.swift */,
 				016FAB4E21BFE7C200AF60DC /* Mesh+Shapes.swift */,
@@ -264,7 +267,9 @@
 				010A63382A951165000E3306 /* Mesh+OBJ.swift */,
 				0157FEC32B63B1BE009033D1 /* Mesh+IO.swift */,
 				016FAB4D21BFE7C200AF60DC /* Plane.swift */,
+				016FAB4921BFE7C200AF60DC /* Path.swift */,
 				0148ECA52783796A00B3F836 /* PathPoint.swift */,
+				013121692A9E61B500BC8683 /* Path+CSG.swift */,
 				0148ECA3278378D100B3F836 /* Path+Shapes.swift */,
 				52A663A023857D5300FACF9D /* Line.swift */,
 				01F2381F23BF4160005EC9DB /* LineSegment.swift */,
@@ -291,9 +296,9 @@
 				0A240136256A64FB00C1535C /* AngleTests.swift */,
 				01D96AB423D8E36A00D0D267 /* BoundsTests.swift */,
 				01BA29792235E34C0088D36B /* CGPathTests.swift */,
-				0101BAF425687A450096B1E7 /* CodingTests.swift */,
 				0188E98226ACA0040029C253 /* LineSegmentTests.swift */,
 				52A3852D238D6E5700BE8407 /* LineTests.swift */,
+				0101BAF425687A450096B1E7 /* CodingTests.swift */,
 				01CBE2672775E3EE00B7ED45 /* MeshTests.swift */,
 				016FAB5F21BFE7CE00AF60DC /* MeshCSGTests.swift */,
 				010A633A2A955BE9000E3306 /* MeshExportTests.swift */,
@@ -302,8 +307,9 @@
 				013B5BE426923087000860DC /* MetadataTests.swift */,
 				016FAB5C21BFE7CD00AF60DC /* PathTests.swift */,
 				016FAB6021BFE7CE00AF60DC /* PathShapeTests.swift */,
+				01FAE7BB29744C22008DB288 /* PathCSGTests.swift */,
 				016FAB5E21BFE7CE00AF60DC /* PolygonTests.swift */,
-				01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */,
+				0131216B2AA2979900BC8683 /* PolygonCSGTests.swift */,
 				013312DC21CA532A00626F1B /* PlaneTests.swift */,
 				014AC60D2505963800F54349 /* SceneKitTests.swift */,
 				016A77F92B32184A00B7AB73 /* RealityKitTests.swift */,
@@ -555,6 +561,7 @@
 				016FAB5621BFE7C200AF60DC /* Euclid+SceneKit.swift in Sources */,
 				0A24013F256A671600C1535C /* Angle.swift in Sources */,
 				016FAB5921BFE7C200AF60DC /* Plane.swift in Sources */,
+				0131216A2A9E61B500BC8683 /* Path+CSG.swift in Sources */,
 				016FAB5A21BFE7C200AF60DC /* Mesh+Shapes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -563,12 +570,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01FAE7BD29744E08008DB288 /* PolygonCSGTests.swift in Sources */,
+				01FAE7BD29744E08008DB288 /* PathCSGTests.swift in Sources */,
 				01F2465428FD4A020071AE64 /* QuaternionTests.swift in Sources */,
 				01A429FA2237A85C00C251A6 /* TextTests.swift in Sources */,
 				0188E98326ACA0040029C253 /* LineSegmentTests.swift in Sources */,
 				0A240137256A64FB00C1535C /* AngleTests.swift in Sources */,
 				016A77F82B2F7C7800B7AB73 /* MeshImportTests.swift in Sources */,
+				0131216D2AA2987500BC8683 /* PolygonCSGTests.swift in Sources */,
 				52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */,
 				016FAB6621BFE7CE00AF60DC /* PathShapeTests.swift in Sources */,
 				016FAB6321BFE7CE00AF60DC /* UtilityTests.swift in Sources */,

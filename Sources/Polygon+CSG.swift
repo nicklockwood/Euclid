@@ -7,6 +7,44 @@
 //
 
 public extension Polygon {
+    /// Compute a new array of polygons representing only the area occupied by one polygon or the
+    /// other, but not both. Polygons are not required to be coplanar - splits will occur along edge planes.
+    ///
+    ///     +-------+            +-------+
+    ///     |       |            |       |
+    ///     |   A   |            |       |
+    ///     |    +--+----+   =   |    ++++----+
+    ///     +----+--+    |       +----++++    |
+    ///          |   B   |            |       |
+    ///          |       |            |       |
+    ///          +-------+            +-------+
+    ///
+    /// - Parameters
+    ///   - other: The polygon to be XORed with this one.
+    /// - Returns: An array of polygons representing the XOR of the polygons.
+    func xor(_ other: Polygon) -> [Polygon] {
+        var inside = [Polygon](), outside = [Polygon](), id = 0
+        clip(to: [other], &inside, &outside, &id)
+        other.clip(to: [self], &inside, &outside, &id)
+        return outside
+    }
+
+//    /// Efficiently XORs multiple polygons.
+//    /// - Parameters
+//    ///   - polygons: A collection of polygons to be XORed.
+//    /// - Returns: An array of polygons representing the XOR of the input polygons.
+//    static func xor<T: Collection>(_ polygons: T) -> [Polygon] where T.Element == Polygon {
+//        guard polygons.count == 2 else {
+//            return Array(polygons)
+//        }
+//        let lhs = polygons.first!
+//        let rhs = polygons.last!
+//        var inside = [Polygon](), outside = [Polygon](), id = 0
+//        lhs.clip(to: [rhs], &inside, &outside, &id)
+//        rhs.clip(to: [lhs], &inside, &outside, &id)
+//        return outside
+//    }
+
     /// Split the polygon along a plane.
     /// - Parameter along: The ``Plane`` to split the polygon along.
     /// - Returns: A pair of arrays representing the polygon fragments in front of and behind the plane respectively.

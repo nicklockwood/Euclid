@@ -263,7 +263,7 @@ public extension Path {
     /// path point positions relative to the bounding rectangle of the path.
     func facePolygons(material: Mesh.Material? = nil) -> [Polygon] {
         guard subpaths.count <= 1 else {
-            return subpaths.flatMap { $0.facePolygons(material: material) }
+            return Polygon.xor(subpaths.flatMap { $0.facePolygons(material: material) })
         }
         guard let vertices = faceVertices else {
             return []
@@ -619,5 +619,20 @@ extension Path {
             return (self, .zero)
         }
         return (translated(by: -offset), offset)
+    }
+
+    /// Compare path with plane
+    func compare(with plane: Plane) -> PlaneComparison {
+        if let plane = self.plane, plane.isEqual(to: plane) {
+            return .coplanar
+        }
+        var comparison = PlaneComparison.coplanar
+        for point in points {
+            comparison = comparison.union(point.position.compare(with: plane))
+            if comparison == .spanning {
+                break
+            }
+        }
+        return comparison
     }
 }

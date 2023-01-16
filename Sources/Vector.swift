@@ -59,16 +59,8 @@ extension Vector: Comparable {
     /// Returns whether the leftmost vector has the lower value.
     /// This provides a stable order when sorting collections of vectors.
     public static func < (lhs: Vector, rhs: Vector) -> Bool {
-        if lhs.x < rhs.x {
-            return true
-        } else if lhs.x > rhs.x {
-            return false
-        }
-        if lhs.y < rhs.y {
-            return true
-        } else if lhs.y > rhs.y {
-            return false
-        }
+        guard lhs.x == rhs.x else { return lhs.x < rhs.x }
+        guard lhs.y == rhs.y else { return lhs.y < rhs.y }
         return lhs.z < rhs.z
     }
 }
