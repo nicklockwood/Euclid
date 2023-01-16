@@ -88,6 +88,7 @@
 		52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3852D238D6E5700BE8407 /* LineTests.swift */; };
 		52A663A123857D5300FACF9D /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A663A023857D5300FACF9D /* Line.swift */; };
 		52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C844E023854C87009C0A73 /* VectorTests.swift */; };
+		EA3A382D29700A4400A6185A /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3A382C29700A4400A6185A /* Edge.swift */; };
 		EA6F2219296C5A9000B530BE /* Polygon+CSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */; };
 /* End PBXBuildFile section */
 
@@ -225,6 +226,7 @@
 		52A3852D238D6E5700BE8407 /* LineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTests.swift; sourceTree = "<group>"; };
 		52A663A023857D5300FACF9D /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		52C844E023854C87009C0A73 /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
+		EA3A382C29700A4400A6185A /* Edge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
 		EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Polygon+CSG.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -306,6 +308,7 @@
 				01593CCC297CB5AF0058A35C /* Position.swift */,
 				01593CCA297C39180058A35C /* Direction.swift */,
 				016FAB4621BFE7C100AF60DC /* Vertex.swift */,
+				EA3A382C29700A4400A6185A /* Edge.swift */,
 				016FAB4C21BFE7C200AF60DC /* Polygon.swift */,
 				EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */,
 				01E5F54823D59BF100717D58 /* BSP.swift */,
@@ -650,6 +653,7 @@
 				01BA297C2235E3590088D36B /* Euclid+CoreGraphics.swift in Sources */,
 				0148ECA62783796A00B3F836 /* PathPoint.swift in Sources */,
 				013499932902FB5900CED6BE /* Euclid+SIMD.swift in Sources */,
+				EA3A382D29700A4400A6185A /* Edge.swift in Sources */,
 				0188525A26D952890079C602 /* Euclid+AppKit.swift in Sources */,
 				01A3D52129F32D360085D6BE /* Mesh+STL.swift in Sources */,
 				01B9F60E292BCE57002CC3EB /* Stretchable.swift in Sources */,
