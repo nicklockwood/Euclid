@@ -403,6 +403,7 @@ public extension Mesh {
                     shape,
                     along: $0,
                     twist: twist,
+                    align: align,
                     faces: faces,
                     material: material
                 )
