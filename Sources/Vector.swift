@@ -286,7 +286,7 @@ public extension Vector {
     /// - Parameter line: The line to project onto.
     /// - Returns: The nearest point in 3D space that lies on the line.
     func project(onto line: Line) -> Vector {
-        self + vectorFromPointToLine(self, line.origin, line.direction)
+        line.direction * (self - line.origin).dot(line.direction) - line.origin
     }
 }
 
