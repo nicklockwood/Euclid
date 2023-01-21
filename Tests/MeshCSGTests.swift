@@ -462,4 +462,25 @@ class MeshCSGTests: XCTestCase {
         XCTAssertEqual(b.front?.polygons, [a.polygons[1]])
         XCTAssertEqual(b.back?.polygons, [a.polygons[0]])
     }
+
+    // MARK: Submeshes
+
+    func testUnionSubmeshes() {
+        let a = Mesh.cube()
+        let b = Mesh.cube().translated(by: Vector(2, 0, 0))
+        let c = a.union(b)
+        let d = Mesh.cube().translated(by: Vector(4, 0, 0))
+        XCTAssertEqual(c.union(d).submeshes.count, 3)
+    }
+
+    func testUnionOfPrecalculatedSubmeshes() {
+        let a = Mesh.cube()
+        _ = a.submeshes
+        let b = Mesh.cube().translated(by: Vector(2, 0, 0))
+        _ = b.submeshes
+        let c = a.union(b)
+        XCTAssertEqual(c.submeshes.count, 2)
+        let d = Mesh.cube().translated(by: Vector(4, 0, 0))
+        XCTAssertEqual(c.union(d).submeshes.count, 3)
+    }
 }

@@ -442,7 +442,17 @@ private extension Mesh {
         ) {
             assert(isWatertight == nil || isWatertight == polygons.areWatertight)
             assert(!isConvex || polygons.groupedBySubmesh().count <= 1)
-            assert((submeshes ?? []).allSatisfy { $0.submeshes.count <= 1 })
+            let submeshes: [Mesh]? = submeshes.map { submeshes in
+                guard submeshes.count > 1 else {
+                    return []
+                }
+                return submeshes.flatMap { mesh in
+                    switch mesh.submeshes.count {
+                    case 0, 1: return [mesh]
+                    default: return mesh.submeshes
+                    }
+                }
+            }
             assert(!isConvex || submeshes?.count ?? 0 <= 1)
             self.polygons = polygons
             self.boundsIfSet = polygons.isEmpty ? .empty : bounds

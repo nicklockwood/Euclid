@@ -198,6 +198,26 @@ class MeshTests: XCTestCase {
         XCTAssertNil(material)
     }
 
+    func testSubmeshesDontCreateCircularReference2() {
+        weak var material: AnyObject?
+        do {
+            let temp = NSObject()
+            material = temp
+            let mesh = Mesh.sphere(material: temp)
+            XCTAssertEqual(mesh.submeshes, [mesh])
+            let mesh2 = Mesh(
+                unchecked: mesh.polygons,
+                bounds: mesh.bounds,
+                isConvex: true,
+                isWatertight: mesh.isWatertight,
+                submeshes: mesh.submeshes
+            )
+            XCTAssertEqual(mesh2.submeshes, [mesh2])
+            XCTAssertEqual(mesh2.submeshes, [mesh])
+        }
+        XCTAssertNil(material)
+    }
+
     // MARK: containsPoint
 
     func testCubeContainsPoint() {
