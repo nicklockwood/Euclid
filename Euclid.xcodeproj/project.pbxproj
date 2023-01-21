@@ -24,7 +24,8 @@
 		0148ECA62783796A00B3F836 /* PathPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0148ECA52783796A00B3F836 /* PathPoint.swift */; };
 		014AC60E2505963800F54349 /* SceneKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014AC60D2505963800F54349 /* SceneKitTests.swift */; };
 		0157FEC42B63B1BE009033D1 /* Mesh+IO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0157FEC32B63B1BE009033D1 /* Mesh+IO.swift */; };
-		0162A09623795E260078AE84 /* Euclid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; };
+		0162A09623795E260078AE84 /* Euclid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; platformFilters = (ios, maccatalyst, ); };
+		01593CCB297C39180058A35C /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01593CCA297C39180058A35C /* Direction.swift */; };
 		0162A09923795EB30078AE84 /* Euclid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; };
 		016A77F82B2F7C7800B7AB73 /* MeshImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016A77F72B2F7C7800B7AB73 /* MeshImportTests.swift */; };
 		016A77FA2B32184A00B7AB73 /* RealityKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016A77F92B32184A00B7AB73 /* RealityKitTests.swift */; };
@@ -159,6 +160,7 @@
 		0157FEC32B63B1BE009033D1 /* Mesh+IO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mesh+IO.swift"; sourceTree = "<group>"; };
 		016A77F72B2F7C7800B7AB73 /* MeshImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshImportTests.swift; sourceTree = "<group>"; };
 		016A77F92B32184A00B7AB73 /* RealityKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitTests.swift; sourceTree = "<group>"; };
+		01593CCA297C39180058A35C /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		016FAB2921BFE78100AF60DC /* Euclid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Euclid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		016FAB2C21BFE78100AF60DC /* Euclid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Euclid.h; sourceTree = "<group>"; };
 		016FAB2D21BFE78100AF60DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				0188525726D951490079C602 /* Color.swift */,
 				016FAB4521BFE7C100AF60DC /* Utilities.swift */,
 				016FAB4321BFE7C100AF60DC /* Vector.swift */,
+				01593CCA297C39180058A35C /* Direction.swift */,
 				016FAB4621BFE7C100AF60DC /* Vertex.swift */,
 				016FAB4C21BFE7C200AF60DC /* Polygon.swift */,
 				EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */,
@@ -656,6 +659,7 @@
 				0148ECA4278378D100B3F836 /* Path+Shapes.swift in Sources */,
 				52A663A123857D5300FACF9D /* Line.swift in Sources */,
 				01D2F9F82AADBB1400C201D9 /* Mesh+Texcoords.swift in Sources */,
+				01593CCB297C39180058A35C /* Direction.swift in Sources */,
 				016FAB4F21BFE7C200AF60DC /* Vector.swift in Sources */,
 				016FAB5021BFE7C200AF60DC /* Mesh+CSG.swift in Sources */,
 				016FAB5621BFE7C200AF60DC /* Euclid+SceneKit.swift in Sources */,
