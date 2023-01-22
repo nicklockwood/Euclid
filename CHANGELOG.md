@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.6.9](https://github.com/nicklockwood/Euclid/releases/tag/0.6.9) (2023-02-09)
+
+- Fixed bug when triangulating convex polygons with collinear points
+- Fixed `Polygon.area` calculation for polygons not located on the XY plane
+- Fixed `submeshes` property for meshes formed using a union operation
+
 ## [0.6.8](https://github.com/nicklockwood/Euclid/releases/tag/0.6.8) (2023-01-16)
 
 - Fixed flipped front/back return values for `Mesh.split(along:)` function return value order

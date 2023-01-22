@@ -269,7 +269,7 @@ public extension Quaternion {
         return self / sqrt(lengthSquared)
     }
 
-    // Performs a spherical linear interpolation between two quaternions.
+    /// Performs a spherical linear interpolation between two quaternions.
     /// - Parameters:
     ///   - q: The quaternion to interpolate towards.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
