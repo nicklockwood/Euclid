@@ -510,8 +510,8 @@ public extension Path {
             if let color = p.color {
                 shape = shape.withColor(color)
             }
-            if let scale = scale, let line = Line(origin: .zero, direction: upVector) {
-                shape.stretch(by: scale, along: line)
+            if let scale = scale, let axis = Direction(upVector) {
+                shape.stretch(by: scale, along: axis)
             }
             shape.translate(by: p.position)
             shapes.append(shape)
