@@ -47,6 +47,14 @@ public struct Line: Hashable, Sendable {
         }
         self.init(unchecked: origin, direction: direction / length)
     }
+
+    /// Creates a line from an origin and direction.
+    /// - Parameters:
+    ///   - origin: An arbitrary point on the line selected as the origin.
+    ///   - direction: The direction of the line, emanating from the origin.
+    public init(origin: Vector, direction: Direction) {
+        self.init(unchecked: origin, direction: Vector(direction))
+    }
 }
 
 extension Line: Codable {
