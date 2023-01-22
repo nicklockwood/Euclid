@@ -30,26 +30,26 @@
 //
 
 /// Protocol for stretchable types.
-protocol Stretchable {
+public protocol Stretchable {
     /// Returns a stretched copy of the value.
     /// - Parameters
     ///   - scaleFactor: A scale factor to apply to the value.
     ///   - along: The axis along which to apply the scale factor.
-    func stretched(by scaleFactor: Double, along: Line) -> Self
+    func stretched(by scaleFactor: Double, along: Direction) -> Self
 }
 
-extension Stretchable {
+public extension Stretchable {
     /// Stretch the value in place.
     /// - Parameters
     ///   - scaleFactor: A scale factor to apply to the value.
     ///   - along: The axis along which to apply the scale factor.
-    mutating func stretch(by scaleFactor: Double, along: Line) {
+    mutating func stretch(by scaleFactor: Double, along: Direction) {
         self = stretched(by: scaleFactor, along: along)
     }
 }
 
 extension Path: Stretchable {
-    func stretched(by scaleFactor: Double, along: Line) -> Path {
+    public func stretched(by scaleFactor: Double, along: Direction) -> Path {
         Path(
             unchecked: points.map { $0.stretched(by: scaleFactor, along: along) },
             plane: nil,
@@ -59,7 +59,7 @@ extension Path: Stretchable {
 }
 
 extension PathPoint: Stretchable {
-    func stretched(by scaleFactor: Double, along: Line) -> PathPoint {
+    public func stretched(by scaleFactor: Double, along: Direction) -> PathPoint {
         PathPoint(
             position: position.stretched(by: scaleFactor, along: along),
             texcoord: texcoord,
@@ -70,13 +70,13 @@ extension PathPoint: Stretchable {
 }
 
 extension Vector: Stretchable {
-    func stretched(by scaleFactor: Double, along: Line) -> Vector {
-        self + project(onto: along) * (scaleFactor - 1)
+    public func stretched(by scaleFactor: Double, along: Direction) -> Vector {
+        self + along * dot(Vector(along)) * (scaleFactor - 1)
     }
 }
 
-extension Array where Element: Stretchable {
-    func stretched(by scaleFactor: Double, along: Line) -> Self {
+public extension Array where Element: Stretchable {
+    func stretched(by scaleFactor: Double, along: Direction) -> Self {
         map { $0.stretched(by: scaleFactor, along: along) }
     }
 }

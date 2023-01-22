@@ -25,7 +25,6 @@ class SceneKitViewController: UIViewController {
         // place the camera
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 2)
 
-
         // create some geometry using Euclid
         let start = CFAbsoluteTimeGetCurrent()
 //        let cube = Mesh.cube(size: 0.8, material: UIColor.red)

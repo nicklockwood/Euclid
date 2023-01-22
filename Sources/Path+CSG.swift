@@ -126,10 +126,10 @@ public extension Path {
         }
     }
 
-    /// Efficiently computes the intersection of multiple paths.
-    /// - Parameters
-    ///   - paths: A collection of paths to be intersected.
-    /// - Returns: A new mesh representing the intersection of the meshes.
+    // Efficiently computes the intersection of multiple paths.
+    // - Parameters
+    //   - paths: A collection of paths to be intersected.
+    // - Returns: A new mesh representing the intersection of the meshes.
 //    static func intersection<T: Collection>(
 //        _ meshes: T,
 //        isCancelled: CancellationHandler = { false }

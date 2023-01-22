@@ -59,11 +59,26 @@ public struct Vertex: Hashable, Sendable {
     ///   - color: The optional vertex color (defaults to white).
     public init(
         _ position: Vector,
-        _ normal: Vector? = nil,
+        _ normal: Vector,
         _ texcoord: Vector? = nil,
         _ color: Color? = nil
     ) {
-        self.init(unchecked: position, normal?.normalized(), texcoord, color)
+        self.init(unchecked: position, normal.normalized(), texcoord, color)
+    }
+
+    /// Creates a new vertex.
+    /// - Parameters:
+    ///   - position: The position of the vertex in 3D space.
+    ///   - normal: The surface normal for the vertex (defaults to nil).
+    ///   - texcoord: The optional texture coordinates for the vertex (defaults to zero).
+    ///   - color: The optional vertex color (defaults to white).
+    public init(
+        _ position: Vector,
+        _ normal: Direction? = nil,
+        _ texcoord: Vector? = nil,
+        _ color: Color? = nil
+    ) {
+        self.init(unchecked: position, normal.map(Vector.init), texcoord, color)
     }
 }
 
@@ -89,7 +104,7 @@ extension Vertex: Codable {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             try self.init(
                 container.decode(Vector.self, forKey: .position),
-                container.decodeIfPresent(Vector.self, forKey: .normal),
+                container.decodeIfPresent(Direction.self, forKey: .normal),
                 container.decodeIfPresent(Vector.self, forKey: .texcoord),
                 container.decodeIfPresent(Color.self, forKey: .color)
             )
