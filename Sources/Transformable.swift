@@ -53,7 +53,7 @@ public protocol Transformable {
     /// - Parameters:
     ///   - factor: A scale factor to apply to the value.
     ///   - along: The axis along which to apply the scale factor.
-    func scaled(by factor: Double, along: Vector) -> Self
+    func scaled(by factor: Double, along: Direction) -> Self
 
     /// Returns a transformed copy of the value.
     /// - Parameter transform: A transform to apply to the value.
@@ -61,8 +61,8 @@ public protocol Transformable {
 }
 
 public extension Transformable {
-    func scaled(by scaleFactor: Double, along: Vector) -> Self {
-        let r = rotationBetweenVectors(along, .unitZ)
+    func scaled(by scaleFactor: Double, along: Direction) -> Self {
+        let r = rotationBetweenVectors(Vector(along), .unitZ)
         return rotated(by: r)
             .scaled(by: .init(1, 1, scaleFactor))
             .rotated(by: -r)
@@ -72,6 +72,15 @@ public extension Transformable {
         scaled(by: transform.scale)
             .rotated(by: transform.rotation)
             .translated(by: transform.offset)
+    }
+
+    /// Returns a scaled copy of the value.
+    /// - Parameters
+    ///   - factor: A scale factor to apply to the value.
+    ///   - along: The axis along which to apply the scale factor.
+    @_disfavoredOverload
+    func scaled(by factor: Double, along: Vector) -> Self {
+        scaled(by: factor, along: Direction(along) ?? .z)
     }
 
     /// Rotate the value in place.
@@ -102,6 +111,15 @@ public extension Transformable {
     /// - Parameters:
     ///   - factor: A scale factor to apply to the value.
     ///   - along: The axis along which to apply the scale factor.
+    mutating func scale(by factor: Double, along: Direction) {
+        self = scaled(by: factor, along: along)
+    }
+
+    /// Scale the value in place.
+    /// - Parameters
+    ///   - factor: A scale factor to apply to the value.
+    ///   - along: The axis along which to apply the scale factor.
+    @_disfavoredOverload
     mutating func scale(by factor: Double, along: Vector) {
         self = scaled(by: factor, along: along)
     }
@@ -312,7 +330,7 @@ extension LineSegment: Transformable {
         .init(unchecked: start.scaled(by: factor), end.scaled(by: factor))
     }
 
-    public func scaled(by factor: Double, along: Vector) -> Self {
+    public func scaled(by factor: Double, along: Direction) -> Self {
         .init(
             unchecked: start.scaled(by: factor, along: along),
             end.scaled(by: factor, along: along)
@@ -371,8 +389,8 @@ extension Vector: Transformable {
         self * factor
     }
 
-    public func scaled(by factor: Double, along: Vector) -> Self {
-        self + along * dot(along) * (factor - 1)
+    public func scaled(by factor: Double, along: Direction) -> Self {
+        self + along * dot(Vector(along)) * (factor - 1)
     }
 }
 
@@ -413,7 +431,7 @@ extension PathPoint: Transformable {
         )
     }
 
-    public func scaled(by factor: Double, along: Vector) -> PathPoint {
+    public func scaled(by factor: Double, along: Direction) -> PathPoint {
         PathPoint(
             position: position.scaled(by: factor, along: along),
             texcoord: texcoord,
@@ -464,7 +482,7 @@ extension Path: Transformable {
         )
     }
 
-    public func scaled(by factor: Double, along: Vector) -> Path {
+    public func scaled(by factor: Double, along: Direction) -> Path {
         let factor = factor.clampedToScaleLimit()
         return Path(
             unchecked: points.map { $0.scaled(by: factor, along: along) },
@@ -531,7 +549,7 @@ extension Bounds: Transformable {
         return isEmpty ? self : Bounds(min * factor, max * factor)
     }
 
-    public func scaled(by factor: Double, along: Vector) -> Bounds {
+    public func scaled(by factor: Double, along: Direction) -> Bounds {
         let factor = factor.clampedToScaleLimit()
         return isEmpty ? self : Bounds(
             min.scaled(by: factor, along: along),
@@ -557,7 +575,7 @@ extension Array: Transformable where Element: Transformable {
         factor.isEqual(to: 1, withPrecision: epsilon) ? self : map { $0.scaled(by: factor) }
     }
 
-    public func scaled(by factor: Double, along: Vector) -> [Element] {
+    public func scaled(by factor: Double, along: Direction) -> [Element] {
         factor.isEqual(to: 1, withPrecision: epsilon) ? self : map {
             $0.scaled(by: factor, along: along)
         }

@@ -126,7 +126,7 @@ public extension Direction {
         Vector(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z)
     }
 
-    /// Computes the dot-product of this vector and another.
+    /// Computes the dot-product of this direction and another.
     /// - Parameter a: The direction with which to compute the dot product.
     /// - Returns: The dot product of the two direction vectors.
     func dot(_ a: Direction) -> Double {
@@ -135,9 +135,9 @@ public extension Direction {
 
     /// Computes the cross-product of this direction and another.
     /// - Parameter a: The direction with which to compute the cross product.
-    /// - Returns: Returns a direction that is orthogonal to the other two.
-    func cross(_ a: Direction) -> Direction {
-        .init(unchecked: y * a.z - z * a.y, z * a.x - x * a.z, x * a.y - y * a.x)
+    /// - Returns: Returns a vector that is orthogonal to the other two.
+    func cross(_ a: Direction) -> Vector {
+        .init(y * a.z - z * a.y, z * a.x - x * a.z, x * a.y - y * a.x)
     }
 
     /// Returns the angle between this direction and another.
@@ -169,5 +169,13 @@ extension Direction {
     init(unchecked value: XYZConvertible) {
         let components = value.xyzComponents
         self.init(unchecked: components.x, components.y, components.z)
+    }
+
+    /// Approximate equality
+    func isEqual<T: XYZConvertible>(to other: T, withPrecision p: Double = epsilon) -> Bool {
+        let (ox, oy, oz) = other.xyzComponents
+        return x.isEqual(to: ox, withPrecision: p) &&
+            y.isEqual(to: oy, withPrecision: p) &&
+            z.isEqual(to: oz, withPrecision: p)
     }
 }
