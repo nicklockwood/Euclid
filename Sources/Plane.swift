@@ -47,6 +47,14 @@ public struct Plane: Hashable, Sendable {
         }
         self.init(unchecked: normal / length, w: w)
     }
+
+    /// Creates a plane from a surface normal and a distance from the world origin.
+    /// - Parameters:
+    ///   - normal: The surface normal of the plane.
+    ///   - w: The perpendicular distance from the world origin to the plane.
+    init(normal: Direction, w: Double) {
+        self.init(unchecked: Vector(normal), w: w)
+    }
 }
 
 extension Plane: Comparable {
@@ -105,6 +113,14 @@ public extension Plane {
             return nil
         }
         self.init(unchecked: normal / length, pointOnPlane: pointOnPlane)
+    }
+
+    /// Creates a plane from a point and surface normal.
+    /// - Parameters:
+    ///   - normal: The surface normal of the plane.
+    ///   - pointOnPlane: An arbitrary point on the plane.
+    init(normal: Direction, pointOnPlane: Vector) {
+        self.init(unchecked: Vector(normal), pointOnPlane: pointOnPlane)
     }
 
     /// Creates a plane from a set of points.

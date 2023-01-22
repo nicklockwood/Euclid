@@ -436,6 +436,14 @@ public extension Quaternion {
         self.init(unchecked: axis / length, angle: angle)
     }
 
+    /// Creates a quaternion from an axis and angle.
+    /// - Parameters:
+    ///   - axis: A direction defining the axis of rotation.
+    ///   - angle: The angle of rotation around the axis.
+    init(axis: Direction, angle: Angle) {
+        self.init(unchecked: Vector(axis), angle: angle)
+    }
+
     /// Creates a quaternion representing a rotation around the X axis.
     /// - Parameter rotation: The angle to rotate by.
     static func pitch(_ rotation: Angle) -> Quaternion {
