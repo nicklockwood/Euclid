@@ -114,6 +114,35 @@ func triangulateVertices(
         ))
         return true
     }
+    let isConvex = isConvex ?? verticesAreConvex(vertices)
+    if isConvex {
+        var vertices = vertices
+        var i = 0
+        var attempts = 0
+        while vertices.count > 3 {
+            let a = vertices[i]
+            let b = vertices[(i + 1) % vertices.count]
+            let c = vertices[(i + 2) % vertices.count]
+            let d = vertices[(i + 3) % vertices.count]
+            if LineSegment(c.position, a.position)?.containsPoint(d.position) == false,
+               addTriangle([a, b, c])
+            {
+                vertices.remove(at: (i + 1) % vertices.count)
+                i = i % vertices.count
+                attempts = 0
+            } else {
+                i = (i + 1) % vertices.count
+                attempts += 1
+            }
+            if attempts > vertices.count * 2 {
+                return triangles
+            }
+        }
+        if addTriangle(vertices) {
+            return triangles
+        }
+        triangles.removeAll()
+    }
     var start = 0, i = 0
     outer: while start < vertices.count {
         var attempts = 0

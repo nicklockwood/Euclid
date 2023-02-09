@@ -642,6 +642,47 @@ class PolygonTests: XCTestCase {
         }
     }
 
+    func testPolygonWithCollinearPointsCorrectlyTriangulated4() throws {
+        var vertices: [Vector] = [
+            Vector(-0.091920812939, 0.5, -0.091920812941),
+            Vector(-0.072221719299, 0.5, -0.10808744129),
+            Vector(0.014089758474, 0.5, -0.178921440503),
+            Vector(0.24759816005399998, 0.5, -0.370556833159),
+            Vector(0.163974489221, 0.5, -0.47245257089299997),
+            Vector(0.050896473764, 0.5, -0.509193845326),
+            Vector(-0.23482898783199999, 0.5, 0.025360895229),
+        ]
+        for _ in 0 ..< vertices.count {
+            vertices.append(vertices.removeFirst())
+            let polygon = try XCTUnwrap(Polygon(vertices))
+            var triangles = polygon.triangulate()
+            XCTAssertEqual(triangles.count, 5)
+            triangles = polygon.inverted().triangulate()
+            XCTAssertEqual(triangles.count, 5)
+        }
+    }
+
+    func testPolygonWithCollinearPointsCorrectlyTriangulated5() throws {
+        var vertices: [Vector] = [
+            Vector(0.536172689719, -0.15625, -0.306628888565),
+            Vector(0.535144390949, -0.15625, -0.297143965055),
+            Vector(0.534721324944, -0.15625, -0.293241647158),
+            Vector(0.534352794426, -0.15625, -0.289842359053),
+            Vector(0.535684230911, -0.160917677273, -0.295354331759),
+            Vector(0.535839598175, -0.160870260488, -0.296856187422),
+            Vector(0.536427908063, -0.160690713247, -0.302543077416),
+            Vector(0.550978482581, -0.15625, -0.443196019538),
+        ]
+        for _ in 0 ..< vertices.count {
+            vertices.append(vertices.removeFirst())
+            let polygon = try XCTUnwrap(Polygon(vertices))
+            var triangles = polygon.triangulate()
+            XCTAssertEqual(triangles.count, 6)
+            triangles = polygon.inverted().triangulate()
+            XCTAssertEqual(triangles.count, 6)
+        }
+    }
+
     func testHouseShapedPolygonCorrectlyTriangulated() {
         let normal = -Vector.unitZ
         let epsilon = 1e-8
