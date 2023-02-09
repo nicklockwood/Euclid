@@ -84,6 +84,7 @@ func triangulateVertices(
     _ vertices: [Vertex],
     plane: Plane?,
     isConvex: Bool?,
+    sanitizeNormals: Bool,
     material: Mesh.Material?,
     id: Int,
     flipped: Bool = false
@@ -96,6 +97,7 @@ func triangulateVertices(
             unchecked: vertices,
             plane: plane,
             isConvex: isConvex,
+            sanitizeNormals: sanitizeNormals,
             material: material,
             id: id
         )]
@@ -109,6 +111,7 @@ func triangulateVertices(
             unchecked: vertices,
             plane: plane,
             isConvex: true,
+            sanitizeNormals: sanitizeNormals,
             material: material,
             id: id
         ))
@@ -188,6 +191,7 @@ func triangulateVertices(
             vertices.inverted(),
             plane: plane?.inverted(),
             isConvex: isConvex,
+            sanitizeNormals: sanitizeNormals,
             material: material,
             id: id,
             flipped: true

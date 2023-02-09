@@ -440,6 +440,7 @@ public extension Mesh {
                 ],
                 normal: .unitZ,
                 isConvex: true,
+                sanitizeNormals: false,
                 material: material
             )
             .rotated(by: -rotationBetweenVectors(.unitZ, -plane.normal))

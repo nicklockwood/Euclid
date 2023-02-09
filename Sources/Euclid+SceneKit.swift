@@ -658,6 +658,7 @@ public extension Mesh {
                             vertices,
                             plane: nil,
                             isConvex: nil,
+                            sanitizeNormals: true,
                             material: material,
                             id: 0
                         ) {

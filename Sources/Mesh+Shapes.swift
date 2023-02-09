@@ -95,6 +95,7 @@ public extension Mesh {
                 },
                 normal: normal,
                 isConvex: true,
+                sanitizeNormals: false,
                 material: material
             )
         }
@@ -901,6 +902,7 @@ private extension Mesh {
                             unchecked: [v0, v2, v3],
                             plane: nil,
                             isConvex: true,
+                            sanitizeNormals: false,
                             material: material
                         ))
                     }
@@ -930,6 +932,7 @@ private extension Mesh {
                         unchecked: [v2, v3, v1],
                         plane: nil,
                         isConvex: true,
+                        sanitizeNormals: false,
                         material: material
                     ))
                 } else {
@@ -968,6 +971,7 @@ private extension Mesh {
                             unchecked: vertices,
                             plane: nil,
                             isConvex: true,
+                            sanitizeNormals: false,
                             material: material
                         ))
                     }
@@ -1169,6 +1173,7 @@ private extension Mesh {
                 unchecked: invert ? vertices.reversed() : vertices,
                 plane: nil,
                 isConvex: nil,
+                sanitizeNormals: false,
                 material: material
             )
         }
@@ -1218,6 +1223,7 @@ private extension Mesh {
                     vertices,
                     plane: nil,
                     isConvex: nil,
+                    sanitizeNormals: false,
                     material: material,
                     id: 0
                 )

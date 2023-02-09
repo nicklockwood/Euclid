@@ -288,6 +288,7 @@ public extension Polygon {
             unchecked: vertices.inverted(),
             plane: plane.inverted(),
             isConvex: isConvex,
+            sanitizeNormals: false,
             material: material,
             id: id
         )
@@ -338,6 +339,7 @@ public extension Polygon {
             vertices,
             plane: plane,
             isConvex: isConvex,
+            sanitizeNormals: false,
             material: material,
             id: id
         )
@@ -487,6 +489,7 @@ internal extension Collection where Element == Polygon {
                     unchecked: p0.vertices.map { $0.with(normal: n0) },
                     plane: p0.plane,
                     isConvex: p0.isConvex,
+                    sanitizeNormals: false,
                     material: p0.material
                 )
             }
@@ -509,6 +512,7 @@ internal extension Collection where Element == Polygon {
                 },
                 plane: p0.plane,
                 isConvex: p0.isConvex,
+                sanitizeNormals: false,
                 material: p0.material
             )
         }
@@ -761,12 +765,14 @@ internal extension Polygon {
         unchecked vertices: [Vertex],
         normal: Vector,
         isConvex: Bool?,
+        sanitizeNormals: Bool,
         material: Material?
     ) {
         self.init(
             unchecked: vertices,
             plane: Plane(unchecked: normal, pointOnPlane: vertices[0].position),
             isConvex: isConvex,
+            sanitizeNormals: sanitizeNormals,
             material: material,
             id: 0
         )
@@ -779,7 +785,7 @@ internal extension Polygon {
         unchecked vertices: [Vertex],
         plane: Plane?,
         isConvex: Bool?,
-        sanitizeNormals: Bool = false,
+        sanitizeNormals: Bool,
         material: Material?,
         id: Int = 0
     ) {
@@ -876,6 +882,7 @@ internal extension Polygon {
             unchecked: result,
             plane: plane,
             isConvex: isConvex,
+            sanitizeNormals: false,
             material: material,
             id: id
         )

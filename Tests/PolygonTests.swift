@@ -16,6 +16,7 @@ extension Euclid.Polygon {
             unchecked: vertices,
             plane: plane,
             isConvex: nil,
+            sanitizeNormals: true,
             material: nil
         )
     }

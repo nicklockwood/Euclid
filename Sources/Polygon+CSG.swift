@@ -150,6 +150,7 @@ internal extension Polygon {
                 unchecked: f,
                 plane: polygon.plane,
                 isConvex: true,
+                sanitizeNormals: false,
                 material: material,
                 id: polygon.id
             ))
@@ -159,6 +160,7 @@ internal extension Polygon {
                 unchecked: b,
                 plane: polygon.plane,
                 isConvex: true,
+                sanitizeNormals: false,
                 material: material,
                 id: polygon.id
             ))
@@ -231,6 +233,7 @@ internal extension Polygon {
                 unchecked: vertices,
                 plane: plane,
                 isConvex: nil, // Inserting a point can sometimes affect this
+                sanitizeNormals: false,
                 material: material,
                 id: id
             )

@@ -246,6 +246,7 @@ public extension Path {
             vertices,
             plane: nil,
             isConvex: nil,
+            sanitizeNormals: false,
             material: material,
             id: 0
         ).detessellate(ensureConvex: false)
@@ -417,6 +418,7 @@ public extension Polygon {
             unchecked: vertices,
             plane: plane,
             isConvex: nil,
+            sanitizeNormals: false,
             material: material
         )
     }

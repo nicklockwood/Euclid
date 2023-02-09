@@ -313,6 +313,7 @@ extension Polygon: Transformable {
             unchecked: vertices.translated(by: v),
             normal: plane.normal,
             isConvex: isConvex,
+            sanitizeNormals: false,
             material: material
         )
     }
@@ -322,6 +323,7 @@ extension Polygon: Transformable {
             unchecked: vertices.rotated(by: r),
             normal: plane.normal.rotated(by: r),
             isConvex: isConvex,
+            sanitizeNormals: false,
             material: material
         )
     }
@@ -339,6 +341,7 @@ extension Polygon: Transformable {
             unchecked: isFlippedScale(v) ? vertices.reversed() : vertices,
             normal: plane.normal.scaled(by: vn).normalized(),
             isConvex: nil,
+            sanitizeNormals: false,
             material: material
         )
     }
@@ -353,6 +356,7 @@ extension Polygon: Transformable {
             unchecked: f < 0 ? vertices.reversed() : vertices,
             normal: f < 0 ? -plane.normal : plane.normal,
             isConvex: isConvex,
+            sanitizeNormals: false,
             material: material
         )
     }
