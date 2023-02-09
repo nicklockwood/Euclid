@@ -177,10 +177,12 @@ public extension Polygon {
     /// Returns the area of the polygon.
     var area: Double {
         var vertices = self.vertices
-        if !vertices.allSatisfy({ $0.position.z == 0 }) {
+        let z = vertices.first?.position.z ?? 0
+        if !vertices.allSatisfy({ abs($0.position.z - z) < epsilon }) {
             let r = rotationBetweenVectors(plane.normal, .unitZ)
             vertices = vertices.map { Vertex($0.position.rotated(by: -r)) }
-            assert(vertices.allSatisfy { abs($0.position.z) < epsilon })
+            let z = vertices.first?.position.z ?? 0
+            assert(vertices.allSatisfy { abs($0.position.z - z) < epsilon })
         }
         var prev = vertices.last!.position
         return abs(vertices.reduce(0) { area, v in
