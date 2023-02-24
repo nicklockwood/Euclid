@@ -47,7 +47,7 @@ class SceneKitTests: XCTestCase {
     }
 
     func testSCNBoxIsWatertight() throws {
-        for s in [0.2, 0.8, 1, 10] as [CGFloat] {
+        for s in [0.01, 0.1, 0.2, 0.8, 1, 10] as [CGFloat] {
             let cube = SCNBox(width: s, height: s, length: s, chamferRadius: 0)
             let mesh = try XCTUnwrap(Mesh(cube))
             XCTAssert(mesh.isWatertight)
@@ -55,11 +55,35 @@ class SceneKitTests: XCTestCase {
         }
     }
 
+    func testSCNCylinderIsWatertight() throws {
+        for s in [0.2, 0.8, 3, 5, 10] as [CGFloat] {
+            for r in [0.1, 0.2, 0.8, 3, 5, 10] as [CGFloat] {
+                let cylinder = SCNCylinder(radius: r, height: s)
+                let mesh = try XCTUnwrap(Mesh(cylinder))
+                XCTAssert(mesh.isWatertight)
+                XCTAssert(mesh.polygons.areWatertight)
+            }
+        }
+    }
+
+    func testSCNTubeIsWatertight() throws {
+        for r in [0.1, 0.2, 0.8, 3, 5, 10] as [CGFloat] {
+            for r2 in [0.001, 0.01, 0.1, 0.2] as [CGFloat] {
+                let cylinder = SCNTube(innerRadius: r, outerRadius: r + r2, height: 1)
+                let mesh = try XCTUnwrap(Mesh(cylinder))
+                XCTAssert(mesh.isWatertight)
+                XCTAssert(mesh.polygons.areWatertight)
+            }
+        }
+    }
+
     func testSCNSphereIsWatertight() throws {
-        let sphere = SCNSphere(radius: 0.2)
-        let mesh = try XCTUnwrap(Mesh(sphere))
-        XCTAssert(mesh.isWatertight)
-        XCTAssert(mesh.polygons.areWatertight)
+        for r in [0.01, 0.1, 0.2, 0.8, 3, 5, 10] as [CGFloat] {
+            let sphere = SCNSphere(radius: r)
+            let mesh = try XCTUnwrap(Mesh(sphere))
+            XCTAssert(mesh.isWatertight)
+            XCTAssert(mesh.polygons.areWatertight)
+        }
     }
 
     func testSCNTextIsWatertight() throws {

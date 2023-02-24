@@ -673,7 +673,6 @@ public extension Mesh {
             }
         }
         let isKnownConvex: Bool
-        let isWatertight: Bool?
         let noSubmeshes: Bool
         switch scnGeometry {
         case is SCNPlane,
@@ -684,38 +683,35 @@ public extension Mesh {
              is SCNCone,
              is SCNCapsule:
             isKnownConvex = true
-            isWatertight = true
             noSubmeshes = true
         case is SCNTube,
              is SCNTorus:
             isKnownConvex = false
-            isWatertight = true
             noSubmeshes = true
         case is SCNText,
              is SCNShape:
             isKnownConvex = false
-            isWatertight = true
             noSubmeshes = false
         default:
             isKnownConvex = false
-            isWatertight = nil
             noSubmeshes = false
         }
-        let holeEdges = polygons.holeEdges
-        if !holeEdges.isEmpty {
+        var holeEdges = polygons.holeEdges
+        var precision = epsilon * 10
+        for _ in 0 ..< 3 where !holeEdges.isEmpty {
             let holePoints = holeEdges.reduce(into: Set<Vector>()) {
                 $0.insert($1.start)
                 $0.insert($1.end)
             }
-            let maxLength = holeEdges.map { $0.length }.min() ?? 0
-            let distance = max(min(holeEdges.separationDistance, maxLength), epsilon)
-            polygons = polygons.mergingVertices(holePoints, withPrecision: distance)
+            polygons = polygons.mergingVertices(holePoints, withPrecision: precision)
+            holeEdges = polygons.holeEdges
+            precision *= 10
         }
         self.init(
             unchecked: polygons,
             bounds: Bounds(scnGeometry.boundingBox),
             isConvex: isKnownConvex,
-            isWatertight: isWatertight,
+            isWatertight: holeEdges.isEmpty,
             submeshes: noSubmeshes ? [] : nil
         )
     }
