@@ -375,6 +375,22 @@ public extension Path {
         case axis
     }
 
+    /// Cropped and flattened version of path suitable for lathing around the Y axis.
+    var latheProfile: Path {
+        guard subpathIndices.isEmpty else {
+            return Path(subpaths: subpaths.map { $0.latheProfile })
+        }
+        let profile = flattened().clippedToYAxis()
+        if profile.faceNormal.z < 0 {
+            return Path(
+                unchecked: profile.points.reversed(),
+                plane: profile.plane?.inverted(),
+                subpathIndices: []
+            )
+        }
+        return profile
+    }
+
     /// Creates an array of contours by extruding one path along another path.
     /// - Parameters:
     ///   - along: The path along which to extrude the shape.

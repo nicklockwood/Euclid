@@ -802,26 +802,14 @@ private extension Mesh {
             })
         }
 
-        var profile = profile
+        // normalize profile
+        let profile = profile.latheProfile
         if profile.points.count < 2 {
             return .empty
         }
 
         // min slices
         let slices = max(3, slices)
-
-        // normalize profile
-        profile = profile.flattened().clippedToYAxis()
-        guard let normal = profile.plane?.normal else {
-            return .empty
-        }
-        if normal.z < 0 {
-            profile = Path(
-                unchecked: profile.points.reversed(),
-                plane: profile.plane?.inverted(),
-                subpathIndices: []
-            )
-        }
 
         // get profile vertices
         var vertices = profile.edgeVertices(for: wrapMode)
