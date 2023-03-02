@@ -142,6 +142,39 @@ class PathShapeTests: XCTestCase {
         ])
     }
 
+    // MARK: Arc
+
+    func testDefault() {
+        let path = Path.arc(color: .green)
+        XCTAssert(path.points.allSatisfy { $0.color == .green })
+        XCTAssertEqual(path.bounds, Bounds(Vector(0, -0.5, 0), Vector(0.5, 0.5, 0)))
+    }
+
+    func testInverseArc() {
+        let path = Path.arc(angle: -.pi / 2)
+        XCTAssertEqual(path.bounds, Bounds(Vector(-0.5, 0.5, 0), .zero))
+    }
+
+    func testClosedArc() {
+        let path = Path.arc(angle: .twoPi, radius: 2, color: .red)
+        XCTAssertEqual(path, Path.circle(radius: 2, color: .red).scaled(by: Vector(-1, 1)))
+    }
+
+    func testOverClosedArc() {
+        let path = Path.arc(angle: .pi * 3, radius: 2)
+        XCTAssertEqual(path, Path.circle(radius: 2).scaled(by: Vector(-1, 1)))
+    }
+
+    func testInverseClosedArc() {
+        let path = Path.arc(angle: -.twoPi, radius: 2)
+        XCTAssertEqual(path, .circle(radius: 2))
+    }
+
+    func testInverseOverClosedArc() {
+        let path = Path.arc(angle: -.pi * 3, radius: 2)
+        XCTAssertEqual(path, .circle(radius: 2))
+    }
+
     // MARK: Circle
 
     func testCircleIsClosed() {

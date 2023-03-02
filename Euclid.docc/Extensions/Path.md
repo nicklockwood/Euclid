@@ -15,6 +15,7 @@
 - ``Path/curve(_:detail:)``
 - ``Path/line(_:_:color:)``
 - ``Path/line(_:color:)``
+- ``Path/arc(angle:radius:segments:color:)``
 
 ### Creating Shape Paths
 

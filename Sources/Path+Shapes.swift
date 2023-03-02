@@ -49,6 +49,33 @@ public extension Path {
         Path([.point(start, color: color), .point(end, color: color)])
     }
 
+    /// Creates a circular arc.
+    /// - Parameters:
+    ///   - angle: The angular span of the arc, measured clockwise from vertical. Defaults to `pi` (180 degrees).
+    ///   - radius: The distance from the center of the arc to each point used to approximate its shape.
+    ///   - segments: The number of line segments used to approximate the circle.
+    ///   - color: An optional ``Color`` to apply to the path's points.
+    ///
+    /// > Note: Because the arc is approximated using line segments, its radius is not uniform. The radius
+    /// specified is the *outer* radius, i.e. the radius at the end points.
+    static func arc(
+        angle: Angle = .pi,
+        radius: Double = 0.5,
+        segments: Int? = nil,
+        color: Color? = nil
+    ) -> Path {
+        var points = [PathPoint]()
+        let angle = max(-.twoPi, min(.twoPi, angle))
+        let span = angle.radians / (2 * .pi)
+        let segments = segments ?? Int(ceil(abs(span) * 16))
+        let radius = max(abs(radius), scaleLimit / 2)
+        for i in 0 ... segments {
+            let a = Double(i) / Double(segments) * angle
+            points.append(.curve(sin(a) * radius, cos(a) * radius, color: color))
+        }
+        return Path(unchecked: points, plane: .xy, subpathIndices: [])
+    }
+
     /// Creates a closed circular path.
     /// - Parameters:
     ///   - radius: The distance from the center of the circle to each point used to approximate its shape.
@@ -84,7 +111,7 @@ public extension Path {
         let w = max(abs(width / 2), scaleLimit / 2)
         let h = max(abs(height / 2), scaleLimit / 2)
         return Path(unchecked: stride(from: 0, through: to, by: step).map {
-            PathPoint.curve(w * -sin($0), h * cos($0), color: color)
+            .curve(w * -sin($0), h * cos($0), color: color)
         }, plane: .xy, subpathIndices: [])
     }
 

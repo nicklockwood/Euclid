@@ -165,15 +165,9 @@ public extension Mesh {
         wrapMode: WrapMode = .default,
         material: Material? = nil
     ) -> Mesh {
-        var semicircle = [PathPoint]()
         let stacks = max(2, stacks ?? (slices / 2))
-        let radius = max(abs(radius), scaleLimit / 2)
-        for i in 0 ... stacks {
-            let a = Double(i) / Double(stacks) * Angle.pi
-            semicircle.append(.curve(-sin(a) * radius, cos(a) * radius))
-        }
         return lathe(
-            unchecked: Path(unchecked: semicircle, plane: .xy, subpathIndices: []),
+            unchecked: .arc(radius: radius, segments: stacks),
             slices: slices,
             poleDetail: poleDetail,
             faces: faces,
