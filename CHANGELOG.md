@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.6.11](https://github.com/nicklockwood/Euclid/releases/tag/0.6.11) (2023-03-02)
+
+- Added `Path.arc()` function
+- Add `Path.latheProfile` property
+
 ## [0.6.10](https://github.com/nicklockwood/Euclid/releases/tag/0.6.10) (2023-02-24)
 
 - Fixed a precision problem that caused holes when creating a `Mesh` from `SCNGeometry`
