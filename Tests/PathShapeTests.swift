@@ -175,6 +175,22 @@ class PathShapeTests: XCTestCase {
         XCTAssertEqual(path, .circle(radius: 2))
     }
 
+    func testAcuteArcMinSegments() {
+        let path = Path.arc(angle: .pi * 0.2, segments: 0)
+        XCTAssertEqual(path.points.count, 2)
+    }
+
+    func testObtuseArcMinSegments2() {
+        let path = Path.arc(angle: .pi * 0.6, segments: 0)
+        XCTAssertEqual(path.points.count, 3)
+    }
+
+    func testArcCircleMinSegments() {
+        let path = Path.arc(angle: -.pi * 2, radius: 2, segments: 0)
+        XCTAssertEqual(path.points.count, 4)
+        XCTAssertEqual(path, .circle(radius: 2, segments: 3))
+    }
+
     // MARK: Circle
 
     func testCircleIsClosed() {

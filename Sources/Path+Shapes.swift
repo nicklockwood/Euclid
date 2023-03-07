@@ -67,7 +67,16 @@ public extension Path {
         var points = [PathPoint]()
         let angle = max(-.twoPi, min(.twoPi, angle))
         let span = angle.radians / (2 * .pi)
-        let segments = segments ?? Int(ceil(abs(span) * 16))
+        let segments = segments.map {
+            switch abs(span) {
+            case 0 ... 0.25:
+                return max(1, $0)
+            case 0.25 ... 0.5:
+                return max(2, $0)
+            default:
+                return max(3, $0)
+            }
+        } ?? Int(ceil(abs(span) * 16))
         let radius = max(abs(radius), scaleLimit / 2)
         for i in 0 ... segments {
             let a = Double(i) / Double(segments) * angle
