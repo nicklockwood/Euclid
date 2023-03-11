@@ -504,12 +504,16 @@ func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
         return points
     }
     var result = [PathPoint]()
-    var last: PathPoint?
     // Remove duplicate points
     // TODO: In future, compound paths may support duplicate points
-    for point in points where point.position != last?.position {
-        result.append(point)
-        last = point
+    for point in points {
+        if let last = result.last, point.position == last.position {
+            if !point.isCurved, last.isCurved {
+                result[result.count - 1].isCurved = false
+            }
+        } else {
+            result.append(point)
+        }
     }
     // Remove invalid points
     let isClosed = pointsAreClosed(unchecked: result)
