@@ -391,12 +391,12 @@ class MeshTests: XCTestCase {
         let mesh = Mesh.sphere().inverted()
         let bsp = BSP(mesh) { false }
         for point in insidePoints {
-            XCTAssertTrue(mesh.containsPoint(point))
-            XCTAssertTrue(bsp.containsPoint(point))
+            XCTAssertTrue(mesh.intersects(point))
+            XCTAssertTrue(bsp.intersects(point))
         }
         for point in outsidePoints {
-            XCTAssertFalse(mesh.containsPoint(point))
-            XCTAssertFalse(bsp.containsPoint(point))
+            XCTAssertFalse(mesh.intersects(point))
+            XCTAssertFalse(bsp.intersects(point))
         }
     }
 }
