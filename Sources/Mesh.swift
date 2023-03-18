@@ -351,7 +351,7 @@ public extension Mesh {
     /// - Returns: `true` if the point lies inside the mesh, and `false` otherwise.
     func containsPoint(_ point: Vector) -> Bool {
         guard isKnownConvex else {
-            return BSP(self) { false }.containsPoint(point)
+            return storage.getBSP { false }.containsPoint(point)
         }
         if !bounds.containsPoint(point) {
             return false
@@ -398,10 +398,15 @@ extension Mesh {
 
     var boundsIfSet: Bounds? { storage.boundsIfSet }
     var watertightIfSet: Bool? { storage.watertightIfSet }
+    var bspIfSet: Bool? { storage.watertightIfSet }
     var isKnownConvex: Bool { storage.isConvex }
     /// Note: we don't expose submeshesIfSet because it's unsafe to reuse
     var submeshesIfEmpty: [Mesh]? {
         storage.submeshesIfSet.flatMap { $0.isEmpty ? [] : nil }
+    }
+
+    func getBSP(_ isCancelled: CancellationHandler) -> BSP {
+        storage.getBSP(isCancelled)
     }
 }
 
@@ -447,6 +452,18 @@ private extension Mesh {
                 watertightIfSet = polygons.areWatertight
             }
             return watertightIfSet!
+        }
+
+        private(set) var bspIfSet: BSP?
+        func getBSP(_ isCancelled: CancellationHandler) -> BSP {
+            var bsp = bspIfSet
+            if bsp == nil {
+                bsp = BSP(polygons, isConvex: isConvex, isCancelled)
+                if !isCancelled() {
+                    bspIfSet = bsp
+                }
+            }
+            return bsp!
         }
 
         private(set) var submeshesIfSet: [Mesh]?

@@ -46,10 +46,14 @@ extension BSP {
     }
 
     init(_ mesh: Mesh, _ isCancelled: CancellationHandler) {
+        self.init(mesh.polygons, isConvex: mesh.isKnownConvex, isCancelled)
+    }
+
+    init(_ polygons: [Polygon], isConvex: Bool, _ isCancelled: CancellationHandler) {
         self.nodes = [BSPNode]()
-        self.isConvex = mesh.isKnownConvex
+        self.isConvex = isConvex
         self.isInverted = false
-        initialize(mesh.polygons, isCancelled)
+        initialize(polygons, isCancelled)
     }
 
     func clip(
@@ -138,12 +142,13 @@ private extension BSP {
     }
 
     mutating func initialize(_ polygons: [Polygon], _ isCancelled: CancellationHandler) {
+        guard !polygons.isEmpty else {
+            return
+        }
+
         var rng = DeterministicRNG()
 
         guard isConvex else {
-            guard !polygons.isEmpty else {
-                return
-            }
             let startPlane = polygons[0].plane
             // Randomly shuffle polygons to reduce average number of splits
             let polygons = polygons.shuffled(using: &rng)
