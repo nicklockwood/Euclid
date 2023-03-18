@@ -31,6 +31,10 @@ class SceneKitViewController: UIViewController {
 //        let sphere = Mesh.sphere(slices: 120, material: UIColor.blue)
 //        let mesh = cube.subtracting(sphere).makeWatertight()
 
+//        let cube = Mesh.cube().inverted()
+//        let cube2 = Mesh.cube().inverted().translated(by: Vector(0.5, 0.5, 0.5))
+//        let mesh = cube.union(cube2).inverted()
+
 //        print("Time:", CFAbsoluteTimeGetCurrent() - start)
 //        print("Polygons:", mesh.polygons.count)
 //        print("Triangles:", mesh.triangulate().polygons.count)
