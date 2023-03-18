@@ -54,9 +54,40 @@ public extension Mesh {
     /// - Returns: A new mesh representing the union of the input meshes.
     func union(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
-        if intersection.isEmpty {
+        let absp = getBSP(isCancelled), bbsp = mesh.getBSP(isCancelled)
+        switch (absp.isInverted, bbsp.isInverted) {
+        case (false, false):
+            if intersection.isEmpty {
+                return Mesh(
+                    unchecked: polygons + mesh.polygons,
+                    bounds: bounds.union(mesh.bounds),
+                    isConvex: false,
+                    isWatertight: watertightIfSet.flatMap { isWatertight in
+                        mesh.watertightIfSet.map { $0 && isWatertight }
+                    },
+                    submeshes: [self, mesh]
+                )
+            }
+            var lhs: [Polygon] = [], rhs: [Polygon] = []
+            inParallel({
+                var aout: [Polygon]? = []
+                let ap = BSP(mesh, isCancelled).clip(
+                    boundsTest(intersection, polygons, &aout),
+                    .greaterThan,
+                    isCancelled
+                )
+                lhs = aout! + ap
+            }, {
+                var bout: [Polygon]? = []
+                let bp = BSP(self, isCancelled).clip(
+                    boundsTest(intersection, mesh.polygons, &bout),
+                    .greaterThanEqual,
+                    isCancelled
+                )
+                rhs = bout! + bp
+            })
             return Mesh(
-                unchecked: polygons + mesh.polygons,
+                unchecked: lhs + rhs,
                 bounds: bounds.union(mesh.bounds),
                 isConvex: false,
                 isWatertight: watertightIfSet.flatMap { isWatertight in
@@ -66,32 +97,47 @@ public extension Mesh {
                     mesh.submeshesIfEmpty.map { _ in [self, mesh] }
                 }
             )
-        }
-        var lhs: [Polygon] = [], rhs: [Polygon] = []
-        inParallel({
-            var aout: [Polygon]? = []
-            let ap = BSP(mesh, isCancelled).clip(
-                boundsTest(intersection, polygons, &aout),
+        case (true, true):
+            if intersection.isEmpty {
+                return .empty
+            }
+            var out: [Polygon]?
+            let ap = bbsp.clip(
+                boundsTest(intersection, polygons, &out),
                 .greaterThan,
                 isCancelled
             )
-            lhs = aout! + ap
-        }, {
-            var bout: [Polygon]? = []
-            let bp = BSP(self, isCancelled).clip(
-                boundsTest(intersection, mesh.polygons, &bout),
+            let bp = absp.clip(
+                boundsTest(intersection, mesh.polygons, &out),
                 .greaterThanEqual,
                 isCancelled
             )
-            rhs = bout! + bp
-        })
-        return Mesh(
-            unchecked: lhs + rhs,
-            bounds: bounds.union(mesh.bounds),
-            isConvex: false,
-            isWatertight: nil,
-            submeshes: nil // TODO: can this be preserved?
-        )
+            return Mesh(
+                unchecked: ap + bp,
+                bounds: bounds.union(mesh.bounds),
+                isConvex: false,
+                isWatertight: nil,
+                submeshes: nil // TODO: can this be preserved?
+            )
+        default:
+            let ap = bbsp.clip(
+                polygons,
+                .greaterThan,
+                isCancelled
+            )
+            let bp = absp.clip(
+                mesh.polygons,
+                .greaterThanEqual,
+                isCancelled
+            )
+            return Mesh(
+                unchecked: ap + bp,
+                bounds: bounds.union(mesh.bounds),
+                isConvex: false,
+                isWatertight: nil,
+                submeshes: nil // TODO: can this be preserved?
+            )
+        }
     }
 
     /// Efficiently forms a union from multiple meshes.
@@ -210,7 +256,6 @@ public extension Mesh {
             let (bp2, bp1) = absp.split(bp, .greaterThan, .lessThan, isCancelled)
             rhs = bout! + bp2 + bp1.inverted()
         })
-
         return Mesh(
             unchecked: lhs + rhs,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
@@ -337,7 +382,7 @@ public extension Mesh {
         }
         var aout: [Polygon]? = []
         let ap = boundsTest(bounds.intersection(mesh.bounds), polygons, &aout)
-        let bsp = BSP(mesh, isCancelled)
+        let bsp = mesh.getBSP(isCancelled)
         let (outside, inside) = bsp.split(ap, .greaterThan, .lessThanEqual, isCancelled)
         let material = mesh.polygons.first?.material
         return Mesh(
@@ -408,11 +453,16 @@ public extension Mesh {
 
     /// Clip mesh to the specified plane and optionally fill sheared faces with specified material.
     /// - Parameters
-    ///   - plane: The plane to clip the mesh to
-    ///   - fill: The material to fill the sheared face(s) with.
+    ///   - plane: The plane to clip the mesh against.
+    ///   - fill: Optional material to fill the sheared face(s) with.
+    ///   - isCancelled: Callback used to cancel the operation.
     ///
     /// > Note: Specifying nil for the fill material will leave the sheared face unfilled.
-    func clip(to plane: Plane, fill: Material? = nil) -> Mesh {
+    func clip(
+        to plane: Plane,
+        fill: Material? = nil,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
         guard !polygons.isEmpty else {
             return self
         }
