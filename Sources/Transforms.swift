@@ -494,7 +494,8 @@ extension Path: Transformable {
     public func rotated(by r: Rotation) -> Path {
         Path(
             unchecked: points.rotated(by: r),
-            plane: plane?.rotated(by: r), subpathIndices: subpathIndices
+            plane: nil, // Avoids loss of precision from rotating plane
+            subpathIndices: subpathIndices
         )
     }
 
