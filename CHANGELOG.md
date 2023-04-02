@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.6.12](https://github.com/nicklockwood/Euclid/releases/tag/0.6.12) (2023-04-04)
+
+- Improved default `Path.arc()` segments heuristic
+- Connecting open subpaths now behaves as expected
+- Curved join between subpaths can now be overridden
+
 ## [0.6.11](https://github.com/nicklockwood/Euclid/releases/tag/0.6.11) (2023-03-02)
 
 - Added `Path.arc()` function
