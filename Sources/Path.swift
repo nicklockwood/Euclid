@@ -162,8 +162,20 @@ public extension Path {
             return
         }
         let points = subpaths.flatMap { $0.points }
+        // Remove duplicate points
+        // TODO: share logic with santizePoints function
+        var result = [PathPoint]()
+        for point in points {
+            if let last = result.last, point.position == last.position {
+                if !point.isCurved, last.isCurved {
+                    result[result.count - 1].isCurved = false
+                }
+            } else {
+                result.append(point)
+            }
+        }
         // TODO: precompute planes/subpathIndices from existing paths
-        self.init(unchecked: points, plane: nil, subpathIndices: nil)
+        self.init(unchecked: result, plane: nil, subpathIndices: nil)
     }
 
     /// Creates a closed path from a polygon.

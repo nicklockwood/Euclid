@@ -716,6 +716,15 @@ class PathTests: XCTestCase {
         XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
+    func testLinkedArcSubpathsAreJoinedCorrectly() {
+        let quarterTurn = Angle.pi / 2
+        let first = Path.arc(angle: quarterTurn, segments: 4)
+        let second = Path.arc(angle: quarterTurn, segments: 4)
+            .rotated(by: .roll(quarterTurn))
+        let path = Path(subpaths: [first, second])
+        XCTAssertEqual(path.points, Path.arc(angle: .pi, segments: 8).points)
+    }
+
     func testNestedSubpathsAreFlattenedCorrectly() {
         let path1 = Path([
             .point(0, 0),
