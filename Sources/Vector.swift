@@ -338,7 +338,7 @@ internal extension Vector {
     }
 
     /// Approximate equality
-    func isEqual(to other: Vector, withPrecision p: Double = epsilon) -> Bool {
+    func isEqual(to other: Vector, withPrecision p: Double = pointEpsilon) -> Bool {
         x.isEqual(to: other.x, withPrecision: p) &&
             y.isEqual(to: other.y, withPrecision: p) &&
             z.isEqual(to: other.z, withPrecision: p)

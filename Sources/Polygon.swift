@@ -432,7 +432,11 @@ internal extension Collection where Element == Polygon {
             }
         }
         // TODO: why is this needed?
-        return polygons.mergingVertices(withPrecision: epsilon)
+        let merged = polygons.mergingVertices(withPrecision: epsilon)
+        if !merged.areWatertight {
+            return polygons.mergingVertices(withPrecision: 1e-7)
+        }
+        return merged
     }
 
     /// Merge vertices with similar positions.
