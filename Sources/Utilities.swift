@@ -36,13 +36,13 @@ public protocol Sendable {}
 #endif
 
 // Tolerance used for calculating approximate equality
-let epsilon = 1e-8
+let epsilon: Double = 1e-8
 
 // Plane equality threshold
-let planeEpsilon = 1e-6
+let planeEpsilon: Double = 1e-6
 
 // Smallest valid scale factor
-let scaleLimit = 1e-8
+let scaleLimit: Double = 1e-8
 
 // Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {

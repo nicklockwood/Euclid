@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.6.13](https://github.com/nicklockwood/Euclid/releases/tag/0.6.13) (2023-04-22)
+
+- Added ASCII STL export function for Mesh
+- Added `isZero` and `isOne` convenience properties
+- Reduced cracking/holes for some meshes
+- Fixed extrusion precision issue
+
 ## [0.6.12](https://github.com/nicklockwood/Euclid/releases/tag/0.6.12) (2023-04-04)
 
 - Improved default `Path.arc()` segments heuristic
