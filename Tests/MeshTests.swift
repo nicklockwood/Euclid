@@ -328,4 +328,99 @@ class MeshTests: XCTestCase {
             XCTAssertFalse(bsp.containsPoint(point))
         }
     }
+
+    // MARK: export
+
+    func testCubeSTL() {
+        let cube = Mesh.cube().translated(by: Vector(0.5, 0.5, 0.5))
+        let stl = cube.stlString(name: "Foo")
+        XCTAssertEqual(stl, """
+        solid Foo
+        facet normal 1 0 0
+        \touter loop
+        \t\t1 0 1
+        \t\t1 0 0
+        \t\t1 1 0
+        \tendloop
+        endfacet
+        facet normal 1 0 0
+        \touter loop
+        \t\t1 0 1
+        \t\t1 1 0
+        \t\t1 1 1
+        \tendloop
+        endfacet
+        facet normal -1 0 0
+        \touter loop
+        \t\t0 0 0
+        \t\t0 0 1
+        \t\t0 1 1
+        \tendloop
+        endfacet
+        facet normal -1 0 0
+        \touter loop
+        \t\t0 0 0
+        \t\t0 1 1
+        \t\t0 1 0
+        \tendloop
+        endfacet
+        facet normal 0 1 0
+        \touter loop
+        \t\t0 1 1
+        \t\t1 1 1
+        \t\t1 1 0
+        \tendloop
+        endfacet
+        facet normal 0 1 0
+        \touter loop
+        \t\t0 1 1
+        \t\t1 1 0
+        \t\t0 1 0
+        \tendloop
+        endfacet
+        facet normal 0 -1 0
+        \touter loop
+        \t\t0 0 0
+        \t\t1 0 0
+        \t\t1 0 1
+        \tendloop
+        endfacet
+        facet normal 0 -1 0
+        \touter loop
+        \t\t0 0 0
+        \t\t1 0 1
+        \t\t0 0 1
+        \tendloop
+        endfacet
+        facet normal 0 0 1
+        \touter loop
+        \t\t0 0 1
+        \t\t1 0 1
+        \t\t1 1 1
+        \tendloop
+        endfacet
+        facet normal 0 0 1
+        \touter loop
+        \t\t0 0 1
+        \t\t1 1 1
+        \t\t0 1 1
+        \tendloop
+        endfacet
+        facet normal 0 0 -1
+        \touter loop
+        \t\t1 0 0
+        \t\t0 0 0
+        \t\t0 1 0
+        \tendloop
+        endfacet
+        facet normal 0 0 -1
+        \touter loop
+        \t\t1 0 0
+        \t\t0 1 0
+        \t\t1 1 0
+        \tendloop
+        endfacet
+        endsolid Foo
+        """)
+    }
 }

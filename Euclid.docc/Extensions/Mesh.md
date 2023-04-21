@@ -74,6 +74,10 @@
 - ``Mesh/Material``
 - ``Mesh/MaterialProvider``
 
+### Exporting Meshes
+
+- ``Mesh/stlString(name:)``
+
 ### Mesh Properties
 
 - ``Mesh/polygons``
