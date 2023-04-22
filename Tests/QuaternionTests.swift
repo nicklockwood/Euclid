@@ -27,27 +27,27 @@ class QuaternionTests: XCTestCase {
     }
 
     func testAxisAngle() {
-        let q = Quaternion(axis: .unitX, angle: .halfPi)
-        XCTAssertEqual(q?.axis, .unitX)
-        XCTAssert(q?.angle.isEqual(to: .halfPi) == true)
+        let q = Quaternion(unchecked: .unitX, angle: .halfPi)
+        XCTAssertEqual(q.axis, .unitX)
+        XCTAssert(q.angle.isEqual(to: .halfPi))
     }
 
     func testAxisAngle2() {
-        let q = Quaternion(axis: .unitY, angle: .pi * 0.75)
-        XCTAssertEqual(q?.axis, .unitY)
-        XCTAssert(q?.angle.isEqual(to: .pi * 0.75) == true)
+        let q = Quaternion(unchecked: .unitY, angle: .pi * 0.75)
+        XCTAssertEqual(q.axis, .unitY)
+        XCTAssert(q.angle.isEqual(to: .pi * 0.75))
     }
 
     func testAxisAngle3() {
-        let q = Quaternion(axis: .unitZ, angle: .halfPi)
-        XCTAssertEqual(q?.axis, .unitZ)
-        XCTAssert(q?.angle.isEqual(to: .halfPi) == true)
+        let q = Quaternion(unchecked: .unitZ, angle: .halfPi)
+        XCTAssertEqual(q.axis, .unitZ)
+        XCTAssert(q.angle.isEqual(to: .halfPi))
     }
 
     func testAxisAngle4() {
-        let q = Quaternion(axis: .unitZ, angle: .zero)
-        XCTAssertEqual(q?.axis, .unitZ)
-        XCTAssert(q?.angle.isEqual(to: .zero) == true)
+        let q = Quaternion(unchecked: .unitZ, angle: .zero)
+        XCTAssertEqual(q.axis, .unitZ)
+        XCTAssert(q.angle.isZero)
     }
 
     func testAxisAngleRotation() {
@@ -131,7 +131,7 @@ class QuaternionTests: XCTestCase {
         let q = Quaternion(pitch: .halfPi)
         let r = Rotation(pitch: .halfPi)
         let r2 = Rotation(q)
-        let q2 = Rotation(q)
+        let q2 = Quaternion(r)
         let v = Vector(0, 0.5, 0), u = Vector(0, 0, -0.5)
         XCTAssertEqual(v.rotated(by: q), u)
         XCTAssertEqual(v.rotated(by: q2), u)

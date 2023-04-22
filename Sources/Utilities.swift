@@ -225,7 +225,7 @@ func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
 }
 
 func vectorsAreCollinear(_ v0: Vector, _ v1: Vector) -> Bool {
-    v0.cross(v1).isEqual(to: .zero, withPrecision: epsilon)
+    v0.cross(v1).isZero
 }
 
 func pointsAreCollinear(_ a: Vector, _ b: Vector, _ c: Vector) -> Bool {
@@ -522,7 +522,7 @@ func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
         var i = 1
         while i < result.count - 1 {
             let bc = result[i + 1].position - result[i].position
-            if ab.cross(bc).isEqual(to: .zero), ab.dot(bc) < epsilon {
+            if ab.cross(bc).isZero, ab.dot(bc) < epsilon {
                 // center point makes path degenerate - remove it
                 result.remove(at: i)
                 ab = result[i].position - result[i - 1].position

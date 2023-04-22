@@ -518,7 +518,7 @@ public extension Path {
         }
 
         func twistShape(_ p1p2: Vector) {
-            if !twist.isEqual(to: .zero) {
+            if !twist.isZero {
                 let angle = twist * (p1p2.length / length)
                 rotateShape(by: Rotation(unchecked: shapeNormal, angle: angle))
             }

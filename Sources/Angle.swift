@@ -111,6 +111,11 @@ public extension Angle {
         set { radians = newValue / 180 * .pi }
     }
 
+    /// The angle is zero (or close to zero).
+    var isZero: Bool {
+        isEqual(to: .zero)
+    }
+
     /// Creates an Angle from a degrees value.
     /// - Parameter degrees: The angle in degrees.
     init(degrees: Double) {

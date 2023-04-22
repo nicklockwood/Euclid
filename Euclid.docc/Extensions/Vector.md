@@ -28,6 +28,8 @@
 - ``Vector/z``
 - ``Vector/length``
 - ``Vector/lengthSquared``
+- ``Vector/isZero``
+- ``Vector/isOne``
 
 ### Computing Vectors
 

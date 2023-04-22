@@ -161,9 +161,9 @@ extension Transform: Codable {
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try offset.isEqual(to: .zero) ? () : container.encode(offset, forKey: .offset)
+        try offset.isZero ? () : container.encode(offset, forKey: .offset)
         try rotation.isIdentity ? () : container.encode(rotation, forKey: .rotation)
-        try scale.isEqual(to: .one) ? () : container.encode(scale, forKey: .scale)
+        try scale.isOne ? () : container.encode(scale, forKey: .scale)
     }
 }
 
@@ -238,7 +238,7 @@ public extension Transform {
 
     /// Transform has no effect.
     var isIdentity: Bool {
-        rotation.isIdentity && offset.isEqual(to: .zero) && scale.isEqual(to: .one)
+        rotation.isIdentity && offset.isZero && scale.isOne
     }
 
     /// Does the transform apply a mirror operation (negative scale)?
@@ -249,7 +249,7 @@ public extension Transform {
 
 extension Mesh: Transformable {
     public func translated(by v: Vector) -> Mesh {
-        v.isEqual(to: .zero) ? self : Mesh(
+        v.isZero ? self : Mesh(
             unchecked: polygons.translated(by: v),
             bounds: boundsIfSet?.translated(by: v),
             isConvex: isKnownConvex,
@@ -309,7 +309,7 @@ extension Mesh: Transformable {
 
 extension Polygon: Transformable {
     public func translated(by v: Vector) -> Polygon {
-        v.isEqual(to: .zero) ? self : Polygon(
+        v.isZero ? self : Polygon(
             unchecked: vertices.translated(by: v),
             normal: plane.normal,
             isConvex: isConvex,
@@ -576,7 +576,7 @@ extension Bounds: Transformable {
 
 extension Array: Transformable where Element: Transformable {
     public func translated(by v: Vector) -> [Element] {
-        v.isEqual(to: .zero) ? self : map { $0.translated(by: v) }
+        v.isZero ? self : map { $0.translated(by: v) }
     }
 
     public func rotated(by r: Rotation) -> [Element] {
@@ -592,7 +592,7 @@ extension Array: Transformable where Element: Transformable {
     }
 
     public func transformed(by t: Transform) -> [Element] {
-        if t.scale.isEqual(to: .one) {
+        if t.scale.isOne {
             if t.offset == .zero {
                 return rotated(by: t.rotation)
             } else if t.isIdentity {

@@ -20,6 +20,7 @@
 
 - ``Angle/degrees``
 - ``Angle/radians``
+- ``Angle/isZero``
 
 ### Computing Angles
 
