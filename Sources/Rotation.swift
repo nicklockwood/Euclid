@@ -251,22 +251,22 @@ public extension Rotation {
         quaternion.angle
     }
 
-    /// A normalized direction vector pointing rightwards relative to the current rotaion.
+    /// A normalized direction vector pointing rightwards relative to the current rotation.
     var right: Vector {
         Vector.unitX.rotated(by: self)
     }
 
-    /// A normalized direction vector pointing upwards relative to the current rotaion.
+    /// A normalized direction vector pointing upwards relative to the current rotation.
     var up: Vector {
         Vector.unitY.rotated(by: self)
     }
 
-    /// A normalized direction vector pointing forwards relative to the current rotaion.
+    /// A normalized direction vector pointing forwards relative to the current rotation.
     var forward: Vector {
         Vector.unitZ.rotated(by: self)
     }
 
-    // Performs a spherical linear interpolation between two rotations.
+    /// Performs a spherical linear interpolation between two rotations.
     /// - Parameters:
     ///   - r: The rotation to interpolate towards.
     ///   - t: The normalized extent of interpolation, from 0 to 1.

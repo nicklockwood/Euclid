@@ -123,7 +123,7 @@ public extension Quaternion {
         return .init(simd_normalize(storage))
     }
 
-    // Performs a spherical interpolation between two quaternions.
+    /// Performs a spherical interpolation between two quaternions.
     /// - Parameters:
     ///   - q: A quaternion to interpolate with.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
