@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.6.14](https://github.com/nicklockwood/Euclid/releases/tag/0.6.14) (2023-06-10)
+
+- Removed unreachable line flagged in Xcode 15 beta
+- Fixed some comments
+
 ## [0.6.13](https://github.com/nicklockwood/Euclid/releases/tag/0.6.13) (2023-04-22)
 
 - Added ASCII STL export function for Mesh
