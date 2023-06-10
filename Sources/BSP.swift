@@ -104,7 +104,6 @@ extension BSP {
                 node = nodes[node.back]
             }
         }
-        preconditionFailure()
     }
 }
 
