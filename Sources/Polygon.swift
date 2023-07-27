@@ -417,7 +417,7 @@ internal extension Collection where Element == Polygon {
     }
 
     /// Insert missing vertices needed to prevent hairline cracks.
-    func makeWatertight(with holeEdges: Set<LineSegment>) -> [Polygon] {
+    func insertingEdgeVertices(with holeEdges: Set<LineSegment>) -> [Polygon] {
         var points = Set<Vector>()
         for edge in holeEdges {
             points.insert(edge.start)
@@ -431,12 +431,7 @@ internal extension Collection where Element == Polygon {
                 _ = polygons[i].insertEdgePoint(point)
             }
         }
-        // TODO: why is this needed?
-        let merged = polygons.mergingVertices(withPrecision: epsilon)
-        if !merged.areWatertight {
-            return polygons.mergingVertices(withPrecision: 1e-7)
-        }
-        return merged
+        return polygons
     }
 
     /// Merge vertices with similar positions.

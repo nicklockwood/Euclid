@@ -289,20 +289,26 @@ public extension Mesh {
         if watertightIfSet == true {
             return self
         }
-        let holeEdges = polygons.holeEdges
-        let polygons: [Polygon], isWatertight: Bool?
-        if holeEdges.isEmpty {
-            polygons = self.polygons
-            isWatertight = true
-        } else {
-            polygons = self.polygons.makeWatertight(with: holeEdges)
-            isWatertight = nil
+        var holeEdges = polygons.holeEdges, polygons = self.polygons
+        var precision = epsilon
+        while holeEdges.count > 0 {
+            let merged = polygons
+                .insertingEdgeVertices(with: holeEdges)
+                .mergingVertices(withPrecision: precision)
+            let newEdges = merged.holeEdges
+            if newEdges.count >= holeEdges.count {
+                // No improvement
+                break
+            }
+            polygons = merged
+            holeEdges = newEdges
+            precision *= 10
         }
         return Mesh(
             unchecked: polygons,
             bounds: boundsIfSet,
             isConvex: false, // TODO: can makeWatertight make this false?
-            isWatertight: isWatertight,
+            isWatertight: holeEdges.isEmpty,
             submeshes: submeshesIfEmpty
         )
     }
