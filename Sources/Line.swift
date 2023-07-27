@@ -122,7 +122,8 @@ public extension Line {
             origin,
             origin + direction,
             line.origin,
-            line.origin + line.direction
+            line.origin + line.direction,
+            inSegment: false
         ) else {
             return 0
         }

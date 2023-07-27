@@ -433,7 +433,8 @@ func shortestLineBetween(
     _ p1: Vector,
     _ p2: Vector,
     _ p3: Vector,
-    _ p4: Vector
+    _ p4: Vector,
+    inSegment: Bool
 ) -> (Vector, Vector)? {
     let p21 = p2 - p1
     assert(p21.length > 0)
@@ -457,6 +458,10 @@ func shortestLineBetween(
     let mua = numerator / denominator
     let mub = (d1343 + d4321 * mua) / d4343
 
+    if inSegment, mua < 0 || mua > 1 || mub < 0 || mub > 1 {
+        return nil
+    }
+
     return (p1 + mua * p21, p3 + mub * p43)
 }
 
@@ -477,7 +482,7 @@ func lineIntersection(
     _ p2: Vector,
     _ p3: Vector
 ) -> Vector? {
-    guard let (p0, p1) = shortestLineBetween(p0, p1, p2, p3) else {
+    guard let (p0, p1) = shortestLineBetween(p0, p1, p2, p3, inSegment: false) else {
         return nil
     }
     return p0.isEqual(to: p1) ? p0 : nil
@@ -489,10 +494,10 @@ func lineSegmentsIntersection(
     _ p2: Vector,
     _ p3: Vector
 ) -> Vector? {
-    guard let pi = lineIntersection(p0, p1, p2, p3) else {
-        return nil // lines don't intersect
+    guard let (p0, p1) = shortestLineBetween(p0, p1, p2, p3, inSegment: true) else {
+        return nil
     }
-    return Bounds(p0, p1).containsPoint(pi) && Bounds(p2, p3).containsPoint(pi) ? pi : nil
+    return p0.isEqual(to: p1) ? p0 : nil
 }
 
 // MARK: Path utilities
