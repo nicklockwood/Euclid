@@ -138,14 +138,19 @@ func triangulateVertices(
                 attempts += 1
             }
             if attempts > vertices.count * 2 {
+                assert(plane == nil || triangles.allSatisfy { $0.plane == plane })
                 return triangles
             }
         }
         if addTriangle(vertices) {
+            assert(plane == nil || triangles.allSatisfy { $0.plane == plane })
             return triangles
         }
         triangles.removeAll()
     }
+    let faceNormal = plane?.normal ?? faceNormalForPolygonPoints(vertices.map {
+        $0.position
+    }, convex: isConvex, closed: true)
     var start = 0, i = 0
     outer: while start < vertices.count {
         var attempts = 0
@@ -157,7 +162,10 @@ func triangulateVertices(
             let triangle = Polygon([p0, p1, p2], material: material)
             if triangle == nil || vertices.enumerated().contains(where: { index, v in
                 ![i, j, k].contains(index) && triangle!.containsPoint(v.position)
-            }) || plane.map({ triangle!.plane.normal.dot($0.normal) <= 0 }) ?? false {
+            }) || plane.map({ !triangle!.plane.isEqual(to: $0) })
+                ?? (triangle!.plane.normal.dot(faceNormal) <= 0)
+                || !addTriangle([p0, p1, p2])
+            {
                 i += 1
                 if i == vertices.count {
                     i = 0
@@ -170,7 +178,6 @@ func triangulateVertices(
                     }
                 }
             } else {
-                triangles.append(triangle!.with(id: id))
                 attempts = 0
                 vertices.remove(at: i)
                 if i == vertices.count {
@@ -198,6 +205,7 @@ func triangulateVertices(
         ).inverted()
     }
 //    assert(triangles.count == vertices.count - 2)
+    assert(plane == nil || triangles.allSatisfy { $0.plane == plane })
     return triangles
 }
 
