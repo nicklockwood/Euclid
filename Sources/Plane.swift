@@ -125,7 +125,7 @@ public extension Plane {
     /// - Parameter point: The point to test.
     /// - Returns: `true` if the point lies on the plane and `false` otherwise.
     func containsPoint(_ point: Vector) -> Bool {
-        abs(point.distance(from: self)) < epsilon
+        abs(point.distance(from: self)) < planeEpsilon
     }
 
     /// Returns the distance between a point and the plane.
@@ -207,7 +207,7 @@ internal extension Plane {
         }
         self.init(unchecked: points, convex: convex, closed: closed)
         // Check all points lie on this plane
-        if points.contains(where: { !containsPoint($0) }) {
+        if points.count > 3, points.contains(where: { !containsPoint($0) }) {
             return nil
         }
     }
