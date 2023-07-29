@@ -228,11 +228,14 @@ internal extension Polygon {
             }
             var vertices = self.vertices
             let t = (p - s.start).length / s.length
+            guard t > epsilon, t < 1 - epsilon else {
+                return false
+            }
             vertices.insert(last.lerp(v, t), at: i)
             self = Polygon(
                 unchecked: vertices,
                 plane: plane,
-                isConvex: nil, // Inserting a point can sometimes affect this
+                isConvex: isConvex,
                 sanitizeNormals: false,
                 material: material,
                 id: id
