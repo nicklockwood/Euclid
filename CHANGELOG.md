@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.6.15](https://github.com/nicklockwood/Euclid/releases/tag/0.6.15) (2023-07-30)
+
+- Fixed assertion failure in `Polygon.tessellate()` function
+- Cone `poleDetail` now defaults to `3` instead of `sqrt(slices)`
+- Improved `Mesh.makeWatertight()` reliability
+- Improved `LineSegment` intersection detection
+- Increased threshold for `Plane.containsPoint()`
+
 ## [0.6.14](https://github.com/nicklockwood/Euclid/releases/tag/0.6.14) (2023-06-10)
 
 - Removed unreachable line flagged in Xcode 15 beta

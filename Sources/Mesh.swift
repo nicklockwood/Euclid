@@ -291,7 +291,7 @@ public extension Mesh {
         }
         var holeEdges = polygons.holeEdges, polygons = self.polygons
         var precision = epsilon
-        while holeEdges.count > 0 {
+        while !holeEdges.isEmpty {
             let merged = polygons
                 .insertingEdgeVertices(with: holeEdges)
                 .mergingVertices(withPrecision: precision)

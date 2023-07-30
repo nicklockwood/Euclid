@@ -223,7 +223,7 @@ public extension Mesh {
     ///   - height: The height of the cone.
     ///   - slices: The number of vertical slices that make up the cone.
     ///   - poleDetail: Optionally add extra detail around top pole to prevent texture warping.
-    ///   - addDetailAtBottomPole: Whether detail should be added at bottom pil.
+    ///   - addDetailAtBottomPole: Whether detail should be added at bottom pole.
     ///   - faces: The direction of the generated polygon faces.
     ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
     ///   - material: The optional material for the mesh.
