@@ -338,86 +338,86 @@ class MeshTests: XCTestCase {
         solid Foo
         facet normal 1 0 0
         \touter loop
-        \t\t1 0 1
-        \t\t1 0 0
-        \t\t1 1 0
+        \t\tvertex 1 0 1
+        \t\tvertex 1 0 0
+        \t\tvertex 1 1 0
         \tendloop
         endfacet
         facet normal 1 0 0
         \touter loop
-        \t\t1 0 1
-        \t\t1 1 0
-        \t\t1 1 1
+        \t\tvertex 1 0 1
+        \t\tvertex 1 1 0
+        \t\tvertex 1 1 1
         \tendloop
         endfacet
         facet normal -1 0 0
         \touter loop
-        \t\t0 0 0
-        \t\t0 0 1
-        \t\t0 1 1
+        \t\tvertex 0 0 0
+        \t\tvertex 0 0 1
+        \t\tvertex 0 1 1
         \tendloop
         endfacet
         facet normal -1 0 0
         \touter loop
-        \t\t0 0 0
-        \t\t0 1 1
-        \t\t0 1 0
+        \t\tvertex 0 0 0
+        \t\tvertex 0 1 1
+        \t\tvertex 0 1 0
         \tendloop
         endfacet
         facet normal 0 1 0
         \touter loop
-        \t\t0 1 1
-        \t\t1 1 1
-        \t\t1 1 0
+        \t\tvertex 0 1 1
+        \t\tvertex 1 1 1
+        \t\tvertex 1 1 0
         \tendloop
         endfacet
         facet normal 0 1 0
         \touter loop
-        \t\t0 1 1
-        \t\t1 1 0
-        \t\t0 1 0
+        \t\tvertex 0 1 1
+        \t\tvertex 1 1 0
+        \t\tvertex 0 1 0
         \tendloop
         endfacet
         facet normal 0 -1 0
         \touter loop
-        \t\t0 0 0
-        \t\t1 0 0
-        \t\t1 0 1
+        \t\tvertex 0 0 0
+        \t\tvertex 1 0 0
+        \t\tvertex 1 0 1
         \tendloop
         endfacet
         facet normal 0 -1 0
         \touter loop
-        \t\t0 0 0
-        \t\t1 0 1
-        \t\t0 0 1
+        \t\tvertex 0 0 0
+        \t\tvertex 1 0 1
+        \t\tvertex 0 0 1
         \tendloop
         endfacet
         facet normal 0 0 1
         \touter loop
-        \t\t0 0 1
-        \t\t1 0 1
-        \t\t1 1 1
+        \t\tvertex 0 0 1
+        \t\tvertex 1 0 1
+        \t\tvertex 1 1 1
         \tendloop
         endfacet
         facet normal 0 0 1
         \touter loop
-        \t\t0 0 1
-        \t\t1 1 1
-        \t\t0 1 1
+        \t\tvertex 0 0 1
+        \t\tvertex 1 1 1
+        \t\tvertex 0 1 1
         \tendloop
         endfacet
         facet normal 0 0 -1
         \touter loop
-        \t\t1 0 0
-        \t\t0 0 0
-        \t\t0 1 0
+        \t\tvertex 1 0 0
+        \t\tvertex 0 0 0
+        \t\tvertex 0 1 0
         \tendloop
         endfacet
         facet normal 0 0 -1
         \touter loop
-        \t\t1 0 0
-        \t\t0 1 0
-        \t\t1 1 0
+        \t\tvertex 1 0 0
+        \t\tvertex 0 1 0
+        \t\tvertex 1 1 0
         \tendloop
         endfacet
         endsolid Foo

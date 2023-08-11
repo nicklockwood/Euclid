@@ -25,7 +25,7 @@ private extension Polygon {
         facet normal \(plane.normal.stlString)
         \touter loop
         \(vertices.map {
-            "\t\t\($0.position.stlString)"
+            "\t\tvertex \($0.position.stlString)"
         }.joined(separator: "\n"))
         \tendloop
         endfacet
