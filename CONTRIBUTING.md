@@ -18,7 +18,7 @@ All types of PR are welcome, but please do read these guidelines carefully to av
 
 Types of PR:
 
-* Documentation fixes - if you've found a typo, or incorrect comment, either in the README or a code comment, feel free to create a PR directly against the **master** branch.
+* Documentation fixes - if you've found a typo, or incorrect comment, either in the README or a code comment, feel free to create a PR directly against the **main** branch.
 
 * Minor code fixes - a typo in a method name or a trivial bug fix should be made against the **develop** branch.
 

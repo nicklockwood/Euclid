@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.6.16](https://github.com/nicklockwood/Euclid/releases/tag/0.6.16) (2023-08-11)
+
+- Fixed `Mesh.stlString()` function
+
 ## [0.6.15](https://github.com/nicklockwood/Euclid/releases/tag/0.6.15) (2023-07-30)
 
 - Fixed assertion failure in `Polygon.tessellate()` function
