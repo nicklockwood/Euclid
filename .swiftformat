@@ -9,4 +9,4 @@
 
 --lintonly unusedArguments
 
---exclude Tests/XCTestManifests.swift
+--exclude Build, Tests/XCTestManifests.swift
