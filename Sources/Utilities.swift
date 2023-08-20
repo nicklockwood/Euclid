@@ -619,6 +619,21 @@ protocol UnkeyedCodable {
     func encode(to container: inout UnkeyedEncodingContainer) throws
 }
 
+// MARK: Data
+
+extension Data {
+    mutating func append(_ int: UInt32) {
+        var int = int
+        withUnsafeMutablePointer(to: &int) { pointer in
+            append(UnsafeBufferPointer(start: pointer, count: 1))
+        }
+    }
+
+    mutating func append(_ float: Float) {
+        append(float.bitPattern)
+    }
+}
+
 // MARK: Parallel processing
 
 #if canImport(Dispatch) && !arch(wasm32)
