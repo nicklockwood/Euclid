@@ -622,6 +622,13 @@ protocol UnkeyedCodable {
 // MARK: Data
 
 extension Data {
+    mutating func append(_ int: UInt16) {
+        var int = int
+        withUnsafeMutablePointer(to: &int) { pointer in
+            append(UnsafeBufferPointer(start: pointer, count: 1))
+        }
+    }
+
     mutating func append(_ int: UInt32) {
         var int = int
         withUnsafeMutablePointer(to: &int) { pointer in
