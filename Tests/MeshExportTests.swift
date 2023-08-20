@@ -14,92 +14,92 @@ class MeshExportTests: XCTestCase {
 
     func testCubeSTL() {
         let cube = Mesh.cube().translated(by: Vector(0.5, 0.5, 0.5))
-        let stl = cube.stlString(name: "Foo")
+        let stl = cube.stlString(options: .init(name: "Foo", indent: " "))
         XCTAssertEqual(stl, """
         solid Foo
         facet normal 1 0 0
-        \touter loop
-        \t\tvertex 1 0 1
-        \t\tvertex 1 0 0
-        \t\tvertex 1 1 0
-        \tendloop
+         outer loop
+          vertex 1 0 1
+          vertex 1 0 0
+          vertex 1 1 0
+         endloop
         endfacet
         facet normal 1 0 0
-        \touter loop
-        \t\tvertex 1 0 1
-        \t\tvertex 1 1 0
-        \t\tvertex 1 1 1
-        \tendloop
+         outer loop
+          vertex 1 0 1
+          vertex 1 1 0
+          vertex 1 1 1
+         endloop
         endfacet
         facet normal -1 0 0
-        \touter loop
-        \t\tvertex 0 0 0
-        \t\tvertex 0 0 1
-        \t\tvertex 0 1 1
-        \tendloop
+         outer loop
+          vertex 0 0 0
+          vertex 0 0 1
+          vertex 0 1 1
+         endloop
         endfacet
         facet normal -1 0 0
-        \touter loop
-        \t\tvertex 0 0 0
-        \t\tvertex 0 1 1
-        \t\tvertex 0 1 0
-        \tendloop
+         outer loop
+          vertex 0 0 0
+          vertex 0 1 1
+          vertex 0 1 0
+         endloop
         endfacet
         facet normal 0 1 0
-        \touter loop
-        \t\tvertex 0 1 1
-        \t\tvertex 1 1 1
-        \t\tvertex 1 1 0
-        \tendloop
+         outer loop
+          vertex 0 1 1
+          vertex 1 1 1
+          vertex 1 1 0
+         endloop
         endfacet
         facet normal 0 1 0
-        \touter loop
-        \t\tvertex 0 1 1
-        \t\tvertex 1 1 0
-        \t\tvertex 0 1 0
-        \tendloop
+         outer loop
+          vertex 0 1 1
+          vertex 1 1 0
+          vertex 0 1 0
+         endloop
         endfacet
         facet normal 0 -1 0
-        \touter loop
-        \t\tvertex 0 0 0
-        \t\tvertex 1 0 0
-        \t\tvertex 1 0 1
-        \tendloop
+         outer loop
+          vertex 0 0 0
+          vertex 1 0 0
+          vertex 1 0 1
+         endloop
         endfacet
         facet normal 0 -1 0
-        \touter loop
-        \t\tvertex 0 0 0
-        \t\tvertex 1 0 1
-        \t\tvertex 0 0 1
-        \tendloop
+         outer loop
+          vertex 0 0 0
+          vertex 1 0 1
+          vertex 0 0 1
+         endloop
         endfacet
         facet normal 0 0 1
-        \touter loop
-        \t\tvertex 0 0 1
-        \t\tvertex 1 0 1
-        \t\tvertex 1 1 1
-        \tendloop
+         outer loop
+          vertex 0 0 1
+          vertex 1 0 1
+          vertex 1 1 1
+         endloop
         endfacet
         facet normal 0 0 1
-        \touter loop
-        \t\tvertex 0 0 1
-        \t\tvertex 1 1 1
-        \t\tvertex 0 1 1
-        \tendloop
+         outer loop
+          vertex 0 0 1
+          vertex 1 1 1
+          vertex 0 1 1
+         endloop
         endfacet
         facet normal 0 0 -1
-        \touter loop
-        \t\tvertex 1 0 0
-        \t\tvertex 0 0 0
-        \t\tvertex 0 1 0
-        \tendloop
+         outer loop
+          vertex 1 0 0
+          vertex 0 0 0
+          vertex 0 1 0
+         endloop
         endfacet
         facet normal 0 0 -1
-        \touter loop
-        \t\tvertex 1 0 0
-        \t\tvertex 0 1 0
-        \t\tvertex 1 1 0
-        \tendloop
+         outer loop
+          vertex 1 0 0
+          vertex 0 1 0
+          vertex 1 1 0
+         endloop
         endfacet
         endsolid Foo
         """)
