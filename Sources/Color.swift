@@ -182,7 +182,7 @@ extension Color: UnkeyedCodable {
     }
 }
 
-internal extension Color {
+extension Color {
     init(unchecked components: [Double]) {
         switch components.count {
         case 1: self.init(components[0])

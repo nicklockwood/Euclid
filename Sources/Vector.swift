@@ -318,7 +318,7 @@ extension Vector: UnkeyedCodable {
     }
 }
 
-internal extension Vector {
+extension Vector {
     func _quantized() -> Vector {
         Vector(quantize(x), quantize(y), quantize(z))
     }

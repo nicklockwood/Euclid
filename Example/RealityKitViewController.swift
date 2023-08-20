@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  RealityKitViewController.swift
 //  Example
 //
 //  Created by Nick Lockwood on 22/10/2022.

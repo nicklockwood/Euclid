@@ -311,7 +311,7 @@ public extension Rotation {
     }
 }
 
-internal extension Rotation {
+extension Rotation {
     init(unchecked axis: Vector, angle: Angle) {
         self.init(.init(unchecked: axis, angle: angle))
     }

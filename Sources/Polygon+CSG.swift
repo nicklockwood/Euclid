@@ -46,7 +46,7 @@ public extension Polygon {
     }
 }
 
-internal extension Polygon {
+extension Polygon {
     func clip(
         to polygons: [Polygon],
         _ inside: inout [Polygon],

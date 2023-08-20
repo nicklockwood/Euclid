@@ -157,7 +157,7 @@ public extension Line {
     }
 }
 
-internal extension Line {
+extension Line {
     init(unchecked origin: Vector, direction: Vector) {
         assert(direction.isNormalized)
         self.origin = origin - direction * (

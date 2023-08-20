@@ -1,5 +1,5 @@
 //
-//  ShapeTests.swift
+//  PathShapeTests.swift
 //  GeometryScriptTests
 //
 //  Created by Nick Lockwood on 09/10/2018.

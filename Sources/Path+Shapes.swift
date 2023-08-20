@@ -1,5 +1,5 @@
 //
-//  Shapes.swift
+//  Path+Shapes.swift
 //  Euclid
 //
 //  Created by Nick Lockwood on 03/01/2022.

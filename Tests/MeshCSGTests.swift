@@ -1,5 +1,5 @@
 //
-//  CSGTests.swift
+//  MeshCSGTests.swift
 //  GeometryScriptTests
 //
 //  Created by Nick Lockwood on 31/10/2018.

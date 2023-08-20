@@ -1,5 +1,5 @@
 //
-//  SceneViewController.swift
+//  SceneKitViewController.swift
 //  Example
 //
 //  Created by Nick Lockwood on 11/12/2018.

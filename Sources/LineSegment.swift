@@ -1,5 +1,5 @@
 //
-//  Line.swift
+//  LineSegment.swift
 //  Euclid
 //
 //  Created by Nick Lockwood on 20/11/2019.
@@ -145,7 +145,7 @@ public extension LineSegment {
     }
 }
 
-internal extension LineSegment {
+extension LineSegment {
     init(unchecked start: Vector, _ end: Vector) {
         assert(start != end)
         self.start = start

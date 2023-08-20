@@ -1,5 +1,5 @@
 //
-//  Paths.swift
+//  Path.swift
 //  Euclid
 //
 //  Created by Nick Lockwood on 03/07/2018.
@@ -436,7 +436,7 @@ public extension Polygon {
     }
 }
 
-internal extension Path {
+extension Path {
     init(unchecked points: [PathPoint], plane: Plane?, subpathIndices: [Int]?) {
         self.points = points
         self.isClosed = pointsAreClosed(unchecked: points)

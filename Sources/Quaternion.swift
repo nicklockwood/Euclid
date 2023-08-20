@@ -43,7 +43,7 @@ import simd
 /// In addition to being more compact than a 3x3 rotation matrix, quaternions also avoid a
 /// problem known as gymbal lock.
 public struct Quaternion: Sendable {
-    internal var storage: simd_quatd
+    var storage: simd_quatd
 
     /// The quaternion X component.
     public var x: Double {
@@ -188,7 +188,7 @@ public extension Quaternion {
     }
 }
 
-internal extension Quaternion {
+extension Quaternion {
     init(unchecked x: Double, _ y: Double, _ z: Double, _ w: Double) {
         self.init(simd_quatd(vector: simd_double4(x, y, z, w)))
         assert(isNormalized || lengthSquared == 0)
@@ -354,7 +354,7 @@ public extension Quaternion {
     }
 }
 
-internal extension Quaternion {
+extension Quaternion {
     init(unchecked x: Double, _ y: Double, _ z: Double, _ w: Double) {
         self.x = x
         self.y = y
@@ -520,7 +520,7 @@ extension Quaternion: UnkeyedCodable {
     }
 }
 
-internal extension Quaternion {
+extension Quaternion {
     // Approximate equality
     func isEqual(to other: Quaternion, withPrecision p: Double = epsilon) -> Bool {
         w.isEqual(to: other.w, withPrecision: p) &&

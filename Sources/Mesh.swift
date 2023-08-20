@@ -350,7 +350,7 @@ public extension Mesh {
     }
 }
 
-internal extension Mesh {
+extension Mesh {
     init(
         unchecked polygons: [Polygon],
         bounds: Bounds?,

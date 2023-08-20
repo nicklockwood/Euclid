@@ -346,7 +346,7 @@ public extension Polygon {
     }
 }
 
-internal extension Collection where Element == LineSegment {
+extension Collection where Element == LineSegment {
     /// Set of all unique start/end points in edge collection.
     var endPoints: Set<Vector> {
         var endPoints = Set<Vector>()
@@ -377,7 +377,7 @@ internal extension Collection where Element == LineSegment {
     }
 }
 
-internal extension Collection where Element == Polygon {
+extension Collection where Element == Polygon {
     /// Does any polygon include texture coordinates?
     var hasTexcoords: Bool {
         contains(where: { $0.hasTexcoords })
@@ -630,7 +630,7 @@ internal extension Collection where Element == Polygon {
     }
 }
 
-internal extension MutableCollection where Element == Polygon, Index == Int {
+extension MutableCollection where Element == Polygon, Index == Int {
     /// Merge coplanar polygons that share one or more edges
     var areSortedByPlane: Bool {
         guard !isEmpty else {
@@ -655,7 +655,7 @@ internal extension MutableCollection where Element == Polygon, Index == Int {
     }
 }
 
-internal extension Array where Element == Polygon {
+extension Array where Element == Polygon {
     mutating func addPoint(
         _ point: Vector,
         material: Polygon.Material?,
@@ -729,7 +729,7 @@ internal extension Array where Element == Polygon {
     }
 }
 
-internal extension Polygon {
+extension Polygon {
     // Create polygon from points with nearest matches in a vertex collection
     init?<T: Collection>(
         points: T,
@@ -953,7 +953,7 @@ private extension Polygon {
 extension Polygon.Storage: @unchecked Sendable {}
 #endif
 
-internal struct CodableMaterial: Codable {
+struct CodableMaterial: Codable {
     let value: Polygon.Material?
 
     init(_ value: Polygon.Material?) {

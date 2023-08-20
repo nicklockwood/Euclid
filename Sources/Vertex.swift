@@ -140,7 +140,7 @@ public extension Vertex {
     }
 }
 
-internal extension Vertex {
+extension Vertex {
     init(
         unchecked position: Vector,
         _ normal: Vector?,
@@ -231,7 +231,7 @@ internal extension Vertex {
     }
 }
 
-internal extension Collection where Element == Vertex {
+extension Collection where Element == Vertex {
     func inverted() -> [Vertex] {
         reversed().map { $0.inverted() }
     }

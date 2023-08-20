@@ -1,5 +1,5 @@
 //
-//  Paths.swift
+//  PathPoint.swift
 //  Euclid
 //
 //  Created by Nick Lockwood on 03/01/2022.
@@ -326,7 +326,7 @@ public extension PathPoint {
     }
 }
 
-internal extension PathPoint {
+extension PathPoint {
     /// Approximate equality
     func isEqual(to other: PathPoint, withPrecision p: Double = epsilon) -> Bool {
         isCurved == other.isCurved &&
