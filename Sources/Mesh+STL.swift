@@ -13,15 +13,40 @@ private let triangleSize = 50
 
 // MARK: Export
 
+/// Configuration options for text/ASCII STL export.
+public struct STLTextOptions {
+    /// The name to be embedded in the file.
+    public var name: String
+    /// A whitespace string to use as the indent value.
+    public var indent: String
+    /// Should normal values be zeroed out?
+    public var zeroNormals: Bool
+
+    public init(
+        name: String = "",
+        indent: String = "\t",
+        zeroNormals: Bool = false
+    ) {
+        self.name = name
+        self.indent = indent
+        self.zeroNormals = zeroNormals
+    }
+}
+
 public extension Mesh {
     /// Return ASCII STL string data for the mesh.
-    func stlString(name: String) -> String {
+    func stlString(name: String = "") -> String {
+        stlString(options: .init(name: name))
+    }
+
+    /// Return ASCII STL string data for the mesh.
+    func stlString(options: STLTextOptions) -> String {
         """
-        solid \(name)
+        solid \(options.name)
         \(triangulate().polygons.map {
-            $0.stlString
+            $0.stlString(options: options)
         }.joined(separator: "\n"))
-        endsolid \(name)
+        endsolid \(options.name)
         """
     }
 
@@ -46,14 +71,14 @@ public extension Mesh {
 }
 
 private extension Polygon {
-    var stlString: String {
+    func stlString(options: STLTextOptions) -> String {
         """
-        facet normal \(plane.normal.stlString)
-        \touter loop
+        facet normal \((options.zeroNormals ? .zero : plane.normal).stlString)
+        \(options.indent)outer loop
         \(vertices.map {
-            "\t\tvertex \($0.position.stlString)"
+            "\(options.indent)\(options.indent)vertex \($0.position.stlString)"
         }.joined(separator: "\n"))
-        \tendloop
+        \(options.indent)endloop
         endfacet
         """
     }
