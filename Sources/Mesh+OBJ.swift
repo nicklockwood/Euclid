@@ -62,23 +62,12 @@ public extension Mesh {
             "vt \(vector.x.objString) \(vector.y.objString)\(vector.z == 0 ? "" : " \(vector.z.objString)")"
         }
 
-        return """
-        # Vertices
-        \(vertices.map(vertexString).joined(separator: "\n"))
-        \(hasTexcoords ? """
-
-        # Texcoords
-        \(texcoords.map(textcoordString).joined(separator: "\n"))
-        """ : "")
-        \(hasVertexNormals ? """
-
-        # Normals
-        \(normals.map { "vn \($0.objString)" }.joined(separator: "\n"))
-        """ : "")
-
-        # Faces
-        \(indices.map { "f \($0.map(vertexIndexString).joined(separator: " "))" }.joined(separator: "\n"))
-        """
+        return [
+            vertices.map(vertexString).joined(separator: "\n"),
+            hasTexcoords ? texcoords.map(textcoordString).joined(separator: "\n") : nil,
+            hasVertexNormals ? normals.map { "vn \($0.objString)" }.joined(separator: "\n") : nil,
+            indices.map { "f \($0.map(vertexIndexString).joined(separator: " "))" }.joined(separator: "\n"),
+        ].compactMap { $0 }.joined(separator: "\n\n")
     }
 }
 
