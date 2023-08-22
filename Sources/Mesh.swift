@@ -121,6 +121,11 @@ public extension Mesh {
         polygons.hasTexcoords
     }
 
+    /// A Boolean value that indicates whether the mesh includes vertex normals that differ from the face normal.
+    var hasVertexNormals: Bool {
+        polygons.hasVertexNormals
+    }
+
     /// A Boolean value that indicates whether the mesh includes vertex colors.
     var hasVertexColors: Bool {
         polygons.hasVertexColors
