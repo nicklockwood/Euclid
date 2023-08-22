@@ -52,13 +52,17 @@ public extension Mesh {
             return "\(vertex.0)"
         }
 
+        func textcoordString(_ vector: Vector) -> String {
+            "vt \(vector.x.objString) \(vector.y.objString)\(vector.z == 0 ? "" : " \(vector.z.objString)")"
+        }
+
         return """
         # Vertices
         \(vertices.map { "v \($0.objString)" }.joined(separator: "\n"))
         \(hasTexcoords ? """
 
         # Texcoords
-        \(texcoords.map { "vt \($0.objString)" }.joined(separator: "\n"))
+        \(texcoords.map(textcoordString).joined(separator: "\n"))
         """ : "")
         \(hasVertexNormals ? """
 
