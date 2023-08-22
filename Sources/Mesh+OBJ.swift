@@ -11,19 +11,14 @@ import Foundation
 public extension Mesh {
     /// Return Wavefront OBJ string data for the mesh.
     func objString() -> String {
-        var vertices = [Vector](), indicesByVertex = [Vector: Int]()
+        var vertices = [Vertex](), indicesByVertex = [Vertex: Int]()
         var texcoords = [Vector](), indicesByTexcoord = [Vector: Int]()
         var normals = [Vector](), indicesByNormal = [Vector: Int]()
         let hasTexcoords = self.hasTexcoords, hasVertexNormals = self.hasVertexNormals
+        let hasVertexColors = self.hasVertexColors
 
         let indices = polygons.tessellate().map { polygon -> [(Int, Int, Int)] in
             polygon.vertices.map { vertex -> (Int, Int, Int) in
-                let vertexIndex = indicesByVertex[vertex.position] ?? {
-                    let index = indicesByVertex.count + 1
-                    indicesByVertex[vertex.position] = index
-                    vertices.append(vertex.position)
-                    return index
-                }()
                 let texcoordIndex = hasTexcoords ? indicesByTexcoord[vertex.texcoord] ?? {
                     let index = indicesByTexcoord.count + 1
                     indicesByTexcoord[vertex.texcoord] = index
@@ -36,11 +31,18 @@ public extension Mesh {
                     normals.append(vertex.normal)
                     return index
                 }() : 0
+                let vertex = Vertex(vertex.position, nil, nil, vertex.color)
+                let vertexIndex = indicesByVertex[vertex] ?? {
+                    let index = indicesByVertex.count + 1
+                    indicesByVertex[vertex] = index
+                    vertices.append(vertex)
+                    return index
+                }()
                 return (vertexIndex, texcoordIndex, normalIndex)
             }
         }
 
-        func vertexString(_ vertex: (Int, Int, Int)) -> String {
+        func vertexIndexString(_ vertex: (Int, Int, Int)) -> String {
             if hasTexcoords {
                 if hasVertexNormals {
                     return "\(vertex.0)/\(vertex.1)/\(vertex.2)"
@@ -52,13 +54,17 @@ public extension Mesh {
             return "\(vertex.0)"
         }
 
+        func vertexString(_ vertex: Vertex) -> String {
+            "v \(vertex.position.objString)\(hasVertexColors ? " \(vertex.color.objString)" : "")"
+        }
+
         func textcoordString(_ vector: Vector) -> String {
             "vt \(vector.x.objString) \(vector.y.objString)\(vector.z == 0 ? "" : " \(vector.z.objString)")"
         }
 
         return """
         # Vertices
-        \(vertices.map { "v \($0.objString)" }.joined(separator: "\n"))
+        \(vertices.map(vertexString).joined(separator: "\n"))
         \(hasTexcoords ? """
 
         # Texcoords
@@ -71,8 +77,14 @@ public extension Mesh {
         """ : "")
 
         # Faces
-        \(indices.map { "f \($0.map(vertexString).joined(separator: " "))" }.joined(separator: "\n"))
+        \(indices.map { "f \($0.map(vertexIndexString).joined(separator: " "))" }.joined(separator: "\n"))
         """
+    }
+}
+
+private extension Color {
+    var objString: String {
+        "\(r.objString) \(g.objString) \(b.objString)"
     }
 }
 
