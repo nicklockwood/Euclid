@@ -146,7 +146,7 @@ public extension SCNGeometry {
     ///   - mesh: The mesh to convert into a SceneKit geometry.
     ///   - materialLookup: A closure to map the polygon material to a SceneKit material.
     convenience init(triangles mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
-        var elementIndices = [[UInt32]]()
+        var elements = [SCNGeometryElement]()
         var vertices = [SCNVector3]()
         var normals = [SCNVector3]()
         var texcoords = [CGPoint]()
@@ -159,31 +159,28 @@ public extension SCNGeometry {
         let polygonsByMaterial = mesh.polygonsByMaterial
         for material in mesh.materials {
             let polygons = polygonsByMaterial[material] ?? []
-            var indices = [UInt32]()
-            func addVertex(_ vertex: Vertex) {
-                if let index = indicesByVertex[vertex] {
-                    indices.append(index)
-                    return
-                }
-                let index = UInt32(indicesByVertex.count)
-                indicesByVertex[vertex] = index
-                indices.append(index)
-                vertices.append(SCNVector3(vertex.position))
-                normals.append(SCNVector3(vertex.normal))
-                if hasTexcoords {
-                    texcoords.append(CGPoint(vertex.texcoord))
-                }
-                if hasVertexColors {
-                    colors.append(SCNVector4(vertex.color))
-                }
-            }
             materials.append(materialLookup(material) ?? SCNMaterial())
-            for polygon in polygons {
-                for triangle in polygon.triangulate() {
-                    triangle.vertices.forEach(addVertex)
+            var indices = [UInt32]()
+            for triangle in polygons.triangulate() {
+                for vertex in triangle.vertices {
+                    if let index = indicesByVertex[vertex] {
+                        indices.append(index)
+                        continue
+                    }
+                    let index = UInt32(indicesByVertex.count)
+                    indicesByVertex[vertex] = index
+                    indices.append(index)
+                    vertices.append(SCNVector3(vertex.position))
+                    normals.append(SCNVector3(vertex.normal))
+                    if hasTexcoords {
+                        texcoords.append(CGPoint(vertex.texcoord))
+                    }
+                    if hasVertexColors {
+                        colors.append(SCNVector4(vertex.color))
+                    }
                 }
             }
-            elementIndices.append(indices)
+            elements.append(SCNGeometryElement(indices: indices, primitiveType: .triangles))
         }
         var sources = [
             SCNGeometrySource(vertices: vertices),
@@ -195,12 +192,7 @@ public extension SCNGeometry {
         if hasVertexColors {
             sources.append(SCNGeometrySource(colors: colors))
         }
-        self.init(
-            sources: sources,
-            elements: elementIndices.map { indices in
-                SCNGeometryElement(indices: indices, primitiveType: .triangles)
-            }
-        )
+        self.init(sources: sources, elements: elements)
         self.materials = materials
     }
 
@@ -222,32 +214,30 @@ public extension SCNGeometry {
         let materialLookup = materialLookup ?? defaultMaterialLookup
         let polygonsByMaterial = mesh.polygonsByMaterial
         for material in mesh.materials {
-            var polygons = polygonsByMaterial[material] ?? []
-            var indexData = Data()
-            func addVertex(_ vertex: Vertex) {
-                if let index = indicesByVertex[vertex] {
-                    indexData.append(index)
-                    return
-                }
-                let index = UInt32(indicesByVertex.count)
-                indicesByVertex[vertex] = index
-                indexData.append(index)
-                vertices.append(SCNVector3(vertex.position))
-                normals.append(SCNVector3(vertex.normal))
-                if hasTexcoords {
-                    texcoords.append(CGPoint(vertex.texcoord))
-                }
-                if hasVertexColors {
-                    colors.append(SCNVector4(vertex.color))
-                }
-            }
             materials.append(materialLookup(material) ?? SCNMaterial())
-            polygons = polygons.tessellate()
+            let polygons = polygonsByMaterial[material]?.tessellate() ?? []
+            var indexData = Data()
             for polygon in polygons {
                 indexData.append(UInt32(polygon.vertices.count))
             }
             for polygon in polygons {
-                polygon.vertices.forEach(addVertex)
+                for vertex in polygon.vertices {
+                    if let index = indicesByVertex[vertex] {
+                        indexData.append(index)
+                        continue
+                    }
+                    let index = UInt32(indicesByVertex.count)
+                    indicesByVertex[vertex] = index
+                    indexData.append(index)
+                    vertices.append(SCNVector3(vertex.position))
+                    normals.append(SCNVector3(vertex.normal))
+                    if hasTexcoords {
+                        texcoords.append(CGPoint(vertex.texcoord))
+                    }
+                    if hasVertexColors {
+                        colors.append(SCNVector4(vertex.color))
+                    }
+                }
             }
             elementData.append((polygons.count, indexData))
         }
