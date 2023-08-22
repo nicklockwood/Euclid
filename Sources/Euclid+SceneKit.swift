@@ -706,7 +706,7 @@ public extension Mesh {
         self.init(scnGeometry) { _ in material }
     }
 
-    @available(*, deprecated, message: "Use `init(_:material:)` instead")
+    @available(*, deprecated, message: "Use `init(_:materialLookup:)` instead")
     init?(scnGeometry: SCNGeometry, materialLookup: MaterialProvider? = nil) {
         self.init(scnGeometry, materialLookup: materialLookup)
     }

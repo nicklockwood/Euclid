@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.6.17](https://github.com/nicklockwood/Euclid/releases/tag/0.6.17) (2023-08-22)
+
+- Added `Mesh.stlData()` function for exporting binary STL file data
+- Added `Mesh.objString()` function for exporting Wavefront OBJ mesh data
+
 ## [0.6.16](https://github.com/nicklockwood/Euclid/releases/tag/0.6.16) (2023-08-11)
 
 - Fixed `Mesh.stlString()` function

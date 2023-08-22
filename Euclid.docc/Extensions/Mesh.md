@@ -76,7 +76,9 @@
 
 ### Exporting Meshes
 
+- ``Mesh/objString()``
 - ``Mesh/stlString(name:)``
+- ``Mesh/stlData(colorLookup:)``
 
 ### Mesh Properties
 

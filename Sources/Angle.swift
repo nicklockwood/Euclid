@@ -41,7 +41,7 @@ public struct Angle: Hashable, Comparable, Sendable, AdditiveArithmetic {
     /// Creates an angle from a radians value.
     /// - Parameter radians: The angle in radians.
     public init(radians: Double) {
-        self.radians = radians
+        self.radians = radians.isFinite ? radians : 0
     }
 }
 
@@ -131,7 +131,7 @@ public extension Angle {
     /// Creates an angle from a radians value.
     /// - Parameter radians: The angle in radians.
     static func radians(_ radians: Double) -> Angle {
-        Angle(radians: radians.isFinite ? radians : 0)
+        Angle(radians: radians)
     }
 
     /// Creates an angle representing the trigonometric arc cosine of the value you provide.

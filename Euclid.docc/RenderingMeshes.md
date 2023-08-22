@@ -34,7 +34,6 @@ You can convert materials using the optional closure argument for Euclid's `SCNG
 When serializing Euclid geometry using `Codable`, only specific material types can be supported. 
 Currently, material serialization works for `String`s, `Int`s, `Color` and any class that conforms to `NSCoding` (which includes many UIKit, AppKit and SceneKit types, such as `UI/NSColor`, `UI/NSImage` and `SCNMaterial`).
 
-
 ### Colors
 
 Euclid currently has no support for setting colors on a per-vertex basis, but you can apply colors to a ``Mesh`` or ``Polygon`` using the material property.
