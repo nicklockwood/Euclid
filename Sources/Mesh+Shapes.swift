@@ -975,7 +975,7 @@ private extension Mesh {
             let t0 = Double(i) / Double(slices)
             let t1 = Double(i + 1) / Double(slices)
             let a0 = t0 * Angle.twoPi
-            let a1 = t1 * Angle.twoPi
+            let a1 = t1 * Angle.twoPi.radians
             let cos0 = cos(a0)
             let cos1 = cos(a1)
             let sin0 = sin(a0)
