@@ -154,6 +154,7 @@ public extension SCNGeometry {
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
         let hasTexcoords = mesh.hasTexcoords
+        let hasVertexNormals = mesh.hasVertexNormals
         let hasVertexColors = mesh.hasVertexColors
         let materialLookup = materialLookup ?? defaultMaterialLookup
         let polygonsByMaterial = mesh.polygonsByMaterial
@@ -162,7 +163,10 @@ public extension SCNGeometry {
             materials.append(materialLookup(material) ?? SCNMaterial())
             var indices = [UInt32]()
             for triangle in polygons.triangulate() {
-                for vertex in triangle.vertices {
+                for var vertex in triangle.vertices {
+                    if !hasVertexNormals {
+                        vertex.normal = .zero
+                    }
                     if let index = indicesByVertex[vertex] {
                         indices.append(index)
                         continue
@@ -171,7 +175,9 @@ public extension SCNGeometry {
                     indicesByVertex[vertex] = index
                     indices.append(index)
                     vertices.append(SCNVector3(vertex.position))
-                    normals.append(SCNVector3(vertex.normal))
+                    if hasVertexNormals {
+                        normals.append(SCNVector3(vertex.normal))
+                    }
                     if hasTexcoords {
                         texcoords.append(CGPoint(vertex.texcoord))
                     }
@@ -182,10 +188,10 @@ public extension SCNGeometry {
             }
             elements.append(SCNGeometryElement(indices: indices, primitiveType: .triangles))
         }
-        var sources = [
-            SCNGeometrySource(vertices: vertices),
-            SCNGeometrySource(normals: normals),
-        ]
+        var sources = [SCNGeometrySource(vertices: vertices)]
+        if hasVertexNormals {
+            sources.append(SCNGeometrySource(normals: normals))
+        }
         if hasTexcoords {
             sources.append(SCNGeometrySource(textureCoordinates: texcoords))
         }
@@ -210,6 +216,7 @@ public extension SCNGeometry {
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
         let hasTexcoords = mesh.hasTexcoords
+        let hasVertexNormals = mesh.hasVertexNormals
         let hasVertexColors = mesh.hasVertexColors
         let materialLookup = materialLookup ?? defaultMaterialLookup
         let polygonsByMaterial = mesh.polygonsByMaterial
@@ -221,7 +228,10 @@ public extension SCNGeometry {
                 indexData.append(UInt32(polygon.vertices.count))
             }
             for polygon in polygons {
-                for vertex in polygon.vertices {
+                for var vertex in polygon.vertices {
+                    if !hasVertexNormals {
+                        vertex.normal = .zero
+                    }
                     if let index = indicesByVertex[vertex] {
                         indexData.append(index)
                         continue
@@ -230,7 +240,9 @@ public extension SCNGeometry {
                     indicesByVertex[vertex] = index
                     indexData.append(index)
                     vertices.append(SCNVector3(vertex.position))
-                    normals.append(SCNVector3(vertex.normal))
+                    if hasVertexNormals {
+                        normals.append(SCNVector3(vertex.normal))
+                    }
                     if hasTexcoords {
                         texcoords.append(CGPoint(vertex.texcoord))
                     }
@@ -241,10 +253,10 @@ public extension SCNGeometry {
             }
             elementData.append((polygons.count, indexData))
         }
-        var sources = [
-            SCNGeometrySource(vertices: vertices),
-            SCNGeometrySource(normals: normals),
-        ]
+        var sources = [SCNGeometrySource(vertices: vertices)]
+        if hasVertexNormals {
+            sources.append(SCNGeometrySource(normals: normals))
+        }
         if hasTexcoords {
             sources.append(SCNGeometrySource(textureCoordinates: texcoords))
         }

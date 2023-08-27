@@ -103,6 +103,43 @@ class SceneKitTests: XCTestCase {
         XCTAssert(mesh.polygons.areWatertight)
     }
 
+    // MARK: Export
+
+    func testExportCube() {
+        let cube = Mesh.cube()
+        let geometry = SCNGeometry(polygons: cube)
+        XCTAssertEqual(geometry.sources.count, 2)
+        XCTAssertEqual(geometry.sources.first?.vectorCount, 20)
+    }
+
+    func testExportCubeWithoutTexcoords() {
+        let cube = Mesh.cube().withoutTexcoords()
+        let geometry = SCNGeometry(polygons: cube)
+        XCTAssertEqual(geometry.sources.count, 1)
+        XCTAssertEqual(geometry.sources.first?.vectorCount, 8)
+    }
+
+    func testExportSphere() {
+        let sphere = Mesh.sphere()
+        let geometry = SCNGeometry(polygons: sphere)
+        XCTAssertEqual(geometry.sources.count, 3)
+        XCTAssertEqual(geometry.sources.first?.vectorCount, 151)
+    }
+
+    func testExportSphereWithoutTexcoords() {
+        let sphere = Mesh.sphere().withoutTexcoords()
+        let geometry = SCNGeometry(polygons: sphere)
+        XCTAssertEqual(geometry.sources.count, 2)
+        XCTAssertEqual(geometry.sources.first?.vectorCount, 151)
+    }
+
+    func testExportSphereWithoutTexcoordsOrNormals() {
+        let sphere = Mesh.sphere().withoutTexcoords().smoothNormals(.zero)
+        let geometry = SCNGeometry(polygons: sphere)
+        XCTAssertEqual(geometry.sources.count, 1)
+        XCTAssertEqual(geometry.sources.first?.vectorCount, 114)
+    }
+
     // MARK: Transforms
 
     func testIdentityTransformToFromMatrix() {
