@@ -84,12 +84,12 @@ public extension MeshDescriptor {
         self.init()
         var counts: [UInt8]?
         let data = mesh.getVertexData(maxSides: 3, counts: &counts)
-        self.positions = MeshBuffers.Positions(data.positions)
-        self.normals = MeshBuffers.Normals(data.normals)
-        self.textureCoordinates = MeshBuffers.TextureCoordinates(data.texcoords)
+        self.positions = .init(data.positions)
+        self.normals = .init(data.normals)
+        self.textureCoordinates = data.texcoords.map(MeshBuffers.TextureCoordinates.init)
         self.primitives = .triangles(data.indices)
         if !data.materialIndices.isEmpty {
-            self.materials = MeshDescriptor.Materials.perFace(data.materialIndices)
+            self.materials = .perFace(data.materialIndices)
         }
     }
 
@@ -100,12 +100,12 @@ public extension MeshDescriptor {
         self.init()
         var counts: [UInt8]? = []
         let data = mesh.getVertexData(maxSides: 255, counts: &counts)
-        self.positions = MeshBuffers.Positions(data.positions)
-        self.normals = MeshBuffers.Normals(data.normals)
-        self.textureCoordinates = MeshBuffers.TextureCoordinates(data.texcoords)
+        self.positions = .init(data.positions)
+        self.normals = .init(data.normals)
+        self.textureCoordinates = data.texcoords.map(MeshBuffers.TextureCoordinates.init)
         self.primitives = .polygons(counts!, data.indices)
         if !data.materialIndices.isEmpty {
-            self.materials = MeshDescriptor.Materials.perFace(data.materialIndices)
+            self.materials = .perFace(data.materialIndices)
         }
     }
 
@@ -116,9 +116,9 @@ public extension MeshDescriptor {
         self.init()
         var counts: [UInt8]? = []
         let data = mesh.getVertexData(maxSides: 4, counts: &counts)
-        self.positions = MeshBuffers.Positions(data.positions)
-        self.normals = MeshBuffers.Normals(data.normals)
-        self.textureCoordinates = MeshBuffers.TextureCoordinates(data.texcoords)
+        self.positions = .init(data.positions)
+        self.normals = .init(data.normals)
+        self.textureCoordinates = data.texcoords.map(MeshBuffers.TextureCoordinates.init)
         var i = 0
         var quads = [UInt32]()
         var triangles = [UInt32]()
@@ -133,7 +133,7 @@ public extension MeshDescriptor {
                 assertionFailure()
                 self.primitives = .polygons(counts!, data.indices)
                 if perFaceMaterials {
-                    self.materials = MeshDescriptor.Materials.perFace(data.materialIndices)
+                    self.materials = .perFace(data.materialIndices)
                 }
                 return
             }
@@ -151,7 +151,7 @@ public extension MeshDescriptor {
                     quads.append(material)
                 }
             }
-            self.materials = MeshDescriptor.Materials.perFace(triangles + quads)
+            self.materials = .perFace(triangles + quads)
         }
     }
 }
@@ -212,44 +212,41 @@ private extension Mesh {
     func getVertexData(maxSides: UInt8, counts: inout [UInt8]?) -> (
         positions: [SIMD3<Float>],
         normals: [SIMD3<Float>],
-        texcoords: [SIMD2<Float>],
+        texcoords: [SIMD2<Float>]?,
         indices: [UInt32],
         materialIndices: [UInt32]
     ) {
         var positions: [SIMD3<Float>] = []
-        var normals: [SIMD3<Float>] = []
-        var texcoords: [SIMD2<Float>] = []
+        var normals: [SIMD3<Float>] = [] // looks bad with default normals
+        var texcoords: [SIMD2<Float>]? = hasTexcoords ? [] : nil
         var indices = [UInt32]()
         var materialIndices = [UInt32]()
-        let hasTexcoords = self.hasTexcoords
         var indicesByVertex = [Vertex: UInt32]()
         let polygonsByMaterial = self.polygonsByMaterial
         let perFaceMaterials = materials.count > 1
         for (materialIndex, material) in materials.enumerated() {
             let polygons = polygonsByMaterial[material] ?? []
-            for polygon in polygons {
-                for polygon in polygon.tessellate(maxSides: Int(maxSides)) {
-                    counts?.append(UInt8(polygon.vertices.count))
-                    for vertex in polygon.vertices {
-                        if let index = indicesByVertex[vertex] {
-                            indices.append(index)
-                            continue
-                        }
-                        let index = UInt32(indicesByVertex.count)
-                        indicesByVertex[vertex] = index
+            for polygon in polygons.tessellate(maxSides: Int(maxSides)) {
+                counts?.append(UInt8(polygon.vertices.count))
+                for var vertex in polygon.vertices {
+                    vertex.color = .white // Note: vertex colors are not supported
+                    if let index = indicesByVertex[vertex] {
                         indices.append(index)
-                        positions.append(.init(vertex.position))
-                        normals.append(.init(vertex.normal))
-                        if hasTexcoords {
-                            var texcoord = vertex.texcoord
-                            texcoord.y = 1 - texcoord.y
-                            texcoords.append(.init(texcoord))
-                        }
-                        // Note: vertex colors are not supported
+                        continue
                     }
-                    if perFaceMaterials {
-                        materialIndices.append(UInt32(materialIndex))
+                    let index = UInt32(indicesByVertex.count)
+                    indicesByVertex[vertex] = index
+                    indices.append(index)
+                    positions.append(.init(vertex.position))
+                    normals.append(.init(vertex.normal))
+                    if texcoords != nil {
+                        var texcoord = vertex.texcoord
+                        texcoord.y = 1 - texcoord.y
+                        texcoords?.append(.init(texcoord))
                     }
+                }
+                if perFaceMaterials {
+                    materialIndices.append(UInt32(materialIndex))
                 }
             }
         }
