@@ -171,4 +171,23 @@ class PlaneTests: XCTestCase {
         let expected = Vector(0, 0, 2)
         XCTAssertEqual(expected, plane.intersection(with: line))
     }
+
+    func testIntersectionWithAxisLineSegment() {
+        let segment = LineSegment(unchecked: Vector(0, 0, 1), Vector(0, 0, 3))
+        let plane = Plane(unchecked: .unitZ, w: 2)
+        let expected = Vector(0, 0, 2)
+        XCTAssertEqual(expected, plane.intersection(with: segment))
+    }
+
+    func testNonIntersectionWithAxisLineSegment() {
+        let segment = LineSegment(unchecked: Vector(0, 0, 1), Vector(0, 0, 3))
+        let plane = Plane(unchecked: .unitZ, w: 0)
+        XCTAssertNil(plane.intersection(with: segment))
+    }
+
+    func testNonIntersectionWithAxisLineSegment2() {
+        let segment = LineSegment(unchecked: Vector(0, 0, 1), Vector(0, 0, 3))
+        let plane = Plane(unchecked: .unitZ, w: 4)
+        XCTAssertNil(plane.intersection(with: segment))
+    }
 }

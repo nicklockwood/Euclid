@@ -511,6 +511,18 @@ func lineSegmentsIntersection(
     return p0.isEqual(to: p1) ? p0 : nil
 }
 
+// Returns distance of plane intersection along a line (or nil if parallel)
+func linePlaneIntersection(_ origin: Vector, _ direction: Vector, _ plane: Plane) -> Double? {
+    // https://en.wikipedia.org/wiki/Line–plane_intersection#Algebraic_form
+    let lineDotPlaneNormal = direction.dot(plane.normal)
+    guard lineDotPlaneNormal > 0 else {
+        // Line and plane are parallel
+        return nil
+    }
+    let planePoint = plane.normal * plane.w
+    return (planePoint - origin).dot(plane.normal) / lineDotPlaneNormal
+}
+
 // MARK: Path utilities
 
 // Sanitize a set of path points by removing duplicates and invalid points
