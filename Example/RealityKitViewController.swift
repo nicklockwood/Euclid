@@ -30,7 +30,7 @@ class RealityKitViewController: UIViewController {
         let start = CFAbsoluteTimeGetCurrent()
         let cube = Mesh.cube(size: 0.8, material: UIColor.red)
         let sphere = Mesh.sphere(slices: 120, material: UIColor.blue)
-        let mesh = cube.subtract(sphere).makeWatertight()
+        let mesh = cube.subtracting(sphere).makeWatertight()
 
         print("Time:", CFAbsoluteTimeGetCurrent() - start)
         print("Polygons:", mesh.polygons.count)

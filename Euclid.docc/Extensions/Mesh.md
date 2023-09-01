@@ -25,7 +25,7 @@
 - ``Mesh/union(_:isCancelled:)-swift.type.method``
 - ``Mesh/intersect(_:isCancelled:)``
 - ``Mesh/intersection(_:isCancelled:)``
-- ``Mesh/subtract(_:isCancelled:)``
+- ``Mesh/subtracting(_:isCancelled:)``
 - ``Mesh/difference(_:isCancelled:)``
 - ``Mesh/xor(_:isCancelled:)-swift.method``
 - ``Mesh/xor(_:isCancelled:)-swift.type.method``

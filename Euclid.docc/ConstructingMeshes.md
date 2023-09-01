@@ -77,7 +77,7 @@ CSG is another powerful tool for creating intricate geometry.
 CSG allows you to perform boolean operations (logical AND, OR, etc.) on solid shapes. 
 The following CSG operations are defined as methods on the ``Mesh`` type:
 
-- ``Mesh/subtract(_:isCancelled:)`` - Subtracts the volume of one `Mesh` from another.
+- ``Mesh/subtracting(_:isCancelled:)`` - Subtracts the volume of one `Mesh` from another.
 - ``Mesh/xor(_:isCancelled:)-swift.type.method`` - Produces a shape representing the non-overlapping parts of the input `Mesh`es (this is useful for rendering text glyphs).
 - ``Mesh/union(_:isCancelled:)-swift.method`` - Combines two intersecting `Mesh`es, removing internal faces and leaving only the outer shell around both shapes (logical OR).
 - ``Mesh/intersection(_:isCancelled:)`` - Returns a single ``Mesh`` representing the common volume of two intersecting ``Mesh``es (logical AND).

@@ -15,7 +15,7 @@ class MeshCSGTests: XCTestCase {
     func testSubtractCoincidingBoxes() {
         let a = Mesh.cube()
         let b = Mesh.cube()
-        let c = a.subtract(b)
+        let c = a.subtracting(b)
         XCTAssert(c.polygons.isEmpty)
         XCTAssertEqual(c, .difference([a, b]))
     }
@@ -23,7 +23,7 @@ class MeshCSGTests: XCTestCase {
     func testSubtractCoincidingBoxesWhenTriangulated() {
         let a = Mesh.cube().triangulate()
         let b = Mesh.cube().triangulate()
-        let c = a.subtract(b)
+        let c = a.subtracting(b)
         XCTAssert(c.polygons.isEmpty)
         XCTAssertEqual(c, .difference([a, b]))
     }
@@ -31,7 +31,7 @@ class MeshCSGTests: XCTestCase {
     func testSubtractAdjacentBoxes() {
         let a = Mesh.cube()
         let b = Mesh.cube().translated(by: .unitX)
-        let c = a.subtract(b)
+        let c = a.subtracting(b)
         XCTAssertEqual(c.bounds, a.bounds)
         XCTAssertEqual(c, .difference([a, b]))
     }
@@ -39,7 +39,7 @@ class MeshCSGTests: XCTestCase {
     func testSubtractOverlappingBoxes() {
         let a = Mesh.cube()
         let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
-        let c = a.subtract(b)
+        let c = a.subtracting(b)
         XCTAssertEqual(c.bounds, Bounds(
             min: Vector(-0.5, -0.5, -0.5),
             max: Vector(0, 0.5, 0.5)
@@ -50,16 +50,16 @@ class MeshCSGTests: XCTestCase {
     func testSubtractEmptyMesh() {
         let a = Mesh.empty
         let b = Mesh.cube()
-        XCTAssertEqual(a.subtract(b), a)
-        XCTAssertEqual(b.subtract(a), b)
-        XCTAssertEqual(a.subtract(b), .difference([a, b]))
-        XCTAssertEqual(b.subtract(a), .difference([b, a]))
+        XCTAssertEqual(a.subtracting(b), a)
+        XCTAssertEqual(b.subtracting(a), b)
+        XCTAssertEqual(a.subtracting(b), .difference([a, b]))
+        XCTAssertEqual(b.subtracting(a), .difference([b, a]))
     }
 
     func testSubtractIsDeterministic() {
         let a = Mesh.cube(size: 0.8)
         let b = Mesh.sphere(slices: 16)
-        let c = a.subtract(b)
+        let c = a.subtracting(b)
         #if !arch(wasm32)
         XCTAssertEqual(c.polygons.count, 189)
         #endif
@@ -260,7 +260,7 @@ class MeshCSGTests: XCTestCase {
     func testSubtractCoincidingSquares() {
         let a = Mesh.fill(.square())
         let b = Mesh.fill(.square())
-        let c = a.subtract(b)
+        let c = a.subtracting(b)
         XCTAssert(c.polygons.isEmpty)
         XCTAssertEqual(c, .difference([a, b]))
     }
@@ -268,7 +268,7 @@ class MeshCSGTests: XCTestCase {
     func testSubtractAdjacentSquares() {
         let a = Mesh.fill(.square())
         let b = Mesh.fill(.square()).translated(by: .unitX)
-        let c = a.subtract(b)
+        let c = a.subtracting(b)
         XCTAssertEqual(c.bounds, a.bounds)
         XCTAssertEqual(c, .difference([a, b]))
     }
@@ -276,7 +276,7 @@ class MeshCSGTests: XCTestCase {
     func testSubtractOverlappingSquares() {
         let a = Mesh.fill(.square())
         let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
-        let c = a.subtract(b)
+        let c = a.subtracting(b)
         XCTAssertEqual(c.bounds, Bounds(
             min: Vector(-0.5, -0.5, 0),
             max: Vector(0, 0.5, 0)

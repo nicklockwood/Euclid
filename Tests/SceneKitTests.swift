@@ -97,7 +97,7 @@ class SceneKitTests: XCTestCase {
         let box1 = SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0)
         let box2 = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
         let mesh = Mesh(box1)!.translated(by: Vector(0, 0, -0.4))
-            .subtract(Mesh(box2)!.translated(by: Vector(0, 0.12, -0.3)))
+            .subtracting(Mesh(box2)!.translated(by: Vector(0, 0.12, -0.3)))
             .makeWatertight()
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)

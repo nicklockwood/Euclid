@@ -107,7 +107,7 @@ class MeshTests: XCTestCase {
     func testMakeWatertightIsDeterministic() {
         let a = Mesh.cube(size: 0.8)
         let b = Mesh.sphere(slices: 16)
-        let c = a.subtract(b)
+        let c = a.subtracting(b)
         XCTAssertFalse(c.isWatertight)
         #if !arch(wasm32)
         XCTAssertEqual(c.triangulate().polygons.count, 338)
@@ -316,7 +316,7 @@ class MeshTests: XCTestCase {
         let outsidePoints = edgePoints.map { $0 * 1.001 }
         let mesh = Mesh
             .cube(size: Vector(2, 2, 1))
-            .subtract(Mesh.cube().translated(by: Vector(-0.5, 0.5, 0)))
+            .subtracting(Mesh.cube().translated(by: Vector(-0.5, 0.5, 0)))
             .translated(by: Vector(-0.25, 0.25))
         let bsp = BSP(mesh) { false }
         for point in insidePoints {

@@ -122,7 +122,7 @@ public extension Mesh {
     ///   - mesh: The mesh to subtract from this one.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the result of the subtraction.
-    func subtract(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+    func subtracting(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         guard !intersection.isEmpty else {
             return self
@@ -154,6 +154,11 @@ public extension Mesh {
         )
     }
 
+    @available(*, deprecated, renamed: "subtracting(_:isCancelled:)")
+    func subtract(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+        subtracting(mesh, isCancelled: isCancelled)
+    }
+
     /// Efficiently gets the difference between multiple meshes.
     /// - Parameters
     ///   - meshes: An ordered collection of meshes. All but the first will be subtracted from the first.
@@ -163,7 +168,7 @@ public extension Mesh {
         _ meshes: T,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh where T.Element == Mesh {
-        reduce(meshes, using: { $0.subtract($1, isCancelled: $2) }, isCancelled)
+        reduce(meshes, using: { $0.subtracting($1, isCancelled: $2) }, isCancelled)
     }
 
     /// Returns a new mesh reprenting only the volume exclusively occupied by
