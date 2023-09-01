@@ -194,7 +194,7 @@ class MeshCSGTests: XCTestCase {
     func testIntersectionOfCoincidingBoxes() {
         let a = Mesh.cube()
         let b = Mesh.cube()
-        let c = a.intersect(b)
+        let c = a.intersection(b)
         XCTAssertEqual(c.bounds, a.bounds)
         XCTAssertEqual(c, .intersection([a, b]))
     }
@@ -202,7 +202,7 @@ class MeshCSGTests: XCTestCase {
     func testIntersectionOfAdjacentBoxes() {
         let a = Mesh.cube()
         let b = Mesh.cube().translated(by: .unitX)
-        let c = a.intersect(b)
+        let c = a.intersection(b)
         // TODO: ideally this should probably be empty, but it's not clear
         // how to achieve that while also getting desired planar behavior
         XCTAssertEqual(c.bounds, Bounds(
@@ -215,7 +215,7 @@ class MeshCSGTests: XCTestCase {
     func testIntersectionOfOverlappingBoxes() {
         let a = Mesh.cube()
         let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
-        let c = a.intersect(b)
+        let c = a.intersection(b)
         XCTAssertEqual(c.bounds, Bounds(
             min: Vector(0, -0.5, -0.5),
             max: Vector(0.5, 0.5, 0.5)
@@ -226,7 +226,7 @@ class MeshCSGTests: XCTestCase {
     func testIntersectionOfNonOverlappingBoxes() {
         let a = Mesh.cube()
         let b = Mesh.cube().translated(by: Vector(2, 0, 0))
-        let c = a.intersect(b)
+        let c = a.intersection(b)
         XCTAssertEqual(c, .empty)
         XCTAssertEqual(c, .intersection([a, b]))
     }
@@ -234,14 +234,14 @@ class MeshCSGTests: XCTestCase {
     func testIntersectionWithEmptyMesh() {
         let a = Mesh.empty
         let b = Mesh.cube()
-        XCTAssert(a.intersect(b).bounds.isEmpty)
-        XCTAssert(b.intersect(a).bounds.isEmpty)
+        XCTAssert(a.intersection(b).bounds.isEmpty)
+        XCTAssert(b.intersection(a).bounds.isEmpty)
     }
 
     func testIntersectIsDeterministic() {
         let a = Mesh.cube(size: 0.8)
         let b = Mesh.sphere(slices: 16)
-        let c = a.intersect(b)
+        let c = a.intersection(b)
         XCTAssertEqual(c.polygons.count, 86)
         XCTAssertEqual(c, .intersection([a, b]))
     }
@@ -347,7 +347,7 @@ class MeshCSGTests: XCTestCase {
     func testIntersectionOfCoincidingSquares() {
         let a = Mesh.fill(.square())
         let b = Mesh.fill(.square())
-        let c = a.intersect(b)
+        let c = a.intersection(b)
         XCTAssertEqual(c.bounds, a.bounds)
         XCTAssertEqual(c, .intersection([a, b]))
     }
@@ -355,7 +355,7 @@ class MeshCSGTests: XCTestCase {
     func testIntersectionOfAdjacentSquares() {
         let a = Mesh.fill(.square())
         let b = Mesh.fill(.square()).translated(by: .unitX)
-        let c = a.intersect(b)
+        let c = a.intersection(b)
         XCTAssert(c.polygons.isEmpty)
         XCTAssertEqual(c, .intersection([a, b]))
     }
@@ -363,7 +363,7 @@ class MeshCSGTests: XCTestCase {
     func testIntersectionOfOverlappingSquares() {
         let a = Mesh.fill(.square())
         let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
-        let c = a.intersect(b)
+        let c = a.intersection(b)
         XCTAssertEqual(c.bounds, Bounds(
             min: Vector(0, -0.5, 0),
             max: Vector(0.5, 0.5, 0)

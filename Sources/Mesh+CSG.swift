@@ -248,10 +248,7 @@ public extension Mesh {
     ///   - mesh: The mesh to be intersected with this one.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the intersection of the meshes.
-    func intersect(
-        _ mesh: Mesh,
-        isCancelled: CancellationHandler = { false }
-    ) -> Mesh {
+    func intersection(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         guard !intersection.isEmpty else {
             return .empty
@@ -280,6 +277,11 @@ public extension Mesh {
         )
     }
 
+    @available(*, deprecated, renamed: "intersection(_:isCancelled:)")
+    func intersect(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+        intersection(mesh, isCancelled: isCancelled)
+    }
+
     /// Efficiently computes the intersection of multiple meshes.
     /// - Parameters
     ///   - meshes: A collection of meshes to be intersected.
@@ -295,7 +297,7 @@ public extension Mesh {
             return .empty
         }
         return tail.reduce(into: head) {
-            $0 = $0.intersect($1, isCancelled: isCancelled)
+            $0 = $0.intersection($1, isCancelled: isCancelled)
         }
     }
 
@@ -315,10 +317,7 @@ public extension Mesh {
     ///   - mesh: The mesh to be stencilled onto this one.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the result of stencilling.
-    func stencil(
-        _ mesh: Mesh,
-        isCancelled: CancellationHandler = { false }
-    ) -> Mesh {
+    func stencil(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         guard !intersection.isEmpty else {
             return self
