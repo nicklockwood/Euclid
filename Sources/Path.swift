@@ -216,7 +216,12 @@ public extension Path {
         var startIndex = 0
         var paths = [Path]()
         for i in subpathIndices {
-            let points = self.points[startIndex ... i]
+            var points = self.points[startIndex ... i]
+            if paths.last?.isClosed ?? false, points.count > 2,
+               points[startIndex + 1].position == points.last?.position
+            {
+                points.removeFirst()
+            }
             startIndex = i
             guard points.count > 1 else {
                 continue

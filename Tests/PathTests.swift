@@ -771,6 +771,57 @@ class PathTests: XCTestCase {
         XCTAssertNil(path3.plane)
     }
 
+    func testClosedPathWithOffshootSubpaths() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1),
+            .point(0, 1),
+            .point(0, 0),
+            .point(-1, 0),
+        ])
+        XCTAssertEqual(path.subpaths, [
+            Path([
+                .point(0, 0),
+                .point(1, 0),
+                .point(1, 1),
+                .point(0, 1),
+                .point(0, 0),
+            ]),
+            Path([
+                .point(0, 0),
+                .point(-1, 0),
+            ]),
+        ])
+    }
+
+    func testSubpathsSeparatedCorrectly() {
+        let a = Path([
+            .point(0, 0.5, 0),
+            .point(-0.353553390593, 0.353553390593, 0.0),
+            .point(-0.5, 0, 0),
+            .point(-0.353553390593, -0.353553390593, 0),
+            .point(0, -0.5, 0),
+            .point(0, 0.5, 0),
+        ])
+        let b = Path([
+            .point(1, 0.085786437626, 0),
+            .point(1, 0.5, 0),
+            .point(0, 0.5, 0),
+            .point(0.353553390593, 0.353553390593, 0),
+            .point(0.5, -0, 0),
+            .point(0.353553390593, -0.353553390593, 0),
+            .point(0, -0.5, 0),
+            .point(1, -0.5, 0),
+            .point(1, -0.085786437626, 0),
+            .point(1, 0.085786437626, 0),
+        ])
+        let c = Path(subpaths: [a, b])
+        XCTAssertEqual(c.subpaths.count, 2)
+        XCTAssertEqual(c.subpaths.first, a)
+        XCTAssertEqual(c.subpaths.last, b)
+    }
+
     // MARK: flattening
 
     func testFlattenVerticalPath() {

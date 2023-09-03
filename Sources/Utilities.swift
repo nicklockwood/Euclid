@@ -586,7 +586,7 @@ func subpathIndicesFor(_ points: [PathPoint]) -> [Int] {
                     indices.append(j)
                 }
                 indices.append(i)
-                lastIndex = i
+                lastIndex = i + 1
                 break
             }
         }
