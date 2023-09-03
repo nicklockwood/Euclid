@@ -37,7 +37,6 @@ class SceneKitTests: XCTestCase {
         XCTAssertNotNil(Mesh(geometry, materialLookup: nil))
     }
 
-    @available(OSX 10.12, iOS 10.0, tvOS 10.0, *)
     func testExportImportPolygons() throws {
         let cube = Mesh.cube()
         let geometry = try XCTUnwrap(SCNGeometry(

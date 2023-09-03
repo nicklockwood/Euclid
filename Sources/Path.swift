@@ -203,7 +203,7 @@ public extension Path {
         )
     }
 
-    @available(*, deprecated, message: "Use `init(_:)` instead")
+    @available(*, deprecated, renamed: "init(_:)")
     init(polygon: Polygon) {
         let hasTexcoords = polygon.hasTexcoords
         self.init(
