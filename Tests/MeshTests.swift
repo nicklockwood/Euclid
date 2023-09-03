@@ -127,10 +127,10 @@ class MeshTests: XCTestCase {
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
-            LineSegment(Vector(0, 0.5, -0.5), Vector(0, 0.5, 0.5)),
-            LineSegment(Vector(0, -0.5, -0.5), Vector(0, -0.5, 0.5)),
-            LineSegment(Vector(0, -0.5, 0.5), Vector(0, 0.5, 0.5)),
-            LineSegment(Vector(0, -0.5, -0.5), Vector(0, 0.5, -0.5)),
+            LineSegment(start: Vector(0, 0.5, -0.5), end: Vector(0, 0.5, 0.5)),
+            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, -0.5, 0.5)),
+            LineSegment(start: Vector(0, -0.5, 0.5), end: Vector(0, 0.5, 0.5)),
+            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, 0.5, -0.5)),
         ])
     }
 
@@ -139,10 +139,10 @@ class MeshTests: XCTestCase {
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
-            LineSegment(Vector(0, 0.5, -0.5), Vector(0, 0.5, 0.5)),
-            LineSegment(Vector(0, -0.5, -0.5), Vector(0, -0.5, 0.5)),
-            LineSegment(Vector(0, -0.5, 0.5), Vector(0, 0.5, 0.5)),
-            LineSegment(Vector(0, -0.5, -0.5), Vector(0, 0.5, -0.5)),
+            LineSegment(start: Vector(0, 0.5, -0.5), end: Vector(0, 0.5, 0.5)),
+            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, -0.5, 0.5)),
+            LineSegment(start: Vector(0, -0.5, 0.5), end: Vector(0, 0.5, 0.5)),
+            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, 0.5, -0.5)),
         ])
     }
 
@@ -151,10 +151,10 @@ class MeshTests: XCTestCase {
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
-            LineSegment(Vector(0, 0.5, -0.5), Vector(0, 0.5, 0.5)),
-            LineSegment(Vector(0, -0.5, -0.5), Vector(0, -0.5, 0.5)),
-            LineSegment(Vector(0, -0.5, 0.5), Vector(0, 0.5, 0.5)),
-            LineSegment(Vector(0, -0.5, -0.5), Vector(0, 0.5, -0.5)),
+            LineSegment(start: Vector(0, 0.5, -0.5), end: Vector(0, 0.5, 0.5)),
+            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, -0.5, 0.5)),
+            LineSegment(start: Vector(0, -0.5, 0.5), end: Vector(0, 0.5, 0.5)),
+            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, 0.5, -0.5)),
         ])
     }
 
@@ -163,7 +163,7 @@ class MeshTests: XCTestCase {
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
-            LineSegment(Vector(0, -0.404508497187, 0), Vector(0, 0.5, 0)),
+            LineSegment(start: Vector(0, -0.404508497187, 0), end: Vector(0, 0.5, 0)),
         ])
     }
 
@@ -172,7 +172,7 @@ class MeshTests: XCTestCase {
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
-            LineSegment(Vector(0, -0.5, 0), Vector(0, 0.5, 0)),
+            LineSegment(start: Vector(0, -0.5, 0), end: Vector(0, 0.5, 0)),
         ])
     }
 

@@ -40,12 +40,18 @@ public struct LineSegment: Hashable, Sendable {
     /// - Parameters:
     ///   - start: The start of the line segment.
     ///   - end: The end of the line segment.
-    public init?(_ start: Vector, _ end: Vector) {
+    public init?(start: Vector, end: Vector) {
         guard start != end else {
             return nil
         }
         self.start = start
         self.end = end
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "init(start:end:)")
+    public init?(_ start: Vector, _ end: Vector) {
+        self.init(start: start, end: end)
     }
 }
 
@@ -70,8 +76,8 @@ extension LineSegment: Codable {
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             guard let segment = try LineSegment(
-                container.decode(Vector.self, forKey: .start),
-                container.decode(Vector.self, forKey: .end)
+                start: container.decode(Vector.self, forKey: .start),
+                end: container.decode(Vector.self, forKey: .end)
             ) else {
                 throw DecodingError.dataCorruptedError(
                     forKey: .end,
@@ -83,8 +89,8 @@ extension LineSegment: Codable {
         } else {
             var container = try decoder.unkeyedContainer()
             guard let segment = try LineSegment(
-                Vector(from: &container),
-                Vector(from: &container)
+                start: Vector(from: &container),
+                end: Vector(from: &container)
             ) else {
                 throw DecodingError.dataCorruptedError(
                     in: container,

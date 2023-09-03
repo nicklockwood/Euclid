@@ -318,7 +318,7 @@ public extension SCNGeometry {
     ///   - scale: The line length of the normal indicators.
     convenience init(normals mesh: Mesh, scale: Double = 1) {
         self.init(Set(mesh.polygons.flatMap { $0.vertices.compactMap {
-            LineSegment($0.position, $0.position + $0.normal * scale)
+            LineSegment(start: $0.position, end: $0.position + $0.normal * scale)
         }}))
     }
 

@@ -127,7 +127,7 @@ func triangulateVertices(
             let b = vertices[(i + 1) % vertices.count]
             let c = vertices[(i + 2) % vertices.count]
             let d = vertices[(i + 3) % vertices.count]
-            if LineSegment(c.position, a.position)?.containsPoint(d.position) == false,
+            if LineSegment(start: c.position, end: a.position)?.containsPoint(d.position) == false,
                addTriangle([a, b, c])
             {
                 vertices.remove(at: (i + 1) % vertices.count)
@@ -301,7 +301,7 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
     }
     for i in 0 ..< points.count - 2 {
         let p0 = points[i], p1 = points[i + 1]
-        guard let l1 = LineSegment(p0, p1) else {
+        guard let l1 = LineSegment(start: p0, end: p1) else {
             continue
         }
         for j in i + 2 ..< points.count - 1 {
@@ -311,7 +311,7 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
                   !p1.isEqual(to: p3, withPrecision: precision),
                   !p0.isEqual(to: p2, withPrecision: precision),
                   !p0.isEqual(to: p3, withPrecision: precision),
-                  let l2 = LineSegment(p2, p3)
+                  let l2 = LineSegment(start: p2, end: p3)
             else {
                 continue
             }
