@@ -90,6 +90,11 @@ extension Mesh: Codable {
     }
 }
 
+extension Mesh: Bounded {
+    /// The bounds of the mesh.
+    public var bounds: Bounds { storage.bounds }
+}
+
 public extension Mesh {
     /// Material used by the mesh polygons.
     /// See ``Polygon/Material-swift.typealias`` for details.
@@ -107,9 +112,6 @@ public extension Mesh {
 
     /// The distinct (disconnected) submeshes that make up the mesh.
     var submeshes: [Mesh] { storage.submeshes }
-
-    /// The bounds of the mesh.
-    var bounds: Bounds { storage.bounds }
 
     /// The polygons in the mesh, grouped by material.
     var polygonsByMaterial: [Material?: [Polygon]] {
@@ -217,7 +219,7 @@ public extension Mesh {
         }
         return Mesh(
             unchecked: polygons,
-            bounds: allBoundsSet ? Bounds(bounds: meshes.map { $0.bounds }) : nil,
+            bounds: allBoundsSet ? Bounds(meshes) : nil,
             isConvex: false,
             isWatertight: nil,
             submeshes: nil // TODO: can we preserve this?
@@ -393,7 +395,7 @@ extension Mesh {
 }
 
 private extension Mesh {
-    final class Storage: Hashable {
+    final class Storage: Hashable, Bounded {
         let polygons: [Polygon]
         let isConvex: Bool
 
@@ -423,7 +425,7 @@ private extension Mesh {
         private(set) var boundsIfSet: Bounds?
         var bounds: Bounds {
             if boundsIfSet == nil {
-                boundsIfSet = Bounds(polygons: polygons)
+                boundsIfSet = Bounds(polygons)
             }
             return boundsIfSet!
         }

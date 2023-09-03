@@ -451,7 +451,7 @@ class MeshShapeTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.bounds, mesh1.bounds.union(mesh2.bounds))
-        XCTAssertEqual(mesh.bounds, Bounds(polygons: mesh.polygons))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
     func testConvexHullOfSpheres() {
@@ -463,7 +463,7 @@ class MeshShapeTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.bounds, mesh1.bounds.union(mesh2.bounds))
-        XCTAssertEqual(mesh.bounds, Bounds(polygons: mesh.polygons))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
     func testConvexHullOfCubeIsItself() {
@@ -495,7 +495,7 @@ class MeshShapeTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.bounds, triangle.bounds)
-        XCTAssertEqual(mesh.bounds, Bounds(polygons: mesh.polygons))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
     func testConvexHullOfConcavePolygon() {
@@ -512,7 +512,7 @@ class MeshShapeTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.bounds, shape.bounds)
-        XCTAssertEqual(mesh.bounds, Bounds(polygons: mesh.polygons))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
     func testConvexHullOfConcavePolygonMesh() {
@@ -529,7 +529,7 @@ class MeshShapeTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.bounds, shape.bounds)
-        XCTAssertEqual(mesh.bounds, Bounds(polygons: mesh.polygons))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
     func testConvexHullOfCoplanarTriangles() {
@@ -549,6 +549,6 @@ class MeshShapeTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.bounds, triangle1.bounds.union(triangle2.bounds))
-        XCTAssertEqual(mesh.bounds, Bounds(polygons: mesh.polygons))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 }

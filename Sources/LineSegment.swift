@@ -104,6 +104,11 @@ extension LineSegment: Codable {
     }
 }
 
+extension LineSegment: Bounded {
+    /// The bounding box containing the line segment.
+    public var bounds: Bounds { Bounds(start, end) }
+}
+
 public extension LineSegment {
     /// The direction of the line segment as a normalized vector.
     var direction: Vector {
@@ -127,7 +132,7 @@ public extension LineSegment {
         guard vectorFromPointToLine(point, start, direction).isZero else {
             return false
         }
-        return Bounds(start, end).inset(by: -epsilon).containsPoint(point)
+        return bounds.inset(by: -epsilon).containsPoint(point)
     }
 
     /// Returns the point where the specified plane intersects the line segment.

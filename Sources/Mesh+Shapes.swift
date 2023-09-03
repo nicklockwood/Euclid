@@ -606,7 +606,7 @@ public extension Mesh {
         let polygons = meshes.enumerated().flatMap { i, mesh in
             i == bestIndex ? [] : mesh.polygons
         }
-        let bounds = Bounds(bounds: meshes.map { $0.bounds })
+        let bounds = Bounds(meshes)
         return .convexHull(of: polygons, with: best, bounds: bounds)
     }
 

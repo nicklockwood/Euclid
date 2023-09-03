@@ -90,6 +90,11 @@ extension Path: Codable {
     }
 }
 
+extension Path: Bounded {
+    /// The bounds of all the path's points.
+    public var bounds: Bounds { Bounds(points: points.map { $0.position }) }
+}
+
 public extension Path {
     /// An empty path.
     static let empty: Path = .init([])
@@ -97,11 +102,6 @@ public extension Path {
     /// Indicates whether all the path's points lie on a single plane.
     var isPlanar: Bool {
         plane != nil
-    }
-
-    /// The bounds of all the path's points.
-    var bounds: Bounds {
-        Bounds(points: points.map { $0.position })
     }
 
     /// The total length of the path.

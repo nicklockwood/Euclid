@@ -111,6 +111,11 @@ extension Polygon: Codable {
     }
 }
 
+extension Polygon: Bounded {
+    /// The bounding box containing the polygon.
+    public var bounds: Bounds { Bounds(points: vertices.map { $0.position }) }
+}
+
 public extension Polygon {
     /// Material used by a given polygon.
     /// This can be any type that conforms to `Hashable`, but encoding/decoding is only supported
@@ -121,8 +126,6 @@ public extension Polygon {
     var vertices: [Vertex] { storage.vertices }
     /// The plane on which all vertices lie.
     var plane: Plane { storage.plane }
-    /// The bounding box containing the polygon.
-    var bounds: Bounds { Bounds(points: vertices.map { $0.position }) }
     /// A Boolean value that indicates whether the polygon is convex.
     var isConvex: Bool { storage.isConvex }
 

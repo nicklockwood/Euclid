@@ -50,6 +50,12 @@ public struct Bounds: Hashable, Sendable {
     }
 }
 
+/// A common protocol for objects that have a bounds.
+public protocol Bounded {
+    /// The bounds of the object.
+    var bounds: Bounds { get }
+}
+
 extension Bounds: Codable {
     private enum CodingKeys: CodingKey {
         case min, max
@@ -81,7 +87,10 @@ extension Bounds: Codable {
 
 public extension Bounds {
     /// An empty bounds.
-    static let empty = Bounds()
+    static let empty: Bounds = .init(
+        min: Vector(.infinity, .infinity, .infinity),
+        max: Vector(-.infinity, -.infinity, -.infinity)
+    )
 
     /// Creates a bounds from two points.
     /// - Parameters:
@@ -94,45 +103,32 @@ public extension Bounds {
         self.max = Euclid.max(p0, p1)
     }
 
+    /// Creates a bounds from a collection of ``Bounded`` objects.
+    /// - Parameter bounded: A collection of bounded objects.
+    init<T: Collection>(_ bounded: T) where T.Element: Bounded {
+        self = bounded.reduce(.empty) { $0.union($1.bounds) }
+    }
+
     /// Creates a bounds from an array of points.
     /// - Parameter points: An array of points that the bounds contains.
     init(points: [Vector] = []) {
-        var min = Vector(.infinity, .infinity, .infinity)
-        var max = Vector(-.infinity, -.infinity, -.infinity)
-        for p in points {
-            min = Euclid.min(min, p)
-            max = Euclid.max(max, p)
+        self = points.reduce(.empty) {
+            Bounds(min: Euclid.min($0.min, $1), max: Euclid.max($0.max, $1))
         }
-        self.min = min
-        self.max = max
     }
 
-    /// Create a bounds from an array of points.
-    /// - Parameter polygons: An array of polygons that the bounds contains.
+    /// Deprecated.
+    @available(*, deprecated, renamed: "init(_:)")
     init(polygons: [Polygon]) {
-        var min = Vector(.infinity, .infinity, .infinity)
-        var max = Vector(-.infinity, -.infinity, -.infinity)
-        for p in polygons {
-            for v in p.vertices {
-                min = Euclid.min(min, v.position)
-                max = Euclid.max(max, v.position)
-            }
-        }
-        self.min = min
-        self.max = max
+        self = polygons.reduce(.empty) { $0.union($1.bounds) }
     }
 
     /// Creates a bounds from a set of bounds.
     /// - Parameter bounds: An array of existing bounds that the bounds contains.
     init(bounds: [Bounds]) {
-        var min = Vector(.infinity, .infinity, .infinity)
-        var max = Vector(-.infinity, -.infinity, -.infinity)
-        for b in bounds {
-            min = Euclid.min(min, b.min)
-            max = Euclid.max(max, b.max)
+        self = bounds.reduce(.empty) {
+            Bounds(min: Euclid.min($0.min, $1.min), max: Euclid.max($0.max, $1.max))
         }
-        self.min = min
-        self.max = max
     }
 
     /// A Boolean value that indicates whether the bounds is empty (has zero volume).
@@ -189,10 +185,7 @@ public extension Bounds {
     /// - Parameter other: The bounds with which to intersect.
     /// - Returns: The combined bounds, which may be empty if the bounds don't intersect.
     func intersection(_ other: Bounds) -> Bounds {
-        Bounds(
-            min: Euclid.max(min, other.min),
-            max: Euclid.min(max, other.max)
-        )
+        Bounds(min: Euclid.max(min, other.min), max: Euclid.min(max, other.max))
     }
 
     /// Reduces the bounds to contain just the intersection of itself and the specified bounds.
