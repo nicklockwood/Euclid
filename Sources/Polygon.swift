@@ -113,7 +113,7 @@ extension Polygon: Codable {
 
 extension Polygon: Bounded {
     /// The bounding box containing the polygon.
-    public var bounds: Bounds { Bounds(points: vertices.map { $0.position }) }
+    public var bounds: Bounds { Bounds(vertices.map { $0.position }) }
 }
 
 public extension Polygon {

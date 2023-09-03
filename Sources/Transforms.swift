@@ -560,7 +560,7 @@ extension Bounds: Transformable {
     /// the size, so this is a potentially irreversible operation. In general, after rotating a shape it is better
     /// to recalculate the bounds rather than trying to rotate the previous bounds.
     public func rotated(by rotation: Rotation) -> Bounds {
-        isEmpty ? self : Bounds(points: corners.rotated(by: rotation))
+        isEmpty ? self : Bounds(corners.rotated(by: rotation))
     }
 
     public func scaled(by v: Vector) -> Bounds {

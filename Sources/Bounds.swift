@@ -109,8 +109,24 @@ public extension Bounds {
         self = bounded.reduce(.empty) { $0.union($1.bounds) }
     }
 
-    /// Creates a bounds from an array of points.
-    /// - Parameter points: An array of points that the bounds contains.
+    /// Creates a bounds from a collection of points.
+    /// - Parameter points: A collection of points that the bounds contains.
+    init<T: Collection>(_ points: T) where T.Element == Vector {
+        self = points.reduce(.empty) {
+            Bounds(min: Euclid.min($0.min, $1), max: Euclid.max($0.max, $1))
+        }
+    }
+
+    /// Creates a bounds from a collection of bounds.
+    /// - Parameter bounds: A collection of existing bounds that the bounds contains.
+    init<T: Collection>(_ bounds: T) where T.Element == Bounds {
+        self = bounds.reduce(.empty) {
+            Bounds(min: Euclid.min($0.min, $1.min), max: Euclid.max($0.max, $1.max))
+        }
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "init(_:)")
     init(points: [Vector] = []) {
         self = points.reduce(.empty) {
             Bounds(min: Euclid.min($0.min, $1), max: Euclid.max($0.max, $1))
@@ -120,15 +136,13 @@ public extension Bounds {
     /// Deprecated.
     @available(*, deprecated, renamed: "init(_:)")
     init(polygons: [Polygon]) {
-        self = polygons.reduce(.empty) { $0.union($1.bounds) }
+        self.init(polygons)
     }
 
-    /// Creates a bounds from a set of bounds.
-    /// - Parameter bounds: An array of existing bounds that the bounds contains.
+    /// Deprecated.
+    @available(*, deprecated, renamed: "init(_:)")
     init(bounds: [Bounds]) {
-        self = bounds.reduce(.empty) {
-            Bounds(min: Euclid.min($0.min, $1.min), max: Euclid.max($0.max, $1.max))
-        }
+        self.init(bounds)
     }
 
     /// A Boolean value that indicates whether the bounds is empty (has zero volume).

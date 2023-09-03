@@ -92,7 +92,7 @@ extension Path: Codable {
 
 extension Path: Bounded {
     /// The bounds of all the path's points.
-    public var bounds: Bounds { Bounds(points: points.map { $0.position }) }
+    public var bounds: Bounds { Bounds(points.map { $0.position }) }
 }
 
 public extension Path {
