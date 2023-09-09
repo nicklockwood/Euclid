@@ -32,6 +32,7 @@
 #if canImport(RealityKit) && swift(>=5.4)
 
 import CoreGraphics
+import Metal
 import RealityKit
 
 @available(macOS 10.15, iOS 13.0, *)
@@ -67,8 +68,12 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.
         ) else {
             return nil
         }
+        let descriptor = MTLSamplerDescriptor()
+        descriptor.sAddressMode = .repeat
+        descriptor.tAddressMode = .repeat
+        descriptor.magFilter = .nearest
         var material = SimpleMaterial()
-        material.color = .init(texture: .init(texture))
+        material.color = .init(texture: .init(texture, sampler: .init(descriptor)))
         return material
     default:
         return nil

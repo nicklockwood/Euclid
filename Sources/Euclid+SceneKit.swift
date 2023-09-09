@@ -104,6 +104,9 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial
     case is OSColor, is OSImage:
         let scnMaterial = SCNMaterial()
         scnMaterial.diffuse.contents = material
+        scnMaterial.diffuse.wrapS = .repeat
+        scnMaterial.diffuse.wrapT = .repeat
+        scnMaterial.diffuse.magnificationFilter = .nearest
         return scnMaterial
     default:
         return nil
