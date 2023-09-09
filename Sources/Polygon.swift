@@ -158,6 +158,11 @@ public extension Polygon {
         vertices.contains(where: { $0.color != .white })
     }
 
+    /// The position of the center of the polygon.
+    var center: Vector {
+        vertices.reduce(.zero) { $0 + $1.position } / Double(vertices.count)
+    }
+
     /// Returns the ordered array of polygon edges.
     var orderedEdges: [LineSegment] {
         var p0 = vertices.last!.position

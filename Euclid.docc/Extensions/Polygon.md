@@ -13,6 +13,7 @@
 - ``Polygon/vertices``
 - ``Polygon/plane``
 - ``Polygon/bounds``
+- ``Polygon/center``
 - ``Polygon/material-swift.property``
 - ``Polygon/isConvex``
 - ``Polygon/hasTexcoords``
