@@ -8,7 +8,7 @@
 
 ### Geometric Primitives
 
-- ``Mesh/cone(radius:height:slices:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)``
+- ``Mesh/cone(radius:height:slices:stacks:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)``
 - ``Mesh/cube(center:size:faces:material:)-7wdr2``
 - ``Mesh/cube(center:size:faces:material:)-imdm``
 - ``Mesh/cylinder(radius:height:slices:poleDetail:faces:wrapMode:material:)``

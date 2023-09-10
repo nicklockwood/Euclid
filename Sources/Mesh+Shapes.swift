@@ -330,6 +330,7 @@ public extension Mesh {
     ///   - radius: The radius of the cone.
     ///   - height: The height of the cone.
     ///   - slices: The number of vertical slices that make up the cone.
+    ///   - stacks: The number of horizontal stacks that make up the cone.
     ///   - poleDetail: Optionally add extra detail around top pole to prevent texture warping.
     ///   - addDetailAtBottomPole: Whether detail should be added at bottom pole.
     ///   - faces: The direction of the generated polygon faces.
@@ -342,6 +343,7 @@ public extension Mesh {
         radius: Double = 0.5,
         height: Double = 1,
         slices: Int = 16,
+        stacks: Int = 1,
         poleDetail: Int? = nil,
         addDetailAtBottomPole: Bool = false,
         faces: Faces = .default,
@@ -349,12 +351,13 @@ public extension Mesh {
         material: Material? = nil
     ) -> Mesh {
         let radius = max(abs(radius), scaleLimit / 2)
+        let stacks = max(1, stacks)
+        let ystep = height / Double(stacks), xstep = radius / Double(stacks)
+        let points = (0 ... stacks).map { i -> PathPoint in
+            .point(Double(i) * xstep, height / 2 - Double(i) * ystep)
+        } + [PathPoint.point(0, -height / 2)]
         return lathe(
-            unchecked: Path(unchecked: [
-                .point(0, height / 2),
-                .point(-radius, -height / 2),
-                .point(0, -height / 2),
-            ], plane: .xy, subpathIndices: []),
+            unchecked: Path(unchecked: points, plane: .xy, subpathIndices: []),
             slices: slices,
             poleDetail: poleDetail ?? 3,
             addDetailForFlatPoles: addDetailAtBottomPole,
