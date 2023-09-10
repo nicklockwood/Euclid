@@ -329,17 +329,23 @@ public extension Mesh {
         )
     }
 
-    /// Smooth vertex normals for corners with angles greater than the specified threshold.
-    /// - Parameter threshold: The minimum edge angle that should appear smooth.
+    /// Smooth vertex normals for corners with angles greater (more obtuse) than the specified threshold.
+    /// - Parameter threshold: The minimum corner angle that should appear smooth.
     ///   Values should be in the range zero (no smoothing) to pi (smooth all edges).
-    func smoothNormals(_ threshold: Angle) -> Mesh {
+    func smoothingNormals(forAnglesGreaterThan threshold: Angle) -> Mesh {
         Mesh(
-            unchecked: polygons.smoothNormals(threshold),
+            unchecked: polygons.smoothingNormals(forAnglesGreaterThan: threshold),
             bounds: boundsIfSet,
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
         )
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "smoothingNormals(forAnglesGreaterThan:)")
+    func smoothNormals(_ threshold: Angle) -> Mesh {
+        smoothingNormals(forAnglesGreaterThan: threshold)
     }
 
     /// Returns a Boolean value that indicates if the specified point is inside the mesh.

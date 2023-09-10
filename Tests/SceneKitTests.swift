@@ -134,7 +134,7 @@ class SceneKitTests: XCTestCase {
     }
 
     func testExportSphereWithoutTexcoordsOrNormals() {
-        let sphere = Mesh.sphere().withoutTexcoords().smoothNormals(.zero)
+        let sphere = Mesh.sphere().withoutTexcoords().smoothingNormals(forAnglesGreaterThan: .zero)
         let geometry = SCNGeometry(polygons: sphere)
         XCTAssertEqual(geometry.sources.count, 1)
         XCTAssertEqual(geometry.sources.first?.vectorCount, 114)

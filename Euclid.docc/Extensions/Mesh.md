@@ -132,4 +132,4 @@
 - ``Mesh/detessellate()``
 - ``Mesh/detriangulate()``
 - ``Mesh/makeWatertight()``
-- ``Mesh/smoothNormals(_:)``
+- ``Mesh/smoothingNormals(forAnglesGreaterThan:)``

@@ -515,8 +515,8 @@ extension Collection where Element == Polygon {
         }
     }
 
-    /// Smooth vertex normals
-    func smoothNormals(_ threshold: Angle) -> [Polygon] {
+    /// Smooth vertex normals.
+    func smoothingNormals(forAnglesGreaterThan threshold: Angle) -> [Polygon] {
         guard threshold > .zero else {
             return map { p0 in
                 let n0 = p0.plane.normal
