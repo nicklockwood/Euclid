@@ -29,5 +29,5 @@
 - ``PathPoint/scaled(by:)-7e3o7``
 - ``PathPoint/translated(by:)``
 - ``PathPoint/transformed(by:)``
-- ``PathPoint/with(color:)``
+- ``PathPoint/withColor(_:)``
 - ``PathPoint/curved(_:)``

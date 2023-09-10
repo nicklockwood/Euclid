@@ -319,10 +319,16 @@ public extension PathPoint {
 
     /// Replace/remove point color.
     /// - Parameter color: The color to apply to the point.
-    func with(color: Color?) -> PathPoint {
+    func withColor(_ color: Color?) -> PathPoint {
         var point = self
         point.color = color
         return point
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "withColor(_:)")
+    func with(color: Color?) -> PathPoint {
+        withColor(color)
     }
 }
 

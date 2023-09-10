@@ -127,10 +127,16 @@ public extension Path {
 
     /// Replace/remove path point colors.
     /// - Parameter color: The color to apply to each point in the path.
-    func with(color: Color?) -> Path {
+    func withColor(_ color: Color?) -> Path {
         Path(unchecked: points.map {
-            $0.with(color: color)
+            $0.withColor(color)
         }, plane: plane, subpathIndices: subpathIndices)
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "withColor(_:)")
+    func with(color: Color?) -> Path {
+        withColor(color)
     }
 
     /// Closes the path by joining last point to first.
