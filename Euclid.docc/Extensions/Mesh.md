@@ -13,6 +13,7 @@
 - ``Mesh/cube(center:size:faces:material:)-imdm``
 - ``Mesh/cylinder(radius:height:slices:poleDetail:faces:wrapMode:material:)``
 - ``Mesh/sphere(radius:slices:stacks:poleDetail:faces:wrapMode:material:)``
+- ``Mesh/icosahedron(radius:faces:wrapMode:material:)``
 
 - ``Mesh/WrapMode``
 - ``Mesh/Faces``

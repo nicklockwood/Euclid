@@ -147,6 +147,111 @@ public extension Mesh {
         cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
     }
 
+    /// Creates a sphere by subdividing an icosahedron.
+    /// - Parameters:
+    ///   - radius: The radius of the icosahedron.
+    ///   - faces: The direction the polygon faces.
+    ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
+    ///   - material: The optional material for the mesh.
+    static func icosahedron(
+        radius: Double = 0.5,
+        faces: Faces = .default,
+        wrapMode: WrapMode = .default,
+        material: Material? = nil
+    ) -> Mesh {
+        let t = 1 + sqrt(2) / 2
+        let coordinates: [Vector] = [
+            .init(-1, t, 0),
+            .init(1, t, 0),
+            .init(-1, -t, 0),
+            .init(1, -t, 0),
+
+            .init(0, -1, t),
+            .init(0, 1, t),
+            .init(0, -1, -t),
+            .init(0, 1, -t),
+
+            .init(t, 0, -1),
+            .init(t, 0, 1),
+            .init(-t, 0, -1),
+            .init(-t, 0, 1),
+        ]
+        let transform = Transform(rotation: .pitch(.atan(t)), scale: .init(size: radius / sqrt(t * t + 1)))
+        let v = coordinates.map { Vertex($0.transformed(by: transform)) }
+        func triangle(_ a: Vertex, _ b: Vertex, _ c: Vertex) -> Polygon {
+            Polygon(
+                unchecked: [a, b, c],
+                plane: nil,
+                isConvex: true,
+                sanitizeNormals: true,
+                material: material
+            )
+        }
+        let triangles = [
+            // 5 faces around point 0
+            triangle(v[0], v[11], v[5]),
+            triangle(v[0], v[5], v[1]),
+            triangle(v[0], v[1], v[7]),
+            triangle(v[0], v[7], v[10]),
+            triangle(v[0], v[10], v[11]),
+
+            // 5 adjacent faces
+            triangle(v[1], v[5], v[9]),
+            triangle(v[5], v[11], v[4]),
+            triangle(v[11], v[10], v[2]),
+            triangle(v[10], v[7], v[6]),
+            triangle(v[7], v[1], v[8]),
+
+            // 5 faces around point 3
+            triangle(v[3], v[9], v[4]),
+            triangle(v[3], v[4], v[2]),
+            triangle(v[3], v[2], v[6]),
+            triangle(v[3], v[6], v[8]),
+            triangle(v[3], v[8], v[9]),
+
+            // 5 adjacent faces
+            triangle(v[4], v[9], v[5]),
+            triangle(v[2], v[4], v[11]),
+            triangle(v[6], v[2], v[10]),
+            triangle(v[8], v[6], v[7]),
+            triangle(v[9], v[8], v[1]),
+        ]
+        let mesh: Mesh
+        let bounds = Bounds(triangles)
+        switch faces {
+        case .front, .default:
+            mesh = Mesh(
+                unchecked: triangles,
+                bounds: bounds,
+                isConvex: true,
+                isWatertight: true,
+                submeshes: []
+            )
+        case .back:
+            mesh = Mesh(
+                unchecked: triangles.inverted(),
+                bounds: bounds,
+                isConvex: false,
+                isWatertight: true,
+                submeshes: []
+            )
+        case .frontAndBack:
+            mesh = Mesh(
+                unchecked: triangles + triangles.inverted(),
+                bounds: bounds,
+                isConvex: false,
+                isWatertight: true,
+                submeshes: []
+            )
+        }
+        switch wrapMode {
+        case .default, .shrink:
+            return mesh.sphereMapped()
+        case .tube:
+            return mesh.cylinderMapped()
+        }
+    }
+
     /// Creates a spherical mesh.
     /// - Parameters:
     ///   - radius: The radius of the sphere.
