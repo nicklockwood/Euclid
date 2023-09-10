@@ -302,14 +302,17 @@ public extension Mesh {
         material: Material? = nil
     ) -> Mesh {
         let radius = max(abs(radius), scaleLimit / 2)
-        let height = max(abs(height), scaleLimit)
         let wrapMode = wrapMode == .default ? .tube : wrapMode
         return lathe(
-            unchecked: Path(unchecked: [
+            unchecked: Path(unchecked: abs(height) > scaleLimit ? [
                 .point(0, height / 2),
                 .point(-radius, height / 2),
                 .point(-radius, -height / 2),
                 .point(0, -height / 2),
+            ] : [
+                .point(0, 0),
+                .point(-radius, 0),
+                .point(0, 0),
             ], plane: .xy, subpathIndices: []),
             slices: slices,
             poleDetail: poleDetail,
@@ -346,7 +349,6 @@ public extension Mesh {
         material: Material? = nil
     ) -> Mesh {
         let radius = max(abs(radius), scaleLimit / 2)
-        let height = max(abs(height), scaleLimit)
         return lathe(
             unchecked: Path(unchecked: [
                 .point(0, height / 2),
