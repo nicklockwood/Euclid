@@ -182,6 +182,17 @@ public extension Mesh {
         )
     }
 
+    /// Returns a copy of the mesh with the new material applied to all polygons.
+    func withMaterial(_ material: Material?) -> Mesh {
+        Mesh(
+            unchecked: polygons.map { $0.with(material: material) },
+            bounds: boundsIfSet,
+            isConvex: isKnownConvex,
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
+        )
+    }
+
     /// Merges the polygons from two meshes.
     /// - Parameter mesh: The mesh to merge with this one.
     /// - Returns: A new mesh that includes all polygons from both meshes.

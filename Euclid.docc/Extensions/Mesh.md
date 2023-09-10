@@ -109,6 +109,7 @@
 ### Updating Materials and Texture Coordinates
 
 - ``Mesh/replacing(_:with:)``
+- ``Mesh/withMaterial(_:)``
 - ``Mesh/withoutTexcoords()``
 - ``Mesh/sphereMapped()``
 - ``Mesh/cylinderMapped()``
