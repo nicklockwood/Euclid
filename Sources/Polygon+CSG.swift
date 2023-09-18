@@ -82,7 +82,7 @@ extension Polygon {
         inside.append(polygon)
     }
 
-    // Put the polygon in the correct list, splitting it when necessary
+    /// Put the polygon in the correct list, splitting it when necessary
     func split(
         along plane: Plane,
         _ coplanar: inout [Polygon],
@@ -167,7 +167,7 @@ extension Polygon {
         }
     }
 
-    // Return all intersections with the plane
+    /// Return all intersections with the plane
     func intersect(with plane: Plane, edges: inout Set<LineSegment>) {
         var wasFront = false, wasBack = false
         for edge in undirectedEdges {

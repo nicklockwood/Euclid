@@ -501,7 +501,7 @@ private func boundsTest(
 }
 
 private extension Mesh {
-    // Merge all the meshes into a single mesh using fn
+    /// Merge all the meshes into a single mesh using fn
     static func merge<T: Collection>(
         _ meshes: T,
         using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
@@ -516,7 +516,7 @@ private extension Mesh {
         return .merge(meshes)
     }
 
-    // Merge each intersecting mesh after i into the mesh at index i using fn
+    /// Merge each intersecting mesh after i into the mesh at index i using fn
     static func reduce<T: Collection>(
         _ meshes: T,
         using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,

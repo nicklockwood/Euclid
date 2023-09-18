@@ -38,7 +38,7 @@ import Foundation
 public struct Polygon: Hashable, Sendable {
     private var storage: Storage
 
-    // Used to track split/join.
+    /// Used to track split/join.
     var id: Int
 }
 
@@ -785,7 +785,7 @@ extension Array where Element == Polygon {
 }
 
 extension Polygon {
-    // Create polygon from points with nearest matches in a vertex collection
+    /// Create polygon from points with nearest matches in a vertex collection
     init?<T: Collection>(
         points: T,
         verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]],
@@ -813,8 +813,8 @@ extension Polygon {
         self.init(vertices, material: material)
     }
 
-    // Create polygon from vertices and face normal without performing validation
-    // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
+    /// Create polygon from vertices and face normal without performing validation
+    /// Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
     init(
         unchecked vertices: [Vertex],
         normal: Vector,
@@ -832,9 +832,9 @@ extension Polygon {
         )
     }
 
-    // Create polygon from vertices and (optional) plane without performing validation
-    // Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
-    // Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
+    /// Create polygon from vertices and (optional) plane without performing validation
+    /// Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
+    /// Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
     init(
         unchecked vertices: [Vertex],
         plane: Plane?,
@@ -860,7 +860,7 @@ extension Polygon {
         self.id = id
     }
 
-    // Join touching polygons (without checking they are coplanar or share the same material)
+    /// Join touching polygons (without checking they are coplanar or share the same material)
     func merge(unchecked other: Polygon, ensureConvex: Bool) -> Polygon? {
         assert(material == other.material)
         assert(plane.isEqual(to: other.plane))
@@ -966,7 +966,7 @@ extension Polygon {
         return comparison
     }
 
-    // Create copy of polygon with specified id
+    /// Create copy of polygon with specified id
     func with(id: Int) -> Polygon {
         var polygon = self
         polygon.id = id

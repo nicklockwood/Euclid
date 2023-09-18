@@ -31,9 +31,9 @@
 
 /// An infinite line in 3D space.
 public struct Line: Hashable, Sendable {
-    // An arbitrary point on the line selected as the origin.
+    /// An arbitrary point on the line selected as the origin.
     public let origin: Vector
-    // The normalized direction of the line.
+    /// The normalized direction of the line.
     public let direction: Vector
 
     /// Creates a line from an origin and direction.

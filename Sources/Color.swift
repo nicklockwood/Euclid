@@ -207,7 +207,7 @@ extension Color {
         Color(lhs.r * rhs, lhs.g * rhs, lhs.b * rhs, lhs.a * rhs)
     }
 
-    // Approximate equality
+    /// Approximate equality
     func isEqual(to other: Color, withPrecision p: Double = epsilon) -> Bool {
         r.isEqual(to: other.r, withPrecision: p) &&
             g.isEqual(to: other.g, withPrecision: p) &&

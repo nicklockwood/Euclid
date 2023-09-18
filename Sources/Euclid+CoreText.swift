@@ -135,15 +135,15 @@ extension NSAttributedString.Key {
 #endif
 
 private extension NSAttributedString {
-    // Creates a new attributed string using text in the font you provide.
+    /// Creates a new attributed string using text in the font you provide.
     convenience init(string: String, font: CTFont?) {
         let font = font ?? CTFontCreateWithName("Helvetica" as CFString, 1, nil)
         let attributes = [NSAttributedString.Key.font: font]
         self.init(string: string, attributes: attributes)
     }
 
-    // Returns an array of (path, position, color) tuples
-    // for the glyphs in an attributed string
+    /// Returns an array of (path, position, color) tuples
+    /// for the glyphs in an attributed string
     func cgPaths(width: Double?) -> [(glyph: CGPath, offset: CGPoint, color: Color?)] {
         let framesetter = CTFramesetterCreateWithAttributedString(self as CFAttributedString)
 

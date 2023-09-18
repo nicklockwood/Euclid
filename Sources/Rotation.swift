@@ -47,7 +47,7 @@ extension Rotation: Codable {
     private struct Matrix {
         var m11, m12, m13, m21, m22, m23, m31, m32, m33: Double
 
-        // https://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
+        /// https://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
         private var determinant: Double {
             m11 * m22 * m33 + m12 * m23 * m31 + m13 * m21 * m32 -
                 m11 * m23 * m32 - m12 * m21 * m33 - m13 * m22 * m31
@@ -316,7 +316,7 @@ extension Rotation {
         self.init(.init(unchecked: axis, angle: angle))
     }
 
-    // Approximate equality
+    /// Approximate equality
     func isEqual(to other: Rotation, withPrecision p: Double = epsilon) -> Bool {
         quaternion.isEqual(to: other.quaternion, withPrecision: p)
     }

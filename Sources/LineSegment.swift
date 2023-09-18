@@ -31,9 +31,9 @@
 
 /// A finite line segment in 3D space.
 public struct LineSegment: Hashable, Sendable {
-    // The starting point of the line segment.
+    /// The starting point of the line segment.
     public let start: Vector
-    // The end point of the line segment.
+    /// The end point of the line segment.
     public let end: Vector
 
     /// Creates a line segment with a start and end point.

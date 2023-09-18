@@ -1,12 +1,19 @@
+# file options
+
+--exclude Build, Tests/XCTestManifests.swift
+
+# format options
+
 --hexgrouping ignore
 --decimalgrouping ignore
---enable isEmpty
 --ifdef no-indent
 --self init-only
 --wraparguments before-first
 --wrapcollections before-first
+--wrapconditions after-first
 --maxwidth 120
 
---lintonly unusedArguments
+# rules
 
---exclude Build, Tests/XCTestManifests.swift
+--lintonly unusedArguments
+--enable isEmpty

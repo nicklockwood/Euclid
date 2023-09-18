@@ -35,16 +35,16 @@ import Foundation
 public protocol Sendable {}
 #endif
 
-// Tolerance used for calculating approximate equality
+/// Tolerance used for calculating approximate equality
 let epsilon: Double = 1e-8
 
-// Plane equality threshold
+/// Plane equality threshold
 let planeEpsilon: Double = 1e-6
 
-// Smallest valid scale factor
+/// Smallest valid scale factor
 let scaleLimit: Double = 1e-8
 
-// Round-off floating point values to simplify equality checks
+/// Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
     let precision = 1e-12
     return (value / precision).rounded() * precision
@@ -292,7 +292,7 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
     return true
 }
 
-// Test if path is self-intersecting
+/// Test if path is self-intersecting
 // TODO: optimize by using http://www.webcitation.org/6ahkPQIsN
 func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
     guard points.count > 2 else {
@@ -323,10 +323,10 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
     return false
 }
 
-// Computes the face normal for a collection of points
-// Points are assumed to be ordered in a counter-clockwise direction
-// Points are not verified to be coplanar or non-degenerate
-// Points are not required to form a convex polygon
+/// Computes the face normal for a collection of points
+/// Points are assumed to be ordered in a counter-clockwise direction
+/// Points are not verified to be coplanar or non-degenerate
+/// Points are not required to form a convex polygon
 func faceNormalForPolygonPoints(
     _ points: [Vector],
     convex: Bool?,
@@ -400,7 +400,7 @@ func pointsAreCoplanar(_ points: [Vector]) -> Bool {
     return true
 }
 
-// https://stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order#1165943
+/// https://stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order#1165943
 func flattenedPointsAreClockwise(_ points: [Vector]) -> Bool {
     assert(!points.contains(where: { $0.z != 0 }))
     let points = (points.first == points.last) ? points.dropLast() : [Vector].SubSequence(points)
@@ -438,8 +438,8 @@ func cubicBezier(_ p0: Double, _ p1: Double, _ p2: Double, _ p3: Double, _ t: Do
 
 // MARK: Line utilities
 
-// Shortest line segment between two lines
-// http://paulbourke.net/geometry/pointlineplane/
+/// Shortest line segment between two lines
+/// http://paulbourke.net/geometry/pointlineplane/
 func shortestLineBetween(
     _ p1: Vector,
     _ p2: Vector,
@@ -476,7 +476,7 @@ func shortestLineBetween(
     return (p1 + mua * p21, p3 + mub * p43)
 }
 
-// See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+/// See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
 func vectorFromPointToLine(
     _ point: Vector,
     _ lineOrigin: Vector,
@@ -511,7 +511,7 @@ func lineSegmentsIntersection(
     return p0.isEqual(to: p1) ? p0 : nil
 }
 
-// Returns distance of plane intersection along a line (or nil if parallel)
+/// Returns distance of plane intersection along a line (or nil if parallel)
 func linePlaneIntersection(_ origin: Vector, _ direction: Vector, _ plane: Plane) -> Double? {
     // https://en.wikipedia.org/wiki/Line–plane_intersection#Algebraic_form
     let lineDotPlaneNormal = direction.dot(plane.normal)
@@ -525,8 +525,8 @@ func linePlaneIntersection(_ origin: Vector, _ direction: Vector, _ plane: Plane
 
 // MARK: Path utilities
 
-// Sanitize a set of path points by removing duplicates and invalid points
-// Should be safe to use on sets of points representing a compound path (with subpaths)
+/// Sanitize a set of path points by removing duplicates and invalid points
+/// Should be safe to use on sets of points representing a compound path (with subpaths)
 func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
     if points.count == 1 {
         return points
@@ -622,8 +622,8 @@ func extrapolate(_ p0: PathPoint, _ p1: PathPoint) -> PathPoint {
 
 // MARK: Coding
 
-// Protocol for types that can be encoded directly into an unkeyed
-// buffer. Typically applies to vectors with a fixed size.
+/// Protocol for types that can be encoded directly into an unkeyed
+/// buffer. Typically applies to vectors with a fixed size.
 protocol UnkeyedCodable {
     /// Decode directly from an unkeyedContainer
     init(from container: inout UnkeyedDecodingContainer) throws

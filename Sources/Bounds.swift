@@ -251,19 +251,19 @@ public extension Bounds {
 }
 
 extension Bounds {
-    // A Boolean value that indicates the bounds has a negative volume.
+    /// A Boolean value that indicates the bounds has a negative volume.
     var hasNegativeVolume: Bool {
         max.x < min.x || max.y < min.y || max.z < min.z
     }
 
-    // Approximate equality
+    /// Approximate equality
     func isEqual(to other: Bounds, withPrecision p: Double = epsilon) -> Bool {
         min.isEqual(to: other.min, withPrecision: p) &&
             max.isEqual(to: other.max, withPrecision: p)
     }
 
-    // Compares a region defined by the bounds with a plane to determine the
-    // relationship of the points that make up the bounds to the plane.
+    /// Compares a region defined by the bounds with a plane to determine the
+    /// relationship of the points that make up the bounds to the plane.
     func compare(with plane: Plane) -> PlaneComparison {
         var comparison = PlaneComparison.coplanar
         for point in corners {

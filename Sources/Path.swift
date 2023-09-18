@@ -485,13 +485,13 @@ extension Path {
         points.contains(where: { $0.color != nil })
     }
 
-    // Test if path is self-intersecting
+    /// Test if path is self-intersecting
     var isSimple: Bool {
         // TODO: what should we do about subpaths?
         !pointsAreSelfIntersecting(points.map { $0.position })
     }
 
-    // Returns the most suitable FlatteningPlane for the path
+    /// Returns the most suitable FlatteningPlane for the path
     var flatteningPlane: FlatteningPlane {
         FlatteningPlane(normal: faceNormal)
     }
@@ -502,7 +502,7 @@ extension Path {
         points.count < (isClosed ? 4 : 3)
     }
 
-    // flattens z-axis
+    /// flattens z-axis
     // TODO: this is a hack and should be replaced by a better solution
     func flattened() -> Path {
         guard subpathIndices.isEmpty else {
@@ -607,7 +607,7 @@ extension Path {
         }
     }
 
-    // Returns the path with its first point recentered on the origin
+    /// Returns the path with its first point recentered on the origin
     func withNormalizedPosition() -> (path: Path, offset: Vector) {
         guard let offset = points.first?.position, offset != .zero else {
             return (self, .zero)

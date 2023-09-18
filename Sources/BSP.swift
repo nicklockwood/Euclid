@@ -124,7 +124,7 @@ private extension BSP {
         }
     }
 
-    // See https://github.com/wangyi-fudan/wyhash/
+    /// See https://github.com/wangyi-fudan/wyhash/
     struct DeterministicRNG: RandomNumberGenerator {
         private var seed: UInt64 = 0
 

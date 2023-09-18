@@ -521,7 +521,7 @@ extension Quaternion: UnkeyedCodable {
 }
 
 extension Quaternion {
-    // Approximate equality
+    /// Approximate equality
     func isEqual(to other: Quaternion, withPrecision p: Double = epsilon) -> Bool {
         w.isEqual(to: other.w, withPrecision: p) &&
             x.isEqual(to: other.x, withPrecision: p) &&
