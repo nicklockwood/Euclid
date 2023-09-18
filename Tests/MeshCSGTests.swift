@@ -75,61 +75,61 @@ class MeshCSGTests: XCTestCase {
         XCTAssertEqual(Mesh.empty, .difference([]))
     }
 
-    // MARK: XOR
+    // MARK: Symmetric Difference (XOR)
 
     func testXorCoincidingCubes() {
         let a = Mesh.cube()
         let b = Mesh.cube()
-        let c = a.xor(b)
+        let c = a.symmetricDifference(b)
         XCTAssert(c.polygons.isEmpty)
-        XCTAssertEqual(c, .xor([a, b]))
+        XCTAssertEqual(c, .symmetricDifference([a, b]))
     }
 
     func testXorAdjacentCubes() {
         let a = Mesh.cube()
         let b = Mesh.cube().translated(by: .unitX)
-        let c = a.xor(b)
+        let c = a.symmetricDifference(b)
         XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
-        XCTAssertEqual(c, .xor([a, b]))
+        XCTAssertEqual(c, .symmetricDifference([a, b]))
     }
 
     func testXorOverlappingCubes() {
         let a = Mesh.cube()
         let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
-        let c = a.xor(b)
+        let c = a.symmetricDifference(b)
         XCTAssertEqual(c.bounds, Bounds(
             min: Vector(-0.5, -0.5, -0.5),
             max: Vector(1.0, 0.5, 0.5)
         ))
-        XCTAssertEqual(c, .xor([a, b]))
+        XCTAssertEqual(c, .symmetricDifference([a, b]))
     }
 
     func testXorWithEmptyMesh() {
         let a = Mesh.empty
         let b = Mesh.cube()
-        XCTAssertEqual(a.xor(b), b)
-        XCTAssertEqual(b.xor(a), b)
-        XCTAssertEqual(a.xor(b), .xor([a, b]))
-        XCTAssertEqual(b.xor(a), .xor([b, a]))
+        XCTAssertEqual(a.symmetricDifference(b), b)
+        XCTAssertEqual(b.symmetricDifference(a), b)
+        XCTAssertEqual(a.symmetricDifference(b), .symmetricDifference([a, b]))
+        XCTAssertEqual(b.symmetricDifference(a), .symmetricDifference([b, a]))
     }
 
     func testXorIsDeterministic() {
         let a = Mesh.cube(size: 0.8)
         let b = Mesh.sphere(slices: 16)
-        let c = a.xor(b)
+        let c = a.symmetricDifference(b)
         #if !arch(wasm32)
         XCTAssertEqual(c.polygons.count, 323)
         #endif
-        XCTAssertEqual(c, .xor([a, b]))
+        XCTAssertEqual(c, .symmetricDifference([a, b]))
     }
 
     func testXorOfOne() {
         let mesh = Mesh.cube()
-        XCTAssertEqual(mesh, .xor([mesh]))
+        XCTAssertEqual(mesh, .symmetricDifference([mesh]))
     }
 
     func testXorOfNone() {
-        XCTAssertEqual(Mesh.empty, .xor([]))
+        XCTAssertEqual(Mesh.empty, .symmetricDifference([]))
     }
 
     // MARK: Union
@@ -289,28 +289,28 @@ class MeshCSGTests: XCTestCase {
     func testXorCoincidingSquares() {
         let a = Mesh.fill(.square())
         let b = Mesh.fill(.square())
-        let c = a.xor(b)
+        let c = a.symmetricDifference(b)
         XCTAssert(c.polygons.isEmpty)
-        XCTAssertEqual(c, .xor([a, b]))
+        XCTAssertEqual(c, .symmetricDifference([a, b]))
     }
 
     func testXorAdjacentSquares() {
         let a = Mesh.fill(.square())
         let b = Mesh.fill(.square()).translated(by: .unitX)
-        let c = a.xor(b)
+        let c = a.symmetricDifference(b)
         XCTAssertEqual(c.bounds, a.bounds.union(b.bounds))
-        XCTAssertEqual(c, .xor([a, b]))
+        XCTAssertEqual(c, .symmetricDifference([a, b]))
     }
 
     func testXorOverlappingSquares() {
         let a = Mesh.fill(.square())
         let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
-        let c = a.xor(b)
+        let c = a.symmetricDifference(b)
         XCTAssertEqual(c.bounds, Bounds(
             min: Vector(-0.5, -0.5, 0),
             max: Vector(1.0, 0.5, 0)
         ))
-        XCTAssertEqual(c, .xor([a, b]))
+        XCTAssertEqual(c, .symmetricDifference([a, b]))
     }
 
     // MARK: Planar union

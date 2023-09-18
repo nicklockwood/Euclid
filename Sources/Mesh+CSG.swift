@@ -187,7 +187,7 @@ public extension Mesh {
     ///   - mesh: The mesh to be XORed with this one.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the XOR of the meshes.
-    func xor(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+    func symmetricDifference(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         guard !intersection.isEmpty else {
             return merge(mesh)
@@ -220,16 +220,29 @@ public extension Mesh {
         )
     }
 
+    @available(*, deprecated, renamed: "symmetricDifference(_:isCancelled:)")
+    func xor(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+        symmetricDifference(mesh, isCancelled: isCancelled)
+    }
+
     /// Efficiently XORs multiple meshes.
     /// - Parameters
     ///   - meshes: A collection of meshes to be XORed.
     ///   - isCancelled: Callback used to cancel the operation
     /// - Returns: A new mesh representing the XOR of the meshes.
+    static func symmetricDifference<T: Collection>(
+        _ meshes: T,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh where T.Element == Mesh {
+        merge(meshes, using: { $0.symmetricDifference($1, isCancelled: $2) }, isCancelled)
+    }
+
+    @available(*, deprecated, renamed: "symmetricDifference(_:isCancelled:)")
     static func xor<T: Collection>(
         _ meshes: T,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh where T.Element == Mesh {
-        merge(meshes, using: { $0.xor($1, isCancelled: $2) }, isCancelled)
+        symmetricDifference(meshes, isCancelled: isCancelled)
     }
 
     /// Returns a new mesh representing the volume shared by both the mesh

@@ -441,7 +441,7 @@ public extension Mesh {
     ) -> Mesh {
         let subpaths = shape.subpaths
         if subpaths.count > 1 {
-            return .xor(subpaths.map { .fill($0, faces: faces, material: material) })
+            return .symmetricDifference(subpaths.map { .fill($0, faces: faces, material: material) })
         }
 
         let polygons = shape.closed().facePolygons(material: material)
@@ -787,7 +787,7 @@ private extension Mesh {
     ) -> Mesh {
         let subpaths = profile.subpaths
         if subpaths.count > 1 {
-            return .xor(subpaths.map {
+            return .symmetricDifference(subpaths.map {
                 .lathe(
                     $0,
                     slices: slices,
@@ -1033,7 +1033,7 @@ private extension Mesh {
                     subshapes[i].append(subpath)
                 }
             }
-            return .xor(subshapes.map { .loft($0, faces: faces, material: material) })
+            return .symmetricDifference(subshapes.map { .loft($0, faces: faces, material: material) })
         }
         let shapes = shapes.filter { !$0.points.isEmpty }
         guard let first = shapes.first, let last = shapes.last else {

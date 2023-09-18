@@ -78,7 +78,7 @@ CSG allows you to perform boolean operations (logical AND, OR, etc.) on solid sh
 The following CSG operations are defined as methods on the ``Mesh`` type:
 
 - ``Mesh/subtracting(_:isCancelled:)`` - Subtracts the volume of one `Mesh` from another.
-- ``Mesh/xor(_:isCancelled:)-swift.type.method`` - Produces a shape representing the non-overlapping parts of the input `Mesh`es (this is useful for rendering text glyphs).
+- ``Mesh/symmetricDifference(_:isCancelled:)-swift.type.method`` - Produces a shape representing the non-overlapping parts of the input `Mesh`es (this is useful for rendering text glyphs).
 - ``Mesh/union(_:isCancelled:)-swift.method`` - Combines two intersecting `Mesh`es, removing internal faces and leaving only the outer shell around both shapes (logical OR).
 - ``Mesh/intersection(_:isCancelled:)`` - Returns a single ``Mesh`` representing the common volume of two intersecting ``Mesh``es (logical AND).
 - ``Mesh/stencil(_:isCancelled:)-swift.method`` - This effectively "paints" part of one ``Mesh`` with the material from another.
@@ -95,4 +95,4 @@ The ``Path/text(_:width:detail:)`` method produces an array of 2D ``Path`` that 
 Alternatively, the ``Mesh/text(_:font:width:depth:detail:material:)`` constructor directly produces an extruded 3D text model from a `String` or `AttributedString`.
 
 Each glyph in the input string maps to a single ``Path`` in the result, but these ``Path``s may contain nested subpaths. 
-Glyphs formed from multiple subpaths will be filled using the even-odd rule (equivalent to an `xor` between the individually filled or extruded subpaths).
+Glyphs formed from multiple subpaths will be filled using the even-odd rule (equivalent to using `symmetricDifference` with the individually filled or extruded subpaths).

@@ -27,8 +27,8 @@
 - ``Mesh/intersection(_:isCancelled:)-swift.type.method``
 - ``Mesh/subtracting(_:isCancelled:)``
 - ``Mesh/difference(_:isCancelled:)``
-- ``Mesh/xor(_:isCancelled:)-swift.method``
-- ``Mesh/xor(_:isCancelled:)-swift.type.method``
+- ``Mesh/symmetricDifference(_:isCancelled:)-swift.method``
+- ``Mesh/symmetricDifference(_:isCancelled:)-swift.type.method``
 - ``Mesh/stencil(_:isCancelled:)-swift.method``
 - ``Mesh/stencil(_:isCancelled:)-swift.type.method``
 
