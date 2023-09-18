@@ -109,6 +109,8 @@
 
 - ``Mesh/replacing(_:with:)``
 - ``Mesh/withoutTexcoords()``
+- ``Mesh/sphereMapped()``
+- ``Mesh/cylinderMapped()``
 
 ### Merging Meshes
 

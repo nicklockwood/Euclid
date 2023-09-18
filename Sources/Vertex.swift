@@ -239,8 +239,8 @@ extension Vertex {
 }
 
 extension Collection where Element == Vertex {
-    func withoutTexcoords() -> [Vertex] {
-        map { $0.with(texcoord: .zero) }
+    func mapTexcoords(_ fn: (Vector) -> Vector) -> [Vertex] {
+        map { $0.with(texcoord: fn($0.texcoord)) }
     }
 
     func inverted() -> [Vertex] {

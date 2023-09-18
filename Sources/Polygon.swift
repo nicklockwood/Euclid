@@ -297,7 +297,7 @@ public extension Polygon {
     /// Return a copy of the polygon without texture coordinates
     func withoutTexcoords() -> Polygon {
         Polygon(
-            unchecked: vertices.withoutTexcoords(),
+            unchecked: vertices.mapTexcoords { _ in .zero },
             plane: plane,
             isConvex: isConvex,
             sanitizeNormals: false,
@@ -547,9 +547,9 @@ extension Collection where Element == Polygon {
         }
     }
 
-    /// Return polygons without texture coordinates
-    func withoutTexcoords() -> [Polygon] {
-        map { $0.withoutTexcoords() }
+    /// Return polygons with transformed texture coordinates
+    func mapTexcoords(_ fn: (Vector) -> Vector) -> [Polygon] {
+        map { $0.mapTexcoords(fn) }
     }
 
     /// Flip each polygon along its plane
@@ -951,6 +951,18 @@ extension Polygon {
         var polygon = self
         polygon.id = id
         return polygon
+    }
+
+    /// Return a copy of the polygon with transformed texture coordinates
+    func mapTexcoords(_ fn: (Vector) -> Vector) -> Polygon {
+        Polygon(
+            unchecked: vertices.mapTexcoords(fn),
+            plane: plane,
+            isConvex: isConvex,
+            sanitizeNormals: false,
+            material: material,
+            id: id
+        )
     }
 }
 
