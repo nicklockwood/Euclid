@@ -328,4 +328,18 @@ class MeshTests: XCTestCase {
             XCTAssertFalse(bsp.containsPoint(point))
         }
     }
+
+    // MARK: Optimization
+
+    func testMeshWithoutTexcoords() {
+        let mesh = Mesh.cube().withoutTexcoords()
+        XCTAssertFalse(mesh.hasTexcoords)
+    }
+
+    func testMeshWithoutVertexNormals() {
+        let cube = Mesh.cube()
+        XCTAssertFalse(cube.hasVertexNormals)
+        let sphere = Mesh.sphere().smoothNormals(.zero)
+        XCTAssertFalse(sphere.hasVertexNormals)
+    }
 }

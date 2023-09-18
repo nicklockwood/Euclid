@@ -104,7 +104,11 @@
 - ``Mesh/translated(by:)``
 - ``Mesh/transformed(by:)``
 - ``Mesh/inverted()``
+
+### Updating Materials and Texture Coordinates
+
 - ``Mesh/replacing(_:with:)``
+- ``Mesh/withoutTexcoords()``
 
 ### Merging Meshes
 

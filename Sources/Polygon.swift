@@ -150,7 +150,7 @@ public extension Polygon {
 
     /// A Boolean value that indicates whether the polygon includes vertex normals that differ from the face normal.
     var hasVertexNormals: Bool {
-        vertices.contains(where: { $0.normal != plane.normal && $0.normal != .zero })
+        vertices.contains(where: { !$0.normal.isEqual(to: plane.normal) && $0.normal != .zero })
     }
 
     /// A Boolean value that indicates whether the polygon includes vertex colors.
@@ -284,6 +284,18 @@ public extension Polygon {
             return nil
         }
         return merge(unchecked: other, ensureConvex: ensureConvex)
+    }
+
+    /// Return a copy of the polygon without texture coordinates
+    func withoutTexcoords() -> Polygon {
+        Polygon(
+            unchecked: vertices.withoutTexcoords(),
+            plane: plane,
+            isConvex: isConvex,
+            sanitizeNormals: false,
+            material: material,
+            id: id
+        )
     }
 
     /// Flips the polygon along its plane and reverses the order and surface normals of the vertices.
@@ -525,6 +537,11 @@ extension Collection where Element == Polygon {
                 material: p0.material
             )
         }
+    }
+
+    /// Return polygons without texture coordinates
+    func withoutTexcoords() -> [Polygon] {
+        map { $0.withoutTexcoords() }
     }
 
     /// Flip each polygon along its plane

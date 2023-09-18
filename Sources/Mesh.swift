@@ -331,6 +331,17 @@ public extension Mesh {
         )
     }
 
+    /// Return a copy of the mesh without texture coordinates
+    func withoutTexcoords() -> Mesh {
+        Mesh(
+            unchecked: polygons.withoutTexcoords(),
+            bounds: boundsIfSet,
+            isConvex: isKnownConvex,
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
+        )
+    }
+
     /// Returns a Boolean value that indicates if the specified point is inside the mesh.
     /// - Parameter point: The point to compare.
     /// - Returns: `true` if the point lies inside the mesh, and `false` otherwise.

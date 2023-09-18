@@ -215,6 +215,13 @@ extension Vertex {
         return vertex
     }
 
+    /// Creates a copy of the vertex with the specified texture coordinate.
+    func with(texcoord: Vector) -> Vertex {
+        var vertex = self
+        vertex.texcoord = texcoord
+        return vertex
+    }
+
     /// Creates a copy of the vertex with the specified position.
     func with(position: Vector) -> Vertex {
         var vertex = self
@@ -232,6 +239,10 @@ extension Vertex {
 }
 
 extension Collection where Element == Vertex {
+    func withoutTexcoords() -> [Vertex] {
+        map { $0.with(texcoord: .zero) }
+    }
+
     func inverted() -> [Vertex] {
         reversed().map { $0.inverted() }
     }
