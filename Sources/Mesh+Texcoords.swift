@@ -71,7 +71,7 @@ public extension Mesh {
                 }
                 let x = ha.radians / -Angle.twoPi.radians + 0.5
                 let y = va.radians / -.pi + 0.5
-                return $0.with(texcoord: Vector(x, y))
+                return $0.withTexcoord(Vector(x, y))
             }
         }
     }
@@ -101,7 +101,7 @@ public extension Mesh {
                 }
                 let x = ha.radians / -Angle.twoPi.radians + 0.5
                 let y = (p.y - bounds.min.y) / -bounds.size.y
-                return $0.with(texcoord: Vector(x, y))
+                return $0.withTexcoord(Vector(x, y))
             }
         }
     }

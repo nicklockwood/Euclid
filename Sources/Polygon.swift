@@ -506,7 +506,7 @@ extension Collection where Element == Polygon {
                 if modified || v != u {
                     modified = true
                     if let w = merged.last, w.position == u.position {
-                        merged[merged.count - 1] = w.lerp(v, 0.5).with(position: u.position)
+                        merged[merged.count - 1] = w.lerp(v, 0.5).withPosition(u.position)
                         continue
                     }
                 }
@@ -530,7 +530,7 @@ extension Collection where Element == Polygon {
             return map { p0 in
                 let n0 = p0.plane.normal
                 return Polygon(
-                    unchecked: p0.vertices.map { $0.with(normal: n0) },
+                    unchecked: p0.vertices.map { $0.withNormal(n0) },
                     plane: p0.plane,
                     isConvex: p0.isConvex,
                     sanitizeNormals: false,
@@ -549,7 +549,7 @@ extension Collection where Element == Polygon {
             return Polygon(
                 unchecked: p0.vertices.map { v0 in
                     let polygons = polygonsByVertex[v0.position] ?? []
-                    return v0.with(normal: polygons.compactMap { p1 in
+                    return v0.withNormal(polygons.compactMap { p1 in
                         let n1 = p1.plane.normal
                         return .acos(n0.dot(n1)) < threshold ? n1 : nil
                     }.reduce(.zero) { $0 + $1 })
@@ -851,7 +851,7 @@ extension Polygon {
         let isConvex = isConvex ?? pointsAreConvex(points)
         self.storage = Storage(
             vertices: sanitizeNormals ? vertices.map {
-                $0.with(normal: $0.normal == .zero ? plane.normal : $0.normal)
+                $0.withNormal($0.normal == .zero ? plane.normal : $0.normal)
             } : vertices,
             plane: plane,
             isConvex: isConvex,
@@ -967,7 +967,7 @@ extension Polygon {
     }
 
     /// Create copy of polygon with specified id
-    func with(id: Int) -> Polygon {
+    func withID(_ id: Int) -> Polygon {
         var polygon = self
         polygon.id = id
         return polygon

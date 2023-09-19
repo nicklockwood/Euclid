@@ -805,7 +805,7 @@ class PolygonTests: XCTestCase {
             .point(1, 0),
             .point(0, 1),
         ])
-        guard let polygon = Polygon(shape: path)?.with(id: 5) else {
+        guard let polygon = Polygon(shape: path)?.withID(5) else {
             XCTFail()
             return
         }
@@ -821,7 +821,7 @@ class PolygonTests: XCTestCase {
             .point(1, 0),
             .point(0, 1),
         ])
-        guard let polygon = Polygon(shape: path)?.with(id: 5) else {
+        guard let polygon = Polygon(shape: path)?.withID(5) else {
             XCTFail()
             return
         }

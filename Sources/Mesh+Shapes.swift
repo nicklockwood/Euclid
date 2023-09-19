@@ -1340,7 +1340,7 @@ private extension Mesh {
         }
         func nearestIndex(to a: Vector, in e: [Vertex]) -> Int {
             let a = a.translated(by: t1).rotated(by: r)
-            let e = e.map { $0.with(position: $0.position.translated(by: t0)) }
+            let e = e.map { $0.withPosition($0.position.translated(by: t0)) }
             var closestIndex = 0
             var best = Double.infinity
             for i in stride(from: 0, to: e.count, by: 2) {

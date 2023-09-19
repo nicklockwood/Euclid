@@ -209,21 +209,21 @@ extension Vertex {
     }
 
     /// Creates a copy of the vertex with the specified normal.
-    func with(normal: Vector) -> Vertex {
+    func withNormal(_ normal: Vector) -> Vertex {
         var vertex = self
         vertex.normal = normal
         return vertex
     }
 
     /// Creates a copy of the vertex with the specified texture coordinate.
-    func with(texcoord: Vector) -> Vertex {
+    func withTexcoord(_ texcoord: Vector) -> Vertex {
         var vertex = self
         vertex.texcoord = texcoord
         return vertex
     }
 
     /// Creates a copy of the vertex with the specified position.
-    func with(position: Vector) -> Vertex {
+    func withPosition(_ position: Vector) -> Vertex {
         var vertex = self
         vertex.position = position._quantized()
         return vertex
@@ -240,7 +240,7 @@ extension Vertex {
 
 extension Collection where Element == Vertex {
     func mapTexcoords(_ fn: (Vector) -> Vector) -> [Vertex] {
-        map { $0.with(texcoord: fn($0.texcoord)) }
+        map { $0.withTexcoord(fn($0.texcoord)) }
     }
 
     func inverted() -> [Vertex] {
