@@ -349,7 +349,7 @@ public extension Path {
         }
 
         // get path length
-        var totalLength: Double = 0
+        var totalLength = 0.0
         switch wrapMode {
         case .shrink, .default:
             var prev = points[0].position
@@ -366,6 +366,8 @@ public extension Path {
                 max = Swift.max(max, point.position.y)
             }
             totalLength = max - min
+        case .none:
+            break
         }
 
         let count = isClosed ? points.count - 1 : points.count
@@ -399,6 +401,8 @@ public extension Path {
                 v += p1p2.length / totalLength
             case .tube:
                 v += abs(p1p2.y) / totalLength
+            case .none:
+                break
             }
             if p1.isCurved {
                 let v = Vertex(

@@ -57,6 +57,8 @@ public extension Mesh {
         case shrink
         /// Texture is tube-wrapped.
         case tube
+        /// Do not generate texture coordinates.
+        case none
     }
 
     /// Creates an axis-aligned cuboidal mesh.
@@ -249,6 +251,8 @@ public extension Mesh {
             return mesh.sphereMapped()
         case .tube:
             return mesh.cylinderMapped()
+        case .none:
+            return mesh
         }
     }
 
