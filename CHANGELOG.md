@@ -1,5 +1,25 @@
 # Change Log
 
+## [0.7.0](https://github.com/nicklockwood/Euclid/releases/tag/0.7.0) (2023-09-23)
+
+- Added `Mesh.icosahedron()` primitive
+- Added `Bounded` protocol for types that have a `bounds` property
+- Added `Mesh.sphereMapped()` and `Mesh.cylinderMapped()` methods
+- Added `Mesh.withTextureTransform()` method
+- Added `CGImage.checkerboard()` convenience method for testing textures
+- Added `WrapMode.none` option for creating meshes without texture coordinates
+- Added `Mesh.withMaterial()` method
+- Texture material coordinates now wrap by default
+- Texture materials now use nearest-neighbor upscaling by default
+- Added `stacks` parameter to cone primitive
+- Added `wrapMode` parameter to cube primitive
+- Removed minimum height for cone and cylinder primitives
+- Materials now use `NSSecureCoding` for serialization
+- Raised minimum supported macOS version to 10.14
+- Raised minimum supported iOS version to 11
+- Renamed various methods for consistency
+- Moved docs to main branch
+
 ## [0.6.18](https://github.com/nicklockwood/Euclid/releases/tag/0.6.18) (2023-09-22)
 
 - Fixed crash on iOS 16 when building with Xcode 15
