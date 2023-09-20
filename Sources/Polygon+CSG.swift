@@ -257,10 +257,8 @@ public extension Polygon {
             let p0 = edgePlane(for: e0)
             let p1 = edgePlane(for: e1)
 
-            let normal = -(p0.normal + p1.normal).normalized() * t
-
-            let p2 = p0.translated(by: normal)
-            let p3 = p1.translated(by: normal)
+            let p2 = p0.translated(by: -p0.normal * t)
+            let p3 = p1.translated(by: -p1.normal * t)
 
             let vector = vertices.first { $0.position.isEqual(to: e0.end) }
 
