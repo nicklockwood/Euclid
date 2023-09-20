@@ -248,24 +248,22 @@ extension Polygon {
 
 public extension Polygon {
     func inset(by t: Double) -> Self? {
-        var v: [Vertex] = []
-
-        for i in orderedEdges.indices {
-            let e0 = orderedEdges[i]
-            let e1 = orderedEdges[(i + 1) % orderedEdges.count]
+        let v: [Vertex] = orderedEdges.indices.compactMap {
+            let e0 = orderedEdges[$0]
+            let e1 = orderedEdges[($0 + 1) % orderedEdges.count]
 
             let p0 = edgePlane(for: e0)
             let p1 = edgePlane(for: e1)
 
-            let p2 = p0.translated(by: -p0.normal * t)
-            let p3 = p1.translated(by: -p1.normal * t)
+            let lhs = p0.translated(by: -p0.normal * t)
+            let rhs = p1.translated(by: -p1.normal * t)
 
-            let vector = vertices.first { $0.position.isEqual(to: e0.end) }
+            let vertex = vertices.first { $0.position.isEqual(to: e0.end) }
 
-            guard let vector,
-                  let intersection = p2.intersection(with: p3) else { return nil }
+            guard let vertex,
+                  let intersection = lhs.intersection(with: rhs) else { return nil }
 
-            v.append(Vertex(intersection.origin, vector.normal, vector.texcoord, vector.color))
+            return Vertex(intersection.origin, vertex.normal, vertex.texcoord, vertex.color)
         }
 
         return Self(v)
