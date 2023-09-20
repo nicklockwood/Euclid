@@ -245,3 +245,31 @@ extension Polygon {
         return false
     }
 }
+
+public extension Polygon {
+    func inset(by t: Double) -> Self? {
+        var v: [Vertex] = []
+
+        for i in orderedEdges.indices {
+            let e0 = orderedEdges[i]
+            let e1 = orderedEdges[(i + 1) % orderedEdges.count]
+
+            let p0 = edgePlane(for: e0)
+            let p1 = edgePlane(for: e1)
+
+            let normal = -(p0.normal + p1.normal).normalized() * t
+
+            let p2 = p0.translated(by: normal)
+            let p3 = p1.translated(by: normal)
+
+            let vector = vertices.first { $0.position.isEqual(to: e0.end) }
+
+            guard let vector,
+                  let intersection = p2.intersection(with: p3) else { return nil }
+
+            v.append(Vertex(intersection.origin, vector.normal, vector.texcoord, vector.color))
+        }
+
+        return Self(v)
+    }
+}
