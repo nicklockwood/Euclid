@@ -54,7 +54,7 @@ extension Mesh: Codable {
             if let materials = try container.decodeIfPresent([CodableMaterial].self, forKey: .materials) {
                 let polygonsByMaterial = try container.decode([[Polygon]].self, forKey: .polygons)
                 polygons = zip(materials, polygonsByMaterial).flatMap { material, polygons in
-                    polygons.map { $0.with(material: material.value) }
+                    polygons.mapMaterials { _ in material.value }
                 }
             } else {
                 polygons = try container.decode([Polygon].self, forKey: .polygons)
@@ -84,7 +84,7 @@ extension Mesh: Codable {
             try container.encode(materials.map { CodableMaterial($0) }, forKey: .materials)
             let polygonsByMaterial = self.polygonsByMaterial
             try container.encode(materials.map { material -> [Polygon] in
-                polygonsByMaterial[material]!.map { $0.with(material: nil) }
+                polygonsByMaterial[material]!.mapMaterials { _ in nil }
             }, forKey: .polygons)
         }
     }
@@ -165,16 +165,14 @@ public extension Mesh {
         self = .merge(submeshes)
     }
 
-    /// Replaces an existing material with the specified new one.
+    /// Returns a copy of the mesh with the specified old material replaced by a new one.
     /// - Parameters:
     ///     - old: The ``Material`` to be replaced.
     ///     - new: The ``Material`` to use instead.
     /// - Returns: a new ``Mesh`` with the material replaced.
     func replacing(_ old: Material?, with new: Material?) -> Mesh {
         Mesh(
-            unchecked: polygons.map {
-                $0.material == old ? $0.with(material: new) : $0
-            },
+            unchecked: polygons.mapMaterials { $0 == old ? new : $0 },
             bounds: boundsIfSet,
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
@@ -185,7 +183,7 @@ public extension Mesh {
     /// Returns a copy of the mesh with the new material applied to all polygons.
     func withMaterial(_ material: Material?) -> Mesh {
         Mesh(
-            unchecked: polygons.map { $0.with(material: material) },
+            unchecked: polygons.mapMaterials { _ in material },
             bounds: boundsIfSet,
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,

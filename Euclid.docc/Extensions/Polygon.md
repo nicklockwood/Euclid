@@ -36,7 +36,7 @@
 - ``Polygon/transformed(by:)``
 - ``Polygon/merge(_:ensureConvex:)``
 - ``Polygon/inverted()``
-- ``Polygon/with(material:)``
+- ``Polygon/withMaterial(_:)``
 
 ### Splitting Polygons
 

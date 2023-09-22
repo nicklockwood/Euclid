@@ -206,10 +206,16 @@ public extension Polygon {
 
     /// Creates a copy of the polygon with the specified material.
     /// - Parameter material: The replacement material, or `nil` to remove the material.
-    func with(material: Material?) -> Polygon {
+    func withMaterial(_ material: Material?) -> Polygon {
         var polygon = self
         polygon.material = material
         return polygon
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "withMaterial(_:)")
+    func with(material: Material?) -> Polygon {
+        withMaterial(material)
     }
 
     /// Creates a polygon from an array of vertices.
@@ -545,6 +551,11 @@ extension Collection where Element == Polygon {
                 material: p0.material
             )
         }
+    }
+
+    /// Return polygons with materials replaced by the function
+    func mapMaterials(_ fn: (Polygon.Material?) -> Polygon.Material?) -> [Polygon] {
+        map { $0.withMaterial(fn($0.material)) }
     }
 
     /// Return polygons with transformed texture coordinates

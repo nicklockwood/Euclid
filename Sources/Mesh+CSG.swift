@@ -341,7 +341,7 @@ public extension Mesh {
         let (outside, inside) = bsp.split(ap, .greaterThan, .lessThanEqual, isCancelled)
         let material = mesh.polygons.first?.material
         return Mesh(
-            unchecked: aout! + outside + inside.map { $0.with(material: material) },
+            unchecked: aout! + outside + inside.mapMaterials { _ in material },
             bounds: bounds,
             isConvex: isKnownConvex,
             isWatertight: nil,
