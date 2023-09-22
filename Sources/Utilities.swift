@@ -633,23 +633,56 @@ protocol UnkeyedCodable {
 
 // MARK: Data
 
-extension Data {
-    mutating func append(_ int: UInt16) {
+class Buffer {
+    private(set) var buffer: UnsafeMutablePointer<UInt8>
+    let capacity: Int
+    var count: Int = 0 {
+        didSet { assert((0 ... capacity).contains(count)) }
+    }
+
+    init(capacity: Int) {
+        self.capacity = capacity
+        self.buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: capacity)
+        buffer.initialize(repeating: 0, count: capacity)
+    }
+
+    deinit {
+        buffer.deallocate()
+    }
+
+    func append(_ int: UInt16) {
+        assert(count <= capacity - 2)
         var int = int
-        withUnsafeMutablePointer(to: &int) { pointer in
-            append(UnsafeBufferPointer(start: pointer, count: 1))
+        withUnsafeMutablePointer(to: &int) {
+            let pointer = $0.withMemoryRebound(to: UInt8.self, capacity: 2) { $0 }
+            for i in 0 ..< 2 {
+                buffer[count] = pointer[i]
+                count += 1
+            }
         }
     }
 
-    mutating func append(_ int: UInt32) {
+    func append(_ int: UInt32) {
+        assert(count <= capacity - 4)
         var int = int
-        withUnsafeMutablePointer(to: &int) { pointer in
-            append(UnsafeBufferPointer(start: pointer, count: 1))
+        withUnsafeMutablePointer(to: &int) {
+            let pointer = $0.withMemoryRebound(to: UInt8.self, capacity: 4) { $0 }
+            for i in 0 ..< 4 {
+                buffer[count] = pointer[i]
+                count += 1
+            }
         }
     }
 
-    mutating func append(_ float: Float) {
+    func append(_ float: Float) {
         append(float.bitPattern)
+    }
+}
+
+extension Data {
+    init(_ buffer: Buffer) {
+        // TODO: any way to avoid the copy here?
+        self.init(bytes: buffer.buffer, count: buffer.count)
     }
 }
 

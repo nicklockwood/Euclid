@@ -223,9 +223,10 @@ public extension SCNGeometry {
         for material in mesh.materials {
             materials.append(materialLookup(material) ?? SCNMaterial())
             let polygons = polygonsByMaterial[material]?.tessellate() ?? []
-            var indexData = Data()
+            let bufferSize = polygons.reduce(polygons.count) { $0 + $1.vertices.count }
+            let indexBuffer = Buffer(capacity: bufferSize * 4)
             for polygon in polygons {
-                indexData.append(UInt32(polygon.vertices.count))
+                indexBuffer.append(UInt32(polygon.vertices.count))
             }
             for polygon in polygons {
                 for var vertex in polygon.vertices {
@@ -233,12 +234,12 @@ public extension SCNGeometry {
                         vertex.normal = .zero
                     }
                     if let index = indicesByVertex[vertex] {
-                        indexData.append(index)
+                        indexBuffer.append(index)
                         continue
                     }
                     let index = UInt32(indicesByVertex.count)
                     indicesByVertex[vertex] = index
-                    indexData.append(index)
+                    indexBuffer.append(index)
                     vertices.append(SCNVector3(vertex.position))
                     if hasVertexNormals {
                         normals.append(SCNVector3(vertex.normal))
@@ -251,7 +252,7 @@ public extension SCNGeometry {
                     }
                 }
             }
-            elementData.append((polygons.count, indexData))
+            elementData.append((polygons.count, Data(indexBuffer)))
         }
         var sources = [SCNGeometrySource(vertices: vertices)]
         if hasVertexNormals {
