@@ -768,7 +768,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.17;
+				MARKETING_VERSION = 0.6.18;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=75";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
@@ -801,7 +801,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.17;
+				MARKETING_VERSION = 0.6.18;
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=75";
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.Euclid;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
@@ -831,8 +831,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.EuclidTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx appletvos appletvsimulator";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator macosx";
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,3,6";
 			};
 			name = Debug;
 		};
@@ -854,8 +856,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.EuclidTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx appletvos appletvsimulator";
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator macosx";
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,3,6";
 			};
 			name = Release;
 		};

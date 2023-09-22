@@ -1,5 +1,15 @@
 # Change Log
 
+## [0.6.18](https://github.com/nicklockwood/Euclid/releases/tag/0.6.18) (2023-09-22)
+
+- Fixed crash on iOS 16 when building with Xcode 15
+- Fixed bug in `Path.subpaths` calculation
+- Added `Polygon.center` computed property
+- Added `LineSegment`/`Plane` intersection method
+- Added `Mesh.withoutTexcoords()` method
+- Redundant texture coordinates are now excluded from RealityKit export
+- Redundant vertex normals are now excluded from SceneKit export
+
 ## [0.6.17](https://github.com/nicklockwood/Euclid/releases/tag/0.6.17) (2023-08-22)
 
 - Added `Mesh.stlData()` function for exporting binary STL file data
