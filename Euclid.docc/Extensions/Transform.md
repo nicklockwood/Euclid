@@ -30,5 +30,8 @@
 - ``Transform/scaled(by:)-9vwak``
 - ``Transform/translated(by:)``
 - ``Transform/transformed(by:)``
+
+### Operators
+
 - ``Transform/*(_:_:)``
 - ``Transform/*=(_:_:)``

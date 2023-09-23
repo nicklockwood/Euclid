@@ -111,6 +111,7 @@
 - ``Mesh/replacing(_:with:)``
 - ``Mesh/withMaterial(_:)``
 - ``Mesh/withoutTexcoords()``
+- ``Mesh/withTextureTransform(_:)``
 - ``Mesh/sphereMapped()``
 - ``Mesh/cylinderMapped()``
 

@@ -16,7 +16,8 @@
 ### Comparing Line Segments
 
 - ``LineSegment/containsPoint(_:)``
-- ``LineSegment/intersection(with:)``
+- ``LineSegment/intersection(with:)-1tffl``
+- ``LineSegment/intersection(with:)-2u7vo``
 - ``LineSegment/intersects(_:)``
 
 ### Transforming Line Segments

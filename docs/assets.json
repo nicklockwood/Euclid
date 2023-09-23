@@ -1,0 +1,24 @@
+{
+  "downloads" : [
+
+  ],
+  "images" : [
+    {
+      "alt" : "Donate via PayPal",
+      "identifier" : "https:\/\/www.paypalobjects.com\/en_GB\/i\/btn\/btn_donate_LG.gif",
+      "type" : "image",
+      "variants" : [
+        {
+          "traits" : [
+            "1x",
+            "light"
+          ],
+          "url" : "https:\/\/www.paypalobjects.com\/en_GB\/i\/btn\/btn_donate_LG.gif"
+        }
+      ]
+    }
+  ],
+  "videos" : [
+
+  ]
+}

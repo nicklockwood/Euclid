@@ -33,16 +33,6 @@
 
 ### Computing Vectors
 
-- ``Vector/+(_:_:)``
-- ``Vector/+=(_:_:)``
-- ``Vector/-(_:_:)``
-- ``Vector/-(_:)``
-- ``Vector/-=(_:_:)``
-- ``Vector/*(_:_:)-48gl1``
-- ``Vector/*(_:_:)-5mcy5``
-- ``Vector/*=(_:_:)-3ur4e``
-- ``Vector//(_:_:)``
-- ``Vector//=(_:_:)``
 - ``Vector/dot(_:)``
 - ``Vector/cross(_:)``
 
@@ -68,3 +58,15 @@
 - ``Vector/project(onto:)-817o2``
 - ``Vector/project(onto:)-rksk``
 
+### Operators
+
+- ``Vector/+(_:_:)``
+- ``Vector/+=(_:_:)``
+- ``Vector/-(_:_:)``
+- ``Vector/-(_:)``
+- ``Vector/-=(_:_:)``
+- ``Vector/*(_:_:)-48gl1``
+- ``Vector/*(_:_:)-5mcy5``
+- ``Vector/*=(_:_:)-3ur4e``
+- ``Vector//(_:_:)``
+- ``Vector//=(_:_:)``

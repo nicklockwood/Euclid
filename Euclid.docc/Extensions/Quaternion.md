@@ -31,24 +31,24 @@
 
 ### Computing Quaternions
 
-- ``Quaternion/-(_:_:)``
-- ``Quaternion/-(_:)``
-- ``Quaternion/*(_:_:)-2drke``
-- ``Quaternion/*(_:_:)-305tn``
-- ``Quaternion//(_:_:)``
-- ``Quaternion/+(_:_:)``
 - ``Quaternion/dot(_:)``
+- ``Quaternion/normalized()``
 
 ### Interpolating Quaternions
 
 - ``Quaternion/slerp(_:_:)``
 
-### Mutating Quaternions
+### Operators
 
+- ``Quaternion/+(_:_:)``
+- ``Quaternion/+=(_:_:)``
+- ``Quaternion/-(_:_:)``
+- ``Quaternion/-(_:)``
 - ``Quaternion/-=(_:_:)``
+- ``Quaternion/*(_:_:)-2drke``
+- ``Quaternion/*(_:_:)-305tn``
 - ``Quaternion/*=(_:_:)-5ic2j``
 - ``Quaternion/*=(_:_:)-lsgo``
+- ``Quaternion//(_:_:)``
 - ``Quaternion//=(_:_:)``
-- ``Quaternion/+=(_:_:)``
-- ``Quaternion/normalized()``
 

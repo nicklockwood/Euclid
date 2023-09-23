@@ -28,10 +28,6 @@
 
 - ``Vertex/lerp(_:_:)``
 
-### Comparing Vertices
-
-- ``Vertex/!=(_:_:)``
-
 ### Encoding and Decoding Vertices
 
 - ``Vertex/encode(to:)``

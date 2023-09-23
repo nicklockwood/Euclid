@@ -39,15 +39,12 @@
 
 - ``Rotation/slerp(_:_:)``
 
-### Computing Rotations
+### Operators
 
 - ``Rotation/-(_:)``
 - ``Rotation/*(_:_:)-55zcf``
 - ``Rotation/*(_:_:)-5fe82``
-- ``Rotation//(_:_:)``
-
-### Mutating Rotations
-
 - ``Rotation/*=(_:_:)-68kkw``
 - ``Rotation/*=(_:_:)-7u9hf``
+- ``Rotation//(_:_:)``
 - ``Rotation//=(_:_:)``

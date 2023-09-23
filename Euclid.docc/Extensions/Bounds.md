@@ -4,12 +4,10 @@
 
 ### Creating Bounds
 
-- ``Bounds/init(_:_:)``
-- ``Bounds/init(_:)``
-- ``Bounds/init(bounds:)``
+- ``Bounds/init(_:)-1icmf``
+- ``Bounds/init(_:)-27jri``
 - ``Bounds/init(min:max:)``
-- ``Bounds/init(points:)``
-- ``Bounds/init(polygons:)``
+- ``Bounds/init(_:_:)``
 
 ### Default Bounds
 
