@@ -56,6 +56,36 @@ public extension Color {
     }
 }
 
+public extension CGImage {
+    /// Creates a checkerboard pattern image.
+    /// - Parameter size: The dimensions of the checkerboard.
+    static func checkerboard(size: CGSize = .init(width: 8, height: 8)) -> CGImage {
+        let alphaInfo = CGImageAlphaInfo.premultipliedLast
+        let width = Int(size.width), height = Int(size.height)
+        let bytesPerRow = width * 4
+        var data = [UInt8](repeating: 255, count: width * height * 4)
+        for y in 0 ..< height {
+            for x in 0 ..< width {
+                let index = y * bytesPerRow + x * 4
+                let value: UInt8 = (x + y) % 2 == 0 ? 0 : 255
+                data[index] = value
+                data[index + 1] = value
+                data[index + 2] = value
+            }
+        }
+        let context = CGContext(
+            data: &data,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: bytesPerRow,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: alphaInfo.rawValue
+        )
+        return context!.makeImage()!
+    }
+}
+
 public extension CGPoint {
     /// Creates a `CGPoint` from the ``Vector/x`` and ``Vector/y`` components of a vector.
     /// - Parameter vector: The vector to convert into a point.
