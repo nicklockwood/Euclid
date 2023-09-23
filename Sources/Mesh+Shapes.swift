@@ -66,11 +66,13 @@ public extension Mesh {
     ///   - center: The center point of the mesh.
     ///   - size: The size of the cuboid mesh.
     ///   - faces: The direction of the generated polygon faces.
+    ///   - wrapMode: The way that texture coordinates are calculated for the cube.
     ///   - material: The optional material for the mesh.
     static func cube(
         center: Vector = .zero,
         size: Vector,
         faces: Faces = .default,
+        wrapMode: WrapMode = .default,
         material: Material? = nil
     ) -> Mesh {
         let coordinates: [(indices: [Int], normal: Vector)] = [
@@ -89,11 +91,11 @@ public extension Mesh {
                         i & 2 > 0 ? 0.5 : -0.5,
                         i & 4 > 0 ? 0.5 : -0.5
                     ).scaled(by: size)
-                    let uv = Vector(
+                    let texcoord = wrapMode == .default ? Vector(
                         (1 ... 2).contains(index) ? 1 : 0,
                         (0 ... 1).contains(index) ? 1 : 0
-                    )
-                    return Vertex(unchecked: pos, normal, uv, nil)
+                    ) : .zero
+                    return Vertex(unchecked: pos, normal, texcoord, nil)
                 },
                 normal: normal,
                 isConvex: true,
@@ -106,9 +108,10 @@ public extension Mesh {
             min: center - halfSize,
             max: center + halfSize
         )
+        let mesh: Mesh
         switch faces {
         case .front, .default:
-            return Mesh(
+            mesh = Mesh(
                 unchecked: polygons,
                 bounds: bounds,
                 isConvex: true,
@@ -116,7 +119,7 @@ public extension Mesh {
                 submeshes: []
             )
         case .back:
-            return Mesh(
+            mesh = Mesh(
                 unchecked: polygons.inverted(),
                 bounds: bounds,
                 isConvex: false,
@@ -124,13 +127,21 @@ public extension Mesh {
                 submeshes: []
             )
         case .frontAndBack:
-            return Mesh(
+            mesh = Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: bounds,
                 isConvex: false,
                 isWatertight: true,
                 submeshes: []
             )
+        }
+        switch wrapMode {
+        case .default, .none:
+            return mesh
+        case .shrink:
+            return mesh.sphereMapped()
+        case .tube:
+            return mesh.cylinderMapped()
         }
     }
 
@@ -139,14 +150,16 @@ public extension Mesh {
     ///   - center: The center point of the mesh.
     ///   - size: The size of the mesh.
     ///   - faces: The direction of the generated polygon faces.
+    ///   - wrapMode: The way that texture coordinates are calculated for the cube.
     ///   - material: The optional material for the mesh.
     static func cube(
         center c: Vector = .zero,
         size s: Double = 1,
         faces: Faces = .default,
+        wrapMode: WrapMode = .default,
         material: Material? = nil
     ) -> Mesh {
-        cube(center: c, size: Vector(s, s, s), faces: faces, material: material)
+        cube(center: c, size: Vector(s, s, s), faces: faces, wrapMode: wrapMode, material: material)
     }
 
     /// Creates a sphere by subdividing an icosahedron.
@@ -263,7 +276,7 @@ public extension Mesh {
     ///   - stacks: The number of horizontal stacks that make up the sphere.
     ///   - poleDetail: Optionally add extra detail around poles to prevent texture warping
     ///   - faces: The direction the polygon faces.
-    ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
+    ///   - wrapMode: The way that texture coordinates are calculated for the sphere.
     ///   - material: The optional material for the mesh.
     static func sphere(
         radius: Double = 0.5,
@@ -294,7 +307,7 @@ public extension Mesh {
     ///   - slices: The number of vertical slices that make up the cylinder.
     ///   - poleDetail: Optionally add extra detail around poles to prevent texture warping.
     ///   - faces: The direction of the generated polygon faces.
-    ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
+    ///   - wrapMode: The way that texture coordinates are calculated for the cylinder.
     ///   - material: The optional material for the mesh.
     static func cylinder(
         radius: Double = 0.5,
@@ -338,7 +351,7 @@ public extension Mesh {
     ///   - poleDetail: Optionally add extra detail around top pole to prevent texture warping.
     ///   - addDetailAtBottomPole: Whether detail should be added at bottom pole.
     ///   - faces: The direction of the generated polygon faces.
-    ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
+    ///   - wrapMode: The way that texture coordinates are calculated for the cone.
     ///   - material: The optional material for the mesh.
     ///
     /// > Note: The default `nil` value for poleDetail will derive value automatically.
@@ -390,7 +403,7 @@ public extension Mesh {
     ///   - poleDetail: The number of segments used to make the pole.
     ///   - addDetailForFlatPoles: A Boolean value that indicates whether to add detail to the poles.
     ///   - faces: The direction of the generated polygon faces.
-    ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
+    ///   - wrapMode: The way that texture coordinates are calculated for the lathed mesh.
     ///   - material: The optional material for the mesh.
     static func lathe(
         _ profile: Path,
