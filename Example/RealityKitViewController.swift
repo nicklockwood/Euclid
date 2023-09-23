@@ -26,23 +26,13 @@ class RealityKitViewController: UIViewController {
         arView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(arView)
 
-        // create some geometry using Euclid
-        let start = CFAbsoluteTimeGetCurrent()
-        let cube = Mesh.cube(size: 0.8, material: UIColor.red)
-        let sphere = Mesh.sphere(slices: 120, material: UIColor.blue)
-        let mesh = cube.subtracting(sphere).makeWatertight()
-
-        print("Time:", CFAbsoluteTimeGetCurrent() - start)
-        print("Polygons:", mesh.polygons.count)
-        print("Triangles:", mesh.triangulate().polygons.count)
-        print("Watertight:", mesh.isWatertight)
-
         if #available(macOS 12.0, iOS 15.0, *) {
             // create ModelEntity
-            let entity = try! ModelEntity(mesh)
-            let anchor = AnchorEntity(world: .zero)
-            anchor.addChild(entity)
-            arView.scene.anchors.append(anchor)
+            if let entity = try? ModelEntity(euclidMesh) {
+                let anchor = AnchorEntity(world: .zero)
+                anchor.addChild(entity)
+                arView.scene.anchors.append(anchor)
+            }
         } else {
             let alert = UIAlertController(
                 title: "Unsupported",

@@ -12,6 +12,7 @@
 		010A633B2A955BE9000E3306 /* MeshExportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010A633A2A955BE9000E3306 /* MeshExportTests.swift */; };
 		0112D5C928EE29BB00A1C085 /* Euclid+RealityKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0112D5C828EE29BB00A1C085 /* Euclid+RealityKit.swift */; };
 		0125478027AFD53900C442C3 /* MeshShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0125477F27AFD53900C442C3 /* MeshShapeTests.swift */; };
+		0128EEBB2ABA607A00E60976 /* EuclidMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0128EEBA2ABA607A00E60976 /* EuclidMesh.swift */; };
 		013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013312DC21CA532A00626F1B /* PlaneTests.swift */; };
 		013499932902FB5900CED6BE /* Euclid+SIMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013499922902FB5900CED6BE /* Euclid+SIMD.swift */; };
 		0134999729043ACC00CED6BE /* RealityKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0134999629043ACC00CED6BE /* RealityKitViewController.swift */; };
@@ -112,6 +113,7 @@
 		010A633A2A955BE9000E3306 /* MeshExportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshExportTests.swift; sourceTree = "<group>"; };
 		0112D5C828EE29BB00A1C085 /* Euclid+RealityKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+RealityKit.swift"; sourceTree = "<group>"; };
 		0125477F27AFD53900C442C3 /* MeshShapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshShapeTests.swift; sourceTree = "<group>"; };
+		0128EEBA2ABA607A00E60976 /* EuclidMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EuclidMesh.swift; sourceTree = "<group>"; };
 		013312DC21CA532A00626F1B /* PlaneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneTests.swift; sourceTree = "<group>"; };
 		013499922902FB5900CED6BE /* Euclid+SIMD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Euclid+SIMD.swift"; sourceTree = "<group>"; };
 		0134999629043ACC00CED6BE /* RealityKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitViewController.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				016FABEC21C078E400AF60DC /* AppDelegate.swift */,
+				0128EEBA2ABA607A00E60976 /* EuclidMesh.swift */,
 				016FABF021C078E400AF60DC /* SceneKitViewController.swift */,
 				0134999629043ACC00CED6BE /* RealityKitViewController.swift */,
 				016FABF221C078E400AF60DC /* Main.storyboard */,
@@ -582,6 +585,7 @@
 			files = (
 				016FABF121C078E400AF60DC /* SceneKitViewController.swift in Sources */,
 				0134999729043ACC00CED6BE /* RealityKitViewController.swift in Sources */,
+				0128EEBB2ABA607A00E60976 /* EuclidMesh.swift in Sources */,
 				016FABED21C078E400AF60DC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
