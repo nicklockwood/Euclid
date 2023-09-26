@@ -105,7 +105,68 @@ public extension Mesh {
         }
     }
 
-    private func mapPolygonTexcoords(_ fn: (Polygon) -> [Vertex]) -> Mesh {
+    /// Return a copy of the mesh with cube-mapped texture coordinates.
+    func cubeMapped() -> Mesh {
+        mapPolygonTexcoords { p in
+            let n = p.plane.normal, f = FlatteningPlane(normal: n)
+            func coords(for v: Vector) -> (h: Vector, v: Vector) {
+                switch f {
+                case .xy:
+                    let sign = n.z < 0 ? -1.0 : 1.0
+                    return (Vector(v.x, v.z), Vector(v.z, sign * v.y))
+                case .xz:
+                    let sign = n.y < 0 ? -1.0 : 1.0
+                    return (Vector(sign * v.x, v.y), Vector(v.z, v.y))
+                case .yz:
+                    let sign = n.x > 0 ? -1.0 : 1.0
+                    return (Vector(v.x, v.z), Vector(sign * v.y, v.x))
+                }
+            }
+
+            let (ch, cv) = coords(for: p.center)
+            let chn = ch.normalized(), cvn = cv.normalized()
+            let cha = Angle.atan2(y: chn.y, x: chn.x)
+            let cva = Angle.atan2(y: cvn.y, x: cvn.x)
+            return p.vertices.map {
+                let (h, v) = coords(for: $0.position)
+                let ha, va: Angle
+                // TODO: can we find a less arbitrary value for this?
+                let epsilon = 0.1
+                if h.length < epsilon, h.length < ch.length {
+                    ha = cha
+                } else {
+                    let n = h.normalized()
+                    let a = Angle.atan2(y: n.y, x: n.x)
+                    let a2 = (a - cha).radians
+                    if !n.angle(with: chn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
+                        ha = a2 > 0 ? a - .twoPi : a + .twoPi
+                    } else {
+                        ha = a
+                    }
+                }
+                if v.length < epsilon, v.length < cv.length {
+                    va = cva
+                } else {
+                    let n = v.normalized()
+                    let a = Angle.atan2(y: n.y, x: n.x)
+                    let a2 = (a - cva).radians
+                    if !n.angle(with: cvn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
+                        va = a2 > 0 ? a - .twoPi : a + .twoPi
+                    } else {
+                        va = a
+                    }
+                }
+                let scale = -Double.pi / 2
+                let x = ha.radians / scale + 0.5
+                let y = va.radians / scale + 0.5
+                return $0.withTexcoord(Vector(x, y))
+            }
+        }
+    }
+}
+
+private extension Mesh {
+    func mapPolygonTexcoords(_ fn: (Polygon) -> [Vertex]) -> Mesh {
         Mesh(
             unchecked: polygons.map {
                 Polygon(
