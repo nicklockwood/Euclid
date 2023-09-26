@@ -63,7 +63,6 @@ public extension Mesh {
                     let a = Angle.atan2(y: n.y, x: n.x)
                     let a2 = (a - cva).radians
                     if !n.angle(with: cvn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
-                        print(n.angle(with: cvn).radians, a2)
                         va = a2 > 0 ? a - .twoPi : a + .twoPi
                     } else {
                         va = a
