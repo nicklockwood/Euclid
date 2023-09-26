@@ -4,30 +4,6 @@
 
     ],
     "severity" : 2,
-    "source" : "..\/Sources\/Angle.swift",
-    "start" : {
-      "column" : 16,
-      "line" : 75
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Angle.swift",
-    "start" : {
-      "column" : 16,
-      "line" : 76
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
     "source" : "..\/Sources\/Rotation.swift",
     "start" : {
       "column" : 19,
@@ -46,54 +22,6 @@
       "line" : 83
     },
     "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Rotation'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "Extensions\/Rotation.md",
-    "start" : {
-      "column" : 15,
-      "line" : 49
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Rotation'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "Extensions\/Rotation.md",
-    "start" : {
-      "column" : 15,
-      "line" : 50
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Rotation'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Vector.swift",
-    "start" : {
-      "column" : 17,
-      "line" : 104
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Vector.swift",
-    "start" : {
-      "column" : 17,
-      "line" : 105
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
   },
   {
     "notes" : [
@@ -124,24 +52,24 @@
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Angle.md",
+    "source" : "Extensions\/Rotation.md",
     "start" : {
-      "column" : 12,
-      "line" : 42
+      "column" : 15,
+      "line" : 49
     },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Rotation'"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Angle.md",
+    "source" : "Extensions\/Rotation.md",
     "start" : {
-      "column" : 12,
-      "line" : 43
+      "column" : 15,
+      "line" : 50
     },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Rotation'"
   },
   {
     "notes" : [
@@ -166,6 +94,30 @@
       "line" : 53
     },
     "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Vector.swift",
+    "start" : {
+      "column" : 17,
+      "line" : 104
+    },
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Vector.swift",
+    "start" : {
+      "column" : 17,
+      "line" : 105
+    },
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
   },
   {
     "notes" : [
@@ -250,6 +202,54 @@
       "line" : 83
     },
     "summary" : "'intersection(_:isCancelled:)' is ambiguous at '\/Euclid\/Mesh'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Angle.swift",
+    "start" : {
+      "column" : 16,
+      "line" : 75
+    },
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Angle.swift",
+    "start" : {
+      "column" : 16,
+      "line" : 76
+    },
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "Extensions\/Angle.md",
+    "start" : {
+      "column" : 12,
+      "line" : 42
+    },
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "Extensions\/Angle.md",
+    "start" : {
+      "column" : 12,
+      "line" : 43
+    },
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
   },
   {
     "notes" : [
