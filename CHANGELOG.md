@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.7.1](https://github.com/nicklockwood/Euclid/releases/tag/0.7.1) (2023-09-27)
+
+- Added `Mesh.cubeMapped()` method
+- Removed stray `print()` statement
+
 ## [0.7.0](https://github.com/nicklockwood/Euclid/releases/tag/0.7.0) (2023-09-23)
 
 - Added `Mesh.icosahedron()` primitive

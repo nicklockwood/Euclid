@@ -54,11 +54,12 @@
             {
               "text" : " them.",
               "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
             {
               "text" : "Most of the Euclid library is completely self-contained, with no dependencies on any particular rendering technology or framework.",
               "type" : "text"
@@ -68,15 +69,7 @@
               "type" : "text"
             },
             {
-              "text" : "However, when running on iOS or macOS you can take advantage of Euclid’s built-in SceneKit integration.",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "This is demonstrated in the Example app included with the project.",
+              "text" : "However, when running on iOS or macOS you can take advantage of Euclid’s built-in SceneKit and RealityKit integration. This is demonstrated in the Example app included with the project.",
               "type" : "text"
             }
           ],
@@ -85,15 +78,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "SceneKit is Apple’s high-level 3D engine, which can use either OpenGL or Metal for rendering on supported devices.",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "Euclid provides extensions for creating an ",
+              "text" : "SceneKit is a high-level Apple 3D framework that can use either OpenGL or Metal for rendering on supported devices. Euclid provides extensions for creating an ",
               "type" : "text"
             },
             {
@@ -171,6 +156,15 @@
             },
             {
               "text" : " in standard 3D model formats such as DAE, STL or OBJ.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "RealityKit is a newer Apple framework mainly intended for VR\/AR purposes. It is slightly lower-level than SceneKit, and missing some high-level functionality such as camera control, but is equally-well supported by Euclid.",
               "type" : "text"
             }
           ],
@@ -271,15 +265,7 @@
               "type" : "codeVoice"
             },
             {
-              "text" : ".",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "If the material is already an ",
+              "text" : ". If the material is already an ",
               "type" : "text"
             },
             {
@@ -287,15 +273,7 @@
               "type" : "codeVoice"
             },
             {
-              "text" : " instance it will be used directly.",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "If the material is a ",
+              "text" : " instance it will be used directly.  If the material is a ",
               "type" : "text"
             },
             {
@@ -308,7 +286,7 @@
               "type" : "text"
             },
             {
-              "code" : "UI\/NSColor",
+              "code" : "CG\/UI\/NSColor",
               "type" : "codeVoice"
             },
             {
@@ -316,7 +294,7 @@
               "type" : "text"
             },
             {
-              "code" : "UI\/NSImage",
+              "code" : "CG\/UI\/NSImage",
               "type" : "codeVoice"
             },
             {
@@ -337,15 +315,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "For all other material types, you will need to do this conversion yourself.",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "You can convert materials using the optional closure argument for Euclid’s ",
+              "text" : "For all other material types, you will need to do this conversion yourself. You can convert materials using the optional closure argument for Euclid’s ",
               "type" : "text"
             },
             {
@@ -361,7 +331,15 @@
               "type" : "codeVoice"
             },
             {
-              "text" : ".",
+              "text" : ". An equivalent closure exists for Euclid’s RealityKit ",
+              "type" : "text"
+            },
+            {
+              "code" : "ModelEntity",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " constructor.",
               "type" : "text"
             }
           ],
@@ -457,7 +435,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Euclid currently has no support for setting colors on a per-vertex basis, but you can apply colors to a ",
+              "text" : "Euclid supports applying colors to a ",
               "type" : "text"
             },
             {
@@ -475,7 +453,7 @@
               "type" : "reference"
             },
             {
-              "text" : " using the material property.",
+              "text" : " using the material property, but you can also set colors individually for each vertex, which will be interpolated to create smooth gradients.",
               "type" : "text"
             }
           ],
@@ -492,15 +470,7 @@
               "type" : "codeVoice"
             },
             {
-              "text" : " which basically means it can be anything you want.",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "You can set the ",
+              "text" : " which basically means it can be anything you want. You can set the ",
               "type" : "text"
             },
             {
@@ -518,6 +488,14 @@
             },
             {
               "text" : ", or you can use a ",
+              "type" : "text"
+            },
+            {
+              "code" : "CGColor",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ", ",
               "type" : "text"
             },
             {
@@ -574,7 +552,61 @@
               "type" : "text"
             },
             {
-              "text" : "There is limited control over how those coordinates are specified at the moment, but they allow for simple spherical and cylindrical texture wrapping.",
+              "text" : "There is limited control over how those coordinates are specified at the moment, but they allow for simple cylindrical or spherical texture wrapping.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "You can also scale, rotate or translate the texture coordinates for a ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " by using - ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withTextureTransform(_:)",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : ", or remap the texture coordinates completely by using the ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/sphereMapped()",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : ", ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cylinderMapped()",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " and ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cubeMapped()",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " methods. This can be useful for wrapping composite objects that you’ve created using CSG functions, where the texture coordinates may end up scrambled.",
               "type" : "text"
             }
           ],
@@ -655,7 +687,15 @@
               "type" : "codeVoice"
             },
             {
-              "text" : " directly as the material for your Euclid geometry.",
+              "text" : " or RealityKit ",
+              "type" : "text"
+            },
+            {
+              "code" : "Material",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " directly.",
               "type" : "text"
             }
           ],
@@ -791,6 +831,163 @@
   "title" : "Mesh",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cubeMapped()": {
+  "abstract" : [
+    {
+      "text" : "Return a copy of the mesh with cube-mapped texture coordinates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "cubeMapped"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cubeMapped()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "cubeMapped()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/cubemapped()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cylinderMapped()": {
+  "abstract" : [
+    {
+      "text" : "Return a copy of the mesh with cylindrically-mapped texture coordinates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "cylinderMapped"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cylinderMapped()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "cylinderMapped()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/cylindermapped()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/sphereMapped()": {
+  "abstract" : [
+    {
+      "text" : "Return a copy of the mesh with spherically-mapped texture coordinates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "sphereMapped"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/sphereMapped()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "sphereMapped()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/spheremapped()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/withTextureTransform(_:)": {
+  "abstract" : [
+    {
+      "text" : "Return a copy of the mesh with transformed texture coordinates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "withTextureTransform"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid9TransformV",
+      "text" : "Transform"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withTextureTransform(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "withTextureTransform(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/withtexturetransform(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
   "abstract" : [

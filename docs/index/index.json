@@ -42,6 +42,16 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/cube(center:size:faces:wrapmode:material:)-8t5q8",
+                "title" : "static func cube(center: Vector, size: Vector, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/cube(center:size:faces:wrapmode:material:)-eado",
+                "title" : "static func cube(center: Vector, size: Double, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/cylinder(radius:height:slices:poledetail:faces:wrapmode:material:)",
                 "title" : "static func cylinder(radius: Double, height: Double, slices: Int, poleDetail: Int, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
                 "type" : "method"
@@ -513,6 +523,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/cubemapped()",
+                "title" : "func cubeMapped() -> Mesh",
+                "type" : "method"
+              },
+              {
                 "title" : "Merging Meshes",
                 "type" : "groupMarker"
               },
@@ -643,16 +658,6 @@
               {
                 "title" : "Type Methods",
                 "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/cube(center:size:faces:wrapmode:material:)-8t5q8",
-                "title" : "static func cube(center: Vector, size: Vector, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/cube(center:size:faces:wrapmode:material:)-eado",
-                "title" : "static func cube(center: Vector, size: Double, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
-                "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)",

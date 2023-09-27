@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Return a copy of the mesh with transformed texture coordinates.",
+      "text" : "Return a copy of the mesh with cube-mapped texture coordinates.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withTextureTransform(_:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cubeMapped()"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV20withTextureTransformyAcA0E0VF",
+    "externalID" : "s:6Euclid4MeshV10cubeMappedACyF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,20 +32,11 @@
       },
       {
         "kind" : "identifier",
-        "text" : "withTextureTransform"
+        "text" : "cubeMapped"
       },
       {
         "kind" : "text",
-        "text" : "("
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid9TransformV",
-        "text" : "Transform"
-      },
-      {
-        "kind" : "text",
-        "text" : ") -> "
+        "text" : "() -> "
       },
       {
         "kind" : "typeIdentifier",
@@ -61,7 +52,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "withTextureTransform(_:)"
+    "title" : "cubeMapped()"
   },
   "primaryContentSections" : [
     {
@@ -84,37 +75,11 @@
             },
             {
               "kind" : "identifier",
-              "text" : "withTextureTransform"
+              "text" : "cubeMapped"
             },
             {
               "kind" : "text",
-              "text" : "("
-            },
-            {
-              "kind" : "externalParam",
-              "text" : "_"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "internalParam",
-              "text" : "transform"
-            },
-            {
-              "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid9TransformV",
-              "text" : "Transform"
-            },
-            {
-              "kind" : "text",
-              "text" : ") -> "
+              "text" : "() -> "
             },
             {
               "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
@@ -126,25 +91,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The transform to apply to the texture coordinates.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "transform"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -162,9 +108,9 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/replacing(_:with:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withMaterial(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withoutTexcoords()",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withTextureTransform(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/sphereMapped()",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cylinderMapped()",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cubeMapped()"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cylinderMapped()"
       ],
       "title" : "Updating Materials and Texture Coordinates"
     }
@@ -172,7 +118,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/withtexturetransform(_:)"
+        "\/documentation\/euclid\/mesh\/cubemapped()"
       ],
       "traits" : [
         {
@@ -533,40 +479,6 @@
   "title" : "withoutTexcoords()",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/withouttexcoords()"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform": {
-  "abstract" : [
-    {
-      "text" : "A combined rotation, position, and scale that can be applied to a 3D object.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Transform"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Transform"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Transform",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform"
 }
 }
 }

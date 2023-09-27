@@ -158,6 +158,8 @@
     {
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cone(radius:height:slices:stacks:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cube(center:size:faces:wrapMode:material:)-8t5q8",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cube(center:size:faces:wrapMode:material:)-eado",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cylinder(radius:height:slices:poleDetail:faces:wrapMode:material:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/sphere(radius:slices:stacks:poleDetail:faces:wrapMode:material:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/icosahedron(radius:faces:wrapMode:material:)",
@@ -279,7 +281,8 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withoutTexcoords()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withTextureTransform(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/sphereMapped()",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cylinderMapped()"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cylinderMapped()",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cubeMapped()"
       ],
       "title" : "Updating Materials and Texture Coordinates"
     },
@@ -340,8 +343,6 @@
     },
     {
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cube(center:size:faces:wrapMode:material:)-8t5q8",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cube(center:size:faces:wrapMode:material:)-eado",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/xor(_:isCancelled:)-swift.type.method"
       ],
@@ -1955,6 +1956,43 @@
   "title" : "cube(center:size:faces:wrapMode:material:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/cube(center:size:faces:wrapmode:material:)-eado"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cubeMapped()": {
+  "abstract" : [
+    {
+      "text" : "Return a copy of the mesh with cube-mapped texture coordinates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "cubeMapped"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cubeMapped()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "cubeMapped()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/cubemapped()"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cylinder(radius:height:slices:poleDetail:faces:wrapMode:material:)": {
   "abstract" : [

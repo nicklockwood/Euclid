@@ -13,10 +13,10 @@ Euclid offers a number of helper methods to quickly create complex geometry.
 The simplest way to create a ``Mesh`` is to start with an existing primitive, such as a cube or sphere. 
 The following primitive types are available in Euclid, and are defined as static constructor methods on ``Mesh``:
 
-- ``Mesh/cube(center:size:faces:material:)-imdm`` - A cubic ``Mesh`` (or cuboid, if you specify different values for the width, height and/or depth).
+- ``Mesh/cube(center:size:faces:wrapMode:material:)-8t5q8`` - A cubic ``Mesh`` (or cuboid, if you specify different values for the width, height and/or depth).
 - ``Mesh/sphere(radius:slices:stacks:poleDetail:faces:wrapMode:material:)`` - A spherical `Mesh`.
 - ``Mesh/cylinder(radius:height:slices:poleDetail:faces:wrapMode:material:)`` - A cylindrical `Mesh`.
-- ``Mesh/cone(radius:height:slices:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)`` -  A conical ``Mesh``.
+- ``Mesh/cone(radius:height:slices:stacks:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)`` -  A conical ``Mesh``.
 
 All `Mesh` instances are made of flat polygons. 
 Since true curves cannot be represented using straight edges, the `sphere`, `cylinder` and `cone` primitives are approximations.
@@ -80,7 +80,7 @@ The following CSG operations are defined as methods on the ``Mesh`` type:
 - ``Mesh/subtracting(_:isCancelled:)`` - Subtracts the volume of one `Mesh` from another.
 - ``Mesh/symmetricDifference(_:isCancelled:)-swift.type.method`` - Produces a shape representing the non-overlapping parts of the input `Mesh`es (this is useful for rendering text glyphs).
 - ``Mesh/union(_:isCancelled:)-swift.method`` - Combines two intersecting `Mesh`es, removing internal faces and leaving only the outer shell around both shapes (logical OR).
-- ``Mesh/intersection(_:isCancelled:)`` - Returns a single ``Mesh`` representing the common volume of two intersecting ``Mesh``es (logical AND).
+- ``Mesh/intersection(_:isCancelled:)-swift.method`` - Returns a single ``Mesh`` representing the common volume of two intersecting ``Mesh``es (logical AND).
 - ``Mesh/stencil(_:isCancelled:)-swift.method`` - This effectively "paints" part of one ``Mesh`` with the material from another.
 
 All CSG operations require ``Mesh``es that are "watertight", that is they have no holes in their surface. 

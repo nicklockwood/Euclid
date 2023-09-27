@@ -9,8 +9,8 @@
 ### Geometric Primitives
 
 - ``Mesh/cone(radius:height:slices:stacks:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)``
-- ``Mesh/cube(center:size:faces:material:)-7wdr2``
-- ``Mesh/cube(center:size:faces:material:)-imdm``
+- ``Mesh/cube(center:size:faces:wrapMode:material:)-8t5q8``
+- ``Mesh/cube(center:size:faces:wrapMode:material:)-eado``
 - ``Mesh/cylinder(radius:height:slices:poleDetail:faces:wrapMode:material:)``
 - ``Mesh/sphere(radius:slices:stacks:poleDetail:faces:wrapMode:material:)``
 - ``Mesh/icosahedron(radius:faces:wrapMode:material:)``
@@ -114,6 +114,7 @@
 - ``Mesh/withTextureTransform(_:)``
 - ``Mesh/sphereMapped()``
 - ``Mesh/cylinderMapped()``
+- ``Mesh/cubeMapped()``
 
 ### Merging Meshes
 

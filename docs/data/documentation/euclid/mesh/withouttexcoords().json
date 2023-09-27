@@ -109,7 +109,8 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withMaterial(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withTextureTransform(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/sphereMapped()",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cylinderMapped()"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cylinderMapped()",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cubeMapped()"
       ],
       "title" : "Updating Materials and Texture Coordinates"
     }
@@ -175,6 +176,43 @@
   "title" : "Mesh",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cubeMapped()": {
+  "abstract" : [
+    {
+      "text" : "Return a copy of the mesh with cube-mapped texture coordinates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "cubeMapped"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cubeMapped()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "cubeMapped()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/cubemapped()"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cylinderMapped()": {
   "abstract" : [

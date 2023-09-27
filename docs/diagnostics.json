@@ -52,6 +52,30 @@
 
     ],
     "severity" : 2,
+    "source" : "..\/Sources\/Angle.swift",
+    "start" : {
+      "column" : 16,
+      "line" : 75
+    },
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Angle.swift",
+    "start" : {
+      "column" : 16,
+      "line" : 76
+    },
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
     "source" : "Extensions\/Rotation.md",
     "start" : {
       "column" : 15,
@@ -124,114 +148,6 @@
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Vector.md",
-    "start" : {
-      "column" : 13,
-      "line" : 71
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "Extensions\/Vector.md",
-    "start" : {
-      "column" : 13,
-      "line" : 72
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Mesh.swift",
-    "start" : {
-      "column" : 14,
-      "line" : 43
-    },
-    "summary" : "'cube(center:size:faces:material:)-7wdr2' doesn't exist at '\/Euclid\/Mesh'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Mesh.swift",
-    "start" : {
-      "column" : 14,
-      "line" : 44
-    },
-    "summary" : "'cube(center:size:faces:material:)-imdm' doesn't exist at '\/Euclid\/Mesh'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "ConstructingMeshes.md",
-    "start" : {
-      "column" : 10,
-      "line" : 16
-    },
-    "summary" : "'cube(center:size:faces:material:)-imdm' doesn't exist at '\/Euclid\/Mesh'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "ConstructingMeshes.md",
-    "start" : {
-      "column" : 10,
-      "line" : 19
-    },
-    "summary" : "'cone(radius:height:slices:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)' doesn't exist at '\/Euclid\/Mesh'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "ConstructingMeshes.md",
-    "start" : {
-      "column" : 10,
-      "line" : 83
-    },
-    "summary" : "'intersection(_:isCancelled:)' is ambiguous at '\/Euclid\/Mesh'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Angle.swift",
-    "start" : {
-      "column" : 16,
-      "line" : 75
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Angle.swift",
-    "start" : {
-      "column" : 16,
-      "line" : 76
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
     "source" : "Extensions\/Angle.md",
     "start" : {
       "column" : 12,
@@ -256,23 +172,23 @@
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Mesh.md",
+    "source" : "Extensions\/Vector.md",
     "start" : {
-      "column" : 10,
-      "line" : 12
+      "column" : 13,
+      "line" : 71
     },
-    "summary" : "'cube(center:size:faces:material:)-7wdr2' doesn't exist at '\/Euclid\/Mesh'"
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Mesh.md",
+    "source" : "Extensions\/Vector.md",
     "start" : {
-      "column" : 10,
-      "line" : 13
+      "column" : 13,
+      "line" : 72
     },
-    "summary" : "'cube(center:size:faces:material:)-imdm' doesn't exist at '\/Euclid\/Mesh'"
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
   }
 ]

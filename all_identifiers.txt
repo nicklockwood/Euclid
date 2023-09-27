@@ -224,6 +224,7 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/convexHull(of:material
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/convexHull(of:material:)-91swk
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cube(center:size:faces:wrapMode:material:)-8t5q8
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cube(center:size:faces:wrapMode:material:)-eado
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cubeMapped()
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cylinder(radius:height:slices:poleDetail:faces:wrapMode:material:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cylinderMapped()
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/detessellate()
