@@ -392,7 +392,7 @@ extension Mesh {
     var boundsIfSet: Bounds? { storage.boundsIfSet }
     var watertightIfSet: Bool? { storage.watertightIfSet }
     var isKnownConvex: Bool { storage.isConvex }
-    // Note: we don't expose submeshesIfSet because it's unsafe to reuse
+    /// Note: we don't expose submeshesIfSet because it's unsafe to reuse
     var submeshesIfEmpty: [Mesh]? {
         storage.submeshesIfSet.flatMap { $0.isEmpty ? [] : nil }
     }

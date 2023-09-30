@@ -171,7 +171,8 @@ public extension Polygon {
     }
 
     /// The position of the center of the polygon.
-    /// This is calculated as the average of the vertex positions, and may not be equal to the center of the polygon's ``bounds``.
+    /// This is calculated as the average of the vertex positions, and may not be equal to the center of the polygon's
+    /// ``bounds``.
     var center: Vector {
         vertices.reduce(.zero) { $0 + $1.position } / Double(vertices.count)
     }

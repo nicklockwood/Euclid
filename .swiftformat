@@ -8,6 +8,7 @@
 --decimalgrouping ignore
 --ifdef no-indent
 --self init-only
+--shortoptionals except-properties
 --wraparguments before-first
 --wrapcollections before-first
 --wrapconditions after-first
@@ -16,4 +17,4 @@
 # rules
 
 --lintonly unusedArguments
---enable isEmpty
+--enable isEmpty, docComments

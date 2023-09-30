@@ -128,7 +128,7 @@ public extension Mesh {
 }
 
 #if os(watchOS)
-// Workaround for missing constants on watchOS
+/// Workaround for missing constants on watchOS
 extension NSAttributedString.Key {
     static let font = NSAttributedString.Key(rawValue: "NSFont")
 }
