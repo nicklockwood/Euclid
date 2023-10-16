@@ -72,6 +72,7 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.
         descriptor.sAddressMode = .repeat
         descriptor.tAddressMode = .repeat
         descriptor.magFilter = .nearest
+        descriptor.mipFilter = .linear
         var material = SimpleMaterial()
         material.color = .init(texture: .init(texture, sampler: .init(descriptor)))
         return material
