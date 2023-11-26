@@ -1099,4 +1099,19 @@ class PolygonTests: XCTestCase {
             XCTAssertEqual(polygon.area, 1, accuracy: epsilon)
         }
     }
+
+    // MARK: convexity
+
+    func testIsConvexSensitivity() {
+        let polygon = Polygon(unchecked: [
+            .init(0.40000000596, 0.930000000033, -0.861614254425),
+            .init(0.40000000596, 0.9846769873219999, -0.851245050793),
+            .init(0.40000000596, 0.988997202611, -0.882256885056),
+            .init(0.40000000596, 0.964728613386, -0.898573349831),
+            .init(0.40000000596, 0.954697109253, -0.9053178162),
+            .init(0.40000000596, 0.934058296138, -0.919195077007),
+            .init(0.40000000596, 0.898350019175, -0.8676164559389999),
+        ])
+        XCTAssert(polygon.isConvex)
+    }
 }

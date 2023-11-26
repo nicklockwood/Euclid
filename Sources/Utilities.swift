@@ -277,7 +277,7 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
         var n = ab.cross(bc)
         let length = n.length
         // check result is large enough to be reliable
-        if length > epsilon {
+        if length > planeEpsilon {
             n = n / length
             if let normal = normal {
                 if n.dot(normal) < 0 {
