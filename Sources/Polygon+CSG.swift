@@ -226,12 +226,13 @@ extension Polygon {
                 last = v
                 continue
             }
-            var vertices = self.vertices
             let t = (p - s.start).length / s.length
-            guard t > epsilon, t < 1 - epsilon else {
+            let vertex = last.lerp(v, t)
+            guard !vertex.isEqual(to: last), !vertex.isEqual(to: v) else {
                 return false
             }
-            vertices.insert(last.lerp(v, t), at: i)
+            var vertices = self.vertices
+            vertices.insert(vertex, at: i)
             self = Polygon(
                 unchecked: vertices,
                 plane: plane,
