@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.7.2](https://github.com/nicklockwood/Euclid/releases/tag/0.7.2) (2023-12-27)
+
+- RealityKit texture downscaling now uses linear interpolation by default
+- Fixed edge case in `insertEdgePoint()` that caused assertion failures in debug mode
+- Made polygon convexity check more tolerant
+- Added camera controls to the RealityKit example project
+
 ## [0.7.1](https://github.com/nicklockwood/Euclid/releases/tag/0.7.1) (2023-09-27)
 
 - Added `Mesh.cubeMapped()` method
