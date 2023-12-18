@@ -26,7 +26,7 @@ public extension Mesh {
     typealias STLColorProvider = (_ m: Material?) -> Color?
 
     /// Return binary STL data for the mesh.
-    /// - Parameter colorLookup: A closure to map the polygon material to a SceneKit material.
+    /// - Parameter colorLookup: A closure to map Euclid materials to STL facet colors. Use `nil` for default mapping.
     /// - Returns: A Euclid `Color` value.
     func stlData(colorLookup: STLColorProvider? = nil) -> Data {
         let headerSize = 80
