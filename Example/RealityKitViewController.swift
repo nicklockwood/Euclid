@@ -46,6 +46,8 @@ class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        #if !os(visionOS)
+
         let arView = ARView(
             frame: view.frame,
             cameraMode: .nonAR,
@@ -107,5 +109,7 @@ class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
                 translation: .init(0, 0, Float(cameraDistance))
             )
         }
+
+        #endif
     }
 }
