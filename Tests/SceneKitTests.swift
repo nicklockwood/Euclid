@@ -13,6 +13,8 @@ import SceneKit
 import XCTest
 
 class SceneKitTests: XCTestCase {
+    // MARK: Import
+
     func testGeometryImportedWithCorrectDetail() {
         let sphere = SCNSphere(radius: 0.5)
         sphere.segmentCount = 3

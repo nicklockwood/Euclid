@@ -35,6 +35,8 @@ import SceneKit
 
 let scnMaterialTypes: [AnyClass] = [SCNMaterial.self]
 
+// MARK: export
+
 public extension SCNVector3 {
     /// Creates a 3D SceneKit vector from a vector.
     /// - Parameter v: The vector to convert.
@@ -503,6 +505,9 @@ public extension Mesh {
     /// A closure that maps a SceneKit material to a Euclid material.
     /// - Parameter m: An `SCNMaterial` material to convert.
     /// - Returns: A ``Material`` instance, or `nil` for the default material.
+    typealias SCNMaterialProvider = (_ m: SCNMaterial) -> Material?
+
+    @available(*, deprecated, renamed: "SCNMaterialProvider")
     typealias MaterialProvider = (_ m: SCNMaterial) -> Material?
 
     /// Loads a mesh from a file using any format supported by SceneKit,  with optional material mapping.
@@ -511,7 +516,7 @@ public extension Mesh {
     ///   - ignoringTransforms: Should node transforms from the input file be ignored.
     ///   - materialLookup: An optional closure to map the SceneKit materials to Euclid materials.
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
-    init(url: URL, ignoringTransforms: Bool, materialLookup: MaterialProvider? = nil) throws {
+    init(url: URL, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider? = nil) throws {
         var options: [SCNSceneSource.LoadingOption: Any] = [
             .checkConsistency: false,
             .flattenScene: true,
@@ -538,7 +543,7 @@ public extension Mesh {
     ///   - ignoringTransforms: Should transforms from the input node and its children be ignored.
     ///   - materialLookup: An optional closure to map the SceneKit materials to Euclid materials.
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
-    init(_ scnNode: SCNNode, ignoringTransforms: Bool, materialLookup: MaterialProvider? = nil) {
+    init(_ scnNode: SCNNode, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider? = nil) {
         var meshes = [Mesh]()
         if let mesh = scnNode.geometry.flatMap({
             Mesh($0, materialLookup: materialLookup)
@@ -563,7 +568,7 @@ public extension Mesh {
     ///   - scnGeometry: The `SCNGeometry` to convert into a mesh.
     ///   - materialLookup: An optional closure to map SceneKit materials to Euclid materials.
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
-    init?(_ scnGeometry: SCNGeometry, materialLookup: MaterialProvider? = nil) {
+    init?(_ scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider? = nil) {
         // Force properties to update
         let scnGeometry = scnGeometry.copy() as! SCNGeometry
 

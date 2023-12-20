@@ -63,6 +63,18 @@ public extension Vector {
     init(_ vector: simd_double3) {
         self.init(vector.x, vector.y, vector.z)
     }
+
+    /// Creates a `Vector` from a simd vector 3.
+    /// - Parameter vector: A simd vector.
+    init(_ vector: simd_float3) {
+        self.init(Double(vector.x), Double(vector.y), Double(vector.z))
+    }
+
+    /// Creates a `Vector` from a simd vector 2.
+    /// - Parameter vector: A simd vector.
+    init(_ vector: simd_float2) {
+        self.init(Double(vector.x), Double(vector.y))
+    }
 }
 
 public extension simd_quatd {
@@ -99,6 +111,12 @@ public extension Rotation {
     init(_ quaternion: simd_quatd) {
         self.init(Quaternion(quaternion))
     }
+
+    /// Creates a `Rotation` from a simd quaternion.
+    /// - Parameter quaternion: A simd quaternion.
+    init(_ quaternion: simd_quatf) {
+        self.init(Quaternion(quaternion))
+    }
 }
 
 public extension Quaternion {
@@ -106,6 +124,12 @@ public extension Quaternion {
     /// - Parameter quaternion: A simd quaternion.
     init(_ quaternion: simd_quatd) {
         self.storage = quaternion
+    }
+
+    /// Creates a `Quaternion` from a simd quaternion.
+    /// - Parameter quaternion: A simd quaternion.
+    init(_ quaternion: simd_quatf) {
+        self.init(simd_quatd(vector: simd_double4(quaternion.vector)))
     }
 }
 
