@@ -134,7 +134,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A closure to map the polygon material to a SceneKit material.",
+                  "text" : "A closure to map Euclid materials to STL facet colors. Use ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "nil",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " for default mapping.",
                   "type" : "text"
                 }
               ],

@@ -1,10 +1,4 @@
 {
-  "abstract" : [
-    {
-      "text" : "A closure that maps a SceneKit material to a Euclid material.",
-      "type" : "text"
-    }
-  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -45,6 +39,9 @@
         "kind" : "identifier",
         "text" : "MaterialProvider"
       }
+    ],
+    "platforms" : [
+
     ],
     "role" : "symbol",
     "roleHeading" : "Type Alias",
@@ -117,70 +114,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "An ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "SCNMaterial",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " material to convert.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "m"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "A ",
-              "type" : "text"
-            },
-            {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Material",
-              "isActive" : true,
-              "type" : "reference"
-            },
-            {
-              "text" : " instance, or ",
-              "type" : "text"
-            },
-            {
-              "code" : "nil",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " for the default material.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -318,11 +251,9 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/MaterialProvider": {
   "abstract" : [
-    {
-      "text" : "A closure that maps a SceneKit material to a Euclid material.",
-      "type" : "text"
-    }
+
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -402,8 +333,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-      "text" : "MaterialProvider"
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
     },
     {
       "kind" : "text",
@@ -527,8 +458,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-      "text" : "MaterialProvider"
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
     },
     {
       "kind" : "text",

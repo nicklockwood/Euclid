@@ -28,30 +28,6 @@
 
     ],
     "severity" : 2,
-    "source" : "..\/Sources\/Quaternion.swift",
-    "start" : {
-      "column" : 21,
-      "line" : 89
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Quaternion.swift",
-    "start" : {
-      "column" : 21,
-      "line" : 90
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
     "source" : "..\/Sources\/Angle.swift",
     "start" : {
       "column" : 16,
@@ -76,6 +52,30 @@
 
     ],
     "severity" : 2,
+    "source" : "..\/Sources\/Quaternion.swift",
+    "start" : {
+      "column" : 21,
+      "line" : 89
+    },
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Quaternion.swift",
+    "start" : {
+      "column" : 21,
+      "line" : 90
+    },
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
     "source" : "Extensions\/Rotation.md",
     "start" : {
       "column" : 15,
@@ -94,30 +94,6 @@
       "line" : 50
     },
     "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Rotation'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "Extensions\/Quaternion.md",
-    "start" : {
-      "column" : 17,
-      "line" : 52
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "Extensions\/Quaternion.md",
-    "start" : {
-      "column" : 17,
-      "line" : 53
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
   },
   {
     "notes" : [
@@ -166,6 +142,30 @@
       "line" : 43
     },
     "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "Extensions\/Quaternion.md",
+    "start" : {
+      "column" : 17,
+      "line" : 52
+    },
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "Extensions\/Quaternion.md",
+    "start" : {
+      "column" : 17,
+      "line" : 53
+    },
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
   },
   {
     "notes" : [

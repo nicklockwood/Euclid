@@ -314,8 +314,13 @@
     },
     {
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(scnGeometry:materialLookup:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-3drza",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-7p5hd",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-22brv",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4k8gs",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(scnGeometry:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlData:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlString:)"
       ],
       "title" : "Initializers"
     },
@@ -337,7 +342,10 @@
     {
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Alignment",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/STLColorProvider"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/RealityKitMaterialProvider",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/STLColorProvider",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/STLMaterialProvider"
       ],
       "title" : "Type Aliases"
     },
@@ -675,11 +683,9 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/MaterialProvider": {
   "abstract" : [
-    {
-      "text" : "A closure that maps a SceneKit material to a Euclid material.",
-      "type" : "text"
-    }
+
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -706,6 +712,74 @@
   "title" : "Mesh.MaterialProvider",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/materialprovider"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/RealityKitMaterialProvider": {
+  "abstract" : [
+    {
+      "text" : "A closure that converts a RealityKit material to a Euclid material.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "RealityKitMaterialProvider"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/RealityKitMaterialProvider",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "RealityKitMaterialProvider"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh.RealityKitMaterialProvider",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/realitykitmaterialprovider"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/SCNMaterialProvider": {
+  "abstract" : [
+    {
+      "text" : "A closure that maps a SceneKit material to a Euclid material.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "SCNMaterialProvider"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "SCNMaterialProvider"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh.SCNMaterialProvider",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/scnmaterialprovider"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/STLColorProvider": {
   "abstract" : [
@@ -740,6 +814,40 @@
   "title" : "Mesh.STLColorProvider",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/stlcolorprovider"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/STLMaterialProvider": {
+  "abstract" : [
+    {
+      "text" : "A closure that maps an STL facet color to a Euclid material.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "STLMaterialProvider"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/STLMaterialProvider",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "STLMaterialProvider"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh.STLMaterialProvider",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/stlmaterialprovider"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Transformable-Implementations": {
   "abstract" : [
@@ -3413,8 +3521,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-      "text" : "MaterialProvider"
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
     },
     {
       "kind" : "text",
@@ -3478,7 +3586,65 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(_:material:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-3drza": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from a RealityKit ",
+      "type" : "text"
+    },
+    {
+      "code" : "ModelEntity",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " with optional material mapping.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation11ModelEntityC",
+      "text" : "ModelEntity"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV26RealityKitMaterialProvidera",
+      "text" : "RealityKitMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-3drza",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-3drza"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-7p5hd": {
   "abstract" : [
     {
       "text" : "Creates a mesh from a SceneKit geometry, with optional material mapping.",
@@ -3513,20 +3679,154 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-      "text" : "MaterialProvider"
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
     },
     {
       "kind" : "text",
       "text" : "?)"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-7p5hd",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(_:materialLookup:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)"
+  "url" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-7p5hd"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-22brv": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from a RealityKit ",
+      "type" : "text"
+    },
+    {
+      "code" : "MeshDescriptor",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " with optional material.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation14MeshDescriptorV",
+      "text" : "MeshDescriptor"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materials"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?])"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-22brv",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:materials:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:materials:)-22brv"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-4k8gs": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from a RealityKit ",
+      "type" : "text"
+    },
+    {
+      "code" : "MeshResource",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation12MeshResourceC",
+      "text" : "MeshResource"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materials"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?])"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4k8gs",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:materials:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4k8gs"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(scnGeometry:materialLookup:)": {
   "abstract" : [
@@ -3583,6 +3883,105 @@
   "title" : "init(scnGeometry:materialLookup:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(scngeometry:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlData:materialLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Create a mesh from STL data.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "stlData"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation4DataV",
+      "text" : "Data"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19STLMaterialProvidera",
+      "text" : "STLMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlData:materialLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(stlData:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(stldata:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlString:)": {
+  "abstract" : [
+    {
+      "text" : "Create a mesh from an STL string.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "stlString"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlString:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(stlString:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(stlstring:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(submeshes:)": {
   "abstract" : [
@@ -3685,8 +4084,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-      "text" : "MaterialProvider"
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
     },
     {
       "kind" : "text",

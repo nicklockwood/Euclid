@@ -1,6 +1,12 @@
 # Change Log
 
-## [0.7.2](https://github.com/nicklockwood/Euclid/releases/tag/0.7.2) (2023-12-27)
+## [0.7.3](https://github.com/nicklockwood/Euclid/releases/tag/0.7.3) (2023-12-22)
+
+- Added support for converting RealityKit models to Euclid meshes
+- Added support for loading binary and ASCII STL files
+- Added visionOS support
+
+## [0.7.2](https://github.com/nicklockwood/Euclid/releases/tag/0.7.2) (2023-12-10)
 
 - RealityKit texture downscaling now uses linear interpolation by default
 - Fixed edge case in `insertEdgePoint()` that caused assertion failures in debug mode

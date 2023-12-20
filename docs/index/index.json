@@ -359,12 +359,12 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:materiallookup:)",
-                "title" : "init(SCNNode, ignoringTransforms: Bool, materialLookup: MaterialProvider?)",
+                "title" : "init(SCNNode, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider?)",
                 "type" : "init"
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/init(url:ignoringtransforms:materiallookup:)",
-                "title" : "init(url: URL, ignoringTransforms: Bool, materialLookup: MaterialProvider?) throws",
+                "title" : "init(url: URL, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider?) throws",
                 "type" : "init"
               },
               {
@@ -599,13 +599,38 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)",
-                "title" : "init?(SCNGeometry, materialLookup: MaterialProvider?)",
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-3drza",
+                "title" : "init(ModelEntity, materialLookup: RealityKitMaterialProvider?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-7p5hd",
+                "title" : "init?(SCNGeometry, materialLookup: SCNMaterialProvider?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materials:)-22brv",
+                "title" : "init(MeshDescriptor, materials: [Polygon.Material?])",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4k8gs",
+                "title" : "init(MeshResource, materials: [Polygon.Material?])",
                 "type" : "init"
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/init(scngeometry:materiallookup:)",
                 "title" : "init?(scnGeometry: SCNGeometry, materialLookup: MaterialProvider?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(stldata:materiallookup:)",
+                "title" : "init?(stlData: Data, materialLookup: STLMaterialProvider?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(stlstring:)",
+                "title" : "init?(stlString: String)",
                 "type" : "init"
               },
               {
@@ -651,8 +676,23 @@
                 "type" : "typealias"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/realitykitmaterialprovider",
+                "title" : "Mesh.RealityKitMaterialProvider",
+                "type" : "typealias"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/scnmaterialprovider",
+                "title" : "Mesh.SCNMaterialProvider",
+                "type" : "typealias"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/stlcolorprovider",
                 "title" : "Mesh.STLColorProvider",
+                "type" : "typealias"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/stlmaterialprovider",
+                "title" : "Mesh.STLMaterialProvider",
                 "type" : "typealias"
               },
               {
@@ -2494,6 +2534,15 @@
                 "type" : "op"
               },
               {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/rotation\/init(_:)-8izj",
+                "title" : "init(simd_quatf)",
+                "type" : "init"
+              },
+              {
                 "title" : "Default Implementations",
                 "type" : "groupMarker"
               },
@@ -2672,8 +2721,18 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/transform\/init(_:)-7hvb3",
+                "title" : "init(simd_float4x4)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/transform\/init(_:)-83oy3",
                 "title" : "init(SCNMatrix4)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/transform\/init(_:)-cys2",
+                "title" : "init(RealityKit.Transform)",
                 "type" : "init"
               },
               {
@@ -3002,6 +3061,15 @@
                 "path" : "\/documentation\/euclid\/quaternion\/\/=(_:_:)",
                 "title" : "static func \/= (inout Quaternion, Double)",
                 "type" : "op"
+              },
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/quaternion\/init(_:)-99vxt",
+                "title" : "init(simd_quatf)",
+                "type" : "init"
               },
               {
                 "title" : "Instance Properties",
@@ -3700,6 +3768,20 @@
                 "path" : "\/documentation\/euclid\/vector\/\/=(_:_:)",
                 "title" : "static func \/= (inout Vector, Double)",
                 "type" : "op"
+              },
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/init(_:)-5s4mt",
+                "title" : "init(simd_float3)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/init(_:)-7r7et",
+                "title" : "init(simd_float2)",
+                "type" : "init"
               },
               {
                 "title" : "Instance Properties",

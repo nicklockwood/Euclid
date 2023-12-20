@@ -66,8 +66,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-        "text" : "MaterialProvider"
+        "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+        "text" : "SCNMaterialProvider"
       },
       {
         "kind" : "text",
@@ -154,10 +154,10 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/MaterialProvider",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-              "text" : "MaterialProvider"
+              "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+              "text" : "SCNMaterialProvider"
             },
             {
               "kind" : "text",
@@ -375,11 +375,9 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/MaterialProvider": {
   "abstract" : [
-    {
-      "text" : "A closure that maps a SceneKit material to a Euclid material.",
-      "type" : "text"
-    }
+
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -406,6 +404,40 @@
   "title" : "Mesh.MaterialProvider",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/materialprovider"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/SCNMaterialProvider": {
+  "abstract" : [
+    {
+      "text" : "A closure that maps a SceneKit material to a Euclid material.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "SCNMaterialProvider"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "SCNMaterialProvider"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh.SCNMaterialProvider",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/scnmaterialprovider"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:ignoringTransforms:materialLookup:)": {
   "abstract" : [
@@ -459,8 +491,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-      "text" : "MaterialProvider"
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
     },
     {
       "kind" : "text",
@@ -584,8 +616,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-      "text" : "MaterialProvider"
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
     },
     {
       "kind" : "text",

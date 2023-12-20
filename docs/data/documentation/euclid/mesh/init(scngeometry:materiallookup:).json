@@ -204,11 +204,9 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/MaterialProvider": {
   "abstract" : [
-    {
-      "text" : "A closure that maps a SceneKit material to a Euclid material.",
-      "type" : "text"
-    }
+
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

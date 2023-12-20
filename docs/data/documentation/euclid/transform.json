@@ -186,7 +186,9 @@
     },
     {
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-83oy3"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-7hvb3",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-83oy3",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-cys2"
       ],
       "title" : "Initializers"
     },
@@ -608,6 +610,48 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform\/identity"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(_:)-7hvb3": {
+  "abstract" : [
+    {
+      "text" : "Creates a Euclid",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " from a simd matrix.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@SA@simd_float4x4",
+      "text" : "simd_float4x4"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-7hvb3",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/transform\/init(_:)-7hvb3"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(_:)-83oy3": {
   "abstract" : [
     {
@@ -640,6 +684,60 @@
   "title" : "init(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform\/init(_:)-83oy3"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(_:)-cys2": {
+  "abstract" : [
+    {
+      "text" : "Creates a Euclid",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " from a RealityKit ",
+      "type" : "text"
+    },
+    {
+      "code" : "Transform",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "(RealityKit"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation9TransformV",
+      "text" : "Transform"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-cys2",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/transform\/init(_:)-cys2"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(offset:rotation:scale:)": {
   "abstract" : [

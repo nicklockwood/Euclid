@@ -202,7 +202,10 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Faces/front
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Faces/frontAndBack
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Material
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/MaterialProvider
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/RealityKitMaterialProvider
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/SCNMaterialProvider
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/STLColorProvider
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/STLMaterialProvider
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Transformable-Implementations
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/WrapMode
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/WrapMode/!=(_:_:)
@@ -245,9 +248,14 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/icosahedron(radius:fac
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:ignoringTransforms:materialLookup:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:material:)
-doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-3drza
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-7p5hd
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-22brv
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-4k8gs
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(from:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(scnGeometry:materialLookup:)
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlData:materialLookup:)
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlString:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(submeshes:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(url:ignoringTransforms:materialLookup:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersect(_:isCancelled:)
@@ -524,6 +532,7 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Quaternion/hash(into:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Quaternion/identity
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Quaternion/init(_:)-27eol
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Quaternion/init(_:)-7xa5o
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Quaternion/init(_:)-99vxt
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Quaternion/init(_:)-b3v3
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Quaternion/init(_:)-fyhx
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Quaternion/init(_:_:_:_:)
@@ -569,6 +578,7 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init()
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(_:)-5w6mn
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(_:)-68leo
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(_:)-7j4ql
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(_:)-8izj
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(axis:angle:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(from:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(pitch:yaw:roll:)
@@ -594,7 +604,9 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/Equatable-Impleme
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/Transformable-Implementations
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/encode(to:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/identity
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(_:)-7hvb3
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(_:)-83oy3
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(_:)-cys2
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(from:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(offset:rotation:scale:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/isFlipped
@@ -675,8 +687,10 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/encode(to:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-228p6
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-4eop9
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-5n3j
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-5s4mt
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-63ct7
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-6nlm
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-7r7et
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:_:_:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(from:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(size:)-8b34m

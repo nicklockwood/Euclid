@@ -15,7 +15,7 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-7p5hd"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -49,8 +49,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-        "text" : "MaterialProvider"
+        "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+        "text" : "SCNMaterialProvider"
       },
       {
         "kind" : "text",
@@ -120,10 +120,10 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/MaterialProvider",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-              "text" : "MaterialProvider"
+              "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+              "text" : "SCNMaterialProvider"
             },
             {
               "kind" : "text",
@@ -203,7 +203,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/init(_:materiallookup:)"
+        "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-7p5hd"
       ],
       "traits" : [
         {
@@ -262,7 +262,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/MaterialProvider": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/SCNMaterialProvider": {
   "abstract" : [
     {
       "text" : "A closure that maps a SceneKit material to a Euclid material.",
@@ -280,23 +280,23 @@
     },
     {
       "kind" : "identifier",
-      "text" : "MaterialProvider"
+      "text" : "SCNMaterialProvider"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/MaterialProvider",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "MaterialProvider"
+      "text" : "SCNMaterialProvider"
     }
   ],
   "role" : "symbol",
-  "title" : "Mesh.MaterialProvider",
+  "title" : "Mesh.SCNMaterialProvider",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/materialprovider"
+  "url" : "\/documentation\/euclid\/mesh\/scnmaterialprovider"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-7p5hd": {
   "abstract" : [
     {
       "text" : "Creates a mesh from a SceneKit geometry, with optional material mapping.",
@@ -331,20 +331,20 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-      "text" : "MaterialProvider"
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
     },
     {
       "kind" : "text",
       "text" : "?)"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-7p5hd",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(_:materialLookup:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)"
+  "url" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-7p5hd"
 }
 }
 }
