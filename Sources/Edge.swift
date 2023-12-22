@@ -31,9 +31,9 @@
 
 /// A polygon edge.
 public struct Edge: Hashable, Sendable {
-    // The starting point of the line segment.
+    /// The starting point of the line segment.
     public let start: Vertex
-    // The end point of the line segment.
+    /// The end point of the line segment.
     public let end: Vertex
 
     /// Creates an edge with a start and end vertex.
