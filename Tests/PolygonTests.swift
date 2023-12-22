@@ -10,7 +10,7 @@
 import XCTest
 
 extension Euclid.Polygon: ExpressibleByArrayLiteral {
-    // Convenience constructor for testing
+    /// Convenience constructor for testing
     init(unchecked vertices: [Vertex], plane: Plane? = nil) {
         self.init(
             unchecked: vertices,
