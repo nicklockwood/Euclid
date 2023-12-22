@@ -161,6 +161,16 @@ public extension Mesh {
         guard stlData.count >= offset + 4 else {
             return nil
         }
+        var baseColor: Color?
+        let colorPrefix = "COLOR=".data(using: .utf8)!
+        if let range = stlData[0 ..< headerSize].range(of: colorPrefix) {
+            baseColor = Color(
+                Double(stlData[range.upperBound]) / 255,
+                Double(stlData[range.upperBound + 1]) / 255,
+                Double(stlData[range.upperBound + 2]) / 255,
+                Double(stlData[range.upperBound + 3]) / 255
+            )
+        }
         let count = Int(stlData.withUnsafeBytes { $0.readUInt32(at: &offset) })
         guard stlData.count >= offset + count * triangleSize else {
             return nil
@@ -168,7 +178,7 @@ public extension Mesh {
         let materialLookup = materialLookup ?? { $0 }
         let triangles = stlData.withUnsafeBytes { buffer -> [Polygon] in
             (0 ..< count).compactMap { _ in
-                buffer.readTriangle(at: &offset, materialLookup: materialLookup)
+                buffer.readTriangle(at: &offset, baseColor: baseColor, materialLookup: materialLookup)
             }
         }
         self.init(triangles)
@@ -279,7 +289,7 @@ private extension UnsafeRawBufferPointer {
         )
     }
 
-    func readColor(at offset: inout Int) -> Color? {
+    func readSolidViewColor(at offset: inout Int) -> Color? {
         let color = readUInt16(at: &offset)
         guard color & 0x8000 > 0 else {
             return nil
@@ -290,10 +300,21 @@ private extension UnsafeRawBufferPointer {
         return .init(red, green, blue)
     }
 
-    func readTriangle(at offset: inout Int, materialLookup: Mesh.STLMaterialProvider) -> Polygon? {
+    func readMaterialiseMagicsColor(at offset: inout Int) -> Color? {
+        let color = readUInt16(at: &offset)
+        guard color & 0x8000 == 0 else {
+            return nil
+        }
+        let red = Double(color & 31) / 31
+        let green = Double((color & (31 << 5)) >> 5) / 31
+        let blue = Double((color & (31 << 10)) >> 10) / 31
+        return .init(red, green, blue)
+    }
+
+    func readTriangle(at offset: inout Int, baseColor: Color?, materialLookup: Mesh.STLMaterialProvider) -> Polygon? {
         _ = readVector(at: &offset) // Normal (ignored)
         let vertices = (0 ..< 3).map { _ in readVector(at: &offset) }
-        let color = readColor(at: &offset)
+        let color = baseColor.map { readMaterialiseMagicsColor(at: &offset) ?? $0 } ?? readSolidViewColor(at: &offset)
         return Polygon(vertices, material: materialLookup(color))
     }
 }
