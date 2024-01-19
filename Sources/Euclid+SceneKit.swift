@@ -46,6 +46,15 @@ private func srgbToLinear(_ x: Double) -> Double {
     }
 }
 
+private func linearToSRGB(_ x: Double) -> Double {
+    switch x {
+    case ..<0: return 0
+    case 1...: return 1
+    case 0 ..< 0.00031308: return 12.92 * x
+    default: return 1.055 * pow(x, 1 / 2.4) - 0.055
+    }
+}
+
 private extension Color {
     func toLinear() -> Color {
         .init(
@@ -53,6 +62,15 @@ private extension Color {
             srgbToLinear(g),
             srgbToLinear(b),
             srgbToLinear(a)
+        )
+    }
+
+    func toSRGB() -> Color {
+        .init(
+            linearToSRGB(r),
+            linearToSRGB(g),
+            linearToSRGB(b),
+            linearToSRGB(a)
         )
     }
 }
@@ -465,6 +483,15 @@ private extension Data {
             float(at: index + 8)
         )
     }
+
+    func color(at index: Int) -> Color {
+        Color(
+            float(at: index),
+            float(at: index + 4),
+            float(at: index + 8),
+            float(at: index + 12)
+        )
+    }
 }
 
 public extension Vector {
@@ -615,6 +642,11 @@ public extension Mesh {
             case .normal:
                 for i in 0 ..< count {
                     vertices[i].normal = data.vector(at: offset)
+                    offset += stride
+                }
+            case .color:
+                for i in 0 ..< count {
+                    vertices[i].color = data.color(at: offset).toSRGB()
                     offset += stride
                 }
             case .texcoord:

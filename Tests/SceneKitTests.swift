@@ -141,6 +141,18 @@ class SceneKitTests: XCTestCase {
         XCTAssertEqual(geometry.sources.first?.vectorCount, 114)
     }
 
+    func testExportMeshWithColors() throws {
+        let mesh = Mesh.lathe(.curve([
+            .point(.unitY, color: .red),
+            .curve(-.unitX, color: .green),
+            .point(-.unitY, color: .blue),
+        ]))
+        let geometry = SCNGeometry(polygons: mesh)
+        let result = try XCTUnwrap(Mesh(geometry))
+        XCTAssert(result.hasVertexColors)
+        XCTAssertEqual(result.polygons.first?.vertices.first?.color, .red)
+    }
+
     // MARK: Transforms
 
     func testIdentityTransformToFromMatrix() {
