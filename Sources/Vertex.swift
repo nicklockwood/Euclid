@@ -138,6 +138,38 @@ public extension Vertex {
             color.lerp(other.color, t)
         )
     }
+
+    /// Creates a copy of the vertex with the specified normal.
+    /// - Parameter normal: The normal value to apply to the vertex.
+    func withNormal(_ normal: Vector) -> Vertex {
+        var vertex = self
+        vertex.normal = normal
+        return vertex
+    }
+
+    /// Creates a copy of the vertex with the specified texture coordinate.
+    /// - Parameter texcoord: The texture coordinate to apply to the vertex.
+    func withTexcoord(_ texcoord: Vector) -> Vertex {
+        var vertex = self
+        vertex.texcoord = texcoord
+        return vertex
+    }
+
+    /// Creates a copy of the vertex with the specified position.
+    /// - Parameter position: The position to apply to the vertex.
+    func withPosition(_ position: Vector) -> Vertex {
+        var vertex = self
+        vertex.position = position
+        return vertex
+    }
+
+    /// Creates a copy of the vertex with the specified color.
+    /// - Parameter color: The color to apply to the vertex.
+    func withColor(_ color: Color?) -> Vertex {
+        var vertex = self
+        vertex.color = color ?? .white
+        return vertex
+    }
 }
 
 extension Vertex {
@@ -208,27 +240,6 @@ extension Vertex {
         }
     }
 
-    /// Creates a copy of the vertex with the specified normal.
-    func withNormal(_ normal: Vector) -> Vertex {
-        var vertex = self
-        vertex.normal = normal
-        return vertex
-    }
-
-    /// Creates a copy of the vertex with the specified texture coordinate.
-    func withTexcoord(_ texcoord: Vector) -> Vertex {
-        var vertex = self
-        vertex.texcoord = texcoord
-        return vertex
-    }
-
-    /// Creates a copy of the vertex with the specified position.
-    func withPosition(_ position: Vector) -> Vertex {
-        var vertex = self
-        vertex.position = position._quantized()
-        return vertex
-    }
-
     /// Approximate equality
     func isEqual(to other: Vertex, withPrecision p: Double = epsilon) -> Bool {
         position.isEqual(to: other.position, withPrecision: p) &&
@@ -239,8 +250,12 @@ extension Vertex {
 }
 
 extension Collection where Element == Vertex {
-    func mapTexcoords(_ fn: (Vector) -> Vector) -> [Vertex] {
-        map { $0.withTexcoord(fn($0.texcoord)) }
+    func mapTexcoords(_ transform: (Vector) -> Vector) -> [Vertex] {
+        map { $0.withTexcoord(transform($0.texcoord)) }
+    }
+
+    func mapVertexColors(_ transform: (Color) -> Color?) -> [Vertex] {
+        map { $0.withColor(transform($0.color)) }
     }
 
     func inverted() -> [Vertex] {
