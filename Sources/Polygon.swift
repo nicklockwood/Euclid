@@ -313,8 +313,27 @@ public extension Polygon {
 
     /// Return a copy of the polygon without texture coordinates
     func withoutTexcoords() -> Polygon {
+        mapTexcoords { _ in .zero }
+    }
+
+    /// Return a copy of the polygon with transformed texture coordinates
+    /// - Parameter transform: A closure to be applied to each texcoord in the polygon.
+    func mapTexcoords(_ transform: (Vector) -> Vector) -> Polygon {
         Polygon(
-            unchecked: vertices.mapTexcoords { _ in .zero },
+            unchecked: vertices.mapTexcoords(transform),
+            plane: plane,
+            isConvex: isConvex,
+            sanitizeNormals: false,
+            material: material,
+            id: id
+        )
+    }
+
+    /// Return a copy of the polygon with transformed vertex colors
+    /// - Parameter transform: A closure to be applied to each vertex color in the polygon.
+    func mapVertexColors(_ transform: (Color) -> Color?) -> Polygon {
+        Polygon(
+            unchecked: vertices.mapVertexColors(transform),
             plane: plane,
             isConvex: isConvex,
             sanitizeNormals: false,
@@ -565,13 +584,13 @@ extension Collection where Element == Polygon {
     }
 
     /// Return polygons with materials replaced by the function
-    func mapMaterials(_ fn: (Polygon.Material?) -> Polygon.Material?) -> [Polygon] {
-        map { $0.withMaterial(fn($0.material)) }
+    func mapMaterials(_ transform: (Polygon.Material?) -> Polygon.Material?) -> [Polygon] {
+        map { $0.withMaterial(transform($0.material)) }
     }
 
     /// Return polygons with transformed texture coordinates
-    func mapTexcoords(_ fn: (Vector) -> Vector) -> [Polygon] {
-        map { $0.mapTexcoords(fn) }
+    func mapTexcoords(_ transform: (Vector) -> Vector) -> [Polygon] {
+        map { $0.mapTexcoords(transform) }
     }
 
     /// Flip each polygon along its plane
@@ -973,18 +992,6 @@ extension Polygon {
         var polygon = self
         polygon.id = id
         return polygon
-    }
-
-    /// Return a copy of the polygon with transformed texture coordinates
-    func mapTexcoords(_ fn: (Vector) -> Vector) -> Polygon {
-        Polygon(
-            unchecked: vertices.mapTexcoords(fn),
-            plane: plane,
-            isConvex: isConvex,
-            sanitizeNormals: false,
-            material: material,
-            id: id
-        )
     }
 }
 
