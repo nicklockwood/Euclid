@@ -23,7 +23,7 @@ private let projectURL = projectDirectory
     .appendingPathComponent("Euclid.xcodeproj")
     .appendingPathComponent("project.pbxproj")
 
-private let euclidVersion: String = {
+private let projectVersion: String = {
     let string = try! String(contentsOf: projectURL)
     let start = string.range(of: "MARKETING_VERSION = ")!.upperBound
     let end = string.range(of: ";", range: start ..< string.endIndex)!.lowerBound
@@ -48,23 +48,32 @@ private let changelogTitles: [Substring] = {
 class MetadataTests: XCTestCase {
     // MARK: releases
 
-    func testLatestVersionInChangelog() {
-        let changelog = try! String(contentsOf: changelogURL, encoding: .utf8)
-        XCTAssertTrue(changelog.contains("[\(euclidVersion)]"), "CHANGELOG.md does not mention latest release")
+    func testProjectVersionMatchesChangelog() throws {
+        let changelog = try String(contentsOf: changelogURL, encoding: .utf8)
+        let range = try XCTUnwrap(changelog.range(of: "releases/tag/"))
         XCTAssertTrue(
-            changelog.contains("(https://github.com/nicklockwood/Euclid/releases/tag/\(euclidVersion))"),
+            changelog[range.upperBound...].hasPrefix(projectVersion),
+            "Project version \(projectVersion) does not match most recent tag in CHANGELOG.md"
+        )
+    }
+
+    func testLatestVersionInChangelog() throws {
+        let changelog = try String(contentsOf: changelogURL, encoding: .utf8)
+        XCTAssertTrue(changelog.contains("[\(projectVersion)]"), "CHANGELOG.md does not mention latest release")
+        XCTAssertTrue(
+            changelog.contains("(https://github.com/nicklockwood/Euclid/releases/tag/\(projectVersion))"),
             "CHANGELOG.md does not include correct link for latest release"
         )
     }
 
-    func testLatestVersionInPodspec() {
-        let podspec = try! String(contentsOf: podspecURL, encoding: .utf8)
+    func testLatestVersionInPodspec() throws {
+        let podspec = try String(contentsOf: podspecURL, encoding: .utf8)
         XCTAssertTrue(
-            podspec.contains("\"version\": \"\(euclidVersion)\""),
+            podspec.contains("\"version\": \"\(projectVersion)\""),
             "Podspec version does not match latest release"
         )
         XCTAssertTrue(
-            podspec.contains("\"tag\": \"\(euclidVersion)\""),
+            podspec.contains("\"tag\": \"\(projectVersion)\""),
             "Podspec tag does not match latest release"
         )
     }

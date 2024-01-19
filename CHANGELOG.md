@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.7.4](https://github.com/nicklockwood/Euclid/releases/tag/0.7.4) (2024-01-19)
+
+- Removed stray `print()` statement from RealityKit exporter
+- Added logic to correct SceneKit vertex colors
+- Added `Polygon.mapVertexColors()` method
+- Added `Path.mapColors()` method
+- Added vertex modifier methods
+
 ## [0.7.3](https://github.com/nicklockwood/Euclid/releases/tag/0.7.3) (2023-12-22)
 
 - Added support for converting RealityKit models to Euclid meshes

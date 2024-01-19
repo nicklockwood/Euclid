@@ -174,6 +174,15 @@
       "title" : "Encoding and Decoding Vertices"
     },
     {
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/withColor(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/withNormal(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/withPosition(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/withTexcoord(_:)"
+      ],
+      "title" : "Instance Methods"
+    },
+    {
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Decodable-Implementations",
@@ -1314,6 +1323,190 @@
   "title" : "translated(by:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex\/translated(by:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/withColor(_:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a copy of the vertex with the specified color.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "withColor"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VertexV",
+      "text" : "Vertex"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/withColor(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "withColor(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/withcolor(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/withNormal(_:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a copy of the vertex with the specified normal.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "withNormal"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VertexV",
+      "text" : "Vertex"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/withNormal(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "withNormal(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/withnormal(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/withPosition(_:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a copy of the vertex with the specified position.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "withPosition"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VertexV",
+      "text" : "Vertex"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/withPosition(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "withPosition(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/withposition(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/withTexcoord(_:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a copy of the vertex with the specified texture coordinate.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "withTexcoord"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VertexV",
+      "text" : "Vertex"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/withTexcoord(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "withTexcoord(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/withtexcoord(_:)"
 },
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",

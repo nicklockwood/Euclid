@@ -116,8 +116,8 @@ extension Polygon {
         }
         guard polygon.isConvex else {
             var coplanar = [Polygon]()
-            polygon.tessellate().forEach {
-                $0.split(along: plane, &coplanar, &front, &back, &id)
+            for polygon in polygon.tessellate() {
+                polygon.split(along: plane, &coplanar, &front, &back, &id)
             }
             return
         }
@@ -188,8 +188,8 @@ extension Polygon {
     func intersect(spanning plane: Plane, intersections: inout Set<LineSegment>) {
         assert(compare(with: plane) == .spanning)
         guard isConvex else {
-            tessellate().forEach {
-                $0.intersect(spanning: plane, intersections: &intersections)
+            for polygon in tessellate() {
+                polygon.intersect(spanning: plane, intersections: &intersections)
             }
             return
         }

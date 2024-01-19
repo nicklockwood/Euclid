@@ -355,6 +355,7 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/latheProfile
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/length
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/line(_:_:color:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/line(_:color:)
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/mapColors(_:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/plane
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/points
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/polygon(radius:sides:color:)
@@ -483,6 +484,8 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(from:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(shape:material:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/inverted()
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/isConvex
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/mapTexcoords(_:)
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/mapVertexColors(_:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/material-swift.property
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/merge(_:ensureConvex:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/orderedEdges
@@ -753,6 +756,10 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/transform(by:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/transformed(by:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/translate(by:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/translated(by:)
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/withColor(_:)
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/withNormal(_:)
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/withPosition(_:)
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/withTexcoord(_:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/cos(_:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/max(_:_:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/min(_:_:)

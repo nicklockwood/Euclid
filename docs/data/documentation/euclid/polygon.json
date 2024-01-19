@@ -201,6 +201,8 @@
     },
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapTexcoords(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertexColors(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/with(material:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/withoutTexcoords()"
       ],
@@ -1243,6 +1245,116 @@
   "title" : "isConvex",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/isconvex"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/mapTexcoords(_:)": {
+  "abstract" : [
+    {
+      "text" : "Return a copy of the polygon with transformed texture coordinates",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "mapTexcoords"
+    },
+    {
+      "kind" : "text",
+      "text" : "(("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapTexcoords(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "mapTexcoords(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/maptexcoords(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/mapVertexColors(_:)": {
+  "abstract" : [
+    {
+      "text" : "Return a copy of the polygon with transformed vertex colors",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "mapVertexColors"
+    },
+    {
+      "kind" : "text",
+      "text" : "(("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertexColors(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "mapVertexColors(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/mapvertexcolors(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/material-swift.property": {
   "abstract" : [

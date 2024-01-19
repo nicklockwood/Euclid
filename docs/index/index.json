@@ -1038,6 +1038,16 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/polygon\/maptexcoords(_:)",
+                "title" : "func mapTexcoords((Vector) -> Vector) -> Polygon",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/mapvertexcolors(_:)",
+                "title" : "func mapVertexColors((Color) -> Color?) -> Polygon",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/polygon\/with(material:)",
                 "title" : "func with(material: Material?) -> Polygon",
                 "type" : "method"
@@ -1458,6 +1468,11 @@
               {
                 "path" : "\/documentation\/euclid\/path\/facepolygons(material:)",
                 "title" : "func facePolygons(material: Mesh.Material?) -> [Polygon]",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/mapcolors(_:)",
+                "title" : "func mapColors((Color?) -> Color?) -> Path",
                 "type" : "method"
               },
               {
@@ -4762,6 +4777,30 @@
                 "path" : "\/documentation\/euclid\/vertex\/init(from:)",
                 "title" : "init(from: Decoder) throws",
                 "type" : "init"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vertex\/withcolor(_:)",
+                "title" : "func withColor(Color?) -> Vertex",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vertex\/withnormal(_:)",
+                "title" : "func withNormal(Vector) -> Vertex",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vertex\/withposition(_:)",
+                "title" : "func withPosition(Vector) -> Vertex",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vertex\/withtexcoord(_:)",
+                "title" : "func withTexcoord(Vector) -> Vertex",
+                "type" : "method"
               },
               {
                 "title" : "Default Implementations",

@@ -380,6 +380,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/edgeVertices(for:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/extrusionContours(along:twist:align:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/mapColors(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/with(color:)"
       ],
       "title" : "Instance Methods"
@@ -2124,6 +2125,61 @@
   "title" : "line(_:color:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/line(_:color:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/mapColors(_:)": {
+  "abstract" : [
+    {
+      "text" : "Return a copy of the polygon with transformed vertex colors",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "mapColors"
+    },
+    {
+      "kind" : "text",
+      "text" : "(("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/mapColors(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "mapColors(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/mapcolors(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/plane": {
   "abstract" : [

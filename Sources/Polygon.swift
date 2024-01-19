@@ -561,7 +561,7 @@ extension Collection where Element == Polygon {
         }
         var polygonsByVertex = [Vector: [Polygon]]()
         forEach { polygon in
-            polygon.vertices.forEach { vertex in
+            for vertex in polygon.vertices {
                 polygonsByVertex[vertex.position, default: []].append(polygon)
             }
         }

@@ -190,22 +190,6 @@
                 {
                   "text" : "An optional closure to map the RealityKit materials to Euclid materials.",
                   "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "If omitted, the RealityKit ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "Material",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " will be directly used as the mesh material.",
-                  "type" : "text"
                 }
               ],
               "type" : "paragraph"

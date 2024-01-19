@@ -308,8 +308,8 @@ struct VertexSet {
             }
         }
         // insert into hash
-        point.hashValues(withPrecision: precision).forEach {
-            storage[$0, default: []].append(vertex)
+        for hashValue in point.hashValues(withPrecision: precision) {
+            storage[hashValue, default: []].append(vertex)
         }
         return vertex
     }
