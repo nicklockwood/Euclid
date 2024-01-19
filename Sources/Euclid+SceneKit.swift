@@ -35,6 +35,28 @@ import SceneKit
 
 let scnMaterialTypes: [AnyClass] = [SCNMaterial.self]
 
+// MARK: SRGB conversion
+
+private func srgbToLinear(_ x: Double) -> Double {
+    switch x {
+    case ..<0: return 0
+    case 1...: return 1
+    case 0 ..< 0.04045: return x / 12.92
+    default: return pow((x + 0.055) / 1.055, 2.4)
+    }
+}
+
+private extension Color {
+    func toLinear() -> Color {
+        .init(
+            srgbToLinear(r),
+            srgbToLinear(g),
+            srgbToLinear(b),
+            srgbToLinear(a)
+        )
+    }
+}
+
 // MARK: export
 
 public extension SCNVector3 {
@@ -189,7 +211,7 @@ public extension SCNGeometry {
                         texcoords.append(CGPoint(vertex.texcoord))
                     }
                     if hasVertexColors {
-                        colors.append(SCNVector4(vertex.color))
+                        colors.append(SCNVector4(vertex.color.toLinear()))
                     }
                 }
             }
@@ -255,7 +277,7 @@ public extension SCNGeometry {
                         texcoords.append(CGPoint(vertex.texcoord))
                     }
                     if hasVertexColors {
-                        colors.append(SCNVector4(vertex.color))
+                        colors.append(SCNVector4(vertex.color.toLinear()))
                     }
                 }
             }
@@ -349,7 +371,7 @@ public extension SCNGeometry {
                 indices.append(index)
                 vertices.append(SCNVector3(position))
                 if hasColors {
-                    colors.append(SCNVector4(vertex.color))
+                    colors.append(SCNVector4(vertex.color.toLinear()))
                 }
             }
         }
