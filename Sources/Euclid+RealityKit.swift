@@ -96,7 +96,6 @@ public extension MeshDescriptor {
         self.textureCoordinates = data.texcoords.map(MeshBuffers.TextureCoordinates.init)
         self.primitives = .triangles(data.indices)
         if !data.materialIndices.isEmpty {
-            print(data.materialIndices)
             self.materials = .perFace(data.materialIndices)
         } else if !mesh.materials.isEmpty {
             self.materials = .allFaces(0)
