@@ -125,12 +125,18 @@ public extension Path {
         )
     }
 
+    /// Return a copy of the polygon with transformed vertex colors
+    /// - Parameter transform: A closure to be applied to each color in the path.
+    func mapColors(_ transform: (Color?) -> Color?) -> Path {
+        Path(unchecked: points.map {
+            $0.withColor(transform($0.color))
+        }, plane: plane, subpathIndices: subpathIndices)
+    }
+
     /// Replace/remove path point colors.
     /// - Parameter color: The color to apply to each point in the path.
     func withColor(_ color: Color?) -> Path {
-        Path(unchecked: points.map {
-            $0.withColor(color)
-        }, plane: plane, subpathIndices: subpathIndices)
+        mapColors { _ in color }
     }
 
     /// Deprecated.
