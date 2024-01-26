@@ -135,7 +135,7 @@ public extension SCNNode {
     }
 }
 
-private func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
+func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
     switch material {
     case let scnMaterial as SCNMaterial:
         return scnMaterial
@@ -784,7 +784,7 @@ public extension Mesh {
     }
 
     @available(*, deprecated, renamed: "init(_:materialLookup:)")
-    init?(scnGeometry: SCNGeometry, materialLookup: MaterialProvider? = nil) {
+    init?(scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider? = nil) {
         self.init(scnGeometry, materialLookup: materialLookup)
     }
 }

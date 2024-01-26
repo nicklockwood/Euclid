@@ -70,16 +70,20 @@
 
 - ``Mesh/init(_:material:)``
 - ``Mesh/init(_:ignoringTransforms:materialLookup:)``
-- ``Mesh/init(url:ignoringTransforms:materialLookup:)``
 
-- ``Mesh/Material``
-- ``Mesh/MaterialProvider``
+### Importing Meshes
+
+- ``Mesh/init(stlString:)``
+- ``Mesh/init(stlData:materialLookup:)``
+- ``Mesh/init(url:materialLookup:)``
+- ``Mesh/init(url:ignoringTransforms:materialLookup:)``
 
 ### Exporting Meshes
 
 - ``Mesh/objString()``
 - ``Mesh/stlString(name:)``
 - ``Mesh/stlData(colorLookup:)``
+- ``Mesh/write(to:materialLookup:)``
 
 ### Mesh Properties
 

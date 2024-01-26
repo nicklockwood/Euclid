@@ -1,62 +1,67 @@
 {
+  "abstract" : [
+    {
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "CustomNSError.errorUserInfo",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
   "hierarchy" : {
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/IOError"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(scnGeometry:materialLookup:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/IOError\/errorUserInfo"
   },
   "kind" : "symbol",
   "metadata" : {
-    "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV11scnGeometry14materialLookupACSgSo11SCNGeometryC_s11AnyHashableVSgSo11SCNMaterialCcSgtcfc",
+    "externalID" : "s:6Euclid4MeshV7IOErrorV13errorUserInfoSDySSypGvp",
     "fragments" : [
       {
+        "kind" : "keyword",
+        "text" : "var"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
         "kind" : "identifier",
-        "text" : "init"
+        "text" : "errorUserInfo"
       },
       {
         "kind" : "text",
-        "text" : "?("
-      },
-      {
-        "kind" : "externalParam",
-        "text" : "scnGeometry"
-      },
-      {
-        "kind" : "text",
-        "text" : ": "
+        "text" : ": ["
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "c:objc(cs)SCNGeometry",
-        "text" : "SCNGeometry"
+        "preciseIdentifier" : "s:SS",
+        "text" : "String"
       },
       {
         "kind" : "text",
-        "text" : ", "
+        "text" : " : "
       },
       {
-        "kind" : "externalParam",
-        "text" : "materialLookup"
-      },
-      {
-        "kind" : "text",
-        "text" : ": "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
-        "text" : "SCNMaterialProvider"
+        "kind" : "keyword",
+        "text" : "Any"
       },
       {
         "kind" : "text",
-        "text" : "?)"
+        "text" : "]"
       }
     ],
     "modules" : [
@@ -64,13 +69,10 @@
         "name" : "Euclid"
       }
     ],
-    "platforms" : [
-
-    ],
     "role" : "symbol",
-    "roleHeading" : "Initializer",
-    "symbolKind" : "init",
-    "title" : "init(scnGeometry:materialLookup:)"
+    "roleHeading" : "Instance Property",
+    "symbolKind" : "property",
+    "title" : "errorUserInfo"
   },
   "primaryContentSections" : [
     {
@@ -85,46 +87,44 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "init"
+              "text" : "var"
             },
             {
               "kind" : "text",
-              "text" : "?("
+              "text" : " "
             },
             {
-              "kind" : "externalParam",
-              "text" : "scnGeometry"
+              "kind" : "identifier",
+              "text" : "errorUserInfo"
             },
             {
               "kind" : "text",
-              "text" : ": "
+              "text" : ": ["
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "c:objc(cs)SCNGeometry",
-              "text" : "SCNGeometry"
+              "preciseIdentifier" : "s:SS",
+              "text" : "String"
             },
             {
               "kind" : "text",
-              "text" : ", "
+              "text" : " : "
             },
             {
-              "kind" : "externalParam",
-              "text" : "materialLookup"
-            },
-            {
-              "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
-              "text" : "SCNMaterialProvider"
+              "kind" : "keyword",
+              "text" : "Any"
             },
             {
               "kind" : "text",
-              "text" : "? = nil)"
+              "text" : "] { "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "get"
+            },
+            {
+              "kind" : "text",
+              "text" : " }"
             }
           ]
         }
@@ -143,7 +143,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/init(scngeometry:materiallookup:)"
+        "\/documentation\/euclid\/mesh\/ioerror\/erroruserinfo"
       ],
       "traits" : [
         {
@@ -202,17 +202,17 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/SCNMaterialProvider": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError": {
   "abstract" : [
     {
-      "text" : "A closure that maps a SceneKit material to a Euclid material.",
+      "text" : "Input\/output error.",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "typealias"
+      "text" : "struct"
     },
     {
       "kind" : "text",
@@ -220,77 +220,67 @@
     },
     {
       "kind" : "identifier",
-      "text" : "SCNMaterialProvider"
+      "text" : "IOError"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/IOError",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "SCNMaterialProvider"
+      "text" : "IOError"
     }
   ],
   "role" : "symbol",
-  "title" : "Mesh.SCNMaterialProvider",
+  "title" : "Mesh.IOError",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/scnmaterialprovider"
+  "url" : "\/documentation\/euclid\/mesh\/ioerror"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(scnGeometry:materialLookup:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError/errorUserInfo": {
   "abstract" : [
 
   ],
-  "deprecated" : true,
   "fragments" : [
     {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
       "kind" : "identifier",
-      "text" : "init"
+      "text" : "errorUserInfo"
     },
     {
       "kind" : "text",
-      "text" : "?("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "scnGeometry"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
+      "text" : ": ["
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)SCNGeometry",
-      "text" : "SCNGeometry"
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
     },
     {
       "kind" : "text",
-      "text" : ", "
+      "text" : " : "
     },
     {
-      "kind" : "externalParam",
-      "text" : "materialLookup"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
-      "text" : "SCNMaterialProvider"
+      "kind" : "keyword",
+      "text" : "Any"
     },
     {
       "kind" : "text",
-      "text" : "?)"
+      "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(scnGeometry:materialLookup:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/IOError\/errorUserInfo",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(scnGeometry:materialLookup:)",
+  "title" : "errorUserInfo",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/init(scngeometry:materiallookup:)"
+  "url" : "\/documentation\/euclid\/mesh\/ioerror\/erroruserinfo"
 }
 }
 }

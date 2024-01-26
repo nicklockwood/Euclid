@@ -28,6 +28,30 @@
 
     ],
     "severity" : 2,
+    "source" : "..\/Sources\/Angle.swift",
+    "start" : {
+      "column" : 16,
+      "line" : 75
+    },
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Angle.swift",
+    "start" : {
+      "column" : 16,
+      "line" : 76
+    },
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
     "source" : "Extensions\/Rotation.md",
     "start" : {
       "column" : 15,
@@ -76,6 +100,30 @@
 
     ],
     "severity" : 2,
+    "source" : "Extensions\/Angle.md",
+    "start" : {
+      "column" : 12,
+      "line" : 42
+    },
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "Extensions\/Angle.md",
+    "start" : {
+      "column" : 12,
+      "line" : 43
+    },
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
     "source" : "..\/Sources\/Quaternion.swift",
     "start" : {
       "column" : 21,
@@ -94,54 +142,6 @@
       "line" : 90
     },
     "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Angle.swift",
-    "start" : {
-      "column" : 16,
-      "line" : 75
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Angle.swift",
-    "start" : {
-      "column" : 16,
-      "line" : 76
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "Extensions\/Vector.md",
-    "start" : {
-      "column" : 13,
-      "line" : 71
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "Extensions\/Vector.md",
-    "start" : {
-      "column" : 13,
-      "line" : 72
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
   },
   {
     "notes" : [
@@ -172,23 +172,23 @@
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Angle.md",
+    "source" : "Extensions\/Vector.md",
     "start" : {
-      "column" : 12,
-      "line" : 42
+      "column" : 13,
+      "line" : 71
     },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Angle.md",
+    "source" : "Extensions\/Vector.md",
     "start" : {
-      "column" : 12,
-      "line" : 43
+      "column" : 13,
+      "line" : 72
     },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
   }
 ]

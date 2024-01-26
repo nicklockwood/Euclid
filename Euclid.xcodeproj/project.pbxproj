@@ -21,6 +21,7 @@
 		0148ECA4278378D100B3F836 /* Path+Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0148ECA3278378D100B3F836 /* Path+Shapes.swift */; };
 		0148ECA62783796A00B3F836 /* PathPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0148ECA52783796A00B3F836 /* PathPoint.swift */; };
 		014AC60E2505963800F54349 /* SceneKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014AC60D2505963800F54349 /* SceneKitTests.swift */; };
+		0157FEC42B63B1BE009033D1 /* Mesh+IO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0157FEC32B63B1BE009033D1 /* Mesh+IO.swift */; };
 		0162A09623795E260078AE84 /* Euclid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; platformFilters = (ios, maccatalyst, ); };
 		0162A09923795EB30078AE84 /* Euclid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; };
 		016A77F82B2F7C7800B7AB73 /* MeshImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016A77F72B2F7C7800B7AB73 /* MeshImportTests.swift */; };
@@ -125,6 +126,7 @@
 		0148ECA3278378D100B3F836 /* Path+Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Path+Shapes.swift"; sourceTree = "<group>"; };
 		0148ECA52783796A00B3F836 /* PathPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathPoint.swift; sourceTree = "<group>"; };
 		014AC60D2505963800F54349 /* SceneKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitTests.swift; sourceTree = "<group>"; };
+		0157FEC32B63B1BE009033D1 /* Mesh+IO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mesh+IO.swift"; sourceTree = "<group>"; };
 		016A77F72B2F7C7800B7AB73 /* MeshImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshImportTests.swift; sourceTree = "<group>"; };
 		016A77F92B32184A00B7AB73 /* RealityKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitTests.swift; sourceTree = "<group>"; };
 		016FAB2921BFE78100AF60DC /* Euclid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Euclid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,6 +262,7 @@
 				01D2F9F72AADBB1400C201D9 /* Mesh+Texcoords.swift */,
 				01A3D52029F32D360085D6BE /* Mesh+STL.swift */,
 				010A63382A951165000E3306 /* Mesh+OBJ.swift */,
+				0157FEC32B63B1BE009033D1 /* Mesh+IO.swift */,
 				016FAB4D21BFE7C200AF60DC /* Plane.swift */,
 				0148ECA52783796A00B3F836 /* PathPoint.swift */,
 				0148ECA3278378D100B3F836 /* Path+Shapes.swift */,
@@ -539,6 +542,7 @@
 				01B9F60E292BCE57002CC3EB /* Stretchable.swift in Sources */,
 				01E5F54923D59BF100717D58 /* BSP.swift in Sources */,
 				01BA29712235A63F0088D36B /* Euclid+CoreText.swift in Sources */,
+				0157FEC42B63B1BE009033D1 /* Mesh+IO.swift in Sources */,
 				01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */,
 				016FAB5221BFE7C200AF60DC /* Vertex.swift in Sources */,
 				016FAB5821BFE7C200AF60DC /* Polygon.swift in Sources */,

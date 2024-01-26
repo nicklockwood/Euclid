@@ -363,19 +363,28 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(url:ignoringtransforms:materiallookup:)",
-                "title" : "init(url: URL, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider?) throws",
+                "title" : "Importing Meshes",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(stlstring:)",
+                "title" : "init?(stlString: String)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/material",
-                "title" : "Mesh.Material",
-                "type" : "typealias"
+                "path" : "\/documentation\/euclid\/mesh\/init(stldata:materiallookup:)",
+                "title" : "init?(stlData: Data, materialLookup: STLMaterialProvider?)",
+                "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/materialprovider",
-                "title" : "Mesh.MaterialProvider",
-                "type" : "typealias"
+                "path" : "\/documentation\/euclid\/mesh\/init(url:materiallookup:)",
+                "title" : "init(url: URL, materialLookup: ((AnyHashable?) -> Material?)?) throws",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(url:ignoringtransforms:materiallookup:)",
+                "title" : "init(url: URL, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider?) throws",
+                "type" : "init"
               },
               {
                 "title" : "Exporting Meshes",
@@ -394,6 +403,11 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/stldata(colorlookup:)",
                 "title" : "func stlData(colorLookup: STLColorProvider?) -> Data",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/write(to:materiallookup:)",
+                "title" : "func write(to: URL, materialLookup: ((Material?) -> AnyHashable?)?) throws",
                 "type" : "method"
               },
               {
@@ -595,6 +609,71 @@
                 "type" : "method"
               },
               {
+                "title" : "Structures",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/ioerror\/erroruserinfo",
+                    "title" : "var errorUserInfo: [String : Any]",
+                    "type" : "property"
+                  },
+                  {
+                    "title" : "Default Implementations",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "children" : [
+                      {
+                        "title" : "Instance Properties",
+                        "type" : "groupMarker"
+                      },
+                      {
+                        "path" : "\/documentation\/euclid\/mesh\/ioerror\/errorcode",
+                        "title" : "var errorCode: Int",
+                        "type" : "property"
+                      },
+                      {
+                        "title" : "Type Properties",
+                        "type" : "groupMarker"
+                      },
+                      {
+                        "path" : "\/documentation\/euclid\/mesh\/ioerror\/errordomain",
+                        "title" : "static var errorDomain: String",
+                        "type" : "property"
+                      }
+                    ],
+                    "path" : "\/documentation\/euclid\/mesh\/ioerror\/customnserror-implementations",
+                    "title" : "CustomNSError Implementations",
+                    "type" : "symbol"
+                  },
+                  {
+                    "children" : [
+                      {
+                        "title" : "Instance Properties",
+                        "type" : "groupMarker"
+                      },
+                      {
+                        "path" : "\/documentation\/euclid\/mesh\/ioerror\/localizeddescription",
+                        "title" : "var localizedDescription: String",
+                        "type" : "property"
+                      }
+                    ],
+                    "path" : "\/documentation\/euclid\/mesh\/ioerror\/error-implementations",
+                    "title" : "Error Implementations",
+                    "type" : "symbol"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/mesh\/ioerror",
+                "title" : "Mesh.IOError",
+                "type" : "struct"
+              },
+              {
                 "title" : "Initializers",
                 "type" : "groupMarker"
               },
@@ -620,17 +699,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/init(scngeometry:materiallookup:)",
-                "title" : "init?(scnGeometry: SCNGeometry, materialLookup: MaterialProvider?)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/init(stldata:materiallookup:)",
-                "title" : "init?(stlData: Data, materialLookup: STLMaterialProvider?)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/init(stlstring:)",
-                "title" : "init?(stlString: String)",
+                "title" : "init?(scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider?)",
                 "type" : "init"
               },
               {
@@ -673,6 +742,16 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/alignment",
                 "title" : "Mesh.Alignment",
+                "type" : "typealias"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/material",
+                "title" : "Mesh.Material",
+                "type" : "typealias"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/materialprovider",
+                "title" : "Mesh.MaterialProvider",
                 "type" : "typealias"
               },
               {

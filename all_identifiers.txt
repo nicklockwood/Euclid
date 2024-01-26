@@ -200,6 +200,13 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Faces/back
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Faces/default
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Faces/front
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Faces/frontAndBack
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError/CustomNSError-Implementations
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError/Error-Implementations
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError/errorCode
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError/errorDomain
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError/errorUserInfo
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError/localizedDescription
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Material
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/MaterialProvider
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/RealityKitMaterialProvider
@@ -258,6 +265,7 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlData:materialL
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlString:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(submeshes:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(url:ignoringTransforms:materialLookup:)
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(url:materialLookup:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersect(_:isCancelled:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersection(_:isCancelled:)-swift.method
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersection(_:isCancelled:)-swift.type.method
@@ -311,6 +319,7 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/uniqueEdges
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/withMaterial(_:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/withTextureTransform(_:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/withoutTexcoords()
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/write(to:materialLookup:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/xor(_:isCancelled:)-swift.method
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/xor(_:isCancelled:)-swift.type.method
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Path

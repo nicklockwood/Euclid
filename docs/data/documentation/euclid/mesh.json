@@ -228,18 +228,25 @@
     {
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:material:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:materialLookup:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:ignoringTransforms:materialLookup:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Material",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/MaterialProvider"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:materialLookup:)"
       ],
       "title" : "Creating Meshes from SceneKit Models"
     },
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlString:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlData:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:ignoringTransforms:materialLookup:)"
+      ],
+      "title" : "Importing Meshes"
+    },
+    {
+      "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/objString()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlString(name:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(colorLookup:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(colorLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/write(to:materialLookup:)"
       ],
       "title" : "Exporting Meshes"
     },
@@ -314,13 +321,17 @@
     },
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/IOError"
+      ],
+      "title" : "Structures"
+    },
+    {
+      "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-3drza",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-7p5hd",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-22brv",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4k8gs",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(scnGeometry:materialLookup:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlData:materialLookup:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlString:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(scnGeometry:materialLookup:)"
       ],
       "title" : "Initializers"
     },
@@ -342,6 +353,8 @@
     {
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Alignment",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Material",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/MaterialProvider",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/RealityKitMaterialProvider",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/STLColorProvider",
@@ -629,6 +642,40 @@
   "title" : "Mesh.Faces",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/faces"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError": {
+  "abstract" : [
+    {
+      "text" : "Input\/output error.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "IOError"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/IOError",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "IOError"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh.IOError",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/ioerror"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Material": {
   "abstract" : [
@@ -3869,8 +3916,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV16MaterialProvidera",
-      "text" : "MaterialProvider"
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
     },
     {
       "kind" : "text",
@@ -4102,6 +4149,77 @@
   "title" : "init(url:ignoringTransforms:materialLookup:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(url:ignoringtransforms:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(url:materialLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Loads a mesh from a file, with optional material mapping.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "url"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": (("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s11AnyHashableV",
+      "text" : "AnyHashable"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)?) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:materialLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(url:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(url:materiallookup:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersect(_:isCancelled:)": {
   "abstract" : [
@@ -7314,6 +7432,85 @@
   "title" : "withoutTexcoords()",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/withouttexcoords()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/write(to:materialLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Saves a mesh to a file, with optional material mapping.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "write"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation3URLV",
+      "text" : "URL"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": (("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s11AnyHashableV",
+      "text" : "AnyHashable"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)?) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/write(to:materialLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "write(to:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/write(to:materiallookup:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/xor(_:isCancelled:)-swift.method": {
   "abstract" : [

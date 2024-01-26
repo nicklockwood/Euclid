@@ -213,10 +213,7 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:materialLookup:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:ignoringTransforms:materialLookup:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Material",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/MaterialProvider"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:materialLookup:)"
       ],
       "title" : "Creating Meshes from SceneKit Models"
     }
@@ -334,38 +331,6 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/material"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/MaterialProvider": {
-  "abstract" : [
-
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "typealias"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "MaterialProvider"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/MaterialProvider",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "MaterialProvider"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Mesh.MaterialProvider",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/materialprovider"
-},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:ignoringTransforms:materialLookup:)": {
   "abstract" : [
     {
@@ -482,85 +447,6 @@
   "title" : "init(_:material:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(_:material:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(url:ignoringTransforms:materialLookup:)": {
-  "abstract" : [
-    {
-      "text" : "Loads a mesh from a file using any format supported by SceneKit,  with optional material mapping.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "url"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:10Foundation3URLV",
-      "text" : "URL"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "ignoringTransforms"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "materialLookup"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
-      "text" : "SCNMaterialProvider"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "throws"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:ignoringTransforms:materialLookup:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(url:ignoringTransforms:materialLookup:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/init(url:ignoringtransforms:materiallookup:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/Material-swift.typealias": {
   "abstract" : [

@@ -107,7 +107,7 @@ import UIKit
 import SceneKit
 #endif
 
-private func defaultColorMapping(_ material: Polygon.Material?) -> Color? {
+func defaultColorMapping(_ material: Polygon.Material?) -> Color? {
     if let color = material as? Color {
         return color
     }

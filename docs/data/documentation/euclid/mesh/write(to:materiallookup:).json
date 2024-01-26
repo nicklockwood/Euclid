@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Return binary STL data for the mesh.",
+      "text" : "Saves a mesh to a file, with optional material mapping.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(colorLookup:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/write(to:materialLookup:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV7stlData11colorLookup10Foundation0D0VAA5ColorVSgs11AnyHashableVSgcSg_tF",
+    "externalID" : "s:6Euclid4MeshV5write2to14materialLookupy10Foundation3URLV_s11AnyHashableVSgALcSgtKF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,7 +32,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "stlData"
+        "text" : "write"
       },
       {
         "kind" : "text",
@@ -40,7 +40,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "colorLookup"
+        "text" : "to"
       },
       {
         "kind" : "text",
@@ -48,8 +48,25 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4MeshV16STLColorProvidera",
-        "text" : "STLColorProvider"
+        "preciseIdentifier" : "s:10Foundation3URLV",
+        "text" : "URL"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "materialLookup"
+      },
+      {
+        "kind" : "text",
+        "text" : ": (("
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+        "text" : "Material"
       },
       {
         "kind" : "text",
@@ -57,8 +74,16 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:10Foundation4DataV",
-        "text" : "Data"
+        "preciseIdentifier" : "s:s11AnyHashableV",
+        "text" : "AnyHashable"
+      },
+      {
+        "kind" : "text",
+        "text" : "?)?) "
+      },
+      {
+        "kind" : "keyword",
+        "text" : "throws"
       }
     ],
     "modules" : [
@@ -69,7 +94,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "stlData(colorLookup:)"
+    "title" : "write(to:materialLookup:)"
   },
   "primaryContentSections" : [
     {
@@ -92,7 +117,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "stlData"
+              "text" : "write"
             },
             {
               "kind" : "text",
@@ -100,26 +125,59 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "colorLookup"
+              "text" : "to"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "url"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/STLColorProvider",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4MeshV16STLColorProvidera",
-              "text" : "STLColorProvider"
+              "preciseIdentifier" : "s:10Foundation3URLV",
+              "text" : "URL"
             },
             {
               "kind" : "text",
-              "text" : "? = nil) -> "
+              "text" : ", "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "materialLookup"
+            },
+            {
+              "kind" : "text",
+              "text" : ": (("
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Material",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+              "text" : "Material"
+            },
+            {
+              "kind" : "text",
+              "text" : "?) -> "
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:10Foundation4DataV",
-              "text" : "Data"
+              "preciseIdentifier" : "s:s11AnyHashableV",
+              "text" : "AnyHashable"
+            },
+            {
+              "kind" : "text",
+              "text" : "?)? = nil) "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "throws"
             }
           ]
         }
@@ -134,7 +192,29 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A closure to map Euclid materials to STL facet colors. Use ",
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "URL",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " of the file to be written.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "url"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "A closure to map Euclid materials to format-appropriate materials. Use ",
                   "type" : "text"
                 },
                 {
@@ -142,44 +222,24 @@
                   "type" : "codeVoice"
                 },
                 {
-                  "text" : " for default mapping.",
+                  "text" : " for default",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "mapping.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "colorLookup"
+          "name" : "materialLookup"
         }
       ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "A Euclid ",
-              "type" : "text"
-            },
-            {
-              "code" : "Color",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " value.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -196,7 +256,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/objString()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlString(name:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/write(to:materialLookup:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(colorLookup:)"
       ],
       "title" : "Exporting Meshes"
     }
@@ -204,7 +264,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/stldata(colorlookup:)"
+        "\/documentation\/euclid\/mesh\/write(to:materiallookup:)"
       ],
       "traits" : [
         {
@@ -263,10 +323,27 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/STLColorProvider": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Material": {
   "abstract" : [
     {
-      "text" : "A closure that maps a Euclid material to an STL facet color.",
+      "text" : "Material used by the mesh polygons.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "See ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Material-swift.typealias",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " for details.",
       "type" : "text"
     }
   ],
@@ -281,21 +358,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "STLColorProvider"
+      "text" : "Material"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/STLColorProvider",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Material",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "STLColorProvider"
+      "text" : "Material"
     }
   ],
   "role" : "symbol",
-  "title" : "Mesh.STLColorProvider",
+  "title" : "Mesh.Material",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/stlcolorprovider"
+  "url" : "\/documentation\/euclid\/mesh\/material"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/objString()": {
   "abstract" : [
@@ -520,6 +597,104 @@
   "title" : "write(to:materialLookup:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/write(to:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/Material-swift.typealias": {
+  "abstract" : [
+    {
+      "text" : "Material used by a given polygon.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "This can be any type that conforms to ",
+      "type" : "text"
+    },
+    {
+      "code" : "Hashable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", but encoding\/decoding is only supported",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "for the following types: ",
+      "type" : "text"
+    },
+    {
+      "code" : "Color",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", ",
+      "type" : "text"
+    },
+    {
+      "code" : "String",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", ",
+      "type" : "text"
+    },
+    {
+      "code" : "Int",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", ",
+      "type" : "text"
+    },
+    {
+      "code" : "Data",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " or any ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSSecureCodable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Material"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Material-swift.typealias",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Material"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Polygon.Material",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/material-swift.typealias"
 }
 }
 }

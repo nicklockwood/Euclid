@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Loads a mesh from a file using any format supported by SceneKit,  with optional material mapping.",
+      "text" : "Loads a mesh from a file, with optional material mapping.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:ignoringTransforms:materialLookup:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:materialLookup:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV3url18ignoringTransforms14materialLookupAC10Foundation3URLV_Sbs11AnyHashableVSgSo11SCNMaterialCcSgtKcfc",
+    "externalID" : "s:6Euclid4MeshV3url14materialLookupAC10Foundation3URLV_s11AnyHashableVSgAKcSgtKcfc",
     "fragments" : [
       {
         "kind" : "identifier",
@@ -49,37 +49,29 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "ignoringTransforms"
-      },
-      {
-        "kind" : "text",
-        "text" : ": "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Sb",
-        "text" : "Bool"
-      },
-      {
-        "kind" : "text",
-        "text" : ", "
-      },
-      {
-        "kind" : "externalParam",
         "text" : "materialLookup"
       },
       {
         "kind" : "text",
-        "text" : ": "
+        "text" : ": (("
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
-        "text" : "SCNMaterialProvider"
+        "preciseIdentifier" : "s:s11AnyHashableV",
+        "text" : "AnyHashable"
       },
       {
         "kind" : "text",
-        "text" : "?) "
+        "text" : "?) -> "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+        "text" : "Material"
+      },
+      {
+        "kind" : "text",
+        "text" : "?)?) "
       },
       {
         "kind" : "keyword",
@@ -94,7 +86,7 @@
     "role" : "symbol",
     "roleHeading" : "Initializer",
     "symbolKind" : "init",
-    "title" : "init(url:ignoringTransforms:materialLookup:)"
+    "title" : "init(url:materialLookup:)"
   },
   "primaryContentSections" : [
     {
@@ -134,38 +126,30 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "ignoringTransforms"
-            },
-            {
-              "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Sb",
-              "text" : "Bool"
-            },
-            {
-              "kind" : "text",
-              "text" : ", "
-            },
-            {
-              "kind" : "externalParam",
               "text" : "materialLookup"
             },
             {
               "kind" : "text",
-              "text" : ": "
+              "text" : ": (("
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
-              "text" : "SCNMaterialProvider"
+              "preciseIdentifier" : "s:s11AnyHashableV",
+              "text" : "AnyHashable"
             },
             {
               "kind" : "text",
-              "text" : "? = nil) "
+              "text" : "?) -> "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Material",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+              "text" : "Material"
+            },
+            {
+              "kind" : "text",
+              "text" : "?)? = nil) "
             },
             {
               "kind" : "keyword",
@@ -206,21 +190,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "Should node transforms from the input file be ignored.",
+                  "text" : "A closure to map format-specific materials to Euclid materials. Use ",
                   "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "ignoringTransforms"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
+                },
                 {
-                  "text" : "An optional closure to map the SceneKit materials to Euclid materials.",
+                  "code" : "nil",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " for default",
                   "type" : "text"
                 },
                 {
@@ -228,15 +206,7 @@
                   "type" : "text"
                 },
                 {
-                  "text" : "If omitted, the ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "SCNMaterial",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " will be directly used as the mesh material.",
+                  "text" : "mapping.",
                   "type" : "text"
                 }
               ],
@@ -262,7 +232,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlString:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlData:materialLookup:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:materialLookup:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:ignoringTransforms:materialLookup:)"
       ],
       "title" : "Importing Meshes"
     }
@@ -270,7 +240,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/init(url:ignoringtransforms:materiallookup:)"
+        "\/documentation\/euclid\/mesh\/init(url:materiallookup:)"
       ],
       "traits" : [
         {
@@ -329,10 +299,27 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/SCNMaterialProvider": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Material": {
   "abstract" : [
     {
-      "text" : "A closure that maps a SceneKit material to a Euclid material.",
+      "text" : "Material used by the mesh polygons.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "See ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Material-swift.typealias",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " for details.",
       "type" : "text"
     }
   ],
@@ -347,21 +334,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "SCNMaterialProvider"
+      "text" : "Material"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Material",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "SCNMaterialProvider"
+      "text" : "Material"
     }
   ],
   "role" : "symbol",
-  "title" : "Mesh.SCNMaterialProvider",
+  "title" : "Mesh.Material",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/scnmaterialprovider"
+  "url" : "\/documentation\/euclid\/mesh\/material"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlData:materialLookup:)": {
   "abstract" : [
@@ -611,6 +598,104 @@
   "title" : "init(url:materialLookup:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(url:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/Material-swift.typealias": {
+  "abstract" : [
+    {
+      "text" : "Material used by a given polygon.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "This can be any type that conforms to ",
+      "type" : "text"
+    },
+    {
+      "code" : "Hashable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", but encoding\/decoding is only supported",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "for the following types: ",
+      "type" : "text"
+    },
+    {
+      "code" : "Color",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", ",
+      "type" : "text"
+    },
+    {
+      "code" : "String",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", ",
+      "type" : "text"
+    },
+    {
+      "code" : "Int",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", ",
+      "type" : "text"
+    },
+    {
+      "code" : "Data",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " or any ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSSecureCodable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Material"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Material-swift.typealias",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Material"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Polygon.Material",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/material-swift.typealias"
 }
 }
 }
