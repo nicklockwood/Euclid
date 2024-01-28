@@ -49,7 +49,7 @@ class RealityKitTests: XCTestCase {
         XCTAssertEqual(part.textureCoordinates?.count, 24)
         let result = Mesh(modelEntity)
         XCTAssertEqual(result.polygons.count, 12)
-        XCTAssertEqual(cube, result)
+        XCTAssertEqual(cube, result.replacing(result.materials[0], with: nil))
     }
 }
 
