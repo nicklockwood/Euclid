@@ -466,6 +466,7 @@ public extension Mesh {
             return
         }
         self.init(model, materialLookup: materialLookup)
+        transform(by: .init(modelEntity.transform))
     }
 }
 
