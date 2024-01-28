@@ -35,6 +35,15 @@ import CoreGraphics
 import Metal
 import RealityKit
 
+@available(macOS 10.15, iOS 13.0, *)
+private class MaterialWrapper: NSObject {
+    let material: RealityKit.Material
+
+    init(_ material: Material) {
+        self.material = material
+    }
+}
+
 // MARK: export
 
 @available(macOS 10.15, iOS 13.0, *)
@@ -53,6 +62,8 @@ public extension RealityKit.Transform {
 @available(macOS 12.0, iOS 15.0, *)
 private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.Material? {
     switch material {
+    case let wrapper as MaterialWrapper:
+        return wrapper.material
     case let color as Color:
         return defaultMaterialLookup(OSColor(color))
     case let color as OSColor:
@@ -383,7 +394,56 @@ private extension Mesh {
     ///   - component: The `ModelComponent` to convert into a mesh.
     ///   - materialLookup: An optional closure to map the RealityKit materials to Euclid materials.
     init(_ component: ModelComponent, materialLookup: RealityKitMaterialProvider?) {
-        let materialLookup = materialLookup ?? { _ in nil }
+        let materialLookup = materialLookup ?? {
+            switch $0 {
+            case let simpleMaterial as SimpleMaterial:
+                var material = SimpleMaterial()
+                material.color = simpleMaterial.color
+                material.roughness = simpleMaterial.roughness
+                material.metallic = simpleMaterial.metallic
+                return MaterialWrapper(material)
+            case let unlitMaterial as UnlitMaterial:
+                var material = UnlitMaterial()
+                material.color = unlitMaterial.color
+                material.opacityThreshold = unlitMaterial.opacityThreshold
+                material.blending = unlitMaterial.blending
+                return MaterialWrapper(material)
+            case let occlusionMaterial as OcclusionMaterial:
+                #if os(visionOS)
+                let material = OcclusionMaterial()
+                #else
+                let material = OcclusionMaterial(receivesDynamicLighting: occlusionMaterial.receivesDynamicLighting)
+                #endif
+                return MaterialWrapper(material)
+            case let videoMaterial as VideoMaterial:
+                guard let avPlayer = videoMaterial.avPlayer else { return nil }
+                return MaterialWrapper(VideoMaterial(avPlayer: avPlayer))
+            case let pbrMaterial as PhysicallyBasedMaterial:
+                var material = PhysicallyBasedMaterial()
+                material.baseColor = pbrMaterial.baseColor
+                material.metallic = pbrMaterial.metallic
+                material.roughness = pbrMaterial.roughness
+                material.emissiveColor = pbrMaterial.emissiveColor
+                material.emissiveIntensity = pbrMaterial.emissiveIntensity
+                material.specular = pbrMaterial.specular
+                material.clearcoat = pbrMaterial.clearcoat
+                material.clearcoatRoughness = pbrMaterial.clearcoatRoughness
+                material.opacityThreshold = pbrMaterial.opacityThreshold
+                material.faceCulling = pbrMaterial.faceCulling
+                material.blending = pbrMaterial.blending
+                material.normal = pbrMaterial.normal
+                material.ambientOcclusion = pbrMaterial.ambientOcclusion
+                material.anisotropyLevel = pbrMaterial.anisotropyLevel
+                material.anisotropyAngle = pbrMaterial.anisotropyAngle
+                material.sheen = pbrMaterial.sheen
+                material.textureCoordinateTransform = pbrMaterial.textureCoordinateTransform
+                material.secondaryTextureCoordinateTransform = pbrMaterial.secondaryTextureCoordinateTransform
+                return MaterialWrapper(material)
+            default:
+                // Not supported
+                return nil
+            }
+        }
         self.init(component.mesh, materials: component.materials.map { materialLookup($0) })
     }
 }
