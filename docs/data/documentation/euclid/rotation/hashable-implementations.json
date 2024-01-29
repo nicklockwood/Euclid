@@ -9,7 +9,7 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Decodable-Implementations"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Hashable-Implementations"
   },
   "kind" : "article",
   "metadata" : {
@@ -19,7 +19,7 @@
       }
     ],
     "role" : "collectionGroup",
-    "title" : "Decodable Implementations"
+    "title" : "Hashable Implementations"
   },
   "schemaVersion" : {
     "major" : 0,
@@ -33,15 +33,15 @@
     {
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(from:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/hash(into:)"
       ],
-      "title" : "Initializers"
+      "title" : "Instance Methods"
     }
   ],
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/rotation\/decodable-implementations"
+        "\/documentation\/euclid\/rotation\/hashable-implementations"
       ],
       "traits" : [
         {
@@ -100,17 +100,22 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(from:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/hash(into:)": {
   "abstract" : [
-    {
-      "text" : "Creates a new rotation by decoding from the given decoder.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
       "kind" : "identifier",
-      "text" : "init"
+      "text" : "hash"
     },
     {
       "kind" : "text",
@@ -118,32 +123,36 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "from"
+      "text" : "into"
     },
     {
       "kind" : "text",
       "text" : ": "
     },
     {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:s7DecoderP",
-      "text" : "Decoder"
+      "kind" : "keyword",
+      "text" : "inout"
     },
     {
       "kind" : "text",
-      "text" : ") "
+      "text" : " "
     },
     {
-      "kind" : "keyword",
-      "text" : "throws"
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s6HasherV",
+      "text" : "Hasher"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(from:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/hash(into:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(from:)",
+  "title" : "hash(into:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/rotation\/init(from:)"
+  "url" : "\/documentation\/euclid\/rotation\/hash(into:)"
 }
 }
 }

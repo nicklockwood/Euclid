@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "A struct that represents an orientation or rotation in 3D space.",
+      "text" : "An orientation or rotation in 3D space.",
       "type" : "text"
     }
   ],
@@ -87,14 +87,6 @@
         },
         {
           "inlineContent" : [
-            {
-              "text" : "Internally, a rotation is stored as a 3x3 matrix, but that’s an implementation detail that may change in future.",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
             {
               "text" : "A rotation can be converted to and from an axis vector and angle, or a set of 3 Euler angles (pitch, yaw and roll).",
               "type" : "text"
@@ -215,7 +207,8 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Encodable-Implementations",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Equatable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Equatable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Hashable-Implementations"
       ],
       "title" : "Default Implementations"
     }
@@ -309,6 +302,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -339,7 +333,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation": {
   "abstract" : [
     {
-      "text" : "A struct that represents an orientation or rotation in 3D space.",
+      "text" : "An orientation or rotation in 3D space.",
       "type" : "text"
     }
   ],
@@ -647,7 +641,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/-(_:)": {
   "abstract" : [
     {
-      "text" : "Returns the reverse (aka transpose) rotation.",
+      "text" : "Returns the inverse rotation.",
       "type" : "text"
     }
   ],
@@ -872,6 +866,17 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation\/equatable-implementations"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Hashable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Hashable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Hashable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/hashable-implementations"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/angle": {
   "abstract" : [
     {
@@ -912,7 +917,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/axis": {
   "abstract" : [
     {
-      "text" : "Axis of rotation",
+      "text" : "The axis of rotation.",
       "type" : "text"
     }
   ],
@@ -1059,6 +1064,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "identifier",

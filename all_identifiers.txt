@@ -581,10 +581,12 @@ doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation//=(_:_:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Decodable-Implementations
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Encodable-Implementations
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Equatable-Implementations
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Hashable-Implementations
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/angle
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/axis
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/encode(to:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/forward
+doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/hash(into:)
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/identity
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init()
 doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(_:)-5w6mn

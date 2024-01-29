@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Rotate the value in place.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "Hashable.hash(into:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -9,19 +17,19 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/Transformable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Hashable-Implementations"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/rotate(by:)-93ypi"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/hash(into:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid13TransformablePAAE6rotate2byyAA10QuaternionV_tF::SYNTHESIZED::s:6Euclid4PathV",
+    "externalID" : "s:6Euclid8RotationV4hash4intoys6HasherVz_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -33,7 +41,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "rotate"
+        "text" : "hash"
       },
       {
         "kind" : "text",
@@ -41,16 +49,24 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "by"
+        "text" : "into"
       },
       {
         "kind" : "text",
         "text" : ": "
       },
       {
+        "kind" : "keyword",
+        "text" : "inout"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid10QuaternionV",
-        "text" : "Quaternion"
+        "preciseIdentifier" : "s:s6HasherV",
+        "text" : "Hasher"
       },
       {
         "kind" : "text",
@@ -62,13 +78,10 @@
         "name" : "Euclid"
       }
     ],
-    "platforms" : [
-
-    ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "rotate(by:)"
+    "title" : "hash(into:)"
   },
   "primaryContentSections" : [
     {
@@ -83,14 +96,6 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "mutating"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
               "text" : "func"
             },
             {
@@ -99,7 +104,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "rotate"
+              "text" : "hash"
             },
             {
               "kind" : "text",
@@ -107,7 +112,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "by"
+              "text" : "into"
             },
             {
               "kind" : "text",
@@ -115,17 +120,24 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "quaternion"
+              "text" : "hasher"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Quaternion",
+              "kind" : "keyword",
+              "text" : "inout"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid10QuaternionV",
-              "text" : "Quaternion"
+              "preciseIdentifier" : "s:s6HasherV",
+              "text" : "Hasher"
             },
             {
               "kind" : "text",
@@ -135,25 +147,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "A rotation to apply to the value.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "quaternion"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -167,7 +160,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/path\/rotate(by:)-93ypi"
+        "\/documentation\/euclid\/rotation\/hash(into:)"
       ],
       "traits" : [
         {
@@ -192,10 +185,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation": {
   "abstract" : [
     {
-      "text" : "A path made up of a sequence of straight line segments between points.",
+      "text" : "An orientation or rotation in 3D space.",
       "type" : "text"
     }
   ],
@@ -210,41 +203,37 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Path"
+      "text" : "Rotation"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Path"
+      "text" : "Rotation"
     }
   ],
   "role" : "symbol",
-  "title" : "Path",
+  "title" : "Rotation",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path"
+  "url" : "\/documentation\/euclid\/rotation"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/Transformable-Implementations": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Hashable-Implementations": {
   "abstract" : [
 
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/Transformable-Implementations",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Hashable-Implementations",
   "kind" : "article",
   "role" : "collectionGroup",
-  "title" : "Transformable Implementations",
+  "title" : "Hashable Implementations",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/transformable-implementations"
+  "url" : "\/documentation\/euclid\/rotation\/hashable-implementations"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/rotate(by:)-93ypi": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/hash(into:)": {
   "abstract" : [
-    {
-      "text" : "Rotate the value in place.",
-      "type" : "text"
-    }
+
   ],
-  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -256,7 +245,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "rotate"
+      "text" : "hash"
     },
     {
       "kind" : "text",
@@ -264,63 +253,36 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "by"
+      "text" : "into"
     },
     {
       "kind" : "text",
       "text" : ": "
     },
     {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid10QuaternionV",
-      "text" : "Quaternion"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/rotate(by:)-93ypi",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "rotate(by:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/rotate(by:)-93ypi"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Quaternion": {
-  "abstract" : [
-    {
-      "text" : "An orientation or rotation in 3D space.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
       "kind" : "keyword",
-      "text" : "struct"
+      "text" : "inout"
     },
     {
       "kind" : "text",
       "text" : " "
     },
     {
-      "kind" : "identifier",
-      "text" : "Quaternion"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Quaternion",
-  "kind" : "symbol",
-  "navigatorTitle" : [
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s6HasherV",
+      "text" : "Hasher"
+    },
     {
-      "kind" : "identifier",
-      "text" : "Quaternion"
+      "kind" : "text",
+      "text" : ")"
     }
   ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/hash(into:)",
+  "kind" : "symbol",
   "role" : "symbol",
-  "title" : "Quaternion",
+  "title" : "hash(into:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/quaternion"
+  "url" : "\/documentation\/euclid\/rotation\/hash(into:)"
 }
 }
 }

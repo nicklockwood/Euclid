@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.7.5](https://github.com/nicklockwood/Euclid/releases/tag/0.7.5) (2024-01-29)
+
+- Added I/O functions
+- Fixed transform not being applied to meshes created from a RealityKit `ModelEntity`
+- Materials are now preserved for meshes created from RealityKit models
+- Deprecated the `Quaternion` type in favor of `Rotation`
+
 ## [0.7.4](https://github.com/nicklockwood/Euclid/releases/tag/0.7.4) (2024-01-19)
 
 - Removed stray `print()` statement from RealityKit exporter
