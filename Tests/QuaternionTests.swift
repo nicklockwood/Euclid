@@ -9,6 +9,7 @@
 @testable import Euclid
 import XCTest
 
+@available(*, deprecated)
 class QuaternionTests: XCTestCase {
     func testNormalizeZeroQuaternion() {
         let q = Quaternion.zero

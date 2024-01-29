@@ -124,7 +124,6 @@ class BoundsTests: XCTestCase {
             pitch: .radians(-0.5 * .pi)
         )
         XCTAssert(Bounds.empty.rotated(by: rotation).isEmpty)
-        XCTAssert(Bounds.empty.rotated(by: Quaternion(rotation)).isEmpty)
         XCTAssert(Bounds.empty.transformed(by: .rotation(rotation)).isEmpty)
     }
 

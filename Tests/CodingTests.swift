@@ -954,7 +954,10 @@ class CodingTests: XCTestCase {
         let encoded = try encode(rotation)
         XCTAssert(try rotation.isEqual(to: decode(encoded)))
     }
+}
 
+@available(*, deprecated)
+extension CodingTests {
     // MARK: Quaternion
 
     func testDecodingIdentityQuaternion() {
