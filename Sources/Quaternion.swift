@@ -42,6 +42,7 @@ import simd
 ///
 /// In addition to being more compact than a 3x3 rotation matrix, quaternions also avoid a
 /// problem known as gymbal lock.
+@available(*, deprecated, message: "Use Rotation instead")
 public struct Quaternion: Sendable {
     var storage: simd_quatd
 
@@ -70,17 +71,19 @@ public struct Quaternion: Sendable {
     }
 }
 
+@available(*, deprecated)
 extension Quaternion: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(storage.vector)
     }
 }
 
+@available(*, deprecated)
 public extension Quaternion {
     /// Creates a quaternion from raw component values.
     init(_ x: Double, _ y: Double, _ z: Double, _ w: Double) {
         let vector = simd_normalize(simd_double4(x, y, z, w))
-        self.init(simd_quatd(vector: vector))
+        self.init(storage: simd_quatd(vector: vector))
     }
 
     /// The axis of rotation.
@@ -120,7 +123,7 @@ public extension Quaternion {
         if storage.vector == .zero {
             return self
         }
-        return .init(simd_normalize(storage))
+        return .init(storage: simd_normalize(storage))
     }
 
     /// Performs a spherical interpolation between two quaternions.
@@ -129,17 +132,17 @@ public extension Quaternion {
     ///   - t: The normalized extent of interpolation, from 0 to 1.
     /// - Returns: The interpolated quaternion.
     func slerp(_ q: Quaternion, _ t: Double) -> Quaternion {
-        .init(simd_slerp(storage, q.storage, t))
+        .init(storage: simd_slerp(storage, q.storage, t))
     }
 
     /// Returns the reverse quaternion rotation.
     static prefix func - (q: Quaternion) -> Quaternion {
-        .init(simd_inverse(q.storage))
+        .init(storage: simd_inverse(q.storage))
     }
 
     /// Returns the sum of two quaternion rotations.
     static func + (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
-        .init(lhs.storage + rhs.storage)
+        .init(storage: lhs.storage + rhs.storage)
     }
 
     /// Adds the quaternion rotation on the right to the one on the left.
@@ -149,7 +152,7 @@ public extension Quaternion {
 
     /// Returns the difference between two quaternion rotations,.
     static func - (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
-        .init(lhs.storage - rhs.storage)
+        .init(storage: lhs.storage - rhs.storage)
     }
 
     /// Subtracts the quaternion rotation on the right from the one on the left.
@@ -159,7 +162,7 @@ public extension Quaternion {
 
     /// Returns the product of two quaternions (i.e. the effect of rotating the left by the right).
     static func * (lhs: Quaternion, rhs: Quaternion) -> Quaternion {
-        .init(lhs.storage * rhs.storage)
+        .init(storage: lhs.storage * rhs.storage)
     }
 
     /// Multiplies the quaternion rotation on the left by the one on the right.
@@ -169,7 +172,7 @@ public extension Quaternion {
 
     /// Returns a quaternion with its components multiplied by the specified value.
     static func * (lhs: Quaternion, rhs: Double) -> Quaternion {
-        .init(lhs.storage * rhs)
+        .init(storage: lhs.storage * rhs)
     }
 
     /// Multiplies the components of the quaternion by the specified value.
@@ -179,7 +182,7 @@ public extension Quaternion {
 
     /// Returns a quaternion with its components divided by the specified value.
     static func / (lhs: Quaternion, rhs: Double) -> Quaternion {
-        .init(lhs.storage / rhs)
+        .init(storage: lhs.storage / rhs)
     }
 
     /// Divides the components of the vector by the specified value.
@@ -188,15 +191,16 @@ public extension Quaternion {
     }
 }
 
+@available(*, deprecated)
 extension Quaternion {
     init(unchecked x: Double, _ y: Double, _ z: Double, _ w: Double) {
-        self.init(simd_quatd(vector: simd_double4(x, y, z, w)))
+        self.init(storage: simd_quatd(vector: simd_double4(x, y, z, w)))
         assert(isNormalized || lengthSquared == 0)
     }
 
     init(unchecked axis: Vector, angle: Angle) {
         assert(axis.isNormalized)
-        self.init(simd_quatd(
+        self.init(storage: simd_quatd(
             angle: -angle.radians,
             axis: .init(axis.x, axis.y, axis.z)
         ))
@@ -212,6 +216,7 @@ extension Quaternion {
 ///
 /// In addition to being more compact than a 3x3 rotation matrix, quaternions also avoid a
 /// problem known as gymbal lock.
+@available(*, deprecated, message: "Use Rotation instead")
 public struct Quaternion: Hashable, Sendable {
     /// The quaternion component values.
     public var x, y, z, w: Double
@@ -226,6 +231,7 @@ public struct Quaternion: Hashable, Sendable {
     }
 }
 
+@available(*, deprecated)
 public extension Quaternion {
     /// The axis of rotation.
     var axis: Vector {
@@ -354,6 +360,7 @@ public extension Quaternion {
     }
 }
 
+@available(*, deprecated)
 extension Quaternion {
     init(unchecked x: Double, _ y: Double, _ z: Double, _ w: Double) {
         self.x = x
@@ -373,6 +380,7 @@ extension Quaternion {
 
 #endif
 
+@available(*, deprecated)
 extension Quaternion: Codable {
     private enum CodingKeys: CodingKey {
         case x, y, z, w
@@ -409,6 +417,7 @@ extension Quaternion: Codable {
     }
 }
 
+@available(*, deprecated)
 public extension Quaternion {
     /// The zero quaternion.
     static let zero = Quaternion(unchecked: 0, 0, 0, 0)
@@ -503,6 +512,7 @@ public extension Quaternion {
     }
 }
 
+@available(*, deprecated)
 extension Quaternion: UnkeyedCodable {
     func encode(to container: inout UnkeyedEncodingContainer) throws {
         try container.encode(x)
@@ -520,6 +530,7 @@ extension Quaternion: UnkeyedCodable {
     }
 }
 
+@available(*, deprecated)
 extension Quaternion {
     /// Approximate equality
     func isEqual(to other: Quaternion, withPrecision p: Double = epsilon) -> Bool {

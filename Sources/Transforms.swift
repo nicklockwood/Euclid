@@ -94,6 +94,7 @@ public extension Transformable {
     /// Returns a rotated copy of the value.
     /// - Parameter quaternion: A rotation to apply to the value.
     @_disfavoredOverload
+    @available(*, deprecated)
     func rotated(by quaternion: Quaternion) -> Self {
         rotated(by: Rotation(quaternion))
     }
@@ -101,6 +102,7 @@ public extension Transformable {
     /// Rotate the value in place.
     /// - Parameter quaternion: A rotation to apply to the value.
     @_disfavoredOverload
+    @available(*, deprecated)
     mutating func rotate(by quaternion: Quaternion) {
         self = rotated(by: quaternion)
     }
@@ -420,11 +422,10 @@ extension Vector: Transformable {
     }
 
     public func rotated(by r: Rotation) -> Vector {
-        let q = r.quaternion
-        let qv = Vector(q.x, q.y, q.z)
+        let qv = Vector(r.x, r.y, r.z)
         let uv = qv.cross(self)
         let uuv = qv.cross(uv)
-        return self + (uv * 2 * q.w) + (uuv * 2)
+        return self + (uv * 2 * r.w) + (uuv * 2)
     }
 
     public func scaled(by v: Vector) -> Vector {

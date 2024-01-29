@@ -46,7 +46,7 @@ class TransformTests: XCTestCase {
     func testYawRotation() {
         let r = Rotation(yaw: .halfPi)
         XCTAssertEqual(r, .yaw(.halfPi))
-        XCTAssert(r.isEqual(to: Rotation(Quaternion(yaw: .halfPi))))
+        XCTAssert(r.isEqual(to: Rotation(yaw: .halfPi)))
         XCTAssertEqual(r.yaw, .halfPi)
         XCTAssertEqual(r.pitch, .zero)
         XCTAssertEqual(r.roll, .zero)
@@ -74,6 +74,7 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(pitch.radians, r.pitch.radians, accuracy: epsilon)
     }
 
+    @available(*, deprecated)
     func testRotationToQuaternion() {
         let roll = Angle.radians(2.31)
         let yaw = Angle.radians(0.2)
@@ -92,14 +93,13 @@ class TransformTests: XCTestCase {
             -0.21565624395553415
         )
         XCTAssert(v.isNormalized)
-        let q = Quaternion(
+        let r = Rotation(
             0.681812047958374,
             -0.0165534820407629,
             -0.028187578544020653,
             0.7307965755462646
         )
-        XCTAssert(q.isNormalized)
-        let u = v.rotated(by: q)
+        let u = v.rotated(by: r)
         XCTAssert(u.isNormalized)
     }
 
