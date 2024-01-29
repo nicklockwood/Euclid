@@ -226,7 +226,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation": {
   "abstract" : [
     {
-      "text" : "A struct that represents an orientation or rotation in 3D space.",
+      "text" : "An orientation or rotation in 3D space.",
       "type" : "text"
     }
   ],
@@ -534,7 +534,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/-(_:)": {
   "abstract" : [
     {
-      "text" : "Returns the reverse (aka transpose) rotation.",
+      "text" : "Returns the inverse rotation.",
       "type" : "text"
     }
   ],

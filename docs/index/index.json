@@ -2687,6 +2687,22 @@
                 "path" : "\/documentation\/euclid\/rotation\/equatable-implementations",
                 "title" : "Equatable Implementations",
                 "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/rotation\/hash(into:)",
+                    "title" : "func hash(into: inout Hasher)",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/rotation\/hashable-implementations",
+                "title" : "Hashable Implementations",
+                "type" : "symbol"
               }
             ],
             "path" : "\/documentation\/euclid\/rotation",

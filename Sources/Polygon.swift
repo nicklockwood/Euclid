@@ -640,11 +640,10 @@ extension Collection where Element == Polygon {
 
     /// Group polygons by plane
     func groupedByPlane() -> [(plane: Plane, polygons: [Polygon])] {
-        if isEmpty {
+        let polygons = sorted(by: { $0.plane.w < $1.plane.w })
+        guard var prev = polygons.first else {
             return []
         }
-        let polygons = sorted(by: { $0.plane.w < $1.plane.w })
-        var prev = polygons[0]
         var sorted = [(Plane, [Polygon])]()
         var groups = [(Plane, [Polygon])]()
         for p in polygons {

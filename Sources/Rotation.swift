@@ -226,7 +226,7 @@ extension Rotation {
     }
 
     init(unchecked axis: Vector, angle: Angle) {
-        assert(axis.isNormalized, "Axis length is \(axis.length)")
+        assert(axis.isNormalized)
         let r = -angle / 2
         let a = axis * sin(r)
         self.init(unchecked: a.x, a.y, a.z, cos(r))

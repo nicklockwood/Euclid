@@ -120,7 +120,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation": {
   "abstract" : [
     {
-      "text" : "A struct that represents an orientation or rotation in 3D space.",
+      "text" : "An orientation or rotation in 3D space.",
       "type" : "text"
     }
   ],
@@ -182,6 +182,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "identifier",
