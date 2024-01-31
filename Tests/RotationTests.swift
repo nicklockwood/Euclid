@@ -134,18 +134,6 @@ class RotationTests: XCTestCase {
         XCTAssertEqual(pitch.radians, r.pitch.radians, accuracy: epsilon)
     }
 
-    @available(*, deprecated)
-    func testRotationToQuaternion() {
-        let roll = Angle.radians(2.31)
-        let yaw = Angle.radians(0.2)
-        let pitch = Angle.radians(1.12)
-        let r = Rotation(roll: roll, yaw: yaw, pitch: pitch)
-        let q = Quaternion(r)
-        XCTAssertEqual(q.roll.radians, r.roll.radians, accuracy: 0.01)
-        XCTAssertEqual(q.yaw.radians, r.yaw.radians, accuracy: 0.01)
-        XCTAssertEqual(q.pitch.radians, r.pitch.radians, accuracy: 0.01)
-    }
-
     func testReverseRotation() {
         let r = Rotation(roll: -.pi * 0.5)
         let r2 = Rotation(roll: .pi * 1.5)
