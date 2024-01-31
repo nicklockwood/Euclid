@@ -284,3 +284,27 @@ extension Polygon {
         return false
     }
 }
+
+public extension Polygon {
+    func inset(by t: Double) -> Self? {
+        let v: [Vertex] = orderedEdges.indices.compactMap {
+            let e0 = orderedEdges[$0]
+            let e1 = orderedEdges[($0 + 1) % orderedEdges.count]
+
+            let p0 = edgePlane(for: e0)
+            let p1 = edgePlane(for: e1)
+
+            let lhs = p0.translated(by: -p0.normal * t)
+            let rhs = p1.translated(by: -p1.normal * t)
+
+            let vertex = vertices.first { $0.position.isEqual(to: e0.end) }
+
+            guard let vertex,
+                  let intersection = lhs.intersection(with: rhs) else { return nil }
+
+            return Vertex(intersection.origin, vertex.normal, vertex.texcoord, vertex.color)
+        }
+
+        return Self(v)
+    }
+}
