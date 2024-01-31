@@ -492,16 +492,3 @@ extension Rotation {
             z.isEqual(to: other.z, withPrecision: p)
     }
 }
-
-@available(*, deprecated)
-extension Rotation {
-    var quaternion: Quaternion {
-        .init(x, y, z, w)
-    }
-
-    /// Creates a rotation from a quaternion.
-    /// - Parameter quaternion: A quaternion defining a rotation.
-    public init(_ quaternion: Quaternion) {
-        self.init(quaternion.x, quaternion.y, quaternion.z, quaternion.w)
-    }
-}

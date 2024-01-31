@@ -118,13 +118,6 @@ public extension simd_quatd {
     init(_ rotation: Rotation) {
         self = rotation.storage
     }
-
-    /// Creates a simd quaternion from a Euclid `Quaternion`.
-    /// - Parameter quaternion: A Euclid quaternion.
-    @available(*, deprecated)
-    init(_ quaternion: Quaternion) {
-        self = quaternion.storage
-    }
 }
 
 public extension simd_quatf {
@@ -132,13 +125,6 @@ public extension simd_quatf {
     /// - Parameter rotation: A Euclid rotation.
     init(_ rotation: Rotation) {
         self.init(vector: simd_float4(rotation.storage.vector))
-    }
-
-    /// Creates a simd float quaternion from a Euclid `Quaternion`.
-    /// - Parameter quaternion: A Euclid quaternion.
-    @available(*, deprecated)
-    init(_ quaternion: Quaternion) {
-        self.init(vector: simd_float4(quaternion.storage.vector))
     }
 }
 
@@ -150,21 +136,6 @@ public extension Rotation {
     }
 
     /// Creates a `Rotation` from a simd quaternion.
-    /// - Parameter quaternion: A simd quaternion.
-    init(_ quaternion: simd_quatf) {
-        self.init(simd_quatd(vector: simd_double4(quaternion.vector)))
-    }
-}
-
-@available(*, deprecated)
-public extension Quaternion {
-    /// Creates a `Quaternion` from a simd quaternion.
-    /// - Parameter quaternion: A simd quaternion.
-    init(_ quaternion: simd_quatd) {
-        self.init(storage: quaternion)
-    }
-
-    /// Creates a `Quaternion` from a simd quaternion.
     /// - Parameter quaternion: A simd quaternion.
     init(_ quaternion: simd_quatf) {
         self.init(simd_quatd(vector: simd_double4(quaternion.vector)))
