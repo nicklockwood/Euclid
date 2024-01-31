@@ -343,12 +343,6 @@ public extension PathPoint {
         point.color = color
         return point
     }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "withColor(_:)")
-    func with(color: Color?) -> PathPoint {
-        withColor(color)
-    }
 }
 
 extension PathPoint {

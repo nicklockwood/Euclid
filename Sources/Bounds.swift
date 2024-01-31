@@ -131,26 +131,6 @@ public extension Bounds {
         }
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "init(_:)")
-    init(points: [Vector] = []) {
-        self = points.reduce(.empty) {
-            Bounds(min: Euclid.min($0.min, $1), max: Euclid.max($0.max, $1))
-        }
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "init(_:)")
-    init(polygons: [Polygon]) {
-        self.init(polygons)
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "init(_:)")
-    init(bounds: [Bounds]) {
-        self.init(bounds)
-    }
-
     /// A Boolean value that indicates whether the bounds is empty (has zero volume).
     var isEmpty: Bool {
         size == .zero

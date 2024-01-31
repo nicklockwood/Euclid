@@ -200,11 +200,6 @@ public extension Mesh {
         )
     }
 
-    @available(*, deprecated, renamed: "subtracting(_:isCancelled:)")
-    func subtract(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
-        subtracting(mesh, isCancelled: isCancelled)
-    }
-
     /// Efficiently gets the difference between multiple meshes.
     /// - Parameters
     ///   - meshes: An ordered collection of meshes. All but the first will be subtracted from the first.
@@ -265,11 +260,6 @@ public extension Mesh {
         )
     }
 
-    @available(*, deprecated, renamed: "symmetricDifference(_:isCancelled:)")
-    func xor(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
-        symmetricDifference(mesh, isCancelled: isCancelled)
-    }
-
     /// Efficiently XORs multiple meshes.
     /// - Parameters
     ///   - meshes: A collection of meshes to be XORed.
@@ -280,14 +270,6 @@ public extension Mesh {
         isCancelled: CancellationHandler = { false }
     ) -> Mesh where T.Element == Mesh {
         merge(meshes, using: { $0.symmetricDifference($1, isCancelled: $2) }, isCancelled)
-    }
-
-    @available(*, deprecated, renamed: "symmetricDifference(_:isCancelled:)")
-    static func xor<T: Collection>(
-        _ meshes: T,
-        isCancelled: CancellationHandler = { false }
-    ) -> Mesh where T.Element == Mesh {
-        symmetricDifference(meshes, isCancelled: isCancelled)
     }
 
     /// Returns a new mesh representing the volume shared by both the mesh
@@ -333,11 +315,6 @@ public extension Mesh {
             isWatertight: nil,
             submeshes: nil // TODO: can this be preserved?
         )
-    }
-
-    @available(*, deprecated, renamed: "intersection(_:isCancelled:)")
-    func intersect(_ mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
-        intersection(mesh, isCancelled: isCancelled)
     }
 
     /// Efficiently computes the intersection of multiple meshes.
