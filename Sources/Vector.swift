@@ -330,12 +330,6 @@ public extension Vector {
         self - plane.normal * distance(from: plane)
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "projected(onto:)")
-    func project(onto plane: Plane) -> Vector {
-        projected(onto: plane)
-    }
-
     /// Returns the distance between the vector (representing a position in space) from the specified line.
     /// - Parameter line: The line to compare with.
     /// - Returns: The absolute perpendicular distance between the point and line.
@@ -348,12 +342,6 @@ public extension Vector {
     /// - Returns: The nearest point in 3D space that lies on the line.
     func projected(onto line: Line) -> Vector {
         line.direction * (self - line.origin).dot(line.direction) - line.origin
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "projected(onto:)")
-    func project(onto line: Line) -> Vector {
-        projected(onto: line)
     }
 }
 
