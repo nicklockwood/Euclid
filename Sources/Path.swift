@@ -140,12 +140,6 @@ public extension Path {
         mapColors { _ in color }
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "withColor(_:)")
-    func with(color: Color?) -> Path {
-        withColor(color)
-    }
-
     /// Closes the path by joining last point to first.
     /// - Returns: A new path, or `self` if the path is already closed, or cannot be closed.
     func closed() -> Path {
@@ -211,18 +205,6 @@ public extension Path {
         }
         self.init(
             unchecked: points + [points[0]],
-            plane: polygon.plane,
-            subpathIndices: nil
-        )
-    }
-
-    @available(*, deprecated, renamed: "init(_:)")
-    init(polygon: Polygon) {
-        let hasTexcoords = polygon.hasTexcoords
-        self.init(
-            unchecked: polygon.vertices.map {
-                .point($0.position, texcoord: hasTexcoords ? $0.texcoord : nil)
-            },
             plane: polygon.plane,
             subpathIndices: nil
         )
