@@ -158,6 +158,13 @@ class PlaneTests: XCTestCase {
         XCTAssertEqual(expected, plane.intersection(with: line))
     }
 
+    func testIntersectWithInverseNormalLine() {
+        let line = Line(unchecked: Vector(1, 5, 60), direction: -.unitZ)
+        let plane = Plane(unchecked: .unitZ, pointOnPlane: Vector(-3, 2, 0))
+        let expected = Vector(1, 5, 0)
+        XCTAssertEqual(expected, plane.intersection(with: line))
+    }
+
     func testIntersectionWithAxisLine() {
         let line = Line(unchecked: .zero, direction: Vector(4, 3, 0).normalized())
         let plane = Plane(unchecked: .unitY, w: 3)

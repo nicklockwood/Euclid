@@ -515,7 +515,7 @@ func lineSegmentsIntersection(
 func linePlaneIntersection(_ origin: Vector, _ direction: Vector, _ plane: Plane) -> Double? {
     // https://en.wikipedia.org/wiki/Line–plane_intersection#Algebraic_form
     let lineDotPlaneNormal = direction.dot(plane.normal)
-    guard lineDotPlaneNormal > 0 else {
+    guard lineDotPlaneNormal != 0 else {
         // Line and plane are parallel
         return nil
     }
