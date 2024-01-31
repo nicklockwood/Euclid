@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.7.6](https://github.com/nicklockwood/Euclid/releases/tag/0.7.6) (2024-01-31)
+
+- Fixed plane/line intersection bug
+
 ## [0.7.5](https://github.com/nicklockwood/Euclid/releases/tag/0.7.5) (2024-01-29)
 
 - Added I/O functions
