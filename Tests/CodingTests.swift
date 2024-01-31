@@ -955,29 +955,3 @@ class CodingTests: XCTestCase {
         XCTAssert(try rotation.isEqual(to: decode(encoded)))
     }
 }
-
-@available(*, deprecated)
-extension CodingTests {
-    // MARK: Quaternion
-
-    func testDecodingIdentityQuaternion() {
-        XCTAssertEqual(try decode("[]"), Quaternion.identity)
-        XCTAssertEqual(try decode("{}"), Quaternion.identity)
-    }
-
-    func testEncodingIdentityQuaternion() {
-        XCTAssertEqual(try encode(Quaternion.identity), "[]")
-    }
-
-    func testEncodingAndDecodingQuaternion() throws {
-        let q = Quaternion(axis: .unitX, angle: .radians(2))!
-        let encoded = try encode(q)
-        XCTAssert(try q.isEqual(to: decode(encoded)))
-    }
-
-    func testEncodingAndDecodingPitchYawRollQuaternion() throws {
-        let q = Quaternion(roll: .degrees(30), yaw: .degrees(20), pitch: .degrees(10))
-        let encoded = try encode(q)
-        XCTAssert(try q.isEqual(to: decode(encoded)))
-    }
-}
