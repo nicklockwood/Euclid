@@ -91,22 +91,6 @@ public extension Transformable {
         self = transformed(by: transform)
     }
 
-    /// Returns a rotated copy of the value.
-    /// - Parameter quaternion: A rotation to apply to the value.
-    @_disfavoredOverload
-    @available(*, deprecated)
-    func rotated(by quaternion: Quaternion) -> Self {
-        rotated(by: Rotation(quaternion))
-    }
-
-    /// Rotate the value in place.
-    /// - Parameter quaternion: A rotation to apply to the value.
-    @_disfavoredOverload
-    @available(*, deprecated)
-    mutating func rotate(by quaternion: Quaternion) {
-        self = rotated(by: quaternion)
-    }
-
     /// Returns a transformed copy of the value.
     static func * (lhs: Self, rhs: Transform) -> Self {
         lhs.transformed(by: rhs)
