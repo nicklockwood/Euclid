@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.7.7](https://github.com/nicklockwood/Euclid/releases/tag/0.7.7) (2024-02-11)
+
+- Added method to create a `Path` from a set of `LineSegment`s
+- Improved decoding logic
+
 ## [0.7.6](https://github.com/nicklockwood/Euclid/releases/tag/0.7.6) (2024-01-31)
 
 - Fixed plane/line intersection bug

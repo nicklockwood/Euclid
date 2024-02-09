@@ -28,24 +28,24 @@
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Quaternion.md",
+    "source" : "..\/Sources\/Vector.swift",
     "start" : {
       "column" : 17,
-      "line" : 52
+      "line" : 104
     },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Quaternion.md",
+    "source" : "..\/Sources\/Vector.swift",
     "start" : {
       "column" : 17,
-      "line" : 53
+      "line" : 105
     },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
   },
   {
     "notes" : [
@@ -76,24 +76,24 @@
 
     ],
     "severity" : 2,
-    "source" : "..\/Sources\/Vector.swift",
+    "source" : "Extensions\/Quaternion.md",
     "start" : {
       "column" : 17,
-      "line" : 104
+      "line" : 52
     },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "..\/Sources\/Vector.swift",
+    "source" : "Extensions\/Quaternion.md",
     "start" : {
       "column" : 17,
-      "line" : 105
+      "line" : 53
     },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
   },
   {
     "notes" : [
@@ -118,6 +118,30 @@
       "line" : 43
     },
     "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "Extensions\/Vector.md",
+    "start" : {
+      "column" : 13,
+      "line" : 71
+    },
+    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "Extensions\/Vector.md",
+    "start" : {
+      "column" : 13,
+      "line" : 72
+    },
+    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
   },
   {
     "notes" : [
@@ -166,29 +190,5 @@
       "line" : 50
     },
     "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Rotation'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "Extensions\/Vector.md",
-    "start" : {
-      "column" : 13,
-      "line" : 71
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "Extensions\/Vector.md",
-    "start" : {
-      "column" : 13,
-      "line" : 72
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
   }
 ]

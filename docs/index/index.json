@@ -1492,6 +1492,11 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/init(_:)-5bu0o",
+                "title" : "init(Set<LineSegment>)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/init(cgpath:detail:color:)",
                 "title" : "init(cgPath: CGPath, detail: Int, color: Color?)",
                 "type" : "init"

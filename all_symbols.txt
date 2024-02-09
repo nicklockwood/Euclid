@@ -353,6 +353,7 @@
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/faceVertices``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-3c0eo``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-4jhkw``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-5bu0o``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:detail:color:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(cgPath:detail:color:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(from:)``

@@ -169,7 +169,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A ",
+                  "text" : "The ",
                   "type" : "text"
                 },
                 {
@@ -178,7 +178,7 @@
                   "type" : "reference"
                 },
                 {
-                  "text" : " to test against the mesh.",
+                  "text" : " to test against the polygon.",
                   "type" : "text"
                 }
               ],
