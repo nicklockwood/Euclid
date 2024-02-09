@@ -221,6 +221,33 @@ public extension Path {
         )
     }
 
+    /// Creates a path from a set of line segments.
+    /// - Parameter lineSegments: A set of``LineSegment`` to convert to a path.
+    init(_ lineSegments: Set<LineSegment>) {
+        var paths = lineSegments.map { Path([.point($0.start), .point($0.end)]) }
+        outer: while true {
+            for (i, p) in paths.enumerated() {
+                let matches = paths.enumerated().filter { j, q in
+                    guard i != j, let p = p.points.last?.position, !q.points.isEmpty else { return false }
+                    return p.isEqual(to: q.points.first!.position) || p.isEqual(to: q.points.last!.position)
+                }
+                if let (j, q) = matches.first, matches.count == 1 {
+                    let points: [PathPoint]
+                    if p.points.last!.position.isEqual(to: q.points.first!.position) {
+                        points = p.points + q.points.dropFirst()
+                    } else {
+                        points = p.points + q.points.dropLast().reversed()
+                    }
+                    paths[i] = Path(points)
+                    paths.remove(at: j)
+                    continue outer
+                }
+            }
+            break
+        }
+        self.init(subpaths: paths)
+    }
+
     /// An array of the subpaths that make up the path.
     ///
     /// For paths without nested subpaths, this will return an array containing only `self`.

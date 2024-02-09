@@ -24,7 +24,7 @@ public extension Polygon {
     }
 
     /// Clip polygon to the specified plane
-    /// - Parameter plane: The plane to clip the polygon to.
+    /// - Parameter plane: The ``Plane``  to clip the polygon to.
     /// - Returns: An array of the polygon fragments that lie in front of the plane.
     func clip(to plane: Plane) -> [Polygon] {
         var id = 0
@@ -37,7 +37,7 @@ public extension Polygon {
     }
 
     /// Computes a set of edges where the polygon intersects a plane.
-    /// - Parameter plane: A ``Plane`` to test against the mesh.
+    /// - Parameter plane: The ``Plane`` to test against the polygon.
     /// - Returns: A `Set` of ``LineSegment`` representing the polygon edges intersecting the plane.
     func edges(intersecting plane: Plane) -> Set<LineSegment> {
         var edges = Set<LineSegment>()
@@ -167,7 +167,7 @@ extension Polygon {
         }
     }
 
-    /// Return all intersections with the plane
+    /// Get all edges intersecting the plane
     func intersect(with plane: Plane, edges: inout Set<LineSegment>) {
         var wasFront = false, wasBack = false
         for edge in undirectedEdges {
