@@ -75,16 +75,8 @@ extension Vertex: Codable {
     /// Creates a new vertex by decoding from the given decoder.
     /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
-        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
-            try self.init(
-                container.decode(Vector.self, forKey: .position),
-                container.decodeIfPresent(Vector.self, forKey: .normal),
-                container.decodeIfPresent(Vector.self, forKey: .texcoord),
-                container.decodeIfPresent(Color.self, forKey: .color)
-            )
-        } else {
-            let container = try decoder.singleValueContainer()
-            let values = try container.decode([Double].self)
+        let container = try decoder.singleValueContainer()
+        if let values = try? container.decode([Double].self) {
             guard let vertex = Vertex(values) else {
                 throw DecodingError.dataCorruptedError(
                     in: container,
@@ -92,6 +84,14 @@ extension Vertex: Codable {
                 )
             }
             self = vertex
+        } else {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            try self.init(
+                container.decode(Vector.self, forKey: .position),
+                container.decodeIfPresent(Vector.self, forKey: .normal),
+                container.decodeIfPresent(Vector.self, forKey: .texcoord),
+                container.decodeIfPresent(Color.self, forKey: .color)
+            )
         }
     }
 

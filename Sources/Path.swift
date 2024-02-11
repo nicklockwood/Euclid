@@ -72,7 +72,8 @@ extension Path: Codable {
                 self.init(points ?? [])
             }
         } else {
-            let points = try [PathPoint](from: decoder)
+            let container = try decoder.singleValueContainer()
+            let points = try container.decode([PathPoint].self)
             self.init(points)
         }
     }

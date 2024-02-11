@@ -67,7 +67,8 @@ extension Mesh: Codable {
                 submeshes: nil
             )
         } else {
-            let polygons = try [Polygon](from: decoder)
+            let container = try decoder.singleValueContainer()
+            let polygons = try container.decode([Polygon].self)
             self.init(polygons)
         }
     }

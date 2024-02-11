@@ -53,15 +53,16 @@ extension Angle: Codable {
     /// Creates a new angle by decoding from the given decoder.
     /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
-        guard let container = try? decoder.container(keyedBy: CodingKeys.self) else {
-            try self.init(radians: Double(from: decoder))
-            return
-        }
-        if let radians = try container.decodeIfPresent(Double.self, forKey: .radians) {
+        if let radians = try? decoder.singleValueContainer().decode(Double.self) {
             self.init(radians: radians)
             return
         }
-        self = try .degrees(container.decode(Double.self, forKey: .degrees))
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let degrees = try container.decodeIfPresent(Double.self, forKey: .degrees) {
+            self.init(degrees: degrees)
+            return
+        }
+        try self.init(radians: container.decode(Double.self, forKey: .radians))
     }
 
     /// Encodes this angle into the given encoder.

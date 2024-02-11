@@ -70,7 +70,8 @@ extension Polygon: Codable {
                 plane = try container.decode(Plane.self)
                 material = try container.decodeIfPresent(CodableMaterial.self)?.value
             } else {
-                vertices = try [Vertex](from: decoder)
+                let container = try decoder.singleValueContainer()
+                vertices = try container.decode([Vertex].self)
             }
             guard !verticesAreDegenerate(vertices) else {
                 throw DecodingError.dataCorruptedError(
