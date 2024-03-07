@@ -6,8 +6,8 @@
 //  Copyright © 2024 Nick Lockwood. All rights reserved.
 //
 
-import Euclid
 import CoreGraphics
+import Euclid
 
 let euclidMesh: Mesh = {
     let start = CFAbsoluteTimeGetCurrent()
@@ -24,4 +24,3 @@ let euclidMesh: Mesh = {
 
     return mesh
 }()
-

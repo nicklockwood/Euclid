@@ -6,13 +6,13 @@
 //  Copyright © 2024 Nick Lockwood. All rights reserved.
 //
 
-import SwiftUI
 import RealityKit
 import RealityKitContent
+import SwiftUI
 
 struct ImmersiveView: View {
     let mesh = euclidMesh
-    
+
     var body: some View {
         RealityView { content in
             // Add the initial RealityKit content

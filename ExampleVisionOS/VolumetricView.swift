@@ -6,13 +6,13 @@
 //  Copyright © 2024 Nick Lockwood. All rights reserved.
 //
 
-import SwiftUI
 import RealityKit
+import SwiftUI
 
 struct VolumetricView: View {
     @State private var spinX = 0.0
     @State private var spinY = 0.0
-    
+
     var body: some View {
         RealityView { content in
             if let demoBoxEntity = try? ModelEntity(euclidMesh) {
@@ -24,14 +24,14 @@ struct VolumetricView: View {
 
                 // for gesture targeting
                 demoBoxEntity.components.set(InputTargetComponent())
-                
+
                 content.add(demoBoxEntity)
             }
         } update: { content in
             guard let entity = content.entities.first else { return }
-            
-            let pitch = Transform(pitch: Float((spinX) * -1)).matrix
-            let yaw = Transform(yaw: Float( spinY)).matrix
+
+            let pitch = Transform(pitch: Float(spinX * -1)).matrix
+            let yaw = Transform(yaw: Float(spinY)).matrix
             entity.transform.matrix = pitch * yaw
         }
         .gesture(
@@ -45,7 +45,7 @@ struct VolumetricView: View {
                     spinY = Double(delta.x) * 5
                 }
         )
-    }    
+    }
 }
 
 #Preview {
