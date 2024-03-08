@@ -15,7 +15,7 @@ struct VolumetricView: View {
 
     var body: some View {
         RealityView { content in
-            if let demoBoxEntity = try? ModelEntity(euclidMesh) {
+            if let demoBoxEntity = try? ModelEntity(euclidMesh.scaled(by: 0.5)) {
                 // for more realism, add a shadow
                 demoBoxEntity.components.set(GroundingShadowComponent(castsShadow: true))
 
