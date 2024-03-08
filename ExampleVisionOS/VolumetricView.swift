@@ -19,7 +19,7 @@ struct VolumetricView: View {
                 // for more realism, add a shadow
                 demoBoxEntity.components.set(GroundingShadowComponent(castsShadow: true))
 
-                // collision shapes are not used in this sample
+                // needed for tap detection/response
                 demoBoxEntity.generateCollisionShapes(recursive: true)
 
                 // for gesture targeting
