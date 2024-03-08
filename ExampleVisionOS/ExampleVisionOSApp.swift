@@ -17,8 +17,5 @@ struct ExampleVisionOSApp: App {
         }.windowStyle(.volumetric)
             .defaultSize(width: 2.0, height: 2.0, depth: 2.0, in: .meters)
 
-        ImmersiveSpace(id: "ImmersiveSpace") {
-            ImmersiveView()
-        }
     }
 }
