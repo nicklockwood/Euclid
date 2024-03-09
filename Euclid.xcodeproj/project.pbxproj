@@ -73,6 +73,14 @@
 		01FAE7BD29744E08008DB288 /* PolygonCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */; };
 		0A240137256A64FB00C1535C /* AngleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A240136256A64FB00C1535C /* AngleTests.swift */; };
 		0A24013F256A671600C1535C /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A24013E256A671600C1535C /* Angle.swift */; };
+		2B4F06BC2B981DD30025DDF2 /* ExampleVisionOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F06BB2B981DD30025DDF2 /* ExampleVisionOSApp.swift */; };
+		2B4F06BE2B981DD30025DDF2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F06BD2B981DD30025DDF2 /* ContentView.swift */; };
+		2B4F06C22B981DD40025DDF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F06C12B981DD40025DDF2 /* Assets.xcassets */; };
+		2B4F06C52B981DD40025DDF2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F06C42B981DD40025DDF2 /* Preview Assets.xcassets */; };
+		2B4F06CD2B9831960025DDF2 /* Euclid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; };
+		2B4F06CE2B9831960025DDF2 /* Euclid.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2B4F06D32B9831F50025DDF2 /* EuclidMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F06D22B9831F50025DDF2 /* EuclidMesh.swift */; };
+		2B6474662B994019006D0E09 /* VolumetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6474652B994019006D0E09 /* VolumetricView.swift */; };
 		52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3852D238D6E5700BE8407 /* LineTests.swift */; };
 		52A663A123857D5300FACF9D /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A663A023857D5300FACF9D /* Line.swift */; };
 		52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C844E023854C87009C0A73 /* VectorTests.swift */; };
@@ -94,6 +102,13 @@
 			remoteGlobalIDString = 016FAB2821BFE78100AF60DC;
 			remoteInfo = Euclid;
 		};
+		2B4F06CF2B9831960025DDF2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 016FAB2021BFE78100AF60DC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 016FAB2821BFE78100AF60DC;
+			remoteInfo = Euclid;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -104,6 +119,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 				018D0ACE255C398D006D2351 /* Euclid.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B4F06D12B9831960025DDF2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2B4F06CE2B9831960025DDF2 /* Euclid.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,6 +206,14 @@
 		01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonCSGTests.swift; sourceTree = "<group>"; };
 		0A240136256A64FB00C1535C /* AngleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleTests.swift; sourceTree = "<group>"; };
 		0A24013E256A671600C1535C /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
+		2B4F06B52B981DD30025DDF2 /* ExampleVisionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleVisionOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B4F06BB2B981DD30025DDF2 /* ExampleVisionOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleVisionOSApp.swift; sourceTree = "<group>"; };
+		2B4F06BD2B981DD30025DDF2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2B4F06C12B981DD40025DDF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2B4F06C42B981DD40025DDF2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2B4F06C62B981DD40025DDF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2B4F06D22B9831F50025DDF2 /* EuclidMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EuclidMesh.swift; sourceTree = "<group>"; };
+		2B6474652B994019006D0E09 /* VolumetricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumetricView.swift; sourceTree = "<group>"; };
 		52A3852D238D6E5700BE8407 /* LineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTests.swift; sourceTree = "<group>"; };
 		52A663A023857D5300FACF9D /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		52C844E023854C87009C0A73 /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
@@ -210,6 +244,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2B4F06B22B981DD30025DDF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B4F06CD2B9831960025DDF2 /* Euclid.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -226,6 +268,7 @@
 				016FAB2B21BFE78100AF60DC /* Sources */,
 				016FAB3621BFE78100AF60DC /* Tests */,
 				016FABEB21C078E400AF60DC /* Example */,
+				2B4F06B62B981DD30025DDF2 /* ExampleVisionOS */,
 				016FAB2A21BFE78100AF60DC /* Products */,
 				0162A09523795E260078AE84 /* Frameworks */,
 			);
@@ -239,6 +282,7 @@
 				016FAB2921BFE78100AF60DC /* Euclid.framework */,
 				016FAB3221BFE78100AF60DC /* EuclidTests.xctest */,
 				016FABEA21C078E400AF60DC /* EuclidExample.app */,
+				2B4F06B52B981DD30025DDF2 /* ExampleVisionOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -334,6 +378,28 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
+		2B4F06B62B981DD30025DDF2 /* ExampleVisionOS */ = {
+			isa = PBXGroup;
+			children = (
+				2B4F06BB2B981DD30025DDF2 /* ExampleVisionOSApp.swift */,
+				2B4F06BD2B981DD30025DDF2 /* ContentView.swift */,
+				2B6474652B994019006D0E09 /* VolumetricView.swift */,
+				2B4F06D22B9831F50025DDF2 /* EuclidMesh.swift */,
+				2B4F06C12B981DD40025DDF2 /* Assets.xcassets */,
+				2B4F06C62B981DD40025DDF2 /* Info.plist */,
+				2B4F06C32B981DD40025DDF2 /* Preview Content */,
+			);
+			path = ExampleVisionOS;
+			sourceTree = "<group>";
+		};
+		2B4F06C32B981DD40025DDF2 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				2B4F06C42B981DD40025DDF2 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -405,6 +471,27 @@
 			productReference = 016FABEA21C078E400AF60DC /* EuclidExample.app */;
 			productType = "com.apple.product-type.application";
 		};
+		2B4F06B42B981DD30025DDF2 /* ExampleVisionOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B4F06C92B981DD40025DDF2 /* Build configuration list for PBXNativeTarget "ExampleVisionOS" */;
+			buildPhases = (
+				2B4F06B12B981DD30025DDF2 /* Sources */,
+				2B4F06B22B981DD30025DDF2 /* Frameworks */,
+				2B4F06B32B981DD30025DDF2 /* Resources */,
+				2B4F06D12B9831960025DDF2 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2B4F06D02B9831960025DDF2 /* PBXTargetDependency */,
+			);
+			name = ExampleVisionOS;
+			packageProductDependencies = (
+			);
+			productName = ExampleVisionOS;
+			productReference = 2B4F06B52B981DD30025DDF2 /* ExampleVisionOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -412,7 +499,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1400;
+				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "Nick Lockwood";
 				TargetAttributes = {
@@ -427,6 +514,9 @@
 					016FABE921C078E400AF60DC = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1240;
+					};
+					2B4F06B42B981DD30025DDF2 = {
+						CreatedOnToolsVersion = 15.3;
 					};
 				};
 			};
@@ -446,6 +536,7 @@
 				016FAB2821BFE78100AF60DC /* Euclid */,
 				016FAB3121BFE78100AF60DC /* EuclidTests */,
 				016FABE921C078E400AF60DC /* Example */,
+				2B4F06B42B981DD30025DDF2 /* ExampleVisionOS */,
 			);
 		};
 /* End PBXProject section */
@@ -472,6 +563,15 @@
 				016FABF921C078E500AF60DC /* LaunchScreen.storyboard in Resources */,
 				016FABF621C078E500AF60DC /* Assets.xcassets in Resources */,
 				016FABF421C078E400AF60DC /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B4F06B32B981DD30025DDF2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B4F06C52B981DD40025DDF2 /* Preview Assets.xcassets in Resources */,
+				2B4F06C22B981DD40025DDF2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +703,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2B4F06B12B981DD30025DDF2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B4F06BE2B981DD30025DDF2 /* ContentView.swift in Sources */,
+				2B4F06D32B9831F50025DDF2 /* EuclidMesh.swift in Sources */,
+				2B4F06BC2B981DD30025DDF2 /* ExampleVisionOSApp.swift in Sources */,
+				2B6474662B994019006D0E09 /* VolumetricView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -615,6 +726,11 @@
 			isa = PBXTargetDependency;
 			target = 016FAB2821BFE78100AF60DC /* Euclid */;
 			targetProxy = 0162A09723795E820078AE84 /* PBXContainerItemProxy */;
+		};
+		2B4F06D02B9831960025DDF2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 016FAB2821BFE78100AF60DC /* Euclid */;
+			targetProxy = 2B4F06CF2B9831960025DDF2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -906,7 +1022,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8VQKF583ED;
+				DEVELOPMENT_TEAM = TW8SJXYFP5;
 				INFOPLIST_FILE = Example/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Euclid Example";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
@@ -919,11 +1035,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.EuclidExample;
 				PRODUCT_NAME = EuclidExample;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
@@ -934,7 +1050,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8VQKF583ED;
+				DEVELOPMENT_TEAM = TW8SJXYFP5;
 				INFOPLIST_FILE = Example/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Euclid Example";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
@@ -947,13 +1063,81 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.EuclidExample;
 				PRODUCT_NAME = EuclidExample;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2B4F06C72B981DD40025DDF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ExampleVisionOS/Preview Content\"";
+				DEVELOPMENT_TEAM = TW8SJXYFP5;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.ExampleVisionOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.1;
+			};
+			name = Debug;
+		};
+		2B4F06C82B981DD40025DDF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ExampleVisionOS/Preview Content\"";
+				DEVELOPMENT_TEAM = TW8SJXYFP5;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.charcoaldesign.ExampleVisionOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				VALIDATE_PRODUCT = YES;
+				XROS_DEPLOYMENT_TARGET = 1.1;
 			};
 			name = Release;
 		};
@@ -992,6 +1176,15 @@
 			buildConfigurations = (
 				016FABFB21C078E500AF60DC /* Debug */,
 				016FABFC21C078E500AF60DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2B4F06C92B981DD40025DDF2 /* Build configuration list for PBXNativeTarget "ExampleVisionOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B4F06C72B981DD40025DDF2 /* Debug */,
+				2B4F06C82B981DD40025DDF2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
