@@ -58,9 +58,10 @@ Feel free to open an issue in Github if you have questions about how to use the 
 If you wish to contribute improvements to the documentation or the code itself, that's great! But please read the [CONTRIBUTING.md](CONTRIBUTING.md) file before submitting a pull request.
 
 
-# Example
+# Example and ExampleVisionOS
 
-See the included project for an example of how Euclid can be used in conjunction with SceneKit or RealityKit to generate and render a nontrivial 3D shape on iOS.
+See the included projects for examples of how Euclid can be used in conjunction with SceneKit or RealityKit to generate and render a nontrivial 3D shape. `Example` uses storyboards, is built for iOS, and runs in "Designed for iPad" mode on macOS and visionOS.
+`ExampleVisionPro` uses SwiftUI and a RealityView in a volumetric window, and runs only on visionOS.
 
 
 # Documentation
