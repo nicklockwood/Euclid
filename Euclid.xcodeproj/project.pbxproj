@@ -73,6 +73,7 @@
 		01FAE7BD29744E08008DB288 /* PolygonCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */; };
 		0A240137256A64FB00C1535C /* AngleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A240136256A64FB00C1535C /* AngleTests.swift */; };
 		0A24013F256A671600C1535C /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A24013E256A671600C1535C /* Angle.swift */; };
+		2B4389D22B9FDFEF0070AD39 /* MeshViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4389D02B9FDDFA0070AD39 /* MeshViewModel.swift */; };
 		2B4F06BC2B981DD30025DDF2 /* ExampleVisionOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F06BB2B981DD30025DDF2 /* ExampleVisionOSApp.swift */; };
 		2B4F06BE2B981DD30025DDF2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F06BD2B981DD30025DDF2 /* ContentView.swift */; };
 		2B4F06C22B981DD40025DDF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F06C12B981DD40025DDF2 /* Assets.xcassets */; };
@@ -206,6 +207,7 @@
 		01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonCSGTests.swift; sourceTree = "<group>"; };
 		0A240136256A64FB00C1535C /* AngleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleTests.swift; sourceTree = "<group>"; };
 		0A24013E256A671600C1535C /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
+		2B4389D02B9FDDFA0070AD39 /* MeshViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MeshViewModel.swift; path = ExampleVisionOS/MeshViewModel.swift; sourceTree = "<group>"; };
 		2B4F06B52B981DD30025DDF2 /* ExampleVisionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleVisionOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B4F06BB2B981DD30025DDF2 /* ExampleVisionOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleVisionOSApp.swift; sourceTree = "<group>"; };
 		2B4F06BD2B981DD30025DDF2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 		016FAB1F21BFE78100AF60DC = {
 			isa = PBXGroup;
 			children = (
+				2B4389D02B9FDDFA0070AD39 /* MeshViewModel.swift */,
 				016FAB2B21BFE78100AF60DC /* Sources */,
 				016FAB3621BFE78100AF60DC /* Tests */,
 				016FABEB21C078E400AF60DC /* Example */,
@@ -711,6 +714,7 @@
 				2B4F06D32B9831F50025DDF2 /* EuclidMesh.swift in Sources */,
 				2B4F06BC2B981DD30025DDF2 /* ExampleVisionOSApp.swift in Sources */,
 				2B6474662B994019006D0E09 /* VolumetricView.swift in Sources */,
+				2B4389D22B9FDFEF0070AD39 /* MeshViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

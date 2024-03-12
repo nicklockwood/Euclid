@@ -13,23 +13,24 @@ struct VolumetricView: View {
     @State private var spinX = 0.0
     @State private var spinY = 0.0
 
+    @State private var viewModel = MeshViewModel()
+    @State private var contentAdded = false
+    
     var body: some View {
+        let _ = Self._printChanges()
+
         RealityView { content in
-            if let demoBoxEntity = try? ModelEntity(euclidMesh.scaled(by: 0.5)) {
-                // for more realism, add a shadow
-                demoBoxEntity.components.set(GroundingShadowComponent(castsShadow: true))
-
-                // needed for tap detection/response
-                demoBoxEntity.generateCollisionShapes(recursive: true)
-
-                // for gesture targeting
-                demoBoxEntity.components.set(InputTargetComponent())
-
-                content.add(demoBoxEntity)
-            }
         } update: { content in
-            guard let entity = content.entities.first else { return }
-
+            if !contentAdded,
+               let box = viewModel.entity {
+                content.add(box)
+                contentAdded = true
+            }
+            print(content.entities)
+            guard let entity = content.entities.first else {
+                return
+            }
+            
             let pitch = Transform(pitch: Float(spinX * -1)).matrix
             let yaw = Transform(yaw: Float(spinY)).matrix
             entity.transform.matrix = pitch * yaw
@@ -45,8 +46,12 @@ struct VolumetricView: View {
                     spinY = Double(delta.x) * 5
                 }
         )
+        .task {
+            viewModel.prepareContent()
+            print("content preparation launched...")
+            }
+        }
     }
-}
 
 #Preview {
     VolumetricView()
