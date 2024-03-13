@@ -22,7 +22,8 @@ let euclidMesh: Mesh = {
     print("Triangles:", mesh.triangulate().polygons.count)
     print("Watertight:", mesh.isWatertight)
 
-    sleep(5) // simulate long-running task
+    // Sleep here to simulate a long-running mesh construction.
+    sleep(5)
 
     return mesh
 }()
