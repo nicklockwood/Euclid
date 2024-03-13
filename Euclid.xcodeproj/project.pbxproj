@@ -80,7 +80,6 @@
 		2B4F06C52B981DD40025DDF2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F06C42B981DD40025DDF2 /* Preview Assets.xcassets */; };
 		2B4F06CD2B9831960025DDF2 /* Euclid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; };
 		2B4F06CE2B9831960025DDF2 /* Euclid.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2B4F06D32B9831F50025DDF2 /* EuclidMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F06D22B9831F50025DDF2 /* EuclidMesh.swift */; };
 		2B6474662B994019006D0E09 /* VolumetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6474652B994019006D0E09 /* VolumetricView.swift */; };
 		52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3852D238D6E5700BE8407 /* LineTests.swift */; };
 		52A663A123857D5300FACF9D /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A663A023857D5300FACF9D /* Line.swift */; };
@@ -214,7 +213,6 @@
 		2B4F06C12B981DD40025DDF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B4F06C42B981DD40025DDF2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2B4F06C62B981DD40025DDF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2B4F06D22B9831F50025DDF2 /* EuclidMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EuclidMesh.swift; sourceTree = "<group>"; };
 		2B6474652B994019006D0E09 /* VolumetricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumetricView.swift; sourceTree = "<group>"; };
 		52A3852D238D6E5700BE8407 /* LineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTests.swift; sourceTree = "<group>"; };
 		52A663A023857D5300FACF9D /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
@@ -387,7 +385,6 @@
 				2B4F06BD2B981DD30025DDF2 /* ContentView.swift */,
 				2B6474652B994019006D0E09 /* VolumetricView.swift */,
 				2B4389D02B9FDDFA0070AD39 /* MeshViewModel.swift */,
-				2B4F06D22B9831F50025DDF2 /* EuclidMesh.swift */,
 				2B4F06C12B981DD40025DDF2 /* Assets.xcassets */,
 				2B4F06C62B981DD40025DDF2 /* Info.plist */,
 				2B4F06C32B981DD40025DDF2 /* Preview Content */,
@@ -711,7 +708,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B4F06BE2B981DD30025DDF2 /* ContentView.swift in Sources */,
-				2B4F06D32B9831F50025DDF2 /* EuclidMesh.swift in Sources */,
 				2B4F06BC2B981DD30025DDF2 /* ExampleVisionOSApp.swift in Sources */,
 				2B6474662B994019006D0E09 /* VolumetricView.swift in Sources */,
 				2B4389D22B9FDFEF0070AD39 /* MeshViewModel.swift in Sources */,

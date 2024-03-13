@@ -16,8 +16,6 @@ struct VolumetricView: View {
     private var viewModel = MeshViewModel()
 
     var body: some View {
-        let _ = Self._printChanges()
-
         RealityView { content in
             // In this demo we'll skip adding content at init time. But if you have other content
             // that you want visible while the EuclidMesh is being built, add it in this closure.
