@@ -13,7 +13,7 @@ struct VolumetricView: View {
     @State private var spinX = 0.0
     @State private var spinY = 0.0
 
-    @State private var viewModel = MeshViewModel()
+    private var viewModel = MeshViewModel()
     @State private var contentAdded = false
     
     var body: some View {

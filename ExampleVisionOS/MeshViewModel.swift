@@ -11,9 +11,10 @@ import Euclid
 import RealityKit
 
 @Observable
-class MeshViewModel {
-    var entity: Entity? = nil
-    
+class MeshViewModel: ObservableObject {
+    public var entity: Entity? = nil
+    public var status = false
+
     func prepareContent()  {
         Task.init {
             do {
@@ -30,6 +31,7 @@ class MeshViewModel {
                 
                 print(#function, "complete")
                 entity = demoBoxEntity
+                status = true
             } catch {
                 print("nope")
             }
