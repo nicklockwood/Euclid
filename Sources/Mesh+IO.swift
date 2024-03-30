@@ -75,7 +75,9 @@ public extension Mesh {
             try string.write(to: url, atomically: true, encoding: .utf8)
             #endif
         default:
-            #if canImport(SceneKit)
+            #if os(watchOS)
+            throw IOError("Cannot export '\(url.pathExtension)' on watchOS.")
+            #elseif canImport(SceneKit)
             let scnScene = SCNScene()
             let materialLookup = materialLookup.map { lookup in { defaultMaterialLookup(lookup($0)) } }
             let geometry = SCNGeometry(polygons: self, materialLookup: materialLookup)
