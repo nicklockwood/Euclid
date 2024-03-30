@@ -75,22 +75,26 @@ public extension Mesh {
             try string.write(to: url, atomically: true, encoding: .utf8)
             #endif
         default:
-            #if canImport(SceneKit)
-            let scnScene = SCNScene()
-            let materialLookup = materialLookup.map { lookup in { defaultMaterialLookup(lookup($0)) } }
-            let geometry = SCNGeometry(polygons: self, materialLookup: materialLookup)
-            scnScene.rootNode.addChildNode(SCNNode(geometry: geometry))
-            guard scnScene.write(
-                to: url,
-                options: [:],
-                delegate: nil,
-                progressHandler: nil
-            ) else {
-                throw IOError("Failed to export file")
-            }
-            #else
-            throw IOError("Unsupported mesh file format '\(url.pathExtension)'")
-            #endif
+            #if os(watchOS)
+			throw IOError("Cannot export '\(url.pathExtension)' on watchOS.")
+			#else
+				#if canImport(SceneKit)
+				let scnScene = SCNScene()
+				let materialLookup = materialLookup.map { lookup in { defaultMaterialLookup(lookup($0)) } }
+				let geometry = SCNGeometry(polygons: self, materialLookup: materialLookup)
+				scnScene.rootNode.addChildNode(SCNNode(geometry: geometry))
+				guard scnScene.write(
+					to: url,
+					options: [:],
+					delegate: nil,
+					progressHandler: nil
+				) else {
+					throw IOError("Failed to export file")
+				}
+				#else
+				throw IOError("Unsupported mesh file format '\(url.pathExtension)'")
+				#endif
+			#endif
         }
     }
 }
