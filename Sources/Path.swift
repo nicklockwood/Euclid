@@ -257,6 +257,7 @@ public extension Path {
         var paths = [Path]()
         for i in subpathIndices {
             var points = self.points[startIndex ... i]
+            // Avoid duplicate first point in loop
             if paths.last?.isClosed ?? false, points.count > 2,
                points[startIndex + 1].position == points.last?.position
             {
@@ -265,6 +266,13 @@ public extension Path {
             startIndex = i
             guard points.count > 1 else {
                 continue
+            }
+            // Ensure offshoots are properly separated
+            if i < self.points.count - 1 {
+                let next = self.points[i + 1]
+                if points.contains(where: { $0.position == next.position }) {
+                    startIndex += 1
+                }
             }
             // TODO: support internal one-element line segments
             guard points.count > 2 || points.startIndex == 0 || i == self.points.count - 1 else {

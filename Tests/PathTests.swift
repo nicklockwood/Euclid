@@ -653,6 +653,39 @@ class PathTests: XCTestCase {
         XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
+    func testPathWithLoopEndingInLineHasCorrectSubpaths2() {
+        let path = Path([
+            .curve(24, -32),
+            .point(16, -32),
+            .curve(16, -37.333333259259),
+            .curve(16, -42.666666740741),
+            .point(16, -48),
+            .point(24, -48),
+            .curve(24, -42.666666740741),
+            .curve(24, -37.333333259259),
+            .curve(24, -32),
+            .point(16, -48),
+            .point(10, -48),
+        ])
+        XCTAssertEqual(path.subpaths, [
+            Path([
+                .curve(24, -32),
+                .point(16, -32),
+                .curve(16, -37.333333259259),
+                .curve(16, -42.666666740741),
+                .point(16, -48),
+                .point(24, -48),
+                .curve(24, -42.666666740741),
+                .curve(24, -37.333333259259),
+                .curve(24, -32),
+            ]),
+            Path([
+                .point(16, -48),
+                .point(10, -48),
+            ]),
+        ])
+    }
+
     func testPathWithConjoinedLoopsHasCorrectSubpaths() {
         let path = Path([
             .point(0, 0),
