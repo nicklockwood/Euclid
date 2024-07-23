@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.7.8](https://github.com/nicklockwood/Euclid/releases/tag/0.7.8) (2024-07-23)
+
+- Fixed some bugs with `Path` subpaths
+- Added support for watchOS
+
 ## [0.7.7](https://github.com/nicklockwood/Euclid/releases/tag/0.7.7) (2024-02-11)
 
 - Added method to create a `Path` from a set of `LineSegment`s

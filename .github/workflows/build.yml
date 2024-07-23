@@ -9,8 +9,8 @@ jobs:
       fail-fast: false
       matrix:
         macos:
-          - 11
-          - 13
+          - 12
+          - 14
         xcode:
           - latest-stable
     runs-on: macos-${{ matrix.macos }}
