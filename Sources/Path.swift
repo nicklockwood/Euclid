@@ -170,16 +170,23 @@ public extension Path {
     /// Creates a composite path from an array of subpaths.
     /// - Parameter subpaths: An array of paths.
     init(subpaths: [Path]) {
+        let subpaths = subpaths.flatMap { $0.subpaths }
         guard subpaths.count > 1 else {
             self = subpaths.first ?? .empty
             return
         }
         let points = subpaths.flatMap { $0.points }
+        var startIndex = 0
+        var subpathIndices: [Int]? = subpaths.map {
+            startIndex = startIndex + $0.points.count
+            return startIndex - 1
+        }
         // Remove duplicate points
-        // TODO: share logic with santizePoints function
+        // TODO: share logic with sanitizePoints function
         var result = [PathPoint]()
         for point in points {
             if let last = result.last, point.position == last.position {
+                subpathIndices = nil // Invalidated
                 if !point.isCurved, last.isCurved {
                     result[result.count - 1].isCurved = false
                 }
@@ -187,8 +194,7 @@ public extension Path {
                 result.append(point)
             }
         }
-        // TODO: precompute planes/subpathIndices from existing paths
-        self.init(unchecked: result, plane: nil, subpathIndices: nil)
+        self.init(unchecked: result, plane: nil, subpathIndices: subpathIndices)
     }
 
     /// Creates a closed path from a polygon.
@@ -254,40 +260,10 @@ public extension Path {
     /// For paths without nested subpaths, this will return an array containing only `self`.
     var subpaths: [Path] {
         var startIndex = 0
-        var paths = [Path]()
-        for i in subpathIndices {
-            var points = self.points[startIndex ... i]
-            // Avoid duplicate first point in loop
-            if paths.last?.isClosed ?? false, points.count > 2,
-               points[startIndex + 1].position == points.last?.position
-            {
-                points.removeFirst()
-            }
-            startIndex = i
-            guard points.count > 1 else {
-                continue
-            }
-            // Ensure offshoots are properly separated
-            if i < self.points.count - 1 {
-                let next = self.points[i + 1]
-                if points.contains(where: { $0.position == next.position }) {
-                    startIndex += 1
-                }
-            }
-            // TODO: support internal one-element line segments
-            guard points.count > 2 || points.startIndex == 0 || i == self.points.count - 1 else {
-                continue
-            }
-            do {
-                // TODO: do this as part of regular sanitization step
-                var points = Array(points)
-                if points.last?.position == points.first?.position {
-                    points[0] = points.last!
-                }
-                paths.append(Path(unchecked: points, plane: plane, subpathIndices: []))
-            }
-        }
-        return paths.isEmpty && !points.isEmpty ? [self] : paths
+        return subpathIndices.count > 1 ? subpathIndices.map { i in
+            defer { startIndex = i + 1 }
+            return Path(unchecked: Array(points[startIndex ... i]), plane: nil, subpathIndices: [])
+        } : [self]
     }
 
     /// Returns one or more polygons needed to fill the path.
@@ -494,16 +470,33 @@ public extension Polygon {
 }
 
 extension Path {
-    init(unchecked points: [PathPoint], plane: Plane?, subpathIndices: [Int]?) {
+    init<T: Sequence>(
+        unchecked points: T,
+        plane: Plane?,
+        subpathIndices: [Int]?
+    ) where T.Element == PathPoint {
+        var points = Array(points)
+        var subpathIndices = subpathIndices
+        if subpathIndices == nil {
+            let subpaths = subpathsFor(points)
+            if subpaths.count > 1 {
+                points = subpaths.flatMap { $0.points }
+                var startIndex = 0
+                subpathIndices = subpaths.map {
+                    startIndex = startIndex + $0.points.count
+                    return startIndex - 1
+                }
+            }
+        }
         self.points = points
         self.isClosed = pointsAreClosed(unchecked: points)
         let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
-        let subpathIndices = subpathIndices ?? subpathIndicesFor(points)
-        self.subpathIndices = subpathIndices
+//        let subpathIndices = subpathIndices ?? subpathIndicesFor(points)
+        self.subpathIndices = subpathIndices ?? []
         if let plane = plane {
             self.plane = plane
             assert(positions.allSatisfy { plane.containsPoint($0) })
-        } else if subpathIndices.isEmpty {
+        } else if subpathIndices?.isEmpty ?? true {
             self.plane = Plane(points: positions, convex: nil, closed: isClosed)
         } else {
             for path in subpaths {

@@ -574,6 +574,45 @@ func sanitizePoints(_ points: [PathPoint]) -> [PathPoint] {
     return result
 }
 
+func subpathsFor(_ _points: [PathPoint]) -> [Path] {
+    let subpathIndices = subpathIndicesFor(_points)
+
+    var startIndex = 0
+    var paths = [Path]()
+    for i in subpathIndices {
+        var points = _points[startIndex ... i]
+        // Avoid duplicate first point in loop
+        if paths.last?.isClosed ?? false, points.count > 2,
+           points[startIndex + 1].position == points.last?.position
+        {
+            points.removeFirst()
+        }
+        startIndex = i
+        guard points.count > 1 else {
+            continue
+        }
+        // Ensure offshoots are properly separated
+        if i < _points.count - 1 {
+            let next = _points[i + 1]
+            if points.contains(where: { $0.position == next.position }) {
+                startIndex += 1
+            }
+        }
+        // TODO: support internal one-element line segments
+        guard points.count > 2 || points.startIndex == 0 || i == _points.count - 1 else {
+            continue
+        }
+        // TODO: do this as part of regular sanitization step?
+        if points.last?.position == points.first?.position {
+            points[points.startIndex] = points.last!
+        }
+        paths.append(Path(unchecked: points, plane: nil, subpathIndices: []))
+    }
+    return paths.isEmpty && !_points.isEmpty ? [
+        Path(unchecked: _points, plane: nil, subpathIndices: [])
+    ] : paths
+}
+
 func subpathIndicesFor(_ points: [PathPoint]) -> [Int] {
     // TODO: ensure closing points are of the same type as the opening point;
     // should this be part of the sanitize function?
