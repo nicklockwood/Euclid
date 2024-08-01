@@ -254,7 +254,7 @@ extension Collection where Element == Vertex {
         map { $0.withTexcoord(transform($0.texcoord)) }
     }
 
-    func mapVertexColors(_ transform: (Color) -> Color?) -> [Vertex] {
+    func mapColors(_ transform: (Color) -> Color?) -> [Vertex] {
         map { $0.withColor(transform($0.color)) }
     }
 
