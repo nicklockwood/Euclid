@@ -349,6 +349,17 @@ public extension Mesh {
         smoothingNormals(forAnglesGreaterThan: threshold)
     }
 
+    /// Subdivides triangles and quads, leaving other polygons unchanged.
+    func subdivide() -> Mesh {
+        Mesh(
+            unchecked: polygons.subdivide(),
+            bounds: boundsIfSet,
+            isConvex: isKnownConvex,
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
+        )
+    }
+
     /// Returns a Boolean value that indicates if the specified point is inside the mesh.
     /// - Parameter point: The point to compare.
     /// - Returns: `true` if the point lies inside the mesh, and `false` otherwise.

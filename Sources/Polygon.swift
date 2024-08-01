@@ -418,6 +418,86 @@ public extension Polygon {
             id: id
         )
     }
+
+    /// Subdivides triangles and quads, leaving other polygons unchanged.
+    func subdivide() -> [Polygon] {
+        switch vertices.count {
+        case 3:
+            let (a, b, c) = (vertices[0], vertices[1], vertices[2])
+            let ab = a.lerp(b, 0.5)
+            let bc = b.lerp(c, 0.5)
+            let ca = c.lerp(a, 0.5)
+            return [
+                Polygon(
+                    unchecked: [a, ab, ca],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [ab, b, bc],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [bc, c, ca],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [ab, bc, ca],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+            ]
+        case 4 where isConvex:
+            let (a, b, c, d) = (vertices[0], vertices[1], vertices[2], vertices[3])
+            let ab = a.lerp(b, 0.5)
+            let bc = b.lerp(c, 0.5)
+            let cd = c.lerp(d, 0.5)
+            let da = d.lerp(a, 0.5)
+            let abcd = ab.lerp(cd, 0.5)
+            return [
+                Polygon(
+                    unchecked: [a, ab, abcd, da],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [ab, b, bc, abcd],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [bc, c, cd, abcd],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [cd, d, da, abcd],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+            ]
+        default:
+            return [self]
+        }
+    }
 }
 
 extension Collection where Element == LineSegment {
@@ -654,6 +734,11 @@ extension Collection where Element == Polygon {
             i += 1
         }
         return polygons
+    }
+
+    /// Subdivides triangles and quads, leaving other polygons unchanged
+    func subdivide() -> [Polygon] {
+        flatMap { $0.subdivide() }
     }
 
     /// Group polygons by plane
