@@ -312,6 +312,18 @@ public extension Polygon {
         return merge(unchecked: other, ensureConvex: ensureConvex)
     }
 
+    /// Return a copy of the polygon with transformed vertex positions
+    func mapVertices(_ transform: (Vertex) -> Vertex) -> Polygon {
+        Polygon(
+            unchecked: vertices.map(transform),
+            plane: nil,
+            isConvex: nil,
+            sanitizeNormals: true,
+            material: material,
+            id: id
+        )
+    }
+
     /// Return a copy of the polygon without texture coordinates
     func withoutTexcoords() -> Polygon {
         mapTexcoords { _ in .zero }
@@ -587,6 +599,11 @@ extension Collection where Element == Polygon {
     /// Return polygons with materials replaced by the function
     func mapMaterials(_ transform: (Polygon.Material?) -> Polygon.Material?) -> [Polygon] {
         map { $0.withMaterial(transform($0.material)) }
+    }
+
+    /// Return polygons with transformed vertices
+    func mapVertices(_ transform: (Vertex) -> Vertex) -> [Polygon] {
+        map { $0.mapVertices(transform) }
     }
 
     /// Return polygons with transformed texture coordinates
