@@ -162,7 +162,7 @@ public extension Mesh {
         cube(center: c, size: Vector(s, s, s), faces: faces, wrapMode: wrapMode, material: material)
     }
 
-    /// Creates a sphere by subdividing an icosahedron.
+    /// Creates an icosahedron.
     /// - Parameters:
     ///   - radius: The radius of the icosahedron.
     ///   - faces: The direction the polygon faces.
