@@ -334,7 +334,7 @@ public extension Polygon {
     /// - Parameter transform: A closure to be applied to each vertex color in the polygon.
     func mapVertexColors(_ transform: (Color) -> Color?) -> Polygon {
         Polygon(
-            unchecked: vertices.mapVertexColors(transform),
+            unchecked: vertices.mapColors(transform),
             plane: plane,
             isConvex: isConvex,
             sanitizeNormals: false,
