@@ -269,6 +269,54 @@ public extension Mesh {
         }
     }
 
+    /// Creates a sphere by subdividing an icosahedron.
+    /// - Parameters:
+    ///   - radius: The radius of the icosphere.
+    ///   - subdivisions: The number of times to subdivide (each iteration quadruples the triangle count).
+    ///   - faces: The direction the polygon faces.
+    ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
+    ///   - material: The optional material for the mesh.
+    static func icosphere(
+        radius: Double = 0.5,
+        subdivisions: Int = 2,
+        faces: Faces = .default,
+        wrapMode: WrapMode = .default,
+        material: Material? = nil
+    ) -> Mesh {
+        let icosahedron = self.icosahedron(
+            radius: 1,
+            faces: faces,
+            wrapMode: .none,
+            material: material
+        )
+        var triangles = icosahedron.polygons
+        for _ in 0 ..< subdivisions {
+            triangles = triangles.subdivide()
+        }
+        triangles = triangles.mapVertices {
+            let direction = $0.position.normalized()
+            return $0.withPosition(direction * radius).withNormal(direction)
+        }
+        let mesh = Mesh(
+            unchecked: triangles,
+            bounds: Bounds(
+                min: Vector(-radius, -radius, -radius),
+                max: Vector(radius, radius, radius)
+            ),
+            isConvex: true,
+            isWatertight: true,
+            submeshes: []
+        )
+        switch wrapMode {
+        case .default, .shrink:
+            return mesh.sphereMapped()
+        case .tube:
+            return mesh.cylinderMapped()
+        case .none:
+            return mesh
+        }
+    }
+
     /// Creates a spherical mesh.
     /// - Parameters:
     ///   - radius: The radius of the sphere.
