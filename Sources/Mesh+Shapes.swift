@@ -312,6 +312,8 @@ public extension Mesh {
     static func cylinder(
         radius: Double = 0.5,
         height: Double = 1,
+        startAngle: Angle = .zero,
+        endAngle: Angle = .twoPi,
         slices: Int = 16,
         poleDetail: Int = 0,
         faces: Faces = .default,
@@ -331,6 +333,8 @@ public extension Mesh {
                 .point(-radius, 0),
                 .point(0, 0),
             ], plane: .xy, subpathIndices: []),
+            startAngle: startAngle,
+            endAngle: endAngle,
             slices: slices,
             poleDetail: poleDetail,
             addDetailForFlatPoles: true,
@@ -407,6 +411,8 @@ public extension Mesh {
     ///   - material: The optional material for the mesh.
     static func lathe(
         _ profile: Path,
+        startAngle: Angle = .zero,
+        endAngle: Angle = .twoPi,
         slices: Int = 16,
         poleDetail: Int = 0,
         addDetailForFlatPoles: Bool = false,
@@ -416,6 +422,8 @@ public extension Mesh {
     ) -> Mesh {
         lathe(
             unchecked: profile,
+            startAngle: startAngle,
+            endAngle: endAngle,
             slices: slices,
             poleDetail: poleDetail,
             addDetailForFlatPoles: addDetailForFlatPoles,
@@ -903,6 +911,8 @@ private extension Mesh {
 
     static func lathe(
         unchecked profile: Path,
+        startAngle: Angle = .zero,
+        endAngle: Angle = .twoPi,
         slices: Int = 16,
         poleDetail: Int = 0,
         addDetailForFlatPoles: Bool = false,
@@ -917,6 +927,8 @@ private extension Mesh {
             return .symmetricDifference(subpaths.map {
                 .lathe(
                     $0,
+                    startAngle: startAngle,
+                    endAngle: endAngle,
                     slices: slices,
                     poleDetail: poleDetail,
                     addDetailForFlatPoles: addDetailForFlatPoles,
@@ -974,8 +986,8 @@ private extension Mesh {
         for i in 0 ..< slices {
             let t0 = Double(i) / Double(slices)
             let t1 = Double(i + 1) / Double(slices)
-            let a0 = t0 * Angle.twoPi
-            let a1 = t1 * Angle.twoPi.radians
+            let a0 = startAngle.lerp(endAngle, t0)
+            let a1 = startAngle.lerp(endAngle, t1)
             let cos0 = cos(a0)
             let cos1 = cos(a1)
             let sin0 = sin(a0)

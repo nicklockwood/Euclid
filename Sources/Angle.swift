@@ -206,6 +206,12 @@ public extension Angle {
     }
 }
 
+public extension Angle {
+    func lerp(_ other: Angle, _ t: Double) -> Angle {
+        return self + (other - self) * t
+    }
+}
+
 extension Angle {
     /// Approximate equality
     func isEqual(to other: Angle, withPrecision p: Double = epsilon) -> Bool {
