@@ -88,6 +88,19 @@ class PathTests: XCTestCase {
         XCTAssertTrue(path.isClosed)
     }
 
+    func testClosedPathWithOffshoot() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1),
+            .point(0, 1),
+            .point(0, 0),
+            .point(-1, 0),
+        ])
+        XCTAssertTrue(path.isSimple)
+        XCTAssertFalse(path.isClosed)
+    }
+
     // MARK: winding direction
 
     func testConvexClosedPathAnticlockwiseWinding() {

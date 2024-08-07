@@ -59,10 +59,8 @@ extension LineSegment: Comparable {
     /// Returns whether the leftmost line segment has the lower value.
     /// This provides a stable order when sorting collections of line segments.
     public static func < (lhs: LineSegment, rhs: LineSegment) -> Bool {
-        if lhs.start == rhs.start {
-            return lhs.end < rhs.end
-        }
-        return lhs.start < rhs.start
+        guard lhs.start == rhs.start else { return lhs.start < rhs.start }
+        return lhs.end < rhs.end
     }
 }
 

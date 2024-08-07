@@ -56,6 +56,17 @@ public struct Color: Hashable, Sendable {
     }
 }
 
+extension Color: Comparable {
+    /// Returns whether the leftmost color has the lower value.
+    /// This provides a stable order when sorting collections of colors.
+    public static func < (lhs: Color, rhs: Color) -> Bool {
+        guard lhs.r == rhs.r else { return lhs.r < rhs.r }
+        guard lhs.g == rhs.g else { return lhs.g < rhs.g }
+        guard lhs.b == rhs.b else { return lhs.b < rhs.b }
+        return lhs.a < rhs.a
+    }
+}
+
 extension Color: Codable {
     private enum CodingKeys: String, CodingKey {
         case r, g, b, a
