@@ -523,6 +523,23 @@ public extension Polygon {
             return [self]
         }
     }
+
+    /// Efficiently XORs multiple polygons.
+    /// - Parameters
+    ///   - paths: A collection of paths to be XORed.
+    /// - Returns: An array of paths representing the XOR of the input paths.
+    static func symmetricDifference<T: Collection>(_ polygons: T) -> [Polygon] where T.Element == Polygon {
+        let polygons = Array(polygons)
+        guard polygons.count == 2 else {
+            return polygons
+        }
+        let lhs = polygons.first!
+        let rhs = polygons.last!
+        var inside = [Polygon](), outside = [Polygon](), id = 0
+        lhs.clip(to: [rhs], &inside, &outside, &id)
+        rhs.clip(to: [lhs], &inside, &outside, &id)
+        return outside
+    }
 }
 
 extension Collection where Element == LineSegment {
@@ -614,6 +631,32 @@ extension Collection where Element == Polygon {
             for point in sortedPoints where bounds.containsPoint(point) {
                 _ = polygons[i].insertEdgePoint(point)
             }
+        }
+        return polygons
+    }
+
+    /// Insert missing vertices and merge result until no further improvement can be made.
+    func makeWatertight() -> [Polygon] {
+        var holeEdges = self.holeEdges
+        return makeWatertight(with: &holeEdges)
+    }
+
+    /// Insert missing vertices and merge result until no further improvement can be made.
+    func makeWatertight(with holeEdges: inout Set<LineSegment>) -> [Polygon] {
+        var polygons = Array(self)
+        var precision = epsilon
+        while !holeEdges.isEmpty {
+            let merged = polygons
+                .insertingEdgeVertices(with: holeEdges)
+                .mergingVertices(withPrecision: precision)
+            let newEdges = merged.holeEdges
+            if newEdges.count >= holeEdges.count {
+                // No improvement
+                break
+            }
+            polygons = merged
+            holeEdges = newEdges
+            precision *= 10
         }
         return polygons
     }
