@@ -25,23 +25,32 @@ class SceneKitViewController: UIViewController {
         // place the camera
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 2)
 
-        let a = Mesh.cube()
-        let b = Mesh.cube().translated(by: .one / 2)
-//        let mesh1 = a.clip(b)
-        let edges = a.edges(intersecting: b)
-        let path = Path(edges)
-        let mesh1 = Mesh.stroke(path) // edges.map(LineSegment.init))
-//        let mesh1 = a.union(b)
+        // create some geometry using Euclid
+        let start = CFAbsoluteTimeGetCurrent()
+//        let cube = Mesh.cube(size: 0.8, material: UIColor.red)
+//        let sphere = Mesh.sphere(slices: 120, material: UIColor.blue)
+//        let mesh = cube.subtracting(sphere).makeWatertight()
+
+//        print("Time:", CFAbsoluteTimeGetCurrent() - start)
+//        print("Polygons:", mesh.polygons.count)
+//        print("Triangles:", mesh.triangulate().polygons.count)
+//        print("Watertight:", mesh.isWatertight)
+
+        let polygon1 = Path.square(color: .red)
+        let polygon2 = Path.square(color: .green).translated(by: Vector(0.5, 0.5, 0)) // .rotated(by: .yaw(.pi / 5))
+        let polygon3 = Path.square(color: .blue).translated(by: Vector(0.25, -0.25, 0)) // .rotated(by: .yaw(.pi / 5))
+        let result = Path.difference([polygon1, polygon2, polygon3])
+        let mesh = Mesh.fill(result)
 
         // create SCNNode
-        let geometry = SCNGeometry(mesh1)
+        let geometry = SCNGeometry(mesh)
         let node = SCNNode(geometry: geometry)
         scene.rootNode.addChildNode(node)
 
         // configure the SCNView
         let scnView = view as! SCNView
         scnView.scene = scene
-        scnView.autoenablesDefaultLighting = true
+//        scnView.autoenablesDefaultLighting = true
         scnView.allowsCameraControl = true
         scnView.backgroundColor = .white
     }
