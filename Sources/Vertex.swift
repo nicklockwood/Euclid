@@ -67,6 +67,17 @@ public struct Vertex: Hashable, Sendable {
     }
 }
 
+extension Vertex: Comparable {
+    /// Returns whether the leftmost vertex has the lower value.
+    /// This provides a stable order when sorting collections of vertices.
+    public static func < (lhs: Vertex, rhs: Vertex) -> Bool {
+        guard lhs.position == rhs.position else { return lhs.position < rhs.position }
+        guard lhs.normal == rhs.normal else { return lhs.normal < rhs.normal }
+        guard lhs.texcoord == rhs.texcoord else { return lhs.texcoord < rhs.texcoord }
+        return lhs.color < rhs.color
+    }
+}
+
 extension Vertex: Codable {
     private enum CodingKeys: CodingKey {
         case position, normal, texcoord, color
