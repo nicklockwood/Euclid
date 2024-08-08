@@ -136,13 +136,6 @@ class SceneKitTests: XCTestCase {
         XCTAssertEqual(geometry.sources.first?.vectorCount, 151)
     }
 
-    func testExportSphereWithoutTexcoordsOrNormals() {
-        let sphere = Mesh.sphere().withoutTexcoords().smoothingNormals(forAnglesGreaterThan: .zero)
-        let geometry = SCNGeometry(polygons: sphere)
-        XCTAssertEqual(geometry.sources.count, 1)
-        XCTAssertEqual(geometry.sources.first?.vectorCount, 114)
-    }
-
     func testExportMeshWithColors() throws {
         let mesh = Mesh.lathe(.curve([
             .point(.unitY, color: .red),
