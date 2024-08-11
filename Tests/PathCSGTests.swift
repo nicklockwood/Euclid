@@ -1,33 +1,33 @@
 //
-//  PolygonCSGTests.swift
+//  PathCSGTests.swift
 //  Euclid
 //
-//  Created by Nick Lockwood on 15/01/2023.
+//  Created by Nick Lockwood on 01/09/2023.
 //  Copyright © 2023 Nick Lockwood. All rights reserved.
 //
 
 @testable import Euclid
 import XCTest
 
-class PolygonCSGTests: XCTestCase {
+class PathCSGTests: XCTestCase {
     // MARK: XOR
 
     func testXorCoincidingSquares() {
-        let a = Polygon(shape: .square())!
-        let b = Polygon(shape: .square())!
+        let a = Path.square()
+        let b = Path.square()
         let c = a.symmetricDifference(b)
         XCTAssert(c.isEmpty)
     }
 
     func testXorAdjacentSquares() {
-        let a = Polygon(shape: .square())!
+        let a = Path.square()
         let b = a.translated(by: .unitX)
         let c = a.symmetricDifference(b)
         XCTAssertEqual(Bounds(c), a.bounds.union(b.bounds))
     }
 
     func testXorOverlappingSquares() {
-        let a = Polygon(shape: .square())!
+        let a = Path.square()
         let b = a.translated(by: Vector(0.5, 0, 0))
         let c = a.symmetricDifference(b)
         XCTAssertEqual(Bounds(c), Bounds(
@@ -36,36 +36,10 @@ class PolygonCSGTests: XCTestCase {
         ))
     }
 
-    // MARK: Plane clipping
-
-    func testSquareClippedToPlane() {
-        let a = Polygon(shape: .square())!
-        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
-        let b = a.clip(to: plane)
-        XCTAssertEqual(Bounds(b), .init(Vector(0, -0.5), Vector(0.5, 0.5)))
-    }
-
-    func testPentagonClippedToPlane() {
-        let a = Polygon(shape: .circle(segments: 5))!
-        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
-        let b = a.clip(to: plane)
-        XCTAssertEqual(Bounds(b), .init(
-            Vector(0, -0.404508497187),
-            Vector(0.475528258148, 0.5)
-        ))
-    }
-
-    func testDiamondClippedToPlane() {
-        let a = Polygon(shape: .circle(segments: 4))!
-        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
-        let b = a.clip(to: plane)
-        XCTAssertEqual(Bounds(b), .init(Vector(0, -0.5), Vector(0.5, 0.5)))
-    }
-
     // MARK: Plane splitting
 
     func testSquareSplitAlongPlane() {
-        let a = Polygon(shape: .square())!
+        let a = Path.square()
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let b = a.split(along: plane)
         XCTAssertEqual(
@@ -80,19 +54,27 @@ class PolygonCSGTests: XCTestCase {
         XCTAssertEqual(b.back, b.1)
     }
 
+    func testSplitLineAlongPlane() {
+        let a = Path.line(Vector(-0.5, 0), Vector(0.5, 0))
+        let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
+        let b = a.split(along: plane)
+        XCTAssertEqual(b.front, [Path.line(Vector(0, 0), Vector(0.5, 0))])
+        XCTAssertEqual(b.back, [Path.line(Vector(-0.5, 0), Vector(0, 0))])
+    }
+
     func testSquareSplitAlongItsOwnPlane() {
-        let a = Polygon(shape: .square())!
+        let a = Path.square()
         let plane = Plane(unchecked: .unitZ, pointOnPlane: .zero)
         let b = a.split(along: plane)
-        XCTAssertEqual(b.front, [a])
+        XCTAssertEqual(Bounds(b.front), a.bounds)
         XCTAssert(b.back.isEmpty)
     }
 
     func testSquareSplitAlongReversePlane() {
-        let a = Polygon(shape: .square())!
+        let a = Path.square()
         let plane = Plane(unchecked: -.unitZ, pointOnPlane: .zero)
         let b = a.split(along: plane)
-        XCTAssertEqual(b.back, [a])
-        XCTAssert(b.front.isEmpty)
+        XCTAssertEqual(Bounds(b.front), a.bounds)
+        XCTAssert(b.back.isEmpty)
     }
 }

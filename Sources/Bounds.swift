@@ -56,6 +56,12 @@ public protocol Bounded {
     var bounds: Bounds { get }
 }
 
+extension Bounds: CustomStringConvertible {
+    public var description: String {
+        "Bounds(min: [\(min.components)], max: [\(max.components)])"
+    }
+}
+
 extension Bounds: Codable {
     private enum CodingKeys: CodingKey {
         case min, max
@@ -123,26 +129,6 @@ public extension Bounds {
         self = bounds.reduce(.empty) {
             Bounds(min: Euclid.min($0.min, $1.min), max: Euclid.max($0.max, $1.max))
         }
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "init(_:)")
-    init(points: [Vector] = []) {
-        self = points.reduce(.empty) {
-            Bounds(min: Euclid.min($0.min, $1), max: Euclid.max($0.max, $1))
-        }
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "init(_:)")
-    init(polygons: [Polygon]) {
-        self.init(polygons)
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "init(_:)")
-    init(bounds: [Bounds]) {
-        self.init(bounds)
     }
 
     /// A Boolean value that indicates whether the bounds is empty (has zero volume).

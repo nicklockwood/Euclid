@@ -306,23 +306,9 @@ public extension Mesh {
         if watertightIfSet == true {
             return self
         }
-        var holeEdges = polygons.holeEdges, polygons = self.polygons
-        var precision = epsilon
-        while !holeEdges.isEmpty {
-            let merged = polygons
-                .insertingEdgeVertices(with: holeEdges)
-                .mergingVertices(withPrecision: precision)
-            let newEdges = merged.holeEdges
-            if newEdges.count >= holeEdges.count {
-                // No improvement
-                break
-            }
-            polygons = merged
-            holeEdges = newEdges
-            precision *= 10
-        }
+        var holeEdges = polygons.holeEdges
         return Mesh(
-            unchecked: polygons,
+            unchecked: polygons.makeWatertight(with: &holeEdges),
             bounds: boundsIfSet,
             isConvex: false, // TODO: can makeWatertight make this false?
             isWatertight: holeEdges.isEmpty,
@@ -343,21 +329,26 @@ public extension Mesh {
         )
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "smoothingNormals(forAnglesGreaterThan:)")
-    func smoothNormals(_ threshold: Angle) -> Mesh {
-        smoothingNormals(forAnglesGreaterThan: threshold)
+    /// Subdivides triangles and quads, leaving other polygons unchanged.
+    func subdivide() -> Mesh {
+        Mesh(
+            unchecked: polygons.subdivide(),
+            bounds: boundsIfSet,
+            isConvex: isKnownConvex,
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
+        )
     }
 
     /// Returns a Boolean value that indicates if the specified point is inside the mesh.
     /// - Parameter point: The point to compare.
     /// - Returns: `true` if the point lies inside the mesh, and `false` otherwise.
     func containsPoint(_ point: Vector) -> Bool {
+        guard isKnownConvex else {
+            return storage.getBSP { false }.containsPoint(point)
+        }
         if !bounds.containsPoint(point) {
             return false
-        }
-        guard isKnownConvex else {
-            return BSP(self) { false }.containsPoint(point)
         }
         for polygon in polygons {
             switch point.compare(with: polygon.plane) {
@@ -370,6 +361,15 @@ public extension Mesh {
             }
         }
         return true
+    }
+
+    /// Applies a uniform inset to the faces of the mesh.
+    /// - Parameter distance: The distance by which to inset the polygon faces.
+    /// - Returns: A copy of the mesh, inset by the specified distance.
+    ///
+    /// > Note: Passing a negative `distance` will expand the mesh instead of shrinking it.
+    func inset(by distance: Double) -> Mesh {
+        Mesh(polygons.insetFaces(by: distance))
     }
 }
 
@@ -392,10 +392,72 @@ extension Mesh {
 
     var boundsIfSet: Bounds? { storage.boundsIfSet }
     var watertightIfSet: Bool? { storage.watertightIfSet }
+    var bspIfSet: Bool? { storage.watertightIfSet }
     var isKnownConvex: Bool { storage.isConvex }
     /// Note: we don't expose submeshesIfSet because it's unsafe to reuse
     var submeshesIfEmpty: [Mesh]? {
         storage.submeshesIfSet.flatMap { $0.isEmpty ? [] : nil }
+    }
+
+    func getBSP(_ isCancelled: CancellationHandler) -> BSP {
+        storage.getBSP(isCancelled)
+    }
+
+    func getVertexData<
+        Position: XYZRepresentable,
+        Normal: XYZRepresentable,
+        Texcoord: XYZRepresentable
+    >(maxSides: UInt8, counts: inout [UInt8]?) -> (
+        positions: [Position],
+        normals: [Normal],
+        texcoords: [Texcoord],
+        indices: [UInt32],
+        materialIndices: [UInt32]
+    ) {
+        var positions: [Position] = []
+        var normals: [Normal] = []
+        var texcoords: [Texcoord] = []
+        var indices = [UInt32]()
+        var materialIndices = [UInt32]()
+        let hasTexcoords = self.hasTexcoords
+        var indicesByVertex = [Vertex: UInt32]()
+        let polygonsByMaterial = self.polygonsByMaterial
+        let perFaceMaterials = materials.count > 1
+        for (materialIndex, material) in materials.enumerated() {
+            let polygons = polygonsByMaterial[material] ?? []
+            for polygon in polygons {
+                for polygon in polygon.tessellate(maxSides: Int(maxSides)) {
+                    counts?.append(UInt8(polygon.vertices.count))
+                    for vertex in polygon.vertices {
+                        if let index = indicesByVertex[vertex] {
+                            indices.append(index)
+                            continue
+                        }
+                        let index = UInt32(indicesByVertex.count)
+                        indicesByVertex[vertex] = index
+                        indices.append(index)
+                        positions.append(.init(vertex.position))
+                        normals.append(.init(vertex.normal))
+                        if hasTexcoords {
+                            var texcoord = vertex.texcoord
+                            texcoord.y = 1 - texcoord.y
+                            texcoords.append(.init(texcoord))
+                        }
+                        // Note: vertex colors are not supported
+                    }
+                    if perFaceMaterials {
+                        materialIndices.append(UInt32(materialIndex))
+                    }
+                }
+            }
+        }
+        return (
+            positions: positions,
+            normals: normals,
+            texcoords: texcoords,
+            indices: indices,
+            materialIndices: materialIndices
+        )
     }
 }
 
@@ -441,6 +503,18 @@ private extension Mesh {
                 watertightIfSet = polygons.areWatertight
             }
             return watertightIfSet!
+        }
+
+        private(set) var bspIfSet: BSP?
+        func getBSP(_ isCancelled: CancellationHandler) -> BSP {
+            var bsp = bspIfSet
+            if bsp == nil {
+                bsp = BSP(polygons, isConvex: isConvex, isCancelled)
+                if !isCancelled() {
+                    bspIfSet = bsp
+                }
+            }
+            return bsp!
         }
 
         private(set) var submeshesIfSet: [Mesh]?

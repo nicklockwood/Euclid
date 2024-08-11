@@ -371,6 +371,14 @@ public extension Rotation {
         self.init(unchecked: axis / length, angle: angle)
     }
 
+    /// Creates a rotation from an axis and angle.
+    /// - Parameters:
+    ///   - axis: A direction defining the axis of rotation.
+    ///   - end: The angle of rotation around the axis.
+    init(axis: Direction, angle: Angle) {
+        self.init(unchecked: Vector(axis), angle: angle)
+    }
+
     /// Creates a rotation around the X axis.
     /// - Parameter rotation: The angle to rotate by.
     static func pitch(_ rotation: Angle) -> Rotation {
@@ -482,18 +490,5 @@ extension Rotation {
             x.isEqual(to: other.x, withPrecision: p) &&
             y.isEqual(to: other.y, withPrecision: p) &&
             z.isEqual(to: other.z, withPrecision: p)
-    }
-}
-
-@available(*, deprecated)
-extension Rotation {
-    var quaternion: Quaternion {
-        .init(x, y, z, w)
-    }
-
-    /// Creates a rotation from a quaternion.
-    /// - Parameter quaternion: A quaternion defining a rotation.
-    public init(_ quaternion: Quaternion) {
-        self.init(quaternion.x, quaternion.y, quaternion.z, quaternion.w)
     }
 }

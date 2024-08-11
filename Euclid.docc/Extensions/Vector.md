@@ -4,14 +4,12 @@
 
 ### Creating Vectors
 
-- ``Vector/init(_:)-228p6``
-- ``Vector/init(_:)-4eop9``
-- ``Vector/init(_:)-5n3j``
-- ``Vector/init(_:)-63ct7``
-- ``Vector/init(_:)-6nlm``
+- ``Vector/init(x:y:z:)``
 - ``Vector/init(_:_:_:)``
 - ``Vector/init(size:)-8b34m``
 - ``Vector/init(size:)-nkyk``
+- ``Vector/init(_:)-63ct7``
+- ``Vector/init(_:)-602vn``
 
 ### Default Vectors
 

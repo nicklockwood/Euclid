@@ -224,12 +224,6 @@ public extension Polygon {
         return polygon
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "withMaterial(_:)")
-    func with(material: Material?) -> Polygon {
-        withMaterial(material)
-    }
-
     /// Creates a polygon from an array of vertices.
     /// - Parameters:
     ///   - vertices: An array of ``Vertex`` that make up the polygon.
@@ -312,6 +306,18 @@ public extension Polygon {
         return merge(unchecked: other, ensureConvex: ensureConvex)
     }
 
+    /// Return a copy of the polygon with transformed vertex positions
+    func mapVertices(_ transform: (Vertex) -> Vertex) -> Polygon {
+        Polygon(
+            unchecked: vertices.map(transform),
+            plane: nil,
+            isConvex: nil,
+            sanitizeNormals: true,
+            material: material,
+            id: id
+        )
+    }
+
     /// Return a copy of the polygon without texture coordinates
     func withoutTexcoords() -> Polygon {
         mapTexcoords { _ in .zero }
@@ -334,7 +340,7 @@ public extension Polygon {
     /// - Parameter transform: A closure to be applied to each vertex color in the polygon.
     func mapVertexColors(_ transform: (Color) -> Color?) -> Polygon {
         Polygon(
-            unchecked: vertices.mapVertexColors(transform),
+            unchecked: vertices.mapColors(transform),
             plane: plane,
             isConvex: isConvex,
             sanitizeNormals: false,
@@ -354,6 +360,31 @@ public extension Polygon {
             material: material,
             id: id
         )
+    }
+
+    /// Applies a uniform inset to the edges of the polygon.
+    /// - Parameter distance: The distance by which to inset the polygon edges.
+    /// - Returns: A copy of the polygon, inset by the specified distance.
+    ///
+    /// > Note: Passing a negative `distance` will expand the polygon instead of shrinking it.
+    func inset(by distance: Double) -> Polygon? {
+        let count = vertices.count
+        var v1 = vertices[count - 1]
+        var v2 = vertices[0]
+        var p1p2 = v2.position - v1.position
+        var n1: Vector!
+        return Polygon((0 ..< count).map { i in
+            v1 = v2
+            v2 = i < count - 1 ? vertices[i + 1] : vertices[0]
+            let p0p1 = p1p2
+            p1p2 = v2.position - v1.position
+            let faceNormal = plane.normal
+            let n0 = n1 ?? p0p1.cross(faceNormal).normalized()
+            n1 = p1p2.cross(faceNormal).normalized()
+            // TODO: do we need to inset texcoord as well? If so, by how much?
+            let normal = (n0 + n1).normalized()
+            return v1.translated(by: normal * -(distance / n0.dot(normal)))
+        })
     }
 
     /// Splits a polygon into two or more convex polygons using the "ear clipping" method.
@@ -405,6 +436,103 @@ public extension Polygon {
             material: material,
             id: id
         )
+    }
+
+    /// Subdivides triangles and quads, leaving other polygons unchanged.
+    func subdivide() -> [Polygon] {
+        switch vertices.count {
+        case 3:
+            let (a, b, c) = (vertices[0], vertices[1], vertices[2])
+            let ab = a.lerp(b, 0.5)
+            let bc = b.lerp(c, 0.5)
+            let ca = c.lerp(a, 0.5)
+            return [
+                Polygon(
+                    unchecked: [a, ab, ca],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [ab, b, bc],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [bc, c, ca],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [ab, bc, ca],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+            ]
+        case 4 where isConvex:
+            let (a, b, c, d) = (vertices[0], vertices[1], vertices[2], vertices[3])
+            let ab = a.lerp(b, 0.5)
+            let bc = b.lerp(c, 0.5)
+            let cd = c.lerp(d, 0.5)
+            let da = d.lerp(a, 0.5)
+            let abcd = ab.lerp(cd, 0.5)
+            return [
+                Polygon(
+                    unchecked: [a, ab, abcd, da],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [ab, b, bc, abcd],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [bc, c, cd, abcd],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+                Polygon(
+                    unchecked: [cd, d, da, abcd],
+                    normal: plane.normal,
+                    isConvex: true,
+                    sanitizeNormals: false,
+                    material: material
+                ),
+            ]
+        default:
+            return [self]
+        }
+    }
+
+    /// Efficiently XORs multiple polygons.
+    /// - Parameters
+    ///   - paths: A collection of paths to be XORed.
+    /// - Returns: An array of paths representing the XOR of the input paths.
+    static func symmetricDifference<T: Collection>(_ polygons: T) -> [Polygon] where T.Element == Polygon {
+        let polygons = Array(polygons)
+        guard polygons.count == 2 else {
+            return polygons
+        }
+        let lhs = polygons.first!
+        let rhs = polygons.last!
+        var inside = [Polygon](), outside = [Polygon](), id = 0
+        lhs.clip(to: [rhs], &inside, &outside, &id)
+        rhs.clip(to: [lhs], &inside, &outside, &id)
+        return outside
     }
 }
 
@@ -501,6 +629,32 @@ extension Collection where Element == Polygon {
         return polygons
     }
 
+    /// Insert missing vertices and merge result until no further improvement can be made.
+    func makeWatertight() -> [Polygon] {
+        var holeEdges = self.holeEdges
+        return makeWatertight(with: &holeEdges)
+    }
+
+    /// Insert missing vertices and merge result until no further improvement can be made.
+    func makeWatertight(with holeEdges: inout Set<LineSegment>) -> [Polygon] {
+        var polygons = Array(self)
+        var precision = epsilon
+        while !holeEdges.isEmpty {
+            let merged = polygons
+                .insertingEdgeVertices(with: holeEdges)
+                .mergingVertices(withPrecision: precision)
+            let newEdges = merged.holeEdges
+            if newEdges.count >= holeEdges.count {
+                // No improvement
+                break
+            }
+            polygons = merged
+            holeEdges = newEdges
+            precision *= 10
+        }
+        return polygons
+    }
+
     /// Merge vertices with similar positions.
     /// - Parameter precision: The maximum distance between vertices.
     func mergingVertices(withPrecision precision: Double) -> [Polygon] {
@@ -589,9 +743,65 @@ extension Collection where Element == Polygon {
         map { $0.withMaterial(transform($0.material)) }
     }
 
+    /// Return polygons with transformed vertices
+    func mapVertices(_ transform: (Vertex) -> Vertex) -> [Polygon] {
+        map { $0.mapVertices(transform) }
+    }
+
     /// Return polygons with transformed texture coordinates
     func mapTexcoords(_ transform: (Vector) -> Vector) -> [Polygon] {
         map { $0.mapTexcoords(transform) }
+    }
+
+    /// Inset along face normals
+    func insetFaces(by distance: Double) -> [Polygon] {
+        var planesByVertex: [Vector: [Plane]] = [:]
+        for p in self {
+            for v in p.vertices {
+                if !planesByVertex[v.position, default: []].contains(where: {
+                    $0.isEqual(to: p.plane)
+                }) {
+                    planesByVertex[v.position, default: []].append(p.plane)
+                }
+            }
+        }
+        let positionsByVertex: [Vector: Vector] = Dictionary(
+            uniqueKeysWithValues: planesByVertex.map { p, planes in
+                switch planes.count {
+                case 2:
+                    let normal = planes.map { $0.normal }.reduce(.zero) { $0 + $1 }.normalized()
+                    let distance = -(distance / planes[0].normal.dot(normal))
+                    return (p, p + normal * distance)
+                case 3...:
+                    let planes = planes.map { $0.translated(by: $0.normal * -distance) }
+                    if let line = planes[0].intersection(with: planes[1]),
+                       let p2 = line.intersection(with: planes[2])
+                    {
+                        return (p, p2)
+                    } else {
+                        fallthrough
+                    }
+                default:
+                    return (p, p + planes[0].normal * -distance)
+                }
+            }
+        )
+        return map { p0 in
+            Polygon(
+                unchecked: p0.vertices.map { v in
+                    Vertex(
+                        unchecked: positionsByVertex[v.position] ?? v.position,
+                        v.normal,
+                        v.texcoord,
+                        v.color
+                    )
+                },
+                plane: p0.plane.translated(by: p0.plane.normal * -distance),
+                isConvex: nil,
+                sanitizeNormals: false,
+                material: p0.material
+            )
+        }
     }
 
     /// Flip each polygon along its plane
@@ -637,6 +847,11 @@ extension Collection where Element == Polygon {
             i += 1
         }
         return polygons
+    }
+
+    /// Subdivides triangles and quads, leaving other polygons unchanged
+    func subdivide() -> [Polygon] {
+        flatMap { $0.subdivide() }
     }
 
     /// Group polygons by plane
@@ -1052,7 +1267,7 @@ struct CodableMaterial: Codable {
                 self.value = color
             } else if let data = try container.decodeIfPresent(Data.self, forKey: .nscoded) {
                 guard let value = try NSKeyedUnarchiver.unarchivedObject(
-                    ofClasses: Polygon.codableClasses, from: data
+                    ofClasses: NSSet(array: Polygon.codableClasses) as! Set<AnyHashable>, from: data
                 ) as? Polygon.Material else {
                     throw DecodingError.dataCorruptedError(
                         forKey: .nscoded,

@@ -13,15 +13,69 @@ private let triangleSize = 50
 
 // MARK: Export
 
+/// Configuration options for text/ASCII STL export.
+public struct STLTextOptions {
+    /// The name to be embedded in the file.
+    public var name: String
+    /// A whitespace string to use as the indent value.
+    public var indent: String
+    /// Should normal values be zeroed out?
+    public var zeroNormals: Bool
+
+    public init(
+        name: String = "",
+        indent: String = "\t",
+        zeroNormals: Bool = false
+    ) {
+        self.name = name
+        self.indent = indent
+        self.zeroNormals = zeroNormals
+    }
+}
+
+/// Configuration options for binary STL export.
+public struct STLBinaryOptions {
+    /// Data to use for file header.
+    /// Note: data will be padded to 80 bytes. If more than 80 bytes are provided, data will be truncated.
+    public var header: Data
+    /// Should normal values be zeroed out?
+    public var zeroNormals: Bool
+    /// A closure that maps each polygon's material to an STL facet color.
+    public var colorLookup: Mesh.STLColorProvider
+
+    public init(
+        header: Data = .init(),
+        zeroNormals: Bool = false,
+        colorLookup: Mesh.STLColorProvider? = nil
+    ) {
+        self.header = header
+        self.zeroNormals = zeroNormals
+        self.colorLookup = colorLookup ?? defaultColorMapping
+    }
+}
+
+/// Configuration for exported STL file.
+public enum STLFormat {
+    /// Export in ASCII format.
+    case text(STLTextOptions)
+    /// Export in binary format.
+    case binary(STLBinaryOptions)
+}
+
 public extension Mesh {
     /// Return ASCII STL string data for the mesh.
-    func stlString(name: String) -> String {
+    func stlString(name: String = "") -> String {
+        stlString(options: .init(name: name))
+    }
+
+    /// Return ASCII STL string data for the mesh.
+    func stlString(options: STLTextOptions) -> String {
         """
-        solid \(name)
+        solid \(options.name)
         \(triangulate().polygons.map {
-            $0.stlString
+            $0.stlString(options: options)
         }.joined(separator: "\n"))
-        endsolid \(name)
+        endsolid \(options.name)
         """
     }
 
@@ -34,26 +88,43 @@ public extension Mesh {
     /// - Parameter colorLookup: A closure to map Euclid materials to STL facet colors. Use `nil` for default mapping.
     /// - Returns: A Euclid `Color` value.
     func stlData(colorLookup: STLColorProvider? = nil) -> Data {
+        stlData(options: .init(colorLookup: colorLookup))
+    }
+
+    /// Return binary STL data for the mesh.
+    /// - Parameter options: The output ooptions for the STL file
+    /// - Returns: The encoded STL data.
+    func stlData(options: STLBinaryOptions) -> Data {
         let triangles = triangulate().polygons
         let bufferSize = headerSize + 4 + triangles.count * triangleSize
         let buffer = Buffer(capacity: bufferSize)
+        options.header.copyBytes(to: buffer.buffer, count: min(options.header.count, 80))
         buffer.count = headerSize
         buffer.append(UInt32(triangles.count))
-        let colorLookup = colorLookup ?? defaultColorMapping
-        triangles.forEach { buffer.append($0, colorLookup: colorLookup) }
+        triangles.forEach { buffer.append($0, options: options) }
         return Data(buffer)
+    }
+
+    /// Return STL data for the mesh.
+    func stlData(format: STLFormat) -> Data {
+        switch format {
+        case let .binary(options):
+            return stlData(options: options)
+        case let .text(options):
+            return Data(stlString(options: options).utf8)
+        }
     }
 }
 
 private extension Polygon {
-    var stlString: String {
+    func stlString(options: STLTextOptions) -> String {
         """
-        facet normal \(plane.normal.stlString)
-        \touter loop
+        facet normal \((options.zeroNormals ? .zero : plane.normal).stlString)
+        \(options.indent)outer loop
         \(vertices.map {
-            "\t\tvertex \($0.position.stlString)"
+            "\(options.indent)\(options.indent)vertex \($0.position.stlString)"
         }.joined(separator: "\n"))
-        \tendloop
+        \(options.indent)endloop
         endfacet
         """
     }
@@ -86,10 +157,10 @@ private extension Buffer {
         append(0x8000 | red << 10 | green << 5 | blue)
     }
 
-    func append(_ polygon: Polygon, colorLookup: Mesh.STLColorProvider) {
-        append(polygon.plane.normal)
+    func append(_ polygon: Polygon, options: STLBinaryOptions) {
+        append(options.zeroNormals ? .zero : polygon.plane.normal)
         polygon.vertices.forEach { append($0.position) }
-        if let color = colorLookup(polygon.material) {
+        if let color = options.colorLookup(polygon.material) {
             append(color)
         } else {
             count += 2

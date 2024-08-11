@@ -98,13 +98,13 @@ public func tan(_ angle: Angle) -> Double {
 
 public extension Angle {
     /// Angle representing a zero (identity) rotation.
-    static let zero = Angle.radians(0)
+    static let zero: Angle = .radians(0)
     /// Angle representing a quarter rotation.
-    static let halfPi = Angle.radians(.pi / 2)
+    static let halfPi: Angle = .radians(.pi / 2)
     /// Angle representing a half-rotation.
-    static let pi = Angle.radians(.pi)
+    static let pi: Angle = .radians(.pi)
     /// Angle representing a full rotation.
-    static let twoPi = Angle.radians(.pi * 2)
+    static let twoPi: Angle = .radians(.pi * 2)
 
     /// The angle in degrees.
     var degrees: Double {

@@ -140,12 +140,6 @@ public extension Path {
         mapColors { _ in color }
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "withColor(_:)")
-    func with(color: Color?) -> Path {
-        withColor(color)
-    }
-
     /// Closes the path by joining last point to first.
     /// - Returns: A new path, or `self` if the path is already closed, or cannot be closed.
     func closed() -> Path {
@@ -216,18 +210,6 @@ public extension Path {
         )
     }
 
-    @available(*, deprecated, renamed: "init(_:)")
-    init(polygon: Polygon) {
-        let hasTexcoords = polygon.hasTexcoords
-        self.init(
-            unchecked: polygon.vertices.map {
-                .point($0.position, texcoord: hasTexcoords ? $0.texcoord : nil)
-            },
-            plane: polygon.plane,
-            subpathIndices: nil
-        )
-    }
-
     /// Creates a path from a set of line segments.
     /// - Parameter lineSegments: A set of``LineSegment`` to convert to a path.
     init(_ lineSegments: Set<LineSegment>) {
@@ -275,7 +257,7 @@ public extension Path {
     /// path point positions relative to the bounding rectangle of the path.
     func facePolygons(material: Mesh.Material? = nil) -> [Polygon] {
         guard subpaths.count <= 1 else {
-            return subpaths.flatMap { $0.facePolygons(material: material) }
+            return Polygon.symmetricDifference(subpaths.flatMap { $0.facePolygons(material: material) })
         }
         guard let vertices = faceVertices else {
             return []
@@ -444,6 +426,43 @@ public extension Path {
             vertices.removeLast()
         }
         return vertices
+    }
+
+    /// Applies a uniform inset to the edges of the path.
+    /// - Parameter distance: The distance by which to inset the path edges.
+    /// - Returns: A copy of the path, inset by the specified distance.
+    ///
+    /// > Note: Passing a negative `distance` will expand the path instead of shrinking it.
+    func inset(by distance: Double) -> Path {
+        guard subpaths.count <= 1, points.count >= 2 else {
+            return Path(subpaths: subpaths.compactMap { $0.inset(by: distance) })
+        }
+        let count = points.count
+        var p1 = isClosed ? points[count - 2] : (
+            count > 2 ?
+                extrapolate(points[2], points[1], points[0]) :
+                extrapolate(points[1], points[0])
+        )
+        var p2 = points[0]
+        var p1p2 = p2.position - p1.position
+        var n1: Vector!
+        return Path((0 ..< count).map { i in
+            p1 = p2
+            p2 = i < count - 1 ? points[i + 1] :
+                (isClosed ? points[1] : (
+                    count > 2 ?
+                        extrapolate(points[i - 2], points[i - 1], points[i]) :
+                        extrapolate(points[i - 1], points[i])
+                ))
+            let p0p1 = p1p2
+            p1p2 = p2.position - p1.position
+            let faceNormal = plane?.normal ?? p0p1.cross(p1p2).normalized()
+            let n0 = n1 ?? p0p1.cross(faceNormal).normalized()
+            n1 = p1p2.cross(faceNormal).normalized()
+            // TODO: do we need to inset texcoord as well? If so, by how much?
+            let normal = (n0 + n1).normalized()
+            return p1.translated(by: normal * -(distance / n0.dot(normal)))
+        })
     }
 }
 
@@ -648,5 +667,20 @@ extension Path {
             return (self, .zero)
         }
         return (translated(by: -offset), offset)
+    }
+
+    /// Compare path with plane
+    func compare(with plane: Plane) -> PlaneComparison {
+        if let plane = self.plane, plane.isEqual(to: plane) {
+            return .coplanar
+        }
+        var comparison = PlaneComparison.coplanar
+        for point in points {
+            comparison = comparison.union(point.position.compare(with: plane))
+            if comparison == .spanning {
+                break
+            }
+        }
+        return comparison
     }
 }

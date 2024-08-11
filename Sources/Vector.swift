@@ -31,6 +31,37 @@
 
 import Foundation
 
+/// Protocol for types that can be converted to XYZ components.
+public protocol XYZConvertible {
+    /// Get XYZ vector components.
+    var xyzComponents: (x: Double, y: Double, z: Double) { get }
+}
+
+/// Protocol for types that can be represented by XYZ vector components.
+public protocol XYZRepresentable: XYZConvertible {
+    /// Initialize with XYZ components.
+    /// - Parameters:
+    ///   - x: The X component of the vector.
+    ///   - y: The Y component of the vector.
+    ///   - z: The Z component of the vector.
+    init(x: Double, y: Double, z: Double)
+}
+
+public extension XYZRepresentable {
+    /// Initialize with some XYZConvertible value.
+    init<T: XYZConvertible>(_ value: T) {
+        let components = value.xyzComponents
+        self.init(x: components.x, y: components.y, z: components.z)
+    }
+
+    /// Initialize with any XYZConvertible value.
+    @_disfavoredOverload
+    init(_ value: XYZConvertible) {
+        let components = value.xyzComponents
+        self.init(x: components.x, y: components.y, z: components.z)
+    }
+}
+
 /// A distance or position in 3D space.
 ///
 /// > Note: Euclid doesn't have a 2D vector type. When working with primarily 2D shapes, such as
@@ -55,20 +86,34 @@ public struct Vector: Hashable, Sendable, AdditiveArithmetic {
     }
 }
 
+extension Vector: XYZRepresentable {
+    public var xyzComponents: (x: Double, y: Double, z: Double) {
+        (x, y, z)
+    }
+
+    public init(x: Double = 0, y: Double = 0, z: Double = 0) {
+        self.init(x, y, z)
+    }
+}
+
+extension Vector: ExpressibleByArrayLiteral {
+    public init(arrayLiteral elements: Double...) {
+        self.init(elements)
+    }
+}
+
+extension Vector: CustomStringConvertible {
+    public var description: String {
+        "Vector(\(x), \(y)\(z == 0 ? "" : ", \(z)"))"
+    }
+}
+
 extension Vector: Comparable {
     /// Returns whether the leftmost vector has the lower value.
     /// This provides a stable order when sorting collections of vectors.
     public static func < (lhs: Vector, rhs: Vector) -> Bool {
-        if lhs.x < rhs.x {
-            return true
-        } else if lhs.x > rhs.x {
-            return false
-        }
-        if lhs.y < rhs.y {
-            return true
-        } else if lhs.y > rhs.y {
-            return false
-        }
+        guard lhs.x == rhs.x else { return lhs.x < rhs.x }
+        guard lhs.y == rhs.y else { return lhs.y < rhs.y }
         return lhs.z < rhs.z
     }
 }

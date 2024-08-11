@@ -85,11 +85,24 @@ public extension SCNVector3 {
     }
 }
 
-public extension SCNVector4 {
-    /// Creates a 4D SceneKit vector from a color.
-    /// - Parameter c: The color to convert.
-    init(_ c: Color) {
-        self.init(c.r, c.g, c.b, c.a)
+extension SCNVector3: XYZRepresentable {
+    public var xyzComponents: (x: Double, y: Double, z: Double) {
+        (Double(x), Double(y), Double(z))
+    }
+
+    @_disfavoredOverload
+    public init(x: Double, y: Double, z: Double) {
+        self.init(CGFloat(x), CGFloat(y), CGFloat(z))
+    }
+}
+
+extension SCNVector4: RGBARepresentable {
+    public var rgbaComponents: (r: Double, g: Double, b: Double, a: Double) {
+        (Double(x), Double(y), Double(z), Double(w))
+    }
+
+    public init(r: Double, g: Double, b: Double, a: Double) {
+        self.init(CGFloat(r), CGFloat(g), CGFloat(b), CGFloat(a))
     }
 }
 
@@ -101,16 +114,6 @@ public extension SCNQuaternion {
     /// careful to avoid type ambiguity when using this value.
     init(_ rotation: Rotation) {
         self.init(rotation.x, rotation.y, rotation.z, rotation.w)
-    }
-
-    /// Creates a new SceneKit quaternion from a Euclid `Quaternion`
-    /// - Parameter quaternion: The quaternion to convert.
-    ///
-    /// > Note: ``SCNQuaternion`` is actually just a typealias for ``SCNVector4`` so be
-    /// careful to avoid type ambiguity when using this value.
-    @available(*, deprecated)
-    init(_ quaternion: Quaternion) {
-        self.init(quaternion.x, quaternion.y, quaternion.z, quaternion.w)
     }
 }
 
@@ -176,6 +179,15 @@ extension SCNGeometrySource {
 }
 
 public extension SCNGeometry {
+    private typealias SCNVertexData = (
+        positions: [SCNVector3],
+        normals: [SCNVector3],
+        texcoords: [CGPoint]?,
+        colors: [SCNVector4]?,
+        indices: [UInt32],
+        materialIndices: [UInt32]
+    )
+
     /// A closure that maps a Euclid material to a SceneKit material.
     /// - Parameter m: A Euclid material to convert, or `nil` for the default material.
     /// - Returns: An `SCNMaterial` used by SceneKit.
@@ -425,11 +437,6 @@ public extension SCNGeometry {
             ]
         )
     }
-
-    @available(*, deprecated, renamed: "init(_:)")
-    convenience init(bounds: Bounds) {
-        self.init(bounds)
-    }
 }
 
 // MARK: import
@@ -495,25 +502,8 @@ private extension Data {
     }
 }
 
-public extension Vector {
-    /// Creates a new vector from a SceneKit vector.
-    /// - Parameter v: The SceneKit `SCNVector3`.
-    init(_ v: SCNVector3) {
-        self.init(Double(v.x), Double(v.y), Double(v.z))
-    }
-}
-
 public extension Rotation {
     /// Creates a rotation from a SceneKit quaternion.
-    /// - Parameter q: The `SCNQuaternion` to convert.
-    init(_ q: SCNQuaternion) {
-        self.init(Double(q.x), Double(q.y), Double(q.z), Double(q.w))
-    }
-}
-
-@available(*, deprecated)
-public extension Quaternion {
-    /// Creates a Euclid `Quaternion` from a SceneKit quaternion.
     /// - Parameter q: The `SCNQuaternion` to convert.
     init(_ q: SCNQuaternion) {
         self.init(Double(q.x), Double(q.y), Double(q.z), Double(q.w))
@@ -557,9 +547,6 @@ public extension Mesh {
     /// - Parameter m: An `SCNMaterial` material to convert.
     /// - Returns: A ``Material`` instance, or `nil` for the default material.
     typealias SCNMaterialProvider = (_ m: SCNMaterial) -> Material?
-
-    @available(*, deprecated, renamed: "SCNMaterialProvider")
-    typealias MaterialProvider = (_ m: SCNMaterial) -> Material?
 
     /// Loads a mesh from a file using any format supported by SceneKit,  with optional material mapping.
     /// - Parameters:
@@ -783,11 +770,6 @@ public extension Mesh {
     ///     Pass `nil` to use the default Euclid material.
     init?(_ scnGeometry: SCNGeometry, material: Material?) {
         self.init(scnGeometry) { _ in material }
-    }
-
-    @available(*, deprecated, renamed: "init(_:materialLookup:)")
-    init?(scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider? = nil) {
-        self.init(scnGeometry, materialLookup: materialLookup)
     }
 }
 

@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-extension Euclid.Polygon {
+extension Euclid.Polygon: ExpressibleByArrayLiteral {
     /// Convenience constructor for testing
     init(unchecked vertices: [Vertex], plane: Plane? = nil) {
         self.init(
@@ -25,6 +25,10 @@ extension Euclid.Polygon {
     init(unchecked points: [Vector]) {
         let normal = faceNormalForPolygonPoints(points, convex: nil, closed: nil)
         self.init(unchecked: points.map { Vertex($0, normal) })
+    }
+
+    public init(arrayLiteral elements: Vector...) {
+        self.init(unchecked: elements)
     }
 }
 
@@ -927,14 +931,13 @@ class PolygonTests: XCTestCase {
     }
 
     func testPolygonWithCollinearPointsCorrectlyDetessellated() {
-        let normal = -Vector.unitZ
-        let polygon = Polygon(unchecked: [
-            Vertex(Vector(0, 0), normal),
-            Vertex(Vector(0.5, 0), normal),
-            Vertex(Vector(0.5, 1), normal),
-            Vertex(Vector(-0.5, 1), normal),
-            Vertex(Vector(-0.5, 0), normal),
-        ])
+        let polygon: Euclid.Polygon = [
+            [0, 0],
+            [0.5, 0],
+            [0.5, 1],
+            [-0.5, 1],
+            [-0.5, 0],
+        ]
         let triangles = polygon.triangulate()
         XCTAssertEqual(triangles.count, 3)
         let result = triangles.detessellate()
@@ -944,53 +947,33 @@ class PolygonTests: XCTestCase {
     }
 
     func testHouseShapedPolygonCorrectlyDetessellated() {
-        let normal = -Vector.unitZ
-        let polygon = Polygon(unchecked: [
-            Vertex(Vector(0, 0.5), normal),
-            Vertex(Vector(1, 0), normal),
-            Vertex(Vector(0.5, 0), normal),
-            Vertex(Vector(0.5, -1), normal),
-            Vertex(Vector(-0.5, -1), normal),
-            Vertex(Vector(-0.5, 0), normal),
-            Vertex(Vector(-1, 0), normal),
-        ])
+        let polygon: Euclid.Polygon = [
+            [0, 0.5],
+            [1, 0],
+            [0.5, 0],
+            [0.5, -1],
+            [-0.5, -1],
+            [-0.5, 0],
+            [-1, 0],
+        ]
         let triangles = polygon.triangulate()
         XCTAssertEqual(triangles.count, 5)
         let result = triangles.detessellate()
         XCTAssertEqual(result.count, 1)
         XCTAssertEqual(result.first?.undirectedEdges, polygon.undirectedEdges)
+        XCTAssert(result.flatMap { $0.vertices }.allSatisfy { $0.normal == -.unitZ })
         XCTAssertEqual(Set(result.first?.vertices ?? []), Set(polygon.vertices))
     }
 
     func testNonWatertightPolygonsCorrectlyDetessellated() {
-        let normal = -Vector.unitZ
-        let triangles = [
-            Polygon(unchecked: [
-                Vertex(Vector(0, -1), normal),
-                Vertex(Vector(-2, 0), normal),
-                Vertex(Vector(2, 0), normal),
-            ]),
-            Polygon(unchecked: [
-                Vertex(Vector(-2, 0), normal),
-                Vertex(Vector(0, 1), normal),
-                Vertex(Vector(0, 0), normal),
-            ]),
-            Polygon(unchecked: [
-                Vertex(Vector(2, 0), normal),
-                Vertex(Vector(0, 0), normal),
-                Vertex(Vector(0, 1), normal),
-            ]),
+        let triangles: [Euclid.Polygon] = [
+            [[0, -1], [-2, 0], [2, 0]],
+            [[-2, 0], [0, 1], [0, 0]],
+            [[2, 0], [0, 0], [0, 1]],
         ]
         let result = triangles.detessellate()
         XCTAssertEqual(result.count, 1)
-        XCTAssertEqual(result, [
-            Polygon(unchecked: [
-                Vertex(Vector(0, -1), normal),
-                Vertex(Vector(-2, 0), normal),
-                Vertex(Vector(0, 1), normal),
-                Vertex(Vector(2, 0), normal),
-            ]),
-        ])
+        XCTAssertEqual(result, [[[0, -1], [-2, 0], [0, 1], [2, 0]]])
     }
 
     // MARK: area
@@ -1113,5 +1096,45 @@ class PolygonTests: XCTestCase {
             .init(0.40000000596, 0.898350019175, -0.8676164559389999),
         ])
         XCTAssert(polygon.isConvex)
+    }
+
+    // MARK: inset
+
+    func testInsetSquare() {
+        let polygon = Polygon(unchecked: [
+            Vector(-1, 1),
+            Vector(-1, -1),
+            Vector(1, -1),
+            Vector(1, 1),
+        ])
+        let expected = Polygon(unchecked: [
+            Vector(-0.75, 0.75),
+            Vector(-0.75, -0.75),
+            Vector(0.75, -0.75),
+            Vector(0.75, 0.75),
+        ])
+        let result = polygon.inset(by: 0.25)
+        XCTAssertEqual(result, expected)
+    }
+
+    func testInsetLShape() {
+        let polygon = Polygon(unchecked: [
+            Vector(0, 0),
+            Vector(0, 2),
+            Vector(1, 2),
+            Vector(1, 1),
+            Vector(2, 1),
+            Vector(2, 0),
+        ])
+        let expected = Polygon(unchecked: [
+            Vector(0.25, 0.25),
+            Vector(0.25, 1.75),
+            Vector(0.75, 1.75),
+            Vector(0.75, 0.75),
+            Vector(1.75, 0.75),
+            Vector(1.75, 0.25),
+        ])
+        let result = polygon.inset(by: 0.25)
+        XCTAssertEqual(result, expected)
     }
 }

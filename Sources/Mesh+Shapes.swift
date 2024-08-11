@@ -162,7 +162,7 @@ public extension Mesh {
         cube(center: c, size: Vector(s, s, s), faces: faces, wrapMode: wrapMode, material: material)
     }
 
-    /// Creates a sphere by subdividing an icosahedron.
+    /// Creates an icosahedron.
     /// - Parameters:
     ///   - radius: The radius of the icosahedron.
     ///   - faces: The direction the polygon faces.
@@ -259,6 +259,54 @@ public extension Mesh {
                 submeshes: []
             )
         }
+        switch wrapMode {
+        case .default, .shrink:
+            return mesh.sphereMapped()
+        case .tube:
+            return mesh.cylinderMapped()
+        case .none:
+            return mesh
+        }
+    }
+
+    /// Creates a sphere by subdividing an icosahedron.
+    /// - Parameters:
+    ///   - radius: The radius of the icosphere.
+    ///   - subdivisions: The number of times to subdivide (each iteration quadruples the triangle count).
+    ///   - faces: The direction the polygon faces.
+    ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
+    ///   - material: The optional material for the mesh.
+    static func icosphere(
+        radius: Double = 0.5,
+        subdivisions: Int = 2,
+        faces: Faces = .default,
+        wrapMode: WrapMode = .default,
+        material: Material? = nil
+    ) -> Mesh {
+        let icosahedron = self.icosahedron(
+            radius: 1,
+            faces: faces,
+            wrapMode: .none,
+            material: material
+        )
+        var triangles = icosahedron.polygons
+        for _ in 0 ..< subdivisions {
+            triangles = triangles.subdivide()
+        }
+        triangles = triangles.mapVertices {
+            let direction = $0.position.normalized()
+            return $0.withPosition(direction * radius).withNormal(direction)
+        }
+        let mesh = Mesh(
+            unchecked: triangles,
+            bounds: Bounds(
+                min: Vector(-radius, -radius, -radius),
+                max: Vector(radius, radius, radius)
+            ),
+            isConvex: true,
+            isWatertight: true,
+            submeshes: []
+        )
         switch wrapMode {
         case .default, .shrink:
             return mesh.sphereMapped()
@@ -975,7 +1023,7 @@ private extension Mesh {
             let t0 = Double(i) / Double(slices)
             let t1 = Double(i + 1) / Double(slices)
             let a0 = t0 * Angle.twoPi
-            let a1 = t1 * Angle.twoPi
+            let a1 = t1 * Angle.twoPi.radians
             let cos0 = cos(a0)
             let cos1 = cos(a1)
             let sin0 = sin(a0)

@@ -14,92 +14,92 @@ class MeshExportTests: XCTestCase {
 
     func testCubeSTL() {
         let cube = Mesh.cube().translated(by: Vector(0.5, 0.5, 0.5))
-        let stl = cube.stlString(name: "Foo")
+        let stl = cube.stlString(options: .init(name: "Foo", indent: " "))
         XCTAssertEqual(stl, """
         solid Foo
         facet normal 1 0 0
-        \touter loop
-        \t\tvertex 1 0 1
-        \t\tvertex 1 0 0
-        \t\tvertex 1 1 0
-        \tendloop
+         outer loop
+          vertex 1 0 1
+          vertex 1 0 0
+          vertex 1 1 0
+         endloop
         endfacet
         facet normal 1 0 0
-        \touter loop
-        \t\tvertex 1 0 1
-        \t\tvertex 1 1 0
-        \t\tvertex 1 1 1
-        \tendloop
+         outer loop
+          vertex 1 0 1
+          vertex 1 1 0
+          vertex 1 1 1
+         endloop
         endfacet
         facet normal -1 0 0
-        \touter loop
-        \t\tvertex 0 0 0
-        \t\tvertex 0 0 1
-        \t\tvertex 0 1 1
-        \tendloop
+         outer loop
+          vertex 0 0 0
+          vertex 0 0 1
+          vertex 0 1 1
+         endloop
         endfacet
         facet normal -1 0 0
-        \touter loop
-        \t\tvertex 0 0 0
-        \t\tvertex 0 1 1
-        \t\tvertex 0 1 0
-        \tendloop
+         outer loop
+          vertex 0 0 0
+          vertex 0 1 1
+          vertex 0 1 0
+         endloop
         endfacet
         facet normal 0 1 0
-        \touter loop
-        \t\tvertex 0 1 1
-        \t\tvertex 1 1 1
-        \t\tvertex 1 1 0
-        \tendloop
+         outer loop
+          vertex 0 1 1
+          vertex 1 1 1
+          vertex 1 1 0
+         endloop
         endfacet
         facet normal 0 1 0
-        \touter loop
-        \t\tvertex 0 1 1
-        \t\tvertex 1 1 0
-        \t\tvertex 0 1 0
-        \tendloop
+         outer loop
+          vertex 0 1 1
+          vertex 1 1 0
+          vertex 0 1 0
+         endloop
         endfacet
         facet normal 0 -1 0
-        \touter loop
-        \t\tvertex 0 0 0
-        \t\tvertex 1 0 0
-        \t\tvertex 1 0 1
-        \tendloop
+         outer loop
+          vertex 0 0 0
+          vertex 1 0 0
+          vertex 1 0 1
+         endloop
         endfacet
         facet normal 0 -1 0
-        \touter loop
-        \t\tvertex 0 0 0
-        \t\tvertex 1 0 1
-        \t\tvertex 0 0 1
-        \tendloop
+         outer loop
+          vertex 0 0 0
+          vertex 1 0 1
+          vertex 0 0 1
+         endloop
         endfacet
         facet normal 0 0 1
-        \touter loop
-        \t\tvertex 0 0 1
-        \t\tvertex 1 0 1
-        \t\tvertex 1 1 1
-        \tendloop
+         outer loop
+          vertex 0 0 1
+          vertex 1 0 1
+          vertex 1 1 1
+         endloop
         endfacet
         facet normal 0 0 1
-        \touter loop
-        \t\tvertex 0 0 1
-        \t\tvertex 1 1 1
-        \t\tvertex 0 1 1
-        \tendloop
+         outer loop
+          vertex 0 0 1
+          vertex 1 1 1
+          vertex 0 1 1
+         endloop
         endfacet
         facet normal 0 0 -1
-        \touter loop
-        \t\tvertex 1 0 0
-        \t\tvertex 0 0 0
-        \t\tvertex 0 1 0
-        \tendloop
+         outer loop
+          vertex 1 0 0
+          vertex 0 0 0
+          vertex 0 1 0
+         endloop
         endfacet
         facet normal 0 0 -1
-        \touter loop
-        \t\tvertex 1 0 0
-        \t\tvertex 0 1 0
-        \t\tvertex 1 1 0
-        \tendloop
+         outer loop
+          vertex 1 0 0
+          vertex 0 1 0
+          vertex 1 1 0
+         endloop
         endfacet
         endsolid Foo
         """)
@@ -146,6 +146,30 @@ class MeshExportTests: XCTestCase {
         00803f0000803f0000803f0000803f000000000000803f0000803f00fc0000008000000080000080bf0000803f000000000000000000000\
         0000000000000000000000000000000803f0000000000fc0000008000000080000080bf0000803f0000000000000000000000000000803f\
         000000000000803f0000803f0000000000fc
+        """)
+    }
+
+    func testCubeSTLDataWithCustomHeader() {
+        let cube = Mesh.cube().translated(by: Vector(0.5, 0.5, 0.5))
+        let header = "Hello World".data(using: .utf8)!
+        let stlData = cube.stlData(options: .init(header: header))
+        XCTAssertEqual(stlData.count, 80 + 4 + 12 * 50)
+        XCTAssertEqual(stlData.prefix(header.count), header)
+        let hex = stlData.reduce(into: "") { $0 += String(format: "%02x", $1) }
+        XCTAssertEqual(hex, """
+        48656c6c6f20576f726c6400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\
+        00000000000000000000000000000000000000000000000000c0000000000803f00000000000000000000803f000000000000803f000080\
+        3f00000000000000000000803f0000803f0000000000000000803f00000000000000000000803f000000000000803f0000803f0000803f0\
+        00000000000803f0000803f0000803f0000000080bf000000800000008000000000000000000000000000000000000000000000803f0000\
+        00000000803f0000803f0000000080bf0000008000000080000000000000000000000000000000000000803f0000803f000000000000803\
+        f000000000000000000000000803f00000000000000000000803f0000803f0000803f0000803f0000803f0000803f0000803f0000000000\
+        00000000000000803f00000000000000000000803f0000803f0000803f0000803f00000000000000000000803f000000000000000000800\
+        00080bf000000800000000000000000000000000000803f00000000000000000000803f000000000000803f000000000080000080bf0000\
+        00800000000000000000000000000000803f000000000000803f00000000000000000000803f000000000000000000000000803f0000000\
+        0000000000000803f0000803f000000000000803f0000803f0000803f0000803f000000000000000000000000803f000000000000000000\
+        00803f0000803f0000803f0000803f000000000000803f0000803f00000000008000000080000080bf0000803f000000000000000000000\
+        0000000000000000000000000000000803f0000000000000000008000000080000080bf0000803f0000000000000000000000000000803f\
+        000000000000803f0000803f000000000000
         """)
     }
 

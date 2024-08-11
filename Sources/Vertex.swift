@@ -59,11 +59,55 @@ public struct Vertex: Hashable, Sendable {
     ///   - color: The optional vertex color (defaults to white).
     public init(
         _ position: Vector,
-        _ normal: Vector? = nil,
+        _ normal: Vector,
         _ texcoord: Vector? = nil,
         _ color: Color? = nil
     ) {
-        self.init(unchecked: position, normal?.normalized(), texcoord, color)
+        self.init(unchecked: position, normal.normalized(), texcoord, color)
+    }
+
+    /// Creates a new vertex.
+    /// - Parameters:
+    ///   - position: The position of the vertex in 3D space.
+    ///   - normal: The surface normal for the vertex (defaults to nil).
+    ///   - texcoord: The optional texture coordinates for the vertex (defaults to zero).
+    ///   - color: The optional vertex color (defaults to white).
+    public init(
+        _ position: Vector,
+        _ normal: Direction? = nil,
+        _ texcoord: Vector? = nil,
+        _ color: Color? = nil
+    ) {
+        self.init(unchecked: position, normal.map(Vector.init), texcoord, color)
+    }
+}
+
+extension Vertex: Comparable {
+    /// Returns whether the leftmost vertex has the lower value.
+    /// This provides a stable order when sorting collections of vertices.
+    public static func < (lhs: Vertex, rhs: Vertex) -> Bool {
+        guard lhs.position == rhs.position else { return lhs.position < rhs.position }
+        guard lhs.normal == rhs.normal else { return lhs.normal < rhs.normal }
+        guard lhs.texcoord == rhs.texcoord else { return lhs.texcoord < rhs.texcoord }
+        return lhs.color < rhs.color
+    }
+}
+
+extension Vertex: ExpressibleByArrayLiteral {
+    public init(arrayLiteral elements: Double...) {
+        self.init(Vector(elements))
+    }
+}
+
+extension Vertex: CustomStringConvertible {
+    public var description: String {
+        let p = "[\(position.x), \(position.y)\(position.z == 0 ? "" : ", \(position.z)")]"
+        let t = texcoord == .zero ? "" :
+            ", [\(texcoord.x), \(texcoord.y)\(texcoord.z == 0 ? "" : ", \(texcoord.z)")]"
+        let n = texcoord == .zero && normal == .zero ? "" :
+            ", [\(normal.x), \(normal.y), \(normal.z)]"
+        let c = color == .white ? "" : ", \(color)"
+        return "Vertex(\(p)\(n)\(t)\(c))"
     }
 }
 
@@ -88,7 +132,7 @@ extension Vertex: Codable {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             try self.init(
                 container.decode(Vector.self, forKey: .position),
-                container.decodeIfPresent(Vector.self, forKey: .normal),
+                container.decodeIfPresent(Direction.self, forKey: .normal),
                 container.decodeIfPresent(Vector.self, forKey: .texcoord),
                 container.decodeIfPresent(Color.self, forKey: .color)
             )
@@ -254,7 +298,7 @@ extension Collection where Element == Vertex {
         map { $0.withTexcoord(transform($0.texcoord)) }
     }
 
-    func mapVertexColors(_ transform: (Color) -> Color?) -> [Vertex] {
+    func mapColors(_ transform: (Color) -> Color?) -> [Vertex] {
         map { $0.withColor(transform($0.color)) }
     }
 
