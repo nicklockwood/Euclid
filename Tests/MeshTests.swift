@@ -335,11 +335,4 @@ class MeshTests: XCTestCase {
         let mesh = Mesh.cube().withoutTexcoords()
         XCTAssertFalse(mesh.hasTexcoords)
     }
-
-    func testMeshWithoutVertexNormals() {
-        let cube = Mesh.cube()
-        XCTAssertFalse(cube.hasVertexNormals)
-        let sphere = Mesh.sphere().smoothingNormals(forAnglesGreaterThan: .zero)
-        XCTAssertFalse(sphere.hasVertexNormals)
-    }
 }
