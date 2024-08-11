@@ -111,15 +111,15 @@ class SceneKitTests: XCTestCase {
     func testExportCube() {
         let cube = Mesh.cube()
         let geometry = SCNGeometry(polygons: cube)
-        XCTAssertEqual(geometry.sources.count, 2)
-        XCTAssertEqual(geometry.sources.first?.vectorCount, 20)
+        XCTAssertEqual(geometry.sources.count, 3)
+        XCTAssertEqual(geometry.sources.first?.vectorCount, 24)
     }
 
     func testExportCubeWithoutTexcoords() {
         let cube = Mesh.cube().withoutTexcoords()
         let geometry = SCNGeometry(polygons: cube)
-        XCTAssertEqual(geometry.sources.count, 1)
-        XCTAssertEqual(geometry.sources.first?.vectorCount, 8)
+        XCTAssertEqual(geometry.sources.count, 2)
+        XCTAssertEqual(geometry.sources.first?.vectorCount, 24)
     }
 
     func testExportSphere() {
@@ -134,13 +134,6 @@ class SceneKitTests: XCTestCase {
         let geometry = SCNGeometry(polygons: sphere)
         XCTAssertEqual(geometry.sources.count, 2)
         XCTAssertEqual(geometry.sources.first?.vectorCount, 151)
-    }
-
-    func testExportSphereWithoutTexcoordsOrNormals() {
-        let sphere = Mesh.sphere().withoutTexcoords().smoothingNormals(forAnglesGreaterThan: .zero)
-        let geometry = SCNGeometry(polygons: sphere)
-        XCTAssertEqual(geometry.sources.count, 1)
-        XCTAssertEqual(geometry.sources.first?.vectorCount, 114)
     }
 
     func testExportMeshWithColors() throws {
