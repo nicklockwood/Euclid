@@ -261,4 +261,26 @@ class PathShapeTests: XCTestCase {
         let path = Path.roundedRectangle(width: 1, height: 1, radius: 0)
         XCTAssertEqual(path, .rectangle(width: 1, height: 1))
     }
+
+    // MARK: extrusionContours
+
+    func testExtrusionAlongZAxis() {
+        let contours = Path.circle().extrusionContours(along: .line(.zero, .unitZ))
+        XCTAssertEqual(contours, [.circle(), Path.circle().translated(by: .unitZ)])
+    }
+
+    func testExtrusionAlongEmptyPath() {
+        let contours = Path.circle().extrusionContours(along: .empty)
+        XCTAssertEqual(contours, [])
+    }
+
+    func testExtrusionAlongSinglePointPath() {
+        let contours = Path.circle().extrusionContours(along: .init([.point(.zero)]))
+        XCTAssertEqual(contours, [.circle()])
+    }
+
+    func testExtrusionAlongZeroLengthPath() {
+        let contours = Path.circle().extrusionContours(along: .line(.zero, .zero))
+        XCTAssertEqual(contours, [.circle()])
+    }
 }

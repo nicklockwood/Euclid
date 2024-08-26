@@ -172,7 +172,7 @@ class UtilityTests: XCTestCase {
         XCTAssertEqual(result, points)
     }
 
-    func testSantizeDuplicateCurvedPoint() {
+    func testSanitizeDuplicateCurvedPoint() {
         let points: [PathPoint] = [
             .curve(0, 0.5),
             .curve(-0.5, 0.5),
@@ -185,7 +185,7 @@ class UtilityTests: XCTestCase {
         XCTAssertEqual(result, expected)
     }
 
-    func testSantizeDuplicatePoint() {
+    func testSanitizeDuplicatePoint() {
         let points: [PathPoint] = [
             .point(0, 0.5),
             .point(-0.5, 0.5),
@@ -198,7 +198,7 @@ class UtilityTests: XCTestCase {
         XCTAssertEqual(result, expected)
     }
 
-    func testSantizeSharpCurvedDuplicatePoint() {
+    func testSanitizeSharpCurvedDuplicatePoint() {
         let points: [PathPoint] = [
             .point(0, 0.5),
             .point(-0.5, 0.5),
@@ -211,7 +211,7 @@ class UtilityTests: XCTestCase {
         XCTAssertEqual(result, expected)
     }
 
-    func testSantizeCurvedSharpDuplicatePoint() {
+    func testSanitizeCurvedSharpDuplicatePoint() {
         let points: [PathPoint] = [
             .point(0, 0.5),
             .curve(-0.5, 0.5),
@@ -219,6 +219,17 @@ class UtilityTests: XCTestCase {
             .point(-0.5, -0.5),
         ]
         let expected = Array(points[...0] + points[2...])
+        let result = sanitizePoints(points)
+        XCTAssertEqual(result.count, expected.count)
+        XCTAssertEqual(result, expected)
+    }
+
+    func testSanitizeZeroLengthPath() {
+        let points: [PathPoint] = [
+            .point(0, 1),
+            .point(0, 1),
+        ]
+        let expected = [PathPoint.point(0, 1)]
         let result = sanitizePoints(points)
         XCTAssertEqual(result.count, expected.count)
         XCTAssertEqual(result, expected)

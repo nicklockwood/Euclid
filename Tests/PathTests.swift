@@ -12,6 +12,25 @@ import XCTest
 class PathTests: XCTestCase {
     // MARK: isSimple
 
+    func testSinglePoint() {
+        let path = Path([
+            .point(0, 0),
+        ])
+        XCTAssertTrue(path.isSimple)
+        XCTAssertTrue(path.isClosed)
+        XCTAssertEqual(path.points.count, 1)
+    }
+
+    func testCoincidentPoints() {
+        let path = Path([
+            .point(0, 0),
+            .point(0, 0),
+        ])
+        XCTAssertTrue(path.isSimple)
+        XCTAssertTrue(path.isClosed)
+        XCTAssertEqual(path.points.count, 1)
+    }
+
     func testSimpleLine() {
         let path = Path([
             .point(0, 1),
