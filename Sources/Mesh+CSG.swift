@@ -511,6 +511,11 @@ public extension Mesh {
         }
         return edges
     }
+
+    /// Reflects each polygon of the mesh along a plane.
+    /// - Parameter plane: The ``Plane`` against which the vertices are to be reflected.
+    /// - Returns: A ``Mesh`` representing the reflected mesh.
+    func reflect(along plane: Plane) -> Self { Self(polygons.map { $0.reflect(along: plane) }) }
 }
 
 private func boundsTest(
