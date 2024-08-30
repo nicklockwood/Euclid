@@ -361,23 +361,22 @@ class MeshTests: XCTestCase {
     // MARK: Reflection
 
     func testQuadReflectionAlongPlane() {
-        
         let quad = Polygon(unchecked: [
             Vertex(Vector(-0.5, 1.0, 0.5), .unitY, Vector(0.0, 1.0), .black),
             Vertex(Vector(0.5, 1.0, 0.5), .unitY, Vector(1.0, 1.0), .black),
             Vertex(Vector(0.5, 1.0, -0.5), .unitY, Vector(1.0, 0.0), .white),
             Vertex(Vector(-0.5, 1.0, -0.5), .unitY, Vector(0.0, 0.0), .white),
         ])
-        
+
         let expected = Polygon(unchecked: [
             Vertex(Vector(-0.5, -1.0, -0.5), -.unitY, Vector(0.0, 0.0), .white),
             Vertex(Vector(0.5, -1.0, -0.5), -.unitY, Vector(1.0, 0.0), .white),
             Vertex(Vector(0.5, -1.0, 0.5), -.unitY, Vector(1.0, 1.0), .black),
             Vertex(Vector(-0.5, -1.0, 0.5), -.unitY, Vector(0.0, 1.0), .black),
         ])
-        
+
         let reflection = quad.reflect(along: .xz)
-        
+
         XCTAssertEqual(reflection.plane.normal, -.unitY)
         XCTAssertEqual(reflection.vertices, expected.vertices)
     }

@@ -87,21 +87,7 @@ public extension Polygon {
     /// - Parameter plane: The ``Plane`` against which the vertices are to be reflected.
     /// - Returns: A ``Polygon`` representing the reflected vertices.
     func reflect(along plane: Plane) -> Self {
-        mapVertices {
-            let p = $0.position.project(onto: plane)
-            let d = $0.position - p
-            
-            //https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
-            //𝑟=𝑑−2(𝑑⋅𝑛)𝑛
-            let n = plane.normal - 2.0 * plane.normal.dot($0.normal) * $0.normal
-
-            return Vertex(
-                p - d,
-                n,
-                $0.texcoord,
-                $0.color
-            )
-        }.inverted()
+        mapVertices { $0.reflect(along: plane) }.inverted()
     }
 }
 
