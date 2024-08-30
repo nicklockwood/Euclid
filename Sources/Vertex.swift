@@ -170,6 +170,28 @@ public extension Vertex {
         vertex.color = color ?? .white
         return vertex
     }
+
+    /// Reflects the vertex along a plane.
+    /// - Parameter plane: The ``Plane`` against which the vertices are to be reflected.
+    /// - Returns: A ``Vertex`` representing the reflected vertex.
+    func reflect(along plane: Plane) -> Vertex {
+        let p = position.project(onto: plane)
+        let d = position - p
+        let reflectedPosition = p - d
+
+        let np = position + normal
+        let n = np.project(onto: plane)
+        let nd = np - n
+        let reflectedNormalPosition = n - nd
+        let reflectedNormal = reflectedPosition - reflectedNormalPosition
+
+        return Vertex(
+            reflectedPosition,
+            reflectedNormal,
+            texcoord,
+            color
+        )
+    }
 }
 
 extension Vertex {

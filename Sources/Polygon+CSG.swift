@@ -44,6 +44,20 @@ public extension Polygon {
         intersect(with: plane, edges: &edges)
         return edges
     }
+
+    /// Reflects each vertex of the polygon along a plane.
+    /// - Parameter plane: The ``Plane`` against which the vertices are to be reflected.
+    /// - Returns: A ``Polygon`` representing the reflected vertices.
+    func reflect(along plane: Plane) -> Polygon {
+        Polygon(
+            unchecked: vertices.inverted().map { $0.reflect(along: plane) },
+            plane: nil,
+            isConvex: nil,
+            sanitizeNormals: true,
+            material: material,
+            id: id
+        )
+    }
 }
 
 extension Polygon {
