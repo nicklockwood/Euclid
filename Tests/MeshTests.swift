@@ -353,7 +353,7 @@ class MeshTests: XCTestCase {
             Vertex(Vector(-0.5, -1.0, 0.5), -.unitY, Vector(0.0, 1.0), .black),
         ])
 
-        let reflection = quad.reflect(along: .xz)
+        let reflection = quad.reflected(along: .xz)
 
         XCTAssertEqual(reflection.plane.normal, -.unitY)
         XCTAssertEqual(reflection.vertices, expected.vertices)

@@ -488,8 +488,8 @@ public extension Mesh {
     /// Reflects each polygon of the mesh along a plane.
     /// - Parameter plane: The ``Plane`` against which the vertices are to be reflected.
     /// - Returns: A ``Mesh`` representing the reflected mesh.
-    func reflect(along plane: Plane) -> Mesh {
-        Mesh(polygons.map { $0.reflect(along: plane) })
+    func reflected(along plane: Plane) -> Mesh {
+        Mesh(polygons.map { $0.reflected(along: plane) })
     }
 }
 

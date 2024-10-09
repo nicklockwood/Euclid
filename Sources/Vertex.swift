@@ -174,7 +174,7 @@ public extension Vertex {
     /// Reflects the vertex along a plane.
     /// - Parameter plane: The ``Plane`` against which the vertices are to be reflected.
     /// - Returns: A ``Vertex`` representing the reflected vertex.
-    func reflect(along plane: Plane) -> Vertex {
+    func reflected(along plane: Plane) -> Vertex {
         let p = position.project(onto: plane)
         let d = position - p
         let reflectedPosition = p - d
