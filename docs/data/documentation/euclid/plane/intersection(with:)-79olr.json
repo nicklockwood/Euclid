@@ -210,6 +210,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Comparing-Planes",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/containsPoint(_:)",

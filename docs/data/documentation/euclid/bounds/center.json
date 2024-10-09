@@ -115,6 +115,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Bounds-Properties",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/min",

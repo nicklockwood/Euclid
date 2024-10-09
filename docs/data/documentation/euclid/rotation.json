@@ -101,6 +101,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -122,6 +123,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Rotations-and-Transforms",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
@@ -133,6 +135,7 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Creating-Rotations",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(_:)-5w6mn",
@@ -146,12 +149,14 @@
       "title" : "Creating Rotations"
     },
     {
+      "anchor" : "Default-Quaternions",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/identity"
       ],
       "title" : "Default Quaternions"
     },
     {
+      "anchor" : "Creating-Rotations-Around-an-Axis",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/pitch(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/roll(_:)",
@@ -160,6 +165,7 @@
       "title" : "Creating Rotations Around an Axis"
     },
     {
+      "anchor" : "Rotation-Properties",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/pitch",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/roll",
@@ -174,35 +180,35 @@
       "title" : "Rotation Properties"
     },
     {
+      "anchor" : "Interpolating-Rotations",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/slerp(_:_:)"
       ],
       "title" : "Interpolating Rotations"
     },
     {
+      "anchor" : "Operators",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/-(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/*(_:_:)-55zcf",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/*(_:_:)-5fe82",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/*=(_:_:)-68kkw",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/*=(_:_:)-7u9hf"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/*=(_:_:)-7u9hf",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/_(_:_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/_=(_:_:)"
       ],
       "title" : "Operators"
     },
     {
-      "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/\/(_:_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/\/=(_:_:)"
-      ],
-      "title" : "Operators"
-    },
-    {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(_:)-8izj"
       ],
       "title" : "Initializers"
     },
     {
+      "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Decodable-Implementations",
@@ -696,7 +702,51 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation\/-(_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation//(_:_:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Decodable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Decodable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Decodable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/decodable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Encodable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Encodable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Encodable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/encodable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Equatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Equatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Equatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/equatable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Hashable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Hashable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Hashable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/hashable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/_(_:_:)": {
   "abstract" : [
     {
       "text" : "Returns a rotation divided by the specified value.",
@@ -756,14 +806,14 @@
       "text" : "Rotation"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/\/(_:_:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/_(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "\/(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/rotation\/\/(_:_:)"
+  "url" : "\/documentation\/euclid\/rotation\/_(_:_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation//=(_:_:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/_=(_:_:)": {
   "abstract" : [
     {
       "text" : "Divides the rotation angle by the specified value.",
@@ -826,56 +876,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/\/=(_:_:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/_=(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "\/=(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/rotation\/\/=(_:_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Decodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Decodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Decodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/rotation\/decodable-implementations"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Encodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Encodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Encodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/rotation\/encodable-implementations"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Equatable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Equatable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Equatable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/rotation\/equatable-implementations"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Hashable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Hashable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Hashable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/rotation\/hashable-implementations"
+  "url" : "\/documentation\/euclid\/rotation\/_=(_:_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/angle": {
   "abstract" : [
@@ -1961,6 +1967,11 @@
   "title" : "Transform",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform"
+},
+"doc://com.charcoaldesign.Euclid/s8CopyableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+  "title" : "Swift.Copyable",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",

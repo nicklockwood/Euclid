@@ -130,25 +130,6 @@
       "kind" : "declarations"
     },
     {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The quaternion with which to compute the dot product.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "a"
-        }
-      ]
-    },
-    {
       "content" : [
         {
           "anchor" : "return-value",
@@ -179,6 +160,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Computing-Quaternions",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Quaternion\/normalized()"

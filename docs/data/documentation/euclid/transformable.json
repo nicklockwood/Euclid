@@ -107,6 +107,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Operators",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/*(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/*=(_:_:)"
@@ -114,6 +116,8 @@
       "title" : "Operators"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotate(by:)-1l9u5",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotate(by:)-5a3iz",

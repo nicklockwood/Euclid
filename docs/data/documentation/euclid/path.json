@@ -266,6 +266,7 @@
     {
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounded",
+        "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -288,6 +289,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Lines-and-Paths",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
@@ -299,12 +301,14 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Default-Paths",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/empty"
       ],
       "title" : "Default Paths"
     },
     {
+      "anchor" : "Creating-Paths",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-3c0eo",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-4jhkw",
@@ -318,6 +322,7 @@
       "title" : "Creating Paths"
     },
     {
+      "anchor" : "Creating-Shape-Paths",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/circle(radius:segments:color:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/ellipse(width:height:segments:color:)",
@@ -329,6 +334,7 @@
       "title" : "Creating Shape Paths"
     },
     {
+      "anchor" : "Creating-Text-Paths",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)"
@@ -336,6 +342,7 @@
       "title" : "Creating Text Paths"
     },
     {
+      "anchor" : "Path-Properties",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/points",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/plane",
@@ -347,6 +354,7 @@
       "title" : "Path Properties"
     },
     {
+      "anchor" : "Transforming-Paths",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/rotated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/scaled(by:)-19jpq",
@@ -359,6 +367,8 @@
       "title" : "Transforming Paths"
     },
     {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-5bu0o",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(cgPath:detail:color:)",
@@ -367,6 +377,8 @@
       "title" : "Initializers"
     },
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/edgeVertices",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/faceNormal",
@@ -377,22 +389,28 @@
       "title" : "Instance Properties"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/edgeVertices(for:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/extrusionContours(along:twist:align:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/mapColors(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/with(color:)"
       ],
       "title" : "Instance Methods"
     },
     {
+      "anchor" : "Enumerations",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/Alignment"
       ],
       "title" : "Enumerations"
     },
     {
+      "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/Bounded-Implementations",
@@ -1869,6 +1887,60 @@
   "title" : "init(subpaths:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/init(subpaths:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/inset(by:)": {
+  "abstract" : [
+    {
+      "text" : "Applies a uniform inset to the edges of the path.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "inset"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "by"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "inset(by:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/inset(by:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/isClosed": {
   "abstract" : [
@@ -3421,6 +3493,11 @@
   "title" : "Transformable",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transformable"
+},
+"doc://com.charcoaldesign.Euclid/s8CopyableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+  "title" : "Swift.Copyable",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",

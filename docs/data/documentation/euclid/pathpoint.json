@@ -157,6 +157,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -179,6 +180,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Lines-and-Paths",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
@@ -190,6 +192,7 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Creating-Path-Points",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/init(_:texcoord:color:isCurved:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/init(_:)",
@@ -201,6 +204,7 @@
       "title" : "Creating Path Points"
     },
     {
+      "anchor" : "Path-Point-Properties",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/position",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/color",
@@ -210,12 +214,14 @@
       "title" : "Path Point Properties"
     },
     {
+      "anchor" : "Interpolating-Path-Points",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/lerp(_:_:)"
       ],
       "title" : "Interpolating Path Points"
     },
     {
+      "anchor" : "Transforming-Path-Points",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/rotated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/scaled(by:)-4wtbg",
@@ -228,12 +234,15 @@
       "title" : "Transforming Path Points"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/with(color:)"
       ],
       "title" : "Instance Methods"
     },
     {
+      "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Decodable-Implementations",
@@ -1638,6 +1647,11 @@
   "title" : "Transformable",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transformable"
+},
+"doc://com.charcoaldesign.Euclid/s8CopyableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+  "title" : "Swift.Copyable",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",

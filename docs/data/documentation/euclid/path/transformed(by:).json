@@ -170,6 +170,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Transforming-Paths",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/rotated(by:)",

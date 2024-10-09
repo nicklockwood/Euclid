@@ -123,6 +123,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Transforming-Polygons",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/rotated(by:)",

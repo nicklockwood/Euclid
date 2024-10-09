@@ -192,6 +192,7 @@
             },
             {
               "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:ST7ElementQa",
               "text" : "Element"
             },
             {
@@ -286,6 +287,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Merging-Meshes",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/merge(_:)-swift.method"

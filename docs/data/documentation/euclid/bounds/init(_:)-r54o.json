@@ -145,6 +145,7 @@
             },
             {
               "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:ST7ElementQa",
               "text" : "Element"
             },
             {

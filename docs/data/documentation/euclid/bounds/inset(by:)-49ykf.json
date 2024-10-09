@@ -185,6 +185,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Combining-and-Modifying-Bounds",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/inset(by:)-4gk62",

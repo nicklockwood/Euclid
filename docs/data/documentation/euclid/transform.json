@@ -109,6 +109,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -130,6 +131,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Rotations-and-Transforms",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation",
@@ -141,6 +143,7 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Creating-Transforms",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(offset:rotation:scale:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/offset(_:)",
@@ -152,12 +155,14 @@
       "title" : "Creating Transforms"
     },
     {
+      "anchor" : "Default-Transforms",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/identity"
       ],
       "title" : "Default Transforms"
     },
     {
+      "anchor" : "Transform-properties",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotation",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scale",
@@ -168,6 +173,7 @@
       "title" : "Transform properties"
     },
     {
+      "anchor" : "Combining-Transforms",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scaled(by:)-19ukh",
@@ -178,6 +184,7 @@
       "title" : "Combining Transforms"
     },
     {
+      "anchor" : "Operators",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/*(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/*=(_:_:)"
@@ -185,6 +192,8 @@
       "title" : "Operators"
     },
     {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-7hvb3",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-83oy3",
@@ -193,6 +202,7 @@
       "title" : "Initializers"
     },
     {
+      "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/Decodable-Implementations",
@@ -1581,6 +1591,11 @@
   "title" : "Transformable",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transformable"
+},
+"doc://com.charcoaldesign.Euclid/s8CopyableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+  "title" : "Swift.Copyable",
+  "type" : "unresolvable"
 }
 }
 }

@@ -148,6 +148,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Transforming-Vectors",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/rotated(by:)",

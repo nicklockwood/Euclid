@@ -119,6 +119,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Default-Planes",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/xy",

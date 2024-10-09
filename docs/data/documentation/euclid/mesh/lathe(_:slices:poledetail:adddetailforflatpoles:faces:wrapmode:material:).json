@@ -559,6 +559,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Meshes-from-Paths",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:)-4hvi3",

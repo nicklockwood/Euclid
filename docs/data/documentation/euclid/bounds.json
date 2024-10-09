@@ -101,6 +101,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -123,6 +124,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Fundamental-Types",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
@@ -135,6 +137,7 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Creating-Bounds",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-1icmf",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-27jri",
@@ -144,12 +147,14 @@
       "title" : "Creating Bounds"
     },
     {
+      "anchor" : "Default-Bounds",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/empty"
       ],
       "title" : "Default Bounds"
     },
     {
+      "anchor" : "Bounds-Properties",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/min",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/max",
@@ -161,6 +166,7 @@
       "title" : "Bounds Properties"
     },
     {
+      "anchor" : "Comparing-Bounds",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/containsPoint(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/intersects(_:)-7br6p",
@@ -169,6 +175,7 @@
       "title" : "Comparing Bounds"
     },
     {
+      "anchor" : "Combining-and-Modifying-Bounds",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/inset(by:)-49ykf",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/inset(by:)-4gk62",
@@ -180,6 +187,7 @@
       "title" : "Combining and Modifying Bounds"
     },
     {
+      "anchor" : "Transforming-Bounds",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/rotated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/scaled(by:)-5dvvh",
@@ -190,6 +198,8 @@
       "title" : "Transforming Bounds"
     },
     {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-5bh7b",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-r54o",
@@ -200,6 +210,7 @@
       "title" : "Initializers"
     },
     {
+      "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/Decodable-Implementations",
@@ -1993,6 +2004,11 @@
   "title" : "Vertex",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex"
+},
+"doc://com.charcoaldesign.Euclid/s8CopyableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+  "title" : "Swift.Copyable",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",

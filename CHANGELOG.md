@@ -1,5 +1,15 @@
 # Change Log
 
+## [0.7.9](https://github.com/nicklockwood/Euclid/releases/tag/0.7.9) (2024-10-09)
+
+- Fixed extrusion along zero length path
+- Vertex normals are no longer automatically stripped for flat-shaded meshes
+- Added `Mesh.reflected(along:)`, `Polygon.reflected(along:)` and `Vertex.reflected(along:)`
+- Added `Mesh.inset(by:)`, `Polygon.inset(by:)` and `Path.inset(by:)` methods
+- Added `Mesh.icosphere()` primitive
+- Added `Mesh.subdivide()` and `Polygon.subdivide()` methods
+- Added `Polygon.mapVertices()` method
+
 ## [0.7.8](https://github.com/nicklockwood/Euclid/releases/tag/0.7.8) (2024-07-23)
 
 - Fixed some bugs with `Path` subpaths

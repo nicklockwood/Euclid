@@ -99,6 +99,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -121,6 +122,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Fundamental-Types",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
@@ -133,6 +135,7 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Creating-Vertices",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/init(_:_:_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/init(_:)-5517j",
@@ -141,6 +144,7 @@
       "title" : "Creating Vertices"
     },
     {
+      "anchor" : "Vertex-Properties",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/position",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/normal",
@@ -150,6 +154,7 @@
       "title" : "Vertex Properties"
     },
     {
+      "anchor" : "Transforming-Vertices",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/inverted()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/rotated(by:)",
@@ -161,12 +166,14 @@
       "title" : "Transforming Vertices"
     },
     {
+      "anchor" : "Interpolating-Vertices",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/lerp(_:_:)"
       ],
       "title" : "Interpolating Vertices"
     },
     {
+      "anchor" : "Encoding-and-Decoding-Vertices",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/encode(to:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/init(from:)"
@@ -174,7 +181,10 @@
       "title" : "Encoding and Decoding Vertices"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/reflected(along:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/withColor(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/withNormal(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/withPosition(_:)",
@@ -183,6 +193,7 @@
       "title" : "Instance Methods"
     },
     {
+      "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Decodable-Implementations",
@@ -1018,6 +1029,60 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex\/position"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/reflected(along:)": {
+  "abstract" : [
+    {
+      "text" : "Reflects the vertex along a plane.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "reflected"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "along"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5PlaneV",
+      "text" : "Plane"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VertexV",
+      "text" : "Vertex"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/reflected(along:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "reflected(along:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/reflected(along:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/rotated(by:)": {
   "abstract" : [
     {
@@ -1507,6 +1572,11 @@
   "title" : "withTexcoord(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex\/withtexcoord(_:)"
+},
+"doc://com.charcoaldesign.Euclid/s8CopyableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+  "title" : "Swift.Copyable",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",

@@ -130,6 +130,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Vertex-Properties",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/position",

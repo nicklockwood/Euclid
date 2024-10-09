@@ -176,6 +176,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Computing-Vectors",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/cross(_:)"

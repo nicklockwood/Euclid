@@ -138,6 +138,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Mesh-Properties",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/polygons",

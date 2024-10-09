@@ -180,6 +180,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Operators",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/*=(_:_:)"

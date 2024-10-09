@@ -192,6 +192,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Comparing-Lines",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-4o41",

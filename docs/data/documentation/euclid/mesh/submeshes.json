@@ -119,6 +119,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Splitting-Meshes",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/clip(to:fill:)",

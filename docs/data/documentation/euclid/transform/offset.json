@@ -102,6 +102,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Transform-properties",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotation",

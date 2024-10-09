@@ -115,7 +115,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "the CoreGraphics point.",
+                  "text" : "The CoreGraphics point.",
                   "type" : "text"
                 }
               ],
@@ -137,6 +137,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Vectors",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-228p6",

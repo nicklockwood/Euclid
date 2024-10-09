@@ -326,6 +326,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Shape-Paths",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/ellipse(width:height:segments:color:)",

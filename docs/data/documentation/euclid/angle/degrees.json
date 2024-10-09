@@ -122,6 +122,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Angle-Properties",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/radians",

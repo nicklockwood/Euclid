@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns the nearest point on the specified plane to the vector (representing a position in space).",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
@@ -65,6 +65,9 @@
       {
         "name" : "Euclid"
       }
+    ],
+    "platforms" : [
+
     ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
@@ -134,45 +137,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The plane to project onto.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "plane"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "The nearest point in 3D space that lies on the plane.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -185,6 +149,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Comparing-Vectors",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/angle(with:)-29paf",
@@ -511,10 +476,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/project(onto:)-817o2": {
   "abstract" : [
     {
-      "text" : "Returns the nearest point on the specified plane to the vector (representing a position in space).",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -565,10 +531,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/project(onto:)-rksk": {
   "abstract" : [
     {
-      "text" : "Returns the nearest point on the specified line to the vector (representing a position in space).",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

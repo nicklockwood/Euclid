@@ -174,6 +174,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Supporting-Functions",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/sin(_:)",

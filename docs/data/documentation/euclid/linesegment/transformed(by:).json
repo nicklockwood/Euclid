@@ -136,25 +136,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "A transform to apply to the value.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "t"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -167,6 +148,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Transforming-Line-Segments",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/rotated(by:)",

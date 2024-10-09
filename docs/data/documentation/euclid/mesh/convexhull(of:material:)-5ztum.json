@@ -235,6 +235,7 @@
             },
             {
               "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:ST7ElementQa",
               "text" : "Element"
             },
             {
@@ -339,6 +340,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Meshes-from-Vertices-Points-or-LineSegments",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:)-6176",

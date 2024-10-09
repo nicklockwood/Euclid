@@ -101,6 +101,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Geometric-Primitives",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cone(radius:height:slices:stacks:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)",
@@ -116,6 +117,8 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Enumeration-Cases",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode\/default",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode\/none",
@@ -125,6 +128,7 @@
       "title" : "Enumeration Cases"
     },
     {
+      "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode\/Equatable-Implementations"
@@ -1020,7 +1024,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/icosahedron(radius:faces:wrapMode:material:)": {
   "abstract" : [
     {
-      "text" : "Creates a sphere by subdividing an icosahedron.",
+      "text" : "Creates an icosahedron.",
       "type" : "text"
     }
   ],

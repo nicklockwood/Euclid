@@ -118,6 +118,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Quaternion-Properties",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Quaternion\/pitch",

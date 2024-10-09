@@ -306,34 +306,6 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The center point of the mesh.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "center"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The size of the mesh.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "size"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
                   "text" : "The direction of the generated polygon faces.",
                   "type" : "text"
                 }
@@ -384,6 +356,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Geometric-Primitives",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cone(radius:height:slices:stacks:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)",
@@ -1203,7 +1176,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/icosahedron(radius:faces:wrapMode:material:)": {
   "abstract" : [
     {
-      "text" : "Creates a sphere by subdividing an icosahedron.",
+      "text" : "Creates an icosahedron.",
       "type" : "text"
     }
   ],

@@ -258,6 +258,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Importing-Meshes",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlString:)",

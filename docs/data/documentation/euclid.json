@@ -116,6 +116,7 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Using-Euclid",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RenderingMeshes"
@@ -123,6 +124,7 @@
       "title" : "Using Euclid"
     },
     {
+      "anchor" : "Surfaces",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon"
@@ -130,6 +132,7 @@
       "title" : "Surfaces"
     },
     {
+      "anchor" : "Lines-and-Paths",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
@@ -139,6 +142,7 @@
       "title" : "Lines and Paths"
     },
     {
+      "anchor" : "Rotations-and-Transforms",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
@@ -148,6 +152,7 @@
       "title" : "Rotations and Transforms"
     },
     {
+      "anchor" : "Fundamental-Types",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds",
@@ -158,6 +163,7 @@
       "title" : "Fundamental Types"
     },
     {
+      "anchor" : "Supporting-Functions",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/sin(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/cos(_:)",
@@ -168,6 +174,8 @@
       "title" : "Supporting Functions"
     },
     {
+      "anchor" : "Protocols",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounded",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable"

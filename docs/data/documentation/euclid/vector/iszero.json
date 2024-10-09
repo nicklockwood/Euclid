@@ -114,6 +114,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Vector-Properties",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/x",

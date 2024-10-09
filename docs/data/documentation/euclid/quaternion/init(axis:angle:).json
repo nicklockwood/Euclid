@@ -182,6 +182,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Quaternions",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Quaternion\/init(_:)-27eol",

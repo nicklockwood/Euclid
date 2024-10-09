@@ -383,6 +383,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Paths",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-3c0eo",

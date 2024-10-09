@@ -150,6 +150,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Encoding-and-Decoding-Vertices",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/encode(to:)"

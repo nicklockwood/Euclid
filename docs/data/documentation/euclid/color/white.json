@@ -113,6 +113,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Default-Colors",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/clear",

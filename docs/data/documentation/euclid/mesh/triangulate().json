@@ -123,6 +123,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Adjusting-Mesh-Topology",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/tessellate(maxSides:)",

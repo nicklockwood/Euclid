@@ -178,6 +178,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Lines",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/init(_:)"

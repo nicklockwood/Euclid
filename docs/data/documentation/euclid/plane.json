@@ -82,6 +82,7 @@
     {
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/SL",
+        "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -104,6 +105,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Fundamental-Types",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
@@ -116,6 +118,7 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Creating-Planes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/init(normal:pointOnPlane:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/init(points:)"
@@ -123,6 +126,7 @@
       "title" : "Creating Planes"
     },
     {
+      "anchor" : "Default-Planes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/xy",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/xz",
@@ -131,6 +135,7 @@
       "title" : "Default Planes"
     },
     {
+      "anchor" : "Plane-Properties",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/normal",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/w"
@@ -138,6 +143,7 @@
       "title" : "Plane Properties"
     },
     {
+      "anchor" : "Comparing-Planes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/containsPoint(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/distance(from:)",
@@ -147,6 +153,7 @@
       "title" : "Comparing Planes"
     },
     {
+      "anchor" : "Transforming-Planes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/inverted()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/rotated(by:)",
@@ -158,12 +165,15 @@
       "title" : "Transforming Planes"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-9o28g"
       ],
       "title" : "Instance Methods"
     },
     {
+      "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/Comparable-Implementations",
@@ -1460,6 +1470,11 @@
   "title" : "Vertex",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex"
+},
+"doc://com.charcoaldesign.Euclid/s8CopyableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+  "title" : "Swift.Copyable",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",

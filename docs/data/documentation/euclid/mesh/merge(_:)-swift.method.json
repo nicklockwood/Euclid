@@ -204,6 +204,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Merging-Meshes",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/merge(_:)-swift.type.method"

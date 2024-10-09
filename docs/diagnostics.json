@@ -4,191 +4,1547 @@
 
     ],
     "severity" : 2,
-    "source" : "..\/Sources\/Quaternion.swift",
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 83
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 73,
+      "line" : 83
+    },
+    "summary" : "Parameter 'factor' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 37
+    },
+    "summary" : "Parameter 'rotation' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 64,
+      "line" : 37
+    },
+    "summary" : "Parameter 'r' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Plane.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 186
+    },
+    "summary" : "Parameter 'line' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Plane.swift",
+    "start" : {
+      "column" : 63,
+      "line" : 186
+    },
+    "summary" : "Parameter 'segment' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 41
+    },
+    "summary" : "Parameter 'offset' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 68,
+      "line" : 41
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Euclid+RealityKit.swift",
+    "start" : {
+      "column" : 11,
+      "line" : 504
+    },
+    "summary" : "Parameter 'model' not found in initializer declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Euclid+RealityKit.swift",
+    "start" : {
+      "column" : 67,
+      "line" : 505
+    },
+    "summary" : "Parameter 'meshResource' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Mesh+CSG.swift",
     "start" : {
       "column" : 21,
-      "line" : 89
+      "line" : 365
     },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
+    "summary" : "External name 'along' used to document parameter"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "..\/Sources\/Quaternion.swift",
+    "source" : "..\/Sources\/Mesh+Shapes.swift",
     "start" : {
-      "column" : 21,
-      "line" : 90
+      "column" : 58,
+      "line" : 655
     },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
+    "summary" : "Parameter 'isCancelled' is missing documentation"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "..\/Sources\/Vector.swift",
+    "source" : "..\/Sources\/Transforms.swift",
     "start" : {
-      "column" : 17,
-      "line" : 104
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Vector.swift",
-    "start" : {
-      "column" : 17,
-      "line" : 105
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Angle.swift",
-    "start" : {
-      "column" : 16,
-      "line" : 75
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/Angle.swift",
-    "start" : {
-      "column" : 16,
-      "line" : 76
-    },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "Extensions\/Quaternion.md",
-    "start" : {
-      "column" : 17,
-      "line" : 52
-    },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "Extensions\/Quaternion.md",
-    "start" : {
-      "column" : 17,
+      "column" : 9,
       "line" : 53
     },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Quaternion'"
+    "summary" : "Parameter 't' not found in instance method declaration"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Angle.md",
+    "source" : "..\/Sources\/Transforms.swift",
     "start" : {
-      "column" : 12,
-      "line" : 42
+      "column" : 58,
+      "line" : 53
     },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+    "summary" : "Parameter 'transform' is missing documentation"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Angle.md",
+    "source" : "..\/Sources\/Transforms.swift",
     "start" : {
-      "column" : 12,
-      "line" : 43
+      "column" : 9,
+      "line" : 83
     },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Angle'"
+    "summary" : "Parameter 'scale' not found in instance method declaration"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Vector.md",
+    "source" : "..\/Sources\/Mesh+Shapes.swift",
     "start" : {
       "column" : 13,
-      "line" : 71
+      "line" : 150
     },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Vector'"
+    "summary" : "External name 'center' used to document parameter"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Vector.md",
+    "source" : "..\/Sources\/Mesh+Shapes.swift",
     "start" : {
       "column" : 13,
-      "line" : 72
+      "line" : 151
     },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Vector'"
+    "summary" : "External name 'size' used to document parameter"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "..\/Sources\/Rotation.swift",
+    "source" : "..\/Sources\/Transforms.swift",
     "start" : {
-      "column" : 19,
-      "line" : 86
+      "column" : 73,
+      "line" : 83
     },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Rotation'"
+    "summary" : "Parameter 'factor' is missing documentation"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "..\/Sources\/Rotation.swift",
+    "source" : "..\/Sources\/Transforms.swift",
     "start" : {
-      "column" : 19,
-      "line" : 87
+      "column" : 9,
+      "line" : 83
     },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Rotation'"
+    "summary" : "Parameter 'scale' not found in instance method declaration"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Rotation.md",
+    "source" : "..\/Sources\/Transforms.swift",
     "start" : {
-      "column" : 15,
+      "column" : 73,
+      "line" : 83
+    },
+    "summary" : "Parameter 'factor' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 45
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 72,
+      "line" : 45
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 83
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 73,
+      "line" : 83
+    },
+    "summary" : "Parameter 'factor' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Mesh+Shapes.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 703
+    },
+    "summary" : "Parameter 'isCancelled' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
       "line" : 49
     },
-    "summary" : "'(_:_:)' doesn't exist at '\/Euclid\/Rotation'"
+    "summary" : "Parameter 'factor' not found in instance method declaration"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Rotation.md",
+    "source" : "..\/Sources\/Transforms.swift",
     "start" : {
-      "column" : 15,
-      "line" : 50
+      "column" : 74,
+      "line" : 49
     },
-    "summary" : "'=(_:_:)' doesn't exist at '\/Euclid\/Rotation'"
+    "summary" : "Parameter 'f' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Plane.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 140
+    },
+    "summary" : "Parameter 'plane' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 53
+    },
+    "summary" : "Parameter 't' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Plane.swift",
+    "start" : {
+      "column" : 54,
+      "line" : 140
+    },
+    "summary" : "Parameter 'p' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 53
+    },
+    "summary" : "Parameter 'transform' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 37
+    },
+    "summary" : "Parameter 'rotation' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 64,
+      "line" : 37
+    },
+    "summary" : "Parameter 'r' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 41
+    },
+    "summary" : "Parameter 'offset' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 68,
+      "line" : 41
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 53
+    },
+    "summary" : "Parameter 't' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 53
+    },
+    "summary" : "Parameter 'transform' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 49
+    },
+    "summary" : "Parameter 'factor' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 74,
+      "line" : 49
+    },
+    "summary" : "Parameter 'f' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 41
+    },
+    "summary" : "Parameter 'offset' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 68,
+      "line" : 41
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 83
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 73,
+      "line" : 83
+    },
+    "summary" : "Parameter 'factor' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 53
+    },
+    "summary" : "Parameter 't' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 53
+    },
+    "summary" : "Parameter 'transform' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 53
+    },
+    "summary" : "Parameter 't' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 53
+    },
+    "summary" : "Parameter 'transform' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 83
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 73,
+      "line" : 83
+    },
+    "summary" : "Parameter 'factor' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 49
+    },
+    "summary" : "Parameter 'factor' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 74,
+      "line" : 49
+    },
+    "summary" : "Parameter 'f' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 37
+    },
+    "summary" : "Parameter 'rotation' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 64,
+      "line" : 37
+    },
+    "summary" : "Parameter 'r' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 41
+    },
+    "summary" : "Parameter 'offset' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 68,
+      "line" : 41
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 45
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 72,
+      "line" : 45
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 37
+    },
+    "summary" : "Parameter 'rotation' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 64,
+      "line" : 37
+    },
+    "summary" : "Parameter 'r' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 45
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 72,
+      "line" : 45
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 41
+    },
+    "summary" : "Parameter 'offset' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 68,
+      "line" : 41
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 45
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 72,
+      "line" : 45
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 83
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 73,
+      "line" : 83
+    },
+    "summary" : "Parameter 'factor' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Mesh+Shapes.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 672
+    },
+    "summary" : "Parameter 'isCancelled' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 49
+    },
+    "summary" : "Parameter 'factor' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 74,
+      "line" : 49
+    },
+    "summary" : "Parameter 'f' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Mesh+Shapes.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 557
+    },
+    "summary" : "Parameter 'isCancelled' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 53
+    },
+    "summary" : "Parameter 't' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 41
+    },
+    "summary" : "Parameter 'offset' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 53
+    },
+    "summary" : "Parameter 'transform' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 68,
+      "line" : 41
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 41
+    },
+    "summary" : "Parameter 'offset' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 68,
+      "line" : 41
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 45
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 72,
+      "line" : 45
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 236
+    },
+    "summary" : "Parameter 'factor' not found in type method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 61,
+      "line" : 236
+    },
+    "summary" : "Parameter 'scale' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 45
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 72,
+      "line" : 45
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 49
+    },
+    "summary" : "Parameter 'factor' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 74,
+      "line" : 49
+    },
+    "summary" : "Parameter 'f' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 83
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 73,
+      "line" : 83
+    },
+    "summary" : "Parameter 'factor' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 37
+    },
+    "summary" : "Parameter 'rotation' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 64,
+      "line" : 37
+    },
+    "summary" : "Parameter 'q' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Quaternion.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 114
+    },
+    "summary" : "Parameter 'a' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Quaternion.swift",
+    "start" : {
+      "column" : 77,
+      "line" : 114
+    },
+    "summary" : "Parameter 'q' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 49
+    },
+    "summary" : "Parameter 'factor' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 74,
+      "line" : 49
+    },
+    "summary" : "Parameter 'f' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 49
+    },
+    "summary" : "Parameter 'factor' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 74,
+      "line" : 49
+    },
+    "summary" : "Parameter 'f' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Mesh+Shapes.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 528
+    },
+    "summary" : "Parameter 'isCancelled' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 83
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 73,
+      "line" : 83
+    },
+    "summary" : "Parameter 'factor' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 45
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 72,
+      "line" : 45
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 53
+    },
+    "summary" : "Parameter 't' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 53
+    },
+    "summary" : "Parameter 'transform' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 53
+    },
+    "summary" : "Parameter 't' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 53
+    },
+    "summary" : "Parameter 'transform' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 49
+    },
+    "summary" : "Parameter 'factor' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 74,
+      "line" : 49
+    },
+    "summary" : "Parameter 'f' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 37
+    },
+    "summary" : "Parameter 'rotation' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 83
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 73,
+      "line" : 83
+    },
+    "summary" : "Parameter 'factor' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 64,
+      "line" : 37
+    },
+    "summary" : "Parameter 'r' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 45
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 72,
+      "line" : 45
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Polygon+CSG.swift",
+    "start" : {
+      "column" : 21,
+      "line" : 11
+    },
+    "summary" : "External name 'along' used to document parameter"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 41
+    },
+    "summary" : "Parameter 'offset' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 68,
+      "line" : 41
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 37
+    },
+    "summary" : "Parameter 'rotation' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 64,
+      "line" : 37
+    },
+    "summary" : "Parameter 'r' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 53
+    },
+    "summary" : "Parameter 't' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 58,
+      "line" : 53
+    },
+    "summary" : "Parameter 'transform' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 83
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 41
+    },
+    "summary" : "Parameter 'offset' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 73,
+      "line" : 83
+    },
+    "summary" : "Parameter 'factor' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 68,
+      "line" : 41
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Euclid+RealityKit.swift",
+    "start" : {
+      "column" : 11,
+      "line" : 460
+    },
+    "summary" : "Parameter 'part' not found in initializer declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Euclid+RealityKit.swift",
+    "start" : {
+      "column" : 67,
+      "line" : 461
+    },
+    "summary" : "Parameter 'meshDescriptor' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 45
+    },
+    "summary" : "Parameter 'scale' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 72,
+      "line" : 45
+    },
+    "summary" : "Parameter 'v' is missing documentation"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 9,
+      "line" : 37
+    },
+    "summary" : "Parameter 'rotation' not found in instance method declaration"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "..\/Sources\/Transforms.swift",
+    "start" : {
+      "column" : 64,
+      "line" : 37
+    },
+    "summary" : "Parameter 'r' is missing documentation"
   }
 ]

@@ -119,6 +119,7 @@
     {
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounded",
+        "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -141,6 +142,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Surfaces",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon"
@@ -150,12 +152,14 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Default-Meshes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/empty"
       ],
       "title" : "Default Meshes"
     },
     {
+      "anchor" : "Geometric-Primitives",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cone(radius:height:slices:stacks:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cube(center:size:faces:wrapMode:material:)-8t5q8",
@@ -169,6 +173,7 @@
       "title" : "Geometric Primitives"
     },
     {
+      "anchor" : "Creating-Meshes-from-Other-Meshes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(submeshes:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:)-6c896",
@@ -187,6 +192,7 @@
       "title" : "Creating Meshes from Other Meshes"
     },
     {
+      "anchor" : "Creating-Meshes-from-Polygons",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:)-8x4al"
@@ -194,6 +200,7 @@
       "title" : "Creating Meshes from Polygons"
     },
     {
+      "anchor" : "Creating-Meshes-from-Paths",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:)-4hvi3",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:)",
@@ -210,6 +217,7 @@
       "title" : "Creating Meshes from Paths"
     },
     {
+      "anchor" : "Creating-Meshes-from-Vertices-Points-or-LineSegments",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:)-6176",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:)-75on2",
@@ -219,6 +227,7 @@
       "title" : "Creating Meshes from Vertices, Points or LineSegments"
     },
     {
+      "anchor" : "Creating-Meshes-from-Text",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:width:depth:detail:material:)"
@@ -226,6 +235,7 @@
       "title" : "Creating Meshes from Text"
     },
     {
+      "anchor" : "Creating-Meshes-from-SceneKit-Models",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:material:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:materialLookup:)"
@@ -233,6 +243,7 @@
       "title" : "Creating Meshes from SceneKit Models"
     },
     {
+      "anchor" : "Importing-Meshes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlString:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlData:materialLookup:)",
@@ -242,6 +253,7 @@
       "title" : "Importing Meshes"
     },
     {
+      "anchor" : "Exporting-Meshes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/objString()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlString(name:)",
@@ -251,6 +263,7 @@
       "title" : "Exporting Meshes"
     },
     {
+      "anchor" : "Mesh-Properties",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/polygons",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/materials",
@@ -264,6 +277,7 @@
       "title" : "Mesh Properties"
     },
     {
+      "anchor" : "Comparing-Meshes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/containsPoint(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/edges(intersecting:)"
@@ -271,6 +285,7 @@
       "title" : "Comparing Meshes"
     },
     {
+      "anchor" : "Transforming-Meshes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/rotated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/scaled(by:)-90bab",
@@ -282,6 +297,7 @@
       "title" : "Transforming Meshes"
     },
     {
+      "anchor" : "Updating-Materials-and-Texture-Coordinates",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/replacing(_:with:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withMaterial(_:)",
@@ -294,6 +310,7 @@
       "title" : "Updating Materials and Texture Coordinates"
     },
     {
+      "anchor" : "Merging-Meshes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/merge(_:)-swift.method",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/merge(_:)-swift.type.method"
@@ -301,6 +318,7 @@
       "title" : "Merging Meshes"
     },
     {
+      "anchor" : "Splitting-Meshes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/clip(to:fill:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/split(along:)",
@@ -309,6 +327,7 @@
       "title" : "Splitting Meshes"
     },
     {
+      "anchor" : "Adjusting-Mesh-Topology",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/tessellate(maxSides:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/triangulate()",
@@ -320,12 +339,16 @@
       "title" : "Adjusting Mesh Topology"
     },
     {
+      "anchor" : "Structures",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/IOError"
       ],
       "title" : "Structures"
     },
     {
+      "anchor" : "Initializers",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-3drza",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-7p5hd",
@@ -336,21 +359,30 @@
       "title" : "Initializers"
     },
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/hasVertexNormals"
       ],
       "title" : "Instance Properties"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/inset(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersect(_:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/reflected(along:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/smoothNormals(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/subdivide()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/subtract(_:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/xor(_:isCancelled:)-swift.method"
       ],
       "title" : "Instance Methods"
     },
     {
+      "anchor" : "Type-Aliases",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Alignment",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Material",
@@ -363,13 +395,17 @@
       "title" : "Type Aliases"
     },
     {
+      "anchor" : "Type-Methods",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/icosphere(radius:subdivisions:faces:wrapMode:material:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/xor(_:isCancelled:)-swift.type.method"
       ],
       "title" : "Type Methods"
     },
     {
+      "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Bounded-Implementations",
@@ -3373,7 +3409,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/icosahedron(radius:faces:wrapMode:material:)": {
   "abstract" : [
     {
-      "text" : "Creates a sphere by subdividing an icosahedron.",
+      "text" : "Creates an icosahedron.",
       "type" : "text"
     }
   ],
@@ -3482,6 +3518,136 @@
   "title" : "icosahedron(radius:faces:wrapMode:material:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/icosahedron(radius:faces:wrapmode:material:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/icosphere(radius:subdivisions:faces:wrapMode:material:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a sphere by subdividing an icosahedron.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "icosphere"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "radius"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "subdivisions"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "faces"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
+      "text" : "Faces"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "wrapMode"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8WrapModeO",
+      "text" : "WrapMode"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "material"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/icosphere(radius:subdivisions:faces:wrapMode:material:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "icosphere(radius:subdivisions:faces:wrapMode:material:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/icosphere(radius:subdivisions:faces:wrapmode:material:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:)": {
   "abstract" : [
@@ -4220,6 +4386,60 @@
   "title" : "init(url:materialLookup:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(url:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/inset(by:)": {
+  "abstract" : [
+    {
+      "text" : "Applies a uniform inset to the faces of the mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "inset"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "by"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/inset(by:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "inset(by:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/inset(by:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersect(_:isCancelled:)": {
   "abstract" : [
@@ -5087,6 +5307,60 @@
   "title" : "polygonsByMaterial",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/polygonsbymaterial"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/reflected(along:)": {
+  "abstract" : [
+    {
+      "text" : "Reflects each polygon of the mesh along a plane.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "reflected"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "along"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5PlaneV",
+      "text" : "Plane"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/reflected(along:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "reflected(along:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/reflected(along:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/replacing(_:with:)": {
   "abstract" : [
@@ -6304,6 +6578,43 @@
   "title" : "stroke(_:width:detail:material:isCancelled:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-9mn9o"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/subdivide()": {
+  "abstract" : [
+    {
+      "text" : "Subdivides triangles and quads, leaving other polygons unchanged.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "subdivide"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/subdivide()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "subdivide()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/subdivide()"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/submeshes": {
   "abstract" : [
@@ -7815,6 +8126,11 @@
   "title" : "Transformable",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transformable"
+},
+"doc://com.charcoaldesign.Euclid/s8CopyableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+  "title" : "Swift.Copyable",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",

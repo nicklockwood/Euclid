@@ -186,6 +186,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Operators",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/+(_:_:)",
@@ -194,7 +195,9 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/-=(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/*(_:_:)-48gl1",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/*(_:_:)-5mcy5",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/*=(_:_:)-3ur4e"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/*=(_:_:)-3ur4e",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/_(_:_:)-3ro6k",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/_=(_:_:)-84cm9"
       ],
       "title" : "Operators"
     }
@@ -796,6 +799,143 @@
   "title" : "AdditiveArithmetic Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/additivearithmetic-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/_(_:_:)-3ro6k": {
+  "abstract" : [
+    {
+      "text" : "Returns a vector with its components divided by the specified value.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "\/"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/_(_:_:)-3ro6k",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "\/(_:_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/_(_:_:)-3ro6k"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/_=(_:_:)-84cm9": {
+  "abstract" : [
+    {
+      "text" : "Divides the components of the vector by the value you provide.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "\/="
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "inout"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/_=(_:_:)-84cm9",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "\/=(_:_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/_=(_:_:)-84cm9"
 }
 }
 }

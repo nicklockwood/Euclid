@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "A Boolean value that indicates whether the polygon includes vertex normals that differ from the face normal.",
+      "text" : "A Boolean value that indicates whether the polygon includes vertex normals.",
       "type" : "text"
     }
   ],
@@ -177,7 +177,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/hasVertexNormals": {
   "abstract" : [
     {
-      "text" : "A Boolean value that indicates whether the polygon includes vertex normals that differ from the face normal.",
+      "text" : "A Boolean value that indicates whether the polygon includes vertex normals.",
       "type" : "text"
     }
   ],

@@ -139,25 +139,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "A rotation to apply to the value.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "rotation"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -170,6 +151,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Transforming-Paths",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/scaled(by:)-19jpq",

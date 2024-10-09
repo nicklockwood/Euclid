@@ -324,6 +324,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Text-Paths",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)"

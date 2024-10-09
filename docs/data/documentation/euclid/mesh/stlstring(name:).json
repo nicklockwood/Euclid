@@ -136,6 +136,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Exporting-Meshes",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/objString()",

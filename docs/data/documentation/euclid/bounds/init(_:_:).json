@@ -214,6 +214,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Bounds",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-1icmf",

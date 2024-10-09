@@ -165,6 +165,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Planes",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/init(normal:pointOnPlane:)"

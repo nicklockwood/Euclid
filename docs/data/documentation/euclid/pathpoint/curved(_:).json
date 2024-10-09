@@ -156,6 +156,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Transforming-Path-Points",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/rotated(by:)",

@@ -1,4 +1,7 @@
 {
+  "includedArchiveIdentifiers" : [
+    "com.charcoaldesign.Euclid"
+  ],
   "interfaceLanguages" : {
     "swift" : [
       {
@@ -716,13 +719,28 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/inset(by:)",
+                "title" : "func inset(by: Double) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/intersect(_:iscancelled:)",
                 "title" : "func intersect(Mesh, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/reflected(along:)",
+                "title" : "func reflected(along: Plane) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/smoothnormals(_:)",
                 "title" : "func smoothNormals(Angle) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/subdivide()",
+                "title" : "func subdivide() -> Mesh",
                 "type" : "method"
               },
               {
@@ -781,6 +799,11 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)",
                 "title" : "static func fill([Path], faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/icosphere(radius:subdivisions:faces:wrapmode:material:)",
+                "title" : "static func icosphere(radius: Double, subdivisions: Int, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
                 "type" : "method"
               },
               {
@@ -1117,6 +1140,11 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/polygon\/inset(by:)",
+                "title" : "func inset(by: Double) -> Polygon?",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/polygon\/maptexcoords(_:)",
                 "title" : "func mapTexcoords((Vector) -> Vector) -> Polygon",
                 "type" : "method"
@@ -1124,6 +1152,21 @@
               {
                 "path" : "\/documentation\/euclid\/polygon\/mapvertexcolors(_:)",
                 "title" : "func mapVertexColors((Color) -> Color?) -> Polygon",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/mapvertices(_:)",
+                "title" : "func mapVertices((Vertex) -> Vertex) -> Polygon",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/reflected(along:)",
+                "title" : "func reflected(along: Plane) -> Polygon",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/subdivide()",
+                "title" : "func subdivide() -> [Polygon]",
                 "type" : "method"
               },
               {
@@ -1552,6 +1595,11 @@
               {
                 "path" : "\/documentation\/euclid\/path\/facepolygons(material:)",
                 "title" : "func facePolygons(material: Mesh.Material?) -> [Polygon]",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/inset(by:)",
+                "title" : "func inset(by: Double) -> Path",
                 "type" : "method"
               },
               {
@@ -2619,16 +2667,12 @@
                 "type" : "op"
               },
               {
-                "title" : "Operators",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/rotation\/\/(_:_:)",
+                "path" : "\/documentation\/euclid\/rotation\/_(_:_:)",
                 "title" : "static func \/ (Rotation, Double) -> Rotation",
                 "type" : "op"
               },
               {
-                "path" : "\/documentation\/euclid\/rotation\/\/=(_:_:)",
+                "path" : "\/documentation\/euclid\/rotation\/_=(_:_:)",
                 "title" : "static func \/= (inout Rotation, Double)",
                 "type" : "op"
               },
@@ -3164,16 +3208,12 @@
                 "type" : "op"
               },
               {
-                "title" : "Operators",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/\/(_:_:)",
+                "path" : "\/documentation\/euclid\/quaternion\/_(_:_:)",
                 "title" : "static func \/ (Quaternion, Double) -> Quaternion",
                 "type" : "op"
               },
               {
-                "path" : "\/documentation\/euclid\/quaternion\/\/=(_:_:)",
+                "path" : "\/documentation\/euclid\/quaternion\/_=(_:_:)",
                 "title" : "static func \/= (inout Quaternion, Double)",
                 "type" : "op"
               },
@@ -3441,16 +3481,12 @@
                 "type" : "op"
               },
               {
-                "title" : "Operators",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/angle\/\/(_:_:)",
+                "path" : "\/documentation\/euclid\/angle\/_(_:_:)-34kn9",
                 "title" : "static func \/ (Angle, Double) -> Angle",
                 "type" : "op"
               },
               {
-                "path" : "\/documentation\/euclid\/angle\/\/=(_:_:)",
+                "path" : "\/documentation\/euclid\/angle\/_=(_:_:)-81sn3",
                 "title" : "static func \/= (inout Angle, Double)",
                 "type" : "op"
               },
@@ -3866,22 +3902,22 @@
                 "type" : "op"
               },
               {
+                "path" : "\/documentation\/euclid\/vector\/_(_:_:)-3ro6k",
+                "title" : "static func \/ (Vector, Double) -> Vector",
+                "type" : "op"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/_=(_:_:)-84cm9",
+                "title" : "static func \/= (inout Vector, Double)",
+                "type" : "op"
+              },
+              {
                 "title" : "Operators",
                 "type" : "groupMarker"
               },
               {
                 "path" : "\/documentation\/euclid\/vector\/*=(_:_:)-9l46a",
                 "title" : "static func *= (inout Vector, Double)",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/vector\/\/(_:_:)",
-                "title" : "static func \/ (Vector, Double) -> Vector",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/vector\/\/=(_:_:)",
-                "title" : "static func \/= (inout Vector, Double)",
                 "type" : "op"
               },
               {
@@ -3911,6 +3947,20 @@
                 "path" : "\/documentation\/euclid\/vector\/isnormalized",
                 "title" : "var isNormalized: Bool",
                 "type" : "property"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/projected(onto:)-2zsww",
+                "title" : "func projected(onto: Plane) -> Vector",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/projected(onto:)-6d7xl",
+                "title" : "func projected(onto: Line) -> Vector",
+                "type" : "method"
               },
               {
                 "title" : "Default Implementations",
@@ -4883,6 +4933,11 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/vertex\/reflected(along:)",
+                "title" : "func reflected(along: Plane) -> Vertex",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/vertex\/withcolor(_:)",
                 "title" : "func withColor(Color?) -> Vertex",
                 "type" : "method"
@@ -5402,6 +5457,6 @@
   "schemaVersion" : {
     "major" : 0,
     "minor" : 1,
-    "patch" : 1
+    "patch" : 2
   }
 }

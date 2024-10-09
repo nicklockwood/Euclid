@@ -130,6 +130,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Meshes-from-Polygons",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:)-8x4al"

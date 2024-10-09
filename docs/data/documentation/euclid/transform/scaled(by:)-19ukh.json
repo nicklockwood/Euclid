@@ -169,6 +169,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Combining-Transforms",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotated(by:)",

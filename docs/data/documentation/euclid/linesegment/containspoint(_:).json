@@ -192,6 +192,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Comparing-Line-Segments",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-1tffl",

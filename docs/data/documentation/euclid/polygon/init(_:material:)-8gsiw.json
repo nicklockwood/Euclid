@@ -180,6 +180,7 @@
             },
             {
               "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:ST7ElementQa",
               "text" : "Element"
             },
             {
@@ -294,6 +295,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Polygons",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-9mns5",

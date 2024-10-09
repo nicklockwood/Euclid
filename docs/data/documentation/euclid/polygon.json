@@ -110,6 +110,7 @@
     {
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounded",
+        "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -132,6 +133,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Surfaces",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
@@ -141,6 +143,7 @@
   ],
   "topicSections" : [
     {
+      "anchor" : "Creating-Polygons",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-8gsiw",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-9mns5",
@@ -149,6 +152,7 @@
       "title" : "Creating Polygons"
     },
     {
+      "anchor" : "Polygon-Properties",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/vertices",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/plane",
@@ -165,6 +169,7 @@
       "title" : "Polygon Properties"
     },
     {
+      "anchor" : "Comparing-Polygons",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/containsPoint(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/edges(intersecting:)"
@@ -172,6 +177,7 @@
       "title" : "Comparing Polygons"
     },
     {
+      "anchor" : "Transforming-Polygons",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/rotated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/scaled(by:)-69m6m",
@@ -185,6 +191,7 @@
       "title" : "Transforming Polygons"
     },
     {
+      "anchor" : "Splitting-Polygons",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clip(to:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/split(along:)",
@@ -194,33 +201,46 @@
       "title" : "Splitting Polygons"
     },
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/hasVertexNormals"
       ],
       "title" : "Instance Properties"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapTexcoords(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertexColors(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertices(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/reflected(along:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/subdivide()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/with(material:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/withoutTexcoords()"
       ],
       "title" : "Instance Methods"
     },
     {
+      "anchor" : "Type-Aliases",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Material-swift.typealias"
       ],
       "title" : "Type Aliases"
     },
     {
+      "anchor" : "Type-Properties",
+      "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/codableClasses"
       ],
       "title" : "Type Properties"
     },
     {
+      "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Bounded-Implementations",
@@ -972,7 +992,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/hasVertexNormals": {
   "abstract" : [
     {
-      "text" : "A Boolean value that indicates whether the polygon includes vertex normals that differ from the face normal.",
+      "text" : "A Boolean value that indicates whether the polygon includes vertex normals.",
       "type" : "text"
     }
   ],
@@ -1172,6 +1192,64 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/init(shape:material:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/inset(by:)": {
+  "abstract" : [
+    {
+      "text" : "Applies a uniform inset to the edges of the polygon.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "inset"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "by"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "inset(by:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/inset(by:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/inverted()": {
   "abstract" : [
     {
@@ -1355,6 +1433,61 @@
   "title" : "mapVertexColors(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/mapvertexcolors(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/mapVertices(_:)": {
+  "abstract" : [
+    {
+      "text" : "Return a copy of the polygon with transformed vertex positions",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "mapVertices"
+    },
+    {
+      "kind" : "text",
+      "text" : "(("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VertexV",
+      "text" : "Vertex"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VertexV",
+      "text" : "Vertex"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertices(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "mapVertices(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/mapvertices(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/material-swift.property": {
   "abstract" : [
@@ -1550,6 +1683,60 @@
   "title" : "plane",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/plane"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/reflected(along:)": {
+  "abstract" : [
+    {
+      "text" : "Reflects each vertex of the polygon along a plane.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "reflected"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "along"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5PlaneV",
+      "text" : "Plane"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/reflected(along:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "reflected(along:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/reflected(along:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/rotated(by:)": {
   "abstract" : [
@@ -1787,6 +1974,47 @@
   "title" : "split(along:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/split(along:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/subdivide()": {
+  "abstract" : [
+    {
+      "text" : "Subdivides triangles and quads, leaving other polygons unchanged.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "subdivide"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : "]"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/subdivide()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "subdivide()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/subdivide()"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/tessellate(maxSides:)": {
   "abstract" : [
@@ -2264,6 +2492,11 @@
   "title" : "Transformable",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transformable"
+},
+"doc://com.charcoaldesign.Euclid/s8CopyableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+  "title" : "Swift.Copyable",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",

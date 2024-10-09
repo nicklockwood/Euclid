@@ -172,6 +172,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Angles",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/init(degrees:)",

@@ -180,6 +180,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Operators",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/+(_:_:)",
@@ -188,7 +189,9 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/-(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/-=(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*(_:_:)-2ew65",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*=(_:_:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*=(_:_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_(_:_:)-34kn9",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_=(_:_:)-81sn3"
       ],
       "title" : "Operators"
     }
@@ -780,6 +783,143 @@
   "title" : "-=(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/angle\/-=(_:_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/_(_:_:)-34kn9": {
+  "abstract" : [
+    {
+      "text" : "Returns the angle divided by a numeric denominator.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "\/"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_(_:_:)-34kn9",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "\/(_:_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/angle\/_(_:_:)-34kn9"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/_=(_:_:)-81sn3": {
+  "abstract" : [
+    {
+      "text" : "Divides the angle by a numeric denominator.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "\/="
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "inout"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_=(_:_:)-81sn3",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "\/=(_:_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/angle\/_=(_:_:)-81sn3"
 }
 }
 }

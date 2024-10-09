@@ -114,6 +114,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Line-Segment-Properties",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/start",

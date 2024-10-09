@@ -250,6 +250,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Polygons",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-8gsiw",

@@ -188,6 +188,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Transforms",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(offset:rotation:scale:)",

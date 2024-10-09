@@ -276,6 +276,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Vertices",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/init(_:)-5517j",

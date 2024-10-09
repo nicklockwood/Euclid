@@ -179,6 +179,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Creating-Rotations",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init()",

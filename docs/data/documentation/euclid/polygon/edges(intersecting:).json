@@ -237,6 +237,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Comparing-Polygons",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/containsPoint(_:)"

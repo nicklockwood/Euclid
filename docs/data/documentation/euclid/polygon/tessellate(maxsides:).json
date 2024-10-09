@@ -184,6 +184,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Splitting-Polygons",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clip(to:)",

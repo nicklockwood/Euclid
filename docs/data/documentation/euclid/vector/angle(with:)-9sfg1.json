@@ -165,6 +165,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Comparing-Vectors",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/angle(with:)-29paf",
@@ -525,10 +526,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/project(onto:)-817o2": {
   "abstract" : [
     {
-      "text" : "Returns the nearest point on the specified plane to the vector (representing a position in space).",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -579,10 +581,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/project(onto:)-rksk": {
   "abstract" : [
     {
-      "text" : "Returns the nearest point on the specified line to the vector (representing a position in space).",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

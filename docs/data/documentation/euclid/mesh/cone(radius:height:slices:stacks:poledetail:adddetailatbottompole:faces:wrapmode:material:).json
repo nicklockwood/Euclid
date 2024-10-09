@@ -602,6 +602,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Geometric-Primitives",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cube(center:size:faces:wrapMode:material:)-8t5q8",
@@ -1421,7 +1422,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/icosahedron(radius:faces:wrapMode:material:)": {
   "abstract" : [
     {
-      "text" : "Creates a sphere by subdividing an icosahedron.",
+      "text" : "Creates an icosahedron.",
       "type" : "text"
     }
   ],

@@ -151,6 +151,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Computing-Quaternions",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Quaternion\/dot(_:)"

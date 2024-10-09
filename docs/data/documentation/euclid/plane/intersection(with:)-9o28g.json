@@ -144,34 +144,6 @@
       "kind" : "declarations"
     },
     {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The ",
-                  "type" : "text"
-                },
-                {
-                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-                  "isActive" : true,
-                  "type" : "reference"
-                },
-                {
-                  "text" : " to compare with.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "line"
-        }
-      ]
-    },
-    {
       "content" : [
         {
           "anchor" : "return-value",

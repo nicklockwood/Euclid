@@ -179,34 +179,6 @@
       "kind" : "declarations"
     },
     {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The ",
-                  "type" : "text"
-                },
-                {
-                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane",
-                  "isActive" : true,
-                  "type" : "reference"
-                },
-                {
-                  "text" : " to split the polygon along.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "along"
-        }
-      ]
-    },
-    {
       "content" : [
         {
           "anchor" : "return-value",
@@ -264,6 +236,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Splitting-Polygons",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clip(to:)",

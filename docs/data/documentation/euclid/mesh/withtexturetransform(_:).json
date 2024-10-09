@@ -157,6 +157,7 @@
   ],
   "seeAlsoSections" : [
     {
+      "anchor" : "Updating-Materials-and-Texture-Coordinates",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/replacing(_:with:)",
