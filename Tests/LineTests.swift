@@ -29,31 +29,31 @@ class LineTests: XCTestCase {
     func testProjectPointDown() {
         let l = Line(unchecked: .zero, direction: .unitX)
         let p = Vector(2, -2, 0)
-        XCTAssertEqual(p.project(onto: l), Vector(2, 0, 0))
+        XCTAssertEqual(p.projected(onto: l), Vector(2, 0, 0))
     }
 
     func testProjectPointUp() {
         let l = Line(unchecked: .zero, direction: .unitX)
         let p = Vector(3, 1, 0)
-        XCTAssertEqual(p.project(onto: l), Vector(3, 0, 0))
+        XCTAssertEqual(p.projected(onto: l), Vector(3, 0, 0))
     }
 
     func testProjectPointRight() {
         let l = Line(unchecked: .zero, direction: .unitY)
         let p = Vector(-3, 1, 0)
-        XCTAssertEqual(p.project(onto: l), .unitY)
+        XCTAssertEqual(p.projected(onto: l), .unitY)
     }
 
     func testProjectPointLeft() {
         let l = Line(unchecked: .zero, direction: .unitY)
         let p = Vector(3, -5, 0)
-        XCTAssertEqual(p.project(onto: l), Vector(0, -5, 0))
+        XCTAssertEqual(p.projected(onto: l), Vector(0, -5, 0))
     }
 
     func testProjectPointDiagonal() {
         let l = Line(unchecked: .zero, direction: Vector(1, 1, 0).normalized())
         let p = Vector(0, 2, 0)
-        XCTAssert(p.project(onto: l).isEqual(to: Vector(1, 1, 0)))
+        XCTAssert(p.projected(onto: l).isEqual(to: Vector(1, 1, 0)))
     }
 
     // MARK: Line intersection

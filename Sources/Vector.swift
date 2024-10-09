@@ -281,8 +281,14 @@ public extension Vector {
     /// Returns the nearest point on the specified plane to the vector (representing a position in space).
     /// - Parameter plane: The plane to project onto.
     /// - Returns: The nearest point in 3D space that lies on the plane.
-    func project(onto plane: Plane) -> Vector {
+    func projected(onto plane: Plane) -> Vector {
         self - plane.normal * distance(from: plane)
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "projected(onto:)")
+    func project(onto plane: Plane) -> Vector {
+        projected(onto: plane)
     }
 
     /// Returns the distance between the vector (representing a position in space) from the specified line.
@@ -295,8 +301,14 @@ public extension Vector {
     /// Returns the nearest point on the specified line to the vector (representing a position in space).
     /// - Parameter line: The line to project onto.
     /// - Returns: The nearest point in 3D space that lies on the line.
-    func project(onto line: Line) -> Vector {
+    func projected(onto line: Line) -> Vector {
         line.direction * (self - line.origin).dot(line.direction) - line.origin
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "projected(onto:)")
+    func project(onto line: Line) -> Vector {
+        projected(onto: line)
     }
 }
 
