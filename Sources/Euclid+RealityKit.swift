@@ -401,12 +401,24 @@ private extension Mesh {
                 material.color = simpleMaterial.color
                 material.roughness = simpleMaterial.roughness
                 material.metallic = simpleMaterial.metallic
+                if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+                    material.triangleFillMode = simpleMaterial.triangleFillMode
+                    if #available(visionOS 2.0, *) {
+                        material.faceCulling = simpleMaterial.faceCulling
+                    }
+                }
                 return MaterialWrapper(material)
             case let unlitMaterial as UnlitMaterial:
                 var material = UnlitMaterial()
                 material.color = unlitMaterial.color
                 material.opacityThreshold = unlitMaterial.opacityThreshold
                 material.blending = unlitMaterial.blending
+                if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+                    material.triangleFillMode = unlitMaterial.triangleFillMode
+                    if #available(visionOS 2.0, *) {
+                        material.faceCulling = unlitMaterial.faceCulling
+                    }
+                }
                 return MaterialWrapper(material)
             case let occlusionMaterial as OcclusionMaterial:
                 #if os(visionOS)
@@ -417,7 +429,15 @@ private extension Mesh {
                 return MaterialWrapper(material)
             case let videoMaterial as VideoMaterial:
                 guard let avPlayer = videoMaterial.avPlayer else { return nil }
-                return MaterialWrapper(VideoMaterial(avPlayer: avPlayer))
+                var material = VideoMaterial(avPlayer: avPlayer)
+                if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+                    material.controller.preferredViewingMode = videoMaterial.controller.preferredViewingMode
+                    material.triangleFillMode = videoMaterial.triangleFillMode
+                    if #available(visionOS 2.0, *) {
+                        material.faceCulling = videoMaterial.faceCulling
+                    }
+                }
+                return MaterialWrapper(material)
             case let pbrMaterial as PhysicallyBasedMaterial:
                 var material = PhysicallyBasedMaterial()
                 material.baseColor = pbrMaterial.baseColor
@@ -438,8 +458,24 @@ private extension Mesh {
                 material.sheen = pbrMaterial.sheen
                 material.textureCoordinateTransform = pbrMaterial.textureCoordinateTransform
                 material.secondaryTextureCoordinateTransform = pbrMaterial.secondaryTextureCoordinateTransform
+                if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+                    material.triangleFillMode = pbrMaterial.triangleFillMode
+                    if #available(visionOS 2.0, *) {
+                        material.faceCulling = pbrMaterial.faceCulling
+                    }
+                }
                 return MaterialWrapper(material)
             default:
+                if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *),
+                   let portalMaterial = $0 as? PortalMaterial
+                {
+                    var material = PortalMaterial()
+                    material.triangleFillMode = portalMaterial.triangleFillMode
+                    if #available(visionOS 2.0, *) {
+                        material.faceCulling = portalMaterial.faceCulling
+                    }
+                    return MaterialWrapper(material)
+                }
                 // Not supported
                 return nil
             }
