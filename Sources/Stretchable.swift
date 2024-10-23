@@ -71,7 +71,7 @@ extension PathPoint: Stretchable {
 
 extension Vector: Stretchable {
     func stretched(by scaleFactor: Double, along: Line) -> Vector {
-        self + project(onto: along) * (scaleFactor - 1)
+        self + projected(onto: along) * (scaleFactor - 1)
     }
 }
 
