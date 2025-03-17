@@ -36,7 +36,7 @@ public protocol Sendable {}
 #endif
 
 /// Tolerance used for calculating approximate equality
-let epsilon: Double = 1e-8
+let epsilon: Double = 1.1e-8
 
 /// Plane equality threshold
 let planeEpsilon: Double = 1e-6
