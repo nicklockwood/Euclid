@@ -681,6 +681,11 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-155xt",
+                "title" : "init(ModelComponent, materialLookup: RealityKitMaterialProvider?)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-3drza",
                 "title" : "init(ModelEntity, materialLookup: RealityKitMaterialProvider?)",
                 "type" : "init"
@@ -701,6 +706,11 @@
                 "type" : "init"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4y1bs",
+                "title" : "init(MeshResource.Model, materials: [Polygon.Material?])",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/init(scngeometry:materiallookup:)",
                 "title" : "init?(scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider?)",
                 "type" : "init"
@@ -712,6 +722,16 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/hasvertexnormals",
                 "title" : "var hasVertexNormals: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/surfacearea",
+                "title" : "var surfaceArea: Double",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/volume",
+                "title" : "var volume: Double",
                 "type" : "property"
               },
               {
@@ -1133,6 +1153,11 @@
               {
                 "path" : "\/documentation\/euclid\/polygon\/hasvertexnormals",
                 "title" : "var hasVertexNormals: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/signedvolume",
+                "title" : "var signedVolume: Double",
                 "type" : "property"
               },
               {

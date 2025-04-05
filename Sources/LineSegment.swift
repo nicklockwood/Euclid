@@ -155,7 +155,7 @@ public extension LineSegment {
         lineSegmentsIntersection(start, end, segment.start, segment.end)
     }
 
-    /// Returns a Boolean value that indicates whether two line segements intersect.
+    /// Returns a Boolean value that indicates whether two line segments intersect.
     /// - Parameter segment: The line segment to compare with.
     /// - Returns: `true` if the line segments intersect and `false` otherwise.
     func intersects(_ segment: LineSegment) -> Bool {

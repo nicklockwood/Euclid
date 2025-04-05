@@ -185,6 +185,28 @@
             {
               "inlineContent" : [
                 {
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "MeshDescriptor",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to convert into a mesh.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "meshDescriptor"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
                   "text" : "An array of materials to apply to the mesh.",
                   "type" : "text"
                 }

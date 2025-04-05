@@ -112,7 +112,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "offset"
+              "text" : "distance"
             },
             {
               "kind" : "text",
@@ -148,7 +148,7 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "offset"
+          "name" : "distance"
         }
       ]
     }

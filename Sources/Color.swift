@@ -136,11 +136,11 @@ public extension Color {
 
     /// Linearly interpolate between two colors.
     /// - Parameters:
-    ///   - a: The color to interpolate towards.
+    ///   - other: The color to interpolate towards.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
     /// - Returns: The interpolated color.
-    func lerp(_ a: Color, _ t: Double) -> Color {
-        self + (a - self) * max(0, min(1, t))
+    func lerp(_ other: Color, _ t: Double) -> Color {
+        self + (other - self) * max(0, min(1, t))
     }
 }
 

@@ -739,7 +739,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)": {
   "abstract" : [
     {
-      "text" : "Returns a Boolean value that indicates whether two line segements intersect.",
+      "text" : "Returns a Boolean value that indicates whether two line segments intersect.",
       "type" : "text"
     }
   ],

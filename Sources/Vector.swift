@@ -100,7 +100,7 @@ extension Vector: Codable {
     }
 }
 
-/// Returns a new vector that represents the mininum of the components of the two vectors.
+/// Returns a new vector that represents the minimum of the components of the two vectors.
 public func min(_ lhs: Vector, _ rhs: Vector) -> Vector {
     Vector(min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z))
 }
@@ -215,17 +215,17 @@ public extension Vector {
     }
 
     /// Computes the dot-product of this vector and another.
-    /// - Parameter a: The vector with which to compute the dot product.
+    /// - Parameter other: The vector with which to compute the dot product.
     /// - Returns: The dot product of the two vectors.
-    func dot(_ a: Vector) -> Double {
-        x * a.x + y * a.y + z * a.z
+    func dot(_ other: Vector) -> Double {
+        x * other.x + y * other.y + z * other.z
     }
 
     /// Computes the cross-product of this vector and another.
-    /// - Parameter a: The vector with which to compute the cross product.
+    /// - Parameter other: The vector with which to compute the cross product.
     /// - Returns: Returns a vector that is orthogonal to the two vectors used to compute the cross product.
-    func cross(_ a: Vector) -> Vector {
-        Vector(y * a.z - z * a.y, z * a.x - x * a.z, x * a.y - y * a.x)
+    func cross(_ other: Vector) -> Vector {
+        Vector(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x)
     }
 
     /// A Boolean value that indicates whether the vector has a length of `1`.
@@ -252,16 +252,16 @@ public extension Vector {
 
     /// Linearly interpolate between this vector and another.
     /// - Parameters:
-    ///   - a: The vector to interpolate towards.
+    ///   - other: The vector to interpolate towards.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
-    func lerp(_ a: Vector, _ t: Double) -> Vector {
-        self + (a - self) * t
+    func lerp(_ other: Vector, _ t: Double) -> Vector {
+        self + (other - self) * t
     }
 
     /// Returns the angle between this vector and another.
-    /// - Parameter a: The vector to compare with.
-    func angle(with a: Vector) -> Angle {
-        .acos(normalized().dot(a.normalized()))
+    /// - Parameter other: The vector to compare with.
+    func angle(with other: Vector) -> Angle {
+        .acos(normalized().dot(other.normalized()))
     }
 
     /// Returns the angle between this vector and the specified plane.

@@ -179,6 +179,34 @@
       "kind" : "declarations"
     },
     {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane",
+                  "isActive" : true,
+                  "type" : "reference"
+                },
+                {
+                  "text" : " to split the polygon along.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "plane"
+        }
+      ]
+    },
+    {
       "content" : [
         {
           "anchor" : "return-value",

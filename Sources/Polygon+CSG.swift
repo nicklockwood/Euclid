@@ -8,7 +8,7 @@
 
 public extension Polygon {
     /// Split the polygon along a plane.
-    /// - Parameter along: The ``Plane`` to split the polygon along.
+    /// - Parameter plane: The ``Plane`` to split the polygon along.
     /// - Returns: A pair of arrays representing the polygon fragments in front of and behind the plane respectively.
     ///
     /// > Note: If the plane and polygon do not intersect, one of the returned arrays will be empty.

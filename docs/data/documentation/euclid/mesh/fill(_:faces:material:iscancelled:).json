@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Efficiently fills an array of paths, avoiding unecessary work if there are duplicates.",
+      "text" : "Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.",
       "type" : "text"
     }
   ],
@@ -292,6 +292,20 @@
             }
           ],
           "name" : "material"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Callback used to cancel the operation.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "isCancelled"
         }
       ]
     }
@@ -488,7 +502,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Efficiently fills an array of paths, avoiding unecessary work if there are duplicates.",
+      "text" : "Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.",
       "type" : "text"
     }
   ],

@@ -351,7 +351,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/min(_:_:)": {
   "abstract" : [
     {
-      "text" : "Returns a new vector that represents the mininum of the components of the two vectors.",
+      "text" : "Returns a new vector that represents the minimum of the components of the two vectors.",
       "type" : "text"
     }
   ],

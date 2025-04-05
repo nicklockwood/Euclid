@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.7.10](https://github.com/nicklockwood/Euclid/releases/tag/0.7.10) (2025-04-05)
+
+- Added support for new RealityKit `Material` properties
+- Added `Mesh.volume` and `Mesh.surfaceArea` getters
+- Made `Mesh(_: MeshResource.Model)` and `Mesh(_: ModelComponent)` initializers public
+- Increased the tolerance for `isNormalized` checks
+- Fixed a deprecation warning
+
 ## [0.7.9](https://github.com/nicklockwood/Euclid/releases/tag/0.7.9) (2024-10-09)
 
 - Fixed extrusion along zero length path

@@ -108,7 +108,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "v"
+              "text" : "distance"
             },
             {
               "kind" : "text",
@@ -150,7 +150,7 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "v"
+          "name" : "distance"
         }
       ]
     },

@@ -236,17 +236,17 @@ public extension Bounds {
     }
 
     /// Returns a new bounds inset by the specified distance.
-    /// - Parameter v: The distance to inset the bounds by. Use negative values to expand the bounds.
+    /// - Parameter distance: The distance to inset the bounds by. Use negative values to expand the bounds.
     /// - Returns: The inset bounds.
-    func inset(by v: Vector) -> Bounds {
-        Bounds(min: min + v, max: max - v)
+    func inset(by distance: Vector) -> Bounds {
+        Bounds(min: min + distance, max: max - distance)
     }
 
     /// Returns a new bounds inset by the specified amount.
-    /// - Parameter d: The amount to inset the bounds by. Use a negative value to expand the bounds.
+    /// - Parameter distance: The amount to inset the bounds by. Use a negative value to expand the bounds.
     /// - Returns: The inset bounds.
-    func inset(by d: Double) -> Bounds {
-        inset(by: Vector(size: d))
+    func inset(by distance: Double) -> Bounds {
+        inset(by: Vector(size: distance))
     }
 }
 

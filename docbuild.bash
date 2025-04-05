@@ -24,7 +24,7 @@ $(xcrun --find docc) convert Euclid.docc \
 --fallback-bundle-version 0.5.16 \
 --additional-symbol-graph-dir .build/symbol-graphs \
 --experimental-documentation-coverage \
---level brief
+--coverage-summary-level brief
 
 $(xcrun --find docc) convert Euclid.docc \
     --output-path ./docs \

@@ -108,7 +108,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "a"
+              "text" : "other"
             },
             {
               "kind" : "text",
@@ -150,7 +150,7 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "a"
+          "name" : "other"
         }
       ]
     }

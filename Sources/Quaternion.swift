@@ -111,10 +111,10 @@ public extension Quaternion {
     }
 
     /// Computes the dot-product of this quaternion and another.
-    /// - Parameter a: The quaternion with which to compute the dot product.
+    /// - Parameter other: The quaternion with which to compute the dot product.
     /// - Returns: The dot product of the two quaternions.
-    func dot(_ q: Quaternion) -> Double {
-        simd_dot(storage, q.storage)
+    func dot(_ other: Quaternion) -> Double {
+        simd_dot(storage, other.storage)
     }
 
     /// Returns the normalized quaternion.
@@ -128,11 +128,11 @@ public extension Quaternion {
 
     /// Performs a spherical interpolation between two quaternions.
     /// - Parameters:
-    ///   - q: A quaternion to interpolate with.
+    ///   - other: A quaternion to interpolate with.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
     /// - Returns: The interpolated quaternion.
-    func slerp(_ q: Quaternion, _ t: Double) -> Quaternion {
-        .init(storage: simd_slerp(storage, q.storage, t))
+    func slerp(_ other: Quaternion, _ t: Double) -> Quaternion {
+        .init(storage: simd_slerp(storage, other.storage, t))
     }
 
     /// Returns the reverse quaternion rotation.
@@ -259,10 +259,10 @@ public extension Quaternion {
     }
 
     /// Computes the dot-product of this quaternion and another.
-    /// - Parameter a: The quaternion with which to compute the dot product.
+    /// - Parameter other: The quaternion with which to compute the dot product.
     /// - Returns: The dot product of the two quaternions.
-    func dot(_ q: Quaternion) -> Double {
-        x * q.x + y * q.y + z * q.z + w * q.w
+    func dot(_ other: Quaternion) -> Double {
+        x * other.x + y * other.y + z * other.z + w * other.w
     }
 
     /// Returns the normalized quaternion.
@@ -277,18 +277,18 @@ public extension Quaternion {
 
     /// Performs a spherical linear interpolation between two quaternions.
     /// - Parameters:
-    ///   - q: The quaternion to interpolate towards.
+    ///   - other: The quaternion to interpolate towards.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
     /// - Returns: The interpolated quaternion.
-    func slerp(_ q: Quaternion, _ t: Double) -> Quaternion {
-        let dot = max(-1, min(1, self.dot(q)))
+    func slerp(_ other: Quaternion, _ t: Double) -> Quaternion {
+        let dot = max(-1, min(1, self.dot(other)))
         if abs(abs(dot) - 1) < epsilon {
-            return (self + (q - self) * t).normalized()
+            return (self + (other - self) * t).normalized()
         }
 
         let theta = acos(dot) * t
         let t1 = self * cos(theta)
-        let t2 = (q - (self * dot)).normalized() * sin(theta)
+        let t2 = (other - (self * dot)).normalized() * sin(theta)
         return t1 + t2
     }
 

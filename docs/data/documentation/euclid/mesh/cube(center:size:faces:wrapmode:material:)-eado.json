@@ -188,14 +188,6 @@
             },
             {
               "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "internalParam",
-              "text" : "c"
-            },
-            {
-              "kind" : "text",
               "text" : ": "
             },
             {
@@ -211,14 +203,6 @@
             {
               "kind" : "externalParam",
               "text" : "size"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "internalParam",
-              "text" : "s"
             },
             {
               "kind" : "text",
@@ -301,6 +285,34 @@
     {
       "kind" : "parameters",
       "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The center point of the mesh.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "center"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The size of the mesh.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "size"
+        },
         {
           "content" : [
             {

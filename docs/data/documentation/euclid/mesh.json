@@ -350,10 +350,12 @@
       "anchor" : "Initializers",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-155xt",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-3drza",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-7p5hd",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-22brv",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4k8gs",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4y1bs",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(scnGeometry:materialLookup:)"
       ],
       "title" : "Initializers"
@@ -362,7 +364,9 @@
       "anchor" : "Instance-Properties",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/hasVertexNormals"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/hasVertexNormals",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/surfaceArea",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/volume"
       ],
       "title" : "Instance Properties"
     },
@@ -3193,7 +3197,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Efficiently fills an array of paths, avoiding unecessary work if there are duplicates.",
+      "text" : "Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.",
       "type" : "text"
     }
   ],
@@ -3799,6 +3803,64 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(_:material:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-155xt": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from a RealityKit ",
+      "type" : "text"
+    },
+    {
+      "code" : "ModelComponent",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " with optional material mapping.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation14ModelComponentV",
+      "text" : "ModelComponent"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV26RealityKitMaterialProvidera",
+      "text" : "RealityKitMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-155xt",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-155xt"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-3drza": {
   "abstract" : [
     {
@@ -4040,6 +4102,82 @@
   "title" : "init(_:materials:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4k8gs"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-4y1bs": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from a RealityKit ",
+      "type" : "text"
+    },
+    {
+      "code" : "MeshResource.Model",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation12MeshResourceC",
+      "text" : "MeshResource"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation12MeshResourceCAAE5ModelV",
+      "text" : "Model"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materials"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?])"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4y1bs",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:materials:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4y1bs"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(scnGeometry:materialLookup:)": {
   "abstract" : [
@@ -6789,6 +6927,43 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/subtracting(_:iscancelled:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/surfaceArea": {
+  "abstract" : [
+    {
+      "text" : "The surface area of a watertight mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "surfaceArea"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/surfaceArea",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "surfaceArea",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/surfacearea"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/symmetricDifference(_:isCancelled:)-swift.method": {
   "abstract" : [
     {
@@ -7614,6 +7789,43 @@
   "title" : "uniqueEdges",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/uniqueedges"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/volume": {
+  "abstract" : [
+    {
+      "text" : "The volume of a watertight mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "volume"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/volume",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "volume",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/volume"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/withMaterial(_:)": {
   "abstract" : [

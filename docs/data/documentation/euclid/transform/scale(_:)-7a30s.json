@@ -116,7 +116,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "scale"
+              "text" : "factor"
             },
             {
               "kind" : "text",
@@ -141,6 +141,25 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "A uniform scale factor to apply.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "factor"
+        }
+      ]
     }
   ],
   "schemaVersion" : {

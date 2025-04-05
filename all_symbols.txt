@@ -256,10 +256,12 @@
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:ignoringTransforms:materialLookup:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:material:)``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-155xt``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-3drza``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-7p5hd``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-22brv``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-4k8gs``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-4y1bs``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(from:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(scnGeometry:materialLookup:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlData:materialLookup:)``
@@ -307,6 +309,7 @@
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/submeshes``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/subtract(_:isCancelled:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/subtracting(_:isCancelled:)``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/surfaceArea``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/symmetricDifference(_:isCancelled:)-swift.method``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/symmetricDifference(_:isCancelled:)-swift.type.method``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/tessellate(maxSides:)``
@@ -320,6 +323,7 @@
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/union(_:isCancelled:)-swift.method``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/union(_:isCancelled:)-swift.type.method``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/uniqueEdges``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/volume``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/withMaterial(_:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/withTextureTransform(_:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/withoutTexcoords()``
@@ -515,6 +519,7 @@
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/scale(by:)-3en6y``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/scaled(by:)-69m6m``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/scaled(by:)-8sjrv``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/signedVolume``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/split(along:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/subdivide()``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/tessellate(maxSides:)``

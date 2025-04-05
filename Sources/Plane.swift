@@ -139,15 +139,15 @@ public extension Plane {
     /// Computes the line of intersection between two planes.
     /// - Parameter plane: The plane to compare with.
     /// - Returns: The line of intersection between the planes, or `nil` if the planes are parallel.
-    func intersection(with p: Plane) -> Line? {
-        let direction = normal.cross(p.normal)
+    func intersection(with plane: Plane) -> Line? {
+        let direction = normal.cross(plane.normal)
         guard direction.length > epsilon else {
             // Planes are parallel
             return nil
         }
 
         let n1 = normal.components
-        let n2 = p.normal.components
+        let n2 = plane.normal.components
 
         // http://geomalgorithms.com/a05-_intersect-1.html
         func findCommonPoint(_ a: Int, _ b: Int) -> Vector {
@@ -155,8 +155,8 @@ public extension Plane {
             let a2 = n2[a], b2 = n2[b]
 
             var result: [Double] = [0, 0, 0]
-            result[a] = (b2 * w - b1 * p.w) / (a1 * b2 - a2 * b1)
-            result[b] = (a1 * p.w - a2 * w) / (a1 * b2 - a2 * b1)
+            result[a] = (b2 * w - b1 * plane.w) / (a1 * b2 - a2 * b1)
+            result[b] = (a1 * plane.w - a2 * w) / (a1 * b2 - a2 * b1)
 
             return Vector(result)
         }
@@ -183,7 +183,7 @@ public extension Plane {
     }
 
     /// Computes the point of intersection between a line segment and a plane.
-    /// - Parameter line: The ``LineSegment`` to compare with.
+    /// - Parameter segment: The ``LineSegment`` to compare with.
     /// - Returns: The point of intersection between the line segment and plane, or `nil` if they do not intersect.
     func intersection(with segment: LineSegment) -> Vector? {
         linePlaneIntersection(segment.start, segment.direction, self).flatMap {

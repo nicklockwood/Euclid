@@ -113,7 +113,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "v"
+              "text" : "distance"
             },
             {
               "kind" : "text",
@@ -139,6 +139,25 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "An offset vector to apply to the value.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "distance"
+        }
+      ]
     }
   ],
   "schemaVersion" : {

@@ -112,7 +112,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "q"
+              "text" : "other"
             },
             {
               "kind" : "text",
@@ -179,7 +179,7 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "q"
+          "name" : "other"
         },
         {
           "content" : [

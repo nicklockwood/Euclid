@@ -112,7 +112,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "p"
+              "text" : "plane"
             },
             {
               "kind" : "text",
@@ -142,6 +142,25 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The plane to compare with.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "plane"
+        }
+      ]
     },
     {
       "content" : [

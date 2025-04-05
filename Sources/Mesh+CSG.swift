@@ -362,7 +362,7 @@ public extension Mesh {
     }
 
     /// Split the mesh along a plane.
-    /// - Parameter along: The ``Plane`` to split the mesh along.
+    /// - Parameter plane: The ``Plane`` to split the mesh along.
     /// - Returns: A pair of meshes representing the parts in front of and behind the plane respectively.
     ///
     /// > Note: If the plane and mesh do not intersect, one of the returned meshes will be `nil`.

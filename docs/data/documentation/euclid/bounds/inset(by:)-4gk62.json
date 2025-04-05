@@ -108,7 +108,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "d"
+              "text" : "distance"
             },
             {
               "kind" : "text",
@@ -149,7 +149,7 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "d"
+          "name" : "distance"
         }
       ]
     },

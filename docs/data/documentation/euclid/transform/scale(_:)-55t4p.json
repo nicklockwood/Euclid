@@ -151,7 +151,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A vector scale factor apply.",
+                  "text" : "A vector scale factor to apply.",
                   "type" : "text"
                 }
               ],

@@ -113,7 +113,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "v"
+              "text" : "scale"
             },
             {
               "kind" : "text",
@@ -139,6 +139,25 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "A vector scale factor to apply to the value.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "scale"
+        }
+      ]
     }
   ],
   "schemaVersion" : {

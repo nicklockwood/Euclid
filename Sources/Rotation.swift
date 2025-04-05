@@ -65,11 +65,11 @@ public extension Rotation {
 
     /// Performs a spherical linear interpolation between two rotations.
     /// - Parameters:
-    ///   - r: The rotation to interpolate towards.
+    ///   - other: The rotation to interpolate towards.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
     /// - Returns: The interpolated rotation.
-    func slerp(_ r: Rotation, _ t: Double) -> Rotation {
-        .init(storage: simd_slerp(storage, r.storage, t))
+    func slerp(_ other: Rotation, _ t: Double) -> Rotation {
+        .init(storage: simd_slerp(storage, other.storage, t))
     }
 
     /// Returns the inverse rotation.
@@ -109,7 +109,7 @@ extension Rotation {
         assert(axis.isNormalized)
         self.init(storage: simd_quatd(
             angle: -angle.radians,
-            axis: .init(axis.x, axis.y, axis.z)
+            axis: .init(axis)
         ))
     }
 }
@@ -155,18 +155,18 @@ public extension Rotation {
 
     /// Performs a spherical linear interpolation between two rotations.
     /// - Parameters:
-    ///   - r: The rotation to interpolate towards.
+    ///   - other: The rotation to interpolate towards.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
     /// - Returns: The interpolated rotation.
-    func slerp(_ r: Rotation, _ t: Double) -> Rotation {
-        let dot = max(-1, min(1, self.dot(r)))
+    func slerp(_ other: Rotation, _ t: Double) -> Rotation {
+        let dot = max(-1, min(1, self.dot(other)))
         if abs(abs(dot) - 1) < epsilon {
-            return (self + (r - self) * t).normalized()
+            return (self + (other - self) * t).normalized()
         }
 
         let theta = acos(dot) * t
         let t1 = self * cos(theta)
-        let t2 = (r - (self * dot)).normalized() * sin(theta)
+        let t2 = (other - (self * dot)).normalized() * sin(theta)
         return t1 + t2
     }
 
