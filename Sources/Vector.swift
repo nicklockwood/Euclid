@@ -230,7 +230,7 @@ public extension Vector {
 
     /// A Boolean value that indicates whether the vector has a length of `1`.
     var isNormalized: Bool {
-        abs(lengthSquared - 1) < epsilon
+        abs(lengthSquared - 1) < planeEpsilon
     }
 
     /// Returns a normalized vector.
