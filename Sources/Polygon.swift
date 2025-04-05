@@ -216,6 +216,17 @@ public extension Polygon {
         } / 2)
     }
 
+    /// Returns the signed volume of the polygon.
+    var signedVolume: Double {
+        triangulate().reduce(0) {
+            $0 + $1.vertices[0].position
+                .dot(
+                    $1.vertices[1].position
+                        .cross($1.vertices[2].position)
+                ) / 6
+        }
+    }
+
     /// Creates a copy of the polygon with the specified material.
     /// - Parameter material: The replacement material, or `nil` to remove the material.
     func withMaterial(_ material: Material?) -> Polygon {

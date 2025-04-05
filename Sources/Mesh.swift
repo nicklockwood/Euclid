@@ -148,6 +148,16 @@ public extension Mesh {
         storage.isWatertight
     }
 
+    /// The surface area of a watertight mesh.
+    var surfaceArea: Double {
+        polygons.reduce(0) { $0 + $1.area }
+    }
+
+    /// The volume of a watertight mesh.
+    var volume: Double {
+        polygons.reduce(0) { $0 + $1.signedVolume }
+    }
+
     /// Creates a new mesh from an array of polygons.
     /// - Parameter polygons: The polygons making up the mesh.
     init(_ polygons: [Polygon]) {

@@ -218,6 +218,25 @@ class MeshTests: XCTestCase {
         XCTAssertNil(material)
     }
 
+    // MARK: surfaceArea
+
+    func testCubeArea() {
+        let cube = Mesh.cube()
+        XCTAssertEqual(cube.surfaceArea, 6, accuracy: epsilon)
+    }
+
+    // MARK: volume
+
+    func testCubeVolume() {
+        let cube = Mesh.cube(size: 2)
+        XCTAssertEqual(cube.volume, 8, accuracy: epsilon)
+    }
+
+    func testSphereVolume() {
+        let cube = Mesh.sphere(slices: 128, stacks: 64)
+        XCTAssertEqual(cube.volume, (4.0 / 3) * .pi * pow(0.5, 3), accuracy: 0.001)
+    }
+
     // MARK: containsPoint
 
     func testCubeContainsPoint() {
