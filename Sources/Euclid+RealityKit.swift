@@ -366,7 +366,73 @@ private extension Array where Element == Polygon {
 }
 
 @available(macOS 12.0, iOS 15.0, *)
-private extension Mesh {
+public extension Mesh {
+    /// A closure that converts a RealityKit material to a Euclid material.
+    /// - Parameter material: A RealityKit material to convert.
+    /// - Returns: A Euclid `Material`.
+    typealias RealityKitMaterialProvider = (_ material: RealityKit.Material) -> Polygon.Material?
+
+    /// Creates a mesh from a RealityKit `MeshDescriptor` with optional material.
+    /// - Parameters:
+    ///   - meshDescriptor: The `MeshDescriptor` to convert into a mesh.
+    ///   - materials: An array of materials to apply to the mesh.
+    init(_ meshDescriptor: MeshDescriptor, materials: [Polygon.Material?] = []) {
+        guard let primitives = meshDescriptor.primitives else {
+            self = .empty
+            return
+        }
+        let polygons: [Polygon]
+        switch primitives {
+        case let .triangles(indices):
+            polygons = .init(
+                meshDescriptor: meshDescriptor,
+                indices: indices,
+                counts: [UInt8](repeating: 3, count: indices.count / 3),
+                materials: materials
+            )
+        case let .trianglesAndQuads(triangles, quads):
+            polygons = .init(
+                meshDescriptor: meshDescriptor,
+                indices: triangles,
+                counts: [UInt8](repeating: 3, count: triangles.count / 3),
+                materials: materials
+            ) + .init(
+                meshDescriptor: meshDescriptor,
+                indices: quads,
+                counts: [UInt8](repeating: 4, count: quads.count / 4),
+                materials: materials
+            )
+        case let .polygons(counts, indices):
+            polygons = .init(
+                meshDescriptor: meshDescriptor,
+                indices: indices,
+                counts: counts,
+                materials: materials
+            )
+        @unknown default:
+            // TODO: throw for unknown type?
+            polygons = []
+        }
+        self.init(polygons)
+    }
+
+    /// Creates a mesh from a RealityKit `MeshResource`.
+    /// - Parameters:
+    ///   - meshResource: The `MeshResource` to convert into a mesh.
+    ///   - materials: An array of materials to apply to the mesh.
+    init(_ meshResource: MeshResource, materials: [Polygon.Material?] = []) {
+        var models = [String: Mesh]()
+        self.init(submeshes: meshResource.contents.instances.compactMap {
+            var mesh = models[$0.model]
+            if mesh == nil, let model = meshResource.contents.models[$0.model] {
+                let modelMesh = Mesh(model, materials: materials)
+                models[$0.model] = modelMesh
+                mesh = modelMesh
+            }
+            return mesh?.transformed(by: Transform($0.transform))
+        })
+    }
+
     /// Creates a mesh from a RealityKit `MeshResource.Model`.
     /// - Parameters:
     ///   - model: The `MeshResource.Model` to convert into a mesh.
@@ -389,11 +455,24 @@ private extension Mesh {
         self.init(polygons)
     }
 
+    /// Creates a mesh from a RealityKit `ModelEntity` with optional material mapping.
+    /// - Parameters:
+    ///   - modelEntity: The `ModelEntity` to convert into a mesh.
+    ///   - materialLookup: An optional closure to map the RealityKit materials to Euclid materials.
+    init(_ modelEntity: ModelEntity, materialLookup: RealityKitMaterialProvider? = nil) {
+        guard let model = modelEntity.model else {
+            self = .empty
+            return
+        }
+        self.init(model, materialLookup: materialLookup)
+        transform(by: .init(modelEntity.transform))
+    }
+
     /// Creates a mesh from a RealityKit `ModelComponent` with optional material mapping.
     /// - Parameters:
     ///   - component: The `ModelComponent` to convert into a mesh.
     ///   - materialLookup: An optional closure to map the RealityKit materials to Euclid materials.
-    init(_ component: ModelComponent, materialLookup: RealityKitMaterialProvider?) {
+    init(_ component: ModelComponent, materialLookup: RealityKitMaterialProvider? = nil) {
         let materialLookup = materialLookup ?? {
             switch $0 {
             case let simpleMaterial as SimpleMaterial:
@@ -481,88 +560,6 @@ private extension Mesh {
             }
         }
         self.init(component.mesh, materials: component.materials.map { materialLookup($0) })
-    }
-}
-
-@available(macOS 12.0, iOS 15.0, *)
-public extension Mesh {
-    /// A closure that converts a RealityKit material to a Euclid material.
-    /// - Parameter material: A RealityKit material to convert.
-    /// - Returns: A Euclid `Material`.
-    typealias RealityKitMaterialProvider = (_ material: RealityKit.Material) -> Polygon.Material?
-
-    /// Creates a mesh from a RealityKit `MeshDescriptor` with optional material.
-    /// - Parameters:
-    ///   - part: The `MeshDescriptor` to convert into a mesh.
-    ///   - materials: An array of materials to apply to the mesh.
-    init(_ meshDescriptor: MeshDescriptor, materials: [Polygon.Material?] = []) {
-        guard let primitives = meshDescriptor.primitives else {
-            self = .empty
-            return
-        }
-        let polygons: [Polygon]
-        switch primitives {
-        case let .triangles(indices):
-            polygons = .init(
-                meshDescriptor: meshDescriptor,
-                indices: indices,
-                counts: [UInt8](repeating: 3, count: indices.count / 3),
-                materials: materials
-            )
-        case let .trianglesAndQuads(triangles, quads):
-            polygons = .init(
-                meshDescriptor: meshDescriptor,
-                indices: triangles,
-                counts: [UInt8](repeating: 3, count: triangles.count / 3),
-                materials: materials
-            ) + .init(
-                meshDescriptor: meshDescriptor,
-                indices: quads,
-                counts: [UInt8](repeating: 4, count: quads.count / 4),
-                materials: materials
-            )
-        case let .polygons(counts, indices):
-            polygons = .init(
-                meshDescriptor: meshDescriptor,
-                indices: indices,
-                counts: counts,
-                materials: materials
-            )
-        @unknown default:
-            // TODO: throw for unknown type?
-            polygons = []
-        }
-        self.init(polygons)
-    }
-
-    /// Creates a mesh from a RealityKit `MeshResource`.
-    /// - Parameters:
-    ///   - model: The `MeshResource` to convert into a mesh.
-    ///   - materials: An array of materials to apply to the mesh.
-    init(_ meshResource: MeshResource, materials: [Polygon.Material?] = []) {
-        var models = [String: Mesh]()
-        self.init(submeshes: meshResource.contents.instances.compactMap {
-            var mesh = models[$0.model]
-            if mesh == nil, let model = meshResource.contents.models[$0.model] {
-                let modelMesh = Mesh(model, materials: materials)
-                models[$0.model] = modelMesh
-                mesh = modelMesh
-            }
-            return mesh?.transformed(by: Transform($0.transform))
-        })
-    }
-
-    /// Creates a mesh from a RealityKit `ModelEntity` with optional material mapping.
-    /// - Parameters:
-    ///   - modelEntity: The `ModelEntity` to convert into a mesh.
-    ///   - materialLookup: An optional closure to map the RealityKit materials to Euclid materials.
-    init(_ modelEntity: ModelEntity, materialLookup: RealityKitMaterialProvider? = nil) {
-        guard let model = modelEntity.model else {
-            self = .empty
-            return
-        }
-        self.init(model, materialLookup: materialLookup)
-        transform(by: .init(modelEntity.transform))
     }
 }
 
