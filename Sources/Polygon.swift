@@ -729,9 +729,9 @@ extension Collection where Element == Polygon {
 
     /// Inset along face normals
     func insetFaces(by distance: Double) -> [Polygon] {
-        map { p0 in
-            Polygon(
-                unchecked: p0.vertices.map { v0 in
+        compactMap { p0 in
+            .init(
+                p0.vertices.map { v0 in
                     var planes: [Plane] = [p0.plane]
                     for p1 in self where p1.vertices.contains(where: {
                         $0.position.isEqual(to: v0.position)
@@ -754,7 +754,6 @@ extension Collection where Element == Polygon {
                         {
                             position = p
                         } else {
-                            print(planes.count)
                             fallthrough
                         }
                     default:
@@ -762,9 +761,6 @@ extension Collection where Element == Polygon {
                     }
                     return Vertex(unchecked: position, v0.normal, v0.texcoord, v0.color)
                 },
-                plane: p0.plane.translated(by: p0.plane.normal * -distance),
-                isConvex: nil,
-                sanitizeNormals: false,
                 material: p0.material
             )
         }
