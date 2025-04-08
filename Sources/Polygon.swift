@@ -192,10 +192,10 @@ public extension Polygon {
     /// The direction of each edge is normalized relative to the origin to simplify edge-equality comparisons.
     var undirectedEdges: Set<LineSegment> {
         var p0 = vertices.last!.position
-        return Set(vertices.map {
+        return Set(vertices.compactMap {
             let p1 = $0.position
             defer { p0 = p1 }
-            return LineSegment(normalized: p0, p1)
+            return LineSegment(undirected: p0, p1)
         })
     }
 

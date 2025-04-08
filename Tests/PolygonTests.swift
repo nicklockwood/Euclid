@@ -879,8 +879,8 @@ class PolygonTests: XCTestCase {
         let undirectedEdges = circle.undirectedEdges
         XCTAssertEqual(orderedEdges.count, undirectedEdges.count)
         for edge in orderedEdges {
-            let normalized = LineSegment(normalized: edge.start, edge.end)
-            XCTAssert(undirectedEdges.contains(normalized))
+            let undirected = LineSegment(undirected: edge)
+            XCTAssert(undirectedEdges.contains(undirected))
         }
     }
 

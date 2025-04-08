@@ -228,6 +228,12 @@ public extension Path {
         )
     }
 
+    /// Creates a path from a line segment.
+    /// - Parameter segment: A ``LineSegment`` to convert to a path.
+    init(_ segment: LineSegment) {
+        self.init([.point(segment.start), .point(segment.end)])
+    }
+
     /// Creates a path from a set of line segments.
     /// - Parameter lineSegments: A set of``LineSegment`` to convert to a path.
     init(_ lineSegments: Set<LineSegment>) {

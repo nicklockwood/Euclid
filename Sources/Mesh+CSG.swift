@@ -480,7 +480,7 @@ public extension Mesh {
     func edges(intersecting plane: Plane) -> Set<LineSegment> {
         var edges = Set<LineSegment>()
         for polygon in polygons {
-            polygon.intersect(with: plane, edges: &edges)
+            polygon.intersect(with: plane, segments: &edges)
         }
         return edges
     }

@@ -134,7 +134,9 @@ public extension Line {
     /// - Parameter plane: The plane to compare with.
     /// - Returns: The point of intersection, or `nil` if the line and plane are parallel (don't intersect).
     func intersection(with plane: Plane) -> Vector? {
-        plane.intersection(with: self)
+        linePlaneIntersection(origin, direction, plane).map {
+            origin + direction * $0
+        }
     }
 
     /// Returns the point where the specified line intersects this one.

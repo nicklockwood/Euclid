@@ -126,6 +126,29 @@ public extension LineSegment {
         (end - start).length
     }
 
+    /// Creates an 'undirected' line segment.
+    /// Undirected segments have a normalized direction such that `a -> b` and `b -> a` are equal/equivalent.
+    /// - Parameters:
+    ///   - a: One end of the line segment.
+    ///   - b: The other end of the line segment.
+    init?(undirected a: Vector, _ b: Vector) {
+        if a < b {
+            self.init(start: a, end: b)
+        } else {
+            self.init(start: b, end: a)
+        }
+    }
+
+    /// Creates an 'undirected' line segment from a directional one.
+    /// - Parameter segment: The input segment.
+    init(undirected segment: LineSegment) {
+        if segment.start < segment.end {
+            self = segment
+        } else {
+            self.init(unchecked: segment.end, segment.start)
+        }
+    }
+
     /// Flip the direction of the line segment
     func inverted() -> LineSegment {
         .init(unchecked: end, start)
@@ -145,7 +168,9 @@ public extension LineSegment {
     /// - Parameter plane: The plane to compare with.
     /// - Returns: The point of intersection, or `nil` if the line segment and plane don't intersect.
     func intersection(with plane: Plane) -> Vector? {
-        plane.intersection(with: self)
+        linePlaneIntersection(start, direction, plane).flatMap {
+            $0 >= 0 && $0 <= length ? start + direction * $0 : nil
+        }
     }
 
     /// Returns the intersection point between the specified line segment and this one.
@@ -168,14 +193,6 @@ extension LineSegment {
         assert(start != end)
         self.start = start
         self.end = end
-    }
-
-    init(normalized start: Vector, _ end: Vector) {
-        if start < end {
-            self.init(unchecked: start, end)
-        } else {
-            self.init(unchecked: end, start)
-        }
     }
 
     func compare(with plane: Plane) -> PlaneComparison {

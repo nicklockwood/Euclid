@@ -177,18 +177,14 @@ public extension Plane {
     /// - Parameter line: The ``Line`` to compare with.
     /// - Returns: The point of intersection between the line and plane, or `nil` if they are parallel.
     func intersection(with line: Line) -> Vector? {
-        linePlaneIntersection(line.origin, line.direction, self).map {
-            line.origin + line.direction * $0
-        }
+        line.intersection(with: self)
     }
 
     /// Computes the point of intersection between a line segment and a plane.
     /// - Parameter segment: The ``LineSegment`` to compare with.
     /// - Returns: The point of intersection between the line segment and plane, or `nil` if they do not intersect.
     func intersection(with segment: LineSegment) -> Vector? {
-        linePlaneIntersection(segment.start, segment.direction, self).flatMap {
-            $0 >= 0 && $0 <= segment.length ? segment.start + segment.direction * $0 : nil
-        }
+        segment.intersection(with: self)
     }
 }
 

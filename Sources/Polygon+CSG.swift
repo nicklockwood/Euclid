@@ -41,7 +41,7 @@ public extension Polygon {
     /// - Returns: A `Set` of ``LineSegment`` representing the polygon edges intersecting the plane.
     func edges(intersecting plane: Plane) -> Set<LineSegment> {
         var edges = Set<LineSegment>()
-        intersect(with: plane, edges: &edges)
+        intersect(with: plane, segments: &edges)
         return edges
     }
 
@@ -182,15 +182,15 @@ extension Polygon {
     }
 
     /// Get all edges intersecting the plane
-    func intersect(with plane: Plane, edges: inout Set<LineSegment>) {
+    func intersect(with plane: Plane, segments: inout Set<LineSegment>) {
         var wasFront = false, wasBack = false
-        for edge in undirectedEdges {
-            switch edge.compare(with: plane) {
+        for segment in undirectedEdges {
+            switch segment.compare(with: plane) {
             case .front where wasBack, .back where wasFront, .spanning:
-                intersect(spanning: plane, intersections: &edges)
+                intersect(spanning: plane, segments: &segments)
                 return
             case .coplanar:
-                edges.insert(edge)
+                segments.insert(segment)
             case .front:
                 wasFront = true
             case .back:
@@ -199,11 +199,10 @@ extension Polygon {
         }
     }
 
-    func intersect(spanning plane: Plane, intersections: inout Set<LineSegment>) {
-        assert(compare(with: plane) == .spanning)
+    func intersect(spanning plane: Plane, segments: inout Set<LineSegment>) {
         guard isConvex else {
             for polygon in tessellate() {
-                polygon.intersect(spanning: plane, intersections: &intersections)
+                polygon.intersect(spanning: plane, segments: &segments)
             }
             return
         }
@@ -215,7 +214,7 @@ extension Polygon {
                 let t = (plane.w - plane.normal.dot(p0)) / plane.normal.dot(p1 - p0)
                 let p = p0.lerp(p1, t)
                 if let start = start {
-                    intersections.insert(LineSegment(normalized: start, p))
+                    LineSegment(undirected: start, p).map { _ = segments.insert($0) }
                     return
                 }
                 start = p
