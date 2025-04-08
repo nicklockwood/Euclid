@@ -91,11 +91,6 @@ extension Path: Codable {
     }
 }
 
-extension Path: Bounded {
-    /// The bounds of all the path's points.
-    public var bounds: Bounds { Bounds(points.map { $0.position }) }
-}
-
 public extension Path {
     /// An empty path.
     static let empty: Path = .init([])

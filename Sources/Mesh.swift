@@ -91,11 +91,6 @@ extension Mesh: Codable {
     }
 }
 
-extension Mesh: Bounded {
-    /// The bounds of the mesh.
-    public var bounds: Bounds { storage.bounds }
-}
-
 public extension Mesh {
     /// Material used by the mesh polygons.
     /// See ``Polygon/Material-swift.typealias`` for details.
@@ -147,6 +142,9 @@ public extension Mesh {
     var isWatertight: Bool {
         storage.isWatertight
     }
+
+    /// The bounds of the mesh.
+    var bounds: Bounds { storage.bounds }
 
     /// The surface area of a watertight mesh.
     var surfaceArea: Double {

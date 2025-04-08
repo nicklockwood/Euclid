@@ -50,12 +50,6 @@ public struct Bounds: Hashable, Sendable {
     }
 }
 
-/// A common protocol for objects that have a bounds.
-public protocol Bounded {
-    /// The bounds of the object.
-    var bounds: Bounds { get }
-}
-
 extension Bounds: Codable {
     private enum CodingKeys: CodingKey {
         case min, max

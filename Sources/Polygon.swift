@@ -112,11 +112,6 @@ extension Polygon: Codable {
     }
 }
 
-extension Polygon: Bounded {
-    /// The bounding box containing the polygon.
-    public var bounds: Bounds { Bounds(vertices.map { $0.position }) }
-}
-
 public extension Polygon {
     /// Material used by a given polygon.
     /// This can be any type that conforms to `Hashable`, but encoding/decoding is only supported

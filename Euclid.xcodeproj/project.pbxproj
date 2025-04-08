@@ -78,6 +78,7 @@
 		52A663A123857D5300FACF9D /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A663A023857D5300FACF9D /* Line.swift */; };
 		52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C844E023854C87009C0A73 /* VectorTests.swift */; };
 		EA6F2219296C5A9000B530BE /* Polygon+CSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */; };
+		EAF0DCF12DA4CC8D00CC5D70 /* Bounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0DCF02DA4CC8D00CC5D70 /* Bounded.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +187,7 @@
 		52A663A023857D5300FACF9D /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		52C844E023854C87009C0A73 /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
 		EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Polygon+CSG.swift"; sourceTree = "<group>"; };
+		EAF0DCF02DA4CC8D00CC5D70 /* Bounded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bounded.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +252,7 @@
 			children = (
 				0A24013E256A671600C1535C /* Angle.swift */,
 				016FAB4721BFE7C200AF60DC /* Bounds.swift */,
+				EAF0DCF02DA4CC8D00CC5D70 /* Bounded.swift */,
 				0188525726D951490079C602 /* Color.swift */,
 				016FAB4521BFE7C100AF60DC /* Utilities.swift */,
 				016FAB4321BFE7C100AF60DC /* Vector.swift */,
@@ -531,6 +534,7 @@
 				0188525826D951490079C602 /* Color.swift in Sources */,
 				010A63392A951165000E3306 /* Mesh+OBJ.swift in Sources */,
 				016FAB5421BFE7C200AF60DC /* Mesh.swift in Sources */,
+				EAF0DCF12DA4CC8D00CC5D70 /* Bounded.swift in Sources */,
 				01CF789326EBE0C70097907A /* Quaternion.swift in Sources */,
 				0112D5C928EE29BB00A1C085 /* Euclid+RealityKit.swift in Sources */,
 				EA6F2219296C5A9000B530BE /* Polygon+CSG.swift in Sources */,
