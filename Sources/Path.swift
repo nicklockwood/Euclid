@@ -447,6 +447,35 @@ public extension Path {
         return vertices
     }
 
+    /// Returns an interpolated point at the specified offset along the path.
+    /// If `offset` is less than `0` or greater than `length` it will be wrapped or clamped.
+    /// - Parameter offset: The distance along the path at which to compute the point.
+    func point(at offset: Double) -> PathPoint? {
+        guard var prev = points.first else {
+            return nil
+        }
+        let length = length
+        var offset = offset
+        while offset < 0 {
+            offset += length
+        }
+        while offset > length {
+            offset -= length
+        }
+        var sum = 0.0
+        for point in points.dropFirst() {
+            let position = point.position
+            let distance = position.distance(from: prev.position)
+            if sum + distance >= offset {
+                let t = (offset - sum) / distance
+                return prev.lerp(point, t)
+            }
+            sum += distance
+            prev = point
+        }
+        return points.last
+    }
+
     /// Returns the ordered array of path edges.
     var orderedEdges: [LineSegment] {
         // TODO: do subpaths need special handling?
