@@ -127,7 +127,7 @@ public extension Line {
         ) else {
             return 0
         }
-        return (p1 - p0).length
+        return p1.distance(from: p0)
     }
 
     /// Returns the point where the specified plane intersects the line.

@@ -106,7 +106,7 @@ public extension Path {
         return points.dropFirst().reduce(0.0) {
             let position = $1.position
             defer { prev = position }
-            return $0 + (position - prev).length
+            return $0 + position.distance(from: prev)
         }
     }
 
@@ -373,7 +373,7 @@ public extension Path {
         case .shrink, .default:
             var prev = points[0].position
             for point in points {
-                let length = (point.position - prev).length
+                let length = point.position.distance(from: prev)
                 totalLength += length
                 prev = point.position
             }

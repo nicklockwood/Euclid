@@ -297,6 +297,13 @@ public extension Vector {
         projected(onto: plane)
     }
 
+    /// Returns the distance between the vector (representing a position in space) from the specified point.
+    /// - Parameter point: The point to compare with.
+    /// - Returns: The absolute perpendicular distance between the two points.
+    func distance(from point: Vector) -> Double {
+        (self - point).length
+    }
+
     /// Returns the distance between the vector (representing a position in space) from the specified line.
     /// - Parameter line: The line to compare with.
     /// - Returns: The absolute perpendicular distance between the point and line.

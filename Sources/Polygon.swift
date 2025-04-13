@@ -549,7 +549,7 @@ extension Collection where Element == LineSegment {
         for (i, a) in dropLast().enumerated() {
             var best = Double.infinity
             for b in dropFirst(i) {
-                let d = Swift.max((b.start - a.start).length, (b.end - a.end).length)
+                let d = Swift.max(b.start.distance(from: a.start), b.end.distance(from: a.end))
                 if d > 0, d < best {
                     best = d
                 }

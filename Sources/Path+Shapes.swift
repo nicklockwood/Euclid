@@ -568,7 +568,7 @@ public extension Path {
             let endIndex = count - (along.isClosed ? 1 : 0)
             for i in 1 ..< endIndex {
                 let position = along.points[i].position
-                distance += (position - prev).length
+                distance += position.distance(from: prev)
                 prev = position
                 var shape = shapes[i]
                 let offset = shape.bounds.center
