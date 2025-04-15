@@ -50,6 +50,7 @@
 		016FABF421C078E400AF60DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF221C078E400AF60DC /* Main.storyboard */; };
 		016FABF621C078E500AF60DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF521C078E500AF60DC /* Assets.xcassets */; };
 		016FABF921C078E500AF60DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF721C078E500AF60DC /* LaunchScreen.storyboard */; };
+		0175E7982DAE24400087AABA /* LineSegment+CSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175E7972DAE24400087AABA /* LineSegment+CSG.swift */; };
 		0188525626D94FCC0079C602 /* Euclid+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0188525526D94FCC0079C602 /* Euclid+UIKit.swift */; };
 		0188525826D951490079C602 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0188525726D951490079C602 /* Color.swift */; };
 		0188525A26D952890079C602 /* Euclid+AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0188525926D952890079C602 /* Euclid+AppKit.swift */; };
@@ -159,6 +160,7 @@
 		016FABF521C078E500AF60DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		016FABF821C078E500AF60DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		016FABFA21C078E500AF60DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0175E7972DAE24400087AABA /* LineSegment+CSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LineSegment+CSG.swift"; sourceTree = "<group>"; };
 		0188525526D94FCC0079C602 /* Euclid+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+UIKit.swift"; sourceTree = "<group>"; };
 		0188525726D951490079C602 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0188525926D952890079C602 /* Euclid+AppKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+AppKit.swift"; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				0148ECA3278378D100B3F836 /* Path+Shapes.swift */,
 				52A663A023857D5300FACF9D /* Line.swift */,
 				01F2381F23BF4160005EC9DB /* LineSegment.swift */,
+				0175E7972DAE24400087AABA /* LineSegment+CSG.swift */,
 				013ED08E23C0E60900FEEE5C /* Rotation.swift */,
 				01CF789226EBE0C70097907A /* Quaternion.swift */,
 				01B9F60D292BCE57002CC3EB /* Stretchable.swift */,
@@ -532,6 +535,7 @@
 				0112D5C928EE29BB00A1C085 /* Euclid+RealityKit.swift in Sources */,
 				EA6F2219296C5A9000B530BE /* Polygon+CSG.swift in Sources */,
 				016FAB5721BFE7C200AF60DC /* Transforms.swift in Sources */,
+				0175E7982DAE24400087AABA /* LineSegment+CSG.swift in Sources */,
 				016FAB5121BFE7C200AF60DC /* Utilities.swift in Sources */,
 				016FAB5321BFE7C200AF60DC /* Bounds.swift in Sources */,
 				01BA297C2235E3590088D36B /* Euclid+CoreGraphics.swift in Sources */,

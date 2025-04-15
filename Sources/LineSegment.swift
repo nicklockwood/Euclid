@@ -163,29 +163,6 @@ public extension LineSegment {
         }
         return bounds.inset(by: -epsilon).containsPoint(point)
     }
-
-    /// Returns the point where the specified plane intersects the line segment.
-    /// - Parameter plane: The plane to compare with.
-    /// - Returns: The point of intersection, or `nil` if the line segment and plane don't intersect.
-    func intersection(with plane: Plane) -> Vector? {
-        linePlaneIntersection(start, direction, plane).flatMap {
-            $0 >= 0 && $0 <= length ? start + direction * $0 : nil
-        }
-    }
-
-    /// Returns the intersection point between the specified line segment and this one.
-    /// - Parameter segment: The line segment to compare with.
-    /// - Returns: The point of intersection, or `nil` if the line segments don't intersect.
-    func intersection(with segment: LineSegment) -> Vector? {
-        lineSegmentsIntersection(start, end, segment.start, segment.end)
-    }
-
-    /// Returns a Boolean value that indicates whether two line segments intersect.
-    /// - Parameter segment: The line segment to compare with.
-    /// - Returns: `true` if the line segments intersect and `false` otherwise.
-    func intersects(_ segment: LineSegment) -> Bool {
-        intersection(with: segment) != nil
-    }
 }
 
 extension LineSegment {

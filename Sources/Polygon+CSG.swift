@@ -27,13 +27,7 @@ public extension Polygon {
     /// - Parameter plane: The ``Plane``  to clip the polygon to.
     /// - Returns: An array of the polygon fragments that lie in front of the plane.
     func clip(to plane: Plane) -> [Polygon] {
-        var id = 0
-        var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
-        split(along: plane, &coplanar, &front, &back, &id)
-        for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
-            front.append(polygon)
-        }
-        return front
+        split(along: plane).front
     }
 
     /// Computes a set of edges where the polygon intersects a plane.
