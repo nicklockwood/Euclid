@@ -739,6 +739,11 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/edges(intersecting:iscancelled:)",
+                "title" : "func edges(intersecting: Mesh, isCancelled: CancellationHandler) -> Set<LineSegment>",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/inset(by:)",
                 "title" : "func inset(by: Double) -> Mesh",
                 "type" : "method"
@@ -1565,6 +1570,11 @@
                 "type" : "init"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/init(_:)-8tl56",
+                "title" : "init(LineSegment)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/init(cgpath:detail:color:)",
                 "title" : "init(cgPath: CGPath, detail: Int, color: Color?)",
                 "type" : "init"
@@ -2316,6 +2326,30 @@
                 "path" : "\/documentation\/euclid\/linesegment\/init(start:end:)",
                 "title" : "init?(start: Vector, end: Vector)",
                 "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/init(undirected:)",
+                "title" : "init(undirected: LineSegment)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/init(undirected:_:)",
+                "title" : "init?(undirected: Vector, Vector)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/clip(to:)",
+                "title" : "func clip(to: Plane) -> LineSegment?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/split(along:)",
+                "title" : "func split(along: Plane) -> (front: LineSegment?, back: LineSegment?)",
+                "type" : "method"
               },
               {
                 "title" : "Default Implementations",

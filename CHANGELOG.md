@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.7.11](https://github.com/nicklockwood/Euclid/releases/tag/0.7.11) (2025-04-15)
+
+- Added `Mesh.edges(intersecting mesh:)` method to get boundary between intersecting meshes
+- Added `LineSegment(undirected:)` initializers
+- Fixed some assertion failures in `Mesh.inset()` 
+
 ## [0.7.10](https://github.com/nicklockwood/Euclid/releases/tag/0.7.10) (2025-04-05)
 
 - Added support for new RealityKit `Material` properties

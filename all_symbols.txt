@@ -159,6 +159,7 @@
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/_=(_:_:)-5dvuy``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/_=(_:_:)-8q2nt``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/bounds``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/clip(to:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/containsPoint(_:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/direction``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/encode(to:)``
@@ -166,6 +167,8 @@
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(_:_:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(from:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(start:end:)``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(undirected:)``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(undirected:_:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-1tffl``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-2u7vo``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)``
@@ -178,6 +181,7 @@
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/scale(by:)-8v4ag``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/scaled(by:)-2lm8c``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/scaled(by:)-37r1v``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/split(along:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/start``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/transform(by:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/transformed(by:)``
@@ -241,6 +245,7 @@
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/detriangulate()``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/difference(_:isCancelled:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/edges(intersecting:)``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/edges(intersecting:isCancelled:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/empty``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/encode(to:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)``
@@ -362,6 +367,7 @@
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-3c0eo``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-4jhkw``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-5bu0o``
+- ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-8tl56``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:detail:color:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(cgPath:detail:color:)``
 - ``doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(from:)``

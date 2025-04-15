@@ -371,6 +371,7 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-5bu0o",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-8tl56",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(cgPath:detail:color:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(polygon:)"
       ],
@@ -1659,6 +1660,39 @@
   "title" : "init(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/init(_:)-5bu0o"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-8tl56": {
+  "abstract" : [
+    {
+      "text" : "Creates a path from a line segment.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-8tl56",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/init(_:)-8tl56"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:detail:color:)": {
   "abstract" : [

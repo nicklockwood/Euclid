@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Computes a set of edges where the mesh intersects a plane.",
+      "text" : "Split the line segment along a plane.",
       "type" : "text"
     }
   ],
@@ -9,18 +9,18 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/edges(intersecting:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/split(along:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV5edges12intersectingShyAA11LineSegmentVGAA5PlaneV_tF",
+    "externalID" : "s:6Euclid11LineSegmentV5split5alongACSg5front_AF4backtAA5PlaneV_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,7 +32,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "edges"
+        "text" : "split"
       },
       {
         "kind" : "text",
@@ -40,7 +40,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "intersecting"
+        "text" : "along"
       },
       {
         "kind" : "text",
@@ -53,16 +53,11 @@
       },
       {
         "kind" : "text",
-        "text" : ") -> "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Sh",
-        "text" : "Set"
+        "text" : ") -> (front"
       },
       {
         "kind" : "text",
-        "text" : "<"
+        "text" : ": "
       },
       {
         "kind" : "typeIdentifier",
@@ -71,7 +66,20 @@
       },
       {
         "kind" : "text",
-        "text" : ">"
+        "text" : "?, back"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+        "text" : "LineSegment"
+      },
+      {
+        "kind" : "text",
+        "text" : "?)"
       }
     ],
     "modules" : [
@@ -82,7 +90,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "edges(intersecting:)"
+    "title" : "split(along:)"
   },
   "primaryContentSections" : [
     {
@@ -105,7 +113,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "edges"
+              "text" : "split"
             },
             {
               "kind" : "text",
@@ -113,7 +121,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "intersecting"
+              "text" : "along"
             },
             {
               "kind" : "text",
@@ -135,16 +143,11 @@
             },
             {
               "kind" : "text",
-              "text" : ") -> "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Sh",
-              "text" : "Set"
+              "text" : ") -> (front"
             },
             {
               "kind" : "text",
-              "text" : "<"
+              "text" : ": "
             },
             {
               "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
@@ -154,7 +157,21 @@
             },
             {
               "kind" : "text",
-              "text" : ">"
+              "text" : "?, back"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+              "text" : "LineSegment"
+            },
+            {
+              "kind" : "text",
+              "text" : "?)"
             }
           ]
         }
@@ -169,7 +186,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A ",
+                  "text" : "The ",
                   "type" : "text"
                 },
                 {
@@ -178,7 +195,7 @@
                   "type" : "reference"
                 },
                 {
-                  "text" : " to test against the mesh.",
+                  "text" : " to split the line segment along.",
                   "type" : "text"
                 }
               ],
@@ -200,24 +217,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "A ",
-              "type" : "text"
-            },
-            {
-              "code" : "Set",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " of ",
-              "type" : "text"
-            },
-            {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-              "isActive" : true,
-              "type" : "reference"
-            },
-            {
-              "text" : " representing the polygon edges intersections.",
+              "text" : "A pair of segments representing the parts of the line segment in front and behind the plane.",
               "type" : "text"
             }
           ],
@@ -235,20 +235,10 @@
   "sections" : [
 
   ],
-  "seeAlsoSections" : [
-    {
-      "anchor" : "Comparing-Meshes",
-      "generated" : true,
-      "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/containsPoint(_:)"
-      ],
-      "title" : "Comparing Meshes"
-    }
-  ],
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/edges(intersecting:)"
+        "\/documentation\/euclid\/linesegment\/split(along:)"
       ],
       "traits" : [
         {
@@ -307,44 +297,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/split(along:)": {
   "abstract" : [
     {
-      "text" : "A 3D surface made of polygons.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Mesh"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Mesh",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/containsPoint(_:)": {
-  "abstract" : [
-    {
-      "text" : "Returns a Boolean value that indicates if the specified point is inside the mesh.",
+      "text" : "Split the line segment along a plane.",
       "type" : "text"
     }
   ],
@@ -359,53 +315,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "containsPoint"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/containsPoint(_:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "containsPoint(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/containspoint(_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/edges(intersecting:)": {
-  "abstract" : [
-    {
-      "text" : "Computes a set of edges where the mesh intersects a plane.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "edges"
+      "text" : "split"
     },
     {
       "kind" : "text",
@@ -413,7 +323,7 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "intersecting"
+      "text" : "along"
     },
     {
       "kind" : "text",
@@ -426,16 +336,11 @@
     },
     {
       "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sh",
-      "text" : "Set"
+      "text" : ") -> (front"
     },
     {
       "kind" : "text",
-      "text" : "<"
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
@@ -444,15 +349,28 @@
     },
     {
       "kind" : "text",
-      "text" : ">"
+      "text" : "?, back"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/edges(intersecting:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/split(along:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "edges(intersecting:)",
+  "title" : "split(along:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/edges(intersecting:)"
+  "url" : "\/documentation\/euclid\/linesegment\/split(along:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane": {
   "abstract" : [

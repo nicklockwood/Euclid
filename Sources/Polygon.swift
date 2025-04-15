@@ -730,7 +730,7 @@ extension Collection where Element == Polygon {
     /// Inset along face normals
     func insetFaces(by distance: Double) -> [Polygon] {
         compactMap { p0 in
-            .init(
+            Polygon(
                 p0.vertices.map { v0 in
                     var planes: [Plane] = [p0.plane]
                     for p1 in self where p1.vertices.contains(where: {

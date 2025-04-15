@@ -9,13 +9,14 @@ jobs:
       fail-fast: false
       matrix:
         macos:
-          - 15
+          - latest
+          - 14
         xcode:
           - latest-stable
     runs-on: macos-${{ matrix.macos }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Build and Test
         run: |
           xcodebuild -scheme "Euclid" -sdk macosx clean build test -enableCodeCoverage YES -derivedDataPath Build/
@@ -26,7 +27,7 @@ jobs:
           cd ../../../../
           xcrun llvm-cov export -format="lcov" -instr-profile $pathCoverage Build/Build/Products/Debug/Euclid.framework/Euclid > info.lcov
       - name: Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           # the token is optional for a public repo, but including it anyway
           token: 2abe208f-c7d5-4c0d-aaf7-fa6994f1a78e
@@ -47,14 +48,14 @@ jobs:
       options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       - name: Build and Test
         run: swift test --enable-test-discovery
 
-  swiftwasm_test_5_6:
-    runs-on: ubuntu-20.04
+  swiftwasm_test_5_9:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: swiftwasm/swiftwasm-action@v5.6
+      - uses: actions/checkout@v3
+      - uses: swiftwasm/swiftwasm-action@v5.9
         with:
           shell-action: carton test
