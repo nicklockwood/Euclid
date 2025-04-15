@@ -25,8 +25,16 @@ class SceneKitViewController: UIViewController {
         // place the camera
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 2)
 
+        let a = Mesh.cube()
+        let b = Mesh.cube().translated(by: .one / 2)
+//        let mesh1 = a.clip(b)
+        let edges = a.edges(intersecting: b)
+        let path = Path(edges)
+        let mesh1 = Mesh.stroke(path) // edges.map(LineSegment.init))
+//        let mesh1 = a.union(b)
+
         // create SCNNode
-        let geometry = SCNGeometry(euclidMesh)
+        let geometry = SCNGeometry(mesh1)
         let node = SCNNode(geometry: geometry)
         scene.rootNode.addChildNode(node)
 
