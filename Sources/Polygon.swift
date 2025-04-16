@@ -226,12 +226,6 @@ public extension Polygon {
         return polygon
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "withMaterial(_:)")
-    func with(material: Material?) -> Polygon {
-        withMaterial(material)
-    }
-
     /// Creates a polygon from an array of vertices.
     /// - Parameters:
     ///   - vertices: An array of ``Vertex`` that make up the polygon.

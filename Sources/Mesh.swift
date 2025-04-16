@@ -362,12 +362,6 @@ public extension Mesh {
         )
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "smoothingNormals(forAnglesGreaterThan:)")
-    func smoothNormals(_ threshold: Angle) -> Mesh {
-        smoothingNormals(forAnglesGreaterThan: threshold)
-    }
-
     /// Subdivides triangles and quads, leaving other polygons unchanged.
     func subdivide() -> Mesh {
         Mesh(

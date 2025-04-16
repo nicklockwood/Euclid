@@ -266,12 +266,6 @@ public extension Vector {
         .acos(normalized().dot(other.normalized()))
     }
 
-    /// Deprecated.
-    @available(*, deprecated, message: "Use Rotation(from:to) instead")
-    func rotation(with other: Vector) -> Rotation {
-        -rotationBetweenNormalizedVectors(normalized(), other.normalized())
-    }
-
     /// Returns the angle between this vector and the specified plane.
     /// - Parameter plane: The plane to compare with.
     func angle(with plane: Plane) -> Angle {
@@ -293,13 +287,7 @@ public extension Vector {
         self - plane.normal * distance(from: plane)
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "projected(onto:)")
-    func project(onto plane: Plane) -> Vector {
-        projected(onto: plane)
-    }
-
-    /// Returns the distance between the vector (representing a position in space) from the specified point.
+    /// Returns the distance between the vector (representing a position in space) and the specified point.
     /// - Parameter point: The point to compare with.
     /// - Returns: The absolute perpendicular distance between the two points.
     func distance(from point: Vector) -> Double {
@@ -318,12 +306,6 @@ public extension Vector {
     /// - Returns: The nearest point in 3D space that lies on the line.
     func projected(onto line: Line) -> Vector {
         line.direction * (self - line.origin).dot(line.direction) - line.origin
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "projected(onto:)")
-    func project(onto line: Line) -> Vector {
-        projected(onto: line)
     }
 }
 

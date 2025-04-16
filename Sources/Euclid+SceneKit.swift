@@ -409,11 +409,6 @@ public extension SCNGeometry {
             ]
         )
     }
-
-    @available(*, deprecated, renamed: "init(_:)")
-    convenience init(bounds: Bounds) {
-        self.init(bounds)
-    }
 }
 
 // MARK: import
@@ -541,9 +536,6 @@ public extension Mesh {
     /// - Parameter m: An `SCNMaterial` material to convert.
     /// - Returns: A ``Material`` instance, or `nil` for the default material.
     typealias SCNMaterialProvider = (_ m: SCNMaterial) -> Material?
-
-    @available(*, deprecated, renamed: "SCNMaterialProvider")
-    typealias MaterialProvider = (_ m: SCNMaterial) -> Material?
 
     /// Loads a mesh from a file using any format supported by SceneKit,  with optional material mapping.
     /// - Parameters:
@@ -767,11 +759,6 @@ public extension Mesh {
     ///     Pass `nil` to use the default Euclid material.
     init?(_ scnGeometry: SCNGeometry, material: Material?) {
         self.init(scnGeometry) { _ in material }
-    }
-
-    @available(*, deprecated, renamed: "init(_:materialLookup:)")
-    init?(scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider? = nil) {
-        self.init(scnGeometry, materialLookup: materialLookup)
     }
 }
 
