@@ -233,12 +233,4 @@ class PlaneTests: XCTestCase {
         XCTAssertEqual(plane1.signedDistance(from: plane2.inverted()), -2)
         XCTAssertEqual(plane2.signedDistance(from: plane1.inverted()), 2)
     }
-
-    func testDeprecatedPointPlaneDistance() {
-        let point = Vector(-10, 0, 0)
-        let plane = Plane(unchecked: .unitX, w: 0)
-        // This should be -10 when it's calling the deprecated method
-        // When the deprecated method is removed it will return 10 instead
-        XCTAssertEqual(point.distance(from: plane), -10)
-    }
 }

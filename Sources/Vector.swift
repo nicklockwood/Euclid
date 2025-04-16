@@ -323,13 +323,6 @@ public extension Vector {
         .asin(normalized().dot(plane.normal))
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "signedDistance(from:)")
-    func distance(from plane: Plane) -> Double {
-        signedDistance(from: plane)
-    }
-
-    /// Returns the distance between the vector (representing a position in space) and the specified point.
     /// - Parameter point: The point to compare with.
     /// - Returns: The absolute perpendicular distance between the two points.
     func distance(from point: Vector) -> Double {
@@ -348,30 +341,6 @@ public extension Vector {
     /// - Returns:`true` if the bounds intersect, and `false` otherwise.
     func intersects<T: PointComparable>(_ object: T) -> Bool {
         object.intersects(self)
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, message: "Use Plane.nearestPoint(to:) instead")
-    func projected(onto plane: Plane) -> Vector {
-        plane.nearestPoint(to: self)
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "projected(onto:)")
-    func project(onto plane: Plane) -> Vector {
-        plane.nearestPoint(to: self)
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, message: "Use Line.nearestPoint(to:) instead")
-    func projected(onto line: Line) -> Vector {
-        line.nearestPoint(to: self)
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "projected(onto:)")
-    func project(onto line: Line) -> Vector {
-        line.nearestPoint(to: self)
     }
 }
 
