@@ -175,12 +175,12 @@ public extension Vertex {
     /// - Parameter plane: The ``Plane`` against which the vertices are to be reflected.
     /// - Returns: A ``Vertex`` representing the reflected vertex.
     func reflected(along plane: Plane) -> Vertex {
-        let p = position.projected(onto: plane)
+        let p = plane.nearestPoint(to: position)
         let d = position - p
         let reflectedPosition = p - d
 
         let np = position + normal
-        let n = np.projected(onto: plane)
+        let n = plane.nearestPoint(to: np)
         let nd = np - n
         let reflectedNormalPosition = n - nd
         let reflectedNormal = reflectedPosition - reflectedNormalPosition

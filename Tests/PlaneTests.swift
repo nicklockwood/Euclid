@@ -138,11 +138,11 @@ class PlaneTests: XCTestCase {
         XCTAssert(abs(plane1.normal.dot(intersection.origin) - plane1.w) < epsilon)
         XCTAssert(abs(plane2.normal.dot(intersection.origin) - plane2.w) < epsilon)
 
-        XCTAssert(plane1.containsPoint(intersection.origin))
-        XCTAssert(plane2.containsPoint(intersection.origin))
+        XCTAssert(plane1.intersects(intersection.origin))
+        XCTAssert(plane2.intersects(intersection.origin))
 
-        XCTAssert(plane1.containsPoint(intersection.origin + intersection.direction))
-        XCTAssert(plane2.containsPoint(intersection.origin + intersection.direction))
+        XCTAssert(plane1.intersects(intersection.origin + intersection.direction))
+        XCTAssert(plane2.intersects(intersection.origin + intersection.direction))
     }
 
     func testIntersectWithParallelLine() {
@@ -232,5 +232,13 @@ class PlaneTests: XCTestCase {
         XCTAssertEqual(plane2.signedDistance(from: plane1), -2)
         XCTAssertEqual(plane1.signedDistance(from: plane2.inverted()), -2)
         XCTAssertEqual(plane2.signedDistance(from: plane1.inverted()), 2)
+    }
+
+    func testDeprecatedPointPlaneDistance() {
+        let point = Vector(-10, 0, 0)
+        let plane = Plane(unchecked: .unitX, w: 0)
+        // This should be -10 when it's calling the deprecated method
+        // When the deprecated method is removed it will return 10 instead
+        XCTAssertEqual(point.distance(from: plane), -10)
     }
 }

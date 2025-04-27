@@ -73,6 +73,16 @@ extension Vector: Comparable {
     }
 }
 
+/// Returns a new vector that represents the minimum of the components of the two vectors.
+public func min(_ lhs: Vector, _ rhs: Vector) -> Vector {
+    .init(min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z))
+}
+
+/// Returns a new vector representing the maximum of the components of the two vectors.
+public func max(_ lhs: Vector, _ rhs: Vector) -> Vector {
+    .init(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z))
+}
+
 extension Vector: Codable {
     private enum CodingKeys: CodingKey {
         case x, y, z
@@ -98,16 +108,6 @@ extension Vector: Codable {
         var container = encoder.unkeyedContainer()
         try encode(to: &container, skipZ: z == 0)
     }
-}
-
-/// Returns a new vector that represents the minimum of the components of the two vectors.
-public func min(_ lhs: Vector, _ rhs: Vector) -> Vector {
-    Vector(min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z))
-}
-
-/// Returns a new vector representing the maximum of the components of the two vectors.
-public func max(_ lhs: Vector, _ rhs: Vector) -> Vector {
-    Vector(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z))
 }
 
 public extension Vector {
@@ -279,6 +279,33 @@ public extension Vector {
     }
 
     /// Deprecated.
+    @available(*, deprecated, renamed: "signedDistance(from:)")
+    func distance(from plane: Plane) -> Double {
+        signedDistance(from: plane)
+    }
+
+    /// Returns the distance between the vector (representing a position in space) and the specified point.
+    /// - Parameter point: The point to compare with.
+    /// - Returns: The absolute perpendicular distance between the two points.
+    func distance(from point: Vector) -> Double {
+        (self - point).length
+    }
+
+    /// Returns the distance between the vector (representing a position in space) and the specified object.
+    /// - Parameter object: The object to compare with.
+    /// - Returns: The absolute perpendicular distance between the point and object.
+    func distance<T: PointComparable>(from object: T) -> Double {
+        object.distance(from: self)
+    }
+
+    /// Returns true if the vector (representing a position in space) intersects the specified object.
+    /// - Parameter object: The object to compare with.
+    /// - Returns:`true` if the bounds intersect, and `false` otherwise.
+    func intersects<T: PointComparable>(_ object: T) -> Bool {
+        object.intersects(self)
+    }
+
+    /// Deprecated.
     @available(*, deprecated, message: "Use Plane.nearestPoint(to:) instead")
     func projected(onto plane: Plane) -> Vector {
         plane.nearestPoint(to: self)
@@ -291,36 +318,15 @@ public extension Vector {
     }
 
     /// Deprecated.
-    @available(*, deprecated, renamed: "signedDistance(from:)")
-    func distance(from plane: Plane) -> Double {
-        signedDistance(from: plane)
-    }
-
-    /// Returns the distance between the vector (representing a position in space) from the specified point.
-    /// - Parameter point: The point to compare with.
-    /// - Returns: The absolute perpendicular distance between the two points.
-    func distance(from point: Vector) -> Double {
-        (self - point).length
-    }
-
-    /// Returns the distance between the vector (representing a position in space) from the specified line.
-    /// - Parameter line: The line to compare with.
-    /// - Returns: The absolute perpendicular distance between the point and line.
-    func distance(from line: Line) -> Double {
-        line.distance(from: self)
-    }
-
-    /// Returns the nearest point on the specified line to the vector (representing a position in space).
-    /// - Parameter line: The line to project onto.
-    /// - Returns: The nearest point in 3D space that lies on the line.
+    @available(*, deprecated, message: "Use Line.nearestPoint(to:) instead")
     func projected(onto line: Line) -> Vector {
-        line.direction * (self - line.origin).dot(line.direction) - line.origin
+        line.nearestPoint(to: self)
     }
 
     /// Deprecated.
     @available(*, deprecated, renamed: "projected(onto:)")
     func project(onto line: Line) -> Vector {
-        projected(onto: line)
+        line.nearestPoint(to: self)
     }
 }
 
@@ -387,5 +393,13 @@ extension Vector {
         x.isEqual(to: other.x, withPrecision: p) &&
             y.isEqual(to: other.y, withPrecision: p) &&
             z.isEqual(to: other.z, withPrecision: p)
+    }
+
+    func clamped(to range: ClosedRange<Self>) -> Self {
+        min(max(self, range.lowerBound), range.upperBound)
+    }
+
+    mutating func clamp(to range: ClosedRange<Self>) {
+        self = clamped(to: range)
     }
 }

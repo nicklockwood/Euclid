@@ -259,12 +259,12 @@ class MeshTests: XCTestCase {
         let mesh = Mesh.cube()
         let bsp = BSP(mesh) { false }
         for point in insidePoints {
-            XCTAssertTrue(mesh.containsPoint(point))
-            XCTAssertTrue(bsp.containsPoint(point))
+            XCTAssertTrue(mesh.intersects(point))
+            XCTAssertTrue(bsp.intersects(point))
         }
         for point in outsidePoints {
-            XCTAssertFalse(mesh.containsPoint(point))
-            XCTAssertFalse(bsp.containsPoint(point))
+            XCTAssertFalse(mesh.intersects(point))
+            XCTAssertFalse(bsp.intersects(point))
         }
     }
 
@@ -285,14 +285,14 @@ class MeshTests: XCTestCase {
         let bsp = BSP(mesh) { false }
         let r = Rotation(roll: .pi / 3)
         for point in insidePoints {
-            XCTAssertTrue(mesh.containsPoint(point))
-            XCTAssertTrue(bsp.containsPoint(point))
-            XCTAssertTrue(mesh.rotated(by: r).containsPoint(point.rotated(by: r)))
+            XCTAssertTrue(mesh.intersects(point))
+            XCTAssertTrue(bsp.intersects(point))
+            XCTAssertTrue(mesh.rotated(by: r).intersects(point.rotated(by: r)))
         }
         for point in outsidePoints {
-            XCTAssertFalse(mesh.containsPoint(point))
-            XCTAssertFalse(bsp.containsPoint(point))
-            XCTAssertFalse(mesh.rotated(by: r).containsPoint(point.rotated(by: r)))
+            XCTAssertFalse(mesh.intersects(point))
+            XCTAssertFalse(bsp.intersects(point))
+            XCTAssertFalse(mesh.rotated(by: r).intersects(point.rotated(by: r)))
         }
     }
 
@@ -316,12 +316,12 @@ class MeshTests: XCTestCase {
         let mesh = Mesh.sphere(slices: 8, stacks: 4)
         let bsp = BSP(mesh) { false }
         for point in insidePoints {
-            XCTAssertTrue(mesh.containsPoint(point))
-            XCTAssertTrue(bsp.containsPoint(point))
+            XCTAssertTrue(mesh.intersects(point))
+            XCTAssertTrue(bsp.intersects(point))
         }
         for point in outsidePoints {
-            XCTAssertFalse(mesh.containsPoint(point))
-            XCTAssertFalse(bsp.containsPoint(point))
+            XCTAssertFalse(mesh.intersects(point))
+            XCTAssertFalse(bsp.intersects(point))
         }
     }
 
@@ -339,12 +339,12 @@ class MeshTests: XCTestCase {
             .translated(by: Vector(-0.25, 0.25))
         let bsp = BSP(mesh) { false }
         for point in insidePoints {
-            XCTAssertTrue(mesh.containsPoint(point))
-            XCTAssertTrue(bsp.containsPoint(point))
+            XCTAssertTrue(mesh.intersects(point))
+            XCTAssertTrue(bsp.intersects(point))
         }
         for point in outsidePoints {
-            XCTAssertFalse(mesh.containsPoint(point))
-            XCTAssertFalse(bsp.containsPoint(point))
+            XCTAssertFalse(mesh.intersects(point))
+            XCTAssertFalse(bsp.intersects(point))
         }
     }
 

@@ -24,36 +24,36 @@ class LineTests: XCTestCase {
         XCTAssertEqual(l.distance(from: p), (2 * 2 + 3 * 3).squareRoot())
     }
 
-    // MARK: Point projection
+    // MARK: Nearest point
 
     func testProjectPointDown() {
         let l = Line(unchecked: .zero, direction: .unitX)
         let p = Vector(2, -2, 0)
-        XCTAssertEqual(p.projected(onto: l), Vector(2, 0, 0))
+        XCTAssertEqual(l.nearestPoint(to: p), Vector(2, 0, 0))
     }
 
     func testProjectPointUp() {
         let l = Line(unchecked: .zero, direction: .unitX)
         let p = Vector(3, 1, 0)
-        XCTAssertEqual(p.projected(onto: l), Vector(3, 0, 0))
+        XCTAssertEqual(l.nearestPoint(to: p), Vector(3, 0, 0))
     }
 
     func testProjectPointRight() {
         let l = Line(unchecked: .zero, direction: .unitY)
         let p = Vector(-3, 1, 0)
-        XCTAssertEqual(p.projected(onto: l), .unitY)
+        XCTAssertEqual(l.nearestPoint(to: p), .unitY)
     }
 
     func testProjectPointLeft() {
         let l = Line(unchecked: .zero, direction: .unitY)
         let p = Vector(3, -5, 0)
-        XCTAssertEqual(p.projected(onto: l), Vector(0, -5, 0))
+        XCTAssertEqual(l.nearestPoint(to: p), Vector(0, -5, 0))
     }
 
     func testProjectPointDiagonal() {
         let l = Line(unchecked: .zero, direction: Vector(1, 1, 0).normalized())
         let p = Vector(0, 2, 0)
-        XCTAssert(p.projected(onto: l).isEqual(to: Vector(1, 1, 0)))
+        XCTAssertEqual(l.nearestPoint(to: p), Vector(1, 1, 0))
     }
 
     // MARK: Line intersection
@@ -91,17 +91,17 @@ class LineTests: XCTestCase {
 
     func testContainsPoint() {
         let line = Line(unchecked: Vector(-2, -1, 0), direction: Vector(2, 1, 0).normalized())
-        XCTAssert(line.containsPoint(Vector(-1, -0.5, 0)))
+        XCTAssert(line.intersects(Vector(-1, -0.5, 0)))
     }
 
     func testContainsPoint2() {
         let line = Line(unchecked: Vector(-2, -1, 0), direction: Vector(2, 1, 0).normalized())
-        XCTAssert(line.containsPoint(Vector(-3, -1.5, 0)))
+        XCTAssert(line.intersects(Vector(-3, -1.5, 0)))
     }
 
     func testDoesNotContainPoint() {
         let line = Line(unchecked: Vector(-2, -1, 0), direction: Vector(2, 1, 0).normalized())
-        XCTAssertFalse(line.containsPoint(Vector(-1, -0.6, 0)))
+        XCTAssertFalse(line.intersects(Vector(-1, -0.6, 0)))
     }
 
     // MARK: Equality
