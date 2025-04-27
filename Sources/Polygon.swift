@@ -825,7 +825,7 @@ extension Collection where Element == Polygon {
         var sorted = [(Plane, [Polygon])]()
         var groups = [(Plane, [Polygon])]()
         for p in polygons {
-            if p.plane.w.isEqual(to: prev.plane.w, withPrecision: planeEpsilon) {
+            if p.plane.w.isEqual(to: prev.plane.w, withPrecision: epsilon) {
                 if let i = groups.lastIndex(where: { $0.0.isEqual(to: p.plane) }) {
                     groups[i].0 = p.plane
                     groups[i].1.append(p)
@@ -1148,20 +1148,6 @@ extension Polygon {
 
     var edgePlanes: [Plane] {
         orderedEdges.map(edgePlane(for:))
-    }
-
-    func compare(with plane: Plane) -> PlaneComparison {
-        if self.plane.isEqual(to: plane) {
-            return .coplanar
-        }
-        var comparison = PlaneComparison.coplanar
-        for vertex in vertices {
-            comparison = comparison.union(vertex.position.compare(with: plane))
-            if comparison == .spanning {
-                break
-            }
-        }
-        return comparison
     }
 
     /// Create copy of polygon with specified id

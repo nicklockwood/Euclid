@@ -95,6 +95,11 @@ public extension Plane {
     /// A plane located at the origin, aligned with the X and Y axes.
     static let xy = Plane(unchecked: .unitZ, w: 0)
 
+    /// The closest point on the plane to the world origin.
+    var origin: Vector {
+        normal * w
+    }
+
     /// Creates a plane from a point and surface normal.
     /// - Parameters:
     ///   - normal: The surface normal of the plane.
@@ -125,24 +130,22 @@ public extension Plane {
     /// - Parameter point: The point to test.
     /// - Returns: `true` if the point lies on the plane and `false` otherwise.
     func containsPoint(_ point: Vector) -> Bool {
-        abs(point.distance(from: self)) < planeEpsilon
+        point.compare(with: self) == .coplanar
     }
 
-    /// Returns the distance between a point and the plane.
-    /// - Parameter point: The point to compare with.
-    /// - Returns: The distance between the point and the plane. The value is positive if the point lies
-    ///   in front of the plane, and negative if behind.
-    func distance(from point: Vector) -> Double {
-        normal.dot(point) - w
+    /// Returns the signed distance between the plane and a `PlaneComparable` object.
+    /// - Parameter object: The object to compare with.
+    /// - Returns: The distance between the object and the plane. The value is positive if the object lies
+    ///   in front of the plane, negative if it lies behind it, or zero if it lies exactly on the plane, or crosses it.
+    func signedDistance<T: PlaneComparable>(from object: T) -> Double {
+        object.signedDistance(from: self)
     }
 
     /// Computes the line of intersection between two planes.
     /// - Parameter plane: The plane to compare with.
     /// - Returns: The line of intersection between the planes, or `nil` if the planes are parallel.
     func intersection(with plane: Plane) -> Line? {
-        let direction = normal.cross(plane.normal)
-        guard direction.length > epsilon else {
-            // Planes are parallel
+        if isParallel(to: plane) || isAntiparallel(to: plane) {
             return nil
         }
 
@@ -162,6 +165,7 @@ public extension Plane {
         }
 
         let origin: Vector
+        let direction = normal.cross(plane.normal)
         if abs(direction.z) >= abs(direction.x), abs(direction.z) >= abs(direction.y) {
             origin = findCommonPoint(0, 1)
         } else if abs(direction.y) >= abs(direction.z), abs(direction.y) >= abs(direction.x) {
@@ -216,26 +220,27 @@ extension Plane {
         self.init(unchecked: normal, pointOnPlane: points[0])
     }
 
-    /// Approximate equality
-    func isEqual(to other: Plane, withPrecision p: Double = planeEpsilon) -> Bool {
-        w.isEqual(to: other.w, withPrecision: p) &&
-            normal.isEqual(to: other.normal, withPrecision: p)
+    func signedPerpendicularDistance(from plane: Plane) -> Double? {
+        if isParallel(to: plane) {
+            return w - plane.w
+        } else if isAntiparallel(to: plane) {
+            return -w - plane.w
+        }
+        return nil
     }
-}
 
-/// The relationship between a group of points and a plane.
-enum PlaneComparison: Int {
-    /// The values all reside on the same plane.
-    case coplanar = 0
-    /// The values reside in front of the plane.
-    case front = 1
-    /// The values reside behind the plane.
-    case back = 2
-    /// The values span both the front and back of the plane.
-    case spanning = 3
+    func isParallel(to plane: Plane) -> Bool {
+        // Note: uses isEqual instead of dot product for consistency with isEqual
+        normal.isEqual(to: plane.normal, withPrecision: planeEpsilon)
+    }
 
-    func union(_ other: PlaneComparison) -> PlaneComparison {
-        PlaneComparison(rawValue: rawValue | other.rawValue)!
+    func isAntiparallel(to plane: Plane) -> Bool {
+        normal.isEqual(to: -plane.normal, withPrecision: planeEpsilon)
+    }
+
+    /// Approximate equality
+    func isEqual(to other: Plane) -> Bool {
+        w.isEqual(to: other.w, withPrecision: epsilon) && isParallel(to: other)
     }
 }
 

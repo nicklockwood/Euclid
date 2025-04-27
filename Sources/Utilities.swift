@@ -50,12 +50,22 @@ func quantize(_ value: Double) -> Double {
     return (value / precision).rounded() * precision
 }
 
+extension Comparable {
+    func clamped(to range: ClosedRange<Self>) -> Self {
+        min(max(self, range.lowerBound), range.upperBound)
+    }
+
+    mutating func clamp(to range: ClosedRange<Self>) {
+        self = clamped(to: range)
+    }
+}
+
 extension Double {
     func isEqual(to other: Double, withPrecision p: Double) -> Bool {
         self == other || abs(self - other) < p
     }
 
-    func clamped() -> Double {
+    func clampedToScaleLimit() -> Double {
         self < 0 ? min(self, -scaleLimit) : max(self, scaleLimit)
     }
 }
@@ -217,7 +227,7 @@ func triangulateVertices(
 
 extension Vector {
     func clamped() -> Self {
-        Self(x.clamped(), y.clamped(), z.clamped())
+        Self(x.clampedToScaleLimit(), y.clampedToScaleLimit(), z.clampedToScaleLimit())
     }
 }
 

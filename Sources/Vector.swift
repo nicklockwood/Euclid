@@ -278,25 +278,22 @@ public extension Vector {
         .asin(normalized().dot(plane.normal))
     }
 
-    /// Returns the distance between the vector (representing a position in space) from the specified plane.
-    /// - Parameter plane: The plane to compare with.
-    /// - Returns: The distance between the point and the plane. The value is positive if the point lies
-    ///   in front of the plane, and negative if behind.
-    func distance(from plane: Plane) -> Double {
-        plane.normal.dot(self) - plane.w
-    }
-
-    /// Returns the nearest point on the specified plane to the vector (representing a position in space).
-    /// - Parameter plane: The plane to project onto.
-    /// - Returns: The nearest point in 3D space that lies on the plane.
+    /// Deprecated.
+    @available(*, deprecated, message: "Use Plane.nearestPoint(to:) instead")
     func projected(onto plane: Plane) -> Vector {
-        self - plane.normal * distance(from: plane)
+        plane.nearestPoint(to: self)
     }
 
     /// Deprecated.
     @available(*, deprecated, renamed: "projected(onto:)")
     func project(onto plane: Plane) -> Vector {
-        projected(onto: plane)
+        plane.nearestPoint(to: self)
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "signedDistance(from:)")
+    func distance(from plane: Plane) -> Double {
+        signedDistance(from: plane)
     }
 
     /// Returns the distance between the vector (representing a position in space) from the specified point.
@@ -390,10 +387,5 @@ extension Vector {
         x.isEqual(to: other.x, withPrecision: p) &&
             y.isEqual(to: other.y, withPrecision: p) &&
             z.isEqual(to: other.z, withPrecision: p)
-    }
-
-    func compare(with plane: Plane) -> PlaneComparison {
-        let t = distance(from: plane)
-        return (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
     }
 }

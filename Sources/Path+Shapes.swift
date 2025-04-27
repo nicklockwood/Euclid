@@ -456,9 +456,9 @@ public extension Path {
             var aligned = true
             var p0 = points[0]
             for p1 in points.dropFirst() {
-                let v = p1.position - p0.position
-                let l = v.projected(onto: pathPlane.rawValue).length
-                if l < v.length * 0.9 {
+                let p0p1 = p1.position - p0.position
+                let l = pathPlane.rawValue.nearestPoint(to: p0p1).length
+                if l < p0p1.length * 0.9 {
                     aligned = false
                     break
                 }
@@ -479,11 +479,11 @@ public extension Path {
         var p1 = points[1]
         var p0p1 = (p1.position - p0.position)
         if align == .axis {
-            p0p1 = p0p1.projected(onto: pathPlane.rawValue)
+            p0p1 = pathPlane.rawValue.nearestPoint(to: p0p1)
         }
         rotateShape(by: rotationBetweenVectors(p0p1.normalized(), shapeNormal))
         if align != .axis, axisAligned {
-            p0p1 = p0p1.projected(onto: pathPlane.rawValue)
+            p0p1 = pathPlane.rawValue.nearestPoint(to: p0p1)
         }
 
         func rotationBetween(_ a: Path?, _ b: Path, checkSign: Bool = true) -> Rotation {
@@ -527,7 +527,7 @@ public extension Path {
         func addShape(_ p2: PathPoint) {
             var p1p2 = (p2.position - p1.position)
             if axisAligned {
-                p1p2 = p1p2.projected(onto: pathPlane.rawValue)
+                p1p2 = pathPlane.rawValue.nearestPoint(to: p1p2)
             }
             let n1 = p1p2.normalized(), n2 = p0p1.normalized()
             let r = rotationBetweenVectors(n1, n2) / 2
