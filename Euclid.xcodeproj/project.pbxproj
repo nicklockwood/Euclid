@@ -64,6 +64,7 @@
 		01BA297C2235E3590088D36B /* Euclid+CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA297B2235E3580088D36B /* Euclid+CoreGraphics.swift */; };
 		01C282BF2DB5C0D80084C89B /* Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C282BE2DB5C0CF0084C89B /* Transform.swift */; };
 		01C282C12DB642B70084C89B /* PointComparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C282C02DB642B00084C89B /* PointComparable.swift */; };
+		01C282C72DBA33250084C89B /* LineComparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C282C62DBA331F0084C89B /* LineComparable.swift */; };
 		01CBE2682775E3EE00B7ED45 /* MeshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CBE2672775E3EE00B7ED45 /* MeshTests.swift */; };
 		01CF789326EBE0C70097907A /* Quaternion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CF789226EBE0C70097907A /* Quaternion.swift */; };
 		01D2F9F82AADBB1400C201D9 /* Mesh+Texcoords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2F9F72AADBB1400C201D9 /* Mesh+Texcoords.swift */; };
@@ -174,6 +175,7 @@
 		01BA297B2235E3580088D36B /* Euclid+CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Euclid+CoreGraphics.swift"; sourceTree = "<group>"; };
 		01C282BE2DB5C0CF0084C89B /* Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform.swift; sourceTree = "<group>"; };
 		01C282C02DB642B00084C89B /* PointComparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointComparable.swift; sourceTree = "<group>"; };
+		01C282C62DBA331F0084C89B /* LineComparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineComparable.swift; sourceTree = "<group>"; };
 		01CBE2672775E3EE00B7ED45 /* MeshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshTests.swift; sourceTree = "<group>"; };
 		01CF789226EBE0C70097907A /* Quaternion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quaternion.swift; sourceTree = "<group>"; };
 		01D2F9F72AADBB1400C201D9 /* Mesh+Texcoords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mesh+Texcoords.swift"; sourceTree = "<group>"; };
@@ -262,7 +264,6 @@
 				016FAB4C21BFE7C200AF60DC /* Polygon.swift */,
 				EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */,
 				01E5F54823D59BF100717D58 /* BSP.swift */,
-				016FAB4921BFE7C200AF60DC /* Path.swift */,
 				016FAB4821BFE7C200AF60DC /* Mesh.swift */,
 				016FAB4421BFE7C100AF60DC /* Mesh+CSG.swift */,
 				016FAB4E21BFE7C200AF60DC /* Mesh+Shapes.swift */,
@@ -273,6 +274,8 @@
 				016FAB4D21BFE7C200AF60DC /* Plane.swift */,
 				EAF0DCEE2DA474D300CC5D70 /* PlaneComparable.swift */,
 				01C282C02DB642B00084C89B /* PointComparable.swift */,
+				01C282C62DBA331F0084C89B /* LineComparable.swift */,
+				016FAB4921BFE7C200AF60DC /* Path.swift */,
 				0148ECA52783796A00B3F836 /* PathPoint.swift */,
 				0148ECA3278378D100B3F836 /* Path+Shapes.swift */,
 				52A663A023857D5300FACF9D /* Line.swift */,
@@ -533,6 +536,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				013ED08F23C0E60900FEEE5C /* Rotation.swift in Sources */,
+				01C282C72DBA33250084C89B /* LineComparable.swift in Sources */,
 				016FAB5521BFE7C200AF60DC /* Path.swift in Sources */,
 				0188525826D951490079C602 /* Color.swift in Sources */,
 				010A63392A951165000E3306 /* Mesh+OBJ.swift in Sources */,
