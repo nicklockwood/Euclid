@@ -202,7 +202,6 @@ public extension SCNGeometry {
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
         let hasTexcoords = mesh.hasTexcoords
-        let hasVertexNormals = mesh.hasVertexNormals
         let hasVertexColors = mesh.hasVertexColors
         let materialLookup = materialLookup ?? defaultMaterialLookup
         let polygonsByMaterial = mesh.polygonsByMaterial
@@ -211,10 +210,7 @@ public extension SCNGeometry {
             materials.append(materialLookup(material) ?? SCNMaterial())
             var indices = [UInt32]()
             for triangle in polygons.triangulate() {
-                for var vertex in triangle.vertices {
-                    if !hasVertexNormals {
-                        vertex.normal = .zero
-                    }
+                for vertex in triangle.vertices {
                     if let index = indicesByVertex[vertex] {
                         indices.append(index)
                         continue
@@ -223,9 +219,7 @@ public extension SCNGeometry {
                     indicesByVertex[vertex] = index
                     indices.append(index)
                     vertices.append(SCNVector3(vertex.position))
-                    if hasVertexNormals {
-                        normals.append(SCNVector3(vertex.normal))
-                    }
+                    normals.append(SCNVector3(vertex.normal))
                     if hasTexcoords {
                         texcoords.append(CGPoint(vertex.texcoord))
                     }
@@ -237,9 +231,7 @@ public extension SCNGeometry {
             elements.append(SCNGeometryElement(indices: indices, primitiveType: .triangles))
         }
         var sources = [SCNGeometrySource(vertices: vertices)]
-        if hasVertexNormals {
-            sources.append(SCNGeometrySource(normals: normals))
-        }
+        sources.append(SCNGeometrySource(normals: normals))
         if hasTexcoords {
             sources.append(SCNGeometrySource(textureCoordinates: texcoords))
         }
@@ -264,7 +256,6 @@ public extension SCNGeometry {
         var materials = [SCNMaterial]()
         var indicesByVertex = [Vertex: UInt32]()
         let hasTexcoords = mesh.hasTexcoords
-        let hasVertexNormals = mesh.hasVertexNormals
         let hasVertexColors = mesh.hasVertexColors
         let materialLookup = materialLookup ?? defaultMaterialLookup
         let polygonsByMaterial = mesh.polygonsByMaterial
@@ -277,10 +268,7 @@ public extension SCNGeometry {
                 indexBuffer.append(UInt32(polygon.vertices.count))
             }
             for polygon in polygons {
-                for var vertex in polygon.vertices {
-                    if !hasVertexNormals {
-                        vertex.normal = .zero
-                    }
+                for vertex in polygon.vertices {
                     if let index = indicesByVertex[vertex] {
                         indexBuffer.append(index)
                         continue
@@ -289,9 +277,7 @@ public extension SCNGeometry {
                     indicesByVertex[vertex] = index
                     indexBuffer.append(index)
                     vertices.append(SCNVector3(vertex.position))
-                    if hasVertexNormals {
-                        normals.append(SCNVector3(vertex.normal))
-                    }
+                    normals.append(SCNVector3(vertex.normal))
                     if hasTexcoords {
                         texcoords.append(CGPoint(vertex.texcoord))
                     }
@@ -303,9 +289,7 @@ public extension SCNGeometry {
             elementData.append((polygons.count, Data(indexBuffer)))
         }
         var sources = [SCNGeometrySource(vertices: vertices)]
-        if hasVertexNormals {
-            sources.append(SCNGeometrySource(normals: normals))
-        }
+        sources.append(SCNGeometrySource(normals: normals))
         if hasTexcoords {
             sources.append(SCNGeometrySource(textureCoordinates: texcoords))
         }

@@ -355,6 +355,13 @@ class MeshTests: XCTestCase {
         XCTAssertFalse(mesh.hasTexcoords)
     }
 
+    func testMeshWithoutVertexNormals() {
+        let cube = Mesh.cube()
+        XCTAssertFalse(cube.hasVertexNormals)
+        let sphere = Mesh.sphere().smoothingNormals(forAnglesGreaterThan: .zero)
+        XCTAssertFalse(sphere.hasVertexNormals)
+    }
+
     // MARK: Reflection
 
     func testQuadReflectionAlongPlane() {
