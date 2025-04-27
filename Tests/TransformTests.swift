@@ -181,6 +181,18 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(v.transformed(by: t), Vector(0.6, -1.0, 0.1))
     }
 
+    func testStretchVector() {
+        let p = Vector(1, 1)
+        let q = p.scaled(by: 1.5, along: .unitY)
+        XCTAssertEqual(q, Vector(1, 1.5))
+        let r = p.scaled(by: 1.5, along: -.unitY)
+        XCTAssertEqual(r, Vector(1, 1.5))
+        let s = p.scaled(by: 1.5, along: .unitX)
+        XCTAssertEqual(s, Vector(1.5, 1))
+        let t = p.scaled(by: 1.5, along: -.unitX)
+        XCTAssertEqual(t, Vector(1.5, 1))
+    }
+
     // MARK: Plane transforms
 
     func testTranslatePlane() {
@@ -248,6 +260,14 @@ class TransformTests: XCTestCase {
         ])
         let zeroPath = path.scaled(by: .zero)
         XCTAssertFalse(zeroPath.edgeVertices.isEmpty)
+    }
+
+    func testStretchPath() {
+        let p = Path.circle()
+        let q = p.scaled(by: 1.5, along: .unitY)
+        XCTAssert(q.isEqual(to: p.scaled(by: Vector(1, 1.5, 1))))
+        let r = p.scaled(by: 1.5, along: .unitX)
+        XCTAssert(r.isEqual(to: p.scaled(by: Vector(1.5, 1, 1))))
     }
 
     // MARK: Mesh transforms

@@ -1,5 +1,5 @@
 //
-//  Transforms.swift
+//  Transformable.swift
 //  Euclid
 //
 //  Created by Nick Lockwood on 03/07/2018.
@@ -49,12 +49,25 @@ public protocol Transformable {
     /// - Parameter factor: A uniform scale factor to apply to the value.
     func scaled(by factor: Double) -> Self
 
+    /// Returns a scaled copy of the value.
+    /// - Parameters
+    ///   - factor: A scale factor to apply to the value.
+    ///   - along: The axis along which to apply the scale factor.
+    func scaled(by factor: Double, along: Vector) -> Self
+
     /// Returns a transformed copy of the value.
     /// - Parameter transform: A transform to apply to the value.
     func transformed(by transform: Transform) -> Self
 }
 
 public extension Transformable {
+    func scaled(by scaleFactor: Double, along: Vector) -> Self {
+        let r = rotationBetweenVectors(along, .unitZ)
+        return rotated(by: r)
+            .scaled(by: .init(1, 1, scaleFactor))
+            .rotated(by: -r)
+    }
+
     func transformed(by transform: Transform) -> Self {
         scaled(by: transform.scale)
             .rotated(by: transform.rotation)
@@ -83,6 +96,14 @@ public extension Transformable {
     /// - Parameter factor: A uniform scale factor to apply to the value.
     mutating func scale(by factor: Double) {
         self = scaled(by: factor)
+    }
+
+    /// Scale the value in place.
+    /// - Parameters
+    ///   - factor: A scale factor to apply to the value.
+    ///   - along: The axis along which to apply the scale factor.
+    mutating func scale(by factor: Double, along: Vector) {
+        self = scaled(by: factor, along: along)
     }
 
     /// Transform the value in place.
@@ -115,57 +136,6 @@ public extension Transformable {
     /// Transform the value in place.
     static func *= (lhs: inout Self, rhs: Transform) {
         lhs.transform(by: rhs)
-    }
-}
-
-/// A combined rotation, position, and scale that can be applied to a 3D object.
-///
-/// Working with intermediate transform objects instead of directly updating the vertex positions of a mesh
-/// is more efficient and avoids a buildup of rounding errors.
-public struct Transform: Hashable {
-    /// The translation or position component of the transform.
-    public var offset: Vector
-    /// The rotation or orientation component of the transform.
-    public var rotation: Rotation
-    /// The size or scale component of the transform.
-    public var scale: Vector {
-        didSet { scale = scale.clamped() }
-    }
-
-    /// Creates a new transform.
-    /// - Parameters:
-    ///   - offset: The translation or position component of the transform. Defaults to zero (no offset).
-    ///   - rotation: The translation or position component of the transform. Defaults to identity (no rotation).
-    ///   - scale: The scaling component of the transform. Defaults to one (no scale adjustment).
-    public init(offset: Vector? = nil, rotation: Rotation? = nil, scale: Vector? = nil) {
-        self.offset = offset ?? .zero
-        self.rotation = rotation ?? .identity
-        self.scale = scale?.clamped() ?? .one
-    }
-}
-
-extension Transform: Codable {
-    private enum CodingKeys: CodingKey {
-        case offset, rotation, scale
-    }
-
-    /// Creates a new transform by decoding from the given decoder.
-    /// - Parameter decoder: The decoder to read data from.
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let offset = try container.decodeIfPresent(Vector.self, forKey: .offset)
-        let rotation = try container.decodeIfPresent(Rotation.self, forKey: .rotation)
-        let scale = try container.decodeIfPresent(Vector.self, forKey: .scale)
-        self.init(offset: offset, rotation: rotation, scale: scale)
-    }
-
-    /// Encodes this transform into the given encoder.
-    /// - Parameter encoder: The encoder to write data to.
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try offset.isZero ? () : container.encode(offset, forKey: .offset)
-        try rotation.isIdentity ? () : container.encode(rotation, forKey: .rotation)
-        try scale.isOne ? () : container.encode(scale, forKey: .scale)
     }
 }
 
@@ -207,45 +177,6 @@ extension Transform: Transformable {
             .translated(by: offset)
             .scaled(by: scale)
             .rotated(by: rotation)
-    }
-}
-
-public extension Transform {
-    /// The identity transform (i.e. no transform).
-    static let identity = Transform()
-
-    /// Creates a offset transform.
-    /// - Parameter offset: An offset distance.
-    static func offset(_ offset: Vector) -> Transform {
-        .init(offset: offset)
-    }
-
-    /// Creates a rotation transform.
-    /// - Parameter rotation: A rotation to apply.
-    static func rotation(_ rotation: Rotation) -> Transform {
-        .init(rotation: rotation)
-    }
-
-    /// Creates a scale transform.
-    /// - Parameter scale: A vector scale factor to apply.
-    static func scale(_ scale: Vector) -> Transform {
-        .init(scale: scale)
-    }
-
-    /// Creates a uniform scale transform.
-    /// - Parameter factor: A uniform scale factor to apply.
-    static func scale(_ factor: Double) -> Transform {
-        .init(scale: Vector(size: factor))
-    }
-
-    /// Transform has no effect.
-    var isIdentity: Bool {
-        rotation.isIdentity && offset.isZero && scale.isOne
-    }
-
-    /// Does the transform apply a mirror operation (negative scale)?
-    var isFlipped: Bool {
-        isFlippedScale(scale)
     }
 }
 
@@ -380,6 +311,13 @@ extension LineSegment: Transformable {
     public func scaled(by factor: Double) -> Self {
         .init(unchecked: start.scaled(by: factor), end.scaled(by: factor))
     }
+
+    public func scaled(by factor: Double, along: Vector) -> Self {
+        .init(
+            unchecked: start.scaled(by: factor, along: along),
+            end.scaled(by: factor, along: along)
+        )
+    }
 }
 
 extension Vertex: Transformable {
@@ -432,6 +370,10 @@ extension Vector: Transformable {
     public func scaled(by factor: Double) -> Vector {
         self * factor
     }
+
+    public func scaled(by factor: Double, along: Vector) -> Self {
+        self + along * dot(along) * (factor - 1)
+    }
 }
 
 extension PathPoint: Transformable {
@@ -465,6 +407,15 @@ extension PathPoint: Transformable {
     public func scaled(by factor: Double) -> PathPoint {
         PathPoint(
             position * factor,
+            texcoord: texcoord,
+            color: color,
+            isCurved: isCurved
+        )
+    }
+
+    public func scaled(by factor: Double, along: Vector) -> PathPoint {
+        PathPoint(
+            position: position.scaled(by: factor, along: along),
             texcoord: texcoord,
             color: color,
             isCurved: isCurved
@@ -510,6 +461,15 @@ extension Path: Transformable {
         return Path(
             unchecked: points.scaled(by: factor),
             plane: plane?.scaled(by: factor), subpathIndices: subpathIndices
+        )
+    }
+
+    public func scaled(by factor: Double, along: Vector) -> Path {
+        let factor = factor.clamped()
+        return Path(
+            unchecked: points.map { $0.scaled(by: factor, along: along) },
+            plane: nil,
+            subpathIndices: subpathIndices
         )
     }
 
@@ -570,6 +530,14 @@ extension Bounds: Transformable {
         let factor = factor.clamped()
         return isEmpty ? self : Bounds(min * factor, max * factor)
     }
+
+    public func scaled(by factor: Double, along: Vector) -> Bounds {
+        let factor = factor.clamped()
+        return isEmpty ? self : Bounds(
+            min.scaled(by: factor, along: along),
+            max.scaled(by: factor, along: along)
+        )
+    }
 }
 
 extension Array: Transformable where Element: Transformable {
@@ -589,6 +557,12 @@ extension Array: Transformable where Element: Transformable {
         factor.isEqual(to: 1, withPrecision: epsilon) ? self : map { $0.scaled(by: factor) }
     }
 
+    public func scaled(by factor: Double, along: Vector) -> [Element] {
+        factor.isEqual(to: 1, withPrecision: epsilon) ? self : map {
+            $0.scaled(by: factor, along: along)
+        }
+    }
+
     public func transformed(by transform: Transform) -> [Element] {
         if transform.scale.isOne {
             if transform.offset == .zero {
@@ -600,17 +574,5 @@ extension Array: Transformable where Element: Transformable {
             return scaled(by: transform.scale)
         }
         return map { $0.transformed(by: transform) }
-    }
-}
-
-private extension Double {
-    func clamped() -> Double {
-        self < 0 ? min(self, -scaleLimit) : max(self, scaleLimit)
-    }
-}
-
-private extension Vector {
-    func clamped() -> Self {
-        Self(x.clamped(), y.clamped(), z.clamped())
     }
 }

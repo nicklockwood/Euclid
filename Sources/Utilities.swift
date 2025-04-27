@@ -54,6 +54,10 @@ extension Double {
     func isEqual(to other: Double, withPrecision p: Double) -> Bool {
         self == other || abs(self - other) < p
     }
+
+    func clamped() -> Double {
+        self < 0 ? min(self, -scaleLimit) : max(self, scaleLimit)
+    }
 }
 
 // MARK: Vertex utilities
@@ -210,6 +214,12 @@ func triangulateVertices(
 }
 
 // MARK: Vector utilities
+
+extension Vector {
+    func clamped() -> Self {
+        Self(x.clamped(), y.clamped(), z.clamped())
+    }
+}
 
 func isFlippedScale(_ scale: Vector) -> Bool {
     var flipped = scale.x < 0
