@@ -446,6 +446,29 @@ public extension Path {
         return vertices
     }
 
+    /// Returns the ordered array of path edges.
+    var orderedEdges: [LineSegment] {
+        // TODO: do subpaths need special handling?
+        var p0 = points.last!.position
+        return points.map {
+            let p1 = $0.position
+            defer { p0 = p1 }
+            return LineSegment(unchecked: p0, p1)
+        }
+    }
+
+    /// An unordered set of path edges.
+    /// The direction of each edge is normalized relative to the origin to simplify edge-equality comparisons.
+    var undirectedEdges: Set<LineSegment> {
+        // TODO: do subpaths need special handling?
+        var p0 = points.last!.position
+        return Set(points.compactMap {
+            let p1 = $0.position
+            defer { p0 = p1 }
+            return LineSegment(undirected: p0, p1)
+        })
+    }
+
     /// Applies a uniform inset to the edges of the path.
     /// - Parameter distance: The distance by which to inset the path edges.
     /// - Returns: A copy of the path, inset by the specified distance.

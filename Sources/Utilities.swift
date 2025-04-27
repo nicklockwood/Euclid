@@ -479,20 +479,21 @@ func cubicBezier(_ p0: Double, _ p1: Double, _ p2: Double, _ p3: Double, _ t: Do
 func shortestLineBetween(
     _ p1: Vector,
     _ p2: Vector,
+    _ aIsSegment: Bool,
     _ p3: Vector,
     _ p4: Vector,
-    inSegment: Bool
+    _ bIsSegment: Bool
 ) -> (Vector, Vector)? {
-    let p21 = p2 - p1
-    assert(p21.length > 0)
-    let p43 = p4 - p3
-    assert(p43.length > 0)
-    let p13 = p1 - p3
+    let v21 = p2 - p1
+    assert(v21.length > 0)
+    let v43 = p4 - p3
+    assert(v43.length > 0)
+    let v13 = p1 - p3
 
-    let d1343 = p13.dot(p43)
-    let d4321 = p43.dot(p21)
-    let d4343 = p43.dot(p43)
-    let d2121 = p21.dot(p21)
+    let d1343 = v13.dot(v43)
+    let d4321 = v43.dot(v21)
+    let d4343 = v43.dot(v43)
+    let d2121 = v21.dot(v21)
 
     let denominator = d2121 * d4343 - d4321 * d4321
     guard abs(denominator) > epsilon else {
@@ -500,44 +501,36 @@ func shortestLineBetween(
         return nil
     }
 
-    let d1321 = p13.dot(p21)
+    let d1321 = v13.dot(v21)
     let numerator = d1343 * d4321 - d1321 * d4343
-    let mua = numerator / denominator
-    let mub = (d1343 + d4321 * mua) / d4343
+    var mua = numerator / denominator
+    var mub = (d1343 + d4321 * mua) / d4343
 
-    if inSegment, mua < 0 || mua > 1 || mub < 0 || mub > 1 {
-        return nil
-    }
+    if aIsSegment { mua.clamp(to: 0 ... 1) }
+    if bIsSegment { mub.clamp(to: 0 ... 1) }
 
-    return (p1 + mua * p21, p3 + mub * p43)
+    return (p1 + mua * v21, p3 + mub * v43)
 }
 
 func lineIntersection(
     _ p0: Vector,
     _ p1: Vector,
+    _ aIsSegment: Bool,
     _ p2: Vector,
-    _ p3: Vector
+    _ p3: Vector,
+    _ bIsSegment: Bool
 ) -> Vector? {
-    guard let (p0, p1) = shortestLineBetween(p0, p1, p2, p3, inSegment: false) else {
-        return nil
+    shortestLineBetween(
+        p0, p1, aIsSegment,
+        p2, p3, bIsSegment
+    ).flatMap {
+        $0.isEqual(to: $1) ? $0 : nil
     }
-    return p0.isEqual(to: p1) ? p0 : nil
-}
-
-func lineSegmentsIntersection(
-    _ p0: Vector,
-    _ p1: Vector,
-    _ p2: Vector,
-    _ p3: Vector
-) -> Vector? {
-    guard let (p0, p1) = shortestLineBetween(p0, p1, p2, p3, inSegment: true) else {
-        return nil
-    }
-    return p0.isEqual(to: p1) ? p0 : nil
 }
 
 /// Returns distance of plane intersection along a line (or nil if parallel)
 func linePlaneIntersection(_ origin: Vector, _ direction: Vector, _ plane: Plane) -> Double? {
+    // TODO: optimize for axis-aligned plane
     // https://en.wikipedia.org/wiki/Line–plane_intersection#Algebraic_form
     let lineDotPlaneNormal = direction.dot(plane.normal)
     guard lineDotPlaneNormal != 0 else {

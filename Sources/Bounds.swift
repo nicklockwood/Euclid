@@ -148,6 +148,26 @@ public extension Bounds {
         ]
     }
 
+    /// An unordered set of bounds edges.
+    /// The direction of each edge is normalized relative to the origin to simplify edge-equality comparisons.
+    var undirectedEdges: Set<LineSegment> {
+        let corners = corners
+        return [
+            LineSegment(undirected: corners[0], corners[1])!,
+            LineSegment(undirected: corners[0], corners[3])!,
+            LineSegment(undirected: corners[0], corners[4])!,
+            LineSegment(undirected: corners[1], corners[2])!,
+            LineSegment(undirected: corners[1], corners[5])!,
+            LineSegment(undirected: corners[2], corners[3])!,
+            LineSegment(undirected: corners[6], corners[2])!,
+            LineSegment(undirected: corners[6], corners[5])!,
+            LineSegment(undirected: corners[6], corners[7])!,
+            LineSegment(undirected: corners[7], corners[3])!,
+            LineSegment(undirected: corners[7], corners[4])!,
+            LineSegment(undirected: corners[5], corners[4])!,
+        ]
+    }
+
     /// Creates a new bounds that contains both the specified bounds and this one.
     /// - Parameter other: The other bounds to be included.
     /// - Returns: The combined bounds.
@@ -224,5 +244,18 @@ extension Bounds {
     func isEqual(to other: Bounds, withPrecision p: Double = epsilon) -> Bool {
         min.isEqual(to: other.min, withPrecision: p) &&
             max.isEqual(to: other.max, withPrecision: p)
+    }
+
+    /// Planes representing the edges of the bounds.
+    /// If the bounds is empty this will return an empty array.
+    var edgePlanes: [Plane] {
+        isEmpty ? [] : [
+            Plane(unchecked: -.unitX, pointOnPlane: min),
+            Plane(unchecked: -.unitY, pointOnPlane: min),
+            Plane(unchecked: -.unitZ, pointOnPlane: min),
+            Plane(unchecked: .unitX, pointOnPlane: max),
+            Plane(unchecked: .unitY, pointOnPlane: max),
+            Plane(unchecked: .unitZ, pointOnPlane: max),
+        ]
     }
 }
