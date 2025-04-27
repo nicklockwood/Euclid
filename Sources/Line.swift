@@ -100,34 +100,10 @@ public extension Line {
         self.init(unchecked: segment.start, direction: segment.direction)
     }
 
-    /// Returns a Boolean value that indicates whether the specified point lies on the line.
-    /// - Parameter point: The point to test.
-    /// - Returns: `true` if the point lies on the line and `false` otherwise.
+    /// Deprecated.
+    @available(*, deprecated, renamed: "intersects(_:)")
     func containsPoint(_ point: Vector) -> Bool {
-        abs(point.distance(from: self)) < epsilon
-    }
-
-    /// Returns the perpendicular distance of the line from a specified point.
-    /// - Parameter point: The point to compare.
-    /// - Returns: The absolute perpendicular distance between the point and line.
-    func distance(from point: Vector) -> Double {
-        vectorFromPointToLine(point, origin, direction).length
-    }
-
-    /// Returns the perpendicular distance from another line to this one.
-    /// - Parameter line: The line to compare.
-    /// - Returns: The perpendicular distance from the other line.
-    func distance(from line: Line) -> Double {
-        guard let (p0, p1) = shortestLineBetween(
-            origin,
-            origin + direction,
-            line.origin,
-            line.origin + line.direction,
-            inSegment: false
-        ) else {
-            return 0
-        }
-        return p1.distance(from: p0)
+        intersects(point)
     }
 
     /// Returns the point where the specified plane intersects the line.
