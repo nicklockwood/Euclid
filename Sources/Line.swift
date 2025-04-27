@@ -106,6 +106,20 @@ public extension Line {
         intersects(point)
     }
 
+    /// Returns the point where the specified line intersects this one.
+    /// - Parameter line: The line to compare with.
+    /// - Returns: The point of intersection, or `nil` if the lines don't intersect.
+    func intersection(with line: Line) -> Vector? {
+        lineIntersection(
+            origin,
+            origin + direction,
+            false,
+            line.origin,
+            line.origin + line.direction,
+            false
+        )
+    }
+
     /// Returns the point where the specified plane intersects the line.
     /// - Parameter plane: The plane to compare with.
     /// - Returns: The point of intersection, or `nil` if the line and plane are parallel (don't intersect).
@@ -115,23 +129,39 @@ public extension Line {
         }
     }
 
-    /// Returns the point where the specified line intersects this one.
-    /// - Parameter line: The line to compare with.
-    /// - Returns: The point of intersection, or `nil` if the lines don't intersect.
-    func intersection(with line: Line) -> Vector? {
-        lineIntersection(
-            origin,
-            origin + direction,
-            line.origin,
-            line.origin + line.direction
-        )
+    /// Returns the points where the specified bounds intersects the line.
+    /// - Parameter bounds: The bounds to compare with.
+    /// - Returns: A set of zero or more points of intersection with the bounds.
+    func intersection(with polygon: Polygon) -> Vector? {
+        intersection(with: polygon.plane).flatMap {
+            polygon.intersects($0) ? $0 : nil
+        }
     }
 
-    /// Returns a Boolean value that indicates whether the lines intersect.
-    /// - Parameter line: The line to compare with.
-    /// - Returns: `true` if the lines intersect and `false` otherwise.
-    func intersects(_ line: Line) -> Bool {
-        intersection(with: line) != nil
+    /// Returns the points where the specified bounds intersects the line.
+    /// - Parameter bounds: The bounds to compare with.
+    /// - Returns: A set of zero or more points of intersection with the bounds.
+    func intersection(with bounds: Bounds) -> Set<Vector> {
+        // TODO: optimize this by taking into account that planes are axis-aligned
+        Set(bounds.edgePlanes.compactMap {
+            intersection(with: $0).flatMap {
+                bounds.intersects($0) ? $0 : nil
+            }
+        })
+    }
+
+    /// Returns the shortest distance between the line and the specified object.
+    /// - Parameter object: The object to compare with.
+    /// - Returns: The absolute distance from the nearest point on the object.
+    func distance<T: LineComparable>(from object: T) -> Double {
+        object.distance(from: self)
+    }
+
+    /// Returns a true if the line intersects the specified object.
+    /// - Parameter object: The object to compare with.
+    /// - Returns: `true` if the line and object intersect, and `false` otherwise.
+    func intersects<T: LineComparable>(_ object: T) -> Bool {
+        object.intersects(self)
     }
 }
 
