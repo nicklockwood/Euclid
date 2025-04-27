@@ -156,12 +156,12 @@ public extension Polygon {
         vertices.contains(where: { $0.texcoord != .zero })
     }
 
-    /// A Boolean value that indicates whether the polygon includes vertex normals.
+    /// A Boolean value that indicates whether the polygon includes vertex normals that differ from the face normal.
     var hasVertexNormals: Bool {
-        vertices.contains(where: { $0.normal != .zero })
+        vertices.contains(where: { !$0.normal.isEqual(to: plane.normal) })
     }
 
-    /// A Boolean value that indicates whether the polygon includes vertex colors.
+    /// A Boolean value that indicates whether the polygon includes vertex colors that differ from the face normal.
     var hasVertexColors: Bool {
         vertices.contains(where: { $0.color != .white })
     }
