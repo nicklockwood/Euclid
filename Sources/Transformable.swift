@@ -283,7 +283,7 @@ extension Polygon: Transformable {
         if factor.isEqual(to: 1, withPrecision: epsilon) {
             return self
         }
-        let factor = factor.clamped()
+        let factor = factor.clampedToScaleLimit()
         let vertices = self.vertices.scaled(by: factor)
         return Polygon(
             unchecked: factor < 0 ? vertices.reversed() : vertices,
@@ -457,7 +457,7 @@ extension Path: Transformable {
     }
 
     public func scaled(by factor: Double) -> Path {
-        let factor = factor.clamped()
+        let factor = factor.clampedToScaleLimit()
         return Path(
             unchecked: points.scaled(by: factor),
             plane: plane?.scaled(by: factor), subpathIndices: subpathIndices
@@ -465,7 +465,7 @@ extension Path: Transformable {
     }
 
     public func scaled(by factor: Double, along: Vector) -> Path {
-        let factor = factor.clamped()
+        let factor = factor.clampedToScaleLimit()
         return Path(
             unchecked: points.map { $0.scaled(by: factor, along: along) },
             plane: nil,
@@ -501,7 +501,7 @@ extension Plane: Transformable {
     }
 
     public func scaled(by factor: Double) -> Plane {
-        Plane(unchecked: normal, w: w * factor.clamped())
+        Plane(unchecked: normal, w: w * factor.clampedToScaleLimit())
     }
 }
 
@@ -527,12 +527,12 @@ extension Bounds: Transformable {
     }
 
     public func scaled(by factor: Double) -> Bounds {
-        let factor = factor.clamped()
+        let factor = factor.clampedToScaleLimit()
         return isEmpty ? self : Bounds(min * factor, max * factor)
     }
 
     public func scaled(by factor: Double, along: Vector) -> Bounds {
-        let factor = factor.clamped()
+        let factor = factor.clampedToScaleLimit()
         return isEmpty ? self : Bounds(
             min.scaled(by: factor, along: along),
             max.scaled(by: factor, along: along)

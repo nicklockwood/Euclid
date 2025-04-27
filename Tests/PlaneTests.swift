@@ -197,4 +197,40 @@ class PlaneTests: XCTestCase {
         let plane = Plane(unchecked: .unitZ, w: 4)
         XCTAssertNil(plane.intersection(with: segment))
     }
+
+    // MARK: PlaneComparable
+
+    func testCompareIdenticalPlanes() {
+        let plane = Plane(unchecked: .unitZ, w: 0)
+        XCTAssertEqual(plane.compare(with: plane), .coplanar)
+    }
+
+    func testCompareOppositePlanes() {
+        let plane1 = Plane(unchecked: .unitZ, w: 1)
+        let plane2 = plane1.inverted()
+        XCTAssertEqual(plane1.compare(with: plane2), .coplanar)
+    }
+
+    func testDistanceBetweenIdenticalPlanes() {
+        for i in 0 ..< 10 {
+            let plane = Plane(unchecked: .unitZ, w: Double(i)).rotated(by: .yaw(.twoPi * (Double(i) / 10)))
+            XCTAssertEqual(plane.signedDistance(from: plane), 0)
+        }
+    }
+
+    func testDistanceBetweenInversePlanes() {
+        for i in 0 ..< 10 {
+            let plane = Plane(unchecked: .unitZ, w: Double(i)).rotated(by: .yaw(.twoPi * (Double(i) / 10)))
+            XCTAssertEqual(plane.signedDistance(from: plane.inverted()), 0)
+        }
+    }
+
+    func testDistanceBetweenPlanes() {
+        let plane1 = Plane(unchecked: .unitZ, w: 1)
+        let plane2 = Plane(unchecked: .unitZ, w: -1)
+        XCTAssertEqual(plane1.signedDistance(from: plane2), 2)
+        XCTAssertEqual(plane2.signedDistance(from: plane1), -2)
+        XCTAssertEqual(plane1.signedDistance(from: plane2.inverted()), -2)
+        XCTAssertEqual(plane2.signedDistance(from: plane1.inverted()), 2)
+    }
 }
