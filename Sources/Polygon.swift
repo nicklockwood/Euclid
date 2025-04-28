@@ -636,7 +636,7 @@ extension Collection where Element == Polygon {
     }
 
     /// Merge vertices with similar positions.
-    /// - Parameters
+    /// - Parameters:
     ///   - vertices: The vertices to merge. If nil then all vertices are merged.
     ///   - precision: The maximum distance between vertices.
     func mergingVertices(

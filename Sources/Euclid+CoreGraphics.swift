@@ -120,7 +120,7 @@ public extension Path {
 
 public extension CGPath {
     /// Creates an array of paths from a CoreGraphics path. Returned paths will not contain nested subpaths.
-    /// - Parameters
+    /// - Parameters:
     ///   - detail: The number of line segments used to approximate cubic or quadratic bezier curves.
     ///   - color: An optional color to apply to the path vertices.
     func paths(detail: Int = 4, color: Color? = nil) -> [Path] {

@@ -145,7 +145,7 @@ public extension Mesh {
     typealias STLMaterialProvider = (_ c: Color?) -> Material?
 
     /// Create a mesh from STL data.
-    /// - Parameters
+    /// - Parameters:
     ///   - stlData: binary or ASCII STL file data
     ///   - materialLookup: A closure to map STL facet colors to Euclid materials. Use `nil` for default mapping.
     init?(stlData: Data, materialLookup: STLMaterialProvider? = nil) {
