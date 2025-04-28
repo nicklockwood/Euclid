@@ -154,7 +154,7 @@ public extension Angle {
     }
 
     /// Creates an angle representing the trigonometric arc tangent of the vector you provide.
-    /// - Parameters
+    /// - Parameters:
     ///   - y: The Y component of the input vector
     ///   - x: The X component of the input vector
     static func atan2(y: Double, x: Double) -> Angle {

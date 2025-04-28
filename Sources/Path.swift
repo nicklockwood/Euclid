@@ -487,7 +487,7 @@ public extension Path {
 
 public extension Polygon {
     /// Creates a single polygon from a path.
-    /// - Parameters
+    /// - Parameters:
     ///   - shape: The ``Path`` to convert to a polygon.
     ///   - material: An optional ``Material-swift.typealias`` to apply to the polygon.
     ///

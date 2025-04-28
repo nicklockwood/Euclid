@@ -48,7 +48,7 @@ public extension Mesh {
     ///          |       |            |       |
     ///          +-------+            +-------+
     ///
-    /// - Parameters
+    /// - Parameters:
     ///   - mesh: The mesh to form a union with.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the union of the input meshes.
@@ -95,7 +95,7 @@ public extension Mesh {
     }
 
     /// Efficiently forms a union from multiple meshes.
-    /// - Parameters
+    /// - Parameters:
     ///   - meshes: A collection of meshes to be unioned.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the union of the input meshes.
@@ -118,7 +118,7 @@ public extension Mesh {
     ///          |       |
     ///          +-------+
     ///
-    /// - Parameters
+    /// - Parameters:
     ///   - mesh: The mesh to subtract from this one.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the result of the subtraction.
@@ -159,7 +159,7 @@ public extension Mesh {
     }
 
     /// Efficiently gets the difference between multiple meshes.
-    /// - Parameters
+    /// - Parameters:
     ///   - meshes: An ordered collection of meshes. All but the first will be subtracted from the first.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the difference between the meshes.
@@ -182,7 +182,7 @@ public extension Mesh {
     ///          |       |            |       |
     ///          +-------+            +-------+
     ///
-    /// - Parameters
+    /// - Parameters:
     ///   - mesh: The mesh to be XORed with this one.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the XOR of the meshes.
@@ -225,7 +225,7 @@ public extension Mesh {
     }
 
     /// Efficiently XORs multiple meshes.
-    /// - Parameters
+    /// - Parameters:
     ///   - meshes: A collection of meshes to be XORed.
     ///   - isCancelled: Callback used to cancel the operation
     /// - Returns: A new mesh representing the XOR of the meshes.
@@ -256,7 +256,7 @@ public extension Mesh {
     ///          |       |
     ///          +-------+
     ///
-    /// - Parameters
+    /// - Parameters:
     ///   - mesh: The mesh to be intersected with this one.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the intersection of the meshes.
@@ -294,7 +294,7 @@ public extension Mesh {
     }
 
     /// Efficiently computes the intersection of multiple meshes.
-    /// - Parameters
+    /// - Parameters:
     ///   - meshes: A collection of meshes to be intersected.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the intersection of the meshes.
@@ -324,7 +324,7 @@ public extension Mesh {
     ///          |       |
     ///          +-------+
     ///
-    /// - Parameters
+    /// - Parameters:
     ///   - mesh: The mesh to be stencilled onto this one.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the result of stencilling.
@@ -348,7 +348,7 @@ public extension Mesh {
     }
 
     /// Efficiently performs a stencil with multiple meshes.
-    /// - Parameters
+    /// - Parameters:
     ///   - meshes: An ordered collection of meshes. All but the first will be stencilled onto the first.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the result of stencilling.
@@ -405,7 +405,7 @@ public extension Mesh {
     }
 
     /// Clip mesh to the specified plane and optionally fill sheared faces with specified material.
-    /// - Parameters
+    /// - Parameters:
     ///   - plane: The plane to clip the mesh to
     ///   - fill: The material to fill the sheared face(s) with.
     ///
@@ -484,7 +484,7 @@ public extension Mesh {
     }
 
     /// Computes a set of edges where the mesh intersects another mesh.
-    /// - Parameters
+    /// - Parameters:
     ///   - mesh: A ``Mesh`` to find the edge intersections with.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A `Set` of ``LineSegment`` representing the polygon edge intersections.

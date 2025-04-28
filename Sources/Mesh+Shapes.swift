@@ -797,7 +797,7 @@ public extension Mesh {
     }
 
     /// Computes the convex hull of a set of paths.
-    /// - Parameters
+    /// - Parameters:
     ///   - paths: A set of paths to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
     static func convexHull<T: Sequence>(
@@ -808,7 +808,7 @@ public extension Mesh {
     }
 
     /// Computes the convex hull of a set of path points.
-    /// - Parameters
+    /// - Parameters:
     ///   - points: A set of path points to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
     ///
@@ -821,7 +821,7 @@ public extension Mesh {
     }
 
     /// Computes the convex hull of a set of vertices.
-    /// - Parameters
+    /// - Parameters:
     ///   - vertices: A set of vertices to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
     static func convexHull<T: Sequence>(
@@ -836,7 +836,7 @@ public extension Mesh {
     }
 
     /// Computes the convex hull of a set of points.
-    /// - Parameters
+    /// - Parameters:
     ///   - points: An set of points to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
     static func convexHull<T: Sequence>(
@@ -850,7 +850,7 @@ public extension Mesh {
     }
 
     /// Computes the convex hull of a set of line segments.
-    /// - Parameters
+    /// - Parameters:
     ///   - edges: A set of line segments to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
     static func convexHull<T: Sequence>(
