@@ -349,6 +349,17 @@ public extension Mesh {
         )
     }
 
+    /// Flatten vertex normals (set them to match the face normals of each polygon).
+    func flatteningNormals() -> Mesh {
+        Mesh(
+            unchecked: polygons.flatteningNormals(),
+            bounds: boundsIfSet,
+            isConvex: isKnownConvex,
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
+        )
+    }
+
     /// Smooth vertex normals for corners with angles greater (more obtuse) than the specified threshold.
     /// - Parameter threshold: The minimum corner angle that should appear smooth.
     ///   Values should be in the range zero (no smoothing) to pi (smooth all edges).

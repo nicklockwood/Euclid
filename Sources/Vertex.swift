@@ -283,6 +283,10 @@ public extension Array where Element == Vertex {
 }
 
 extension Collection where Element == Vertex {
+    func mapNormals(_ transform: (Vector) -> Vector) -> [Vertex] {
+        map { $0.withNormal(transform($0.texcoord)) }
+    }
+
     func mapTexcoords(_ transform: (Vector) -> Vector) -> [Vertex] {
         map { $0.withTexcoord(transform($0.texcoord)) }
     }
