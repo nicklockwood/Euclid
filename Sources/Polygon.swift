@@ -356,6 +356,18 @@ public extension Polygon {
         )
     }
 
+    /// Flatten vertex normals (set them to match the face normal)
+    func flatteningNormals() -> Polygon {
+        Polygon(
+            unchecked: vertices.mapNormals { _ in plane.normal },
+            plane: plane,
+            isConvex: isConvex,
+            sanitizeNormals: false,
+            material: material,
+            id: id
+        )
+    }
+
     /// Flips the polygon along its plane and reverses the order and surface normals of the vertices.
     /// - Returns: The inverted polygon.
     func inverted() -> Polygon {
@@ -664,19 +676,15 @@ extension Collection where Element == Polygon {
         }
     }
 
+    /// Flatten vertex normals (set them to match the face normal)
+    func flatteningNormals() -> [Polygon] {
+        map { $0.flatteningNormals() }
+    }
+
     /// Smooth vertex normals.
     func smoothingNormals(forAnglesGreaterThan threshold: Angle) -> [Polygon] {
         guard threshold > .zero else {
-            return map { p0 in
-                let n0 = p0.plane.normal
-                return Polygon(
-                    unchecked: p0.vertices.map { $0.withNormal(n0) },
-                    plane: p0.plane,
-                    isConvex: p0.isConvex,
-                    sanitizeNormals: false,
-                    material: p0.material
-                )
-            }
+            return flatteningNormals()
         }
         var polygonsByVertex = [Vector: [Polygon]]()
         forEach { polygon in
