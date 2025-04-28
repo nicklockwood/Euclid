@@ -72,6 +72,13 @@ public extension Rotation {
         .init(storage: simd_slerp(storage, other.storage, t))
     }
 
+    /// Rotates the specified vector relative to the origin.
+    /// - Parameter vector: The Vector to be rotated.
+    /// - Returns: The rotated vector.
+    func rotate(_ vector: Vector) -> Vector {
+        .init(simd_act(storage, simd_double3(vector)))
+    }
+
     /// Returns the inverse rotation.
     static prefix func - (r: Rotation) -> Rotation {
         .init(storage: r.storage.inverse)
@@ -168,6 +175,16 @@ public extension Rotation {
         let t1 = self * cos(theta)
         let t2 = (other - (self * dot)).normalized() * sin(theta)
         return t1 + t2
+    }
+
+    /// Rotates the specified vector relative to the origin.
+    /// - Parameter vector: The Vector to be rotated.
+    /// - Returns: The rotated vector.
+    func rotate(_ vector: Vector) -> Vector {
+        let qv = Vector(x, y, z)
+        let uv = qv.cross(vector)
+        let uuv = qv.cross(uv)
+        return vector + (uv * 2 * w) + (uuv * 2)
     }
 
     /// Returns the inverse rotation.

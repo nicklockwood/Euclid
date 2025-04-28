@@ -422,10 +422,7 @@ extension Vector: Transformable {
     }
 
     public func rotated(by rotation: Rotation) -> Vector {
-        let qv = Vector(rotation.x, rotation.y, rotation.z)
-        let uv = qv.cross(self)
-        let uuv = qv.cross(uv)
-        return self + (uv * 2 * rotation.w) + (uuv * 2)
+        rotation.rotate(self)
     }
 
     public func scaled(by scale: Vector) -> Vector {
