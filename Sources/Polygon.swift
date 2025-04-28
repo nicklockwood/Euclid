@@ -348,6 +348,11 @@ public extension Polygon {
         )
     }
 
+    /// Return a copy of the polygon without vertex colors
+    func withoutVertexColors() -> Polygon {
+        mapVertexColors { _ in nil }
+    }
+
     /// Return a copy of the polygon with transformed vertex colors
     /// - Parameter transform: A closure to be applied to each vertex color in the polygon.
     func mapVertexColors(_ transform: (Color) -> Color?) -> Polygon {

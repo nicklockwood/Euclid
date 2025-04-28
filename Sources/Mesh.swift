@@ -200,6 +200,17 @@ public extension Mesh {
         )
     }
 
+    /// Returns a copy of the mesh with vertex colors removed.
+    func withoutVertexColors() -> Mesh {
+        Mesh(
+            unchecked: polygons.mapVertices { $0.withColor(nil) },
+            bounds: boundsIfSet,
+            isConvex: isKnownConvex,
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
+        )
+    }
+
     /// Merges the polygons from two meshes.
     /// - Parameter mesh: The mesh to merge with this one.
     /// - Returns: A new mesh that includes all polygons from both meshes.
