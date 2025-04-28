@@ -50,7 +50,7 @@ public protocol Transformable {
     func scaled(by factor: Double) -> Self
 
     /// Returns a scaled copy of the value.
-    /// - Parameters
+    /// - Parameters:
     ///   - factor: A scale factor to apply to the value.
     ///   - along: The axis along which to apply the scale factor.
     func scaled(by factor: Double, along: Vector) -> Self
@@ -99,7 +99,7 @@ public extension Transformable {
     }
 
     /// Scale the value in place.
-    /// - Parameters
+    /// - Parameters:
     ///   - factor: A scale factor to apply to the value.
     ///   - along: The axis along which to apply the scale factor.
     mutating func scale(by factor: Double, along: Vector) {
