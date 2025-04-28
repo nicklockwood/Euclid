@@ -271,6 +271,17 @@ extension Vertex {
     }
 }
 
+public extension Array where Element == Vertex {
+    /// Creates an array of vertices from an array of coordinates.
+    /// - Parameter components: An array of vertex position component triplets.
+    init(_ components: [Double]) {
+        assert(components.count.isMultiple(of: 3))
+        self = stride(from: 0, to: components.count, by: 3).map {
+            Vertex(Vector(components[$0...]))
+        }
+    }
+}
+
 extension Collection where Element == Vertex {
     func mapTexcoords(_ transform: (Vector) -> Vector) -> [Vertex] {
         map { $0.withTexcoord(transform($0.texcoord)) }
