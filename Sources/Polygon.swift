@@ -93,19 +93,19 @@ extension Polygon: Codable {
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         let positions = vertices.map { $0.position }
-        if material == nil, plane == Plane(
-            unchecked: positions, convex: isConvex, closed: true
-        ) {
-            if vertices.allSatisfy({
-                $0.texcoord == .zero && $0.normal == plane.normal && $0.color == .white
-            }) {
-                try positions.encode(to: encoder)
-            } else {
-                try vertices.encode(to: encoder)
-            }
+        let positionsOnly = vertices.allSatisfy {
+            $0.texcoord == .zero && $0.normal == plane.normal && $0.color == .white
+        }
+        if material == nil, plane.isEqual(to: Plane(
+            unchecked: positions,
+            convex: isConvex,
+            closed: true
+        )) {
+            var container = encoder.singleValueContainer()
+            try positionsOnly ? container.encode(positions) : container.encode(vertices)
         } else {
             var container = encoder.unkeyedContainer()
-            try container.encode(vertices)
+            try positionsOnly ? container.encode(positions) : container.encode(vertices)
             try container.encode(plane)
             try material.map { try container.encode(CodableMaterial($0)) }
         }

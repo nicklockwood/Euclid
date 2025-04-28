@@ -347,9 +347,7 @@ extension Rotation: Codable {
             let roll = try container.decode(Angle.self)
             self.init(pitch: pitch, yaw: yaw, roll: roll)
         case 4:
-            let axis = try Vector(from: &container).normalized()
-            let angle = try container.decode(Angle.self)
-            self.init(unchecked: axis, angle: angle)
+            try self.init(from: &container)
         default:
             try self.init(Matrix(from: &container))
         }
@@ -362,8 +360,7 @@ extension Rotation: Codable {
         if self == .identity {
             return
         }
-        try axis.encode(to: &container, skipZ: false)
-        try container.encode(angle)
+        try encode(to: &container)
     }
 }
 
@@ -489,6 +486,19 @@ public extension Rotation {
     /// Divides the rotation angle by the specified value.
     static func /= (lhs: inout Rotation, rhs: Double) {
         lhs = lhs / rhs
+    }
+}
+
+extension Rotation: UnkeyedCodable {
+    func encode(to container: inout UnkeyedEncodingContainer) throws {
+        try axis.encode(to: &container, skipZ: false)
+        try container.encode(angle)
+    }
+
+    init(from container: inout UnkeyedDecodingContainer) throws {
+        let axis = try Vector(from: &container).normalized()
+        let angle = try container.decode(Angle.self)
+        self.init(unchecked: axis, angle: angle)
     }
 }
 
