@@ -208,6 +208,14 @@
       "title" : "Initializers"
     },
     {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/rotate(_:)"
+      ],
+      "title" : "Instance Methods"
+    },
+    {
       "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
@@ -1750,6 +1758,52 @@
   "title" : "roll(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation\/roll(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/rotate(_:)": {
+  "abstract" : [
+    {
+      "text" : "Rotates the specified vector relative to the origin.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "rotate"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/rotate(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "rotate(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/rotate(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/slerp(_:_:)": {
   "abstract" : [

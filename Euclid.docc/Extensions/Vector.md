@@ -7,10 +7,11 @@
 - ``Vector/init(_:)-228p6``
 - ``Vector/init(_:)-4eop9``
 - ``Vector/init(_:)-5n3j``
-- ``Vector/init(_:)-63ct7``
+- ``Vector/init(_:)-228p6``
 - ``Vector/init(_:)-6nlm``
+- ``Vector/init(_:)-3hpag``
 - ``Vector/init(_:_:_:)``
-- ``Vector/init(size:)-8b34m``
+- ``Vector/init(size:)-8y52g``
 - ``Vector/init(size:)-nkyk``
 
 ### Default Vectors

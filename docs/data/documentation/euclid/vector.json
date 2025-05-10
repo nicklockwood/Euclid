@@ -173,10 +173,11 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-228p6",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-4eop9",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-5n3j",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-63ct7",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-228p6",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-6nlm",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-3hpag",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:_:_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(size:)-8b34m",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(size:)-8y52g",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(size:)-nkyk"
       ],
       "title" : "Creating Vectors"
@@ -290,8 +291,10 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-2e328",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/projected(onto:)-2zsww",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/projected(onto:)-6d7xl"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/projected(onto:)-6d7xl",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/rotation(with:)"
       ],
       "title" : "Instance Methods"
     },
@@ -1627,6 +1630,60 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/cross(_:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-2e328": {
+  "abstract" : [
+    {
+      "text" : "Returns the distance between the vector (representing a position in space) from the specified point.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "distance"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-2e328",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "distance(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/distance(from:)-2e328"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-3eglz": {
   "abstract" : [
     {
@@ -1814,6 +1871,47 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/init(_:)-228p6"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-3hpag": {
+  "abstract" : [
+    {
+      "text" : "Creates a vector from an array of coordinates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorVyACxcSlRzSd7ElementRtzSi5IndexRtzlufc1TL_xmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-3hpag",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/init(_:)-3hpag"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-4eop9": {
   "abstract" : [
     {
@@ -1936,39 +2034,6 @@
   "title" : "init(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/init(_:)-5s4mt"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-63ct7": {
-  "abstract" : [
-    {
-      "text" : "Creates a vector from an array of coordinates.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "(["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : "])"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-63ct7",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/init(_:)-63ct7"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-6nlm": {
   "abstract" : [
@@ -2095,7 +2160,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/init(_:_:_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(size:)-8b34m": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(size:)-8y52g": {
   "abstract" : [
     {
       "text" : "Creates a size\/scale vector from an array of two coordinates.",
@@ -2109,7 +2174,15 @@
     },
     {
       "kind" : "text",
-      "text" : "("
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
     },
     {
       "kind" : "externalParam",
@@ -2117,24 +2190,24 @@
     },
     {
       "kind" : "text",
-      "text" : ": ["
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
+      "preciseIdentifier" : "s:6Euclid6VectorV4sizeACx_tcSlRzSd7ElementRtzSi5IndexRtzlufc1TL_xmfp",
+      "text" : "T"
     },
     {
       "kind" : "text",
-      "text" : "])"
+      "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(size:)-8b34m",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(size:)-8y52g",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(size:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/init(size:)-8b34m"
+  "url" : "\/documentation\/euclid\/vector\/init(size:)-8y52g"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(size:)-nkyk": {
   "abstract" : [
@@ -2786,6 +2859,60 @@
   "title" : "rotated(by:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/rotated(by:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/rotation(with:)": {
+  "abstract" : [
+    {
+      "text" : "Returns the rotation between this vector and another.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "rotation"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid8RotationV",
+      "text" : "Rotation"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/rotation(with:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "rotation(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/rotation(with:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/scaled(by:)-350oy": {
   "abstract" : [

@@ -191,7 +191,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/bounds": {
   "abstract" : [
     {
-      "text" : "The bounds of all the path’s points.",
+      "text" : "The bounds of the object.",
       "type" : "text"
     }
   ],

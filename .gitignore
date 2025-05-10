@@ -22,3 +22,5 @@ DerivedData
 *.ipa
 *.dot
 .docc-build/
+all_identifiers.txt
+all_symbols.txt
