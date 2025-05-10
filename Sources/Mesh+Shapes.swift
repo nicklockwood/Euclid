@@ -1402,6 +1402,9 @@ private extension Mesh {
             }
         }
         var e0 = p0.edgeVertices, e1 = p1.edgeVertices
+        guard e0.count > 1, e1.count > 1 else {
+            return
+        }
         var t0 = -p0.bounds.center, t1 = -p1.bounds.center
         var r = rotationBetweenVectors(n0, n1)
         func nearestIndex(to a: Vector, in e: [Vertex]) -> Int {
