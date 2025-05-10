@@ -381,6 +381,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/smoothNormals(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/subdivide()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/subtract(_:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withoutVertexColors()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/xor(_:isCancelled:)-swift.method"
       ],
       "title" : "Instance Methods"
@@ -8040,6 +8041,43 @@
   "title" : "withoutTexcoords()",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/withouttexcoords()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/withoutVertexColors()": {
+  "abstract" : [
+    {
+      "text" : "Returns a copy of the mesh with vertex colors removed.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "withoutVertexColors"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withoutVertexColors()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "withoutVertexColors()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/withoutvertexcolors()"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/write(to:materialLookup:)": {
   "abstract" : [

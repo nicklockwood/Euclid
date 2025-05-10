@@ -254,64 +254,37 @@
       "kind" : "declarations"
     },
     {
-      "content" : [
+      "kind" : "parameters",
+      "parameters" : [
         {
-          "anchor" : "discussion",
-          "level" : 2,
-          "text" : "Discussion",
-          "type" : "heading"
-        },
-        {
-          "items" : [
+          "content" : [
             {
-              "content" : [
+              "inlineContent" : [
                 {
-                  "inlineContent" : [
-                    {
-                      "text" : "Parameters",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "paragraph"
-                },
-                {
-                  "items" : [
-                    {
-                      "content" : [
-                        {
-                          "inlineContent" : [
-                            {
-                              "text" : "edges: A set of line segments to compute the hull around.",
-                              "type" : "text"
-                            }
-                          ],
-                          "type" : "paragraph"
-                        }
-                      ]
-                    },
-                    {
-                      "content" : [
-                        {
-                          "inlineContent" : [
-                            {
-                              "text" : "material: An optional material to apply to the mesh.",
-                              "type" : "text"
-                            }
-                          ],
-                          "type" : "paragraph"
-                        }
-                      ]
-                    }
-                  ],
-                  "type" : "unorderedList"
+                  "text" : "A set of line segments to compute the hull around.",
+                  "type" : "text"
                 }
-              ]
+              ],
+              "type" : "paragraph"
             }
           ],
-          "type" : "unorderedList"
+          "name" : "edges"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "An optional material to apply to the mesh.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "material"
         }
-      ],
-      "kind" : "content"
+      ]
     }
   ],
   "schemaVersion" : {

@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-63ct7"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-3hpag"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid6VectorVyACSaySdGcfc",
+    "externalID" : "s:6Euclid6VectorVyACxcSlRzSd7ElementRtzSi5IndexRtzlufc",
     "fragments" : [
       {
         "kind" : "identifier",
@@ -28,16 +28,24 @@
       },
       {
         "kind" : "text",
-        "text" : "(["
+        "text" : "<"
       },
       {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Sd",
-        "text" : "Double"
+        "kind" : "genericParameter",
+        "text" : "T"
       },
       {
         "kind" : "text",
-        "text" : "])"
+        "text" : ">("
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid6VectorVyACxcSlRzSd7ElementRtzSi5IndexRtzlufc1TL_xmfp",
+        "text" : "T"
+      },
+      {
+        "kind" : "text",
+        "text" : ")"
       }
     ],
     "modules" : [
@@ -67,7 +75,15 @@
             },
             {
               "kind" : "text",
-              "text" : "("
+              "text" : "<"
+            },
+            {
+              "kind" : "genericParameter",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : ">("
             },
             {
               "kind" : "externalParam",
@@ -83,7 +99,58 @@
             },
             {
               "kind" : "text",
-              "text" : ": ["
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid6VectorVyACxcSlRzSd7ElementRtzSi5IndexRtzlufc1TL_xmfp",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : ") "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "where"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : " : "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Sl",
+              "text" : "Collection"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : "."
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:ST7ElementQa",
+              "text" : "Element"
+            },
+            {
+              "kind" : "text",
+              "text" : " == "
             },
             {
               "kind" : "typeIdentifier",
@@ -92,7 +159,29 @@
             },
             {
               "kind" : "text",
-              "text" : "])"
+              "text" : ", "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "text" : "T"
+            },
+            {
+              "kind" : "text",
+              "text" : "."
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Sl5IndexQa",
+              "text" : "Index"
+            },
+            {
+              "kind" : "text",
+              "text" : " == "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Si",
+              "text" : "Int"
             }
           ]
         }
@@ -163,9 +252,10 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-228p6",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-4eop9",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-5n3j",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-228p6",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-6nlm",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:_:_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(size:)-8b34m",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(size:)-8y52g",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(size:)-nkyk"
       ],
       "title" : "Creating Vectors"
@@ -174,7 +264,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/vector\/init(_:)-63ct7"
+        "\/documentation\/euclid\/vector\/init(_:)-3hpag"
       ],
       "traits" : [
         {
@@ -266,6 +356,47 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/init(_:)-228p6"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-3hpag": {
+  "abstract" : [
+    {
+      "text" : "Creates a vector from an array of coordinates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorVyACxcSlRzSd7ElementRtzSi5IndexRtzlufc1TL_xmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-3hpag",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/init(_:)-3hpag"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-4eop9": {
   "abstract" : [
     {
@@ -347,39 +478,6 @@
   "title" : "init(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/init(_:)-5n3j"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-63ct7": {
-  "abstract" : [
-    {
-      "text" : "Creates a vector from an array of coordinates.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "(["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : "])"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(_:)-63ct7",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/init(_:)-63ct7"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(_:)-6nlm": {
   "abstract" : [
@@ -465,7 +563,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/init(_:_:_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(size:)-8b34m": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(size:)-8y52g": {
   "abstract" : [
     {
       "text" : "Creates a size\/scale vector from an array of two coordinates.",
@@ -479,7 +577,15 @@
     },
     {
       "kind" : "text",
-      "text" : "("
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
     },
     {
       "kind" : "externalParam",
@@ -487,24 +593,24 @@
     },
     {
       "kind" : "text",
-      "text" : ": ["
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
+      "preciseIdentifier" : "s:6Euclid6VectorV4sizeACx_tcSlRzSd7ElementRtzSi5IndexRtzlufc1TL_xmfp",
+      "text" : "T"
     },
     {
       "kind" : "text",
-      "text" : "])"
+      "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(size:)-8b34m",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/init(size:)-8y52g",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(size:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/init(size:)-8b34m"
+  "url" : "\/documentation\/euclid\/vector\/init(size:)-8y52g"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(size:)-nkyk": {
   "abstract" : [

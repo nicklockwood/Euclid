@@ -774,6 +774,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/withoutvertexcolors()",
+                "title" : "func withoutVertexColors() -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/xor(_:iscancelled:)-swift.method",
                 "title" : "func xor(Mesh, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
@@ -1207,6 +1212,11 @@
               {
                 "path" : "\/documentation\/euclid\/polygon\/withouttexcoords()",
                 "title" : "func withoutTexcoords() -> Polygon",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/withoutvertexcolors()",
+                "title" : "func withoutVertexColors() -> Polygon",
                 "type" : "method"
               },
               {
@@ -2745,6 +2755,15 @@
                 "type" : "init"
               },
               {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/rotation\/rotate(_:)",
+                "title" : "func rotate(Vector) -> Vector",
+                "type" : "method"
+              },
+              {
                 "title" : "Default Implementations",
                 "type" : "groupMarker"
               },
@@ -3733,8 +3752,8 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/vector\/init(_:)-63ct7",
-                "title" : "init([Double])",
+                "path" : "\/documentation\/euclid\/vector\/init(_:)-228p6",
+                "title" : "init(SCNVector3)",
                 "type" : "init"
               },
               {
@@ -3743,13 +3762,18 @@
                 "type" : "init"
               },
               {
+                "path" : "\/documentation\/euclid\/vector\/init(_:)-3hpag",
+                "title" : "init<T>(T)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/vector\/init(_:_:_:)",
                 "title" : "init(Double, Double, Double)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/vector\/init(size:)-8b34m",
-                "title" : "init(size: [Double])",
+                "path" : "\/documentation\/euclid\/vector\/init(size:)-8y52g",
+                "title" : "init<T>(size: T)",
                 "type" : "init"
               },
               {
@@ -4012,6 +4036,11 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/vector\/distance(from:)-2e328",
+                "title" : "func distance(from: Vector) -> Double",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/vector\/projected(onto:)-2zsww",
                 "title" : "func projected(onto: Plane) -> Vector",
                 "type" : "method"
@@ -4019,6 +4048,11 @@
               {
                 "path" : "\/documentation\/euclid\/vector\/projected(onto:)-6d7xl",
                 "title" : "func projected(onto: Line) -> Vector",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/rotation(with:)",
+                "title" : "func rotation(with: Vector) -> Rotation",
                 "type" : "method"
               },
               {

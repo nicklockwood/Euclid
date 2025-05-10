@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.7.12](https://github.com/nicklockwood/Euclid/releases/tag/0.7.12) (2025-05-10)
+
+- Added `Mesh.withoutVertexColors()` method
+- Added `Vector.distance(from:)` method
+- Fixed crash when extruding single-point paths
+- Fixed broken `hasVertexNormals` logic
+- Improved `Codable` encodings for `Polygon` and `Rotation`
+- Vector rotation now uses SIMD when available
+
 ## [0.7.11](https://github.com/nicklockwood/Euclid/releases/tag/0.7.11) (2025-04-15)
 
 - Added `Mesh.edges(intersecting mesh:)` method to get boundary between intersecting meshes

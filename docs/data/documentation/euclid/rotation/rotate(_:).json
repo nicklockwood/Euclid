@@ -1,0 +1,321 @@
+{
+  "abstract" : [
+    {
+      "text" : "Rotates the specified vector relative to the origin.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/rotate(_:)"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "extendedModule" : "Euclid",
+    "externalID" : "s:6Euclid8RotationV6rotateyAA6VectorVAFF",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "func"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "rotate"
+      },
+      {
+        "kind" : "text",
+        "text" : "("
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid6VectorV",
+        "text" : "Vector"
+      },
+      {
+        "kind" : "text",
+        "text" : ") -> "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid6VectorV",
+        "text" : "Vector"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "Euclid"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Instance Method",
+    "symbolKind" : "method",
+    "title" : "rotate(_:)"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "func"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "rotate"
+            },
+            {
+              "kind" : "text",
+              "text" : "("
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "_"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "vector"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid6VectorV",
+              "text" : "Vector"
+            },
+            {
+              "kind" : "text",
+              "text" : ") -> "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid6VectorV",
+              "text" : "Vector"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The Vector to be rotated.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "vector"
+        }
+      ]
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "return-value",
+          "level" : 2,
+          "text" : "Return Value",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "The rotated vector.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        }
+      ],
+      "kind" : "content"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/euclid\/rotation\/rotate(_:)"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid": {
+  "abstract" : [
+    {
+      "text" : "Euclid is a library for creating and manipulating 3D geometry using techniques such as extruding or “lathing” 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Euclid",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation": {
+  "abstract" : [
+    {
+      "text" : "An orientation or rotation in 3D space.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Rotation"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Rotation"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Rotation",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/rotate(_:)": {
+  "abstract" : [
+    {
+      "text" : "Rotates the specified vector relative to the origin.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "rotate"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/rotate(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "rotate(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/rotate(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
+  "abstract" : [
+    {
+      "text" : "A distance or position in 3D space.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Vector"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Vector"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Vector",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector"
+}
+}
+}

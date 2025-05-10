@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "A Boolean value that indicates whether the polygon includes vertex normals that differ from the face normal.",
+      "text" : "Return a copy of the polygon without vertex colors",
       "type" : "text"
     }
   ],
@@ -15,16 +15,16 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/hasVertexNormals"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/withoutVertexColors()"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid7PolygonV16hasVertexNormalsSbvp",
+    "externalID" : "s:6Euclid7PolygonV19withoutVertexColorsACyF",
     "fragments" : [
       {
         "kind" : "keyword",
-        "text" : "var"
+        "text" : "func"
       },
       {
         "kind" : "text",
@@ -32,16 +32,16 @@
       },
       {
         "kind" : "identifier",
-        "text" : "hasVertexNormals"
+        "text" : "withoutVertexColors"
       },
       {
         "kind" : "text",
-        "text" : ": "
+        "text" : "() -> "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Sb",
-        "text" : "Bool"
+        "preciseIdentifier" : "s:6Euclid7PolygonV",
+        "text" : "Polygon"
       }
     ],
     "modules" : [
@@ -50,9 +50,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Instance Property",
-    "symbolKind" : "property",
-    "title" : "hasVertexNormals"
+    "roleHeading" : "Instance Method",
+    "symbolKind" : "method",
+    "title" : "withoutVertexColors()"
   },
   "primaryContentSections" : [
     {
@@ -67,7 +67,7 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "var"
+              "text" : "func"
             },
             {
               "kind" : "text",
@@ -75,28 +75,17 @@
             },
             {
               "kind" : "identifier",
-              "text" : "hasVertexNormals"
+              "text" : "withoutVertexColors"
             },
             {
               "kind" : "text",
-              "text" : ": "
+              "text" : "() -> "
             },
             {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Sb",
-              "text" : "Bool"
-            },
-            {
-              "kind" : "text",
-              "text" : " { "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "get"
-            },
-            {
-              "kind" : "text",
-              "text" : " }"
+              "preciseIdentifier" : "s:6Euclid7PolygonV",
+              "text" : "Polygon"
             }
           ]
         }
@@ -115,7 +104,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/polygon\/hasvertexnormals"
+        "\/documentation\/euclid\/polygon\/withoutvertexcolors()"
       ],
       "traits" : [
         {
@@ -174,17 +163,17 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/hasVertexNormals": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/withoutVertexColors()": {
   "abstract" : [
     {
-      "text" : "A Boolean value that indicates whether the polygon includes vertex normals that differ from the face normal.",
+      "text" : "Return a copy of the polygon without vertex colors",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "var"
+      "text" : "func"
     },
     {
       "kind" : "text",
@@ -192,24 +181,24 @@
     },
     {
       "kind" : "identifier",
-      "text" : "hasVertexNormals"
+      "text" : "withoutVertexColors"
     },
     {
       "kind" : "text",
-      "text" : ": "
+      "text" : "() -> "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/hasVertexNormals",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/withoutVertexColors()",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "hasVertexNormals",
+  "title" : "withoutVertexColors()",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/hasvertexnormals"
+  "url" : "\/documentation\/euclid\/polygon\/withoutvertexcolors()"
 }
 }
 }

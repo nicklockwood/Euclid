@@ -136,79 +136,63 @@
       "kind" : "declarations"
     },
     {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
+                  "isActive" : true,
+                  "type" : "reference"
+                },
+                {
+                  "text" : " to convert to a polygon.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "shape"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "An optional ",
+                  "type" : "text"
+                },
+                {
+                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Material-swift.typealias",
+                  "isActive" : true,
+                  "type" : "reference"
+                },
+                {
+                  "text" : " to apply to the polygon.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "material"
+        }
+      ]
+    },
+    {
       "content" : [
         {
           "anchor" : "discussion",
           "level" : 2,
           "text" : "Discussion",
           "type" : "heading"
-        },
-        {
-          "items" : [
-            {
-              "content" : [
-                {
-                  "inlineContent" : [
-                    {
-                      "text" : "Parameters",
-                      "type" : "text"
-                    }
-                  ],
-                  "type" : "paragraph"
-                },
-                {
-                  "items" : [
-                    {
-                      "content" : [
-                        {
-                          "inlineContent" : [
-                            {
-                              "text" : "shape: The ",
-                              "type" : "text"
-                            },
-                            {
-                              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                              "isActive" : true,
-                              "type" : "reference"
-                            },
-                            {
-                              "text" : " to convert to a polygon.",
-                              "type" : "text"
-                            }
-                          ],
-                          "type" : "paragraph"
-                        }
-                      ]
-                    },
-                    {
-                      "content" : [
-                        {
-                          "inlineContent" : [
-                            {
-                              "text" : "material: An optional ",
-                              "type" : "text"
-                            },
-                            {
-                              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Material-swift.typealias",
-                              "isActive" : true,
-                              "type" : "reference"
-                            },
-                            {
-                              "text" : " to apply to the polygon.",
-                              "type" : "text"
-                            }
-                          ],
-                          "type" : "paragraph"
-                        }
-                      ]
-                    }
-                  ],
-                  "type" : "unorderedList"
-                }
-              ]
-            }
-          ],
-          "type" : "unorderedList"
         },
         {
           "inlineContent" : [
