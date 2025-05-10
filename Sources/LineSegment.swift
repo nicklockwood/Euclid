@@ -118,7 +118,7 @@ public extension LineSegment {
 
     /// The length of the line segment.
     var length: Double {
-        (end - start).length
+        end.distance(from: start)
     }
 
     /// Creates an 'undirected' line segment.

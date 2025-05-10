@@ -1414,7 +1414,7 @@ private extension Mesh {
             var best = Double.infinity
             for i in stride(from: 0, to: e.count, by: 2) {
                 let b = e[i]
-                let d = (b.position - a).length
+                let d = b.position.distance(from: a)
                 if d < best {
                     closestIndex = i
                     best = d

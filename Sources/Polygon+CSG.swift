@@ -233,7 +233,7 @@ extension Polygon {
                 last = v
                 continue
             }
-            let t = (p - s.start).length / s.length
+            let t = p.distance(from: s.start) / s.length
             let vertex = last.lerp(v, t)
             guard !vertex.isEqual(to: last), !vertex.isEqual(to: v) else {
                 return false
