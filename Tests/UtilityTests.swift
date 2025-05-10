@@ -276,7 +276,10 @@ class UtilityTests: XCTestCase {
         XCTAssertEqual(rotationBetweenVectors(.unitY, .unitY), .identity)
         XCTAssertEqual(rotationBetweenVectors(.unitZ, .unitZ), .identity)
         XCTAssertEqual(rotationBetweenVectors(-.unitZ, -.unitZ), .identity)
-        XCTAssertEqual(rotationBetweenVectors(Vector(1, 0.5), Vector(1, 0.5)), .identity)
+        XCTAssertEqual(rotationBetweenVectors(
+            Vector(1, 0.5).normalized(),
+            Vector(1, 0.5).normalized()
+        ), .identity)
     }
 
     func testRotationBetweenOppositeVectors() {
@@ -284,6 +287,9 @@ class UtilityTests: XCTestCase {
         XCTAssertEqual(rotationBetweenVectors(.unitY, -.unitY).angle, .pi)
         XCTAssertEqual(rotationBetweenVectors(.unitZ, -.unitZ).angle, .pi)
         XCTAssertEqual(rotationBetweenVectors(-.unitZ, .unitZ).angle, .pi)
-        XCTAssertEqual(rotationBetweenVectors(Vector(1, 0.5), -Vector(1, 0.5)).angle, .pi)
+        XCTAssertEqual(rotationBetweenVectors(
+            Vector(1, 0.5).normalized(),
+            -Vector(1, 0.5).normalized()
+        ).angle, .pi)
     }
 }

@@ -481,7 +481,7 @@ public extension Path {
         if align == .axis {
             p0p1 = p0p1.projected(onto: pathPlane.rawValue)
         }
-        rotateShape(by: rotationBetweenVectors(p0p1, shapeNormal))
+        rotateShape(by: rotationBetweenVectors(p0p1.normalized(), shapeNormal))
         if align != .axis, axisAligned {
             p0p1 = p0p1.projected(onto: pathPlane.rawValue)
         }
@@ -529,10 +529,11 @@ public extension Path {
             if axisAligned {
                 p1p2 = p1p2.projected(onto: pathPlane.rawValue)
             }
-            let r = rotationBetweenVectors(p1p2, p0p1) / 2
+            let n1 = p1p2.normalized(), n2 = p0p1.normalized()
+            let r = rotationBetweenVectors(n1, n2) / 2
             rotateShape(by: r)
             twistShape(p1p2)
-            upVector = (p1p2.normalized() + p0p1.normalized()).normalized().cross(r.axis)
+            upVector = (n1 + n2).cross(r.axis).normalized()
             addShape(p1, 1 / cos(r.angle))
             rotateShape(by: r)
             p0 = p1

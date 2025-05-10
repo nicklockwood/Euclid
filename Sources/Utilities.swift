@@ -219,17 +219,13 @@ func isFlippedScale(_ scale: Vector) -> Bool {
 }
 
 func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
+    assert(v0.isNormalized && v1.isNormalized)
     let axis = v0.cross(v1)
-    let length = axis.length
-    if length < epsilon {
-        if v0.dot(v1) > epsilon {
-            return .identity
-        }
-        let axis = faceNormalForPolygonPoints([v0, v1], convex: false, closed: false)
-        return Rotation(unchecked: axis, angle: .pi)
+    if axis.isZero {
+        return v0.isEqual(to: v1) ? .identity : .init(unchecked: 0, 0, -1, 0)
     }
-    let angle = v0.angle(with: v1)
-    return Rotation(unchecked: axis / length, angle: angle)
+    let angle = acos(v0.dot(v1))
+    return .init(unchecked: axis.normalized(), angle: .radians(angle))
 }
 
 func vectorsAreCollinear(_ v0: Vector, _ v1: Vector) -> Bool {
@@ -642,9 +638,7 @@ func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint
     let length = p0p1.length
     p0p1 = p0p1 / length
     let p1p2 = (p2.position - p1.position).normalized()
-    let axis = p0p1.cross(p1p2)
-    let angle = -p0p1.angle(with: p1p2)
-    let r = Rotation(axis: axis, angle: angle) ?? .identity
+    let r = -rotationBetweenVectors(p0p1, p1p2)
     let p2pe = p1p2.rotated(by: r) * length
     return .curve(p2.position + p2pe)
 }

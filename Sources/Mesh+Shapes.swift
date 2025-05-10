@@ -1325,9 +1325,6 @@ private extension Mesh {
             direction = -direction
         }
         var uvstart = uvstart, uvend = uvend
-        var e0 = p0.edgeVertices, e1 = p1.edgeVertices
-        var t0 = -p0.bounds.center, t1 = -p1.bounds.center
-        var r = rotationBetweenVectors(n0, n1)
         func makePolygon(_ vertices: [Vertex]) -> Polygon {
             Polygon(
                 unchecked: invert ? vertices.reversed() : vertices,
@@ -1404,6 +1401,9 @@ private extension Mesh {
                 polygons.append(makePolygon(vertices))
             }
         }
+        var e0 = p0.edgeVertices, e1 = p1.edgeVertices
+        var t0 = -p0.bounds.center, t1 = -p1.bounds.center
+        var r = rotationBetweenVectors(n0, n1)
         func nearestIndex(to a: Vector, in e: [Vertex]) -> Int {
             let a = a.translated(by: t1).rotated(by: r)
             let e = e.map { $0.withPosition($0.position.translated(by: t0)) }
@@ -1425,7 +1425,7 @@ private extension Mesh {
             }
             return
         }
-        // ensure e1 count > e0
+        // e1 count must be > than e0, so swap everything if not
         if e0.count > e1.count {
             (t0, t1, r, invert) = (t1, t0, -r, !invert)
             (e0, e1, uvstart, uvend) = (e1, e0, uvend, uvstart)
