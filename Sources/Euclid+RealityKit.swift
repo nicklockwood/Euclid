@@ -365,7 +365,12 @@ private extension Array where Element == Polygon {
     }
 }
 
+#if compiler(>=6.1)
+// Workaround for Xcode 16.3 bug
+@available(visionOS 2.0, macOS 15.0, iOS 18.0, *)
+#else
 @available(macOS 12.0, iOS 15.0, *)
+#endif
 public extension Mesh {
     /// A closure that converts a RealityKit material to a Euclid material.
     /// - Parameter material: A RealityKit material to convert.
