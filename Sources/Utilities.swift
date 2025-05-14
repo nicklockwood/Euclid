@@ -218,7 +218,7 @@ func isFlippedScale(_ scale: Vector) -> Bool {
     return flipped
 }
 
-func rotationBetweenVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
+func rotationBetweenNormalizedVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
     assert(v0.isNormalized && v1.isNormalized)
     let axis = v0.cross(v1)
     if axis.isZero {
@@ -638,7 +638,7 @@ func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint
     let length = p0p1.length
     p0p1 = p0p1 / length
     let p1p2 = (p2.position - p1.position).normalized()
-    let r = -rotationBetweenVectors(p0p1, p1p2)
+    let r = -rotationBetweenNormalizedVectors(p0p1, p1p2)
     let p2pe = p1p2.rotated(by: r) * length
     return .curve(p2.position + p2pe)
 }

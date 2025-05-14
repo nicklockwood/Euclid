@@ -272,22 +272,22 @@ class UtilityTests: XCTestCase {
     // MARK: rotation
 
     func testRotationBetweenEqualVectors() {
-        XCTAssertEqual(rotationBetweenVectors(.unitX, .unitX), .identity)
-        XCTAssertEqual(rotationBetweenVectors(.unitY, .unitY), .identity)
-        XCTAssertEqual(rotationBetweenVectors(.unitZ, .unitZ), .identity)
-        XCTAssertEqual(rotationBetweenVectors(-.unitZ, -.unitZ), .identity)
-        XCTAssertEqual(rotationBetweenVectors(
+        XCTAssertEqual(rotationBetweenNormalizedVectors(.unitX, .unitX), .identity)
+        XCTAssertEqual(rotationBetweenNormalizedVectors(.unitY, .unitY), .identity)
+        XCTAssertEqual(rotationBetweenNormalizedVectors(.unitZ, .unitZ), .identity)
+        XCTAssertEqual(rotationBetweenNormalizedVectors(-.unitZ, -.unitZ), .identity)
+        XCTAssertEqual(rotationBetweenNormalizedVectors(
             Vector(1, 0.5).normalized(),
             Vector(1, 0.5).normalized()
         ), .identity)
     }
 
     func testRotationBetweenOppositeVectors() {
-        XCTAssertEqual(rotationBetweenVectors(.unitX, -.unitX).angle, .pi)
-        XCTAssertEqual(rotationBetweenVectors(.unitY, -.unitY).angle, .pi)
-        XCTAssertEqual(rotationBetweenVectors(.unitZ, -.unitZ).angle, .pi)
-        XCTAssertEqual(rotationBetweenVectors(-.unitZ, .unitZ).angle, .pi)
-        XCTAssertEqual(rotationBetweenVectors(
+        XCTAssertEqual(rotationBetweenNormalizedVectors(.unitX, -.unitX).angle, .pi)
+        XCTAssertEqual(rotationBetweenNormalizedVectors(.unitY, -.unitY).angle, .pi)
+        XCTAssertEqual(rotationBetweenNormalizedVectors(.unitZ, -.unitZ).angle, .pi)
+        XCTAssertEqual(rotationBetweenNormalizedVectors(-.unitZ, .unitZ).angle, .pi)
+        XCTAssertEqual(rotationBetweenNormalizedVectors(
             Vector(1, 0.5).normalized(),
             -Vector(1, 0.5).normalized()
         ).angle, .pi)

@@ -458,7 +458,7 @@ public extension Mesh {
                 sanitizeNormals: false,
                 material: material
             )
-            .rotated(by: -rotationBetweenVectors(.unitZ, -plane.normal))
+            .rotated(by: -rotationBetweenNormalizedVectors(.unitZ, -plane.normal))
             .translated(by: plane.normal * plane.w)
             // Clip rect
             return Mesh(

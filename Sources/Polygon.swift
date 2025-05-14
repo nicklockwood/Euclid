@@ -199,7 +199,7 @@ public extension Polygon {
         var vertices = self.vertices
         let z = vertices.first?.position.z ?? 0
         if !vertices.allSatisfy({ abs($0.position.z - z) < epsilon }) {
-            let r = rotationBetweenVectors(plane.normal, .unitZ)
+            let r = rotationBetweenNormalizedVectors(plane.normal, .unitZ)
             vertices = vertices.map { Vertex($0.position.rotated(by: -r)) }
             let z = vertices.first?.position.z ?? 0
             assert(vertices.allSatisfy { abs($0.position.z - z) < epsilon })

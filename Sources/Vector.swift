@@ -269,7 +269,7 @@ public extension Vector {
     /// Returns the rotation between this vector and another.
     /// - Parameter other: The vector to compare with.
     func rotation(with other: Vector) -> Rotation {
-        rotationBetweenVectors(normalized(), other.normalized())
+        rotationBetweenNormalizedVectors(normalized(), other.normalized())
     }
 
     /// Returns the angle between this vector and the specified plane.
