@@ -58,7 +58,7 @@ public extension Transformable {
     func transformed(by transform: Transform) -> Self {
         scaled(by: transform.scale)
             .rotated(by: transform.rotation)
-            .translated(by: transform.offset)
+            .translated(by: transform.translation)
     }
 
     /// Rotate the value in place.
@@ -107,90 +107,89 @@ public extension Transformable {
 /// Working with intermediate transform objects instead of directly updating the vertex positions of a mesh
 /// is more efficient and avoids a buildup of rounding errors.
 public struct Transform: Hashable {
-    /// The translation or position component of the transform.
-    public var offset: Vector
-    /// The rotation or orientation component of the transform.
-    public var rotation: Rotation
     /// The size or scale component of the transform.
     public var scale: Vector {
         didSet { scale = scale.clamped() }
     }
 
+    /// The rotation or orientation component of the transform.
+    public var rotation: Rotation
+
+    /// The translation or position component of the transform.
+    public var translation: Vector
+
     /// Creates a new transform.
     /// - Parameters:
-    ///   - offset: The translation or position component of the transform. Defaults to zero (no offset).
-    ///   - rotation: The translation or position component of the transform. Defaults to identity (no rotation).
     ///   - scale: The scaling component of the transform. Defaults to one (no scale adjustment).
-    public init(offset: Vector? = nil, rotation: Rotation? = nil, scale: Vector? = nil) {
-        self.offset = offset ?? .zero
-        self.rotation = rotation ?? .identity
+    ///   - rotation: The translation or position component of the transform. Defaults to identity (no rotation).
+    ///   - translation: The translation or position component of the transform. Defaults to zero (no translation).
+    public init(
+        scale: Vector? = nil,
+        rotation: Rotation? = nil,
+        translation: Vector? = nil
+    ) {
         self.scale = scale?.clamped() ?? .one
+        self.rotation = rotation ?? .identity
+        self.translation = translation ?? .zero
+    }
+
+    /// Creates a new transform with a uniform scale factor
+    /// - Parameters:
+    ///   - scale: The scaling factor of the transform. Defaults to `1.0` (no scale adjustment).
+    ///   - rotation: The translation or position component of the transform. Defaults to identity (no rotation).
+    ///   - translation: The translation or position component of the transform. Defaults to zero (no translation).
+    public init(
+        scale: Double,
+        rotation: Rotation? = nil,
+        translation: Vector? = nil
+    ) {
+        self.scale = .init(size: scale.clamped())
+        self.rotation = rotation ?? .identity
+        self.translation = translation ?? .zero
+    }
+
+    /// Deprecated
+    @available(*, deprecated, renamed: "translation")
+    public var offset: Vector {
+        set { translation = newValue }
+        get { translation }
+    }
+
+    /// Deprecated
+    @available(*, deprecated, renamed: "init(scale:rotation:translation:)")
+    public init(
+        offset: Vector?,
+        rotation: Rotation? = nil,
+        scale: Vector? = nil
+    ) {
+        self.init(scale: scale, rotation: rotation, translation: offset)
     }
 }
 
 extension Transform: Codable {
     private enum CodingKeys: CodingKey {
-        case offset, rotation, scale
+        case scale, rotation, translation
+        case offset // legacy
     }
 
     /// Creates a new transform by decoding from the given decoder.
     /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let offset = try container.decodeIfPresent(Vector.self, forKey: .offset)
-        let rotation = try container.decodeIfPresent(Rotation.self, forKey: .rotation)
         let scale = try container.decodeIfPresent(Vector.self, forKey: .scale)
-        self.init(offset: offset, rotation: rotation, scale: scale)
+        let rotation = try container.decodeIfPresent(Rotation.self, forKey: .rotation)
+        let translation = try container.decodeIfPresent(Vector.self, forKey: .translation)
+            ?? container.decodeIfPresent(Vector.self, forKey: .offset)
+        self.init(scale: scale, rotation: rotation, translation: translation)
     }
 
     /// Encodes this transform into the given encoder.
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try offset.isZero ? () : container.encode(offset, forKey: .offset)
-        try rotation.isIdentity ? () : container.encode(rotation, forKey: .rotation)
         try scale.isOne ? () : container.encode(scale, forKey: .scale)
-    }
-}
-
-extension Transform: Transformable {
-    public func rotated(by rotation: Rotation) -> Transform {
-        Transform(
-            offset: offset,
-            rotation: self.rotation * rotation,
-            scale: scale
-        )
-    }
-
-    public func translated(by distance: Vector) -> Transform {
-        Transform(
-            offset: offset + distance.scaled(by: scale).rotated(by: rotation),
-            rotation: rotation,
-            scale: scale
-        )
-    }
-
-    public func scaled(by scale: Vector) -> Transform {
-        Transform(
-            offset: offset,
-            rotation: rotation,
-            scale: self.scale.scaled(by: scale)
-        )
-    }
-
-    public func scaled(by factor: Double) -> Transform {
-        Transform(
-            offset: offset,
-            rotation: rotation,
-            scale: scale * factor
-        )
-    }
-
-    public func transformed(by transform: Transform) -> Transform {
-        transform
-            .translated(by: offset)
-            .scaled(by: scale)
-            .rotated(by: rotation)
+        try rotation.isIdentity ? () : container.encode(rotation, forKey: .rotation)
+        try translation.isZero ? () : container.encode(translation, forKey: .offset)
     }
 }
 
@@ -198,16 +197,16 @@ public extension Transform {
     /// The identity transform (i.e. no transform).
     static let identity = Transform()
 
-    /// Creates a offset transform.
-    /// - Parameter offset: An offset distance.
-    static func offset(_ offset: Vector) -> Transform {
-        .init(offset: offset)
+    /// Creates a translation or position transform.
+    /// - Parameter translation: An offset distance.
+    static func translation(_ translation: Vector) -> Transform {
+        .init(translation: translation)
     }
 
-    /// Creates a rotation transform.
-    /// - Parameter rotation: A rotation to apply.
-    static func rotation(_ rotation: Rotation) -> Transform {
-        .init(rotation: rotation)
+    /// Deprecated.
+    @available(*, deprecated, renamed: "translation(_:)")
+    static func offset(_ offset: Vector) -> Transform {
+        .init(translation: offset)
     }
 
     /// Creates a scale transform.
@@ -222,14 +221,61 @@ public extension Transform {
         .init(scale: Vector(size: factor))
     }
 
+    /// Creates a rotation transform.
+    /// - Parameter rotation: A rotation to apply.
+    static func rotation(_ rotation: Rotation) -> Transform {
+        .init(rotation: rotation)
+    }
+
     /// Transform has no effect.
     var isIdentity: Bool {
-        rotation.isIdentity && offset.isZero && scale.isOne
+        rotation.isIdentity && translation.isZero && scale.isOne
     }
 
     /// Does the transform apply a mirror operation (negative scale)?
     var isFlipped: Bool {
         isFlippedScale(scale)
+    }
+}
+
+extension Transform: Transformable {
+    public func rotated(by rotation: Rotation) -> Transform {
+        Transform(
+            scale: scale,
+            rotation: self.rotation * rotation,
+            translation: translation
+        )
+    }
+
+    public func translated(by distance: Vector) -> Transform {
+        Transform(
+            scale: scale,
+            rotation: rotation,
+            translation: translation + distance.scaled(by: scale).rotated(by: rotation)
+        )
+    }
+
+    public func scaled(by scale: Vector) -> Transform {
+        Transform(
+            scale: self.scale.scaled(by: scale),
+            rotation: rotation,
+            translation: translation
+        )
+    }
+
+    public func scaled(by factor: Double) -> Transform {
+        Transform(
+            scale: scale * factor,
+            rotation: rotation,
+            translation: translation
+        )
+    }
+
+    public func transformed(by transform: Transform) -> Transform {
+        transform
+            .translated(by: translation)
+            .scaled(by: scale)
+            .rotated(by: rotation)
     }
 }
 
@@ -587,12 +633,12 @@ extension Array: Transformable where Element: Transformable {
 
     public func transformed(by transform: Transform) -> [Element] {
         if transform.scale.isOne {
-            if transform.offset == .zero {
+            if transform.translation.isZero {
                 return rotated(by: transform.rotation)
             } else if transform.isIdentity {
-                return translated(by: transform.offset)
+                return translated(by: transform.translation)
             }
-        } else if transform.rotation == .identity, transform.offset.isZero {
+        } else if transform.rotation == .identity, transform.translation.isZero {
             return scaled(by: transform.scale)
         }
         return map { $0.transformed(by: transform) }

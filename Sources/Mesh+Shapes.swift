@@ -191,7 +191,7 @@ public extension Mesh {
             .init(-t, 0, -1),
             .init(-t, 0, 1),
         ]
-        let transform = Transform(rotation: .pitch(.atan(t)), scale: .init(size: radius / sqrt(t * t + 1)))
+        let transform = Transform(scale: radius / sqrt(t * t + 1), rotation: .pitch(.atan(t)))
         let v = coordinates.map { Vertex($0.transformed(by: transform)) }
         func triangle(_ a: Vertex, _ b: Vertex, _ c: Vertex) -> Polygon {
             Polygon(

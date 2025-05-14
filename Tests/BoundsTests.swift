@@ -130,7 +130,7 @@ class BoundsTests: XCTestCase {
     func testTranslatedEmptyBoundsIsEmpty() {
         let offset = Vector(2.5539, 0.5531, 0.0131)
         XCTAssert(Bounds.empty.translated(by: offset).isEmpty)
-        XCTAssert(Bounds.empty.transformed(by: .offset(offset)).isEmpty)
+        XCTAssert(Bounds.empty.transformed(by: .translation(offset)).isEmpty)
     }
 
     func testScaledEmptyBoundsIsEmpty() {

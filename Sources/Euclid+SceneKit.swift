@@ -120,9 +120,9 @@ public extension SCNNode {
     /// The transform applies to the orientation, scale, and position of the node.
     /// - Parameter transform: The transform to apply.
     func setTransform(_ transform: Transform) {
-        orientation = SCNQuaternion(transform.rotation)
         scale = SCNVector3(transform.scale)
-        position = SCNVector3(transform.offset)
+        orientation = SCNQuaternion(transform.rotation)
+        position = SCNVector3(transform.translation)
     }
 }
 
@@ -493,9 +493,9 @@ public extension Transform {
     /// - Parameter scnNode: The `SCNNode` from which to determine the transform.
     static func transform(from scnNode: SCNNode) -> Transform {
         Transform(
-            offset: Vector(scnNode.position),
+            scale: Vector(scnNode.scale),
             rotation: Rotation(scnNode.orientation),
-            scale: Vector(scnNode.scale)
+            translation: Vector(scnNode.position)
         )
     }
 }

@@ -166,7 +166,7 @@ class SceneKitTests: XCTestCase {
     }
 
     func testOffsetTransformToFromMatrix() {
-        let transform = Transform(offset: .init(1, 2, 3))
+        let transform = Transform(translation: .init(1, 2, 3))
         let matrix = SCNMatrix4(transform)
         let expected = SCNMatrix4MakeTranslation(1, 2, 3)
         XCTAssert(SCNMatrix4EqualToMatrix4(matrix, expected))
@@ -177,7 +177,7 @@ class SceneKitTests: XCTestCase {
         let transform = Transform(rotation: .init(.yaw(-.pi)))
         let matrix = SCNMatrix4(transform)
         XCTAssertEqual(transform.scale, .one)
-        XCTAssertEqual(transform.offset, .zero)
+        XCTAssertEqual(transform.translation, .zero)
         XCTAssert(transform.rotation.isEqual(to: Transform(matrix).rotation))
     }
 }

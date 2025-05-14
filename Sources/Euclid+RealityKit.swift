@@ -54,7 +54,7 @@ public extension RealityKit.Transform {
         self.init(
             scale: .init(transform.scale),
             rotation: .init(transform.rotation),
-            translation: .init(transform.offset)
+            translation: .init(transform.translation)
         )
     }
 }
@@ -292,9 +292,9 @@ public extension Euclid.Transform {
     /// - Parameter transform: The RealityKit transform  to convert into a Euclid transform.
     init(_ transform: RealityKit.Transform) {
         self.init(
-            offset: .init(transform.translation),
+            scale: .init(transform.scale),
             rotation: .init(transform.rotation),
-            scale: .init(transform.scale)
+            translation: .init(transform.translation)
         )
     }
 

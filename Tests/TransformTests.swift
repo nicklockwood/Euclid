@@ -15,19 +15,19 @@ class TransformTests: XCTestCase {
     func testRotationMultipliedByTranslation() {
         let r = Rotation(roll: .zero, yaw: .pi / 4, pitch: .zero)
         let a = Transform(rotation: r)
-        let b = Transform(offset: .unitX)
+        let b = Transform(translation: .unitX)
         let c = a * b
-        XCTAssertEqual(c.offset, .unitX)
+        XCTAssertEqual(c.translation, .unitX)
         XCTAssertEqual(c.rotation, r)
     }
 
     func testTranslationMultipliedByRotation() {
         let r = Rotation(roll: .zero, yaw: .pi / 4, pitch: .zero)
-        let a = Transform(offset: .unitX)
+        let a = Transform(translation: .unitX)
         let b = Transform(rotation: r)
         let c = a * b
-        XCTAssertEqual(c.offset, Vector(sqrt(2) / 2, 0, sqrt(2) / 2))
-        XCTAssertEqual(c.offset, a.offset.rotated(by: r))
+        XCTAssertEqual(c.translation, Vector(sqrt(2) / 2, 0, sqrt(2) / 2))
+        XCTAssertEqual(c.translation, a.translation.rotated(by: r))
         XCTAssertEqual(c.rotation, r)
     }
 
@@ -50,10 +50,10 @@ class TransformTests: XCTestCase {
     }
 
     func testTranslationMultipliedByScale() {
-        let a = Transform(offset: .unitX)
+        let a = Transform(translation: .unitX)
         let b = Transform(scale: Vector(2, 1, 1))
         let c = a * b
-        XCTAssertEqual(c.offset, Vector(2, 0, 0))
+        XCTAssertEqual(c.translation, Vector(2, 0, 0))
         XCTAssertEqual(c.scale, Vector(2, 1, 1))
     }
 
@@ -71,9 +71,9 @@ class TransformTests: XCTestCase {
     func testTransformVector() {
         let v = Vector(1, 1, 1)
         let t = Transform(
-            offset: Vector(0.5, 0, 0),
+            scale: Vector(1, 0.1, 0.1),
             rotation: .roll(.halfPi),
-            scale: Vector(1, 0.1, 0.1)
+            translation: Vector(0.5, 0, 0)
         )
         XCTAssertEqual(v.transformed(by: t), Vector(0.6, -1.0, 0.1))
     }
@@ -127,9 +127,9 @@ class TransformTests: XCTestCase {
         ])
         let plane = try XCTUnwrap(path.plane)
         let transform = Transform(
-            offset: Vector(-7, 3, 4.5),
-            rotation: Rotation(axis: Vector(11, 3, -1), angle: .radians(1.3))!,
-            scale: Vector(7, 2.0, 0.3)
+            scale: Vector(7, 2.0, 0.3),
+            rotation: Rotation(axis: Vector(11, 3, -1), angle: .radians(1.3)),
+            translation: Vector(-7, 3, 4.5)
         )
         let expected = try XCTUnwrap(path.transformed(by: transform).plane)
         XCTAssert(plane.transformed(by: transform).isEqual(to: expected))
@@ -152,9 +152,9 @@ class TransformTests: XCTestCase {
     func testBoundsNotPreservedWhenMeshRotated() {
         let mesh = Mesh.cube()
         let transform = Transform(
-            offset: Vector(-7, 3, 4.5),
-            rotation: Rotation(axis: Vector(11, 3, -1), angle: .radians(1.3))!,
-            scale: Vector(7, 2.0, 0.3)
+            scale: Vector(7, 2.0, 0.3),
+            rotation: Rotation(axis: Vector(11, 3, -1), angle: .radians(1.3)),
+            translation: Vector(-7, 3, 4.5)
         )
         XCTAssertNil(mesh.transformed(by: transform).boundsIfSet)
     }
@@ -162,9 +162,9 @@ class TransformTests: XCTestCase {
     func testBoundsPreservedWhenTransformingMeshWithoutRotation() {
         let mesh = Mesh.cube()
         let transform = Transform(
-            offset: Vector(-7, 3, 4.5),
+            scale: Vector(7, 2.0, 0.3),
             rotation: .identity,
-            scale: Vector(7, 2.0, 0.3)
+            translation: Vector(-7, 3, 4.5)
         )
         XCTAssertNotNil(mesh.transformed(by: transform).boundsIfSet)
     }
