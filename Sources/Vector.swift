@@ -257,7 +257,7 @@ public extension Vector {
     ///   - other: The vector to interpolate towards.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
     func lerp(_ other: Vector, _ t: Double) -> Vector {
-        self + (other - self) * t
+        interpolated(with: other, by: t)
     }
 
     /// Returns the angle between this vector and another.

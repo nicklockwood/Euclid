@@ -286,27 +286,7 @@ public extension PathPoint {
     ///   - t: The normalized extent of interpolation, from 0 to 1.
     /// - Returns: A new path point at the interpolated position.
     func lerp(_ other: PathPoint, _ t: Double) -> PathPoint {
-        let texcoord: Vector?
-        switch (self.texcoord, other.texcoord) {
-        case let (lhs?, rhs?):
-            texcoord = lhs.lerp(rhs, t)
-        case let (lhs, rhs):
-            texcoord = lhs ?? rhs
-        }
-        let color: Color?
-        switch (self.color, other.color) {
-        case let (lhs?, rhs?):
-            color = lhs.lerp(rhs, t)
-        case let (lhs, rhs):
-            color = lhs ?? rhs
-        }
-        let isCurved = self.isCurved || other.isCurved
-        return PathPoint(
-            position.lerp(other.position, t),
-            texcoord: texcoord,
-            color: color,
-            isCurved: isCurved
-        )
+        interpolated(with: other, by: t)
     }
 
     /// Curve or uncurve the point.

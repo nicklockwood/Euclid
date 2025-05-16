@@ -60,15 +60,6 @@ public extension Rotation {
         .radians(storage.angle)
     }
 
-    /// Performs a spherical linear interpolation between two rotations.
-    /// - Parameters:
-    ///   - other: The rotation to interpolate towards.
-    ///   - t: The normalized extent of interpolation, from 0 to 1.
-    /// - Returns: The interpolated rotation.
-    func slerp(_ other: Rotation, _ t: Double) -> Rotation {
-        .init(storage: simd_slerp(storage, other.storage, t))
-    }
-
     /// Rotates the specified vector relative to the origin.
     /// - Parameter vector: The Vector to be rotated.
     /// - Returns: The rotated vector.
@@ -154,23 +145,6 @@ public extension Rotation {
         .radians(2 * acos(w))
     }
 
-    /// Performs a spherical linear interpolation between two rotations.
-    /// - Parameters:
-    ///   - other: The rotation to interpolate towards.
-    ///   - t: The normalized extent of interpolation, from 0 to 1.
-    /// - Returns: The interpolated rotation.
-    func slerp(_ other: Rotation, _ t: Double) -> Rotation {
-        let dot = max(-1, min(1, self.dot(other)))
-        if abs(abs(dot) - 1) < epsilon {
-            return (self + (other - self) * t).normalized()
-        }
-
-        let theta = acos(dot) * t
-        let t1 = self * cos(theta)
-        let t2 = (other - (self * dot)).normalized() * sin(theta)
-        return t1 + t2
-    }
-
     /// Rotates the specified vector relative to the origin.
     /// - Parameter vector: The Vector to be rotated.
     /// - Returns: The rotated vector.
@@ -200,29 +174,6 @@ public extension Rotation {
     /// Combines with the specified rotation.
     static func *= (lhs: inout Rotation, rhs: Rotation) {
         lhs = lhs * rhs
-    }
-}
-
-private extension Rotation {
-    func dot(_ r: Rotation) -> Double {
-        x * r.x + y * r.y + z * r.z + w * r.w
-    }
-
-    func normalized() -> Rotation {
-        let lengthSquared = dot(self)
-        if lengthSquared == 0 || lengthSquared == 1 {
-            return self
-        }
-        let length = sqrt(lengthSquared)
-        return .init(unchecked: x / length, y / length, z / length, w / length)
-    }
-
-    static func + (lhs: Rotation, rhs: Rotation) -> Rotation {
-        .init(unchecked: lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w)
-    }
-
-    static func - (lhs: Rotation, rhs: Rotation) -> Rotation {
-        .init(unchecked: lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w)
     }
 }
 
@@ -492,6 +443,15 @@ public extension Rotation {
     /// Divides the rotation angle by the specified value.
     static func /= (lhs: inout Rotation, rhs: Double) {
         lhs = lhs / rhs
+    }
+
+    /// Performs a spherical linear interpolation between two rotations.
+    /// - Parameters:
+    ///   - other: The rotation to interpolate towards.
+    ///   - t: The normalized extent of interpolation, from 0 to 1.
+    /// - Returns: The interpolated rotation.
+    func slerp(_ other: Rotation, _ t: Double) -> Rotation {
+        interpolated(with: other, by: t)
     }
 }
 

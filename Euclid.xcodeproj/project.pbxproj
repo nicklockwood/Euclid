@@ -72,6 +72,7 @@
 		01D2F9F82AADBB1400C201D9 /* Mesh+Texcoords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2F9F72AADBB1400C201D9 /* Mesh+Texcoords.swift */; };
 		01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D96AB423D8E36A00D0D267 /* BoundsTests.swift */; };
 		01E591302DD79FCC00CDECEA /* Transformable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5912F2DD79FC700CDECEA /* Transformable.swift */; };
+		01E591322DD7A4ED00CDECEA /* Interpolatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E591312DD7A4E400CDECEA /* Interpolatable.swift */; };
 		01E5F54923D59BF100717D58 /* BSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5F54823D59BF100717D58 /* BSP.swift */; };
 		01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2381F23BF4160005EC9DB /* LineSegment.swift */; };
 		01FAE7BD29744E08008DB288 /* PolygonCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */; };
@@ -185,6 +186,7 @@
 		01D2F9F72AADBB1400C201D9 /* Mesh+Texcoords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mesh+Texcoords.swift"; sourceTree = "<group>"; };
 		01D96AB423D8E36A00D0D267 /* BoundsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundsTests.swift; sourceTree = "<group>"; };
 		01E5912F2DD79FC700CDECEA /* Transformable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformable.swift; sourceTree = "<group>"; };
+		01E591312DD7A4E400CDECEA /* Interpolatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpolatable.swift; sourceTree = "<group>"; };
 		01E5F54823D59BF100717D58 /* BSP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSP.swift; sourceTree = "<group>"; };
 		01F2381F23BF4160005EC9DB /* LineSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegment.swift; sourceTree = "<group>"; };
 		01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonCSGTests.swift; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 				01B9F60D292BCE57002CC3EB /* Stretchable.swift */,
 				016FAB4B21BFE7C200AF60DC /* Transform.swift */,
 				01E5912F2DD79FC700CDECEA /* Transformable.swift */,
+				01E591312DD7A4E400CDECEA /* Interpolatable.swift */,
 				016FAB4A21BFE7C200AF60DC /* Euclid+SceneKit.swift */,
 				0112D5C828EE29BB00A1C085 /* Euclid+RealityKit.swift */,
 				01BA297B2235E3580088D36B /* Euclid+CoreGraphics.swift */,
@@ -559,6 +562,7 @@
 				01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */,
 				016FAB5221BFE7C200AF60DC /* Vertex.swift in Sources */,
 				016FAB5821BFE7C200AF60DC /* Polygon.swift in Sources */,
+				01E591322DD7A4ED00CDECEA /* Interpolatable.swift in Sources */,
 				0188525626D94FCC0079C602 /* Euclid+UIKit.swift in Sources */,
 				0148ECA4278378D100B3F836 /* Path+Shapes.swift in Sources */,
 				52A663A123857D5300FACF9D /* Line.swift in Sources */,

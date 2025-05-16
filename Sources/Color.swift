@@ -140,7 +140,7 @@ public extension Color {
     ///   - t: The normalized extent of interpolation, from 0 to 1.
     /// - Returns: The interpolated color.
     func lerp(_ other: Color, _ t: Double) -> Color {
-        self + (other - self) * max(0, min(1, t))
+        interpolated(with: other, by: t)
     }
 }
 
@@ -193,18 +193,6 @@ extension Color {
             assertionFailure()
             self = .clear
         }
-    }
-
-    static func - (lhs: Color, rhs: Color) -> Color {
-        Color(lhs.r - rhs.r, lhs.g - rhs.g, lhs.b - rhs.b, lhs.a - rhs.a)
-    }
-
-    static func + (lhs: Color, rhs: Color) -> Color {
-        Color(lhs.r + rhs.r, lhs.g + rhs.g, lhs.b + rhs.b, lhs.a + rhs.a)
-    }
-
-    static func * (lhs: Color, rhs: Double) -> Color {
-        Color(lhs.r * rhs, lhs.g * rhs, lhs.b * rhs, lhs.a * rhs)
     }
 
     /// Approximate equality
