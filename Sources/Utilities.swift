@@ -54,6 +54,10 @@ extension Double {
     func isEqual(to other: Double, withPrecision p: Double) -> Bool {
         self == other || abs(self - other) < p
     }
+
+    func clampedToScaleLimit() -> Double {
+        self < 0 ? min(self, -scaleLimit) : max(self, scaleLimit)
+    }
 }
 
 // MARK: Vertex utilities
@@ -232,6 +236,10 @@ extension Vector {
         default:
             return .unitZ
         }
+    }
+
+    func clampedToScaleLimit() -> Self {
+        Self(x.clampedToScaleLimit(), y.clampedToScaleLimit(), z.clampedToScaleLimit())
     }
 }
 
