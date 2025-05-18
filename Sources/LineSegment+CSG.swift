@@ -13,9 +13,9 @@ public extension LineSegment {
     func split(along plane: Plane) -> (front: LineSegment?, back: LineSegment?) {
         switch (start.distance(from: plane), end.distance(from: plane)) {
         case (0..., 0...):
-            return (nil, self)
-        case (..<0, ..<0):
             return (self, nil)
+        case (..<0, ..<0):
+            return (nil, self)
         case let (distance, _):
             let point = start + direction * abs(distance)
             let segments = (
