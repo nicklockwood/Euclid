@@ -62,6 +62,17 @@ extension BSP {
         }
     }
 
+    func clip(
+        _ edges: [LineSegment],
+        _ keeping: ClipRule,
+        _ isCancelled: CancellationHandler
+    ) -> [LineSegment] {
+        batch(edges, stride: 50) { edges in
+            var out: [LineSegment]?
+            return clip(edges, keeping, &out, isCancelled)
+        }
+    }
+
     func split(
         _ polygons: [Polygon],
         _ left: ClipRule,
@@ -215,7 +226,7 @@ private extension BSP {
 
     func clip(
         _ polygons: [Polygon],
-        _ keeping: BSP.ClipRule,
+        _ keeping: ClipRule,
         _ out: inout [Polygon]?,
         _ id: inout Int,
         _ isCancelled: CancellationHandler
@@ -277,6 +288,56 @@ private extension BSP {
                     addPolygons(back, to: &total)
                 } else if out != nil {
                     addPolygons(back, to: &rejects)
+                }
+            }
+        }
+        out = rejects
+        return total
+    }
+
+    func clip(
+        _ edges: [LineSegment],
+        _ keeping: ClipRule,
+        _ out: inout [LineSegment]?,
+        _ isCancelled: CancellationHandler
+    ) -> [LineSegment] {
+        guard !nodes.isEmpty else {
+            return edges
+        }
+        var total = [LineSegment]()
+        var rejects = [LineSegment]()
+        func addEdges(_ edges: [LineSegment], to total: inout [LineSegment]) {
+            // TODO: weld split edges back together
+            for a in edges {
+                total.append(a)
+            }
+        }
+        let keepFront = [.greaterThan, .greaterThanEqual].contains(keeping)
+        var stack = [(node: nodes[0], edges: edges)]
+        while let (node, edges) = stack.popLast(), !isCancelled() {
+            var coplanar = [LineSegment](), front = [LineSegment](), back = [LineSegment]()
+            for edge in edges {
+                edge.split(along: node.plane, &coplanar, &front, &back)
+            }
+            for edge in coplanar {
+                edge.clip(to: node.polygons, &back, &front)
+            }
+            if !front.isEmpty {
+                if node.front > 0 {
+                    stack.append((nodes[node.front], front))
+                } else if keepFront {
+                    addEdges(front, to: &total)
+                } else if out != nil {
+                    addEdges(front, to: &rejects)
+                }
+            }
+            if !back.isEmpty {
+                if node.back > 0 {
+                    stack.append((nodes[node.back], back))
+                } else if !keepFront {
+                    addEdges(back, to: &total)
+                } else if out != nil {
+                    addEdges(back, to: &rejects)
                 }
             }
         }

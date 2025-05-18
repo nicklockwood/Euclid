@@ -70,4 +70,13 @@ class LineSegmentTests: XCTestCase {
         XCTAssertEqual(line.split(along: plane).front, line)
         XCTAssertNil(line.split(along: plane).back) // TODO: does this inconsistency matter?
     }
+
+    func testClipToCube() {
+        let line = LineSegment(unchecked: Vector(0, -2, 0), Vector(0, 2, 0))
+        let mesh = Mesh.cube()
+        XCTAssertEqual([line].subtracting(mesh), [
+            LineSegment(undirected: Vector(0, -2, 0), Vector(0, -0.5, 0)),
+            LineSegment(undirected: Vector(0, 0.5, 0), Vector(0, 2, 0)),
+        ])
+    }
 }
