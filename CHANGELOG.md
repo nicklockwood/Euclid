@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.7.13](https://github.com/nicklockwood/Euclid/releases/tag/0.7.13) (2025-05-19)
+
+- Added function for subtracting a `Mesh` from a set of line segments
+- Fixed inverted `LineSegment.clip(to:)` plane clipping logic
+
 ## [0.7.12](https://github.com/nicklockwood/Euclid/releases/tag/0.7.12) (2025-05-10)
 
 - Added `Mesh.withoutVertexColors()` method
