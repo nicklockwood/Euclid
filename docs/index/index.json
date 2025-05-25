@@ -1575,13 +1575,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/init(_:)-5bu0o",
-                "title" : "init(Set<LineSegment>)",
+                "path" : "\/documentation\/euclid\/path\/init(_:color:)-5lnql",
+                "title" : "init(LineSegment, color: Color?)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/init(_:)-8tl56",
-                "title" : "init(LineSegment)",
+                "path" : "\/documentation\/euclid\/path\/init(_:color:)-snde",
+                "title" : "init<T>(T, color: Color?)",
                 "type" : "init"
               },
               {

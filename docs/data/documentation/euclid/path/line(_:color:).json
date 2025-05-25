@@ -1,8 +1,19 @@
 {
   "abstract" : [
     {
-      "text" : "Creates a linear path from a line segment.",
+      "text" : "Deprecated.",
       "type" : "text"
+    }
+  ],
+  "deprecationSummary" : [
+    {
+      "inlineContent" : [
+        {
+          "text" : "Path.init(_:) instead",
+          "type" : "text"
+        }
+      ],
+      "type" : "paragraph"
     }
   ],
   "hierarchy" : {
@@ -82,6 +93,9 @@
       {
         "name" : "Euclid"
       }
+    ],
+    "platforms" : [
+
     ],
     "role" : "symbol",
     "roleHeading" : "Type Method",
@@ -177,57 +191,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The ",
-                  "type" : "text"
-                },
-                {
-                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-                  "isActive" : true,
-                  "type" : "reference"
-                },
-                {
-                  "text" : " defining the path.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "line"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "An optional ",
-                  "type" : "text"
-                },
-                {
-                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
-                  "isActive" : true,
-                  "type" : "reference"
-                },
-                {
-                  "text" : " to apply to the path’s points.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "color"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -833,10 +796,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/line(_:color:)": {
   "abstract" : [
     {
-      "text" : "Creates a linear path from a line segment.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

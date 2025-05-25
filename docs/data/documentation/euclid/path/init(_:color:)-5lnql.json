@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-8tl56"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:color:)-5lnql"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4PathVyAcA11LineSegmentVcfc",
+    "externalID" : "s:6Euclid4PathV_5colorAcA11LineSegmentV_AA5ColorVSgtcfc",
     "fragments" : [
       {
         "kind" : "identifier",
@@ -37,7 +37,24 @@
       },
       {
         "kind" : "text",
-        "text" : ")"
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "color"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid5ColorV",
+        "text" : "Color"
+      },
+      {
+        "kind" : "text",
+        "text" : "?)"
       }
     ],
     "modules" : [
@@ -48,7 +65,7 @@
     "role" : "symbol",
     "roleHeading" : "Initializer",
     "symbolKind" : "init",
-    "title" : "init(_:)"
+    "title" : "init(_:color:)"
   },
   "primaryContentSections" : [
     {
@@ -93,7 +110,25 @@
             },
             {
               "kind" : "text",
-              "text" : ")"
+              "text" : ", "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "color"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid5ColorV",
+              "text" : "Color"
+            },
+            {
+              "kind" : "text",
+              "text" : "? = nil)"
             }
           ]
         }
@@ -108,7 +143,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A ",
+                  "text" : "The ",
                   "type" : "text"
                 },
                 {
@@ -117,7 +152,7 @@
                   "type" : "reference"
                 },
                 {
-                  "text" : " to convert to a path.",
+                  "text" : " defining the path.",
                   "type" : "text"
                 }
               ],
@@ -125,6 +160,29 @@
             }
           ],
           "name" : "segment"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "An optional ",
+                  "type" : "text"
+                },
+                {
+                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
+                  "isActive" : true,
+                  "type" : "reference"
+                },
+                {
+                  "text" : " to apply to the path’s points.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "color"
         }
       ]
     }
@@ -140,7 +198,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/path\/init(_:)-8tl56"
+        "\/documentation\/euclid\/path\/init(_:color:)-5lnql"
       ],
       "traits" : [
         {
@@ -164,6 +222,40 @@
   "title" : "Euclid",
   "type" : "topic",
   "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
+  "abstract" : [
+    {
+      "text" : "A color in RGBA format.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Color"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Color"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Color",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment": {
   "abstract" : [
@@ -233,7 +325,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-8tl56": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:color:)-5lnql": {
   "abstract" : [
     {
       "text" : "Creates a path from a line segment.",
@@ -256,15 +348,32 @@
     },
     {
       "kind" : "text",
-      "text" : ")"
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "color"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-8tl56",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:color:)-5lnql",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(_:)",
+  "title" : "init(_:color:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/init(_:)-8tl56"
+  "url" : "\/documentation\/euclid\/path\/init(_:color:)-5lnql"
 }
 }
 }

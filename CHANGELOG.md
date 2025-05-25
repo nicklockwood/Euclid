@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.7.14](https://github.com/nicklockwood/Euclid/releases/tag/0.7.14) (2025-05-25)
+
+- Fixed bug with `Path.init(_ segments:)` when segments are very short
+- Added optional `color` parameter to `Path.init(_ segment:)` and `Path.init(_ segments:)`
+- Deprecated `Path.line(_ segment:color:)`
+
 ## [0.7.13](https://github.com/nicklockwood/Euclid/releases/tag/0.7.13) (2025-05-19)
 
 - Added function for subtracting a `Mesh` from a set of line segments

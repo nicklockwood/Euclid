@@ -370,8 +370,8 @@
       "anchor" : "Initializers",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-5bu0o",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-8tl56",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:color:)-5lnql",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:color:)-snde",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(cgPath:detail:color:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(polygon:)"
       ],
@@ -1619,49 +1619,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/init(_:)-4jhkw"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-5bu0o": {
-  "abstract" : [
-    {
-      "text" : "Creates a path from a set of line segments.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sh",
-      "text" : "Set"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
-      "text" : "LineSegment"
-    },
-    {
-      "kind" : "text",
-      "text" : ">)"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-5bu0o",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/init(_:)-5bu0o"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-8tl56": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:color:)-5lnql": {
   "abstract" : [
     {
       "text" : "Creates a path from a line segment.",
@@ -1684,15 +1642,90 @@
     },
     {
       "kind" : "text",
-      "text" : ")"
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "color"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-8tl56",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:color:)-5lnql",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(_:)",
+  "title" : "init(_:color:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/init(_:)-8tl56"
+  "url" : "\/documentation\/euclid\/path\/init(_:color:)-5lnql"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:color:)-snde": {
+  "abstract" : [
+    {
+      "text" : "Creates a path from a set of line segments.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV_5colorACx_AA5ColorVSgtcSlRzAA11LineSegmentV7ElementRtzlufc1TL_xmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "color"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:color:)-snde",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:color:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/init(_:color:)-snde"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:detail:color:)": {
   "abstract" : [
@@ -2207,10 +2240,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/line(_:color:)": {
   "abstract" : [
     {
-      "text" : "Creates a linear path from a line segment.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

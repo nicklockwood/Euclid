@@ -983,10 +983,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/line(_:color:)": {
   "abstract" : [
     {
-      "text" : "Creates a linear path from a line segment.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

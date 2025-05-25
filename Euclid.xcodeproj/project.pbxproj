@@ -260,7 +260,6 @@
 				016FAB4C21BFE7C200AF60DC /* Polygon.swift */,
 				EA6F2218296C5A9000B530BE /* Polygon+CSG.swift */,
 				01E5F54823D59BF100717D58 /* BSP.swift */,
-				016FAB4921BFE7C200AF60DC /* Path.swift */,
 				016FAB4821BFE7C200AF60DC /* Mesh.swift */,
 				016FAB4421BFE7C100AF60DC /* Mesh+CSG.swift */,
 				016FAB4E21BFE7C200AF60DC /* Mesh+Shapes.swift */,
@@ -270,6 +269,7 @@
 				0157FEC32B63B1BE009033D1 /* Mesh+IO.swift */,
 				016FAB4D21BFE7C200AF60DC /* Plane.swift */,
 				0148ECA52783796A00B3F836 /* PathPoint.swift */,
+				016FAB4921BFE7C200AF60DC /* Path.swift */,
 				0148ECA3278378D100B3F836 /* Path+Shapes.swift */,
 				52A663A023857D5300FACF9D /* Line.swift */,
 				01F2381F23BF4160005EC9DB /* LineSegment.swift */,
@@ -803,7 +803,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.13;
+				MARKETING_VERSION = 0.7.14;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=75";
@@ -844,7 +844,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.13;
+				MARKETING_VERSION = 0.7.14;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-expression-type-checking=75";
