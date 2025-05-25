@@ -744,8 +744,7 @@ public extension Mesh {
         polygons.reserveCapacity(detail * lines.count)
         for line in lines {
             var shape = path
-            let along = Path.line(line)
-            if along.flatteningPlane == .xy {
+            if FlatteningPlane(normal: line.direction) == .xy {
                 shape.rotate(by: .pitch(.halfPi))
             }
             shape.rotate(by: rotationBetweenNormalizedVectors(line.direction, shape.faceNormal))

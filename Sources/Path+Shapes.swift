@@ -32,10 +32,8 @@
 import Foundation
 
 public extension Path {
-    /// Creates a linear path from a line segment.
-    /// - Parameters:
-    ///   - line: The ``LineSegment`` defining the path.
-    ///   - color: An optional ``Color`` to apply to the path's points.
+    /// Deprecated.
+    @available(*, deprecated, message: "Path.init(_:) instead")
     static func line(_ line: LineSegment, color: Color? = nil) -> Path {
         .line(line.start, line.end, color: color)
     }
