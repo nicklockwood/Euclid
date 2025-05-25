@@ -224,36 +224,44 @@ public extension Path {
     }
 
     /// Creates a path from a line segment.
-    /// - Parameter segment: A ``LineSegment`` to convert to a path.
-    init(_ segment: LineSegment) {
-        self.init([.point(segment.start), .point(segment.end)])
+    /// - Parameters:
+    ///   - segment: The ``LineSegment`` defining the path.
+    ///   - color: An optional ``Color`` to apply to the path's points.
+    init(_ segment: LineSegment, color: Color? = nil) {
+        self.init([.point(segment.start, color: color), .point(segment.end, color: color)])
     }
 
     /// Creates a path from a set of line segments.
-    /// - Parameter lineSegments: A set of``LineSegment`` to convert to a path.
-    init(_ lineSegments: Set<LineSegment>) {
-        var paths = lineSegments.map { Path([.point($0.start), .point($0.end)]) }
-        outer: while true {
+    /// - Parameters:
+    ///   - segments: An unsorted, undirected collection of``LineSegment``s to convert to a path.
+    ///   - color: An optional ``Color`` to apply to the path's points.
+    init<T: Collection>(_ segments: T, color: Color? = nil) where T.Element == LineSegment {
+        let d = segments.reduce(epsilon) { min($0, $1.length / 2) }
+        var paths = segments.map { [$0.start, $0.end] }
+        outer: do {
             for (i, p) in paths.enumerated() {
                 let matches = paths.enumerated().filter { j, q in
-                    guard i != j, let p = p.points.last?.position, !q.points.isEmpty else { return false }
-                    return p.isEqual(to: q.points.first!.position) || p.isEqual(to: q.points.last!.position)
-                }
-                if let (j, q) = matches.first, matches.count == 1 {
-                    let points: [PathPoint]
-                    if p.points.last!.position.isEqual(to: q.points.first!.position) {
-                        points = p.points + q.points.dropFirst()
-                    } else {
-                        points = p.points + q.points.dropLast().reversed()
+                    guard i != j, let p = p.last, !q.isEmpty else {
+                        return false
                     }
-                    paths[i] = Path(points)
+                    return p.isEqual(to: q.first!, withPrecision: d)
+                        || p.isEqual(to: q.last!, withPrecision: d)
+                }
+                // TODO: for multiple matches find the longest contiguous path
+                if let (j, q) = matches.first, matches.count == 1 {
+                    var points = p
+                    if p.last!.isEqual(to: q.first!, withPrecision: d) {
+                        points += q.dropFirst()
+                    } else {
+                        points += q.dropLast().reversed()
+                    }
+                    paths[i] = points
                     paths.remove(at: j)
                     continue outer
                 }
             }
-            break
         }
-        self.init(subpaths: paths)
+        self.init(subpaths: paths.map { Path($0.map { .point($0, color: color) }) })
     }
 
     /// An array of the subpaths that make up the path.

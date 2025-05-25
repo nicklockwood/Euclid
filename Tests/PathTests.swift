@@ -38,6 +38,17 @@ class PathTests: XCTestCase {
         ])
         XCTAssertTrue(path.isSimple)
         XCTAssertFalse(path.isClosed)
+        XCTAssertEqual(path.points.count, 2)
+    }
+
+    func testLineShorterThanEpsilon() {
+        let path = Path([
+            .point(0, 1),
+            .point(0, 1 + epsilon / 2),
+        ])
+        XCTAssertTrue(path.isSimple)
+        XCTAssertFalse(path.isClosed)
+        XCTAssertEqual(path.points.count, 2)
     }
 
     func testSimpleOpenTriangle() {
