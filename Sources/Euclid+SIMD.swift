@@ -33,46 +33,32 @@
 
 import simd
 
-public extension simd_double3 {
+public extension SIMD3 where Scalar: BinaryFloatingPoint {
     /// Creates a simd vector 3 from a Euclid `Vector`.
     /// - Parameter vector: A Euclid vector.
     init(_ vector: Vector) {
-        self.init(vector.x, vector.y, vector.z)
+        self.init(Scalar(vector.x), Scalar(vector.y), Scalar(vector.z))
     }
 }
 
-public extension simd_float3 {
-    /// Creates a simd float vector 3 from a Euclid `Vector`.
+public extension SIMD2 where Scalar: BinaryFloatingPoint {
+    /// Creates a simd vector 3 from a Euclid `Vector`.
     /// - Parameter vector: A Euclid vector.
     init(_ vector: Vector) {
-        self.init(Float(vector.x), Float(vector.y), Float(vector.z))
-    }
-}
-
-public extension simd_float2 {
-    /// Creates a simd float vector 2 from a Euclid `Vector`.
-    /// - Parameter vector: A Euclid vector.
-    init(_ vector: Vector) {
-        self.init(Float(vector.x), Float(vector.y))
+        self.init(Scalar(vector.x), Scalar(vector.y))
     }
 }
 
 public extension Vector {
     /// Creates a `Vector` from a simd vector 3.
     /// - Parameter vector: A simd vector.
-    init(_ vector: simd_double3) {
-        self.init(vector.x, vector.y, vector.z)
-    }
-
-    /// Creates a `Vector` from a simd vector 3.
-    /// - Parameter vector: A simd vector.
-    init(_ vector: simd_float3) {
+    init<T: BinaryFloatingPoint>(_ vector: SIMD3<T>) {
         self.init(Double(vector.x), Double(vector.y), Double(vector.z))
     }
 
     /// Creates a `Vector` from a simd vector 2.
     /// - Parameter vector: A simd vector.
-    init(_ vector: simd_float2) {
+    init<T: BinaryFloatingPoint>(_ vector: SIMD2<T>) {
         self.init(Double(vector.x), Double(vector.y))
     }
 }
