@@ -26,8 +26,14 @@ public extension Polygon {
     /// Clip polygon to the specified plane
     /// - Parameter plane: The ``Plane``  to clip the polygon to.
     /// - Returns: An array of the polygon fragments that lie in front of the plane.
-    func clip(to plane: Plane) -> [Polygon] {
+    func clipped(to plane: Plane) -> [Polygon] {
         split(along: plane).front
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "clipped(to:)")
+    func clip(to plane: Plane) -> [Polygon] {
+        clipped(to: plane)
     }
 
     /// Computes a set of edges where the polygon intersects a plane.

@@ -15,14 +15,14 @@ class PolygonCSGTests: XCTestCase {
     func testSquareClippedToPlane() {
         let a = Path.square().facePolygons()[0]
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
-        let b = a.clip(to: plane)
+        let b = a.clipped(to: plane)
         XCTAssertEqual(Bounds(b), .init(Vector(0, -0.5), Vector(0.5, 0.5)))
     }
 
     func testPentagonClippedToPlane() {
         let a = Path.circle(segments: 5).facePolygons()[0]
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
-        let b = a.clip(to: plane)
+        let b = a.clipped(to: plane)
         XCTAssertEqual(Bounds(b), .init(
             Vector(0, -0.404508497187),
             Vector(0.475528258148, 0.5)
@@ -32,7 +32,7 @@ class PolygonCSGTests: XCTestCase {
     func testDiamondClippedToPlane() {
         let a = Path.circle(segments: 4).facePolygons()[0]
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
-        let b = a.clip(to: plane)
+        let b = a.clipped(to: plane)
         XCTAssertEqual(Bounds(b), .init(Vector(0, -0.5), Vector(0.5, 0.5)))
     }
 

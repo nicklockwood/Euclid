@@ -376,14 +376,14 @@ class MeshCSGTests: XCTestCase {
     func testSquareClippedToPlane() {
         let a = Mesh.fill(.square())
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
-        let b = a.clip(to: plane)
+        let b = a.clipped(to: plane)
         XCTAssertEqual(b.bounds, .init(Vector(0, -0.5), Vector(0.5, 0.5)))
     }
 
     func testPentagonClippedToPlane() {
         let a = Mesh.fill(.circle(segments: 5))
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
-        let b = a.clip(to: plane)
+        let b = a.clipped(to: plane)
         XCTAssertEqual(b.bounds, .init(
             Vector(0, -0.404508497187),
             Vector(0.475528258148, 0.5)
@@ -393,21 +393,21 @@ class MeshCSGTests: XCTestCase {
     func testDiamondClippedToPlane() {
         let a = Mesh.fill(.circle(segments: 4))
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
-        let b = a.clip(to: plane)
+        let b = a.clipped(to: plane)
         XCTAssertEqual(b.bounds, .init(Vector(0, -0.5), Vector(0.5, 0.5)))
     }
 
     func testSquareClippedToItsOwnPlane() {
         let a = Mesh.fill(.square())
         let plane = Plane(unchecked: .unitZ, pointOnPlane: .zero)
-        let b = a.clip(to: plane)
+        let b = a.clipped(to: plane)
         XCTAssertEqual(b.polygons, [a.polygons[0]])
     }
 
     func testSquareClippedToItsOwnPlaneWithFill() {
         let a = Mesh.fill(.square())
         let plane = Plane(unchecked: .unitZ, pointOnPlane: .zero)
-        let b = a.clip(to: plane, fill: Color.white)
+        let b = a.clipped(to: plane, fill: Color.white)
         XCTAssertEqual(b.polygons.first, a.polygons[0])
         guard b.polygons.count == 2 else {
             XCTFail()
@@ -419,14 +419,14 @@ class MeshCSGTests: XCTestCase {
     func testSquareClippedToReversePlane() {
         let a = Mesh.fill(.square())
         let plane = Plane(unchecked: -.unitZ, pointOnPlane: .zero)
-        let b = a.clip(to: plane)
+        let b = a.clipped(to: plane)
         XCTAssertEqual(b.polygons, [a.polygons[1]])
     }
 
     func testSquareClippedToReversePlaneWithFill() {
         let a = Mesh.fill(.square())
         let plane = Plane(unchecked: -.unitZ, pointOnPlane: .zero)
-        let b = a.clip(to: plane, fill: Color.white)
+        let b = a.clipped(to: plane, fill: Color.white)
         XCTAssertEqual(b.polygons.first?.bounds, a.polygons[0].bounds)
         guard b.polygons.count == 2 else {
             XCTFail()

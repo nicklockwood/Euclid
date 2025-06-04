@@ -387,7 +387,7 @@ public extension Mesh {
     ///   - fill: The material to fill the sheared face(s) with.
     ///
     /// > Note: Specifying nil for the fill material will leave the sheared face unfilled.
-    func clip(to plane: Plane, fill: Material? = nil) -> Mesh {
+    func clipped(to plane: Plane, fill: Material? = nil) -> Mesh {
         guard !polygons.isEmpty else {
             return self
         }
@@ -447,6 +447,12 @@ public extension Mesh {
                 submeshes: isKnownConvex ? submeshesIfEmpty : nil
             )
         }
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "clipped(to:fill:)")
+    func clip(to plane: Plane, fill: Material? = nil) -> Mesh {
+        clipped(to: plane, fill: fill)
     }
 
     /// Computes a set of edges where the mesh intersects a plane.

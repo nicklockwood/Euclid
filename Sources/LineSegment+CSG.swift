@@ -29,8 +29,14 @@ public extension LineSegment {
     /// Clip polygon to the specified plane
     /// - Parameter plane: The ``Plane``  to clip the segment to.
     /// - Returns: The clipped line segment, or `nil` if the segment lies entirely behind the plane.
-    func clip(to plane: Plane) -> LineSegment? {
+    func clipped(to plane: Plane) -> LineSegment? {
         split(along: plane).front
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "clipped(to:)")
+    func clip(to plane: Plane) -> LineSegment? {
+        clipped(to: plane)
     }
 
     /// Returns the point where the specified plane intersects the line segment.

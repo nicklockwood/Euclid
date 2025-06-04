@@ -38,8 +38,8 @@ class LineSegmentTests: XCTestCase {
     func testClipAbovePlane() {
         let line = LineSegment(unchecked: Vector(0, 1, 0), Vector(0, 2, 0))
         let plane = Plane.xz
-        XCTAssertEqual(line.clip(to: plane), line)
-        XCTAssertNil(line.clip(to: plane.inverted()))
+        XCTAssertEqual(line.clipped(to: plane), line)
+        XCTAssertNil(line.clipped(to: plane.inverted()))
         XCTAssertEqual(line.split(along: plane).front, line)
         XCTAssertNil(line.split(along: plane).back)
     }
@@ -47,8 +47,8 @@ class LineSegmentTests: XCTestCase {
     func testClipBelowPlane() {
         let line = LineSegment(unchecked: Vector(0, -1, 0), Vector(0, -2, 0))
         let plane = Plane.xz
-        XCTAssertNil(line.clip(to: plane))
-        XCTAssertEqual(line.clip(to: plane.inverted()), line)
+        XCTAssertNil(line.clipped(to: plane))
+        XCTAssertEqual(line.clipped(to: plane.inverted()), line)
         XCTAssertNil(line.split(along: plane).front)
         XCTAssertEqual(line.split(along: plane).back, line)
     }
@@ -56,8 +56,8 @@ class LineSegmentTests: XCTestCase {
     func testClipIntersectingPlane() {
         let line = LineSegment(unchecked: Vector(0, -1, 0), Vector(0, 1, 0))
         let plane = Plane.xz
-        XCTAssertEqual(line.clip(to: plane), .init(unchecked: .zero, Vector(0, 1, 0)))
-        XCTAssertEqual(line.clip(to: plane.inverted()), .init(unchecked: Vector(0, -1, 0), .zero))
+        XCTAssertEqual(line.clipped(to: plane), .init(unchecked: .zero, Vector(0, 1, 0)))
+        XCTAssertEqual(line.clipped(to: plane.inverted()), .init(unchecked: Vector(0, -1, 0), .zero))
         XCTAssertEqual(line.split(along: plane).front, .init(unchecked: .zero, Vector(0, 1, 0)))
         XCTAssertEqual(line.split(along: plane).back, .init(unchecked: Vector(0, -1, 0), .zero))
     }
@@ -65,8 +65,8 @@ class LineSegmentTests: XCTestCase {
     func testClipAlongPlane() {
         let line = LineSegment(unchecked: Vector(-1, 0, 0), Vector(1, 0, 0))
         let plane = Plane.xz
-        XCTAssertEqual(line.clip(to: plane), line)
-        XCTAssertEqual(line.clip(to: plane), line)
+        XCTAssertEqual(line.clipped(to: plane), line)
+        XCTAssertEqual(line.clipped(to: plane), line)
         XCTAssertEqual(line.split(along: plane).front, line)
         XCTAssertNil(line.split(along: plane).back) // TODO: does this inconsistency matter?
     }
