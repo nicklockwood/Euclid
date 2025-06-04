@@ -193,13 +193,10 @@ public extension Bounds {
         )
     }
 
-    /// Returns a Boolean value that indicates if the specified point is within the bounds.
-    /// - Parameter point: The point to compare.
-    /// - Returns: `true` if the point lies inside the bounds, and `false` otherwise.
+    /// Deprecated.
+    @available(*, deprecated, renamed: "intersects(_:)")
     func containsPoint(_ point: Vector) -> Bool {
-        point.x >= min.x && point.x <= max.x &&
-            point.y >= min.y && point.y <= max.y &&
-            point.z >= min.z && point.z <= max.z
+        intersects(point)
     }
 
     /// Returns a new bounds inset by the specified distance.

@@ -282,7 +282,7 @@ public extension Vector {
     /// - Parameter plane: The plane to project onto.
     /// - Returns: The nearest point in 3D space that lies on the plane.
     func projected(onto plane: Plane) -> Vector {
-        self - plane.normal * signedDistance(from: plane)
+        plane.nearestPoint(to: self)
     }
 
     /// Returns the distance between the vector (representing a position in space) and the specified point.
@@ -292,18 +292,25 @@ public extension Vector {
         (self - point).length
     }
 
-    /// Returns the distance between the vector (representing a position in space) and the specified line.
-    /// - Parameter line: The line to compare with.
-    /// - Returns: The absolute perpendicular distance between the point and line.
-    func distance(from line: Line) -> Double {
-        line.distance(from: self)
+    /// Returns the distance between the vector (representing a position in space) and the specified object.
+    /// - Parameter object: The object to compare with.
+    /// - Returns: The absolute perpendicular distance between the point and object.
+    func distance<T: PointComparable>(from object: T) -> Double {
+        object.distance(from: self)
+    }
+
+    /// Returns true if the vector (representing a position in space) intersects the specified object.
+    /// - Parameter object: The object to compare with.
+    /// - Returns:`true` if the bounds intersect, and `false` otherwise.
+    func intersects<T: PointComparable>(_ object: T) -> Bool {
+        object.intersects(self)
     }
 
     /// Returns the nearest point on the specified line to the vector (representing a position in space).
     /// - Parameter line: The line to project onto.
     /// - Returns: The nearest point in 3D space that lies on the line.
     func projected(onto line: Line) -> Vector {
-        line.direction * (self - line.origin).dot(line.direction) - line.origin
+        line.nearestPoint(to: self)
     }
 }
 
@@ -370,5 +377,13 @@ extension Vector {
         x.isEqual(to: other.x, withPrecision: p) &&
             y.isEqual(to: other.y, withPrecision: p) &&
             z.isEqual(to: other.z, withPrecision: p)
+    }
+
+    func clamped(to range: ClosedRange<Self>) -> Self {
+        min(max(self, range.lowerBound), range.upperBound)
+    }
+
+    mutating func clamp(to range: ClosedRange<Self>) {
+        self = clamped(to: range)
     }
 }

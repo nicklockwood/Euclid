@@ -265,30 +265,10 @@ public extension Polygon {
         self.init(vertices.map(Vertex.init), material: material)
     }
 
-    /// Returns a Boolean value that indicates whether a point lies inside the polygon, on the same plane.
-    /// - Parameter point: The point to test.
-    /// - Returns: `true` if the point lies inside the polygon and `false` otherwise.
+    /// Deprecated.
+    @available(*, deprecated, renamed: "intersects(_:)")
     func containsPoint(_ point: Vector) -> Bool {
-        guard plane.containsPoint(point) else {
-            return false
-        }
-        // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
-        let flatteningPlane = FlatteningPlane(normal: plane.normal)
-        let points = vertices.map { flatteningPlane.flattenPoint($0.position) }
-        let p = flatteningPlane.flattenPoint(point)
-        let count = points.count
-        var c = false
-        var j = count - 1
-        for i in 0 ..< count {
-            if (points[i].y > p.y) != (points[j].y > p.y),
-               p.x < (points[j].x - points[i].x) * (p.y - points[i].y) /
-               (points[j].y - points[i].y) + points[i].x
-            {
-                c = !c
-            }
-            j = i
-        }
-        return c
+        intersects(point)
     }
 
     /// Merges this polygon with another, removing redundant vertices where possible.
@@ -624,7 +604,7 @@ extension Collection where Element == Polygon {
         let sortedPoints = points.sorted()
         for i in polygons.indices {
             let bounds = polygons[i].bounds.inset(by: -epsilon)
-            for point in sortedPoints where bounds.containsPoint(point) {
+            for point in sortedPoints where bounds.intersects(point) {
                 _ = polygons[i].insertEdgePoint(point)
             }
         }
@@ -922,7 +902,7 @@ extension Array where Element == Polygon {
                 if polygon.vertices.contains(where: { $0.position == point }) {
                     return
                 }
-                if polygon.containsPoint(point) {
+                if polygon.intersects(point) {
                     coplanar[polygon.plane.normal] = [polygon]
                     break loop
                 }
@@ -1151,6 +1131,41 @@ extension Polygon {
         var polygon = self
         polygon.id = id
         return polygon
+    }
+
+    /// Checks if a point lies inside the polygon
+    /// The point must be checked to lie on the polygon plane beforehand
+    func intersectsCoplanarPoint(_ point: Vector) -> Bool {
+        assert(point.intersects(plane))
+        // https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon#218081
+        let flatteningPlane = FlatteningPlane(normal: plane.normal)
+        let point = flatteningPlane.flattenPoint(point)
+        var p0 = flatteningPlane.flattenPoint(vertices.last!.position)
+        var inside = false
+        for v in vertices {
+            let p1 = flatteningPlane.flattenPoint(v.position)
+            if (p1.y > point.y) != (p0.y > point.y),
+               point.x < (p0.x - p1.x) * (point.y - p1.y) / (p0.y - p1.y) + p1.x
+            {
+                inside = !inside
+            }
+            p0 = p1
+        }
+        return inside
+    }
+
+    func nearestCoplanarPoint(to point: Vector) -> Vector {
+        assert(point.intersects(plane))
+        if intersectsCoplanarPoint(point) {
+            return point
+        }
+        // TODO: can we use a shortcut to exit early?
+        // e.g. if nearer to edge than vertex, must be closest point
+        return orderedEdges.reduce((distance: Double.infinity, nearest: Vector.zero)) {
+            let nearest = $1.nearestPoint(to: point)
+            let distance = point.distance(from: nearest)
+            return distance < $0.distance ? (distance, nearest) : $0
+        }.nearest
     }
 }
 

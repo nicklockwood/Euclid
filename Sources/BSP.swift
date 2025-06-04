@@ -29,6 +29,8 @@
 //  SOFTWARE.
 //
 
+import Foundation
+
 struct BSP {
     private var nodes: [BSPNode]
     private(set) var isConvex: Bool
@@ -91,15 +93,57 @@ extension BSP {
             return (lhs, rhs!)
         }
     }
+}
 
-    func containsPoint(_ point: Vector) -> Bool {
+extension BSP: PointComparable {
+    func nearestPoint(to point: Vector) -> Vector {
+        guard var node = nodes.first else {
+            return point
+        }
+        var result = point
+        var shortest = Double.infinity
+        var visited: IndexSet = [0]
+        while true {
+            switch point.compare(with: node.plane) {
+            case .coplanar, .spanning, .front:
+                let nearest = node.polygons.nearestPoint(to: point)
+                let distance = nearest.distance(from: point)
+                if distance < shortest {
+                    shortest = distance
+                    result = nearest
+                }
+                if !visited.contains(node.front) {
+                    node = nodes[node.front]
+                } else if node.back != 0 {
+                    visited.insert(node.back)
+                    node = nodes[node.back]
+                } else {
+                    // Outside
+                    return result
+                }
+            case .back:
+                guard node.back > 0 else {
+                    // Inside
+                    return point
+                }
+                node = nodes[node.back]
+            }
+        }
+        return result
+    }
+
+    func distance(from point: Vector) -> Double {
+        nodes.isEmpty ? .infinity : (nearestPoint(to: point) - point).length
+    }
+
+    func intersects(_ point: Vector) -> Bool {
         guard var node = nodes.first else {
             return false
         }
         while true {
             switch point.compare(with: node.plane) {
             case .coplanar, .spanning:
-                if node.polygons.contains(where: { $0.containsPoint(point) }) {
+                if node.polygons.contains(where: { $0.intersects(point) }) {
                     return true
                 }
                 fallthrough

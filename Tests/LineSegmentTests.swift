@@ -10,27 +10,37 @@
 import XCTest
 
 class LineSegmentTests: XCTestCase {
+    // MARK: Vector distance
+
+    func testDistanceFromPoint() {
+        let l = LineSegment(unchecked: -.unitX, .unitX)
+        let p0 = Vector(0, 1, 0), p1 = Vector(-2, 1, 0), p2 = Vector(2, 1, 0)
+        XCTAssertEqual(l.distance(from: p0), 1)
+        XCTAssertEqual(l.distance(from: p1), sqrt(2))
+        XCTAssertEqual(l.distance(from: p2), sqrt(2))
+    }
+
     // MARK: Contains point
 
     func testContainsPoint() {
         let line = LineSegment(unchecked: Vector(-2, -1, 0), Vector(2, 1, 0))
         let point = Vector(-1, -0.5, 0)
-        XCTAssert(line.containsPoint(point))
+        XCTAssert(line.intersects(point))
     }
 
     func testDoesNotContainPoint() {
         let line = LineSegment(unchecked: Vector(-2, -1, 0), Vector(2, 1, 0))
-        XCTAssertFalse(line.containsPoint(Vector(-1, -0.6, 0)))
+        XCTAssertFalse(line.intersects(Vector(-1, -0.6, 0)))
     }
 
     func testDoesNotContainPointBeforeStart() {
         let line = LineSegment(unchecked: Vector(-2, -1, 0), Vector(2, 1, 0))
-        XCTAssertFalse(line.containsPoint(Vector(-3, -1.5, 0)))
+        XCTAssertFalse(line.intersects(Vector(-3, -1.5, 0)))
     }
 
     func testDoesNotContainPointAfterEnd() {
         let line = LineSegment(unchecked: Vector(-2, -1, 0), Vector(2, 1, 0))
-        XCTAssertFalse(line.containsPoint(Vector(4, 2, 0)))
+        XCTAssertFalse(line.intersects(Vector(4, 2, 0)))
     }
 
     // MARK: Clipping

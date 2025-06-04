@@ -141,7 +141,7 @@ func triangulateVertices(
             let b = vertices[(i + 1) % vertices.count]
             let c = vertices[(i + 2) % vertices.count]
             let d = vertices[(i + 3) % vertices.count]
-            if LineSegment(start: c.position, end: a.position)?.containsPoint(d.position) == false,
+            if LineSegment(start: c.position, end: a.position)?.intersects(d.position) == false,
                addTriangle([a, b, c])
             {
                 vertices.remove(at: (i + 1) % vertices.count)
@@ -175,7 +175,7 @@ func triangulateVertices(
             let p0 = vertices[j], p1 = vertices[i], p2 = vertices[k]
             let triangle = Polygon([p0, p1, p2], material: material)
             if triangle == nil || vertices.enumerated().contains(where: { index, v in
-                ![i, j, k].contains(index) && triangle!.containsPoint(v.position)
+                ![i, j, k].contains(index) && triangle!.intersects(v.position)
             }) || plane.map({ !triangle!.plane.isEqual(to: $0) })
                 ?? (triangle!.plane.normal.dot(faceNormal) <= 0)
                 || !addTriangle([p0, p1, p2])
@@ -430,7 +430,7 @@ func pointsAreCoplanar(_ points: [Vector]) -> Bool {
         return false
     }
     let plane = Plane(unchecked: normal / length, pointOnPlane: b)
-    for p in points[3...] where !plane.containsPoint(p) {
+    for p in points[3...] where !plane.intersects(p) {
         return false
     }
     return true
@@ -491,7 +491,6 @@ func shortestLineBetween(
 
     let d1343 = p13.dot(p43)
     let d4321 = p43.dot(p21)
-    let d1321 = p13.dot(p21)
     let d4343 = p43.dot(p43)
     let d2121 = p21.dot(p21)
 
@@ -501,6 +500,7 @@ func shortestLineBetween(
         return nil
     }
 
+    let d1321 = p13.dot(p21)
     let numerator = d1343 * d4321 - d1321 * d4343
     let mua = numerator / denominator
     let mub = (d1343 + d4321 * mua) / d4343
@@ -510,17 +510,6 @@ func shortestLineBetween(
     }
 
     return (p1 + mua * p21, p3 + mub * p43)
-}
-
-/// See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-func vectorFromPointToLine(
-    _ point: Vector,
-    _ lineOrigin: Vector,
-    _ lineDirection: Vector
-) -> Vector {
-    assert(lineDirection.isNormalized)
-    let d = point - lineOrigin
-    return lineDirection * d.dot(lineDirection) - d
 }
 
 func lineIntersection(

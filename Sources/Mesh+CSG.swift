@@ -418,7 +418,7 @@ public extension Mesh {
             // Project each corner of mesh bounds onto plane to find radius
             var radius = 0.0
             for corner in mesh.bounds.corners {
-                let p = corner.projected(onto: plane)
+                let p = plane.nearestPoint(to: corner)
                 radius = max(radius, p.lengthSquared)
             }
             radius = radius.squareRoot()

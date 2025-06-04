@@ -350,15 +350,15 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertTrue(polygon.containsPoint(Vector(0, 0)))
-        XCTAssertTrue(polygon.containsPoint(Vector(-0.999, 0.999)))
-        XCTAssertTrue(polygon.containsPoint(Vector(0.999, 0.999)))
-        XCTAssertTrue(polygon.containsPoint(Vector(0.999, -0.999)))
-        XCTAssertTrue(polygon.containsPoint(Vector(-0.999, -0.999)))
-        XCTAssertFalse(polygon.containsPoint(Vector(-1.001, 0)))
-        XCTAssertFalse(polygon.containsPoint(Vector(1.001, 0)))
-        XCTAssertFalse(polygon.containsPoint(Vector(0, -1.001)))
-        XCTAssertFalse(polygon.containsPoint(Vector(0, 1.001)))
+        XCTAssertTrue(polygon.intersects(Vector(0, 0)))
+        XCTAssertTrue(polygon.intersects(Vector(-0.999, 0.999)))
+        XCTAssertTrue(polygon.intersects(Vector(0.999, 0.999)))
+        XCTAssertTrue(polygon.intersects(Vector(0.999, -0.999)))
+        XCTAssertTrue(polygon.intersects(Vector(-0.999, -0.999)))
+        XCTAssertFalse(polygon.intersects(Vector(-1.001, 0)))
+        XCTAssertFalse(polygon.intersects(Vector(1.001, 0)))
+        XCTAssertFalse(polygon.intersects(Vector(0, -1.001)))
+        XCTAssertFalse(polygon.intersects(Vector(0, 1.001)))
     }
 
     func testConvexClockwisePolygonContainsPoint() {
@@ -373,15 +373,15 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertTrue(polygon.containsPoint(Vector(0, 0)))
-        XCTAssertTrue(polygon.containsPoint(Vector(-0.999, 0.999)))
-        XCTAssertTrue(polygon.containsPoint(Vector(0.999, 0.999)))
-        XCTAssertTrue(polygon.containsPoint(Vector(0.999, -0.999)))
-        XCTAssertTrue(polygon.containsPoint(Vector(-0.999, -0.999)))
-        XCTAssertFalse(polygon.containsPoint(Vector(-1.001, 0)))
-        XCTAssertFalse(polygon.containsPoint(Vector(1.001, 0)))
-        XCTAssertFalse(polygon.containsPoint(Vector(0, -1.001)))
-        XCTAssertFalse(polygon.containsPoint(Vector(0, 1.001)))
+        XCTAssertTrue(polygon.intersects(Vector(0, 0)))
+        XCTAssertTrue(polygon.intersects(Vector(-0.999, 0.999)))
+        XCTAssertTrue(polygon.intersects(Vector(0.999, 0.999)))
+        XCTAssertTrue(polygon.intersects(Vector(0.999, -0.999)))
+        XCTAssertTrue(polygon.intersects(Vector(-0.999, -0.999)))
+        XCTAssertFalse(polygon.intersects(Vector(-1.001, 0)))
+        XCTAssertFalse(polygon.intersects(Vector(1.001, 0)))
+        XCTAssertFalse(polygon.intersects(Vector(0, -1.001)))
+        XCTAssertFalse(polygon.intersects(Vector(0, 1.001)))
     }
 
     func testConcaveAnticlockwisePolygonContainsPoint() {
@@ -398,10 +398,10 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertTrue(polygon.containsPoint(Vector(-0.5, 0.5)))
-        XCTAssertTrue(polygon.containsPoint(Vector(0.5, 0.5)))
-        XCTAssertFalse(polygon.containsPoint(Vector(-0.5, -0.5)))
-        XCTAssertTrue(polygon.containsPoint(Vector(0.5, -0.5)))
+        XCTAssertTrue(polygon.intersects(Vector(-0.5, 0.5)))
+        XCTAssertTrue(polygon.intersects(Vector(0.5, 0.5)))
+        XCTAssertFalse(polygon.intersects(Vector(-0.5, -0.5)))
+        XCTAssertTrue(polygon.intersects(Vector(0.5, -0.5)))
     }
 
     func testConcaveAnticlockwisePolygonContainsPoint2() {
@@ -416,12 +416,12 @@ class PolygonTests: XCTestCase {
             XCTFail()
             return
         }
-        XCTAssertTrue(polygon.containsPoint(Vector(0.75, 0)))
-        XCTAssertFalse(polygon.containsPoint(Vector(0.25, 0)))
-        XCTAssertFalse(polygon.containsPoint(Vector(0.25, 0.25)))
-        XCTAssertFalse(polygon.containsPoint(Vector(0.25, -0.25)))
-        XCTAssertTrue(polygon.containsPoint(Vector(0.25, 0.5)))
-        XCTAssertTrue(polygon.containsPoint(Vector(0.25, -0.5)))
+        XCTAssertTrue(polygon.intersects(Vector(0.75, 0)))
+        XCTAssertFalse(polygon.intersects(Vector(0.25, 0)))
+        XCTAssertFalse(polygon.intersects(Vector(0.25, 0.25)))
+        XCTAssertFalse(polygon.intersects(Vector(0.25, -0.25)))
+        XCTAssertTrue(polygon.intersects(Vector(0.25, 0.5)))
+        XCTAssertTrue(polygon.intersects(Vector(0.25, -0.5)))
     }
 
     // MARK: merging

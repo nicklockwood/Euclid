@@ -532,7 +532,7 @@ extension Path {
         self.subpathIndices = subpathIndices ?? []
         if let plane = plane {
             self.plane = plane
-            assert(positions.allSatisfy { plane.containsPoint($0) })
+            assert(positions.allSatisfy { plane.intersects($0) })
         } else if subpathIndices?.isEmpty ?? true {
             self.plane = Plane(points: positions, convex: nil)
         } else {

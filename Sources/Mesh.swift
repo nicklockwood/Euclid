@@ -384,27 +384,10 @@ public extension Mesh {
         )
     }
 
-    /// Returns a Boolean value that indicates if the specified point is inside the mesh.
-    /// - Parameter point: The point to compare.
-    /// - Returns: `true` if the point lies inside the mesh, and `false` otherwise.
+    /// Deprecated.
+    @available(*, deprecated, renamed: "intersects(_:)")
     func containsPoint(_ point: Vector) -> Bool {
-        if !bounds.containsPoint(point) {
-            return false
-        }
-        guard isKnownConvex else {
-            return BSP(self) { false }.containsPoint(point)
-        }
-        for polygon in polygons {
-            switch point.compare(with: polygon.plane) {
-            case .coplanar, .spanning:
-                return polygon.containsPoint(point)
-            case .front:
-                return false
-            case .back:
-                break
-            }
-        }
-        return true
+        intersects(point)
     }
 
     /// Applies a uniform inset to the faces of the mesh.

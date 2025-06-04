@@ -235,7 +235,7 @@ extension Polygon {
         }
         for (i, v) in vertices.enumerated() {
             let s = LineSegment(unchecked: last.position, v.position)
-            guard s.containsPoint(p) else {
+            guard s.intersects(p) else {
                 last = v
                 continue
             }

@@ -126,11 +126,10 @@ public extension Plane {
         Plane(unchecked: -normal, w: -w)
     }
 
-    /// Returns a Boolean value that indicates whether a point lies on the plane.
-    /// - Parameter point: The point to test.
-    /// - Returns: `true` if the point lies on the plane and `false` otherwise.
+    /// Deprecated.
+    @available(*, deprecated, renamed: "intersects(_:)")
     func containsPoint(_ point: Vector) -> Bool {
-        point.compare(with: self) == .coplanar
+        intersects(point)
     }
 
     /// Returns the signed distance between the plane and a `PlaneComparable` object.
@@ -216,7 +215,7 @@ extension Plane {
         }
         self.init(unchecked: points, convex: convex)
         // Check all points lie on this plane
-        if points.count > 3, points.contains(where: { !containsPoint($0) }) {
+        if points.count > 3, points.contains(where: { !intersects($0) }) {
             return nil
         }
     }

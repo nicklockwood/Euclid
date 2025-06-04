@@ -26,7 +26,7 @@ public extension LineSegment {
         }
     }
 
-    /// Clip polygon to the specified plane
+    /// Clip line segment to the specified plane.
     /// - Parameter plane: The ``Plane``  to clip the segment to.
     /// - Returns: The clipped line segment, or `nil` if the segment lies entirely behind the plane.
     func clipped(to plane: Plane) -> LineSegment? {
@@ -46,6 +46,22 @@ public extension LineSegment {
         linePlaneIntersection(start, direction, plane).flatMap {
             $0 >= 0 && $0 <= length ? start + direction * $0 : nil
         }
+    }
+
+    /// Returns the intersection point between the specified line segment and this one.
+    /// - Parameter segment: The line segment to compare with.
+    /// - Returns: The point of intersection, or `nil` if the line segment and polygon don't intersect.
+    func intersection(with polygon: Polygon) -> Vector? {
+        intersection(with: polygon.plane).flatMap {
+            polygon.intersects($0) ? $0 : nil
+        }
+    }
+
+    /// Returns a Boolean value that indicates whether the line segment and polygon intersect.
+    /// - Parameter polygon: The polygon to compare with.
+    /// - Returns: `true` if the line segment and polygon intersect and `false` otherwise.
+    func intersects(_ polygon: Polygon) -> Bool {
+        intersection(with: polygon) != nil
     }
 
     /// Returns the intersection point between the specified line segment and this one.

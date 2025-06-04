@@ -287,4 +287,30 @@ class MeshShapeTests: XCTestCase {
         XCTAssertEqual(mesh.bounds, triangle1.bounds.union(triangle2.bounds))
         XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
+
+    // MARK: Nearest point
+
+    func testNearestPointOnConvexShape() {
+        let cube = Mesh.cube()
+        XCTAssertEqual(cube.nearestPoint(to: .zero), .zero)
+        XCTAssertEqual(cube.nearestPoint(to: -.unitX), Vector(-0.5, 0, 0))
+        XCTAssertEqual(cube.nearestPoint(to: .unitZ), Vector(0, 0, 0.5))
+        XCTAssertEqual(cube.nearestPoint(to: Vector(1, 1, 0)), Vector(0.5, 0.5, 0))
+        XCTAssertEqual(cube.nearestPoint(to: .one), Vector(size: 0.5))
+    }
+
+    func testNearestPointOnConcaveShape() {
+        let detail = 16
+        let radius = 0.5
+        let torus = Mesh.lathe(
+            .circle(radius: radius).translated(by: -.unitX * radius * 2),
+            slices: detail
+        )
+        let shortest = cos(.pi / Double(detail)) * radius
+        XCTAssertEqual(torus.nearestPoint(to: .zero).length, shortest, accuracy: epsilon)
+        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius), .unitX * radius)
+        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 2), .unitX * radius * 2)
+        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 3), .unitX * radius * 3)
+        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 4), .unitX * radius * 3)
+    }
 }

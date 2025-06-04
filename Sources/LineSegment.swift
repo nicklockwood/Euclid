@@ -107,12 +107,19 @@ extension LineSegment: Codable {
 public extension LineSegment {
     /// The direction of the line segment as a normalized vector.
     var direction: Vector {
-        (end - start).normalized()
+        lengthAndDirection.direction
     }
 
     /// The length of the line segment.
     var length: Double {
-        end.distance(from: start)
+        lengthAndDirection.length
+    }
+
+    /// The length and direction of the line segment.
+    var lengthAndDirection: (length: Double, direction: Vector) {
+        let distance = end - start
+        let length = distance.length
+        return (length, distance / length)
     }
 
     /// Creates an 'undirected' line segment.
@@ -143,14 +150,10 @@ public extension LineSegment {
         .init(unchecked: end, start)
     }
 
-    /// Returns a Boolean value that indicates whether the specified point lies on the line segment.
-    /// - Parameter point: The point to test.
-    /// - Returns: `true` if the point lies on the line segment and `false` otherwise.
+    /// Deprecated.
+    @available(*, deprecated, renamed: "intersects(_:)")
     func containsPoint(_ point: Vector) -> Bool {
-        guard vectorFromPointToLine(point, start, direction).isZero else {
-            return false
-        }
-        return bounds.inset(by: -epsilon).containsPoint(point)
+        intersects(point)
     }
 }
 

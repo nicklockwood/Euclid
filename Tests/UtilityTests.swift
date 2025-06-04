@@ -10,6 +10,19 @@
 import XCTest
 
 class UtilityTests: XCTestCase {
+    // MARK: Clamped vectors
+
+    func testClampedVector() {
+        let point = Vector(-10, 0, 0).clamped(to: -.one ... .one)
+        XCTAssertEqual(point, Vector(-1, 0, 0))
+    }
+
+    func testClampVector() {
+        var point = Vector(-10, 0, 0)
+        point.clamp(to: -.one ... .one)
+        XCTAssertEqual(point, Vector(-1, 0, 0))
+    }
+
     // MARK: convexness
 
     func testConvexnessResultNotAffectedByTranslation() {
@@ -203,17 +216,6 @@ class UtilityTests: XCTestCase {
         let result = sanitizePoints(points)
         XCTAssertEqual(result.count, expected.count)
         XCTAssertEqual(result, expected)
-    }
-
-    // MARK: lines
-
-    func testVectorFromPointToLine() {
-        let result = vectorFromPointToLine(
-            Vector(2, 0),
-            Vector(-1, -1),
-            Vector(1, 0)
-        )
-        XCTAssertEqual(result, -.unitY)
     }
 
     // MARK: faceNormal
