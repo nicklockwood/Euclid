@@ -80,7 +80,8 @@ public extension Path {
             let a = Double(i) / Double(segments) * angle
             points.append(.curve(sin(a) * radius, cos(a) * radius, color: color))
         }
-        return Path(unchecked: points, plane: .xy, subpathIndices: [])
+        let plane = angle > .zero ? Plane.xy.inverted() : .xy
+        return Path(unchecked: points, plane: plane, subpathIndices: [])
     }
 
     /// Creates a closed circular path.

@@ -485,7 +485,8 @@ extension Path: Transformable {
     public func translated(by distance: Vector) -> Path {
         Path(
             unchecked: points.translated(by: distance),
-            plane: plane?.translated(by: distance), subpathIndices: subpathIndices
+            plane: plane?.translated(by: distance),
+            subpathIndices: subpathIndices
         )
     }
 
@@ -499,9 +500,18 @@ extension Path: Transformable {
 
     public func scaled(by scale: Vector) -> Path {
         let scale = scale.clamped()
+        var plane = self.plane
+        if isFlippedScale(scale) {
+            let subpaths = self.subpaths
+            if subpaths.count > 1 {
+                return Path(subpaths: subpaths.scaled(by: scale))
+            }
+            plane = plane?.inverted()
+        }
         return Path(
             unchecked: points.scaled(by: scale),
-            plane: plane?.scaled(by: scale), subpathIndices: subpathIndices
+            plane: plane?.scaled(by: scale),
+            subpathIndices: subpathIndices
         )
     }
 
@@ -509,14 +519,16 @@ extension Path: Transformable {
         let factor = factor.clamped()
         return Path(
             unchecked: points.scaled(by: factor),
-            plane: plane?.scaled(by: factor), subpathIndices: subpathIndices
+            plane: plane?.scaled(by: factor),
+            subpathIndices: subpathIndices
         )
     }
 
     public func transformed(by transform: Transform) -> Path {
         Path(
             unchecked: points.transformed(by: transform),
-            plane: plane?.transformed(by: transform), subpathIndices: subpathIndices
+            plane: plane?.transformed(by: transform),
+            subpathIndices: subpathIndices
         )
     }
 }
