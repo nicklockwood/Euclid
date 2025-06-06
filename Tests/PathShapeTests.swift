@@ -198,6 +198,106 @@ class PathShapeTests: XCTestCase {
         XCTAssert(path.isClosed)
     }
 
+    // MARK: Rectangle
+
+    func testSimpleRect() {
+        let path = Path.rectangle(width: 1, height: 1)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.plane, .xy)
+        XCTAssertEqual(path.points.count, 5)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(-0.5, -0.5),
+            max: Vector(0.5, 0.5)
+        ))
+    }
+
+    func testReverseRect() {
+        let path = Path.rectangle(width: -1, height: -1)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.plane, .xy)
+        XCTAssertEqual(path.points.count, 5)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(-0.5, -0.5),
+            max: Vector(0.5, 0.5)
+        ))
+    }
+
+    func testNegativeWidthRect() {
+        let path = Path.rectangle(width: -1, height: 1)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.plane, .xy)
+        XCTAssertEqual(path.points.count, 5)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(-0.5, -0.5),
+            max: Vector(0.5, 0.5)
+        ))
+    }
+
+    func testNegativeHeightRect() {
+        let path = Path.rectangle(width: 1, height: -1)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.plane, .xy)
+        XCTAssertEqual(path.points.count, 5)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(-0.5, -0.5),
+            max: Vector(0.5, 0.5)
+        ))
+    }
+
+    func testZeroWidthRect() {
+        let path = Path.rectangle(width: 0, height: 1)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.plane, .xy)
+        XCTAssertEqual(path.points.count, 3)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(0, -0.5),
+            max: Vector(0, 0.5)
+        ))
+    }
+
+    func testTinyWidthRect() {
+        let path = Path.rectangle(width: 1e-9, height: 1)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.plane, .xy)
+        XCTAssertEqual(path.points.count, 3)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(0, -0.5),
+            max: Vector(0, 0.5)
+        ))
+    }
+
+    func testZeroSizeRect() {
+        let path = Path.rectangle(width: 0, height: 0)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.points.count, 1)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: .zero,
+            max: .zero
+        ))
+    }
+
+    func testZeroHeightRect() {
+        let path = Path.rectangle(width: 1, height: 0)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.plane, .xy)
+        XCTAssertEqual(path.points.count, 3)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(-0.5, 0),
+            max: Vector(0.5, 0)
+        ))
+    }
+
+    func testTinyHeightRect() {
+        let path = Path.rectangle(width: 1, height: 1e-9)
+        XCTAssert(path.isClosed)
+        XCTAssertEqual(path.plane, .xy)
+        XCTAssertEqual(path.points.count, 3)
+        XCTAssertEqual(path.bounds, Bounds(
+            min: Vector(-0.5, 0),
+            max: Vector(0.5, 0)
+        ))
+    }
+
     // MARK: Rounded rect
 
     func testSimpleRoundedRect() {

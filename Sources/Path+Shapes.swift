@@ -158,10 +158,13 @@ public extension Path {
         color: Color? = nil
     ) -> Path {
         let w = abs(width / 2), h = abs(height / 2)
-        if height < epsilon {
-            return .line(Vector(-w, 0), Vector(w, 0))
-        } else if width < epsilon {
-            return .line(Vector(0, -h), Vector(0, h))
+        if abs(height) < scaleLimit {
+            if abs(width) < scaleLimit {
+                return Path([.point(.zero)])
+            }
+            return Path.line(Vector(-w, 0), Vector(w, 0)).closed()
+        } else if abs(width) < scaleLimit {
+            return Path.line(Vector(0, -h), Vector(0, h)).closed()
         }
         return Path(unchecked: [
             .point(-w, h, color: color), .point(-w, -h, color: color),
