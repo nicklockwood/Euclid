@@ -58,18 +58,45 @@ class VectorTests: XCTestCase {
         }
     }
 
+    func testEqualAngles() {
+        let vector1 = Vector.unitX
+        let vector2 = Vector.unitX
+        XCTAssertEqual(vector1.angle(with: vector2), .zero)
+    }
+
+    func testInverseAngles() {
+        let vector1 = Vector.unitX
+        let vector2 = -Vector.unitX
+        XCTAssertEqual(vector1.angle(with: vector2), .pi)
+    }
+
     // MARK: Angle with plane
 
     func testRightAngleWithPlane() {
-        let vector1 = Vector.unitX
-        let plane = Plane(unchecked: vector1, pointOnPlane: .zero)
-        XCTAssertEqual(vector1.angle(with: plane), .halfPi)
+        let vector = Vector.unitX
+        XCTAssertEqual(vector.angle(with: .yz), .halfPi)
     }
 
     func testNonNormalizedAngleWithPlane() {
-        let vector1 = Vector(7, 0, 0)
-        let plane = Plane(normal: vector1, pointOnPlane: .zero)!
-        XCTAssertEqual(vector1.angle(with: plane), .halfPi)
+        let vector = Vector(7, 0, 0)
+        XCTAssertEqual(vector.angle(with: .yz), .halfPi)
+    }
+
+    func test45DegreeAngleWithPlane() {
+        let vector = Vector(1, 1, 0)
+        let angle = vector.angle(with: .yz)
+        XCTAssert(angle.isEqual(to: .degrees(45)))
+    }
+
+    func testNegative45DegreeAngleWithPlane() {
+        let vector = Vector(-1, 1, 0)
+        let angle = vector.angle(with: .yz)
+        XCTAssert(angle.isEqual(to: .degrees(-45)))
+    }
+
+    func testNegativeRightAngleWithPlane() {
+        let vector = -Vector.unitX
+        XCTAssertEqual(vector.angle(with: .yz), -.halfPi)
     }
 
     // MARK: Distance from plane
