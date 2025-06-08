@@ -228,14 +228,6 @@ func rotationBetweenNormalizedVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
     return .init(unchecked: axis.normalized(), angle: .radians(angle))
 }
 
-func vectorsAreCollinear(_ v0: Vector, _ v1: Vector) -> Bool {
-    v0.cross(v1).isZero
-}
-
-func pointsAreCollinear(_ a: Vector, _ b: Vector, _ c: Vector) -> Bool {
-    vectorsAreCollinear(b - a, c - a)
-}
-
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {
     let count = points.count
     guard count > 2, var a = points.last else {

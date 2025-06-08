@@ -10,36 +10,6 @@
 import XCTest
 
 class UtilityTests: XCTestCase {
-    // MARK: collinearity
-
-    func testRightAngleNotCollinear() {
-        let a = Vector(0, 1)
-        let b = Vector(0, 0)
-        let c = Vector(1, 0)
-        XCTAssertFalse(pointsAreCollinear(a, b, c))
-    }
-
-    func testVerticalPointsCollinear() {
-        let a = Vector(0, 1)
-        let b = Vector(0, 0)
-        let c = Vector(0, -1)
-        XCTAssert(pointsAreCollinear(a, b, c))
-    }
-
-    func testHorizontalPointsCollinear() {
-        let a = Vector(1, 0)
-        let b = Vector(0, 0)
-        let c = Vector(-1, 0)
-        XCTAssert(pointsAreCollinear(a, b, c))
-    }
-
-    func testOverlappingPointsCollinear() {
-        let a = Vector(1, 0)
-        let b = Vector(0, 0)
-        let c = Vector(1, 0)
-        XCTAssert(pointsAreCollinear(a, b, c))
-    }
-
     // MARK: convexness
 
     func testConvexnessResultNotAffectedByTranslation() {
