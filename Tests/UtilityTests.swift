@@ -246,26 +246,20 @@ class UtilityTests: XCTestCase {
         XCTAssertEqual(result, -.unitY)
     }
 
-    // MARK: faceNormalForPolygonPoints
+    // MARK: faceNormal
 
     func testFaceNormalForZAxisLine() {
-        let result = faceNormalForPolygonPoints(
-            [.zero, .unitZ], convex: nil, closed: nil
-        )
+        let result = faceNormalForPoints([.zero, .unitZ], convex: nil)
         XCTAssertEqual(result, .unitY)
     }
 
     func testFaceNormalForVerticalLine() {
-        let result = faceNormalForPolygonPoints(
-            [.zero, .unitY], convex: nil, closed: nil
-        )
+        let result = faceNormalForPoints([.zero, .unitY], convex: nil)
         XCTAssertEqual(result, .unitZ)
     }
 
     func testFaceNormalForHorizontalLine() {
-        let result = faceNormalForPolygonPoints(
-            [.zero, .unitX], convex: nil, closed: nil
-        )
+        let result = faceNormalForPoints([.zero, .unitX], convex: nil)
         XCTAssertEqual(result, .unitZ)
     }
 

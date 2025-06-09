@@ -148,9 +148,9 @@ func triangulateVertices(
         }
         triangles.removeAll()
     }
-    let faceNormal = plane?.normal ?? faceNormalForPolygonPoints(vertices.map {
+    let faceNormal = plane?.normal ?? faceNormalForPoints(vertices.map {
         $0.position
-    }, convex: isConvex, closed: true)
+    }, convex: isConvex)
     var start = 0, i = 0
     outer: while start < vertices.count {
         var attempts = 0
@@ -323,11 +323,13 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
 /// Points are assumed to be ordered in a counter-clockwise direction
 /// Points are not verified to be coplanar or non-degenerate
 /// Points are not required to form a convex polygon
-func faceNormalForPolygonPoints(
+func faceNormalForPoints(
     _ points: [Vector],
-    convex: Bool?,
-    closed: Bool?
+    convex: Bool?
 ) -> Vector {
+    if !points.isEmpty, points.first == points.last {
+        return faceNormalForPoints(Array(points.dropFirst()), convex: convex)
+    }
     let count = points.count
     switch count {
     case 0, 1:
@@ -342,14 +344,13 @@ func faceNormalForPolygonPoints(
         }
         return normal / length
     default:
-        let closed = (closed ?? false) && points.first != points.last
         func faceNormalForConvexPoints(_ points: [Vector]) -> Vector {
             let count = points.count
-            var b = closed ? points[count - 1] : points[1]
-            var ab = b - (closed ? points[count - 2] : points[0])
+            var b = points[count - 1]
+            var ab = b - points[count - 2]
             var bestLengthSquared = 0.0
             var best: Vector?
-            for c in points[(closed ? 0 : 2)...] {
+            for c in points {
                 let bc = c - b
                 let normal = ab.cross(bc)
                 let lengthSquared = normal.lengthSquared

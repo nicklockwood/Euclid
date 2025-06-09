@@ -114,11 +114,7 @@ public extension Path {
     ///
     /// > Note: If path is non-planar then this returns an average/approximate normal.
     var faceNormal: Vector {
-        plane?.normal ?? faceNormalForPolygonPoints(
-            points.map { $0.position },
-            convex: nil,
-            closed: isClosed
-        )
+        plane?.normal ?? faceNormalForPoints(points.map { $0.position }, convex: nil)
     }
 
     /// Return a copy of the polygon with transformed vertex colors
@@ -318,10 +314,9 @@ public extension Path {
             let p1 = points[i]
             let texcoord = p1.texcoord
             hasTexcoords = hasTexcoords && texcoord != nil
-            let normal = plane?.normal ?? faceNormalForPolygonPoints(
+            let normal = plane?.normal ?? faceNormalForPoints(
                 [p0.position, p1.position, points[i + 1].position],
-                convex: true,
-                closed: isClosed
+                convex: true
             )
             vertices.append(Vertex(
                 unchecked: p1.position,
@@ -543,7 +538,7 @@ extension Path {
             self.plane = plane
             assert(positions.allSatisfy { plane.containsPoint($0) })
         } else if subpathIndices?.isEmpty ?? true {
-            self.plane = Plane(points: positions, convex: nil, closed: isClosed)
+            self.plane = Plane(points: positions, convex: nil)
         } else {
             for path in subpaths {
                 guard let plane = path.plane else {

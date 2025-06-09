@@ -1335,11 +1335,7 @@ private extension Mesh {
         }
         func addFace(_ a: Vertex, _ b: Vertex, _ c: Vertex, _ d: Vertex) {
             var vertices = [a, b, c, d]
-            let n = faceNormalForPolygonPoints(
-                vertices.map { $0.position },
-                convex: true,
-                closed: true
-            )
+            let n = faceNormalForPoints(vertices.map { $0.position }, convex: true)
             if !curvestart {
                 var r = rotationBetweenNormalizedVectors(n, n0)
                 r = Rotation(unchecked: r.axis, angle: r.angle - .halfPi)
