@@ -365,7 +365,7 @@ private extension Array where Element == Polygon {
     }
 }
 
-#if compiler(>=6.1)
+#if compiler(>=6.1) && compiler(<6.2)
 // Workaround for Xcode 16.3 bug
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, *)
 #else
