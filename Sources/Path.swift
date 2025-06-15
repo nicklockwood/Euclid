@@ -148,6 +148,20 @@ public extension Path {
         return Path(unchecked: points, plane: plane, subpathIndices: nil)
     }
 
+    /// Flips the path along its plane and reverses the path points.
+    /// - Returns: The inverted path.
+    func inverted() -> Path {
+        let subpaths = self.subpaths
+        if subpaths.count > 1 {
+            return .init(subpaths: subpaths.map { $0.inverted() })
+        }
+        return Path(
+            unchecked: points.reversed(),
+            plane: plane?.inverted(),
+            subpathIndices: nil
+        )
+    }
+
     /// Creates a path from an array of  path points.
     /// - Parameter points: An array of ``PathPoint`` making up the path.
     init(_ points: [PathPoint]) {
