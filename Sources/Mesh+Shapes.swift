@@ -1317,13 +1317,18 @@ private extension Mesh {
         material: Material?,
         into polygons: inout [Polygon]
     ) {
-        let n0 = p0.faceNormal, n1 = p1.faceNormal
-        var direction = directionBetweenShapes(p0, p1)
-        var invert = direction.dot(n0) <= 0
-        if invert {
-            direction = -direction
+        var p0 = p0, p1 = p1
+        var n0 = p0.faceNormal, n1 = p1.faceNormal
+        let direction = directionBetweenShapes(p0, p1)
+        if direction.dot(n0) < 0 {
+            p0 = p0.inverted()
+            n0 = -n0
         }
-        var uvstart = uvstart, uvend = uvend
+        if direction.dot(n1) < 0 {
+            p1 = p1.inverted()
+            n1 = -n1
+        }
+        var invert = false
         func makePolygon(_ vertices: [Vertex]) -> Polygon {
             Polygon(
                 unchecked: invert ? vertices.reversed() : vertices,
@@ -1333,6 +1338,7 @@ private extension Mesh {
                 material: material
             )
         }
+        var uvstart = uvstart, uvend = uvend
         func addFace(_ a: Vertex, _ b: Vertex, _ c: Vertex, _ d: Vertex) {
             var vertices = [a, b, c, d]
             let n = faceNormalForPoints(vertices.map { $0.position }, convex: true)
