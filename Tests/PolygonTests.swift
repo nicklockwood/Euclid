@@ -9,25 +9,6 @@
 @testable import Euclid
 import XCTest
 
-extension Euclid.Polygon {
-    /// Convenience constructor for testing
-    init(unchecked vertices: [Vertex], plane: Plane? = nil) {
-        self.init(
-            unchecked: vertices,
-            plane: plane,
-            isConvex: nil,
-            sanitizeNormals: true,
-            material: nil
-        )
-    }
-
-    /// Convenience constructor for testing
-    init(unchecked points: [Vector]) {
-        let normal = faceNormalForPoints(points, convex: nil)
-        self.init(unchecked: points.map { Vertex($0, normal) })
-    }
-}
-
 class PolygonTests: XCTestCase {
     // MARK: initialization
 

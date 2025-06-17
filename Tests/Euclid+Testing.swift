@@ -30,3 +30,43 @@ func XCTAssertEqual(
         XCTFail(error.localizedDescription)
     }
 }
+
+extension Euclid.Polygon {
+    /// Convenience constructor for testing
+    init(unchecked vertices: [Vertex], plane: Plane? = nil) {
+        self.init(
+            unchecked: vertices,
+            plane: plane,
+            isConvex: nil,
+            sanitizeNormals: true,
+            material: nil
+        )
+    }
+
+    /// Convenience constructor for testing
+    init(unchecked points: [Vector]) {
+        let normal = faceNormalForPoints(points, convex: nil)
+        self.init(unchecked: points.map { Vertex($0, normal) })
+    }
+}
+
+extension Mesh {
+    var isActuallyConvex: Bool {
+        guard BSP(Mesh(polygons), { false }).isConvex else {
+            return false
+        }
+        guard let plane = polygons.first?.plane else {
+            return true
+        }
+        for polygon in polygons {
+            if !polygon.plane.isEqual(to: plane),
+               !polygon.plane.isEqual(to: plane.inverted())
+            {
+                return true
+            }
+        }
+        // All polygons are planar
+        let groups = polygons.groupedByPlane()
+        return groups.count == 2
+    }
+}

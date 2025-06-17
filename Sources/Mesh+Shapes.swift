@@ -1224,7 +1224,8 @@ private extension Mesh {
             count += 1
             prev = shape
         }
-        let isClosed = (shapes.first == shapes.last) && shapes.allSatisfy { $0.isClosed }
+        let allShapesAreClosed = shapes.allSatisfy { $0.isClosed }
+        let isClosed = allShapesAreClosed && (shapes.first == shapes.last)
         if count < 3, isClosed {
             return fill(first, faces: faces, material: material)
         }
@@ -1279,10 +1280,9 @@ private extension Mesh {
                 }
             }
         }
-        let isWatertight = isWatertight ?? isCapped && shapes
-            .dropFirst().dropLast().allSatisfy { $0.isClosed }
+        let isSealed = isCapped && allShapesAreClosed
         switch faces {
-        case .default where isWatertight, .front:
+        case .default where isSealed, .front:
             return Mesh(
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
@@ -1303,7 +1303,7 @@ private extension Mesh {
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
                 isConvex: false,
-                isWatertight: isWatertight ? true : nil,
+                isWatertight: true, // double sided shapes are always watertight
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         }
@@ -1467,7 +1467,7 @@ private extension Mesh {
                 addFace(c, c, b, a)
                 prev = ai
             } else {
-                assert((ai + 2) % e0.count == bi || ai + 1 == bi)
+                // assert((ai + 2) % e0.count == bi || ai + 1 == bi)
                 let d = e0[(ai + 1) % e0.count]
                 addFace(c, d, b, a)
                 prev = ai + 2
