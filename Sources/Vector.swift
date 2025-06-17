@@ -267,7 +267,7 @@ public extension Vector {
     }
 
     /// Deprecated.
-    @available(*, deprecated, message: "Use angle(with:) and cross product to get axis")
+    @available(*, deprecated, message: "Use Rotation(from:to) instead")
     func rotation(with other: Vector) -> Rotation {
         -rotationBetweenNormalizedVectors(normalized(), other.normalized())
     }

@@ -45,6 +45,31 @@ class RotationTests: XCTestCase {
         XCTAssert(r.angle.isEqual(to: .pi * 1.5), "\(r.angle.degrees) is not equal to 270")
     }
 
+    func testRotationFromTo() {
+        let r = Rotation(from: .unitY, to: .unitX)
+        XCTAssert(r.angle.isEqual(to: .halfPi), "\(r.angle) is not equal to \(Angle.halfPi)")
+        XCTAssert(r.axis.isEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
+        XCTAssertEqual(Vector.unitY.rotated(by: r), .unitX)
+    }
+
+    func testRotationFromZeroToX() {
+        let r = Rotation(from: .zero, to: .unitX)
+        XCTAssert(r.angle.isEqual(to: .zero), "\(r.angle) is not equal to \(Angle.zero)")
+        XCTAssert(r.axis.isEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
+    }
+
+    func testRotationFromYToZero() {
+        let r = Rotation(from: .unitY, to: .zero)
+        XCTAssert(r.angle.isEqual(to: .zero), "\(r.angle) is not equal to \(Angle.zero)")
+        XCTAssert(r.axis.isEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
+    }
+
+    func testRotationFromZeroToZero() {
+        let r = Rotation(from: .zero, to: .zero)
+        XCTAssert(r.angle.isEqual(to: .zero), "\(r.angle) is not equal to \(Angle.zero)")
+        XCTAssert(r.axis.isEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
+    }
+
     // MARK: Vector rotation
 
     func testAxisAngleRotation1() {

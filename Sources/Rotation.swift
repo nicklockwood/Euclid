@@ -379,6 +379,18 @@ public extension Rotation {
         self.init(unchecked: axis / length, angle: angle)
     }
 
+    /// Creates a rotation between two direction vectors.
+    /// - Parameters:
+    ///   - a: The first vector
+    ///   - b: The second vector
+    init(from a: Vector, to b: Vector) {
+        if a.isZero || b.isZero {
+            self = .identity
+        } else {
+            self = rotationBetweenNormalizedVectors(a.normalized(), b.normalized())
+        }
+    }
+
     /// Creates a rotation around the X axis.
     /// - Parameter rotation: The angle to rotate by.
     static func pitch(_ rotation: Angle) -> Rotation {
