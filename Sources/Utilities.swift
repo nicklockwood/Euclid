@@ -211,6 +211,30 @@ func triangulateVertices(
 
 // MARK: Vector utilities
 
+extension Vector {
+    var leastParallelAxis: Vector {
+        switch (abs(x), abs(y), abs(z)) {
+        case let (x, y, z) where x <= y && x <= z:
+            return .unitX
+        case let (_, y, z) where y <= z:
+            return .unitY
+        default:
+            return .unitZ
+        }
+    }
+
+    var mostParallelAxis: Vector {
+        switch (abs(x), abs(y), abs(z)) {
+        case let (x, y, z) where x > y && x > z:
+            return .unitX
+        case let (x, y, z) where x > z || y > z:
+            return .unitY
+        default:
+            return .unitZ
+        }
+    }
+}
+
 func isFlippedScale(_ scale: Vector) -> Bool {
     var flipped = scale.x < 0
     if scale.y < 0 { flipped = !flipped }
@@ -222,7 +246,12 @@ func rotationBetweenNormalizedVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
     assert(v0.isNormalized && v1.isNormalized)
     let axis = v0.cross(v1)
     if axis.isZero {
-        return v0.isEqual(to: v1) ? .identity : .init(unchecked: 0, 0, -1, 0)
+        if v0.isEqual(to: v1) {
+            return .identity
+        }
+        let leastParallelAxis = v0.leastParallelAxis
+        let orthonormal = v0.cross(leastParallelAxis).normalized()
+        return .init(unchecked: orthonormal, angle: .pi)
     }
     let angle = acos(v0.dot(v1))
     return .init(unchecked: axis.normalized(), angle: .radians(angle))

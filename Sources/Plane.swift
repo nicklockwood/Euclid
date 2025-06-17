@@ -253,14 +253,7 @@ enum FlatteningPlane: RawRepresentable {
     }
 
     init(normal: Vector) {
-        switch (abs(normal.x), abs(normal.y), abs(normal.z)) {
-        case let (x, y, z) where x > y && x > z:
-            self = .yz
-        case let (x, y, z) where x > z || y > z:
-            self = .xz
-        default:
-            self = .xy
-        }
+        self.init(rawValue: .init(unchecked: normal.mostParallelAxis, w: 0))!
     }
 
     init(points: [Vector]) {
