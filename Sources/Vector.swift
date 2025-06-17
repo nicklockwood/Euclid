@@ -266,8 +266,8 @@ public extension Vector {
         .acos(normalized().dot(other.normalized()))
     }
 
-    /// Returns the rotation between this vector and another.
-    /// - Parameter other: The vector to compare with.
+    /// Deprecated.
+    @available(*, deprecated, message: "Use angle(with:) and cross product to get axis")
     func rotation(with other: Vector) -> Rotation {
         -rotationBetweenNormalizedVectors(normalized(), other.normalized())
     }
