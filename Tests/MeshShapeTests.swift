@@ -61,18 +61,7 @@ class MeshShapeTests: XCTestCase {
         XCTAssertEqual(mesh.polygons.count, 4)
     }
 
-    // MARK: Lathe
-
-    func testLatheSelfIntersectingPath() {
-        let path = Path([
-            .point(0, 0),
-            .point(1, 1),
-            .point(1, 0),
-            .point(0, 1),
-        ])
-        let mesh = Mesh.lathe(path)
-        XCTAssert(!mesh.polygons.isEmpty)
-    }
+    // MARK: Lathe (see MeshLatheTests)
 
     // MARK: Loft (see MeshLoftTests)
 

@@ -1138,10 +1138,7 @@ private extension Mesh {
             }
         }
 
-        let isSealed = (isWatertight == true) || (
-            isConvex &&
-                !pointsAreSelfIntersecting(profile.points.map { $0.position })
-        )
+        let isSealed = isConvex && !pointsAreSelfIntersecting(profile.points.map { $0.position })
         let isWatertight = isSealed ? true : isWatertight
         switch faces {
         case .default where isSealed, .front:

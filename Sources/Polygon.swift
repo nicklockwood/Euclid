@@ -214,10 +214,7 @@ public extension Polygon {
     var signedVolume: Double {
         triangulate().reduce(0) {
             $0 + $1.vertices[0].position
-                .dot(
-                    $1.vertices[1].position
-                        .cross($1.vertices[2].position)
-                ) / 6
+                .dot($1.vertices[1].position.cross($1.vertices[2].position)) / 6
         }
     }
 
