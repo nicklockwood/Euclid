@@ -147,12 +147,13 @@ private extension BSP {
     }
 
     mutating func initialize(_ polygons: [Polygon], _ isCancelled: CancellationHandler) {
+        guard !polygons.isEmpty else {
+            return
+        }
+
         var rng = DeterministicRNG()
 
         guard isConvex else {
-            guard !polygons.isEmpty else {
-                return
-            }
             // Randomly shuffle polygons to reduce average number of splits
             let polygons = polygons.shuffled(using: &rng)
             nodes.reserveCapacity(polygons.count)
