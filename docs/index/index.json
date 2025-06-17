@@ -1648,6 +1648,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/inverted()",
+                "title" : "func inverted() -> Path",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/mapcolors(_:)",
                 "title" : "func mapColors((Color?) -> Color?) -> Path",
                 "type" : "method"
@@ -2752,6 +2757,11 @@
               {
                 "path" : "\/documentation\/euclid\/rotation\/init(_:)-8izj",
                 "title" : "init(simd_quatf)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/rotation\/init(from:to:)",
+                "title" : "init(from: Vector, to: Vector)",
                 "type" : "init"
               },
               {

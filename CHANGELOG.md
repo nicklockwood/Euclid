@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.7.15](https://github.com/nicklockwood/Euclid/releases/tag/0.7.15) (2025-06-17)
+
+- Added `Rotation.init(from:to:)` initializer and deprecated `Vector.rotation(with:)`
+- Added `Path.inverted()` method
+- Improved `Path.rectangle()` logic and tests
+- Fixed incorrect `isWatertight` logic for loft shapes
+- Fixed several bugs in loft function that could cause corrupted output
+- Fixed some bugs in logic to compute rotations between vectors
+- Fixed incorrect logic for `Path.faceNormal` calculation
+- Fixed incorrect logic for negative path scaling
+
 ## [0.7.14](https://github.com/nicklockwood/Euclid/releases/tag/0.7.14) (2025-05-25)
 
 - Fixed bug with `Path.init(_ segments:)` when segments are very short

@@ -1,49 +1,30 @@
 {
   "abstract" : [
     {
-      "text" : "Deprecated.",
+      "text" : "Creates a rotation between two direction vectors.",
       "type" : "text"
-    }
-  ],
-  "deprecationSummary" : [
-    {
-      "inlineContent" : [
-        {
-          "text" : "Use Rotation(from:to) instead",
-          "type" : "text"
-        }
-      ],
-      "type" : "paragraph"
     }
   ],
   "hierarchy" : {
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/rotation(with:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(from:to:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid6VectorV8rotation4withAA8RotationVAC_tF",
+    "externalID" : "s:6Euclid8RotationV4from2toAcA6VectorV_AGtcfc",
     "fragments" : [
       {
-        "kind" : "keyword",
-        "text" : "func"
-      },
-      {
-        "kind" : "text",
-        "text" : " "
-      },
-      {
         "kind" : "identifier",
-        "text" : "rotation"
+        "text" : "init"
       },
       {
         "kind" : "text",
@@ -51,7 +32,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "with"
+        "text" : "from"
       },
       {
         "kind" : "text",
@@ -64,12 +45,24 @@
       },
       {
         "kind" : "text",
-        "text" : ") -> "
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "to"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid8RotationV",
-        "text" : "Rotation"
+        "preciseIdentifier" : "s:6Euclid6VectorV",
+        "text" : "Vector"
+      },
+      {
+        "kind" : "text",
+        "text" : ")"
       }
     ],
     "modules" : [
@@ -77,13 +70,10 @@
         "name" : "Euclid"
       }
     ],
-    "platforms" : [
-
-    ],
     "role" : "symbol",
-    "roleHeading" : "Instance Method",
-    "symbolKind" : "method",
-    "title" : "rotation(with:)"
+    "roleHeading" : "Initializer",
+    "symbolKind" : "init",
+    "title" : "init(from:to:)"
   },
   "primaryContentSections" : [
     {
@@ -98,15 +88,7 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "func"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "identifier",
-              "text" : "rotation"
+              "text" : "init"
             },
             {
               "kind" : "text",
@@ -114,7 +96,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "with"
+              "text" : "from"
             },
             {
               "kind" : "text",
@@ -122,7 +104,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "other"
+              "text" : "a"
             },
             {
               "kind" : "text",
@@ -136,18 +118,71 @@
             },
             {
               "kind" : "text",
-              "text" : ") -> "
+              "text" : ", "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation",
+              "kind" : "externalParam",
+              "text" : "to"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "b"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid8RotationV",
-              "text" : "Rotation"
+              "preciseIdentifier" : "s:6Euclid6VectorV",
+              "text" : "Vector"
+            },
+            {
+              "kind" : "text",
+              "text" : ")"
             }
           ]
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The first vector",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "a"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The second vector",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "b"
+        }
+      ]
     }
   ],
   "schemaVersion" : {
@@ -161,7 +196,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/vector\/rotation(with:)"
+        "\/documentation\/euclid\/rotation\/init(from:to:)"
       ],
       "traits" : [
         {
@@ -220,6 +255,64 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(from:to:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a rotation between two direction vectors.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(from:to:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(from:to:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/init(from:to:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
   "abstract" : [
     {
@@ -253,61 +346,6 @@
   "title" : "Vector",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/rotation(with:)": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "rotation"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "with"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid8RotationV",
-      "text" : "Rotation"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/rotation(with:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "rotation(with:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/rotation(with:)"
 }
 }
 }

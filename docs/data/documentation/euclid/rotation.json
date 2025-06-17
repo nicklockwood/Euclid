@@ -203,7 +203,8 @@
       "anchor" : "Initializers",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(_:)-8izj"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(_:)-8izj",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(from:to:)"
       ],
       "title" : "Initializers"
     },
@@ -1277,6 +1278,64 @@
   "title" : "init(axis:angle:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation\/init(axis:angle:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(from:to:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a rotation between two direction vectors.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(from:to:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(from:to:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/init(from:to:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(pitch:yaw:roll:)": {
   "abstract" : [

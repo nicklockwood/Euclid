@@ -622,7 +622,7 @@ func subpathsFor(_ _points: [PathPoint]) -> [Path] {
         paths.append(Path(unchecked: points, plane: nil, subpathIndices: []))
     }
     return paths.isEmpty && !_points.isEmpty ? [
-        Path(unchecked: _points, plane: nil, subpathIndices: [])
+        Path(unchecked: _points, plane: nil, subpathIndices: []),
     ] : paths
 }
 

@@ -2863,10 +2863,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/rotation(with:)": {
   "abstract" : [
     {
-      "text" : "Returns the rotation between this vector and another.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

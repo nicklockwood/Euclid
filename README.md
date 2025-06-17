@@ -30,24 +30,24 @@ If you would like to support the development of Euclid, please consider buying a
 
 Euclid is packaged as a dynamic framework that you can import into your Xcode project. You can install this manually, or by using CocoaPods, Carthage, or Swift Package Manager.
 
-**Note:** Euclid requires Xcode 14+ to build, and runs on iOS 11+ or macOS 10.13+.
+**Note:** Euclid requires Xcode 16+ to build, and runs on iOS 11+ or macOS 10.13+.
 
 To install Euclid using CocoaPods, add the following to your Podfile:
 
 ```ruby
-pod 'Euclid', '~> 0.7.14'
+pod 'Euclid', '~> 0.7.15'
 ```
 
 To install using Carthage, add this to your Cartfile:
 
 ```ogdl
-github "nicklockwood/Euclid" ~> 0.7.12
+github "nicklockwood/Euclid" ~> 0.7.15
 ```
 
 To install using Swift Package Manager, add this to the `dependencies:` section in your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.7.14")),
+.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.7.15")),
 ```
 
 

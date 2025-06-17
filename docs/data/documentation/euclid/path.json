@@ -397,6 +397,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/extrusionContours(along:twist:align:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inverted()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/mapColors(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/with(color:)"
       ],
@@ -2008,6 +2009,43 @@
   "title" : "inset(by:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/inset(by:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/inverted()": {
+  "abstract" : [
+    {
+      "text" : "Flips the path along its plane and reverses the path points.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "inverted"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inverted()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "inverted()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/inverted()"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/isClosed": {
   "abstract" : [
