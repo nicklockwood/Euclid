@@ -253,7 +253,7 @@ func rotationBetweenNormalizedVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
         let orthonormal = v0.cross(leastParallelAxis).normalized()
         return .init(unchecked: orthonormal, angle: .pi)
     }
-    let angle = acos(v0.dot(v1))
+    let angle = -acos(v0.dot(v1))
     return .init(unchecked: axis.normalized(), angle: .radians(angle))
 }
 
@@ -660,7 +660,7 @@ func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint
     let length = p0p1.length
     p0p1 = p0p1 / length
     let p1p2 = (p2.position - p1.position).normalized()
-    let r = -rotationBetweenNormalizedVectors(p0p1, p1p2)
+    let r = rotationBetweenNormalizedVectors(p0p1, p1p2)
     let p2pe = p1p2.rotated(by: r) * length
     return .curve(p2.position + p2pe)
 }

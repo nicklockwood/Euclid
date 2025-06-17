@@ -747,7 +747,7 @@ public extension Mesh {
             if FlatteningPlane(normal: line.direction) == .xy {
                 shape.rotate(by: .pitch(.halfPi))
             }
-            shape.rotate(by: rotationBetweenNormalizedVectors(line.direction, shape.faceNormal))
+            shape.rotate(by: rotationBetweenNormalizedVectors(shape.faceNormal, line.direction))
             let shape0 = shape.translated(by: line.start)
             bounds.formUnion(shape0.bounds)
             let shape1 = shape.translated(by: line.end)
@@ -1343,13 +1343,13 @@ private extension Mesh {
             var vertices = [a, b, c, d]
             let n = faceNormalForPoints(vertices.map { $0.position }, convex: true)
             if !curvestart {
-                var r = rotationBetweenNormalizedVectors(n, n0)
+                var r = rotationBetweenNormalizedVectors(n0, n)
                 r = Rotation(unchecked: r.axis, angle: r.angle - .halfPi)
                 vertices[0].normal.rotate(by: r)
                 vertices[1].normal.rotate(by: r)
             }
             if !curveend {
-                var r = rotationBetweenNormalizedVectors(n, n1)
+                var r = rotationBetweenNormalizedVectors(n1, n)
                 r = Rotation(unchecked: r.axis, angle: r.angle - .halfPi)
                 vertices[2].normal.rotate(by: r)
                 vertices[3].normal.rotate(by: r)
@@ -1407,7 +1407,7 @@ private extension Mesh {
             return
         }
         var t0 = -p0.bounds.center, t1 = -p1.bounds.center
-        var r = rotationBetweenNormalizedVectors(n0, n1)
+        var r = rotationBetweenNormalizedVectors(n1, n0)
         func nearestIndex(to a: Vector, in e: [Vertex]) -> Int {
             let a = a.translated(by: t1).rotated(by: r)
             let e = e.map { $0.withPosition($0.position.translated(by: t0)) }

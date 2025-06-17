@@ -483,15 +483,14 @@ public extension Path {
         if align == .axis {
             p0p1 = p0p1.projected(onto: pathPlane.rawValue)
         }
-        rotateShape(by: rotationBetweenNormalizedVectors(p0p1.normalized(), shapeNormal))
+        rotateShape(by: rotationBetweenNormalizedVectors(shapeNormal, p0p1.normalized()))
         if align != .axis, axisAligned {
             p0p1 = p0p1.projected(onto: pathPlane.rawValue)
         }
 
         func rotationBetween(_ a: Path?, _ b: Path, checkSign: Bool = true) -> Rotation {
             guard let a = a else { return .identity }
-            let r = rotationBetweenNormalizedVectors(a.faceNormal, b.faceNormal)
-            let b = b.rotated(by: -r)
+            let b = b.rotated(by: rotationBetweenNormalizedVectors(a.faceNormal, b.faceNormal))
             let points0 = a.points, points1 = b.points
             let delta = (points0[1].position - points0[0].position)
                 .angle(with: points1[1].position - points1[0].position)
@@ -532,7 +531,7 @@ public extension Path {
                 p1p2 = p1p2.projected(onto: pathPlane.rawValue)
             }
             let n1 = p1p2.normalized(), n2 = p0p1.normalized()
-            let r = rotationBetweenNormalizedVectors(n1, n2) / 2
+            let r = rotationBetweenNormalizedVectors(n2, n1) / 2
             rotateShape(by: r)
             twistShape(p1p2)
             upVector = (n1 + n2).cross(r.axis).normalized()
