@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.7.16](https://github.com/nicklockwood/Euclid/releases/tag/0.7.16) (2025-07-31)
+
+- Fixed crash in `Path.curve()` when all points in the path are coincident
+
 ## [0.7.15](https://github.com/nicklockwood/Euclid/releases/tag/0.7.15) (2025-06-17)
 
 - Added `Rotation.init(from:to:)` initializer and deprecated `Vector.rotation(with:)`

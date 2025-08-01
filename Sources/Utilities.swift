@@ -309,7 +309,7 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
     return true
 }
 
-/// Test if path is self-intersecting
+// Test if path is self-intersecting
 // TODO: optimize by using http://www.webcitation.org/6ahkPQIsN
 func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
     guard points.count > 2 else {

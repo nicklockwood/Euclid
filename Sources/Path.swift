@@ -592,7 +592,7 @@ extension Path {
         points.count < (isClosed ? 4 : 3)
     }
 
-    /// flattens z-axis
+    // flattens z-axis
     // TODO: this is a hack and should be replaced by a better solution
     func flattened() -> Path {
         guard subpathIndices.isEmpty else {
