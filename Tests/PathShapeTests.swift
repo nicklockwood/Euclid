@@ -12,6 +12,24 @@ import XCTest
 class PathShapeTests: XCTestCase {
     // MARK: Curve
 
+    func testCurveWithSinglePoint() {
+        let points: [PathPoint] = [
+            .point(0, 0),
+        ]
+        _ = Path(points)
+        _ = Path.curve(points)
+    }
+
+    func testCurveWithCoincidentPoints() {
+        let points: [PathPoint] = [
+            .point(0, 0),
+            .point(0, 0),
+            .point(0, 0),
+        ]
+        _ = Path(points)
+        _ = Path.curve(points)
+    }
+
     func testCurveWithConsecutiveMixedTypePointsWithSamePosition() {
         let points: [PathPoint] = [
             .point(-1, 1),

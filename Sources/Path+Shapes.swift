@@ -306,21 +306,15 @@ public extension Path {
             }
         }
 
-        if points.count == 1 {
-            return Path(unchecked: points, plane: nil, subpathIndices: nil)
-        }
-
         let points = sanitizePoints(points)
-        guard detail > 0, !points.isEmpty else {
+        guard detail > 0, points.count > 2 else {
             return Path(unchecked: points, plane: nil, subpathIndices: nil)
         }
         var result = [PathPoint]()
-        let isClosed = pointsAreClosed(unchecked: points)
         let count = points.count
-        let start = isClosed ? 0 : 1
-        let end = count - 1
-        var p0 = isClosed ? points[count - 2] : points[0]
-        var p1 = isClosed ? points[0] : points[1]
+        let isClosed = pointsAreClosed(unchecked: points)
+        let start = isClosed ? 0 : 1, end = count - 1
+        var (p0, p1) = isClosed ? (points[count - 2], points[0]) : (points[0], points[1])
         if !isClosed {
             if p0.isCurved, count >= 3 {
                 let pe = extrapolate(points[2], p1, p0)
