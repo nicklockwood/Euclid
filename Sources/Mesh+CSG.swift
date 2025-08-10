@@ -99,10 +99,10 @@ public extension Mesh {
     ///   - meshes: A collection of meshes to be unioned.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the union of the input meshes.
-    static func union<T: Collection>(
-        _ meshes: T,
+    static func union(
+        _ meshes: some Collection<Mesh>,
         isCancelled: CancellationHandler = { false }
-    ) -> Mesh where T.Element == Mesh {
+    ) -> Mesh {
         merge(meshes, using: { $0.union($1, isCancelled: $2) }, isCancelled)
     }
 
@@ -158,10 +158,10 @@ public extension Mesh {
     ///   - meshes: An ordered collection of meshes. All but the first will be subtracted from the first.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the difference between the meshes.
-    static func difference<T: Collection>(
-        _ meshes: T,
+    static func difference(
+        _ meshes: some Collection<Mesh>,
         isCancelled: CancellationHandler = { false }
-    ) -> Mesh where T.Element == Mesh {
+    ) -> Mesh {
         reduce(meshes, using: { $0.subtracting($1, isCancelled: $2) }, isCancelled)
     }
 
@@ -219,10 +219,10 @@ public extension Mesh {
     ///   - meshes: A collection of meshes to be XORed.
     ///   - isCancelled: Callback used to cancel the operation
     /// - Returns: A new mesh representing the XOR of the meshes.
-    static func symmetricDifference<T: Collection>(
-        _ meshes: T,
+    static func symmetricDifference(
+        _ meshes: some Collection<Mesh>,
         isCancelled: CancellationHandler = { false }
-    ) -> Mesh where T.Element == Mesh {
+    ) -> Mesh {
         merge(meshes, using: { $0.symmetricDifference($1, isCancelled: $2) }, isCancelled)
     }
 
@@ -275,10 +275,10 @@ public extension Mesh {
     ///   - meshes: A collection of meshes to be intersected.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the intersection of the meshes.
-    static func intersection<T: Collection>(
-        _ meshes: T,
+    static func intersection(
+        _ meshes: some Collection<Mesh>,
         isCancelled: CancellationHandler = { false }
-    ) -> Mesh where T.Element == Mesh {
+    ) -> Mesh {
         let head = meshes.first ?? .empty, tail = meshes.dropFirst()
         let bounds = tail.reduce(into: head.bounds) { $0.formUnion($1.bounds) }
         if bounds.isEmpty {
@@ -329,10 +329,10 @@ public extension Mesh {
     ///   - meshes: An ordered collection of meshes. All but the first will be stencilled onto the first.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the result of stencilling.
-    static func stencil<T: Collection>(
-        _ meshes: T,
+    static func stencil(
+        _ meshes: some Collection<Mesh>,
         isCancelled: CancellationHandler = { false }
-    ) -> Mesh where T.Element == Mesh {
+    ) -> Mesh {
         reduce(meshes, using: { $0.stencil($1, isCancelled: $2) }, isCancelled)
     }
 
@@ -516,11 +516,11 @@ private func boundsTest(
 
 private extension Mesh {
     /// Merge all the meshes into a single mesh using fn
-    static func merge<T: Collection>(
-        _ meshes: T,
+    static func merge(
+        _ meshes: some Collection<Mesh>,
         using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
         _ isCancelled: CancellationHandler
-    ) -> Mesh where T.Element == Mesh {
+    ) -> Mesh {
         var meshes = Array(meshes)
         var i = 0
         while i < meshes.count {
@@ -531,11 +531,11 @@ private extension Mesh {
     }
 
     /// Merge each intersecting mesh after i into the mesh at index i using fn
-    static func reduce<T: Collection>(
-        _ meshes: T,
+    static func reduce(
+        _ meshes: some Collection<Mesh>,
         using fn: (Mesh, Mesh, CancellationHandler) -> Mesh,
         _ isCancelled: CancellationHandler
-    ) -> Mesh where T.Element == Mesh {
+    ) -> Mesh {
         var meshes = Array(meshes)
         return meshes.isEmpty ? .empty : reduce(&meshes, at: 0, using: fn, isCancelled)
     }

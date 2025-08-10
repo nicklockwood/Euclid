@@ -83,7 +83,7 @@ extension Mesh: Codable {
             try container.encode(polygons, forKey: .polygons)
         } else {
             try container.encode(materials.map { CodableMaterial($0) }, forKey: .materials)
-            let polygonsByMaterial = self.polygonsByMaterial
+            let polygonsByMaterial = polygonsByMaterial
             try container.encode(materials.map { material -> [Polygon] in
                 polygonsByMaterial[material]!.mapMaterials { _ in nil }
             }, forKey: .polygons)
@@ -235,7 +235,7 @@ public extension Mesh {
     /// - Returns: A new mesh that includes all polygons from all meshes.
     ///
     /// > Note: No attempt is made to deduplicate or join meshes. Polygons are neither split nor removed.
-    static func merge<T: Collection>(_ meshes: T) -> Mesh where T.Element == Mesh {
+    static func merge(_ meshes: some Collection<Mesh>) -> Mesh {
         if meshes.count <= 1 {
             return meshes.first ?? .empty
         }
@@ -325,7 +325,7 @@ public extension Mesh {
         if watertightIfSet == true {
             return self
         }
-        var holeEdges = polygons.holeEdges, polygons = self.polygons
+        var holeEdges = polygons.holeEdges, polygons = polygons
         var precision = epsilon
         while !holeEdges.isEmpty {
             let merged = polygons
@@ -427,7 +427,7 @@ extension Mesh {
 }
 
 private extension Mesh {
-    final class Storage: Hashable, Bounded {
+    final class Storage: Hashable, Bounded, @unchecked Sendable {
         let polygons: [Polygon]
         let isConvex: Bool
 
@@ -518,7 +518,3 @@ private extension Mesh {
         }
     }
 }
-
-#if !swift(<5.7)
-extension Mesh.Storage: @unchecked Sendable {}
-#endif

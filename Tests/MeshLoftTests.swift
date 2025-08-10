@@ -31,7 +31,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssertEqual(loft2.volume, loft.volume)
 
         // Every vertex in the loft should be contained by one of our shapes
-        let vertices = loft.polygons.flatMap { $0.vertices }
+        let vertices = loft.polygons.flatMap(\.vertices)
         XCTAssert(vertices.allSatisfy { vertex in
             shapes.contains(where: {
                 $0.points.contains(where: { $0.position == vertex.position })
@@ -66,11 +66,11 @@ class MeshLoftTests: XCTestCase {
         XCTAssertEqual(loft2.volume, loft.volume)
 
         XCTAssert(loft.polygons.allSatisfy {
-            pointsAreCoplanar($0.vertices.map { $0.position })
+            pointsAreCoplanar($0.vertices.map(\.position))
         })
 
         // Every vertex in the loft should be contained by one of our shapes
-        let vertices = loft.polygons.flatMap { $0.vertices }
+        let vertices = loft.polygons.flatMap(\.vertices)
         XCTAssert(vertices.allSatisfy { vertex in
             shapes.contains(where: {
                 $0.points.contains(where: { $0.position == vertex.position })

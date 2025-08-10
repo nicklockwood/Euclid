@@ -246,7 +246,7 @@ private extension Mesh {
         var indices = [UInt32]()
         var materialIndices = [UInt32]()
         var indicesByVertex = [Vertex: UInt32]()
-        let polygonsByMaterial = self.polygonsByMaterial
+        let polygonsByMaterial = polygonsByMaterial
         let perFaceMaterials = materials.count > 1
         for (materialIndex, material) in materials.enumerated() {
             let polygons = polygonsByMaterial[material] ?? []
@@ -305,7 +305,7 @@ public extension Euclid.Transform {
     }
 }
 
-private extension Array where Element == Polygon {
+private extension [Polygon] {
     @available(macOS 12.0, iOS 15.0, *)
     init(
         meshDescriptor: MeshDescriptor,

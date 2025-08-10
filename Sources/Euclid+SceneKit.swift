@@ -236,7 +236,6 @@ public extension SCNGeometry {
     /// - Parameters:
     ///   - mesh: The mesh to convert into a SceneKit geometry.
     ///   - materialLookup: A closure to map the polygon material to a SceneKit material.
-    @available(OSX 10.12, iOS 10.0, tvOS 10.0, *)
     convenience init(polygons mesh: Mesh, materialLookup: SCNMaterialProvider? = nil) {
         var elementData = [(Int, Data)]()
         var vertices = [SCNVector3]()
@@ -302,7 +301,7 @@ public extension SCNGeometry {
 
     /// Creates a wireframe geometry from a collection of line segments.
     /// - Parameter edges: The collection of ``LineSegment`` to convert.
-    convenience init<T: Collection>(_ edges: T) where T.Element == LineSegment {
+    convenience init(_ edges: some Collection<LineSegment>) {
         var indices = [UInt32]()
         var vertices = [SCNVector3]()
         var indicesByVertex = [Vector: UInt32]()

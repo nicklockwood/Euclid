@@ -105,7 +105,7 @@ public extension Bounds {
 
     /// Creates a bounds from a collection of points.
     /// - Parameter points: A collection of points that the bounds contains.
-    init<T: Collection>(_ points: T) where T.Element == Vector {
+    init(_ points: some Collection<Vector>) {
         self = points.reduce(.empty) {
             Bounds(min: Euclid.min($0.min, $1), max: Euclid.max($0.max, $1))
         }
@@ -113,7 +113,7 @@ public extension Bounds {
 
     /// Creates a bounds from a collection of bounds.
     /// - Parameter bounds: A collection of existing bounds that the bounds contains.
-    init<T: Collection>(_ bounds: T) where T.Element == Bounds {
+    init(_ bounds: some Collection<Bounds>) {
         self = bounds.reduce(.empty) {
             Bounds(min: Euclid.min($0.min, $1.min), max: Euclid.max($0.max, $1.max))
         }

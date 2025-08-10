@@ -271,7 +271,7 @@ extension Vertex {
     }
 }
 
-public extension Array where Element == Vertex {
+public extension [Vertex] {
     /// Creates an array of vertices from an array of coordinates.
     /// - Parameter components: An array of vertex position component triplets.
     init(_ components: [Double]) {
@@ -282,7 +282,7 @@ public extension Array where Element == Vertex {
     }
 }
 
-extension Collection where Element == Vertex {
+extension Collection<Vertex> {
     func mapNormals(_ transform: (Vector) -> Vector) -> [Vertex] {
         map { $0.withNormal(transform($0.texcoord)) }
     }

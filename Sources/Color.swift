@@ -144,7 +144,7 @@ public extension Color {
     }
 }
 
-public extension Collection where Element == Color, Index == Int {
+public extension Collection<Color> where Index == Int {
     /// Linearly interpolate between multiple colors.
     /// - Parameter t: The normalized extent of interpolation between all the colors, from 0 to 1.
     /// - Returns: The interpolated color.

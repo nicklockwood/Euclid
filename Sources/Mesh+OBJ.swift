@@ -14,8 +14,8 @@ public extension Mesh {
         var vertices = [Vertex](), indicesByVertex = [Vertex: Int]()
         var texcoords = [Vector](), indicesByTexcoord = [Vector: Int]()
         var normals = [Vector](), indicesByNormal = [Vector: Int]()
-        let hasTexcoords = self.hasTexcoords, hasVertexNormals = self.hasVertexNormals
-        let hasVertexColors = self.hasVertexColors
+        let hasTexcoords = hasTexcoords, hasVertexNormals = hasVertexNormals
+        let hasVertexColors = hasVertexColors
 
         let indices = polygons.tessellate().map { polygon -> [(Int, Int, Int)] in
             polygon.vertices.map { vertex -> (Int, Int, Int) in

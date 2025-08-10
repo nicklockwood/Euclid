@@ -18,9 +18,7 @@ public extension Mesh {
     func stlString(name: String) -> String {
         """
         solid \(name)
-        \(triangulate().polygons.map {
-            $0.stlString
-        }.joined(separator: "\n"))
+        \(triangulate().polygons.map(\.stlString).joined(separator: "\n"))
         endsolid \(name)
         """
     }
@@ -253,19 +251,6 @@ private extension ArraySlice where Element == String {
 }
 
 private extension UnsafeRawBufferPointer {
-    #if swift(<5.7)
-    func loadUnaligned<T>(fromByteOffset offset: Int = 0, as type: T.Type) -> T {
-        // Note: this polyfill implementation only works for 4-byte types
-        let source = baseAddress.map(UnsafeRawPointer.init)!
-        var storage: UInt32 = 0
-        return withUnsafeMutablePointer(to: &storage) {
-            let raw = UnsafeMutableRawPointer($0)
-            raw.copyMemory(from: source + offset, byteCount: 4)
-            return raw.load(as: type)
-        }
-    }
-    #endif
-
     func readUInt16(at offset: inout Int) -> UInt16 {
         defer { offset += 2 }
         return load(fromByteOffset: offset, as: UInt16.self)

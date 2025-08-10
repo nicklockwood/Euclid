@@ -83,7 +83,7 @@ extension PathPoint: Interpolatable {
         case let (lhs, rhs):
             color = lhs ?? rhs
         }
-        let isCurved = self.isCurved || other.isCurved
+        let isCurved = isCurved || other.isCurved
         return PathPoint(
             position.interpolated(with: other.position, by: t),
             texcoord: texcoord,
@@ -142,7 +142,7 @@ extension Rotation: Interpolatable {
     #else
 
     public func interpolated(with other: Rotation, by t: Double) -> Rotation {
-        let dot = max(-1, min(1, self.dot(other)))
+        let dot = max(-1, min(1, dot(other)))
         if abs(abs(dot) - 1) < epsilon {
             return (self + (other - self) * t).normalized()
         }

@@ -38,7 +38,7 @@ jobs:
       fail-fast: false
       matrix:
         swiftver:
-          - swift:5.2
+          - swift:5.7
           - swiftlang/swift:nightly-main
         swiftos:
           - focal

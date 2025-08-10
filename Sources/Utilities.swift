@@ -31,10 +31,6 @@
 
 import Foundation
 
-#if swift(<5.7)
-public protocol Sendable {}
-#endif
-
 /// Tolerance used for calculating approximate equality
 let epsilon: Double = 1e-8
 
@@ -76,7 +72,7 @@ func verticesAreDegenerate(_ vertices: [Vertex]) -> Bool {
     guard vertices.count > 2 else {
         return true
     }
-    let positions = vertices.map { $0.position }
+    let positions = vertices.map(\.position)
     return pointsAreDegenerate(positions) || pointsAreSelfIntersecting(positions)
 }
 
@@ -84,14 +80,14 @@ func verticesAreConvex(_ vertices: [Vertex]) -> Bool {
     guard vertices.count > 3 else {
         return vertices.count > 2
     }
-    return pointsAreConvex(vertices.map { $0.position })
+    return pointsAreConvex(vertices.map(\.position))
 }
 
 func verticesAreCoplanar(_ vertices: [Vertex]) -> Bool {
     if vertices.count < 4 {
         return true
     }
-    return pointsAreCoplanar(vertices.map { $0.position })
+    return pointsAreCoplanar(vertices.map(\.position))
 }
 
 func triangulateVertices(
@@ -162,9 +158,7 @@ func triangulateVertices(
         }
         triangles.removeAll()
     }
-    let faceNormal = plane?.normal ?? faceNormalForPoints(vertices.map {
-        $0.position
-    }, convex: isConvex)
+    let faceNormal = plane?.normal ?? faceNormalForPoints(vertices.map(\.position), convex: isConvex)
     var start = 0, i = 0
     outer: while start < vertices.count {
         var attempts = 0
@@ -314,7 +308,7 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
         // check result is large enough to be reliable
         if length > planeEpsilon {
             n = n / length
-            if let normal = normal {
+            if let normal {
                 if n.dot(normal) < 0 {
                     return false
                 }

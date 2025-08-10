@@ -134,7 +134,7 @@ public extension LineSegment {
     }
 }
 
-public extension Collection where Element == LineSegment {
+public extension Collection<LineSegment> {
     /// Callback used to cancel a long-running operation.
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
     typealias CancellationHandler = () -> Bool
@@ -157,11 +157,11 @@ public extension Collection where Element == LineSegment {
     }
 }
 
-private func boundsTest<T: Collection>(
+private func boundsTest(
     _ bounds: Bounds,
-    _ edges: T,
+    _ edges: some Collection<LineSegment>,
     _ out: inout [LineSegment]?
-) -> [LineSegment] where T.Element == LineSegment {
+) -> [LineSegment] {
     edges.filter {
         if $0.bounds.intersects(bounds) {
             return true

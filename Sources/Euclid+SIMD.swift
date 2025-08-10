@@ -52,13 +52,13 @@ public extension SIMD2 where Scalar: BinaryFloatingPoint {
 public extension Vector {
     /// Creates a `Vector` from a simd vector 3.
     /// - Parameter vector: A simd vector.
-    init<T: BinaryFloatingPoint>(_ vector: SIMD3<T>) {
+    init(_ vector: SIMD3<some BinaryFloatingPoint>) {
         self.init(Double(vector.x), Double(vector.y), Double(vector.z))
     }
 
     /// Creates a `Vector` from a simd vector 2.
     /// - Parameter vector: A simd vector.
-    init<T: BinaryFloatingPoint>(_ vector: SIMD2<T>) {
+    init(_ vector: SIMD2<some BinaryFloatingPoint>) {
         self.init(Double(vector.x), Double(vector.y))
     }
 }

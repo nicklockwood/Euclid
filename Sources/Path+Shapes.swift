@@ -133,7 +133,7 @@ public extension Path {
         sides: Int,
         color: Color? = nil
     ) -> Path {
-        let circle = self.circle(radius: radius, segments: sides)
+        let circle = circle(radius: radius, segments: sides)
         return Path(unchecked: circle.points.map {
             .point($0.position, color: color)
         }, plane: .xy, subpathIndices: [])
@@ -383,7 +383,7 @@ public extension Path {
     /// Cropped and flattened version of path suitable for lathing around the Y axis.
     var latheProfile: Path {
         guard subpathIndices.isEmpty else {
-            return Path(subpaths: subpaths.map { $0.latheProfile })
+            return Path(subpaths: subpaths.map(\.latheProfile))
         }
         let profile = flattened().clippedToYAxis()
         if profile.faceNormal.z < 0 {
@@ -483,7 +483,7 @@ public extension Path {
         }
 
         func rotationBetween(_ a: Path?, _ b: Path, checkSign: Bool = true) -> Rotation {
-            guard let a = a else { return .identity }
+            guard let a else { return .identity }
             let b = b.rotated(by: rotationBetweenNormalizedVectors(a.faceNormal, b.faceNormal))
             let points0 = a.points, points1 = b.points
             let delta = (points0[1].position - points0[0].position)
@@ -505,7 +505,7 @@ public extension Path {
             if let color = p.color {
                 shape = shape.withColor(color)
             }
-            if let scale = scale, let line = Line(origin: .zero, direction: upVector) {
+            if let scale, let line = Line(origin: .zero, direction: upVector) {
                 shape.stretch(by: scale, along: line)
             }
             shape.translate(by: p.position)
@@ -548,7 +548,7 @@ public extension Path {
             for point in points.dropFirst(2) {
                 addShape(point)
             }
-            let last2 = points.suffix(2).map { $0.position }
+            let last2 = points.suffix(2).map(\.position)
             twistShape(last2[1] - last2[0])
             addShape(points.last!, nil)
             shape = shapes.last!

@@ -15,7 +15,7 @@ class CodingTests: XCTestCase {
         return try JSONDecoder().decode(T.self, from: data)
     }
 
-    private func encode<T: Encodable>(_ value: T) throws -> String {
+    private func encode(_ value: some Encodable) throws -> String {
         let data = try JSONEncoder().encode(value)
         return String(data: data, encoding: .utf8)!
     }

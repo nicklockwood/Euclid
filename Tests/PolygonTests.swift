@@ -455,13 +455,13 @@ class PolygonTests: XCTestCase {
         guard polygons.count > 1 else {
             return
         }
-        let a = Set(polygons[0].vertices.map { $0.position })
+        let a = Set(polygons[0].vertices.map(\.position))
         let expectedA = Set([
             Vector(0, 1),
             Vector(0.5, 0),
             Vector(1, 0),
         ])
-        let b = Set(polygons[1].vertices.map { $0.position })
+        let b = Set(polygons[1].vertices.map(\.position))
         let expectedB = Set([
             Vector(0.5, 0),
             Vector(1, 0),
@@ -488,13 +488,13 @@ class PolygonTests: XCTestCase {
         guard polygons.count > 1 else {
             return
         }
-        let a = Set(polygons[0].vertices.map { $0.position })
+        let a = Set(polygons[0].vertices.map(\.position))
         let expectedA = Set([
             Vector(0, 1),
             Vector(1, 0),
             Vector(0.5, 0),
         ])
-        let b = Set(polygons[1].vertices.map { $0.position })
+        let b = Set(polygons[1].vertices.map(\.position))
         let expectedB = Set([
             Vector(0.5, 0),
             Vector(1, 0),
@@ -523,13 +523,13 @@ class PolygonTests: XCTestCase {
         guard triangles.count > 1 else {
             return
         }
-        let a = Set(triangles[0].vertices.map { $0.position })
+        let a = Set(triangles[0].vertices.map(\.position))
         let expectedA = Set([
             Vector(0, 1),
             Vector(0.5, 0),
             Vector(1, 0),
         ])
-        let b = Set(triangles[1].vertices.map { $0.position })
+        let b = Set(triangles[1].vertices.map(\.position))
         let expectedB = Set([
             Vector(0.5, 0),
             Vector(1, 0),
@@ -556,13 +556,13 @@ class PolygonTests: XCTestCase {
         guard triangles.count > 1 else {
             return
         }
-        let a = Set(triangles[0].vertices.map { $0.position })
+        let a = Set(triangles[0].vertices.map(\.position))
         let expectedA = Set([
             Vector(0, 1),
             Vector(1, 0),
             Vector(0.5, 0),
         ])
-        let b = Set(triangles[1].vertices.map { $0.position })
+        let b = Set(triangles[1].vertices.map(\.position))
         let expectedB = Set([
             Vector(0.5, 0),
             Vector(1, 0),
@@ -718,7 +718,7 @@ class PolygonTests: XCTestCase {
         }
         let triangles = polygon.triangulate()
         XCTAssertEqual(triangles.count, 3)
-        let points = triangles.map { $0.vertices.map { $0.position } }
+        let points = triangles.map { $0.vertices.map(\.position) }
         XCTAssertEqual(points, [
             [
                 Vector(0.9349999999999999, 0.0, 0.16999999999999998),
@@ -737,7 +737,7 @@ class PolygonTests: XCTestCase {
             ],
         ])
         let merged = triangles.detessellate(ensureConvex: false)
-        XCTAssertEqual(Set(merged.flatMap { $0.vertices }), Set(polygon.vertices))
+        XCTAssertEqual(Set(merged.flatMap(\.vertices)), Set(polygon.vertices))
     }
 
     func testInvertedSlightlyNonPlanarPolygonTriangulated() {
@@ -756,7 +756,7 @@ class PolygonTests: XCTestCase {
         }
         let triangles = polygon.triangulate()
         XCTAssertEqual(triangles.count, 3)
-        let points = triangles.map { $0.vertices.map { $0.position } }
+        let points = triangles.map { $0.vertices.map(\.position) }
         XCTAssertEqual(points, [
             [
                 Vector(0.9349999999999999, 0.0, 0.16999999999999998),
@@ -775,7 +775,7 @@ class PolygonTests: XCTestCase {
             ],
         ])
         let merged = triangles.detessellate(ensureConvex: false)
-        XCTAssertEqual(Set(merged.flatMap { $0.vertices }), Set(polygon.vertices))
+        XCTAssertEqual(Set(merged.flatMap(\.vertices)), Set(polygon.vertices))
     }
 
     func testPolygonIDPreservedThroughTriangulation() {
@@ -814,7 +814,7 @@ class PolygonTests: XCTestCase {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Courier" as CFString, 2, nil)
         let paths = Path.text("p", font: font, width: nil, detail: 2)
-        for path in paths.flatMap({ $0.subpaths }) {
+        for path in paths.flatMap(\.subpaths) {
             XCTAssertFalse(path.facePolygons().triangulate().isEmpty)
         }
         #endif
@@ -824,7 +824,7 @@ class PolygonTests: XCTestCase {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Courier" as CFString, 2, nil)
         let paths = Path.text("n", font: font, width: nil, detail: 2)
-        for path in paths.flatMap({ $0.subpaths }) {
+        for path in paths.flatMap(\.subpaths) {
             XCTAssertFalse(path.facePolygons().triangulate().isEmpty)
         }
         #endif
@@ -834,7 +834,7 @@ class PolygonTests: XCTestCase {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Times" as CFString, 2, nil)
         let paths = Path.text("H", font: font, width: nil, detail: 2)
-        for path in paths.flatMap({ $0.subpaths }) {
+        for path in paths.flatMap(\.subpaths) {
             XCTAssertFalse(path.facePolygons().triangulate().isEmpty)
         }
         #endif

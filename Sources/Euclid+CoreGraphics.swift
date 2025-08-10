@@ -128,12 +128,12 @@ public extension CGPath {
         func endPath() {
             if points.count > 1 {
                 if points.count > 2, points.first == points.last,
-                   let firstElement = firstElement
+                   let firstElement
                 {
                     updateLastPoint(nextElement: firstElement)
                 }
                 let points = sanitizePoints(points)
-                let plane = flattenedPointsAreClockwise(points.map { $0.position }) ? Plane.xy.inverted() : .xy
+                let plane = flattenedPointsAreClockwise(points.map(\.position)) ? Plane.xy.inverted() : .xy
                 paths.append(Path(unchecked: points, plane: plane, subpathIndices: []))
             }
             points.removeAll()
@@ -144,7 +144,7 @@ public extension CGPath {
                 points.append(.point(startingPoint, color: color))
                 return
             }
-            guard let lastElement = lastElement else {
+            guard let lastElement else {
                 return
             }
             let p0, p1, p2: CGPoint, isCurved: Bool
@@ -153,7 +153,7 @@ public extension CGPath {
                 points[points.count - 1].isCurved = false
                 return
             case .closeSubpath:
-                if let firstElement = firstElement {
+                if let firstElement {
                     updateLastPoint(nextElement: firstElement)
                 }
                 return

@@ -283,7 +283,7 @@ public extension Mesh {
         wrapMode: WrapMode = .default,
         material: Material? = nil
     ) -> Mesh {
-        let icosahedron = self.icosahedron(
+        let icosahedron = icosahedron(
             radius: 1,
             faces: faces,
             wrapMode: .none,
@@ -730,12 +730,12 @@ public extension Mesh {
     ///   - width: The line width of the strokes.
     ///   - detail: The number of sides to use for the cross-sectional shape of the stroked mesh.
     ///   - material: The optional material for the mesh.
-    static func stroke<T: Collection>(
-        _ lines: T,
+    static func stroke(
+        _ lines: some Collection<LineSegment>,
         width: Double = 0.002,
         detail: Int = 3,
         material: Material? = nil
-    ) -> Mesh where T.Element == LineSegment {
+    ) -> Mesh {
         let radius = width / 2
         let detail = max(3, detail)
         let path = Path.circle(radius: radius, segments: detail)
@@ -799,11 +799,11 @@ public extension Mesh {
     /// - Parameters:
     ///   - paths: A set of paths to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
-    static func convexHull<T: Sequence>(
-        of paths: T,
+    static func convexHull(
+        of paths: some Sequence<Path>,
         material: Material? = nil
-    ) -> Mesh where T.Element == Path {
-        convexHull(of: paths.flatMap { $0.edgeVertices }, material: material)
+    ) -> Mesh {
+        convexHull(of: paths.flatMap(\.edgeVertices), material: material)
     }
 
     /// Computes the convex hull of a set of path points.
@@ -812,10 +812,10 @@ public extension Mesh {
     ///   - material: An optional material to apply to the mesh.
     ///
     /// > Note: The curvature of the point is currently ignored when calculating hull surface normals.
-    static func convexHull<T: Sequence>(
-        of points: T,
+    static func convexHull(
+        of points: some Sequence<PathPoint>,
         material: Material? = nil
-    ) -> Mesh where T.Element == PathPoint {
+    ) -> Mesh {
         convexHull(of: points.map(Vertex.init), material: material)
     }
 
@@ -823,10 +823,10 @@ public extension Mesh {
     /// - Parameters:
     ///   - vertices: A set of vertices to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
-    static func convexHull<T: Sequence>(
-        of vertices: T,
+    static func convexHull(
+        of vertices: some Sequence<Vertex>,
         material: Material? = nil
-    ) -> Mesh where T.Element == Vertex {
+    ) -> Mesh {
         var verticesByPosition = [Vector: [(faceNormal: Vector, Vertex)]]()
         for v in vertices {
             verticesByPosition[v.position, default: []].append((v.normal, v))
@@ -838,10 +838,10 @@ public extension Mesh {
     /// - Parameters:
     ///   - points: An set of points to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
-    static func convexHull<T: Sequence>(
-        of points: T,
+    static func convexHull(
+        of points: some Sequence<Vector>,
         material: Material? = nil
-    ) -> Mesh where T.Element == Vector {
+    ) -> Mesh {
         convexHull(
             of: Dictionary(points.map { ($0, []) }, uniquingKeysWith: { $1 }),
             material: material
@@ -852,10 +852,10 @@ public extension Mesh {
     /// - Parameters:
     ///   - edges: A set of line segments to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
-    static func convexHull<T: Sequence>(
-        of edges: T,
+    static func convexHull(
+        of edges: some Sequence<LineSegment>,
         material: Material? = nil
-    ) -> Mesh where T.Element == LineSegment {
+    ) -> Mesh {
         convexHull(of: edges.flatMap { [$0.start, $0.end] }, material: material)
     }
 }
@@ -1138,7 +1138,7 @@ private extension Mesh {
             }
         }
 
-        let isSealed = isConvex && !pointsAreSelfIntersecting(profile.points.map { $0.position })
+        let isSealed = isConvex && !pointsAreSelfIntersecting(profile.points.map(\.position))
         let isWatertight = isSealed ? true : isWatertight
         switch faces {
         case .default where isSealed, .front:
@@ -1221,7 +1221,7 @@ private extension Mesh {
             count += 1
             prev = shape
         }
-        let allShapesAreClosed = shapes.allSatisfy { $0.isClosed }
+        let allShapesAreClosed = shapes.allSatisfy(\.isClosed)
         let isClosed = allShapesAreClosed && (shapes.first == shapes.last)
         if count < 3, isClosed {
             return fill(first, faces: faces, material: material)
@@ -1338,7 +1338,7 @@ private extension Mesh {
         var uvstart = uvstart, uvend = uvend
         func addFace(_ a: Vertex, _ b: Vertex, _ c: Vertex, _ d: Vertex) {
             var vertices = [a, b, c, d]
-            let n = faceNormalForPoints(vertices.map { $0.position }, convex: true)
+            let n = faceNormalForPoints(vertices.map(\.position), convex: true)
             if !curvestart {
                 var r = rotationBetweenNormalizedVectors(n0, n)
                 r = Rotation(unchecked: r.axis, angle: r.angle - .halfPi)
@@ -1446,7 +1446,7 @@ private extension Mesh {
         for i in stride(from: 0, to: e1.count, by: 2) {
             let a = e1[i], b = e1[i + 1]
             let ai = nearestIndex(to: a.position, in: e0)
-            if let prev = prev {
+            if let prev {
                 var ai = ai
                 if ai == 0, prev == e0.count - 2 {
                     ai += e0.count

@@ -213,7 +213,7 @@ extension Polygon {
             if t0 == .coplanar || t0.union(t1) == .spanning {
                 let t = (plane.w - plane.normal.dot(p0)) / plane.normal.dot(p1 - p0)
                 let p = p0.lerp(p1, t)
-                if let start = start {
+                if let start {
                     LineSegment(undirected: start, p).map { _ = segments.insert($0) }
                     return
                 }
@@ -244,7 +244,7 @@ extension Polygon {
             guard !vertex.isEqual(to: last), !vertex.isEqual(to: v) else {
                 return false
             }
-            var vertices = self.vertices
+            var vertices = vertices
             vertices.insert(vertex, at: i)
             self = Polygon(
                 unchecked: vertices,

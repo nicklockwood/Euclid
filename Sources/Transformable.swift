@@ -206,7 +206,7 @@ extension Polygon: Transformable {
         }
 
         let scale = scale.clampedToScaleLimit()
-        let vertices = self.vertices.scaled(by: scale)
+        let vertices = vertices.scaled(by: scale)
         let vn = Vector(1 / scale.x, 1 / scale.y, 1 / scale.z)
         return Polygon(
             unchecked: isFlippedScale(scale) ? vertices.reversed() : vertices,
@@ -222,7 +222,7 @@ extension Polygon: Transformable {
             return self
         }
         let factor = factor.clampedToScaleLimit()
-        let vertices = self.vertices.scaled(by: factor)
+        let vertices = vertices.scaled(by: factor)
         return Polygon(
             unchecked: factor < 0 ? vertices.reversed() : vertices,
             normal: factor < 0 ? -plane.normal : plane.normal,
@@ -369,9 +369,9 @@ extension Path: Transformable {
 
     public func scaled(by scale: Vector) -> Path {
         let scale = scale.clampedToScaleLimit()
-        var plane = self.plane
+        var plane = plane
         if isFlippedScale(scale) {
-            let subpaths = self.subpaths
+            let subpaths = subpaths
             if subpaths.count > 1 {
                 return Path(subpaths: subpaths.scaled(by: scale))
             }

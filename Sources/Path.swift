@@ -64,7 +64,7 @@ extension Path: Codable {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             let points = try container.decodeIfPresent([PathPoint].self, forKey: .points)
             if var subpaths = try container.decodeIfPresent([Path].self, forKey: .subpaths) {
-                if let points = points {
+                if let points {
                     subpaths.insert(Path(points), at: 0)
                 }
                 self.init(subpaths: subpaths)
@@ -81,7 +81,7 @@ extension Path: Codable {
     /// Encodes this path into the given encoder.
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
-        let subpaths = self.subpaths
+        let subpaths = subpaths
         if subpaths.count < 2 {
             try (subpaths.first?.points ?? []).encode(to: encoder)
         } else {
@@ -114,7 +114,7 @@ public extension Path {
     ///
     /// > Note: If path is non-planar then this returns an average/approximate normal.
     var faceNormal: Vector {
-        plane?.normal ?? faceNormalForPoints(points.map { $0.position }, convex: nil)
+        plane?.normal ?? faceNormalForPoints(points.map(\.position), convex: nil)
     }
 
     /// Return a copy of the polygon with transformed vertex colors
@@ -137,7 +137,7 @@ public extension Path {
         if isClosed || self.points.isEmpty {
             return self
         }
-        var points = self.points
+        var points = points
         points.append(points[0])
         return Path(unchecked: points, plane: plane, subpathIndices: nil)
     }
@@ -145,7 +145,7 @@ public extension Path {
     /// Flips the path along its plane and reverses the path points.
     /// - Returns: The inverted path.
     func inverted() -> Path {
-        let subpaths = self.subpaths
+        let subpaths = subpaths
         if subpaths.count > 1 {
             return .init(subpaths: subpaths.map { $0.inverted() })
         }
@@ -169,12 +169,12 @@ public extension Path {
     /// Creates a composite path from an array of subpaths.
     /// - Parameter subpaths: An array of paths.
     init(subpaths: [Path]) {
-        let subpaths = subpaths.flatMap { $0.subpaths }
+        let subpaths = subpaths.flatMap(\.subpaths)
         guard subpaths.count > 1 else {
             self = subpaths.first ?? .empty
             return
         }
-        let points = subpaths.flatMap { $0.points }
+        let points = subpaths.flatMap(\.points)
         var startIndex = 0
         var subpathIndices: [Int]? = subpaths.map {
             startIndex = startIndex + $0.points.count
@@ -227,7 +227,7 @@ public extension Path {
     /// - Parameters:
     ///   - segments: An unsorted, undirected collection of``LineSegment``s to convert to a path.
     ///   - color: An optional ``Color`` to apply to the path's points.
-    init<T: Collection>(_ segments: T, color: Color? = nil) where T.Element == LineSegment {
+    init(_ segments: some Collection<LineSegment>, color: Color? = nil) {
         let d = segments.reduce(epsilon) { min($0, $1.length / 2) }
         var paths = segments.map { [$0.start, $0.end] }
         outer: do {
@@ -330,7 +330,7 @@ public extension Path {
         }
         var min = Vector(.infinity, .infinity)
         var max = Vector(-.infinity, -.infinity)
-        let flatteningPlane = self.flatteningPlane
+        let flatteningPlane = flatteningPlane
         vertices = vertices.map {
             let uv = flatteningPlane.flattenPoint($0.position)
             min.x = Swift.min(min.x, uv.x)
@@ -400,7 +400,7 @@ public extension Path {
         var vertices = [Vertex]()
         var v = 0.0
         let endIndex = count
-        let faceNormal = self.faceNormal
+        let faceNormal = faceNormal
         for i in 0 ..< endIndex {
             p1 = p2
             p2 = i < points.count - 1 ? points[i + 1] :
@@ -530,17 +530,17 @@ public extension Polygon {
 }
 
 extension Path {
-    init<T: Sequence>(
-        unchecked points: T,
+    init(
+        unchecked points: some Sequence<PathPoint>,
         plane: Plane?,
         subpathIndices: [Int]?
-    ) where T.Element == PathPoint {
+    ) {
         var points = Array(points)
         var subpathIndices = subpathIndices
         if subpathIndices == nil {
             let subpaths = subpathsFor(points)
             if subpaths.count > 1 {
-                points = subpaths.flatMap { $0.points }
+                points = subpaths.flatMap(\.points)
                 var startIndex = 0
                 subpathIndices = subpaths.map {
                     startIndex = startIndex + $0.points.count
@@ -550,10 +550,10 @@ extension Path {
         }
         self.points = points
         self.isClosed = pointsAreClosed(unchecked: points)
-        let positions = isClosed ? points.dropLast().map { $0.position } : points.map { $0.position }
+        let positions = isClosed ? points.dropLast().map(\.position) : points.map(\.position)
 //        let subpathIndices = subpathIndices ?? subpathIndicesFor(points)
         self.subpathIndices = subpathIndices ?? []
-        if let plane = plane {
+        if let plane {
             self.plane = plane
             assert(positions.allSatisfy { plane.intersects($0) })
         } else if subpathIndices?.isEmpty ?? true {
@@ -583,7 +583,7 @@ extension Path {
     /// Test if path is self-intersecting
     var isSimple: Bool {
         // TODO: what should we do about subpaths?
-        !pointsAreSelfIntersecting(points.map { $0.position })
+        !pointsAreSelfIntersecting(points.map(\.position))
     }
 
     /// Returns the most suitable FlatteningPlane for the path
@@ -606,7 +606,7 @@ extension Path {
         if points.allSatisfy({ $0.position.z == 0 }) {
             return self
         }
-        let flatteningPlane = self.flatteningPlane
+        let flatteningPlane = flatteningPlane
         return Path(unchecked: sanitizePoints(points.map {
             PathPoint(
                 flatteningPlane.flattenPoint($0.position),
@@ -621,7 +621,7 @@ extension Path {
         guard subpathIndices.isEmpty else {
             return Path(subpaths: subpaths.map { $0.clippedToYAxis() })
         }
-        var points = self.points
+        var points = points
         guard !points.isEmpty else {
             return self
         }

@@ -208,8 +208,8 @@ class MeshShapeTests: XCTestCase {
         XCTAssertEqual(cube, mesh)
         let mesh2 = Mesh.convexHull(of: cube.polygons)
         XCTAssertEqual(
-            Set(cube.polygons.flatMap { $0.vertices }),
-            Set(mesh2.polygons.flatMap { $0.vertices })
+            Set(cube.polygons.flatMap(\.vertices)),
+            Set(mesh2.polygons.flatMap(\.vertices))
         )
         XCTAssertEqual(cube.polygons.count, mesh2.detessellate().polygons.count)
     }

@@ -94,7 +94,7 @@ class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
         arView.scene.addAnchor(cameraAnchor)
 
         updateSubscription = arView.scene.subscribe(to: SceneEvents.Update.self) { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
 
             modelEntity?.transform = Transform(
                 scale: .one,

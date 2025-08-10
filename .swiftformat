@@ -4,7 +4,7 @@
 
 # format options
 
---swiftversion 5.1
+--swiftversion 5.7
 --hexgrouping ignore
 --decimalgrouping ignore
 --ifdef no-indent

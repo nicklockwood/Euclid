@@ -153,14 +153,14 @@ public extension Line {
     /// Returns the shortest distance between the line and the specified object.
     /// - Parameter object: The object to compare with.
     /// - Returns: The absolute distance from the nearest point on the object.
-    func distance<T: LineComparable>(from object: T) -> Double {
+    func distance(from object: some LineComparable) -> Double {
         object.distance(from: self)
     }
 
     /// Returns a true if the line intersects the specified object.
     /// - Parameter object: The object to compare with.
     /// - Returns: `true` if the line and object intersect, and `false` otherwise.
-    func intersects<T: LineComparable>(_ object: T) -> Bool {
+    func intersects(_ object: some LineComparable) -> Bool {
         object.intersects(self)
     }
 }

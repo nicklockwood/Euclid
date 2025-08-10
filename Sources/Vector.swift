@@ -238,7 +238,7 @@ public extension Vector {
     /// Returns a normalized vector.
     /// - Returns: The normalized vector (with a length of `1`) or the ``zero`` vector if the length is `0`.
     func normalized() -> Vector {
-        let length = self.length
+        let length = length
         return length == 0 ? .zero : self / length
     }
 
@@ -295,14 +295,14 @@ public extension Vector {
     /// Returns the distance between the vector (representing a position in space) and the specified object.
     /// - Parameter object: The object to compare with.
     /// - Returns: The absolute perpendicular distance between the point and object.
-    func distance<T: PointComparable>(from object: T) -> Double {
+    func distance(from object: some PointComparable) -> Double {
         object.distance(from: self)
     }
 
     /// Returns true if the vector (representing a position in space) intersects the specified object.
     /// - Parameter object: The object to compare with.
     /// - Returns:`true` if the bounds intersect, and `false` otherwise.
-    func intersects<T: PointComparable>(_ object: T) -> Bool {
+    func intersects(_ object: some PointComparable) -> Bool {
         object.intersects(self)
     }
 
@@ -314,7 +314,7 @@ public extension Vector {
     }
 }
 
-public extension Array where Element == Vector {
+public extension [Vector] {
     /// Creates an array of vectors from an array of coordinates.
     /// - Parameter components: An array of vector component triplets.
     init(_ components: [Double]) {
