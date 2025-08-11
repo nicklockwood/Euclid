@@ -200,8 +200,8 @@ extension PlaneComparison {
     /// - Parameter distance: The distance between an object and plane.
     init(signedDistance: Double) {
         switch signedDistance {
-        case ..<(-epsilon): self = .back
-        case ...epsilon: self = .coplanar
+        case ..<(-planeEpsilon): self = .back
+        case ...planeEpsilon: self = .coplanar
         default: self = .front
         }
     }

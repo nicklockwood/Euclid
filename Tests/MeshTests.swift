@@ -279,8 +279,8 @@ class MeshTests: XCTestCase {
         ]
         let insidePoints = [.zero] + edgePoints.map { $0 * 0.999 }
         let outsidePoints = edgePoints.map { $0 * 1.001 }
-            + insidePoints.translated(by: Vector(0, 0, planeEpsilon))
-            + insidePoints.translated(by: Vector(0, 0, -planeEpsilon))
+            + insidePoints.translated(by: .unitZ * (planeEpsilon * 2))
+            + insidePoints.translated(by: .unitZ * (-planeEpsilon * 2))
         let mesh = Mesh.fill(.square())
         let bsp = BSP(mesh) { false }
         let r = Rotation(roll: .pi / 3)

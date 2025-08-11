@@ -39,7 +39,7 @@ public protocol Sendable {}
 let epsilon: Double = 1e-8
 
 /// Plane equality threshold
-let planeEpsilon: Double = 1e-6
+let planeEpsilon: Double = 2e-8
 
 /// Smallest valid scale factor
 let scaleLimit: Double = 1e-8
