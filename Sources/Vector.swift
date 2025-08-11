@@ -272,14 +272,6 @@ public extension Vector {
         .asin(normalized().dot(plane.normal))
     }
 
-    /// Returns the signed distance between the vector (representing a position in space) and the specified plane.
-    /// - Parameter plane: The plane to compare with.
-    /// - Returns: The distance between the point and the plane. The value is positive if the point lies
-    ///   in front of the plane, and negative if behind.
-    func signedDistance(from plane: Plane) -> Double {
-        plane.normal.dot(self) - plane.w
-    }
-
     /// Deprecated.
     @available(*, deprecated, renamed: "signedDistance(from:)")
     func distance(from plane: Plane) -> Double {
@@ -378,10 +370,5 @@ extension Vector {
         x.isEqual(to: other.x, withPrecision: p) &&
             y.isEqual(to: other.y, withPrecision: p) &&
             z.isEqual(to: other.z, withPrecision: p)
-    }
-
-    func compare(with plane: Plane) -> PlaneComparison {
-        let t = signedDistance(from: plane)
-        return (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
     }
 }

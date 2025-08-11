@@ -193,13 +193,6 @@ public extension Bounds {
         )
     }
 
-    /// Returns a Boolean value that indicates if the bounds intersects the specified plane.
-    /// - Parameter plane: The plane to compare.
-    /// - Returns: `true` if the plane intersects the bounds, and `false` otherwise.
-    func intersects(_ plane: Plane) -> Bool {
-        compare(with: plane) == .spanning
-    }
-
     /// Returns a Boolean value that indicates if the specified point is within the bounds.
     /// - Parameter point: The point to compare.
     /// - Returns: `true` if the point lies inside the bounds, and `false` otherwise.
@@ -234,18 +227,5 @@ extension Bounds {
     func isEqual(to other: Bounds, withPrecision p: Double = epsilon) -> Bool {
         min.isEqual(to: other.min, withPrecision: p) &&
             max.isEqual(to: other.max, withPrecision: p)
-    }
-
-    /// Compares a region defined by the bounds with a plane to determine the
-    /// relationship of the points that make up the bounds to the plane.
-    func compare(with plane: Plane) -> PlaneComparison {
-        var comparison = PlaneComparison.coplanar
-        for point in corners {
-            comparison = comparison.union(point.compare(with: plane))
-            if comparison == .spanning {
-                break
-            }
-        }
-        return comparison
     }
 }

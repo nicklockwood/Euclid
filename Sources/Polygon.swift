@@ -1146,20 +1146,6 @@ extension Polygon {
         orderedEdges.map(edgePlane(for:))
     }
 
-    func compare(with plane: Plane) -> PlaneComparison {
-        if self.plane.isEqual(to: plane) {
-            return .coplanar
-        }
-        var comparison = PlaneComparison.coplanar
-        for vertex in vertices {
-            comparison = comparison.union(vertex.position.compare(with: plane))
-            if comparison == .spanning {
-                break
-            }
-        }
-        return comparison
-    }
-
     /// Create copy of polygon with specified id
     func withID(_ id: Int) -> Polygon {
         var polygon = self

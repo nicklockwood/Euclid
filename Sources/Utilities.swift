@@ -50,9 +50,19 @@ func quantize(_ value: Double) -> Double {
     return (value / precision).rounded() * precision
 }
 
+extension Comparable {
+    func clamped(to range: ClosedRange<Self>) -> Self {
+        min(max(self, range.lowerBound), range.upperBound)
+    }
+
+    mutating func clamp(to range: ClosedRange<Self>) {
+        self = clamped(to: range)
+    }
+}
+
 extension Double {
     func isEqual(to other: Double, withPrecision p: Double) -> Bool {
-        self == other || abs(self - other) < p
+        abs(self - other) < p
     }
 
     func clampedToScaleLimit() -> Double {

@@ -169,4 +169,12 @@ extension Line {
         )
         self.direction = direction
     }
+
+    func signedPerpendicularDistance(from plane: Plane) -> Double? {
+        isParallel(to: plane) ? origin.signedDistance(from: plane) : nil
+    }
+
+    func isParallel(to plane: Plane) -> Bool {
+        direction.dot(plane.normal) < planeEpsilon
+    }
 }
