@@ -378,10 +378,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/containsPoint(_:)": {
   "abstract" : [
     {
-      "text" : "Returns a Boolean value that indicates whether a point lies inside the polygon, on the same plane.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

@@ -344,10 +344,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/containsPoint(_:)": {
   "abstract" : [
     {
-      "text" : "Returns a Boolean value that indicates if the specified point is inside the mesh.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

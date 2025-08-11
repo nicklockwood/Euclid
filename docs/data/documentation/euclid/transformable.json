@@ -119,9 +119,8 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotate(by:)-1l9u5",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotate(by:)-5a3iz",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotated(by:)-76uyz",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotate(by:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/scale(by:)-89xwv",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/scale(by:)-8ec9r",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/scaled(by:)-3shbk",
@@ -602,7 +601,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transformable\/*=(_:_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable/rotate(by:)-1l9u5": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable/rotate(by:)": {
   "abstract" : [
     {
       "text" : "Rotate the value in place.",
@@ -644,71 +643,20 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotate(by:)-1l9u5",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotate(by:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "rotate(by:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/transformable\/rotate(by:)-1l9u5"
+  "url" : "\/documentation\/euclid\/transformable\/rotate(by:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable/rotate(by:)-5a3iz": {
-  "abstract" : [
-    {
-      "text" : "Rotate the value in place.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "rotate"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "by"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid10QuaternionV",
-      "text" : "Quaternion"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotate(by:)-5a3iz",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "rotate(by:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/transformable\/rotate(by:)-5a3iz"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable/rotated(by:)-76uyz": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable/rotated(by:)": {
   "abstract" : [
     {
       "text" : "Returns a rotated copy of the value.",
       "type" : "text"
     }
   ],
-  "defaultImplementations" : 1,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -748,13 +696,13 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotated(by:)-76uyz",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/rotated(by:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
   "title" : "rotated(by:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/transformable\/rotated(by:)-76uyz"
+  "url" : "\/documentation\/euclid\/transformable\/rotated(by:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable/scale(by:)-89xwv": {
   "abstract" : [

@@ -265,10 +265,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(offset:rotation:scale:)": {
   "abstract" : [
     {
-      "text" : "Creates a new transform.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "identifier",
@@ -340,10 +341,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/offset(_:)": {
   "abstract" : [
     {
-      "text" : "Creates a offset transform.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

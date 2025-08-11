@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates a new transform.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
@@ -86,6 +86,9 @@
         "name" : "Euclid"
       }
     ],
+    "platforms" : [
+
+    ],
     "role" : "symbol",
     "roleHeading" : "Initializer",
     "symbolKind" : "init",
@@ -126,7 +129,7 @@
             },
             {
               "kind" : "text",
-              "text" : "? = nil, "
+              "text" : "?, "
             },
             {
               "kind" : "externalParam",
@@ -168,53 +171,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The translation or position component of the transform. Defaults to zero (no offset).",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "offset"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The translation or position component of the transform. Defaults to identity (no rotation).",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "rotation"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The scaling component of the transform. Defaults to one (no scale adjustment).",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "scale"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -338,10 +294,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(offset:rotation:scale:)": {
   "abstract" : [
     {
-      "text" : "Creates a new transform.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "identifier",
@@ -413,10 +370,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/offset(_:)": {
   "abstract" : [
     {
-      "text" : "Creates a offset transform.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

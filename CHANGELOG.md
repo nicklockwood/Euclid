@@ -1,5 +1,18 @@
 # Change Log
 
+## [0.8.0](https://github.com/nicklockwood/Euclid/releases/tag/0.8.0) (2025-08-10)
+
+- Added `Interpolatable` protocol
+- Added `PointComparable`, `LineComparable` and `PlaneComparable` protocols
+- Added `Mesh.flatteningNormals()` method
+- Renamed `clip()` methods to `clipped()`
+- Renamed `Vector.distance()` to `signedDistance()`
+- Renamed/reordered `Transform` properties for consistency
+- Removed `Quaternion` type (`Rotation` is now a quaternion)
+- Removed deprecated methods
+- Updated minimum iOS/tvOS version to 12.0
+- Updated to Swift 5.7
+
 ## [0.7.16](https://github.com/nicklockwood/Euclid/releases/tag/0.7.16) (2025-07-31)
 
 - Fixed crash in `Path.curve()` when all points in the path are coincident

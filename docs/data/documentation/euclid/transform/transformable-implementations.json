@@ -44,8 +44,7 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotate(by:)-11t07",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotate(by:)-577nk",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotate(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scale(by:)-55r4j",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scale(by:)-9i9s9",
@@ -255,7 +254,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform\/*=(_:_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/rotate(by:)-11t07": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/rotate(by:)": {
   "abstract" : [
     {
       "text" : "Rotate the value in place.",
@@ -297,62 +296,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotate(by:)-11t07",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotate(by:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "rotate(by:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform\/rotate(by:)-11t07"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/rotate(by:)-577nk": {
-  "abstract" : [
-    {
-      "text" : "Rotate the value in place.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "rotate"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "by"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid10QuaternionV",
-      "text" : "Quaternion"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotate(by:)-577nk",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "rotate(by:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform\/rotate(by:)-577nk"
+  "url" : "\/documentation\/euclid\/transform\/rotate(by:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/rotated(by:)": {
   "abstract" : [

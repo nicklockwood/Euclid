@@ -259,10 +259,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/clip(to:)": {
   "abstract" : [
     {
-      "text" : "Clip polygon to the specified plane",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

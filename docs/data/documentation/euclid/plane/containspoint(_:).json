@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a Boolean value that indicates whether a point lies on the plane.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
@@ -57,6 +57,9 @@
       {
         "name" : "Euclid"
       }
+    ],
+    "platforms" : [
+
     ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
@@ -125,61 +128,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The point to test.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "point"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "",
-              "type" : "text"
-            },
-            {
-              "code" : "true",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " if the point lies on the plane and ",
-              "type" : "text"
-            },
-            {
-              "code" : "false",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " otherwise.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -195,7 +143,6 @@
       "anchor" : "Comparing-Planes",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/distance(from:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-4v7tg",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-79olr"
       ],
@@ -267,10 +214,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/containsPoint(_:)": {
   "abstract" : [
     {
-      "text" : "Returns a Boolean value that indicates whether a point lies on the plane.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -309,60 +257,6 @@
   "title" : "containsPoint(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane\/containspoint(_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/distance(from:)": {
-  "abstract" : [
-    {
-      "text" : "Returns the distance between a point and the plane.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "distance"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "from"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/distance(from:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "distance(from:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/distance(from:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/intersection(with:)-4v7tg": {
   "abstract" : [

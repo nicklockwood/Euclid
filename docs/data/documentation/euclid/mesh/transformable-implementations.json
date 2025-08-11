@@ -44,8 +44,7 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/rotate(by:)-3uymx",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/rotate(by:)-7y2vv",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/rotate(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/rotated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/scale(by:)-1h2f7",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/scale(by:)-9pjki",
@@ -255,57 +254,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/*=(_:_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/rotate(by:)-3uymx": {
-  "abstract" : [
-    {
-      "text" : "Rotate the value in place.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "rotate"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "by"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid10QuaternionV",
-      "text" : "Quaternion"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/rotate(by:)-3uymx",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "rotate(by:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/rotate(by:)-3uymx"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/rotate(by:)-7y2vv": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/rotate(by:)": {
   "abstract" : [
     {
       "text" : "Rotate the value in place.",
@@ -347,12 +296,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/rotate(by:)-7y2vv",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/rotate(by:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "rotate(by:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/rotate(by:)-7y2vv"
+  "url" : "\/documentation\/euclid\/mesh\/rotate(by:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/rotated(by:)": {
   "abstract" : [

@@ -148,7 +148,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A quaternion to apply to the bounds.",
+                  "text" : "A rotation to apply to the bounds.",
                   "type" : "text"
                 }
               ],

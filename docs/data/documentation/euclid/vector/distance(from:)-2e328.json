@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns the distance between the vector (representing a position in space) from the specified point.",
+      "text" : "Returns the distance between the vector (representing a position in space) and the specified point.",
       "type" : "text"
     }
   ],
@@ -9,7 +9,8 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/PointComparable-Implementations"
       ]
     ]
   },
@@ -244,10 +245,21 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/PointComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/PointComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "PointComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/pointcomparable-implementations"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-2e328": {
   "abstract" : [
     {
-      "text" : "Returns the distance between the vector (representing a position in space) from the specified point.",
+      "text" : "Returns the distance between the vector (representing a position in space) and the specified point.",
       "type" : "text"
     }
   ],

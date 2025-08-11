@@ -35,7 +35,7 @@
       "anchor" : "Operators",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/*(_:_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/*(_:_:)-9qb43",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/*=(_:_:)"
       ],
       "title" : "Operators"
@@ -44,8 +44,7 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/rotate(by:)-4cg0v",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/rotate(by:)-r7j4",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/rotate(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/rotated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/scale(by:)-4egi6",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/scale(by:)-7pxnt",
@@ -121,7 +120,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/*(_:_:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/*(_:_:)-9qb43": {
   "abstract" : [
     {
       "text" : "Returns a transformed copy of the value.",
@@ -179,12 +178,12 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/*(_:_:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/*(_:_:)-9qb43",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "*(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/*(_:_:)"
+  "url" : "\/documentation\/euclid\/pathpoint\/*(_:_:)-9qb43"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/*=(_:_:)": {
   "abstract" : [
@@ -255,7 +254,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint\/*=(_:_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/rotate(by:)-4cg0v": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/rotate(by:)": {
   "abstract" : [
     {
       "text" : "Rotate the value in place.",
@@ -297,62 +296,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/rotate(by:)-4cg0v",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/rotate(by:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "rotate(by:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/rotate(by:)-4cg0v"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/rotate(by:)-r7j4": {
-  "abstract" : [
-    {
-      "text" : "Rotate the value in place.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "rotate"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "by"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid10QuaternionV",
-      "text" : "Quaternion"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/rotate(by:)-r7j4",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "rotate(by:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/rotate(by:)-r7j4"
+  "url" : "\/documentation\/euclid\/pathpoint\/rotate(by:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/rotated(by:)": {
   "abstract" : [

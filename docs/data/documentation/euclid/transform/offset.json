@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "The translation or position component of the transform.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
@@ -48,6 +48,9 @@
         "name" : "Euclid"
       }
     ],
+    "platforms" : [
+
+    ],
     "role" : "symbol",
     "roleHeading" : "Instance Property",
     "symbolKind" : "property",
@@ -85,6 +88,26 @@
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:6Euclid6VectorV",
               "text" : "Vector"
+            },
+            {
+              "kind" : "text",
+              "text" : " { "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "get"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "set"
+            },
+            {
+              "kind" : "text",
+              "text" : " }"
             }
           ]
         }
@@ -252,10 +275,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/offset": {
   "abstract" : [
     {
-      "text" : "The translation or position component of the transform.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
