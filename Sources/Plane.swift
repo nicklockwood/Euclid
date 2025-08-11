@@ -125,15 +125,15 @@ public extension Plane {
     /// - Parameter point: The point to test.
     /// - Returns: `true` if the point lies on the plane and `false` otherwise.
     func containsPoint(_ point: Vector) -> Bool {
-        abs(point.distance(from: self)) < planeEpsilon
+        abs(point.signedDistance(from: self)) < planeEpsilon
     }
 
-    /// Returns the distance between a point and the plane.
+    /// Returns the signed distance between the plane and a vector (representing a position in space).
     /// - Parameter point: The point to compare with.
-    /// - Returns: The distance between the point and the plane. The value is positive if the point lies
-    ///   in front of the plane, and negative if behind.
-    func distance(from point: Vector) -> Double {
-        normal.dot(point) - w
+    /// - Returns: The distance between the object and the plane. The value is positive if the object lies
+    ///   in front of the plane, negative if it lies behind it, or zero if it lies exactly on the plane, or crosses it.
+    func signedDistance(from point: Vector) -> Double {
+        point.signedDistance(from: self)
     }
 
     /// Computes the line of intersection between two planes.

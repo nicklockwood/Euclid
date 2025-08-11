@@ -272,19 +272,25 @@ public extension Vector {
         .asin(normalized().dot(plane.normal))
     }
 
-    /// Returns the distance between the vector (representing a position in space) from the specified plane.
+    /// Returns the signed distance between the vector (representing a position in space) and the specified plane.
     /// - Parameter plane: The plane to compare with.
     /// - Returns: The distance between the point and the plane. The value is positive if the point lies
     ///   in front of the plane, and negative if behind.
-    func distance(from plane: Plane) -> Double {
+    func signedDistance(from plane: Plane) -> Double {
         plane.normal.dot(self) - plane.w
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "signedDistance(from:)")
+    func distance(from plane: Plane) -> Double {
+        signedDistance(from: plane)
     }
 
     /// Returns the nearest point on the specified plane to the vector (representing a position in space).
     /// - Parameter plane: The plane to project onto.
     /// - Returns: The nearest point in 3D space that lies on the plane.
     func projected(onto plane: Plane) -> Vector {
-        self - plane.normal * distance(from: plane)
+        self - plane.normal * signedDistance(from: plane)
     }
 
     /// Returns the distance between the vector (representing a position in space) and the specified point.
@@ -294,7 +300,7 @@ public extension Vector {
         (self - point).length
     }
 
-    /// Returns the distance between the vector (representing a position in space) from the specified line.
+    /// Returns the distance between the vector (representing a position in space) and the specified line.
     /// - Parameter line: The line to compare with.
     /// - Returns: The absolute perpendicular distance between the point and line.
     func distance(from line: Line) -> Double {
@@ -375,7 +381,7 @@ extension Vector {
     }
 
     func compare(with plane: Plane) -> PlaneComparison {
-        let t = distance(from: plane)
+        let t = signedDistance(from: plane)
         return (t < -epsilon) ? .back : (t > epsilon) ? .front : .coplanar
     }
 }

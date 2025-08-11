@@ -11,7 +11,7 @@ public extension LineSegment {
     /// - Parameter plane: The ``Plane`` to split the line segment along.
     /// - Returns: A pair of segments representing the parts of the line segment in front and behind the plane.
     func split(along plane: Plane) -> (front: LineSegment?, back: LineSegment?) {
-        switch (start.distance(from: plane), end.distance(from: plane)) {
+        switch (start.signedDistance(from: plane), end.signedDistance(from: plane)) {
         case (0..., 0...):
             return (self, nil)
         case (..<0, ..<0):
@@ -123,7 +123,7 @@ extension LineSegment {
         _ front: inout [LineSegment],
         _ back: inout [LineSegment]
     ) {
-        switch (start.distance(from: plane), end.distance(from: plane)) {
+        switch (start.signedDistance(from: plane), end.signedDistance(from: plane)) {
         case (-epsilon ..< epsilon, -epsilon ..< epsilon):
             coplanar.append(self)
         case (epsilon..., epsilon...):

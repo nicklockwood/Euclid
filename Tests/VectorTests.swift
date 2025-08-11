@@ -78,13 +78,13 @@ class VectorTests: XCTestCase {
         let vector1 = Vector.unitX
         let vector2 = Vector(2, 1, -2)
         let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
-        XCTAssertEqual(vector2.distance(from: plane), 2)
+        XCTAssertEqual(vector2.signedDistance(from: plane), 2)
     }
 
     func testDistanceBehindPlane() {
         let vector1 = Vector.unitX
         let vector2 = Vector(-1.5, 2, 7)
         let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
-        XCTAssertEqual(vector2.distance(from: plane), -1.5)
+        XCTAssertEqual(vector2.signedDistance(from: plane), -1.5)
     }
 }
