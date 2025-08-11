@@ -170,9 +170,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/angle(with:)-9sfg1",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-3eglz",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-5p7ko",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/project(onto:)-817o2",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/project(onto:)-rksk"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-5p7ko"
       ],
       "title" : "Comparing Vectors"
     }
@@ -384,7 +382,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-3eglz": {
   "abstract" : [
     {
-      "text" : "Returns the distance between the vector (representing a position in space) from the specified line.",
+      "text" : "Returns the absolute distance between the receiver and the specified line.",
       "type" : "text"
     }
   ],
@@ -438,10 +436,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-5p7ko": {
   "abstract" : [
     {
-      "text" : "Returns the distance between the vector (representing a position in space) from the specified plane.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -488,116 +487,6 @@
   "title" : "distance(from:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/distance(from:)-5p7ko"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/project(onto:)-817o2": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "project"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "onto"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5PlaneV",
-      "text" : "Plane"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/project(onto:)-817o2",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "project(onto:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/project(onto:)-817o2"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/project(onto:)-rksk": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "project"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "onto"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4LineV",
-      "text" : "Line"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/project(onto:)-rksk",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "project(onto:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/project(onto:)-rksk"
 }
 }
 }

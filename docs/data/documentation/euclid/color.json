@@ -119,6 +119,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
@@ -220,7 +221,8 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Encodable-Implementations",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Equatable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Equatable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Interpolatable-Implementations"
       ],
       "title" : "Default Implementations"
     }
@@ -373,6 +375,17 @@
   "title" : "Equatable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/equatable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/Interpolatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Interpolatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Interpolatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/interpolatable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/a": {
   "abstract" : [
@@ -1342,6 +1355,37 @@
   "title" : "yellow",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/yellow"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Interpolatable": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Interpolatable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Interpolatable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Interpolatable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/interpolatable"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [

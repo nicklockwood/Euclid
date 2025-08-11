@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Clip polygon to the specified plane",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
@@ -69,6 +69,9 @@
       {
         "name" : "Euclid"
       }
+    ],
+    "platforms" : [
+
     ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
@@ -142,62 +145,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The ",
-                  "type" : "text"
-                },
-                {
-                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane",
-                  "isActive" : true,
-                  "type" : "reference"
-                },
-                {
-                  "text" : "  to clip the segment to.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "plane"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "The clipped line segment, or ",
-              "type" : "text"
-            },
-            {
-              "code" : "nil",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " if the segment lies entirely behind the plane.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -273,10 +220,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/clip(to:)": {
   "abstract" : [
     {
-      "text" : "Clip polygon to the specified plane",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

@@ -101,6 +101,7 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
@@ -127,7 +128,6 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Quaternion",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle"
       ],
       "title" : "Rotations and Transforms"
@@ -138,7 +138,6 @@
       "anchor" : "Creating-Rotations",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init()",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(_:)-5w6mn",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(_:)-68leo",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(_:)-7j4ql",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(axis:angle:)",
@@ -223,7 +222,8 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Equatable-Implementations",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Hashable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Hashable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Interpolatable-Implementations"
       ],
       "title" : "Default Implementations"
     }
@@ -310,18 +310,14 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/angle"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Quaternion": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Interpolatable": {
   "abstract" : [
-    {
-      "text" : "An orientation or rotation in 3D space.",
-      "type" : "text"
-    }
+
   ],
-  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "struct"
+      "text" : "protocol"
     },
     {
       "kind" : "text",
@@ -329,21 +325,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Quaternion"
+      "text" : "Interpolatable"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Quaternion",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Quaternion"
+      "text" : "Interpolatable"
     }
   ],
   "role" : "symbol",
-  "title" : "Quaternion",
+  "title" : "Interpolatable",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/quaternion"
+  "url" : "\/documentation\/euclid\/interpolatable"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation": {
   "abstract" : [
@@ -755,6 +751,17 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation\/hashable-implementations"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Interpolatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Interpolatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Interpolatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/interpolatable-implementations"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/_(_:_:)": {
   "abstract" : [
     {
@@ -1071,40 +1078,6 @@
   "title" : "init()",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation\/init()"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(_:)-5w6mn": {
-  "abstract" : [
-    {
-      "text" : "Creates a rotation from a quaternion.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid10QuaternionV",
-      "text" : "Quaternion"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(_:)-5w6mn",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/rotation\/init(_:)-5w6mn"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(_:)-68leo": {
   "abstract" : [

@@ -192,7 +192,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/union(_:iscancelled:)-swift.type.method",
-                "title" : "static func union<T>(T, isCancelled: CancellationHandler) -> Mesh",
+                "title" : "static func union(some Collection<Mesh>, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -202,7 +202,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/intersection(_:iscancelled:)-swift.type.method",
-                "title" : "static func intersection<T>(T, isCancelled: CancellationHandler) -> Mesh",
+                "title" : "static func intersection(some Collection<Mesh>, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -212,7 +212,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/difference(_:iscancelled:)",
-                "title" : "static func difference<T>(T, isCancelled: CancellationHandler) -> Mesh",
+                "title" : "static func difference(some Collection<Mesh>, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -222,7 +222,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/symmetricdifference(_:iscancelled:)-swift.type.method",
-                "title" : "static func symmetricDifference<T>(T, isCancelled: CancellationHandler) -> Mesh",
+                "title" : "static func symmetricDifference(some Collection<Mesh>, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -232,7 +232,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/stencil(_:iscancelled:)-swift.type.method",
-                "title" : "static func stencil<T>(T, isCancelled: CancellationHandler) -> Mesh",
+                "title" : "static func stencil(some Collection<Mesh>, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -260,7 +260,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:)-4hvi3",
-                "title" : "static func convexHull<T>(of: T, material: Material?) -> Mesh",
+                "title" : "static func convexHull(of: some Sequence<Path>, material: Material?) -> Mesh",
                 "type" : "method"
               },
               {
@@ -300,7 +300,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:)",
-                "title" : "static func stroke<T>(T, width: Double, detail: Int, material: Material?) -> Mesh",
+                "title" : "static func stroke(some Collection<LineSegment>, width: Double, detail: Int, material: Material?) -> Mesh",
                 "type" : "method"
               },
               {
@@ -319,22 +319,22 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:)-6176",
-                "title" : "static func convexHull<T>(of: T, material: Material?) -> Mesh",
+                "title" : "static func convexHull(of: some Sequence<Vector>, material: Material?) -> Mesh",
                 "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:)-75on2",
-                "title" : "static func convexHull<T>(of: T, material: Material?) -> Mesh",
+                "title" : "static func convexHull(of: some Sequence<Vertex>, material: Material?) -> Mesh",
                 "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:)-91swk",
-                "title" : "static func convexHull<T>(of: T, material: Material?) -> Mesh",
+                "title" : "static func convexHull(of: some Sequence<LineSegment>, material: Material?) -> Mesh",
                 "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:)-5ztum",
-                "title" : "static func convexHull<T>(of: T, material: Material?) -> Mesh",
+                "title" : "static func convexHull(of: some Sequence<PathPoint>, material: Material?) -> Mesh",
                 "type" : "method"
               },
               {
@@ -555,7 +555,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/merge(_:)-swift.type.method",
-                "title" : "static func merge<T>(T) -> Mesh",
+                "title" : "static func merge(some Collection<Mesh>) -> Mesh",
                 "type" : "method"
               },
               {
@@ -711,11 +711,6 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(scngeometry:materiallookup:)",
-                "title" : "init?(scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider?)",
-                "type" : "init"
-              },
-              {
                 "title" : "Instance Properties",
                 "type" : "groupMarker"
               },
@@ -739,8 +734,18 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/clipped(to:fill:)",
+                "title" : "func clipped(to: Plane, fill: Material?) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/edges(intersecting:iscancelled:)",
                 "title" : "func edges(intersecting: Mesh, isCancelled: CancellationHandler) -> Set<LineSegment>",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/flatteningnormals()",
+                "title" : "func flatteningNormals() -> Mesh",
                 "type" : "method"
               },
               {
@@ -749,18 +754,8 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/intersect(_:iscancelled:)",
-                "title" : "func intersect(Mesh, isCancelled: CancellationHandler) -> Mesh",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/mesh\/reflected(along:)",
                 "title" : "func reflected(along: Plane) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/smoothnormals(_:)",
-                "title" : "func smoothNormals(Angle) -> Mesh",
                 "type" : "method"
               },
               {
@@ -769,18 +764,8 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/subtract(_:iscancelled:)",
-                "title" : "func subtract(Mesh, isCancelled: CancellationHandler) -> Mesh",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/mesh\/withoutvertexcolors()",
                 "title" : "func withoutVertexColors() -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/xor(_:iscancelled:)-swift.method",
-                "title" : "func xor(Mesh, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -795,11 +780,6 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/material",
                 "title" : "Mesh.Material",
-                "type" : "typealias"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/materialprovider",
-                "title" : "Mesh.MaterialProvider",
                 "type" : "typealias"
               },
               {
@@ -834,11 +814,6 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/icosphere(radius:subdivisions:faces:wrapmode:material:)",
                 "title" : "static func icosphere(radius: Double, subdivisions: Int, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/xor(_:iscancelled:)-swift.type.method",
-                "title" : "static func xor<T>(T, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -912,6 +887,99 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/distance(from:)-27q5u",
+                    "title" : "func distance(from: Line) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/intersects(_:)-3rdg",
+                    "title" : "func intersects(Line) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/intersects(_:)-btim",
+                    "title" : "func intersects(Line) -> Bool",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/mesh\/linecomparable-implementations",
+                "title" : "LineComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/distance(from:)-4ge8y",
+                    "title" : "func distance(from: Plane) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/intersects(_:)-81cpy",
+                    "title" : "func intersects(Plane) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/signeddistance(from:)",
+                    "title" : "func signedDistance(from: Plane) -> Double",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/mesh\/planecomparable-implementations",
+                "title" : "PlaneComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/distance(from:)-5tciz",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/distance(from:)-6cs2x",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/intersects(_:)-1nvd3",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/intersects(_:)-2u3t",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/nearestpoint(to:)",
+                    "title" : "func nearestPoint(to: Vector) -> Vector",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/mesh\/pointcomparable-implementations",
+                "title" : "PointComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Operators",
                     "type" : "groupMarker"
                   },
@@ -930,12 +998,7 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/mesh\/rotate(by:)-3uymx",
-                    "title" : "func rotate(by: Quaternion)",
-                    "type" : "method"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/mesh\/rotate(by:)-7y2vv",
+                    "path" : "\/documentation\/euclid\/mesh\/rotate(by:)",
                     "title" : "func rotate(by: Rotation)",
                     "type" : "method"
                   },
@@ -1002,7 +1065,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/polygon\/init(_:material:)-8gsiw",
-                "title" : "init?<T>(T, material: Material?)",
+                "title" : "init?(some Sequence<Vector>, material: Material?)",
                 "type" : "init"
               },
               {
@@ -1175,6 +1238,16 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/polygon\/clipped(to:)",
+                "title" : "func clipped(to: Plane) -> [Polygon]",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/flatteningnormals()",
+                "title" : "func flatteningNormals() -> Polygon",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/polygon\/inset(by:)",
                 "title" : "func inset(by: Double) -> Polygon?",
                 "type" : "method"
@@ -1202,11 +1275,6 @@
               {
                 "path" : "\/documentation\/euclid\/polygon\/subdivide()",
                 "title" : "func subdivide() -> [Polygon]",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/polygon\/with(material:)",
-                "title" : "func with(material: Material?) -> Polygon",
                 "type" : "method"
               },
               {
@@ -1308,6 +1376,99 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/distance(from:)-4hlw9",
+                    "title" : "func distance(from: Line) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/intersects(_:)-4f51y",
+                    "title" : "func intersects(Line) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/intersects(_:)-6gem2",
+                    "title" : "func intersects(Line) -> Bool",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/polygon\/linecomparable-implementations",
+                "title" : "LineComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/distance(from:)-1ulo1",
+                    "title" : "func distance(from: Plane) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/intersects(_:)-jd8x",
+                    "title" : "func intersects(Plane) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/signeddistance(from:)",
+                    "title" : "func signedDistance(from: Plane) -> Double",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/polygon\/planecomparable-implementations",
+                "title" : "PlaneComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/distance(from:)-78gff",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/distance(from:)-8gud1",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/intersects(_:)-87xk8",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/intersects(_:)-88unb",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/nearestpoint(to:)",
+                    "title" : "func nearestPoint(to: Vector) -> Vector",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/polygon\/pointcomparable-implementations",
+                "title" : "PointComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Operators",
                     "type" : "groupMarker"
                   },
@@ -1326,13 +1487,8 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/polygon\/rotate(by:)-7073s",
+                    "path" : "\/documentation\/euclid\/polygon\/rotate(by:)",
                     "title" : "func rotate(by: Rotation)",
-                    "type" : "method"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/polygon\/rotate(by:)-8lp0l",
-                    "title" : "func rotate(by: Quaternion)",
                     "type" : "method"
                   },
                   {
@@ -1581,17 +1737,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/path\/init(_:color:)-snde",
-                "title" : "init<T>(T, color: Color?)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/path\/init(cgpath:detail:color:)",
-                "title" : "init(cgPath: CGPath, detail: Int, color: Color?)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/path\/init(polygon:)",
-                "title" : "init(polygon: Polygon)",
+                "title" : "init(some Collection<LineSegment>, color: Color?)",
                 "type" : "init"
               },
               {
@@ -1619,8 +1765,18 @@
                 "type" : "property"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/orderededges",
+                "title" : "var orderedEdges: [LineSegment]",
+                "type" : "property"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/subpaths",
                 "title" : "var subpaths: [Path]",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/undirectededges",
+                "title" : "var undirectedEdges: Set<LineSegment>",
                 "type" : "property"
               },
               {
@@ -1655,11 +1811,6 @@
               {
                 "path" : "\/documentation\/euclid\/path\/mapcolors(_:)",
                 "title" : "func mapColors((Color?) -> Color?) -> Path",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/path\/with(color:)",
-                "title" : "func with(color: Color?) -> Path",
                 "type" : "method"
               },
               {
@@ -1783,6 +1934,48 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/path\/distance(from:)",
+                    "title" : "func distance(from: Line) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/path\/intersects(_:)",
+                    "title" : "func intersects(Line) -> Bool",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/path\/linecomparable-implementations",
+                "title" : "LineComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/path\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/path\/signeddistance(from:)",
+                    "title" : "func signedDistance(from: Plane) -> Double",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/path\/planecomparable-implementations",
+                "title" : "PlaneComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Operators",
                     "type" : "groupMarker"
                   },
@@ -1801,13 +1994,8 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/path\/rotate(by:)-3m9le",
+                    "path" : "\/documentation\/euclid\/path\/rotate(by:)",
                     "title" : "func rotate(by: Rotation)",
-                    "type" : "method"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/path\/rotate(by:)-93ypi",
-                    "title" : "func rotate(by: Quaternion)",
                     "type" : "method"
                   },
                   {
@@ -1974,13 +2162,13 @@
                 "type" : "method"
               },
               {
-                "title" : "Instance Methods",
+                "title" : "Operators",
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/pathpoint\/with(color:)",
-                "title" : "func with(color: Color?) -> PathPoint",
-                "type" : "method"
+                "path" : "\/documentation\/euclid\/pathpoint\/*(_:_:)-25o95",
+                "title" : "static func * (`Self`, Double) -> PathPoint",
+                "type" : "op"
               },
               {
                 "title" : "Default Implementations",
@@ -2037,11 +2225,79 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/pathpoint\/interpolated(with:by:)",
+                    "title" : "func interpolated(with: PathPoint, by: Double) -> PathPoint",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/pathpoint\/interpolatable-implementations",
+                "title" : "Interpolatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/pathpoint\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/pathpoint\/distance(from:)-1zuql",
+                    "title" : "func distance(from: Plane) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/pathpoint\/signeddistance(from:)",
+                    "title" : "func signedDistance(from: Plane) -> Double",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/pathpoint\/planecomparable-implementations",
+                "title" : "PlaneComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/pathpoint\/distance(from:)-31bws",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/pathpoint\/intersects(_:)",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/pathpoint\/nearestpoint(to:)",
+                    "title" : "func nearestPoint(to: Vector) -> Vector",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/pathpoint\/pointcomparable-implementations",
+                "title" : "PointComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Operators",
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/pathpoint\/*(_:_:)",
+                    "path" : "\/documentation\/euclid\/pathpoint\/*(_:_:)-9qb43",
                     "title" : "static func * (Self, Transform) -> Self",
                     "type" : "op"
                   },
@@ -2055,13 +2311,8 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/pathpoint\/rotate(by:)-4cg0v",
+                    "path" : "\/documentation\/euclid\/pathpoint\/rotate(by:)",
                     "title" : "func rotate(by: Rotation)",
-                    "type" : "method"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/pathpoint\/rotate(by:)-r7j4",
-                    "title" : "func rotate(by: Quaternion)",
                     "type" : "method"
                   },
                   {
@@ -2159,11 +2410,6 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/line\/distance(from:)-4o41",
-                "title" : "func distance(from: Vector) -> Double",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/line\/distance(from:)-77i61",
                 "title" : "func distance(from: Line) -> Double",
                 "type" : "method"
@@ -2179,8 +2425,27 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/line\/intersects(_:)",
-                "title" : "func intersects(Line) -> Bool",
+                "path" : "\/documentation\/euclid\/line\/intersects(_:)-2uitb",
+                "title" : "func intersects(some LineComparable) -> Bool",
+                "type" : "method"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/line\/distance(from:)-9e6ey",
+                "title" : "func distance(from: some LineComparable) -> Double",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/line\/intersection(with:)-2ooms",
+                "title" : "func intersection(with: Bounds) -> Set<Vector>",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/line\/intersection(with:)-88med",
+                "title" : "func intersection(with: Polygon) -> Vector?",
                 "type" : "method"
               },
               {
@@ -2234,6 +2499,90 @@
                 "path" : "\/documentation\/euclid\/line\/equatable-implementations",
                 "title" : "Equatable Implementations",
                 "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/interpolated(with:by:)",
+                    "title" : "func interpolated(with: Line, by: Double) -> Line",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/line\/interpolatable-implementations",
+                "title" : "Interpolatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/distance(from:)-77i61",
+                    "title" : "func distance(from: Line) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/intersects(_:)-4qbek",
+                    "title" : "func intersects(Line) -> Bool",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/line\/linecomparable-implementations",
+                "title" : "LineComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/intersects(_:)-6r5bc",
+                    "title" : "func intersects(Plane) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/signeddistance(from:)",
+                    "title" : "func signedDistance(from: Plane) -> Double",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/line\/planecomparable-implementations",
+                "title" : "PlaneComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/intersects(_:)-5e2gp",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/nearestpoint(to:)",
+                    "title" : "func nearestPoint(to: Vector) -> Vector",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/line\/pointcomparable-implementations",
+                "title" : "PointComparable Implementations",
+                "type" : "symbol"
               }
             ],
             "path" : "\/documentation\/euclid\/line",
@@ -2242,15 +2591,6 @@
           },
           {
             "children" : [
-              {
-                "title" : "Creating Line Segments",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/linesegment\/init(_:_:)",
-                "title" : "init?(Vector, Vector)",
-                "type" : "init"
-              },
               {
                 "title" : "Line Segment Properties",
                 "type" : "groupMarker"
@@ -2292,11 +2632,6 @@
               {
                 "path" : "\/documentation\/euclid\/linesegment\/intersection(with:)-2u7vo",
                 "title" : "func intersection(with: LineSegment) -> Vector?",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)",
-                "title" : "func intersects(LineSegment) -> Bool",
                 "type" : "method"
               },
               {
@@ -2353,12 +2688,56 @@
                 "type" : "init"
               },
               {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/lengthanddirection",
+                "title" : "var lengthAndDirection: (length: Double, direction: Vector)",
+                "type" : "property"
+              },
+              {
                 "title" : "Instance Methods",
                 "type" : "groupMarker"
               },
               {
                 "path" : "\/documentation\/euclid\/linesegment\/clip(to:)",
                 "title" : "func clip(to: Plane) -> LineSegment?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/clipped(to:)",
+                "title" : "func clipped(to: Plane) -> LineSegment?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/distance(from:)-8lhq5",
+                "title" : "func distance(from: LineSegment) -> Double",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/intersection(with:)-1qjiy",
+                "title" : "func intersection(with: Bounds) -> Set<Vector>",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/intersection(with:)-4vq1t",
+                "title" : "func intersection(with: Polygon) -> Vector?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/intersection(with:)-5hke2",
+                "title" : "func intersection(with: Line) -> Vector?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-4b1z8",
+                "title" : "func intersects(LineSegment) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-4fnbt",
+                "title" : "func intersects(Bounds) -> Bool",
                 "type" : "method"
               },
               {
@@ -2493,6 +2872,100 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/interpolated(with:by:)",
+                    "title" : "func interpolated(with: LineSegment, by: Double) -> LineSegment",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/linesegment\/interpolatable-implementations",
+                "title" : "Interpolatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/distance(from:)-85838",
+                    "title" : "func distance(from: Line) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-5v6ed",
+                    "title" : "func intersects(Line) -> Bool",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/linesegment\/linecomparable-implementations",
+                "title" : "LineComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/distance(from:)-1js5s",
+                    "title" : "func distance(from: Plane) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-3u1wv",
+                    "title" : "func intersects(Plane) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/signeddistance(from:)",
+                    "title" : "func signedDistance(from: Plane) -> Double",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/linesegment\/planecomparable-implementations",
+                "title" : "PlaneComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/distance(from:)-25au9",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-76jp5",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/nearestpoint(to:)",
+                    "title" : "func nearestPoint(to: Vector) -> Vector",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/linesegment\/pointcomparable-implementations",
+                "title" : "PointComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Operators",
                     "type" : "groupMarker"
                   },
@@ -2511,12 +2984,7 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/linesegment\/rotate(by:)-16elu",
-                    "title" : "func rotate(by: Quaternion)",
-                    "type" : "method"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/linesegment\/rotate(by:)-l48f",
+                    "path" : "\/documentation\/euclid\/linesegment\/rotate(by:)",
                     "title" : "func rotate(by: Rotation)",
                     "type" : "method"
                   },
@@ -2588,11 +3056,6 @@
               {
                 "path" : "\/documentation\/euclid\/rotation\/init()",
                 "title" : "init()",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/rotation\/init(_:)-5w6mn",
-                "title" : "init(Quaternion)",
                 "type" : "init"
               },
               {
@@ -2840,6 +3303,22 @@
                 "path" : "\/documentation\/euclid\/rotation\/hashable-implementations",
                 "title" : "Hashable Implementations",
                 "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/rotation\/interpolated(with:by:)",
+                    "title" : "func interpolated(with: Rotation, by: Double) -> Rotation",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/rotation\/interpolatable-implementations",
+                "title" : "Interpolatable Implementations",
+                "type" : "symbol"
               }
             ],
             "path" : "\/documentation\/euclid\/rotation",
@@ -2983,6 +3462,34 @@
                 "type" : "init"
               },
               {
+                "path" : "\/documentation\/euclid\/transform\/init(scale:rotation:translation:)-3r4ze",
+                "title" : "init(scale: Double, rotation: Rotation?, translation: Vector?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/transform\/init(scale:rotation:translation:)-62ups",
+                "title" : "init(scale: Vector?, rotation: Rotation?, translation: Vector?)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/transform\/translation",
+                "title" : "var translation: Vector",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/transform\/translation(_:)",
+                "title" : "static func translation(Vector) -> Transform",
+                "type" : "method"
+              },
+              {
                 "title" : "Default Implementations",
                 "type" : "groupMarker"
               },
@@ -3037,6 +3544,22 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/transform\/interpolated(with:by:)",
+                    "title" : "func interpolated(with: Transform, by: Double) -> Transform",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/transform\/interpolatable-implementations",
+                "title" : "Interpolatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Operators",
                     "type" : "groupMarker"
                   },
@@ -3055,13 +3578,8 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/transform\/rotate(by:)-11t07",
+                    "path" : "\/documentation\/euclid\/transform\/rotate(by:)",
                     "title" : "func rotate(by: Rotation)",
-                    "type" : "method"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/transform\/rotate(by:)-577nk",
-                    "title" : "func rotate(by: Quaternion)",
                     "type" : "method"
                   },
                   {
@@ -3117,318 +3635,6 @@
             ],
             "path" : "\/documentation\/euclid\/transform",
             "title" : "Transform",
-            "type" : "struct"
-          },
-          {
-            "children" : [
-              {
-                "title" : "Creating Quaternions",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/init(_:)-27eol",
-                "title" : "init(simd_quatd)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/init(_:)-7xa5o",
-                "title" : "init(Rotation)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/init(_:)-b3v3",
-                "title" : "init(SCNQuaternion)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/init(_:)-fyhx",
-                "title" : "init?([Double])",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/init(_:_:_:_:)",
-                "title" : "init(Double, Double, Double, Double)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/init(axis:angle:)",
-                "title" : "init?(axis: Vector, angle: Angle)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/init(roll:yaw:pitch:)",
-                "title" : "init(roll: Angle, yaw: Angle, pitch: Angle)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/pitch(_:)",
-                "title" : "static func pitch(Angle) -> Quaternion",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/roll(_:)",
-                "title" : "static func roll(Angle) -> Quaternion",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/yaw(_:)",
-                "title" : "static func yaw(Angle) -> Quaternion",
-                "type" : "method"
-              },
-              {
-                "title" : "Default Quaternions",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/zero",
-                "title" : "static let zero: Quaternion",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/identity",
-                "title" : "static let identity: Quaternion",
-                "type" : "property"
-              },
-              {
-                "title" : "Quaternion Properties",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/pitch",
-                "title" : "var pitch: Angle",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/roll",
-                "title" : "var roll: Angle",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/yaw",
-                "title" : "var yaw: Angle",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/axis",
-                "title" : "var axis: Vector",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/angle",
-                "title" : "var angle: Angle",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/isidentity",
-                "title" : "var isIdentity: Bool",
-                "type" : "property"
-              },
-              {
-                "title" : "Computing Quaternions",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/dot(_:)",
-                "title" : "func dot(Quaternion) -> Double",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/normalized()",
-                "title" : "func normalized() -> Quaternion",
-                "type" : "method"
-              },
-              {
-                "title" : "Interpolating Quaternions",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/slerp(_:_:)",
-                "title" : "func slerp(Quaternion, Double) -> Quaternion",
-                "type" : "method"
-              },
-              {
-                "title" : "Operators",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/+(_:_:)",
-                "title" : "static func + (Quaternion, Quaternion) -> Quaternion",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/+=(_:_:)",
-                "title" : "static func += (inout Quaternion, Quaternion)",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/-(_:_:)",
-                "title" : "static func - (Quaternion, Quaternion) -> Quaternion",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/-(_:)",
-                "title" : "static func - (Quaternion) -> Quaternion",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/-=(_:_:)",
-                "title" : "static func -= (inout Quaternion, Quaternion)",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/*(_:_:)-2drke",
-                "title" : "static func * (Quaternion, Double) -> Quaternion",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/*(_:_:)-305tn",
-                "title" : "static func * (Quaternion, Quaternion) -> Quaternion",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/*=(_:_:)-5ic2j",
-                "title" : "static func *= (inout Quaternion, Quaternion)",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/*=(_:_:)-lsgo",
-                "title" : "static func *= (inout Quaternion, Double)",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/_(_:_:)",
-                "title" : "static func \/ (Quaternion, Double) -> Quaternion",
-                "type" : "op"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/_=(_:_:)",
-                "title" : "static func \/= (inout Quaternion, Double)",
-                "type" : "op"
-              },
-              {
-                "title" : "Initializers",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/init(_:)-99vxt",
-                "title" : "init(simd_quatf)",
-                "type" : "init"
-              },
-              {
-                "title" : "Instance Properties",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/components",
-                "title" : "var components: [Double]",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/isnormalized",
-                "title" : "var isNormalized: Bool",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/length",
-                "title" : "var length: Double",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/lengthsquared",
-                "title" : "var lengthSquared: Double",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/w",
-                "title" : "var w: Double",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/x",
-                "title" : "var x: Double",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/y",
-                "title" : "var y: Double",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/quaternion\/z",
-                "title" : "var z: Double",
-                "type" : "property"
-              },
-              {
-                "title" : "Default Implementations",
-                "type" : "groupMarker"
-              },
-              {
-                "children" : [
-                  {
-                    "title" : "Initializers",
-                    "type" : "groupMarker"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/quaternion\/init(from:)",
-                    "title" : "init(from: Decoder) throws",
-                    "type" : "init"
-                  }
-                ],
-                "path" : "\/documentation\/euclid\/quaternion\/decodable-implementations",
-                "title" : "Decodable Implementations",
-                "type" : "symbol"
-              },
-              {
-                "children" : [
-                  {
-                    "title" : "Instance Methods",
-                    "type" : "groupMarker"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/quaternion\/encode(to:)",
-                    "title" : "func encode(to: Encoder) throws",
-                    "type" : "method"
-                  }
-                ],
-                "path" : "\/documentation\/euclid\/quaternion\/encodable-implementations",
-                "title" : "Encodable Implementations",
-                "type" : "symbol"
-              },
-              {
-                "children" : [
-                  {
-                    "title" : "Operators",
-                    "type" : "groupMarker"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/quaternion\/!=(_:_:)",
-                    "title" : "static func != (Self, Self) -> Bool",
-                    "type" : "op"
-                  }
-                ],
-                "path" : "\/documentation\/euclid\/quaternion\/equatable-implementations",
-                "title" : "Equatable Implementations",
-                "type" : "symbol"
-              },
-              {
-                "children" : [
-                  {
-                    "title" : "Instance Methods",
-                    "type" : "groupMarker"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/quaternion\/hash(into:)",
-                    "title" : "func hash(into: inout Hasher)",
-                    "type" : "method"
-                  }
-                ],
-                "path" : "\/documentation\/euclid\/quaternion\/hashable-implementations",
-                "title" : "Hashable Implementations",
-                "type" : "symbol"
-              }
-            ],
-            "path" : "\/documentation\/euclid\/quaternion",
-            "title" : "Quaternion",
             "type" : "struct"
           },
           {
@@ -3757,11 +3963,6 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/vector\/init(_:)-5n3j",
-                "title" : "init(simd_double3)",
-                "type" : "init"
-              },
-              {
                 "path" : "\/documentation\/euclid\/vector\/init(_:)-228p6",
                 "title" : "init(SCNVector3)",
                 "type" : "init"
@@ -3941,16 +4142,6 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/vector\/project(onto:)-817o2",
-                "title" : "func project(onto: Plane) -> Vector",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/vector\/project(onto:)-rksk",
-                "title" : "func project(onto: Line) -> Vector",
-                "type" : "method"
-              },
-              {
                 "title" : "Operators",
                 "type" : "groupMarker"
               },
@@ -4018,13 +4209,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/vector\/init(_:)-5s4mt",
-                "title" : "init(simd_float3)",
+                "path" : "\/documentation\/euclid\/vector\/init(_:)-7u5xi",
+                "title" : "init(SIMD3<some BinaryFloatingPoint>)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/vector\/init(_:)-7r7et",
-                "title" : "init(simd_float2)",
+                "path" : "\/documentation\/euclid\/vector\/init(_:)-894qv",
+                "title" : "init(SIMD2<some BinaryFloatingPoint>)",
                 "type" : "init"
               },
               {
@@ -4046,8 +4237,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/vector\/distance(from:)-2e328",
-                "title" : "func distance(from: Vector) -> Double",
+                "path" : "\/documentation\/euclid\/vector\/distance(from:)-9jrcu",
+                "title" : "func distance(from: some PointComparable) -> Double",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/intersects(_:)-6v9sq",
+                "title" : "func intersects(some PointComparable) -> Bool",
                 "type" : "method"
               },
               {
@@ -4058,11 +4254,6 @@
               {
                 "path" : "\/documentation\/euclid\/vector\/projected(onto:)-6d7xl",
                 "title" : "func projected(onto: Line) -> Vector",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/vector\/rotation(with:)",
-                "title" : "func rotation(with: Vector) -> Rotation",
                 "type" : "method"
               },
               {
@@ -4221,6 +4412,95 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/interpolated(with:by:)",
+                    "title" : "func interpolated(with: Vector, by: Double) -> Vector",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vector\/interpolatable-implementations",
+                "title" : "Interpolatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/distance(from:)-3eglz",
+                    "title" : "func distance(from: Line) -> Double",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vector\/linecomparable-implementations",
+                "title" : "LineComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/distance(from:)-9tjq5",
+                    "title" : "func distance(from: Plane) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/signeddistance(from:)",
+                    "title" : "func signedDistance(from: Plane) -> Double",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vector\/planecomparable-implementations",
+                "title" : "PlaneComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/distance(from:)-2e328",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/distance(from:)-33ygh",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/intersects(_:)-9jmqh",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/nearestpoint(to:)",
+                    "title" : "func nearestPoint(to: Vector) -> Vector",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vector\/pointcomparable-implementations",
+                "title" : "PointComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Operators",
                     "type" : "groupMarker"
                   },
@@ -4239,13 +4519,8 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/vector\/rotate(by:)-3ed6z",
+                    "path" : "\/documentation\/euclid\/vector\/rotate(by:)",
                     "title" : "func rotate(by: Rotation)",
-                    "type" : "method"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/vector\/rotate(by:)-hj8h",
-                    "title" : "func rotate(by: Quaternion)",
                     "type" : "method"
                   },
                   {
@@ -4316,7 +4591,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/bounds\/init(_:)-27jri",
-                "title" : "init<T>(T)",
+                "title" : "init(some Collection<Vector>)",
                 "type" : "init"
               },
               {
@@ -4379,11 +4654,6 @@
               {
                 "path" : "\/documentation\/euclid\/bounds\/containspoint(_:)",
                 "title" : "func containsPoint(Vector) -> Bool",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/bounds\/intersects(_:)-7br6p",
-                "title" : "func intersects(Plane) -> Bool",
                 "type" : "method"
               },
               {
@@ -4465,23 +4735,17 @@
               },
               {
                 "path" : "\/documentation\/euclid\/bounds\/init(_:)-r54o",
-                "title" : "init<T>(T)",
+                "title" : "init(some Collection<Bounds>)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/bounds\/init(bounds:)",
-                "title" : "init(bounds: [Bounds])",
-                "type" : "init"
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/bounds\/init(points:)",
-                "title" : "init(points: [Vector])",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/bounds\/init(polygons:)",
-                "title" : "init(polygons: [Polygon])",
-                "type" : "init"
+                "path" : "\/documentation\/euclid\/bounds\/undirectededges",
+                "title" : "var undirectedEdges: Set<LineSegment>",
+                "type" : "property"
               },
               {
                 "title" : "Default Implementations",
@@ -4538,6 +4802,84 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/distance(from:)",
+                    "title" : "func distance(from: Line) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/intersects(_:)-7lw4v",
+                    "title" : "func intersects(Line) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/intersects(_:)-8wr1y",
+                    "title" : "func intersects(Line) -> Bool",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/bounds\/linecomparable-implementations",
+                "title" : "LineComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/intersects(_:)-1hsp",
+                    "title" : "func intersects(Plane) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/signeddistance(from:)",
+                    "title" : "func signedDistance(from: Plane) -> Double",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/bounds\/planecomparable-implementations",
+                "title" : "PlaneComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/intersects(_:)-9r2iu",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/intersects(_:)-jp9x",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/nearestpoint(to:)",
+                    "title" : "func nearestPoint(to: Vector) -> Vector",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/bounds\/pointcomparable-implementations",
+                "title" : "PointComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Operators",
                     "type" : "groupMarker"
                   },
@@ -4556,13 +4898,8 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/bounds\/rotate(by:)-15yni",
+                    "path" : "\/documentation\/euclid\/bounds\/rotate(by:)",
                     "title" : "func rotate(by: Rotation)",
-                    "type" : "method"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/bounds\/rotate(by:)-ntgj",
-                    "title" : "func rotate(by: Quaternion)",
                     "type" : "method"
                   },
                   {
@@ -4679,11 +5016,6 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/plane\/distance(from:)",
-                "title" : "func distance(from: Vector) -> Double",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/plane\/intersection(with:)-4v7tg",
                 "title" : "func intersection(with: Plane) -> Line?",
                 "type" : "method"
@@ -4728,12 +5060,31 @@
                 "type" : "method"
               },
               {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/plane\/origin",
+                "title" : "var origin: Vector",
+                "type" : "property"
+              },
+              {
                 "title" : "Instance Methods",
                 "type" : "groupMarker"
               },
               {
                 "path" : "\/documentation\/euclid\/plane\/intersection(with:)-9o28g",
                 "title" : "func intersection(with: LineSegment) -> Vector?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/plane\/intersects(_:)-5acvs",
+                "title" : "func intersects(some PlaneComparable) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/plane\/signeddistance(from:)-8apl1",
+                "title" : "func signedDistance(from: some PlaneComparable) -> Double",
                 "type" : "method"
               },
               {
@@ -4847,6 +5198,99 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/distance(from:)-2o5e6",
+                    "title" : "func distance(from: Line) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/intersects(_:)-790uh",
+                    "title" : "func intersects(Line) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/intersects(_:)-eqdg",
+                    "title" : "func intersects(Line) -> Bool",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/plane\/linecomparable-implementations",
+                "title" : "LineComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/distance(from:)-4jevq",
+                    "title" : "func distance(from: Plane) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/intersects(_:)-10qav",
+                    "title" : "func intersects(Plane) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/signeddistance(from:)-3hgu1",
+                    "title" : "func signedDistance(from: Plane) -> Double",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/plane\/planecomparable-implementations",
+                "title" : "PlaneComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/distance(from:)-1sbj",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/distance(from:)-32yd2",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/intersects(_:)-1yz1c",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/intersects(_:)-6y8of",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/nearestpoint(to:)",
+                    "title" : "func nearestPoint(to: Vector) -> Vector",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/plane\/pointcomparable-implementations",
+                "title" : "PointComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Operators",
                     "type" : "groupMarker"
                   },
@@ -4865,12 +5309,7 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/plane\/rotate(by:)-1azi6",
-                    "title" : "func rotate(by: Quaternion)",
-                    "type" : "method"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/plane\/rotate(by:)-2ix6y",
+                    "path" : "\/documentation\/euclid\/plane\/rotate(by:)",
                     "title" : "func rotate(by: Rotation)",
                     "type" : "method"
                   },
@@ -5115,6 +5554,74 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vertex\/interpolated(with:by:)",
+                    "title" : "func interpolated(with: Vertex, by: Double) -> Vertex",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vertex\/interpolatable-implementations",
+                "title" : "Interpolatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vertex\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vertex\/distance(from:)-42kck",
+                    "title" : "func distance(from: Plane) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vertex\/signeddistance(from:)",
+                    "title" : "func signedDistance(from: Plane) -> Double",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vertex\/planecomparable-implementations",
+                "title" : "PlaneComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vertex\/distance(from:)-v36y",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vertex\/intersects(_:)",
+                    "title" : "func intersects(Vector) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vertex\/nearestpoint(to:)",
+                    "title" : "func nearestPoint(to: Vector) -> Vector",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vertex\/pointcomparable-implementations",
+                "title" : "PointComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Operators",
                     "type" : "groupMarker"
                   },
@@ -5133,12 +5640,7 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/vertex\/rotate(by:)-1umln",
-                    "title" : "func rotate(by: Quaternion)",
-                    "type" : "method"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/vertex\/rotate(by:)-622p8",
+                    "path" : "\/documentation\/euclid\/vertex\/rotate(by:)",
                     "title" : "func rotate(by: Rotation)",
                     "type" : "method"
                   },
@@ -5389,6 +5891,22 @@
                 "path" : "\/documentation\/euclid\/color\/equatable-implementations",
                 "title" : "Equatable Implementations",
                 "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/color\/interpolated(with:by:)",
+                    "title" : "func interpolated(with: Color, by: Double) -> Color",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/color\/interpolatable-implementations",
+                "title" : "Interpolatable Implementations",
+                "type" : "symbol"
               }
             ],
             "path" : "\/documentation\/euclid\/color",
@@ -5447,6 +5965,139 @@
           {
             "children" : [
               {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/interpolatable\/interpolated(with:by:)",
+                "title" : "func interpolated(with: Self, by: Double) -> Self",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/interpolatable",
+            "title" : "Interpolatable",
+            "type" : "protocol"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linecomparable\/distance(from:)",
+                "title" : "func distance(from: Line) -> Double",
+                "type" : "method"
+              },
+              {
+                "children" : [
+                  {
+                    "children" : [
+                      {
+                        "path" : "\/documentation\/euclid\/linecomparable\/intersects(_:)-3xh7b",
+                        "title" : "func intersects(Line) -> Bool",
+                        "type" : "method"
+                      }
+                    ],
+                    "title" : "LineComparable Implementations",
+                    "type" : "groupMarker"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/linecomparable\/intersects(_:)-chwc",
+                "title" : "func intersects(Line) -> Bool",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/linecomparable",
+            "title" : "LineComparable",
+            "type" : "protocol"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/planecomparable\/compare(with:)",
+                "title" : "func compare(with: Plane) -> PlaneComparison",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/planecomparable\/distance(from:)",
+                "title" : "func distance(from: Plane) -> Double",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/planecomparable\/intersects(_:)",
+                "title" : "func intersects(Plane) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/planecomparable\/signeddistance(from:)",
+                "title" : "func signedDistance(from: Plane) -> Double",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/planecomparable",
+            "title" : "PlaneComparable",
+            "type" : "protocol"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "children" : [
+                      {
+                        "path" : "\/documentation\/euclid\/pointcomparable\/distance(from:)-3c6uk",
+                        "title" : "func distance(from: Vector) -> Double",
+                        "type" : "method"
+                      }
+                    ],
+                    "title" : "PointComparable Implementations",
+                    "type" : "groupMarker"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/pointcomparable\/distance(from:)-2liao",
+                "title" : "func distance(from: Vector) -> Double",
+                "type" : "method"
+              },
+              {
+                "children" : [
+                  {
+                    "children" : [
+                      {
+                        "path" : "\/documentation\/euclid\/pointcomparable\/intersects(_:)-7wey",
+                        "title" : "func intersects(Vector) -> Bool",
+                        "type" : "method"
+                      }
+                    ],
+                    "title" : "PointComparable Implementations",
+                    "type" : "groupMarker"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/pointcomparable\/intersects(_:)-9b6tn",
+                "title" : "func intersects(Vector) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/pointcomparable\/nearestpoint(to:)",
+                "title" : "func nearestPoint(to: Vector) -> Vector",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/pointcomparable",
+            "title" : "PointComparable",
+            "type" : "protocol"
+          },
+          {
+            "children" : [
+              {
                 "title" : "Operators",
                 "type" : "groupMarker"
               },
@@ -5465,30 +6116,12 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/transformable\/rotate(by:)-1l9u5",
+                "path" : "\/documentation\/euclid\/transformable\/rotate(by:)",
                 "title" : "func rotate(by: Rotation)",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/transformable\/rotate(by:)-5a3iz",
-                "title" : "func rotate(by: Quaternion)",
-                "type" : "method"
-              },
-              {
-                "children" : [
-                  {
-                    "children" : [
-                      {
-                        "path" : "\/documentation\/euclid\/transformable\/rotated(by:)-5mcqw",
-                        "title" : "func rotated(by: Quaternion) -> Self",
-                        "type" : "method"
-                      }
-                    ],
-                    "title" : "Transformable Implementations",
-                    "type" : "groupMarker"
-                  }
-                ],
-                "path" : "\/documentation\/euclid\/transformable\/rotated(by:)-76uyz",
+                "path" : "\/documentation\/euclid\/transformable\/rotated(by:)",
                 "title" : "func rotated(by: Rotation) -> Self",
                 "type" : "method"
               },
@@ -5549,6 +6182,95 @@
             "path" : "\/documentation\/euclid\/transformable",
             "title" : "Transformable",
             "type" : "protocol"
+          },
+          {
+            "title" : "Enumerations",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Enumeration Cases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/planecomparison\/back",
+                "title" : "case back",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/euclid\/planecomparison\/coplanar",
+                "title" : "case coplanar",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/euclid\/planecomparison\/front",
+                "title" : "case front",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/euclid\/planecomparison\/spanning",
+                "title" : "case spanning",
+                "type" : "case"
+              },
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/planecomparison\/init(rawvalue:)",
+                "title" : "init?(rawValue: Int)",
+                "type" : "init"
+              },
+              {
+                "title" : "Default Implementations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Operators",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/planecomparison\/!=(_:_:)",
+                    "title" : "static func != (Self, Self) -> Bool",
+                    "type" : "op"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/planecomparison\/equatable-implementations",
+                "title" : "Equatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/planecomparison\/hashvalue",
+                    "title" : "var hashValue: Int",
+                    "type" : "property"
+                  },
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/planecomparison\/hash(into:)",
+                    "title" : "func hash(into: inout Hasher)",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/planecomparison\/rawrepresentable-implementations",
+                "title" : "RawRepresentable Implementations",
+                "type" : "symbol"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/planecomparison",
+            "title" : "PlaneComparison",
+            "type" : "enum"
           }
         ],
         "path" : "\/documentation\/euclid",

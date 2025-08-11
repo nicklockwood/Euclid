@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns the intersection point between the specified line segment and this one.",
+      "text" : "Returns the point where the specified line segment intersects the receiver.",
       "type" : "text"
     }
   ],
@@ -112,7 +112,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "segment"
+              "text" : "lineSegment"
             },
             {
               "kind" : "text",
@@ -158,7 +158,7 @@
               "type" : "paragraph"
             }
           ],
-          "name" : "segment"
+          "name" : "lineSegment"
         }
       ]
     },
@@ -181,7 +181,7 @@
               "type" : "codeVoice"
             },
             {
-              "text" : " if the line segments don’t intersect.",
+              "text" : " if the segments don’t intersect.",
               "type" : "text"
             }
           ],
@@ -205,8 +205,7 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/containsPoint(_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-1tffl",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-1tffl"
       ],
       "title" : "Comparing Line Segments"
     }
@@ -276,10 +275,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/containsPoint(_:)": {
   "abstract" : [
     {
-      "text" : "Returns a Boolean value that indicates whether the specified point lies on the line segment.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -380,7 +380,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-2u7vo": {
   "abstract" : [
     {
-      "text" : "Returns the intersection point between the specified line segment and this one.",
+      "text" : "Returns the point where the specified line segment intersects the receiver.",
       "type" : "text"
     }
   ],
@@ -434,52 +434,6 @@
   "title" : "intersection(with:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/intersection(with:)-2u7vo"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)": {
-  "abstract" : [
-    {
-      "text" : "Returns a Boolean value that indicates whether two line segments intersect.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "intersects"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
-      "text" : "LineSegment"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "intersects(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
   "abstract" : [

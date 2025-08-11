@@ -193,10 +193,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/clip(to:fill:)": {
   "abstract" : [
     {
-      "text" : "Clip mesh to the specified plane and optionally fill sheared faces with specified material.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

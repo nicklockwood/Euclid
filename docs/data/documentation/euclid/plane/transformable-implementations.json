@@ -44,8 +44,7 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/rotate(by:)-1azi6",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/rotate(by:)-2ix6y",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/rotate(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/rotated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/scale(by:)-677dp",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/scale(by:)-758tv",
@@ -255,57 +254,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane\/*=(_:_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/rotate(by:)-1azi6": {
-  "abstract" : [
-    {
-      "text" : "Rotate the value in place.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "rotate"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "by"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid10QuaternionV",
-      "text" : "Quaternion"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/rotate(by:)-1azi6",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "rotate(by:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/rotate(by:)-1azi6"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/rotate(by:)-2ix6y": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/rotate(by:)": {
   "abstract" : [
     {
       "text" : "Rotate the value in place.",
@@ -347,12 +296,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/rotate(by:)-2ix6y",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/rotate(by:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "rotate(by:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/rotate(by:)-2ix6y"
+  "url" : "\/documentation\/euclid\/plane\/rotate(by:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/rotated(by:)": {
   "abstract" : [

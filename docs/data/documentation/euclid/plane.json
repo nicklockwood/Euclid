@@ -81,6 +81,9 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/SL",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
@@ -146,7 +149,6 @@
       "anchor" : "Comparing-Planes",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/containsPoint(_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/distance(from:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-4v7tg",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-79olr"
       ],
@@ -165,10 +167,20 @@
       "title" : "Transforming Planes"
     },
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/origin"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-9o28g"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-9o28g",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersects(_:)-5acvs",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/signedDistance(from:)-8apl1"
       ],
       "title" : "Instance Methods"
     },
@@ -180,6 +192,9 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/Equatable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/LineComparable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/PlaneComparable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/PointComparable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/Transformable-Implementations"
       ],
       "title" : "Default Implementations"
@@ -306,6 +321,40 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for line-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "LineComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "LineComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "LineComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linecomparable"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [
     {
@@ -418,6 +467,39 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane\/equatable-implementations"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/LineComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/LineComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "LineComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/linecomparable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/PlaneComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/PlaneComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "PlaneComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/planecomparable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/PointComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/PointComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "PointComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/pointcomparable-implementations"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/Transformable-Implementations": {
   "abstract" : [
 
@@ -432,10 +514,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/containsPoint(_:)": {
   "abstract" : [
     {
-      "text" : "Returns a Boolean value that indicates whether a point lies on the plane.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -474,60 +557,6 @@
   "title" : "containsPoint(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane\/containspoint(_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/distance(from:)": {
-  "abstract" : [
-    {
-      "text" : "Returns the distance between a point and the plane.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "distance"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "from"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/distance(from:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "distance(from:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/distance(from:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/init(normal:pointOnPlane:)": {
   "abstract" : [
@@ -802,6 +831,68 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane\/intersection(with:)-9o28g"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/intersects(_:)-5acvs": {
+  "abstract" : [
+    {
+      "text" : "Determines if the plane intersects a ",
+      "type" : "text"
+    },
+    {
+      "code" : "PlaneComparable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " object.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersects"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid15PlaneComparableP",
+      "text" : "PlaneComparable"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersects(_:)-5acvs",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersects(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/intersects(_:)-5acvs"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/inverted()": {
   "abstract" : [
     {
@@ -875,6 +966,43 @@
   "title" : "normal",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane\/normal"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/origin": {
+  "abstract" : [
+    {
+      "text" : "The closest point on the plane to the world origin.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "origin"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/origin",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "origin",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/origin"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/rotated(by:)": {
   "abstract" : [
@@ -1037,6 +1165,76 @@
   "title" : "scaled(by:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane\/scaled(by:)-6axqe"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/signedDistance(from:)-8apl1": {
+  "abstract" : [
+    {
+      "text" : "Returns the signed distance between the plane and a ",
+      "type" : "text"
+    },
+    {
+      "code" : "PlaneComparable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " object.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "signedDistance"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid15PlaneComparableP",
+      "text" : "PlaneComparable"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/signedDistance(from:)-8apl1",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "signedDistance(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/signeddistance(from:)-8apl1"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/transformed(by:)": {
   "abstract" : [
@@ -1316,6 +1514,74 @@
   "title" : "yz",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane\/yz"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PlaneComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for plane-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PlaneComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PlaneComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PlaneComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/planecomparable"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for point-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PointComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PointComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PointComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/pointcomparable"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
   "abstract" : [

@@ -99,6 +99,9 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
@@ -199,6 +202,9 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Equatable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Interpolatable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/PlaneComparable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/PointComparable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Transformable-Implementations"
       ],
       "title" : "Default Implementations"
@@ -320,6 +326,37 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Interpolatable": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Interpolatable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Interpolatable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Interpolatable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/interpolatable"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [
     {
@@ -387,6 +424,74 @@
   "title" : "Plane",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PlaneComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for plane-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PlaneComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PlaneComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PlaneComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/planecomparable"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for point-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PointComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PointComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PointComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/pointcomparable"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
   "abstract" : [
@@ -574,6 +679,39 @@
   "title" : "Equatable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex\/equatable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/Interpolatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Interpolatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Interpolatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/interpolatable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/PlaneComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/PlaneComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "PlaneComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/planecomparable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/PointComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/PointComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "PointComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/pointcomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/Transformable-Implementations": {
   "abstract" : [

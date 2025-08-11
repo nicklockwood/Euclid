@@ -101,6 +101,9 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
@@ -169,7 +172,6 @@
       "anchor" : "Comparing-Bounds",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/containsPoint(_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/intersects(_:)-7br6p",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/intersects(_:)-95v17"
       ],
       "title" : "Comparing Bounds"
@@ -202,12 +204,17 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-5bh7b",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-r54o",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(bounds:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(points:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(polygons:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-r54o"
       ],
       "title" : "Initializers"
+    },
+    {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/undirectedEdges"
+      ],
+      "title" : "Instance Properties"
     },
     {
       "anchor" : "Default-Implementations",
@@ -216,6 +223,9 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/Equatable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/LineComparable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/PlaneComparable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/PointComparable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/Transformable-Implementations"
       ],
       "title" : "Default Implementations"
@@ -370,6 +380,39 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds\/equatable-implementations"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/LineComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/LineComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "LineComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/bounds\/linecomparable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/PlaneComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/PlaneComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "PlaneComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/bounds\/planecomparable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/PointComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/PointComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "PointComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/bounds\/pointcomparable-implementations"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/Transformable-Implementations": {
   "abstract" : [
 
@@ -421,10 +464,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/containsPoint(_:)": {
   "abstract" : [
     {
-      "text" : "Returns a Boolean value that indicates if the specified point is within the bounds.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -696,24 +740,33 @@
     },
     {
       "kind" : "text",
-      "text" : "<"
+      "text" : "("
     },
     {
-      "kind" : "genericParameter",
-      "text" : "T"
+      "kind" : "keyword",
+      "text" : "some"
     },
     {
       "kind" : "text",
-      "text" : ">("
+      "text" : " "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6BoundsVyACxcSlRzAA6VectorV7ElementRtzlufc1TL_xmfp",
-      "text" : "T"
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
     },
     {
       "kind" : "text",
-      "text" : ")"
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ">)"
     }
   ],
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-27jri",
@@ -787,24 +840,33 @@
     },
     {
       "kind" : "text",
-      "text" : "<"
+      "text" : "("
     },
     {
-      "kind" : "genericParameter",
-      "text" : "T"
+      "kind" : "keyword",
+      "text" : "some"
     },
     {
       "kind" : "text",
-      "text" : ">("
+      "text" : " "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6BoundsVyACxcSlRzAC7ElementRtzlufc1TL_xmfp",
-      "text" : "T"
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
     },
     {
       "kind" : "text",
-      "text" : ")"
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6BoundsV",
+      "text" : "Bounds"
+    },
+    {
+      "kind" : "text",
+      "text" : ">)"
     }
   ],
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-r54o",
@@ -855,48 +917,6 @@
   "title" : "init(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds\/init(_:_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/init(bounds:)": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "bounds"
-    },
-    {
-      "kind" : "text",
-      "text" : ": ["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6BoundsV",
-      "text" : "Bounds"
-    },
-    {
-      "kind" : "text",
-      "text" : "])"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(bounds:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(bounds:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/init(bounds:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/init(min:max:)": {
   "abstract" : [
@@ -955,90 +975,6 @@
   "title" : "init(min:max:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds\/init(min:max:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/init(points:)": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "points"
-    },
-    {
-      "kind" : "text",
-      "text" : ": ["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : "])"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(points:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(points:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/init(points:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/init(polygons:)": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "polygons"
-    },
-    {
-      "kind" : "text",
-      "text" : ": ["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid7PolygonV",
-      "text" : "Polygon"
-    },
-    {
-      "kind" : "text",
-      "text" : "])"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(polygons:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(polygons:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/init(polygons:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/inset(by:)-49ykf": {
   "abstract" : [
@@ -1193,52 +1129,6 @@
   "title" : "intersection(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds\/intersection(_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/intersects(_:)-7br6p": {
-  "abstract" : [
-    {
-      "text" : "Returns a Boolean value that indicates if the bounds intersects the specified plane.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "intersects"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5PlaneV",
-      "text" : "Plane"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/intersects(_:)-7br6p",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "intersects(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/intersects(_:)-7br6p"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/intersects(_:)-95v17": {
   "abstract" : [
@@ -1703,6 +1593,64 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds\/translated(by:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/undirectedEdges": {
+  "abstract" : [
+    {
+      "text" : "An unordered set of bounds edges.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "The direction of each edge is normalized relative to the origin to simplify edge-equality comparisons.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "undirectedEdges"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/undirectedEdges",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "undirectedEdges",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/bounds\/undirectededges"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/union(_:)": {
   "abstract" : [
     {
@@ -1783,6 +1731,40 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for line-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "LineComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "LineComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "LineComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linecomparable"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [
     {
@@ -1850,6 +1832,74 @@
   "title" : "Plane",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PlaneComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for plane-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PlaneComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PlaneComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PlaneComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/planecomparable"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for point-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PointComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PointComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PointComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/pointcomparable"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
   "abstract" : [

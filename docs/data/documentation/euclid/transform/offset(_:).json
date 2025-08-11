@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates a offset transform.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
@@ -65,6 +65,9 @@
       {
         "name" : "Euclid"
       }
+    ],
+    "platforms" : [
+
     ],
     "role" : "symbol",
     "roleHeading" : "Type Method",
@@ -142,25 +145,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "An offset distance.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "offset"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -250,10 +234,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(offset:rotation:scale:)": {
   "abstract" : [
     {
-      "text" : "Creates a new transform.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "identifier",
@@ -325,10 +310,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/offset(_:)": {
   "abstract" : [
     {
-      "text" : "Creates a offset transform.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

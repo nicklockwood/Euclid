@@ -82,6 +82,10 @@
     {
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounded",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/SL",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
@@ -118,13 +122,6 @@
   ],
   "topicSections" : [
     {
-      "anchor" : "Creating-Line-Segments",
-      "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/init(_:_:)"
-      ],
-      "title" : "Creating Line Segments"
-    },
-    {
       "anchor" : "Line-Segment-Properties",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/start",
@@ -139,8 +136,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/containsPoint(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-1tffl",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-2u7vo",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-2u7vo"
       ],
       "title" : "Comparing Line Segments"
     },
@@ -167,10 +163,25 @@
       "title" : "Initializers"
     },
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/lengthAndDirection"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/clip(to:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/clipped(to:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/distance(from:)-8lhq5",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-1qjiy",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-4vq1t",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-5hke2",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-4b1z8",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-4fnbt",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/split(along:)"
       ],
       "title" : "Instance Methods"
@@ -184,6 +195,10 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Equatable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Interpolatable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/LineComparable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/PlaneComparable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/PointComparable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Transformable-Implementations"
       ],
       "title" : "Default Implementations"
@@ -276,6 +291,37 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounded"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Interpolatable": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Interpolatable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Interpolatable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Interpolatable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/interpolatable"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line": {
   "abstract" : [
     {
@@ -309,6 +355,40 @@
   "title" : "Line",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/line"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for line-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "LineComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "LineComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "LineComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linecomparable"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment": {
   "abstract" : [
@@ -399,6 +479,50 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/equatable-implementations"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/Interpolatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Interpolatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Interpolatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/interpolatable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/LineComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/LineComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "LineComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/linecomparable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/PlaneComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/PlaneComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "PlaneComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/planecomparable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/PointComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/PointComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "PointComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/pointcomparable-implementations"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/Transformable-Implementations": {
   "abstract" : [
 
@@ -413,10 +537,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/clip(to:)": {
   "abstract" : [
     {
-      "text" : "Clip polygon to the specified plane",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -468,13 +593,72 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/clip(to:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/containsPoint(_:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/clipped(to:)": {
   "abstract" : [
     {
-      "text" : "Returns a Boolean value that indicates whether the specified point lies on the line segment.",
+      "text" : "Clip line segment to the specified plane.",
       "type" : "text"
     }
   ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "clipped"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5PlaneV",
+      "text" : "Plane"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/clipped(to:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "clipped(to:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/clipped(to:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/containsPoint(_:)": {
+  "abstract" : [
+    {
+      "text" : "Deprecated.",
+      "type" : "text"
+    }
+  ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -551,6 +735,60 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/direction"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/distance(from:)-8lhq5": {
+  "abstract" : [
+    {
+      "text" : "Returns the shortest distance between the line and the line segment.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "distance"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/distance(from:)-8lhq5",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "distance(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/distance(from:)-8lhq5"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/end": {
   "abstract" : [
     {
@@ -587,49 +825,6 @@
   "title" : "end",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/end"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(_:_:)": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "?("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/init(_:_:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/init(_:_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(start:end:)": {
   "abstract" : [
@@ -804,6 +999,73 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/init(undirected:_:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-1qjiy": {
+  "abstract" : [
+    {
+      "text" : "Returns the points where the specified bounds intersects the line segment.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6BoundsV",
+      "text" : "Bounds"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sh",
+      "text" : "Set"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-1qjiy",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersection(with:)-1qjiy"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-1tffl": {
   "abstract" : [
     {
@@ -865,7 +1127,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-2u7vo": {
   "abstract" : [
     {
-      "text" : "Returns the intersection point between the specified line segment and this one.",
+      "text" : "Returns the point where the specified line segment intersects the receiver.",
       "type" : "text"
     }
   ],
@@ -920,10 +1182,126 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/intersection(with:)-2u7vo"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-4vq1t": {
   "abstract" : [
     {
-      "text" : "Returns a Boolean value that indicates whether two line segments intersect.",
+      "text" : "Returns the points where the specified bounds intersects the line segment.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-4vq1t",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersection(with:)-4vq1t"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-5hke2": {
+  "abstract" : [
+    {
+      "text" : "Returns the point where the specified line intersects the line segment.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4LineV",
+      "text" : "Line"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-5hke2",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersection(with:)-5hke2"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-4b1z8": {
+  "abstract" : [
+    {
+      "text" : "Returns a true if the line segment intersects the specified line.",
       "type" : "text"
     }
   ],
@@ -959,12 +1337,58 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-4b1z8",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "intersects(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)"
+  "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-4b1z8"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-4fnbt": {
+  "abstract" : [
+    {
+      "text" : "Returns a true if the line segment intersects the specified bounds.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersects"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6BoundsV",
+      "text" : "Bounds"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-4fnbt",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersects(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-4fnbt"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/inverted()": {
   "abstract" : [
@@ -1039,6 +1463,64 @@
   "title" : "length",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/length"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/lengthAndDirection": {
+  "abstract" : [
+    {
+      "text" : "The length and direction of the line segment.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "lengthAndDirection"
+    },
+    {
+      "kind" : "text",
+      "text" : ": (length"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", direction"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/lengthAndDirection",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "lengthAndDirection",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/lengthanddirection"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/rotated(by:)": {
   "abstract" : [
@@ -1488,6 +1970,74 @@
   "title" : "PathPoint",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PlaneComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for plane-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PlaneComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PlaneComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PlaneComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/planecomparable"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for point-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "PointComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PointComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PointComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/pointcomparable"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable": {
   "abstract" : [
