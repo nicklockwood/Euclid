@@ -11,6 +11,7 @@ import Euclid
 import RealityKit
 import UIKit
 
+@available(iOS 15.0, tvOS 26.0, *)
 class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
     var updateSubscription: Cancellable!
     var modelPosition: Vector = .zero
@@ -19,6 +20,8 @@ class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
     var cameraRoll = 0.0
     var cameraFOV = 60.0
     var cameraDistance = 2.0
+
+    #if !os(tvOS)
 
     @objc private func handlePinch(_ recognizer: UIPinchGestureRecognizer) {
         let scale = recognizer.scale
@@ -30,6 +33,8 @@ class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
         cameraRoll -= recognizer.rotation
         recognizer.rotation = 0
     }
+
+    #endif
 
     @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: recognizer.view)
@@ -43,19 +48,37 @@ class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
         recognizer.setTranslation(.zero, in: recognizer.view)
     }
 
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        title = "RealityKit"
+    }
+
+    required init?(coder _: NSCoder) {
+        nil
+    }
+
+    override func loadView() {
+        #if os(tvOS)
+        view = ARView()
+        #elseif !os(visionOS)
+        view = ARView(
+            frame: .zero,
+            cameraMode: .nonAR,
+            automaticallyConfigureSession: false
+        )
+        #endif
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         #if !os(visionOS)
 
-        let arView = ARView(
-            frame: view.frame,
-            cameraMode: .nonAR,
-            automaticallyConfigureSession: false
-        )
+        let arView = view as! ARView
         arView.environment.background = .color(.white)
         arView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(arView)
+
+        #if !os(tvOS)
 
         let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
         pinchRecognizer.delegate = self
@@ -65,28 +88,19 @@ class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
         rotateRecognizer.delegate = self
         arView.addGestureRecognizer(rotateRecognizer)
 
+        #endif
+
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         panRecognizer.delegate = self
         arView.addGestureRecognizer(panRecognizer)
 
-        var modelEntity: ModelEntity?
-        if #available(macOS 12.0, iOS 15.0, *) {
-            // create ModelEntity
-            if let entity = try? ModelEntity(euclidMesh) {
-                modelEntity = entity
-                let anchor = AnchorEntity(world: .zero)
-                anchor.addChild(entity)
-                arView.scene.anchors.append(anchor)
-            }
-        } else {
-            let alert = UIAlertController(
-                title: "Unsupported",
-                message: "Euclid RealityKit support requires a minimum of iOS 15.",
-                preferredStyle: .alert
-            )
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-            present(alert, animated: true)
+        guard let modelEntity = try? ModelEntity(euclidMesh) else {
+            return
         }
+
+        let anchor = AnchorEntity(world: .zero)
+        anchor.addChild(modelEntity)
+        arView.scene.anchors.append(anchor)
 
         let cameraEntity = PerspectiveCamera()
         let cameraAnchor = AnchorEntity(world: .zero)
@@ -96,7 +110,7 @@ class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
         updateSubscription = arView.scene.subscribe(to: SceneEvents.Update.self) { [weak self] _ in
             guard let self else { return }
 
-            modelEntity?.transform = Transform(
+            modelEntity.transform = Transform(
                 scale: .one,
                 rotation: simd_quatf(Rotation(pitch: .radians(self.modelPitch), yaw: .radians(self.modelYaw))),
                 translation: .init(self.modelPosition)

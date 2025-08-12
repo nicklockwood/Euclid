@@ -35,7 +35,7 @@ import CoreGraphics
 import Metal
 import RealityKit
 
-@available(macOS 10.15, iOS 13.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 26.0, *)
 private class MaterialWrapper: NSObject {
     let material: RealityKit.Material
 
@@ -46,7 +46,7 @@ private class MaterialWrapper: NSObject {
 
 // MARK: export
 
-@available(macOS 10.15, iOS 13.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 26.0, *)
 public extension RealityKit.Transform {
     /// Creates a RealityKit`Transform` from a Euclid ``Transform``.
     /// - Parameter transform: The Euclid transform  to convert into a RealityKit transform.
@@ -59,7 +59,7 @@ public extension RealityKit.Transform {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, *)
+@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
 private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.Material? {
     switch material {
     case let wrapper as MaterialWrapper:
@@ -75,12 +75,13 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.
     case let image as OSImage:
         return defaultMaterialLookup(image.cgImage)
     case let image as CGImage where CFGetTypeID(image) == CGImage.typeID:
-        guard let texture = try? TextureResource.generate(
-            from: image,
-            options: .init(semantic: .color)
-        ) else {
-            return nil
-        }
+        let options = TextureResource.CreateOptions(semantic: .color)
+        #if os(tvOS)
+        let texture = try? TextureResource(image: image, options: options)
+        #else
+        let texture = try? TextureResource.generate(from: image, options: options)
+        #endif
+        guard let texture else { return nil }
         let descriptor = MTLSamplerDescriptor()
         descriptor.sAddressMode = .repeat
         descriptor.tAddressMode = .repeat
@@ -94,7 +95,7 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.
     }
 }
 
-@available(macOS 12.0, iOS 15.0, *)
+@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
 public extension MeshDescriptor {
     /// Creates a mesh descriptor from a ``Mesh`` using triangles.
     /// - Parameter triangles: The mesh to convert into a RealityKit mesh descriptor.
@@ -180,7 +181,7 @@ public extension MeshDescriptor {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, *)
+@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
 public extension ModelEntity {
     /// A closure that maps a Euclid material to a RealityKit material.
     /// - Parameter material: A Euclid material to convert, or `nil` for the default material.
@@ -227,7 +228,7 @@ public extension ModelEntity {
 }
 
 private extension Mesh {
-    @available(macOS 12.0, iOS 15.0, *)
+    @available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
     func materials(for materialLookup: ModelEntity.MaterialProvider?) -> [RealityKit.Material] {
         let materialLookup = materialLookup ?? defaultMaterialLookup
         return materials.map { materialLookup($0) ?? SimpleMaterial() }
@@ -286,7 +287,7 @@ private extension Mesh {
 
 // MARK: import
 
-@available(macOS 10.15, iOS 13.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 26.0, *)
 public extension Euclid.Transform {
     /// Creates a Euclid``Transform`` from a RealityKit `Transform`.
     /// - Parameter transform: The RealityKit transform  to convert into a Euclid transform.
@@ -306,7 +307,7 @@ public extension Euclid.Transform {
 }
 
 private extension [Polygon] {
-    @available(macOS 12.0, iOS 15.0, *)
+    @available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
     init(
         meshDescriptor: MeshDescriptor,
         indices: [UInt32],
@@ -367,9 +368,9 @@ private extension [Polygon] {
 
 #if compiler(>=6.1) && compiler(<6.2)
 // Workaround for Xcode 16.3 bug
-@available(visionOS 2.0, macOS 15.0, iOS 18.0, *)
+@available(visionOS 2.0, macOS 15.0, iOS 18.0, tvOS 26.0, *)
 #else
-@available(macOS 12.0, iOS 15.0, *)
+@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
 #endif
 public extension Mesh {
     /// A closure that converts a RealityKit material to a Euclid material.

@@ -16,7 +16,8 @@
   "requires_arc": true,
   "platforms": {
     "ios": "12.0",
-    "osx": "10.14"
+    "osx": "10.14",
+    "tvos": "12.0"
   },
   "swift_versions": [
     "5.7", "5.8", "5.9", "5.10"

@@ -14,7 +14,7 @@ import XCTest
 
 class RealityKitTests: XCTestCase {
     func testConvertQuadsToFromMeshDescriptor() {
-        guard #available(macOS 15.0, iOS 18.0, *) else { return }
+        guard #available(macOS 15.0, iOS 18.0, tvOS 26.0, *) else { return }
         let cube = Mesh.cube(size: 1)
         let meshDescriptor = MeshDescriptor(quads: cube)
         XCTAssertEqual(meshDescriptor.positions.count, 24)
@@ -26,7 +26,7 @@ class RealityKitTests: XCTestCase {
     }
 
     func testConvertTrianglesToFromMeshDescriptor() {
-        guard #available(macOS 15.0, iOS 18.0, *) else { return }
+        guard #available(macOS 15.0, iOS 18.0, tvOS 26.0, *) else { return }
         let cube = Mesh.cube(size: 1).triangulate()
         let meshDescriptor = MeshDescriptor(quads: cube)
         XCTAssertEqual(meshDescriptor.positions.count, 24)
@@ -38,7 +38,7 @@ class RealityKitTests: XCTestCase {
     }
 
     func testConvertToFromModelEntity() throws {
-        guard #available(macOS 15.0, iOS 18.0, *) else { return }
+        guard #available(macOS 15.0, iOS 18.0, tvOS 26.0, *) else { return }
         let cube = Mesh.cube(size: 1).triangulate()
         let modelEntity = try ModelEntity(cube)
         let contents = try XCTUnwrap(modelEntity.model).mesh.contents

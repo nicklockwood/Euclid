@@ -49,9 +49,7 @@
 		016FAB6621BFE7CE00AF60DC /* PathShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FAB6021BFE7CE00AF60DC /* PathShapeTests.swift */; };
 		016FABED21C078E400AF60DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABEC21C078E400AF60DC /* AppDelegate.swift */; };
 		016FABF121C078E400AF60DC /* SceneKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABF021C078E400AF60DC /* SceneKitViewController.swift */; };
-		016FABF421C078E400AF60DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF221C078E400AF60DC /* Main.storyboard */; };
 		016FABF621C078E500AF60DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF521C078E500AF60DC /* Assets.xcassets */; };
-		016FABF921C078E500AF60DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF721C078E500AF60DC /* LaunchScreen.storyboard */; };
 		0175E7982DAE24400087AABA /* LineSegment+CSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175E7972DAE24400087AABA /* LineSegment+CSG.swift */; };
 		0188525626D94FCC0079C602 /* Euclid+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0188525526D94FCC0079C602 /* Euclid+UIKit.swift */; };
 		0188525826D951490079C602 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0188525726D951490079C602 /* Color.swift */; };
@@ -162,9 +160,7 @@
 		016FABEA21C078E400AF60DC /* EuclidExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EuclidExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		016FABEC21C078E400AF60DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		016FABF021C078E400AF60DC /* SceneKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitViewController.swift; sourceTree = "<group>"; };
-		016FABF321C078E400AF60DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		016FABF521C078E500AF60DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		016FABF821C078E500AF60DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0175E7972DAE24400087AABA /* LineSegment+CSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LineSegment+CSG.swift"; sourceTree = "<group>"; };
 		0188525526D94FCC0079C602 /* Euclid+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+UIKit.swift"; sourceTree = "<group>"; };
 		0188525726D951490079C602 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -185,6 +181,7 @@
 		01E5912F2DD79FC700CDECEA /* Transformable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformable.swift; sourceTree = "<group>"; };
 		01E591312DD7A4E400CDECEA /* Interpolatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpolatable.swift; sourceTree = "<group>"; };
 		01E5F54823D59BF100717D58 /* BSP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSP.swift; sourceTree = "<group>"; };
+		01E711992E4BEC0D00FAC888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		01F2381F23BF4160005EC9DB /* LineSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegment.swift; sourceTree = "<group>"; };
 		01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonCSGTests.swift; sourceTree = "<group>"; };
 		0A240136256A64FB00C1535C /* AngleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleTests.swift; sourceTree = "<group>"; };
@@ -342,9 +339,8 @@
 				0128EEBA2ABA607A00E60976 /* EuclidMesh.swift */,
 				016FABF021C078E400AF60DC /* SceneKitViewController.swift */,
 				0134999629043ACC00CED6BE /* RealityKitViewController.swift */,
-				016FABF221C078E400AF60DC /* Main.storyboard */,
 				016FABF521C078E500AF60DC /* Assets.xcassets */,
-				016FABF721C078E500AF60DC /* LaunchScreen.storyboard */,
+				01E711992E4BEC0D00FAC888 /* Info.plist */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -472,9 +468,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				016FABF921C078E500AF60DC /* LaunchScreen.storyboard in Resources */,
 				016FABF621C078E500AF60DC /* Assets.xcassets in Resources */,
-				016FABF421C078E400AF60DC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,25 +628,6 @@
 			targetProxy = 0162A09723795E820078AE84 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		016FABF221C078E400AF60DC /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				016FABF321C078E400AF60DC /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		016FABF721C078E500AF60DC /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				016FABF821C078E500AF60DC /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		016FAB3B21BFE78100AF60DC /* Debug */ = {
@@ -938,7 +913,6 @@
 				INFOPLIST_FILE = Example/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Euclid Example";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -953,7 +927,6 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,7";
-				TVOS_DEPLOYMENT_TARGET = 14.0;
 			};
 			name = Debug;
 		};
@@ -968,7 +941,6 @@
 				INFOPLIST_FILE = Example/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Euclid Example";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -983,7 +955,6 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,7";
-				TVOS_DEPLOYMENT_TARGET = 14.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
