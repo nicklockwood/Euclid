@@ -6,6 +6,7 @@
 //  Copyright © 2018 Nick Lockwood. All rights reserved.
 //
 
+import SwiftUI
 import UIKit
 
 @main
@@ -16,20 +17,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _: UIApplication,
         didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        window = UIWindow()
-        window?.rootViewController = SceneKitViewController()
-        #if !os(visionOS)
-        if #available(iOS 15.0, tvOS 26.0, *) {
-            let tabBarController = UITabBarController()
-            tabBarController.viewControllers = [
-                SceneKitViewController(),
-                RealityKitViewController(),
-            ]
-            window?.rootViewController = tabBarController
-        }
+        true
+    }
+
+    func application(
+        _: UIApplication,
+        configurationForConnecting _: UISceneSession,
+        options _: UIScene.ConnectionOptions
+    ) -> UISceneConfiguration {
+        #if os(visionOS)
+        .init(name: "Default", sessionRole: .windowApplicationVolumetric)
+        #else
+        .init(name: "Default", sessionRole: .windowApplication)
         #endif
-        window?.backgroundColor = UIColor.white
-        window?.makeKeyAndVisible()
-        return true
     }
 }
