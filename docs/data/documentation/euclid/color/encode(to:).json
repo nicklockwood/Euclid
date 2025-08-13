@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Encodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color"
       ]
     ]
   },
@@ -221,17 +220,6 @@
   "title" : "Color",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/Encodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Encodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Encodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/encodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/encode(to:)": {
   "abstract" : [

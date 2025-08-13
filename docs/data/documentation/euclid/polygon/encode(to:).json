@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Encodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon"
       ]
     ]
   },
@@ -221,17 +220,6 @@
   "title" : "Polygon",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/Encodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Encodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Encodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/encodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/encode(to:)": {
   "abstract" : [

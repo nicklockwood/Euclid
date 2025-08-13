@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/LineComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane"
       ]
     ]
   },
@@ -286,17 +285,6 @@
   "title" : "Plane",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/LineComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/LineComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "LineComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/linecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/distance(from:)-2o5e6": {
   "abstract" : [

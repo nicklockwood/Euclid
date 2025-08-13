@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Interpolatable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation"
       ]
     ]
   },
@@ -317,17 +316,6 @@
   "title" : "Rotation",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Interpolatable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Interpolatable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Interpolatable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/rotation\/interpolatable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/interpolated(with:by:)": {
   "abstract" : [

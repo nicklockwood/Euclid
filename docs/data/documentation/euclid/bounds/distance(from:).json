@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/LineComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds"
       ]
     ]
   },
@@ -252,17 +251,6 @@
   "title" : "Bounds",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/LineComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/LineComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "LineComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/linecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/distance(from:)": {
   "abstract" : [

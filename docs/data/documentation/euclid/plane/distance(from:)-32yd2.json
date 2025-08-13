@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/PointComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane"
       ]
     ]
   },
@@ -252,17 +251,6 @@
   "title" : "Plane",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/PointComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/PointComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "PointComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/pointcomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/distance(from:)-32yd2": {
   "abstract" : [

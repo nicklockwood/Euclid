@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/PlaneComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
       ]
     ]
   },
@@ -253,17 +252,6 @@
   "title" : "Mesh",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/PlaneComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/PlaneComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "PlaneComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/planecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/compare(with:)": {
   "abstract" : [

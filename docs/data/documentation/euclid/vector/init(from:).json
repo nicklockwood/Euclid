@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/Decodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector"
       ]
     ]
   },
@@ -205,17 +204,6 @@
   "title" : "Vector",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/Decodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/Decodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Decodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/decodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/init(from:)": {
   "abstract" : [

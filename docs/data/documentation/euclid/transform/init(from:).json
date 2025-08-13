@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/Decodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform"
       ]
     ]
   },
@@ -205,17 +204,6 @@
   "title" : "Transform",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/Decodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/Decodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Decodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform\/decodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(from:)": {
   "abstract" : [

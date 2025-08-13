@@ -108,6 +108,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
         "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable"
       ],
       "kind" : "relationships",
@@ -328,7 +329,10 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Interpolatable": {
   "abstract" : [
-
+    {
+      "text" : "Protocol for interpolatable types.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -1710,6 +1714,11 @@
   "title" : "withTexcoord(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex\/withtexcoord(_:)"
+},
+"doc://com.charcoaldesign.Euclid/s16SendableMetatypeP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
+  "title" : "Swift.SendableMetatype",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8CopyableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",

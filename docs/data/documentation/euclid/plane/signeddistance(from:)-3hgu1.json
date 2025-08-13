@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/PlaneComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane"
       ]
     ]
   },
@@ -252,17 +251,6 @@
   "title" : "Plane",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/PlaneComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/PlaneComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "PlaneComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/planecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/signedDistance(from:)-3hgu1": {
   "abstract" : [

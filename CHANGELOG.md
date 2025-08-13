@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.8.1](https://github.com/nicklockwood/Euclid/releases/tag/0.8.1) (2025-08-13)
+
+- Added volumetric 3D example for visionOS
+- Added support for RealityKit in tvOS 26.0
+- Fixed tvOS builds in Xcode 26
+
 ## [0.8.0](https://github.com/nicklockwood/Euclid/releases/tag/0.8.0) (2025-08-10)
 
 - Added `Interpolatable` protocol

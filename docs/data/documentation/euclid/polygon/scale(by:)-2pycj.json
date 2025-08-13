@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Transformable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon"
       ]
     ]
   },
@@ -221,17 +220,6 @@
   "title" : "Polygon",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/Transformable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Transformable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Transformable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/transformable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/scale(by:)-2pycj": {
   "abstract" : [

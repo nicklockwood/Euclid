@@ -58,9 +58,5 @@ class SceneKitViewController: UIViewController {
         true
     }
 
-    override var prefersStatusBarHidden: Bool {
-        true
-    }
-
     #endif
 }

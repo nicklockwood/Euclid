@@ -211,6 +211,12 @@
       ]
     },
     {
+      "kind" : "mentions",
+      "mentions" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes"
+      ]
+    },
+    {
       "content" : [
         {
           "anchor" : "discussion",
@@ -499,6 +505,20 @@
   "title" : "Euclid",
   "type" : "topic",
   "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ConstructingMeshes": {
+  "abstract" : [
+    {
+      "text" : "Define 3D objects by constructing meshes.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes",
+  "kind" : "article",
+  "role" : "article",
+  "title" : "Constructing Meshes",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/constructingmeshes"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
   "abstract" : [

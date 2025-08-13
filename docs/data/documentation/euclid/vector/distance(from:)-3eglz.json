@@ -10,11 +10,6 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector"
-      ],
-      [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/LineComparable-Implementations"
       ]
     ]
   },
@@ -302,17 +297,6 @@
   "title" : "Vector",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/LineComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/LineComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "LineComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/linecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/angle(with:)-29paf": {
   "abstract" : [

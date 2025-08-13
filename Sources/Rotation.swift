@@ -193,6 +193,19 @@ extension Rotation {
         let a = axis * sin(r)
         self.init(unchecked: a.x, a.y, a.z, cos(r))
     }
+
+    func dot(_ r: Rotation) -> Double {
+        x * r.x + y * r.y + z * r.z + w * r.w
+    }
+
+    func normalized() -> Rotation {
+        let lengthSquared = dot(self)
+        if lengthSquared == 0 || lengthSquared == 1 {
+            return self
+        }
+        let length = sqrt(lengthSquared)
+        return .init(unchecked: x / length, y / length, z / length, w / length)
+    }
 }
 
 #endif

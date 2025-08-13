@@ -18,8 +18,7 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Faces",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Faces\/Equatable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Faces"
       ]
     ]
   },
@@ -342,17 +341,6 @@
   "title" : "!=(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/faces\/!=(_:_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Faces/Equatable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Faces\/Equatable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Equatable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/faces\/equatable-implementations"
 }
 }
 }

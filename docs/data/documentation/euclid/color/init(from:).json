@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Decodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color"
       ]
     ]
   },
@@ -205,17 +204,6 @@
   "title" : "Color",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/Decodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Decodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Decodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/decodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(from:)": {
   "abstract" : [

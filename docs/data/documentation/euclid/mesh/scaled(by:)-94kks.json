@@ -10,11 +10,6 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
-      ],
-      [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Transformable-Implementations"
       ]
     ]
   },
@@ -242,17 +237,6 @@
   "title" : "Mesh",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Transformable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Transformable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Transformable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/transformable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/inverted()": {
   "abstract" : [

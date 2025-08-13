@@ -191,7 +191,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*(_:_:)-8l78z",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*=(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_(_:_:)-34kn9",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_=(_:_:)-81sn3"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_=(_:_:)"
       ],
       "title" : "Operators"
     }
@@ -851,7 +851,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/angle\/_(_:_:)-34kn9"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/_=(_:_:)-81sn3": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/_=(_:_:)": {
   "abstract" : [
     {
       "text" : "Divides the angle by a numeric denominator.",
@@ -914,12 +914,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_=(_:_:)-81sn3",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_=(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "\/=(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/angle\/_=(_:_:)-81sn3"
+  "url" : "\/documentation\/euclid\/angle\/_=(_:_:)"
 }
 }
 }

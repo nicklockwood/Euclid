@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/Transformable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector"
       ]
     ]
   },
@@ -221,17 +220,6 @@
   "title" : "Vector",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/Transformable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/Transformable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Transformable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/transformable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/scale(by:)-55ayx": {
   "abstract" : [

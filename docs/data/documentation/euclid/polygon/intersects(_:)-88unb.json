@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/PointComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon"
       ]
     ]
   },
@@ -252,17 +251,6 @@
   "title" : "Polygon",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/PointComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/PointComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "PointComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/pointcomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/intersects(_:)-88unb": {
   "abstract" : [

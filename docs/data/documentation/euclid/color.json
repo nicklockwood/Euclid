@@ -78,6 +78,12 @@
       "kind" : "declarations"
     },
     {
+      "kind" : "mentions",
+      "mentions" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RenderingMeshes"
+      ]
+    },
+    {
       "content" : [
         {
           "anchor" : "overview",
@@ -125,7 +131,8 @@
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
-        "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP"
+        "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -1358,7 +1365,10 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Interpolatable": {
   "abstract" : [
-
+    {
+      "text" : "Protocol for interpolatable types.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -1637,6 +1647,20 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/material-swift.property"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RenderingMeshes": {
+  "abstract" : [
+    {
+      "text" : "Display the 3D shapes you created with meshes.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RenderingMeshes",
+  "kind" : "article",
+  "role" : "article",
+  "title" : "Rendering Meshes",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/renderingmeshes"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
   "abstract" : [
     {
@@ -1767,6 +1791,11 @@
   "title" : "color",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex\/color"
+},
+"doc://com.charcoaldesign.Euclid/s16SendableMetatypeP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
+  "title" : "Swift.SendableMetatype",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8CopyableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",

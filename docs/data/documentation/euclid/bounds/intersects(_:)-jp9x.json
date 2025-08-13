@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/PointComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds"
       ]
     ]
   },
@@ -252,17 +251,6 @@
   "title" : "Bounds",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/PointComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/PointComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "PointComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/pointcomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/intersects(_:)-jp9x": {
   "abstract" : [

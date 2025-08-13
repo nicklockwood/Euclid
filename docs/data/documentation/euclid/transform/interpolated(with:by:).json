@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/Interpolatable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform"
       ]
     ]
   },
@@ -317,17 +316,6 @@
   "title" : "Transform",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/Interpolatable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/Interpolatable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Interpolatable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform\/interpolatable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/interpolated(with:by:)": {
   "abstract" : [

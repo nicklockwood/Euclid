@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Bounded-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment"
       ]
     ]
   },
@@ -209,17 +208,6 @@
   "title" : "LineSegment",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/Bounded-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Bounded-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Bounded Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/bounded-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/bounds": {
   "abstract" : [

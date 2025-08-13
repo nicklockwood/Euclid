@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/AdditiveArithmetic-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle"
       ]
     ]
   },
@@ -272,17 +271,6 @@
   "title" : "+(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/angle\/+(_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/AdditiveArithmetic-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/AdditiveArithmetic-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "AdditiveArithmetic Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/angle\/additivearithmetic-implementations"
 }
 }
 }

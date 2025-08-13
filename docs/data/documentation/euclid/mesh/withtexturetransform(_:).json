@@ -145,6 +145,12 @@
           "name" : "transform"
         }
       ]
+    },
+    {
+      "kind" : "mentions",
+      "mentions" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RenderingMeshes"
+      ]
     }
   ],
   "schemaVersion" : {
@@ -534,6 +540,20 @@
   "title" : "withoutTexcoords()",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/withouttexcoords()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RenderingMeshes": {
+  "abstract" : [
+    {
+      "text" : "Display the 3D shapes you created with meshes.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RenderingMeshes",
+  "kind" : "article",
+  "role" : "article",
+  "title" : "Rendering Meshes",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/renderingmeshes"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform": {
   "abstract" : [

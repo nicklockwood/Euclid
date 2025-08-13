@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/Interpolatable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line"
       ]
     ]
   },
@@ -317,17 +316,6 @@
   "title" : "Line",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/line"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/Interpolatable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/Interpolatable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Interpolatable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/line\/interpolatable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/interpolated(with:by:)": {
   "abstract" : [

@@ -76,6 +76,12 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "mentions",
+      "mentions" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes"
+      ]
     }
   ],
   "relationshipsSections" : [
@@ -93,6 +99,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
         "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable"
       ],
       "kind" : "relationships",
@@ -291,9 +298,26 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounded"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ConstructingMeshes": {
+  "abstract" : [
+    {
+      "text" : "Define 3D objects by constructing meshes.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes",
+  "kind" : "article",
+  "role" : "article",
+  "title" : "Constructing Meshes",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/constructingmeshes"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Interpolatable": {
   "abstract" : [
-
+    {
+      "text" : "Protocol for interpolatable types.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {
@@ -2072,6 +2096,11 @@
   "title" : "Transformable",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transformable"
+},
+"doc://com.charcoaldesign.Euclid/s16SendableMetatypeP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
+  "title" : "Swift.SendableMetatype",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8CopyableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",

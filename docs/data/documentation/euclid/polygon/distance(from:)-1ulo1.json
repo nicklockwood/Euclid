@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/PlaneComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon"
       ]
     ]
   },
@@ -286,17 +285,6 @@
   "title" : "Polygon",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/PlaneComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/PlaneComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "PlaneComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/planecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/distance(from:)-1ulo1": {
   "abstract" : [

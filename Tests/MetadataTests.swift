@@ -24,10 +24,10 @@ private let projectURL = projectDirectory
     .appendingPathComponent("project.pbxproj")
 
 private let projectVersion: String = {
-    let string = try! String(contentsOf: projectURL)
-    let start = string.range(of: "MARKETING_VERSION = ")!.upperBound
-    let end = string.range(of: ";", range: start ..< string.endIndex)!.lowerBound
-    return String(string[start ..< end])
+    let project: String = try! String(contentsOf: projectURL)
+    let start = project.range(of: "MARKETING_VERSION = ")!.upperBound
+    let end = project.range(of: ";", range: start ..< project.endIndex)!.lowerBound
+    return String(project[start ..< end])
 }()
 
 private let changelogTitles: [Substring] = {
@@ -47,6 +47,14 @@ private let changelogTitles: [Substring] = {
 
 class MetadataTests: XCTestCase {
     // MARK: releases
+
+    func testBuildIsOptimized() {
+        let project: String = try! String(contentsOf: projectURL)
+        XCTAssertFalse(
+            project.contains("-Onone"),
+            "Euclid should always be shipped with optimization enabled"
+        )
+    }
 
     func testProjectVersionMatchesChangelog() throws {
         let changelog = try String(contentsOf: changelogURL, encoding: .utf8)

@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/Decodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds"
       ]
     ]
   },
@@ -205,17 +204,6 @@
   "title" : "Bounds",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/Decodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/Decodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Decodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/decodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/init(from:)": {
   "abstract" : [

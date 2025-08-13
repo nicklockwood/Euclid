@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Decodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint"
       ]
     ]
   },
@@ -205,17 +204,6 @@
   "title" : "PathPoint",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/Decodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Decodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Decodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/decodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/init(from:)": {
   "abstract" : [

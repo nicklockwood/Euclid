@@ -10,11 +10,6 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path"
-      ],
-      [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/Bounded-Implementations"
       ]
     ]
   },
@@ -227,17 +222,6 @@
   "title" : "Path",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/Bounded-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/Bounded-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Bounded Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/bounded-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/bounds": {
   "abstract" : [

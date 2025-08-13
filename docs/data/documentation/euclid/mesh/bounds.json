@@ -10,11 +10,6 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
-      ],
-      [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Bounded-Implementations"
       ]
     ]
   },
@@ -229,17 +224,6 @@
   "title" : "Mesh",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Bounded-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Bounded-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Bounded Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/bounded-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/bounds": {
   "abstract" : [

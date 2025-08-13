@@ -12,6 +12,7 @@ import Foundation
 import simd
 #endif
 
+/// Protocol for interpolatable types.
 public protocol Interpolatable {
     /// Interpolate between two values.
     /// - Parameters:
@@ -68,6 +69,7 @@ extension Vertex: Interpolatable {
 }
 
 extension PathPoint: Interpolatable {
+    /// > Note:  Interpolation is applied to the texture coordinate and color, as well as the position.
     public func interpolated(with other: PathPoint, by t: Double) -> PathPoint {
         let texcoord: Vector?
         switch (self.texcoord, other.texcoord) {
@@ -142,7 +144,7 @@ extension Rotation: Interpolatable {
     #else
 
     public func interpolated(with other: Rotation, by t: Double) -> Rotation {
-        let dot = max(-1, min(1, dot(other)))
+        let dot = dot(other).clamped(to: -1 ... 1)
         if abs(abs(dot) - 1) < epsilon {
             return (self + (other - self) * t).normalized()
         }
@@ -151,19 +153,6 @@ extension Rotation: Interpolatable {
         let t1 = self * cos(theta)
         let t2 = (other - (self * dot)).normalized() * sin(theta)
         return t1 + t2
-    }
-
-    func dot(_ r: Rotation) -> Double {
-        x * r.x + y * r.y + z * r.z + w * r.w
-    }
-
-    func normalized() -> Rotation {
-        let lengthSquared = dot(self)
-        if lengthSquared == 0 || lengthSquared == 1 {
-            return self
-        }
-        let length = sqrt(lengthSquared)
-        return .init(unchecked: x / length, y / length, z / length, w / length)
     }
 
     static func + (lhs: Rotation, rhs: Rotation) -> Rotation {

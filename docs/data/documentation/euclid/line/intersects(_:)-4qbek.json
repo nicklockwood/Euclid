@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/LineComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line"
       ]
     ]
   },
@@ -252,17 +251,6 @@
   "title" : "Line",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/line"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/LineComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/LineComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "LineComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/line\/linecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/intersects(_:)-4qbek": {
   "abstract" : [

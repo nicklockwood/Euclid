@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/PlaneComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector"
       ]
     ]
   },
@@ -286,17 +285,6 @@
   "title" : "Vector",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/PlaneComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/PlaneComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "PlaneComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/planecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-9tjq5": {
   "abstract" : [

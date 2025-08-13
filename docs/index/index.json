@@ -2166,7 +2166,7 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/pathpoint\/*(_:_:)-25o95",
+                "path" : "\/documentation\/euclid\/pathpoint\/*(_:_:)",
                 "title" : "static func * (`Self`, Double) -> PathPoint",
                 "type" : "op"
               },
@@ -2425,7 +2425,7 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/line\/intersects(_:)-2uitb",
+                "path" : "\/documentation\/euclid\/line\/intersects(_:)",
                 "title" : "func intersects(some LineComparable) -> Bool",
                 "type" : "method"
               },
@@ -2797,7 +2797,7 @@
                     "type" : "op"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/linesegment\/_(_:_:)-2si4j",
+                    "path" : "\/documentation\/euclid\/linesegment\/_(_:_:)",
                     "title" : "static func < (LineSegment, LineSegment) -> Bool",
                     "type" : "op"
                   },
@@ -3780,7 +3780,7 @@
                 "type" : "op"
               },
               {
-                "path" : "\/documentation\/euclid\/angle\/_=(_:_:)-81sn3",
+                "path" : "\/documentation\/euclid\/angle\/_=(_:_:)",
                 "title" : "static func \/= (inout Angle, Double)",
                 "type" : "op"
               },
@@ -4191,16 +4191,12 @@
                 "type" : "op"
               },
               {
-                "path" : "\/documentation\/euclid\/vector\/_=(_:_:)-84cm9",
+                "path" : "\/documentation\/euclid\/vector\/_=(_:_:)",
                 "title" : "static func \/= (inout Vector, Double)",
                 "type" : "op"
               },
               {
-                "title" : "Operators",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/vector\/*=(_:_:)-9l46a",
+                "path" : "\/documentation\/euclid\/vector\/*=(_:_:)",
                 "title" : "static func *= (inout Vector, Double)",
                 "type" : "op"
               },
@@ -5123,13 +5119,13 @@
                     "type" : "op"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/plane\/_(_:_:)-3fd8h",
-                    "title" : "static func > (Self, Self) -> Bool",
+                    "path" : "\/documentation\/euclid\/plane\/_(_:_:)",
+                    "title" : "static func < (Plane, Plane) -> Bool",
                     "type" : "op"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/plane\/_(_:_:)-6eeco",
-                    "title" : "static func < (Plane, Plane) -> Bool",
+                    "path" : "\/documentation\/euclid\/plane\/_(_:_:)-3fd8h",
+                    "title" : "static func > (Self, Self) -> Bool",
                     "type" : "op"
                   },
                   {
@@ -6003,7 +5999,7 @@
                     "type" : "groupMarker"
                   }
                 ],
-                "path" : "\/documentation\/euclid\/linecomparable\/intersects(_:)-chwc",
+                "path" : "\/documentation\/euclid\/linecomparable\/intersects(_:)",
                 "title" : "func intersects(Line) -> Bool",
                 "type" : "method"
               }
@@ -6063,7 +6059,7 @@
                     "type" : "groupMarker"
                   }
                 ],
-                "path" : "\/documentation\/euclid\/pointcomparable\/distance(from:)-2liao",
+                "path" : "\/documentation\/euclid\/pointcomparable\/distance(from:)",
                 "title" : "func distance(from: Vector) -> Double",
                 "type" : "method"
               },
@@ -6081,7 +6077,7 @@
                     "type" : "groupMarker"
                   }
                 ],
-                "path" : "\/documentation\/euclid\/pointcomparable\/intersects(_:)-9b6tn",
+                "path" : "\/documentation\/euclid\/pointcomparable\/intersects(_:)",
                 "title" : "func intersects(Vector) -> Bool",
                 "type" : "method"
               },
@@ -6164,7 +6160,7 @@
                     "type" : "groupMarker"
                   }
                 ],
-                "path" : "\/documentation\/euclid\/transformable\/transformed(by:)-9m686",
+                "path" : "\/documentation\/euclid\/transformable\/transformed(by:)",
                 "title" : "func transformed(by: Transform) -> Self",
                 "type" : "method"
               },

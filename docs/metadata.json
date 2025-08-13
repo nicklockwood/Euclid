@@ -1,6 +1,6 @@
 {
   "bundleDisplayName" : "Euclid",
-  "bundleIdentifier" : "com.charcoaldesign.Euclid",
+  "bundleID" : "com.charcoaldesign.Euclid",
   "schemaVersion" : {
     "major" : 0,
     "minor" : 1,

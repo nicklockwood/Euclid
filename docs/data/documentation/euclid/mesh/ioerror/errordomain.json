@@ -18,8 +18,7 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/IOError",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/IOError\/CustomNSError-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/IOError"
       ]
     ]
   },
@@ -266,17 +265,6 @@
   "title" : "Mesh.IOError",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/ioerror"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError/CustomNSError-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/IOError\/CustomNSError-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "CustomNSError Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/ioerror\/customnserror-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/IOError/errorDomain": {
   "abstract" : [

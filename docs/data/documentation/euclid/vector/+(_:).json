@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/AdditiveArithmetic-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector"
       ]
     ]
   },
@@ -272,17 +271,6 @@
   "title" : "+(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/+(_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/AdditiveArithmetic-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/AdditiveArithmetic-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "AdditiveArithmetic Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/additivearithmetic-implementations"
 }
 }
 }

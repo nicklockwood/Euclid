@@ -16,102 +16,6 @@
 
     ],
     "severity" : 2,
-    "source" : "..\/Sources\/PointComparable.swift",
-    "start" : {
-      "column" : 9,
-      "line" : 12
-    },
-    "summary" : "Parameter 'point' not found in instance method declaration"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/PointComparable.swift",
-    "start" : {
-      "column" : 54,
-      "line" : 12
-    },
-    "summary" : "Parameter 'to' is missing documentation"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/PointComparable.swift",
-    "start" : {
-      "column" : 9,
-      "line" : 12
-    },
-    "summary" : "Parameter 'point' not found in instance method declaration"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/PointComparable.swift",
-    "start" : {
-      "column" : 54,
-      "line" : 12
-    },
-    "summary" : "Parameter 'to' is missing documentation"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/LineSegment+CSG.swift",
-    "start" : {
-      "column" : 9,
-      "line" : 80
-    },
-    "summary" : "Parameter 'bounds' not found in instance method declaration"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/LineSegment+CSG.swift",
-    "start" : {
-      "column" : 56,
-      "line" : 80
-    },
-    "summary" : "Parameter 'polygon' is missing documentation"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/PointComparable.swift",
-    "start" : {
-      "column" : 9,
-      "line" : 12
-    },
-    "summary" : "Parameter 'point' not found in instance method declaration"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
-    "source" : "..\/Sources\/PointComparable.swift",
-    "start" : {
-      "column" : 54,
-      "line" : 12
-    },
-    "summary" : "Parameter 'to' is missing documentation"
-  },
-  {
-    "notes" : [
-
-    ],
-    "severity" : 2,
     "source" : "..\/Sources\/Line.swift",
     "start" : {
       "column" : 9,
@@ -136,24 +40,24 @@
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Line.md",
+    "source" : "..\/Sources\/LineSegment+CSG.swift",
     "start" : {
-      "column" : 25,
-      "line" : 18
+      "column" : 9,
+      "line" : 80
     },
-    "summary" : "'4o41' isn't a disambiguation for 'distance(from:)' at '\/Euclid\/Line'"
+    "summary" : "Parameter 'bounds' not found in instance method declaration"
   },
   {
     "notes" : [
 
     ],
     "severity" : 2,
-    "source" : "Extensions\/Bounds.md",
+    "source" : "..\/Sources\/LineSegment+CSG.swift",
     "start" : {
-      "column" : 26,
-      "line" : 28
+      "column" : 56,
+      "line" : 80
     },
-    "summary" : "'7br6p' isn't a disambiguation for 'intersects(_:)' at '\/Euclid\/Bounds'"
+    "summary" : "Parameter 'polygon' is missing documentation"
   },
   {
     "notes" : [
@@ -172,12 +76,36 @@
 
     ],
     "severity" : 2,
+    "source" : "Euclid.md",
+    "start" : {
+      "column" : 5,
+      "line" : 38
+    },
+    "summary" : "'Quaternion' doesn't exist at '\/Euclid'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
     "source" : "Extensions\/Plane.md",
     "start" : {
       "column" : 11,
       "line" : 24
     },
     "summary" : "'distance(from:)' is ambiguous at '\/Euclid\/Plane'"
+  },
+  {
+    "notes" : [
+
+    ],
+    "severity" : 2,
+    "source" : "Extensions\/Bounds.md",
+    "start" : {
+      "column" : 26,
+      "line" : 28
+    },
+    "summary" : "'7br6p' isn't a disambiguation for 'intersects(_:)' at '\/Euclid\/Bounds'"
   },
   {
     "notes" : [
@@ -208,12 +136,12 @@
 
     ],
     "severity" : 2,
-    "source" : "Euclid.md",
+    "source" : "Extensions\/Line.md",
     "start" : {
-      "column" : 5,
-      "line" : 38
+      "column" : 25,
+      "line" : 18
     },
-    "summary" : "'Quaternion' doesn't exist at '\/Euclid'"
+    "summary" : "'4o41' isn't a disambiguation for 'distance(from:)' at '\/Euclid\/Line'"
   },
   {
     "notes" : [

@@ -10,11 +10,6 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment"
-      ],
-      [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Transformable-Implementations"
       ]
     ]
   },
@@ -240,17 +235,6 @@
   "title" : "LineSegment",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/Transformable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Transformable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Transformable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/transformable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/inverted()": {
   "abstract" : [

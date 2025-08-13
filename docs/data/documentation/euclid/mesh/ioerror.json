@@ -85,7 +85,8 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/10Foundation13CustomNSErrorP",
         "doc:\/\/com.charcoaldesign.Euclid\/s5ErrorP",
-        "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP"
+        "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -287,6 +288,11 @@
   "title" : "errorUserInfo",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/ioerror\/erroruserinfo"
+},
+"doc://com.charcoaldesign.Euclid/s16SendableMetatypeP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
+  "title" : "Swift.SendableMetatype",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s5ErrorP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s5ErrorP",

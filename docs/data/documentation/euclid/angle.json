@@ -88,7 +88,8 @@
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
-        "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP"
+        "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP"
       ],
       "kind" : "relationships",
       "title" : "Conforms To",
@@ -166,7 +167,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*(_:_:)-8l78z",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*=(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_(_:_:)-34kn9",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_=(_:_:)-81sn3"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_=(_:_:)"
       ],
       "title" : "Operators"
     },
@@ -918,7 +919,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/angle\/_(_:_:)-34kn9"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/_=(_:_:)-81sn3": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/_=(_:_:)": {
   "abstract" : [
     {
       "text" : "Divides the angle by a numeric denominator.",
@@ -981,12 +982,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_=(_:_:)-81sn3",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_=(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "\/=(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/angle\/_=(_:_:)-81sn3"
+  "url" : "\/documentation\/euclid\/angle\/_=(_:_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/acos(_:)": {
   "abstract" : [
@@ -1777,6 +1778,11 @@
   "title" : "Transform",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform"
+},
+"doc://com.charcoaldesign.Euclid/s16SendableMetatypeP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
+  "title" : "Swift.SendableMetatype",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s18AdditiveArithmeticP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s18AdditiveArithmeticP",

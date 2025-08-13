@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Encodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
       ]
     ]
   },
@@ -221,17 +220,6 @@
   "title" : "Mesh",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Encodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Encodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Encodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/encodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/encode(to:)": {
   "abstract" : [

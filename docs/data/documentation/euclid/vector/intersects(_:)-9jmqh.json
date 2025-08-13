@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/PointComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector"
       ]
     ]
   },
@@ -252,17 +251,6 @@
   "title" : "Vector",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/PointComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/PointComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "PointComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/pointcomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/intersects(_:)-9jmqh": {
   "abstract" : [

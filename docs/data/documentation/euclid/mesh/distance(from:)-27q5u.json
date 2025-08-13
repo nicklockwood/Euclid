@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/LineComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
       ]
     ]
   },
@@ -286,17 +285,6 @@
   "title" : "Mesh",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/LineComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/LineComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "LineComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/linecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/distance(from:)-27q5u": {
   "abstract" : [

@@ -109,8 +109,8 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/distance(from:)-2liao",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/intersects(_:)-9b6tn",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/distance(from:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/intersects(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/nearestPoint(to:)"
       ],
       "title" : "Instance Methods"
@@ -382,7 +382,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pointcomparable"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable/distance(from:)-2liao": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable/distance(from:)": {
   "abstract" : [
     {
       "text" : "Returns the distance between the receiver and the specified point.",
@@ -430,15 +430,15 @@
       "text" : "Double"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/distance(from:)-2liao",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/distance(from:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
   "title" : "distance(from:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/pointcomparable\/distance(from:)-2liao"
+  "url" : "\/documentation\/euclid\/pointcomparable\/distance(from:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable/intersects(_:)-9b6tn": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable/intersects(_:)": {
   "abstract" : [
     {
       "text" : "Returns a true if the point touches or intersects the receiver.",
@@ -478,13 +478,13 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/intersects(_:)-9b6tn",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/intersects(_:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
   "title" : "intersects(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/pointcomparable\/intersects(_:)-9b6tn"
+  "url" : "\/documentation\/euclid\/pointcomparable\/intersects(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable/nearestPoint(to:)": {
   "abstract" : [

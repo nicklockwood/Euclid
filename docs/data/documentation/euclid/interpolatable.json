@@ -1,4 +1,10 @@
 {
+  "abstract" : [
+    {
+      "text" : "Protocol for interpolatable types.",
+      "type" : "text"
+    }
+  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -171,7 +177,10 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Interpolatable": {
   "abstract" : [
-
+    {
+      "text" : "Protocol for interpolatable types.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {

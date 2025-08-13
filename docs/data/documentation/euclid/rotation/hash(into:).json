@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Hashable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation"
       ]
     ]
   },
@@ -218,17 +217,6 @@
   "title" : "Rotation",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Hashable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Hashable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Hashable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/rotation\/hashable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/hash(into:)": {
   "abstract" : [

@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Interpolate between two values.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "Interpolatable.interpolated(with:by:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -9,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Interpolatable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint"
       ]
     ]
   },
@@ -179,70 +186,28 @@
       "kind" : "declarations"
     },
     {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The value to interpolate towards.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "other"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The extent of the interpolation, from ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "0",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " - ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "1",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " (unclamped)",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "t"
-        }
-      ]
-    },
-    {
       "content" : [
         {
-          "anchor" : "return-value",
+          "anchor" : "discussion",
           "level" : 2,
-          "text" : "Return Value",
+          "text" : "Discussion",
           "type" : "heading"
         },
         {
-          "inlineContent" : [
+          "content" : [
             {
-              "text" : "The interpolated value.",
-              "type" : "text"
+              "inlineContent" : [
+                {
+                  "text" : "Interpolation is applied to the texture coordinate and color, as well as the position.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
             }
           ],
-          "type" : "paragraph"
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
         }
       ],
       "kind" : "content"
@@ -318,23 +283,9 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/Interpolatable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Interpolatable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Interpolatable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/interpolatable-implementations"
-},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/interpolated(with:by:)": {
   "abstract" : [
-    {
-      "text" : "Interpolate between two values.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

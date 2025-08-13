@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/PlaneComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex"
       ]
     ]
   },
@@ -372,17 +371,6 @@
   "title" : "Vertex",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/PlaneComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/PlaneComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "PlaneComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vertex\/planecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/distance(from:)-42kck": {
   "abstract" : [

@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/Comparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle"
       ]
     ]
   },
@@ -245,17 +244,6 @@
   "title" : "Angle",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/angle"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/Comparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/Comparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Comparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/angle\/comparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/_(_:_:)-filj": {
   "abstract" : [

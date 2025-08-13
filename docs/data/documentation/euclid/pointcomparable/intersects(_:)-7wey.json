@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/intersects(_:)-9b6tn"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable"
       ]
     ]
   },
@@ -298,54 +297,6 @@
   "title" : "intersects(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pointcomparable\/intersects(_:)-7wey"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable/intersects(_:)-9b6tn": {
-  "abstract" : [
-    {
-      "text" : "Returns a true if the point touches or intersects the receiver.",
-      "type" : "text"
-    }
-  ],
-  "defaultImplementations" : 1,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "intersects"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/intersects(_:)-9b6tn",
-  "kind" : "symbol",
-  "required" : true,
-  "role" : "symbol",
-  "title" : "intersects(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pointcomparable\/intersects(_:)-9b6tn"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
   "abstract" : [

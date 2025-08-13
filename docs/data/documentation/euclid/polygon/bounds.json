@@ -10,11 +10,6 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon"
-      ],
-      [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Bounded-Implementations"
       ]
     ]
   },
@@ -232,17 +227,6 @@
   "title" : "Polygon",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/Bounded-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Bounded-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Bounded Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/bounded-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/Material-swift.typealias": {
   "abstract" : [

@@ -95,7 +95,12 @@
       }
     ],
     "platforms" : [
-
+      {
+        "beta" : false,
+        "deprecated" : true,
+        "message" : "Path.init(_:) instead",
+        "unavailable" : false
+      }
     ],
     "role" : "symbol",
     "roleHeading" : "Type Method",
@@ -191,6 +196,12 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "mentions",
+      "mentions" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes"
+      ]
     }
   ],
   "schemaVersion" : {
@@ -278,6 +289,20 @@
   "title" : "Color",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ConstructingMeshes": {
+  "abstract" : [
+    {
+      "text" : "Define 3D objects by constructing meshes.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes",
+  "kind" : "article",
+  "role" : "article",
+  "title" : "Constructing Meshes",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/constructingmeshes"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment": {
   "abstract" : [

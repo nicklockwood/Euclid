@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/LineComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path"
       ]
     ]
   },
@@ -286,17 +285,6 @@
   "title" : "Path",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/LineComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/LineComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "LineComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/linecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/distance(from:)": {
   "abstract" : [

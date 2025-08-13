@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/Comparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector"
       ]
     ]
   },
@@ -245,17 +244,6 @@
   "title" : "Vector",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/Comparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/Comparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Comparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/comparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/_=(_:_:)-9s7pp": {
   "abstract" : [

@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/Equatable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane"
       ]
     ]
   },
@@ -307,17 +306,6 @@
   "title" : "!=(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane\/!=(_:_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/Equatable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/Equatable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Equatable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/equatable-implementations"
 }
 }
 }

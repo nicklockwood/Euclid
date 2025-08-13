@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/PointComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint"
       ]
     ]
   },
@@ -252,17 +251,6 @@
   "title" : "PathPoint",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/PointComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/PointComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "PointComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/pointcomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/distance(from:)-31bws": {
   "abstract" : [

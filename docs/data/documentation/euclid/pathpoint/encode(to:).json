@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Encodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint"
       ]
     ]
   },
@@ -221,17 +220,6 @@
   "title" : "PathPoint",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/Encodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Encodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Encodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/encodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/encode(to:)": {
   "abstract" : [

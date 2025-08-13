@@ -165,7 +165,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/*(_:_:)-5mcy5",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/*=(_:_:)-3ur4e",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/_(_:_:)-3ro6k",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/_=(_:_:)-84cm9"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/_=(_:_:)"
       ],
       "title" : "Operators"
     }
@@ -824,7 +824,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/_(_:_:)-3ro6k"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/_=(_:_:)-84cm9": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/_=(_:_:)": {
   "abstract" : [
     {
       "text" : "Divides the components of the vector by the value you provide.",
@@ -887,12 +887,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/_=(_:_:)-84cm9",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/_=(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "\/=(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/_=(_:_:)-84cm9"
+  "url" : "\/documentation\/euclid\/vector\/_=(_:_:)"
 }
 }
 }

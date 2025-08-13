@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/Comparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane"
       ]
     ]
   },
@@ -245,17 +244,6 @@
   "title" : "Plane",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/Comparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/Comparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Comparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/comparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/_=(_:_:)-1oq2t": {
   "abstract" : [

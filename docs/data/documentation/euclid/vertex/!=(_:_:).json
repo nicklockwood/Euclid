@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Equatable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex"
       ]
     ]
   },
@@ -393,17 +392,6 @@
   "title" : "!=(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex\/!=(_:_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/Equatable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Equatable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Equatable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vertex\/equatable-implementations"
 }
 }
 }

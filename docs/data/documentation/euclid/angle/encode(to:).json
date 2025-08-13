@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/Encodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle"
       ]
     ]
   },
@@ -221,17 +220,6 @@
   "title" : "Angle",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/angle"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/Encodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/Encodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Encodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/angle\/encodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/encode(to:)": {
   "abstract" : [

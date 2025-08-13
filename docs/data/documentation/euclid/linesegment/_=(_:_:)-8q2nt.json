@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Comparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment"
       ]
     ]
   },
@@ -245,17 +244,6 @@
   "title" : "LineSegment",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/Comparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Comparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Comparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/comparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/_=(_:_:)-8q2nt": {
   "abstract" : [

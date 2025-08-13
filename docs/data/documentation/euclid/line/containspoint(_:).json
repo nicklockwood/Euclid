@@ -59,7 +59,12 @@
       }
     ],
     "platforms" : [
-
+      {
+        "beta" : false,
+        "deprecated" : true,
+        "renamed" : "intersects(_:)",
+        "unavailable" : false
+      }
     ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
@@ -146,7 +151,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-77i61",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersection(with:)-2nysu",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersection(with:)-7s1sd",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersects(_:)-2uitb"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersects(_:)"
       ],
       "title" : "Comparing Lines"
     }
@@ -430,7 +435,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/line\/intersection(with:)-7s1sd"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/intersects(_:)-2uitb": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/intersects(_:)": {
   "abstract" : [
     {
       "text" : "Returns a true if the line intersects the specified object.",
@@ -477,12 +482,12 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersects(_:)-2uitb",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersects(_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "intersects(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/line\/intersects(_:)-2uitb"
+  "url" : "\/documentation\/euclid\/line\/intersects(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
   "abstract" : [

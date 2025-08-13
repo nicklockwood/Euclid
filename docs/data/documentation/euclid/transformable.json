@@ -126,7 +126,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/scaled(by:)-3shbk",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/scaled(by:)-5p6di",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/transform(by:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/transformed(by:)-9m686",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/transformed(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/translate(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/translated(by:)"
       ],
@@ -959,7 +959,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transformable\/transform(by:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable/transformed(by:)-9m686": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable/transformed(by:)": {
   "abstract" : [
     {
       "text" : "Returns a transformed copy of the value.",
@@ -1006,13 +1006,13 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/transformed(by:)-9m686",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/transformed(by:)",
   "kind" : "symbol",
   "required" : true,
   "role" : "symbol",
   "title" : "transformed(by:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/transformable\/transformed(by:)-9m686"
+  "url" : "\/documentation\/euclid\/transformable\/transformed(by:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable/translate(by:)": {
   "abstract" : [

@@ -42,7 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 #if os(visionOS)
 
-private class TransparentHostingController<Content: View>: UIHostingController<Content> {
+private final class TransparentHostingController<Content: View>: UIHostingController<Content> {
     override var preferredContainerBackgroundStyle: UIContainerBackgroundStyle {
         .hidden
     }

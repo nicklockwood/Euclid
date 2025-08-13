@@ -40,7 +40,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/...(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/.._(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/.._(_:_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/_(_:_:)-2si4j",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/_(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/_(_:_:)-9688a",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/_=(_:_:)-5dvuy",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/_=(_:_:)-8q2nt"
@@ -456,7 +456,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/'.._(_:_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/_(_:_:)-2si4j": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/_(_:_:)": {
   "abstract" : [
     {
       "text" : "Returns whether the leftmost line segment has the lower value.",
@@ -524,12 +524,12 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/_(_:_:)-2si4j",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/_(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "<(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/_(_:_:)-2si4j"
+  "url" : "\/documentation\/euclid\/linesegment\/_(_:_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/_(_:_:)-9688a": {
   "abstract" : [

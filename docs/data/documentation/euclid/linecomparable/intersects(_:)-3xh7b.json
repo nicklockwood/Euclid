@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable\/intersects(_:)-chwc"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable"
       ]
     ]
   },
@@ -332,54 +331,6 @@
   "title" : "intersects(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linecomparable\/intersects(_:)-3xh7b"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineComparable/intersects(_:)-chwc": {
-  "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
-  ],
-  "defaultImplementations" : 1,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "intersects"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4LineV",
-      "text" : "Line"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable\/intersects(_:)-chwc",
-  "kind" : "symbol",
-  "required" : true,
-  "role" : "symbol",
-  "title" : "intersects(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linecomparable\/intersects(_:)-chwc"
 }
 }
 }

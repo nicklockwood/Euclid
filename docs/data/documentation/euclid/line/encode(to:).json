@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/Encodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line"
       ]
     ]
   },
@@ -221,17 +220,6 @@
   "title" : "Line",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/line"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/Encodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/Encodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Encodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/line\/encodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/encode(to:)": {
   "abstract" : [

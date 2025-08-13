@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/PointComparable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex"
       ]
     ]
   },
@@ -135,6 +134,25 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The point to compare with.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "point"
+        }
+      ]
     },
     {
       "content" : [
@@ -346,17 +364,6 @@
   "title" : "Vertex",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/PointComparable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/PointComparable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "PointComparable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vertex\/pointcomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/nearestPoint(to:)": {
   "abstract" : [

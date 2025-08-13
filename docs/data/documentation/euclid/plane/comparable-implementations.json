@@ -40,8 +40,8 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/...(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/.._(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/.._(_:_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/_(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/_(_:_:)-3fd8h",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/_(_:_:)-6eeco",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/_=(_:_:)-1oq2t",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/_=(_:_:)-5nk27"
       ],
@@ -456,69 +456,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane\/'.._(_:_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/_(_:_:)-3fd8h": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : ">"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/_(_:_:)-3fd8h",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : ">(_:_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/_(_:_:)-3fd8h"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/_(_:_:)-6eeco": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/_(_:_:)": {
   "abstract" : [
     {
       "text" : "Returns whether the leftmost plane has the lower value.",
@@ -586,12 +524,74 @@
       "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/_(_:_:)-6eeco",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/_(_:_:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "<(_:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/_(_:_:)-6eeco"
+  "url" : "\/documentation\/euclid\/plane\/_(_:_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/_(_:_:)-3fd8h": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : ">"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/_(_:_:)-3fd8h",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : ">(_:_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/_(_:_:)-3fd8h"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/_=(_:_:)-1oq2t": {
   "abstract" : [

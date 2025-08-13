@@ -10,11 +10,6 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane"
-      ],
-      [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/Transformable-Implementations"
       ]
     ]
   },
@@ -242,17 +237,6 @@
   "title" : "Plane",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/Transformable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/Transformable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Transformable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/plane\/transformable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/inverted()": {
   "abstract" : [

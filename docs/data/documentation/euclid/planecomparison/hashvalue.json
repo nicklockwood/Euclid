@@ -17,8 +17,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparison",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparison\/RawRepresentable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparison"
       ]
     ]
   },
@@ -233,17 +232,6 @@
   "title" : "PlaneComparison",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/planecomparison"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PlaneComparison/RawRepresentable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparison\/RawRepresentable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "RawRepresentable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/planecomparison\/rawrepresentable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PlaneComparison/hashValue": {
   "abstract" : [

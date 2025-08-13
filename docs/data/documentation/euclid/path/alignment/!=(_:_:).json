@@ -18,8 +18,7 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/Alignment",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/Alignment\/Equatable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/Alignment"
       ]
     ]
   },
@@ -342,17 +341,6 @@
   "title" : "!=(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/alignment\/!=(_:_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/Alignment/Equatable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/Alignment\/Equatable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Equatable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/alignment\/equatable-implementations"
 }
 }
 }

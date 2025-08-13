@@ -104,10 +104,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/interpolated(with:by:)": {
   "abstract" : [
-    {
-      "text" : "Interpolate between two values.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

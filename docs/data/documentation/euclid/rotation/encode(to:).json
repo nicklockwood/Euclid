@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Encodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation"
       ]
     ]
   },
@@ -221,17 +220,6 @@
   "title" : "Rotation",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Encodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Encodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Encodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/rotation\/encodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/encode(to:)": {
   "abstract" : [

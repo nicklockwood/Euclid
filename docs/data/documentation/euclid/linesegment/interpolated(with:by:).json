@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Interpolatable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment"
       ]
     ]
   },
@@ -317,17 +316,6 @@
   "title" : "LineSegment",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/Interpolatable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Interpolatable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Interpolatable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/interpolatable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/interpolated(with:by:)": {
   "abstract" : [

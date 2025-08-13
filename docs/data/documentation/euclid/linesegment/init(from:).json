@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Decodable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment"
       ]
     ]
   },
@@ -205,17 +204,6 @@
   "title" : "LineSegment",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/Decodable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/Decodable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Decodable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/decodable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(from:)": {
   "abstract" : [

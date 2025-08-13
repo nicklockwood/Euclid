@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Transformable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint"
       ]
     ]
   },
@@ -222,17 +221,6 @@
   "title" : "PathPoint",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/Transformable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Transformable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Transformable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/transformable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/scale(by:)-7pxnt": {
   "abstract" : [

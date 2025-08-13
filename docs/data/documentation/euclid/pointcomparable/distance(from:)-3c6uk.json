@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/distance(from:)-2liao"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable"
       ]
     ]
   },
@@ -252,62 +251,6 @@
   "title" : "PointComparable",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pointcomparable"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable/distance(from:)-2liao": {
-  "abstract" : [
-    {
-      "text" : "Returns the distance between the receiver and the specified point.",
-      "type" : "text"
-    }
-  ],
-  "defaultImplementations" : 1,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "distance"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "from"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable\/distance(from:)-2liao",
-  "kind" : "symbol",
-  "required" : true,
-  "role" : "symbol",
-  "title" : "distance(from:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pointcomparable\/distance(from:)-2liao"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable/distance(from:)-3c6uk": {
   "abstract" : [

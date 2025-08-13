@@ -10,11 +10,6 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform"
-      ],
-      [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/Transformable-Implementations"
       ]
     ]
   },
@@ -241,17 +236,6 @@
   "title" : "Transform",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/Transformable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/Transformable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Transformable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform\/transformable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/rotated(by:)": {
   "abstract" : [

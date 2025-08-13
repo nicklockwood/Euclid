@@ -374,7 +374,10 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Interpolatable": {
   "abstract" : [
-
+    {
+      "text" : "Protocol for interpolatable types.",
+      "type" : "text"
+    }
   ],
   "fragments" : [
     {

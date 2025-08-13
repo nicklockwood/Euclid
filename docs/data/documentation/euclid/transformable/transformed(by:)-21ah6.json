@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/transformed(by:)-9m686"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable"
       ]
     ]
   },
@@ -309,61 +308,6 @@
   "title" : "transformed(by:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transformable\/transformed(by:)-21ah6"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable/transformed(by:)-9m686": {
-  "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
-  ],
-  "defaultImplementations" : 1,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "transformed"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "by"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid9TransformV",
-      "text" : "Transform"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable\/transformed(by:)-9m686",
-  "kind" : "symbol",
-  "required" : true,
-  "role" : "symbol",
-  "title" : "transformed(by:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/transformable\/transformed(by:)-9m686"
 }
 }
 }

@@ -124,6 +124,12 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "mentions",
+      "mentions" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RenderingMeshes"
+      ]
     }
   ],
   "schemaVersion" : {
@@ -782,6 +788,20 @@
   "title" : "vertices",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/vertices"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RenderingMeshes": {
+  "abstract" : [
+    {
+      "text" : "Display the 3D shapes you created with meshes.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RenderingMeshes",
+  "kind" : "article",
+  "role" : "article",
+  "title" : "Rendering Meshes",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/renderingmeshes"
 }
 }
 }

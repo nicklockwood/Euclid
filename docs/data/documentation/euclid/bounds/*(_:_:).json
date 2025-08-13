@@ -9,8 +9,7 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/Transformable-Implementations"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds"
       ]
     ]
   },
@@ -300,17 +299,6 @@
   "title" : "*(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds\/*(_:_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/Transformable-Implementations": {
-  "abstract" : [
-
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/Transformable-Implementations",
-  "kind" : "article",
-  "role" : "collectionGroup",
-  "title" : "Transformable Implementations",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/transformable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform": {
   "abstract" : [

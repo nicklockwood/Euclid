@@ -84,6 +84,13 @@
         "introducedAt" : "12.0",
         "name" : "macOS",
         "unavailable" : false
+      },
+      {
+        "beta" : false,
+        "deprecated" : false,
+        "introducedAt" : "26.0",
+        "name" : "tvOS",
+        "unavailable" : false
       }
     ],
     "role" : "symbol",
