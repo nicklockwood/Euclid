@@ -12,8 +12,8 @@ import SwiftUI
 #if os(visionOS)
 
 struct VolumetricView: View {
-    @State private var spinX = 0.0
-    @State private var spinY = 0.0
+    @State private var transform: Transform = .identity
+    @State private var delta: Transform = .identity
 
     var body: some View {
         RealityView { content in
@@ -28,21 +28,18 @@ struct VolumetricView: View {
             demoBoxEntity.components.set(InputTargetComponent())
             content.add(demoBoxEntity)
         } update: { content in
-            guard let entity = content.entities.first else { return }
-
-            let pitch = Transform(pitch: Float(spinX * -1)).matrix
-            let yaw = Transform(yaw: Float(spinY)).matrix
-            entity.transform.matrix = pitch * yaw
+            content.entities.first?.transform.matrix = delta.matrix * transform.matrix
         }
         .gesture(
             DragGesture(minimumDistance: 0)
                 .targetedToAnyEntity()
                 .onChanged { value in
-                    let startLocation = value.convert(value.startLocation3D, from: .local, to: .scene)
-                    let currentLocation = value.convert(value.location3D, from: .local, to: .scene)
-                    let delta = currentLocation - startLocation
-                    spinX = Double(delta.y) * 5
-                    spinY = Double(delta.x) * 5
+                    let spin = value.convert(value.translation3D, from: .local, to: .scene) * .init(10)
+                    delta = Transform(pitch: -spin.y, yaw: spin.x)
+                }
+                .onEnded { _ in
+                    transform.matrix = delta.matrix * transform.matrix
+                    delta = .identity
                 }
         )
     }
