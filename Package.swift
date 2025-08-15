@@ -10,14 +10,12 @@ let package = Package(
     targets: [
         .target(
             name: "Euclid",
-            path: "Sources",
-            exclude: ["Info.plist"]
+            path: "Sources"
         ),
         .testTarget(
             name: "EuclidTests",
             dependencies: ["Euclid"],
-            path: "Tests",
-            exclude: ["Info.plist"]
+            path: "Tests"
         ),
     ]
 )
