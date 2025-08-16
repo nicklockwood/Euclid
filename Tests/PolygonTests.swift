@@ -1029,22 +1029,12 @@ class PolygonTests: XCTestCase {
 
     func testAreaOfRotatedAnticlockwiseSquare() {
         for _ in 0 ..< 10 {
-            guard let rotation = Rotation(
-                axis: Vector(
-                    .random(in: -1 ... 1),
-                    .random(in: -1 ... 1),
-                    .random(in: -1 ... 1)
-                ),
-                angle: .radians(.random(in: 0 ..< .pi * 2))
-            ) else {
-                continue
-            }
             let polygon = Polygon(unchecked: [
                 Vector(0, 0),
                 Vector(0, -1),
                 Vector(1, -1),
                 Vector(1, 0),
-            ]).rotated(by: rotation)
+            ]).transformed(by: .random())
             XCTAssertEqual(polygon.area, 1, accuracy: epsilon)
         }
     }
@@ -1061,22 +1051,12 @@ class PolygonTests: XCTestCase {
 
     func testAreaOfRotatedAnticlockwiseSquareNotAtOrigin() {
         for _ in 0 ..< 10 {
-            guard let rotation = Rotation(
-                axis: Vector(
-                    .random(in: -1 ... 1),
-                    .random(in: -1 ... 1),
-                    .random(in: -1 ... 1)
-                ),
-                angle: .radians(.random(in: 0 ..< .pi * 2))
-            ) else {
-                continue
-            }
             let polygon = Polygon(unchecked: [
                 Vector(0, 0, 1),
                 Vector(0, -1, 1),
                 Vector(1, -1, 1),
                 Vector(1, 0, 1),
-            ]).rotated(by: rotation)
+            ]).transformed(by: .random())
             XCTAssertEqual(polygon.area, 1, accuracy: epsilon)
         }
     }

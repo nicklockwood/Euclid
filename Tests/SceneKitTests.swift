@@ -34,19 +34,39 @@ class SceneKitTests: XCTestCase {
     }
 
     func testExportImportTriangles() throws {
-        let cube = Mesh.cube()
-        let geometry = try XCTUnwrap(SCNGeometry(
-            triangles: cube, materialLookup: nil
-        ))
-        XCTAssertNotNil(Mesh(geometry, materialLookup: nil))
+        let cube = Mesh.cube().triangulate()
+        let geometry = try XCTUnwrap(SCNGeometry(triangles: cube))
+        let result = try XCTUnwrap(Mesh(geometry))
+        XCTAssertTrue(result.isWatertight)
+        XCTAssertTrue(result.isActuallyConvex)
+        XCTAssertEqual(result.polygons.count, 12)
     }
 
     func testExportImportPolygons() throws {
         let cube = Mesh.cube()
-        let geometry = try XCTUnwrap(SCNGeometry(
-            polygons: cube, materialLookup: nil
-        ))
-        XCTAssertNotNil(Mesh(geometry, materialLookup: nil))
+        let geometry = try XCTUnwrap(SCNGeometry(polygons: cube))
+        let result = try XCTUnwrap(Mesh(geometry))
+        XCTAssertTrue(result.isWatertight)
+        XCTAssertTrue(result.isActuallyConvex)
+        XCTAssertEqual(result.polygons.count, 6)
+    }
+
+    func testExportImportTransformedPolygons() throws {
+        var transforms = [Transform]()
+        for _ in 0 ..< 10 {
+            transforms.append(.random())
+        }
+
+        for transform in transforms {
+            let cube = Mesh.cube(size: .random(in: 0.00001 ... 100000)).transformed(by: transform)
+            let geometry = SCNGeometry(polygons: cube)
+            let result = try XCTUnwrap(Mesh(geometry))
+            XCTAssertTrue(result.isWatertight)
+            let quads = result.polygons.filter { $0.vertices.count == 4 }.count
+            let triangles = result.polygons.filter { $0.vertices.count == 3 }.count
+            XCTAssertEqual(quads + triangles, result.polygons.count)
+            XCTAssertEqual(quads * 2 + triangles, 12)
+        }
     }
 
     func testSCNBoxIsWatertight() throws {

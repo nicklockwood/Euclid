@@ -265,11 +265,7 @@ class UtilityTests: XCTestCase {
         ]
 
         for _ in 0 ..< 10 {
-            testVectors.append(Vector.unitZ.rotated(by: Rotation(
-                pitch: .degrees(.random(in: 0 ..< 360)),
-                yaw: .degrees(.random(in: 0 ..< 360)),
-                roll: .degrees(.random(in: 0 ..< 360))
-            )))
+            testVectors.append(.unitZ.rotated(by: .random()))
         }
 
         for v in testVectors {

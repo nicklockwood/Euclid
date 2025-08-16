@@ -345,7 +345,7 @@ private extension [Polygon] {
         materials: [Polygon.Material?]
     ) {
         var offset = 0
-        self = counts.enumerated().compactMap { index, count in
+        self = counts.enumerated().flatMap { index, count in
             var vertices = [Vertex]()
             for i in offset ..< (offset + Int(count)) {
                 let index = Int(indices[i])
@@ -361,7 +361,17 @@ private extension [Polygon] {
             }
             offset += Int(count)
             let material = materials.isEmpty ? nil : materials[index % materials.count]
-            return Polygon(vertices, material: material)
+            guard let polygon = Polygon(vertices, material: material) else {
+                return triangulateVertices(
+                    vertices,
+                    plane: nil,
+                    isConvex: true,
+                    sanitizeNormals: true,
+                    material: material,
+                    id: 0
+                )
+            }
+            return [polygon]
         }
     }
 }

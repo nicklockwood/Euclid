@@ -70,3 +70,39 @@ extension Mesh {
         return groups.count == 2
     }
 }
+
+extension Vector {
+    static func random(in range: ClosedRange<Vector> = -.one ... .one) -> Vector {
+        .init(
+            .random(in: range.lowerBound.x ... range.lowerBound.x),
+            .random(in: range.lowerBound.y ... range.lowerBound.y),
+            .random(in: range.lowerBound.z ... range.lowerBound.z)
+        )
+    }
+}
+
+extension Angle {
+    static func random(in range: ClosedRange<Angle> = -.pi ... .pi) -> Angle {
+        .radians(.random(in: range.lowerBound.radians ... range.upperBound.radians))
+    }
+}
+
+extension Rotation {
+    static func random() -> Rotation {
+        guard let rotation = Self(axis: .random(in: -.one ... .one), angle: .random()) else {
+            // Keep trying
+            return random()
+        }
+        return rotation
+    }
+}
+
+extension Transform {
+    static func random(maxTranslation: Double = 1000) -> Transform {
+        .init(
+            scale: 1,
+            rotation: .random(),
+            translation: .random() * .random(in: 0 ... maxTranslation)
+        )
+    }
+}
