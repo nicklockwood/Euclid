@@ -53,9 +53,9 @@ class UtilityTests: XCTestCase {
     func testDegenerateCollinearVertices() {
         let normal = Vector.unitZ
         let vertices = [
-            Vertex([0, 1], normal),
-            Vertex([0, 0], normal),
-            Vertex([0, -2], normal),
+            Vertex(0, 1, normal: normal),
+            Vertex(0, 0, normal: normal),
+            Vertex(0, -2, normal: normal),
         ]
         XCTAssertTrue(verticesAreDegenerate(vertices))
     }
@@ -63,10 +63,10 @@ class UtilityTests: XCTestCase {
     func testNonDegenerateCollinearVertices() {
         let normal = Vector.unitZ
         let vertices = [
-            Vertex([0, 1], normal),
-            Vertex([0, 0], normal),
-            Vertex([0, -2], normal),
-            Vertex([1.5, -1], normal),
+            Vertex(0, 1, normal: normal),
+            Vertex(0, 0, normal: normal),
+            Vertex(0, -2, normal: normal),
+            Vertex(1.5, -1, normal: normal),
         ]
         XCTAssertFalse(verticesAreDegenerate(vertices))
     }
@@ -74,10 +74,10 @@ class UtilityTests: XCTestCase {
     func testDegenerateVerticesWithZeroLengthEdge() {
         let normal = Vector.unitZ
         let vertices = [
-            Vertex([0, 1], normal),
-            Vertex([0, -1], normal),
-            Vertex([0, -1], normal),
-            Vertex([1.5, 0], normal),
+            Vertex(0, 1, normal: normal),
+            Vertex(0, -1, normal: normal),
+            Vertex(0, -1, normal: normal),
+            Vertex(1.5, 0, normal: normal),
         ]
         XCTAssertTrue(verticesAreDegenerate(vertices))
     }

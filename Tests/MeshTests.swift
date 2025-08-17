@@ -366,17 +366,17 @@ class MeshTests: XCTestCase {
 
     func testQuadReflectionAlongPlane() {
         let quad = Polygon(unchecked: [
-            Vertex([-0.5, 1.0, 0.5], .unitY, [0.0, 1.0], .black),
-            Vertex([0.5, 1.0, 0.5], .unitY, [1.0, 1.0], .black),
-            Vertex([0.5, 1.0, -0.5], .unitY, [1.0, 0.0], .white),
-            Vertex([-0.5, 1.0, -0.5], .unitY, [0.0, 0.0], .white),
+            Vertex(-0.5, 1.0, 0.5, normal: .unitY, texcoord: [0.0, 1.0], color: .black),
+            Vertex(0.5, 1.0, 0.5, normal: .unitY, texcoord: [1.0, 1.0], color: .black),
+            Vertex(0.5, 1.0, -0.5, normal: .unitY, texcoord: [1.0, 0.0], color: .white),
+            Vertex(-0.5, 1.0, -0.5, normal: .unitY, texcoord: [0.0, 0.0], color: .white),
         ])
 
         let expected = Polygon(unchecked: [
-            Vertex([-0.5, -1.0, -0.5], -.unitY, [0.0, 0.0], .white),
-            Vertex([0.5, -1.0, -0.5], -.unitY, [1.0, 0.0], .white),
-            Vertex([0.5, -1.0, 0.5], -.unitY, [1.0, 1.0], .black),
-            Vertex([-0.5, -1.0, 0.5], -.unitY, [0.0, 1.0], .black),
+            Vertex(-0.5, -1.0, -0.5, normal: -.unitY, texcoord: [0.0, 0.0], color: .white),
+            Vertex(0.5, -1.0, -0.5, normal: -.unitY, texcoord: [1.0, 0.0], color: .white),
+            Vertex(0.5, -1.0, 0.5, normal: -.unitY, texcoord: [1.0, 1.0], color: .black),
+            Vertex(-0.5, -1.0, 0.5, normal: -.unitY, texcoord: [0.0, 1.0], color: .black),
         ])
 
         let reflection = quad.reflected(along: .xz)

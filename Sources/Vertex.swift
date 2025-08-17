@@ -118,6 +118,40 @@ public extension Vertex {
         self.init(unchecked: position, nil, nil, nil)
     }
 
+    /// Creates a new vertex from a position, normal, texcoord and color.
+    /// - Parameters:
+    ///   - position: The position of the vertex in 3D space.
+    ///   - normal: The surface normal for the vertex (defaults to zero).
+    ///   - texcoord: The optional texture coordinates for the vertex (defaults to zero).
+    ///   - color: The optional vertex color (defaults to white).
+    init(
+        _ position: Vector,
+        normal: Vector? = nil,
+        texcoord: Vector? = nil,
+        color: Color? = nil
+    ) {
+        self.init(position, normal, texcoord, color)
+    }
+
+    /// Creates a vertex at the specified X, Y and Z coordinates.
+    /// - Parameters:
+    ///   - x: The X coordinate of the vertex.
+    ///   - y: The Y coordinate of the vertex
+    ///   - z: The Z coordinate of the vertex (optional - defaults to zero).
+    ///   - normal: The surface normal for the vertex (defaults to zero).
+    ///   - texcoord: The optional texture coordinates for the vertex (defaults to zero).
+    ///   - color: The optional vertex color (defaults to white).
+    init(
+        _ x: Double,
+        _ y: Double,
+        _ z: Double = 0,
+        normal: Vector? = nil,
+        texcoord: Vector? = nil,
+        color: Color? = nil
+    ) {
+        self.init(.init(x, y, z), normal, texcoord, color)
+    }
+
     /// Returns a new vertex with the normal inverted.
     func inverted() -> Vertex {
         Vertex(unchecked: position, -normal, texcoord, color)

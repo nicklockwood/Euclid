@@ -351,8 +351,8 @@ private extension [Polygon] {
                 let index = Int(indices[i])
                 vertices.append(Vertex(
                     Vector(positions[index]),
-                    Vector(normals?[index] ?? .zero),
-                    texcoords.map {
+                    normal: Vector(normals?[index] ?? .zero),
+                    texcoord: texcoords.map {
                         var texcoord = Vector($0[index])
                         texcoord.y = 1 - texcoord.y
                         return texcoord

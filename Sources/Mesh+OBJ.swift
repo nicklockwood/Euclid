@@ -31,7 +31,7 @@ public extension Mesh {
                     normals.append(vertex.normal)
                     return index
                 }() : 0
-                let vertex = Vertex(vertex.position, nil, nil, vertex.color)
+                let vertex = Vertex(vertex.position, color: vertex.color)
                 let vertexIndex = indicesByVertex[vertex] ?? {
                     let index = indicesByVertex.count + 1
                     indicesByVertex[vertex] = index
