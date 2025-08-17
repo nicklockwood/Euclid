@@ -1026,6 +1026,20 @@ class PolygonTests: XCTestCase {
         XCTAssertEqual(polygon.area, 3)
     }
 
+    func testAreaOfTransformedLShapedClockwisePolygon() {
+        for _ in 0 ..< 10 {
+            let polygon = Polygon(unchecked: [
+                Vector(0, 0),
+                Vector(0, 2),
+                Vector(1, 2),
+                Vector(1, 1),
+                Vector(2, 1),
+                Vector(2, 0),
+            ]).transformed(by: .random())
+            XCTAssertEqual(polygon.area, 3, accuracy: epsilon)
+        }
+    }
+
     func testAreaOfRotatedAnticlockwiseSquare() {
         for _ in 0 ..< 10 {
             let polygon = Polygon(unchecked: [
@@ -1033,7 +1047,7 @@ class PolygonTests: XCTestCase {
                 Vector(0, -1),
                 Vector(1, -1),
                 Vector(1, 0),
-            ]).transformed(by: .random())
+            ]).rotated(by: .random())
             XCTAssertEqual(polygon.area, 1, accuracy: epsilon)
         }
     }

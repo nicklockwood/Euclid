@@ -195,27 +195,12 @@ public extension Polygon {
 
     /// Returns the area of the polygon.
     var area: Double {
-        var vertices = vertices
-        let z = vertices.first?.position.z ?? 0
-        if !vertices.allSatisfy({ abs($0.position.z - z) < epsilon }) {
-            let r = rotationBetweenNormalizedVectors(plane.normal, .unitZ)
-            vertices = vertices.map { Vertex($0.position.rotated(by: r)) }
-            let z = vertices.first?.position.z ?? 0
-            assert(vertices.allSatisfy { abs($0.position.z - z) < epsilon })
-        }
-        var prev = vertices.last!.position
-        return abs(vertices.reduce(0) { area, v in
-            defer { prev = v.position }
-            return area + (prev.x - v.position.x) * (prev.y + v.position.y)
-        } / 2)
+        vertices.vectorArea.length
     }
 
     /// Returns the signed volume of the polygon.
     var signedVolume: Double {
-        triangulate().reduce(0) {
-            $0 + $1.vertices[0].position
-                .dot($1.vertices[1].position.cross($1.vertices[2].position)) / 6
-        }
+        vertices.signedVolume
     }
 
     /// Creates a copy of the polygon with the specified material.

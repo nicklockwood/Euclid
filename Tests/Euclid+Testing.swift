@@ -102,7 +102,7 @@ extension Transform {
         .init(
             scale: 1,
             rotation: .random(),
-            translation: .random() * .random(in: 0 ... maxTranslation)
+            translation: .random(in: .init(size: -maxTranslation) ... .init(size: -maxTranslation))
         )
     }
 }

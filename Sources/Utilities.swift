@@ -68,6 +68,17 @@ extension Double {
 
 // MARK: Vertex utilities
 
+extension [Vertex] {
+    /// Magnitude is area, direction is normal
+    var vectorArea: Vector {
+        map(\.position).vectorArea
+    }
+
+    var signedVolume: Double {
+        map(\.position).signedVolume
+    }
+}
+
 func verticesAreDegenerate(_ vertices: [Vertex]) -> Bool {
     guard vertices.count > 2 else {
         return true
@@ -208,6 +219,31 @@ func triangulateVertices(
 }
 
 // MARK: Vector utilities
+
+extension [Vector] {
+    /// Magnitude is area, direction is normal
+    var vectorArea: Vector {
+        guard var a = last else {
+            return .zero
+        }
+        // Newell's algorithm
+        return reduce(.zero) { normal, b in
+            defer { a = b }
+            return normal + a.cross(b)
+        } / 2
+    }
+
+    var signedVolume: Double {
+        guard count > 2 else {
+            return 0
+        }
+        var a = self[0], b = self[1]
+        return dropFirst(2).reduce(0) { volume, c in
+            defer { b = c }
+            return volume + a.dot(b.cross(c))
+        } / 6
+    }
+}
 
 extension Vector {
     var leastParallelAxis: Vector {
