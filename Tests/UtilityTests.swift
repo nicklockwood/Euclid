@@ -14,38 +14,36 @@ class UtilityTests: XCTestCase {
 
     func testClampedVector() {
         let point = Vector(-10, 0, 0).clamped(to: -.one ... .one)
-        XCTAssertEqual(point, Vector(-1, 0, 0))
+        XCTAssertEqual(point, [-1, 0, 0])
     }
 
     func testClampVector() {
         var point = Vector(-10, 0, 0)
         point.clamp(to: -.one ... .one)
-        XCTAssertEqual(point, Vector(-1, 0, 0))
+        XCTAssertEqual(point, [-1, 0, 0])
     }
 
     // MARK: convexness
 
     func testConvexnessResultNotAffectedByTranslation() {
-        let vectors = [
-            Vector(-0.10606601717798211, 0, -0.10606601717798216),
-            Vector(-0.0574025148547635, 0, -0.138581929876693),
-            Vector(-0.15648794521398243, 0, -0.1188726123511085),
-            Vector(-0.16970931752558446, 0, -0.09908543035921899),
-            Vector(-0.16346853203274558, 0, -0.06771088298918408),
+        let vectors: [Vector] = [
+            [-0.10606601717798211, 0, -0.10606601717798216],
+            [-0.0574025148547635, 0, -0.138581929876693],
+            [-0.15648794521398243, 0, -0.1188726123511085],
+            [-0.16970931752558446, 0, -0.09908543035921899],
+            [-0.16346853203274558, 0, -0.06771088298918408],
         ]
         XCTAssertTrue(pointsAreConvex(vectors))
-        let normal = Vector.unitY
-        let offset = Vector(0, 0, 3)
-        let vertices = vectors.map { Vertex($0, normal).translated(by: offset) }
+        let vertices = vectors.map { Vertex($0, .unitY).translated(by: [0, 0, 3]) }
         XCTAssertTrue(verticesAreConvex(vertices))
     }
 
     func testCollinearPointsDontPreventConvexness() {
-        let vectors = [
-            Vector(0, 1),
-            Vector(0, 0),
-            Vector(0, -1),
-            Vector(1, -1),
+        let vectors: [Vector] = [
+            [0, 1],
+            [0, 0],
+            [0, -1],
+            [1, -1],
         ]
         XCTAssertTrue(pointsAreConvex(vectors))
     }
@@ -55,9 +53,9 @@ class UtilityTests: XCTestCase {
     func testDegenerateCollinearVertices() {
         let normal = Vector.unitZ
         let vertices = [
-            Vertex(Vector(0, 1), normal),
-            Vertex(Vector(0, 0), normal),
-            Vertex(Vector(0, -2), normal),
+            Vertex([0, 1], normal),
+            Vertex([0, 0], normal),
+            Vertex([0, -2], normal),
         ]
         XCTAssertTrue(verticesAreDegenerate(vertices))
     }
@@ -65,10 +63,10 @@ class UtilityTests: XCTestCase {
     func testNonDegenerateCollinearVertices() {
         let normal = Vector.unitZ
         let vertices = [
-            Vertex(Vector(0, 1), normal),
-            Vertex(Vector(0, 0), normal),
-            Vertex(Vector(0, -2), normal),
-            Vertex(Vector(1.5, -1), normal),
+            Vertex([0, 1], normal),
+            Vertex([0, 0], normal),
+            Vertex([0, -2], normal),
+            Vertex([1.5, -1], normal),
         ]
         XCTAssertFalse(verticesAreDegenerate(vertices))
     }
@@ -76,10 +74,10 @@ class UtilityTests: XCTestCase {
     func testDegenerateVerticesWithZeroLengthEdge() {
         let normal = Vector.unitZ
         let vertices = [
-            Vertex(Vector(0, 1), normal),
-            Vertex(Vector(0, -1), normal),
-            Vertex(Vector(0, -1), normal),
-            Vertex(Vector(1.5, 0), normal),
+            Vertex([0, 1], normal),
+            Vertex([0, -1], normal),
+            Vertex([0, -1], normal),
+            Vertex([1.5, 0], normal),
         ]
         XCTAssertTrue(verticesAreDegenerate(vertices))
     }
@@ -244,7 +242,7 @@ class UtilityTests: XCTestCase {
             Rotation(unchecked: .unitY, angle: .degrees(10)),
             Rotation(unchecked: .unitY, angle: .degrees(17)),
             Rotation(unchecked: .unitY, angle: .degrees(135)),
-            Rotation(axis: Vector(1, 0.5, 0), angle: .degrees(55))!,
+            Rotation(axis: [1, 0.5, 0], angle: .degrees(55))!,
         ]
 
         for r in rotations {

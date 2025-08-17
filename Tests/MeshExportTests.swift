@@ -13,7 +13,7 @@ class MeshExportTests: XCTestCase {
     // MARK: STL export
 
     func testCubeSTL() {
-        let cube = Mesh.cube().translated(by: Vector(0.5, 0.5, 0.5))
+        let cube = Mesh.cube().translated(by: [0.5, 0.5, 0.5])
         let stl = cube.stlString(name: "Foo")
         XCTAssertEqual(stl, """
         solid Foo
@@ -106,7 +106,7 @@ class MeshExportTests: XCTestCase {
     }
 
     func testCubeSTLData() {
-        let cube = Mesh.cube().translated(by: Vector(0.5, 0.5, 0.5))
+        let cube = Mesh.cube().translated(by: [0.5, 0.5, 0.5])
         let stlData = cube.stlData()
         XCTAssertEqual(stlData.count, 80 + 4 + 12 * 50)
         let hex = stlData.reduce(into: "") { $0 += String(format: "%02x", $1) }
@@ -128,7 +128,7 @@ class MeshExportTests: XCTestCase {
     }
 
     func testRedCubeSTLData() {
-        let cube = Mesh.cube(material: Color.red).translated(by: Vector(0.5, 0.5, 0.5))
+        let cube = Mesh.cube(material: Color.red).translated(by: [0.5, 0.5, 0.5])
         let stlData = cube.stlData()
         XCTAssertEqual(stlData.count, 80 + 4 + 12 * 50)
         let hex = stlData.reduce(into: "") { $0 += String(format: "%02x", $1) }
@@ -152,7 +152,7 @@ class MeshExportTests: XCTestCase {
     // MARK: OBJ export
 
     func testCubeOBJ() {
-        let cube = Mesh.cube().translated(by: Vector(0.5, 0.5, 0.5))
+        let cube = Mesh.cube().translated(by: [0.5, 0.5, 0.5])
         let obj = cube.objString()
         XCTAssertEqual(obj, """
         v 1 0 1

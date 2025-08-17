@@ -162,9 +162,9 @@ public extension Path {
             if abs(width) < scaleLimit {
                 return Path([.point(.zero)])
             }
-            return Path.line(Vector(-w, 0), Vector(w, 0)).closed()
+            return Path.line([-w, 0], [w, 0]).closed()
         } else if abs(width) < scaleLimit {
-            return Path.line(Vector(0, -h), Vector(0, h)).closed()
+            return Path.line([0, -h], [0, h]).closed()
         }
         return Path(unchecked: [
             .point(-w, h, color: color), .point(-w, -h, color: color),
@@ -284,11 +284,11 @@ public extension Path {
             return steps.map {
                 var texcoord: Vector?
                 if let t0 = p0.texcoord, let t1 = p1.texcoord, let t2 = p2.texcoord {
-                    texcoord = Vector(
+                    texcoord = [
                         quadraticBezier(t0.x, t1.x, t2.x, $0),
                         quadraticBezier(t0.y, t1.y, t2.y, $0),
-                        quadraticBezier(t0.z, t1.z, t2.z, $0)
-                    )
+                        quadraticBezier(t0.z, t1.z, t2.z, $0),
+                    ]
                 }
                 var color: Color?
                 if p0.color != nil || p1.color != nil || p2.color != nil {
@@ -298,11 +298,13 @@ public extension Path {
                         p2.color ?? .white,
                     ].lerp($0)
                 }
-                return .curve(Vector(
+                return .curve(
                     quadraticBezier(p0.position.x, p1.position.x, p2.position.x, $0),
                     quadraticBezier(p0.position.y, p1.position.y, p2.position.y, $0),
-                    quadraticBezier(p0.position.z, p1.position.z, p2.position.z, $0)
-                ), texcoord: texcoord, color: color)
+                    quadraticBezier(p0.position.z, p1.position.z, p2.position.z, $0),
+                    texcoord: texcoord,
+                    color: color
+                )
             }
         }
 

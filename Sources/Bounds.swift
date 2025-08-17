@@ -82,8 +82,8 @@ extension Bounds: Codable {
 public extension Bounds {
     /// An empty bounds.
     static let empty: Bounds = .init(
-        min: Vector(.infinity, .infinity, .infinity),
-        max: Vector(-.infinity, -.infinity, -.infinity)
+        min: .init(size: .infinity),
+        max: .init(size: -.infinity)
     )
 
     /// Creates a bounds from two points.
@@ -99,7 +99,7 @@ public extension Bounds {
 
     /// Creates a bounds from a collection of ``Bounded`` objects.
     /// - Parameter bounded: A collection of bounded objects.
-    init<T: Collection>(_ bounded: T) where T.Element: Bounded {
+    init(_ bounded: some Collection<some Bounded>) {
         self = bounded.reduce(.empty) { $0.union($1.bounds) }
     }
 
@@ -138,13 +138,13 @@ public extension Bounds {
     var corners: [Vector] {
         [
             min,
-            Vector(min.x, max.y, min.z),
-            Vector(max.x, max.y, min.z),
-            Vector(max.x, min.y, min.z),
-            Vector(min.x, min.y, max.z),
-            Vector(min.x, max.y, max.z),
+            [min.x, max.y, min.z],
+            [max.x, max.y, min.z],
+            [max.x, min.y, min.z],
+            [min.x, min.y, max.z],
+            [min.x, max.y, max.z],
             max,
-            Vector(max.x, min.y, max.z),
+            [max.x, min.y, max.z],
         ]
     }
 

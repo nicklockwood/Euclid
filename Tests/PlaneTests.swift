@@ -26,12 +26,12 @@ class PlaneTests: XCTestCase {
 
     func testConcavePolygonPlaneTranslation() {
         let points0: [Vector] = [
-            Vector(-0.707106781187, -0.707106781187, 0.5),
-            Vector(0.353553390593, 0.353553390593, 0.5),
-            Vector(0.353553390593, 0.353553390593, 0),
-            Vector(0.707106781187, 0.707106781187, 0),
-            Vector(0.707106781187, 0.707106781187, 1),
-            Vector(-0.707106781187, -0.707106781187, 1),
+            [-0.707106781187, -0.707106781187, 0.5],
+            [0.353553390593, 0.353553390593, 0.5],
+            [0.353553390593, 0.353553390593, 0],
+            [0.707106781187, 0.707106781187, 0],
+            [0.707106781187, 0.707106781187, 1],
+            [-0.707106781187, -0.707106781187, 1],
         ]
         let plane0 = Plane(points: points0)
         let translation = Vector(1, 0)
@@ -64,20 +64,17 @@ class PlaneTests: XCTestCase {
     }
 
     func testFlatteningPlaneForXYDiagonal() {
-        let normal = Vector(0.7071067811865475, -0.7071067811865475)
-        let plane = FlatteningPlane(normal: normal)
+        let plane = FlatteningPlane(normal: [0.7071067811865475, -0.7071067811865475])
         XCTAssertNotEqual(plane, .xy)
     }
 
     func testFlatteningPlaneForHorizontalLine() {
-        let points = [Vector(-1, 0), Vector(1, 0)]
-        let plane = FlatteningPlane(points: points)
+        let plane = FlatteningPlane(points: [[-1, 0], [1, 0]])
         XCTAssertEqual(plane, .xy)
     }
 
     func testFlatteningPlaneForVerticalLine() {
-        let points = [Vector(0, -1), Vector(0, 1)]
-        let plane = FlatteningPlane(points: points)
+        let plane = FlatteningPlane(points: [[0, -1], [0, 1]])
         XCTAssertEqual(plane, .xy)
     }
 
@@ -99,7 +96,7 @@ class PlaneTests: XCTestCase {
             return
         }
 
-        XCTAssertEqual(intersection, Line(origin: Vector(-1, 0, 1), direction: -.unitY))
+        XCTAssertEqual(intersection, Line(origin: [-1, 0, 1], direction: -.unitY))
     }
 
     func testIntersectionWithPerpendicularPlane2() {
@@ -111,7 +108,7 @@ class PlaneTests: XCTestCase {
             return
         }
 
-        XCTAssertEqual(intersection, Line(origin: Vector(-1, 0, 1), direction: .unitY))
+        XCTAssertEqual(intersection, Line(origin: [-1, 0, 1], direction: .unitY))
     }
 
     func testIntersectionWithPerpendicularPlane3() {
@@ -123,12 +120,12 @@ class PlaneTests: XCTestCase {
             return
         }
 
-        XCTAssertEqual(intersection, Line(origin: Vector(1, -1, 0), direction: -.unitZ))
+        XCTAssertEqual(intersection, Line(origin: [1, -1, 0], direction: -.unitZ))
     }
 
     func testIntersectionWithRandomPlane() {
-        let plane1 = Plane(normal: Vector(1.2, 0.4, 5.7), w: 6)!
-        let plane2 = Plane(normal: Vector(0.5, 0.7, 0.1), w: 8)!
+        let plane1 = Plane(normal: [1.2, 0.4, 5.7], w: 6)!
+        let plane2 = Plane(normal: [0.5, 0.7, 0.1], w: 8)!
 
         guard let intersection = plane1.intersection(with: plane2) else {
             XCTFail()
@@ -147,20 +144,20 @@ class PlaneTests: XCTestCase {
 
     func testIntersectWithParallelLine() {
         let line = Line(unchecked: .zero, direction: Vector(4, -5, 0).normalized())
-        let plane = Plane(unchecked: .unitZ, pointOnPlane: Vector(-3, 2, 0))
+        let plane = Plane(unchecked: .unitZ, pointOnPlane: [-3, 2, 0])
         XCTAssertNil(plane.intersection(with: line))
     }
 
     func testIntersectWithNormalLine() {
-        let line = Line(unchecked: Vector(1, 5, 60), direction: .unitZ)
-        let plane = Plane(unchecked: .unitZ, pointOnPlane: Vector(-3, 2, 0))
+        let line = Line(unchecked: [1, 5, 60], direction: .unitZ)
+        let plane = Plane(unchecked: .unitZ, pointOnPlane: [-3, 2, 0])
         let expected = Vector(1, 5, 0)
         XCTAssertEqual(expected, plane.intersection(with: line))
     }
 
     func testIntersectWithInverseNormalLine() {
-        let line = Line(unchecked: Vector(1, 5, 60), direction: -.unitZ)
-        let plane = Plane(unchecked: .unitZ, pointOnPlane: Vector(-3, 2, 0))
+        let line = Line(unchecked: [1, 5, 60], direction: -.unitZ)
+        let plane = Plane(unchecked: .unitZ, pointOnPlane: [-3, 2, 0])
         let expected = Vector(1, 5, 0)
         XCTAssertEqual(expected, plane.intersection(with: line))
     }
@@ -173,27 +170,27 @@ class PlaneTests: XCTestCase {
     }
 
     func testIntersectionWithSkewedLine() {
-        let line = Line(unchecked: Vector(8, 8, 10), direction: Vector(1, 1, 1).normalized())
-        let plane = Plane(unchecked: .unitZ, pointOnPlane: Vector(5, -7, 2))
+        let line = Line(unchecked: [8, 8, 10], direction: Vector(1, 1, 1).normalized())
+        let plane = Plane(unchecked: .unitZ, pointOnPlane: [5, -7, 2])
         let expected = Vector(0, 0, 2)
         XCTAssertEqual(expected, plane.intersection(with: line))
     }
 
     func testIntersectionWithAxisLineSegment() {
-        let segment = LineSegment(unchecked: Vector(0, 0, 1), Vector(0, 0, 3))
+        let segment = LineSegment(unchecked: [0, 0, 1], [0, 0, 3])
         let plane = Plane(unchecked: .unitZ, w: 2)
         let expected = Vector(0, 0, 2)
         XCTAssertEqual(expected, plane.intersection(with: segment))
     }
 
     func testNonIntersectionWithAxisLineSegment() {
-        let segment = LineSegment(unchecked: Vector(0, 0, 1), Vector(0, 0, 3))
+        let segment = LineSegment(unchecked: [0, 0, 1], [0, 0, 3])
         let plane = Plane(unchecked: .unitZ, w: 0)
         XCTAssertNil(plane.intersection(with: segment))
     }
 
     func testNonIntersectionWithAxisLineSegment2() {
-        let segment = LineSegment(unchecked: Vector(0, 0, 1), Vector(0, 0, 3))
+        let segment = LineSegment(unchecked: [0, 0, 1], [0, 0, 3])
         let plane = Plane(unchecked: .unitZ, w: 4)
         XCTAssertNil(plane.intersection(with: segment))
     }

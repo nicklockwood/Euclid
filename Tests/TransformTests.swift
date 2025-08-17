@@ -26,7 +26,7 @@ class TransformTests: XCTestCase {
         let a = Transform(translation: .unitX)
         let b = Transform(rotation: r)
         let c = a * b
-        XCTAssertEqual(c.translation, Vector(sqrt(2) / 2, 0, sqrt(2) / 2))
+        XCTAssertEqual(c.translation, [sqrt(2) / 2, 0, sqrt(2) / 2])
         XCTAssertEqual(c.translation, a.translation.rotated(by: r))
         XCTAssertEqual(c.rotation, r)
     }
@@ -34,27 +34,27 @@ class TransformTests: XCTestCase {
     func testRotationMultipliedByScale() {
         let r = Rotation(roll: .zero, yaw: .pi / 4, pitch: .zero)
         let a = Transform(rotation: r)
-        let b = Transform(scale: Vector(2, 1, 1))
+        let b = Transform(scale: [2, 1, 1])
         let c = a * b
-        XCTAssertEqual(c.scale, Vector(2, 1, 1)) // scale is unaffected by rotation
+        XCTAssertEqual(c.scale, [2, 1, 1]) // scale is unaffected by rotation
         XCTAssertEqual(c.rotation, r)
     }
 
     func testScaleMultipliedByRotation() {
         let r = Rotation(roll: .zero, yaw: .pi / 4, pitch: .zero)
-        let a = Transform(scale: Vector(2, 1, 1))
+        let a = Transform(scale: [2, 1, 1])
         let b = Transform(rotation: r)
         let c = a * b
-        XCTAssertEqual(c.scale, Vector(2, 1, 1))
+        XCTAssertEqual(c.scale, [2, 1, 1])
         XCTAssertEqual(c.rotation, r)
     }
 
     func testTranslationMultipliedByScale() {
         let a = Transform(translation: .unitX)
-        let b = Transform(scale: Vector(2, 1, 1))
+        let b = Transform(scale: [2, 1, 1])
         let c = a * b
-        XCTAssertEqual(c.translation, Vector(2, 0, 0))
-        XCTAssertEqual(c.scale, Vector(2, 1, 1))
+        XCTAssertEqual(c.translation, [2, 0, 0])
+        XCTAssertEqual(c.scale, [2, 1, 1])
     }
 
     func testRotationMultipliedByDouble() {
@@ -71,11 +71,11 @@ class TransformTests: XCTestCase {
     func testTransformVector() {
         let v = Vector(1, 1, 1)
         let t = Transform(
-            scale: Vector(1, 0.1, 0.1),
+            scale: [1, 0.1, 0.1],
             rotation: .roll(.halfPi),
-            translation: Vector(0.5, 0, 0)
+            translation: [0.5, 0, 0]
         )
-        XCTAssertEqual(v.transformed(by: t), Vector(0.6, -1.0, 0.1))
+        XCTAssertEqual(v.transformed(by: t), [0.6, -1.0, 0.1])
     }
 
     // MARK: Plane transforms
@@ -93,7 +93,7 @@ class TransformTests: XCTestCase {
         let normal = Vector(0.5, 1, 0.5).normalized()
         let position = Vector(10, 5, -3)
         let plane = Plane(unchecked: normal, pointOnPlane: position)
-        let rotation = Rotation(axis: Vector(12, 3, 4), angle: .radians(0.2))!
+        let rotation = Rotation(axis: [12, 3, 4], angle: .radians(0.2))!
         let rotatedNormal = normal.rotated(by: rotation)
         let rotatedPosition = position.rotated(by: rotation)
         let expected = Plane(unchecked: rotatedNormal, pointOnPlane: rotatedPosition)
@@ -105,7 +105,7 @@ class TransformTests: XCTestCase {
         let position = Vector(10, 5, -3)
         let plane = Plane(unchecked: normal, pointOnPlane: position)
         let scale = Vector(0.5, 3.0, 0.1)
-        let expectedNormal = normal.scaled(by: Vector(1 / scale.x, 1 / scale.y, 1 / scale.z)).normalized()
+        let expectedNormal = normal.scaled(by: [1 / scale.x, 1 / scale.y, 1 / scale.z]).normalized()
         let expected = Plane(unchecked: expectedNormal, pointOnPlane: position.scaled(by: scale))
         XCTAssert(plane.scaled(by: scale).isEqual(to: expected))
     }
@@ -127,9 +127,9 @@ class TransformTests: XCTestCase {
         ])
         let plane = try XCTUnwrap(path.plane)
         let transform = Transform(
-            scale: Vector(7, 2.0, 0.3),
-            rotation: Rotation(axis: Vector(11, 3, -1), angle: .radians(1.3)),
-            translation: Vector(-7, 3, 4.5)
+            scale: [7, 2.0, 0.3],
+            rotation: Rotation(axis: [11, 3, -1], angle: .radians(1.3)),
+            translation: [-7, 3, 4.5]
         )
         let expected = try XCTUnwrap(path.transformed(by: transform).plane)
         XCTAssert(plane.transformed(by: transform).isEqual(to: expected))
@@ -152,9 +152,9 @@ class TransformTests: XCTestCase {
     func testBoundsNotPreservedWhenMeshRotated() {
         let mesh = Mesh.cube()
         let transform = Transform(
-            scale: Vector(7, 2.0, 0.3),
-            rotation: Rotation(axis: Vector(11, 3, -1), angle: .radians(1.3)),
-            translation: Vector(-7, 3, 4.5)
+            scale: [7, 2.0, 0.3],
+            rotation: Rotation(axis: [11, 3, -1], angle: .radians(1.3)),
+            translation: [-7, 3, 4.5]
         )
         XCTAssertNil(mesh.transformed(by: transform).boundsIfSet)
     }
@@ -162,9 +162,9 @@ class TransformTests: XCTestCase {
     func testBoundsPreservedWhenTransformingMeshWithoutRotation() {
         let mesh = Mesh.cube()
         let transform = Transform(
-            scale: Vector(7, 2.0, 0.3),
+            scale: [7, 2.0, 0.3],
             rotation: .identity,
-            translation: Vector(-7, 3, 4.5)
+            translation: [-7, 3, 4.5]
         )
         XCTAssertNotNil(mesh.transformed(by: transform).boundsIfSet)
     }
@@ -179,7 +179,7 @@ class TransformTests: XCTestCase {
 
     func testBoundsInvertedScale2() {
         let bounds = Bounds(min: -.one, max: .one)
-        let transform = Transform(scale: -Vector(-1, 1, 1))
+        let transform = Transform(scale: -[-1, 1, 1])
         XCTAssertEqual(bounds.transformed(by: transform), bounds)
     }
 }

@@ -55,6 +55,15 @@ public struct Vector: Hashable, Sendable, AdditiveArithmetic {
     }
 }
 
+extension Vector: ExpressibleByArrayLiteral {
+    public init(arrayLiteral elements: Double...) {
+        assert((2 ... 3).contains(elements.count), """
+        Vector components array must contain between 2 and 3 values
+        """)
+        self.init(elements)
+    }
+}
+
 extension Vector: Comparable {
     /// Returns whether the leftmost vector has the lower value.
     /// This provides a stable order when sorting collections of vectors.
@@ -102,12 +111,12 @@ extension Vector: Codable {
 
 /// Returns a new vector that represents the minimum of the components of the two vectors.
 public func min(_ lhs: Vector, _ rhs: Vector) -> Vector {
-    Vector(min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z))
+    [min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z)]
 }
 
 /// Returns a new vector representing the maximum of the components of the two vectors.
 public func max(_ lhs: Vector, _ rhs: Vector) -> Vector {
-    Vector(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z))
+    [max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z)]
 }
 
 public extension Vector {
@@ -140,7 +149,7 @@ public extension Vector {
     /// - Parameter components: An array of vector components.
     ///
     /// Omitted values are set equal to the first value specified.
-    /// If no values as specified, the size defaults to ``one``.
+    /// If no values are specified, the size defaults to ``one``.
     init<T: Collection>(size components: T) where T.Element == Double, T.Index == Int {
         let i = components.startIndex
         switch components.count {
@@ -164,27 +173,27 @@ public extension Vector {
 
     /// Returns a vector with all components inverted.
     static prefix func - (rhs: Vector) -> Vector {
-        Vector(-rhs.x, -rhs.y, -rhs.z)
+        [-rhs.x, -rhs.y, -rhs.z]
     }
 
     /// Returns the componentwise sum of two vectors.
     static func + (lhs: Vector, rhs: Vector) -> Vector {
-        Vector(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
+        [lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z]
     }
 
     /// Returns the componentwise difference between two vectors.
     static func - (lhs: Vector, rhs: Vector) -> Vector {
-        Vector(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z)
+        [lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z]
     }
 
     /// Returns a vector with its components multiplied by the specified value.
     static func * (lhs: Vector, rhs: Double) -> Vector {
-        Vector(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs)
+        [lhs.x * rhs, lhs.y * rhs, lhs.z * rhs]
     }
 
     /// Returns a vector with its components multiplied by the specified value.
     static func * (lhs: Double, rhs: Vector) -> Vector {
-        Vector(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z)
+        [lhs * rhs.x, lhs * rhs.y, lhs * rhs.z]
     }
 
     /// Multiplies the components of the vector by the specified value.
@@ -196,7 +205,7 @@ public extension Vector {
 
     /// Returns a vector with its components divided by the specified value.
     static func / (lhs: Vector, rhs: Double) -> Vector {
-        Vector(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs)
+        [lhs.x / rhs, lhs.y / rhs, lhs.z / rhs]
     }
 
     /// Divides the components of the vector by the value you provide.
@@ -227,7 +236,7 @@ public extension Vector {
     /// - Parameter other: The vector with which to compute the cross product.
     /// - Returns: Returns a vector that is orthogonal to the two vectors used to compute the cross product.
     func cross(_ other: Vector) -> Vector {
-        Vector(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x)
+        [y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x]
     }
 
     /// A Boolean value that indicates whether the vector has a length of `1`.
@@ -345,7 +354,7 @@ extension Vector: UnkeyedCodable {
 
 extension Vector {
     func _quantized() -> Vector {
-        Vector(quantize(x), quantize(y), quantize(z))
+        [quantize(x), quantize(y), quantize(z)]
     }
 
     func hashValues(withPrecision precision: Double) -> Set<Vector> {
@@ -356,14 +365,14 @@ extension Vector {
         let zf = floor(z / precision) * precision
         let zc = ceil(z / precision) * precision
         return [
-            Vector(xf, yf, zf),
-            Vector(xf, yf, zc),
-            Vector(xf, yc, zf),
-            Vector(xf, yc, zc),
-            Vector(xc, yf, zf),
-            Vector(xc, yf, zc),
-            Vector(xc, yc, zf),
-            Vector(xc, yc, zc),
+            [xf, yf, zf],
+            [xf, yf, zc],
+            [xf, yc, zf],
+            [xf, yc, zc],
+            [xc, yf, zf],
+            [xc, yf, zc],
+            [xc, yc, zf],
+            [xc, yc, zc],
         ]
     }
 

@@ -438,7 +438,7 @@ public extension Path {
         }
         var first = vertices.removeFirst()
         if isClosed {
-            first.texcoord = Vector(0, v, 0)
+            first.texcoord = [0, v, 0]
             vertices.append(first)
         } else {
             vertices.removeLast()
@@ -667,7 +667,7 @@ extension Path {
                 } else {
                     let p0p1 = p0.position - p1.position
                     let dy = p0p1.y / p0p1.x * -p1.position.x
-                    points[i].position = Vector(0, p1.position.y + dy)
+                    points[i].position = [0, p1.position.y + dy]
                     continue
                 }
             } else if p1.position.x > 0 {
@@ -682,7 +682,7 @@ extension Path {
                 } else {
                     let p0p1 = p1.position - p0.position
                     let dy = p0p1.y / p0p1.x * -p0.position.x
-                    points[i - 1].position = Vector(0, p0.position.y + dy)
+                    points[i - 1].position = [0, p0.position.y + dy]
                     continue
                 }
             }

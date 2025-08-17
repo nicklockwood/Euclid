@@ -76,21 +76,21 @@ class RotationTests: XCTestCase {
         let r = Rotation(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0, 0.5, 0)
         let u = v.rotated(by: r)
-        XCTAssertEqual(u, Vector(0.5, 0, 0))
+        XCTAssertEqual(u, [0.5, 0, 0])
     }
 
     func testAxisAngleRotation2() {
         let r = Rotation(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0.5, 0, 0)
         let u = v.rotated(by: r)
-        XCTAssertEqual(u, Vector(0, -0.5, 0))
+        XCTAssertEqual(u, [0, -0.5, 0])
     }
 
     func testAxisAngleRotation3() {
         let r = Rotation(unchecked: .unitZ, angle: .halfPi)
         let v = Vector(0, 0, 0.5)
         let u = v.rotated(by: r)
-        XCTAssertEqual(u, Vector(0, 0, 0.5))
+        XCTAssertEqual(u, [0, 0, 0.5])
     }
 
     func testPitchRotation() {

@@ -295,7 +295,7 @@ extension Vector: Transformable {
     }
 
     public func scaled(by scale: Vector) -> Vector {
-        Vector(x * scale.x, y * scale.y, z * scale.z)
+        [x * scale.x, y * scale.y, z * scale.z]
     }
 
     public func scaled(by factor: Double) -> Vector {

@@ -45,7 +45,7 @@ class VectorTests: XCTestCase {
             Rotation(unchecked: .unitY, angle: .degrees(17)),
             Rotation(unchecked: .unitY, angle: .degrees(135)),
             Rotation(unchecked: .unitY, angle: .degrees(182)),
-            Rotation(axis: Vector(1, 0.5, 0), angle: .degrees(55))!,
+            Rotation(axis: [1, 0.5, 0], angle: .degrees(55))!,
         ]
 
         for r in rotations {
@@ -62,13 +62,13 @@ class VectorTests: XCTestCase {
 
     func testRightAngleWithPlane() {
         let vector1 = Vector.unitX
-        let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
+        let plane = Plane(unchecked: vector1, pointOnPlane: .zero)
         XCTAssertEqual(vector1.angle(with: plane), .halfPi)
     }
 
     func testNonNormalizedAngleWithPlane() {
         let vector1 = Vector(7, 0, 0)
-        let plane = Plane(normal: vector1, pointOnPlane: Vector.zero)!
+        let plane = Plane(normal: vector1, pointOnPlane: .zero)!
         XCTAssertEqual(vector1.angle(with: plane), .halfPi)
     }
 
@@ -77,14 +77,14 @@ class VectorTests: XCTestCase {
     func testDistanceInFrontOfPlane() {
         let vector1 = Vector.unitX
         let vector2 = Vector(2, 1, -2)
-        let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
+        let plane = Plane(unchecked: vector1, pointOnPlane: .zero)
         XCTAssertEqual(vector2.signedDistance(from: plane), 2)
     }
 
     func testDistanceBehindPlane() {
         let vector1 = Vector.unitX
         let vector2 = Vector(-1.5, 2, 7)
-        let plane = Plane(unchecked: vector1, pointOnPlane: Vector.zero)
+        let plane = Plane(unchecked: vector1, pointOnPlane: .zero)
         XCTAssertEqual(vector2.signedDistance(from: plane), -1.5)
     }
 }

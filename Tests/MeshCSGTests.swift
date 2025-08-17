@@ -38,11 +38,11 @@ class MeshCSGTests: XCTestCase {
 
     func testSubtractOverlappingBoxes() {
         let a = Mesh.cube()
-        let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
+        let b = Mesh.cube().translated(by: [0.5, 0, 0])
         let c = a.subtracting(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, -0.5),
-            max: Vector(0, 0.5, 0.5)
+            min: [-0.5, -0.5, -0.5],
+            max: [0, 0.5, 0.5]
         ))
         XCTAssertEqual(c, .difference([a, b]))
     }
@@ -95,11 +95,11 @@ class MeshCSGTests: XCTestCase {
 
     func testXorOverlappingCubes() {
         let a = Mesh.cube()
-        let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
+        let b = Mesh.cube().translated(by: [0.5, 0, 0])
         let c = a.symmetricDifference(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, -0.5),
-            max: Vector(1.0, 0.5, 0.5)
+            min: .init(size: -0.5),
+            max: [1, 0.5, 0.5]
         ))
         XCTAssertEqual(c, .symmetricDifference([a, b]))
     }
@@ -152,11 +152,11 @@ class MeshCSGTests: XCTestCase {
 
     func testUnionOfOverlappingBoxes() {
         let a = Mesh.cube()
-        let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
+        let b = Mesh.cube().translated(by: [0.5, 0, 0])
         let c = a.union(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, -0.5),
-            max: Vector(1, 0.5, 0.5)
+            min: .init(size: -0.5),
+            max: [1, 0.5, 0.5]
         ))
         XCTAssertEqual(c, .union([a, b]))
     }
@@ -206,26 +206,26 @@ class MeshCSGTests: XCTestCase {
         // TODO: ideally this should probably be empty, but it's not clear
         // how to achieve that while also getting desired planar behavior
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(0.5, -0.5, -0.5),
-            max: Vector(0.5, 0.5, 0.5)
+            min: [0.5, -0.5, -0.5],
+            max: [0.5, 0.5, 0.5]
         ))
         XCTAssertEqual(c, .intersection([a, b]))
     }
 
     func testIntersectionOfOverlappingBoxes() {
         let a = Mesh.cube()
-        let b = Mesh.cube().translated(by: Vector(0.5, 0, 0))
+        let b = Mesh.cube().translated(by: [0.5, 0, 0])
         let c = a.intersection(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(0, -0.5, -0.5),
-            max: Vector(0.5, 0.5, 0.5)
+            min: [0, -0.5, -0.5],
+            max: [0.5, 0.5, 0.5]
         ))
         XCTAssertEqual(c, .intersection([a, b]))
     }
 
     func testIntersectionOfNonOverlappingBoxes() {
         let a = Mesh.cube()
-        let b = Mesh.cube().translated(by: Vector(2, 0, 0))
+        let b = Mesh.cube().translated(by: [2, 0, 0])
         let c = a.intersection(b)
         XCTAssertEqual(c, .empty)
         XCTAssertEqual(c, .intersection([a, b]))
@@ -275,11 +275,11 @@ class MeshCSGTests: XCTestCase {
 
     func testSubtractOverlappingSquares() {
         let a = Mesh.fill(.square())
-        let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
+        let b = Mesh.fill(.square()).translated(by: [0.5, 0, 0])
         let c = a.subtracting(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, 0),
-            max: Vector(0, 0.5, 0)
+            min: [-0.5, -0.5, 0],
+            max: [0, 0.5, 0]
         ))
         XCTAssertEqual(c, .difference([a, b]))
     }
@@ -304,11 +304,11 @@ class MeshCSGTests: XCTestCase {
 
     func testXorOverlappingSquares() {
         let a = Mesh.fill(.square())
-        let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
+        let b = Mesh.fill(.square()).translated(by: [0.5, 0, 0])
         let c = a.symmetricDifference(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, 0),
-            max: Vector(1.0, 0.5, 0)
+            min: [-0.5, -0.5, 0],
+            max: [1.0, 0.5, 0]
         ))
         XCTAssertEqual(c, .symmetricDifference([a, b]))
     }
@@ -333,11 +333,11 @@ class MeshCSGTests: XCTestCase {
 
     func testUnionOfOverlappingSquares() {
         let a = Mesh.fill(.square())
-        let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
+        let b = Mesh.fill(.square()).translated(by: [0.5, 0, 0])
         let c = a.union(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(-0.5, -0.5, 0),
-            max: Vector(1, 0.5, 0)
+            min: [-0.5, -0.5, 0],
+            max: [1, 0.5, 0]
         ))
         XCTAssertEqual(c, .union([a, b]))
     }
@@ -362,11 +362,11 @@ class MeshCSGTests: XCTestCase {
 
     func testIntersectionOfOverlappingSquares() {
         let a = Mesh.fill(.square())
-        let b = Mesh.fill(.square()).translated(by: Vector(0.5, 0, 0))
+        let b = Mesh.fill(.square()).translated(by: [0.5, 0, 0])
         let c = a.intersection(b)
         XCTAssertEqual(c.bounds, Bounds(
-            min: Vector(0, -0.5, 0),
-            max: Vector(0.5, 0.5, 0)
+            min: [0, -0.5, 0],
+            max: [0.5, 0.5, 0]
         ))
         XCTAssertEqual(c, .intersection([a, b]))
     }
@@ -377,7 +377,7 @@ class MeshCSGTests: XCTestCase {
         let a = Mesh.fill(.square())
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let b = a.clipped(to: plane)
-        XCTAssertEqual(b.bounds, .init(Vector(0, -0.5), Vector(0.5, 0.5)))
+        XCTAssertEqual(b.bounds, .init([0, -0.5], [0.5, 0.5]))
     }
 
     func testPentagonClippedToPlane() {
@@ -385,8 +385,8 @@ class MeshCSGTests: XCTestCase {
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let b = a.clipped(to: plane)
         XCTAssertEqual(b.bounds, .init(
-            Vector(0, -0.404508497187),
-            Vector(0.475528258148, 0.5)
+            [0, -0.404508497187],
+            [0.475528258148, 0.5]
         ))
     }
 
@@ -394,7 +394,7 @@ class MeshCSGTests: XCTestCase {
         let a = Mesh.fill(.circle(segments: 4))
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let b = a.clipped(to: plane)
-        XCTAssertEqual(b.bounds, .init(Vector(0, -0.5), Vector(0.5, 0.5)))
+        XCTAssertEqual(b.bounds, .init([0, -0.5], [0.5, 0.5]))
     }
 
     func testSquareClippedToItsOwnPlane() {
@@ -441,8 +441,8 @@ class MeshCSGTests: XCTestCase {
         let a = Mesh.fill(.square())
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let b = a.split(along: plane)
-        XCTAssertEqual(b.0?.bounds, .init(Vector(0, -0.5), Vector(0.5, 0.5)))
-        XCTAssertEqual(b.1?.bounds, .init(Vector(-0.5, -0.5), Vector(0, 0.5)))
+        XCTAssertEqual(b.0?.bounds, .init([0, -0.5], [0.5, 0.5]))
+        XCTAssertEqual(b.1?.bounds, .init([-0.5, -0.5], [0, 0.5]))
         XCTAssertEqual(b.front, b.0)
         XCTAssertEqual(b.back, b.1)
     }
@@ -467,20 +467,20 @@ class MeshCSGTests: XCTestCase {
 
     func testUnionSubmeshes() {
         let a = Mesh.cube()
-        let b = Mesh.cube().translated(by: Vector(2, 0, 0))
+        let b = Mesh.cube().translated(by: [2, 0, 0])
         let c = a.union(b)
-        let d = Mesh.cube().translated(by: Vector(4, 0, 0))
+        let d = Mesh.cube().translated(by: [4, 0, 0])
         XCTAssertEqual(c.union(d).submeshes.count, 3)
     }
 
     func testUnionOfPrecalculatedSubmeshes() {
         let a = Mesh.cube()
         _ = a.submeshes
-        let b = Mesh.cube().translated(by: Vector(2, 0, 0))
+        let b = Mesh.cube().translated(by: [2, 0, 0])
         _ = b.submeshes
         let c = a.union(b)
         XCTAssertEqual(c.submeshes.count, 2)
-        let d = Mesh.cube().translated(by: Vector(4, 0, 0))
+        let d = Mesh.cube().translated(by: [4, 0, 0])
         XCTAssertEqual(c.union(d).submeshes.count, 3)
     }
 }

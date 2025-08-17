@@ -222,40 +222,25 @@ extension Vertex {
     /// PPP NNN TTT RGBA
     init?(_ values: [Double]) {
         switch values.count {
-        case 2:
-            self.init(Vector(values[0], values[1]))
-        case 3:
-            self.init(Vector(values[0], values[1], values[2]))
+        case 2, 3:
+            self.init(.init(values))
         case 6:
             self.init(
-                Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5])
+                .init(values[0 ... 2]),
+                .init(values[3 ... 5])
             )
-        case 8:
+        case 8, 9:
             self.init(
-                Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5]),
-                Vector(values[6], values[7])
+                .init(values[0 ... 2]),
+                .init(values[3 ... 5]),
+                .init(values[6...])
             )
-        case 9:
+        case 12, 13:
             self.init(
-                Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5]),
-                Vector(values[6], values[7], values[8])
-            )
-        case 12:
-            self.init(
-                Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5]),
-                Vector(values[6], values[7], values[8]),
-                Color(values[9], values[10], values[11])
-            )
-        case 13:
-            self.init(
-                Vector(values[0], values[1], values[2]),
-                Vector(values[3], values[4], values[5]),
-                Vector(values[6], values[7], values[8]),
-                Color(values[9], values[10], values[11], values[12])
+                .init(values[0 ... 2]),
+                .init(values[3 ... 5]),
+                .init(values[6 ... 8]),
+                .init(values[9...])
             )
         default:
             return nil

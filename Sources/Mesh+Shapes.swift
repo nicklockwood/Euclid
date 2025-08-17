@@ -299,10 +299,7 @@ public extension Mesh {
         }
         let mesh = Mesh(
             unchecked: triangles,
-            bounds: Bounds(
-                min: Vector(-radius, -radius, -radius),
-                max: Vector(radius, radius, radius)
-            ),
+            bounds: Bounds(min: .init(size: -radius), max: .init(size: radius)),
             isConvex: true,
             isWatertight: true,
             submeshes: []
@@ -685,7 +682,7 @@ public extension Mesh {
         let radius = width / 2
         switch detail {
         case 1, 2:
-            path = .line(Vector(-radius, 0), Vector(radius, 0))
+            path = .line([-radius, 0], [radius, 0])
         case let sides:
             path = .circle(radius: radius, segments: sides)
         }
@@ -1041,22 +1038,22 @@ private extension Mesh {
                         // top triangle
                         let v0 = Vertex(
                             unchecked: v0.position,
-                            Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                            Vector(v0.texcoord.x + (t0 + t1) / 2, v0.texcoord.y, 0),
+                            [cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x],
+                            [v0.texcoord.x + (t0 + t1) / 2, v0.texcoord.y, 0],
                             v0.color
                         )
                         let v2 = Vertex(
                             unchecked:
-                            Vector(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
-                            Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                            Vector(v1.texcoord.x + t0, v1.texcoord.y, 0),
+                            [cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x],
+                            [cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x],
+                            [v1.texcoord.x + t0, v1.texcoord.y, 0],
                             v1.color
                         )
                         let v3 = Vertex(
                             unchecked:
-                            Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
-                            Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
-                            Vector(v1.texcoord.x + t1, v1.texcoord.y, 0),
+                            [cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x],
+                            [cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x],
+                            [v1.texcoord.x + t1, v1.texcoord.y, 0],
                             v1.color
                         )
                         polygons.append(Polygon(
@@ -1071,22 +1068,20 @@ private extension Mesh {
                     // bottom triangle
                     let v1 = Vertex(
                         unchecked: v1.position,
-                        Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                        Vector(v1.texcoord.x + (t0 + t1) / 2, v1.texcoord.y, 0),
+                        [cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x],
+                        [v1.texcoord.x + (t0 + t1) / 2, v1.texcoord.y, 0],
                         v1.color
                     )
                     let v2 = Vertex(
-                        unchecked:
-                        Vector(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
-                        Vector(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0),
+                        unchecked: [cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x],
+                        [cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x],
+                        [v0.texcoord.x + t1, v0.texcoord.y, 0],
                         v0.color
                     )
                     let v3 = Vertex(
-                        unchecked:
-                        Vector(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
-                        Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0),
+                        unchecked: [cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x],
+                        [cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x],
+                        [v0.texcoord.x + t0, v0.texcoord.y, 0],
                         v0.color
                     )
                     polygons.append(Polygon(
@@ -1099,31 +1094,27 @@ private extension Mesh {
                 } else {
                     // quad face
                     let v2 = Vertex(
-                        unchecked:
-                        Vector(cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x),
-                        Vector(cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t1, v0.texcoord.y, 0),
+                        unchecked: [cos1 * v0.position.x, v0.position.y, sin1 * -v0.position.x],
+                        [cos1 * v0.normal.x, v0.normal.y, sin1 * -v0.normal.x],
+                        [v0.texcoord.x + t1, v0.texcoord.y, 0],
                         v0.color
                     )
                     let v3 = Vertex(
-                        unchecked:
-                        Vector(cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x),
-                        Vector(cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x),
-                        Vector(v0.texcoord.x + t0, v0.texcoord.y, 0),
+                        unchecked: [cos0 * v0.position.x, v0.position.y, sin0 * -v0.position.x],
+                        [cos0 * v0.normal.x, v0.normal.y, sin0 * -v0.normal.x],
+                        [v0.texcoord.x + t0, v0.texcoord.y, 0],
                         v0.color
                     )
                     let v4 = Vertex(
-                        unchecked:
-                        Vector(cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x),
-                        Vector(cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x),
-                        Vector(v1.texcoord.x + t0, v1.texcoord.y, 0),
+                        unchecked: [cos0 * v1.position.x, v1.position.y, sin0 * -v1.position.x],
+                        [cos0 * v1.normal.x, v1.normal.y, sin0 * -v1.normal.x],
+                        [v1.texcoord.x + t0, v1.texcoord.y, 0],
                         v1.color
                     )
                     let v5 = Vertex(
-                        unchecked:
-                        Vector(cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x),
-                        Vector(cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x),
-                        Vector(v1.texcoord.x + t1, v1.texcoord.y, 0),
+                        unchecked: [cos1 * v1.position.x, v1.position.y, sin1 * -v1.position.x],
+                        [cos1 * v1.normal.x, v1.normal.y, sin1 * -v1.normal.x],
+                        [v1.texcoord.x + t1, v1.texcoord.y, 0],
                         v1.color
                     )
                     let vertices = [v2, v3, v4, v5]
@@ -1353,10 +1344,10 @@ private extension Mesh {
                 vertices[2].normal.rotate(by: r)
                 vertices[3].normal.rotate(by: r)
             }
-            vertices[0].texcoord = Vector(vertices[0].texcoord.y, uvstart)
-            vertices[1].texcoord = Vector(vertices[1].texcoord.y, uvstart)
-            vertices[2].texcoord = Vector(vertices[2].texcoord.y, uvend)
-            vertices[3].texcoord = Vector(vertices[3].texcoord.y, uvend)
+            vertices[0].texcoord = [vertices[0].texcoord.y, uvstart]
+            vertices[1].texcoord = [vertices[1].texcoord.y, uvstart]
+            vertices[2].texcoord = [vertices[2].texcoord.y, uvend]
+            vertices[3].texcoord = [vertices[3].texcoord.y, uvend]
             if vertices[0].position == vertices[1].position {
                 vertices.remove(at: 0)
             } else if vertices[2].position == vertices[3].position {

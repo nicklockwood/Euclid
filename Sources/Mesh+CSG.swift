@@ -425,10 +425,10 @@ public extension Mesh {
             // Create back face
             let rect = Polygon(
                 unchecked: [
-                    Vertex(unchecked: Vector(-radius, radius), .unitZ, .zero, nil),
-                    Vertex(unchecked: Vector(-radius, -radius), .unitZ, Vector(0, 1), nil),
-                    Vertex(unchecked: Vector(radius, -radius), .unitZ, Vector(1, 1), nil),
-                    Vertex(unchecked: Vector(radius, radius), .unitZ, Vector(1, 0), nil),
+                    Vertex(unchecked: [-radius, radius], .unitZ, .zero, nil),
+                    Vertex(unchecked: [-radius, -radius], .unitZ, [0, 1], nil),
+                    Vertex(unchecked: [radius, -radius], .unitZ, [1, 1], nil),
+                    Vertex(unchecked: [radius, radius], .unitZ, [1, 0], nil),
                 ],
                 normal: .unitZ,
                 isConvex: true,

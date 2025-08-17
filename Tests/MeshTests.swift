@@ -89,16 +89,16 @@ class MeshTests: XCTestCase {
     // MARK: makeWatertight
 
     func testAddMissingTriangleVertex() {
-        let a = Polygon([
-            Vector(0, 0),
-            Vector(0, -2),
-            Vector(2, 0),
-        ])!
-        let b = Polygon([
-            Vector(2, 0),
-            Vector(1, -1),
-            Vector(2, -2),
-        ])!
+        let a = Polygon(unchecked: [
+            [0, 0],
+            [0, -2],
+            [2, 0],
+        ])
+        let b = Polygon(unchecked: [
+            [2, 0],
+            [1, -1],
+            [2, -2],
+        ])
         let m = Mesh([a, b])
         let m2 = m.makeWatertight()
         XCTAssertEqual(m2.polygons[0].vertices.count, 4)
@@ -127,34 +127,34 @@ class MeshTests: XCTestCase {
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
-            LineSegment(start: Vector(0, 0.5, -0.5), end: Vector(0, 0.5, 0.5)),
-            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, -0.5, 0.5)),
-            LineSegment(start: Vector(0, -0.5, 0.5), end: Vector(0, 0.5, 0.5)),
-            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, 0.5, -0.5)),
+            LineSegment(start: [0, 0.5, -0.5], end: [0, 0.5, 0.5]),
+            LineSegment(start: [0, -0.5, -0.5], end: [0, -0.5, 0.5]),
+            LineSegment(start: [0, -0.5, 0.5], end: [0, 0.5, 0.5]),
+            LineSegment(start: [0, -0.5, -0.5], end: [0, 0.5, -0.5]),
         ])
     }
 
     func testCubeTouchingPlane() {
-        let mesh = Mesh.cube().translated(by: Vector(-0.5, 0, 0))
+        let mesh = Mesh.cube().translated(by: [-0.5, 0])
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
-            LineSegment(start: Vector(0, 0.5, -0.5), end: Vector(0, 0.5, 0.5)),
-            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, -0.5, 0.5)),
-            LineSegment(start: Vector(0, -0.5, 0.5), end: Vector(0, 0.5, 0.5)),
-            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, 0.5, -0.5)),
+            LineSegment(start: [0, 0.5, -0.5], end: [0, 0.5, 0.5]),
+            LineSegment(start: [0, -0.5, -0.5], end: [0, -0.5, 0.5]),
+            LineSegment(start: [0, -0.5, 0.5], end: [0, 0.5, 0.5]),
+            LineSegment(start: [0, -0.5, -0.5], end: [0, 0.5, -0.5]),
         ])
     }
 
     func testCubeTouchingPlane2() {
-        let mesh = Mesh.cube().translated(by: Vector(0.5, 0, 0))
+        let mesh = Mesh.cube().translated(by: [0.5, 0])
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
-            LineSegment(start: Vector(0, 0.5, -0.5), end: Vector(0, 0.5, 0.5)),
-            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, -0.5, 0.5)),
-            LineSegment(start: Vector(0, -0.5, 0.5), end: Vector(0, 0.5, 0.5)),
-            LineSegment(start: Vector(0, -0.5, -0.5), end: Vector(0, 0.5, -0.5)),
+            LineSegment(start: [0, 0.5, -0.5], end: [0, 0.5, 0.5]),
+            LineSegment(start: [0, -0.5, -0.5], end: [0, -0.5, 0.5]),
+            LineSegment(start: [0, -0.5, 0.5], end: [0, 0.5, 0.5]),
+            LineSegment(start: [0, -0.5, -0.5], end: [0, 0.5, -0.5]),
         ])
     }
 
@@ -163,7 +163,7 @@ class MeshTests: XCTestCase {
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
-            LineSegment(start: Vector(0, -0.404508497187, 0), end: Vector(0, 0.5, 0)),
+            LineSegment(start: [0, -0.404508497187], end: [0, 0.5]),
         ])
     }
 
@@ -172,7 +172,7 @@ class MeshTests: XCTestCase {
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let edges = mesh.edges(intersecting: plane)
         XCTAssertEqual(edges, [
-            LineSegment(start: Vector(0, -0.5, 0), end: Vector(0, 0.5, 0)),
+            LineSegment(start: [0, -0.5], end: [0, 0.5]),
         ])
     }
 
@@ -241,18 +241,18 @@ class MeshTests: XCTestCase {
 
     func testCubeContainsPoint() {
         let edgePoints: [Vector] = [
-            Vector(0.5, 0, 0),
-            Vector(0, 0.5, 0),
-            Vector(0, 0, 0.5),
-            Vector(0.5, 0.5, 0),
-            Vector(0, 0.5, 0.5),
-            Vector(0.5, 0, 0.5),
-            Vector(-0.5, 0, 0),
-            Vector(0, -0.5, 0),
-            Vector(0, 0, -0.5),
-            Vector(-0.5, -0.5, 0),
-            Vector(0, -0.5, -0.5),
-            Vector(-0.5, 0, -0.5),
+            [0.5, 0, 0],
+            [0, 0.5, 0],
+            [0, 0, 0.5],
+            [0.5, 0.5, 0],
+            [0, 0.5, 0.5],
+            [0.5, 0, 0.5],
+            [-0.5, 0, 0],
+            [0, -0.5, 0],
+            [0, 0, -0.5],
+            [-0.5, -0.5, 0],
+            [0, -0.5, -0.5],
+            [-0.5, 0, -0.5],
         ]
         let insidePoints = [.zero] + edgePoints.map { $0 * 0.999 }
         let outsidePoints = edgePoints.map { $0 * 1.001 }
@@ -270,12 +270,12 @@ class MeshTests: XCTestCase {
 
     func testSquareContainsPoint() {
         let edgePoints: [Vector] = [
-            Vector(0.5, 0),
-            Vector(0, 0.5),
-            Vector(0.5, 0.5),
-            Vector(-0.5, 0),
-            Vector(0, -0.5),
-            Vector(-0.5, -0.5),
+            [0.5, 0],
+            [0, 0.5],
+            [0.5, 0.5],
+            [-0.5, 0],
+            [0, -0.5],
+            [-0.5, -0.5],
         ]
         let insidePoints = [.zero] + edgePoints.map { $0 * 0.999 }
         let outsidePoints = edgePoints.map { $0 * 1.001 }
@@ -297,20 +297,20 @@ class MeshTests: XCTestCase {
     }
 
     func testSphereContainsPoint() {
-        let edgePoints: [Vector] = [
-            Vector(0.5, 0, 0),
-            Vector(0, 0.5, 0),
-            Vector(0, 0, 0.5),
-            Vector(0.5, 0.5, 0),
-            Vector(0, 0.5, 0.5),
-            Vector(0.5, 0, 0.5),
-            Vector(-0.5, 0, 0),
-            Vector(0, -0.5, 0),
-            Vector(0, 0, -0.5),
-            Vector(-0.5, -0.5, 0),
-            Vector(0, -0.5, -0.5),
-            Vector(-0.5, 0, -0.5),
-        ].map { $0.normalized() * 0.5 }
+        let edgePoints = ([
+            [0.5, 0, 0],
+            [0, 0.5, 0],
+            [0, 0, 0.5],
+            [0.5, 0.5, 0],
+            [0, 0.5, 0.5],
+            [0.5, 0, 0.5],
+            [-0.5, 0, 0],
+            [0, -0.5, 0],
+            [0, 0, -0.5],
+            [-0.5, -0.5, 0],
+            [0, -0.5, -0.5],
+            [-0.5, 0, -0.5],
+        ] as [Vector]).map { $0.normalized() * 0.5 }
         let insidePoints = [.zero] + edgePoints.map { $0 * 0.999 }
         let outsidePoints = edgePoints.map { $0 * 1.001 }
         let mesh = Mesh.sphere(slices: 8, stacks: 4)
@@ -327,16 +327,16 @@ class MeshTests: XCTestCase {
 
     func testLContainsPoint() {
         let edgePoints: [Vector] = [
-            Vector(0, 0, 0),
-            Vector(0, 0.5, 0),
-            Vector(-0.5, 0, 0),
-        ].translated(by: Vector(-0.25, 0.25))
+            [0, 0, 0],
+            [0, 0.5, 0],
+            [-0.5, 0, 0],
+        ].translated(by: [-0.25, 0.25])
         let insidePoints = [.zero] + edgePoints.map { $0 * 0.999 }
         let outsidePoints = edgePoints.map { $0 * 1.001 }
         let mesh = Mesh
-            .cube(size: Vector(2, 2, 1))
-            .subtracting(Mesh.cube().translated(by: Vector(-0.5, 0.5, 0)))
-            .translated(by: Vector(-0.25, 0.25))
+            .cube(size: [2, 2, 1])
+            .subtracting(Mesh.cube().translated(by: [-0.5, 0.5, 0]))
+            .translated(by: [-0.25, 0.25])
         let bsp = BSP(mesh) { false }
         for point in insidePoints {
             XCTAssertTrue(mesh.intersects(point))
@@ -366,17 +366,17 @@ class MeshTests: XCTestCase {
 
     func testQuadReflectionAlongPlane() {
         let quad = Polygon(unchecked: [
-            Vertex(Vector(-0.5, 1.0, 0.5), .unitY, Vector(0.0, 1.0), .black),
-            Vertex(Vector(0.5, 1.0, 0.5), .unitY, Vector(1.0, 1.0), .black),
-            Vertex(Vector(0.5, 1.0, -0.5), .unitY, Vector(1.0, 0.0), .white),
-            Vertex(Vector(-0.5, 1.0, -0.5), .unitY, Vector(0.0, 0.0), .white),
+            Vertex([-0.5, 1.0, 0.5], .unitY, [0.0, 1.0], .black),
+            Vertex([0.5, 1.0, 0.5], .unitY, [1.0, 1.0], .black),
+            Vertex([0.5, 1.0, -0.5], .unitY, [1.0, 0.0], .white),
+            Vertex([-0.5, 1.0, -0.5], .unitY, [0.0, 0.0], .white),
         ])
 
         let expected = Polygon(unchecked: [
-            Vertex(Vector(-0.5, -1.0, -0.5), -.unitY, Vector(0.0, 0.0), .white),
-            Vertex(Vector(0.5, -1.0, -0.5), -.unitY, Vector(1.0, 0.0), .white),
-            Vertex(Vector(0.5, -1.0, 0.5), -.unitY, Vector(1.0, 1.0), .black),
-            Vertex(Vector(-0.5, -1.0, 0.5), -.unitY, Vector(0.0, 1.0), .black),
+            Vertex([-0.5, -1.0, -0.5], -.unitY, [0.0, 0.0], .white),
+            Vertex([0.5, -1.0, -0.5], -.unitY, [1.0, 0.0], .white),
+            Vertex([0.5, -1.0, 0.5], -.unitY, [1.0, 1.0], .black),
+            Vertex([-0.5, -1.0, 0.5], -.unitY, [0.0, 1.0], .black),
         ])
 
         let reflection = quad.reflected(along: .xz)

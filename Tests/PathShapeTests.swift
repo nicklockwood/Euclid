@@ -165,22 +165,22 @@ class PathShapeTests: XCTestCase {
     func testDefault() {
         let path = Path.arc(color: .green)
         XCTAssert(path.points.allSatisfy { $0.color == .green })
-        XCTAssertEqual(path.bounds, Bounds(Vector(0, -0.5, 0), Vector(0.5, 0.5, 0)))
+        XCTAssertEqual(path.bounds, Bounds([0, -0.5, 0], [0.5, 0.5, 0]))
     }
 
     func testInverseArc() {
         let path = Path.arc(angle: -.pi / 2)
-        XCTAssertEqual(path.bounds, Bounds(Vector(-0.5, 0.5, 0), .zero))
+        XCTAssertEqual(path.bounds, Bounds([-0.5, 0.5, 0], .zero))
     }
 
     func testClosedArc() {
         let path = Path.arc(angle: .twoPi, radius: 2, color: .red)
-        XCTAssertEqual(path, Path.circle(radius: 2, color: .red).scaled(by: Vector(-1, 1)))
+        XCTAssertEqual(path, Path.circle(radius: 2, color: .red).scaled(by: [-1, 1]))
     }
 
     func testOverClosedArc() {
         let path = Path.arc(angle: .pi * 3, radius: 2)
-        XCTAssertEqual(path, Path.circle(radius: 2).scaled(by: Vector(-1, 1)))
+        XCTAssertEqual(path, Path.circle(radius: 2).scaled(by: [-1, 1]))
     }
 
     func testInverseClosedArc() {
@@ -224,8 +224,8 @@ class PathShapeTests: XCTestCase {
         XCTAssertEqual(path.plane, .xy)
         XCTAssertEqual(path.points.count, 5)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(-0.5, -0.5),
-            max: Vector(0.5, 0.5)
+            min: [-0.5, -0.5],
+            max: [0.5, 0.5]
         ))
     }
 
@@ -235,8 +235,8 @@ class PathShapeTests: XCTestCase {
         XCTAssertEqual(path.plane, .xy)
         XCTAssertEqual(path.points.count, 5)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(-0.5, -0.5),
-            max: Vector(0.5, 0.5)
+            min: [-0.5, -0.5],
+            max: [0.5, 0.5]
         ))
     }
 
@@ -246,8 +246,8 @@ class PathShapeTests: XCTestCase {
         XCTAssertEqual(path.plane, .xy)
         XCTAssertEqual(path.points.count, 5)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(-0.5, -0.5),
-            max: Vector(0.5, 0.5)
+            min: [-0.5, -0.5],
+            max: [0.5, 0.5]
         ))
     }
 
@@ -257,8 +257,8 @@ class PathShapeTests: XCTestCase {
         XCTAssertEqual(path.plane, .xy)
         XCTAssertEqual(path.points.count, 5)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(-0.5, -0.5),
-            max: Vector(0.5, 0.5)
+            min: [-0.5, -0.5],
+            max: [0.5, 0.5]
         ))
     }
 
@@ -268,8 +268,8 @@ class PathShapeTests: XCTestCase {
         XCTAssertEqual(path.plane, .xy)
         XCTAssertEqual(path.points.count, 3)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(0, -0.5),
-            max: Vector(0, 0.5)
+            min: [0, -0.5],
+            max: [0, 0.5]
         ))
     }
 
@@ -279,8 +279,8 @@ class PathShapeTests: XCTestCase {
         XCTAssertEqual(path.plane, .xy)
         XCTAssertEqual(path.points.count, 3)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(0, -0.5),
-            max: Vector(0, 0.5)
+            min: [0, -0.5],
+            max: [0, 0.5]
         ))
     }
 
@@ -300,8 +300,8 @@ class PathShapeTests: XCTestCase {
         XCTAssertEqual(path.plane, .xy)
         XCTAssertEqual(path.points.count, 3)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(-0.5, 0),
-            max: Vector(0.5, 0)
+            min: [-0.5, 0],
+            max: [0.5, 0]
         ))
     }
 
@@ -311,8 +311,8 @@ class PathShapeTests: XCTestCase {
         XCTAssertEqual(path.plane, .xy)
         XCTAssertEqual(path.points.count, 3)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(-0.5, 0),
-            max: Vector(0.5, 0)
+            min: [-0.5, 0],
+            max: [0.5, 0]
         ))
     }
 
@@ -323,8 +323,8 @@ class PathShapeTests: XCTestCase {
         XCTAssert(path.isClosed)
         XCTAssertEqual(path.points.count, 21)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(-0.5, -0.5),
-            max: Vector(0.5, 0.5)
+            min: [-0.5, -0.5],
+            max: [0.5, 0.5]
         ))
     }
 
@@ -333,8 +333,8 @@ class PathShapeTests: XCTestCase {
         XCTAssert(path.isClosed)
         XCTAssertEqual(path.points.count, 17)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(-0.5, -0.5),
-            max: Vector(0.5, 0.5)
+            min: [-0.5, -0.5],
+            max: [0.5, 0.5]
         ))
     }
 
@@ -343,8 +343,8 @@ class PathShapeTests: XCTestCase {
         XCTAssert(path.isClosed)
         XCTAssertEqual(path.points.count, 19)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(-0.5, -1),
-            max: Vector(0.5, 1)
+            min: [-0.5, -1],
+            max: [0.5, 1]
         ))
     }
 
@@ -353,8 +353,8 @@ class PathShapeTests: XCTestCase {
         XCTAssert(path.isClosed)
         XCTAssertEqual(path.points.count, 19)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(-1, -0.5),
-            max: Vector(1, 0.5)
+            min: [-1, -0.5],
+            max: [1, 0.5]
         ))
     }
 
@@ -363,8 +363,8 @@ class PathShapeTests: XCTestCase {
         XCTAssert(path.isClosed)
         XCTAssertEqual(path.points.count, 9)
         XCTAssertEqual(path.bounds, Bounds(
-            min: Vector(-0.5, -0.5),
-            max: Vector(0.5, 0.5)
+            min: [-0.5, -0.5],
+            max: [0.5, 0.5]
         ))
     }
 
@@ -384,7 +384,7 @@ class PathShapeTests: XCTestCase {
 
     func testExtrusionAlongZAxis() {
         let contours = Path.circle().extrusionContours(along: .line(.zero, .unitZ))
-        XCTAssertEqual(contours, [.circle(), Path.circle().translated(by: .unitZ)])
+        XCTAssertEqual(contours, [.circle(), .circle().translated(by: .unitZ)])
     }
 
     func testExtrusionAlongEmptyPath() {

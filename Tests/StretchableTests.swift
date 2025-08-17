@@ -25,20 +25,20 @@ class StretchableTests: XCTestCase {
     func testStretchPoint() {
         let p = Vector(1, 1)
         let q = p.stretched(by: 1.5, along: .unitY)
-        XCTAssertEqual(q, Vector(1, 1.5))
+        XCTAssertEqual(q, [1, 1.5])
         let r = p.stretched(by: 1.5, along: -.unitY)
-        XCTAssertEqual(r, Vector(1, 1.5))
+        XCTAssertEqual(r, [1, 1.5])
         let s = p.stretched(by: 1.5, along: .unitX)
-        XCTAssertEqual(s, Vector(1.5, 1))
+        XCTAssertEqual(s, [1.5, 1])
         let t = p.stretched(by: 1.5, along: -.unitX)
-        XCTAssertEqual(t, Vector(1.5, 1))
+        XCTAssertEqual(t, [1.5, 1])
     }
 
     func testStretchPath() {
         let p = Path.circle()
         let q = p.stretched(by: 1.5, along: .unitY)
-        XCTAssert(q.isEqual(to: p.scaled(by: Vector(1, 1.5, 1))))
+        XCTAssert(q.isEqual(to: p.scaled(by: [1, 1.5, 1])))
         let r = p.stretched(by: 1.5, along: .unitX)
-        XCTAssert(r.isEqual(to: p.scaled(by: Vector(1.5, 1, 1))))
+        XCTAssert(r.isEqual(to: p.scaled(by: [1.5, 1, 1])))
     }
 }

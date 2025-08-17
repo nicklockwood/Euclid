@@ -13,7 +13,7 @@ class MeshLoftTests: XCTestCase {
     func testLoftParallelEdges() {
         let shapes = [
             Path.square(),
-            Path.square().translated(by: Vector(0.0, 1.0, 0.0)),
+            Path.square().translated(by: [0.0, 1.0, 0.0]),
         ]
 
         let loft = Mesh.loft(shapes)
@@ -82,7 +82,7 @@ class MeshLoftTests: XCTestCase {
         let shapes = [
             Path.circle().rotated(by: Rotation(yaw: .pi / 8)),
             Path.circle().rotated(by: Rotation(yaw: -.pi / 8))
-                .translated(by: Vector(0, 0, 1)),
+                .translated(by: [0, 0, 1]),
         ]
 
         let loft = Mesh.loft(shapes)
@@ -126,8 +126,8 @@ class MeshLoftTests: XCTestCase {
 
     func testLoftOffsetOpenPaths() {
         let shapes = [
-            Path.line(Vector(0, 0), Vector(0, 1)),
-            Path.line(Vector(0, 0, 1), Vector(0, 1, 1)),
+            Path.line(.zero, [0, 1]),
+            Path.line([0, 0, 1], [0, 1, 1]),
         ]
 
         let loft = Mesh.loft(shapes)
@@ -149,8 +149,8 @@ class MeshLoftTests: XCTestCase {
 
     func testLoftCoincidentOpenPaths() {
         let shapes = [
-            Path.line(Vector(0, 0), Vector(0, 1)),
-            Path.line(Vector(0, 0), Vector(0, 1)),
+            Path.line([0, 0], [0, 1]),
+            Path.line([0, 0], [0, 1]),
         ]
 
         let loft = Mesh.loft(shapes)
@@ -179,7 +179,7 @@ class MeshLoftTests: XCTestCase {
     func testLoftCircleToSquare() {
         let shapes = [
             Path.circle(),
-            Path.square().translated(by: Vector(0, 0, 1)),
+            Path.square().translated(by: [0, 0, 1]),
         ]
 
         let loft = Mesh.loft(shapes)
@@ -191,7 +191,7 @@ class MeshLoftTests: XCTestCase {
     func testLoftSquareToCircle() {
         let shapes = [
             Path.square(),
-            Path.circle().translated(by: Vector(0, 0, 1)),
+            Path.circle().translated(by: [0, 0, 1]),
         ]
 
         let loft = Mesh.loft(shapes)
@@ -261,7 +261,7 @@ class MeshLoftTests: XCTestCase {
                 .point(1, 1),
                 .point(-1, -1),
             ]),
-            Path.circle().translated(by: Vector(0, 0, 1)),
+            Path.circle().translated(by: [0, 0, 1]),
         ]
 
         let loft = Mesh.loft(shapes)
@@ -280,7 +280,7 @@ class MeshLoftTests: XCTestCase {
                 .point(1, 1),
                 .point(-1, 1),
             ]),
-            Path.circle().translated(by: Vector(0, 0, 1)),
+            Path.circle().translated(by: [0, 0, 1]),
         ]
 
         let loft = Mesh.loft(shapes)
@@ -307,7 +307,7 @@ class MeshLoftTests: XCTestCase {
                 .point(1, 1, 1),
                 .point(-1, 1, 1),
             ]),
-            Path.square().translated(by: Vector(0, 0, 2)),
+            Path.square().translated(by: [0, 0, 2]),
         ]
 
         let loft = Mesh.loft(shapes)

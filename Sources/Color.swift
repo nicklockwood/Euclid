@@ -109,6 +109,7 @@ public extension Color {
     }
 
     /// Creates a color from an array of component values.
+    /// - Parameter components: An array of vector components.
     ///
     /// The number of values specified determines how each value is interpreted. The following patterns are
     /// supported (R = red, G = green, B = blue, A = alpha, L = luminance):
@@ -117,7 +118,7 @@ public extension Color {
     /// LA
     /// RGB
     /// RGBA
-    init?(_ components: [Double]) {
+    init?<T: Collection>(_ components: T) where T.Element == Double, T.Index == Int {
         guard (1 ... 4).contains(components.count) else {
             return nil
         }
@@ -183,12 +184,13 @@ extension Color: UnkeyedCodable {
 }
 
 extension Color {
-    init(unchecked components: [Double]) {
+    init<T: Collection>(unchecked components: T) where T.Element == Double, T.Index == Int {
+        let i = components.startIndex
         switch components.count {
-        case 1: self.init(components[0])
-        case 2: self.init(components[0], components[1])
-        case 3: self.init(components[0], components[1], components[2])
-        case 4: self.init(components[0], components[1], components[2], components[3])
+        case 1: self.init(components[i])
+        case 2: self.init(components[i], components[i + 1])
+        case 3: self.init(components[i], components[i + 1], components[i + 2])
+        case 4: self.init(components[i], components[i + 1], components[i + 2], components[i + 3])
         default:
             assertionFailure()
             self = .clear

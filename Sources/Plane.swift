@@ -281,9 +281,9 @@ enum FlatteningPlane: RawRepresentable {
 
     func flattenPoint(_ point: Vector) -> Vector {
         switch self {
-        case .yz: return Vector(point.y, point.z)
-        case .xz: return Vector(point.x, point.z)
-        case .xy: return Vector(point.x, point.y)
+        case .yz: return [point.y, point.z]
+        case .xz: return [point.x, point.z]
+        case .xy: return [point.x, point.y]
         }
     }
 }

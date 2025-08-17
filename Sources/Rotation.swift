@@ -288,7 +288,7 @@ extension Rotation: Codable {
                     self.init(x, y, z, w)
                     return
                 }
-                axis = Vector(x, y, z)
+                axis = [x, y, z]
             }
             self.init(unchecked: axis?.normalized() ?? .unitZ, angle: angle ?? .zero)
             return

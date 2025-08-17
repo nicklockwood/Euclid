@@ -446,11 +446,7 @@ private extension Data {
     }
 
     func vector(at index: Int) -> Vector {
-        Vector(
-            float(at: index),
-            float(at: index + 4),
-            float(at: index + 8)
-        )
+        [float(at: index), float(at: index + 4), float(at: index + 8)]
     }
 
     func color(at index: Int) -> Color {
@@ -609,10 +605,10 @@ public extension Mesh {
                 }
             case .texcoord:
                 for i in 0 ..< count {
-                    vertices[i].texcoord = Vector(
+                    vertices[i].texcoord = [
                         data.float(at: offset),
-                        data.float(at: offset + 4)
-                    )
+                        data.float(at: offset + 4),
+                    ]
                     offset += stride
                 }
             default:
