@@ -667,7 +667,6 @@ class PolygonTests: XCTestCase {
 
     func testHouseShapedPolygonCorrectlyTriangulated() {
         let normal = -Vector.unitZ
-        let epsilon = 1e-8
         guard let polygon = Polygon([
             Vertex(Vector(0, 0.5), normal),
             Vertex(Vector(1, 0), normal),
@@ -703,7 +702,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testSlightlyNonPlanarPolygonTriangulated() {
-        let offset = epsilon / 20
+        let offset = planeEpsilon / 2
         let path = Path([
             .point(1.086, 0, 0.17),
             .point(1.086, 0, 0.14),
@@ -741,7 +740,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testInvertedSlightlyNonPlanarPolygonTriangulated() {
-        let offset = epsilon / 40
+        let offset = planeEpsilon / 2
         let path = Path([
             .point(1.086, 0, 0.17),
             .point(1.086, 0, 0.14),
