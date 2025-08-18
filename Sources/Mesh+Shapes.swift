@@ -1331,7 +1331,7 @@ private extension Mesh {
         var uvstart = uvstart, uvend = uvend
         func addFace(_ a: Vertex, _ b: Vertex, _ c: Vertex, _ d: Vertex) {
             var vertices = [a, b, c, d]
-            let n = faceNormalForPoints(vertices.map(\.position), convex: true)
+            let n = faceNormalForPoints(vertices.map(\.position))
             if !curvestart {
                 var r = rotationBetweenNormalizedVectors(n0, n)
                 r = Rotation(unchecked: r.axis, angle: r.angle - .halfPi)

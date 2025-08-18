@@ -258,6 +258,16 @@ class PathTests: XCTestCase {
         XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
+    func testStraightLinePathAnticlockwiseWinding4() {
+        let path = Path([
+            .point(-1, 1),
+            .point(-1, -1),
+            .point(-1, 1),
+        ])
+        XCTAssertTrue(path.isClosed)
+        XCTAssertEqual(path.plane?.normal, .unitZ)
+    }
+
     // MARK: faceVertices
 
     func testFaceVerticesForConcaveClockwisePath() {

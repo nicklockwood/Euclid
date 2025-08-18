@@ -112,10 +112,7 @@ extension Polygon: Codable {
         let positionsOnly = vertices.allSatisfy {
             $0.texcoord == .zero && $0.normal == plane.normal && $0.color == .white
         }
-        if material == nil, plane.isEqual(to: Plane(
-            unchecked: positions,
-            convex: isConvex
-        )) {
+        if material == nil, plane.isEqual(to: Plane(unchecked: positions)) {
             var container = encoder.singleValueContainer()
             try positionsOnly ? container.encode(positions) : container.encode(vertices)
         } else {
@@ -236,17 +233,16 @@ public extension Polygon {
     /// Vertices are assumed to be in anti-clockwise order for the purpose of deriving the face normal.
     init?(_ vertices: [Vertex], material: Material? = nil) {
         let positions = vertices.map(\.position)
-        let isConvex = pointsAreConvex(positions)
         guard positions.count > 2, !pointsAreSelfIntersecting(positions),
               // Note: Plane init includes check for degeneracy
-              let plane = Plane(points: positions, convex: isConvex)
+              let plane = Plane(points: positions)
         else {
             return nil
         }
         self.init(
             unchecked: vertices,
             plane: plane,
-            isConvex: isConvex,
+            isConvex: nil,
             sanitizeNormals: true,
             material: material
         )
@@ -969,7 +965,7 @@ extension Polygon {
         faceNormal: Vector?,
         material: Polygon.Material?
     ) {
-        let faceNormal = faceNormal ?? faceNormalForPoints(Array(points), convex: true)
+        let faceNormal = faceNormal ?? faceNormalForPoints(Array(points))
         let vertices = points.map { p -> Vertex in
             let matches = verticesByPosition[p] ?? []
             var best: Vertex?, bestDot = 1.0
@@ -1022,7 +1018,7 @@ extension Polygon {
         let points = vertices.map(\.position)
         assert(isConvex == nil || pointsAreConvex(points) == isConvex)
         assert(sanitizeNormals || vertices.allSatisfy { $0.normal != .zero })
-        let plane = plane ?? Plane(unchecked: points, convex: isConvex)
+        let plane = plane ?? Plane(unchecked: points)
         let isConvex = isConvex ?? pointsAreConvex(points)
         self.storage = Storage(
             vertices: sanitizeNormals ? vertices.map {

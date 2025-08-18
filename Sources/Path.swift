@@ -139,7 +139,7 @@ public extension Path {
     ///
     /// > Note: If path is non-planar then this returns an average/approximate normal.
     var faceNormal: Vector {
-        plane?.normal ?? faceNormalForPoints(points.map(\.position), convex: nil)
+        plane?.normal ?? faceNormalForPoints(points.map(\.position))
     }
 
     /// Return a copy of the polygon with transformed vertex colors
@@ -329,23 +329,19 @@ public extension Path {
             return nil
         }
         var hasTexcoords = true
-        var vertices = [Vertex]()
-        var p0 = points[count - 2]
-        for i in 0 ..< count - 1 {
+        var vertices = (0 ..< count - 1).map { i in
             let p1 = points[i]
             let texcoord = p1.texcoord
             hasTexcoords = hasTexcoords && texcoord != nil
             let normal = plane?.normal ?? faceNormalForPoints(
-                [p0.position, p1.position, points[i + 1].position],
-                convex: true
+                [points[i > 0 ? i - 1 : count - 2].position, p1.position, points[i + 1].position]
             )
-            vertices.append(Vertex(
+            return Vertex(
                 unchecked: p1.position,
                 normal,
                 texcoord,
                 p1.color
-            ))
-            p0 = p1
+            )
         }
         guard !verticesAreDegenerate(vertices) else {
             return nil
@@ -582,7 +578,7 @@ extension Path {
             self.plane = plane
             assert(positions.allSatisfy { plane.intersects($0) })
         } else if subpathIndices?.isEmpty ?? true {
-            self.plane = Plane(points: positions, convex: nil)
+            self.plane = Plane(points: positions)
         } else {
             for path in subpaths {
                 guard let plane = path.plane else {

@@ -219,17 +219,37 @@ class UtilityTests: XCTestCase {
     // MARK: faceNormal
 
     func testFaceNormalForZAxisLine() {
-        let result = faceNormalForPoints([.zero, .unitZ], convex: nil)
+        let result = faceNormalForPoints([.zero, .unitZ])
+        XCTAssertEqual(result, .unitY)
+    }
+
+    func testFaceNormalForZAxisZeroAreaPolygon() {
+        let result = faceNormalForPoints([.zero, .unitZ, .unitZ / 2])
+        XCTAssertEqual(result, .unitY)
+    }
+
+    func testFaceNormalForLShapedZeroAreaPolygon() {
+        let result = faceNormalForPoints([.zero, .unitZ, .unitX, .unitZ])
         XCTAssertEqual(result, .unitY)
     }
 
     func testFaceNormalForVerticalLine() {
-        let result = faceNormalForPoints([.zero, .unitY], convex: nil)
+        let result = faceNormalForPoints([.zero, .unitY])
+        XCTAssertEqual(result, .unitZ)
+    }
+
+    func testFaceNormalForVerticalZeroAreaPolygon() {
+        let result = faceNormalForPoints([.zero, .unitY, .unitY / 2])
         XCTAssertEqual(result, .unitZ)
     }
 
     func testFaceNormalForHorizontalLine() {
-        let result = faceNormalForPoints([.zero, .unitX], convex: nil)
+        let result = faceNormalForPoints([.zero, .unitX])
+        XCTAssertEqual(result, .unitZ)
+    }
+
+    func testFaceNormalForHorizontalZeroAreaPolygon() {
+        let result = faceNormalForPoints([.zero, .unitX, .unitX / 2])
         XCTAssertEqual(result, .unitZ)
     }
 

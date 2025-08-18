@@ -162,7 +162,7 @@ func triangulateVertices(
         }
         triangles.removeAll()
     }
-    let faceNormal = plane?.normal ?? faceNormalForPoints(vertices.map(\.position), convex: isConvex)
+    let faceNormal = plane?.normal ?? faceNormalForPoints(vertices.map(\.position))
     var start = 0, i = 0
     outer: while start < vertices.count {
         var attempts = 0
@@ -382,59 +382,40 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
 /// Points are assumed to be ordered in a counter-clockwise direction
 /// Points are not verified to be coplanar or non-degenerate
 /// Points are not required to form a convex polygon
-func faceNormalForPoints(
-    _ points: [Vector],
-    convex: Bool?
-) -> Vector {
-    if !points.isEmpty, points.first == points.last {
-        return faceNormalForPoints(Array(points.dropFirst()), convex: convex)
+func faceNormalForPoints(_ points: [Vector]) -> Vector {
+    // Try vectorArea first (Newell's method)
+    let vectorArea = points.vectorArea
+    if vectorArea != .zero {
+        return vectorArea.normalized()
     }
-    let count = points.count
-    switch count {
-    case 0, 1:
-        return .unitZ
-    case 2:
-        let ab = points[1] - points[0]
-        let normal = ab.cross(.unitZ).cross(ab)
-        let length = normal.length
-        guard length > 0 else {
-            // Points lie along z axis
-            return .unitY
-        }
-        return normal / length
-    default:
-        func faceNormalForConvexPoints(_ points: [Vector]) -> Vector {
-            let count = points.count
-            var b = points[count - 1]
-            var ab = b - points[count - 2]
-            var bestLengthSquared = 0.0
-            var best: Vector?
-            for c in points {
-                let bc = c - b
-                let normal = ab.cross(bc)
-                let lengthSquared = normal.lengthSquared
-                if lengthSquared > bestLengthSquared {
-                    bestLengthSquared = lengthSquared
-                    best = normal / lengthSquared.squareRoot()
-                }
-                b = c
-                ab = bc
-            }
-            return best ?? .unitZ
-        }
-        let normal = faceNormalForConvexPoints(points)
-        let convex = convex ?? pointsAreConvex(points)
-        if !convex {
-            let flatteningPlane = FlatteningPlane(normal: normal)
-            let flattenedPoints = points.map { flatteningPlane.flattenPoint($0) }
-            let flattenedNormal = faceNormalForConvexPoints(flattenedPoints)
-            let isClockwise = flattenedPointsAreClockwise(flattenedPoints)
-            if (flattenedNormal.z > 0) == isClockwise {
-                return -normal
+
+    // If vectorArea is zero, we can't use it to calculate normal
+    // Instead we'll use a modified version of Newell's method
+    if var a = points.last, points.count > 2 {
+        let vectorArea = points.reduce(Vector.zero) { normal, b in
+            defer { a = b }
+            let cross = a.cross(b)
+            if normal.dot(cross) < 0 {
+                return normal - cross
+            } else {
+                return normal + cross
             }
         }
-        return normal
+        if vectorArea != .zero {
+            return vectorArea.normalized()
+        }
     }
+
+    // Points must be linear, so find what line they line on
+    // and then return the orthogonal vector to that one
+    let ab = points.count > 1 ? points[1] - points[0] : .zero
+    let normal = ab.cross(.unitZ).cross(ab)
+    if normal != .zero {
+        return normal.normalized()
+    }
+
+    // Points lie along z axis
+    return .unitY
 }
 
 /// https://stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order#1165943
