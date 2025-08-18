@@ -880,8 +880,10 @@ private extension Mesh {
             if let index = polygonsToAdd.lastIndex(where: { $0.isConvex }) {
                 p = polygonsToAdd.remove(at: index)
             } else {
-                polygonsToAdd += polygonsToAdd.removeLast().tessellate()
-                p = polygonsToAdd.removeLast()
+                let potentiallyNonConvexPolygon = polygonsToAdd.removeLast()
+                var convexPolygons = potentiallyNonConvexPolygon.tessellate()
+                p = convexPolygons.popLast() ?? potentiallyNonConvexPolygon
+                polygonsToAdd += convexPolygons
                 assert(p.isConvex)
             }
             polygons += [p, p.inverted()]
