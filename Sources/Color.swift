@@ -56,6 +56,16 @@ public struct Color: Hashable, Sendable {
     }
 }
 
+extension Color: CustomDebugStringConvertible, CustomReflectable {
+    public var debugDescription: String {
+        "Color(\(r), \(g), \(b)\(a == 1 ? "" : ", \(a)"))"
+    }
+
+    public var customMirror: Mirror {
+        Mirror(self, children: [:], displayStyle: .struct)
+    }
+}
+
 extension Color: Codable {
     private enum CodingKeys: String, CodingKey {
         case r, g, b, a

@@ -42,6 +42,22 @@ public struct Polygon: Hashable, Sendable {
     var id: Int
 }
 
+extension Polygon: CustomDebugStringConvertible, CustomReflectable {
+    public var debugDescription: String {
+        let m = material.map { ", material: \($0)" } ?? ""
+        let v = vertices.map { "\n\t\($0)," }.joined()
+        return "Polygon([\(v)\n]\(m))"
+    }
+
+    public var customMirror: Mirror {
+        Mirror(self, children: [
+            "plane": plane,
+            "isConvex": isConvex,
+            "material": material as Any,
+        ], displayStyle: .struct)
+    }
+}
+
 extension Polygon: Codable {
     private enum CodingKeys: CodingKey {
         case vertices, plane, material

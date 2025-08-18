@@ -59,37 +59,23 @@ public struct Transform: Hashable {
         self.rotation = rotation ?? .identity
         self.translation = translation ?? .zero
     }
+}
 
-    /// Creates a new transform with a uniform scale factor
-    /// - Parameters:
-    ///   - scale: The scaling factor of the transform. Defaults to `1.0` (no scale adjustment).
-    ///   - rotation: The translation or position component of the transform. Defaults to identity (no rotation).
-    ///   - translation: The translation or position component of the transform. Defaults to zero (no translation).
-    public init(
-        scale: Double,
-        rotation: Rotation? = nil,
-        translation: Vector? = nil
-    ) {
-        self.scale = .init(size: scale.clampedToScaleLimit())
-        self.rotation = rotation ?? .identity
-        self.translation = translation ?? .zero
-    }
-
-    /// Deprecated
-    @available(*, deprecated, renamed: "translation")
-    public var offset: Vector {
-        set { translation = newValue }
-        get { translation }
-    }
-
-    /// Deprecated
-    @available(*, deprecated, renamed: "init(scale:rotation:translation:)")
-    public init(
-        offset: Vector?,
-        rotation: Rotation? = nil,
-        scale: Vector? = nil
-    ) {
-        self.init(scale: scale, rotation: rotation, translation: offset)
+extension Transform: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        guard self != .identity else {
+            return "Transform.identity"
+        }
+        let components: [String] = [
+            scale == .one ? nil : "scale: \(scale.components)",
+            rotation == .identity ? nil : "rotation: \(rotation)",
+            translation == .zero ? nil : "translation: \(translation.components)",
+        ].compactMap { $0 }
+        let joined = components.joined(separator: ", ")
+        if components.count > 1, joined.count > 80 {
+            return "Transform(\n\t\(components.joined(separator: ",\n\t"))\n)"
+        }
+        return "Transform(\(joined))"
     }
 }
 
@@ -152,6 +138,38 @@ public extension Transform {
     /// - Parameter rotation: A rotation to apply.
     static func rotation(_ rotation: Rotation) -> Transform {
         .init(rotation: rotation)
+    }
+
+    /// Creates a new transform with a uniform scale factor
+    /// - Parameters:
+    ///   - scale: The scaling factor of the transform. Defaults to `1.0` (no scale adjustment).
+    ///   - rotation: The translation or position component of the transform. Defaults to identity (no rotation).
+    ///   - translation: The translation or position component of the transform. Defaults to zero (no translation).
+    init(
+        scale: Double,
+        rotation: Rotation? = nil,
+        translation: Vector? = nil
+    ) {
+        self.scale = .init(size: scale.clampedToScaleLimit())
+        self.rotation = rotation ?? .identity
+        self.translation = translation ?? .zero
+    }
+
+    /// Deprecated
+    @available(*, deprecated, renamed: "translation")
+    var offset: Vector {
+        set { translation = newValue }
+        get { translation }
+    }
+
+    /// Deprecated
+    @available(*, deprecated, renamed: "init(scale:rotation:translation:)")
+    init(
+        offset: Vector?,
+        rotation: Rotation? = nil,
+        scale: Vector? = nil
+    ) {
+        self.init(scale: scale, rotation: rotation, translation: offset)
     }
 
     /// Transform has no effect.

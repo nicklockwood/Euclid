@@ -49,6 +49,16 @@ public struct Plane: Hashable, Sendable {
     }
 }
 
+extension Plane: CustomDebugStringConvertible, CustomReflectable {
+    public var debugDescription: String {
+        "Plane(normal: \(normal.components), w: \(w))"
+    }
+
+    public var customMirror: Mirror {
+        Mirror(self, children: [:], displayStyle: .struct)
+    }
+}
+
 extension Plane: Comparable {
     /// Returns whether the leftmost plane has the lower value.
     /// This provides a stable order when sorting collections of planes.

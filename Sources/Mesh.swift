@@ -39,6 +39,26 @@ public struct Mesh: Hashable, Sendable {
     private let storage: Storage
 }
 
+extension Mesh: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        if polygons.isEmpty {
+            return "Mesh.empty"
+        }
+        let p = polygons.map {
+            "\n\t\("\($0)".replacingOccurrences(of: "\n", with: "\n\t")),"
+        }.joined()
+        return "Mesh([\(p)\n])"
+    }
+
+    public var customMirror: Mirror {
+        Mirror(self, children: [
+            "bounds": storage.boundsIfSet as Any,
+            "isWatertight": storage.watertightIfSet as Any,
+            "isKnownConvex": isKnownConvex,
+        ], displayStyle: .struct)
+    }
+}
+
 extension Mesh: Codable {
     private enum CodingKeys: String, CodingKey {
         case polygons, bounds, isConvex = "convex", materials

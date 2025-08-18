@@ -53,6 +53,31 @@ public struct Path: Hashable, Sendable {
     public private(set) var plane: Plane?
 }
 
+extension Path: CustomDebugStringConvertible, CustomReflectable {
+    public var debugDescription: String {
+        if points.isEmpty {
+            return "Path.empty"
+        } else if subpaths.count > 1 {
+            let p = subpaths.map {
+                "\n\t\("\($0)".replacingOccurrences(of: "\n", with: "\n\t")),"
+            }.joined()
+            return "Path(subpaths: [\(p)\n])"
+        }
+        let v = points.map {
+            "\n\t\("\($0)".dropFirst("PathPoint".count)),"
+        }.joined()
+        return "Path([\(v)\n])"
+    }
+
+    public var customMirror: Mirror {
+        Mirror(self, children: [
+            "subpathIndices": subpathIndices,
+            "isClosed": isClosed,
+            "plane": plane as Any,
+        ], displayStyle: .struct)
+    }
+}
+
 extension Path: Codable {
     private enum CodingKeys: CodingKey {
         case points, subpaths

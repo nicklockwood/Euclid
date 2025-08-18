@@ -64,6 +64,16 @@ extension Vector: ExpressibleByArrayLiteral {
     }
 }
 
+extension Vector: CustomDebugStringConvertible, CustomReflectable {
+    public var debugDescription: String {
+        "Vector(\(x), \(y), \(z))"
+    }
+
+    public var customMirror: Mirror {
+        Mirror(self, children: [:], displayStyle: .struct)
+    }
+}
+
 extension Vector: Comparable {
     /// Returns whether the leftmost vector has the lower value.
     /// This provides a stable order when sorting collections of vectors.

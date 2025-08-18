@@ -49,6 +49,16 @@ public struct Line: Hashable, Sendable {
     }
 }
 
+extension Line: CustomDebugStringConvertible, CustomReflectable {
+    public var debugDescription: String {
+        "Line(origin: \(origin.components), direction: \(direction.components))"
+    }
+
+    public var customMirror: Mirror {
+        Mirror(self, children: [:], displayStyle: .struct)
+    }
+}
+
 extension Line: Codable {
     private enum CodingKeys: CodingKey {
         case origin, direction

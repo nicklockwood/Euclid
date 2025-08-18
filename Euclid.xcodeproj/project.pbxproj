@@ -74,6 +74,7 @@
 		01E5F54923D59BF100717D58 /* BSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5F54823D59BF100717D58 /* BSP.swift */; };
 		01E7119C2E4C7FD200FAC888 /* VolumetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7119B2E4C7FD200FAC888 /* VolumetricView.swift */; };
 		01E711A02E4C821200FAC888 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7119F2E4C821200FAC888 /* SceneDelegate.swift */; };
+		01E711CB2E53157D00FAC888 /* DebugDescriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E711CA2E53157300FAC888 /* DebugDescriptionTests.swift */; };
 		01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2381F23BF4160005EC9DB /* LineSegment.swift */; };
 		01FAE7BD29744E08008DB288 /* PolygonCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */; };
 		0A240137256A64FB00C1535C /* AngleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A240136256A64FB00C1535C /* AngleTests.swift */; };
@@ -186,6 +187,7 @@
 		01E711992E4BEC0D00FAC888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		01E7119B2E4C7FD200FAC888 /* VolumetricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumetricView.swift; sourceTree = "<group>"; };
 		01E7119F2E4C821200FAC888 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		01E711CA2E53157300FAC888 /* DebugDescriptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugDescriptionTests.swift; sourceTree = "<group>"; };
 		01F2381F23BF4160005EC9DB /* LineSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegment.swift; sourceTree = "<group>"; };
 		01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonCSGTests.swift; sourceTree = "<group>"; };
 		0A240136256A64FB00C1535C /* AngleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngleTests.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				01D96AB423D8E36A00D0D267 /* BoundsTests.swift */,
 				01BA29792235E34C0088D36B /* CGPathTests.swift */,
 				0101BAF425687A450096B1E7 /* CodingTests.swift */,
+				01E711CA2E53157300FAC888 /* DebugDescriptionTests.swift */,
 				0188E98226ACA0040029C253 /* LineSegmentTests.swift */,
 				52A3852D238D6E5700BE8407 /* LineTests.swift */,
 				01CBE2672775E3EE00B7ED45 /* MeshTests.swift */,
@@ -576,6 +579,7 @@
 				01A429FA2237A85C00C251A6 /* TextTests.swift in Sources */,
 				0188E98326ACA0040029C253 /* LineSegmentTests.swift in Sources */,
 				0A240137256A64FB00C1535C /* AngleTests.swift in Sources */,
+				01E711CB2E53157D00FAC888 /* DebugDescriptionTests.swift in Sources */,
 				016A77F82B2F7C7800B7AB73 /* MeshImportTests.swift in Sources */,
 				52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */,
 				016FAB6621BFE7CE00AF60DC /* PathShapeTests.swift in Sources */,
@@ -866,7 +870,6 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

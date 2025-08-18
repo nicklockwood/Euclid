@@ -45,6 +45,12 @@ public struct Angle: Hashable, Comparable, Sendable, AdditiveArithmetic {
     }
 }
 
+extension Angle: CustomStringConvertible {
+    public var description: String {
+        "Angle(radians: \(radians))"
+    }
+}
+
 extension Angle: Codable {
     private enum CodingKeys: CodingKey {
         case radians, degrees

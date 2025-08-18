@@ -104,6 +104,16 @@ extension LineSegment: Codable {
     }
 }
 
+extension LineSegment: CustomDebugStringConvertible, CustomReflectable {
+    public var debugDescription: String {
+        "LineSegment(start: \(start.components), end: \(end.components))"
+    }
+
+    public var customMirror: Mirror {
+        Mirror(self, children: [:], displayStyle: .struct)
+    }
+}
+
 public extension LineSegment {
     /// The direction of the line segment as a normalized vector.
     var direction: Vector {

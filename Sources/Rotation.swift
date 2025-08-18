@@ -210,6 +210,12 @@ extension Rotation {
 
 #endif
 
+extension Rotation: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        self == .identity ? "Rotation.identity" : "Rotation(axis: \(axis.components), angle: \(angle))"
+    }
+}
+
 extension Rotation: Codable {
     private enum CodingKeys: CodingKey {
         case axis, x, y, z, w, radians

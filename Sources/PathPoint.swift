@@ -48,6 +48,19 @@ public struct PathPoint: Hashable, Sendable {
     public var isCurved: Bool
 }
 
+extension PathPoint: CustomDebugStringConvertible, CustomReflectable {
+    public var debugDescription: String {
+        let p = "\(position.x), \(position.y)\(position.z == 0 ? "" : ", \(position.z)")"
+        let t = texcoord.map { ", texcoord: \($0.components)" } ?? ""
+        let c = color.map { ", color: \($0)" } ?? ""
+        return "PathPoint.\(isCurved ? "curve" : "point")(\(p)\(t)\(c))"
+    }
+
+    public var customMirror: Mirror {
+        Mirror(self, children: [:], displayStyle: .struct)
+    }
+}
+
 extension PathPoint: Codable {
     /// Creates a new path point by decoding from the given decoder.
     /// - Parameter decoder: The decoder to read data from.

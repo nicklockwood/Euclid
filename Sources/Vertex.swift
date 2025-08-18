@@ -67,6 +67,20 @@ public struct Vertex: Hashable, Sendable {
     }
 }
 
+extension Vertex: CustomDebugStringConvertible, CustomReflectable {
+    public var debugDescription: String {
+        let p = "\(position.x), \(position.y)\(position.z == 0 ? "" : ", \(position.z)")"
+        let n = normal == .zero ? "" : ", normal: \(normal.components)"
+        let t = texcoord == .zero ? "" : ", texcoord: \(texcoord.components)"
+        let c = color == .white ? "" : ", color: \(color)"
+        return "Vertex(\(p)\(n)\(t)\(c))"
+    }
+
+    public var customMirror: Mirror {
+        Mirror(self, children: [:], displayStyle: .struct)
+    }
+}
+
 extension Vertex: Codable {
     private enum CodingKeys: CodingKey {
         case position, normal, texcoord, color
