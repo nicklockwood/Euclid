@@ -52,7 +52,7 @@ extension PathPoint: CustomDebugStringConvertible, CustomReflectable {
     public var debugDescription: String {
         let p = "\(position.x), \(position.y)\(position.z == 0 ? "" : ", \(position.z)")"
         let t = texcoord.map { ", texcoord: \($0.components)" } ?? ""
-        let c = color.map { ", color: \($0)" } ?? ""
+        let c = color.map { ", color: \($0.components)" } ?? ""
         return "PathPoint.\(isCurved ? "curve" : "point")(\(p)\(t)\(c))"
     }
 

@@ -56,6 +56,24 @@ public struct Color: Hashable, Sendable {
     }
 }
 
+extension Color: ExpressibleByArrayLiteral {
+    /// Creates a color from an array of component values.
+    ///
+    /// The number of values specified determines how each value is interpreted. The following patterns are
+    /// supported (R = red, G = green, B = blue, A = alpha, L = luminance):
+    ///
+    /// L
+    /// LA
+    /// RGB
+    /// RGBA
+    public init(arrayLiteral elements: Double...) {
+        assert((1 ... 4).contains(elements.count), """
+        Color components array must contain between 1 and 4 values
+        """)
+        self.init(elements)!
+    }
+}
+
 extension Color: CustomDebugStringConvertible, CustomReflectable {
     public var debugDescription: String {
         "Color(\(r), \(g), \(b)\(a == 1 ? "" : ", \(a)"))"

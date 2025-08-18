@@ -72,7 +72,7 @@ extension Vertex: CustomDebugStringConvertible, CustomReflectable {
         let p = "\(position.x), \(position.y)\(position.z == 0 ? "" : ", \(position.z)")"
         let n = normal == .zero ? "" : ", normal: \(normal.components)"
         let t = texcoord == .zero ? "" : ", texcoord: \(texcoord.components)"
-        let c = color == .white ? "" : ", color: \(color)"
+        let c = color == .white ? "" : ", color: \(color.components)"
         return "Vertex(\(p)\(n)\(t)\(c))"
     }
 

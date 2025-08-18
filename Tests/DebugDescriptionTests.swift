@@ -58,7 +58,7 @@ class DebugDescriptionTests: XCTestCase {
 
     func testPathPointWithColor() {
         let vertex = PathPoint.point(0.0, 0.0, color: .red)
-        XCTAssertEqual(vertex.debugDescription, "PathPoint.point(0.0, 0.0, color: Color(1.0, 0.0, 0.0))")
+        XCTAssertEqual(vertex.debugDescription, "PathPoint.point(0.0, 0.0, color: [1.0, 0.0, 0.0, 1.0])")
     }
 
     // MARK: Path
@@ -80,11 +80,11 @@ class DebugDescriptionTests: XCTestCase {
         let point = Path.square(color: .red)
         XCTAssertEqual(point.debugDescription.replacingOccurrences(of: "\t", with: "    "), """
         Path([
-            .point(-0.5, 0.5, color: Color(1.0, 0.0, 0.0)),
-            .point(-0.5, -0.5, color: Color(1.0, 0.0, 0.0)),
-            .point(0.5, -0.5, color: Color(1.0, 0.0, 0.0)),
-            .point(0.5, 0.5, color: Color(1.0, 0.0, 0.0)),
-            .point(-0.5, 0.5, color: Color(1.0, 0.0, 0.0)),
+            .point(-0.5, 0.5, color: [1.0, 0.0, 0.0, 1.0]),
+            .point(-0.5, -0.5, color: [1.0, 0.0, 0.0, 1.0]),
+            .point(0.5, -0.5, color: [1.0, 0.0, 0.0, 1.0]),
+            .point(0.5, 0.5, color: [1.0, 0.0, 0.0, 1.0]),
+            .point(-0.5, 0.5, color: [1.0, 0.0, 0.0, 1.0]),
         ])
         """)
     }
@@ -113,7 +113,7 @@ class DebugDescriptionTests: XCTestCase {
 
     func testVertexWithColor() {
         let vertex = Vertex(0.0, 0.0, color: .red)
-        XCTAssertEqual(vertex.debugDescription, "Vertex(0.0, 0.0, color: Color(1.0, 0.0, 0.0))")
+        XCTAssertEqual(vertex.debugDescription, "Vertex(0.0, 0.0, color: [1.0, 0.0, 0.0, 1.0])")
     }
 
     // MARK: Mesh
