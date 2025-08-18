@@ -83,13 +83,6 @@ func verticesAreConvex(_ vertices: [Vertex]) -> Bool {
     return pointsAreConvex(vertices.map(\.position))
 }
 
-func verticesAreCoplanar(_ vertices: [Vertex]) -> Bool {
-    if vertices.count < 4 {
-        return true
-    }
-    return pointsAreCoplanar(vertices.map(\.position))
-}
-
 func triangulateVertices(
     _ vertices: [Vertex],
     plane: Plane?,
@@ -409,25 +402,6 @@ func faceNormalForPoints(
         }
         return normal
     }
-}
-
-func pointsAreCoplanar(_ points: [Vector]) -> Bool {
-    if points.count < 4 {
-        return true
-    }
-    let b = points[1]
-    let ab = b - points[0]
-    let bc = points[2] - b
-    let normal = ab.cross(bc)
-    let length = normal.length
-    if length < epsilon {
-        return false
-    }
-    let plane = Plane(unchecked: normal / length, pointOnPlane: b)
-    for p in points[3...] where !plane.intersects(p) {
-        return false
-    }
-    return true
 }
 
 /// https://stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order#1165943

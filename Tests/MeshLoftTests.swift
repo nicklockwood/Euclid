@@ -65,8 +65,8 @@ class MeshLoftTests: XCTestCase {
         XCTAssertEqual(loft2.polygons.count, loft.polygons.count)
         XCTAssertEqual(loft2.volume, loft.volume)
 
-        XCTAssert(loft.polygons.allSatisfy {
-            pointsAreCoplanar($0.vertices.map(\.position))
+        XCTAssert(loft.polygons.allSatisfy { polygon in
+            polygon.vertices.allSatisfy(polygon.plane.intersects)
         })
 
         // Every vertex in the loft should be contained by one of our shapes
