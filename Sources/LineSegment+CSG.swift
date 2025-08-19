@@ -11,19 +11,7 @@ public extension LineSegment {
     /// - Parameter plane: The ``Plane`` to split the line segment along.
     /// - Returns: A pair of segments representing the parts of the line segment in front and behind the plane.
     func split(along plane: Plane) -> (front: LineSegment?, back: LineSegment?) {
-        switch (start.signedDistance(from: plane), end.signedDistance(from: plane)) {
-        case (0..., 0...):
-            return (self, nil)
-        case (..<0, ..<0):
-            return (nil, self)
-        case let (distance, _):
-            let point = start + direction * abs(distance)
-            let segments = (
-                LineSegment(start: start, end: point),
-                LineSegment(start: point, end: end)
-            )
-            return distance > 0 ? segments : (segments.1, segments.0)
-        }
+        split(with: (start.signedDistance(from: plane), end.signedDistance(from: plane)))
     }
 
     /// Clip line segment to the specified plane.
@@ -195,31 +183,39 @@ extension LineSegment {
     }
 
     /// Put the line segment in the correct list, splitting it when necessary
-    /// TODO: the logic differs slightly from the public method due to coplanar precision rules - is this a problem?
+    /// > Note: the logic differs from the public method due to coplanar precision rules
     func split(
         along plane: Plane,
         _ coplanar: inout [LineSegment],
         _ front: inout [LineSegment],
         _ back: inout [LineSegment]
     ) {
-        switch (start.signedDistance(from: plane), end.signedDistance(from: plane)) {
-        case (-epsilon ..< epsilon, -epsilon ..< epsilon):
+        let distances = (start.signedDistance(from: plane), end.signedDistance(from: plane))
+        if PlaneComparison(signedDistance: distances.0) == .coplanar,
+           PlaneComparison(signedDistance: distances.1) == .coplanar
+        {
             coplanar.append(self)
-        case (epsilon..., epsilon...):
-            front.append(self)
-        case (..<(-epsilon), ..<(-epsilon)):
-            back.append(self)
+        } else {
+            let segments = split(with: distances)
+            segments.front.map { front.append($0) }
+            segments.back.map { back.append($0) }
+        }
+    }
+
+    /// Shared split implementation
+    func split(with distances: (Double, Double)) -> (front: LineSegment?, back: LineSegment?) {
+        switch distances {
+        case (0..., 0...):
+            return (self, nil)
+        case (..<0, ..<0):
+            return (nil, self)
         case let (distance, _):
             let point = start + direction * abs(distance)
-            var segments = (
+            let segments = (
                 LineSegment(start: start, end: point),
                 LineSegment(start: point, end: end)
             )
-            if distance < 0 {
-                segments = (segments.1, segments.0)
-            }
-            segments.0.map { front.append($0) }
-            segments.1.map { back.append($0) }
+            return distance > 0 ? segments : (segments.1, segments.0)
         }
     }
 }
