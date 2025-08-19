@@ -571,14 +571,13 @@ extension Path {
         }
         self.points = points
         self.isClosed = pointsAreClosed(unchecked: points)
-        let positions = isClosed ? points.dropLast().map(\.position) : points.map(\.position)
 //        let subpathIndices = subpathIndices ?? subpathIndicesFor(points)
         self.subpathIndices = subpathIndices ?? []
         if let plane {
             self.plane = plane
-            assert(positions.allSatisfy { plane.intersects($0) })
+            assert(points.map(\.position).allSatisfy { plane.intersects($0) })
         } else if subpathIndices?.isEmpty ?? true {
-            self.plane = Plane(points: positions)
+            self.plane = Plane(points: points.map(\.position))
         } else {
             for path in subpaths {
                 guard let plane = path.plane else {

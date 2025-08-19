@@ -232,10 +232,8 @@ public extension Polygon {
     /// > Note: A polygon can be convex or concave, but vertices must be coplanar and non-degenerate.
     /// Vertices are assumed to be in anti-clockwise order for the purpose of deriving the face normal.
     init?(_ vertices: [Vertex], material: Material? = nil) {
-        let positions = vertices.map(\.position)
-        guard positions.count > 2, !pointsAreSelfIntersecting(positions),
-              // Note: Plane init includes check for degeneracy
-              let plane = Plane(points: positions)
+        guard vertices.count > 2, !verticesAreDegenerate(vertices),
+              let plane = Plane(points: vertices.map(\.position))
         else {
             return nil
         }

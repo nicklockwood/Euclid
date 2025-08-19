@@ -128,7 +128,7 @@ public extension Plane {
     /// > Note: The polygon can be convex or concave. The direction of the plane normal is
     /// based on the assumption that the points are wound in an anti-clockwise direction.
     init?(points: [Vector]) {
-        guard !points.isEmpty, !pointsAreDegenerate(points) else {
+        guard !points.isEmpty else {
             return nil
         }
         self.init(unchecked: points)
@@ -227,7 +227,6 @@ extension Plane {
     }
 
     init(unchecked points: [Vector]) {
-        assert(!pointsAreDegenerate(points))
         let normal = faceNormalForPoints(points)
         self.init(unchecked: normal, pointOnPlane: points[0])
     }

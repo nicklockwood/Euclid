@@ -380,7 +380,7 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
 
 /// Computes the face normal for a collection of points
 /// Points are assumed to be ordered in a counter-clockwise direction
-/// Points are not verified to be coplanar or non-degenerate
+/// Points are not required to be coplanar or non-degenerate
 /// Points are not required to form a convex polygon
 func faceNormalForPoints(_ points: [Vector]) -> Vector {
     // Try vectorArea first (Newell's method)
@@ -391,8 +391,8 @@ func faceNormalForPoints(_ points: [Vector]) -> Vector {
 
     // If vectorArea is zero, we can't use it to calculate normal
     // Instead we'll use a modified version of Newell's method
-    if var a = points.last, points.count > 2 {
-        let vectorArea = points.reduce(Vector.zero) { normal, b in
+    if var a = points.first, points.count > 2 {
+        let vectorArea = points.dropFirst().reduce(Vector.zero) { normal, b in
             defer { a = b }
             let cross = a.cross(b)
             if normal.dot(cross) < 0 {

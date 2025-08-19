@@ -231,7 +231,7 @@ class PathTests: XCTestCase {
         XCTAssertEqual(path.plane?.normal, -.unitZ)
     }
 
-    func testStraightLinePathAnticlockwiseWinding() {
+    func testStraightLinePath() {
         let path = Path([
             .point(-1, 1),
             .point(-1, -1),
@@ -240,7 +240,7 @@ class PathTests: XCTestCase {
         XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
-    func testStraightLinePathAnticlockwiseWinding2() {
+    func testStraightLinePath2() {
         let path = Path([
             .point(-1, -1),
             .point(-1, 1),
@@ -249,7 +249,7 @@ class PathTests: XCTestCase {
         XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
-    func testStraightLinePathAnticlockwiseWinding3() {
+    func testStraightLinePath3() {
         let path = Path([
             .point(1, 1),
             .point(1, -1),
@@ -258,13 +258,45 @@ class PathTests: XCTestCase {
         XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
-    func testStraightLinePathAnticlockwiseWinding4() {
+    func testStraightLinePath4() {
         let path = Path([
             .point(-1, 1),
             .point(-1, -1),
             .point(-1, 1),
         ])
         XCTAssertTrue(path.isClosed)
+        XCTAssertEqual(path.plane?.normal, .unitZ)
+    }
+
+    func testStraightLinePath5() {
+        let path = Path([
+            .point(-1, 1),
+            .point(-1, -1),
+            .point(-1, -2),
+        ])
+        XCTAssertFalse(path.isClosed)
+        XCTAssertEqual(path.plane?.normal, .unitZ)
+    }
+
+    func testStraightLinePath6() {
+        let path = Path([
+            .point(-1, 1),
+            .point(-1, -1),
+            .point(-1, -2),
+            .point(-1, 1),
+        ])
+        XCTAssertTrue(path.isClosed)
+        XCTAssertEqual(path.plane?.normal, .unitZ)
+    }
+
+    func testStraightLinePath7() {
+        let path = Path([
+            .point(-1, 1),
+            .point(-1, -1),
+            .point(-1, -2),
+            .point(-1, -3),
+        ])
+        XCTAssertFalse(path.isClosed)
         XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
