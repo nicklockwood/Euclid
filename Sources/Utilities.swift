@@ -526,8 +526,8 @@ func linePlaneIntersection(_ origin: Vector, _ direction: Vector, _ plane: Plane
         // Line and plane are parallel
         return nil
     }
-    let planePoint = plane.normal * plane.w
-    return (planePoint - origin).dot(plane.normal) / lineDotPlaneNormal
+    let planeOrigin = plane.normal * plane.w
+    return (planeOrigin - origin).dot(plane.normal) / lineDotPlaneNormal
 }
 
 // MARK: Path utilities

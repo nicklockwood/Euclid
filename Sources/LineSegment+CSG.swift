@@ -43,7 +43,8 @@ public extension LineSegment {
     /// - Parameter plane: The plane to compare with.
     /// - Returns: The point of intersection, or `nil` if the line segment and plane don't intersect.
     func intersection(with plane: Plane) -> Vector? {
-        linePlaneIntersection(start, direction, plane).flatMap {
+        let (length, direction) = lengthAndDirection
+        return linePlaneIntersection(start, direction, plane).flatMap {
             (0 ... length).contains($0) ? start + direction * $0 : nil
         }
     }
