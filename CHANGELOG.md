@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.8.2](https://github.com/nicklockwood/Euclid/releases/tag/0.8.2) (2025-08-19)
+
+- Euclid `Vector` and `Color` types now conform to `ExpressibleByArrayLiteral`
+- Added more helpful `debugDescription` implementations for Euclid types
+- Added convenience initializers for `Vertex` to match `PathPoint`
+- Creating a Euclid `Mesh` from a RealityKit model now works more reliably
+- Fixed `triangulate()` failing on slightly non-planar polygons
+- Creating an open `Path` with collinear points no longer fails
+- Improved `Mesh.volume` and `Polygon.area` calculations
+- Improved `Plane` and face normal calculations
+
 ## [0.8.1](https://github.com/nicklockwood/Euclid/releases/tag/0.8.1) (2025-08-13)
 
 - Added volumetric 3D example for visionOS

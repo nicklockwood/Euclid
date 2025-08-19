@@ -205,6 +205,7 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/containsPoint(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-9e6ey",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-77i61",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersection(with:)-2nysu",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersects(_:)"
@@ -374,6 +375,68 @@
   "title" : "distance(from:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/line\/distance(from:)-77i61"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/distance(from:)-9e6ey": {
+  "abstract" : [
+    {
+      "text" : "Returns the shortest distance between the line and the specified object.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "distance"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid14LineComparableP",
+      "text" : "LineComparable"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-9e6ey",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "distance(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/line\/distance(from:)-9e6ey"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/intersection(with:)-2nysu": {
   "abstract" : [

@@ -7,7 +7,7 @@
 - ``Color/init(_:_:_:_:)``
 - ``Color/init(_:_:)``
 - ``Color/init(_:)-25eby``
-- ``Color/init(_:)-53lhy``
+- ``Color/init(_:)-(T)``
 - ``Color/init(_:)-7d8un``
 
 ### Default Colors

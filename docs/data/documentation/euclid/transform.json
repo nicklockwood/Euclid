@@ -111,6 +111,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -223,6 +224,7 @@
       "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/CustomDebugStringConvertible-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/Equatable-Implementations",
@@ -549,6 +551,17 @@
   "title" : "*=(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform\/*=(_:_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/CustomDebugStringConvertible-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/CustomDebugStringConvertible-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomDebugStringConvertible Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/transform\/customdebugstringconvertible-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/Decodable-Implementations": {
   "abstract" : [
@@ -1864,6 +1877,11 @@
   "title" : "Transformable",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transformable"
+},
+"doc://com.charcoaldesign.Euclid/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
+  "title" : "Swift.CustomDebugStringConvertible",
+  "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8CopyableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",

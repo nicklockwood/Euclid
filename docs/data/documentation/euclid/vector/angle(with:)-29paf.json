@@ -170,7 +170,9 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/angle(with:)-9sfg1",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-3eglz",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-5p7ko"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-5p7ko",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/projected(onto:)-6d7xl",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/projected(onto:)-2zsww"
       ],
       "title" : "Comparing Vectors"
     }
@@ -487,6 +489,114 @@
   "title" : "distance(from:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/distance(from:)-5p7ko"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/projected(onto:)-2zsww": {
+  "abstract" : [
+    {
+      "text" : "Returns the nearest point on the specified plane to the vector (representing a position in space).",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "projected"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "onto"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5PlaneV",
+      "text" : "Plane"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/projected(onto:)-2zsww",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "projected(onto:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/projected(onto:)-2zsww"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/projected(onto:)-6d7xl": {
+  "abstract" : [
+    {
+      "text" : "Returns the nearest point on the specified line to the vector (representing a position in space).",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "projected"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "onto"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4LineV",
+      "text" : "Line"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/projected(onto:)-6d7xl",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "projected(onto:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/projected(onto:)-6d7xl"
 }
 }
 }

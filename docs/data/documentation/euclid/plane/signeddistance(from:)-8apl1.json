@@ -188,7 +188,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "The distance between the object and the plane. The value is positive if the object lies",
+              "text" : "The distance between the object and the plane. The value will be positive if the object lies",
               "type" : "text"
             },
             {
@@ -213,6 +213,19 @@
   },
   "sections" : [
 
+  ],
+  "seeAlsoSections" : [
+    {
+      "anchor" : "Comparing-Planes",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/containsPoint(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/distance(from:)-6i5d",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-4v7tg",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-79olr"
+      ],
+      "title" : "Comparing Planes"
+    }
   ],
   "variants" : [
     {
@@ -275,6 +288,239 @@
   "title" : "Plane",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/containsPoint(_:)": {
+  "abstract" : [
+    {
+      "text" : "Deprecated.",
+      "type" : "text"
+    }
+  ],
+  "deprecated" : true,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "containsPoint"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/containsPoint(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "containsPoint(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/containspoint(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/distance(from:)-6i5d": {
+  "abstract" : [
+    {
+      "text" : "Returns the absolute distance between the plane and a ",
+      "type" : "text"
+    },
+    {
+      "code" : "PlaneComparable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " object.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "distance"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid15PlaneComparableP",
+      "text" : "PlaneComparable"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/distance(from:)-6i5d",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "distance(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/distance(from:)-6i5d"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/intersection(with:)-4v7tg": {
+  "abstract" : [
+    {
+      "text" : "Computes the line of intersection between two planes.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5PlaneV",
+      "text" : "Plane"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4LineV",
+      "text" : "Line"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-4v7tg",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/intersection(with:)-4v7tg"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/intersection(with:)-79olr": {
+  "abstract" : [
+    {
+      "text" : "Computes the point of intersection between a line and a plane.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4LineV",
+      "text" : "Line"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-79olr",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/intersection(with:)-79olr"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/signedDistance(from:)-8apl1": {
   "abstract" : [

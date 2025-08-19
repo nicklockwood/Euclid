@@ -62,7 +62,7 @@ public extension LineSegment {
         )
     }
 
-    /// Returns the point where the specified line segment intersects the receiver.
+    /// Returns the point where the specified line segment intersects the line segment.
     /// - Parameter lineSegment: The line segment to compare with.
     /// - Returns: The point of intersection, or `nil` if the segments don't intersect.
     func intersection(with lineSegment: LineSegment) -> Vector? {
@@ -76,9 +76,9 @@ public extension LineSegment {
         )
     }
 
-    /// Returns the points where the specified bounds intersects the line segment.
-    /// - Parameter bounds: The bounds to compare with.
-    /// - Returns: A set of zero or more points of intersection with the bounds.
+    /// Returns the point where the specified polygon intersects the line segment.
+    /// - Parameter polygon: The polygon to compare with.
+    /// - Returns: The point of intersection, or `nil` if the line and polygon don't intersect.
     func intersection(with polygon: Polygon) -> Vector? {
         intersection(with: polygon.plane).flatMap {
             polygon.intersects($0) ? $0 : nil
@@ -124,6 +124,13 @@ public extension LineSegment {
     /// - Returns: `true` if the line and segment intersect, and `false` otherwise.
     func intersects(_ lineSegment: LineSegment) -> Bool {
         intersection(with: lineSegment) != nil
+    }
+
+    /// Returns a true if the line segment intersects the specified polygon.
+    /// - Parameter polygon: The polygon to compare with.
+    /// - Returns: `true` if the polygon and segment intersect, and `false` otherwise.
+    func intersects(_ polygon: Polygon) -> Bool {
+        intersection(with: polygon) != nil
     }
 
     /// Returns a true if the line segment intersects the specified bounds.

@@ -5,7 +5,6 @@
 ### Creating Rotations
 
 - ``Rotation/init()``
-- ``Rotation/init(_:)-5w6mn``
 - ``Rotation/init(_:)-68leo``
 - ``Rotation/init(_:)-7j4ql``
 - ``Rotation/init(axis:angle:)``

@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-53lhy"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(arrayLiteral:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid5ColorVyACSgSaySdGcfc",
+    "externalID" : "s:6Euclid5ColorV12arrayLiteralACSdd_tcfc",
     "fragments" : [
       {
         "kind" : "identifier",
@@ -28,7 +28,15 @@
       },
       {
         "kind" : "text",
-        "text" : "?(["
+        "text" : "("
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "arrayLiteral"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
       },
       {
         "kind" : "typeIdentifier",
@@ -37,7 +45,7 @@
       },
       {
         "kind" : "text",
-        "text" : "])"
+        "text" : "...)"
       }
     ],
     "modules" : [
@@ -48,7 +56,7 @@
     "role" : "symbol",
     "roleHeading" : "Initializer",
     "symbolKind" : "init",
-    "title" : "init(_:)"
+    "title" : "init(arrayLiteral:)"
   },
   "primaryContentSections" : [
     {
@@ -67,11 +75,11 @@
             },
             {
               "kind" : "text",
-              "text" : "?("
+              "text" : "("
             },
             {
               "kind" : "externalParam",
-              "text" : "_"
+              "text" : "arrayLiteral"
             },
             {
               "kind" : "text",
@@ -79,11 +87,11 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "components"
+              "text" : "elements"
             },
             {
               "kind" : "text",
-              "text" : ": ["
+              "text" : ": "
             },
             {
               "kind" : "typeIdentifier",
@@ -92,7 +100,7 @@
             },
             {
               "kind" : "text",
-              "text" : "])"
+              "text" : "...)"
             }
           ]
         }
@@ -169,23 +177,10 @@
   "sections" : [
 
   ],
-  "seeAlsoSections" : [
-    {
-      "anchor" : "Creating-a-Color",
-      "generated" : true,
-      "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:_:_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-25eby",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-7d8un"
-      ],
-      "title" : "Creating a Color"
-    }
-  ],
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/color\/init(_:)-53lhy"
+        "\/documentation\/euclid\/color\/init(arrayliteral:)"
       ],
       "traits" : [
         {
@@ -244,48 +239,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:)-25eby": {
-  "abstract" : [
-    {
-      "text" : "Creates a color from a CoreGraphics ",
-      "type" : "text"
-    },
-    {
-      "code" : "CGColor",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ".",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:@T@CGColorRef",
-      "text" : "CGColor"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-25eby",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/init(_:)-25eby"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:)-53lhy": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(arrayLiteral:)": {
   "abstract" : [
     {
       "text" : "Creates a color from an array of component values.",
@@ -299,167 +253,32 @@
     },
     {
       "kind" : "text",
-      "text" : "?(["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : "])"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-53lhy",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/init(_:)-53lhy"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:)-7d8un": {
-  "abstract" : [
-    {
-      "text" : "Creates a color from an ",
-      "type" : "text"
-    },
-    {
-      "code" : "NSColor",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ".",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
       "text" : "("
     },
     {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)NSColor",
-      "text" : "NSColor"
+      "kind" : "externalParam",
+      "text" : "arrayLiteral"
     },
     {
       "kind" : "text",
-      "text" : ")"
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : "...)"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-7d8un",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(arrayLiteral:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(_:)",
+  "title" : "init(arrayLiteral:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/init(_:)-7d8un"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:_:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a color from a luminance value and optional alpha component.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/init(_:_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:_:_:_:)": {
-  "abstract" : [
-    {
-      "text" : "Create a color from RGB values and optional alpha component",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:_:_:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:_:_:_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/init(_:_:_:_:)"
+  "url" : "\/documentation\/euclid\/color\/init(arrayliteral:)"
 }
 }
 }

@@ -16,6 +16,9 @@ private let projectDirectory = URL(fileURLWithPath: #file)
 private let changelogURL = projectDirectory
     .appendingPathComponent("CHANGELOG.md")
 
+private let readmeURL = projectDirectory
+    .appendingPathComponent("README.md")
+
 private let podspecURL = projectDirectory
     .appendingPathComponent("Euclid.podspec.json")
 
@@ -71,6 +74,14 @@ class MetadataTests: XCTestCase {
         XCTAssertTrue(
             changelog.contains("(https://github.com/nicklockwood/Euclid/releases/tag/\(projectVersion))"),
             "CHANGELOG.md does not include correct link for latest release"
+        )
+    }
+
+    func testLatestVersionInReadme() throws {
+        let readme = try String(contentsOf: readmeURL, encoding: .utf8)
+        XCTAssertTrue(
+            readme.contains("from: \"\(projectVersion)\""),
+            "README.md version does not match latest release"
         )
     }
 

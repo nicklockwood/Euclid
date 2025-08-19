@@ -121,6 +121,8 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s17CustomReflectableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -258,6 +260,8 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Bounded-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/CustomDebugStringConvertible-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/CustomReflectable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Equatable-Implementations",
@@ -545,6 +549,28 @@
   "title" : "Bounded Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/bounded-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/CustomDebugStringConvertible-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/CustomDebugStringConvertible-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomDebugStringConvertible Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/customdebugstringconvertible-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/CustomReflectable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/CustomReflectable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomReflectable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/customreflectable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/Decodable-Implementations": {
   "abstract" : [
@@ -2801,6 +2827,16 @@
 "doc://com.charcoaldesign.Euclid/s16SendableMetatypeP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
   "title" : "Swift.SendableMetatype",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s17CustomReflectableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s17CustomReflectableP",
+  "title" : "Swift.CustomReflectable",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
+  "title" : "Swift.CustomDebugStringConvertible",
   "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8CopyableP": {

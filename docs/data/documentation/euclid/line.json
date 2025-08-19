@@ -86,6 +86,8 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s17CustomReflectableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -139,6 +141,7 @@
       "anchor" : "Comparing-Lines",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/containsPoint(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-9e6ey",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-77i61",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersection(with:)-2nysu",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersection(with:)-7s1sd",
@@ -150,7 +153,6 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-9e6ey",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersection(with:)-2ooms",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersection(with:)-88med"
       ],
@@ -160,6 +162,8 @@
       "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/CustomDebugStringConvertible-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/CustomReflectable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/Equatable-Implementations",
@@ -286,6 +290,28 @@
   "title" : "Line",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/line"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/CustomDebugStringConvertible-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/CustomDebugStringConvertible-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomDebugStringConvertible Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/line\/customdebugstringconvertible-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/CustomReflectable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/CustomReflectable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomReflectable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/line\/customreflectable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/Decodable-Implementations": {
   "abstract" : [
@@ -841,7 +867,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/intersection(with:)-88med": {
   "abstract" : [
     {
-      "text" : "Returns the points where the specified bounds intersects the line.",
+      "text" : "Returns the point where the specified polygon intersects the line.",
       "type" : "text"
     }
   ],
@@ -1194,6 +1220,16 @@
 "doc://com.charcoaldesign.Euclid/s16SendableMetatypeP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
   "title" : "Swift.SendableMetatype",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s17CustomReflectableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s17CustomReflectableP",
+  "title" : "Swift.CustomReflectable",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
+  "title" : "Swift.CustomDebugStringConvertible",
   "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8CopyableP": {

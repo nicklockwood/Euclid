@@ -109,6 +109,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -226,6 +227,7 @@
       "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/CustomDebugStringConvertible-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/Equatable-Implementations",
@@ -730,6 +732,17 @@
   "title" : "-(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation\/-(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/CustomDebugStringConvertible-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/CustomDebugStringConvertible-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomDebugStringConvertible Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/customdebugstringconvertible-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/Decodable-Implementations": {
   "abstract" : [
@@ -2081,6 +2094,11 @@
 "doc://com.charcoaldesign.Euclid/s16SendableMetatypeP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
   "title" : "Swift.SendableMetatype",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
+  "title" : "Swift.CustomDebugStringConvertible",
   "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8CopyableP": {

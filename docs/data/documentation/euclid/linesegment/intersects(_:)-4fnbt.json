@@ -190,6 +190,22 @@
   "sections" : [
 
   ],
+  "seeAlsoSections" : [
+    {
+      "anchor" : "Comparing-Line-Segments",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/containsPoint(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-1tffl",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-2u7vo",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-5v6ed",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-4b1z8",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-3u1wv",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-76jp5"
+      ],
+      "title" : "Comparing Line Segments"
+    }
+  ],
   "variants" : [
     {
       "paths" : [
@@ -286,6 +302,261 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/containsPoint(_:)": {
+  "abstract" : [
+    {
+      "text" : "Deprecated.",
+      "type" : "text"
+    }
+  ],
+  "deprecated" : true,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "containsPoint"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/containsPoint(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "containsPoint(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/containspoint(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-1tffl": {
+  "abstract" : [
+    {
+      "text" : "Returns the point where the specified plane intersects the line segment.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5PlaneV",
+      "text" : "Plane"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-1tffl",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersection(with:)-1tffl"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-2u7vo": {
+  "abstract" : [
+    {
+      "text" : "Returns the point where the specified line segment intersects the line segment.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-2u7vo",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersection(with:)-2u7vo"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-3u1wv": {
+  "abstract" : [
+    {
+      "text" : "Determines if the receiver intersects the specified plane.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersects"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5PlaneV",
+      "text" : "Plane"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-3u1wv",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersects(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-3u1wv"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-4b1z8": {
+  "abstract" : [
+    {
+      "text" : "Returns a true if the line segment intersects the specified line.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersects"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-4b1z8",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersects(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-4b1z8"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-4fnbt": {
   "abstract" : [
     {
@@ -331,6 +602,98 @@
   "title" : "intersects(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-4fnbt"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-5v6ed": {
+  "abstract" : [
+    {
+      "text" : "Returns a true if the line intersects the receiver.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersects"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4LineV",
+      "text" : "Line"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-5v6ed",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersects(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-5v6ed"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-76jp5": {
+  "abstract" : [
+    {
+      "text" : "Returns a true if the point touches or intersects the receiver.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersects"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-76jp5",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersects(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-76jp5"
 }
 }
 }

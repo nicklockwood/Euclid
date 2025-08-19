@@ -103,6 +103,8 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s17CustomReflectableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -185,6 +187,15 @@
       "title" : "Encoding and Decoding Vertices"
     },
     {
+      "anchor" : "Initializers",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/init(_:_:_:normal:texcoord:color:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/init(_:normal:texcoord:color:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
@@ -200,6 +211,8 @@
       "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/CustomDebugStringConvertible-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/CustomReflectable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/Equatable-Implementations",
@@ -651,6 +664,28 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/CustomDebugStringConvertible-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/CustomDebugStringConvertible-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomDebugStringConvertible Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/customdebugstringconvertible-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/CustomReflectable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/CustomReflectable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomReflectable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/customreflectable-implementations"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/Decodable-Implementations": {
   "abstract" : [
 
@@ -951,6 +986,192 @@
   "title" : "init(_:_:_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex\/init(_:_:_:_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/init(_:_:_:normal:texcoord:color:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a vertex at the specified X, Y and Z coordinates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "normal"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "texcoord"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "color"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/init(_:_:_:normal:texcoord:color:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:_:_:normal:texcoord:color:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/init(_:_:_:normal:texcoord:color:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/init(_:normal:texcoord:color:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a new vertex from a position, normal, texcoord and color.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "normal"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "texcoord"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "color"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/init(_:normal:texcoord:color:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:normal:texcoord:color:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/init(_:normal:texcoord:color:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/init(from:)": {
   "abstract" : [
@@ -1718,6 +1939,16 @@
 "doc://com.charcoaldesign.Euclid/s16SendableMetatypeP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
   "title" : "Swift.SendableMetatype",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s17CustomReflectableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s17CustomReflectableP",
+  "title" : "Swift.CustomReflectable",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
+  "title" : "Swift.CustomDebugStringConvertible",
   "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8CopyableP": {

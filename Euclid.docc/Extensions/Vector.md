@@ -6,7 +6,7 @@
 
 - ``Vector/init(_:)-228p6``
 - ``Vector/init(_:)-4eop9``
-- ``Vector/init(_:)-5n3j``
+- ``Vector/init(_:)-(T)``
 - ``Vector/init(_:)-228p6``
 - ``Vector/init(_:)-6nlm``
 - ``Vector/init(_:)-3hpag``
@@ -56,8 +56,8 @@
 - ``Vector/angle(with:)-9sfg1``
 - ``Vector/distance(from:)-3eglz``
 - ``Vector/distance(from:)-5p7ko``
-- ``Vector/project(onto:)-817o2``
-- ``Vector/project(onto:)-rksk``
+- ``Vector/projected(onto:)-(Line)``
+- ``Vector/projected(onto:)-(Plane)``
 
 ### Operators
 

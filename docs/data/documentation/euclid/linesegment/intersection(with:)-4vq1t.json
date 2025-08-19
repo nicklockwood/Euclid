@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns the points where the specified bounds intersects the line segment.",
+      "text" : "Returns the point where the specified polygon intersects the line segment.",
       "type" : "text"
     }
   ],
@@ -144,6 +144,25 @@
       "kind" : "declarations"
     },
     {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The polygon to compare with.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "polygon"
+        }
+      ]
+    },
+    {
       "content" : [
         {
           "anchor" : "return-value",
@@ -154,7 +173,15 @@
         {
           "inlineContent" : [
             {
-              "text" : "A set of zero or more points of intersection with the bounds.",
+              "text" : "The point of intersection, or ",
+              "type" : "text"
+            },
+            {
+              "code" : "nil",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " if the line and polygon don’t intersect.",
               "type" : "text"
             }
           ],
@@ -237,7 +264,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-4vq1t": {
   "abstract" : [
     {
-      "text" : "Returns the points where the specified bounds intersects the line segment.",
+      "text" : "Returns the point where the specified polygon intersects the line segment.",
       "type" : "text"
     }
   ],

@@ -209,6 +209,17 @@
   "sections" : [
 
   ],
+  "seeAlsoSections" : [
+    {
+      "anchor" : "Creating-Line-Segments",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/init(start:end:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/init(undirected:)"
+      ],
+      "title" : "Creating Line Segments"
+    }
+  ],
   "variants" : [
     {
       "paths" : [
@@ -270,6 +281,105 @@
   "title" : "LineSegment",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(start:end:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a line segment with a start and end point.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "start"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "end"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/init(start:end:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(start:end:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/init(start:end:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(undirected:)": {
+  "abstract" : [
+    {
+      "text" : "Creates an ‘undirected’ line segment from a directional one.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "undirected"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/init(undirected:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(undirected:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/init(undirected:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(undirected:_:)": {
   "abstract" : [

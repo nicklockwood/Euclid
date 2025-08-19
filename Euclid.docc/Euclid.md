@@ -35,7 +35,6 @@ If you would like to support the development of Euclid, please consider buying a
 
 - ``Rotation``
 - ``Transform``
-- ``Quaternion``
 - ``Angle``
 
 ### Fundamental Types

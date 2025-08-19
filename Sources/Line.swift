@@ -138,9 +138,9 @@ public extension Line {
         }
     }
 
-    /// Returns the points where the specified bounds intersects the line.
-    /// - Parameter bounds: The bounds to compare with.
-    /// - Returns: A set of zero or more points of intersection with the bounds.
+    /// Returns the point where the specified polygon intersects the line.
+    /// - Parameter polygon: The polygon to compare with.
+    /// - Returns: The point of intersection, or `nil` if the line and polygon don't intersect.
     func intersection(with polygon: Polygon) -> Vector? {
         intersection(with: polygon.plane).flatMap {
             polygon.intersects($0) ? $0 : nil

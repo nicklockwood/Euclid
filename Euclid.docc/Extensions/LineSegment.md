@@ -4,7 +4,9 @@
 
 ### Creating Line Segments
 
-- ``LineSegment/init(_:_:)``
+- ``LineSegment/init(start:end:)``
+- ``LineSegment/init(undirected:_:)``
+- ``LineSegment/init(undirected:)``
 
 ### Line Segment Properties
 
@@ -18,7 +20,11 @@
 - ``LineSegment/containsPoint(_:)``
 - ``LineSegment/intersection(with:)-1tffl``
 - ``LineSegment/intersection(with:)-2u7vo``
-- ``LineSegment/intersects(_:)``
+- ``LineSegment/intersects(_:)-(Bounds)``
+- ``LineSegment/intersects(_:)-(Line)``
+- ``LineSegment/intersects(_:)-(LineSegment)``
+- ``LineSegment/intersects(_:)-(Plane)``
+- ``LineSegment/intersects(_:)-(Vector)``
 
 ### Transforming Line Segments
 

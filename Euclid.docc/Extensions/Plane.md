@@ -21,7 +21,8 @@
 ### Comparing Planes
 
 - ``Plane/containsPoint(_:)``
-- ``Plane/distance(from:)``
+- ``Plane/signedDistance(from:)-(PlaneComparable)``
+- ``Plane/distance(from:)-(PlaneComparable)``
 - ``Plane/intersection(with:)-4v7tg``
 - ``Plane/intersection(with:)-79olr``
 

@@ -19,6 +19,7 @@
   },
   "kind" : "symbol",
   "metadata" : {
+    "extendedModule" : "Euclid",
     "externalID" : "s:6Euclid9TransformV6offsetAA6VectorVvp",
     "fragments" : [
       {

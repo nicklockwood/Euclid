@@ -149,10 +149,18 @@ public extension Plane {
 
     /// Returns the signed distance between the plane and a `PlaneComparable` object.
     /// - Parameter object: The object to compare with.
-    /// - Returns: The distance between the object and the plane. The value is positive if the object lies
+    /// - Returns: The distance between the object and the plane. The value will be positive if the object lies
     ///   in front of the plane, negative if it lies behind it, or zero if it lies exactly on the plane, or crosses it.
     func signedDistance(from object: some PlaneComparable) -> Double {
         object.signedDistance(from: self)
+    }
+
+    /// Returns the absolute distance between the plane and a `PlaneComparable` object.
+    /// - Parameter object: The object to compare with.
+    /// - Returns: The absolute distance between the object and the plane. The value will be
+    ///   positive if the object lies in front or behind the plane, or zero if they intersect.
+    func distance(from object: some PlaneComparable) -> Double {
+        object.distance(from: self)
     }
 
     /// Determines if the plane intersects a `PlaneComparable` object.

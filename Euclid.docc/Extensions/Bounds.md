@@ -4,8 +4,9 @@
 
 ### Creating Bounds
 
-- ``Bounds/init(_:)-1icmf``
-- ``Bounds/init(_:)-27jri``
+- ``Bounds/init(_:)-(Collection<Bounded>)``
+- ``Bounds/init(_:)-(Collection<Bounds>)``
+- ``Bounds/init(_:)-(Collection<Vector>)``
 - ``Bounds/init(min:max:)``
 - ``Bounds/init(_:_:)``
 
@@ -25,7 +26,9 @@
 ### Comparing Bounds
 
 - ``Bounds/containsPoint(_:)``
-- ``Bounds/intersects(_:)-7br6p``
+- ``Bounds/intersects(_:)-(Line)``
+- ``Bounds/intersects(_:)-(Bounds)``
+- ``Bounds/intersects(_:)-(Plane)``
 - ``Bounds/intersects(_:)-95v17``
 
 ### Combining and Modifying Bounds

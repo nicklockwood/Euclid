@@ -176,6 +176,17 @@
   "sections" : [
 
   ],
+  "seeAlsoSections" : [
+    {
+      "anchor" : "Creating-Line-Segments",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/init(undirected:_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/init(undirected:)"
+      ],
+      "title" : "Creating Line Segments"
+    }
+  ],
   "variants" : [
     {
       "paths" : [
@@ -295,6 +306,121 @@
   "title" : "init(start:end:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/init(start:end:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(undirected:)": {
+  "abstract" : [
+    {
+      "text" : "Creates an ‘undirected’ line segment from a directional one.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "undirected"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/init(undirected:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(undirected:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/init(undirected:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/init(undirected:_:)": {
+  "abstract" : [
+    {
+      "text" : "Creates an ‘undirected’ line segment.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Undirected segments have a normalized direction such that ",
+      "type" : "text"
+    },
+    {
+      "code" : "a -> b",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " and ",
+      "type" : "text"
+    },
+    {
+      "code" : "b -> a",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " are equal\/equivalent.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "undirected"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/init(undirected:_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(undirected:_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/init(undirected:_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
   "abstract" : [

@@ -715,6 +715,11 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/custommirror",
+                "title" : "var customMirror: Mirror",
+                "type" : "property"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/hasvertexnormals",
                 "title" : "var hasVertexNormals: Bool",
                 "type" : "property"
@@ -834,6 +839,22 @@
                 ],
                 "path" : "\/documentation\/euclid\/mesh\/bounded-implementations",
                 "title" : "Bounded Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/mesh\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
                 "type" : "symbol"
               },
               {
@@ -1323,6 +1344,38 @@
                 ],
                 "path" : "\/documentation\/euclid\/polygon\/bounded-implementations",
                 "title" : "Bounded Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/polygon\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/polygon\/custommirror",
+                    "title" : "var customMirror: Mirror",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/polygon\/customreflectable-implementations",
+                "title" : "CustomReflectable Implementations",
                 "type" : "symbol"
               },
               {
@@ -1886,6 +1939,38 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/path\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/path\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/path\/custommirror",
+                    "title" : "var customMirror: Mirror",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/path\/customreflectable-implementations",
+                "title" : "CustomReflectable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Initializers",
                     "type" : "groupMarker"
                   },
@@ -2177,6 +2262,38 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/pathpoint\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/pathpoint\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/pathpoint\/custommirror",
+                    "title" : "var customMirror: Mirror",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/pathpoint\/customreflectable-implementations",
+                "title" : "CustomReflectable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Initializers",
                     "type" : "groupMarker"
                   },
@@ -2410,6 +2527,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/line\/distance(from:)-9e6ey",
+                "title" : "func distance(from: some LineComparable) -> Double",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/line\/distance(from:)-77i61",
                 "title" : "func distance(from: Line) -> Double",
                 "type" : "method"
@@ -2434,11 +2556,6 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/line\/distance(from:)-9e6ey",
-                "title" : "func distance(from: some LineComparable) -> Double",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/line\/intersection(with:)-2ooms",
                 "title" : "func intersection(with: Bounds) -> Set<Vector>",
                 "type" : "method"
@@ -2451,6 +2568,38 @@
               {
                 "title" : "Default Implementations",
                 "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/line\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/custommirror",
+                    "title" : "var customMirror: Mirror",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/line\/customreflectable-implementations",
+                "title" : "CustomReflectable Implementations",
+                "type" : "symbol"
               },
               {
                 "children" : [
@@ -2592,6 +2741,25 @@
           {
             "children" : [
               {
+                "title" : "Creating Line Segments",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/init(start:end:)",
+                "title" : "init?(start: Vector, end: Vector)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/init(undirected:_:)",
+                "title" : "init?(undirected: Vector, Vector)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/init(undirected:)",
+                "title" : "init(undirected: LineSegment)",
+                "type" : "init"
+              },
+              {
                 "title" : "Line Segment Properties",
                 "type" : "groupMarker"
               },
@@ -2635,6 +2803,31 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-4fnbt",
+                "title" : "func intersects(Bounds) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-5v6ed",
+                "title" : "func intersects(Line) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-4b1z8",
+                "title" : "func intersects(LineSegment) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-3u1wv",
+                "title" : "func intersects(Plane) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-76jp5",
+                "title" : "func intersects(Vector) -> Bool",
+                "type" : "method"
+              },
+              {
                 "title" : "Transforming Line Segments",
                 "type" : "groupMarker"
               },
@@ -2667,25 +2860,6 @@
                 "path" : "\/documentation\/euclid\/linesegment\/inverted()",
                 "title" : "func inverted() -> LineSegment",
                 "type" : "method"
-              },
-              {
-                "title" : "Initializers",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/linesegment\/init(start:end:)",
-                "title" : "init?(start: Vector, end: Vector)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/linesegment\/init(undirected:)",
-                "title" : "init(undirected: LineSegment)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/linesegment\/init(undirected:_:)",
-                "title" : "init?(undirected: Vector, Vector)",
-                "type" : "init"
               },
               {
                 "title" : "Instance Properties",
@@ -2731,13 +2905,8 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-4b1z8",
-                "title" : "func intersects(LineSegment) -> Bool",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-4fnbt",
-                "title" : "func intersects(Bounds) -> Bool",
+                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-9ht82",
+                "title" : "func intersects(Polygon) -> Bool",
                 "type" : "method"
               },
               {
@@ -2819,6 +2988,38 @@
                 ],
                 "path" : "\/documentation\/euclid\/linesegment\/comparable-implementations",
                 "title" : "Comparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/linesegment\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/custommirror",
+                    "title" : "var customMirror: Mirror",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/linesegment\/customreflectable-implementations",
+                "title" : "CustomReflectable Implementations",
                 "type" : "symbol"
               },
               {
@@ -3243,6 +3444,22 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/rotation\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/rotation\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Initializers",
                     "type" : "groupMarker"
                   },
@@ -3492,6 +3709,22 @@
               {
                 "title" : "Default Implementations",
                 "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/transform\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/transform\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
               },
               {
                 "children" : [
@@ -3892,6 +4125,22 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/angle\/description",
+                    "title" : "var description: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/angle\/customstringconvertible-implementations",
+                "title" : "CustomStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Initializers",
                     "type" : "groupMarker"
                   },
@@ -3960,6 +4209,11 @@
               {
                 "path" : "\/documentation\/euclid\/vector\/init(_:)-4eop9",
                 "title" : "init(CGPoint)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/init(_:)-3hpag",
+                "title" : "init<T>(T)",
                 "type" : "init"
               },
               {
@@ -4142,6 +4396,16 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/vector\/projected(onto:)-6d7xl",
+                "title" : "func projected(onto: Line) -> Vector",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/projected(onto:)-2zsww",
+                "title" : "func projected(onto: Plane) -> Vector",
+                "type" : "method"
+              },
+              {
                 "title" : "Operators",
                 "type" : "groupMarker"
               },
@@ -4240,16 +4504,6 @@
               {
                 "path" : "\/documentation\/euclid\/vector\/intersects(_:)-6v9sq",
                 "title" : "func intersects(some PointComparable) -> Bool",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/vector\/projected(onto:)-2zsww",
-                "title" : "func projected(onto: Plane) -> Vector",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/vector\/projected(onto:)-6d7xl",
-                "title" : "func projected(onto: Line) -> Vector",
                 "type" : "method"
               },
               {
@@ -4360,6 +4614,38 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vector\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/custommirror",
+                    "title" : "var customMirror: Mirror",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vector\/customreflectable-implementations",
+                "title" : "CustomReflectable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Initializers",
                     "type" : "groupMarker"
                   },
@@ -4403,6 +4689,22 @@
                 ],
                 "path" : "\/documentation\/euclid\/vector\/equatable-implementations",
                 "title" : "Equatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vector\/init(arrayliteral:)",
+                    "title" : "init(arrayLiteral: Double...)",
+                    "type" : "init"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vector\/expressiblebyarrayliteral-implementations",
+                "title" : "ExpressibleByArrayLiteral Implementations",
                 "type" : "symbol"
               },
               {
@@ -4581,8 +4883,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/bounds\/init(_:)-1icmf",
-                "title" : "init<T>(T)",
+                "path" : "\/documentation\/euclid\/bounds\/init(_:)-7uurk",
+                "title" : "init(some Collection<some Bounded>)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/bounds\/init(_:)-r54o",
+                "title" : "init(some Collection<Bounds>)",
                 "type" : "init"
               },
               {
@@ -4650,6 +4957,21 @@
               {
                 "path" : "\/documentation\/euclid\/bounds\/containspoint(_:)",
                 "title" : "func containsPoint(Vector) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/bounds\/intersects(_:)-8wr1y",
+                "title" : "func intersects(Line) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/bounds\/intersects(_:)-95v17",
+                "title" : "func intersects(Bounds) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/bounds\/intersects(_:)-1hsp",
+                "title" : "func intersects(Plane) -> Bool",
                 "type" : "method"
               },
               {
@@ -4730,11 +5052,6 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/bounds\/init(_:)-r54o",
-                "title" : "init(some Collection<Bounds>)",
-                "type" : "init"
-              },
-              {
                 "title" : "Instance Properties",
                 "type" : "groupMarker"
               },
@@ -4746,6 +5063,38 @@
               {
                 "title" : "Default Implementations",
                 "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/bounds\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/custommirror",
+                    "title" : "var customMirror: Mirror",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/bounds\/customreflectable-implementations",
+                "title" : "CustomReflectable Implementations",
+                "type" : "symbol"
               },
               {
                 "children" : [
@@ -5012,6 +5361,16 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/plane\/signeddistance(from:)-8apl1",
+                "title" : "func signedDistance(from: some PlaneComparable) -> Double",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/plane\/distance(from:)-6i5d",
+                "title" : "func distance(from: some PlaneComparable) -> Double",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/plane\/intersection(with:)-4v7tg",
                 "title" : "func intersection(with: Plane) -> Line?",
                 "type" : "method"
@@ -5079,11 +5438,6 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/plane\/signeddistance(from:)-8apl1",
-                "title" : "func signedDistance(from: some PlaneComparable) -> Double",
-                "type" : "method"
-              },
-              {
                 "title" : "Default Implementations",
                 "type" : "groupMarker"
               },
@@ -5141,6 +5495,38 @@
                 ],
                 "path" : "\/documentation\/euclid\/plane\/comparable-implementations",
                 "title" : "Comparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/plane\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/plane\/custommirror",
+                    "title" : "var customMirror: Mirror",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/plane\/customreflectable-implementations",
+                "title" : "CustomReflectable Implementations",
                 "type" : "symbol"
               },
               {
@@ -5467,6 +5853,20 @@
                 "type" : "init"
               },
               {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vertex\/init(_:_:_:normal:texcoord:color:)",
+                "title" : "init(Double, Double, Double, normal: Vector?, texcoord: Vector?, color: Color?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vertex\/init(_:normal:texcoord:color:)",
+                "title" : "init(Vector, normal: Vector?, texcoord: Vector?, color: Color?)",
+                "type" : "init"
+              },
+              {
                 "title" : "Instance Methods",
                 "type" : "groupMarker"
               },
@@ -5498,6 +5898,38 @@
               {
                 "title" : "Default Implementations",
                 "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vertex\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vertex\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vertex\/custommirror",
+                    "title" : "var customMirror: Mirror",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vertex\/customreflectable-implementations",
+                "title" : "CustomReflectable Implementations",
+                "type" : "symbol"
               },
               {
                 "children" : [
@@ -5717,8 +6149,8 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/init(_:)-53lhy",
-                "title" : "init?([Double])",
+                "path" : "\/documentation\/euclid\/color\/init(_:)-987r7",
+                "title" : "init?<T>(T)",
                 "type" : "init"
               },
               {
@@ -5843,6 +6275,38 @@
               {
                 "children" : [
                   {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/color\/debugdescription",
+                    "title" : "var debugDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/color\/customdebugstringconvertible-implementations",
+                "title" : "CustomDebugStringConvertible Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/color\/custommirror",
+                    "title" : "var customMirror: Mirror",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/color\/customreflectable-implementations",
+                "title" : "CustomReflectable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
                     "title" : "Initializers",
                     "type" : "groupMarker"
                   },
@@ -5886,6 +6350,22 @@
                 ],
                 "path" : "\/documentation\/euclid\/color\/equatable-implementations",
                 "title" : "Equatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/color\/init(arrayliteral:)",
+                    "title" : "init(arrayLiteral: Double...)",
+                    "type" : "init"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/color\/expressiblebyarrayliteral-implementations",
+                "title" : "ExpressibleByArrayLiteral Implementations",
                 "type" : "symbol"
               },
               {

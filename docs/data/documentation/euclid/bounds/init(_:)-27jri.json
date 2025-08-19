@@ -167,7 +167,8 @@
       "anchor" : "Creating-Bounds",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-1icmf",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-7uurk",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-r54o",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(min:max:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:_:)"
       ],
@@ -270,56 +271,6 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/init(_:)-1icmf": {
-  "abstract" : [
-    {
-      "text" : "Creates a bounds from a collection of ",
-      "type" : "text"
-    },
-    {
-      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounded",
-      "isActive" : true,
-      "type" : "reference"
-    },
-    {
-      "text" : " objects.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "genericParameter",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ">("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6BoundsVyACxcSlRzAA7Bounded7ElementRpzlufc1TL_xmfp",
-      "text" : "T"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-1icmf",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/init(_:)-1icmf"
-},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/init(_:)-27jri": {
   "abstract" : [
     {
@@ -369,6 +320,123 @@
   "title" : "init(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds\/init(_:)-27jri"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/init(_:)-7uurk": {
+  "abstract" : [
+    {
+      "text" : "Creates a bounds from a collection of ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounded",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " objects.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7BoundedP",
+      "text" : "Bounded"
+    },
+    {
+      "kind" : "text",
+      "text" : ">)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-7uurk",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/bounds\/init(_:)-7uurk"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/init(_:)-r54o": {
+  "abstract" : [
+    {
+      "text" : "Creates a bounds from a collection of bounds.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6BoundsV",
+      "text" : "Bounds"
+    },
+    {
+      "kind" : "text",
+      "text" : ">)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-r54o",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/bounds\/init(_:)-r54o"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/init(_:_:)": {
   "abstract" : [

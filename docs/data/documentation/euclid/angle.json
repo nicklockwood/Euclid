@@ -84,6 +84,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/s18AdditiveArithmeticP",
         "doc:\/\/com.charcoaldesign.Euclid\/SL",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s23CustomStringConvertibleP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
@@ -177,6 +178,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/AdditiveArithmetic-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/Comparable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/CustomStringConvertible-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/Equatable-Implementations"
@@ -818,6 +820,17 @@
   "title" : "Comparable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/angle\/comparable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/CustomStringConvertible-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/CustomStringConvertible-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomStringConvertible Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/angle\/customstringconvertible-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/Decodable-Implementations": {
   "abstract" : [
@@ -1787,6 +1800,11 @@
 "doc://com.charcoaldesign.Euclid/s18AdditiveArithmeticP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s18AdditiveArithmeticP",
   "title" : "Swift.AdditiveArithmetic",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s23CustomStringConvertibleP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s23CustomStringConvertibleP",
+  "title" : "Swift.CustomStringConvertible",
   "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8CopyableP": {

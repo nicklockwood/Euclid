@@ -38,14 +38,8 @@ import simd
 /// An orientation or rotation in 3D space.
 ///
 /// A rotation can be converted to and from an axis vector and angle, or a set of 3 Euler angles (pitch, yaw and roll).
-public struct Rotation: Sendable {
+public struct Rotation: Sendable, Hashable {
     var storage: simd_quatd
-}
-
-extension Rotation: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(storage.vector)
-    }
 }
 
 public extension Rotation {
@@ -120,10 +114,10 @@ extension Rotation {
 /// problem known as gymbal lock.
 public struct Rotation: Hashable, Sendable {
     /// The quaternion component values.
-    public var x, y, z, w: Double
+    var x, y, z, w: Double
 
     /// Creates a quaternion from raw component values.
-    public init(_ x: Double, _ y: Double, _ z: Double, _ w: Double) {
+    init(_ x: Double, _ y: Double, _ z: Double, _ w: Double) {
         self.x = x
         self.y = y
         self.z = z

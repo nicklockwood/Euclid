@@ -127,9 +127,12 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s17CustomReflectableP",
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
+        "doc:\/\/com.charcoaldesign.Euclid\/s25ExpressibleByArrayLiteralP",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
         "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
         "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP"
@@ -167,7 +170,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-25eby",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-53lhy",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-987r7",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-7d8un"
       ],
       "title" : "Creating a Color"
@@ -226,9 +229,12 @@
       "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/CustomDebugStringConvertible-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/CustomReflectable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Equatable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/ExpressibleByArrayLiteral-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/Interpolatable-Implementations"
       ],
       "title" : "Default Implementations"
@@ -350,6 +356,28 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/CustomDebugStringConvertible-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/CustomDebugStringConvertible-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomDebugStringConvertible Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/customdebugstringconvertible-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/CustomReflectable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/CustomReflectable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "CustomReflectable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/customreflectable-implementations"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/Decodable-Implementations": {
   "abstract" : [
 
@@ -382,6 +410,17 @@
   "title" : "Equatable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/equatable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/ExpressibleByArrayLiteral-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/ExpressibleByArrayLiteral-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "ExpressibleByArrayLiteral Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/expressiblebyarrayliteral-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/Interpolatable-Implementations": {
   "abstract" : [
@@ -839,39 +878,6 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/init(_:)-25eby"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:)-53lhy": {
-  "abstract" : [
-    {
-      "text" : "Creates a color from an array of component values.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "?(["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : "])"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-53lhy",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/init(_:)-53lhy"
-},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:)-7d8un": {
   "abstract" : [
     {
@@ -912,6 +918,47 @@
   "title" : "init(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/init(_:)-7d8un"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:)-987r7": {
+  "abstract" : [
+    {
+      "text" : "Creates a color from an array of component values.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?<"
+    },
+    {
+      "kind" : "genericParameter",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ">("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorVyACSgxcSlRzSd7ElementRtzSi5IndexRtzlufc1TL_xmfp",
+      "text" : "T"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-987r7",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/init(_:)-987r7"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:_:)": {
   "abstract" : [
@@ -1795,6 +1842,21 @@
 "doc://com.charcoaldesign.Euclid/s16SendableMetatypeP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
   "title" : "Swift.SendableMetatype",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s17CustomReflectableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s17CustomReflectableP",
+  "title" : "Swift.CustomReflectable",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s25ExpressibleByArrayLiteralP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s25ExpressibleByArrayLiteralP",
+  "title" : "Swift.ExpressibleByArrayLiteral",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s28CustomDebugStringConvertibleP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s28CustomDebugStringConvertibleP",
+  "title" : "Swift.CustomDebugStringConvertible",
   "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/s8CopyableP": {
