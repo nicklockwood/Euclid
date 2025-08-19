@@ -342,11 +342,10 @@ public extension Rotation {
     ///   - axis: A vector defining the axis of rotation.
     ///   - angle: The angle of rotation around the axis.
     init?(axis: Vector, angle: Angle) {
-        let length = axis.length
-        guard length.isFinite, length > epsilon else {
+        guard let direction = axis.direction else {
             return nil
         }
-        self.init(unchecked: axis / length, angle: angle)
+        self.init(unchecked: direction, angle: angle)
     }
 
     /// Creates a rotation between two direction vectors.
@@ -354,10 +353,10 @@ public extension Rotation {
     ///   - a: The first vector
     ///   - b: The second vector
     init(from a: Vector, to b: Vector) {
-        if a.isZero || b.isZero {
-            self = .identity
+        if let a = a.direction, let b = b.direction {
+            self = rotationBetweenNormalizedVectors(a, b)
         } else {
-            self = rotationBetweenNormalizedVectors(a.normalized(), b.normalized())
+            self = .identity
         }
     }
 

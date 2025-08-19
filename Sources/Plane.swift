@@ -41,11 +41,10 @@ public struct Plane: Hashable, Sendable {
     ///   - normal: The surface normal of the plane.
     ///   - w: The perpendicular distance from the world origin to the plane.
     init?(normal: Vector, w: Double) {
-        let length = normal.length
-        guard length.isFinite else {
+        guard let direction = normal.direction else {
             return nil
         }
-        self.init(unchecked: normal / length, w: w)
+        self.init(unchecked: direction, w: w)
     }
 }
 
@@ -115,11 +114,10 @@ public extension Plane {
     ///   - normal: The surface normal of the plane.
     ///   - pointOnPlane: An arbitrary point on the plane.
     init?(normal: Vector, pointOnPlane: Vector) {
-        let length = normal.length
-        guard length.isFinite else {
+        guard let direction = normal.direction else {
             return nil
         }
-        self.init(unchecked: normal / length, pointOnPlane: pointOnPlane)
+        self.init(unchecked: direction, pointOnPlane: pointOnPlane)
     }
 
     /// Creates a plane from a set of points.

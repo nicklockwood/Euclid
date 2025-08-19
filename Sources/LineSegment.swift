@@ -127,9 +127,9 @@ public extension LineSegment {
 
     /// The length and direction of the line segment.
     var lengthAndDirection: (length: Double, direction: Vector) {
-        let distance = end - start
-        let length = distance.length
-        return (length, distance / length)
+        let (length, direction) = (end - start).lengthAndDirection
+        assert(direction != .zero)
+        return (length, direction ?? .zero)
     }
 
     /// Creates an 'undirected' line segment.

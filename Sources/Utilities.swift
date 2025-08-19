@@ -393,8 +393,8 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
 func faceNormalForPoints(_ points: [Vector]) -> Vector {
     // Try vectorArea first (Newell's method)
     let vectorArea = points.vectorArea
-    if vectorArea != .zero {
-        return vectorArea.normalized()
+    if let normal = vectorArea.direction {
+        return normal
     }
 
     // If vectorArea is zero, we can't use it to calculate normal
@@ -409,17 +409,16 @@ func faceNormalForPoints(_ points: [Vector]) -> Vector {
                 return normal + cross
             }
         }
-        if vectorArea != .zero {
-            return vectorArea.normalized()
+        if let normal = vectorArea.direction {
+            return normal
         }
     }
 
     // Points must be linear, so find what line they line on
     // and then return the orthogonal vector to that one
     let ab = points.count > 1 ? points[1] - points[0] : .zero
-    let normal = ab.cross(.unitZ).cross(ab)
-    if normal != .zero {
-        return normal.normalized()
+    if let normal = ab.cross(.unitZ).cross(ab).direction {
+        return normal
     }
 
     // Points lie along z axis
@@ -646,11 +645,9 @@ func pointsAreClosed(unchecked points: [PathPoint]) -> Bool {
 }
 
 func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint {
-    var p0p1 = p1.position - p0.position
-    let length = p0p1.length
-    p0p1 = p0p1 / length
+    let (length, p0p1) = (p1.position - p0.position).lengthAndDirection
     let p1p2 = (p2.position - p1.position).normalized()
-    let r = rotationBetweenNormalizedVectors(p0p1, p1p2)
+    let r = rotationBetweenNormalizedVectors(p0p1 ?? .zero, p1p2)
     let p2pe = p1p2.rotated(by: r) * length
     return .curve(p2.position + p2pe)
 }

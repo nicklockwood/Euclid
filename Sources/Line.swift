@@ -41,11 +41,10 @@ public struct Line: Hashable, Sendable {
     ///   - origin: An arbitrary point on the line selected as the origin.
     ///   - direction: The direction of the line, emanating from the origin.
     public init?(origin: Vector, direction: Vector) {
-        let length = direction.length
-        guard length.isFinite, length > epsilon else {
+        guard let direction = direction.direction else {
             return nil
         }
-        self.init(unchecked: origin, direction: direction / length)
+        self.init(unchecked: origin, direction: direction)
     }
 }
 

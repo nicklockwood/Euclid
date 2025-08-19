@@ -63,7 +63,7 @@ public struct Vertex: Hashable, Sendable {
         _ texcoord: Vector? = nil,
         _ color: Color? = nil
     ) {
-        self.init(unchecked: position, normal?.normalized(), texcoord, color)
+        self.init(unchecked: position, normal?.direction, texcoord, color)
     }
 }
 

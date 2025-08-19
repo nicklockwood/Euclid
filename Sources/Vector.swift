@@ -257,8 +257,7 @@ public extension Vector {
     /// Returns a normalized vector.
     /// - Returns: The normalized vector (with a length of `1`) or the ``zero`` vector if the length is `0`.
     func normalized() -> Vector {
-        let length = length
-        return length == 0 ? .zero : self / length
+        direction ?? .zero
     }
 
     /// All vector components are zero (or  close to zero) in length.
@@ -384,6 +383,17 @@ extension Vector {
             [xc, yc, zf],
             [xc, yc, zc],
         ]
+    }
+
+    var direction: Vector? {
+        lengthAndDirection.direction
+    }
+
+    /// The length and direction of the vector
+    var lengthAndDirection: (length: Double, direction: Vector?) {
+        let length = length
+        // TODO: is finite check actually needed?
+        return (length, length > 0 && length.isFinite ? self / length : nil)
     }
 
     /// Are all components equal
