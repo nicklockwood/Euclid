@@ -993,7 +993,7 @@ extension Polygon {
     ) {
         self.init(
             unchecked: vertices,
-            plane: Plane(unchecked: normal, pointOnPlane: vertices[0].position),
+            plane: Plane(unchecked: normal, pointOnPlane: vertices.centroid),
             isConvex: isConvex,
             sanitizeNormals: sanitizeNormals,
             material: material,

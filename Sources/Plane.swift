@@ -228,7 +228,7 @@ extension Plane {
 
     init(unchecked points: [Vector]) {
         let normal = faceNormalForPoints(points)
-        self.init(unchecked: normal, pointOnPlane: points[0])
+        self.init(unchecked: normal, pointOnPlane: points.centroid)
     }
 
     func signedPerpendicularDistance(from plane: Plane) -> Double? {

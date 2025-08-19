@@ -702,7 +702,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testSlightlyNonPlanarPolygonTriangulated() {
-        let offset = planeEpsilon / 2
+        let offset = planeEpsilon
         let path = Path([
             .point(1.086, 0, 0.17),
             .point(1.086, 0, 0.14),
@@ -740,7 +740,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testInvertedSlightlyNonPlanarPolygonTriangulated() {
-        let offset = planeEpsilon / 2
+        let offset = planeEpsilon
         let path = Path([
             .point(1.086, 0, 0.17),
             .point(1.086, 0, 0.14),

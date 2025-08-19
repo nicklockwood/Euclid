@@ -77,6 +77,10 @@ extension [Vertex] {
     var signedVolume: Double {
         map(\.position).signedVolume
     }
+
+    var centroid: Vector {
+        map(\.position).centroid
+    }
 }
 
 func verticesAreDegenerate(_ vertices: [Vertex]) -> Bool {
@@ -242,6 +246,10 @@ extension [Vector] {
             defer { b = c }
             return volume + a.dot(b.cross(c))
         } / 6
+    }
+
+    var centroid: Vector {
+        reduce(into: .zero) { $0 += $1 } / Double(count)
     }
 }
 
