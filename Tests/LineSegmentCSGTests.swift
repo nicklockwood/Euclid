@@ -73,40 +73,100 @@ class LineSegmentCSGTests: XCTestCase {
         ])
     }
 
-    func testSubtractSphere() {
+    // MARK: Mesh Clipping
+
+    func testClipToCube() {
+        let line = LineSegment(unchecked: [0, -2, 0], [0, 2, 0])
+        let mesh = Mesh.cube()
+        XCTAssertEqual(line.clipped(to: mesh), [
+            LineSegment(start: [0, -2, 0], end: [0, -0.5, 0]),
+            LineSegment(start: [0, 0.5, 0], end: [0, 2, 0]),
+        ])
+    }
+
+    func testClipToSphere() {
         let line = LineSegment(unchecked: [1, -2, 0], [1, 2, 0])
         let mesh = Mesh.sphere(radius: 2, slices: 16)
         #if !arch(wasm32)
-        XCTAssertEqual([line].subtracting(mesh), [
-            LineSegment(unchecked: [1.0, 1.6909822162873716, 0.0], [1.0, 2.0, 0.0]),
-            LineSegment(unchecked: [1.0, -2.0, 0.0], [1.0, -1.6909822162873716, 0.0]),
+        XCTAssertEqual(line.clipped(to: mesh), [
+            LineSegment(unchecked: [1.0, -2.0, 0], [1.0, -1.6909822162873716, 0]),
+            LineSegment(unchecked: [1.0, 1.6909822162873716, 0], [1.0, 2.0, 0]),
         ])
         #endif
     }
 
-    func testSubtractAdjoiningSegmentsToSphere() {
+    func testClipAdjoiningSegmentsToSphere() {
         let lines = [
             LineSegment(unchecked: [0, 0.5, 0], [0.4, 0, 0.4]),
             LineSegment(unchecked: [0.4, 0, 0.4], [0, 0, 0.5]),
         ]
         let mesh = Mesh.sphere()
         #if !arch(wasm32)
-        XCTAssertEqual(lines.subtracting(mesh), [
+        XCTAssertEqual(lines.clipped(to: mesh), [
+            LineSegment(unchecked: [0, 0.5, 0], [3.805313876944449e-17, 0.49999999999999994, 3.805313876944449e-17]),
             LineSegment(unchecked: [0.34364538374122666, 0.0704432703234667, 0.34364538374122666], [0.4, 0, 0.4]),
+            LineSegment(unchecked: [0.4, 0, 0.4], [0.21471736097962765, 0.0, 0.4463206597550931]),
             LineSegment(
                 unchecked: [0.34364538374122655, 0.07044327032346687, 0.34364538374122655],
                 [0.34364538374122666, 0.0704432703234667, 0.34364538374122666]
             ),
-            LineSegment(unchecked: [0, 0.5, 0], [3.805313876944449e-17, 0.49999999999999994, 3.805313876944449e-17]),
-            LineSegment(unchecked: [0.4, 0, 0.4], [0.21471736097962765, 0, 0.4463206597550931]),
         ])
         #endif
     }
 
-    func testSubtractCoincidentEdge() {
+    func testClipCoincidentEdge() {
         let line = LineSegment(unchecked: [-0.5, 0.5], [0.5, 0.5])
         let mesh = Mesh.fill(.square())
-        XCTAssertEqual([line].subtracting(mesh), [])
-        XCTAssertEqual([line.inverted()].subtracting(mesh), [])
+        XCTAssertEqual(line.clipped(to: mesh), [])
+        XCTAssertEqual(line.inverted().clipped(to: mesh), [])
+    }
+
+    func testClipAlongTopOfSquare() {
+        let line = LineSegment(unchecked: [-2, 0.5], [2, 0.5])
+        let mesh = Mesh.fill(.square())
+        #if !arch(wasm32)
+        XCTAssertEqual(line.clipped(to: mesh), [
+            LineSegment(unchecked: [-2.0, 0.5, 0.0], [-0.5, 0.5, 0.0]),
+            LineSegment(unchecked: [0.5, 0.5, 0.0], [2.0, 0.5, 0.0]),
+        ])
+        #endif
+    }
+
+    func testClipAlongBottomOfSquare() {
+        let line = LineSegment(unchecked: [-2, -0.5], [2, -0.5])
+        let mesh = Mesh.fill(.square())
+        #if !arch(wasm32)
+        XCTAssertEqual(line.clipped(to: mesh), [
+            LineSegment(unchecked: [-2.0, -0.5, 0.0], [-0.5, -0.5, 0.0]),
+            LineSegment(unchecked: [0.5, -0.5, 0.0], [2.0, -0.5, 0.0]),
+        ])
+        #endif
+    }
+
+    func testClipAlongLeftOfSquare() {
+        let line = LineSegment(unchecked: [-0.5, 2], [-0.5, -2])
+        let mesh = Mesh.fill(.square())
+        XCTAssertEqual(line.clipped(to: mesh), [
+            LineSegment(unchecked: [-0.5, 2.0, 0.0], [-0.5, 0.5, 0.0]),
+            LineSegment(unchecked: [-0.5, -0.5, 0.0], [-0.5, -2.0, 0.0]),
+        ])
+    }
+
+    func testClipAlongRightOfSquare() {
+        let line = LineSegment(unchecked: [0.5, 2], [0.5, -2])
+        let mesh = Mesh.fill(.square())
+        XCTAssertEqual(line.clipped(to: mesh), [
+            LineSegment(unchecked: [0.5, 2.0, 0.0], [0.5, 0.5, 0.0]),
+            LineSegment(unchecked: [0.5, -0.5, 0.0], [0.5, -2.0, 0.0]),
+        ])
+    }
+
+    func testClipAlongSeamBetweenSquares() {
+        let line = LineSegment(unchecked: [-2, -0.5], [2, -0.5])
+        let mesh = Mesh.fill(.square()).merge(Mesh.fill(.square().translated(by: [0, 1])))
+        XCTAssertEqual(line.clipped(to: mesh), [
+            LineSegment(unchecked: [-2.0, -0.5, 0.0], [-0.5, -0.5, 0.0]),
+            LineSegment(unchecked: [0.5, -0.5, 0.0], [2.0, -0.5, 0.0]),
+        ])
     }
 }

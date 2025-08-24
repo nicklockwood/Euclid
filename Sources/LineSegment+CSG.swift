@@ -7,6 +7,10 @@
 //
 
 public extension LineSegment {
+    /// Callback used to cancel a long-running operation.
+    /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
+    typealias CancellationHandler = () -> Bool
+
     /// Split the line segment along a plane.
     /// - Parameter plane: The ``Plane`` to split the line segment along.
     /// - Returns: A pair of segments representing the parts of the line segment in front and behind the plane.
@@ -30,6 +34,21 @@ public extension LineSegment {
     func clip(to plane: Plane) -> LineSegment? {
         clipped(to: plane)
     }
+
+    /// Returns the parts of the line segment that lie outside of the specified mesh.
+    /// - Parameters:
+    ///   - mesh: The mesh volume against which to clip the segments.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: The parts of the line segment that lie outside the mesh.
+    ///
+    /// > Note: When clipping multiple edges, it is more efficient to call `Collection<LineSegment>.clipped(to:)`.
+    func clipped(
+        to mesh: Mesh,
+        isCancelled: CancellationHandler = { false }
+    ) -> [LineSegment] {
+        guard intersects(mesh.bounds) else { return [self] }
+        return BSP(mesh, isCancelled).clip([self], .greaterThan, isCancelled)
+    }
 }
 
 public extension Collection<LineSegment> {
@@ -37,34 +56,48 @@ public extension Collection<LineSegment> {
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
     typealias CancellationHandler = () -> Bool
 
-    /// Returns the line segments that lie outside of the specified mesh.
-    /// - Parameters:
-    ///   - mesh: The mesh volume to subtract from the segments.
-    ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: The set of line segments remaining after the subtraction.
+    /// Deprecated.
+    @available(*, deprecated, message: "Use clipped(to:isCancelled:) instead.")
     func subtracting(
         _ mesh: Mesh,
         isCancelled: CancellationHandler = { false }
     ) -> Set<LineSegment> {
-        var aout: [LineSegment]? = []
+        var aout: [LineSegment] = []
         return Set(BSP(mesh, isCancelled).clip(
             boundsTest(mesh.bounds, self, &aout),
             .greaterThan,
             isCancelled
-        )).union(aout!)
+        )).union(aout)
+    }
+
+    /// Returns the line segments that lie outside of the specified mesh, preserving their original order.
+    /// - Parameters:
+    ///   - mesh: The mesh volume against which to clip the segments.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: The line segments that lie outside the mesh (in their original order).
+    func clipped(
+        to mesh: Mesh,
+        isCancelled: CancellationHandler = { false }
+    ) -> [LineSegment] {
+        var aout: [LineSegment] = []
+        return BSP(mesh, isCancelled).clip(
+            boundsTest(mesh.bounds, self, &aout),
+            .greaterThan,
+            isCancelled
+        ) + aout
     }
 }
 
 private func boundsTest(
     _ bounds: Bounds,
     _ edges: some Collection<LineSegment>,
-    _ out: inout [LineSegment]?
+    _ out: inout [LineSegment]
 ) -> [LineSegment] {
     edges.filter {
         if $0.bounds.intersects(bounds) {
             return true
         }
-        out?.append($0)
+        out.append($0)
         return false
     }
 }
