@@ -29,6 +29,8 @@
 //  SOFTWARE.
 //
 
+import Foundation
+
 /// A 3D surface made of polygons.
 ///
 /// A mesh surface can be convex or concave, and can have zero volume (for example, a flat shape such as a square)
@@ -82,6 +84,7 @@ extension Mesh: Codable {
             self.init(
                 unchecked: polygons,
                 bounds: boundsIfSet,
+                bsp: nil, // TODO: should we try to serialize this?
                 isConvex: isConvex,
                 isWatertight: nil,
                 submeshes: nil
@@ -182,6 +185,7 @@ public extension Mesh {
         self.init(
             unchecked: polygons,
             bounds: nil,
+            bsp: nil,
             isConvex: false,
             isWatertight: nil,
             submeshes: nil
@@ -203,6 +207,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.mapMaterials { $0 == old ? new : $0 },
             bounds: boundsIfSet,
+            bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -214,6 +219,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.mapMaterials { _ in material },
             bounds: boundsIfSet,
+            bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -225,6 +231,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.withoutVertexColors(),
             bounds: boundsIfSet,
+            bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -244,6 +251,7 @@ public extension Mesh {
         return Mesh(
             unchecked: polygons + mesh.polygons,
             bounds: boundsIfSet,
+            bsp: nil, // TODO: Can we merge these directly?
             isConvex: false,
             isWatertight: nil,
             submeshes: nil // TODO: can we preserve this?
@@ -269,6 +277,7 @@ public extension Mesh {
         return Mesh(
             unchecked: polygons,
             bounds: allBoundsSet ? Bounds(meshes) : nil,
+            bsp: nil, // TODO: Can we merge these directly?
             isConvex: false,
             isWatertight: nil,
             submeshes: nil // TODO: can we preserve this?
@@ -281,6 +290,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.inverted(),
             bounds: boundsIfSet,
+            bsp: nil, // TODO: Can we invert this directly?
             isConvex: false,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -295,6 +305,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.tessellate(maxSides: maxSides),
             bounds: boundsIfSet,
+            bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: nil, // TODO: fix triangulate() then see if this is fixed
             submeshes: submeshesIfEmpty
@@ -307,6 +318,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.triangulate(),
             bounds: boundsIfSet,
+            bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -319,6 +331,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.sortedByPlane().detessellate(),
             bounds: boundsIfSet,
+            bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: nil, // TODO: can this be done without introducing holes?
             submeshes: submeshesIfEmpty
@@ -331,6 +344,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.sortedByPlane().detessellate(ensureConvex: true),
             bounds: boundsIfSet,
+            bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: nil, // TODO: can this be done without introducing holes?
             submeshes: submeshesIfEmpty
@@ -363,6 +377,7 @@ public extension Mesh {
         return Mesh(
             unchecked: polygons,
             bounds: boundsIfSet,
+            bsp: nil,
             isConvex: false, // TODO: can makeWatertight make this false?
             isWatertight: holeEdges.isEmpty,
             submeshes: submeshesIfEmpty
@@ -374,6 +389,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.flatteningNormals(),
             bounds: boundsIfSet,
+            bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -387,6 +403,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.smoothingNormals(forAnglesGreaterThan: threshold),
             bounds: boundsIfSet,
+            bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -398,6 +415,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.subdivide(),
             bounds: boundsIfSet,
+            bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -424,6 +442,7 @@ extension Mesh {
     init(
         unchecked polygons: [Polygon],
         bounds: Bounds?,
+        bsp: BSP?,
         isConvex: Bool,
         isWatertight: Bool?,
         submeshes: [Mesh]?
@@ -431,13 +450,19 @@ extension Mesh {
         self.storage = polygons.isEmpty ? .empty : Storage(
             polygons: polygons,
             bounds: bounds,
+            bsp: bsp,
             isConvex: isConvex,
             isWatertight: isWatertight,
             submeshes: submeshes
         )
     }
 
+    func bsp(isCancelled: CancellationHandler = { false }) -> BSP {
+        storage.bsp(isCancelled: isCancelled)
+    }
+
     var boundsIfSet: Bounds? { storage.boundsIfSet }
+    var bspIfSet: BSP? { storage.bspIfSet }
     var watertightIfSet: Bool? { storage.watertightIfSet }
     var isKnownConvex: Bool { storage.isConvex }
     /// Note: we don't expose submeshesIfSet because it's unsafe to reuse
@@ -450,10 +475,12 @@ private extension Mesh {
     final class Storage: Hashable, Bounded, @unchecked Sendable {
         let polygons: [Polygon]
         let isConvex: Bool
+        private let bspLock = NSLock()
 
         static let empty = Storage(
             polygons: [],
             bounds: .empty,
+            bsp: nil,
             isConvex: true,
             isWatertight: true,
             submeshes: []
@@ -480,6 +507,20 @@ private extension Mesh {
                 boundsIfSet = Bounds(polygons)
             }
             return boundsIfSet!
+        }
+
+        private(set) var bspIfSet: BSP?
+        func bsp(isCancelled: CancellationHandler = { false }) -> BSP {
+            bspLock.lock()
+            if bspIfSet == nil {
+                bspIfSet = BSP(
+                    unchecked: polygons,
+                    isConvex: isConvex,
+                    isCancelled
+                )
+            }
+            bspLock.unlock()
+            return bspIfSet!
         }
 
         private(set) var watertightIfSet: Bool?
@@ -512,6 +553,7 @@ private extension Mesh {
         init(
             polygons: [Polygon],
             bounds: Bounds?,
+            bsp: BSP?,
             isConvex: Bool,
             isWatertight: Bool?,
             submeshes: [Mesh]?
@@ -530,9 +572,11 @@ private extension Mesh {
                 }
             }
             assert(!isConvex || submeshes?.count ?? 0 <= 1)
+            assert(bsp?.isConvex ?? isConvex == isConvex)
             self.polygons = polygons
             self.boundsIfSet = polygons.isEmpty ? .empty : bounds
-            self.isConvex = isConvex || polygons.isEmpty
+            self.bspIfSet = bsp
+            self.isConvex = bsp?.isConvex ?? isConvex || polygons.isEmpty
             self.watertightIfSet = polygons.isEmpty ? true : isWatertight
             self.submeshesIfSet = submeshes ?? (isConvex ? [] : nil)
         }

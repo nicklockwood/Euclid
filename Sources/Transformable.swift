@@ -123,6 +123,7 @@ extension Mesh: Transformable {
         distance.isZero ? self : Mesh(
             unchecked: polygons.translated(by: distance),
             bounds: boundsIfSet?.translated(by: distance),
+            bsp: nil, // TODO: Make BSP transformable
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -133,6 +134,7 @@ extension Mesh: Transformable {
         rotation.isIdentity ? self : Mesh(
             unchecked: polygons.rotated(by: rotation),
             bounds: nil,
+            bsp: nil, // TODO: Make BSP transformable
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -147,6 +149,7 @@ extension Mesh: Transformable {
         return Mesh(
             unchecked: polygons.scaled(by: scale),
             bounds: boundsIfSet?.scaled(by: scale),
+            bsp: nil, // TODO: Make BSP transformable
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -157,6 +160,7 @@ extension Mesh: Transformable {
         factor.isEqual(to: 1, withPrecision: epsilon) ? self : Mesh(
             unchecked: polygons.scaled(by: factor),
             bounds: boundsIfSet?.scaled(by: factor),
+            bsp: nil, // TODO: Make BSP transformable
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -171,6 +175,7 @@ extension Mesh: Transformable {
             bounds: boundsIfSet.flatMap {
                 transform.rotation.isIdentity ? $0.transformed(by: transform) : nil
             },
+            bsp: nil, // TODO: Make BSP transformable
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty

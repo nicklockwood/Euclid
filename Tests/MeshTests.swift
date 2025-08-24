@@ -208,6 +208,7 @@ class MeshTests: XCTestCase {
             let mesh2 = Mesh(
                 unchecked: mesh.polygons,
                 bounds: mesh.bounds,
+                bsp: nil,
                 isConvex: true,
                 isWatertight: mesh.isWatertight,
                 submeshes: mesh.submeshes

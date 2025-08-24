@@ -114,6 +114,7 @@ public extension Mesh {
             mesh = Mesh(
                 unchecked: polygons,
                 bounds: bounds,
+                bsp: nil,
                 isConvex: true,
                 isWatertight: true,
                 submeshes: []
@@ -122,6 +123,7 @@ public extension Mesh {
             mesh = Mesh(
                 unchecked: polygons.inverted(),
                 bounds: bounds,
+                bsp: nil,
                 isConvex: false,
                 isWatertight: true,
                 submeshes: []
@@ -130,6 +132,7 @@ public extension Mesh {
             mesh = Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: bounds,
+                bsp: nil,
                 isConvex: false,
                 isWatertight: true,
                 submeshes: []
@@ -238,6 +241,7 @@ public extension Mesh {
             mesh = Mesh(
                 unchecked: triangles,
                 bounds: bounds,
+                bsp: nil,
                 isConvex: true,
                 isWatertight: true,
                 submeshes: []
@@ -246,6 +250,7 @@ public extension Mesh {
             mesh = Mesh(
                 unchecked: triangles.inverted(),
                 bounds: bounds,
+                bsp: nil,
                 isConvex: false,
                 isWatertight: true,
                 submeshes: []
@@ -254,6 +259,7 @@ public extension Mesh {
             mesh = Mesh(
                 unchecked: triangles + triangles.inverted(),
                 bounds: bounds,
+                bsp: nil,
                 isConvex: false,
                 isWatertight: true,
                 submeshes: []
@@ -300,6 +306,7 @@ public extension Mesh {
         let mesh = Mesh(
             unchecked: triangles,
             bounds: Bounds(min: .init(size: -radius), max: .init(size: radius)),
+            bsp: nil,
             isConvex: true,
             isWatertight: true,
             submeshes: []
@@ -624,6 +631,7 @@ public extension Mesh {
             return Mesh(
                 unchecked: polygons,
                 bounds: nil,
+                bsp: nil,
                 isConvex: false,
                 isWatertight: false,
                 submeshes: []
@@ -632,6 +640,7 @@ public extension Mesh {
             return Mesh(
                 unchecked: polygons.inverted(),
                 bounds: nil,
+                bsp: nil,
                 isConvex: false,
                 isWatertight: false,
                 submeshes: []
@@ -640,6 +649,7 @@ public extension Mesh {
             return Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil,
+                bsp: nil,
                 isConvex: polygons.count == 1 && polygons[0].isConvex,
                 isWatertight: true,
                 submeshes: []
@@ -761,6 +771,7 @@ public extension Mesh {
         return Mesh(
             unchecked: polygons,
             bounds: bounds,
+            bsp: nil,
             isConvex: false,
             isWatertight: nil,
             submeshes: nil
@@ -898,6 +909,7 @@ private extension Mesh {
         return Mesh(
             unchecked: polygons,
             bounds: bounds,
+            bsp: nil,
             isConvex: true,
             isWatertight: nil,
             submeshes: []
@@ -946,6 +958,7 @@ private extension Mesh {
         return Mesh(
             unchecked: polygons,
             bounds: nil,
+            bsp: nil,
             isConvex: true,
             isWatertight: nil,
             submeshes: []
@@ -1138,6 +1151,7 @@ private extension Mesh {
             return Mesh(
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
+                bsp: nil,
                 isConvex: isConvex,
                 isWatertight: isWatertight,
                 submeshes: nil // TODO: Can we calculate this efficiently?
@@ -1146,6 +1160,7 @@ private extension Mesh {
             return Mesh(
                 unchecked: polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
+                bsp: nil,
                 isConvex: false,
                 isWatertight: isWatertight,
                 submeshes: nil // TODO: Can we calculate this efficiently?
@@ -1154,6 +1169,7 @@ private extension Mesh {
             return Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
+                bsp: nil,
                 isConvex: false,
                 isWatertight: isWatertight,
                 submeshes: nil // TODO: Can we calculate this efficiently?
@@ -1170,6 +1186,7 @@ private extension Mesh {
             return Mesh(
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
+                bsp: nil,
                 isConvex: false,
                 isWatertight: isWatertight,
                 submeshes: nil // TODO: Can we calculate this efficiently?
@@ -1276,6 +1293,7 @@ private extension Mesh {
             return Mesh(
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
+                bsp: nil,
                 isConvex: isConvex,
                 isWatertight: isWatertight,
                 submeshes: nil // TODO: Can we calculate this efficiently?
@@ -1284,6 +1302,7 @@ private extension Mesh {
             return Mesh(
                 unchecked: polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
+                bsp: nil,
                 isConvex: false,
                 isWatertight: isWatertight,
                 submeshes: nil // TODO: Can we calculate this efficiently?
@@ -1292,6 +1311,7 @@ private extension Mesh {
             return Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
+                bsp: nil,
                 isConvex: false,
                 isWatertight: true, // double sided shapes are always watertight
                 submeshes: nil // TODO: Can we calculate this efficiently?

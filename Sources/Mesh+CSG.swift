@@ -58,6 +58,7 @@ public extension Mesh {
             return Mesh(
                 unchecked: polygons + mesh.polygons,
                 bounds: bounds.union(mesh.bounds),
+                bsp: nil, // TODO: Is there a cheap way to calculate this?
                 isConvex: false,
                 isWatertight: watertightIfSet.flatMap { isWatertight in
                     mesh.watertightIfSet.map { $0 && isWatertight }
@@ -88,6 +89,7 @@ public extension Mesh {
         return Mesh(
             unchecked: lhs + rhs,
             bounds: bounds.union(mesh.bounds),
+            bsp: nil, // TODO: Is there a cheap way to calculate this?
             isConvex: false,
             isWatertight: nil,
             submeshes: nil // TODO: can this be preserved?
@@ -147,6 +149,7 @@ public extension Mesh {
         return Mesh(
             unchecked: lhs + rhs,
             bounds: nil, // TODO: is there a way to preserve this efficiently?
+            bsp: nil, // TODO: Is there a cheap way to calculate this?
             isConvex: false,
             isWatertight: nil,
             submeshes: nil // TODO: can this be preserved?
@@ -208,6 +211,7 @@ public extension Mesh {
         return Mesh(
             unchecked: lhs + rhs,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
+            bsp: nil, // TODO: Is there a cheap way to calculate this?
             isConvex: false,
             isWatertight: nil,
             submeshes: nil // TODO: can this be preserved?
@@ -264,6 +268,7 @@ public extension Mesh {
         return Mesh(
             unchecked: lhs + rhs,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
+            bsp: nil, // TODO: Is there a cheap way to calculate this?
             isConvex: isKnownConvex && mesh.isKnownConvex,
             isWatertight: nil,
             submeshes: nil // TODO: can this be preserved?
@@ -318,6 +323,7 @@ public extension Mesh {
         return Mesh(
             unchecked: aout! + outside + inside.mapMaterials { _ in material },
             bounds: bounds,
+            bsp: nil, // TODO: Would it be safe to keep this?
             isConvex: isKnownConvex,
             isWatertight: nil,
             submeshes: submeshesIfEmpty
@@ -366,6 +372,7 @@ public extension Mesh {
                 Mesh(
                     unchecked: front,
                     bounds: nil,
+                    bsp: nil,
                     isConvex: false,
                     isWatertight: nil,
                     submeshes: nil
@@ -373,6 +380,7 @@ public extension Mesh {
                 Mesh(
                     unchecked: back,
                     bounds: nil,
+                    bsp: nil,
                     isConvex: false,
                     isWatertight: nil,
                     submeshes: nil
@@ -397,6 +405,7 @@ public extension Mesh {
         case .back:
             return .empty
         case .spanning, .coplanar:
+            // TODO: can we use BSP to improve perf here at all?
             var id = 0
             var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
             for polygon in polygons {
@@ -408,6 +417,7 @@ public extension Mesh {
             let mesh = Mesh(
                 unchecked: front,
                 bounds: nil,
+                bsp: nil,
                 isConvex: false,
                 isWatertight: nil,
                 submeshes: isKnownConvex ? submeshesIfEmpty : nil
@@ -442,6 +452,7 @@ public extension Mesh {
                 unchecked: mesh.polygons + BSP(self) { false }
                     .clip([rect], .lessThanEqual) { false },
                 bounds: nil,
+                bsp: nil,
                 isConvex: isKnownConvex,
                 isWatertight: watertightIfSet,
                 submeshes: isKnownConvex ? submeshesIfEmpty : nil

@@ -12,6 +12,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.mapTexcoords { _ in .zero },
             bounds: boundsIfSet,
+            bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -24,6 +25,7 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.mapTexcoords { $0.transformed(by: transform) },
             bounds: boundsIfSet,
+            bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
@@ -178,6 +180,7 @@ private extension Mesh {
                 )
             },
             bounds: boundsIfSet,
+            bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty

@@ -722,6 +722,7 @@ public extension Mesh {
         self.init(
             unchecked: polygons,
             bounds: Bounds(scnGeometry.boundingBox),
+            bsp: nil,
             isConvex: isKnownConvex,
             isWatertight: holeEdges.isEmpty,
             submeshes: noSubmeshes ? [] : nil

@@ -47,9 +47,13 @@ extension BSP {
     }
 
     init(_ mesh: Mesh, _ isCancelled: CancellationHandler) {
+        self = mesh.bsp(isCancelled: isCancelled)
+    }
+
+    init(unchecked polygons: [Polygon], isConvex: Bool, _ isCancelled: CancellationHandler) {
         self.nodes = [BSPNode]()
-        self.isConvex = mesh.isKnownConvex
-        initialize(mesh.polygons, isCancelled)
+        self.isConvex = isConvex
+        initialize(polygons, isCancelled)
     }
 
     func clip(
