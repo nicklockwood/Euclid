@@ -7,6 +7,10 @@
 //
 
 public extension Polygon {
+    /// Callback used to cancel a long-running operation.
+    /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
+    typealias CancellationHandler = () -> Bool
+
     /// Split the polygon along a plane.
     /// - Parameter plane: The ``Plane`` to split the polygon along.
     /// - Returns: A pair of arrays representing the polygon fragments in front of and behind the plane respectively.
@@ -34,6 +38,17 @@ public extension Polygon {
     @available(*, deprecated, renamed: "clipped(to:)")
     func clip(to plane: Plane) -> [Polygon] {
         clipped(to: plane)
+    }
+
+    /// Clip polygon to the specified mesh
+    /// - Parameter mesh: The ``Mesh``  to clip the polygon to.
+    /// - Returns: An array of polygon fragments that lie outside the Mesh.
+    func clipped(to mesh: Mesh, isCancelled: CancellationHandler? = nil) -> [Polygon] {
+        guard bounds.intersects(mesh.bounds) else {
+            return [self]
+        }
+        let isCancelled = isCancelled ?? { false }
+        return BSP(mesh, isCancelled).clip([self], .greaterThan, isCancelled)
     }
 
     /// Computes a set of edges where the polygon intersects a plane.
