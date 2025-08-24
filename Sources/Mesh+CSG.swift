@@ -477,6 +477,34 @@ public extension Mesh {
         return edges
     }
 
+    /// Clip receiver to the specified mesh.
+    /// - Parameters:
+    ///   - mesh: The mesh to clip the receiver to.
+    ///   - isCancelled: Callback used to cancel the operation.
+    ///
+    /// > Note: Unlike `subtracting()`, this method does not require the receiver to be watertight,
+    /// but also does not fill the hole(s) left behind by the clipping operation, and may expose backfaces.
+    func clipped(to mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+        let intersection = bounds.intersection(mesh.bounds)
+        guard !intersection.isEmpty else {
+            return self
+        }
+        var aout: [Polygon]? = []
+        let ap = BSP(mesh, isCancelled).clip(
+            boundsTest(intersection, polygons, &aout),
+            .greaterThan,
+            isCancelled
+        )
+        return Mesh(
+            unchecked: aout! + ap,
+            bounds: nil,
+            bsp: nil, // TODO: Is there a cheaper way to calculate this?
+            isConvex: false,
+            isWatertight: nil,
+            submeshes: nil
+        )
+    }
+
     /// Computes a set of edges where the mesh intersects another mesh.
     /// - Parameters:
     ///   - mesh: A ``Mesh`` to find the edge intersections with.
