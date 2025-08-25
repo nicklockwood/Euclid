@@ -70,6 +70,8 @@
 		01CBE2682775E3EE00B7ED45 /* MeshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CBE2672775E3EE00B7ED45 /* MeshTests.swift */; };
 		01CD874F2E5D3E140071E13C /* VertexSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CD874E2E5D3E140071E13C /* VertexSet.swift */; };
 		01CD87512E5D41700071E13C /* VertexSetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CD87502E5D41700071E13C /* VertexSetTests.swift */; };
+		01CD7CF02E5C637D0071E13C /* Path+CSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CD7CEF2E5C63790071E13C /* Path+CSG.swift */; };
+		01CD7CF22E5C888F0071E13C /* PathCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CD7CF12E5C888A0071E13C /* PathCSGTests.swift */; };
 		01D2F9F82AADBB1400C201D9 /* Mesh+Texcoords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2F9F72AADBB1400C201D9 /* Mesh+Texcoords.swift */; };
 		01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D96AB423D8E36A00D0D267 /* BoundsTests.swift */; };
 		01E591302DD79FCC00CDECEA /* Transformable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5912F2DD79FC700CDECEA /* Transformable.swift */; };
@@ -185,6 +187,8 @@
 		01CBE2672775E3EE00B7ED45 /* MeshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshTests.swift; sourceTree = "<group>"; };
 		01CD874E2E5D3E140071E13C /* VertexSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VertexSet.swift; sourceTree = "<group>"; };
 		01CD87502E5D41700071E13C /* VertexSetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VertexSetTests.swift; sourceTree = "<group>"; };
+		01CD7CEF2E5C63790071E13C /* Path+CSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Path+CSG.swift"; sourceTree = "<group>"; };
+		01CD7CF12E5C888A0071E13C /* PathCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCSGTests.swift; sourceTree = "<group>"; };
 		01D2F9F72AADBB1400C201D9 /* Mesh+Texcoords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mesh+Texcoords.swift"; sourceTree = "<group>"; };
 		01D96AB423D8E36A00D0D267 /* BoundsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundsTests.swift; sourceTree = "<group>"; };
 		01E5912F2DD79FC700CDECEA /* Transformable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformable.swift; sourceTree = "<group>"; };
@@ -290,6 +294,7 @@
 				01C282C62DBA331F0084C89B /* LineComparable.swift */,
 				0148ECA52783796A00B3F836 /* PathPoint.swift */,
 				016FAB4921BFE7C200AF60DC /* Path.swift */,
+				01CD7CEF2E5C63790071E13C /* Path+CSG.swift */,
 				0148ECA3278378D100B3F836 /* Path+Shapes.swift */,
 				52A663A023857D5300FACF9D /* Line.swift */,
 				01F2381F23BF4160005EC9DB /* LineSegment.swift */,
@@ -330,6 +335,7 @@
 				0125477F27AFD53900C442C3 /* MeshShapeTests.swift */,
 				013B5BE426923087000860DC /* MetadataTests.swift */,
 				016FAB5C21BFE7CD00AF60DC /* PathTests.swift */,
+				01CD7CF12E5C888A0071E13C /* PathCSGTests.swift */,
 				016FAB6021BFE7CE00AF60DC /* PathShapeTests.swift */,
 				016FAB5E21BFE7CE00AF60DC /* PolygonTests.swift */,
 				01FAE7BB29744C22008DB288 /* PolygonCSGTests.swift */,
@@ -568,6 +574,7 @@
 				016FAB5821BFE7C200AF60DC /* Polygon.swift in Sources */,
 				01E591322DD7A4ED00CDECEA /* Interpolatable.swift in Sources */,
 				0188525626D94FCC0079C602 /* Euclid+UIKit.swift in Sources */,
+				01CD7CF02E5C637D0071E13C /* Path+CSG.swift in Sources */,
 				0148ECA4278378D100B3F836 /* Path+Shapes.swift in Sources */,
 				52A663A123857D5300FACF9D /* Line.swift in Sources */,
 				01D2F9F82AADBB1400C201D9 /* Mesh+Texcoords.swift in Sources */,
@@ -608,6 +615,7 @@
 				0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */,
 				016FAB6521BFE7CE00AF60DC /* MeshCSGTests.swift in Sources */,
 				01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */,
+				01CD7CF22E5C888F0071E13C /* PathCSGTests.swift in Sources */,
 				010A633B2A955BE9000E3306 /* MeshExportTests.swift in Sources */,
 				0125478027AFD53900C442C3 /* MeshShapeTests.swift in Sources */,
 				01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */,

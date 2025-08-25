@@ -42,14 +42,8 @@ class PolygonCSGTests: XCTestCase {
         let a = Path.square().facePolygons()[0]
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let b = a.split(along: plane)
-        XCTAssertEqual(
-            Bounds(b.0),
-            Bounds([0, -0.5], [0.5, 0.5])
-        )
-        XCTAssertEqual(
-            Bounds(b.1),
-            Bounds([-0.5, -0.5], [0, 0.5])
-        )
+        XCTAssertEqual(Bounds(b.front), Bounds([0, -0.5], [0.5, 0.5]))
+        XCTAssertEqual(Bounds(b.back), Bounds([-0.5, -0.5], [0, 0.5]))
         XCTAssertEqual(b.front, b.0)
         XCTAssertEqual(b.back, b.1)
     }
