@@ -120,6 +120,12 @@ public extension Path {
     /// An empty path.
     static let empty: Path = .init([])
 
+    /// A Boolean value that indicates whether the path is empty (has no points).
+    /// > Note: This is not the same as checking if the path is closed or has zero area
+    var isEmpty: Bool {
+        points.isEmpty
+    }
+
     /// Indicates whether all the path's points lie on a single plane.
     var isPlanar: Bool {
         plane != nil

@@ -122,6 +122,12 @@ public extension Mesh {
     /// An empty mesh.
     static let empty: Mesh = .init([])
 
+    /// A Boolean value that indicates whether the mesh is empty (has no polygons).
+    /// > Note: This is not the same as checking if the mesh is watertight or has zero volume
+    var isEmpty: Bool {
+        polygons.isEmpty
+    }
+
     /// All materials used by the mesh.
     /// The array may contain `nil` if some or all of the mesh uses the default material.
     var materials: [Material?] { storage.materials }
