@@ -107,6 +107,12 @@ public extension Bounds {
         self.max = Euclid.max(p0, p1)
     }
 
+    /// Creates a bounds from a ``Bounded`` object.
+    /// - Parameter bounded: A bounded object.
+    init(_ bounded: some Bounded) {
+        self = bounded.bounds
+    }
+
     /// Creates a bounds from a collection of ``Bounded`` objects.
     /// - Parameter bounded: A collection of bounded objects.
     init(_ bounded: some Collection<some Bounded>) {
