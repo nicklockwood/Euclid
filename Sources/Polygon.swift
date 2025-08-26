@@ -633,8 +633,8 @@ extension Collection<Polygon> {
 
     /// Merge vertices with similar positions.
     /// - Parameters:
-    ///   - vertices: The vertices to merge. If nil then all vertices are merged.
-    ///   - precision: The maximum distance between vertices.
+    ///   - vertices: The vertices to consider for merging. If `nil`, all vertices will be considered.
+    ///   - precision: The distance threshold for merging vertices
     func mergingVertices(
         _ vertices: Set<Vector>?,
         withPrecision precision: Double

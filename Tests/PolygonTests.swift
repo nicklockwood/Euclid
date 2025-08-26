@@ -436,6 +436,34 @@ class PolygonTests: XCTestCase {
         XCTAssert([polygon].mergingVertices(withPrecision: 1e-7).isEmpty)
     }
 
+    func testMergingCubeWithModulatedFaces() throws {
+        let threshold = 0.10778596717606788
+        let polygons = Mesh.cube().polygons
+        for _ in 0 ..< 10 {
+            let modulated = polygons
+                .transformed(by: .random())
+                .map { $0.translated(by: .random(in: -threshold * 0.5 ... threshold * 0.5)) }
+            XCTAssertEqual(modulated.count, polygons.count)
+            let merged = modulated.mergingVertices(withPrecision: threshold)
+            XCTAssert(merged.areWatertight)
+            XCTAssertEqual(merged.count, polygons.count)
+        }
+    }
+
+    func testMergingCubeWithModulatedVertices() throws {
+        let threshold = 0.10778596717606788
+        let polygons = Mesh.cube().polygons
+        for _ in 0 ..< 10 {
+            let modulated = polygons
+                .transformed(by: .random())
+                .mapVertices { $0.translated(by: .random(in: -threshold * 0.5 ... threshold * 0.5)) }
+            XCTAssertGreaterThanOrEqual(modulated.count, polygons.count)
+            let merged = modulated.mergingVertices(withPrecision: threshold)
+            XCTAssert(merged.areWatertight)
+            XCTAssertEqual(merged.count, modulated.count)
+        }
+    }
+
     // MARK: tessellation
 
     func testConcaveAnticlockwisePolygonCorrectlyTessellated() {

@@ -68,6 +68,7 @@
 		01C282C72DBA33250084C89B /* LineComparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C282C62DBA331F0084C89B /* LineComparable.swift */; };
 		01CBE2682775E3EE00B7ED45 /* MeshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CBE2672775E3EE00B7ED45 /* MeshTests.swift */; };
 		01CD874F2E5D3E140071E13C /* VertexSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CD874E2E5D3E140071E13C /* VertexSet.swift */; };
+		01CD87512E5D41700071E13C /* VertexSetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CD87502E5D41700071E13C /* VertexSetTests.swift */; };
 		01D2F9F82AADBB1400C201D9 /* Mesh+Texcoords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2F9F72AADBB1400C201D9 /* Mesh+Texcoords.swift */; };
 		01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D96AB423D8E36A00D0D267 /* BoundsTests.swift */; };
 		01E591302DD79FCC00CDECEA /* Transformable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5912F2DD79FC700CDECEA /* Transformable.swift */; };
@@ -181,6 +182,7 @@
 		01C282C62DBA331F0084C89B /* LineComparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineComparable.swift; sourceTree = "<group>"; };
 		01CBE2672775E3EE00B7ED45 /* MeshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshTests.swift; sourceTree = "<group>"; };
 		01CD874E2E5D3E140071E13C /* VertexSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VertexSet.swift; sourceTree = "<group>"; };
+		01CD87502E5D41700071E13C /* VertexSetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VertexSetTests.swift; sourceTree = "<group>"; };
 		01D2F9F72AADBB1400C201D9 /* Mesh+Texcoords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mesh+Texcoords.swift"; sourceTree = "<group>"; };
 		01D96AB423D8E36A00D0D267 /* BoundsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundsTests.swift; sourceTree = "<group>"; };
 		01E5912F2DD79FC700CDECEA /* Transformable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformable.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				01B9F60F292BD7FE002CC3EB /* StretchableTests.swift */,
 				016FAB5D21BFE7CE00AF60DC /* UtilityTests.swift */,
 				52C844E023854C87009C0A73 /* VectorTests.swift */,
+				01CD87502E5D41700071E13C /* VertexSetTests.swift */,
 				0141CAEE2857DBF4006ADFDB /* Euclid+Testing.swift */,
 			);
 			path = Tests;
@@ -607,6 +610,7 @@
 				013312DD21CA532A00626F1B /* PlaneTests.swift in Sources */,
 				0141CAEF2857DBF4006ADFDB /* Euclid+Testing.swift in Sources */,
 				0110FC132E01F7EF0015C58B /* MeshLatheTests.swift in Sources */,
+				01CD87512E5D41700071E13C /* VertexSetTests.swift in Sources */,
 				52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
