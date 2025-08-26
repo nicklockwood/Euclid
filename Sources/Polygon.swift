@@ -719,6 +719,16 @@ extension Collection<Polygon> {
         map { $0.mapTexcoords(transform) }
     }
 
+    /// Returns a copy of the mesh with vertex colors removed.
+    func withoutVertexColors() -> [Polygon] {
+        mapVertexColors { _ in nil }
+    }
+
+    /// Return polygons with transformed vertex colors
+    func mapVertexColors(_ transform: (Color) -> Color?) -> [Polygon] {
+        map { $0.mapVertexColors(transform) }
+    }
+
     /// Inset along face normals
     func insetFaces(by distance: Double) -> [Polygon] {
         compactMap { p0 in

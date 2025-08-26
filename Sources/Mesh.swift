@@ -223,7 +223,7 @@ public extension Mesh {
     /// Returns a copy of the mesh with vertex colors removed.
     func withoutVertexColors() -> Mesh {
         Mesh(
-            unchecked: polygons.mapVertices { $0.withColor(nil) },
+            unchecked: polygons.withoutVertexColors(),
             bounds: boundsIfSet,
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
