@@ -1284,8 +1284,13 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/mapvertices(_:)",
+                "path" : "\/documentation\/euclid\/polygon\/mapvertices(_:)-3k938",
                 "title" : "func mapVertices((Vertex) -> Vertex) -> Polygon",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/mapvertices(_:)-6evr",
+                "title" : "func mapVertices((Vertex) -> Vertex) -> [Polygon]",
                 "type" : "method"
               },
               {
@@ -3503,22 +3508,6 @@
                 ],
                 "path" : "\/documentation\/euclid\/rotation\/equatable-implementations",
                 "title" : "Equatable Implementations",
-                "type" : "symbol"
-              },
-              {
-                "children" : [
-                  {
-                    "title" : "Instance Methods",
-                    "type" : "groupMarker"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/rotation\/hash(into:)",
-                    "title" : "func hash(into: inout Hasher)",
-                    "type" : "method"
-                  }
-                ],
-                "path" : "\/documentation\/euclid\/rotation\/hashable-implementations",
-                "title" : "Hashable Implementations",
                 "type" : "symbol"
               },
               {

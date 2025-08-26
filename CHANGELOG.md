@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.8.3](https://github.com/nicklockwood/Euclid/releases/tag/0.8.3) (2025-08-26)
+
+- Improved vertex merging algorithm (used to fix holes in imported meshes)
+- Deprecated unsafe `Polygon.mapVertices()` method
+- Fixed `flatteningNormals()` method
+
 ## [0.8.2](https://github.com/nicklockwood/Euclid/releases/tag/0.8.2) (2025-08-19)
 
 - Euclid `Vector` and `Color` types now conform to `ExpressibleByArrayLiteral`

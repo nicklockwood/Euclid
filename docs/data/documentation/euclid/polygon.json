@@ -231,7 +231,8 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapTexcoords(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertexColors(_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertices(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertices(_:)-3k938",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertices(_:)-6evr",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/reflected(along:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/subdivide()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/withoutTexcoords()",
@@ -1732,13 +1733,14 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/mapvertexcolors(_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/mapVertices(_:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/mapVertices(_:)-3k938": {
   "abstract" : [
     {
-      "text" : "Return a copy of the polygon with transformed vertex positions",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -1780,12 +1782,71 @@
       "text" : "Polygon"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertices(_:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertices(_:)-3k938",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "mapVertices(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/mapvertices(_:)"
+  "url" : "\/documentation\/euclid\/polygon\/mapvertices(_:)-3k938"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/mapVertices(_:)-6evr": {
+  "abstract" : [
+    {
+      "text" : "Return a copy of the polygon with transformed vertex positions.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "mapVertices"
+    },
+    {
+      "kind" : "text",
+      "text" : "(("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VertexV",
+      "text" : "Vertex"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VertexV",
+      "text" : "Vertex"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : "]"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertices(_:)-6evr",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "mapVertices(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/mapvertices(_:)-6evr"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/material-swift.property": {
   "abstract" : [
