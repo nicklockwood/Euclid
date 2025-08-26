@@ -317,7 +317,7 @@ public extension [Vertex] {
 
 extension Collection<Vertex> {
     func mapNormals(_ transform: (Vector) -> Vector) -> [Vertex] {
-        map { $0.withNormal(transform($0.texcoord)) }
+        map { $0.withNormal(transform($0.normal)) }
     }
 
     func mapTexcoords(_ transform: (Vector) -> Vector) -> [Vertex] {
