@@ -283,7 +283,8 @@ public extension Polygon {
         return merge(unchecked: other, ensureConvex: ensureConvex)
     }
 
-    /// Return a copy of the polygon with transformed vertex positions
+    /// Deprecated.
+    @available(*, deprecated, message: "Use array-returning version instead")
     func mapVertices(_ transform: (Vertex) -> Vertex) -> Polygon {
         Polygon(
             unchecked: vertices.map(transform),
@@ -293,6 +294,24 @@ public extension Polygon {
             material: material,
             id: id
         )
+    }
+
+    /// Return a copy of the polygon with transformed vertex positions.
+    /// > Note: Since altering the vertices can cause the polygon to become degenerate or non-planar
+    /// this method returns an array of zero or more polygons constructed from the mapped vertices.
+    func mapVertices(_ transform: (Vertex) -> Vertex) -> [Polygon] {
+        let vertices = vertices.map(transform)
+        if let polygon = Polygon(vertices, material: material)?.withID(id) {
+            return [polygon]
+        }
+        return triangulateVertices(
+            vertices,
+            plane: nil,
+            isConvex: nil,
+            sanitizeNormals: true,
+            material: material,
+            id: id
+        ).tessellate()
     }
 
     /// Return a copy of the polygon without texture coordinates
@@ -692,7 +711,7 @@ extension Collection<Polygon> {
 
     /// Return polygons with transformed vertices
     func mapVertices(_ transform: (Vertex) -> Vertex) -> [Polygon] {
-        map { $0.mapVertices(transform) }
+        flatMap { $0.mapVertices(transform) }
     }
 
     /// Return polygons with transformed texture coordinates
