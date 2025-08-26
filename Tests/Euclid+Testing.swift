@@ -71,12 +71,16 @@ extension Mesh {
 }
 
 extension Vector {
-    static func random(in range: ClosedRange<Vector> = -.one ... .one) -> Vector {
+    static func random(in range: ClosedRange<Vector>) -> Vector {
         .init(
-            .random(in: range.lowerBound.x ... range.lowerBound.x),
-            .random(in: range.lowerBound.y ... range.lowerBound.y),
-            .random(in: range.lowerBound.z ... range.lowerBound.z)
+            .random(in: range.lowerBound.x ... range.upperBound.x),
+            .random(in: range.lowerBound.y ... range.upperBound.y),
+            .random(in: range.lowerBound.z ... range.upperBound.z)
         )
+    }
+
+    static func random(in range: ClosedRange<Double> = -1 ... 1) -> Vector {
+        .random(in: .init(size: range.lowerBound) ... .init(size: range.upperBound))
     }
 }
 
@@ -88,7 +92,7 @@ extension Angle {
 
 extension Rotation {
     static func random() -> Rotation {
-        guard let rotation = Self(axis: .random(in: -.one ... .one), angle: .random()) else {
+        guard let rotation = Self(axis: .random(), angle: .random()) else {
             // Keep trying
             return random()
         }
@@ -101,7 +105,7 @@ extension Transform {
         .init(
             scale: 1,
             rotation: .random(),
-            translation: .random(in: .init(size: -maxTranslation) ... .init(size: -maxTranslation))
+            translation: .random(in: -maxTranslation ... maxTranslation)
         )
     }
 }
