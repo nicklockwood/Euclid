@@ -366,25 +366,6 @@ extension Vector {
         [quantize(x), quantize(y), quantize(z)]
     }
 
-    func hashValues(withPrecision precision: Double) -> Set<Vector> {
-        let xf = floor(x / precision) * precision
-        let xc = ceil(x / precision) * precision
-        let yf = floor(y / precision) * precision
-        let yc = ceil(y / precision) * precision
-        let zf = floor(z / precision) * precision
-        let zc = ceil(z / precision) * precision
-        return [
-            [xf, yf, zf],
-            [xf, yf, zc],
-            [xf, yc, zf],
-            [xf, yc, zc],
-            [xc, yf, zf],
-            [xc, yf, zc],
-            [xc, yc, zf],
-            [xc, yc, zc],
-        ]
-    }
-
     var direction: Vector? {
         lengthAndDirection.direction
     }
