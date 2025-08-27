@@ -58,6 +58,7 @@
 		018D0ACE255C398D006D2351 /* Euclid.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 016FAB2921BFE78100AF60DC /* Euclid.framework */; platformFilters = (ios, maccatalyst, tvos, xros, ); settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		01A3D52129F32D360085D6BE /* Mesh+STL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A3D52029F32D360085D6BE /* Mesh+STL.swift */; };
 		01A429FA2237A85C00C251A6 /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A429F92237A85C00C251A6 /* TextTests.swift */; };
+		01AAAC702E5F13D800F4AFD0 /* LineSegmentCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AAAC6F2E5F13D800F4AFD0 /* LineSegmentCSGTests.swift */; };
 		01B299572692339200B80A0D /* MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B5BE426923087000860DC /* MetadataTests.swift */; };
 		01B9F60E292BCE57002CC3EB /* Stretchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B9F60D292BCE57002CC3EB /* Stretchable.swift */; };
 		01B9F610292BD7FE002CC3EB /* StretchableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B9F60F292BD7FE002CC3EB /* StretchableTests.swift */; };
@@ -173,6 +174,7 @@
 		0188E98226ACA0040029C253 /* LineSegmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegmentTests.swift; sourceTree = "<group>"; };
 		01A3D52029F32D360085D6BE /* Mesh+STL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mesh+STL.swift"; sourceTree = "<group>"; };
 		01A429F92237A85C00C251A6 /* TextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTests.swift; sourceTree = "<group>"; };
+		01AAAC6F2E5F13D800F4AFD0 /* LineSegmentCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegmentCSGTests.swift; sourceTree = "<group>"; };
 		01B9F60D292BCE57002CC3EB /* Stretchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stretchable.swift; sourceTree = "<group>"; };
 		01B9F60F292BD7FE002CC3EB /* StretchableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchableTests.swift; sourceTree = "<group>"; };
 		01BA29702235A63F0088D36B /* Euclid+CoreText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+CoreText.swift"; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 				0101BAF425687A450096B1E7 /* CodingTests.swift */,
 				01E711CA2E53157300FAC888 /* DebugDescriptionTests.swift */,
 				0188E98226ACA0040029C253 /* LineSegmentTests.swift */,
+				01AAAC6F2E5F13D800F4AFD0 /* LineSegmentCSGTests.swift */,
 				52A3852D238D6E5700BE8407 /* LineTests.swift */,
 				01CBE2672775E3EE00B7ED45 /* MeshTests.swift */,
 				016FAB5F21BFE7CE00AF60DC /* MeshCSGTests.swift */,
@@ -601,6 +604,7 @@
 				016FAB6421BFE7CE00AF60DC /* PolygonTests.swift in Sources */,
 				016A77FA2B32184A00B7AB73 /* RealityKitTests.swift in Sources */,
 				01B299572692339200B80A0D /* MetadataTests.swift in Sources */,
+				01AAAC702E5F13D800F4AFD0 /* LineSegmentCSGTests.swift in Sources */,
 				0101BAF525687A450096B1E7 /* CodingTests.swift in Sources */,
 				016FAB6521BFE7CE00AF60DC /* MeshCSGTests.swift in Sources */,
 				01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */,
