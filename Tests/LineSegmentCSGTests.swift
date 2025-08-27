@@ -42,10 +42,10 @@ class LineSegmentCSGTests: XCTestCase {
     func testClipAlongPlane() {
         let line = LineSegment(unchecked: [-1, 0, 0], [1, 0, 0])
         let plane = Plane.xz
-        XCTAssertEqual(line.clipped(to: plane), line)
-        XCTAssertEqual(line.clipped(to: plane), line)
-        XCTAssertEqual(line.split(along: plane).front, line)
-        XCTAssertNil(line.split(along: plane).back) // TODO: does this inconsistency matter?
+        XCTAssertNil(line.clipped(to: plane))
+        XCTAssertNil(line.clipped(to: plane.inverted()))
+        XCTAssertNil(line.split(along: plane).front)
+        XCTAssertEqual(line.split(along: plane).back, line) // TODO: does this inconsistency matter?
     }
 
     // MARK: Mesh Subtraction
@@ -57,5 +57,24 @@ class LineSegmentCSGTests: XCTestCase {
             LineSegment(undirected: [0, -2, 0], [0, -0.5, 0]),
             LineSegment(undirected: [0, 0.5, 0], [0, 2, 0]),
         ])
+    }
+
+    func testSubtractSphere() {
+        let line = LineSegment(unchecked: [1, -2, 0], [1, 2, 0])
+        let mesh = Mesh.sphere(radius: 2, slices: 16)
+        XCTAssertEqual([line].subtracting(mesh), [
+            LineSegment(unchecked: [1.0, -2.0, 0.0], [1.0, -1.8050564051708364, 0.0]),
+            LineSegment(unchecked: [1.0, -1.8050564051708364, 0.0], [1.0, -1.7107811011632634, 0.0]),
+            LineSegment(unchecked: [1.0, 1.1682733327569532, 0.0], [1.0, 1.8814138401433351, 0.0]),
+            LineSegment(unchecked: [1.0, -1.7107811011632634, 0.0], [1.0, -1.6944185400181435, 0.0]),
+            LineSegment(unchecked: [1.0, 1.8814138401433351, 0.0], [1.0, 2.0, 0.0]),
+        ])
+    }
+
+    func testSubtractCoincidentEdge() {
+        let line = LineSegment(unchecked: [-0.5, 0.5], [0.5, 0.5])
+        let mesh = Mesh.fill(.square())
+        XCTAssertEqual([line].subtracting(mesh), [])
+        XCTAssertEqual([line.inverted()].subtracting(mesh), [])
     }
 }

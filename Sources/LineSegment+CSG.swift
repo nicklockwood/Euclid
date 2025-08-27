@@ -10,6 +10,8 @@ public extension LineSegment {
     /// Split the line segment along a plane.
     /// - Parameter plane: The ``Plane`` to split the line segment along.
     /// - Returns: A pair of segments representing the parts of the line segment in front and behind the plane.
+    ///
+    /// > Note: if the segment is coincident with the plane it will be treated as being behind the plane.
     func split(along plane: Plane) -> (front: LineSegment?, back: LineSegment?) {
         split(with: (start.signedDistance(from: plane), end.signedDistance(from: plane)))
     }
@@ -17,6 +19,8 @@ public extension LineSegment {
     /// Clip line segment to the specified plane.
     /// - Parameter plane: The ``Plane``  to clip the segment to.
     /// - Returns: The clipped line segment, or `nil` if the segment lies entirely behind the plane.
+    ///
+    /// > Note: if the segment is coincident with the plane it will be treated as being behind the plane.
     func clipped(to plane: Plane) -> LineSegment? {
         split(along: plane).front
     }
@@ -169,12 +173,12 @@ private func boundsTest(
 
 extension LineSegment {
     func clip(
-        to polygons: [Polygon],
+        to coplanarPolygons: [Polygon],
         _ inside: inout [LineSegment],
         _ outside: inout [LineSegment]
     ) {
         var toTest = [self]
-        for polygon in polygons.tessellate() where !toTest.isEmpty {
+        for polygon in coplanarPolygons.tessellate() where !toTest.isEmpty {
             var _outside = [LineSegment]()
             toTest.forEach { polygon.clip($0, &inside, &_outside) }
             toTest = _outside
@@ -205,10 +209,10 @@ extension LineSegment {
     /// Shared split implementation
     func split(with distances: (Double, Double)) -> (front: LineSegment?, back: LineSegment?) {
         switch distances {
+        case (...0, ...0):
+            return (nil, self)
         case (0..., 0...):
             return (self, nil)
-        case (..<0, ..<0):
-            return (nil, self)
         case let (distance, _):
             let point = start + direction * abs(distance)
             let segments = (
@@ -222,16 +226,18 @@ extension LineSegment {
 
 extension Polygon {
     func clip(
-        _ lineSegment: LineSegment,
+        _ coplanarSegment: LineSegment,
         _ inside: inout [LineSegment],
         _ outside: inout [LineSegment]
     ) {
         assert(isConvex)
-        var lineSegment = lineSegment
+        assert(coplanarSegment.compare(with: plane) == .coplanar)
+        var lineSegment = coplanarSegment
         var coplanar = [LineSegment]()
         for plane in edgePlanes {
             var back = [LineSegment]()
             lineSegment.split(along: plane, &coplanar, &outside, &back)
+            back.append(contentsOf: coplanar)
             guard let s = back.first else {
                 return
             }
