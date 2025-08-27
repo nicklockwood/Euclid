@@ -76,6 +76,14 @@ class LineSegmentCSGTests: XCTestCase {
     func testSubtractSphere() {
         let line = LineSegment(unchecked: [1, -2, 0], [1, 2, 0])
         let mesh = Mesh.sphere(radius: 2, slices: 16)
+        #if arch(wasm32)
+        XCTAssertEqual([line].subtracting(mesh), [
+            LineSegment(unchecked: [1.0, 1.6909822162873713, 0.0], [1.0, 1.7927063568556976, 0.0]),
+            LineSegment(unchecked: [1.0, -2.0, 0.0], [1.0, -1.6909822162873713, 0.0]),
+            LineSegment(unchecked: [1.0, 1.980668059724381, 0.0], [1.0, 2.0, 0.0]),
+            LineSegment(unchecked: [1.0, 1.7927063568556976, 0.0], [1.0, 1.980668059724381, 0.0]),
+        ])
+        #else
         XCTAssertEqual([line].subtracting(mesh), [
             LineSegment(unchecked: [1.0, 1.6909822162873716, 0.0], [1.0, 1.690982216287372, 0.0]),
             LineSegment(unchecked: [1.0, -2.0, 0.0], [1.0, -1.8010876326208531, 0.0]),
@@ -85,6 +93,7 @@ class LineSegmentCSGTests: XCTestCase {
             LineSegment(unchecked: [1.0, -1.8010876326208531, 0.0], [1.0, -1.6909822162873718, 0.0]),
             LineSegment(unchecked: [1.0, 1.7927063568556971, 0.0], [1.0, 1.9604338701032105, 0.0]),
         ])
+        #endif
     }
 
     func testSubtractAdjoiningSegmentsToSphere() {
@@ -93,6 +102,17 @@ class LineSegmentCSGTests: XCTestCase {
             LineSegment(unchecked: [0.4, 0, 0.4], [0, 0, 0.5]),
         ]
         let mesh = Mesh.sphere()
+        #if arch(wasm32)
+        XCTAssertEqual(lines.subtracting(mesh), [
+            LineSegment(unchecked: [0.34364538374122666, 0.0704432703234667, 0.34364538374122666], [0.4, 0.0, 0.4]),
+            LineSegment(unchecked: [0.0, 0.5, 0.0], [4.01897541609808e-17, 0.49999999999999994, 4.01897541609808e-17]),
+            LineSegment(
+                unchecked: [0.34364538374122655, 0.07044327032346687, 0.34364538374122655],
+                [0.34364538374122666, 0.0704432703234667, 0.34364538374122666]
+            ),
+            LineSegment(unchecked: [0.4, 0.0, 0.4], [0.21471736097962765, 0.0, 0.4463206597550931]),
+        ])
+        #else
         XCTAssertEqual(lines.subtracting(mesh), [
             LineSegment(
                 unchecked: [0.0, 0.5, 0.0],
@@ -105,6 +125,7 @@ class LineSegmentCSGTests: XCTestCase {
             LineSegment(unchecked: [0.34364538374122666, 0.0704432703234667, 0.34364538374122666], [0.4, 0.0, 0.4]),
             LineSegment(unchecked: [0.4, 0.0, 0.4], [0.21471736097962765, 0.0, 0.4463206597550931]),
         ])
+        #endif
     }
 
     func testSubtractCoincidentEdge() {

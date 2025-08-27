@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.8.4](https://github.com/nicklockwood/Euclid/releases/tag/0.8.4) (2025-08-27)
+
+- Fixed incorrect `LineSegment.split()` function implementation
+- Fixed inconsistent behavior with line segment clipping at polygon edges
+
 ## [0.8.3](https://github.com/nicklockwood/Euclid/releases/tag/0.8.3) (2025-08-26)
 
 - Improved vertex merging algorithm (used to fix holes in imported meshes)
