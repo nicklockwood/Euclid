@@ -213,13 +213,13 @@ extension LineSegment {
             return (nil, self)
         case (0..., 0...):
             return (self, nil)
-        case let (distance, _):
-            let point = start + direction * abs(distance)
+        case let (a, b):
+            let point = start + (end - start) * (abs(a) / (abs(a) + abs(b)))
             let segments = (
                 LineSegment(start: start, end: point),
                 LineSegment(start: point, end: end)
             )
-            return distance > 0 ? segments : (segments.1, segments.0)
+            return a > 0 ? segments : (segments.1, segments.0)
         }
     }
 }
