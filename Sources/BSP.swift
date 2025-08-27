@@ -288,8 +288,7 @@ private extension BSP {
                     continue
                 }
                 var a = a
-                for i in total.indices.reversed() {
-                    let b = total[i]
+                for (i, b) in total.enumerated().reversed() {
                     if a.id == b.id, let c = a.merge(unchecked: b, ensureConvex: false) {
                         a = c
                         total.remove(at: i)
@@ -352,8 +351,23 @@ private extension BSP {
         var total = [LineSegment]()
         var rejects = [LineSegment]()
         func addEdges(_ edges: [LineSegment], to total: inout [LineSegment]) {
-            // TODO: weld split edges back together
-            for a in edges {
+            // TODO: we only need to try to rejoin edges which were actually split
+            outer: for var a in edges {
+                for (i, b) in total.enumerated().reversed() {
+                    if b.end == a.start {
+                        // TODO: is this check needed and/or is there a cheaper way?
+                        if a.direction.isEqual(to: b.direction) {
+                            a = LineSegment(unchecked: b.start, a.end)
+                            total.remove(at: i)
+                        }
+                    } else if b.start == a.end {
+                        // TODO: is this check needed and/or is there a cheaper way?
+                        if a.direction.isEqual(to: b.direction) {
+                            a = LineSegment(unchecked: a.start, b.end)
+                            total.remove(at: i)
+                        }
+                    }
+                }
                 total.append(a)
             }
         }
