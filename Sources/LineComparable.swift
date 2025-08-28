@@ -51,7 +51,7 @@ extension Line: LineComparable {
             line.origin,
             line.origin + line.direction,
             false
-        ).flatMap {
+        ).map {
             ($1 - $0).length
         } ?? 0
     }
@@ -66,7 +66,7 @@ extension LineSegment: LineComparable {
             line.origin,
             line.origin + line.direction,
             false
-        ).flatMap {
+        ).map {
             ($1 - $0).length
         } ?? 0
     }
