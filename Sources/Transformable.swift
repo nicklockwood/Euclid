@@ -233,6 +233,24 @@ extension Polygon: Transformable {
     }
 }
 
+extension Line: Transformable {
+    public func translated(by distance: Vector) -> Self {
+        .init(unchecked: origin.translated(by: distance), direction: direction)
+    }
+
+    public func rotated(by rotation: Rotation) -> Self {
+        .init(unchecked: origin, direction: direction.rotated(by: rotation))
+    }
+
+    public func scaled(by scale: Vector) -> Self {
+        .init(unchecked: origin.scaled(by: scale), direction: direction.scaled(by: scale).normalized())
+    }
+
+    public func scaled(by _: Double) -> Self {
+        self
+    }
+}
+
 extension LineSegment: Transformable {
     public func translated(by distance: Vector) -> Self {
         .init(unchecked: start.translated(by: distance), end.translated(by: distance))
