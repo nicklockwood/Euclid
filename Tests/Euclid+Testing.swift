@@ -19,7 +19,7 @@ func XCTAssertEqual(
 ) {
     do {
         let v1 = try v1(), v2 = try v2()
-        if !v1.isEqual(to: v2, withPrecision: accuracy) {
+        if v1 != v2, !v1.isEqual(to: v2, withPrecision: accuracy) {
             var m = message()
             if m.isEmpty {
                 m = "\(v1) is not equal to \(v2) +/1 \(accuracy)"

@@ -37,11 +37,11 @@ public extension PointComparable {
 
 extension Bounds: PointComparable {
     public func nearestPoint(to point: Vector) -> Vector {
-        point.clamped(to: min ... max)
+        hasNegativeVolume ? min : point.clamped(to: min ... max)
     }
 
     public func intersects(_ point: Vector) -> Bool {
-        (min ... max).contains(point)
+        hasNegativeVolume ? false : (min ... max).contains(point)
     }
 }
 

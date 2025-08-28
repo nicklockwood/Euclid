@@ -147,4 +147,10 @@ class BoundsTests: XCTestCase {
         let point = Vector(-10, 0, 0)
         XCTAssertEqual(bounds.nearestPoint(to: point), [-1, 0, 0])
     }
+
+    func testNearestPointToEmptyBounds() {
+        let bounds = Bounds.empty
+        let point = Vector(-10, 0, 0)
+        XCTAssertEqual(bounds.nearestPoint(to: point), bounds.min)
+    }
 }
