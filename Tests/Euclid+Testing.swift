@@ -72,11 +72,16 @@ extension Mesh {
 
 extension Vector {
     static func random(in range: ClosedRange<Vector>) -> Vector {
-        .init(
+        let value = self.init(
             .random(in: range.lowerBound.x ... range.upperBound.x),
             .random(in: range.lowerBound.y ... range.upperBound.y),
             .random(in: range.lowerBound.z ... range.upperBound.z)
         )
+        if value.isZero, !range.lowerBound.isZero, !range.upperBound.isZero {
+            // Assume we don't want zero values unless explicitly requested
+            return random(in: range)
+        }
+        return value
     }
 
     static func random(in range: ClosedRange<Double> = -1 ... 1) -> Vector {
@@ -86,17 +91,15 @@ extension Vector {
 
 extension Angle {
     static func random(in range: ClosedRange<Angle> = -.pi ... .pi) -> Angle {
-        .radians(.random(in: range.lowerBound.radians ... range.upperBound.radians))
+        // Assume we don't want zero values unless explicitly requested
+        let value = Self.radians(.random(in: range.lowerBound.radians ... range.upperBound.radians))
+        return value.isZero ? .random(in: range) : value
     }
 }
 
 extension Rotation {
     static func random() -> Rotation {
-        guard let rotation = Self(axis: .random(), angle: .random()) else {
-            // Keep trying
-            return random()
-        }
-        return rotation
+        .init(unchecked: .random().normalized(), angle: .random())
     }
 }
 
