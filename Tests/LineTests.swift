@@ -77,6 +77,16 @@ class LineTests: XCTestCase {
         }
     }
 
+    func testDistanceBetweenParallelLines() {
+        let l1 = Line(unchecked: .random(), direction: .random().normalized())
+        let plane = Plane(unchecked: l1.direction, pointOnPlane: l1.origin)
+        for _ in 0 ..< 10 {
+            let distance = Vector.random(in: plane) - l1.origin
+            let l2 = Line(unchecked: l1.origin + distance, direction: l1.direction)
+            XCTAssertEqual(l1.distance(from: l2), distance.length, accuracy: epsilon)
+        }
+    }
+
     // MARK: Line intersection
 
     func testLineIntersectionXY() {
@@ -114,10 +124,21 @@ class LineTests: XCTestCase {
 
     func testCoincidentLineIntersection() {
         let l1 = Line(unchecked: .unitX, direction: .unitX)
-        XCTAssertNil(l1.intersection(with: l1))
+        XCTAssert(l1.intersects(l1))
+        XCTAssertEqual(l1.intersection(with: l1), l1.origin)
     }
 
-    // MARK: Contains point
+    func testParallelLineIntersection() {
+        let l1 = Line(unchecked: .unitX, direction: .unitX)
+        let distance = Vector.random(in: [0, -1, -1] ... [0, 1, 1])
+        let l2 = l1.translated(by: distance)
+
+        XCTAssertEqual(l1.distance(from: l2), distance.length)
+        XCTAssertFalse(l1.intersects(l2))
+        XCTAssertNil(l1.intersection(with: l2))
+    }
+
+    // MARK: Point intersection
 
     func testContainsPoint() {
         let line = Line(unchecked: [-2, -1, 0], direction: Vector(2, 1, 0).normalized())

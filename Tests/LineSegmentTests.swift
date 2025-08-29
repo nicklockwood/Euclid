@@ -67,6 +67,12 @@ class LineSegmentTests: XCTestCase {
 
     // MARK: Line Segment intersection
 
+    func testCoincidentSegments() {
+        let a = LineSegment(unchecked: [-1, -1, 0], [1, 1, 0])
+        XCTAssertTrue(a.intersects(a))
+        XCTAssertEqual(a.intersection(with: a), a.start)
+    }
+
     func testSegmentCrossingSegment() {
         let a = LineSegment(unchecked: [-1, -1, 0], [1, 1, 0])
         let b = LineSegment(unchecked: [-1, 0, 0], [1, 0, 0])

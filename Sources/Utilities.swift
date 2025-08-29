@@ -473,32 +473,32 @@ func shortestLineBetween(
     _ p4: Vector,
     _ bIsSegment: Bool
 ) -> (Vector, Vector)? {
-    let v21 = p2 - p1
-    assert(v21.length > 0)
-    let v43 = p4 - p3
-    assert(v43.length > 0)
-    let v13 = p1 - p3
+    let v12 = p2 - p1
+    assert(v12.length > 0)
+    let v34 = p4 - p3
+    assert(v34.length > 0)
+    let v31 = p1 - p3
 
-    let d1343 = v13.dot(v43)
-    let d4321 = v43.dot(v21)
-    let d4343 = v43.dot(v43)
-    let d2121 = v21.dot(v21)
+    let d3134 = v31.dot(v34)
+    let d3412 = v34.dot(v12)
+    let d3434 = v34.dot(v34) // length squared
+    let d1212 = v12.dot(v12) // length squared
+    let denominator = d1212 * d3434 - d3412 * d3412
 
-    let denominator = d2121 * d4343 - d4321 * d4321
-    guard abs(denominator) > epsilon else {
-        // Lines are coincident
-        return nil
+    // Closest point along v12
+    var mua = 0.0
+    if denominator != 0 {
+        let numerator = d3134 * d3412 - v31.dot(v12) * d3434
+        mua = numerator / denominator
     }
 
-    let d1321 = v13.dot(v21)
-    let numerator = d1343 * d4321 - d1321 * d4343
-    var mua = numerator / denominator
-    var mub = (d1343 + d4321 * mua) / d4343
+    // Closest point along v34
+    var mub = (d3134 + d3412 * mua) / d3434
 
     if aIsSegment { mua.clamp(to: 0 ... 1) }
     if bIsSegment { mub.clamp(to: 0 ... 1) }
 
-    return (p1 + mua * v21, p3 + mub * v43)
+    return (p1 + mua * v12, p3 + mub * v34)
 }
 
 func lineIntersection(
