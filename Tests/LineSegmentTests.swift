@@ -42,4 +42,58 @@ class LineSegmentTests: XCTestCase {
         let line = LineSegment(unchecked: [-2, -1, 0], [2, 1, 0])
         XCTAssertFalse(line.intersects([4, 2, 0]))
     }
+
+    // MARK: Line intersection
+
+    func testSegmentCrossingLine() {
+        let a = LineSegment(unchecked: [-1, -1, 0], [1, 1, 0])
+        let b = Line(unchecked: [0, 0, 0], direction: [1, 0, 0])
+        XCTAssertTrue(a.intersects(b))
+        XCTAssertTrue(b.intersects(a))
+        let intersection = a.intersection(with: b)
+        XCTAssertEqual(intersection, [0, 0, 0])
+        XCTAssertEqual(b.intersection(with: a), intersection)
+    }
+
+    func testSegmentTouchingLine() {
+        let a = LineSegment(unchecked: [-1, -1, 0], [0, 0, 0])
+        let b = Line(unchecked: [0, 0, 0], direction: [1, 0, 0])
+        XCTAssertTrue(a.intersects(b))
+        XCTAssertTrue(b.intersects(a))
+        let intersection = a.intersection(with: b)
+        XCTAssertEqual(intersection, [0, 0, 0])
+        XCTAssertEqual(b.intersection(with: a), intersection)
+    }
+
+    // MARK: Line Segment intersection
+
+    func testSegmentCrossingSegment() {
+        let a = LineSegment(unchecked: [-1, -1, 0], [1, 1, 0])
+        let b = LineSegment(unchecked: [-1, 0, 0], [1, 0, 0])
+        XCTAssertTrue(a.intersects(b))
+        XCTAssertTrue(b.intersects(a))
+        let intersection = a.intersection(with: b)
+        XCTAssertEqual(intersection, [0, 0, 0])
+        XCTAssertEqual(b.intersection(with: a), intersection)
+    }
+
+    func testSegmentTouchingSegment() {
+        let a = LineSegment(unchecked: [-1, -1, 0], [0, 0, 0])
+        let b = LineSegment(unchecked: [-1, 0, 0], [1, 0, 0])
+        XCTAssertTrue(a.intersects(b))
+        XCTAssertTrue(b.intersects(a))
+        let intersection = a.intersection(with: b)
+        XCTAssertEqual(intersection, [0, 0, 0])
+        XCTAssertEqual(b.intersection(with: a), intersection)
+    }
+
+    func testSegmentTouchingOrthogonalSegment() {
+        let a = LineSegment(unchecked: [0, -1, 0], [0, 0, 0])
+        let b = LineSegment(unchecked: [-1, 0, 0], [1, 0, 0])
+        XCTAssertTrue(a.intersects(b))
+        XCTAssertTrue(b.intersects(a))
+        let intersection = a.intersection(with: b)
+        XCTAssertEqual(intersection, [0, 0, 0])
+        XCTAssertEqual(b.intersection(with: a), intersection)
+    }
 }

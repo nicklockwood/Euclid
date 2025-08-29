@@ -129,6 +129,13 @@ public extension Line {
         )
     }
 
+    /// Returns the point where the specified segment intersects this line.
+    /// - Parameter lineSegment: The line segment to compare with.
+    /// - Returns: The point of intersection, or `nil` if the lines don't intersect.
+    func intersection(with lineSegment: LineSegment) -> Vector? {
+        lineSegment.intersection(with: self)
+    }
+
     /// Returns the point where the specified plane intersects the line.
     /// - Parameter plane: The plane to compare with.
     /// - Returns: The point of intersection, or `nil` if the line and plane are parallel (don't intersect).

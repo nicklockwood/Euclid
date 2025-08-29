@@ -53,7 +53,28 @@ class LineTests: XCTestCase {
     func testProjectPointDiagonal() {
         let l = Line(unchecked: .zero, direction: Vector(1, 1, 0).normalized())
         let p = Vector(0, 2, 0)
-        XCTAssert(p.projected(onto: l).isEqual(to: [1, 1, 0]))
+        XCTAssertEqual(p.projected(onto: l), [1, 1, 0])
+    }
+
+    // MARK: Line distance
+
+    func testIntersectingLineDistance() {
+        let l1 = Line(unchecked: .random(), direction: .random().normalized())
+        for _ in 0 ..< 10 {
+            let l2 = Line(unchecked: l1.origin, direction: .random().normalized())
+            XCTAssertEqual(l1.distance(from: l2), 0, accuracy: epsilon)
+        }
+    }
+
+    func testNonIntersectingLineDistance() {
+        let plane = Plane(unchecked: .random().normalized(), pointOnPlane: .random())
+        let origin = Vector.random(in: plane)
+        let l1 = Line(unchecked: origin, direction: (.random(in: plane) - origin).normalized())
+        for _ in 0 ..< 10 {
+            let distance = plane.normal * .random(in: -100 ... 100)
+            let l2 = Line(unchecked: origin + distance, direction: (.random(in: plane) - origin).normalized())
+            XCTAssertEqual(l1.distance(from: l2), distance.length, accuracy: epsilon)
+        }
     }
 
     // MARK: Line intersection
@@ -61,25 +82,34 @@ class LineTests: XCTestCase {
     func testLineIntersectionXY() {
         let l1 = Line(unchecked: [1, 0, 3], direction: .unitX)
         let l2 = Line(unchecked: [0, 1, 3], direction: -.unitY)
+        XCTAssert(l1.intersects(l2))
+        XCTAssert(l2.intersects(l1))
 
         let intersection = l1.intersection(with: l2)
         XCTAssertEqual(intersection, [0, 0, 3])
+        XCTAssertEqual(l2.intersection(with: l1), intersection)
     }
 
     func testLineIntersectionXZ() {
         let l1 = Line(unchecked: [1, 3, 0], direction: .unitX)
         let l2 = Line(unchecked: [0, 3, 1], direction: -.unitZ)
+        XCTAssert(l1.intersects(l2))
+        XCTAssert(l2.intersects(l1))
 
         let intersection = l1.intersection(with: l2)
         XCTAssertEqual(intersection, [0, 3, 0])
+        XCTAssertEqual(l2.intersection(with: l1), intersection)
     }
 
     func testLineIntersectionYZ() {
         let l1 = Line(unchecked: [3, 1, 0], direction: .unitY)
         let l2 = Line(unchecked: [3, 0, 1], direction: -.unitZ)
+        XCTAssert(l1.intersects(l2))
+        XCTAssert(l2.intersects(l1))
 
         let intersection = l1.intersection(with: l2)
         XCTAssertEqual(intersection, [3, 0, 0])
+        XCTAssertEqual(l2.intersection(with: l1), intersection)
     }
 
     func testCoincidentLineIntersection() {
