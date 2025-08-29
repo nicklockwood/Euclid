@@ -298,7 +298,9 @@ func rotationBetweenNormalizedVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
     assert(v0.isNormalized && v1.isNormalized)
     let axis = v0.cross(v1)
     if axis != .zero {
-        return .init(unchecked: axis.normalized(), angle: -.acos(v0.dot(v1)))
+        let cross = axis.length
+        let angle = Angle.atan2(y: cross, x: v0.dot(v1))
+        return .init(unchecked: axis / cross, angle: -angle)
     } else if v0.isApproximatelyEqual(to: v1) {
         return .identity
     } else {
