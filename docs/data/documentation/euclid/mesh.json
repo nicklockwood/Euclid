@@ -366,8 +366,8 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-3drza",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-7p5hd",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-22brv",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4k8gs",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4y1bs"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-2xnt3",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4k8gs"
       ],
       "title" : "Initializers"
     },
@@ -4392,6 +4392,82 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(_:materials:)-22brv"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-2xnt3": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from a RealityKit ",
+      "type" : "text"
+    },
+    {
+      "code" : "MeshResource.Model",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation12MeshResourceC",
+      "text" : "MeshResource"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation12MeshResourceC5ModelV",
+      "text" : "Model"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materials"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?])"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-2xnt3",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:materials:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:materials:)-2xnt3"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-4k8gs": {
   "abstract" : [
     {
@@ -4458,82 +4534,6 @@
   "title" : "init(_:materials:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4k8gs"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-4y1bs": {
-  "abstract" : [
-    {
-      "text" : "Creates a mesh from a RealityKit ",
-      "type" : "text"
-    },
-    {
-      "code" : "MeshResource.Model",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ".",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:17RealityFoundation12MeshResourceC",
-      "text" : "MeshResource"
-    },
-    {
-      "kind" : "text",
-      "text" : "."
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:17RealityFoundation12MeshResourceCAAE5ModelV",
-      "text" : "Model"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "materials"
-    },
-    {
-      "kind" : "text",
-      "text" : ": ["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid7PolygonV",
-      "text" : "Polygon"
-    },
-    {
-      "kind" : "text",
-      "text" : "."
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid7PolygonV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?])"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4y1bs",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:materials:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4y1bs"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlData:materialLookup:)": {
   "abstract" : [

@@ -271,7 +271,7 @@ class UtilityTests: XCTestCase {
             let (axis, angle) = (rotation.axis, rotation.angle)
             XCTAssert(rotation.isEqual(to: r), "\(rotation) is not equal to \(r)")
             XCTAssert(angle.isEqual(to: r.angle), "\(angle) is not equal to \(r.angle)")
-            XCTAssert(axis.isEqual(to: r.axis), "\(axis) is not equal to \(r.axis)")
+            XCTAssertEqual(axis, r.axis)
         }
     }
 
@@ -290,7 +290,7 @@ class UtilityTests: XCTestCase {
             XCTAssertEqual(rotationBetweenNormalizedVectors(v, v), .identity)
             let r = rotationBetweenNormalizedVectors(v, -v)
             let rotated = v.rotated(by: r)
-            XCTAssert(rotated.isEqual(to: -v), "\(rotated) is not equal to \(-v)")
+            XCTAssertEqual(rotated, -v)
         }
     }
 }

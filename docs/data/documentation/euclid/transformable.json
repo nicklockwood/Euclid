@@ -82,6 +82,7 @@
     {
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
@@ -194,6 +195,40 @@
   "title" : "Bounds",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line": {
+  "abstract" : [
+    {
+      "text" : "An infinite line in 3D space.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Line"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Line"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Line",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/line"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment": {
   "abstract" : [

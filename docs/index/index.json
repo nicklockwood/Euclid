@@ -701,13 +701,13 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4k8gs",
-                "title" : "init(MeshResource, materials: [Polygon.Material?])",
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materials:)-2xnt3",
+                "title" : "init(MeshResource.Model, materials: [Polygon.Material?])",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4y1bs",
-                "title" : "init(MeshResource.Model, materials: [Polygon.Material?])",
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4k8gs",
+                "title" : "init(MeshResource, materials: [Polygon.Material?])",
                 "type" : "init"
               },
               {
@@ -2566,6 +2566,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/line\/intersection(with:)-3y1jt",
+                "title" : "func intersection(with: LineSegment) -> Vector?",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/line\/intersection(with:)-88med",
                 "title" : "func intersection(with: Polygon) -> Vector?",
                 "type" : "method"
@@ -2736,6 +2741,81 @@
                 ],
                 "path" : "\/documentation\/euclid\/line\/pointcomparable-implementations",
                 "title" : "PointComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Operators",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/*(_:_:)",
+                    "title" : "static func * (Self, Transform) -> Self",
+                    "type" : "op"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/*=(_:_:)",
+                    "title" : "static func *= (inout Self, Transform)",
+                    "type" : "op"
+                  },
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/rotate(by:)",
+                    "title" : "func rotate(by: Rotation)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/rotated(by:)",
+                    "title" : "func rotated(by: Rotation) -> Line",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/scale(by:)-5jfow",
+                    "title" : "func scale(by: Double)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/scale(by:)-74kzv",
+                    "title" : "func scale(by: Vector)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/scaled(by:)-17goh",
+                    "title" : "func scaled(by: Vector) -> Line",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/scaled(by:)-6q4xr",
+                    "title" : "func scaled(by: Double) -> Line",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/transform(by:)",
+                    "title" : "func transform(by: Transform)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/transformed(by:)",
+                    "title" : "func transformed(by: Transform) -> Self",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/translate(by:)",
+                    "title" : "func translate(by: Vector)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/translated(by:)",
+                    "title" : "func translated(by: Vector) -> Line",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/line\/transformable-implementations",
+                "title" : "Transformable Implementations",
                 "type" : "symbol"
               }
             ],

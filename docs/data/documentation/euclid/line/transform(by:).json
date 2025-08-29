@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns the point where the specified line intersects the line segment.",
+      "text" : "Transform the value in place.",
       "type" : "text"
     }
   ],
@@ -9,18 +9,18 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-5hke2"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/transform(by:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid11LineSegmentV12intersection4withAA6VectorVSgAA0B0V_tF",
+    "externalID" : "s:6Euclid13TransformablePAAE9transform2byyAA9TransformV_tF::SYNTHESIZED::s:6Euclid4LineV",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,7 +32,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "intersection"
+        "text" : "transform"
       },
       {
         "kind" : "text",
@@ -40,7 +40,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "with"
+        "text" : "by"
       },
       {
         "kind" : "text",
@@ -48,21 +48,12 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4LineV",
-        "text" : "Line"
+        "preciseIdentifier" : "s:6Euclid9TransformV",
+        "text" : "Transform"
       },
       {
         "kind" : "text",
-        "text" : ") -> "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid6VectorV",
-        "text" : "Vector"
-      },
-      {
-        "kind" : "text",
-        "text" : "?"
+        "text" : ")"
       }
     ],
     "modules" : [
@@ -73,7 +64,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "intersection(with:)"
+    "title" : "transform(by:)"
   },
   "primaryContentSections" : [
     {
@@ -88,6 +79,14 @@
           "tokens" : [
             {
               "kind" : "keyword",
+              "text" : "mutating"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
               "text" : "func"
             },
             {
@@ -96,7 +95,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "intersection"
+              "text" : "transform"
             },
             {
               "kind" : "text",
@@ -104,7 +103,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "with"
+              "text" : "by"
             },
             {
               "kind" : "text",
@@ -112,31 +111,21 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "line"
+              "text" : "transform"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4LineV",
-              "text" : "Line"
+              "preciseIdentifier" : "s:6Euclid9TransformV",
+              "text" : "Transform"
             },
             {
               "kind" : "text",
-              "text" : ") -> "
-            },
-            {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid6VectorV",
-              "text" : "Vector"
-            },
-            {
-              "kind" : "text",
-              "text" : "?"
+              "text" : ")"
             }
           ]
         }
@@ -151,44 +140,16 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The line to compare with.",
+                  "text" : "A transform to apply to the value.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "line"
+          "name" : "transform"
         }
       ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "The point of intersection, or ",
-              "type" : "text"
-            },
-            {
-              "code" : "nil",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " if the line and segment don’t intersect.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -202,7 +163,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/linesegment\/intersection(with:)-5hke2"
+        "\/documentation\/euclid\/line\/transform(by:)"
       ],
       "traits" : [
         {
@@ -261,44 +222,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/line"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/transform(by:)": {
   "abstract" : [
     {
-      "text" : "A finite line segment in 3D space.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "LineSegment"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "LineSegment"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "LineSegment",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-5hke2": {
-  "abstract" : [
-    {
-      "text" : "Returns the point where the specified line intersects the line segment.",
+      "text" : "Transform the value in place.",
       "type" : "text"
     }
   ],
@@ -313,7 +240,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "intersection"
+      "text" : "transform"
     },
     {
       "kind" : "text",
@@ -321,7 +248,7 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "with"
+      "text" : "by"
     },
     {
       "kind" : "text",
@@ -329,34 +256,25 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4LineV",
-      "text" : "Line"
+      "preciseIdentifier" : "s:6Euclid9TransformV",
+      "text" : "Transform"
     },
     {
       "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : "?"
+      "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-5hke2",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/transform(by:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "intersection(with:)",
+  "title" : "transform(by:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/intersection(with:)-5hke2"
+  "url" : "\/documentation\/euclid\/line\/transform(by:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform": {
   "abstract" : [
     {
-      "text" : "A distance or position in 3D space.",
+      "text" : "A combined rotation, position, and scale that can be applied to a 3D object.",
       "type" : "text"
     }
   ],
@@ -371,21 +289,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Vector"
+      "text" : "Transform"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Vector"
+      "text" : "Transform"
     }
   ],
   "role" : "symbol",
-  "title" : "Vector",
+  "title" : "Transform",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector"
+  "url" : "\/documentation\/euclid\/transform"
 }
 }
 }

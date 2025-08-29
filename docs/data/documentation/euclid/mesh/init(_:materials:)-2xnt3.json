@@ -23,12 +23,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4y1bs"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-2xnt3"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV_9materialsAC17RealityFoundation0B8ResourceCAEE5ModelV_Says11AnyHashableVSgGtcfc",
+    "externalID" : "s:6Euclid4MeshV_9materialsAC17RealityFoundation0B8ResourceC5ModelV_Says11AnyHashableVSgGtcfc",
     "fragments" : [
       {
         "kind" : "identifier",
@@ -49,7 +49,7 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:17RealityFoundation12MeshResourceCAAE5ModelV",
+        "preciseIdentifier" : "s:17RealityFoundation12MeshResourceC5ModelV",
         "text" : "Model"
       },
       {
@@ -162,7 +162,7 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:17RealityFoundation12MeshResourceCAAE5ModelV",
+              "preciseIdentifier" : "s:17RealityFoundation12MeshResourceC5ModelV",
               "text" : "Model"
             },
             {
@@ -255,7 +255,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/init(_:materials:)-4y1bs"
+        "\/documentation\/euclid\/mesh\/init(_:materials:)-2xnt3"
       ],
       "traits" : [
         {
@@ -314,7 +314,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-4y1bs": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-2xnt3": {
   "abstract" : [
     {
       "text" : "Creates a mesh from a RealityKit ",
@@ -349,7 +349,7 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:17RealityFoundation12MeshResourceCAAE5ModelV",
+      "preciseIdentifier" : "s:17RealityFoundation12MeshResourceC5ModelV",
       "text" : "Model"
     },
     {
@@ -383,12 +383,12 @@
       "text" : "?])"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4y1bs",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-2xnt3",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(_:materials:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4y1bs"
+  "url" : "\/documentation\/euclid\/mesh\/init(_:materials:)-2xnt3"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
   "abstract" : [

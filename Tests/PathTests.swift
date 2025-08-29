@@ -585,8 +585,8 @@ class PathTests: XCTestCase {
         // normals
         XCTAssertEqual(vertices[0].normal, [0, -1])
         XCTAssertEqual(vertices[1].normal, [0, -1])
-        XCTAssert(vertices[2].normal.isEqual(to: Vector(1, 1).normalized()))
-        XCTAssert(vertices[3].normal.isEqual(to: Vector(1, 1).normalized()))
+        XCTAssertEqual(vertices[2].normal, Vector(1, 1).normalized())
+        XCTAssertEqual(vertices[3].normal, Vector(1, 1).normalized())
         XCTAssertEqual(vertices[4].normal, [0, -1])
         XCTAssertEqual(vertices[5].normal, [0, -1])
     }

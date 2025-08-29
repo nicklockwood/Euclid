@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns the point where the specified line intersects the line segment.",
+      "text" : "Returns the point where the specified segment intersects this line.",
       "type" : "text"
     }
   ],
@@ -9,18 +9,18 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-5hke2"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersection(with:)-3y1jt"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid11LineSegmentV12intersection4withAA6VectorVSgAA0B0V_tF",
+    "externalID" : "s:6Euclid4LineV12intersection4withAA6VectorVSgAA0B7SegmentV_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -48,8 +48,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4LineV",
-        "text" : "Line"
+        "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+        "text" : "LineSegment"
       },
       {
         "kind" : "text",
@@ -112,17 +112,17 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "line"
+              "text" : "lineSegment"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4LineV",
-              "text" : "Line"
+              "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+              "text" : "LineSegment"
             },
             {
               "kind" : "text",
@@ -151,14 +151,14 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The line to compare with.",
+                  "text" : "The line segment to compare with.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "line"
+          "name" : "lineSegment"
         }
       ]
     },
@@ -181,7 +181,7 @@
               "type" : "codeVoice"
             },
             {
-              "text" : " if the line and segment don’t intersect.",
+              "text" : " if the lines don’t intersect.",
               "type" : "text"
             }
           ],
@@ -202,7 +202,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/linesegment\/intersection(with:)-5hke2"
+        "\/documentation\/euclid\/line\/intersection(with:)-3y1jt"
       ],
       "traits" : [
         {
@@ -261,6 +261,64 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/line"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/intersection(with:)-3y1jt": {
+  "abstract" : [
+    {
+      "text" : "Returns the point where the specified segment intersects this line.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersection(with:)-3y1jt",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/line\/intersection(with:)-3y1jt"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment": {
   "abstract" : [
     {
@@ -294,64 +352,6 @@
   "title" : "LineSegment",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersection(with:)-5hke2": {
-  "abstract" : [
-    {
-      "text" : "Returns the point where the specified line intersects the line segment.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "intersection"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "with"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4LineV",
-      "text" : "Line"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : "?"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-5hke2",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "intersection(with:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/intersection(with:)-5hke2"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
   "abstract" : [

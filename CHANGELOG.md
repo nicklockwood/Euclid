@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.8.5](https://github.com/nicklockwood/Euclid/releases/tag/0.8.5) (2025-08-29)
+
+- Fixed `Line.nearestPoint(to:)` method returning inverted value
+- The `Line.distance(from:)` method no longer returns zero for parallel lines
+- Fixed crashes when doing point comparisons on empty `Bounds` values
+- Edges split during line segment clipping are now rejoined automatically 
+- Added some missing `Line` and `LineSegment` helpers
+- `Line` now conforms to the `Transformable` protocol
+
 ## [0.8.4](https://github.com/nicklockwood/Euclid/releases/tag/0.8.4) (2025-08-27)
 
 - Fixed incorrect `LineSegment.split()` function implementation
