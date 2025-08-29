@@ -212,10 +212,3 @@ public extension Angle {
         lhs.radians < rhs.radians
     }
 }
-
-extension Angle {
-    /// Approximate equality
-    func isApproximatelyEqual(to other: Angle, absoluteTolerance: Double = epsilon) -> Bool {
-        radians.isApproximatelyEqual(to: other.radians, absoluteTolerance: absoluteTolerance)
-    }
-}

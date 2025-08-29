@@ -246,17 +246,12 @@ extension Plane {
         return nil
     }
 
-    func isParallel(to plane: Plane) -> Bool {
-        normal.isApproximatelyEqual(to: plane.normal, absoluteTolerance: planeEpsilon)
+    func isParallel(to plane: Plane, absoluteTolerance: Double = planeEpsilon) -> Bool {
+        normal.isApproximatelyEqual(to: plane.normal, absoluteTolerance: absoluteTolerance)
     }
 
-    func isAntiparallel(to plane: Plane) -> Bool {
-        normal.isApproximatelyEqual(to: -plane.normal, absoluteTolerance: planeEpsilon)
-    }
-
-    /// Approximate equality
-    func isApproximatelyEqual(to other: Plane) -> Bool {
-        w.isApproximatelyEqual(to: other.w, absoluteTolerance: planeEpsilon) && isParallel(to: other)
+    func isAntiparallel(to plane: Plane, absoluteTolerance: Double = planeEpsilon) -> Bool {
+        normal.isApproximatelyEqual(to: -plane.normal, absoluteTolerance: absoluteTolerance)
     }
 }
 

@@ -307,7 +307,7 @@ class MeshShapeTests: XCTestCase {
             slices: detail
         )
         let shortest = cos(.pi / Double(detail)) * radius
-        XCTAssertEqual(torus.nearestPoint(to: .zero).length, shortest, accuracy: epsilon)
+        XCTAssertEqual(torus.nearestPoint(to: .zero).length, shortest)
         XCTAssertEqual(torus.nearestPoint(to: .unitX * radius), .unitX * radius)
         XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 2), .unitX * radius * 2)
         XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 3), .unitX * radius * 3)

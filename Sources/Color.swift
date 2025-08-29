@@ -224,12 +224,4 @@ extension Color {
             self = .clear
         }
     }
-
-    /// Approximate equality
-    func isApproximatelyEqual(to other: Color, absoluteTolerance: Double = epsilon) -> Bool {
-        r.isApproximatelyEqual(to: other.r, absoluteTolerance: absoluteTolerance) &&
-            g.isApproximatelyEqual(to: other.g, absoluteTolerance: absoluteTolerance) &&
-            b.isApproximatelyEqual(to: other.b, absoluteTolerance: absoluteTolerance) &&
-            a.isApproximatelyEqual(to: other.a, absoluteTolerance: absoluteTolerance)
-    }
 }

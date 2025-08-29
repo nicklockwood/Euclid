@@ -930,12 +930,12 @@ class CodingTests: XCTestCase {
     func testEncodingAndDecodingRotation() throws {
         let rotation = Rotation(axis: .unitX, angle: .radians(2))!
         let encoded = try encode(rotation)
-        XCTAssert(try rotation.isApproximatelyEqual(to: decode(encoded)))
+        XCTAssertEqual(rotation, try decode(encoded))
     }
 
     func testEncodingAndDecodingPitchYawRollRotation() throws {
         let rotation = Rotation(pitch: .degrees(10), yaw: .degrees(20), roll: .degrees(30))
         let encoded = try encode(rotation)
-        XCTAssert(try rotation.isApproximatelyEqual(to: decode(encoded)))
+        XCTAssertEqual(rotation, try decode(encoded))
     }
 }

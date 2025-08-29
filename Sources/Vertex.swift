@@ -294,14 +294,6 @@ extension Vertex {
             return nil
         }
     }
-
-    /// Approximate equality
-    func isApproximatelyEqual(to other: Vertex, absoluteTolerance: Double = epsilon) -> Bool {
-        position.isApproximatelyEqual(to: other.position, absoluteTolerance: absoluteTolerance) &&
-            normal.isApproximatelyEqual(to: other.normal, absoluteTolerance: absoluteTolerance) &&
-            texcoord.isApproximatelyEqual(to: other.texcoord, absoluteTolerance: absoluteTolerance) &&
-            color.isApproximatelyEqual(to: other.color, absoluteTolerance: absoluteTolerance)
-    }
 }
 
 public extension [Vertex] {

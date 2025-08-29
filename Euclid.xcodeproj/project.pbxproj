@@ -59,6 +59,7 @@
 		01A3D52129F32D360085D6BE /* Mesh+STL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A3D52029F32D360085D6BE /* Mesh+STL.swift */; };
 		01A429FA2237A85C00C251A6 /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A429F92237A85C00C251A6 /* TextTests.swift */; };
 		01AAAC702E5F13D800F4AFD0 /* LineSegmentCSGTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AAAC6F2E5F13D800F4AFD0 /* LineSegmentCSGTests.swift */; };
+		01AAAC9D2E621D4B00F4AFD0 /* ApproximateEquality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AAAC9C2E621D4900F4AFD0 /* ApproximateEquality.swift */; };
 		01B299572692339200B80A0D /* MetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013B5BE426923087000860DC /* MetadataTests.swift */; };
 		01B9F60E292BCE57002CC3EB /* Stretchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B9F60D292BCE57002CC3EB /* Stretchable.swift */; };
 		01B9F610292BD7FE002CC3EB /* StretchableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B9F60F292BD7FE002CC3EB /* StretchableTests.swift */; };
@@ -177,6 +178,7 @@
 		01A3D52029F32D360085D6BE /* Mesh+STL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mesh+STL.swift"; sourceTree = "<group>"; };
 		01A429F92237A85C00C251A6 /* TextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTests.swift; sourceTree = "<group>"; };
 		01AAAC6F2E5F13D800F4AFD0 /* LineSegmentCSGTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegmentCSGTests.swift; sourceTree = "<group>"; };
+		01AAAC9C2E621D4900F4AFD0 /* ApproximateEquality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproximateEquality.swift; sourceTree = "<group>"; };
 		01B9F60D292BCE57002CC3EB /* Stretchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stretchable.swift; sourceTree = "<group>"; };
 		01B9F60F292BD7FE002CC3EB /* StretchableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchableTests.swift; sourceTree = "<group>"; };
 		01BA29702235A63F0088D36B /* Euclid+CoreText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+CoreText.swift"; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 				EAF0DCEE2DA474D300CC5D70 /* PlaneComparable.swift */,
 				01C282C02DB642B00084C89B /* PointComparable.swift */,
 				01C282C62DBA331F0084C89B /* LineComparable.swift */,
+				01AAAC9C2E621D4900F4AFD0 /* ApproximateEquality.swift */,
 				0148ECA52783796A00B3F836 /* PathPoint.swift */,
 				016FAB4921BFE7C200AF60DC /* Path.swift */,
 				01CD7CEF2E5C63790071E13C /* Path+CSG.swift */,
@@ -574,6 +577,7 @@
 				016FAB5821BFE7C200AF60DC /* Polygon.swift in Sources */,
 				01E591322DD7A4ED00CDECEA /* Interpolatable.swift in Sources */,
 				0188525626D94FCC0079C602 /* Euclid+UIKit.swift in Sources */,
+				01AAAC9D2E621D4B00F4AFD0 /* ApproximateEquality.swift in Sources */,
 				01CD7CF02E5C637D0071E13C /* Path+CSG.swift in Sources */,
 				0148ECA4278378D100B3F836 /* Path+Shapes.swift in Sources */,
 				52A663A123857D5300FACF9D /* Line.swift in Sources */,

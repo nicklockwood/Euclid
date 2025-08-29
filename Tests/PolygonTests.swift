@@ -1045,7 +1045,7 @@ class PolygonTests: XCTestCase {
                 [2, 1],
                 [2, 0],
             ]).transformed(by: .random())
-            XCTAssertEqual(polygon.area, 3, accuracy: epsilon)
+            XCTAssertEqual(polygon.area, 3)
         }
     }
 
@@ -1057,7 +1057,7 @@ class PolygonTests: XCTestCase {
                 [1, -1],
                 [1, 0],
             ]).rotated(by: .random())
-            XCTAssertEqual(polygon.area, 1, accuracy: epsilon)
+            XCTAssertEqual(polygon.area, 1)
         }
     }
 
@@ -1079,7 +1079,7 @@ class PolygonTests: XCTestCase {
                 [1, -1, 1],
                 [1, 0, 1],
             ]).transformed(by: .random())
-            XCTAssertEqual(polygon.area, 1, accuracy: epsilon)
+            XCTAssertEqual(polygon.area, 1)
         }
     }
 

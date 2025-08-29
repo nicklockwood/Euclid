@@ -318,12 +318,3 @@ public extension PathPoint {
         return point
     }
 }
-
-extension PathPoint {
-    /// Approximate equality
-    func isApproximatelyEqual(to other: PathPoint, absoluteTolerance: Double = epsilon) -> Bool {
-        isCurved == other.isCurved &&
-            position.isApproximatelyEqual(to: other.position, absoluteTolerance: absoluteTolerance) &&
-            texcoord.isApproximatelyEqual(to: other.texcoord) && color.isApproximatelyEqual(to: other.color)
-    }
-}

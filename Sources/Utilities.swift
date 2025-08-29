@@ -57,10 +57,6 @@ extension Comparable {
 }
 
 extension Double {
-    func isApproximatelyEqual(to other: Double, absoluteTolerance: Double) -> Bool {
-        self == other || abs(self - other) < absoluteTolerance
-    }
-
     func clampedToScaleLimit() -> Double {
         self < 0 ? min(self, -scaleLimit) : max(self, scaleLimit)
     }
@@ -303,7 +299,7 @@ func rotationBetweenNormalizedVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
     let axis = v0.cross(v1)
     if axis != .zero {
         return .init(unchecked: axis.normalized(), angle: -.acos(v0.dot(v1)))
-    } else if v0.isEqual(to: v1) {
+    } else if v0.isApproximatelyEqual(to: v1) {
         return .identity
     } else {
         let orthonormal = v0.cross(v0.leastParallelAxis).normalized()

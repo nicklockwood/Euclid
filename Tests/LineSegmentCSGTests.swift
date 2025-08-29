@@ -21,7 +21,7 @@ class LineSegmentCSGTests: XCTestCase {
         let (front, back) = line.split(along: plane)
         let intersection = line.intersection(with: plane)!
         XCTAssertEqual(front?.end, back?.start)
-        XCTAssertEqual(front!.end, intersection, accuracy: epsilon)
+        XCTAssertEqual(front?.end, intersection)
     }
 
     // MARK: Plane Clipping

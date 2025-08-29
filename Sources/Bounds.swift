@@ -256,12 +256,6 @@ extension Bounds {
         max.x < min.x || max.y < min.y || max.z < min.z
     }
 
-    /// Approximate equality
-    func isApproximatelyEqual(to other: Bounds, absoluteTolerance: Double = epsilon) -> Bool {
-        min.isApproximatelyEqual(to: other.min, absoluteTolerance: absoluteTolerance) &&
-            max.isApproximatelyEqual(to: other.max, absoluteTolerance: absoluteTolerance)
-    }
-
     /// Planes representing the edges of the bounds.
     /// If the bounds is empty this will return an empty array.
     var edgePlanes: [Plane] {

@@ -48,7 +48,7 @@ class MeshLatheTests: XCTestCase {
         XCTAssert(mesh2.isWatertight)
         XCTAssert(mesh2.polygons.areWatertight)
         XCTAssertEqual(mesh2.polygons.count, 96)
-        XCTAssertEqual(mesh2.volume, 0, accuracy: epsilon)
+        XCTAssertEqual(mesh2.volume, 0)
         XCTAssertFalse(mesh2.isActuallyConvex)
         XCTAssertFalse(mesh2.isKnownConvex) // can't determine this yet
     }
@@ -86,7 +86,7 @@ class MeshLatheTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.polygons.count, 64)
-        XCTAssertEqual(mesh.volume, 0, accuracy: epsilon)
+        XCTAssertEqual(mesh.volume, 0)
         XCTAssertFalse(mesh.isActuallyConvex)
         XCTAssertFalse(mesh.isKnownConvex) // can't determine this yet
 

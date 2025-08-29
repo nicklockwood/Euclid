@@ -479,13 +479,3 @@ extension Rotation: UnkeyedCodable {
         self.init(unchecked: axis, angle: angle)
     }
 }
-
-extension Rotation {
-    /// Approximate equality
-    func isApproximatelyEqual(to other: Rotation, absoluteTolerance: Double = epsilon) -> Bool {
-        w.isApproximatelyEqual(to: other.w, absoluteTolerance: absoluteTolerance) &&
-            x.isApproximatelyEqual(to: other.x, absoluteTolerance: absoluteTolerance) &&
-            y.isApproximatelyEqual(to: other.y, absoluteTolerance: absoluteTolerance) &&
-            z.isApproximatelyEqual(to: other.z, absoluteTolerance: absoluteTolerance)
-    }
-}

@@ -39,8 +39,8 @@ class StretchableTests: XCTestCase {
     func testStretchPath() {
         let p = Path.circle()
         let q = p.stretched(by: 1.5, along: .unitY)
-        XCTAssert(q.isApproximatelyEqual(to: p.scaled(by: [1, 1.5, 1])))
+        XCTAssertEqual(q, p.scaled(by: [1, 1.5, 1]))
         let r = p.stretched(by: 1.5, along: .unitX)
-        XCTAssert(r.isApproximatelyEqual(to: p.scaled(by: [1.5, 1, 1])))
+        XCTAssertEqual(r, p.scaled(by: [1.5, 1, 1]))
     }
 }

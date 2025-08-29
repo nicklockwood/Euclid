@@ -382,33 +382,11 @@ extension Vector {
         x.isApproximatelyEqual(to: y) && y.isApproximatelyEqual(to: z)
     }
 
-    /// Approximate equality
-    func isApproximatelyEqual(to other: Vector, absoluteTolerance: Double = epsilon) -> Bool {
-        x.isApproximatelyEqual(to: other.x, absoluteTolerance: absoluteTolerance) &&
-            y.isApproximatelyEqual(to: other.y, absoluteTolerance: absoluteTolerance) &&
-            z.isApproximatelyEqual(to: other.z, absoluteTolerance: absoluteTolerance)
-    }
-
     func clamped(to range: ClosedRange<Self>) -> Self {
         min(max(self, range.lowerBound), range.upperBound)
     }
 
     mutating func clamp(to range: ClosedRange<Self>) {
         self = clamped(to: range)
-    }
-}
-
-extension Optional {
-    func isApproximatelyEqual(to other: Self, absoluteTolerance: Double = epsilon) -> Bool {
-        switch (self, other) {
-        case (.none, .none):
-            return true
-        case let (.some(lhs as Vector), .some(rhs as Vector)):
-            return lhs.isApproximatelyEqual(to: rhs, absoluteTolerance: absoluteTolerance)
-        case let (.some(lhs as Color), .some(rhs as Color)):
-            return lhs.isApproximatelyEqual(to: rhs, absoluteTolerance: absoluteTolerance)
-        default:
-            return false
-        }
     }
 }

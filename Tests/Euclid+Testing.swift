@@ -9,25 +9,49 @@
 @testable import Euclid
 import XCTest
 
-func XCTAssertEqual(
-    _ v1: @autoclosure () throws -> Vector,
-    _ v2: @autoclosure () throws -> Vector,
-    accuracy: Double = epsilon,
-    _ message: @autoclosure () -> String = "",
-    file: StaticString = #file,
-    line: UInt = #line
-) {
-    do {
-        let v1 = try v1(), v2 = try v2()
-        if !v1.isApproximatelyEqual(to: v2, absoluteTolerance: accuracy) {
-            var m = message()
-            if m.isEmpty {
-                m = "\(v1) is not equal to \(v2) +/- \(accuracy)"
+extension XCTestCase {
+    @_disfavoredOverload
+    func XCTAssertEqual<T: Equatable>(
+        _ a: @autoclosure () throws -> T,
+        _ b: @autoclosure () throws -> T,
+        _ message: @autoclosure () -> String = "",
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
+        do {
+            let a = try a(), b = try b()
+            if a != b {
+                var m = message()
+                if m.isEmpty {
+                    m = "\(a) is not equal to \(b)"
+                }
+                XCTFail(m, file: file, line: line)
             }
-            XCTFail(m, file: file, line: line)
+        } catch {
+            XCTFail(error.localizedDescription)
         }
-    } catch {
-        XCTFail(error.localizedDescription)
+    }
+
+    func XCTAssertEqual<T: ApproximateEquality>(
+        _ a: @autoclosure () throws -> T,
+        _ b: @autoclosure () throws -> T,
+        accuracy: Double = T.absoluteTolerance,
+        _ message: @autoclosure () -> String = "",
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
+        do {
+            let a = try a(), b = try b()
+            if !a.isApproximatelyEqual(to: b, absoluteTolerance: accuracy) {
+                var m = message()
+                if m.isEmpty {
+                    m = "\(a) is not equal to \(b) +/- \(accuracy)"
+                }
+                XCTFail(m, file: file, line: line)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
     }
 }
 

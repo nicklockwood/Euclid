@@ -721,13 +721,6 @@ extension Path {
         )
     }
 
-    /// Approximate equality
-    func isApproximatelyEqual(to other: Path, absoluteTolerance: Double = epsilon) -> Bool {
-        points.count == other.points.count && zip(points, other.points).allSatisfy {
-            $0.isApproximatelyEqual(to: $1, absoluteTolerance: absoluteTolerance)
-        }
-    }
-
     /// Returns the path with its first point recentered on the origin
     func withNormalizedPosition() -> (path: Path, offset: Vector) {
         guard let offset = points.first?.position, offset != .zero else {

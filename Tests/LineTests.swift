@@ -62,7 +62,7 @@ class LineTests: XCTestCase {
         let l1 = Line(unchecked: .random(), direction: .random().normalized())
         for _ in 0 ..< 10 {
             let l2 = Line(unchecked: l1.origin, direction: .random().normalized())
-            XCTAssertEqual(l1.distance(from: l2), 0, accuracy: epsilon)
+            XCTAssertEqual(l1.distance(from: l2), 0)
         }
     }
 
@@ -73,7 +73,7 @@ class LineTests: XCTestCase {
         for _ in 0 ..< 10 {
             let distance = plane.normal * .random(in: -100 ... 100)
             let l2 = Line(unchecked: origin + distance, direction: (.random(in: plane) - origin).normalized())
-            XCTAssertEqual(l1.distance(from: l2), distance.length, accuracy: epsilon)
+            XCTAssertEqual(l1.distance(from: l2), distance.length)
         }
     }
 
@@ -83,7 +83,7 @@ class LineTests: XCTestCase {
         for _ in 0 ..< 10 {
             let distance = Vector.random(in: plane) - l1.origin
             let l2 = Line(unchecked: l1.origin + distance, direction: l1.direction)
-            XCTAssertEqual(l1.distance(from: l2), distance.length, accuracy: epsilon)
+            XCTAssertEqual(l1.distance(from: l2), distance.length)
         }
     }
 

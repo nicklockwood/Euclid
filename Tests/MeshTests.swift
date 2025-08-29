@@ -223,14 +223,14 @@ class MeshTests: XCTestCase {
 
     func testCubeArea() {
         let cube = Mesh.cube()
-        XCTAssertEqual(cube.surfaceArea, 6, accuracy: epsilon)
+        XCTAssertEqual(cube.surfaceArea, 6)
     }
 
     // MARK: volume
 
     func testCubeVolume() {
         let cube = Mesh.cube(size: 2)
-        XCTAssertEqual(cube.volume, 8, accuracy: epsilon)
+        XCTAssertEqual(cube.volume, 8)
     }
 
     func testSphereVolume() {

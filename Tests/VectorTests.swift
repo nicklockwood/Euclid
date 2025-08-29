@@ -51,10 +51,11 @@ class VectorTests: XCTestCase {
         for r in rotations {
             let rotated = Vector.unitZ.rotated(by: r)
             let angle = Vector.unitZ.angle(with: rotated)
-            XCTAssert(
-                angle.isApproximatelyEqual(to: r.angle) || angle.isApproximatelyEqual(to: .twoPi - r.angle),
-                "\(angle.degrees) is not equal to \(r.angle.degrees)"
-            )
+            if r.angle.radians < .pi {
+                XCTAssertEqual(angle, r.angle)
+            } else {
+                XCTAssertEqual(angle, .twoPi - r.angle)
+            }
         }
     }
 
@@ -85,18 +86,19 @@ class VectorTests: XCTestCase {
     func test45DegreeAngleWithPlane() {
         let vector = Vector(1, 1, 0)
         let angle = vector.angle(with: .yz)
-        XCTAssert(angle.isApproximatelyEqual(to: .degrees(45)))
+        XCTAssertEqual(angle, .degrees(45))
     }
 
     func testNegative45DegreeAngleWithPlane() {
         let vector = Vector(-1, 1, 0)
         let angle = vector.angle(with: .yz)
-        XCTAssert(angle.isApproximatelyEqual(to: .degrees(-45)))
+        XCTAssertEqual(angle, .degrees(-45))
     }
 
     func testNegativeRightAngleWithPlane() {
         let vector = -Vector.unitX
-        XCTAssertEqual(vector.angle(with: .yz), -.halfPi)
+        let angle = vector.angle(with: .yz)
+        XCTAssertEqual(angle, -.halfPi)
     }
 
     // MARK: Distance from plane
