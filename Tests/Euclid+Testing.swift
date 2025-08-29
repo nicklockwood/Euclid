@@ -84,8 +84,13 @@ extension Vector {
         return value
     }
 
-    static func random(in range: ClosedRange<Double> = -1 ... 1) -> Vector {
+    static func random(in range: ClosedRange<Double> = -100 ... 100) -> Vector {
         .random(in: .init(size: range.lowerBound) ... .init(size: range.upperBound))
+    }
+
+    static func random(in plane: Plane) -> Vector {
+        let vector = Vector.random()
+        return vector.projected(onto: plane)
     }
 }
 
@@ -97,14 +102,24 @@ extension Angle {
     }
 }
 
+extension Plane {
+    static func random() -> Plane {
+        .init(unchecked: .random().normalized(), w: .random(in: -100 ... 100))
+    }
+}
+
 extension Rotation {
     static func random() -> Rotation {
         .init(unchecked: .random().normalized(), angle: .random())
     }
+
+    static func random(in plane: Plane) -> Rotation {
+        .init(unchecked: plane.normal, angle: .random())
+    }
 }
 
 extension Transform {
-    static func random(maxTranslation: Double = 1000) -> Transform {
+    static func random(maxTranslation: Double = 100) -> Transform {
         .init(
             scale: 1,
             rotation: .random(),
