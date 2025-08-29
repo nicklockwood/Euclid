@@ -267,13 +267,13 @@ public extension Path {
                     guard i != j, let p = p.last, !q.isEmpty else {
                         return false
                     }
-                    return p.isEqual(to: q.first!, withPrecision: d)
-                        || p.isEqual(to: q.last!, withPrecision: d)
+                    return p.isApproximatelyEqual(to: q.first!, absoluteTolerance: d)
+                        || p.isApproximatelyEqual(to: q.last!, absoluteTolerance: d)
                 }
                 // TODO: for multiple matches find the longest contiguous path
                 if let (j, q) = matches.first, matches.count == 1 {
                     var points = p
-                    if p.last!.isEqual(to: q.first!, withPrecision: d) {
+                    if p.last!.isApproximatelyEqual(to: q.first!, absoluteTolerance: d) {
                         points += q.dropFirst()
                     } else {
                         points += q.dropLast().reversed()
@@ -591,7 +591,7 @@ extension Path {
                     break
                 }
                 if let existing = self.plane {
-                    guard existing.isEqual(to: plane) else {
+                    guard existing.isApproximatelyEqual(to: plane) else {
                         self.plane = nil
                         break
                     }
@@ -722,9 +722,9 @@ extension Path {
     }
 
     /// Approximate equality
-    func isEqual(to other: Path, withPrecision p: Double = epsilon) -> Bool {
+    func isApproximatelyEqual(to other: Path, absoluteTolerance: Double = epsilon) -> Bool {
         points.count == other.points.count && zip(points, other.points).allSatisfy {
-            $0.isEqual(to: $1, withPrecision: p)
+            $0.isApproximatelyEqual(to: $1, absoluteTolerance: absoluteTolerance)
         }
     }
 

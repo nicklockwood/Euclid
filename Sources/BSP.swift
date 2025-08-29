@@ -360,13 +360,13 @@ private extension BSP {
                 for (i, b) in total.enumerated().reversed() {
                     if b.end == a.start {
                         // TODO: is this check needed and/or is there a cheaper way?
-                        if a.direction.isEqual(to: b.direction) {
+                        if a.direction.isApproximatelyEqual(to: b.direction) {
                             a = LineSegment(unchecked: b.start, a.end)
                             total.remove(at: i)
                         }
                     } else if b.start == a.end {
                         // TODO: is this check needed and/or is there a cheaper way?
-                        if a.direction.isEqual(to: b.direction) {
+                        if a.direction.isApproximatelyEqual(to: b.direction) {
                             a = LineSegment(unchecked: a.start, b.end)
                             total.remove(at: i)
                         }

@@ -226,10 +226,10 @@ extension Color {
     }
 
     /// Approximate equality
-    func isEqual(to other: Color, withPrecision p: Double = epsilon) -> Bool {
-        r.isEqual(to: other.r, withPrecision: p) &&
-            g.isEqual(to: other.g, withPrecision: p) &&
-            b.isEqual(to: other.b, withPrecision: p) &&
-            a.isEqual(to: other.a, withPrecision: p)
+    func isApproximatelyEqual(to other: Color, absoluteTolerance: Double = epsilon) -> Bool {
+        r.isApproximatelyEqual(to: other.r, absoluteTolerance: absoluteTolerance) &&
+            g.isApproximatelyEqual(to: other.g, absoluteTolerance: absoluteTolerance) &&
+            b.isApproximatelyEqual(to: other.b, absoluteTolerance: absoluteTolerance) &&
+            a.isApproximatelyEqual(to: other.a, absoluteTolerance: absoluteTolerance)
     }
 }

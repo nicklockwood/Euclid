@@ -198,7 +198,7 @@ class SceneKitTests: XCTestCase {
         let matrix = SCNMatrix4(transform)
         XCTAssertEqual(transform.scale, .one)
         XCTAssertEqual(transform.translation, .zero)
-        XCTAssert(transform.rotation.isEqual(to: Transform(matrix).rotation))
+        XCTAssert(transform.rotation.isApproximatelyEqual(to: Transform(matrix).rotation))
     }
 }
 

@@ -86,7 +86,7 @@ class TransformTests: XCTestCase {
         let plane = Plane(unchecked: normal, pointOnPlane: position)
         let offset = Vector(12, 3, 4)
         let expected = Plane(unchecked: normal, pointOnPlane: position + offset)
-        XCTAssert(plane.translated(by: offset).isEqual(to: expected))
+        XCTAssert(plane.translated(by: offset).isApproximatelyEqual(to: expected))
     }
 
     func testRotatePlane() {
@@ -97,7 +97,7 @@ class TransformTests: XCTestCase {
         let rotatedNormal = normal.rotated(by: rotation)
         let rotatedPosition = position.rotated(by: rotation)
         let expected = Plane(unchecked: rotatedNormal, pointOnPlane: rotatedPosition)
-        XCTAssert(plane.rotated(by: rotation).isEqual(to: expected))
+        XCTAssert(plane.rotated(by: rotation).isApproximatelyEqual(to: expected))
     }
 
     func testScalePlane() {
@@ -107,7 +107,7 @@ class TransformTests: XCTestCase {
         let scale = Vector(0.5, 3.0, 0.1)
         let expectedNormal = normal.scaled(by: [1 / scale.x, 1 / scale.y, 1 / scale.z]).normalized()
         let expected = Plane(unchecked: expectedNormal, pointOnPlane: position.scaled(by: scale))
-        XCTAssert(plane.scaled(by: scale).isEqual(to: expected))
+        XCTAssert(plane.scaled(by: scale).isApproximatelyEqual(to: expected))
     }
 
     func testScalePlaneUniformly() {
@@ -116,7 +116,7 @@ class TransformTests: XCTestCase {
         let plane = Plane(unchecked: normal, pointOnPlane: position)
         let scale = 0.5
         let expected = Plane(unchecked: normal, pointOnPlane: position * scale)
-        XCTAssert(plane.scaled(by: scale).isEqual(to: expected))
+        XCTAssert(plane.scaled(by: scale).isApproximatelyEqual(to: expected))
     }
 
     func testTransformPlane() throws {
@@ -132,7 +132,7 @@ class TransformTests: XCTestCase {
             translation: [-7, 3, 4.5]
         )
         let expected = try XCTUnwrap(path.transformed(by: transform).plane)
-        XCTAssert(plane.transformed(by: transform).isEqual(to: expected))
+        XCTAssert(plane.transformed(by: transform).isApproximatelyEqual(to: expected))
     }
 
     // MARK: Path transforms

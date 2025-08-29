@@ -112,7 +112,7 @@ extension Polygon: Codable {
         let positionsOnly = vertices.allSatisfy {
             $0.texcoord == .zero && $0.normal == plane.normal && $0.color == .white
         }
-        if material == nil, plane.isEqual(to: Plane(unchecked: positions)) {
+        if material == nil, plane.isApproximatelyEqual(to: Plane(unchecked: positions)) {
             var container = encoder.singleValueContainer()
             try positionsOnly ? container.encode(positions) : container.encode(vertices)
         } else {
@@ -170,7 +170,7 @@ public extension Polygon {
 
     /// A Boolean value that indicates whether the polygon includes vertex normals that differ from the face normal.
     var hasVertexNormals: Bool {
-        vertices.contains(where: { !$0.normal.isEqual(to: plane.normal) })
+        vertices.contains(where: { !$0.normal.isApproximatelyEqual(to: plane.normal) })
     }
 
     /// A Boolean value that indicates whether the polygon includes vertex colors that differ from the face normal.
@@ -277,7 +277,7 @@ public extension Polygon {
             return nil
         }
         // are they coplanar?
-        guard plane.isEqual(to: other.plane) else {
+        guard plane.isApproximatelyEqual(to: other.plane) else {
             return nil
         }
         return merge(unchecked: other, ensureConvex: ensureConvex)
@@ -736,10 +736,10 @@ extension Collection<Polygon> {
                 p0.vertices.map { v0 in
                     var planes: [Plane] = [p0.plane]
                     for p1 in self where p1.vertices.contains(where: {
-                        $0.position.isEqual(to: v0.position)
+                        $0.position.isApproximatelyEqual(to: v0.position)
                     }) {
                         let plane = p1.plane
-                        if !planes.contains(where: { $0.isEqual(to: plane) }) {
+                        if !planes.contains(where: { $0.isApproximatelyEqual(to: plane) }) {
                             planes.append(plane)
                         }
                     }
@@ -795,7 +795,7 @@ extension Collection<Polygon> {
             let a = polygons[i]
             while j < polygons.count {
                 let b = polygons[j]
-                guard a.plane.isEqual(to: b.plane) else {
+                guard a.plane.isApproximatelyEqual(to: b.plane) else {
                     firstPolygonInPlane = j
                     i = firstPolygonInPlane - 1
                     break
@@ -827,8 +827,8 @@ extension Collection<Polygon> {
         var sorted = [(Plane, [Polygon])]()
         var groups = [(Plane, [Polygon])]()
         for p in polygons {
-            if p.plane.w.isEqual(to: prev.plane.w, withPrecision: planeEpsilon) {
-                if let i = groups.lastIndex(where: { $0.0.isEqual(to: p.plane) }) {
+            if p.plane.w.isApproximatelyEqual(to: prev.plane.w, absoluteTolerance: planeEpsilon) {
+                if let i = groups.lastIndex(where: { $0.0.isApproximatelyEqual(to: p.plane) }) {
                     groups[i].0 = p.plane
                     groups[i].1.append(p)
                 } else {
@@ -897,7 +897,7 @@ extension MutableCollection where Element == Polygon, Index == Int {
             let plane = p.plane
             var wasSame = true
             for j in (i + 1) ..< count {
-                if self[j].plane.isEqual(to: plane) {
+                if self[j].plane.isApproximatelyEqual(to: plane) {
                     if !wasSame {
                         return false
                     }
@@ -1061,7 +1061,7 @@ extension Polygon {
     /// Join touching polygons (without checking they are coplanar or share the same material)
     func merge(unchecked other: Polygon, ensureConvex: Bool) -> Polygon? {
         assert(material == other.material)
-        assert(plane.isEqual(to: other.plane))
+        assert(plane.isApproximatelyEqual(to: other.plane))
 
         // get vertices
         let va = vertices
@@ -1070,7 +1070,7 @@ extension Polygon {
         // find shared vertices
         var joins0, joins1: (Int, Int)?
         for i in va.indices {
-            if let j = vb.firstIndex(where: { $0.isEqual(to: va[i]) }) {
+            if let j = vb.firstIndex(where: { $0.isApproximatelyEqual(to: va[i]) }) {
                 if joins0 == nil {
                     joins0 = (i, j)
                 } else if joins1 == nil {

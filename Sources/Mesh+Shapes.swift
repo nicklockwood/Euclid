@@ -1493,9 +1493,7 @@ private extension Mesh {
         var uniquePaths = [Path]()
         let indexesAndOffsets = shapes.map { path -> (Int, Vector) in
             let (p, offset) = path.withNormalizedPosition()
-            if let index = uniquePaths.firstIndex(where: {
-                p.isEqual(to: $0, withPrecision: epsilon)
-            }) {
+            if let index = uniquePaths.firstIndex(where: { p.isApproximatelyEqual(to: $0) }) {
                 return (index, offset)
             }
             uniquePaths.append(p)

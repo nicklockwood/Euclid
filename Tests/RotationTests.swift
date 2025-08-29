@@ -22,8 +22,8 @@ class RotationTests: XCTestCase {
 
         for (axis, angle) in rotations {
             let r = Rotation(unchecked: axis, angle: angle)
-            XCTAssert(r.angle.isEqual(to: angle), "\(r.angle) is not equal to \(angle)")
-            XCTAssert(r.axis.isEqual(to: axis), "\(r.axis) is not equal to \(axis)")
+            XCTAssert(r.angle.isApproximatelyEqual(to: angle), "\(r.angle) is not equal to \(angle)")
+            XCTAssert(r.axis.isApproximatelyEqual(to: axis), "\(r.axis) is not equal to \(axis)")
         }
     }
 
@@ -36,38 +36,38 @@ class RotationTests: XCTestCase {
     func testAxisAngleWith180RotationPreservesAxis() {
         let r = Rotation(unchecked: .unitX, angle: .degrees(180))
         XCTAssertEqual(r.axis, .unitX)
-        XCTAssert(r.angle.isEqual(to: .pi), "\(r.angle.degrees) is not equal to 180")
+        XCTAssert(r.angle.isApproximatelyEqual(to: .pi), "\(r.angle.degrees) is not equal to 180")
     }
 
     func testAxisAngleWith270RotationPreservesAxis() {
         let r = Rotation(unchecked: .unitX, angle: .degrees(270))
         XCTAssertEqual(r.axis, .unitX)
-        XCTAssert(r.angle.isEqual(to: .pi * 1.5), "\(r.angle.degrees) is not equal to 270")
+        XCTAssert(r.angle.isApproximatelyEqual(to: .pi * 1.5), "\(r.angle.degrees) is not equal to 270")
     }
 
     func testRotationFromTo() {
         let r = Rotation(from: .unitY, to: .unitX)
-        XCTAssert(r.angle.isEqual(to: .halfPi), "\(r.angle) is not equal to \(Angle.halfPi)")
-        XCTAssert(r.axis.isEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
+        XCTAssert(r.angle.isApproximatelyEqual(to: .halfPi), "\(r.angle) is not equal to \(Angle.halfPi)")
+        XCTAssert(r.axis.isApproximatelyEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
         XCTAssertEqual(Vector.unitY.rotated(by: r), .unitX)
     }
 
     func testRotationFromZeroToX() {
         let r = Rotation(from: .zero, to: .unitX)
-        XCTAssert(r.angle.isEqual(to: .zero), "\(r.angle) is not equal to \(Angle.zero)")
-        XCTAssert(r.axis.isEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
+        XCTAssert(r.angle.isApproximatelyEqual(to: .zero), "\(r.angle) is not equal to \(Angle.zero)")
+        XCTAssert(r.axis.isApproximatelyEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
     }
 
     func testRotationFromYToZero() {
         let r = Rotation(from: .unitY, to: .zero)
-        XCTAssert(r.angle.isEqual(to: .zero), "\(r.angle) is not equal to \(Angle.zero)")
-        XCTAssert(r.axis.isEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
+        XCTAssert(r.angle.isApproximatelyEqual(to: .zero), "\(r.angle) is not equal to \(Angle.zero)")
+        XCTAssert(r.axis.isApproximatelyEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
     }
 
     func testRotationFromZeroToZero() {
         let r = Rotation(from: .zero, to: .zero)
-        XCTAssert(r.angle.isEqual(to: .zero), "\(r.angle) is not equal to \(Angle.zero)")
-        XCTAssert(r.axis.isEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
+        XCTAssert(r.angle.isApproximatelyEqual(to: .zero), "\(r.angle) is not equal to \(Angle.zero)")
+        XCTAssert(r.axis.isApproximatelyEqual(to: .unitZ), "\(r.axis) is not equal to \(Vector.unitZ)")
     }
 
     // MARK: Vector rotation
@@ -106,7 +106,7 @@ class RotationTests: XCTestCase {
     func testYawRotation() {
         let r = Rotation(yaw: .halfPi)
         XCTAssertEqual(r, .yaw(.halfPi))
-        XCTAssert(r.isEqual(to: Rotation(yaw: .halfPi)))
+        XCTAssert(r.isApproximatelyEqual(to: Rotation(yaw: .halfPi)))
         XCTAssertEqual(r.yaw, .halfPi)
         XCTAssertEqual(r.pitch, .zero)
         XCTAssertEqual(r.roll, .zero)

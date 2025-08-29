@@ -257,9 +257,9 @@ extension Bounds {
     }
 
     /// Approximate equality
-    func isEqual(to other: Bounds, withPrecision p: Double = epsilon) -> Bool {
-        min.isEqual(to: other.min, withPrecision: p) &&
-            max.isEqual(to: other.max, withPrecision: p)
+    func isApproximatelyEqual(to other: Bounds, absoluteTolerance: Double = epsilon) -> Bool {
+        min.isApproximatelyEqual(to: other.min, absoluteTolerance: absoluteTolerance) &&
+            max.isApproximatelyEqual(to: other.max, absoluteTolerance: absoluteTolerance)
     }
 
     /// Planes representing the edges of the bounds.

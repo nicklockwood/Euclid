@@ -29,22 +29,22 @@ struct VertexSet {
         if let bucket = storage[point.hashValue(withPrecision: precision)] {
             // if exact match found, return it
             if let vertex = bucket.first(where: {
-                $0.isEqual(to: vertex, withPrecision: precision)
+                $0.isApproximatelyEqual(to: vertex, absoluteTolerance: precision)
             }) {
                 return vertex
             }
             // if position match found, merge it
             if let match = bucket.first(where: {
-                $0.position.isEqual(to: point, withPrecision: precision)
+                $0.position.isApproximatelyEqual(to: point, absoluteTolerance: precision)
             }) {
                 vertex.position = match.position
-                if vertex.normal.isEqual(to: match.normal, withPrecision: precision) {
+                if vertex.normal.isApproximatelyEqual(to: match.normal, absoluteTolerance: precision) {
                     vertex.normal = match.normal
                 }
-                if vertex.texcoord.isEqual(to: match.texcoord, withPrecision: precision) {
+                if vertex.texcoord.isApproximatelyEqual(to: match.texcoord, absoluteTolerance: precision) {
                     vertex.texcoord = match.texcoord
                 }
-                if vertex.color.isEqual(to: match.color, withPrecision: precision) {
+                if vertex.color.isApproximatelyEqual(to: match.color, absoluteTolerance: precision) {
                     vertex.color = match.color
                 }
             }

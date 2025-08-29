@@ -157,7 +157,7 @@ extension Mesh: Transformable {
     }
 
     public func scaled(by factor: Double) -> Mesh {
-        factor.isEqual(to: 1, withPrecision: epsilon) ? self : Mesh(
+        factor.isApproximatelyEqual(to: 1, absoluteTolerance: epsilon) ? self : Mesh(
             unchecked: polygons.scaled(by: factor),
             bounds: boundsIfSet?.scaled(by: factor),
             bsp: nil, // TODO: Make BSP transformable
@@ -223,7 +223,7 @@ extension Polygon: Transformable {
     }
 
     public func scaled(by factor: Double) -> Polygon {
-        if factor.isEqual(to: 1, withPrecision: epsilon) {
+        if factor.isApproximatelyEqual(to: 1, absoluteTolerance: epsilon) {
             return self
         }
         let factor = factor.clampedToScaleLimit()
@@ -490,7 +490,7 @@ extension Array: Transformable where Element: Transformable {
     }
 
     public func scaled(by factor: Double) -> [Element] {
-        factor.isEqual(to: 1, withPrecision: epsilon) ? self : map { $0.scaled(by: factor) }
+        factor.isApproximatelyEqual(to: 1, absoluteTolerance: epsilon) ? self : map { $0.scaled(by: factor) }
     }
 
     public func transformed(by transform: Transform) -> [Element] {

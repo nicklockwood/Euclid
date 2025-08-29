@@ -245,7 +245,7 @@ extension Polygon {
             assertionFailure()
             return false
         }
-        if vertices.contains(where: { $0.position.isEqual(to: p) }) {
+        if vertices.contains(where: { $0.position.isApproximatelyEqual(to: p) }) {
             return false
         }
         for (i, v) in vertices.enumerated() {
@@ -256,7 +256,7 @@ extension Polygon {
             }
             let t = p.distance(from: s.start) / s.length
             let vertex = last.lerp(v, t)
-            guard !vertex.isEqual(to: last), !vertex.isEqual(to: v) else {
+            guard !vertex.isApproximatelyEqual(to: last), !vertex.isApproximatelyEqual(to: v) else {
                 return false
             }
             var vertices = vertices

@@ -482,10 +482,10 @@ extension Rotation: UnkeyedCodable {
 
 extension Rotation {
     /// Approximate equality
-    func isEqual(to other: Rotation, withPrecision p: Double = epsilon) -> Bool {
-        w.isEqual(to: other.w, withPrecision: p) &&
-            x.isEqual(to: other.x, withPrecision: p) &&
-            y.isEqual(to: other.y, withPrecision: p) &&
-            z.isEqual(to: other.z, withPrecision: p)
+    func isApproximatelyEqual(to other: Rotation, absoluteTolerance: Double = epsilon) -> Bool {
+        w.isApproximatelyEqual(to: other.w, absoluteTolerance: absoluteTolerance) &&
+            x.isApproximatelyEqual(to: other.x, absoluteTolerance: absoluteTolerance) &&
+            y.isApproximatelyEqual(to: other.y, absoluteTolerance: absoluteTolerance) &&
+            z.isApproximatelyEqual(to: other.z, absoluteTolerance: absoluteTolerance)
     }
 }

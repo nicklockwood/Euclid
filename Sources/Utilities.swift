@@ -57,8 +57,8 @@ extension Comparable {
 }
 
 extension Double {
-    func isEqual(to other: Double, withPrecision p: Double) -> Bool {
-        abs(self - other) < p
+    func isApproximatelyEqual(to other: Double, absoluteTolerance: Double) -> Bool {
+        self == other || abs(self - other) < absoluteTolerance
     }
 
     func clampedToScaleLimit() -> Double {
@@ -377,11 +377,11 @@ func pointsAreSelfIntersecting(_ points: [Vector]) -> Bool {
         }
         for j in i + 2 ..< points.count - 1 {
             let p2 = points[j], p3 = points[j + 1]
-            let precision = 1e-6
-            guard !p1.isEqual(to: p2, withPrecision: precision),
-                  !p1.isEqual(to: p3, withPrecision: precision),
-                  !p0.isEqual(to: p2, withPrecision: precision),
-                  !p0.isEqual(to: p3, withPrecision: precision),
+            let tolerance = 1e-6
+            guard !p1.isApproximatelyEqual(to: p2, absoluteTolerance: tolerance),
+                  !p1.isApproximatelyEqual(to: p3, absoluteTolerance: tolerance),
+                  !p0.isApproximatelyEqual(to: p2, absoluteTolerance: tolerance),
+                  !p0.isApproximatelyEqual(to: p3, absoluteTolerance: tolerance),
                   let l2 = LineSegment(start: p2, end: p3)
             else {
                 continue
@@ -521,7 +521,7 @@ func lineIntersection(
         p0, p1, aIsSegment,
         p2, p3, bIsSegment
     ).flatMap {
-        $0.isEqual(to: $1) ? $0 : nil
+        $0.isApproximatelyEqual(to: $1) ? $0 : nil
     }
 }
 

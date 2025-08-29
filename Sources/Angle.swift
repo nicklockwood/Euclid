@@ -120,7 +120,7 @@ public extension Angle {
 
     /// The angle is zero (or close to zero).
     var isZero: Bool {
-        isEqual(to: .zero)
+        isApproximatelyEqual(to: .zero)
     }
 
     /// Creates an Angle from a degrees value.
@@ -215,7 +215,7 @@ public extension Angle {
 
 extension Angle {
     /// Approximate equality
-    func isEqual(to other: Angle, withPrecision p: Double = epsilon) -> Bool {
-        radians.isEqual(to: other.radians, withPrecision: p)
+    func isApproximatelyEqual(to other: Angle, absoluteTolerance: Double = epsilon) -> Bool {
+        radians.isApproximatelyEqual(to: other.radians, absoluteTolerance: absoluteTolerance)
     }
 }

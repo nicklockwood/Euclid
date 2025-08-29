@@ -269,8 +269,8 @@ class UtilityTests: XCTestCase {
             let rotated = Vector.unitZ.rotated(by: r)
             let rotation = rotationBetweenNormalizedVectors(.unitZ, rotated)
             let (axis, angle) = (rotation.axis, rotation.angle)
-            XCTAssert(rotation.isEqual(to: r), "\(rotation) is not equal to \(r)")
-            XCTAssert(angle.isEqual(to: r.angle), "\(angle) is not equal to \(r.angle)")
+            XCTAssert(rotation.isApproximatelyEqual(to: r), "\(rotation) is not equal to \(r)")
+            XCTAssert(angle.isApproximatelyEqual(to: r.angle), "\(angle) is not equal to \(r.angle)")
             XCTAssertEqual(axis, r.axis)
         }
     }

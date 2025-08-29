@@ -262,12 +262,12 @@ public extension Vector {
 
     /// All vector components are zero (or  close to zero) in length.
     var isZero: Bool {
-        isEqual(to: .zero)
+        isApproximatelyEqual(to: .zero)
     }
 
     /// All vector components are one (or  close to one) in length.
     var isOne: Bool {
-        isEqual(to: .one)
+        isApproximatelyEqual(to: .one)
     }
 
     /// Linearly interpolate between this vector and another.
@@ -379,14 +379,14 @@ extension Vector {
 
     /// Are all components equal
     var isUniform: Bool {
-        x.isEqual(to: y) && y.isEqual(to: z)
+        x.isApproximatelyEqual(to: y) && y.isApproximatelyEqual(to: z)
     }
 
     /// Approximate equality
-    func isEqual(to other: Vector, withPrecision p: Double = epsilon) -> Bool {
-        x.isEqual(to: other.x, withPrecision: p) &&
-            y.isEqual(to: other.y, withPrecision: p) &&
-            z.isEqual(to: other.z, withPrecision: p)
+    func isApproximatelyEqual(to other: Vector, absoluteTolerance: Double = epsilon) -> Bool {
+        x.isApproximatelyEqual(to: other.x, absoluteTolerance: absoluteTolerance) &&
+            y.isApproximatelyEqual(to: other.y, absoluteTolerance: absoluteTolerance) &&
+            z.isApproximatelyEqual(to: other.z, absoluteTolerance: absoluteTolerance)
     }
 
     func clamped(to range: ClosedRange<Self>) -> Self {
@@ -395,5 +395,20 @@ extension Vector {
 
     mutating func clamp(to range: ClosedRange<Self>) {
         self = clamped(to: range)
+    }
+}
+
+extension Optional {
+    func isApproximatelyEqual(to other: Self, absoluteTolerance: Double = epsilon) -> Bool {
+        switch (self, other) {
+        case (.none, .none):
+            return true
+        case let (.some(lhs as Vector), .some(rhs as Vector)):
+            return lhs.isApproximatelyEqual(to: rhs, absoluteTolerance: absoluteTolerance)
+        case let (.some(lhs as Color), .some(rhs as Color)):
+            return lhs.isApproximatelyEqual(to: rhs, absoluteTolerance: absoluteTolerance)
+        default:
+            return false
+        }
     }
 }

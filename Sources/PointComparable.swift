@@ -31,7 +31,7 @@ public extension PointComparable {
     }
 
     func intersects(_ point: Vector) -> Bool {
-        nearestPoint(to: point).isEqual(to: point)
+        nearestPoint(to: point).isApproximatelyEqual(to: point)
     }
 
     /// Returns the nearest point if it intersects the receiver.
@@ -59,7 +59,7 @@ extension Vector: PointComparable {
     }
 
     public func intersects(_ point: Vector) -> Bool {
-        isEqual(to: point)
+        isApproximatelyEqual(to: point)
     }
 }
 
@@ -69,7 +69,7 @@ extension Vertex: PointComparable {
     }
 
     public func intersects(_ point: Vector) -> Bool {
-        position.isEqual(to: point)
+        position.isApproximatelyEqual(to: point)
     }
 }
 
@@ -79,7 +79,7 @@ extension PathPoint: PointComparable {
     }
 
     public func intersects(_ point: Vector) -> Bool {
-        position.isEqual(to: point)
+        position.isApproximatelyEqual(to: point)
     }
 }
 
