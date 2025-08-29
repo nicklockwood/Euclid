@@ -77,7 +77,7 @@ extension PathPoint: PointComparable {
 
 extension Line: PointComparable {
     public func nearestPoint(to point: Vector) -> Vector {
-        direction * (point - origin).dot(direction) - origin
+        origin + direction * (point - origin).dot(direction)
     }
 }
 

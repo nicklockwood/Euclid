@@ -10,12 +10,12 @@
 import XCTest
 
 class LineTests: XCTestCase {
-    // MARK: Vector distance
+    // MARK: Point distance
 
     func testDistanceFromPointSimple() {
-        let l = Line(unchecked: .zero, direction: .unitX)
+        let l = Line(unchecked: .unitY, direction: .unitX)
         let p = Vector(15, 2, 0)
-        XCTAssertEqual(l.distance(from: p), 2)
+        XCTAssertEqual(l.distance(from: p), 1)
     }
 
     func testDistanceFromPointHarder() {
