@@ -31,7 +31,7 @@ public extension PointComparable {
     }
 
     func intersects(_ point: Vector) -> Bool {
-        distance(from: point) < epsilon
+        nearestPoint(to: point).isEqual(to: point)
     }
 }
 
