@@ -70,21 +70,21 @@ public extension Mesh {
         }
         var lhs: [Polygon] = [], rhs: [Polygon] = []
         inParallel({
-            var aout: [Polygon]? = []
+            var aout: [Polygon] = []
             let ap = BSP(mesh, isCancelled).clip(
                 boundsTest(intersection, polygons, &aout),
                 .greaterThan,
                 isCancelled
             )
-            lhs = aout! + ap
+            lhs = aout + ap
         }, {
-            var bout: [Polygon]? = []
+            var bout: [Polygon] = []
             let bp = BSP(self, isCancelled).clip(
                 boundsTest(intersection, mesh.polygons, &bout),
                 .greaterThanEqual,
                 isCancelled
             )
-            rhs = bout! + bp
+            rhs = bout + bp
         })
         return Mesh(
             unchecked: lhs + rhs,
@@ -131,13 +131,13 @@ public extension Mesh {
         }
         var lhs: [Polygon] = [], rhs: [Polygon] = []
         inParallel({
-            var aout: [Polygon]? = []
+            var aout: [Polygon] = []
             let ap = BSP(mesh, isCancelled).clip(
                 boundsTest(intersection, polygons, &aout),
                 .greaterThan,
                 isCancelled
             )
-            lhs = aout! + ap
+            lhs = aout + ap
         }, {
             let bp = BSP(self, isCancelled).clip(
                 boundsTest(intersection, mesh.polygons),
@@ -197,15 +197,15 @@ public extension Mesh {
         })
         var lhs: [Polygon] = [], rhs: [Polygon] = []
         inParallel({
-            var aout: [Polygon]? = []
+            var aout: [Polygon] = []
             let ap = boundsTest(intersection, polygons, &aout)
             let (ap1, ap2) = bbsp.split(ap, .greaterThan, .lessThan, isCancelled)
-            lhs = aout! + ap1 + ap2.inverted()
+            lhs = aout + ap1 + ap2.inverted()
         }, {
-            var bout: [Polygon]? = []
+            var bout: [Polygon] = []
             let bp = boundsTest(intersection, mesh.polygons, &bout)
             let (bp2, bp1) = absp.split(bp, .greaterThan, .lessThan, isCancelled)
-            rhs = bout! + bp2 + bp1.inverted()
+            rhs = bout + bp2 + bp1.inverted()
         })
 
         return Mesh(
@@ -315,13 +315,13 @@ public extension Mesh {
         guard !intersection.isEmpty else {
             return self
         }
-        var aout: [Polygon]? = []
+        var aout: [Polygon] = []
         let ap = boundsTest(bounds.intersection(mesh.bounds), polygons, &aout)
         let bsp = BSP(mesh, isCancelled)
         let (outside, inside) = bsp.split(ap, .greaterThan, .lessThanEqual, isCancelled)
         let material = mesh.polygons.first?.material
         return Mesh(
-            unchecked: aout! + outside + inside.mapMaterials { _ in material },
+            unchecked: aout + outside + inside.mapMaterials { _ in material },
             bounds: bounds,
             bsp: nil, // TODO: Would it be safe to keep this?
             isConvex: isKnownConvex,
@@ -489,14 +489,14 @@ public extension Mesh {
         guard !intersection.isEmpty else {
             return self
         }
-        var aout: [Polygon]? = []
+        var aout: [Polygon] = []
         let ap = BSP(mesh, isCancelled).clip(
             boundsTest(intersection, polygons, &aout),
             .greaterThan,
             isCancelled
         )
         return Mesh(
-            unchecked: aout! + ap,
+            unchecked: aout + ap,
             bounds: nil,
             bsp: nil, // TODO: Is there a cheaper way to calculate this?
             isConvex: false,
@@ -542,13 +542,13 @@ private func boundsTest(_ bounds: Bounds, _ polygons: [Polygon]) -> [Polygon] {
 private func boundsTest(
     _ bounds: Bounds,
     _ polygons: [Polygon],
-    _ out: inout [Polygon]?
+    _ out: inout [Polygon]
 ) -> [Polygon] {
     polygons.filter {
         if $0.bounds.intersects(bounds) {
             return true
         }
-        out?.append($0)
+        out.append($0)
         return false
     }
 }
