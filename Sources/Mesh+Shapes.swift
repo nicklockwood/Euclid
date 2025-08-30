@@ -866,6 +866,45 @@ public extension Mesh {
     ) -> Mesh {
         convexHull(of: edges.flatMap { [$0.start, $0.end] }, material: material)
     }
+
+    /// Computes the minowskiSum sum of a collection of meshes.
+    /// - Parameter meshes: The meshes to sum.
+    static func minowskiSum(of meshes: some Collection<Mesh>) -> Mesh {
+        guard let first = meshes.first else {
+            return .empty
+        }
+        return first.minowskiSum(with: .minowskiSum(of: meshes.dropFirst()))
+    }
+
+    /// Computes the minowskiSum sum of the receiver and the specified mesh.
+    /// - Parameter mesh: The mesh to sum with this one.
+    func minowskiSum(with mesh: Mesh) -> Mesh {
+        .union([mesh] + mesh.polygons.map(minowskiSum(with:)))
+    }
+
+    /// Computes the minowskiSum sum of the receiver and a polygon.
+    /// - Parameter polygon: The polygon with which to sum the mesh.
+    func minowskiSum(with polygon: Polygon) -> Mesh {
+        guard polygon.isConvex else {
+            return .union(polygons.tessellate().map(minowskiSum(with:)))
+        }
+        return .convexHull(of: polygon.vertices.map { translated(by: $0.position) })
+    }
+
+    /// Computes the minowskiSum sum of the receiver along the specified edge.
+    /// - Parameter edge: A ``LineSegment`` along which to sum the mesh.
+    func minowskiSum(along edge: LineSegment) -> Mesh {
+        .convexHull(of: [
+            translated(by: edge.start),
+            translated(by: edge.end),
+        ])
+    }
+
+    /// Computes the minowskiSum sum of the receiver along the specified path.
+    /// - Parameter path: A ``Path`` along which to sum the mesh.
+    func minowskiSum(along path: Path) -> Mesh {
+        .union(path.orderedEdges.map(minowskiSum(along:)))
+    }
 }
 
 private extension Mesh {
