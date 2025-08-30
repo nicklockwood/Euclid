@@ -56,6 +56,24 @@ public extension Collection<LineSegment> {
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
     typealias CancellationHandler = () -> Bool
 
+    /// Split the line segments along a plane.
+    /// - Parameter plane: The ``Plane`` to split the line segments along.
+    /// - Returns: A pair of arrays representing the line segments in front of and behind the plane respectively.
+    func split(along plane: Plane) -> (front: [LineSegment], back: [LineSegment]) {
+        var front = [LineSegment](), back: [LineSegment]! = []
+        forEach { $0.split(along: plane, &front, &back) }
+        return (front, back)
+    }
+
+    /// Clip the line segments to the specified plane.
+    /// - Parameter plane: The ``Plane`` to split the line segments along.
+    /// - Returns: An array of line segments that lie in front of the plane.
+    func clipped(to plane: Plane) -> [LineSegment] {
+        var front = [LineSegment](), back: [LineSegment]?
+        forEach { $0.split(along: plane, &front, &back) }
+        return front
+    }
+
     /// Deprecated.
     @available(*, deprecated, message: "Use clipped(to:isCancelled:) instead.")
     func subtracting(
@@ -135,6 +153,19 @@ extension LineSegment {
             segments.front.map { front.append($0) }
             segments.back.map { back.append($0) }
         }
+    }
+
+    /// Put the line segment in the correct list, splitting it when necessary
+    /// > Note: coplanar segments are treated as being behind the plane.
+    func split(
+        along plane: Plane,
+        _ front: inout [LineSegment],
+        _ back: inout [LineSegment]?
+    ) {
+        let distances = (start.signedDistance(from: plane), end.signedDistance(from: plane))
+        let segments = split(with: distances)
+        segments.front.map { front.append($0) }
+        segments.back.map { back?.append($0) }
     }
 
     /// Shared split implementation
