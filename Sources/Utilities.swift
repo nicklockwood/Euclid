@@ -288,19 +288,27 @@ func isFlippedScale(_ scale: Vector) -> Bool {
     return flipped
 }
 
+func angleBetweenNormalizedVectors(_ v0: Vector, _ v1: Vector) -> Angle {
+    assert(v0.isNormalized && v1.isNormalized)
+    return .acos(v0.dot(v1))
+}
+
+func angleBetweenNormalizedVectorAndPlane(_ v: Vector, _ p: Plane) -> Angle {
+    assert(v.isNormalized)
+    return .asin(v.dot(p.normal))
+}
+
 func rotationBetweenNormalizedVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
     assert(v0.isNormalized && v1.isNormalized)
     let axis = v0.cross(v1)
-    if axis.isZero {
-        if v0.isEqual(to: v1) {
-            return .identity
-        }
-        let leastParallelAxis = v0.leastParallelAxis
-        let orthonormal = v0.cross(leastParallelAxis).normalized()
+    if axis != .zero {
+        return .init(unchecked: axis.normalized(), angle: -.acos(v0.dot(v1)))
+    } else if v0.isEqual(to: v1) {
+        return .identity
+    } else {
+        let orthonormal = v0.cross(v0.leastParallelAxis).normalized()
         return .init(unchecked: orthonormal, angle: .pi)
     }
-    let angle = -acos(v0.dot(v1))
-    return .init(unchecked: axis.normalized(), angle: .radians(angle))
 }
 
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {

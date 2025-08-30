@@ -52,7 +52,7 @@ public extension Mesh {
                     let n = h.normalized()
                     let a = Angle.atan2(y: n.y, x: n.x)
                     let a2 = (a - cha).radians
-                    if !n.angle(with: chn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
+                    if !angleBetweenNormalizedVectors(n, chn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
                         ha = a2 > 0 ? a - .twoPi : a + .twoPi
                     } else {
                         ha = a
@@ -64,7 +64,7 @@ public extension Mesh {
                     let n = v.normalized()
                     let a = Angle.atan2(y: n.y, x: n.x)
                     let a2 = (a - cva).radians
-                    if !n.angle(with: cvn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
+                    if !angleBetweenNormalizedVectors(n, cvn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
                         va = a2 > 0 ? a - .twoPi : a + .twoPi
                     } else {
                         va = a
@@ -94,7 +94,7 @@ public extension Mesh {
                     let n = d.normalized()
                     let a = Angle.atan2(y: n.y, x: n.x)
                     let a2 = (a - ca).radians
-                    if !n.angle(with: cn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
+                    if !angleBetweenNormalizedVectors(n, cn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
                         ha = a2 > 0 ? a - .twoPi : a + .twoPi
                     } else {
                         ha = a
@@ -140,7 +140,7 @@ public extension Mesh {
                     let n = h.normalized()
                     let a = Angle.atan2(y: n.y, x: n.x)
                     let a2 = (a - cha).radians
-                    if !n.angle(with: chn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
+                    if !angleBetweenNormalizedVectors(n, chn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
                         ha = a2 > 0 ? a - .twoPi : a + .twoPi
                     } else {
                         ha = a
@@ -152,7 +152,7 @@ public extension Mesh {
                     let n = v.normalized()
                     let a = Angle.atan2(y: n.y, x: n.x)
                     let a2 = (a - cva).radians
-                    if !n.angle(with: cvn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
+                    if !angleBetweenNormalizedVectors(n, cvn).radians.isEqual(to: abs(a2), withPrecision: .pi) {
                         va = a2 > 0 ? a - .twoPi : a + .twoPi
                     } else {
                         va = a

@@ -281,13 +281,13 @@ public extension Vector {
     /// Returns the angle between this vector and another.
     /// - Parameter other: The vector to compare with.
     func angle(with other: Vector) -> Angle {
-        .acos(normalized().dot(other.normalized()))
+        angleBetweenNormalizedVectors(normalized(), other.normalized())
     }
 
     /// Returns the angle between this vector and the specified plane.
     /// - Parameter plane: The plane to compare with.
     func angle(with plane: Plane) -> Angle {
-        .asin(normalized().dot(plane.normal))
+        angleBetweenNormalizedVectorAndPlane(normalized(), plane)
     }
 
     /// Deprecated.
