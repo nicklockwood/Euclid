@@ -187,9 +187,9 @@ public extension Path {
         )
     }
 
-    /// Creates a path from an array of  path points.
-    /// - Parameter points: An array of ``PathPoint`` making up the path.
-    init(_ points: [PathPoint]) {
+    /// Creates a path from a collection of  path points.
+    /// - Parameter points: An ordered collection of ``PathPoint`` making up the path.
+    init(_ points: some Collection<PathPoint>) {
         self.init(
             unchecked: sanitizePoints(points),
             plane: nil,
@@ -197,9 +197,9 @@ public extension Path {
         )
     }
 
-    /// Creates a composite path from an array of subpaths.
-    /// - Parameter subpaths: An array of paths.
-    init(subpaths: [Path]) {
+    /// Creates a composite path from a collection of subpaths.
+    /// - Parameter subpaths: A collection of paths.
+    init(subpaths: some Collection<Path>) {
         let subpaths = subpaths.flatMap(\.subpaths)
         guard subpaths.count > 1 else {
             self = subpaths.first ?? .empty
@@ -294,7 +294,7 @@ public extension Path {
         var startIndex = 0
         return subpathIndices.count > 1 ? subpathIndices.map { i in
             defer { startIndex = i + 1 }
-            return Path(unchecked: Array(points[startIndex ... i]), plane: nil, subpathIndices: [])
+            return Path(unchecked: points[startIndex ... i], plane: nil, subpathIndices: [])
         } : [self]
     }
 
@@ -558,7 +558,7 @@ public extension Polygon {
 
 extension Path {
     init(
-        unchecked points: some Sequence<PathPoint>,
+        unchecked points: some Collection<PathPoint>,
         plane: Plane?,
         subpathIndices: [Int]?
     ) {

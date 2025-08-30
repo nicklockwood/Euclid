@@ -780,7 +780,7 @@ public extension Mesh {
 
     /// Computes the convex hull of one or more meshes.
     /// - Parameter meshes: An array of meshes to compute the hull around.
-    static func convexHull(of meshes: [Mesh]) -> Mesh {
+    static func convexHull(of meshes: some Collection<Mesh>) -> Mesh {
         var best: Mesh?
         var bestIndex: Int?
         for (i, mesh) in meshes.enumerated() where mesh.isKnownConvex {
@@ -799,8 +799,8 @@ public extension Mesh {
 
     /// Computes the convex hull of a set of polygons.
     /// - Parameter polygons: An array of polygons to compute the hull around.
-    static func convexHull(of polygons: [Polygon]) -> Mesh {
-        convexHull(of: polygons, with: nil, bounds: nil)
+    static func convexHull(of polygons: some Collection<Polygon>) -> Mesh {
+        convexHull(of: Array(polygons), with: nil, bounds: nil)
     }
 
     /// Computes the convex hull of a set of paths.
@@ -808,7 +808,7 @@ public extension Mesh {
     ///   - paths: A set of paths to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
     static func convexHull(
-        of paths: some Sequence<Path>,
+        of paths: some Collection<Path>,
         material: Material? = nil
     ) -> Mesh {
         convexHull(of: paths.flatMap(\.edgeVertices), material: material)
@@ -821,7 +821,7 @@ public extension Mesh {
     ///
     /// > Note: The curvature of the point is currently ignored when calculating hull surface normals.
     static func convexHull(
-        of points: some Sequence<PathPoint>,
+        of points: some Collection<PathPoint>,
         material: Material? = nil
     ) -> Mesh {
         convexHull(of: points.map(Vertex.init), material: material)
@@ -832,7 +832,7 @@ public extension Mesh {
     ///   - vertices: A set of vertices to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
     static func convexHull(
-        of vertices: some Sequence<Vertex>,
+        of vertices: some Collection<Vertex>,
         material: Material? = nil
     ) -> Mesh {
         var verticesByPosition = [Vector: [(faceNormal: Vector, Vertex)]]()
@@ -847,7 +847,7 @@ public extension Mesh {
     ///   - points: An set of points to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
     static func convexHull(
-        of points: some Sequence<Vector>,
+        of points: some Collection<Vector>,
         material: Material? = nil
     ) -> Mesh {
         convexHull(
@@ -861,7 +861,7 @@ public extension Mesh {
     ///   - edges: A set of line segments to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
     static func convexHull(
-        of edges: some Sequence<LineSegment>,
+        of edges: some Collection<LineSegment>,
         material: Material? = nil
     ) -> Mesh {
         convexHull(of: edges.flatMap { [$0.start, $0.end] }, material: material)

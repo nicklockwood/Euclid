@@ -254,7 +254,7 @@ public extension Polygon {
     /// > Note: Vertex normals will be set to match the overall face normal of the polygon.
     /// Texture coordinates will be set to zero. Vertex colors will be defaulted to white.
     init?(
-        _ vertices: some Sequence<Vector>,
+        _ vertices: some Collection<Vector>,
         material: Material? = nil
     ) {
         self.init(vertices.map(Vertex.init), material: material)
