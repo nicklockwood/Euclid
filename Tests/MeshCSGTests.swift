@@ -10,7 +10,7 @@
 import XCTest
 
 class MeshCSGTests: XCTestCase {
-    // MARK: Subtraction
+    // MARK: Subtraction / Difference
 
     func testSubtractCoincidingBoxes() {
         let a = Mesh.cube()
@@ -255,6 +255,118 @@ class MeshCSGTests: XCTestCase {
         XCTAssertEqual(Mesh.empty, .intersection([]))
     }
 
+    // MARK: Convex Hull
+
+    func testConvexHullOfCubes() {
+        let mesh1 = Mesh.cube().translated(by: [-1, 0.5, 0.7])
+        let mesh2 = Mesh.cube().translated(by: [1, 0])
+        let mesh = Mesh.convexHull(of: [mesh1, mesh2])
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.bounds, mesh1.bounds.union(mesh2.bounds))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
+    func testConvexHullOfSpheres() {
+        let mesh1 = Mesh.sphere().translated(by: [-1, 0.2, -0.1])
+        let mesh2 = Mesh.sphere().translated(by: [1, 0])
+        let mesh = Mesh.convexHull(of: [mesh1, mesh2])
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.bounds, mesh1.bounds.union(mesh2.bounds))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
+    func testConvexHullOfCubeIsItself() {
+        let cube = Mesh.cube()
+        let mesh = Mesh.convexHull(of: [cube])
+        XCTAssertEqual(cube, mesh)
+        let mesh2 = Mesh.convexHull(of: cube.polygons)
+        XCTAssertEqual(
+            Set(cube.polygons.flatMap(\.vertices)),
+            Set(mesh2.polygons.flatMap(\.vertices))
+        )
+        XCTAssertEqual(cube.polygons.count, mesh2.detessellate().polygons.count)
+    }
+
+    func testConvexHullOfNothing() {
+        let mesh = Mesh.convexHull(of: [] as [Mesh])
+        XCTAssertEqual(mesh, .empty)
+    }
+
+    func testConvexHullOfSingleTriangle() {
+        let triangle = Polygon(unchecked: [
+            [0, 0],
+            [1, 0],
+            [1, 1],
+        ])
+        let mesh = Mesh.convexHull(of: [triangle])
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.bounds, triangle.bounds)
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
+    func testConvexHullOfConcavePolygon() {
+        let shape = Polygon(unchecked: [
+            [0, 0],
+            [1, 0],
+            [1, 1],
+            [0.5, 1],
+            [0.5, 0.5],
+        ])
+        let mesh = Mesh.convexHull(of: [shape])
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.bounds, shape.bounds)
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
+    func testConvexHullOfConcavePolygonMesh() {
+        let shape = Mesh([Polygon(unchecked: [
+            [0, 0],
+            [1, 0],
+            [1, 1],
+            [0.5, 1],
+            [0.5, 0.5],
+        ])])
+        let mesh = Mesh.convexHull(of: [shape])
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.bounds, shape.bounds)
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
+    func testConvexHullOfCoplanarTriangles() {
+        let triangle1 = Polygon(unchecked: [
+            [0, 0],
+            [1, 0],
+            [1, 1],
+        ])
+        let triangle2 = Polygon(unchecked: [
+            [2, 0],
+            [3, 0],
+            [3, 1],
+        ])
+        let mesh = Mesh.convexHull(of: [triangle1, triangle2])
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.bounds, triangle1.bounds.union(triangle2.bounds))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
     // MARK: Planar subtraction
 
     func testSubtractCoincidingSquares() {
@@ -284,7 +396,7 @@ class MeshCSGTests: XCTestCase {
         XCTAssertEqual(c, .difference([a, b]))
     }
 
-    // MARK: Planar XOR
+    // MARK: Planar Symmetric Difference (XOR)
 
     func testXorCoincidingSquares() {
         let a = Mesh.fill(.square())

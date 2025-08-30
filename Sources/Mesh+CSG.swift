@@ -342,6 +342,63 @@ public extension Mesh {
         reduce(meshes, using: { $0.stencil($1, isCancelled: $2) }, isCancelled)
     }
 
+    /// Returns a new mesh representing a convex hull around the
+    /// mesh parameter and the receiver, with inner faces removed.
+    ///
+    ///     +-------+           +-------+
+    ///     |       |           |        \
+    ///     |   A   |           |         \
+    ///     |   +---+---+   =   |          +
+    ///     +---+---+   |       +          |
+    ///         |   B   |        \         |
+    ///         |       |         \        |
+    ///         +-------+          +-------+
+    ///
+    /// - Parameters:
+    ///   - mesh: The mesh to form a hull with.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: A new mesh representing the convex hull around the inputs.
+    func convexHull(with mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+        .convexHull(of: [self, mesh], isCancelled: isCancelled)
+    }
+
+    /// Efficiently computes the convex hull of one or more meshes.
+    /// - Parameters:
+    ///   - meshes: A collection of meshes to compute a hull around.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: A new mesh representing the convex hull around the inputs.
+    static func convexHull(
+        of meshes: some Collection<Mesh>,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        var best: Mesh?
+        var bestIndex: Int?
+        for (i, mesh) in meshes.enumerated() where mesh.isKnownConvex {
+            if best?.polygons.count ?? 0 > mesh.polygons.count {
+                continue
+            }
+            best = mesh
+            bestIndex = i
+        }
+        let polygons = meshes.enumerated().flatMap { i, mesh in
+            i == bestIndex ? [] : mesh.polygons
+        }
+        let bounds = Bounds(meshes)
+        return .convexHull(of: polygons, with: best, bounds: bounds, isCancelled)
+    }
+
+    /// Computes the convex hull of a set of polygons.
+    /// - Parameters:
+    ///   - meshes: A collection of polygons to compute a hull around.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: A new mesh representing the convex hull around the inputs.
+    static func convexHull(
+        of polygons: some Collection<Polygon>,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        convexHull(of: Array(polygons), with: nil, bounds: nil, isCancelled)
+    }
+
     /// Split the mesh along a plane.
     /// - Parameter plane: The ``Plane`` to split the mesh along.
     /// - Returns: A pair of meshes representing the parts in front of and behind the plane respectively.
@@ -600,6 +657,54 @@ private extension Mesh {
             j += 1
         }
         return m
+    }
+
+    static func convexHull(
+        of polygonsToAdd: [Polygon],
+        with startingMesh: Mesh?,
+        bounds: Bounds?,
+        _ isCancelled: CancellationHandler
+    ) -> Mesh {
+        assert(startingMesh?.isKnownConvex != false)
+        var polygons = startingMesh?.polygons ?? []
+        var verticesByPosition = [Vector: [(faceNormal: Vector, Vertex)]]()
+        for p in polygonsToAdd + polygons {
+            for v in p.vertices {
+                verticesByPosition[v.position, default: []].append((p.plane.normal, v))
+            }
+        }
+        var polygonsToAdd = polygonsToAdd
+        if polygons.isEmpty, !polygonsToAdd.isEmpty {
+            let p: Polygon
+            if let index = polygonsToAdd.lastIndex(where: { $0.isConvex }) {
+                p = polygonsToAdd.remove(at: index)
+            } else {
+                let potentiallyNonConvexPolygon = polygonsToAdd.removeLast()
+                var convexPolygons = potentiallyNonConvexPolygon.tessellate()
+                p = convexPolygons.popLast() ?? potentiallyNonConvexPolygon
+                polygonsToAdd += convexPolygons
+                assert(p.isConvex)
+            }
+            polygons += [p, p.inverted()]
+        }
+        // Add remaining polygons
+        for p in polygonsToAdd where !isCancelled() {
+            for vertex in p.vertices {
+                polygons.addPoint(
+                    vertex.position,
+                    material: p.material,
+                    verticesByPosition: verticesByPosition
+                )
+            }
+        }
+        return Mesh(
+            unchecked: polygons,
+            bounds: bounds,
+            bsp: nil,
+            isConvex: true,
+            isWatertight: nil,
+            submeshes: []
+        )
     }
 }
 
