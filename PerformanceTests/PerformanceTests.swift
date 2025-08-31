@@ -29,6 +29,16 @@ final class PerformanceTests: XCTestCase {
             XCTAssertFalse(c.isEmpty)
         }
     }
+
+    func testMinowskiSum() throws {
+        let detail = 32
+        let a = Mesh.sphere(slices: detail)
+        let b = Mesh.cube()
+        measure {
+            let c = a.withoutOptimizations().minowskiSum(with: b.withoutOptimizations())
+            XCTAssertFalse(c.isEmpty)
+        }
+    }
 }
 
 private extension Mesh {
