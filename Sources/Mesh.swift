@@ -64,15 +64,13 @@ extension Mesh: CustomDebugStringConvertible {
 
 extension Mesh: Codable {
     private enum CodingKeys: String, CodingKey {
-        case polygons, bounds, isConvex = "convex", materials
+        case polygons, materials
     }
 
     /// Creates a new mesh by decoding from the given decoder.
     /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
-            let boundsIfSet = try container.decodeIfPresent(Bounds.self, forKey: .bounds)
-            let isConvex = try container.decodeIfPresent(Bool.self, forKey: .isConvex) ?? false
             let polygons: [Polygon]
             if let materials = try container.decodeIfPresent([CodableMaterial].self, forKey: .materials) {
                 let polygonsByMaterial = try container.decode([[Polygon]].self, forKey: .polygons)
@@ -82,14 +80,7 @@ extension Mesh: Codable {
             } else {
                 polygons = try container.decode([Polygon].self, forKey: .polygons)
             }
-            self.init(
-                unchecked: polygons,
-                bounds: boundsIfSet,
-                bsp: nil, // TODO: should we try to serialize this?
-                isConvex: isConvex,
-                isWatertight: nil,
-                submeshes: nil
-            )
+            self.init(polygons)
         } else {
             let container = try decoder.singleValueContainer()
             let polygons = try container.decode([Polygon].self)
@@ -101,8 +92,6 @@ extension Mesh: Codable {
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(bounds, forKey: .bounds)
-        try isKnownConvex ? container.encode(true, forKey: .isConvex) : ()
         if materials == [nil] {
             try container.encode(polygons, forKey: .polygons)
         } else {
