@@ -37,6 +37,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/distance(from:)-5tciz",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/distance(from:)-6cs2x",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersection(with:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersects(_:)-1nvd3",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersects(_:)-2u3t",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/nearestPoint(to:)"
@@ -213,6 +214,64 @@
   "title" : "distance(from:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/distance(from:)-6cs2x"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersection(with:)": {
+  "abstract" : [
+    {
+      "text" : "Returns the nearest point if it intersects the receiver.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersection(with:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/intersection(with:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersects(_:)-1nvd3": {
   "abstract" : [

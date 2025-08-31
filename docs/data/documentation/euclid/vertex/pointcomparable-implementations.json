@@ -36,6 +36,7 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/distance(from:)-v36y",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/intersection(with:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/intersects(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/nearestPoint(to:)"
       ],
@@ -243,6 +244,64 @@
   "title" : "distance(from:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex\/distance(from:)-v36y"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/intersection(with:)": {
+  "abstract" : [
+    {
+      "text" : "Returns the nearest point if it intersects the receiver.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/intersection(with:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vertex\/intersection(with:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/intersects(_:)": {
   "abstract" : [

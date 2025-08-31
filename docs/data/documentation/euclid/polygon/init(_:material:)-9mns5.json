@@ -235,7 +235,7 @@
       "anchor" : "Creating-Polygons",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-8gsiw",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-5edpl",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(shape:material:)"
       ],
       "title" : "Creating Polygons"
@@ -435,7 +435,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/material-swift.typealias"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(_:material:)-8gsiw": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(_:material:)-5edpl": {
   "abstract" : [
     {
       "text" : "Creates a polygon from a set of vertex positions.",
@@ -461,8 +461,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:ST",
-      "text" : "Sequence"
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
     },
     {
       "kind" : "text",
@@ -495,12 +495,12 @@
       "text" : "?)"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-8gsiw",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-5edpl",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(_:material:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/init(_:material:)-8gsiw"
+  "url" : "\/documentation\/euclid\/polygon\/init(_:material:)-5edpl"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(_:material:)-9mns5": {
   "abstract" : [

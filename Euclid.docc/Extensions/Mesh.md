@@ -21,7 +21,8 @@
 ### Creating Meshes from Other Meshes
 
 - ``Mesh/init(submeshes:)``
-- ``Mesh/convexHull(of:)-6c896``
+- ``Mesh/convexHull(of:isCancelled:)-(Collection<Mesh>,_)``
+- ``Mesh/minowskiSum(of:isCancelled:)``
 - ``Mesh/union(_:isCancelled:)-swift.method``
 - ``Mesh/union(_:isCancelled:)-swift.type.method``
 - ``Mesh/intersection(_:isCancelled:)-swift.method``
@@ -38,11 +39,11 @@
 ### Creating Meshes from Polygons
 
 - ``Mesh/init(_:)``
-- ``Mesh/convexHull(of:)-8x4al``
+- ``Mesh/convexHull(of:isCancelled:)-(Collection<Polygon>,_)``
 
 ### Creating Meshes from Paths
 
-- ``Mesh/convexHull(of:material:)-4hvi3``
+- ``Mesh/convexHull(of:material:isCancelled:)-(Collection<Path>,_,_)``
 - ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:)``
 - ``Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)``
 - ``Mesh/extrude(_:depth:twist:sections:faces:material:)``
@@ -50,16 +51,16 @@
 - ``Mesh/fill(_:faces:material:)``
 - ``Mesh/fill(_:faces:material:)``
 - ``Mesh/loft(_:faces:material:)``
-- ``Mesh/stroke(_:width:detail:material:)``
-- ``Mesh/stroke(_:width:detail:material:isCancelled:)-85o14``
-- ``Mesh/stroke(_:width:detail:material:isCancelled:)-9mn9o``
+- ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Path,_,_,_,_)``
+- ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Collection<Path>,_,_,_,_)``
+- ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Collection<LineSegment>,_,_,_,_)``
 
 ### Creating Meshes from Vertices, Points or LineSegments
 
-- ``Mesh/convexHull(of:material:)-6176``
-- ``Mesh/convexHull(of:material:)-75on2``
-- ``Mesh/convexHull(of:material:)-91swk``
-- ``Mesh/convexHull(of:material:)-5ztum``
+- ``Mesh/convexHull(of:material:isCancelled:)-(Collection<Vector>,_,_)``
+- ``Mesh/convexHull(of:material:isCancelled:)-(Collection<Vertex>,_,_)``
+- ``Mesh/convexHull(of:material:isCancelled:)-(Collection<PathPoint>,_,_)``
+- ``Mesh/convexHull(of:material:isCancelled:)-(Collection<LineSegment>,_,_)``
 
 ### Creating Meshes from Text
 

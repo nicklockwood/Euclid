@@ -389,7 +389,7 @@ public extension Mesh {
 
     /// Computes the convex hull of a set of polygons.
     /// - Parameters:
-    ///   - meshes: A collection of polygons to compute a hull around.
+    ///   - polygons: A collection of polygons to compute a hull around.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the convex hull around the inputs.
     static func convexHull(

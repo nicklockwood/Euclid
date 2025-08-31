@@ -4,8 +4,8 @@
 
 ### Creating Polygons
 
-- ``Polygon/init(_:material:)-8gsiw``
-- ``Polygon/init(_:material:)-9mns5``
+- ``Polygon/init(_:material:)-([Vertex],_)``
+- ``Polygon/init(_:material:)-(Collection<Vector>,_)``
 - ``Polygon/init(shape:material:)``
 
 ### Polygon Properties

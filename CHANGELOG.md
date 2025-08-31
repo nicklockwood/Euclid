@@ -1,5 +1,18 @@
 # Change Log
 
+## [0.8.6](https://github.com/nicklockwood/Euclid/releases/tag/0.8.6) (2025-08-31)
+
+- Added `Mesh.minowskiSum()` methods
+- Significantly improved `Mesh.convexHull()` performance
+- `Mesh.convexHull()` methods are now cancellable
+- Added additional validation when deserializing meshes and polygons
+- Added `Mesh.clipped(to mesh:)` and `Polygon.clipped(to mesh:)` methods
+- Added `Path.clipped(to plane:)` and `Path.split(along plane:)` methods
+- Added methods for splitting and clipping `LineSegment` and collections of `LineSegment`
+- BSP (used for CSG operations) is now cached within a `Mesh` after first use
+- Various minor performance improvements
+- Added STL export options
+
 ## [0.8.5](https://github.com/nicklockwood/Euclid/releases/tag/0.8.5) (2025-08-29)
 
 - Fixed `Line.nearestPoint(to:)` method returning inverted value

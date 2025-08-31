@@ -37,6 +37,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/distance(from:)-78gff",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/distance(from:)-8gud1",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/intersection(with:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/intersects(_:)-87xk8",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/intersects(_:)-88unb",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/nearestPoint(to:)"
@@ -213,6 +214,64 @@
   "title" : "distance(from:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/distance(from:)-8gud1"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/intersection(with:)": {
+  "abstract" : [
+    {
+      "text" : "Returns the nearest point if it intersects the receiver.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/intersection(with:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/intersection(with:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/intersects(_:)-87xk8": {
   "abstract" : [

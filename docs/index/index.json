@@ -181,8 +181,13 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:)-6c896",
-                "title" : "static func convexHull(of: [Polygon]) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:iscancelled:)-98ry4",
+                "title" : "static func convexHull(of: some Collection<Mesh>, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/minowskisum(of:iscancelled:)",
+                "title" : "static func minowskiSum(of: some Collection<Mesh>, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -250,8 +255,8 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:)-8x4al",
-                "title" : "static func convexHull(of: [Mesh]) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:iscancelled:)-6ttl5",
+                "title" : "static func convexHull(of: some Collection<Polygon>, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -259,8 +264,8 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:)-4hvi3",
-                "title" : "static func convexHull(of: some Sequence<Path>, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:iscancelled:)-5b6nc",
+                "title" : "static func convexHull(of: some Collection<Path>, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -280,7 +285,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)",
-                "title" : "static func extrude([Path], depth: Double, twist: Angle, sections: Int, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "title" : "static func extrude(some Collection<Path>, depth: Double, twist: Angle, sections: Int, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -299,18 +304,18 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:)",
-                "title" : "static func stroke(some Collection<LineSegment>, width: Double, detail: Int, material: Material?) -> Mesh",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-85o14",
                 "title" : "static func stroke(Path, width: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-9mn9o",
-                "title" : "static func stroke([Path], width: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-7vbo2",
+                "title" : "static func stroke(some Collection<Path>, width: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-2rx6l",
+                "title" : "static func stroke(some Collection<LineSegment>, width: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -318,23 +323,23 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:)-6176",
-                "title" : "static func convexHull(of: some Sequence<Vector>, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:iscancelled:)-9jzvt",
+                "title" : "static func convexHull(of: some Collection<Vector>, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:)-75on2",
-                "title" : "static func convexHull(of: some Sequence<Vertex>, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:iscancelled:)-2otb6",
+                "title" : "static func convexHull(of: some Collection<Vertex>, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:)-91swk",
-                "title" : "static func convexHull(of: some Sequence<LineSegment>, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:iscancelled:)-6u5t9",
+                "title" : "static func convexHull(of: some Collection<PathPoint>, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:)-5ztum",
-                "title" : "static func convexHull(of: some Sequence<PathPoint>, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/convexhull(of:material:iscancelled:)-6ayc1",
+                "title" : "static func convexHull(of: some Collection<LineSegment>, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -725,6 +730,11 @@
                 "type" : "property"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/isempty",
+                "title" : "var isEmpty: Bool",
+                "type" : "property"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/surfacearea",
                 "title" : "var surfaceArea: Double",
                 "type" : "property"
@@ -744,6 +754,16 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/clipped(to:iscancelled:)",
+                "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/convexhull(with:iscancelled:)",
+                "title" : "func convexHull(with: Mesh, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/edges(intersecting:iscancelled:)",
                 "title" : "func edges(intersecting: Mesh, isCancelled: CancellationHandler) -> Set<LineSegment>",
                 "type" : "method"
@@ -759,8 +779,43 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/minowskisum(along:)",
+                "title" : "func minowskiSum(along: LineSegment) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/minowskisum(along:iscancelled:)",
+                "title" : "func minowskiSum(along: Path, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/minowskisum(with:)",
+                "title" : "func minowskiSum(with: Polygon) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/minowskisum(with:iscancelled:)",
+                "title" : "func minowskiSum(with: Mesh, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/reflected(along:)",
                 "title" : "func reflected(along: Plane) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/stldata(format:)",
+                "title" : "func stlData(format: STLFormat) -> Data",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/stldata(options:)",
+                "title" : "func stlData(options: STLBinaryOptions) -> Data",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/stlstring(options:)",
+                "title" : "func stlString(options: STLTextOptions) -> String",
                 "type" : "method"
               },
               {
@@ -979,6 +1034,11 @@
                     "type" : "method"
                   },
                   {
+                    "path" : "\/documentation\/euclid\/mesh\/intersection(with:)",
+                    "title" : "func intersection(with: Vector) -> Vector?",
+                    "type" : "method"
+                  },
+                  {
                     "path" : "\/documentation\/euclid\/mesh\/intersects(_:)-1nvd3",
                     "title" : "func intersects(Vector) -> Bool",
                     "type" : "method"
@@ -1085,13 +1145,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/init(_:material:)-8gsiw",
-                "title" : "init?(some Sequence<Vector>, material: Material?)",
+                "path" : "\/documentation\/euclid\/polygon\/init(_:material:)-9mns5",
+                "title" : "init?([Vertex], material: Material?)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/init(_:material:)-9mns5",
-                "title" : "init?([Vertex], material: Material?)",
+                "path" : "\/documentation\/euclid\/polygon\/init(_:material:)-5edpl",
+                "title" : "init?(some Collection<Vector>, material: Material?)",
                 "type" : "init"
               },
               {
@@ -1264,6 +1324,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/polygon\/clipped(to:iscancelled:)",
+                "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler?) -> [Polygon]",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/polygon\/flatteningnormals()",
                 "title" : "func flatteningNormals() -> Polygon",
                 "type" : "method"
@@ -1316,6 +1381,11 @@
               {
                 "title" : "Type Aliases",
                 "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/cancellationhandler",
+                "title" : "Polygon.CancellationHandler",
+                "type" : "typealias"
               },
               {
                 "path" : "\/documentation\/euclid\/polygon\/material-swift.typealias",
@@ -1505,6 +1575,11 @@
                     "type" : "method"
                   },
                   {
+                    "path" : "\/documentation\/euclid\/polygon\/intersection(with:)",
+                    "title" : "func intersection(with: Vector) -> Vector?",
+                    "type" : "method"
+                  },
+                  {
                     "path" : "\/documentation\/euclid\/polygon\/intersects(_:)-87xk8",
                     "title" : "func intersects(Vector) -> Bool",
                     "type" : "method"
@@ -1624,18 +1699,18 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/init(_:)-8w74j",
+                "title" : "init(some Collection<PathPoint>)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/init(_:)-3c0eo",
                 "title" : "init(Polygon)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/init(_:)-4jhkw",
-                "title" : "init([PathPoint])",
-                "type" : "init"
-              },
-              {
                 "path" : "\/documentation\/euclid\/path\/init(subpaths:)",
-                "title" : "init(subpaths: [Path])",
+                "title" : "init(subpaths: some Collection<Path>)",
                 "type" : "init"
               },
               {
@@ -1818,6 +1893,11 @@
                 "type" : "property"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/isempty",
+                "title" : "var isEmpty: Bool",
+                "type" : "property"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/latheprofile",
                 "title" : "var latheProfile: Path",
                 "type" : "property"
@@ -1840,6 +1920,11 @@
               {
                 "title" : "Instance Methods",
                 "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/clipped(to:)",
+                "title" : "func clipped(to: Plane) -> Path",
+                "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/path\/edgevertices(for:)",
@@ -1869,6 +1954,11 @@
               {
                 "path" : "\/documentation\/euclid\/path\/mapcolors(_:)",
                 "title" : "func mapColors((Color?) -> Color?) -> Path",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/split(along:)",
+                "title" : "func split(along: Plane) -> (front: Path, back: Path)",
                 "type" : "method"
               },
               {
@@ -2398,6 +2488,11 @@
                     "type" : "method"
                   },
                   {
+                    "path" : "\/documentation\/euclid\/pathpoint\/intersection(with:)",
+                    "title" : "func intersection(with: Vector) -> Vector?",
+                    "type" : "method"
+                  },
+                  {
                     "path" : "\/documentation\/euclid\/pathpoint\/intersects(_:)",
                     "title" : "func intersects(Vector) -> Bool",
                     "type" : "method"
@@ -2729,6 +2824,11 @@
                     "type" : "groupMarker"
                   },
                   {
+                    "path" : "\/documentation\/euclid\/line\/intersection(with:)-5y3zr",
+                    "title" : "func intersection(with: Vector) -> Vector?",
+                    "type" : "method"
+                  },
+                  {
                     "path" : "\/documentation\/euclid\/line\/intersects(_:)-5e2gp",
                     "title" : "func intersects(Vector) -> Bool",
                     "type" : "method"
@@ -2970,6 +3070,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/linesegment\/clipped(to:iscancelled:)",
+                "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler) -> [LineSegment]",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/linesegment\/distance(from:)-8lhq5",
                 "title" : "func distance(from: LineSegment) -> Double",
                 "type" : "method"
@@ -2998,6 +3103,15 @@
                 "path" : "\/documentation\/euclid\/linesegment\/split(along:)",
                 "title" : "func split(along: Plane) -> (front: LineSegment?, back: LineSegment?)",
                 "type" : "method"
+              },
+              {
+                "title" : "Type Aliases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/linesegment\/cancellationhandler",
+                "title" : "LineSegment.CancellationHandler",
+                "type" : "typealias"
               },
               {
                 "title" : "Default Implementations",
@@ -3232,6 +3346,11 @@
                   {
                     "path" : "\/documentation\/euclid\/linesegment\/distance(from:)-25au9",
                     "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/intersection(with:)-3tcin",
+                    "title" : "func intersection(with: Vector) -> Vector?",
                     "type" : "method"
                   },
                   {
@@ -4851,6 +4970,11 @@
                     "type" : "method"
                   },
                   {
+                    "path" : "\/documentation\/euclid\/vector\/intersection(with:)",
+                    "title" : "func intersection(with: Vector) -> Vector?",
+                    "type" : "method"
+                  },
+                  {
                     "path" : "\/documentation\/euclid\/vector\/intersects(_:)-9jmqh",
                     "title" : "func intersects(Vector) -> Bool",
                     "type" : "method"
@@ -5121,6 +5245,11 @@
                 "type" : "init"
               },
               {
+                "path" : "\/documentation\/euclid\/bounds\/init(_:)-fqn0",
+                "title" : "init(some Bounded)",
+                "type" : "init"
+              },
+              {
                 "title" : "Instance Properties",
                 "type" : "groupMarker"
               },
@@ -5270,6 +5399,11 @@
                   {
                     "title" : "Instance Methods",
                     "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/bounds\/intersection(with:)",
+                    "title" : "func intersection(with: Vector) -> Vector?",
+                    "type" : "method"
                   },
                   {
                     "path" : "\/documentation\/euclid\/bounds\/intersects(_:)-9r2iu",
@@ -5720,6 +5854,11 @@
                     "type" : "method"
                   },
                   {
+                    "path" : "\/documentation\/euclid\/plane\/intersection(with:)-3mocl",
+                    "title" : "func intersection(with: Vector) -> Vector?",
+                    "type" : "method"
+                  },
+                  {
                     "path" : "\/documentation\/euclid\/plane\/intersects(_:)-1yz1c",
                     "title" : "func intersects(Vector) -> Bool",
                     "type" : "method"
@@ -6099,6 +6238,11 @@
                   {
                     "path" : "\/documentation\/euclid\/vertex\/distance(from:)-v36y",
                     "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/vertex\/intersection(with:)",
+                    "title" : "func intersection(with: Vector) -> Vector?",
                     "type" : "method"
                   },
                   {
@@ -6613,6 +6757,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/pointcomparable\/intersection(with:)",
+                "title" : "func intersection(with: Vector) -> Vector?",
+                "type" : "method"
+              },
+              {
                 "children" : [
                   {
                     "children" : [
@@ -6729,6 +6878,80 @@
             "type" : "protocol"
           },
           {
+            "title" : "Structures",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/stlbinaryoptions\/init(header:zeronormals:colorlookup:)",
+                "title" : "init(header: Data, zeroNormals: Bool, colorLookup: Mesh.STLColorProvider?)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/stlbinaryoptions\/colorlookup",
+                "title" : "var colorLookup: Mesh.STLColorProvider",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/stlbinaryoptions\/header",
+                "title" : "var header: Data",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/stlbinaryoptions\/zeronormals",
+                "title" : "var zeroNormals: Bool",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/stlbinaryoptions",
+            "title" : "STLBinaryOptions",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/stltextoptions\/init(name:indent:zeronormals:)",
+                "title" : "init(name: String, indent: String, zeroNormals: Bool)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/stltextoptions\/indent",
+                "title" : "var indent: String",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/stltextoptions\/name",
+                "title" : "var name: String",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/stltextoptions\/zeronormals",
+                "title" : "var zeroNormals: Bool",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/stltextoptions",
+            "title" : "STLTextOptions",
+            "type" : "struct"
+          },
+          {
             "title" : "Enumerations",
             "type" : "groupMarker"
           },
@@ -6815,6 +7038,27 @@
             ],
             "path" : "\/documentation\/euclid\/planecomparison",
             "title" : "PlaneComparison",
+            "type" : "enum"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Enumeration Cases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/stlformat\/binary(_:)",
+                "title" : "case binary(STLBinaryOptions)",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/euclid\/stlformat\/text(_:)",
+                "title" : "case text(STLTextOptions)",
+                "type" : "case"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/stlformat",
+            "title" : "STLFormat",
             "type" : "enum"
           }
         ],

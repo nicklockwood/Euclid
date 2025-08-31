@@ -51,8 +51,8 @@ private let changelogTitles: [Substring] = {
 class MetadataTests: XCTestCase {
     // MARK: releases
 
-    func testBuildIsOptimized() {
-        let project: String = try! String(contentsOf: projectURL)
+    func testBuildIsOptimized() throws {
+        let project: String = try String(contentsOf: projectURL)
         XCTAssertFalse(
             project.contains("-Onone"),
             "Euclid should always be shipped with optimization enabled"

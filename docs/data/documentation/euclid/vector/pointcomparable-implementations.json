@@ -37,6 +37,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-2e328",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-33ygh",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/intersection(with:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/intersects(_:)-9jmqh",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/nearestPoint(to:)"
       ],
@@ -212,6 +213,64 @@
   "title" : "distance(from:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/distance(from:)-33ygh"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/intersection(with:)": {
+  "abstract" : [
+    {
+      "text" : "Returns the nearest point if it intersects the receiver.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/intersection(with:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/intersection(with:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/intersects(_:)-9jmqh": {
   "abstract" : [

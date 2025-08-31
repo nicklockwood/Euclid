@@ -680,12 +680,12 @@
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:)",
+                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-2rx6l",
                       "isActive" : true,
                       "type" : "reference"
                     },
                     {
-                      "text" : ") of the function accepts an array of ",
+                      "text" : ") of the function accepts an collection of ",
                       "type" : "text"
                     },
                     {
@@ -841,7 +841,7 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:)-4hvi3",
+                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:isCancelled:)-9jzvt",
                       "isActive" : true,
                       "type" : "reference"
                     },
@@ -1397,6 +1397,42 @@
                   "type" : "paragraph"
                 }
               ]
+            },
+            {
+              "content" : [
+                {
+                  "inlineContent" : [
+                    {
+                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(with:isCancelled:)",
+                      "isActive" : true,
+                      "type" : "reference"
+                    },
+                    {
+                      "text" : " - This creates a convex hull around one or more meshes.",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "paragraph"
+                }
+              ]
+            },
+            {
+              "content" : [
+                {
+                  "inlineContent" : [
+                    {
+                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:isCancelled:)",
+                      "isActive" : true,
+                      "type" : "reference"
+                    },
+                    {
+                      "text" : " - This traces the edges of one mesh with another.",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "paragraph"
+                }
+              ]
             }
           ],
           "type" : "unorderedList"
@@ -1404,7 +1440,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "All CSG operations require ",
+              "text" : "Most CSG operations require ",
               "type" : "text"
             },
             {
@@ -1888,10 +1924,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/cone(radius:height:slices:stacks:poledetail:adddetailatbottompole:faces:wrapmode:material:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/convexHull(of:material:)-4hvi3": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/convexHull(of:material:isCancelled:)-9jzvt": {
   "abstract" : [
     {
-      "text" : "Computes the convex hull of a set of paths.",
+      "text" : "Computes the convex hull of a set of points.",
       "type" : "text"
     }
   ],
@@ -1938,8 +1974,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:ST",
-      "text" : "Sequence"
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
     },
     {
       "kind" : "text",
@@ -1947,8 +1983,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
     },
     {
       "kind" : "text",
@@ -1969,7 +2005,24 @@
     },
     {
       "kind" : "text",
-      "text" : "?) -> "
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -1977,12 +2030,91 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:)-4hvi3",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:isCancelled:)-9jzvt",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "convexHull(of:material:)",
+  "title" : "convexHull(of:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/convexhull(of:material:)-4hvi3"
+  "url" : "\/documentation\/euclid\/mesh\/convexhull(of:material:iscancelled:)-9jzvt"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/convexHull(with:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a new mesh representing a convex hull around the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "mesh parameter and the receiver, with inner faces removed.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "convexHull"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(with:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "convexHull(with:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/convexhull(with:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cube(center:size:faces:wrapMode:material:)-8t5q8": {
   "abstract" : [
@@ -2464,7 +2596,24 @@
     },
     {
       "kind" : "text",
-      "text" : "(["
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
     },
     {
       "kind" : "typeIdentifier",
@@ -2473,7 +2622,7 @@
     },
     {
       "kind" : "text",
-      "text" : "], "
+      "text" : ">, "
     },
     {
       "kind" : "externalParam",
@@ -2993,6 +3142,85 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/loft(_:faces:material:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(with:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a new mesh representing the Minowski sum of the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "mesh parameter and the receiver.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "minowskiSum"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "minowskiSum(with:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/minowskisum(with:iscancelled:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/sphere(radius:slices:stacks:poleDetail:faces:wrapMode:material:)": {
   "abstract" : [
     {
@@ -3228,7 +3456,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/stencil(_:iscancelled:)-swift.method"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:detail:material:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:detail:material:isCancelled:)-2rx6l": {
   "abstract" : [
     {
       "text" : "Efficiently strokes a collection of line segments (useful for drawing wireframes).",
@@ -3335,7 +3563,24 @@
     },
     {
       "kind" : "text",
-      "text" : "?) -> "
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -3343,12 +3588,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-2rx6l",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "stroke(_:width:detail:material:)",
+  "title" : "stroke(_:width:detail:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:)"
+  "url" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-2rx6l"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:detail:material:isCancelled:)-85o14": {
   "abstract" : [

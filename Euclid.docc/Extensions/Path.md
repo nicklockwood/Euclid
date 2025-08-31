@@ -8,8 +8,8 @@
 
 ### Creating Paths
 
-- ``Path/init(_:)-3c0eo``
-- ``Path/init(_:)-4jhkw``
+- ``Path/init(_:)-(Collection<PathPoint>)``
+- ``Path/init(_:)-(Polygon)``
 - ``Path/init(subpaths:)``
 - ``Path/init(_:detail:color:)``
 - ``Path/curve(_:detail:)``

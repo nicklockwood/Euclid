@@ -158,8 +158,8 @@
     {
       "anchor" : "Creating-Polygons",
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-8gsiw",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-9mns5",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-5edpl",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(shape:material:)"
       ],
       "title" : "Creating Polygons"
@@ -227,6 +227,7 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clipped(to:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clipped(to:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/flatteningNormals()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapTexcoords(_:)",
@@ -244,6 +245,7 @@
       "anchor" : "Type-Aliases",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/CancellationHandler",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Material-swift.typealias"
       ],
       "title" : "Type Aliases"
@@ -550,6 +552,40 @@
   "title" : "Bounded Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/bounded-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/CancellationHandler": {
+  "abstract" : [
+    {
+      "text" : "Callback used to cancel a long-running operation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/CancellationHandler",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Polygon.CancellationHandler",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/cancellationhandler"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/CustomDebugStringConvertible-Implementations": {
   "abstract" : [
@@ -997,6 +1033,81 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/clipped(to:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/clipped(to:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Clip polygon to the specified mesh",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "clipped"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> ["
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : "]"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clipped(to:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "clipped(to:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/clipped(to:iscancelled:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/codableClasses": {
   "abstract" : [
     {
@@ -1316,7 +1427,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/hasvertexnormals"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(_:material:)-8gsiw": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(_:material:)-5edpl": {
   "abstract" : [
     {
       "text" : "Creates a polygon from a set of vertex positions.",
@@ -1342,8 +1453,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:ST",
-      "text" : "Sequence"
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
     },
     {
       "kind" : "text",
@@ -1376,12 +1487,12 @@
       "text" : "?)"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-8gsiw",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-5edpl",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(_:material:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/init(_:material:)-8gsiw"
+  "url" : "\/documentation\/euclid\/polygon\/init(_:material:)-5edpl"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(_:material:)-9mns5": {
   "abstract" : [

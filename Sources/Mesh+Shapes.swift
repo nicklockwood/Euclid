@@ -525,7 +525,7 @@ public extension Mesh {
 
     /// Efficiently extrudes an array of paths along their respective face normals, avoiding duplicate work.
     /// - Parameters:
-    ///   - shapes: The array of paths to extrude in order to create the mesh.
+    ///   - shapes: The collection of paths to extrude in order to create the mesh.
     ///   - depth: The depth of the extrusion.
     ///   - twist: Angular twist to apply along the extrusion.
     ///   - sections: Number of sections to create along extrusion.
@@ -533,7 +533,7 @@ public extension Mesh {
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
     static func extrude(
-        _ shapes: [Path],
+        _ shapes: some Collection<Path>,
         depth: Double = 1,
         twist: Angle = .zero,
         sections: Int = 0,
@@ -716,7 +716,7 @@ public extension Mesh {
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
     static func stroke(
-        _ shapes: [Path],
+        _ shapes: some Collection<Path>,
         width: Double = 0.01,
         detail: Int = 2,
         material: Material? = nil,
@@ -1434,7 +1434,7 @@ private extension Mesh {
     }
 
     static func build(
-        _ shapes: [Path],
+        _ shapes: some Collection<Path>,
         using fn: (Path) -> Mesh,
         isCancelled: CancellationHandler = { false }
     ) -> [Mesh] {

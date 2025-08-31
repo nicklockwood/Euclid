@@ -37,6 +37,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/distance(from:)-1sbj",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/distance(from:)-32yd2",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-3mocl",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersects(_:)-1yz1c",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersects(_:)-6y8of",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/nearestPoint(to:)"
@@ -213,6 +214,64 @@
   "title" : "distance(from:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/plane\/distance(from:)-32yd2"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/intersection(with:)-3mocl": {
+  "abstract" : [
+    {
+      "text" : "Returns the nearest point if it intersects the receiver.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersection"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane\/intersection(with:)-3mocl",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersection(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane\/intersection(with:)-3mocl"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/intersects(_:)-1yz1c": {
   "abstract" : [

@@ -321,8 +321,8 @@
     {
       "anchor" : "Creating-Paths",
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-8w74j",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-3c0eo",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-4jhkw",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(subpaths:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:detail:color:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/curve(_:detail:)",
@@ -393,6 +393,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/edgeVertices",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/faceNormal",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/faceVertices",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/isEmpty",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/latheProfile",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/orderedEdges",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/subpaths",
@@ -404,12 +405,14 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/edgeVertices(for:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/extrusionContours(along:twist:align:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inverted()",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/mapColors(_:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/mapColors(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/split(along:)"
       ],
       "title" : "Instance Methods"
     },
@@ -1048,6 +1051,60 @@
   "title" : "circle(radius:segments:color:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/circle(radius:segments:color:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/clipped(to:)": {
+  "abstract" : [
+    {
+      "text" : "Clip path to the specified plane.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "clipped"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5PlaneV",
+      "text" : "Plane"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "clipped(to:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/clipped(to:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/closed()": {
   "abstract" : [
@@ -1693,10 +1750,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/init(_:)-3c0eo"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-4jhkw": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-8w74j": {
   "abstract" : [
     {
-      "text" : "Creates a path from an array of  path points.",
+      "text" : "Creates a path from a collection of  path points.",
       "type" : "text"
     }
   ],
@@ -1707,7 +1764,24 @@
     },
     {
       "kind" : "text",
-      "text" : "(["
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
     },
     {
       "kind" : "typeIdentifier",
@@ -1716,15 +1790,15 @@
     },
     {
       "kind" : "text",
-      "text" : "])"
+      "text" : ">)"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-4jhkw",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-8w74j",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "init(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/init(_:)-4jhkw"
+  "url" : "\/documentation\/euclid\/path\/init(_:)-8w74j"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:color:)-5lnql": {
   "abstract" : [
@@ -1921,7 +1995,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(subpaths:)": {
   "abstract" : [
     {
-      "text" : "Creates a composite path from an array of subpaths.",
+      "text" : "Creates a composite path from a collection of subpaths.",
       "type" : "text"
     }
   ],
@@ -1940,7 +2014,24 @@
     },
     {
       "kind" : "text",
-      "text" : ": ["
+      "text" : ": "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
     },
     {
       "kind" : "typeIdentifier",
@@ -1949,7 +2040,7 @@
     },
     {
       "kind" : "text",
-      "text" : "])"
+      "text" : ">)"
     }
   ],
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(subpaths:)",
@@ -2086,6 +2177,43 @@
   "title" : "isClosed",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/isclosed"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/isEmpty": {
+  "abstract" : [
+    {
+      "text" : "A Boolean value that indicates whether the path is empty (has no points).",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isEmpty"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/isEmpty",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isEmpty",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/isempty"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/isPlanar": {
   "abstract" : [
@@ -3011,6 +3139,81 @@
   "title" : "scaled(by:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/scaled(by:)-84xdd"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/split(along:)": {
+  "abstract" : [
+    {
+      "text" : "Split the path along a plane.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "split"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "along"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5PlaneV",
+      "text" : "Plane"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> (front"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ", back"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/split(along:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "split(along:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/split(along:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/square(size:color:)": {
   "abstract" : [

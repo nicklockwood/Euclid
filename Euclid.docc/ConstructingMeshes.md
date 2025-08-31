@@ -42,11 +42,11 @@ Builders create a ``Mesh`` from a (typically) 2D ``Path``.
 The following builders are defined as static constructor functions on the ``Mesh`` type:
 
 - ``Mesh/fill(_:faces:material:)`` - This builder fills a single `Path` to create a pair of `Polygon`s (front and back faces).
-- ``Mesh/stroke(_:width:detail:material:isCancelled:)-85o14`` - This builder strokes a single `Path` to create a strip or tube. A second variant (``Mesh/stroke(_:width:detail:material:)``) of the function accepts an array of ``LineSegment``, which is convenient for creating a wireframe geometry from the `uniqueEdges` of a ``Mesh``.
+- ``Mesh/stroke(_:width:detail:material:isCancelled:)-85o14`` - This builder strokes a single `Path` to create a strip or tube. A second variant (``Mesh/stroke(_:width:detail:material:isCancelled:)-(Collection<LineSegment>,_,_,_,_)``) of the function accepts an collection of ``LineSegment``, which is convenient for creating a wireframe geometry from the `uniqueEdges` of a ``Mesh``.
 - ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:)`` - This builder takes a 2D ``Path`` and rotates it around the Y-axis to create a rotationally symmetrical ``Mesh``. This is an easy way to create complex shapes like candlesticks, chess pieces, rocket ships, etc.
 - ``Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)`` - This builder fills a ``Path`` and extrudes it along its axis, or another path. This can turn a circular path into a tube, or a square into a cube etc.
 - ``Mesh/loft(_:faces:material:)`` - This builder is similar to ``Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)``, but takes multiple ``Path`` instances and joins them. The sequence of ``Path`` instances do not need to be the same shape, but must all have the same number of points and subpaths. To work correctly, each ``Path`` must be pre-positioned in 3D space so they do not all lie on the same plane.
-- ``Mesh/convexHull(of:material:)-4hvi3`` - Similar the the ``Mesh/loft(_:faces:material:)`` builder, this method can form a Mesh by wrapping a skin around one or more ``Path`` instances. But unlike the other builders, in addition to paths you can also form a convex hull around a collection of meshes, polygons, vertices or points.
+- ``Mesh/convexHull(of:material:isCancelled:)-(Collection<Vector>,_,_)`` - Similar the the ``Mesh/loft(_:faces:material:)`` builder, this method can form a Mesh by wrapping a skin around one or more ``Path`` instances. But unlike the other builders, in addition to paths you can also form a convex hull around a collection of meshes, polygons, vertices or points.
 
 ### Curves
 
@@ -82,8 +82,10 @@ The following CSG operations are defined as methods on the ``Mesh`` type:
 - ``Mesh/union(_:isCancelled:)-swift.method`` - Combines two intersecting `Mesh`es, removing internal faces and leaving only the outer shell around both shapes (logical OR).
 - ``Mesh/intersection(_:isCancelled:)-swift.method`` - Returns a single ``Mesh`` representing the common volume of two intersecting ``Mesh``es (logical AND).
 - ``Mesh/stencil(_:isCancelled:)-swift.method`` - This effectively "paints" part of one ``Mesh`` with the material from another.
+- ``Mesh/convexHull(with:isCancelled:)-swift.method`` - This creates a convex hull around one or more meshes.
+- ``Mesh/minowskiSum(with:isCancelled:)-swift.method`` - This traces the edges of one mesh with another.
 
-All CSG operations require ``Mesh``es that are "watertight", that is they have no holes in their surface. 
+Most CSG operations require ``Mesh``es that are "watertight", that is they have no holes in their surface. 
 Using a CSG operation on a mesh that isn't sealed may result in unexpected results.
 
 ### Text

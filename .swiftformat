@@ -18,4 +18,10 @@
 # rules
 
 --lintonly unusedArguments
---enable isEmpty, docComments
+--lintonly unusedPrivateDeclarations
+--enable isEmpty
+--enable docComments
+--enable throwingTests
+--enable redundantProperty
+--enable redundantEquatable
+--enable redundantMemberwiseInit

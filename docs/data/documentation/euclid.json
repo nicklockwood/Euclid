@@ -186,10 +186,20 @@
       "title" : "Protocols"
     },
     {
+      "anchor" : "Structures",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/STLBinaryOptions",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/STLTextOptions"
+      ],
+      "title" : "Structures"
+    },
+    {
       "anchor" : "Enumerations",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparison"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparison",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/STLFormat"
       ],
       "title" : "Enumerations"
     }
@@ -827,6 +837,108 @@
   "title" : "Rotation",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/STLBinaryOptions": {
+  "abstract" : [
+    {
+      "text" : "Configuration options for binary STL export.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "STLBinaryOptions"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/STLBinaryOptions",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "STLBinaryOptions"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "STLBinaryOptions",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/stlbinaryoptions"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/STLFormat": {
+  "abstract" : [
+    {
+      "text" : "Configuration for exported STL file.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "STLFormat"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/STLFormat",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "STLFormat"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "STLFormat",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/stlformat"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/STLTextOptions": {
+  "abstract" : [
+    {
+      "text" : "Configuration options for text\/ASCII STL export.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "STLTextOptions"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/STLTextOptions",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "STLTextOptions"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "STLTextOptions",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/stltextoptions"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform": {
   "abstract" : [

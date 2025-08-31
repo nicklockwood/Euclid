@@ -41,7 +41,9 @@ public extension Polygon {
     }
 
     /// Clip polygon to the specified mesh
-    /// - Parameter mesh: The ``Mesh``  to clip the polygon to.
+    /// - Parameters:
+    ///   - mesh: The ``Mesh``  to clip the polygon to.
+    ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: An array of polygon fragments that lie outside the Mesh.
     func clipped(to mesh: Mesh, isCancelled: CancellationHandler? = nil) -> [Polygon] {
         guard bounds.intersects(mesh.bounds) else {
