@@ -344,6 +344,7 @@ public extension Mesh {
             unchecked: .arc(radius: radius, segments: stacks),
             slices: slices,
             poleDetail: poleDetail,
+            addDetailForFlatPoles: false,
             faces: faces,
             wrapMode: wrapMode,
             material: material,
@@ -626,13 +627,14 @@ public extension Mesh {
         }
 
         let polygons = shape.closed().facePolygons(material: material)
+        let isConvex = polygons.count == 1 && polygons[0].isConvex
         switch faces {
         case .front:
             return Mesh(
                 unchecked: polygons,
                 bounds: nil,
                 bsp: nil,
-                isConvex: false,
+                isConvex: isConvex, // A single polygon counts as convex
                 isWatertight: false,
                 submeshes: []
             )
@@ -641,7 +643,7 @@ public extension Mesh {
                 unchecked: polygons.inverted(),
                 bounds: nil,
                 bsp: nil,
-                isConvex: false,
+                isConvex: isConvex, // A single polygon counts as convex
                 isWatertight: false,
                 submeshes: []
             )
@@ -650,7 +652,7 @@ public extension Mesh {
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil,
                 bsp: nil,
-                isConvex: polygons.count == 1 && polygons[0].isConvex,
+                isConvex: isConvex,
                 isWatertight: true,
                 submeshes: []
             )
@@ -910,12 +912,12 @@ private extension Mesh {
 
     static func lathe(
         unchecked profile: Path,
-        slices: Int = 16,
-        poleDetail: Int = 0,
-        addDetailForFlatPoles: Bool = false,
-        faces: Faces = .default,
-        wrapMode: WrapMode = .default,
-        material: Material? = nil,
+        slices: Int,
+        poleDetail: Int,
+        addDetailForFlatPoles: Bool,
+        faces: Faces,
+        wrapMode: WrapMode,
+        material: Material?,
         isConvex: Bool,
         isWatertight: Bool?
     ) -> Mesh {

@@ -325,7 +325,7 @@ public extension Mesh {
             bounds: bounds,
             bsp: nil, // TODO: Would it be safe to keep this?
             isConvex: isKnownConvex,
-            isWatertight: nil,
+            isWatertight: isWatertight,
             submeshes: submeshesIfEmpty
         )
     }
@@ -373,7 +373,7 @@ public extension Mesh {
     ) -> Mesh {
         var best: Mesh?
         var bestIndex: Int?
-        for (i, mesh) in meshes.enumerated() where mesh.isKnownConvex {
+        for (i, mesh) in meshes.enumerated() where mesh.isKnownConvex && mesh.isWatertight {
             if best?.polygons.count ?? 0 > mesh.polygons.count {
                 continue
             }
@@ -500,16 +500,16 @@ public extension Mesh {
                 Mesh(
                     unchecked: front,
                     bounds: nil,
-                    bsp: nil,
-                    isConvex: false,
+                    bsp: nil, // TODO: can we compute this cheaply?
+                    isConvex: isKnownConvex,
                     isWatertight: nil,
                     submeshes: nil
                 ),
                 Mesh(
                     unchecked: back,
                     bounds: nil,
-                    bsp: nil,
-                    isConvex: false,
+                    bsp: nil, // TODO: can we compute this cheaply?
+                    isConvex: isKnownConvex,
                     isWatertight: nil,
                     submeshes: nil
                 )
@@ -545,8 +545,8 @@ public extension Mesh {
             let mesh = Mesh(
                 unchecked: front,
                 bounds: nil,
-                bsp: nil,
-                isConvex: false,
+                bsp: nil, // TODO: can we compute this cheaply?
+                isConvex: isKnownConvex,
                 isWatertight: nil,
                 submeshes: isKnownConvex ? submeshesIfEmpty : nil
             )
@@ -576,13 +576,13 @@ public extension Mesh {
             .rotated(by: rotationBetweenNormalizedVectors(.unitZ, -plane.normal))
             .translated(by: plane.normal * plane.w)
             // Clip rect
+            let isCancelled: CancellationHandler = { false }
             return Mesh(
-                unchecked: mesh.polygons + BSP(self) { false }
-                    .clip([rect], .lessThanEqual) { false },
+                unchecked: mesh.polygons + BSP(self, isCancelled).clip([rect], .lessThanEqual, isCancelled),
                 bounds: nil,
                 bsp: nil,
                 isConvex: isKnownConvex,
-                isWatertight: watertightIfSet,
+                isWatertight: isWatertight,
                 submeshes: isKnownConvex ? submeshesIfEmpty : nil
             )
         }
@@ -737,6 +737,7 @@ private extension Mesh {
         _ isCancelled: CancellationHandler
     ) -> Mesh {
         assert(startingMesh?.isKnownConvex != false)
+        assert(startingMesh?.isWatertight != false)
         var polygons = startingMesh?.polygons ?? []
         var verticesByPosition = [Vector: [(faceNormal: Vector, Vertex)]]()
         for p in polygonsToAdd + polygons {
@@ -773,7 +774,7 @@ private extension Mesh {
             bounds: bounds,
             bsp: nil,
             isConvex: true,
-            isWatertight: nil,
+            isWatertight: true,
             submeshes: []
         )
     }

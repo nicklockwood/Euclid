@@ -110,7 +110,7 @@ func triangulateVertices(
         return [Polygon(
             unchecked: vertices,
             plane: plane,
-            isConvex: isConvex,
+            isConvex: true,
             sanitizeNormals: sanitizeNormals,
             material: material,
             id: id

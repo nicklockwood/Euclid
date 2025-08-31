@@ -66,9 +66,9 @@ public extension Polygon {
     func reflected(along plane: Plane) -> Polygon {
         Polygon(
             unchecked: vertices.inverted().map { $0.reflected(along: plane) },
-            plane: nil,
-            isConvex: nil,
-            sanitizeNormals: true,
+            plane: nil, // TODO: can we compute this cheaply?
+            isConvex: isConvex,
+            sanitizeNormals: false,
             material: material,
             id: id
         )

@@ -54,9 +54,10 @@ extension Mesh: CustomDebugStringConvertible {
 
     public var customMirror: Mirror {
         Mirror(self, children: [
-            "bounds": storage.boundsIfSet as Any,
-            "isWatertight": storage.watertightIfSet as Any,
-            "isKnownConvex": isKnownConvex,
+            "bounds": storage.boundsIfSet.map { "\($0)" } ?? "unset",
+            "isWatertight": storage.watertightIfSet.map { "\($0)" } ?? "unset",
+            "isKnownConvex": storage.isKnownConvex,
+            "bsp": storage.bspIfSet == nil ? "set" : "unset",
         ], displayStyle: .struct)
     }
 }
@@ -313,7 +314,7 @@ public extension Mesh {
             bounds: boundsIfSet,
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
-            isWatertight: nil, // TODO: fix triangulate() then see if this is fixed
+            isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -457,7 +458,7 @@ extension Mesh {
             polygons: polygons,
             bounds: bounds,
             bsp: bsp,
-            isConvex: isConvex,
+            isKnownConvex: isConvex,
             isWatertight: isWatertight,
             submeshes: submeshes
         )
@@ -467,11 +468,16 @@ extension Mesh {
         storage.bsp(isCancelled: isCancelled)
     }
 
+    func isConvex(isCancelled: CancellationHandler = { false }) -> Bool {
+        storage.isConvex(isCancelled: isCancelled)
+    }
+
     var boundsIfSet: Bounds? { storage.boundsIfSet }
     var bspIfSet: BSP? { storage.bspIfSet }
     var watertightIfSet: Bool? { storage.watertightIfSet }
-    var isKnownConvex: Bool { storage.isConvex }
-    /// Note: we don't expose submeshesIfSet because it's unsafe to reuse
+    /// > Note: a mesh can be convex without being watertight
+    var isKnownConvex: Bool { storage.isKnownConvex }
+    /// > Note: we don't expose submeshesIfSet because it's unsafe to reuse
     var submeshesIfEmpty: [Mesh]? {
         storage.submeshesIfSet.flatMap { $0.isEmpty ? [] : nil }
     }
@@ -480,14 +486,15 @@ extension Mesh {
 private extension Mesh {
     final class Storage: Hashable, Bounded, @unchecked Sendable {
         let polygons: [Polygon]
-        let isConvex: Bool
         private let bspLock = NSLock()
+        private let watertightLock = NSLock()
+        private let submeshesLock = NSLock()
 
         static let empty = Storage(
             polygons: [],
             bounds: .empty,
             bsp: nil,
-            isConvex: true,
+            isKnownConvex: true,
             isWatertight: true,
             submeshes: []
         )
@@ -515,15 +522,24 @@ private extension Mesh {
             return boundsIfSet!
         }
 
+        private(set) var isKnownConvex: Bool
+        func isConvex(isCancelled: CancellationHandler = { false }) -> Bool {
+            if !isKnownConvex {
+                let isConvex = bsp(isCancelled: isCancelled).isConvex
+                if isCancelled() { return isConvex }
+                isKnownConvex = isConvex
+            }
+            return isKnownConvex
+        }
+
         private(set) var bspIfSet: BSP?
         func bsp(isCancelled: CancellationHandler = { false }) -> BSP {
             bspLock.lock()
             if bspIfSet == nil {
-                bspIfSet = BSP(
-                    unchecked: polygons,
-                    isConvex: isConvex,
-                    isCancelled
-                )
+                let bsp = BSP(unchecked: polygons, isKnownConvex: isKnownConvex, isCancelled)
+                if isCancelled() { return bsp }
+                bspIfSet = bsp
+                isKnownConvex = bsp.isConvex
             }
             bspLock.unlock()
             return bspIfSet!
@@ -531,18 +547,22 @@ private extension Mesh {
 
         private(set) var watertightIfSet: Bool?
         var isWatertight: Bool {
+            watertightLock.lock()
             if watertightIfSet == nil {
                 watertightIfSet = polygons.areWatertight
             }
+            watertightLock.unlock()
             return watertightIfSet!
         }
 
         private(set) var submeshesIfSet: [Mesh]?
         var submeshes: [Mesh] {
+            submeshesLock.lock()
             if submeshesIfSet == nil {
-                let groups = isConvex ? [] : polygons.groupedBySubmesh()
+                let groups = isKnownConvex ? [] : polygons.groupedBySubmesh()
                 submeshesIfSet = groups.count <= 1 ? [] : groups.map(Mesh.init)
             }
+            submeshesLock.unlock()
             return submeshesIfSet.map {
                 $0.isEmpty ? [Mesh(storage: self)] : $0
             } ?? []
@@ -560,12 +580,12 @@ private extension Mesh {
             polygons: [Polygon],
             bounds: Bounds?,
             bsp: BSP?,
-            isConvex: Bool,
+            isKnownConvex: Bool,
             isWatertight: Bool?,
             submeshes: [Mesh]?
         ) {
             assert(isWatertight == nil || isWatertight == polygons.areWatertight)
-            assert(!isConvex || polygons.groupedBySubmesh().count <= 1)
+            assert(!isKnownConvex || polygons.groupedBySubmesh().count <= 1)
             let submeshes: [Mesh]? = submeshes.map { submeshes -> [Mesh] in
                 guard submeshes.count > 1 else {
                     return []
@@ -577,14 +597,14 @@ private extension Mesh {
                     }
                 }
             }
-            assert(!isConvex || submeshes?.count ?? 0 <= 1)
-            assert(bsp?.isConvex ?? isConvex == isConvex)
+            assert(!isKnownConvex || submeshes?.count ?? 0 <= 1)
+            assert(bsp?.isConvex ?? isKnownConvex == isKnownConvex)
             self.polygons = polygons
             self.boundsIfSet = polygons.isEmpty ? .empty : bounds
             self.bspIfSet = bsp
-            self.isConvex = bsp?.isConvex ?? isConvex || polygons.isEmpty
+            self.isKnownConvex = polygons.isEmpty || bsp?.isConvex ?? isKnownConvex
             self.watertightIfSet = polygons.isEmpty ? true : isWatertight
-            self.submeshesIfSet = submeshes ?? (isConvex ? [] : nil)
+            self.submeshesIfSet = submeshes ?? (isKnownConvex ? [] : nil)
         }
     }
 }

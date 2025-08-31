@@ -120,8 +120,8 @@ class MeshLoftTests: XCTestCase {
         XCTAssertFalse(loft2.polygons.areWatertight)
         XCTAssertEqual(loft2.polygons.count, 1)
         XCTAssertEqual(loft2.volume, 0)
-        XCTAssertFalse(loft2.isActuallyConvex)
-        XCTAssertFalse(loft2.isKnownConvex)
+        XCTAssert(loft2.isActuallyConvex)
+        XCTAssert(loft2.isKnownConvex)
     }
 
     func testLoftOffsetOpenPaths() {
@@ -143,7 +143,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssertFalse(loft2.isWatertight)
         XCTAssertFalse(loft2.polygons.areWatertight)
         XCTAssertEqual(loft2.volume, 0)
-        XCTAssertFalse(loft2.isActuallyConvex)
+        XCTAssertTrue(loft2.isActuallyConvex)
         XCTAssertFalse(loft2.isKnownConvex)
     }
 

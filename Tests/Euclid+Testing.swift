@@ -75,22 +75,7 @@ extension Euclid.Polygon {
 
 extension Mesh {
     var isActuallyConvex: Bool {
-        guard BSP(Mesh(polygons), { false }).isConvex else {
-            return false
-        }
-        guard let plane = polygons.first?.plane else {
-            return true
-        }
-        for polygon in polygons {
-            if !polygon.plane.isApproximatelyEqual(to: plane),
-               !polygon.plane.isApproximatelyEqual(to: plane.inverted())
-            {
-                return true
-            }
-        }
-        // All polygons are planar
-        let groups = polygons.groupedByPlane()
-        return groups.count == 2
+        Mesh(polygons).isConvex()
     }
 }
 

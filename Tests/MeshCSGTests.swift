@@ -595,4 +595,27 @@ class MeshCSGTests: XCTestCase {
         let d = Mesh.cube().translated(by: [4, 0, 0])
         XCTAssertEqual(c.union(d).submeshes.count, 3)
     }
+
+    // MARK: Convexity
+
+    func testConvexityFalsePositive() {
+        let square = Mesh.fill(.square(), faces: .front)
+        let square2 = Mesh.fill(.square(), faces: .front).translated(by: -.unitZ)
+        let mesh = square.merge(square2)
+        XCTAssertFalse(mesh.isWatertight)
+        let bsp = BSP(mesh) { false }
+        XCTAssertFalse(bsp.isConvex)
+    }
+
+    func testConvexityFalsePositive2() {
+        let cube = Mesh.cube()
+        var polygons = cube.polygons
+        // This will be the last polygon after
+        // BSP's internal shuffle is performed
+        polygons[1] = polygons[1].inverted()
+        let mesh = Mesh(polygons)
+        XCTAssertTrue(mesh.isWatertight)
+        let bsp = BSP(mesh) { false }
+        XCTAssertFalse(bsp.isConvex)
+    }
 }

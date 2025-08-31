@@ -216,7 +216,7 @@ extension Polygon: Transformable {
         return Polygon(
             unchecked: isFlippedScale(scale) ? vertices.reversed() : vertices,
             normal: plane.normal.scaled(by: vn).normalized(),
-            isConvex: nil,
+            isConvex: isConvex,
             sanitizeNormals: false,
             material: material
         )

@@ -50,9 +50,9 @@ extension BSP {
         self = mesh.bsp(isCancelled: isCancelled)
     }
 
-    init(unchecked polygons: [Polygon], isConvex: Bool, _ isCancelled: CancellationHandler) {
+    init(unchecked polygons: [Polygon], isKnownConvex: Bool, _ isCancelled: CancellationHandler) {
         self.nodes = [BSPNode]()
-        self.isConvex = isConvex
+        self.isConvex = isKnownConvex
         initialize(polygons, isCancelled)
     }
 
@@ -196,6 +196,7 @@ private extension BSP {
 
     mutating func initialize(_ polygons: [Polygon], _ isCancelled: CancellationHandler) {
         guard !polygons.isEmpty else {
+            isConvex = true
             return
         }
 
@@ -269,6 +270,10 @@ private extension BSP {
                 }
                 stack.append((next, back))
             }
+        }
+        if isActuallyConvex {
+            // Check that last node wasn't coincidentally the only backface
+            isActuallyConvex = polygons.allSatisfy { $0.compare(with: nodes.last!.plane) != .front }
         }
         isConvex = isActuallyConvex
     }
