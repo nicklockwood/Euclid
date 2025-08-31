@@ -747,24 +747,27 @@ private extension Mesh {
         }
         var polygonsToAdd = polygonsToAdd
         if polygons.isEmpty, !polygonsToAdd.isEmpty {
-            let p: Polygon
+            let polygon: Polygon
             if let index = polygonsToAdd.lastIndex(where: { $0.isConvex }) {
-                p = polygonsToAdd.remove(at: index)
+                polygon = polygonsToAdd.remove(at: index)
             } else {
                 let potentiallyNonConvexPolygon = polygonsToAdd.removeLast()
                 var convexPolygons = potentiallyNonConvexPolygon.tessellate()
-                p = convexPolygons.popLast() ?? potentiallyNonConvexPolygon
+                polygon = convexPolygons.popLast() ?? potentiallyNonConvexPolygon
                 polygonsToAdd += convexPolygons
-                assert(p.isConvex)
+                assert(polygon.isConvex)
             }
-            polygons += [p, p.inverted()]
+            polygons += [polygon, polygon.inverted()]
         }
         // Add remaining polygons
-        for p in polygonsToAdd where !isCancelled() {
-            for vertex in p.vertices {
+        // Note: no need to use a VertexSet here as vertex positions should already
+        // be unique, but perhaps there is a opportunity to merge some things?
+        var pointSet = Set<Vector>()
+        for polygon in polygonsToAdd where !isCancelled() {
+            for vertex in polygon.vertices where pointSet.insert(vertex.position).inserted {
                 polygons.addPoint(
                     vertex.position,
-                    material: p.material,
+                    material: polygon.material,
                     verticesByPosition: verticesByPosition
                 )
             }
@@ -777,6 +780,91 @@ private extension Mesh {
             isWatertight: true,
             submeshes: []
         )
+    }
+}
+
+extension [Polygon] {
+    mutating func addPoint(
+        _ point: Vector,
+        material: Polygon.Material?,
+        verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]]
+    ) {
+        var facing = [Polygon](), coplanar = [Vector: [Polygon]]()
+        loop: for (i, polygon) in enumerated().reversed() {
+            switch point.compare(with: polygon.plane) {
+            case .front:
+                facing.append(polygon)
+                remove(at: i)
+            case .coplanar where facing.isEmpty:
+                // TODO: improve intersects implementation so both checks aren't needed
+                if polygon.vertices.contains(where: { $0.position == point }) || polygon.intersects(point) {
+                    // if point is inside an existing polygon we can skip it
+                    return
+                }
+                coplanar[polygon.plane.normal, default: []].append(polygon)
+            case .back, .spanning, .coplanar:
+                continue
+            }
+        }
+        // Create triangles from point to edges
+        func addTriangles(with edges: [LineSegment], faceNormal: Vector?) {
+            for edge in edges {
+                guard let triangle = Polygon(
+                    points: [point, edge.start, edge.end],
+                    verticesByPosition: verticesByPosition,
+                    faceNormal: faceNormal,
+                    material: material
+                ) else {
+                    assertionFailure()
+                    continue
+                }
+                append(triangle)
+            }
+        }
+        // Extend polygons to include point
+        guard facing.isEmpty else {
+            addTriangles(with: facing.boundingEdges, faceNormal: nil)
+            return
+        }
+        assert(coplanar.count <= 2)
+        for (faceNormal, polygons) in coplanar {
+            guard let polygon = polygons.first else { continue }
+            addTriangles(with: polygons.boundingEdges.compactMap {
+                let edgePlane = polygon.edgePlane(for: $0)
+                if point.compare(with: edgePlane) == .front {
+                    return $0.inverted()
+                }
+                return nil
+            }, faceNormal: faceNormal)
+        }
+    }
+}
+
+extension Polygon {
+    /// Create polygon from points with nearest matches in a vertex collection
+    init?(
+        points: some Collection<Vector>,
+        verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]],
+        faceNormal: Vector?,
+        material: Polygon.Material?
+    ) {
+        let faceNormal = faceNormal ?? faceNormalForPoints(Array(points))
+        let vertices = points.map { p -> Vertex in
+            let matches = verticesByPosition[p] ?? []
+            var best: Vertex?, bestDot = 1.0
+            for (n, v) in matches {
+                let dot = abs(1 - n.dot(faceNormal))
+                if dot <= bestDot {
+                    bestDot = dot
+                    best = v
+                }
+            }
+            if bestDot == 1 {
+                best?.normal = .zero
+            }
+            return best ?? Vertex(p)
+        }
+        self.init(vertices, material: material)
     }
 }
 

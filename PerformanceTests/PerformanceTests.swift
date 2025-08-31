@@ -19,6 +19,16 @@ final class PerformanceTests: XCTestCase {
             XCTAssertFalse(c.isEmpty)
         }
     }
+
+    func testConvexHullOfMeshes() throws {
+        let detail = 64
+        let a = Mesh.sphere(slices: detail)
+        let b = a.translated(by: [1, 0, 0])
+        measure {
+            let c = a.withoutOptimizations().convexHull(with: b.withoutOptimizations())
+            XCTAssertFalse(c.isEmpty)
+        }
+    }
 }
 
 private extension Mesh {

@@ -620,6 +620,24 @@ extension Collection<Polygon> {
         return edges
     }
 
+    // TODO: can this be merged with the method above?
+    // Returns all edges that exist at the boundary of a hole.
+    var boundingEdges: [LineSegment] {
+        var edges = [LineSegment]()
+        for polygon in self {
+            for edge in polygon.orderedEdges {
+                if let index = edges.firstIndex(where: {
+                    $0.start == edge.end && $0.end == edge.start
+                }) {
+                    edges.remove(at: index)
+                } else {
+                    edges.append(edge)
+                }
+            }
+        }
+        return edges
+    }
+
     /// Insert missing vertices needed to prevent hairline cracks.
     func insertingEdgeVertices(with holeEdges: Set<LineSegment>) -> [Polygon] {
         var points = Set<Vector>()
@@ -923,107 +941,7 @@ extension MutableCollection where Element == Polygon, Index == Int {
     }
 }
 
-extension [Polygon] {
-    mutating func addPoint(
-        _ point: Vector,
-        material: Polygon.Material?,
-        verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]]
-    ) {
-        var facing = [Polygon](), coplanar = [Vector: [Polygon]]()
-        loop: for (i, polygon) in enumerated().reversed() {
-            switch point.compare(with: polygon.plane) {
-            case .front:
-                facing.append(polygon)
-                remove(at: i)
-            case .coplanar:
-                if polygon.vertices.contains(where: { $0.position == point }) {
-                    return
-                }
-                if polygon.intersects(point) {
-                    coplanar[polygon.plane.normal] = [polygon]
-                    break loop
-                }
-                coplanar[polygon.plane.normal, default: []].append(polygon)
-            case .back, .spanning:
-                continue
-            }
-        }
-        // Find bounding edges
-        func boundingEdges(in polygons: [Polygon]) -> [LineSegment] {
-            var edges = [LineSegment]()
-            for polygon in polygons {
-                for edge in polygon.orderedEdges {
-                    if let index = edges.firstIndex(where: {
-                        $0.start == edge.end && $0.end == edge.start
-                    }) {
-                        edges.remove(at: index)
-                    } else {
-                        edges.append(edge)
-                    }
-                }
-            }
-            return edges
-        }
-        // Create triangles from point to edges
-        func addTriangles(with edges: [LineSegment], faceNormal: Vector?) {
-            for edge in edges {
-                guard let triangle = Polygon(
-                    points: [point, edge.start, edge.end],
-                    verticesByPosition: verticesByPosition,
-                    faceNormal: faceNormal,
-                    material: material
-                ) else {
-                    assertionFailure()
-                    continue
-                }
-                append(triangle)
-            }
-        }
-        // Extend polygons to include point
-        guard facing.isEmpty else {
-            addTriangles(with: boundingEdges(in: facing), faceNormal: nil)
-            return
-        }
-        for (faceNormal, polygons) in coplanar {
-            guard let polygon = polygons.first else { continue }
-            addTriangles(with: boundingEdges(in: polygons).compactMap {
-                let edgePlane = polygon.edgePlane(for: $0)
-                if point.compare(with: edgePlane) == .front {
-                    return $0.inverted()
-                }
-                return nil
-            }, faceNormal: faceNormal)
-        }
-    }
-}
-
 extension Polygon {
-    /// Create polygon from points with nearest matches in a vertex collection
-    init?(
-        points: some Collection<Vector>,
-        verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]],
-        faceNormal: Vector?,
-        material: Polygon.Material?
-    ) {
-        let faceNormal = faceNormal ?? faceNormalForPoints(Array(points))
-        let vertices = points.map { p -> Vertex in
-            let matches = verticesByPosition[p] ?? []
-            var best: Vertex?, bestDot = 1.0
-            for (n, v) in matches {
-                let dot = abs(1 - n.dot(faceNormal))
-                if dot <= bestDot {
-                    bestDot = dot
-                    best = v
-                }
-            }
-            if bestDot == 1 {
-                best?.normal = .zero
-            }
-            return best ?? Vertex(p)
-        }
-        self.init(vertices, material: material)
-    }
-
     /// Create polygon from vertices and face normal without performing validation
     /// Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
     init(
