@@ -168,10 +168,7 @@ extension Polygon: PlaneComparable {
     }
 
     public func compare(with plane: Plane) -> PlaneComparison {
-        if let distance = self.plane.signedPerpendicularDistance(from: plane) {
-            return .init(signedDistance: distance)
-        }
-        return vertices.compare(with: plane)
+        vertices.compare(with: plane)
     }
 }
 
