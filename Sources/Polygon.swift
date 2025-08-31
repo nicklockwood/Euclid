@@ -78,12 +78,25 @@ extension Polygon: Codable {
                 )
             }
             plane = try container.decodeIfPresent(Plane.self, forKey: .plane)
+            if let plane, !vertices.allSatisfy(plane.intersects) {
+                throw DecodingError.dataCorruptedError(
+                    forKey: .plane,
+                    in: container,
+                    debugDescription: "Plane is invalid"
+                )
+            }
             material = try container.decodeIfPresent(CodableMaterial.self, forKey: .material)?.value
         } else {
             var container = try decoder.unkeyedContainer()
             if let values = try? container.decode([Vertex].self) {
                 vertices = values
-                plane = try container.decode(Plane.self)
+                plane = try container.decodeIfPresent(Plane.self)
+                if let plane, !vertices.allSatisfy(plane.intersects) {
+                    throw DecodingError.dataCorruptedError(
+                        in: container,
+                        debugDescription: "Plane is invalid"
+                    )
+                }
                 material = try container.decodeIfPresent(CodableMaterial.self)?.value
             } else {
                 let container = try decoder.singleValueContainer()
@@ -1046,6 +1059,7 @@ extension Polygon {
         assert(isConvex == nil || pointsAreConvex(points) == isConvex)
         assert(sanitizeNormals || vertices.allSatisfy { $0.normal != .zero })
         let plane = plane ?? Plane(unchecked: points)
+        assert(vertices.allSatisfy(plane.intersects))
         let isConvex = isConvex ?? pointsAreConvex(points)
         self.storage = Storage(
             vertices: sanitizeNormals ? vertices.map {

@@ -1284,7 +1284,10 @@ private extension Mesh {
             n1 = -n1
         }
         var invert = false
-        func makePolygon(_ vertices: [Vertex]) -> Polygon {
+        func makePolygon(_ vertices: [Vertex]) -> Polygon? {
+            Polygon(invert ? vertices.reversed() : vertices, material: material)
+        }
+        func makePolygon(_ vertices: Vertex...) -> Polygon {
             Polygon(
                 unchecked: invert ? vertices.reversed() : vertices,
                 plane: nil,
@@ -1344,17 +1347,17 @@ private extension Mesh {
             }
             if vertices.count == 4 {
                 let c = vertices[0], d = vertices[1], b = vertices[2], a = vertices[3]
-                let bcd = makePolygon([b, c, d])
+                let bcd = makePolygon(b, c, d)
                 switch a.position.compare(with: bcd.plane) {
                 case .coplanar, .spanning:
-                    polygons.append(makePolygon([c, d, b, a]))
+                    makePolygon([c, d, b, a]).map { polygons.append($0) }
                 case .back:
-                    polygons += [makePolygon([c, b, a]), bcd]
+                    polygons += [makePolygon(c, b, a), bcd]
                 case .front:
-                    polygons += [makePolygon([c, d, a]), makePolygon([b, a, d])]
+                    polygons += [makePolygon(c, d, a), makePolygon(b, a, d)]
                 }
-            } else {
-                polygons.append(makePolygon(vertices))
+            } else if let polygon = makePolygon(vertices) {
+                polygons.append(polygon)
             }
         }
         var e0 = p0.edgeVertices, e1 = p1.edgeVertices
