@@ -416,6 +416,11 @@ public extension Mesh {
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the Minkowski sum of the input meshes.
     func minkowskiSum(with mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+        if isEmpty {
+            return mesh
+        } else if mesh.isEmpty {
+            return self
+        }
         if mesh.isConvex(isCancelled: isCancelled), mesh.isWatertight {
             let points = Set(mesh.polygons.flatMap { $0.vertices.map(\.position) }).sorted()
             return .convexHull(of: points.map(translated(by:)))

@@ -367,6 +367,78 @@ class MeshCSGTests: XCTestCase {
         XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
+    func testConvexHullOfEightSpheres() {
+        let corners = Set(Mesh.cube().polygons.flatMap(\.vertices).map(\.position)).sorted()
+        XCTAssertEqual(corners.count, 8)
+        let spheres = corners.map { Mesh.sphere().translated(by: $0) }
+        let mesh = Mesh.convexHull(of: spheres)
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.bounds, Bounds(spheres))
+    }
+
+    // MARK: Minkowski Sum
+
+    func testMinkowskiSumOfCubes() {
+        let mesh1 = Mesh.cube()
+        let mesh2 = Mesh.cube()
+        let mesh = mesh1.minowskiSum(with: mesh2)
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh, .minowskiSum(of: [mesh1, mesh2]))
+        XCTAssertEqual(mesh.bounds, mesh1.bounds.minowskiSum(with: mesh2.bounds))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
+    func testMinkowskiSumOfSphereAndCube() {
+        let mesh1 = Mesh.sphere()
+        let mesh2 = Mesh.cube()
+        let mesh = mesh1.minowskiSum(with: mesh2)
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh, .minowskiSum(of: [mesh1, mesh2]))
+        XCTAssertEqual(mesh.bounds, mesh1.bounds.minowskiSum(with: mesh2.bounds))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
+    func testMinkowskiSumOfTranslatedShapes() {
+        let mesh1 = Mesh.sphere().translated(by: .random())
+        let mesh2 = Mesh.cube().translated(by: .random())
+        let mesh = mesh1.minowskiSum(with: mesh2)
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh, .minowskiSum(of: [mesh1, mesh2]))
+        XCTAssertEqual(mesh.bounds, mesh1.bounds.minowskiSum(with: mesh2.bounds))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
+    func testMinkowskiSumOfTransformedShaped() {
+        let mesh1 = Mesh.cube().transformed(by: .random())
+        let mesh2 = Mesh.sphere().transformed(by: .random())
+        let mesh = mesh1.minowskiSum(with: mesh2)
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh, .minowskiSum(of: [mesh1, mesh2]))
+        XCTAssertEqual(mesh.bounds, mesh1.bounds.minowskiSum(with: mesh2.bounds))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
+    func testMinkowskiSumWithEmptyMeshes() {
+        let mesh = Mesh.cube().translated(by: .random())
+        XCTAssertEqual(Mesh.empty.minowskiSum(with: mesh), mesh)
+        XCTAssertEqual(mesh.minowskiSum(with: .empty), mesh)
+    }
+
     // MARK: Planar subtraction
 
     func testSubtractCoincidingSquares() {
