@@ -223,21 +223,22 @@ func triangulateVertices(
 extension [Vector] {
     /// Magnitude is area, direction is normal
     var vectorArea: Vector {
-        guard var a = last else {
+        guard count > 2, let a = first else {
             return .zero
         }
-        // Newell's algorithm
-        return reduce(.zero) { normal, b in
-            defer { a = b }
-            return normal + a.cross(b)
+        var ab = self[1] - a
+        return dropFirst(2).reduce(.zero) { area, c in
+            let ac = c - a
+            defer { ab = ac }
+            return area + ab.cross(ac)
         } / 2
     }
 
     var signedVolume: Double {
-        guard count > 2 else {
+        guard count > 2, let a = first else {
             return 0
         }
-        var a = self[0], b = self[1]
+        var b = self[1]
         return dropFirst(2).reduce(0) { volume, c in
             defer { b = c }
             return volume + a.dot(b.cross(c))
@@ -403,16 +404,18 @@ func faceNormalForPoints(_ points: [Vector]) -> Vector {
         return normal
     }
 
-    // If vectorArea is zero, we can't use it to calculate normal
+    // If vectorArea is zero or near-zero, normal will not be reliable
     // Instead we'll use a modified version of Newell's method
-    if var a = points.first, points.count > 2 {
-        let vectorArea = points.dropFirst().reduce(Vector.zero) { normal, b in
-            defer { a = b }
-            let cross = a.cross(b)
-            if normal.dot(cross) < 0 {
-                return normal - cross
+    if points.count > 2, let a = points.first {
+        var ab = points[1] - a
+        let vectorArea: Vector = points.dropFirst(2).reduce(.zero) { area, c in
+            let ac = c - a
+            defer { ab = ac }
+            let cross = ab.cross(ac)
+            if area.dot(cross) < 0 {
+                return area - cross
             } else {
-                return normal + cross
+                return area + cross
             }
         }
         if let normal = vectorArea.direction {

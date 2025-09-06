@@ -231,6 +231,16 @@ class PlaneTests: XCTestCase {
         XCTAssertEqual(plane2.signedDistance(from: plane1.inverted()), 2)
     }
 
+    func testPlaneForNearlyColinearPoints() {
+        let points = [
+            Vector(1.08491958885, 1.0304781148239999, 1.998713339563),
+            Vector(1.08018965849, 1.030469437032, 1.998785005174),
+            Vector(1.07600466518, 1.030461759012, 1.998848414164),
+        ]
+        let plane = Plane(unchecked: points)
+        XCTAssertTrue(points.allSatisfy(plane.intersects))
+    }
+
     func testDeprecatedPointPlaneDistance() {
         let point = Vector(-10, 0, 0)
         let plane = Plane(unchecked: .unitX, w: 0)

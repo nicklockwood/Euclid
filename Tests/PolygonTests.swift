@@ -81,6 +81,15 @@ class PolygonTests: XCTestCase {
         ]))
     }
 
+    func testDegeneratePolygonWithCollinearPoints2() {
+        let polygon = Polygon([
+            [1.08491958885, 1.03, 1.9987],
+            [1.08018965849, 1.03, 1.9987],
+            [1.07600466518, 1.03, 1.9987],
+        ])
+        XCTAssertNil(polygon)
+    }
+
     func testNonDegeneratePolygonWithCollinearPoints() {
         let normal = Vector.unitZ
         XCTAssertNotNil(Polygon([

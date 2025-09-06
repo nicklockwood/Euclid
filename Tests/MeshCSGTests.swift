@@ -61,7 +61,7 @@ class MeshCSGTests: XCTestCase {
         let b = Mesh.sphere(slices: 16)
         let c = a.subtracting(b)
         #if !arch(wasm32)
-        XCTAssertEqual(c.polygons.count, 193)
+        XCTAssertEqual(c.polygons.count, 188)
         #endif
         XCTAssertEqual(c, .difference([a, b]))
     }
@@ -118,7 +118,7 @@ class MeshCSGTests: XCTestCase {
         let b = Mesh.sphere(slices: 16)
         let c = a.symmetricDifference(b)
         #if !arch(wasm32)
-        XCTAssertEqual(c.polygons.count, 327)
+        XCTAssertEqual(c.polygons.count, 322)
         #endif
         XCTAssertEqual(c, .symmetricDifference([a, b]))
     }
@@ -175,7 +175,7 @@ class MeshCSGTests: XCTestCase {
         let b = Mesh.sphere(slices: 16)
         let c = a.union(b)
         #if !arch(wasm32)
-        XCTAssertEqual(c.polygons.count, 241)
+        XCTAssertEqual(c.polygons.count, 236)
         #endif
         XCTAssertEqual(c, .union([a, b]))
     }
