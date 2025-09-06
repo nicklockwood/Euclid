@@ -89,8 +89,8 @@ class LineSegmentCSGTests: XCTestCase {
         let mesh = Mesh.sphere(radius: 2, slices: 16)
         #if !arch(wasm32)
         XCTAssertEqual(line.clipped(to: mesh), [
-            LineSegment(unchecked: [1.0, -2.0, 0], [1.0, -1.6909822162873716, 0]),
-            LineSegment(unchecked: [1.0, 1.6909822162873716, 0], [1.0, 2.0, 0]),
+            LineSegment(unchecked: [1.0, -2.0, 0], [1.0, -1.6909822162873713, 0]),
+            LineSegment(unchecked: [1.0, 1.6909822162873713, 0], [1.0, 2.0, 0]),
         ])
         #endif
     }
@@ -103,12 +103,15 @@ class LineSegmentCSGTests: XCTestCase {
         let mesh = Mesh.sphere()
         #if !arch(wasm32)
         XCTAssertEqual(lines.clipped(to: mesh), [
-            LineSegment(unchecked: [0, 0.5, 0], [3.805313876944449e-17, 0.49999999999999994, 3.805313876944449e-17]),
-            LineSegment(unchecked: [0.34364538374122666, 0.0704432703234667, 0.34364538374122666], [0.4, 0, 0.4]),
-            LineSegment(unchecked: [0.4, 0, 0.4], [0.21471736097962765, 0.0, 0.4463206597550931]),
+            LineSegment(unchecked: [0.4, 0.0, 0.4], [0.30698031713380675, 0.0, 0.42325492071654836]),
+            LineSegment(unchecked: [0.3436453837412266, 0.07044327032346681, 0.3436453837412266], [0.4, 0.0, 0.4]),
             LineSegment(
-                unchecked: [0.34364538374122655, 0.07044327032346687, 0.34364538374122655],
-                [0.34364538374122666, 0.0704432703234667, 0.34364538374122666]
+                unchecked: [0.30698031713380675, 0.0, 0.42325492071654836],
+                [0.3069803171338066, 0.0, 0.4232549207165484]
+            ),
+            LineSegment(
+                unchecked: [0.3069803171338066, 0.0, 0.4232549207165484],
+                [0.21471736097962746, 0.0, 0.44632065975509316]
             ),
         ])
         #endif

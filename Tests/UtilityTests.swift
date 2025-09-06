@@ -216,6 +216,161 @@ class UtilityTests: XCTestCase {
         XCTAssertEqual(result, expected)
     }
 
+    // MARK: vectorArea
+
+    func testAreaOfClockwiseSquare() {
+        let points: [Vector] = [
+            [0, 0],
+            [0, 1],
+            [1, 1],
+            [1, 0],
+        ]
+        XCTAssertEqual(points.vectorArea, -.unitZ)
+    }
+
+    func testAreaOfAnticlockwiseSquare() {
+        let points: [Vector] = [
+            [0, 0],
+            [0, -1],
+            [1, -1],
+            [1, 0],
+        ]
+        XCTAssertEqual(points.vectorArea, .unitZ)
+    }
+
+    func testAreaOfClockwiseTriangle() {
+        let points: [Vector] = [
+            [0, 0],
+            [0, 1],
+            [1, 0],
+        ]
+        XCTAssertEqual(points.vectorArea, [0, 0, -0.5])
+    }
+
+    func testAreaOfAnticlockwiseTriangle() {
+        let points: [Vector] = [
+            [0, 0],
+            [0, -1],
+            [1, 0],
+        ]
+        XCTAssertEqual(points.vectorArea, [0, 0, 0.5])
+    }
+
+    func testAreaOfAnticlockwiseTrapezium() {
+        let points: [Vector] = [
+            [0, 0],
+            [-1, -1],
+            [2, -1],
+            [1, 0],
+        ]
+        XCTAssertEqual(points.vectorArea, [0, 0, 2])
+    }
+
+    func testAreaOfLShapedClockwisePolygon() {
+        let points: [Vector] = [
+            [0, 0],
+            [0, 2],
+            [1, 2],
+            [1, 1],
+            [2, 1],
+            [2, 0],
+        ]
+        XCTAssertEqual(points.vectorArea, [0, 0, -3])
+    }
+
+    func testAreaOfTransformedLShapedClockwisePolygon() {
+        for _ in 0 ..< 10 {
+            let points: [Vector] = [
+                [0, 0],
+                [0, 2],
+                [1, 2],
+                [1, 1],
+                [2, 1],
+                [2, 0],
+            ].transformed(by: .random())
+            XCTAssertEqual(points.vectorArea.length, 3)
+        }
+    }
+
+    func testAreaOfRotatedAnticlockwiseSquare() {
+        for _ in 0 ..< 10 {
+            let points: [Vector] = [
+                [0, 0],
+                [0, -1],
+                [1, -1],
+                [1, 0],
+            ].rotated(by: .random())
+            XCTAssertEqual(points.vectorArea.length, 1)
+        }
+    }
+
+    func testAreaOfFlatClockwiseSquareNotAtOrigin() {
+        let points: [Vector] = [
+            [0, 0, 1],
+            [0, 1, 1],
+            [1, 1, 1],
+            [1, 0, 1],
+        ]
+        XCTAssertEqual(points.vectorArea, -.unitZ)
+    }
+
+    func testAreaOfRotatedAnticlockwiseSquareNotAtOrigin() {
+        for _ in 0 ..< 10 {
+            let points: [Vector] = [
+                [0, 0, 1],
+                [0, -1, 1],
+                [1, -1, 1],
+                [1, 0, 1],
+            ].transformed(by: .random())
+            XCTAssertEqual(points.vectorArea.length, 1)
+        }
+    }
+
+    func testNearCollinearPoints() {
+        let points = [
+            Vector(1.08491958885, 1.0304781148239999, 1.998713339563),
+            Vector(1.08018965849, 1.030469437032, 1.998785005174),
+            Vector(1.07600466518, 1.030461759012, 1.998848414164),
+        ]
+        let (area, normal) = points.vectorArea.lengthAndDirection
+        let ca = points[0] - points[2]
+        let ab = points[1] - points[0]
+        let bc = points[2] - points[1]
+        let n0 = ca.cross(ab).normalized()
+        let n1 = ab.cross(bc).normalized()
+        let n2 = bc.cross(ca).normalized()
+        XCTAssertEqual(n0, n1)
+        XCTAssertEqual(n0, n2)
+        XCTAssertEqual(n0, normal)
+        let ac = points[2] - points[0]
+        let n3 = ab.cross(ac) / 2
+        XCTAssertEqual(n0, n3.normalized())
+        XCTAssertEqual(n3.length, area)
+        XCTAssertEqual(normal, faceNormalForPoints(points))
+    }
+
+    func testAreaEdgeCase() {
+        let points = [
+            Vector(1.1131483498699999, 1.036774574811, 1.998285631061),
+            Vector(1.113483743323, 1.035669689018, 1.9982805493459999),
+            Vector(1.1133381034779999, 1.036258030631, 1.9982827560079999),
+        ]
+        let (area, normal) = points.vectorArea.lengthAndDirection
+        let ca = points[0] - points[2]
+        let ab = points[1] - points[0]
+        let bc = points[2] - points[1]
+        let n0 = ca.cross(ab).normalized()
+        let n1 = ab.cross(bc).normalized()
+        let n2 = bc.cross(ca).normalized()
+        XCTAssertEqual(n0, n1)
+        XCTAssertEqual(n0, n2)
+        XCTAssertEqual(n0, normal)
+        let ac = points[2] - points[0]
+        let n3 = ab.cross(ac) / 2
+        XCTAssertEqual(n0, n3.normalized())
+        XCTAssertEqual(n3.length, area)
+    }
+
     // MARK: faceNormal
 
     func testFaceNormalForZAxisLine() {
@@ -251,6 +406,45 @@ class UtilityTests: XCTestCase {
     func testFaceNormalForHorizontalZeroAreaPolygon() {
         let result = faceNormalForPoints([.zero, .unitX, .unitX / 2])
         XCTAssertEqual(result, .unitZ)
+    }
+
+    func testFaceNormalForPathMatchesPolygon() throws {
+        for _ in 0 ..< 10 {
+            let path = Path.square().transformed(by: .random())
+            let poly = try XCTUnwrap(Polygon(shape: path))
+            let a = faceNormalForPoints(path.points.map(\.position))
+            let b = faceNormalForPoints(poly.vertices.map(\.position))
+            XCTAssertEqual(a, b)
+        }
+    }
+
+    func testFaceNormalForNearlyColinearPoints() {
+        let points = [
+            Vector(1.08491958885, 1.0304781148239999, 1.998713339563),
+            Vector(1.08018965849, 1.030469437032, 1.998785005174),
+            Vector(1.07600466518, 1.030461759012, 1.998848414164),
+        ]
+        let result = faceNormalForPoints(points)
+        let ab = points[1] - points[0]
+        let bc = points[2] - points[1]
+        let ca = points[0] - points[2]
+        let n0 = ab.cross(bc).normalized()
+        let n1 = bc.cross(ca).normalized()
+        let n2 = ca.cross(ab).normalized()
+        XCTAssertEqual(n0, n1)
+        XCTAssertEqual(n1, n2)
+        XCTAssertEqual(result, n1)
+        XCTAssertEqual(result, points.vectorArea.normalized())
+    }
+
+    func testFaceNormalForNearlyColinearPoints2() {
+        let points = [
+            Vector(1.1131483498699999, 1.036774574811, 1.998285631061),
+            Vector(1.113483743323, 1.035669689018, 1.9982805493459999),
+            Vector(1.1133381034779999, 1.036258030631, 1.9982827560079999),
+        ]
+        let result = faceNormalForPoints(points)
+        XCTAssertEqual(result, points.vectorArea.normalized())
     }
 
     // MARK: rotation
