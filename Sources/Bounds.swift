@@ -113,9 +113,15 @@ public extension Bounds {
         self = bounded.bounds
     }
 
-    /// Creates a bounds from a collection of ``Bounded`` objects.
+    /// Creates a bounds from a homogenous collection of ``Bounded`` objects.
     /// - Parameter bounded: A collection of bounded objects.
     init(_ bounded: some Collection<some Bounded>) {
+        self = bounded.reduce(.empty) { $0.union($1.bounds) }
+    }
+
+    /// Creates a bounds from a heterogeneous collection of ``Bounded`` objects.
+    /// - Parameter bounded: A collection of bounded objects.
+    init(_ bounded: some Collection<any Bounded>) {
         self = bounded.reduce(.empty) { $0.union($1.bounds) }
     }
 
