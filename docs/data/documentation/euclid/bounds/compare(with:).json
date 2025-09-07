@@ -224,6 +224,14 @@
     {
       "text" : "An axially-aligned bounding box in 3D space.",
       "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Used for efficient intersection elimination between more complex shapes.",
+      "type" : "text"
     }
   ],
   "fragments" : [

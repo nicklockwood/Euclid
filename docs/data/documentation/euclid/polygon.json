@@ -1903,7 +1903,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/mapVertices(_:)-6evr": {
   "abstract" : [
     {
-      "text" : "Return a copy of the polygon with transformed vertex positions.",
+      "text" : "Return a copy of the polygon with transformed vertices.",
       "type" : "text"
     }
   ],

@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "The bounding box containing the line segment.",
+      "text" : "The bounds of the object.",
       "type" : "text"
     }
   ],
@@ -146,6 +146,14 @@
     {
       "text" : "An axially-aligned bounding box in 3D space.",
       "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Used for efficient intersection elimination between more complex shapes.",
+      "type" : "text"
     }
   ],
   "fragments" : [
@@ -212,7 +220,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/bounds": {
   "abstract" : [
     {
-      "text" : "The bounding box containing the line segment.",
+      "text" : "The bounds of the object.",
       "type" : "text"
     }
   ],

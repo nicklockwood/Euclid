@@ -735,6 +735,11 @@
                 "type" : "property"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/signedvolume",
+                "title" : "var signedVolume: Double",
+                "type" : "property"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/surfacearea",
                 "title" : "var surfaceArea: Double",
                 "type" : "property"
@@ -5076,11 +5081,6 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/bounds\/init(_:)-7uurk",
-                "title" : "init(some Collection<some Bounded>)",
-                "type" : "init"
-              },
-              {
                 "path" : "\/documentation\/euclid\/bounds\/init(_:)-r54o",
                 "title" : "init(some Collection<Bounds>)",
                 "type" : "init"
@@ -5240,8 +5240,18 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/bounds\/init(_:)-4z4uf",
+                "title" : "init(some Collection<any Bounded>)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/bounds\/init(_:)-5bh7b",
                 "title" : "init((min: SCNVector3, max: SCNVector3))",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/bounds\/init(_:)-7uurk",
+                "title" : "init(some Collection<some Bounded>)",
                 "type" : "init"
               },
               {
@@ -5257,6 +5267,20 @@
                 "path" : "\/documentation\/euclid\/bounds\/undirectededges",
                 "title" : "var undirectedEdges: Set<LineSegment>",
                 "type" : "property"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/bounds\/formminowskisum(with:)",
+                "title" : "func formMinowskiSum(with: Bounds)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/bounds\/minowskisum(with:)",
+                "title" : "func minowskiSum(with: Bounds) -> Bounds",
+                "type" : "method"
               },
               {
                 "title" : "Default Implementations",

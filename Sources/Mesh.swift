@@ -156,7 +156,6 @@ public extension Mesh {
 
     /// A Boolean value that indicates whether the mesh is watertight, meaning that every edge is
     /// attached to two polygons (or a multiple of two).
-    ///
     /// > Note: A value of `true` doesn't guarantee that mesh is not self-intersecting or inside-out.
     var isWatertight: Bool {
         storage.isWatertight

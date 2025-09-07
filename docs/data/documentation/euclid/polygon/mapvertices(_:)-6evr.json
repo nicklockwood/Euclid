@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Return a copy of the polygon with transformed vertex positions.",
+      "text" : "Return a copy of the polygon with transformed vertices.",
       "type" : "text"
     }
   ],
@@ -155,6 +155,25 @@
       "kind" : "declarations"
     },
     {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "A closure to be applied to each vertex in the polygon.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "transform"
+        }
+      ]
+    },
+    {
       "content" : [
         {
           "anchor" : "discussion",
@@ -297,7 +316,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/mapVertices(_:)-6evr": {
   "abstract" : [
     {
-      "text" : "Return a copy of the polygon with transformed vertex positions.",
+      "text" : "Return a copy of the polygon with transformed vertices.",
       "type" : "text"
     }
   ],

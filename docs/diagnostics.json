@@ -1,3 +1,14 @@
 [
+  {
+    "notes" : [
 
+    ],
+    "severity" : 2,
+    "source" : "Extensions\/Bounds.md",
+    "start" : {
+      "column" : -2,
+      "line" : 7
+    },
+    "summary" : "'init(_:)-(Collection<Bounded>)' is ambiguous at '\/Euclid\/Bounds'"
+  }
 ]

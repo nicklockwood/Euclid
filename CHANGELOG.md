@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.8.7](https://github.com/nicklockwood/Euclid/releases/tag/0.8.7) (2025-09-07)
+
+- Fixed bug where `convexHull()` created spurious internal polygons
+- Fixed precision issue with face-normal calculations
+- Meshes generated with `minowskiSum()` now have deterministic polygon order
+- Added `Bounds.init(_ some Collection<any Bounded>)`
+- Added `Bounds.minowskiSum()` methods
+- Renamed `Mesh.volume` to `signedVolume`
+
 ## [0.8.6](https://github.com/nicklockwood/Euclid/releases/tag/0.8.6) (2025-08-31)
 
 - Added `Mesh.minowskiSum()` methods

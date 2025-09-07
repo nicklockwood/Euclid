@@ -36,7 +36,6 @@ public protocol Bounded {
 }
 
 extension LineSegment: Bounded {
-    /// The bounding box containing the line segment.
     public var bounds: Bounds { Bounds(start, end) }
 }
 

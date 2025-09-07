@@ -309,7 +309,9 @@ public extension Polygon {
         )
     }
 
-    /// Return a copy of the polygon with transformed vertex positions.
+    /// Return a copy of the polygon with transformed vertices.
+    /// - Parameter transform: A closure to be applied to each vertex in the polygon.
+    ///
     /// > Note: Since altering the vertices can cause the polygon to become degenerate or non-planar
     /// this method returns an array of zero or more polygons constructed from the mapped vertices.
     func mapVertices(_ transform: (Vertex) -> Vertex) -> [Polygon] {
