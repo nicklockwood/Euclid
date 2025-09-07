@@ -20,7 +20,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
         XCTAssertEqual(loft.polygons.count, 4)
-        XCTAssertEqual(loft.volume, 0)
+        XCTAssertEqual(loft.signedVolume, 0)
         XCTAssert(loft.isActuallyConvex)
         XCTAssertFalse(loft.isKnownConvex) // can't determine this yet
 
@@ -28,7 +28,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssert(loft2.isWatertight)
         XCTAssert(loft2.polygons.areWatertight)
         XCTAssertEqual(loft2.polygons.count, loft.polygons.count)
-        XCTAssertEqual(loft2.volume, loft.volume)
+        XCTAssertEqual(loft2.signedVolume, loft.signedVolume)
 
         // Every vertex in the loft should be contained by one of our shapes
         let vertices = loft.polygons.flatMap(\.vertices)
@@ -55,7 +55,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
         XCTAssertEqual(loft.polygons.count, 10)
-        XCTAssertGreaterThan(loft.volume, 0)
+        XCTAssertGreaterThan(loft.signedVolume, 0)
         XCTAssertFalse(loft.isActuallyConvex)
         XCTAssertFalse(loft.isKnownConvex)
 
@@ -63,7 +63,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssert(loft2.isWatertight)
         XCTAssert(loft2.polygons.areWatertight)
         XCTAssertEqual(loft2.polygons.count, loft.polygons.count)
-        XCTAssertEqual(loft2.volume, loft.volume)
+        XCTAssertEqual(loft2.signedVolume, loft.signedVolume)
 
         XCTAssert(loft.polygons.allSatisfy { polygon in
             polygon.vertices.allSatisfy(polygon.plane.intersects)
@@ -89,7 +89,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
         XCTAssertEqual(loft.polygons.count, 18)
-        XCTAssertGreaterThan(loft.volume, 0)
+        XCTAssertGreaterThan(loft.signedVolume, 0)
         XCTAssert(loft.isActuallyConvex)
         XCTAssertFalse(loft.isKnownConvex) // can't determine this yet
 
@@ -97,7 +97,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssert(loft2.isWatertight)
         XCTAssert(loft2.polygons.areWatertight)
         XCTAssertEqual(loft2.polygons.count, loft.polygons.count)
-        XCTAssertEqual(loft2.volume, loft.volume)
+        XCTAssertEqual(loft2.signedVolume, loft.signedVolume)
     }
 
     func testLoftCoincidentClosedPaths() {
@@ -110,7 +110,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
         XCTAssertEqual(loft.polygons.count, 2)
-        XCTAssertEqual(loft.volume, 0)
+        XCTAssertEqual(loft.signedVolume, 0)
         XCTAssert(loft.isActuallyConvex)
         XCTAssert(loft.isKnownConvex)
 
@@ -119,7 +119,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssertFalse(loft2.isWatertight)
         XCTAssertFalse(loft2.polygons.areWatertight)
         XCTAssertEqual(loft2.polygons.count, 1)
-        XCTAssertEqual(loft2.volume, 0)
+        XCTAssertEqual(loft2.signedVolume, 0)
         XCTAssert(loft2.isActuallyConvex)
         XCTAssert(loft2.isKnownConvex)
     }
@@ -134,7 +134,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssertEqual(loft.polygons.count, 2)
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
-        XCTAssertEqual(loft.volume, 0)
+        XCTAssertEqual(loft.signedVolume, 0)
         XCTAssert(loft.isActuallyConvex)
         XCTAssertFalse(loft.isKnownConvex) // can't determine this yet
 
@@ -142,7 +142,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssertEqual(loft2.polygons.count, 1)
         XCTAssertFalse(loft2.isWatertight)
         XCTAssertFalse(loft2.polygons.areWatertight)
-        XCTAssertEqual(loft2.volume, 0)
+        XCTAssertEqual(loft2.signedVolume, 0)
         XCTAssertTrue(loft2.isActuallyConvex)
         XCTAssertFalse(loft2.isKnownConvex)
     }
@@ -157,7 +157,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssertEqual(loft, .empty)
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
-        XCTAssertEqual(loft.volume, 0)
+        XCTAssertEqual(loft.signedVolume, 0)
         XCTAssert(loft.isActuallyConvex)
         XCTAssert(loft.isKnownConvex)
     }
@@ -217,7 +217,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
         XCTAssertEqual(loft.polygons.count, 21)
-        XCTAssertGreaterThan(loft.volume, 0)
+        XCTAssertGreaterThan(loft.signedVolume, 0)
         XCTAssert(loft.isActuallyConvex)
         XCTAssertFalse(loft.isKnownConvex) // can't determine this yet
 
@@ -242,7 +242,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
         XCTAssertEqual(loft.polygons.count, 40)
-        XCTAssertEqual(loft.volume, 0)
+        XCTAssertEqual(loft.signedVolume, 0)
         XCTAssertFalse(loft.isActuallyConvex)
         XCTAssertFalse(loft.isKnownConvex)
 
@@ -250,7 +250,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssertFalse(loft2.isWatertight)
         XCTAssertFalse(loft2.polygons.areWatertight)
         XCTAssertEqual(loft2.polygons.count, 20)
-        XCTAssertNotEqual(loft2.volume, 0) // should be zero, but not reliable for non-watertight shape
+        XCTAssertNotEqual(loft2.signedVolume, 0) // should be zero, but not reliable for non-watertight shape
     }
 
     func testLoftClosedPathToCircle() {
@@ -287,7 +287,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
         XCTAssertEqual(loft.polygons.count, 40)
-        XCTAssertEqual(loft.volume, 0)
+        XCTAssertEqual(loft.signedVolume, 0)
         XCTAssertFalse(loft.isActuallyConvex)
         XCTAssertFalse(loft.isKnownConvex)
 
@@ -295,7 +295,7 @@ class MeshLoftTests: XCTestCase {
         XCTAssertFalse(loft2.isWatertight)
         XCTAssertFalse(loft2.polygons.areWatertight)
         XCTAssertEqual(loft2.polygons.count, 20)
-        XCTAssertGreaterThan(loft2.volume, 0) // should be zero, but not reliable for non-watertight shape
+        XCTAssertGreaterThan(loft2.signedVolume, 0) // should be zero, but not reliable for non-watertight shape
     }
 
     func testLoftClosedToOpenToClosedPath() {

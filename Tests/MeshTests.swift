@@ -222,20 +222,35 @@ class MeshTests: XCTestCase {
     // MARK: surfaceArea
 
     func testCubeArea() {
-        let cube = Mesh.cube()
-        XCTAssertEqual(cube.surfaceArea, 6)
+        let mesh = Mesh.cube()
+        XCTAssertEqual(mesh.surfaceArea, 6)
     }
 
-    // MARK: volume
+    func testSquareArea() {
+        let mesh = Mesh.fill(.square())
+        XCTAssertEqual(mesh.surfaceArea, 2)
+    }
+
+    // MARK: signedVolume
 
     func testCubeVolume() {
-        let cube = Mesh.cube(size: 2)
-        XCTAssertEqual(cube.volume, 8)
+        let mesh = Mesh.cube(size: 2)
+        XCTAssertEqual(mesh.signedVolume, 8)
     }
 
     func testSphereVolume() {
-        let cube = Mesh.sphere(slices: 128, stacks: 64)
-        XCTAssertEqual(cube.volume, (4.0 / 3) * .pi * pow(0.5, 3), accuracy: 0.001)
+        let mesh = Mesh.sphere(slices: 128, stacks: 64)
+        XCTAssertEqual(mesh.signedVolume, (4.0 / 3) * .pi * pow(0.5, 3), accuracy: 0.001)
+    }
+
+    func testSquareVolume() {
+        let mesh = Mesh.fill(.square())
+        XCTAssertEqual(mesh.signedVolume, 0)
+    }
+
+    func testInvertedCubeVolume() {
+        let mesh = Mesh.cube(size: 2).inverted()
+        XCTAssertEqual(mesh.signedVolume, -8)
     }
 
     // MARK: containsPoint

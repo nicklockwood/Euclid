@@ -638,6 +638,16 @@ extension Collection<Polygon> {
         return edges
     }
 
+    /// Returns the combined surface area of all the polygons.
+    var surfaceArea: Double {
+        reduce(0) { $0 + $1.area }
+    }
+
+    /// Returns the sum of the signed volumes of all the polygons.
+    var signedVolume: Double {
+        reduce(0) { $0 + $1.signedVolume }
+    }
+
     /// Insert missing vertices needed to prevent hairline cracks.
     func insertingEdgeVertices(with holeEdges: Set<LineSegment>) -> [Polygon] {
         var points = Set<Vector>()
