@@ -620,8 +620,7 @@ extension Collection<Polygon> {
         return edges
     }
 
-    // TODO: can this be merged with the method above?
-    // Returns all edges that exist at the boundary of a hole.
+    /// Like holeEdges, but also returns the edges of double-sided polygons
     var boundingEdges: [LineSegment] {
         var edges = [LineSegment]()
         for polygon in self {

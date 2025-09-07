@@ -363,7 +363,21 @@ class MeshCSGTests: XCTestCase {
         XCTAssert(mesh.isActuallyConvex)
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.signedVolume, 0)
         XCTAssertEqual(mesh.bounds, triangle1.bounds.union(triangle2.bounds))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
+    func testConvexHullOfOverlappingCoplanarSquares() {
+        let square1 = Polygon(shape: .square())!
+        let square2 = Polygon(shape: .square())!.translated(by: [0.5, 0.5]).rotated(by: .random(in: .xy))
+        let mesh = Mesh.convexHull(of: [square1, square2])
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.signedVolume, 0)
+        XCTAssertEqual(mesh.bounds, square1.bounds.union(square2.bounds))
         XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
@@ -407,9 +421,22 @@ class MeshCSGTests: XCTestCase {
         XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
+    func testMinowskiSumOfCubeAndSphere() {
+        let mesh1 = Mesh.cube()
+        let mesh2 = Mesh.sphere()
+        let mesh = mesh1.minowskiSum(with: mesh2)
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh, .minowskiSum(of: [mesh1, mesh2]))
+        XCTAssertEqual(mesh.bounds, mesh1.bounds.minowskiSum(with: mesh2.bounds))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
     func testMinowskiSumOfTranslatedShapes() {
-        let mesh1 = Mesh.sphere().translated(by: .random())
-        let mesh2 = Mesh.cube().translated(by: .random())
+        let mesh1 = Mesh.cube().translated(by: .random())
+        let mesh2 = Mesh.sphere().translated(by: .random())
         let mesh = mesh1.minowskiSum(with: mesh2)
         XCTAssert(mesh.isKnownConvex)
         XCTAssert(mesh.isActuallyConvex)

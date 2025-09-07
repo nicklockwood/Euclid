@@ -835,7 +835,11 @@ extension [Polygon] {
             addTriangles(with: facing.boundingEdges, faceNormal: nil)
             return
         }
-        assert(coplanar.count <= 2)
+        // Only add coplanar points if the triangle is added to both sides
+        // TODO: make this check more robust, e.g. check each coplanar polygon has a counterpart
+        guard !coplanar.isEmpty, coplanar.count % 2 == 0, signedVolume == 0 else {
+            return
+        }
         for (faceNormal, polygons) in coplanar {
             guard let polygon = polygons.first else { continue }
             addTriangles(with: polygons.boundingEdges.compactMap {
