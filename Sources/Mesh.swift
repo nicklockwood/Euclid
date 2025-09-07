@@ -165,14 +165,21 @@ public extension Mesh {
     /// The bounds of the mesh.
     var bounds: Bounds { storage.bounds }
 
-    /// The surface area of a watertight mesh.
+    /// The surface area of the mesh. Does not include polygon back-faces.
     var surfaceArea: Double {
-        polygons.reduce(0) { $0 + $1.area }
+        polygons.surfaceArea
+    }
+
+    /// The signed volume of the mesh. A negative value indicates that the mesh is inside-out.
+    /// > Note: If the mesh is not watertight (has holes) then this value will not be accurate.
+    var signedVolume: Double {
+        polygons.signedVolume
     }
 
     /// The volume of a watertight mesh.
+    @available(*, deprecated, renamed: "signedVolume")
     var volume: Double {
-        polygons.reduce(0) { $0 + $1.signedVolume }
+        polygons.signedVolume
     }
 
     /// Creates a new mesh from an array of polygons.

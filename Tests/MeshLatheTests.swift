@@ -23,7 +23,7 @@ class MeshLatheTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.polygons.count, 48)
-        XCTAssertGreaterThan(mesh.volume, 0)
+        XCTAssertGreaterThan(mesh.signedVolume, 0)
         XCTAssert(mesh.isActuallyConvex)
         XCTAssertFalse(mesh.isKnownConvex) // can't determine this yet
     }
@@ -40,7 +40,7 @@ class MeshLatheTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.polygons.count, 48)
-        XCTAssertGreaterThan(mesh.volume, 0)
+        XCTAssertGreaterThan(mesh.signedVolume, 0)
         XCTAssert(mesh.isActuallyConvex)
         XCTAssertFalse(mesh.isKnownConvex) // can't determine this yet
 
@@ -48,7 +48,7 @@ class MeshLatheTests: XCTestCase {
         XCTAssert(mesh2.isWatertight)
         XCTAssert(mesh2.polygons.areWatertight)
         XCTAssertEqual(mesh2.polygons.count, 96)
-        XCTAssertEqual(mesh2.volume, 0)
+        XCTAssertEqual(mesh2.signedVolume, 0)
         XCTAssertFalse(mesh2.isActuallyConvex)
         XCTAssertFalse(mesh2.isKnownConvex) // can't determine this yet
     }
@@ -64,7 +64,7 @@ class MeshLatheTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.polygons.count, 64)
-        XCTAssertEqual(mesh.volume, 0)
+        XCTAssertEqual(mesh.signedVolume, 0)
         XCTAssertFalse(mesh.isActuallyConvex)
         XCTAssertFalse(mesh.isKnownConvex) // can't determine this yet
 
@@ -72,7 +72,7 @@ class MeshLatheTests: XCTestCase {
         XCTAssertFalse(mesh2.isWatertight)
         XCTAssertFalse(mesh2.polygons.areWatertight)
         XCTAssertEqual(mesh2.polygons.count, 32)
-        XCTAssertNotEqual(mesh2.volume, 0) // should be zero, but not reliable for non-watertight shape
+        XCTAssertNotEqual(mesh2.signedVolume, 0) // should be zero, but not reliable for non-watertight shape
     }
 
     func testOpenPathTouchingOriginAtEnd() {
@@ -86,7 +86,7 @@ class MeshLatheTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.polygons.count, 64)
-        XCTAssertEqual(mesh.volume, 0)
+        XCTAssertEqual(mesh.signedVolume, 0)
         XCTAssertFalse(mesh.isActuallyConvex)
         XCTAssertFalse(mesh.isKnownConvex) // can't determine this yet
 
@@ -94,7 +94,7 @@ class MeshLatheTests: XCTestCase {
         XCTAssertFalse(mesh2.isWatertight)
         XCTAssertFalse(mesh2.polygons.areWatertight)
         XCTAssertEqual(mesh2.polygons.count, 32)
-        XCTAssertNotEqual(mesh2.volume, 0) // should be zero, but not reliable for non-watertight shape
+        XCTAssertNotEqual(mesh2.signedVolume, 0) // should be zero, but not reliable for non-watertight shape
     }
 
     func testOpenPathNotTouchingOrigin() {
@@ -107,7 +107,7 @@ class MeshLatheTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssertEqual(mesh.polygons.count, 32)
-        XCTAssertEqual(mesh.volume, 0)
+        XCTAssertEqual(mesh.signedVolume, 0)
         XCTAssertFalse(mesh.isActuallyConvex)
         XCTAssertFalse(mesh.isKnownConvex) // can't determine this yet
 
@@ -115,13 +115,13 @@ class MeshLatheTests: XCTestCase {
         XCTAssertFalse(mesh2.isWatertight)
         XCTAssertFalse(mesh2.polygons.areWatertight)
         XCTAssertEqual(mesh2.polygons.count, 16)
-        XCTAssertNotEqual(mesh2.volume, 0) // should be zero, but not reliable for non-watertight shape
+        XCTAssertNotEqual(mesh2.signedVolume, 0) // should be zero, but not reliable for non-watertight shape
 
         let mesh3 = Mesh.lathe(path, faces: .frontAndBack)
         XCTAssert(mesh3.isWatertight)
         XCTAssert(mesh3.polygons.areWatertight)
         XCTAssertEqual(mesh3.polygons.count, 32)
-        XCTAssertEqual(mesh3.volume, 0)
+        XCTAssertEqual(mesh3.signedVolume, 0)
     }
 
     func testSelfIntersectingPath() {
@@ -136,7 +136,7 @@ class MeshLatheTests: XCTestCase {
         XCTAssert(mesh.isWatertight) // should be false, ideally
         XCTAssert(mesh.polygons.areWatertight) // should be false, ideally
         XCTAssertEqual(mesh.polygons.count, 48)
-        XCTAssertGreaterThan(mesh.volume, 0)
+        XCTAssertGreaterThan(mesh.signedVolume, 0)
         XCTAssertFalse(mesh.isActuallyConvex)
         XCTAssertFalse(mesh.isKnownConvex)
     }
