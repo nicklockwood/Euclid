@@ -325,7 +325,7 @@ public extension Mesh {
             bounds: bounds,
             bsp: nil, // TODO: Would it be safe to keep this?
             isConvex: isKnownConvex,
-            isWatertight: isWatertight,
+            isWatertight: nil, // TODO: figure out why stencil creates holes
             submeshes: submeshesIfEmpty
         )
     }
