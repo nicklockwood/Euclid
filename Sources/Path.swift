@@ -142,7 +142,6 @@ public extension Path {
     }
 
     /// The face normal for the path.
-    ///
     /// > Note: If path is non-planar then this returns an average/approximate normal.
     var faceNormal: Vector {
         plane?.normal ?? faceNormalForPoints(points.map(\.position))
@@ -326,7 +325,6 @@ public extension Path {
     }
 
     /// An array of vertices suitable for constructing a polygon from the path.
-    ///
     /// > Note: Vertices include normals and uv coordinates normalized to the bounding
     /// rectangle of the path. Returns `nil` if path is not closed, or has subpaths.
     var faceVertices: [Vertex]? {
@@ -378,7 +376,6 @@ public extension Path {
     }
 
     /// An array of vertices suitable for constructing a set of edge polygons for the path.
-    ///
     /// > Note: Returns an empty array if the path has subpaths.
     var edgeVertices: [Vertex] {
         edgeVertices(for: .default)

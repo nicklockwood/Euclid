@@ -379,6 +379,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/customMirror",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/hasVertexNormals",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/isEmpty",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/signedVolume",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/surfaceArea",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/volume"
       ],
@@ -6704,6 +6705,43 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/scaled(by:)-94kks"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/signedVolume": {
+  "abstract" : [
+    {
+      "text" : "The signed volume of the mesh. A negative value indicates that the mesh is inside-out.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "signedVolume"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/signedVolume",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "signedVolume",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/signedvolume"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/smoothingNormals(forAnglesGreaterThan:)": {
   "abstract" : [
     {
@@ -8015,7 +8053,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/surfaceArea": {
   "abstract" : [
     {
-      "text" : "The surface area of a watertight mesh.",
+      "text" : "The surface area of the mesh. Does not include polygon back-faces.",
       "type" : "text"
     }
   ],
@@ -8900,6 +8938,7 @@
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

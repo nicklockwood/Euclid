@@ -30,7 +30,6 @@
 //
 
 /// An axially-aligned bounding box in 3D space.
-///
 /// Used for efficient intersection elimination between more complex shapes.
 public struct Bounds: Hashable, Sendable {
     /// The minimum coordinate of the bounds.

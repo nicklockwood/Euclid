@@ -1,0 +1,242 @@
+{
+  "abstract" : [
+    {
+      "text" : "The signed volume of the mesh. A negative value indicates that the mesh is inside-out.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/signedVolume"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "extendedModule" : "Euclid",
+    "externalID" : "s:6Euclid4MeshV12signedVolumeSdvp",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "var"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "signedVolume"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:Sd",
+        "text" : "Double"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "Euclid"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Instance Property",
+    "symbolKind" : "property",
+    "title" : "signedVolume"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "var"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "signedVolume"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Sd",
+              "text" : "Double"
+            },
+            {
+              "kind" : "text",
+              "text" : " { "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "get"
+            },
+            {
+              "kind" : "text",
+              "text" : " }"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "If the mesh is not watertight (has holes) then this value will not be accurate.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/euclid\/mesh\/signedvolume"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid": {
+  "abstract" : [
+    {
+      "text" : "Euclid is a library for creating and manipulating 3D geometry using techniques such as extruding or “lathing” 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Euclid",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
+  "abstract" : [
+    {
+      "text" : "A 3D surface made of polygons.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Mesh"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/signedVolume": {
+  "abstract" : [
+    {
+      "text" : "The signed volume of the mesh. A negative value indicates that the mesh is inside-out.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "signedVolume"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/signedVolume",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "signedVolume",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/signedvolume"
+}
+}
+}

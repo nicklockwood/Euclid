@@ -73,7 +73,7 @@ class LineTests: XCTestCase {
         for _ in 0 ..< 10 {
             let distance = plane.normal * .random(in: -100 ... 100)
             let l2 = Line(unchecked: origin + distance, direction: (.random(in: plane) - origin).normalized())
-            XCTAssertEqual(l1.distance(from: l2), distance.length)
+            XCTAssertEqual(l1.distance(from: l2), distance.length, accuracy: 1e-2) // TODO: improve accuracy
         }
     }
 

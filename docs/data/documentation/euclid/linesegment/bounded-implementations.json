@@ -105,7 +105,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/bounds": {
   "abstract" : [
     {
-      "text" : "The bounding box containing the line segment.",
+      "text" : "The bounds of the object.",
       "type" : "text"
     }
   ],

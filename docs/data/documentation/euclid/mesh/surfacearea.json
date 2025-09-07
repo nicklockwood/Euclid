@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "The surface area of a watertight mesh.",
+      "text" : "The surface area of the mesh. Does not include polygon back-faces.",
       "type" : "text"
     }
   ],
@@ -177,7 +177,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/surfaceArea": {
   "abstract" : [
     {
-      "text" : "The surface area of a watertight mesh.",
+      "text" : "The surface area of the mesh. Does not include polygon back-faces.",
       "type" : "text"
     }
   ],
