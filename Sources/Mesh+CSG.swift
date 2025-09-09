@@ -399,7 +399,7 @@ public extension Mesh {
         convexHull(of: Array(polygons), with: nil, bounds: nil, isCancelled)
     }
 
-    /// Returns a new mesh representing the Minowski sum of the
+    /// Returns a new mesh representing the Minkowski sum of the
     /// mesh parameter and the receiver.
     ///
     ///     __                     ________
@@ -414,60 +414,60 @@ public extension Mesh {
     /// - Parameters:
     ///   - mesh: The mesh to form a sum with.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: A new mesh representing the Minowski sum of the input meshes.
-    func minowskiSum(with mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+    /// - Returns: A new mesh representing the Minkowski sum of the input meshes.
+    func minkowskiSum(with mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         if mesh.isConvex(isCancelled: isCancelled), mesh.isWatertight {
             let points = Set(mesh.polygons.flatMap { $0.vertices.map(\.position) })
             return .convexHull(of: points.map(translated(by:)))
         }
         return .union([mesh] + mesh.polygons.map {
-            isCancelled() ? .empty : minowskiSum(with: $0)
+            isCancelled() ? .empty : minkowskiSum(with: $0)
         }, isCancelled: isCancelled)
     }
 
-    /// Efficiently computes the Minowski sum of two or more meshes.
+    /// Efficiently computes the Minkowski sum of two or more meshes.
     /// - Parameters:
     ///   - meshes: A collection of meshes to compute the sum of.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: A new mesh representing the Minowski sum of all the inputs.
-    static func minowskiSum(
+    /// - Returns: A new mesh representing the Minkowski sum of all the inputs.
+    static func minkowskiSum(
         of meshes: some Collection<Mesh>,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         guard let first = meshes.first else {
             return .empty
         }
-        return first.minowskiSum(
-            with: .minowskiSum(of: meshes.dropFirst(), isCancelled: isCancelled),
+        return first.minkowskiSum(
+            with: .minkowskiSum(of: meshes.dropFirst(), isCancelled: isCancelled),
             isCancelled: isCancelled
         )
     }
 
-    /// Computes the minowskiSum sum of the receiver along the specified path.
+    /// Computes the minkowskiSum sum of the receiver along the specified path.
     /// - Parameters:
     ///   - path: A ``Path`` along which to sum the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
-    /// - Returns: A new mesh representing the Minowski sum of all the inputs.
-    func minowskiSum(along path: Path, isCancelled: CancellationHandler = { false }) -> Mesh {
+    /// - Returns: A new mesh representing the Minkowski sum of all the inputs.
+    func minkowskiSum(along path: Path, isCancelled: CancellationHandler = { false }) -> Mesh {
         .union(path.orderedEdges.map {
-            isCancelled() ? .empty : minowskiSum(along: $0)
+            isCancelled() ? .empty : minkowskiSum(along: $0)
         }, isCancelled: isCancelled)
     }
 
-    /// Computes the Minowski sum of the receiver and a polygon.
+    /// Computes the Minkowski sum of the receiver and a polygon.
     /// - Parameter polygon: The polygon with which to sum the mesh.
-    /// - Returns: A new mesh representing the Minowski sum of the inputs.
-    func minowskiSum(with polygon: Polygon) -> Mesh {
+    /// - Returns: A new mesh representing the Minkowski sum of the inputs.
+    func minkowskiSum(with polygon: Polygon) -> Mesh {
         guard polygon.isConvex else {
-            return .union(polygons.tessellate().map(minowskiSum(with:)))
+            return .union(polygons.tessellate().map(minkowskiSum(with:)))
         }
         return .convexHull(of: polygon.vertices.map { translated(by: $0.position) })
     }
 
-    /// Computes the minowskiSum sum of the receiver along the specified edge.
+    /// Computes the minkowskiSum sum of the receiver along the specified edge.
     /// - Parameter edge: A ``LineSegment`` along which to sum the mesh.
-    /// - Returns: A new mesh representing the Minowski sum of the inputs.
-    func minowskiSum(along edge: LineSegment) -> Mesh {
+    /// - Returns: A new mesh representing the Minkowski sum of the inputs.
+    func minkowskiSum(along edge: LineSegment) -> Mesh {
         .convexHull(of: [
             translated(by: edge.start),
             translated(by: edge.end),

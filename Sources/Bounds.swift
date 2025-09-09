@@ -229,6 +229,25 @@ public extension Bounds {
         )
     }
 
+    /// Creates a new bounds representing the Minkowski sum of the specified bounds and this one.
+    /// - Parameter other: The bounds with which to form the Minkowski sum.
+    /// - Returns: The combined bounds.
+    func minkowskiSum(with other: Bounds) -> Bounds {
+        if isEmpty {
+            return other
+        } else if other.isEmpty {
+            return self
+        } else {
+            return .init(min: min + other.min, max: max + other.max)
+        }
+    }
+
+    /// Expands the bounds to the Minkowski sum of the specified bounds and this one.
+    /// - Parameter other: The bounds with which to form the Minkowski sum.
+    mutating func formMinkowskiSum(with other: Bounds) {
+        self = minkowskiSum(with: other)
+    }
+
     /// Deprecated.
     @available(*, deprecated, renamed: "intersects(_:)")
     func containsPoint(_ point: Vector) -> Bool {
