@@ -286,6 +286,24 @@ private extension BSP {
             // Check that last node wasn't coincidentally the only backface
             isActuallyConvex = polygons.allSatisfy { $0.compare(with: nodes.last!.plane) != .front }
         }
+        if isActuallyConvex {
+            switch nodes.count {
+            case 2:
+                // Shouldn't be possible to get here unless mesh is planar
+                assert(nodes[0].plane.isApproximatelyEqual(to: nodes[1].plane.inverted()))
+                fallthrough
+            case 1:
+                // Check that boundary around face polygons is convex
+                // (Individual polygons in the face may still be non-convex)
+                isActuallyConvex = nodes.allSatisfy {
+                    let boundingEdges = $0.polygons.boundingEdges
+                    let boundary = Path(boundingEdges)
+                    return Polygon(boundary)?.isConvex ?? false
+                }
+            default:
+                break
+            }
+        }
         isConvex = isActuallyConvex
     }
 

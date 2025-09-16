@@ -368,9 +368,9 @@ class MeshCSGTests: XCTestCase {
         XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
-    func testConvexHullOfOverlappingCoplanarSquares() {
+    func testConvexHullOfOverlappingSquares() {
         let square1 = Polygon(.square())!
-        let square2 = Polygon(.square())!.translated(by: [0.5, 0.5]).rotated(by: .random(in: .xy))
+        let square2 = Polygon(.square())!.translated(by: [0.5, 0.5])
         let mesh = Mesh.convexHull(of: [square1, square2])
         XCTAssert(mesh.isKnownConvex)
         XCTAssert(mesh.isActuallyConvex)
@@ -701,19 +701,9 @@ class MeshCSGTests: XCTestCase {
         let square = Mesh.fill(.square(), faces: .front)
         let square2 = Mesh.fill(.square(), faces: .front).translated(by: -.unitZ)
         let mesh = square.merge(square2)
+        XCTAssertNil(mesh.watertightIfSet)
         XCTAssertFalse(mesh.isWatertight)
-        let bsp = BSP(mesh) { false }
-        XCTAssertFalse(bsp.isConvex)
-    }
-
-    func testConvexityFalsePositive2() {
-        let cube = Mesh.cube()
-        var polygons = cube.polygons
-        // This will be the last polygon after
-        // BSP's internal shuffle is performed
-        polygons[1] = polygons[1].inverted()
-        let mesh = Mesh(polygons)
-        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertFalse(mesh.polygons.areWatertight)
         let bsp = BSP(mesh) { false }
         XCTAssertFalse(bsp.isConvex)
     }

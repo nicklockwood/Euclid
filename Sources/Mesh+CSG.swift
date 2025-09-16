@@ -745,7 +745,7 @@ private extension Mesh {
         bounds: Bounds?,
         _ isCancelled: CancellationHandler
     ) -> Mesh {
-        assert(startingMesh?.isKnownConvex != false)
+        assert(startingMesh?.isConvex() != false)
         assert(startingMesh?.isWatertight != false)
         var polygons = startingMesh?.polygons ?? []
         var verticesByPosition = [Vector: [(faceNormal: Vector, Vertex)]]()

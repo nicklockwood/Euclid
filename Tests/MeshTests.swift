@@ -24,48 +24,133 @@ class MeshTests: XCTestCase {
         XCTAssertEqual(edges.count, 12)
     }
 
-    // MARK: isWatertight
+    // MARK: isWatertight/isConvex
 
-    func testCubeIsWatertight() {
+    func testCubeIsWatertightAndConvex() {
         let mesh = Mesh.cube()
+        XCTAssertEqual(mesh.watertightIfSet, true)
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
     }
 
-    func testSphereIsWatertight() {
+    func testInvertedCubeIsWatertightButNotConvex() {
+        let mesh = Mesh.cube().inverted()
+        XCTAssertEqual(mesh.watertightIfSet, true)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertFalse(mesh.isKnownConvex)
+        XCTAssertFalse(mesh.isActuallyConvex)
+    }
+
+    func testCubeWithFlippedFaceIsWatertightButNotConvex() {
+        let cube = Mesh.cube()
+        for i in 0 ..< 6 {
+            var polygons = cube.polygons
+            polygons[i] = polygons[i].inverted()
+            XCTAssert(polygons.areWatertight)
+            let mesh = Mesh(polygons)
+            XCTAssert(mesh.isWatertight)
+            XCTAssertFalse(mesh.isKnownConvex)
+            XCTAssertFalse(mesh.isActuallyConvex)
+        }
+    }
+
+    func testCubeWithMissingFaceIsConvexButNotWatertight() {
+        let cube = Mesh.cube()
+        for i in 0 ..< 6 {
+            var polygons = cube.polygons
+            polygons.remove(at: i)
+            XCTAssertFalse(polygons.areWatertight)
+            let mesh = Mesh(polygons)
+            XCTAssertFalse(mesh.isWatertight)
+            XCTAssertFalse(mesh.isKnownConvex)
+            XCTAssertTrue(mesh.isActuallyConvex)
+        }
+    }
+
+    func testSphereIsWatertightAndConvex() {
         let mesh = Mesh.sphere()
+        XCTAssertEqual(mesh.watertightIfSet, true)
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
     }
 
-    func testLatheIsWatertight() {
+    func testLatheCircleIsWatertightAndConvex() {
         let mesh = Mesh.lathe(.circle())
+        XCTAssertNil(mesh.watertightIfSet)
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertFalse(mesh.isKnownConvex) // can't determine this yet
+        XCTAssert(mesh.isActuallyConvex)
     }
 
-    func testDoubleSidedFaceIsWatertight() {
+    func testLatheOffsetCircleIsWatertightButNotConvex() {
+        let mesh = Mesh.lathe(.circle().translated(by: [1, 0]))
+        XCTAssertNil(mesh.watertightIfSet)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertFalse(mesh.isKnownConvex)
+        XCTAssertFalse(mesh.isActuallyConvex)
+    }
+
+    func testFilledSquareIsWatertightAndConvex() {
         let mesh = Mesh.fill(.square())
+        XCTAssertEqual(mesh.watertightIfSet, true)
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
     }
 
-    func testSingleSidedFaceIsNotWatertight() {
+    func testOpenSquareIsConvexButNotWatertight() {
         let mesh = Mesh.fill(.square(), faces: .front)
+        XCTAssertEqual(mesh.watertightIfSet, false)
         XCTAssertFalse(mesh.isWatertight)
         XCTAssertFalse(mesh.polygons.areWatertight)
+        XCTAssertTrue(mesh.isKnownConvex)
+        XCTAssertTrue(mesh.isActuallyConvex)
     }
 
-    func testOpenShapeExtrusionIsWatertight() {
+    func testFilledLetterOIsWatertightButNotConvex() {
+        #if canImport(CoreText)
+        let mesh = Mesh.fill(.text("O"))
+        XCTAssertNil(mesh.watertightIfSet)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+        XCTAssertFalse(mesh.isKnownConvex)
+        XCTAssertFalse(mesh.isActuallyConvex)
+        #endif
+    }
+
+    func testLetterGIsWatertightButNotConvex() {
+        #if canImport(CoreText)
+        let mesh = Mesh.fill(.text("G"))
+        XCTAssertEqual(mesh.watertightIfSet, true)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+        XCTAssertFalse(mesh.isKnownConvex)
+        XCTAssertFalse(mesh.isActuallyConvex)
+        #endif
+    }
+
+    func testOpenShapeExtrusionIsWatertightButNotConvex() {
         let path = Path([.point(0, 0), .point(1, 0), .point(1, 1), .point(0, 1)])
         let mesh = Mesh.extrude(path)
+        XCTAssertEqual(mesh.watertightIfSet, true)
         XCTAssert(mesh.isWatertight)
         XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertFalse(mesh.isKnownConvex)
+        XCTAssertFalse(mesh.isActuallyConvex)
     }
 
     func testSingleSidedOpenShapeExtrusionIsNotWatertight() {
         let path = Path([.point(0, 0), .point(1, 0), .point(1, 1), .point(0, 1)])
         let mesh = Mesh.extrude(path, faces: .front)
+        XCTAssertNil(mesh.watertightIfSet)
         XCTAssertFalse(mesh.isWatertight)
         XCTAssertFalse(mesh.polygons.areWatertight)
     }
@@ -84,6 +169,36 @@ class MeshTests: XCTestCase {
         let mesh = Mesh.merge([cube, .sphere(), .cylinder()])
         XCTAssertNil(mesh.watertightIfSet)
         XCTAssert(mesh.isWatertight)
+    }
+
+    func testOddEdgeNumberDoesntConfuseWatertightCheck() {
+        let polygons = [
+            Polygon(unchecked: [[-1, 0, -1], [0, 0], [0, 1], [-1, 1, -1]]),
+            Polygon(unchecked: [[0, 0], [0, 1], [0, 1, 1], [0, 0, 1]]),
+            Polygon(unchecked: [[0, 0], [0, 0, 1], [0, 1, 1], [0, 1]]),
+            Polygon(unchecked: [[0, 0], [1, 0, -1], [1, 1, -1], [0, 1]]),
+            Polygon(unchecked: [[-1, 0, -1], [1, 0, -1], [1, 1, -1], [-1, 1, -1]]),
+            Polygon(unchecked: [[-1, 0, -1], [1, 0, -1], [0, 0, 0]]),
+            Polygon(unchecked: [[1, 1, -1], [-1, 1, -1], [0, 1, 0]]),
+        ]
+        let mesh = Mesh(polygons)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertFalse(mesh.isKnownConvex)
+        XCTAssertFalse(mesh.isActuallyConvex)
+    }
+
+    func testOddEdgeNumberDoesntConfuseWatertightCheck2() {
+        let polygons = [
+            Polygon(unchecked: [[-1, 0, -1], [0, 0], [0, 1], [-1, 1, -1]]),
+            Polygon(unchecked: [[0, 0], [0, 1], [0, 1, 1], [0, 0, 1]]),
+            Polygon(unchecked: [[0, 0], [1, 0, -1], [1, 1, -1], [0, 1]]),
+            Polygon(unchecked: [[-1, 0, -1], [1, 0, -1], [1, 1, -1], [-1, 1, -1]]),
+            Polygon(unchecked: [[-1, 0, -1], [1, 0, -1], [0, 0, 0]]),
+            Polygon(unchecked: [[1, 1, -1], [-1, 1, -1], [0, 1, 0]]),
+        ]
+        let mesh = Mesh(polygons)
+        XCTAssertFalse(mesh.isWatertight)
+        XCTAssertFalse(mesh.isActuallyConvex)
     }
 
     // MARK: makeWatertight
