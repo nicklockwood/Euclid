@@ -64,7 +64,7 @@ extension Double {
 
 // MARK: Vertex utilities
 
-extension [Vertex] {
+extension Collection<Vertex> {
     /// Magnitude is area, direction is normal
     var vectorArea: Vector {
         map(\.position).vectorArea
@@ -79,7 +79,7 @@ extension [Vertex] {
     }
 }
 
-func verticesAreDegenerate(_ vertices: [Vertex]) -> Bool {
+func verticesAreDegenerate(_ vertices: some Collection<Vertex>) -> Bool {
     guard vertices.count > 2 else {
         return true
     }
@@ -87,7 +87,7 @@ func verticesAreDegenerate(_ vertices: [Vertex]) -> Bool {
     return pointsAreDegenerate(positions) || pointsAreSelfIntersecting(positions)
 }
 
-func verticesAreConvex(_ vertices: [Vertex]) -> Bool {
+func verticesAreConvex(_ vertices: some Collection<Vertex>) -> Bool {
     guard vertices.count > 3 else {
         return vertices.count > 2
     }
