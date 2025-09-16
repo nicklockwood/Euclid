@@ -54,9 +54,6 @@ public extension Mesh {
             if #available(iOS 13, tvOS 13, macOS 10.12, *) {
                 options[.preserveOriginalTopology] = true
             }
-            if !FileManager.default.isReadableFile(atPath: url.path) {
-                _ = try Data(contentsOf: url) // Will throw error if unreachable
-            }
             let importedScene = try SCNScene(url: url, options: options)
             self.init(importedScene.rootNode, materialLookup: materialLookup)
             #else
@@ -79,8 +76,11 @@ public extension Mesh {
         case "stla":
             let string = stlString(name: "")
             try string.write(to: url, atomically: true, encoding: .utf8)
+        case "off":
+            let string = offString()
+            try string.write(to: url, atomically: true, encoding: .utf8)
         case "obj":
-            #if canImport(SceneKit)
+            #if canImport(SceneKit) && !os(watchOS)
             // SceneKit supports materials, etc.
             fallthrough
             #else
