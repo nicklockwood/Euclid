@@ -295,11 +295,7 @@ private extension BSP {
             case 1:
                 // Check that boundary around face polygons is convex
                 // (Individual polygons in the face may still be non-convex)
-                isActuallyConvex = nodes.allSatisfy {
-                    let boundingEdges = $0.polygons.boundingEdges
-                    let boundary = Path(boundingEdges)
-                    return Polygon(boundary)?.isConvex ?? false
-                }
+                isActuallyConvex = nodes.allSatisfy(\.polygons.coplanarPolygonsAreConvex)
             default:
                 break
             }

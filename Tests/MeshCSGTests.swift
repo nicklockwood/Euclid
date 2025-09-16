@@ -370,7 +370,23 @@ class MeshCSGTests: XCTestCase {
 
     func testConvexHullOfOverlappingSquares() {
         let square1 = Polygon(.square())!
-        let square2 = Polygon(.square())!.translated(by: [0.5, 0.5])
+        for _ in 0 ..< 10 {
+            let square2 = Polygon(.square())!.translated(by: [0.5, 0.5]).rotated(by: .random(in: .xy))
+            let mesh = Mesh.convexHull(of: [square1, square2])
+            XCTAssert(mesh.isKnownConvex)
+            XCTAssert(mesh.isActuallyConvex)
+            XCTAssert(mesh.isWatertight)
+            XCTAssert(mesh.polygons.areWatertight)
+            XCTAssertEqual(mesh.signedVolume, 0)
+            XCTAssertEqual(mesh.bounds, square1.bounds.union(square2.bounds))
+            XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+        }
+    }
+
+    func testPlanarHullConvexityEdgeCase() {
+        let square1 = Polygon(.square())!
+        let r = Rotation(unchecked: .unitZ, angle: .radians(1.9113781280442135))
+        let square2 = Polygon(.square())!.translated(by: [0.5, 0.5]).rotated(by: r)
         let mesh = Mesh.convexHull(of: [square1, square2])
         XCTAssert(mesh.isKnownConvex)
         XCTAssert(mesh.isActuallyConvex)

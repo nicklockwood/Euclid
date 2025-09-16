@@ -639,6 +639,13 @@ extension Collection<Polygon> {
         return edges
     }
 
+    /// Assuming that polygons are coplanar, determines if they form a convex boudary
+    var coplanarPolygonsAreConvex: Bool {
+        assert(isEmpty || allSatisfy { $0.plane.isApproximatelyEqual(to: first!.plane) })
+        let boundary = Path(boundingEdges)
+        return Polygon(boundary)?.isConvex ?? false
+    }
+
     /// Returns the combined surface area of all the polygons.
     var surfaceArea: Double {
         reduce(0) { $0 + $1.area }

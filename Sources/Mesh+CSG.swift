@@ -748,25 +748,27 @@ private extension Mesh {
         assert(startingMesh?.isConvex() != false)
         assert(startingMesh?.isWatertight != false)
         var polygons = startingMesh?.polygons ?? []
-        var verticesByPosition = [Vector: [(faceNormal: Vector, Vertex)]]()
-        for p in polygonsToAdd + polygons {
-            for v in p.vertices {
-                verticesByPosition[v.position, default: []].append((p.plane.normal, v))
-            }
-        }
         var polygonsToAdd = polygonsToAdd
-        if polygons.isEmpty, !polygonsToAdd.isEmpty {
+        if polygons.isEmpty {
             let polygon: Polygon
             if let index = polygonsToAdd.lastIndex(where: { $0.isConvex }) {
                 polygon = polygonsToAdd.remove(at: index)
-            } else {
+            } else if !polygonsToAdd.isEmpty {
                 let potentiallyNonConvexPolygon = polygonsToAdd.removeLast()
                 var convexPolygons = potentiallyNonConvexPolygon.tessellate()
                 polygon = convexPolygons.popLast() ?? potentiallyNonConvexPolygon
                 polygonsToAdd += convexPolygons
                 assert(polygon.isConvex)
+            } else {
+                return .empty
             }
-            polygons += [polygon, polygon.inverted()]
+            polygons = [polygon, polygon.inverted()]
+        }
+        var verticesByPosition = [Vector: [(faceNormal: Vector, Vertex)]]()
+        for p in polygonsToAdd + polygons {
+            for v in p.vertices {
+                verticesByPosition[v.position, default: []].append((p.plane.normal, v))
+            }
         }
         // Add remaining polygons
         // Note: no need to use a VertexSet here as vertex positions should already
@@ -798,7 +800,7 @@ extension [Polygon] {
         material: Polygon.Material?,
         verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]]
     ) {
-        var facing = [Polygon](), coplanar = [Vector: [Polygon]]()
+        var facing = [Polygon](), coplanar = [(plane: Plane, polygons: [Polygon])]()
         loop: for (i, polygon) in enumerated().reversed() {
             switch point.compare(with: polygon.plane) {
             case .front:
@@ -810,7 +812,12 @@ extension [Polygon] {
                     // if point is inside an existing polygon we can skip it
                     return
                 }
-                coplanar[polygon.plane.normal, default: []].append(polygon)
+                // TODO: improve this part
+                if let index = coplanar.firstIndex(where: { $0.plane.isApproximatelyEqual(to: polygon.plane) }) {
+                    coplanar[index].polygons.append(polygon)
+                } else {
+                    coplanar.append((polygon.plane, [polygon]))
+                }
             case .back, .spanning, .coplanar:
                 continue
             }
@@ -840,16 +847,18 @@ extension [Polygon] {
         guard !coplanar.isEmpty, coplanar.count % 2 == 0, signedVolume == 0 else {
             return
         }
-        for (faceNormal, polygons) in coplanar {
+        for (plane, polygons) in coplanar {
             guard let polygon = polygons.first else { continue }
-            addTriangles(with: polygons.boundingEdges.compactMap {
+            let edges = polygons.boundingEdges.compactMap {
                 let edgePlane = polygon.edgePlane(for: $0)
                 if point.compare(with: edgePlane) == .front {
                     return $0.inverted()
                 }
                 return nil
-            }, faceNormal: faceNormal)
+            }
+            addTriangles(with: edges, faceNormal: plane.normal)
         }
+        assert(groupedByPlane().allSatisfy(\.polygons.coplanarPolygonsAreConvex))
     }
 }
 
