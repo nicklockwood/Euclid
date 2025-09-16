@@ -360,4 +360,59 @@ class MeshImportTests: XCTestCase {
             .triangulate()
         XCTAssertEqual(cube, expected)
     }
+
+    // MARK: OFF import
+
+    func testCubeOFF() {
+        let offString = """
+        OFF
+        8 6 0
+        1 0 1
+        1 0 0
+        1 1 0
+        1 1 1
+        0 0 0
+        0 0 1
+        0 1 1
+        0 1 0
+        4 0 1 2 3
+        4 4 5 6 7
+        4 6 3 2 7
+        4 4 1 0 5
+        4 5 0 3 6
+        4 1 4 7 2
+        """
+        let cube = Mesh.cube().translated(by: [0.5, 0.5, 0.5])
+        let mesh = Mesh(offString: offString)
+        XCTAssertEqual(mesh, cube.withoutTexcoords())
+    }
+
+    func testCubeOFFWithWhitespaceAndComments() {
+        let offString = """
+        OFF
+        # cube
+          8 6 0
+        1 0   1
+         1 0 0
+        1 \t1 0
+        1 1 1
+        # hello
+        0 0 0
+         0 0 1 #foo
+        0 1 1
+
+        0 1 0
+        # indices
+        4 0 1 2 3
+        \t 4 4 5 6 7 #bar
+        4 6  3 2 7
+
+        4  4 1 0 5
+         4 5 0 3 6\r
+        4 1 4 7 2
+        """
+        let cube = Mesh.cube().translated(by: [0.5, 0.5, 0.5])
+        let mesh = Mesh(offString: offString)
+        XCTAssertEqual(mesh, cube.withoutTexcoords())
+    }
 }

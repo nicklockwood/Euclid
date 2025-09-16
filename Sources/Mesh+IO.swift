@@ -34,6 +34,12 @@ public extension Mesh {
     ///     mapping.
     init(url: URL, materialLookup: ((AnyHashable?) -> Material?)? = nil) throws {
         switch url.pathExtension.lowercased() {
+        case "off":
+            let string = try String(contentsOf: url)
+            guard let mesh = Mesh(offString: string) else {
+                throw IOError("Invalid OFF file")
+            }
+            self = mesh
         case "stl", "stla":
             let data = try Data(contentsOf: url)
             guard let mesh = Mesh(stlData: data, materialLookup: materialLookup) else {

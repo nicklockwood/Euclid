@@ -262,7 +262,6 @@ private extension ArraySlice where Element == String {
         }
         parts = line[name.endIndex...]
             .components(separatedBy: .whitespaces)
-            .map { $0.trimmingCharacters(in: .whitespaces) }
             .filter { !$0.isEmpty }
         return true
     }
