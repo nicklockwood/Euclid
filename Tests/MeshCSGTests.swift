@@ -479,7 +479,7 @@ class MeshCSGTests: XCTestCase {
     func testMinkowskiSumWithEmptyMeshes() {
         let mesh = Mesh.cube().translated(by: .random())
         XCTAssertEqual(Mesh.empty.minkowskiSum(with: mesh), mesh)
-        XCTAssertEqual(mesh.minkowskiSum(with: .empty), mesh)
+        XCTAssertEqual(mesh.minkowskiSum(with: Mesh.empty), mesh)
     }
 
     // MARK: Planar subtraction

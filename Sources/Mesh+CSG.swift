@@ -448,15 +448,21 @@ public extension Mesh {
         )
     }
 
-    /// Computes the minkowskiSum sum of the receiver along the specified path.
+    /// Computes the minkowskiSum sum of the receiver with the specified path.
     /// - Parameters:
-    ///   - path: A ``Path`` along which to sum the mesh.
+    ///   - path: A ``Path`` with which to sum the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the Minkowski sum of all the inputs.
-    func minkowskiSum(along path: Path, isCancelled: CancellationHandler = { false }) -> Mesh {
+    func minkowskiSum(with path: Path, isCancelled: CancellationHandler = { false }) -> Mesh {
         .union(path.orderedEdges.map {
-            isCancelled() ? .empty : minkowskiSum(along: $0)
+            isCancelled() ? .empty : minkowskiSum(with: $0)
         }, isCancelled: isCancelled)
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "minkowskiSum(with:isCancelled:)")
+    func minkowskiSum(along path: Path, isCancelled: CancellationHandler = { false }) -> Mesh {
+        minkowskiSum(with: path, isCancelled: isCancelled)
     }
 
     /// Computes the Minkowski sum of the receiver and a polygon.
@@ -469,14 +475,20 @@ public extension Mesh {
         return .convexHull(of: polygon.vertices.map { translated(by: $0.position) })
     }
 
-    /// Computes the minkowskiSum sum of the receiver along the specified edge.
-    /// - Parameter edge: A ``LineSegment`` along which to sum the mesh.
+    /// Computes the minkowskiSum sum of the receiver with the specified edge.
+    /// - Parameter edge: A ``LineSegment`` with which to sum the mesh.
     /// - Returns: A new mesh representing the Minkowski sum of the inputs.
-    func minkowskiSum(along edge: LineSegment) -> Mesh {
+    func minkowskiSum(with edge: LineSegment) -> Mesh {
         .convexHull(of: [
             translated(by: edge.start),
             translated(by: edge.end),
         ])
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "minkowskiSum(with:isCancelled:)")
+    func minkowskiSum(along edge: LineSegment) -> Mesh {
+        minkowskiSum(with: edge)
     }
 
     /// Split the mesh along a plane.
