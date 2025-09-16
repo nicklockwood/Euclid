@@ -512,7 +512,7 @@ public extension Mesh {
             shape.rotate(by: rotation)
             shapes.append(shape)
         }
-        let polygon = Polygon(shape: shape)
+        let polygon = Polygon(shape)
         return loft(
             unchecked: shapes,
             faces: faces,

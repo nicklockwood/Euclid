@@ -537,28 +537,28 @@ class CodingTests: XCTestCase {
     // MARK: Material
 
     func testEncodingPolygonWithNilMaterial() throws {
-        let polygon = Polygon(shape: .square(), material: nil)
+        let polygon = Polygon(.square(), material: nil)
         let encoded = try encode(polygon)
         let decoded = try decode(encoded) as Euclid.Polygon
         XCTAssertNil(decoded.material)
     }
 
     func testEncodingPolygonWithStringMaterial() throws {
-        let polygon = Polygon(shape: .square(), material: "foo")
+        let polygon = Polygon(.square(), material: "foo")
         let encoded = try encode(polygon)
         let decoded = try decode(encoded) as Euclid.Polygon
         XCTAssertEqual(decoded.material, polygon?.material)
     }
 
     func testEncodingPolygonWithIntMaterial() throws {
-        let polygon = Polygon(shape: .square(), material: 5)
+        let polygon = Polygon(.square(), material: 5)
         let encoded = try encode(polygon)
         let decoded = try decode(encoded) as Euclid.Polygon
         XCTAssertEqual(decoded.material, polygon?.material)
     }
 
     func testEncodingPolygonWithDataMaterial() throws {
-        let polygon = Polygon(shape: .square(), material: "foo".data(using: .utf8))
+        let polygon = Polygon(.square(), material: "foo".data(using: .utf8))
         let encoded = try encode(polygon)
         let decoded = try decode(encoded) as Euclid.Polygon
         XCTAssertEqual(decoded.material, polygon?.material)
@@ -566,12 +566,12 @@ class CodingTests: XCTestCase {
 
     func testEncodingPolygonWithUnsupportedMaterial() throws {
         struct Foo: Hashable {}
-        let polygon = Polygon(shape: .square(), material: Foo())
+        let polygon = Polygon(.square(), material: Foo())
         XCTAssertThrowsError(try encode(polygon))
     }
 
     func testEncodingPolygonWithColorMaterial() throws {
-        let polygon = Polygon(shape: .square(), material: Color.red)
+        let polygon = Polygon(.square(), material: Color.red)
         let encoded = try encode(polygon)
         let decoded = try decode(encoded) as Euclid.Polygon
         XCTAssertEqual(decoded.material, polygon?.material)
@@ -579,12 +579,12 @@ class CodingTests: XCTestCase {
 
     func testEncodingPolygonWithOSColorMaterial() throws {
         #if canImport(UIKit)
-        let polygon = Polygon(shape: .square(), material: UIColor.red)
+        let polygon = Polygon(.square(), material: UIColor.red)
         XCTAssertEqual(polygon?.material, polygon?.material)
         #elseif canImport(AppKit)
-        let polygon = Polygon(shape: .square(), material: NSColor.red)
+        let polygon = Polygon(.square(), material: NSColor.red)
         #else
-        let polygon = Polygon(shape: .square())
+        let polygon = Polygon(.square())
         #endif
         let encoded = try encode(polygon)
         let decoded = try decode(encoded) as Euclid.Polygon
@@ -668,9 +668,9 @@ class CodingTests: XCTestCase {
 
     func testEncodingMeshWithMixedMaterials() throws {
         let mesh = Mesh([
-            Polygon(shape: .square(), material: "foo"),
-            Polygon(shape: .square()),
-            Polygon(shape: .square(), material: "bar"),
+            Polygon(.square(), material: "foo"),
+            Polygon(.square()),
+            Polygon(.square(), material: "bar"),
         ].compactMap { $0 })
         let encoded = try encode(mesh)
         let decoded = try decode(encoded) as Euclid.Mesh

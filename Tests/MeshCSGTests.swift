@@ -369,8 +369,8 @@ class MeshCSGTests: XCTestCase {
     }
 
     func testConvexHullOfOverlappingCoplanarSquares() {
-        let square1 = Polygon(shape: .square())!
-        let square2 = Polygon(shape: .square())!.translated(by: [0.5, 0.5]).rotated(by: .random(in: .xy))
+        let square1 = Polygon(.square())!
+        let square2 = Polygon(.square())!.translated(by: [0.5, 0.5]).rotated(by: .random(in: .xy))
         let mesh = Mesh.convexHull(of: [square1, square2])
         XCTAssert(mesh.isKnownConvex)
         XCTAssert(mesh.isActuallyConvex)

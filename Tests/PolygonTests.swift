@@ -355,7 +355,7 @@ class PolygonTests: XCTestCase {
             .point(1, 1),
             .point(-1, 1),
         ])
-        guard let polygon = Polygon(shape: path) else {
+        guard let polygon = Polygon(path) else {
             XCTFail()
             return
         }
@@ -378,7 +378,7 @@ class PolygonTests: XCTestCase {
             .point(1, -1),
             .point(-1, -1),
         ])
-        guard let polygon = Polygon(shape: path) else {
+        guard let polygon = Polygon(path) else {
             XCTFail()
             return
         }
@@ -403,7 +403,7 @@ class PolygonTests: XCTestCase {
             .point(-1, 1),
             .point(-1, 0),
         ])
-        guard let polygon = Polygon(shape: path) else {
+        guard let polygon = Polygon(path) else {
             XCTFail()
             return
         }
@@ -421,7 +421,7 @@ class PolygonTests: XCTestCase {
             .point(1, 0),
             .point(0, 1),
         ])
-        guard let polygon = Polygon(shape: path) else {
+        guard let polygon = Polygon(path) else {
             XCTFail()
             return
         }
@@ -483,7 +483,7 @@ class PolygonTests: XCTestCase {
             .point(1, 0),
             .point(0, 1),
         ])
-        guard let polygon = Polygon(shape: path) else {
+        guard let polygon = Polygon(path) else {
             XCTFail()
             return
         }
@@ -516,7 +516,7 @@ class PolygonTests: XCTestCase {
             .point(1, 0),
             .point(0, 1),
         ])
-        guard let polygon = Polygon(shape: path)?.inverted() else {
+        guard let polygon = Polygon(path)?.inverted() else {
             XCTFail()
             return
         }
@@ -551,7 +551,7 @@ class PolygonTests: XCTestCase {
             .point(1, 0),
             .point(0, 1),
         ])
-        guard let polygon = Polygon(shape: path) else {
+        guard let polygon = Polygon(path) else {
             XCTFail()
             return
         }
@@ -584,7 +584,7 @@ class PolygonTests: XCTestCase {
             .point(1, 0),
             .point(0, 1),
         ])
-        guard let polygon = Polygon(shape: path)?.inverted() else {
+        guard let polygon = Polygon(path)?.inverted() else {
             XCTFail()
             return
         }
@@ -730,7 +730,7 @@ class PolygonTests: XCTestCase {
             .point(0.16, 0.245),
             .point(0.18, 0.245),
         ])
-        guard let polygon = Polygon(shape: path) else {
+        guard let polygon = Polygon(path) else {
             XCTFail()
             return
         }
@@ -748,7 +748,7 @@ class PolygonTests: XCTestCase {
             .point(0.935, 0, 0.17),
             .point(1.086, 0, 0.17),
         ])
-        guard let polygon = Polygon(shape: path) else {
+        guard let polygon = Polygon(path) else {
             XCTFail()
             return
         }
@@ -786,7 +786,7 @@ class PolygonTests: XCTestCase {
             .point(0.935, 0, 0.17),
             .point(1.086, 0, 0.17),
         ])
-        guard let polygon = Polygon(shape: path)?.inverted() else {
+        guard let polygon = Polygon(path)?.inverted() else {
             XCTFail()
             return
         }
@@ -822,7 +822,7 @@ class PolygonTests: XCTestCase {
             .point(1, 0),
             .point(0, 1),
         ])
-        guard let polygon = Polygon(shape: path)?.withID(5) else {
+        guard let polygon = Polygon(path)?.withID(5) else {
             XCTFail()
             return
         }
@@ -838,7 +838,7 @@ class PolygonTests: XCTestCase {
             .point(1, 0),
             .point(0, 1),
         ])
-        guard let polygon = Polygon(shape: path)?.withID(5) else {
+        guard let polygon = Polygon(path)?.withID(5) else {
             XCTFail()
             return
         }
@@ -879,7 +879,7 @@ class PolygonTests: XCTestCase {
     // MARK: edges
 
     func testOrderedEdges() {
-        let circle = Polygon(shape: .circle())!
+        let circle = Polygon(.circle())!
         let edges = circle.orderedEdges
         XCTAssertEqual(edges.count, circle.vertices.count)
         var u = circle.vertices.last!
@@ -891,7 +891,7 @@ class PolygonTests: XCTestCase {
     }
 
     func testUndirectedEdges() {
-        let circle = Polygon(shape: .circle())!
+        let circle = Polygon(.circle())!
         let orderedEdges = circle.orderedEdges
         let undirectedEdges = circle.undirectedEdges
         XCTAssertEqual(orderedEdges.count, undirectedEdges.count)
@@ -911,7 +911,7 @@ class PolygonTests: XCTestCase {
             .point(1, 0),
             .point(0, 1),
         ])
-        guard let polygon = Polygon(shape: path) else {
+        guard let polygon = Polygon(path) else {
             XCTFail()
             return
         }
@@ -931,7 +931,7 @@ class PolygonTests: XCTestCase {
             .point(1, 0),
             .point(0, 1),
         ])
-        guard let polygon = Polygon(shape: path)?.inverted() else {
+        guard let polygon = Polygon(path)?.inverted() else {
             XCTFail()
             return
         }

@@ -411,7 +411,7 @@ class UtilityTests: XCTestCase {
     func testFaceNormalForPathMatchesPolygon() throws {
         for _ in 0 ..< 10 {
             let path = Path.square().transformed(by: .random())
-            let poly = try XCTUnwrap(Polygon(shape: path))
+            let poly = try XCTUnwrap(Polygon(path))
             let a = faceNormalForPoints(path.points.map(\.position))
             let b = faceNormalForPoints(poly.vertices.map(\.position))
             XCTAssertEqual(a, b)
