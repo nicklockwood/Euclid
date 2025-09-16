@@ -995,4 +995,21 @@ class PathTests: XCTestCase {
         // Flattened path is always on xy
         XCTAssertEqual(q.plane, .xy)
     }
+
+    // MARK: edges
+
+    func testEdgesForEmptyPath() {
+        XCTAssertEqual(Path.empty.orderedEdges, [])
+        XCTAssertEqual(Path.empty.undirectedEdges, [])
+    }
+
+    func testOrderedEdgesForLetterG() {
+        #if canImport(CoreText)
+        let text = Path.text("G")[0]
+        let edges = text.orderedEdges
+        let path = Path(edges)
+        XCTAssertEqual(path.subpaths.count, 1)
+        XCTAssertEqual(path.points.map(\.position), text.points.map(\.position))
+        #endif
+    }
 }
