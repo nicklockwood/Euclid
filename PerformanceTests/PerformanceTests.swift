@@ -30,7 +30,7 @@ final class PerformanceTests: XCTestCase {
         }
     }
 
-    func testMinkowskiSum() throws {
+    func testMinkowskiSumOfConvexMeshes() throws {
         let detail = 32
         let a = Mesh.sphere(slices: detail)
         let b = Mesh.cube()
@@ -38,6 +38,30 @@ final class PerformanceTests: XCTestCase {
             let c = a.withoutOptimizations().minkowskiSum(with: b.withoutOptimizations())
             XCTAssertFalse(c.isEmpty)
         }
+    }
+
+    func testMinkowskiSumWithNonconvexMesh() throws {
+        #if canImport(CoreText)
+        let detail = 16
+        let a = Mesh.sphere(radius: 0.1, slices: detail)
+        let b = Mesh.text("G")
+        measure {
+            let c = a.withoutOptimizations().minkowskiSum(with: b.withoutOptimizations())
+            XCTAssertFalse(c.isEmpty)
+        }
+        #endif
+    }
+
+    func testMinkowskiSumWithNonconvexPolygon() throws {
+        #if canImport(CoreText)
+        let detail = 16
+        let a = Mesh.sphere(radius: 0.1, slices: detail)
+        let b = Polygon(.text("G")[0])!
+        measure {
+            let c = a.withoutOptimizations().minkowskiSum(with: b)
+            XCTAssertFalse(c.isEmpty)
+        }
+        #endif
     }
 }
 
