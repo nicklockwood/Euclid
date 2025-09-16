@@ -186,7 +186,7 @@ extension LineSegment {
     }
 }
 
-extension Polygon {
+private extension Polygon {
     func clip(
         _ coplanarSegment: LineSegment,
         _ inside: inout [LineSegment],

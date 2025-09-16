@@ -93,26 +93,6 @@ extension Polygon {
         outside += toTest
     }
 
-    func clip(
-        _ polygon: Polygon,
-        _ inside: inout [Polygon],
-        _ outside: inout [Polygon],
-        _ id: inout Int
-    ) {
-        assert(isConvex)
-        var polygon = polygon
-        var coplanar = [Polygon]()
-        for plane in edgePlanes {
-            var back = [Polygon]()
-            polygon.split(along: plane, &coplanar, &outside, &back, &id)
-            guard let p = back.first else {
-                return
-            }
-            polygon = p
-        }
-        inside.append(polygon)
-    }
-
     /// Put the polygon in the correct list, splitting it when necessary
     func split(
         along plane: Plane,
@@ -274,5 +254,28 @@ extension Polygon {
             return true
         }
         return false
+    }
+}
+
+private extension Polygon {
+    func clip(
+        _ coplanarPolygon: Polygon,
+        _ inside: inout [Polygon],
+        _ outside: inout [Polygon],
+        _ id: inout Int
+    ) {
+        assert(isConvex)
+        assert(coplanarPolygon.compare(with: plane) == .coplanar)
+        var polygon = coplanarPolygon
+        var coplanar = [Polygon]()
+        for plane in edgePlanes {
+            var back = [Polygon]()
+            polygon.split(along: plane, &coplanar, &outside, &back, &id)
+            guard let p = back.first else {
+                return
+            }
+            polygon = p
+        }
+        inside.append(polygon)
     }
 }

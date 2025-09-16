@@ -79,6 +79,17 @@ extension BSP {
         }
     }
 
+    func clip(
+        _ path: Path,
+        _ keeping: ClipRule,
+        _ isCancelled: CancellationHandler
+    ) -> Path {
+        var out: [Path]?
+        return Path(subpaths: path.subpaths.flatMap {
+            clip($0, keeping, &out, isCancelled)
+        })
+    }
+
     func split(
         _ polygons: [Polygon],
         _ left: ClipRule,
@@ -410,6 +421,49 @@ private extension BSP {
             }
         }
         out = rejects
+        return total
+    }
+
+    func clip(
+        _ path: Path,
+        _ keeping: ClipRule,
+        _ out: inout [Path]?,
+        _ isCancelled: CancellationHandler
+    ) -> [Path] {
+        assert(path.subpaths.count == 1)
+        guard !nodes.isEmpty else {
+            return [path]
+        }
+        var total = [Path]()
+        let keepFront = [.greaterThan, .greaterThanEqual].contains(keeping)
+        var stack = [(node: nodes[0], paths: [path])]
+        while let (node, paths) = stack.popLast(), !isCancelled() {
+            var coplanar: [Path]! = [], front = [Path](), back: [Path]! = []
+            for path in paths {
+                path.split(along: node.plane, &coplanar, &front, &back)
+            }
+            for path in coplanar {
+                path.clip(to: node.polygons, &back, &front)
+            }
+            if !front.isEmpty {
+                if node.front > 0 {
+                    stack.append((nodes[node.front], front))
+                } else if keepFront {
+                    total.append(contentsOf: front)
+                } else {
+                    out?.append(contentsOf: front)
+                }
+            }
+            if !back.isEmpty {
+                if node.back > 0 {
+                    stack.append((nodes[node.back], back))
+                } else if !keepFront {
+                    total.append(contentsOf: back)
+                } else {
+                    out?.append(contentsOf: front)
+                }
+            }
+        }
         return total
     }
 }
