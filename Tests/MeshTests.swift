@@ -235,6 +235,22 @@ class MeshTests: XCTestCase {
         #endif
     }
 
+    func testMakeExtrudedTextWatertight() {
+        #if canImport(CoreText)
+        let detail = 16
+        let font = CTFontCreateWithName("comic sans ms" as CFString, 1, nil)
+        var mesh = Mesh.difference([
+            .union(Path.text("Hello\nWorld!", font: font, detail: detail / 8).map {
+                .extrude($0, along: .circle(radius: 0.5, segments: detail))
+            }),
+            .cube(size: 12).translated(by: [6, 0]),
+        ])
+        XCTAssertFalse(mesh.isWatertight)
+        mesh = mesh.makeWatertight()
+        XCTAssertTrue(mesh.isWatertight)
+        #endif
+    }
+
     // MARK: plane intersection
 
     func testCubePlaneIntersection() {

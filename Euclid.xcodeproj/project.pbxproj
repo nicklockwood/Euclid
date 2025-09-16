@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -52,6 +52,8 @@
 		016FABF121C078E400AF60DC /* SceneKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016FABF021C078E400AF60DC /* SceneKitViewController.swift */; };
 		016FABF621C078E500AF60DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 016FABF521C078E500AF60DC /* Assets.xcassets */; };
 		0175E7982DAE24400087AABA /* LineSegment+CSG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175E7972DAE24400087AABA /* LineSegment+CSG.swift */; };
+		0181BED72E79B48600F4C2CD /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0181BED52E79B48600F4C2CD /* PerformanceTests.swift */; };
+		0181BED92E79B50500F4C2CD /* RegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0181BED82E79B50500F4C2CD /* RegressionTests.swift */; };
 		0188525626D94FCC0079C602 /* Euclid+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0188525526D94FCC0079C602 /* Euclid+UIKit.swift */; };
 		0188525826D951490079C602 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0188525726D951490079C602 /* Color.swift */; };
 		0188525A26D952890079C602 /* Euclid+AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0188525926D952890079C602 /* Euclid+AppKit.swift */; };
@@ -181,6 +183,8 @@
 		016FABF021C078E400AF60DC /* SceneKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitViewController.swift; sourceTree = "<group>"; };
 		016FABF521C078E500AF60DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0175E7972DAE24400087AABA /* LineSegment+CSG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LineSegment+CSG.swift"; sourceTree = "<group>"; };
+		0181BED52E79B48600F4C2CD /* PerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
+		0181BED82E79B50500F4C2CD /* RegressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegressionTests.swift; sourceTree = "<group>"; };
 		0188525526D94FCC0079C602 /* Euclid+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+UIKit.swift"; sourceTree = "<group>"; };
 		0188525726D951490079C602 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0188525926D952890079C602 /* Euclid+AppKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Euclid+AppKit.swift"; sourceTree = "<group>"; };
@@ -222,10 +226,6 @@
 		EAF0DCEE2DA474D300CC5D70 /* PlaneComparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneComparable.swift; sourceTree = "<group>"; };
 		EAF0DCF02DA4CC8D00CC5D70 /* Bounded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bounded.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		01F995E82E6455BD0017AAC8 /* PerformanceTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PerformanceTests; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		016FAB2621BFE78100AF60DC /* Frameworks */ = {
@@ -275,7 +275,7 @@
 				016FAB2B21BFE78100AF60DC /* Sources */,
 				016FAB3621BFE78100AF60DC /* Tests */,
 				016FABEB21C078E400AF60DC /* Example */,
-				01F995E82E6455BD0017AAC8 /* PerformanceTests */,
+				0181BED62E79B48600F4C2CD /* PerformanceTests */,
 				016FAB2A21BFE78100AF60DC /* Products */,
 				0162A09523795E260078AE84 /* Frameworks */,
 			);
@@ -398,6 +398,15 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
+		0181BED62E79B48600F4C2CD /* PerformanceTests */ = {
+			isa = PBXGroup;
+			children = (
+				0181BED82E79B50500F4C2CD /* RegressionTests.swift */,
+				0181BED52E79B48600F4C2CD /* PerformanceTests.swift */,
+			);
+			path = PerformanceTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -469,9 +478,6 @@
 			);
 			dependencies = (
 				01F995ED2E6455BD0017AAC8 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				01F995E82E6455BD0017AAC8 /* PerformanceTests */,
 			);
 			name = PerformanceTests;
 			packageProductDependencies = (
@@ -709,6 +715,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0181BED72E79B48600F4C2CD /* PerformanceTests.swift in Sources */,
+				0181BED92E79B50500F4C2CD /* RegressionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
