@@ -45,7 +45,20 @@ public extension Mesh {
                 _ = try Data(contentsOf: url) // Will throw error if unreachable
             }
             #if canImport(SceneKit)
-            try self.init(url: url, ignoringTransforms: false, materialLookup: materialLookup)
+            var options: [SCNSceneSource.LoadingOption: Any] = [
+                .checkConsistency: true,
+                .flattenScene: true,
+                .createNormalsIfAbsent: true,
+                .convertToYUp: true,
+            ]
+            if #available(iOS 13, tvOS 13, macOS 10.12, *) {
+                options[.preserveOriginalTopology] = true
+            }
+            if !FileManager.default.isReadableFile(atPath: url.path) {
+                _ = try Data(contentsOf: url) // Will throw error if unreachable
+            }
+            let importedScene = try SCNScene(url: url, options: options)
+            self.init(importedScene.rootNode, materialLookup: materialLookup)
             #else
             throw IOError("Unsupported mesh file format '\(url.pathExtension)'")
             #endif

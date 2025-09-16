@@ -513,12 +513,8 @@ public extension Mesh {
     /// - Returns: A ``Material`` instance, or `nil` for the default material.
     typealias SCNMaterialProvider = (_ m: SCNMaterial) -> Material?
 
-    /// Loads a mesh from a file using any format supported by SceneKit,  with optional material mapping.
-    /// - Parameters:
-    ///   - url: The `URL` of the file to be loaded.
-    ///   - ignoringTransforms: Should node transforms from the input file be ignored.
-    ///   - materialLookup: An optional closure to map the SceneKit materials to Euclid materials.
-    ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
+    /// Deprecated
+    @available(*, deprecated, message: "Use Mesh.init(url:materialLookup:) instead.")
     init(url: URL, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider? = nil) throws {
         var options: [SCNSceneSource.LoadingOption: Any] = [
             .checkConsistency: false,
@@ -546,7 +542,7 @@ public extension Mesh {
     ///   - ignoringTransforms: Should transforms from the input node and its children be ignored.
     ///   - materialLookup: An optional closure to map the SceneKit materials to Euclid materials.
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
-    init(_ scnNode: SCNNode, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider? = nil) {
+    init(_ scnNode: SCNNode, ignoringTransforms: Bool = false, materialLookup: SCNMaterialProvider? = nil) {
         var meshes = [Mesh]()
         if let mesh = scnNode.geometry.flatMap({
             Mesh($0, materialLookup: materialLookup)
