@@ -221,40 +221,6 @@ extension Polygon {
         }
         assertionFailure()
     }
-
-    mutating func insertEdgePoint(_ p: Vector) -> Bool {
-        guard var last = vertices.last else {
-            assertionFailure()
-            return false
-        }
-        if vertices.contains(where: { $0.position.isApproximatelyEqual(to: p) }) {
-            return false
-        }
-        for (i, v) in vertices.enumerated() {
-            let s = LineSegment(unchecked: last.position, v.position)
-            guard s.intersects(p) else {
-                last = v
-                continue
-            }
-            let t = p.distance(from: s.start) / s.length
-            let vertex = last.lerp(v, t)
-            guard !vertex.isApproximatelyEqual(to: last), !vertex.isApproximatelyEqual(to: v) else {
-                return false
-            }
-            var vertices = vertices
-            vertices.insert(vertex, at: i)
-            self = Polygon(
-                unchecked: vertices,
-                plane: plane,
-                isConvex: isConvex,
-                sanitizeNormals: false,
-                material: material,
-                id: id
-            )
-            return true
-        }
-        return false
-    }
 }
 
 private extension Polygon {

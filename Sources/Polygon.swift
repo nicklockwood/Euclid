@@ -1163,6 +1163,43 @@ private extension Polygon {
             self.material = material
         }
     }
+
+    /// Attempt to a add a new edge vertex at the specified location.
+    /// - Returns: `true` if a point was added or `false` if it wasn't (either because point was not on the edge, or
+    /// matched existing vertex)
+    mutating func insertEdgePoint(_ p: Vector) -> Bool {
+        guard var last = vertices.last else {
+            assertionFailure()
+            return false
+        }
+        if vertices.contains(where: { $0.position.isApproximatelyEqual(to: p) }) {
+            return false
+        }
+        for (i, v) in vertices.enumerated() {
+            let s = LineSegment(unchecked: last.position, v.position)
+            guard s.intersects(p) else {
+                last = v
+                continue
+            }
+            let t = p.distance(from: s.start) / s.length
+            let vertex = last.lerp(v, t)
+            guard !vertex.isApproximatelyEqual(to: last), !vertex.isApproximatelyEqual(to: v) else {
+                return false
+            }
+            var vertices = vertices
+            vertices.insert(vertex, at: i)
+            self = Polygon(
+                unchecked: vertices,
+                plane: plane,
+                isConvex: isConvex,
+                sanitizeNormals: false,
+                material: material,
+                id: id
+            )
+            return true
+        }
+        return false
+    }
 }
 
 struct CodableMaterial: Codable {
