@@ -464,7 +464,7 @@ public extension Mesh {
     /// - Returns: A new mesh representing the Minkowski sum of the inputs.
     func minkowskiSum(with polygon: Polygon) -> Mesh {
         guard polygon.isConvex else {
-            return .union(polygons.tessellate().map(minkowskiSum(with:)))
+            return .union(polygon.tessellate().map(minkowskiSum(with:)))
         }
         return .convexHull(of: polygon.vertices.map { translated(by: $0.position) })
     }
