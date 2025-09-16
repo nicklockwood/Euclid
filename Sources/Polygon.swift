@@ -326,7 +326,7 @@ public extension Polygon {
             sanitizeNormals: true,
             material: material,
             id: id
-        ).tessellate()
+        ).detessellate(ensureConvex: false)
     }
 
     /// Return a copy of the polygon without texture coordinates
