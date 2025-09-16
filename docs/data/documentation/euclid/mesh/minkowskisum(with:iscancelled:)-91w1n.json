@@ -1,15 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a new mesh representing the Minowski sum of the",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "mesh parameter and the receiver.",
+      "text" : "Computes the minkowskiSum sum of the receiver with the specified path.",
       "type" : "text"
     }
   ],
@@ -23,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:isCancelled:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-91w1n"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV11minowskiSum4with11isCancelledA2C_SbyXEtF",
+    "externalID" : "s:6Euclid4MeshV12minkowskiSum4with11isCancelledAcA4PathV_SbyXEtF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -40,7 +32,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "minowskiSum"
+        "text" : "minkowskiSum"
       },
       {
         "kind" : "text",
@@ -56,8 +48,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4MeshV",
-        "text" : "Mesh"
+        "preciseIdentifier" : "s:6Euclid4PathV",
+        "text" : "Path"
       },
       {
         "kind" : "text",
@@ -94,7 +86,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "minowskiSum(with:isCancelled:)"
+    "title" : "minkowskiSum(with:isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -117,7 +109,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "minowskiSum"
+              "text" : "minkowskiSum"
             },
             {
               "kind" : "text",
@@ -133,17 +125,17 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "mesh"
+              "text" : "path"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4MeshV",
-              "text" : "Mesh"
+              "preciseIdentifier" : "s:6Euclid4PathV",
+              "text" : "Path"
             },
             {
               "kind" : "text",
@@ -186,14 +178,23 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The mesh to form a sum with.",
+                  "text" : "A ",
+                  "type" : "text"
+                },
+                {
+                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
+                  "isActive" : true,
+                  "type" : "reference"
+                },
+                {
+                  "text" : " with which to sum the mesh.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "mesh"
+          "name" : "path"
         },
         {
           "content" : [
@@ -222,101 +223,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "A new mesh representing the Minowski sum of the input meshes.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
-    },
-    {
-      "kind" : "mentions",
-      "mentions" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes"
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "discussion",
-          "level" : 2,
-          "text" : "Discussion",
-          "type" : "heading"
-        },
-        {
-          "code" : [
-            "__                     ________"
-          ],
-          "syntax" : null,
-          "type" : "codeListing"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "\/A \\                   \/        ",
-              "type" : "text"
-            },
-            {
-              "text" : "\n",
-              "type" : "text"
-            },
-            {
-              "text" : "_",
-              "type" : "text"
-            },
-            {
-              "inlineContent" : [
-                {
-                  "text" : "\/  +—––+   =   +          +",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "|       |       |          |",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "|   B   |       |          |",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "|       |       |          |",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "+—––+       +          +",
-                  "type" : "text"
-                },
-                {
-                  "text" : " ",
-                  "type" : "text"
-                },
-                {
-                  "text" : "_",
-                  "type" : "text"
-                }
-              ],
-              "type" : "emphasis"
-            },
-            {
-              "text" : "______\/",
+              "text" : "A new mesh representing the Minkowski sum of all the inputs.",
               "type" : "text"
             }
           ],
@@ -337,7 +244,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/minowskisum(with:iscancelled:)"
+        "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-91w1n"
       ],
       "traits" : [
         {
@@ -361,20 +268,6 @@
   "title" : "Euclid",
   "type" : "topic",
   "url" : "\/documentation\/euclid"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/ConstructingMeshes": {
-  "abstract" : [
-    {
-      "text" : "Define 3D objects by constructing meshes.",
-      "type" : "text"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes",
-  "kind" : "article",
-  "role" : "article",
-  "title" : "Constructing Meshes",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/constructingmeshes"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [
@@ -444,18 +337,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/cancellationhandler"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(with:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:isCancelled:)-91w1n": {
   "abstract" : [
     {
-      "text" : "Returns a new mesh representing the Minowski sum of the",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "mesh parameter and the receiver.",
+      "text" : "Computes the minkowskiSum sum of the receiver with the specified path.",
       "type" : "text"
     }
   ],
@@ -470,7 +355,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -486,8 +371,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
     },
     {
       "kind" : "text",
@@ -516,12 +401,46 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-91w1n",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(with:isCancelled:)",
+  "title" : "minkowskiSum(with:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(with:iscancelled:)"
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-91w1n"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
+  "abstract" : [
+    {
+      "text" : "A path made up of a sequence of straight line segments between points.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Path"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Path",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path"
 }
 }
 }

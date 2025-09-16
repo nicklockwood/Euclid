@@ -555,10 +555,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(shape:material:)": {
   "abstract" : [
     {
-      "text" : "Creates a single polygon from a path.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "identifier",

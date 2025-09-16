@@ -189,7 +189,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(submeshes:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:isCancelled:)-98ry4",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(of:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(of:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/union(_:isCancelled:)-swift.method",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/union(_:isCancelled:)-swift.type.method",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersection(_:isCancelled:)-swift.method",
@@ -368,7 +368,9 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-7p5hd",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-22brv",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-2xnt3",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4k8gs"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4k8gs",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(objString:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(offString:)"
       ],
       "title" : "Initializers"
     },
@@ -395,10 +397,14 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/edges(intersecting:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/flatteningNormals()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/inset(by:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(along:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(along:isCancelled:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/mapVertexColors(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(along:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(along:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-3zfuj",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-kn6k",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-91w1n",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-96d9",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/reflected(along:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(format:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(options:)",
@@ -4867,6 +4873,88 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4k8gs"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(objString:)": {
+  "abstract" : [
+    {
+      "text" : "Create a mesh from a Wavefront OBJ string.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "objString"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(objString:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(objString:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(objstring:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(offString:)": {
+  "abstract" : [
+    {
+      "text" : "Create a mesh from an Object File Format string.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "offString"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(offString:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(offString:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(offstring:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlData:materialLookup:)": {
   "abstract" : [
     {
@@ -5010,10 +5098,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(url:ignoringTransforms:materialLookup:)": {
   "abstract" : [
     {
-      "text" : "Loads a mesh from a file using any format supported by SceneKit,  with optional material mapping.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "identifier",
@@ -5770,6 +5859,61 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/makewatertight()"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/mapVertexColors(_:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a copy of the mesh with transformed vertex colors.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "mapVertexColors"
+    },
+    {
+      "kind" : "text",
+      "text" : "(("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/mapVertexColors(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "mapVertexColors(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/mapvertexcolors(_:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/materials": {
   "abstract" : [
     {
@@ -5944,13 +6088,14 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/merge(_:)-swift.type.method"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(along:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(along:)": {
   "abstract" : [
     {
-      "text" : "Computes the minowskiSum sum of the receiver along the specified edge.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -5962,7 +6107,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -5991,20 +6136,21 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(along:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(along:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(along:)",
+  "title" : "minkowskiSum(along:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(along:)"
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(along:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(along:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(along:isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Computes the minowskiSum sum of the receiver along the specified path.",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -6016,7 +6162,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -6062,17 +6208,17 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(along:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(along:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(along:isCancelled:)",
+  "title" : "minkowskiSum(along:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(along:iscancelled:)"
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(along:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(of:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(of:isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Efficiently computes the Minowski sum of two or more meshes.",
+      "text" : "Efficiently computes the Minkowski sum of two or more meshes.",
       "type" : "text"
     }
   ],
@@ -6095,7 +6241,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -6158,17 +6304,17 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(of:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(of:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(of:isCancelled:)",
+  "title" : "minkowskiSum(of:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(of:iscancelled:)"
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(of:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(with:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:)-3zfuj": {
   "abstract" : [
     {
-      "text" : "Computes the Minowski sum of the receiver and a polygon.",
+      "text" : "Computes the minkowskiSum sum of the receiver with the specified edge.",
       "type" : "text"
     }
   ],
@@ -6183,7 +6329,61 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-3zfuj",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "minkowskiSum(with:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:)-3zfuj"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:)-kn6k": {
+  "abstract" : [
+    {
+      "text" : "Computes the Minkowski sum of the receiver and a polygon.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -6212,17 +6412,88 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-kn6k",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(with:)",
+  "title" : "minkowskiSum(with:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(with:)"
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:)-kn6k"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(with:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:isCancelled:)-91w1n": {
   "abstract" : [
     {
-      "text" : "Returns a new mesh representing the Minowski sum of the",
+      "text" : "Computes the minkowskiSum sum of the receiver with the specified path.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "minkowskiSum"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-91w1n",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "minkowskiSum(with:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-91w1n"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:isCancelled:)-96d9": {
+  "abstract" : [
+    {
+      "text" : "Returns a new mesh representing the Minkowski sum of the",
       "type" : "text"
     },
     {
@@ -6245,7 +6516,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -6291,12 +6562,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-96d9",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(with:isCancelled:)",
+  "title" : "minkowskiSum(with:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(with:iscancelled:)"
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-96d9"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/objString()": {
   "abstract" : [
@@ -6334,6 +6605,43 @@
   "title" : "objString()",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/objstring()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/offString()": {
+  "abstract" : [
+    {
+      "text" : "Return Object File Format string data for the mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "offString"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "offString()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/offstring()"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/polygons": {
   "abstract" : [

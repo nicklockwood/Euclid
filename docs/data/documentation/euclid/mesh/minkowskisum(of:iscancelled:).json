@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Efficiently computes the Minowski sum of two or more meshes.",
+      "text" : "Efficiently computes the Minkowski sum of two or more meshes.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(of:isCancelled:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(of:isCancelled:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV11minowskiSum2of11isCancelledACx_SbyXEtSlRzAC7ElementRtzlFZ",
+    "externalID" : "s:6Euclid4MeshV12minkowskiSum2of11isCancelledACx_SbyXEtSlRzAC7ElementRtzlFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -40,7 +40,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "minowskiSum"
+        "text" : "minkowskiSum"
       },
       {
         "kind" : "text",
@@ -111,7 +111,7 @@
     "role" : "symbol",
     "roleHeading" : "Type Method",
     "symbolKind" : "method",
-    "title" : "minowskiSum(of:isCancelled:)"
+    "title" : "minkowskiSum(of:isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -142,7 +142,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "minowskiSum"
+              "text" : "minkowskiSum"
             },
             {
               "kind" : "text",
@@ -264,7 +264,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "A new mesh representing the Minowski sum of all the inputs.",
+              "text" : "A new mesh representing the Minkowski sum of all the inputs.",
               "type" : "text"
             }
           ],
@@ -307,7 +307,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/minowskisum(of:iscancelled:)"
+        "\/documentation\/euclid\/mesh\/minkowskisum(of:iscancelled:)"
       ],
       "traits" : [
         {
@@ -784,10 +784,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/intersection(_:iscancelled:)-swift.type.method"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(of:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(of:isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Efficiently computes the Minowski sum of two or more meshes.",
+      "text" : "Efficiently computes the Minkowski sum of two or more meshes.",
       "type" : "text"
     }
   ],
@@ -810,7 +810,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -873,12 +873,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(of:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(of:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(of:isCancelled:)",
+  "title" : "minkowskiSum(of:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(of:iscancelled:)"
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(of:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stencil(_:isCancelled:)-swift.method": {
   "abstract" : [

@@ -186,8 +186,8 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/minowskisum(of:iscancelled:)",
-                "title" : "static func minowskiSum(of: some Collection<Mesh>, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(of:iscancelled:)",
+                "title" : "static func minkowskiSum(of: some Collection<Mesh>, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -716,6 +716,16 @@
                 "type" : "init"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/init(objstring:)",
+                "title" : "init?(objString: String)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(offstring:)",
+                "title" : "init?(offString: String)",
+                "type" : "init"
+              },
+              {
                 "title" : "Instance Properties",
                 "type" : "groupMarker"
               },
@@ -784,23 +794,43 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/minowskisum(along:)",
-                "title" : "func minowskiSum(along: LineSegment) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/mapvertexcolors(_:)",
+                "title" : "func mapVertexColors((Color) -> Color?) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/minowskisum(along:iscancelled:)",
-                "title" : "func minowskiSum(along: Path, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(along:)",
+                "title" : "func minkowskiSum(along: LineSegment) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/minowskisum(with:)",
-                "title" : "func minowskiSum(with: Polygon) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(along:iscancelled:)",
+                "title" : "func minkowskiSum(along: Path, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/minowskisum(with:iscancelled:)",
-                "title" : "func minowskiSum(with: Mesh, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(with:)-3zfuj",
+                "title" : "func minkowskiSum(with: LineSegment) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(with:)-kn6k",
+                "title" : "func minkowskiSum(with: Polygon) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-91w1n",
+                "title" : "func minkowskiSum(with: Path, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-96d9",
+                "title" : "func minkowskiSum(with: Mesh, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/offstring()",
+                "title" : "func offString() -> String",
                 "type" : "method"
               },
               {
@@ -1304,6 +1334,15 @@
                 "path" : "\/documentation\/euclid\/polygon\/triangulate()",
                 "title" : "func triangulate() -> [Polygon]",
                 "type" : "method"
+              },
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/init(_:material:)-4mwx7",
+                "title" : "init?(Path, material: Material?)",
+                "type" : "init"
               },
               {
                 "title" : "Instance Properties",
@@ -1932,6 +1971,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)",
+                "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler?) -> Path",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/edgevertices(for:)",
                 "title" : "func edgeVertices(for: Mesh.WrapMode) -> [Vertex]",
                 "type" : "method"
@@ -1965,6 +2009,15 @@
                 "path" : "\/documentation\/euclid\/path\/split(along:)",
                 "title" : "func split(along: Plane) -> (front: Path, back: Path)",
                 "type" : "method"
+              },
+              {
+                "title" : "Type Aliases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/cancellationhandler",
+                "title" : "Path.CancellationHandler",
+                "type" : "typealias"
               },
               {
                 "title" : "Enumerations",
@@ -5081,6 +5134,16 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/bounds\/init(_:)-7uurk",
+                "title" : "init(some Collection<some Bounded>)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/bounds\/init(_:)-fqn0",
+                "title" : "init(some Bounded)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/bounds\/init(_:)-r54o",
                 "title" : "init(some Collection<Bounds>)",
                 "type" : "init"
@@ -5250,16 +5313,6 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/bounds\/init(_:)-7uurk",
-                "title" : "init(some Collection<some Bounded>)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/bounds\/init(_:)-fqn0",
-                "title" : "init(some Bounded)",
-                "type" : "init"
-              },
-              {
                 "title" : "Instance Properties",
                 "type" : "groupMarker"
               },
@@ -5273,13 +5326,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/bounds\/formminowskisum(with:)",
-                "title" : "func formMinowskiSum(with: Bounds)",
+                "path" : "\/documentation\/euclid\/bounds\/formminkowskisum(with:)",
+                "title" : "func formMinkowskiSum(with: Bounds)",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/bounds\/minowskisum(with:)",
-                "title" : "func minowskiSum(with: Bounds) -> Bounds",
+                "path" : "\/documentation\/euclid\/bounds\/minkowskisum(with:)",
+                "title" : "func minkowskiSum(with: Bounds) -> Bounds",
                 "type" : "method"
               },
               {
@@ -6486,6 +6539,20 @@
                 "path" : "\/documentation\/euclid\/color\/withalpha(_:)",
                 "title" : "func withAlpha(Double) -> Color",
                 "type" : "method"
+              },
+              {
+                "title" : "Operators",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/*(_:_:)",
+                "title" : "static func * (Color, Color) -> Color",
+                "type" : "op"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/*=(_:_:)",
+                "title" : "static func *= (inout Color, Color)",
+                "type" : "op"
               },
               {
                 "title" : "Instance Properties",

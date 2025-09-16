@@ -22,7 +22,7 @@
 
 - ``Mesh/init(submeshes:)``
 - ``Mesh/convexHull(of:isCancelled:)-(Collection<Mesh>,_)``
-- ``Mesh/minowskiSum(of:isCancelled:)``
+- ``Mesh/minkowskiSum(of:isCancelled:)``
 - ``Mesh/union(_:isCancelled:)-swift.method``
 - ``Mesh/union(_:isCancelled:)-swift.type.method``
 - ``Mesh/intersection(_:isCancelled:)-swift.method``

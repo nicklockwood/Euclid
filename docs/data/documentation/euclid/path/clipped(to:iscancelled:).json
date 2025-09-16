@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Computes the minowskiSum sum of the receiver along the specified edge.",
+      "text" : "Clip path to the specified mesh.",
       "type" : "text"
     }
   ],
@@ -9,18 +9,18 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(along:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV11minowskiSum5alongAcA11LineSegmentV_tF",
+    "externalID" : "s:6Euclid4PathV7clipped2to11isCancelledAcA4MeshV_SbycSgtF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,7 +32,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "minowskiSum"
+        "text" : "clipped"
       },
       {
         "kind" : "text",
@@ -40,7 +40,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "along"
+        "text" : "to"
       },
       {
         "kind" : "text",
@@ -48,17 +48,34 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid11LineSegmentV",
-        "text" : "LineSegment"
+        "preciseIdentifier" : "s:6Euclid4MeshV",
+        "text" : "Mesh"
       },
       {
         "kind" : "text",
-        "text" : ") -> "
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "isCancelled"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4MeshV",
-        "text" : "Mesh"
+        "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+        "text" : "CancellationHandler"
+      },
+      {
+        "kind" : "text",
+        "text" : "?) -> "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid4PathV",
+        "text" : "Path"
       }
     ],
     "modules" : [
@@ -69,7 +86,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "minowskiSum(along:)"
+    "title" : "clipped(to:isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -92,7 +109,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "minowskiSum"
+              "text" : "clipped"
             },
             {
               "kind" : "text",
@@ -100,7 +117,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "along"
+              "text" : "to"
             },
             {
               "kind" : "text",
@@ -108,27 +125,45 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "edge"
+              "text" : "mesh"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid11LineSegmentV",
-              "text" : "LineSegment"
-            },
-            {
-              "kind" : "text",
-              "text" : ") -> "
-            },
-            {
               "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:6Euclid4MeshV",
               "text" : "Mesh"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "isCancelled"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+              "text" : "CancellationHandler"
+            },
+            {
+              "kind" : "text",
+              "text" : "? = nil) -> "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid4PathV",
+              "text" : "Path"
             }
           ]
         }
@@ -143,23 +178,37 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A ",
+                  "text" : "The ",
                   "type" : "text"
                 },
                 {
-                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
+                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
                   "isActive" : true,
                   "type" : "reference"
                 },
                 {
-                  "text" : " along which to sum the mesh.",
+                  "text" : "  to clip the path to.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "edge"
+          "name" : "mesh"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Callback used to cancel the operation.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "isCancelled"
         }
       ]
     },
@@ -174,7 +223,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "A new mesh representing the Minowski sum of the inputs.",
+              "text" : "A path that lies outside the mesh.",
               "type" : "text"
             }
           ],
@@ -195,7 +244,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/minowskisum(along:)"
+        "\/documentation\/euclid\/path\/clipped(to:iscancelled:)"
       ],
       "traits" : [
         {
@@ -219,40 +268,6 @@
   "title" : "Euclid",
   "type" : "topic",
   "url" : "\/documentation\/euclid"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment": {
-  "abstract" : [
-    {
-      "text" : "A finite line segment in 3D space.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "LineSegment"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "LineSegment"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "LineSegment",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [
@@ -288,10 +303,78 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(along:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
   "abstract" : [
     {
-      "text" : "Computes the minowskiSum sum of the receiver along the specified edge.",
+      "text" : "A path made up of a sequence of straight line segments between points.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Path"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Path",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/CancellationHandler": {
+  "abstract" : [
+    {
+      "text" : "Callback used to cancel a long-running operation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Path.CancellationHandler",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/cancellationhandler"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/clipped(to:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Clip path to the specified mesh.",
       "type" : "text"
     }
   ],
@@ -306,7 +389,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "clipped"
     },
     {
       "kind" : "text",
@@ -314,7 +397,7 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "along"
+      "text" : "to"
     },
     {
       "kind" : "text",
@@ -322,25 +405,42 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
-      "text" : "LineSegment"
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
     },
     {
       "kind" : "text",
-      "text" : ") -> "
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(along:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(along:)",
+  "title" : "clipped(to:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(along:)"
+  "url" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)"
 }
 }
 }

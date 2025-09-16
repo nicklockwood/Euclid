@@ -303,10 +303,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(url:ignoringTransforms:materialLookup:)": {
   "abstract" : [
     {
-      "text" : "Loads a mesh from a file using any format supported by SceneKit,  with optional material mapping.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "identifier",

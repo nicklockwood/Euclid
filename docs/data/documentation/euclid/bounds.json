@@ -133,6 +133,8 @@
     {
       "anchor" : "Creating-Bounds",
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-7uurk",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-fqn0",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-r54o",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-27jri",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(min:max:)",
@@ -198,9 +200,7 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-4z4uf",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-5bh7b",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-7uurk",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-fqn0"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/init(_:)-5bh7b"
       ],
       "title" : "Initializers"
     },
@@ -216,8 +216,8 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/formMinowskiSum(with:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/minowskiSum(with:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/formMinkowskiSum(with:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/minkowskiSum(with:)"
       ],
       "title" : "Instance Methods"
     },
@@ -672,10 +672,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds\/formintersection(_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/formMinowskiSum(with:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/formMinkowskiSum(with:)": {
   "abstract" : [
     {
-      "text" : "Expands the bounds to the Minowski sum of the specified bounds and this one.",
+      "text" : "Expands the bounds to the Minkowski sum of the specified bounds and this one.",
       "type" : "text"
     }
   ],
@@ -690,7 +690,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "formMinowskiSum"
+      "text" : "formMinkowskiSum"
     },
     {
       "kind" : "text",
@@ -714,12 +714,12 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/formMinowskiSum(with:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/formMinkowskiSum(with:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "formMinowskiSum(with:)",
+  "title" : "formMinkowskiSum(with:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/formminowskisum(with:)"
+  "url" : "\/documentation\/euclid\/bounds\/formminkowskisum(with:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/formUnion(_:)": {
   "abstract" : [
@@ -1599,10 +1599,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/bounds\/min"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/minowskiSum(with:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/minkowskiSum(with:)": {
   "abstract" : [
     {
-      "text" : "Creates a new bounds representing the Minowski sum of the specified bounds and this one.",
+      "text" : "Creates a new bounds representing the Minkowski sum of the specified bounds and this one.",
       "type" : "text"
     }
   ],
@@ -1617,7 +1617,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -1646,12 +1646,12 @@
       "text" : "Bounds"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/minowskiSum(with:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/minkowskiSum(with:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(with:)",
+  "title" : "minkowskiSum(with:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/minowskisum(with:)"
+  "url" : "\/documentation\/euclid\/bounds\/minkowskisum(with:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/rotated(by:)": {
   "abstract" : [

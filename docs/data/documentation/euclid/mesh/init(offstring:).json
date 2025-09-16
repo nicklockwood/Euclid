@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Expands the bounds to the Minowski sum of the specified bounds and this one.",
+      "text" : "Create a mesh from an Object File Format string.",
       "type" : "text"
     }
   ],
@@ -9,38 +9,30 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/formMinowskiSum(with:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(offString:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid6BoundsV15formMinowskiSum4withyAC_tF",
+    "externalID" : "s:6Euclid4MeshV9offStringACSgSS_tcfc",
     "fragments" : [
       {
-        "kind" : "keyword",
-        "text" : "func"
-      },
-      {
-        "kind" : "text",
-        "text" : " "
-      },
-      {
         "kind" : "identifier",
-        "text" : "formMinowskiSum"
+        "text" : "init"
       },
       {
         "kind" : "text",
-        "text" : "("
+        "text" : "?("
       },
       {
         "kind" : "externalParam",
-        "text" : "with"
+        "text" : "offString"
       },
       {
         "kind" : "text",
@@ -48,8 +40,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid6BoundsV",
-        "text" : "Bounds"
+        "preciseIdentifier" : "s:SS",
+        "text" : "String"
       },
       {
         "kind" : "text",
@@ -62,9 +54,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Instance Method",
-    "symbolKind" : "method",
-    "title" : "formMinowskiSum(with:)"
+    "roleHeading" : "Initializer",
+    "symbolKind" : "init",
+    "title" : "init(offString:)"
   },
   "primaryContentSections" : [
     {
@@ -79,49 +71,24 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "mutating"
+              "text" : "init"
             },
             {
               "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "func"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "identifier",
-              "text" : "formMinowskiSum"
-            },
-            {
-              "kind" : "text",
-              "text" : "("
+              "text" : "?("
             },
             {
               "kind" : "externalParam",
-              "text" : "with"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "internalParam",
-              "text" : "other"
+              "text" : "offString"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid6BoundsV",
-              "text" : "Bounds"
+              "preciseIdentifier" : "s:SS",
+              "text" : "String"
             },
             {
               "kind" : "text",
@@ -140,14 +107,14 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The bounds with which to form the Minowski sum.",
+                  "text" : "OFF string data.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "other"
+          "name" : "offString"
         }
       ]
     }
@@ -163,7 +130,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/bounds\/formminowskisum(with:)"
+        "\/documentation\/euclid\/mesh\/init(offstring:)"
       ],
       "traits" : [
         {
@@ -188,18 +155,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [
     {
-      "text" : "An axially-aligned bounding box in 3D space.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "Used for efficient intersection elimination between more complex shapes.",
+      "text" : "A 3D surface made of polygons.",
       "type" : "text"
     }
   ],
@@ -214,49 +173,41 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Bounds"
+      "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Bounds"
+      "text" : "Mesh"
     }
   ],
   "role" : "symbol",
-  "title" : "Bounds",
+  "title" : "Mesh",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds"
+  "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/formMinowskiSum(with:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(offString:)": {
   "abstract" : [
     {
-      "text" : "Expands the bounds to the Minowski sum of the specified bounds and this one.",
+      "text" : "Create a mesh from an Object File Format string.",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
       "kind" : "identifier",
-      "text" : "formMinowskiSum"
+      "text" : "init"
     },
     {
       "kind" : "text",
-      "text" : "("
+      "text" : "?("
     },
     {
       "kind" : "externalParam",
-      "text" : "with"
+      "text" : "offString"
     },
     {
       "kind" : "text",
@@ -264,20 +215,20 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6BoundsV",
-      "text" : "Bounds"
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
     },
     {
       "kind" : "text",
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/formMinowskiSum(with:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(offString:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "formMinowskiSum(with:)",
+  "title" : "init(offString:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/formminowskisum(with:)"
+  "url" : "\/documentation\/euclid\/mesh\/init(offstring:)"
 }
 }
 }

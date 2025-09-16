@@ -1421,7 +1421,7 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:isCancelled:)",
+                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-96d9",
                       "isActive" : true,
                       "type" : "reference"
                     },
@@ -3142,10 +3142,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/loft(_:faces:material:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(with:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:isCancelled:)-96d9": {
   "abstract" : [
     {
-      "text" : "Returns a new mesh representing the Minowski sum of the",
+      "text" : "Returns a new mesh representing the Minkowski sum of the",
       "type" : "text"
     },
     {
@@ -3168,7 +3168,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -3214,12 +3214,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-96d9",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(with:isCancelled:)",
+  "title" : "minkowskiSum(with:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(with:iscancelled:)"
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-96d9"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/sphere(radius:slices:stacks:poleDetail:faces:wrapMode:material:)": {
   "abstract" : [

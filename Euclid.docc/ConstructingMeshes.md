@@ -83,7 +83,7 @@ The following CSG operations are defined as methods on the ``Mesh`` type:
 - ``Mesh/intersection(_:isCancelled:)-swift.method`` - Returns a single ``Mesh`` representing the common volume of two intersecting ``Mesh``es (logical AND).
 - ``Mesh/stencil(_:isCancelled:)-swift.method`` - This effectively "paints" part of one ``Mesh`` with the material from another.
 - ``Mesh/convexHull(with:isCancelled:)-swift.method`` - This creates a convex hull around one or more meshes.
-- ``Mesh/minowskiSum(with:isCancelled:)-swift.method`` - This traces the edges of one mesh with another.
+- ``Mesh/minkowskiSum(with:isCancelled:)-(Mesh,_)`` - This traces the edges of one mesh with another.
 
 Most CSG operations require ``Mesh``es that are "watertight", that is they have no holes in their surface. 
 Using a CSG operation on a mesh that isn't sealed may result in unexpected results.

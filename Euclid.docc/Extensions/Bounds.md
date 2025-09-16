@@ -4,7 +4,8 @@
 
 ### Creating Bounds
 
-- ``Bounds/init(_:)-(Collection<Bounded>)``
+- ``Bounds/init(_:)-7uurk``
+- ``Bounds/init(_:)-(Bounded)``
 - ``Bounds/init(_:)-(Collection<Bounds>)``
 - ``Bounds/init(_:)-(Collection<Vector>)``
 - ``Bounds/init(min:max:)``

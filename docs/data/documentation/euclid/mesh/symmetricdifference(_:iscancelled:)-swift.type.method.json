@@ -287,7 +287,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(submeshes:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:isCancelled:)-98ry4",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(of:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(of:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/union(_:isCancelled:)-swift.method",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/union(_:isCancelled:)-swift.type.method",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersection(_:isCancelled:)-swift.method",
@@ -796,10 +796,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/intersection(_:iscancelled:)-swift.type.method"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(of:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(of:isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Efficiently computes the Minowski sum of two or more meshes.",
+      "text" : "Efficiently computes the Minkowski sum of two or more meshes.",
       "type" : "text"
     }
   ],
@@ -822,7 +822,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -885,12 +885,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(of:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(of:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(of:isCancelled:)",
+  "title" : "minkowskiSum(of:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(of:iscancelled:)"
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(of:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stencil(_:isCancelled:)-swift.method": {
   "abstract" : [

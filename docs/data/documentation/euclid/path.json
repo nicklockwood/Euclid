@@ -406,6 +406,7 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/edgeVertices(for:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/extrusionContours(along:twist:align:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)",
@@ -415,6 +416,14 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/split(along:)"
       ],
       "title" : "Instance Methods"
+    },
+    {
+      "anchor" : "Type-Aliases",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler"
+      ],
+      "title" : "Type Aliases"
     },
     {
       "anchor" : "Enumerations",
@@ -717,6 +726,40 @@
   "title" : "Bounded Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/bounded-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/CancellationHandler": {
+  "abstract" : [
+    {
+      "text" : "Callback used to cancel a long-running operation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Path.CancellationHandler",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/cancellationhandler"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/CustomDebugStringConvertible-Implementations": {
   "abstract" : [
@@ -1105,6 +1148,77 @@
   "title" : "clipped(to:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/clipped(to:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/clipped(to:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Clip path to the specified mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "clipped"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "clipped(to:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/closed()": {
   "abstract" : [

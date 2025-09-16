@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates a single polygon from a path.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
@@ -70,6 +70,14 @@
         "name" : "Euclid"
       }
     ],
+    "platforms" : [
+      {
+        "beta" : false,
+        "deprecated" : true,
+        "renamed" : "init(_:material:)",
+        "unavailable" : false
+      }
+    ],
     "role" : "symbol",
     "roleHeading" : "Initializer",
     "symbolKind" : "init",
@@ -134,94 +142,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The ",
-                  "type" : "text"
-                },
-                {
-                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                  "isActive" : true,
-                  "type" : "reference"
-                },
-                {
-                  "text" : " to convert to a polygon.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "shape"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "An optional ",
-                  "type" : "text"
-                },
-                {
-                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Material-swift.typealias",
-                  "isActive" : true,
-                  "type" : "reference"
-                },
-                {
-                  "text" : " to apply to the polygon.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "material"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "discussion",
-          "level" : 2,
-          "text" : "Discussion",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "Path may be convex or concave, but must be closed, planar and non-degenerate, and must not",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "include subpaths. For a non-planar path, or one with subpaths, use ",
-              "type" : "text"
-            },
-            {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)",
-              "isActive" : true,
-              "type" : "reference"
-            },
-            {
-              "text" : ".",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -304,73 +224,6 @@
   "title" : "Path",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/facePolygons(material:)": {
-  "abstract" : [
-    {
-      "text" : "Returns one or more polygons needed to fill the path.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "facePolygons"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    },
-    {
-      "kind" : "text",
-      "text" : "."
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> ["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid7PolygonV",
-      "text" : "Polygon"
-    },
-    {
-      "kind" : "text",
-      "text" : "]"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "facePolygons(material:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/facepolygons(material:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
   "abstract" : [
@@ -624,10 +477,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(shape:material:)": {
   "abstract" : [
     {
-      "text" : "Creates a single polygon from a path.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "identifier",

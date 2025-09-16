@@ -214,6 +214,14 @@
       "title" : "Splitting Polygons"
     },
     {
+      "anchor" : "Initializers",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-4mwx7"
+      ],
+      "title" : "Initializers"
+    },
+    {
       "anchor" : "Instance-Properties",
       "generated" : true,
       "identifiers" : [
@@ -1427,6 +1435,56 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/hasvertexnormals"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(_:material:)-4mwx7": {
+  "abstract" : [
+    {
+      "text" : "Creates a single polygon from a path.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "material"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/init(_:material:)-4mwx7",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:material:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/init(_:material:)-4mwx7"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(_:material:)-5edpl": {
   "abstract" : [
     {
@@ -1547,10 +1605,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/init(shape:material:)": {
   "abstract" : [
     {
-      "text" : "Creates a single polygon from a path.",
+      "text" : "Deprecated",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "identifier",

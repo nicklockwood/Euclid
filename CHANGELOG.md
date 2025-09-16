@@ -1,5 +1,24 @@
 # Change Log
 
+## [0.8.8](https://github.com/nicklockwood/Euclid/releases/tag/0.8.8) (2025-09-16)
+
+- Added `Path.clipped(to mesh:)` method
+- Added `Mesh.mapVertexColors()` method
+- Added `Mesh.init(objString:)` function for importing Wavefront OBJ mesh data
+- Added `Mesh.init(objString:)` function for importing Wavefront OBJ mesh data
+- Added OFF (Object File Format) import and export methods
+- Added memberwise multiplication operators for `Color`
+- Renamed `Polygon.init(shape:material:)` to `Polygon.init(_:material:)`
+- Renamed `Mesh.minkowskiSum(along:)` methods to `Mesh.minkowskiSum(with:)`
+- Deprecated `Mesh.init(url:ignoringTransforms:materialLookup:)`
+- The `Path.orderedEdges` property no longer returns an extra segment
+- Fixed crash in `Path.orderedEdges` and `Path.orderedEdges`
+- Fixed vertex color blending behavior for `Mesh.minkowskiSum()` methods
+- Fixed `Mesh.minkowskiSum()` with empty or single-point paths
+- Fixed `Mesh.minkowskiSum()` with non-convex polygons
+- Fixed `Mesh.convexHull()` bug with coplanar points
+- Improved mesh convexity logic
+
 ## [0.8.7](https://github.com/nicklockwood/Euclid/releases/tag/0.8.7) (2025-09-07)
 
 - Fixed bug where `convexHull()` created spurious internal polygons

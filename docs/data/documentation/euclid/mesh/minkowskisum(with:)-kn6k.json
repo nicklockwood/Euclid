@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Computes the minowskiSum sum of the receiver along the specified path.",
+      "text" : "Computes the Minkowski sum of the receiver and a polygon.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(along:isCancelled:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-kn6k"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV11minowskiSum5along11isCancelledAcA4PathV_SbyXEtF",
+    "externalID" : "s:6Euclid4MeshV12minkowskiSum4withAcA7PolygonV_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,7 +32,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "minowskiSum"
+        "text" : "minkowskiSum"
       },
       {
         "kind" : "text",
@@ -40,7 +40,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "along"
+        "text" : "with"
       },
       {
         "kind" : "text",
@@ -48,25 +48,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4PathV",
-        "text" : "Path"
-      },
-      {
-        "kind" : "text",
-        "text" : ", "
-      },
-      {
-        "kind" : "externalParam",
-        "text" : "isCancelled"
-      },
-      {
-        "kind" : "text",
-        "text" : ": "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-        "text" : "CancellationHandler"
+        "preciseIdentifier" : "s:6Euclid7PolygonV",
+        "text" : "Polygon"
       },
       {
         "kind" : "text",
@@ -86,7 +69,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "minowskiSum(along:isCancelled:)"
+    "title" : "minkowskiSum(with:)"
   },
   "primaryContentSections" : [
     {
@@ -109,7 +92,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "minowskiSum"
+              "text" : "minkowskiSum"
             },
             {
               "kind" : "text",
@@ -117,7 +100,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "along"
+              "text" : "with"
             },
             {
               "kind" : "text",
@@ -125,39 +108,21 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "path"
+              "text" : "polygon"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4PathV",
-              "text" : "Path"
+              "preciseIdentifier" : "s:6Euclid7PolygonV",
+              "text" : "Polygon"
             },
             {
               "kind" : "text",
-              "text" : ", "
-            },
-            {
-              "kind" : "externalParam",
-              "text" : "isCancelled"
-            },
-            {
-              "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/CancellationHandler",
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-              "text" : "CancellationHandler"
-            },
-            {
-              "kind" : "text",
-              "text" : " = { false }) -> "
+              "text" : ") -> "
             },
             {
               "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
@@ -178,37 +143,14 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A ",
-                  "type" : "text"
-                },
-                {
-                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                  "isActive" : true,
-                  "type" : "reference"
-                },
-                {
-                  "text" : " along which to sum the mesh.",
+                  "text" : "The polygon with which to sum the mesh.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "path"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "Callback used to cancel the operation.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "isCancelled"
+          "name" : "polygon"
         }
       ]
     },
@@ -223,7 +165,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "A new mesh representing the Minowski sum of all the inputs.",
+              "text" : "A new mesh representing the Minkowski sum of the inputs.",
               "type" : "text"
             }
           ],
@@ -244,7 +186,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/minowskisum(along:iscancelled:)"
+        "\/documentation\/euclid\/mesh\/minkowskisum(with:)-kn6k"
       ],
       "traits" : [
         {
@@ -303,44 +245,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/CancellationHandler": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:)-kn6k": {
   "abstract" : [
     {
-      "text" : "Callback used to cancel a long-running operation.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "typealias"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "CancellationHandler"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/CancellationHandler",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "CancellationHandler"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Mesh.CancellationHandler",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/cancellationhandler"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(along:isCancelled:)": {
-  "abstract" : [
-    {
-      "text" : "Computes the minowskiSum sum of the receiver along the specified path.",
+      "text" : "Computes the Minkowski sum of the receiver and a polygon.",
       "type" : "text"
     }
   ],
@@ -355,7 +263,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -363,7 +271,7 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "along"
+      "text" : "with"
     },
     {
       "kind" : "text",
@@ -371,25 +279,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
     },
     {
       "kind" : "text",
@@ -401,17 +292,17 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(along:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-kn6k",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(along:isCancelled:)",
+  "title" : "minkowskiSum(with:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(along:iscancelled:)"
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:)-kn6k"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
   "abstract" : [
     {
-      "text" : "A path made up of a sequence of straight line segments between points.",
+      "text" : "A polygon in 3D space.",
       "type" : "text"
     }
   ],
@@ -426,21 +317,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Path"
+      "text" : "Polygon"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Path"
+      "text" : "Polygon"
     }
   ],
   "role" : "symbol",
-  "title" : "Path",
+  "title" : "Polygon",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path"
+  "url" : "\/documentation\/euclid\/polygon"
 }
 }
 }

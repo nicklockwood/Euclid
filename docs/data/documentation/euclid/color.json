@@ -210,6 +210,15 @@
       "title" : "Mutating Colors"
     },
     {
+      "anchor" : "Operators",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/*(_:_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/*=(_:_:)"
+      ],
+      "title" : "Operators"
+    },
+    {
       "anchor" : "Instance-Properties",
       "generated" : true,
       "identifiers" : [
@@ -363,6 +372,143 @@
   "title" : "Color",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/*(_:_:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a color with its components multiplied by the specified color.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "*"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/*(_:_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "*(_:_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/*(_:_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/*=(_:_:)": {
+  "abstract" : [
+    {
+      "text" : "Multiplies the components of the color by the specified color.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "*="
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "inout"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/*=(_:_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "*=(_:_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/*=(_:_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/CustomDebugStringConvertible-Implementations": {
   "abstract" : [

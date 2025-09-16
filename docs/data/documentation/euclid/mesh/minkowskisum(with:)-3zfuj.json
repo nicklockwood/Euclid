@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Computes the Minowski sum of the receiver and a polygon.",
+      "text" : "Computes the minkowskiSum sum of the receiver with the specified edge.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-3zfuj"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV11minowskiSum4withAcA7PolygonV_tF",
+    "externalID" : "s:6Euclid4MeshV12minkowskiSum4withAcA11LineSegmentV_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,7 +32,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "minowskiSum"
+        "text" : "minkowskiSum"
       },
       {
         "kind" : "text",
@@ -48,8 +48,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid7PolygonV",
-        "text" : "Polygon"
+        "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+        "text" : "LineSegment"
       },
       {
         "kind" : "text",
@@ -69,7 +69,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "minowskiSum(with:)"
+    "title" : "minkowskiSum(with:)"
   },
   "primaryContentSections" : [
     {
@@ -92,7 +92,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "minowskiSum"
+              "text" : "minkowskiSum"
             },
             {
               "kind" : "text",
@@ -108,17 +108,17 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "polygon"
+              "text" : "edge"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid7PolygonV",
-              "text" : "Polygon"
+              "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+              "text" : "LineSegment"
             },
             {
               "kind" : "text",
@@ -143,14 +143,23 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The polygon with which to sum the mesh.",
+                  "text" : "A ",
+                  "type" : "text"
+                },
+                {
+                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
+                  "isActive" : true,
+                  "type" : "reference"
+                },
+                {
+                  "text" : " with which to sum the mesh.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "polygon"
+          "name" : "edge"
         }
       ]
     },
@@ -165,7 +174,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "A new mesh representing the Minowski sum of the inputs.",
+              "text" : "A new mesh representing the Minkowski sum of the inputs.",
               "type" : "text"
             }
           ],
@@ -186,7 +195,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/minowskisum(with:)"
+        "\/documentation\/euclid\/mesh\/minkowskisum(with:)-3zfuj"
       ],
       "traits" : [
         {
@@ -210,6 +219,40 @@
   "title" : "Euclid",
   "type" : "topic",
   "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment": {
+  "abstract" : [
+    {
+      "text" : "A finite line segment in 3D space.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "LineSegment"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "LineSegment"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "LineSegment",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [
@@ -245,10 +288,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minowskiSum(with:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:)-3zfuj": {
   "abstract" : [
     {
-      "text" : "Computes the Minowski sum of the receiver and a polygon.",
+      "text" : "Computes the minkowskiSum sum of the receiver with the specified edge.",
       "type" : "text"
     }
   ],
@@ -263,7 +306,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "minkowskiSum"
     },
     {
       "kind" : "text",
@@ -279,8 +322,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid7PolygonV",
-      "text" : "Polygon"
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
     },
     {
       "kind" : "text",
@@ -292,46 +335,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minowskiSum(with:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-3zfuj",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(with:)",
+  "title" : "minkowskiSum(with:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minowskisum(with:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
-  "abstract" : [
-    {
-      "text" : "A polygon in 3D space.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Polygon"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Polygon"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Polygon",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon"
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:)-3zfuj"
 }
 }
 }

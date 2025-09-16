@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates a new bounds representing the Minowski sum of the specified bounds and this one.",
+      "text" : "Returns a copy of the mesh with transformed vertex colors.",
       "type" : "text"
     }
   ],
@@ -9,18 +9,18 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/minowskiSum(with:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/mapVertexColors(_:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid6BoundsV11minowskiSum4withA2C_tF",
+    "externalID" : "s:6Euclid4MeshV15mapVertexColorsyAcA5ColorVSgAFXEF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,24 +32,16 @@
       },
       {
         "kind" : "identifier",
-        "text" : "minowskiSum"
+        "text" : "mapVertexColors"
       },
       {
         "kind" : "text",
-        "text" : "("
-      },
-      {
-        "kind" : "externalParam",
-        "text" : "with"
-      },
-      {
-        "kind" : "text",
-        "text" : ": "
+        "text" : "(("
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid6BoundsV",
-        "text" : "Bounds"
+        "preciseIdentifier" : "s:6Euclid5ColorV",
+        "text" : "Color"
       },
       {
         "kind" : "text",
@@ -57,8 +49,17 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid6BoundsV",
-        "text" : "Bounds"
+        "preciseIdentifier" : "s:6Euclid5ColorV",
+        "text" : "Color"
+      },
+      {
+        "kind" : "text",
+        "text" : "?) -> "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid4MeshV",
+        "text" : "Mesh"
       }
     ],
     "modules" : [
@@ -69,7 +70,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "minowskiSum(with:)"
+    "title" : "mapVertexColors(_:)"
   },
   "primaryContentSections" : [
     {
@@ -92,7 +93,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "minowskiSum"
+              "text" : "mapVertexColors"
             },
             {
               "kind" : "text",
@@ -100,7 +101,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "with"
+              "text" : "_"
             },
             {
               "kind" : "text",
@@ -108,71 +109,42 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "other"
+              "text" : "transform"
             },
             {
               "kind" : "text",
-              "text" : ": "
+              "text" : ": ("
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid6BoundsV",
-              "text" : "Bounds"
+              "preciseIdentifier" : "s:6Euclid5ColorV",
+              "text" : "Color"
             },
             {
               "kind" : "text",
               "text" : ") -> "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid6BoundsV",
-              "text" : "Bounds"
+              "preciseIdentifier" : "s:6Euclid5ColorV",
+              "text" : "Color"
+            },
+            {
+              "kind" : "text",
+              "text" : "?) -> "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid4MeshV",
+              "text" : "Mesh"
             }
           ]
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The bounds with which to form the Minowski sum.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "other"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "The combined bounds.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -186,7 +158,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/bounds\/minowskisum(with:)"
+        "\/documentation\/euclid\/mesh\/mapvertexcolors(_:)"
       ],
       "traits" : [
         {
@@ -211,18 +183,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "An axially-aligned bounding box in 3D space.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "Used for efficient intersection elimination between more complex shapes.",
+      "text" : "A color in RGBA format.",
       "type" : "text"
     }
   ],
@@ -237,26 +201,60 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Bounds"
+      "text" : "Color"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Bounds"
+      "text" : "Color"
     }
   ],
   "role" : "symbol",
-  "title" : "Bounds",
+  "title" : "Color",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds"
+  "url" : "\/documentation\/euclid\/color"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/minowskiSum(with:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [
     {
-      "text" : "Creates a new bounds representing the Minowski sum of the specified bounds and this one.",
+      "text" : "A 3D surface made of polygons.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Mesh"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/mapVertexColors(_:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a copy of the mesh with transformed vertex colors.",
       "type" : "text"
     }
   ],
@@ -271,24 +269,16 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minowskiSum"
+      "text" : "mapVertexColors"
     },
     {
       "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "with"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
+      "text" : "(("
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6BoundsV",
-      "text" : "Bounds"
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
     },
     {
       "kind" : "text",
@@ -296,16 +286,25 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6BoundsV",
-      "text" : "Bounds"
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Bounds\/minowskiSum(with:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/mapVertexColors(_:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minowskiSum(with:)",
+  "title" : "mapVertexColors(_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/bounds\/minowskisum(with:)"
+  "url" : "\/documentation\/euclid\/mesh\/mapvertexcolors(_:)"
 }
 }
 }
