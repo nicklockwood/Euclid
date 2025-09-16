@@ -70,7 +70,7 @@ public extension Mesh {
         let vertices = (0 ..< counts.vertices).compactMap { _ in
             lines.readVertex()
         }
-        let faces = (0 ..< counts.faces).compactMap { _ in
+        let faces = (0 ..< counts.faces).flatMap { _ in
             lines.readFace(with: vertices)
         }
         self = Mesh(faces)
@@ -93,21 +93,12 @@ private extension ArraySlice where Element == String {
         {
             removeFirst()
         }
-        guard let counts = readInts(), counts.count == 3,
-              counts[0] >= 0, counts[1] >= 0
+        guard let counts = readDoubles()?.compactMap(Int.init(exactly:)),
+              counts.count >= 2, counts.allSatisfy({ $0 >= 0 })
         else {
             return nil
         }
         return (counts[0], counts[1])
-    }
-
-    mutating func readInts() -> [Int]? {
-        skipBlankLinesAndComments()
-        guard let line = popFirst() else { return nil }
-        return line
-            .components(separatedBy: .whitespaces)
-            .filter { !$0.isEmpty }
-            .compactMap { Int($0) }
     }
 
     mutating func readDoubles() -> [Double]? {
@@ -123,14 +114,15 @@ private extension ArraySlice where Element == String {
         readDoubles().flatMap(Vector.init(_:))
     }
 
-    mutating func readFace(with vertices: [Vector]) -> Polygon? {
-        guard let ints = readInts(),
-              let count = ints.first,
-              count == ints.count - 1,
-              ints[1...].allSatisfy({ $0 < vertices.count })
+    mutating func readFace(with vertices: [Vector]) -> [Polygon] {
+        guard let doubles = readDoubles(),
+              let count = doubles.first.flatMap(Int.init(exactly:)),
+              count < doubles.count,
+              case let indices = doubles[1 ... count].compactMap(Int.init(exactly:)),
+              indices.allSatisfy({ $0 < vertices.count })
         else {
-            return nil
+            return []
         }
-        return Polygon(ints[1...].map { vertices[$0] })
+        return .init(indices.map { Vertex(vertices[$0]) }, material: nil)
     }
 }

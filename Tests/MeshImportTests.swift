@@ -415,4 +415,86 @@ class MeshImportTests: XCTestCase {
         let mesh = Mesh(offString: offString)
         XCTAssertEqual(mesh, cube.withoutTexcoords())
     }
+
+    func testEmptyOFF() {
+        let offString = """
+        OFF
+        0 0 0
+        """
+        let mesh = Mesh(offString: offString)
+        XCTAssertEqual(mesh, .empty)
+    }
+
+    func testOFFWithoutTitle() {
+        let offString = """
+        0 0 0
+        """
+        let mesh = Mesh(offString: offString)
+        XCTAssertEqual(mesh, .empty)
+    }
+
+    func testMalformedOFFFiles() {
+        let badOffs: [String] = [
+            "", // Empty
+            "GOO\n0 0 0", // Bad header
+            "OFF\n-1 0 0", // Negative vertex count
+            "OFF\n0 -1 0", // Negative face count
+            "OFF\n2 1 0\n1 0 0\n0 1 0\n3 0 1 2", // Index out of bounds
+            "OFF\n2 1 0\n1 0 0\n0 1 0\n3 0 1", // Missing index
+        ]
+        for off in badOffs {
+            let mesh = Mesh(offString: off) ?? .empty
+            XCTAssertEqual(mesh, .empty)
+        }
+    }
+
+    func testDodecahedronOFF() throws {
+        // from https://people.sc.fsu.edu/~jburkardt/data/off/off.html
+        let offString = """
+        OFF
+        #
+        #  hdodec.off
+        #
+        20 12 30
+
+         0.485869  0.081684 -0.682249
+        -0.485869  0.0816845 -0.682249
+        -0.786152 -0.185585 -0.236068
+         0.786152  0.185584 0.236068
+         0.0       0.249799 0.803619
+        -0.485867  0.68225 0.0816817
+         0.0       0.721938 0.432444
+        -0.300283  0.618035 -0.485868
+         0.300283  0.618035 -0.485867
+         0.485866  0.68225 0.0816816
+         0.48587  -0.682248 -0.0816834
+         0.300283 -0.618035 0.485868
+        -0.300282 -0.618035 0.485867
+         0.0      -0.249798 -0.803619
+         0.0      -0.721936 -0.432451
+        -0.485869 -0.682249 -0.0816828
+        -0.485868 -0.0816825 0.682249
+        -0.786152  0.185586 0.236067
+         0.786152 -0.185584 -0.236069
+         0.485868 -0.0816818 0.682249
+
+        5    3 9 6 4 19    0.800 0.098 0.098
+        5    13 14 15 2 1    0.098 0.647 0.400
+        5    3 18 0 8 9    0.098 0.098 0.800
+        5    2 17 5 7 1    0.898 0.600 0.000
+        5    11 12 15 14 10    0.000 0.600 0.800
+        5    7 8 0 13 1    0.498 0.000 0.898
+        5    5 6 9 8 7    0.498 0.000 0.898
+        5    11 19 4 16 12    0.000 0.600 0.800
+        5    17 2 15 12 16    0.898 0.600 0.000
+        5    18 3 19 11 10    0.098 0.098 0.800
+        5    14 13 0 18 10    0.098 0.647 0.400
+        5    17 16 4 6 5    0.800 0.098 0.098
+        """
+        let mesh = try XCTUnwrap(Mesh(offString: offString))
+        XCTAssertEqual(mesh.polygons.count, 36)
+        XCTAssertTrue(mesh.polygons.allSatisfy { $0.vertices.count == 3 })
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertFalse(mesh.isConvex())
+    }
 }
