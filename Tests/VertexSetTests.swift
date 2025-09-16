@@ -35,7 +35,6 @@ class VertexSetTests: XCTestCase {
             $0.translated(by: $1).vertices
         }
         let positions = Set(vertices.map { set.insert($0).position })
-        print(positions)
         XCTAssertEqual(positions.count, 8)
     }
 
