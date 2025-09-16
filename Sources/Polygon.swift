@@ -316,17 +316,8 @@ public extension Polygon {
     /// this method returns an array of zero or more polygons constructed from the mapped vertices.
     func mapVertices(_ transform: (Vertex) -> Vertex) -> [Polygon] {
         let vertices = vertices.map(transform)
-        if let polygon = Polygon(vertices, material: material)?.withID(id) {
-            return [polygon]
-        }
-        return triangulateVertices(
-            vertices,
-            plane: nil,
-            isConvex: nil,
-            sanitizeNormals: true,
-            material: material,
-            id: id
-        ).detessellate(ensureConvex: false)
+        // TODO: is it worth checking if positions have changed as a fast path?
+        return .init(vertices, material: material, id: id)
     }
 
     /// Return a copy of the polygon without texture coordinates
@@ -575,6 +566,24 @@ extension Collection<LineSegment> {
             }
         }
         return distance
+    }
+}
+
+extension [Polygon] {
+    /// Create one or more polygons from a closed loop of vertices
+    init(_ vertices: [Vertex], material: Polygon.Material?, id: Int = 0) {
+        if let polygon = Polygon(vertices, material: material)?.withID(id) {
+            self = [polygon]
+            return
+        }
+        self = triangulateVertices(
+            vertices,
+            plane: nil,
+            isConvex: nil,
+            sanitizeNormals: true,
+            material: material,
+            id: id
+        ).detessellate(ensureConvex: false)
     }
 }
 
@@ -1076,6 +1085,12 @@ extension Polygon {
         // check if convex
         let isConvex = verticesAreConvex(result)
         if ensureConvex, !isConvex {
+            return nil
+        }
+
+        // check result is actually planar
+        let isPlanar = result.allSatisfy(plane.intersects)
+        if !isPlanar {
             return nil
         }
 

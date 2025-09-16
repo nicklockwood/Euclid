@@ -361,17 +361,7 @@ private extension [Polygon] {
             }
             offset += Int(count)
             let material = materials.isEmpty ? nil : materials[index % materials.count]
-            guard let polygon = Polygon(vertices, material: material) else {
-                return triangulateVertices(
-                    vertices,
-                    plane: nil,
-                    isConvex: true,
-                    sanitizeNormals: true,
-                    material: material,
-                    id: 0
-                )
-            }
-            return [polygon]
+            return [Polygon](vertices, material: material)
         }
     }
 }

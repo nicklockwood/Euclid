@@ -659,20 +659,7 @@ public extension Mesh {
                         vertices.append(vertex(at: index))
                         index += 1
                     }
-                    if let polygon = Polygon(vertices, material: material) {
-                        polygons.append(polygon)
-                    } else {
-                        for triangle in triangulateVertices(
-                            vertices,
-                            plane: nil,
-                            isConvex: nil,
-                            sanitizeNormals: true,
-                            material: material,
-                            id: 0
-                        ) {
-                            polygons.append(triangle)
-                        }
-                    }
+                    polygons += .init(vertices, material: material)
                 }
             default:
                 // TODO: throw detailed error message instead

@@ -311,17 +311,7 @@ public extension Path {
         guard let vertices = faceVertices else {
             return []
         }
-        if plane != nil, let polygon = Polygon(vertices, material: material) {
-            return [polygon]
-        }
-        return triangulateVertices(
-            vertices,
-            plane: nil,
-            isConvex: nil,
-            sanitizeNormals: false,
-            material: material,
-            id: 0
-        ).detessellate(ensureConvex: false)
+        return .init(vertices, material: material)
     }
 
     /// An array of vertices suitable for constructing a polygon from the path.
