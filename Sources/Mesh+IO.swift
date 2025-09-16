@@ -34,18 +34,29 @@ public extension Mesh {
     ///     mapping.
     init(url: URL, materialLookup: ((AnyHashable?) -> Material?)? = nil) throws {
         switch url.pathExtension.lowercased() {
+        case "stl", "stla":
+            let data = try Data(contentsOf: url)
+            guard let mesh = Mesh(stlData: data, materialLookup: materialLookup) else {
+                throw IOError("Invalid STL file")
+            }
+            self = mesh
         case "off":
             let string = try String(contentsOf: url)
             guard let mesh = Mesh(offString: string) else {
                 throw IOError("Invalid OFF file")
             }
             self = mesh
-        case "stl", "stla":
-            let data = try Data(contentsOf: url)
-            guard let mesh = Mesh(stlData: data, materialLookup: materialLookup) else {
-                fallthrough
+        case "obj":
+            #if canImport(SceneKit)
+            // SceneKit supports materials, etc.
+            fallthrough
+            #else
+            let string = try String(contentsOf: url)
+            guard let mesh = Mesh(objString: string) else {
+                throw IOError("Invalid OBJ file")
             }
             self = mesh
+            #endif
         default:
             if !FileManager.default.isReadableFile(atPath: url.path) {
                 _ = try Data(contentsOf: url) // Will throw error if unreachable

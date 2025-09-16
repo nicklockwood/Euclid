@@ -361,6 +361,197 @@ class MeshImportTests: XCTestCase {
         XCTAssertEqual(cube, expected)
     }
 
+    // MARK: OBJ import
+
+    func testCubeOBJ() throws {
+        let objString = """
+        v 1 0 1
+        v 1 0 0
+        v 1 1 0
+        v 1 1 1
+        v 0 0 0
+        v 0 0 1
+        v 0 1 1
+        v 0 1 0
+
+        vt 0 1
+        vt 1 1
+        vt 1 0
+        vt 0 0
+
+        f 1/1 2/2 3/3 4/4
+        f 5/1 6/2 7/3 8/4
+        f 7/1 4/2 3/3 8/4
+        f 5/1 2/2 1/3 6/4
+        f 6/1 1/2 4/3 7/4
+        f 2/1 5/2 8/3 3/4
+        """
+        let cube = Mesh.cube().translated(by: [0.5, 0.5, 0.5])
+        let mesh = try XCTUnwrap(Mesh(objString: objString))
+        XCTAssertEqual(mesh, cube)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConvex())
+    }
+
+    func testCubeOBJWithWhitespaceAndComments() throws {
+        let objString = """
+         vT 0 1
+        vt 1 1
+
+        v 1 0 1
+        v 1 0 0
+        v 1 1 0 #foo
+        V \t1 1 1
+
+        v 0 0 0
+        V 0   0 1
+        v 0 1 1
+        v 0 1 0
+
+         \tf 1/1 2/2 3/3 4/4 
+
+        VT \t 1 0
+        Vt 0 \t0
+
+          f 5/1 6/2 7/3 8/4
+                F 7/1 4/2 3/3 8/4 #bar
+          f 5/1 2/2 1/3 6/4
+        f 6/1 1/2 4/3 7/4
+           f 2/1 5/2    8/3 3/4
+        """
+        let cube = Mesh.cube().translated(by: [0.5, 0.5, 0.5])
+        let mesh = try XCTUnwrap(Mesh(objString: objString))
+        XCTAssertEqual(mesh, cube)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConvex())
+    }
+
+    func testMalformedOBJFiles() {
+        let badOffs: [String] = [
+            "", // Empty
+            "v 1 0 1\nf -1 -1 -1", // Negative index
+            "v 1 0 1\nf 1 2 1", // Index out of bounds
+        ]
+        for off in badOffs {
+            let mesh = Mesh(offString: off) ?? .empty
+            XCTAssertEqual(mesh, .empty)
+        }
+    }
+
+    func testCylinderOBJ() throws {
+        let objString = """
+        v 0 0.5 0
+        v -0.5 0.5 0
+        v 0 0.5 0.5
+        v -0.5 -0.5 0
+        v 0 -0.5 0.5
+        v 0 -0.5 0
+        v 0.5 0.5 0
+        v 0.5 -0.5 0
+        v 0 0.5 -0.5
+        v 0 -0.5 -0.5
+
+        vt 0.125 0
+        vt 0 0
+        vt 0.25 0
+        vt 0 1
+        vt 0.25 1
+        vt 0.125 1
+        vt 0.375 0
+        vt 0.5 0
+        vt 0.5 1
+        vt 0.375 1
+        vt 0.625 0
+        vt 0.75 0
+        vt 0.75 1
+        vt 0.625 1
+        vt 0.875 0
+        vt 1 0
+        vt 1 1
+        vt 0.875 1
+
+        vn 0 1 0
+        vn -6.12323e-17 0 1
+        vn -1 0 0
+        vn 0 -1 0
+        vn 1 0 1.22465e-16
+        vn 1.83697e-16 0 -1
+        vn -1 0 -2.44929e-16
+
+        f 1/1/1 2/2/1 3/3/1
+        f 3/3/2 2/2/3 4/4/3 5/5/2
+        f 5/5/4 4/4/4 6/6/4
+        f 1/7/1 3/3/1 7/8/1
+        f 7/8/5 3/3/2 5/5/2 8/9/5
+        f 8/9/4 5/5/4 6/10/4
+        f 1/11/1 7/8/1 9/12/1
+        f 9/12/6 7/8/5 8/9/5 10/13/6
+        f 10/13/4 8/9/4 6/14/4
+        f 1/15/1 9/12/1 2/16/1
+        f 2/16/7 9/12/6 10/13/6 4/17/7
+        f 4/17/4 10/13/4 6/18/4
+        """
+        let cylinder = Mesh.cylinder(slices: 4)
+        let mesh = try XCTUnwrap(Mesh(objString: objString))
+        XCTAssertEqual(mesh, cylinder)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConvex())
+    }
+
+    func testGradientLatheOBJ() throws {
+        let objString = """
+        v 0 1 0 1 0 0
+        v -1 0 0 0 1 0
+        v 0 0 1 0 1 0
+        v 0 -1 0 0 0 1
+        v 1 0 0 0 1 0
+        v 0 0 -1 0 1 0
+
+        vt 0.125 0
+        vt 0 0.5
+        vt 0.25 0.5
+        vt 0.125 1
+        vt 0.375 0
+        vt 0.5 0.5
+        vt 0.375 1
+        vt 0.625 0
+        vt 0.75 0.5
+        vt 0.625 1
+        vt 0.875 0
+        vt 1 0.5
+        vt 0.875 1
+
+        vn -0.707107 0.707107 0
+        vn -4.32978e-17 0.707107 0.707107
+        vn -4.32978e-17 -0.707107 0.707107
+        vn -0.707107 -0.707107 0
+        vn 0.707107 0.707107 8.65956e-17
+        vn 0.707107 -0.707107 8.65956e-17
+        vn 1.29893e-16 0.707107 -0.707107
+        vn 1.29893e-16 -0.707107 -0.707107
+        vn -0.707107 0.707107 -1.73191e-16
+        vn -0.707107 -0.707107 -1.73191e-16
+
+        f 1/1/1 2/2/1 3/3/2
+        f 3/3/3 2/2/4 4/4/4
+        f 1/5/2 3/3/2 5/6/5
+        f 5/6/6 3/3/3 4/7/3
+        f 1/8/5 5/6/5 6/9/7
+        f 6/9/8 5/6/6 4/10/6
+        f 1/11/7 6/9/7 2/12/9
+        f 2/12/10 6/9/8 4/13/8
+        """
+        let cylinder = Mesh.lathe(Path([
+            .point(0, 1, color: .red),
+            .point(1, 0, color: .green),
+            .point(0, -1, color: .blue),
+        ]), slices: 4)
+        let mesh = try XCTUnwrap(Mesh(objString: objString))
+        XCTAssertEqual(mesh, cylinder)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConvex())
+    }
+
     // MARK: OFF import
 
     func testCubeOFF() {
