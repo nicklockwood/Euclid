@@ -462,8 +462,8 @@ public extension Path {
 
     /// Returns the ordered array of path edges.
     var orderedEdges: [LineSegment] {
-        var p0 = points.last?.position
-        return points.compactMap {
+        var p0 = points.first?.position
+        return points.dropFirst().compactMap {
             let p1 = $0.position
             defer { p0 = p1 }
             return LineSegment(start: p0!, end: p1)
@@ -473,12 +473,7 @@ public extension Path {
     /// An unordered set of path edges.
     /// The direction of each edge is normalized relative to the origin to simplify edge-equality comparisons.
     var undirectedEdges: Set<LineSegment> {
-        var p0 = points.last?.position
-        return Set(points.compactMap {
-            let p1 = $0.position
-            defer { p0 = p1 }
-            return LineSegment(undirected: p0!, p1)
-        })
+        Set(orderedEdges.map(LineSegment.init(undirected:)))
     }
 
     /// Applies a uniform inset to the edges of the path.

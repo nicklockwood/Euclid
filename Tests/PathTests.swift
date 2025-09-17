@@ -1003,6 +1003,12 @@ class PathTests: XCTestCase {
         XCTAssertEqual(Path.empty.undirectedEdges, [])
     }
 
+    func testEdgesForUnclosedPath() {
+        let path = Path([.point(0, 0), .point(1, 0), .point(1, 1)])
+        XCTAssertEqual(path.orderedEdges.count, 2)
+        XCTAssertEqual(path.undirectedEdges.count, 2)
+    }
+
     func testOrderedEdgesForLetterG() {
         #if canImport(CoreText)
         let text = Path.text("G")[0]
