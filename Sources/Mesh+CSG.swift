@@ -399,6 +399,81 @@ public extension Mesh {
         convexHull(of: Array(polygons), with: nil, bounds: nil, isCancelled)
     }
 
+    /// Computes the convex hull of a set of paths.
+    /// - Parameters:
+    ///   - paths: A set of paths to compute the hull around.
+    ///   - material: An optional material to apply to the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
+    static func convexHull(
+        of paths: some Collection<Path>,
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        convexHull(of: paths.flatMap(\.edgeVertices), material: material, isCancelled: isCancelled)
+    }
+
+    /// Computes the convex hull of a set of path points.
+    /// - Parameters:
+    ///   - points: A set of path points to compute the hull around.
+    ///   - material: An optional material to apply to the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
+    ///
+    /// > Note: The curvature of the point is currently ignored when calculating hull surface normals.
+    static func convexHull(
+        of points: some Collection<PathPoint>,
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        convexHull(of: points.map(Vertex.init), material: material, isCancelled: isCancelled)
+    }
+
+    /// Computes the convex hull of a set of vertices.
+    /// - Parameters:
+    ///   - vertices: A set of vertices to compute the hull around.
+    ///   - material: An optional material to apply to the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
+    static func convexHull(
+        of vertices: some Collection<Vertex>,
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        var verticesByPosition = [Vector: [(faceNormal: Vector, Vertex)]]()
+        for v in vertices {
+            verticesByPosition[v.position, default: []].append((v.normal, v))
+        }
+        return convexHull(of: verticesByPosition, material: material, isCancelled)
+    }
+
+    /// Computes the convex hull of a set of points.
+    /// - Parameters:
+    ///   - points: An set of points to compute the hull around.
+    ///   - material: An optional material to apply to the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
+    static func convexHull(
+        of points: some Collection<Vector>,
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        convexHull(
+            of: Dictionary(points.map { ($0, []) }, uniquingKeysWith: { $1 }),
+            material: material,
+            isCancelled
+        )
+    }
+
+    /// Computes the convex hull of a set of line segments.
+    /// - Parameters:
+    ///   - edges: A set of line segments to compute the hull around.
+    ///   - material: An optional material to apply to the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
+    static func convexHull(
+        of edges: some Collection<LineSegment>,
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        convexHull(of: edges.flatMap { [$0.start, $0.end] }, material: material, isCancelled: isCancelled)
+    }
+
     /// Returns a new mesh representing the Minkowski sum of the
     /// mesh parameter and the receiver.
     ///
@@ -814,9 +889,60 @@ private extension Mesh {
             submeshes: []
         )
     }
+
+    static func convexHull(
+        of verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]],
+        material: Material?,
+        _ isCancelled: CancellationHandler
+    ) -> Mesh {
+        var points = verticesByPosition.keys.sorted()
+        var polygons = [Polygon]()
+        // Form a starting triangle pair from 3 non-collinear points
+        var i = 3
+        while i <= points.endIndex {
+            let range = i - 3 ..< i
+            if let triangle = Polygon(
+                points: points[range],
+                verticesByPosition: verticesByPosition,
+                faceNormal: nil,
+                material: material
+            ), let inverse = Polygon(
+                // Note: not the same as triangle.inverse()
+                points: points[range].reversed(),
+                verticesByPosition: verticesByPosition,
+                faceNormal: nil,
+                material: material
+            ) {
+                polygons += [triangle, inverse]
+                points.removeSubrange(range)
+                break
+            }
+            i += 1
+        }
+        if polygons.isEmpty {
+            return .empty
+        }
+        // Add remaining points
+        // TODO: find better way to batch for cancellation purposes
+        for (i, point) in points.enumerated() where i % 100 > 0 || !isCancelled() {
+            polygons.addPoint(
+                point,
+                material: material,
+                verticesByPosition: verticesByPosition
+            )
+        }
+        return Mesh(
+            unchecked: polygons,
+            bounds: nil,
+            bsp: nil,
+            isConvex: true,
+            isWatertight: nil,
+            submeshes: []
+        )
+    }
 }
 
-extension [Polygon] {
+private extension [Polygon] {
     mutating func addPoint(
         _ point: Vector,
         material: Polygon.Material?,
