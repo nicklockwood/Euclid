@@ -496,7 +496,11 @@ public extension Mesh {
         } else if mesh.isEmpty {
             return self
         }
-        if mesh.isConvex(isCancelled: isCancelled), mesh.isWatertight {
+        if mesh.isConvex(isCancelled: isCancelled) {
+            guard isConvex(isCancelled: isCancelled) else {
+                // Preserve concavity
+                return mesh.minkowskiSum(with: self)
+            }
             let points = Set(mesh.polygons.flatMap { $0.vertices.map(\.position) }).sorted()
             return .convexHull(of: points.map(translated(by:)))
         }

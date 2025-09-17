@@ -482,6 +482,18 @@ class MeshCSGTests: XCTestCase {
         XCTAssertEqual(mesh.minkowskiSum(with: Mesh.empty), mesh)
     }
 
+    func testMinkowskiSumOfConvexAndConcaveMeshes() {
+        #if canImport(CoreText)
+        let a = Mesh.cube(size: 0.1)
+        let b = Mesh.text("G")
+        let ab = a.minkowskiSum(with: b)
+        let ba = b.minkowskiSum(with: a)
+        XCTAssertFalse(ab.isConvex())
+        XCTAssertFalse(ba.isConvex())
+        XCTAssertEqual(ab, ba)
+        #endif
+    }
+
     func testMinkowskiSumWithPath() {
         let mesh = Mesh.cube().minkowskiSum(with: .square())
         XCTAssertEqual(mesh.bounds, Bounds(min: [-1, -1, -0.5], max: [1, 1, 0.5]))
