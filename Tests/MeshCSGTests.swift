@@ -482,6 +482,33 @@ class MeshCSGTests: XCTestCase {
         XCTAssertEqual(mesh.minkowskiSum(with: Mesh.empty), mesh)
     }
 
+    func testMinkowskiSumWithPath() {
+        let mesh = Mesh.cube().minkowskiSum(with: .square())
+        XCTAssertEqual(mesh.bounds, Bounds(min: [-1, -1, -0.5], max: [1, 1, 0.5]))
+    }
+
+    func testMinkowskiSumWithLinePath() {
+        let mesh = Mesh.cube().minkowskiSum(with: .line([0, 0], [1, 0]))
+        XCTAssertEqual(mesh.bounds, Bounds(min: [-0.5, -0.5, -0.5], max: [1.5, 0.5, 0.5]))
+    }
+
+    func testMinkowskiSumWithPointPath() {
+        let mesh = Mesh.cube().minkowskiSum(with: Path([.point(1, 0, color: .red)]))
+        XCTAssertEqual(mesh.bounds, Bounds(min: [0.5, -0.5, -0.5], max: [1.5, 0.5, 0.5]))
+        let vertices = mesh.polygons.flatMap(\.vertices)
+        XCTAssert(vertices.allSatisfy { $0.color == .red })
+    }
+
+    func testMinkowskiSumWithEmptyPath() {
+        let mesh = Mesh.cube().minkowskiSum(with: Path.empty)
+        XCTAssertEqual(mesh, .empty)
+    }
+
+    func testMinkowskiSumWithLineSegment() {
+        let mesh = Mesh.cube().minkowskiSum(with: LineSegment(unchecked: [0, 0], [1, 0]))
+        XCTAssertEqual(mesh.bounds, Bounds(min: [-0.5, -0.5, -0.5], max: [1.5, 0.5, 0.5]))
+    }
+
     // MARK: Planar subtraction
 
     func testSubtractCoincidingSquares() {

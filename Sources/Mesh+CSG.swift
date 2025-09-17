@@ -454,9 +454,19 @@ public extension Mesh {
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the Minkowski sum of all the inputs.
     func minkowskiSum(with path: Path, isCancelled: CancellationHandler = { false }) -> Mesh {
-        .union(path.orderedEdges.map {
-            isCancelled() ? .empty : minkowskiSum(with: $0)
-        }, isCancelled: isCancelled)
+        guard let point = path.points.first else {
+            return .empty
+        }
+        var a = translated(by: point.position).mapVertexColors { point.color ?? $0 }
+        guard path.points.count > 1 else {
+            return a
+        }
+        return .union(path.points.dropFirst().compactMap { point in
+            if isCancelled() { return nil }
+            let b = translated(by: point.position).mapVertexColors { point.color ?? $0 }
+            defer { a = b }
+            return .convexHull(of: [a, b], isCancelled: isCancelled)
+        })
     }
 
     /// Deprecated.
