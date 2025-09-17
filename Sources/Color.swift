@@ -171,6 +171,16 @@ public extension Color {
     func lerp(_ other: Color, _ t: Double) -> Color {
         interpolated(with: other, by: t)
     }
+
+    /// Returns a color with its components multiplied by the specified color.
+    static func * (lhs: Color, rhs: Color) -> Color {
+        [lhs.r * rhs.r, lhs.g * rhs.g, lhs.b * rhs.b, lhs.a * rhs.a]
+    }
+
+    /// Multiplies the components of the color by the specified color.
+    static func *= (lhs: inout Color, rhs: Color) {
+        lhs = lhs * rhs
+    }
 }
 
 public extension Collection<Color> where Index == Int {
