@@ -409,6 +409,26 @@ class MeshCSGTests: XCTestCase {
         XCTAssertEqual(mesh.bounds, Bounds(spheres))
     }
 
+    func testConvexHullVertexColorBlending() {
+        let mesh1 = Mesh.cube().mapVertexColors { _ in .red }
+        let mesh2 = Mesh.cube().translated(by: [1, 0]).mapVertexColors { _ in .blue }
+        let mesh = Mesh.convexHull(of: [mesh1, mesh2])
+        let vertices = mesh.polygons.flatMap(\.vertices)
+        XCTAssert(vertices.allSatisfy { $0.color == .red || $0.color == .blue })
+        XCTAssert(vertices.contains(where: { $0.color == .blue }))
+        XCTAssert(vertices.contains(where: { $0.color == .red }))
+    }
+
+    func testConvexHullPathPointColorBlending() {
+        let path1 = Path.square(color: .red)
+        let path2 = Path.circle(color: .blue).translated(by: [1, 0])
+        let mesh = Mesh.convexHull(of: [path1, path2])
+        let vertices = mesh.polygons.flatMap(\.vertices)
+        XCTAssert(vertices.allSatisfy { $0.color == .red || $0.color == .blue })
+        XCTAssert(vertices.contains(where: { $0.color == .blue }))
+        XCTAssert(vertices.contains(where: { $0.color == .red }))
+    }
+
     // MARK: Minkowski Sum
 
     func testMinkowskiSumOfCubes() {
@@ -494,6 +514,14 @@ class MeshCSGTests: XCTestCase {
         #endif
     }
 
+    func testMinkowskiSumWithPolygon() {
+        let square = Polygon(.square(color: .red))!
+        let mesh = Mesh.cube().minkowskiSum(with: square)
+        XCTAssertEqual(mesh.bounds, Bounds(min: [-1, -1, -0.5], max: [1, 1, 0.5]))
+        let vertices = mesh.polygons.flatMap(\.vertices)
+        XCTAssert(vertices.allSatisfy { $0.color == .red })
+    }
+
     func testMinkowskiSumWithPath() {
         let mesh = Mesh.cube().minkowskiSum(with: .square())
         XCTAssertEqual(mesh.bounds, Bounds(min: [-1, -1, -0.5], max: [1, 1, 0.5]))
@@ -519,6 +547,44 @@ class MeshCSGTests: XCTestCase {
     func testMinkowskiSumWithLineSegment() {
         let mesh = Mesh.cube().minkowskiSum(with: LineSegment(unchecked: [0, 0], [1, 0]))
         XCTAssertEqual(mesh.bounds, Bounds(min: [-0.5, -0.5, -0.5], max: [1.5, 0.5, 0.5]))
+    }
+
+    func testMinkowskiSumConvexMeshColorBlending() {
+        let mesh1 = Mesh.cube().mapVertexColors { _ in .red }
+        let mesh2 = Mesh.cube().mapVertexColors { _ in .blue }
+        let mesh = mesh1.minkowskiSum(with: mesh2)
+        let vertices = mesh.polygons.flatMap(\.vertices)
+        let blended = Color.red * .blue
+        XCTAssert(vertices.allSatisfy { $0.color == blended })
+    }
+
+    func testMinkowskiSumConcaveMeshColorBlending() {
+        #if canImport(CoreText)
+        let mesh1 = Mesh.cube(size: 0.1).mapVertexColors { _ in .red }
+        let mesh2 = Mesh.text("G").mapVertexColors { _ in .blue }
+        let mesh = mesh1.minkowskiSum(with: mesh2)
+        let vertices = mesh.polygons.flatMap(\.vertices)
+        let blended = Color.red * .blue
+        XCTAssert(vertices.allSatisfy { $0.color == blended })
+        #endif
+    }
+
+    func testMinkowskiSumPolygonColorBlending() {
+        let square = Polygon(.square(color: .red))!
+        let mesh = Mesh.cube().mapVertexColors { _ in .blue }.minkowskiSum(with: square)
+        XCTAssertEqual(mesh.bounds, Bounds(min: [-1, -1, -0.5], max: [1, 1, 0.5]))
+        let vertices = mesh.polygons.flatMap(\.vertices)
+        let blended = Color.red * .blue
+        XCTAssert(vertices.allSatisfy { $0.color == blended })
+    }
+
+    func testMinkowskiSumPathColorBlending() {
+        let path = Path.square(color: .red)
+        let mesh = Mesh.cube().mapVertexColors { _ in .blue }.minkowskiSum(with: path)
+        XCTAssertEqual(mesh.bounds, Bounds(min: [-1, -1, -0.5], max: [1, 1, 0.5]))
+        let vertices = mesh.polygons.flatMap(\.vertices)
+        let blended = Color.red * .blue
+        XCTAssert(vertices.allSatisfy { $0.color == blended })
     }
 
     // MARK: Planar subtraction

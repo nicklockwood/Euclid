@@ -501,8 +501,12 @@ public extension Mesh {
                 // Preserve concavity
                 return mesh.minkowskiSum(with: self)
             }
-            let points = Set(mesh.polygons.flatMap { $0.vertices.map(\.position) }).sorted()
-            return .convexHull(of: points.map(translated(by:)))
+            let vertices = Set(mesh.polygons.flatMap {
+                $0.vertices.map { Vertex($0.position, color: $0.color) }
+            }).sorted(by: { $0.position < $1.position })
+            return .convexHull(of: vertices.map { vertex in
+                translated(by: vertex.position).mapVertexColors { $0 * vertex.color }
+            })
         }
         return .union([mesh] + mesh.polygons.map {
             isCancelled() ? .empty : minkowskiSum(with: $0)
@@ -536,13 +540,14 @@ public extension Mesh {
         guard let point = path.points.first else {
             return .empty
         }
-        var a = translated(by: point.position).mapVertexColors { point.color ?? $0 }
+        let color = point.color ?? .white
+        var a = translated(by: point.position).mapVertexColors { $0 * color }
         guard path.points.count > 1 else {
             return a
         }
         return .union(path.points.dropFirst().compactMap { point in
             if isCancelled() { return nil }
-            let b = translated(by: point.position).mapVertexColors { point.color ?? $0 }
+            let b = translated(by: point.position).mapVertexColors { $0 * color }
             defer { a = b }
             return .convexHull(of: [a, b], isCancelled: isCancelled)
         })
@@ -561,7 +566,9 @@ public extension Mesh {
         guard polygon.isConvex else {
             return .union(polygon.tessellate().map(minkowskiSum(with:)))
         }
-        return .convexHull(of: polygon.vertices.map { translated(by: $0.position) })
+        return .convexHull(of: polygon.vertices.map { vertex in
+            translated(by: vertex.position).mapVertexColors { $0 * vertex.color }
+        })
     }
 
     /// Computes the minkowskiSum sum of the receiver with the specified edge.
