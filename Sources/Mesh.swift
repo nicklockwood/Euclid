@@ -240,6 +240,18 @@ public extension Mesh {
         )
     }
 
+    /// Returns a copy of the mesh with transformed vertex colors.
+    func mapVertexColors(_ transform: (Color) -> Color?) -> Mesh {
+        Mesh(
+            unchecked: polygons.mapVertexColors(transform),
+            bounds: boundsIfSet,
+            bsp: nil, // TODO: Can we update this directly?
+            isConvex: isKnownConvex,
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
+        )
+    }
+
     /// Merges the polygons from two meshes.
     /// - Parameter mesh: The mesh to merge with this one.
     /// - Returns: A new mesh that includes all polygons from both meshes.
