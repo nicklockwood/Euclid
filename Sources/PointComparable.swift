@@ -86,6 +86,10 @@ extension Line: PointComparable {
     public func nearestPoint(to point: Vector) -> Vector {
         origin + direction * (point - origin).dot(direction)
     }
+
+    public func distance(from point: Vector) -> Double {
+        direction.cross(point - origin).length
+    }
 }
 
 extension LineSegment: PointComparable {
