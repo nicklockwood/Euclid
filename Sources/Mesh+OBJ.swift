@@ -172,11 +172,11 @@ private extension ArraySlice where Element == String {
         )
 
         func readVector() -> Vector {
-            .init(parts[1...].compactMap(Double.init(_:)))
+            .init(parts.compactMap(Double.init(_:)))
         }
 
         func readVertex() -> Vertex {
-            let doubles = parts[1...].compactMap(Double.init(_:))
+            let doubles = parts.compactMap(Double.init(_:))
             let vector = Vector(doubles)
             let color = doubles.count > 3 ? Color(doubles.dropFirst(3)) : nil
             return .init(vector, color: color)
