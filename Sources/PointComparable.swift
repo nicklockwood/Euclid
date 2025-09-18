@@ -38,8 +38,7 @@ public extension PointComparable {
     /// - Parameter point: The point to compare with.
     /// - Returns: The nearest point on the receiver that touches the point, or `nil` otherwise.
     func intersection(with point: Vector) -> Vector? {
-        let nearest = nearestPoint(to: point)
-        return nearest.intersects(point) ? nearest : nil
+        intersects(point) ? point : nil
     }
 }
 

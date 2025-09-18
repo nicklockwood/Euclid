@@ -160,9 +160,7 @@ public extension Line {
     func intersection(with bounds: Bounds) -> Set<Vector> {
         // TODO: optimize this by taking into account that planes are axis-aligned
         Set(bounds.edgePlanes.compactMap {
-            intersection(with: $0).flatMap {
-                bounds.intersects($0) ? $0 : nil
-            }
+            intersection(with: $0).flatMap(bounds.intersection(with:))
         })
     }
 

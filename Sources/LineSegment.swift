@@ -225,9 +225,7 @@ public extension LineSegment {
         }
         // TODO: optimize this by taking into account that planes are axis-aligned
         return intersections.union(bounds.edgePlanes.compactMap {
-            intersection(with: $0).flatMap {
-                bounds.intersects($0) ? $0 : nil
-            }
+            intersection(with: $0).flatMap(bounds.intersection(with:))
         })
     }
 
