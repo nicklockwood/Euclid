@@ -34,7 +34,7 @@ public extension Mesh {
             "\(vertices.count) \(indices.count) 0",
             vertexStrings.joined(separator: "\n"),
             indexStrings.joined(separator: "\n"),
-        ].compactMap { $0 }.joined(separator: "\n")
+        ].joined(separator: "\n")
     }
 }
 
@@ -106,7 +106,6 @@ private extension ArraySlice where Element == String {
         guard let line = popFirst() else { return nil }
         return line
             .components(separatedBy: .whitespaces)
-            .filter { !$0.isEmpty }
             .compactMap { Double($0) }
     }
 

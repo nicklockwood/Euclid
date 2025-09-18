@@ -247,7 +247,11 @@ public extension Mesh {
         let materialLookup = materialLookup ?? { $0 }
         let triangles = stlData.withUnsafeBytes { buffer -> [Polygon] in
             (0 ..< count).compactMap { _ in
-                buffer.readTriangle(at: &offset, baseColor: baseColor, materialLookup: materialLookup)
+                buffer.readTriangle(
+                    at: &offset,
+                    baseColor: baseColor,
+                    materialLookup: materialLookup
+                )
             }
         }
         self.init(triangles)
@@ -255,14 +259,14 @@ public extension Mesh {
 }
 
 private extension ArraySlice where Element == String {
-    mutating func readCommand(_ name: String, parts: inout [String]) -> Bool {
+    mutating func readCommand(_ name: String, parts: inout [Double]) -> Bool {
         var line = ""
         guard readCommand(name, line: &line) else {
             return false
         }
         parts = line[name.endIndex...]
             .components(separatedBy: .whitespaces)
-            .filter { !$0.isEmpty }
+            .compactMap { Double($0) }
         return true
     }
 
@@ -284,11 +288,11 @@ private extension ArraySlice where Element == String {
     }
 
     mutating func readVertex() -> Vertex? {
-        var parts = [String]()
+        var parts = [Double]()
         guard readCommand("vertex", parts: &parts) else {
             return nil
         }
-        return Vertex(parts.compactMap(Double.init))
+        return Vertex(parts)
     }
 
     mutating func readTriangle() -> Polygon? {

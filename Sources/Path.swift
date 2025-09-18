@@ -483,7 +483,7 @@ public extension Path {
     /// > Note: Passing a negative `distance` will expand the path instead of shrinking it.
     func inset(by distance: Double) -> Path {
         guard subpaths.count <= 1, points.count >= 2 else {
-            return Path(subpaths: subpaths.compactMap { $0.inset(by: distance) })
+            return Path(subpaths: subpaths.map { $0.inset(by: distance) })
         }
         let count = points.count
         var p1 = isClosed ? points[count - 2] : (

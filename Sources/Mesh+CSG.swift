@@ -545,8 +545,8 @@ public extension Mesh {
         guard path.points.count > 1 else {
             return a
         }
-        return .union(path.points.dropFirst().compactMap { point in
-            if isCancelled() { return nil }
+        return .union(path.points.dropFirst().map { point in
+            if isCancelled() { return .empty }
             let b = translated(by: point.position).mapVertexColors { $0 * color }
             defer { a = b }
             return .convexHull(of: [a, b], isCancelled: isCancelled)
