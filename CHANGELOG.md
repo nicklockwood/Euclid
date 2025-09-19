@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.8.9](https://github.com/nicklockwood/Euclid/releases/tag/0.8.9) (2025-09-22)
+
+- Fixed some bugs in `Polygon`/`Line` intersection logic
+- Fixed some bugs in `Bounds`/`Line` intersection logic 
+- Checking if a vector lies inside a range now works as expected
+- Added some missing `LineComparable` conformances
+- Improved `Line.distance(from:)` performance
+
 ## [0.8.8](https://github.com/nicklockwood/Euclid/releases/tag/0.8.8) (2025-09-16)
 
 - Added `Path.clipped(to mesh:)` method

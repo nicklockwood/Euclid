@@ -164,6 +164,7 @@
     {
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Interpolatable",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PlaneComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PointComparable",
         "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
@@ -263,6 +264,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Equatable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Interpolatable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/LineComparable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/PlaneComparable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/PointComparable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Transformable-Implementations"
@@ -399,6 +401,40 @@
   "title" : "Line",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/line"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineComparable": {
+  "abstract" : [
+    {
+      "text" : "Protocol for line-comparable types.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "LineComparable"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineComparable",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "LineComparable"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "LineComparable",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linecomparable"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment": {
   "abstract" : [
@@ -626,6 +662,17 @@
   "title" : "Interpolatable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint\/interpolatable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/LineComparable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/LineComparable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "LineComparable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/pathpoint\/linecomparable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/PlaneComparable-Implementations": {
   "abstract" : [

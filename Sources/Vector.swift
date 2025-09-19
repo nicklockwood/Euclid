@@ -348,13 +348,6 @@ public extension Vector {
         plane.nearestPoint(to: self)
     }
 
-    /// Returns the distance between the vector (representing a position in space) and the specified point.
-    /// - Parameter point: The point to compare with.
-    /// - Returns: The absolute perpendicular distance between the two points.
-    func distance(from point: Vector) -> Double {
-        (self - point).length
-    }
-
     /// Returns the distance between the vector (representing a position in space) and the specified object.
     /// - Parameter object: The object to compare with.
     /// - Returns: The absolute perpendicular distance between the point and object.

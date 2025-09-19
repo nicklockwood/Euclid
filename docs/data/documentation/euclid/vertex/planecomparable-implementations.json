@@ -36,7 +36,6 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/compare(with:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/distance(from:)-42kck",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/signedDistance(from:)"
       ],
       "title" : "Instance Methods"
@@ -243,60 +242,6 @@
   "title" : "compare(with:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex\/compare(with:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/distance(from:)-42kck": {
-  "abstract" : [
-    {
-      "text" : "Returns the absolute distance between the receiver and the specified plane.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "distance"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "from"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5PlaneV",
-      "text" : "Plane"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/distance(from:)-42kck",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "distance(from:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vertex\/distance(from:)-42kck"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/signedDistance(from:)": {
   "abstract" : [

@@ -9,18 +9,18 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/distance(from:)-31bws"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-4o41"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid15PointComparablePAAE8distance4fromSdAA6VectorV_tF::SYNTHESIZED::s:6Euclid9PathPointV",
+    "externalID" : "s:6Euclid4LineV8distance4fromSdAA6VectorV_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -193,7 +193,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/pathpoint\/distance(from:)-31bws"
+        "\/documentation\/euclid\/line\/distance(from:)-4o41"
       ],
       "traits" : [
         {
@@ -218,10 +218,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line": {
   "abstract" : [
     {
-      "text" : "A point along a path.",
+      "text" : "An infinite line in 3D space.",
       "type" : "text"
     }
   ],
@@ -236,23 +236,23 @@
     },
     {
       "kind" : "identifier",
-      "text" : "PathPoint"
+      "text" : "Line"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "PathPoint"
+      "text" : "Line"
     }
   ],
   "role" : "symbol",
-  "title" : "PathPoint",
+  "title" : "Line",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint"
+  "url" : "\/documentation\/euclid\/line"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/distance(from:)-31bws": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/distance(from:)-4o41": {
   "abstract" : [
     {
       "text" : "Returns the distance between the receiver and the specified point.",
@@ -299,12 +299,12 @@
       "text" : "Double"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/distance(from:)-31bws",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-4o41",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distance(from:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/distance(from:)-31bws"
+  "url" : "\/documentation\/euclid\/line\/distance(from:)-4o41"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
   "abstract" : [

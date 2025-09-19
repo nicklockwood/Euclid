@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns the distance between the receiver and the specified point.",
+      "text" : "Returns the absolute distance between the receiver and the specified line.",
       "type" : "text"
     }
   ],
@@ -9,18 +9,18 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/distance(from:)-v36y"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/distance(from:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid15PointComparablePAAE8distance4fromSdAA6VectorV_tF::SYNTHESIZED::s:6Euclid6VertexV",
+    "externalID" : "s:6Euclid9PathPointV8distance4fromSdAA4LineV_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -48,8 +48,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid6VectorV",
-        "text" : "Vector"
+        "preciseIdentifier" : "s:6Euclid4LineV",
+        "text" : "Line"
       },
       {
         "kind" : "text",
@@ -108,17 +108,17 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "point"
+              "text" : "line"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid6VectorV",
-              "text" : "Vector"
+              "preciseIdentifier" : "s:6Euclid4LineV",
+              "text" : "Line"
             },
             {
               "kind" : "text",
@@ -142,14 +142,14 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The point to compare with.",
+                  "text" : "The line to compare with.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "point"
+          "name" : "line"
         }
       ]
     },
@@ -164,7 +164,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "The distance between the receiver and the point. The value is always positive",
+              "text" : "The distance between the receiver and the line. The value is positive if the receiver",
               "type" : "text"
             },
             {
@@ -172,7 +172,7 @@
               "type" : "text"
             },
             {
-              "text" : "if the receiver is not touching the point, or zero if it touches or intersects the point.",
+              "text" : "lies in front or behind the line, or zero if it lies exactly on the line, or crosses it.",
               "type" : "text"
             }
           ],
@@ -193,7 +193,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/vertex\/distance(from:)-v36y"
+        "\/documentation\/euclid\/pathpoint\/distance(from:)"
       ],
       "traits" : [
         {
@@ -218,10 +218,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line": {
   "abstract" : [
     {
-      "text" : "A 3D surface made of polygons.",
+      "text" : "An infinite line in 3D space.",
       "type" : "text"
     }
   ],
@@ -236,26 +236,26 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Mesh"
+      "text" : "Line"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Mesh"
+      "text" : "Line"
     }
   ],
   "role" : "symbol",
-  "title" : "Mesh",
+  "title" : "Line",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh"
+  "url" : "\/documentation\/euclid\/line"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint": {
   "abstract" : [
     {
-      "text" : "A polygon in 3D space.",
+      "text" : "A point along a path.",
       "type" : "text"
     }
   ],
@@ -270,112 +270,26 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Polygon"
+      "text" : "PathPoint"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Polygon"
+      "text" : "PathPoint"
     }
   ],
   "role" : "symbol",
-  "title" : "Polygon",
+  "title" : "PathPoint",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon"
+  "url" : "\/documentation\/euclid\/pathpoint"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/distance(from:)": {
   "abstract" : [
     {
-      "text" : "A distance or position in 3D space.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Vector"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Vector"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Vector",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex": {
-  "abstract" : [
-    {
-      "text" : "A vertex represents a corner of a ",
-      "type" : "text"
-    },
-    {
-      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
-      "isActive" : true,
-      "type" : "reference"
-    },
-    {
-      "text" : " or a point on the surface of a ",
-      "type" : "text"
-    },
-    {
-      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-      "isActive" : true,
-      "type" : "reference"
-    },
-    {
-      "text" : ".",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Vertex"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Vertex"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Vertex",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/vertex"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/distance(from:)-v36y": {
-  "abstract" : [
-    {
-      "text" : "Returns the distance between the receiver and the specified point.",
+      "text" : "Returns the absolute distance between the receiver and the specified line.",
       "type" : "text"
     }
   ],
@@ -406,8 +320,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
+      "preciseIdentifier" : "s:6Euclid4LineV",
+      "text" : "Line"
     },
     {
       "kind" : "text",
@@ -419,12 +333,12 @@
       "text" : "Double"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vertex\/distance(from:)-v36y",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/distance(from:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distance(from:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/vertex\/distance(from:)-v36y"
+  "url" : "\/documentation\/euclid\/pathpoint\/distance(from:)"
 }
 }
 }

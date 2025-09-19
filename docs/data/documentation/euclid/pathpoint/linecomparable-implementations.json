@@ -9,7 +9,7 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/PlaneComparable-Implementations"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/LineComparable-Implementations"
   },
   "kind" : "article",
   "metadata" : {
@@ -20,7 +20,7 @@
     ],
     "role" : "collectionGroup",
     "roleHeading" : "API Collection",
-    "title" : "PlaneComparable Implementations"
+    "title" : "LineComparable Implementations"
   },
   "schemaVersion" : {
     "major" : 0,
@@ -35,8 +35,7 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/compare(with:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/signedDistance(from:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/distance(from:)"
       ],
       "title" : "Instance Methods"
     }
@@ -44,7 +43,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/pathpoint\/planecomparable-implementations"
+        "\/documentation\/euclid\/pathpoint\/linecomparable-implementations"
       ],
       "traits" : [
         {
@@ -103,10 +102,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/compare(with:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/distance(from:)": {
   "abstract" : [
     {
-      "text" : "The relationship between the receiver and the specified plane.",
+      "text" : "Returns the absolute distance between the receiver and the specified line.",
       "type" : "text"
     }
   ],
@@ -121,61 +120,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "compare"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "with"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5PlaneV",
-      "text" : "Plane"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid15PlaneComparisonO",
-      "text" : "PlaneComparison"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/compare(with:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "compare(with:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/compare(with:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/signedDistance(from:)": {
-  "abstract" : [
-    {
-      "text" : "Returns the signed distance between the receiver and the specified plane.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "signedDistance"
+      "text" : "distance"
     },
     {
       "kind" : "text",
@@ -191,8 +136,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5PlaneV",
-      "text" : "Plane"
+      "preciseIdentifier" : "s:6Euclid4LineV",
+      "text" : "Line"
     },
     {
       "kind" : "text",
@@ -204,12 +149,12 @@
       "text" : "Double"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/signedDistance(from:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/distance(from:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "signedDistance(from:)",
+  "title" : "distance(from:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/signeddistance(from:)"
+  "url" : "\/documentation\/euclid\/pathpoint\/distance(from:)"
 }
 }
 }

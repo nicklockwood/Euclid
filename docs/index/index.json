@@ -2515,13 +2515,24 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/pathpoint\/compare(with:)",
-                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "path" : "\/documentation\/euclid\/pathpoint\/distance(from:)",
+                    "title" : "func distance(from: Line) -> Double",
                     "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/pathpoint\/linecomparable-implementations",
+                "title" : "LineComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/pathpoint\/distance(from:)-1zuql",
-                    "title" : "func distance(from: Plane) -> Double",
+                    "path" : "\/documentation\/euclid\/pathpoint\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
                     "type" : "method"
                   },
                   {
@@ -2539,11 +2550,6 @@
                   {
                     "title" : "Instance Methods",
                     "type" : "groupMarker"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/pathpoint\/distance(from:)-31bws",
-                    "title" : "func distance(from: Vector) -> Double",
-                    "type" : "method"
                   },
                   {
                     "path" : "\/documentation\/euclid\/pathpoint\/intersection(with:)",
@@ -2861,6 +2867,11 @@
                     "type" : "method"
                   },
                   {
+                    "path" : "\/documentation\/euclid\/line\/distance(from:)-4g1c5",
+                    "title" : "func distance(from: Plane) -> Double",
+                    "type" : "method"
+                  },
+                  {
                     "path" : "\/documentation\/euclid\/line\/intersects(_:)-6r5bc",
                     "title" : "func intersects(Plane) -> Bool",
                     "type" : "method"
@@ -2880,6 +2891,16 @@
                   {
                     "title" : "Instance Methods",
                     "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/distance(from:)-4o41",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/line\/distance(from:)-8eb1u",
+                    "title" : "func distance(from: Vector) -> Double",
+                    "type" : "method"
                   },
                   {
                     "path" : "\/documentation\/euclid\/line\/intersection(with:)-5y3zr",
@@ -6287,13 +6308,24 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/vertex\/compare(with:)",
-                    "title" : "func compare(with: Plane) -> PlaneComparison",
+                    "path" : "\/documentation\/euclid\/vertex\/distance(from:)",
+                    "title" : "func distance(from: Line) -> Double",
                     "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/vertex\/linecomparable-implementations",
+                "title" : "LineComparable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/vertex\/distance(from:)-42kck",
-                    "title" : "func distance(from: Plane) -> Double",
+                    "path" : "\/documentation\/euclid\/vertex\/compare(with:)",
+                    "title" : "func compare(with: Plane) -> PlaneComparison",
                     "type" : "method"
                   },
                   {
@@ -6311,11 +6343,6 @@
                   {
                     "title" : "Instance Methods",
                     "type" : "groupMarker"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/vertex\/distance(from:)-v36y",
-                    "title" : "func distance(from: Vector) -> Double",
-                    "type" : "method"
                   },
                   {
                     "path" : "\/documentation\/euclid\/vertex\/intersection(with:)",

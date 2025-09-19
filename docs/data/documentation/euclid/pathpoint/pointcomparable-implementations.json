@@ -35,7 +35,6 @@
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/distance(from:)-31bws",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/intersection(with:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/intersects(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/nearestPoint(to:)"
@@ -104,60 +103,6 @@
   "title" : "PathPoint",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/distance(from:)-31bws": {
-  "abstract" : [
-    {
-      "text" : "Returns the distance between the receiver and the specified point.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "distance"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "from"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/distance(from:)-31bws",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "distance(from:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/distance(from:)-31bws"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/intersection(with:)": {
   "abstract" : [

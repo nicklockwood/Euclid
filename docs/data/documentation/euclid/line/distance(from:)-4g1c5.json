@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns the distance between the receiver and the specified point.",
+      "text" : "Returns the absolute distance between the receiver and the specified plane.",
       "type" : "text"
     }
   ],
@@ -9,18 +9,18 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-2e328"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-4g1c5"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid6VectorV8distance4fromSdAC_tF",
+    "externalID" : "s:6Euclid15PlaneComparablePAAE8distance4fromSdAA0B0V_tF::SYNTHESIZED::s:6Euclid4LineV",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -48,8 +48,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid6VectorV",
-        "text" : "Vector"
+        "preciseIdentifier" : "s:6Euclid5PlaneV",
+        "text" : "Plane"
       },
       {
         "kind" : "text",
@@ -108,17 +108,17 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "point"
+              "text" : "plane"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid6VectorV",
-              "text" : "Vector"
+              "preciseIdentifier" : "s:6Euclid5PlaneV",
+              "text" : "Plane"
             },
             {
               "kind" : "text",
@@ -142,14 +142,14 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The point to compare with.",
+                  "text" : "The plane to compare with.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "point"
+          "name" : "plane"
         }
       ]
     },
@@ -164,7 +164,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "The distance between the receiver and the point. The value is always positive",
+              "text" : "The absolute distance between the receiver and the plane. The value will be",
               "type" : "text"
             },
             {
@@ -172,7 +172,7 @@
               "type" : "text"
             },
             {
-              "text" : "if the receiver is not touching the point, or zero if it touches or intersects the point.",
+              "text" : "positive if the receiver lies in front or behind the plane, or zero if they intersect.",
               "type" : "text"
             }
           ],
@@ -193,7 +193,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/vector\/distance(from:)-2e328"
+        "\/documentation\/euclid\/line\/distance(from:)-4g1c5"
       ],
       "traits" : [
         {
@@ -218,10 +218,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line": {
   "abstract" : [
     {
-      "text" : "A distance or position in 3D space.",
+      "text" : "An infinite line in 3D space.",
       "type" : "text"
     }
   ],
@@ -236,26 +236,26 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Vector"
+      "text" : "Line"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Vector"
+      "text" : "Line"
     }
   ],
   "role" : "symbol",
-  "title" : "Vector",
+  "title" : "Line",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector"
+  "url" : "\/documentation\/euclid\/line"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-2e328": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/distance(from:)-4g1c5": {
   "abstract" : [
     {
-      "text" : "Returns the distance between the receiver and the specified point.",
+      "text" : "Returns the absolute distance between the receiver and the specified plane.",
       "type" : "text"
     }
   ],
@@ -286,8 +286,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
+      "preciseIdentifier" : "s:6Euclid5PlaneV",
+      "text" : "Plane"
     },
     {
       "kind" : "text",
@@ -299,12 +299,46 @@
       "text" : "Double"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-2e328",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-4g1c5",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distance(from:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/distance(from:)-2e328"
+  "url" : "\/documentation\/euclid\/line\/distance(from:)-4g1c5"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane": {
+  "abstract" : [
+    {
+      "text" : "An infinite 2D plane in 3D space.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Plane"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Plane",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Plane"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Plane",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/plane"
 }
 }
 }

@@ -109,7 +109,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-2e328": {
   "abstract" : [
     {
-      "text" : "Returns the distance between the vector (representing a position in space) and the specified point.",
+      "text" : "Returns the distance between the receiver and the specified point.",
       "type" : "text"
     }
   ],

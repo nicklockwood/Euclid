@@ -57,6 +57,10 @@ extension Vector: PointComparable {
         self
     }
 
+    public func distance(from point: Vector) -> Double {
+        (self - point).length
+    }
+
     public func intersects(_ point: Vector) -> Bool {
         isApproximatelyEqual(to: point)
     }
@@ -195,17 +199,11 @@ extension Mesh: PointComparable {
 
 extension Collection where Element: PointComparable {
     func nearestPoint(to point: Vector) -> Vector {
-        var result = point
-        var shortest = Double.infinity
-        for element in self {
-            let nearest = element.nearestPoint(to: point)
-            let distance = nearest.distance(from: point)
-            if distance < shortest {
-                shortest = distance
-                result = nearest
-            }
-        }
-        return result
+        reduce((distance: Double.infinity, nearest: Vector.zero)) {
+            let nearest = $1.nearestPoint(to: point)
+            let distance = point.distance(from: nearest)
+            return distance < $0.distance ? (distance, nearest) : $0
+        }.nearest
     }
 
     func distance(from point: Vector) -> Double {
