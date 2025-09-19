@@ -385,10 +385,9 @@ public extension Path {
         switch wrapMode {
         case .shrink, .default:
             var prev = points[0].position
-            for point in points {
-                let length = point.position.distance(from: prev)
-                totalLength += length
-                prev = point.position
+            totalLength = points.reduce(0) { total, point in
+                defer { prev = point.position }
+                return total + point.distance(from: prev)
             }
         case .tube:
             var min = Double.infinity

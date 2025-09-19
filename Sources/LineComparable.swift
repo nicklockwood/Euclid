@@ -42,6 +42,18 @@ extension Vector: LineComparable {
     }
 }
 
+extension Vertex: LineComparable {
+    public func distance(from line: Line) -> Double {
+        position.distance(from: line)
+    }
+}
+
+extension PathPoint: LineComparable {
+    public func distance(from line: Line) -> Double {
+        position.distance(from: line)
+    }
+}
+
 extension Line: LineComparable {
     public func distance(from line: Line) -> Double {
         shortestLineBetween(
@@ -86,7 +98,7 @@ extension Path: LineComparable {
     public func distance(from line: Line) -> Double {
         switch points.count {
         case 0: return 0
-        case 1: return points[0].position.distance(from: line)
+        case 1: return points[0].distance(from: line)
         default: return orderedEdges.distance(from: line)
         }
     }
