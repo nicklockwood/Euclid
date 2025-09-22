@@ -1150,11 +1150,17 @@ extension Polygon {
         }
         // TODO: can we use a shortcut to exit early?
         // e.g. if nearer to edge than vertex, must be closest point
-        return orderedEdges.reduce((distance: Double.infinity, nearest: Vector.zero)) {
-            let nearest = $1.nearestPoint(to: point)
-            let distance = point.distance(from: nearest)
-            return distance < $0.distance ? (distance, nearest) : $0
-        }.nearest
+        return orderedEdges.nearestPoint(to: point)
+    }
+
+    func distanceFromCoplanarPoint(_ point: Vector) -> Double {
+        assert(point.intersects(plane))
+        if intersectsCoplanarPoint(point) {
+            return 0
+        }
+        // TODO: can we use a shortcut to exit early?
+        // e.g. if nearer to edge than vertex, must be closest point
+        return orderedEdges.distance(from: point)
     }
 }
 

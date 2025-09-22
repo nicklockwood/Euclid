@@ -110,13 +110,19 @@ extension Path: LineComparable {
 
 extension Polygon: LineComparable {
     public func distance(from line: Line) -> Double {
-        line.isParallel(to: plane) ?
-            plane.distance(from: line) :
-            orderedEdges.distance(from: line)
+        if let point = line.intersection(with: plane) {
+            return distanceFromCoplanarPoint(point)
+        }
+        assert(line.isParallel(to: plane))
+        let distance = abs(line.origin.signedDistance(from: plane))
+        if distance > planeEpsilon {
+            return distance
+        }
+        return orderedEdges.distance(from: line)
     }
 
     public func intersects(_ line: Line) -> Bool {
-        line.intersection(with: plane).map { intersectsCoplanarPoint($0) } ?? false
+        line.intersection(with: plane).map(intersectsCoplanarPoint) ?? false
     }
 }
 

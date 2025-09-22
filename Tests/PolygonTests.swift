@@ -1146,4 +1146,44 @@ class PolygonTests: XCTestCase {
         let result = polygon.inset(by: 0.25)
         XCTAssertEqual(result, expected)
     }
+
+    // MARK: LineComparable
+
+    func testDistanceFromParallelLine() {
+        let polygon = Polygon(unchecked: [[-1, 1], [-1, -1], [1, -1], [1, 1]])
+        let line = Line(unchecked: .unitZ, direction: .unitX)
+        XCTAssertEqual(polygon.distance(from: line), 1)
+    }
+
+    func testDistanceFromIntersectingLine() {
+        let polygon = Polygon(unchecked: [[-1, 1], [-1, -1], [1, -1], [1, 1]])
+        let line = Line(unchecked: .zero, direction: .unitX).rotated(by: .random())
+        XCTAssertEqual(polygon.distance(from: line), 0)
+    }
+
+    func testDistanceFromHorizontalCoplanarLine() {
+        let polygon = Polygon(unchecked: [[-1, 1], [-1, -1], [1, -1], [1, 1]])
+            .translated(by: [.random(in: -100 ... 100), 0])
+        var line = Line(unchecked: .zero, direction: .unitX)
+        XCTAssertEqual(polygon.distance(from: line), 0)
+        line.translate(by: [0, -1])
+        XCTAssertEqual(polygon.distance(from: line), 0)
+        line.translate(by: [0, 2])
+        XCTAssertEqual(polygon.distance(from: line), 0)
+        line.translate(by: [0, 0.1])
+        XCTAssertEqual(polygon.distance(from: line), 0.1)
+    }
+
+    func testDistanceFromVerticalCoplanarLine() {
+        let polygon = Polygon(unchecked: [[-1, 1], [-1, -1], [1, -1], [1, 1]])
+            .translated(by: [0, .random(in: -100 ... 100)])
+        var line = Line(unchecked: .zero, direction: .unitY)
+        XCTAssertEqual(polygon.distance(from: line), 0)
+        line.translate(by: [-1, 0])
+        XCTAssertEqual(polygon.distance(from: line), 0)
+        line.translate(by: [2, 0])
+        XCTAssertEqual(polygon.distance(from: line), 0)
+        line.translate(by: [0.1, 0])
+        XCTAssertEqual(polygon.distance(from: line), 0.1)
+    }
 }
