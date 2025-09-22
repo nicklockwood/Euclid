@@ -155,6 +155,24 @@ class LineTests: XCTestCase {
         XCTAssertFalse(line.intersects([-1, -0.6, 0]))
     }
 
+    // MARK: Bounds intersection
+
+    func testBoundsIntersection() {
+        let transform = Transform(scale: .random(in: 0.1 ... 100), translation: .random())
+        let line = Line(unchecked: .zero, direction: .unitX).transformed(by: transform)
+        let bounds = Bounds(min: -.one, max: .one).transformed(by: transform)
+        let expected = Set([Vector(-1, 0), Vector(1, 0)].transformed(by: transform))
+        XCTAssertEqual(line.intersection(with: bounds), expected)
+        XCTAssert(line.intersects(bounds))
+    }
+
+    func testBoundsNonIntersection() {
+        let line = Line(unchecked: .unitY * 1.1, direction: .unitX).rotated(by: .random(in: .xz))
+        let bounds = Bounds(min: -.one, max: .one)
+        XCTAssertEqual(line.intersection(with: bounds), [])
+        XCTAssertFalse(line.intersects(bounds))
+    }
+
     // MARK: Equality
 
     func testEquivalentHorizontalLinesAreEqual() {

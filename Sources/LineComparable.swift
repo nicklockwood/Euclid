@@ -28,11 +28,15 @@ public extension LineComparable {
 
 extension Bounds: LineComparable {
     public func distance(from line: Line) -> Double {
-        corners.distance(from: line)
+        // TODO: this can almost certainly be optimized
+        Mesh.cube(center: center, size: size).distance(from: line)
     }
 
     public func intersects(_ line: Line) -> Bool {
-        !line.intersection(with: self).isEmpty
+        edgePlanes.contains(where: {
+            let point = line.intersection(with: $0)
+            return point.map(intersects(_:)) ?? false
+        })
     }
 }
 

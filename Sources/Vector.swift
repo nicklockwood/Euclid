@@ -73,24 +73,6 @@ extension Vector: CustomDebugStringConvertible, CustomReflectable {
     }
 }
 
-extension Vector: Comparable {
-    /// Returns whether the leftmost vector has the lower value.
-    /// This provides a stable order when sorting collections of vectors.
-    public static func < (lhs: Vector, rhs: Vector) -> Bool {
-        if lhs.x < rhs.x {
-            return true
-        } else if lhs.x > rhs.x {
-            return false
-        }
-        if lhs.y < rhs.y {
-            return true
-        } else if lhs.y > rhs.y {
-            return false
-        }
-        return lhs.z < rhs.z
-    }
-}
-
 extension Vector: Codable {
     private enum CodingKeys: CodingKey {
         case x, y, z
@@ -118,6 +100,24 @@ extension Vector: Codable {
     }
 }
 
+extension Vector: Comparable {
+    /// Returns whether the leftmost vector has the lower value.
+    /// This provides a stable order when sorting collections of vectors.
+    public static func < (lhs: Vector, rhs: Vector) -> Bool {
+        if lhs.x < rhs.x {
+            return true
+        } else if lhs.x > rhs.x {
+            return false
+        }
+        if lhs.y < rhs.y {
+            return true
+        } else if lhs.y > rhs.y {
+            return false
+        }
+        return lhs.z < rhs.z
+    }
+}
+
 /// Returns a new vector that represents the minimum of the components of the two vectors.
 public func min(_ lhs: Vector, _ rhs: Vector) -> Vector {
     [min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z)]
@@ -126,6 +126,52 @@ public func min(_ lhs: Vector, _ rhs: Vector) -> Vector {
 /// Returns a new vector representing the maximum of the components of the two vectors.
 public func max(_ lhs: Vector, _ rhs: Vector) -> Vector {
     [max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z)]
+}
+
+public extension Range where Bound == Vector {
+    func contains(_ vector: Vector) -> Bool {
+        vector.x >= lowerBound.x &&
+            vector.y >= lowerBound.y &&
+            vector.z >= lowerBound.z &&
+            vector.x < upperBound.x &&
+            vector.y < upperBound.y &&
+            vector.z < upperBound.z
+    }
+}
+
+public extension ClosedRange where Bound == Vector {
+    func contains(_ vector: Vector) -> Bool {
+        vector.x >= lowerBound.x &&
+            vector.y >= lowerBound.y &&
+            vector.z >= lowerBound.z &&
+            vector.x <= upperBound.x &&
+            vector.y <= upperBound.y &&
+            vector.z <= upperBound.z
+    }
+}
+
+public extension PartialRangeFrom where Bound == Vector {
+    func contains(_ vector: Vector) -> Bool {
+        vector.x >= lowerBound.x &&
+            vector.y >= lowerBound.y &&
+            vector.z >= lowerBound.z
+    }
+}
+
+public extension PartialRangeThrough where Bound == Vector {
+    func contains(_ vector: Vector) -> Bool {
+        vector.x <= upperBound.x &&
+            vector.y <= upperBound.y &&
+            vector.z <= upperBound.z
+    }
+}
+
+public extension PartialRangeUpTo where Bound == Vector {
+    func contains(_ vector: Vector) -> Bool {
+        vector.x < upperBound.x &&
+            vector.y < upperBound.y &&
+            vector.z < upperBound.z
+    }
 }
 
 public extension Vector {

@@ -140,7 +140,7 @@ class BoundsTests: XCTestCase {
         XCTAssert(Bounds.empty.transformed(by: .scale(-.one)).isEmpty)
     }
 
-    // MARK: Nearest Point
+    // MARK: PointComparable
 
     func testNearestPoint() {
         let bounds = Bounds(min: -.one, max: .one)
@@ -152,5 +152,32 @@ class BoundsTests: XCTestCase {
         let bounds = Bounds.empty
         let point = Vector(-10, 0, 0)
         XCTAssertEqual(bounds.nearestPoint(to: point), bounds.min)
+    }
+
+    func testPointInsideBounds() {
+        let transform = Transform.random()
+        let bounds = Bounds(min: -.one, max: .one).transformed(by: transform)
+        let point = Vector.random(in: -.one ... .one).transformed(by: transform)
+        XCTAssertEqual(bounds.nearestPoint(to: point), point)
+        XCTAssert(bounds.intersects(point))
+    }
+
+    // MARK: LineComparable
+
+    func testDistanceFromParallelLine() {
+        let bounds = Bounds(min: -.one, max: .one)
+        let line = Line(unchecked: .unitY * 2, direction: .unitX)
+            .rotated(by: .random(in: .xz))
+        XCTAssertEqual(bounds.distance(from: line), 1)
+        XCTAssertFalse(bounds.intersects(line))
+    }
+
+    func testDistanceFromIntersectingLine() {
+        let bounds = Bounds(min: -.one, max: .one)
+        let line = Line(unchecked: .zero, direction: .unitX)
+            .translated(by: .random(in: -.one ... .one))
+            .rotated(by: .random())
+        XCTAssertEqual(bounds.distance(from: line), 0)
+        XCTAssert(bounds.intersects(line))
     }
 }
