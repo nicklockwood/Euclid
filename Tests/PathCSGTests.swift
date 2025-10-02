@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class PathCSGTests: XCTestCase {
+final class PathCSGTests: XCTestCase {
     // MARK: Plane clipping
 
     func testSquareClippedToPlane() {

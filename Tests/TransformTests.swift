@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class TransformTests: XCTestCase {
+final class TransformTests: XCTestCase {
     // MARK: Transform multiplication
 
     func testRotationMultipliedByTranslation() {

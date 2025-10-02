@@ -36,7 +36,7 @@ import Metal
 import RealityKit
 
 @available(macOS 10.15, iOS 13.0, tvOS 26.0, *)
-private class MaterialWrapper: NSObject {
+private final class MaterialWrapper: NSObject {
     let material: RealityKit.Material
 
     init(_ material: Material) {

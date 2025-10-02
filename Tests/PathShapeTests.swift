@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class PathShapeTests: XCTestCase {
+final class PathShapeTests: XCTestCase {
     // MARK: Curve
 
     func testCurveWithSinglePoint() {
@@ -371,7 +371,7 @@ class PathShapeTests: XCTestCase {
     func testZeroDetailRoundedRect() {
         let path = Path.roundedRectangle(width: 1, height: 1, radius: 0.5, detail: 0)
         XCTAssertEqual(path, Path(Path.rectangle(width: 1, height: 1).points.map {
-            PathPoint.curve($0.position)
+            .curve($0.position)
         }))
     }
 

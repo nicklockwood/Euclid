@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class LineSegmentCSGTests: XCTestCase {
+final class LineSegmentCSGTests: XCTestCase {
     // MARK: Plane Splitting
 
     func testSplitAlongPlaneConsistentWithIntersection() throws {

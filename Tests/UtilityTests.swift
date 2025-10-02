@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class UtilityTests: XCTestCase {
+final class UtilityTests: XCTestCase {
     // MARK: Clamped vectors
 
     func testClampedVector() {
@@ -210,7 +210,7 @@ class UtilityTests: XCTestCase {
             .point(0, 1),
             .point(0, 1),
         ]
-        let expected = [PathPoint.point(0, 1)]
+        let expected = [PathPoint(0, 1)]
         let result = sanitizePoints(points)
         XCTAssertEqual(result.count, expected.count)
         XCTAssertEqual(result, expected)

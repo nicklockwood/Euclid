@@ -255,6 +255,14 @@
       "title" : "Operators"
     },
     {
+      "anchor" : "Initializers",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/init(_:_:_:texcoord:color:isCurved:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
       "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
@@ -1020,6 +1028,108 @@
   "title" : "init(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint\/init(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/init(_:_:_:texcoord:color:isCurved:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a path point at the specified X, Y and Z coordinates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "texcoord"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "color"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCurved"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/init(_:_:_:texcoord:color:isCurved:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:_:_:texcoord:color:isCurved:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/pathpoint\/init(_:_:_:texcoord:color:iscurved:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/init(_:texcoord:color:isCurved:)": {
   "abstract" : [

@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class MeshLoftTests: XCTestCase {
+final class MeshLoftTests: XCTestCase {
     func testLoftParallelFaces() {
         let shapes = [
             Path.square(),
@@ -47,11 +47,11 @@ class MeshLoftTests: XCTestCase {
         let shapes = [
             Path.square(),
             Path([
-                PathPoint.point(-2.0, 1.0, 1.0),
-                PathPoint.point(-2.0, 1.0, -1.0),
-                PathPoint.point(2.0, 1.0, -1.0),
-                PathPoint.point(2.0, 1.0, 1.0),
-                PathPoint.point(-2.0, 1.0, 1.0),
+                .point(-2.0, 1.0, 1.0),
+                .point(-2.0, 1.0, -1.0),
+                .point(2.0, 1.0, -1.0),
+                .point(2.0, 1.0, 1.0),
+                .point(-2.0, 1.0, 1.0),
             ]),
         ]
 

@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class VectorTests: XCTestCase {
+final class VectorTests: XCTestCase {
     // MARK: Vector length
 
     func testAxisAlignedLength() {

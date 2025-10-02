@@ -21,7 +21,7 @@ private extension Data {
     }
 }
 
-class MeshImportTests: XCTestCase {
+final class MeshImportTests: XCTestCase {
     // MARK: STL import
 
     func testCubeSTL() {

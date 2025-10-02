@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Return a copy of the polygon with transformed vertex colors",
+      "text" : "Returns a copy of the polygon with transformed point colors",
       "type" : "text"
     }
   ],
@@ -273,7 +273,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/mapColors(_:)": {
   "abstract" : [
     {
-      "text" : "Return a copy of the polygon with transformed vertex colors",
+      "text" : "Returns a copy of the polygon with transformed point colors",
       "type" : "text"
     }
   ],

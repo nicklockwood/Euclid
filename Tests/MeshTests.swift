@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class MeshTests: XCTestCase {
+final class MeshTests: XCTestCase {
     // MARK: uniqueEdges
 
     func testUniqueEdgesForCube() {

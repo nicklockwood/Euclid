@@ -12,7 +12,7 @@
 import SceneKit
 import XCTest
 
-class SceneKitTests: XCTestCase {
+final class SceneKitTests: XCTestCase {
     // MARK: Import
 
     func testGeometryImportedWithCorrectDetail() {
@@ -105,7 +105,7 @@ class SceneKitTests: XCTestCase {
         XCTAssert(mesh.polygons.areWatertight)
     }
 
-    func testSCNBoxSubtractedFromSCNBoxCanBeMadeWatertight() throws {
+    func testSCNBoxSubtractedFromSCNBoxCanBeMadeWatertight() {
         let box1 = SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0)
         let box2 = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
         let mesh = try XCTUnwrap(Mesh(box1)?.translated(by: [0, 0, -0.4])

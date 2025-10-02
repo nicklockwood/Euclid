@@ -242,7 +242,7 @@ public extension Path {
         let hasTexcoords = polygon.hasTexcoords
         let hasVertexColors = polygon.hasVertexColors
         let points = polygon.vertices.map {
-            PathPoint.point(
+            PathPoint(
                 $0.position,
                 texcoord: hasTexcoords ? $0.texcoord : nil,
                 color: hasVertexColors ? $0.color : nil

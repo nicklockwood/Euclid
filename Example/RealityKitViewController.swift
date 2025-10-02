@@ -12,7 +12,7 @@ import RealityKit
 import UIKit
 
 @available(iOS 15.0, tvOS 26.0, *)
-class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
+final class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
     var updateSubscription: Cancellable!
     var modelPosition: Vector = .zero
     var modelPitch = 0.0

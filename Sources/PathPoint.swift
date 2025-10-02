@@ -70,7 +70,7 @@ extension PathPoint: Codable {
         let y = try container.decode(Double.self)
         switch container.count {
         case 2:
-            self.init([x, y], texcoord: nil, color: nil, isCurved: false)
+            self.init(x, y)
         case 3:
             let isCurved: Bool, position: Vector
             do {
@@ -80,7 +80,7 @@ extension PathPoint: Codable {
                 isCurved = false
                 position = try [x, y, container.decode(Double.self)]
             }
-            self.init(position, texcoord: nil, color: nil, isCurved: isCurved)
+            self.init(position, isCurved: isCurved)
         case 4:
             let zOrU = try container.decode(Double.self)
             let isCurved: Bool, position: Vector, texcoord: Vector?
@@ -93,7 +93,7 @@ extension PathPoint: Codable {
                 position = [x, y]
                 texcoord = try [zOrU, container.decode(Double.self)]
             }
-            self.init(position, texcoord: texcoord, color: nil, isCurved: isCurved)
+            self.init(position, texcoord: texcoord, isCurved: isCurved)
         case 5:
             let zOrU = try container.decode(Double.self)
             let uOrV = try container.decode(Double.self)
@@ -107,7 +107,7 @@ extension PathPoint: Codable {
                 position = [x, y, zOrU]
                 texcoord = try [uOrV, container.decode(Double.self)]
             }
-            self.init(position, texcoord: texcoord, color: nil, isCurved: isCurved)
+            self.init(position, texcoord: texcoord, isCurved: isCurved)
         case 6:
             let position = try Vector(x, y, container.decode(Double.self))
             let u = try container.decode(Double.self)
@@ -120,7 +120,7 @@ extension PathPoint: Codable {
                 isCurved = false
                 texcoord = try [u, v, container.decode(Double.self)]
             }
-            self.init(position, texcoord: texcoord, color: nil, isCurved: isCurved)
+            self.init(position, texcoord: texcoord, isCurved: isCurved)
         case 7:
             let position = try Vector(x, y, container.decode(Double.self))
             let uOrR = try container.decode(Double.self)
@@ -146,10 +146,9 @@ extension PathPoint: Codable {
             )
         case 9:
             try self.init(
-                [x, y, container.decode(Double.self)],
+                x, y, container.decode(Double.self),
                 texcoord: Vector(from: &container),
-                color: Color(from: &container),
-                isCurved: false
+                color: Color(from: &container)
             )
         case 10:
             let position = try Vector(x, y, container.decode(Double.self))
@@ -219,7 +218,7 @@ public extension PathPoint {
         texcoord: Vector? = nil,
         color: Color? = nil
     ) -> PathPoint {
-        PathPoint(position, texcoord: texcoord, color: color, isCurved: false)
+        .init(position, texcoord: texcoord, color: color)
     }
 
     /// Creates a corner path point at the specified X, Y and Z coordinates.
@@ -236,7 +235,7 @@ public extension PathPoint {
         texcoord: Vector? = nil,
         color: Color? = nil
     ) -> PathPoint {
-        .point([x, y, z], texcoord: texcoord, color: color)
+        .init(x, y, z, texcoord: texcoord, color: color)
     }
 
     /// Creates a curved path point at the specified position.
@@ -249,7 +248,7 @@ public extension PathPoint {
         texcoord: Vector? = nil,
         color: Color? = nil
     ) -> PathPoint {
-        PathPoint(position, texcoord: texcoord, color: color, isCurved: true)
+        .init(position, texcoord: texcoord, color: color, isCurved: true)
     }
 
     /// Creates a curved path point at the specified X, Y and Z coordinates.
@@ -266,7 +265,31 @@ public extension PathPoint {
         texcoord: Vector? = nil,
         color: Color? = nil
     ) -> PathPoint {
-        .curve([x, y, z], texcoord: texcoord, color: color)
+        .init(x, y, z, texcoord: texcoord, color: color, isCurved: true)
+    }
+
+    /// Creates a path point at the specified X, Y and Z coordinates.
+    /// - Parameters:
+    ///   - x: The X coordinate of the path point.
+    ///   - y: The Y coordinate of the path point.
+    ///   - z: The Z coordinate of the path point.
+    ///   - texcoord: An optional texture coordinate for this path point.
+    ///   - color: An optional vertex color for this path point.
+    ///   - isCurved: A Boolean indicating if point should be curved or sharp.
+    init(
+        _ x: Double,
+        _ y: Double,
+        _ z: Double = 0,
+        texcoord: Vector? = nil,
+        color: Color? = nil,
+        isCurved: Bool = false
+    ) {
+        self.init(
+            .init(x, y, z),
+            texcoord: texcoord,
+            color: color,
+            isCurved: isCurved
+        )
     }
 
     /// Creates a path point.
@@ -275,7 +298,12 @@ public extension PathPoint {
     ///   - texcoord: An optional texture coordinate for this path point.
     ///   - color: An optional vertex color for this path point.
     ///   - isCurved: A Boolean indicating if point should be curved or sharp.
-    init(_ position: Vector, texcoord: Vector?, color: Color?, isCurved: Bool) {
+    init(
+        _ position: Vector,
+        texcoord: Vector? = nil,
+        color: Color? = nil,
+        isCurved: Bool = false
+    ) {
         self.position = position._quantized()
         self.texcoord = texcoord
         self.color = color
@@ -288,8 +316,7 @@ public extension PathPoint {
         self.init(
             vertex.position,
             texcoord: vertex.texcoord,
-            color: vertex.color,
-            isCurved: false
+            color: vertex.color
         )
     }
 

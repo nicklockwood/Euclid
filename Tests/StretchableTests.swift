@@ -19,7 +19,7 @@ private extension Stretchable {
     }
 }
 
-class StretchableTests: XCTestCase {
+final class StretchableTests: XCTestCase {
     // MARK: Points
 
     func testStretchPoint() {

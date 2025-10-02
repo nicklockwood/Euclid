@@ -425,7 +425,7 @@ public extension Mesh {
         let ystep = height / Double(stacks), xstep = radius / Double(stacks)
         let points = (0 ... stacks).map { i -> PathPoint in
             .point(Double(i) * xstep, height / 2 - Double(i) * ystep)
-        } + [PathPoint.point(0, -height / 2)]
+        } + [.point(0, -height / 2)]
         return lathe(
             unchecked: Path(unchecked: points, plane: .xy, subpathIndices: []),
             slices: slices,

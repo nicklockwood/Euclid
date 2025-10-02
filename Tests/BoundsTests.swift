@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class BoundsTests: XCTestCase {
+final class BoundsTests: XCTestCase {
     // MARK: Union
 
     func testUnionOfCoincidingBounds() {

@@ -13,7 +13,7 @@ import RealityKit
 import XCTest
 
 @available(macOS 15.0, iOS 18.0, tvOS 26.0, *)
-class RealityKitTests: XCTestCase {
+final class RealityKitTests: XCTestCase {
     func testConvertQuadsToFromMeshDescriptor() {
         let cube = Mesh.cube(size: 1)
         let meshDescriptor = MeshDescriptor(quads: cube)

@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class MeshCSGTests: XCTestCase {
+final class MeshCSGTests: XCTestCase {
     // MARK: Subtraction / Difference
 
     func testSubtractCoincidingBoxes() {

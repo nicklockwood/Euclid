@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class MeshExportTests: XCTestCase {
+final class MeshExportTests: XCTestCase {
     // MARK: STL export
 
     func testCubeSTL() {

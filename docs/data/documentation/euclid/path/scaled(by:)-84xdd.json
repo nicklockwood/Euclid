@@ -549,7 +549,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/withColor(_:)": {
   "abstract" : [
     {
-      "text" : "Replace\/remove path point colors.",
+      "text" : "Returns a copy of the path with the specified color applied to each point.",
       "type" : "text"
     }
   ],

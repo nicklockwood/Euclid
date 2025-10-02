@@ -1913,6 +1913,11 @@
                 "type" : "init"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/init(_:color:)-9i9t1",
+                "title" : "init(some Collection<PathPoint>, color: Color?)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/init(_:color:)-snde",
                 "title" : "init(some Collection<LineSegment>, color: Color?)",
                 "type" : "init"
@@ -1934,6 +1939,16 @@
               {
                 "path" : "\/documentation\/euclid\/path\/facevertices",
                 "title" : "var faceVertices: [Vertex]?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/hascolors",
+                "title" : "var hasColors: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/hastexcoords",
+                "title" : "var hasTexcoords: Bool",
                 "type" : "property"
               },
               {
@@ -2008,6 +2023,16 @@
               {
                 "path" : "\/documentation\/euclid\/path\/split(along:)",
                 "title" : "func split(along: Plane) -> (front: Path, back: Path)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/withdetail(_:twist:)",
+                "title" : "func withDetail(Int, twist: Angle) -> Path",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/withnormalizedposition()",
+                "title" : "func withNormalizedPosition() -> (path: Path, offset: Vector)",
                 "type" : "method"
               },
               {
@@ -2407,6 +2432,15 @@
                 "path" : "\/documentation\/euclid\/pathpoint\/*(_:_:)",
                 "title" : "static func * (`Self`, Double) -> PathPoint",
                 "type" : "op"
+              },
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/pathpoint\/init(_:_:_:texcoord:color:iscurved:)",
+                "title" : "init(Double, Double, Double, texcoord: Vector?, color: Color?, isCurved: Bool)",
+                "type" : "init"
               },
               {
                 "title" : "Default Implementations",

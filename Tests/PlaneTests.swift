@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class PlaneTests: XCTestCase {
+final class PlaneTests: XCTestCase {
     func testConcavePolygonClockwiseWinding() {
         var transform = Transform.identity
         var points = [Vector]()
