@@ -1022,7 +1022,7 @@ private extension [Polygon] {
     }
 }
 
-extension Polygon {
+private extension Polygon {
     /// Create polygon from points with nearest matches in a vertex collection
     init?(
         points: some Collection<Vector>,
@@ -1033,18 +1033,15 @@ extension Polygon {
         let faceNormal = faceNormal ?? faceNormalForPoints(Array(points))
         let vertices = points.map { p -> Vertex in
             let matches = verticesByPosition[p] ?? []
-            var best: Vertex?, bestDot = 1.0
+            var best = Vertex(p), bestDot = -Double.infinity
             for (n, v) in matches {
-                let dot = abs(1 - n.dot(faceNormal))
-                if dot <= bestDot {
+                let dot = n.dot(faceNormal)
+                if dot > bestDot {
                     bestDot = dot
                     best = v
                 }
             }
-            if bestDot == 1 {
-                best?.normal = .zero
-            }
-            return best ?? Vertex(p)
+            return best
         }
         self.init(vertices, material: material)
     }
