@@ -232,6 +232,8 @@ extension Plane {
         self.init(unchecked: normal, w: normal.dot(pointOnPlane))
     }
 
+    /// Points are assumed to be ordered in a counter-clockwise direction
+    /// Points are assumed to be coplanar
     init(unchecked points: [Vector]) {
         let normal = faceNormalForPoints(points)
         self.init(unchecked: normal, pointOnPlane: points.centroid)

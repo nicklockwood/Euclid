@@ -550,6 +550,12 @@ func linePlaneIntersection(_ origin: Vector, _ direction: Vector, _ plane: Plane
 
 // MARK: Path utilities
 
+extension Collection<PathPoint> {
+    var centroid: Vector {
+        map(\.position).centroid
+    }
+}
+
 /// Sanitize a set of path points by removing duplicates and invalid points
 /// Should be safe to use on sets of points representing a compound path (with subpaths)
 func sanitizePoints(_ points: some Collection<PathPoint>) -> [PathPoint] {

@@ -530,6 +530,12 @@ public extension Path {
         })
     }
 
+    /// Returns the path recentered on the origin.
+    func withNormalizedPosition() -> (path: Path, offset: Vector) {
+        let offset = points.centroid
+        return offset.isZero ? (self, .zero) : (translated(by: -offset), offset)
+    }
+
     /// Increase path detail in proportion to twist angle
     func withDetail(_ detail: Int, twist: Angle) -> Path {
         guard detail > 2, twist != .zero, var prev = points.first else {
@@ -744,13 +750,5 @@ extension Path {
             plane: nil, // Might have changed if path is self-intersecting
             subpathIndices: nil
         )
-    }
-
-    /// Returns the path with its first point recentered on the origin
-    func withNormalizedPosition() -> (path: Path, offset: Vector) {
-        guard let offset = points.first?.position, offset != .zero else {
-            return (self, .zero)
-        }
-        return (translated(by: -offset), offset)
     }
 }
