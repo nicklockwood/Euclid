@@ -505,7 +505,7 @@ public extension Path {
         func addShape(_ p: PathPoint, _ scale: Double?) {
             var shape = shape
             if let color = p.color {
-                shape = shape.withColor(color)
+                shape = shape.mapColors { ($0 ?? .white) * color }
             }
             if let scale, let line = Line(origin: .zero, direction: upVector) {
                 shape.stretch(by: scale, along: line)

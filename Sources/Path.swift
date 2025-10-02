@@ -245,6 +245,14 @@ public extension Path {
         )
     }
 
+    /// Creates a path from a collection of  path points with a common color.
+    /// - Parameters:
+    ///   - points: An ordered collection of ``PathPoint`` making up the path.
+    ///   - color: A ``Color`` to apply to the path's points.
+    init(_ points: some Collection<PathPoint>, color: Color?) {
+        self.init(points.map { $0.withColor(color) })
+    }
+
     /// Creates a path from a line segment.
     /// - Parameters:
     ///   - segment: The ``LineSegment`` defining the path.

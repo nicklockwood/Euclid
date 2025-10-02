@@ -429,6 +429,20 @@ class MeshCSGTests: XCTestCase {
         XCTAssert(vertices.contains(where: { $0.color == .red }))
     }
 
+    func testConvexHullPathPointColorBlending2() {
+        let path = Path([
+            .curve(0, 1, 0.75),
+            .curve(-1, 0),
+            .curve(0, -1, 0.25),
+            .curve(1, 0),
+            .curve(1, 1),
+            .curve(0, 1, 0.75),
+        ], color: .green)
+        let mesh = Mesh.convexHull(of: [path])
+        let vertices = mesh.polygons.flatMap(\.vertices)
+        XCTAssert(vertices.allSatisfy { $0.color == .green })
+    }
+
     // MARK: Minkowski Sum
 
     func testMinkowskiSumOfCubes() {
