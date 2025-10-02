@@ -126,9 +126,19 @@ public extension Path {
         points.isEmpty
     }
 
-    /// Indicates whether all the path's points lie on a single plane.
+    /// A Boolean value that indicates whether all the path's points lie on a single plane.
     var isPlanar: Bool {
         plane != nil
+    }
+
+    /// A Boolean value that indicates whether any of the path's points have colors.
+    var hasColors: Bool {
+        points.contains(where: { $0.color != nil })
+    }
+
+    /// A Boolean value that indicates whether the path's points have texture coordinates.
+    var hasTexcoords: Bool {
+        points.contains(where: { $0.texcoord != nil })
     }
 
     /// The total length of the path.
@@ -141,13 +151,13 @@ public extension Path {
         }
     }
 
-    /// The face normal for the path.
+    /// The face normal vector for the path.
     /// > Note: If path is non-planar then this returns an average/approximate normal.
     var faceNormal: Vector {
         plane?.normal ?? faceNormalForPoints(points.map(\.position))
     }
 
-    /// Return a copy of the polygon with transformed vertex colors
+    /// Returns a copy of the polygon with transformed point colors
     /// - Parameter transform: A closure to be applied to each color in the path.
     func mapColors(_ transform: (Color?) -> Color?) -> Path {
         Path(unchecked: points.map {
@@ -155,7 +165,7 @@ public extension Path {
         }, plane: plane, subpathIndices: subpathIndices)
     }
 
-    /// Replace/remove path point colors.
+    /// Returns a copy of the path with the specified color applied to each point.
     /// - Parameter color: The color to apply to each point in the path.
     func withColor(_ color: Color?) -> Path {
         mapColors { _ in color }
@@ -592,11 +602,6 @@ extension Path {
                 self.plane = plane
             }
         }
-    }
-
-    /// Does path contain vertex colors?
-    var hasColors: Bool {
-        points.contains(where: { $0.color != nil })
     }
 
     /// Test if path is self-intersecting
