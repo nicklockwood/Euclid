@@ -879,24 +879,23 @@ extension Collection<Polygon> {
     /// Group polygons by plane
     func groupedByPlane() -> [(plane: Plane, polygons: [Polygon])] {
         let polygons = sorted(by: { $0.plane.w < $1.plane.w })
-        guard var prev = polygons.first else {
+        guard var plane = polygons.first?.plane else {
             return []
         }
-        var sorted = [(Plane, [Polygon])]()
-        var groups = [(Plane, [Polygon])]()
+        var sorted = [(plane: Plane, polygons: [Polygon])]()
+        var groups = [(plane: Plane, polygons: [Polygon])]()
         for p in polygons {
-            if p.plane.w.isApproximatelyEqual(to: prev.plane.w, absoluteTolerance: planeEpsilon) {
-                if let i = groups.lastIndex(where: { $0.0.isApproximatelyEqual(to: p.plane) }) {
-                    groups[i].0 = p.plane
-                    groups[i].1.append(p)
+            if p.plane.w.isApproximatelyEqual(to: plane.w, absoluteTolerance: planeEpsilon) {
+                if let i = groups.lastIndex(where: { $0.plane.isApproximatelyEqual(to: p.plane) }) {
+                    groups[i].polygons.append(p)
                 } else {
                     groups.append((p.plane, [p]))
                 }
             } else {
                 sorted += groups
                 groups = [(p.plane, [p])]
+                plane = p.plane
             }
-            prev = p
         }
         sorted += groups
         return sorted
