@@ -246,7 +246,16 @@ extension [Vector] {
     }
 
     var centroid: Vector {
-        reduce(into: .zero) { $0 += $1 } / Double(count)
+        var last = last ?? .zero
+        var count = count
+        return reduce(.zero) { total, point in
+            if point == last {
+                count -= 1
+                return total
+            }
+            last = point
+            return total + point
+        } / Double(Swift.max(1, count))
     }
 }
 
