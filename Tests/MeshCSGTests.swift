@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class MeshCSGTests: XCTestCase {
+final class MeshCSGTests: XCTestCase {
     // MARK: Subtraction / Difference
 
     func testSubtractCoincidingBoxes() {
@@ -368,10 +368,10 @@ class MeshCSGTests: XCTestCase {
         XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
-    func testConvexHullOfOverlappingSquares() {
-        let square1 = Polygon(.square())!
+    func testConvexHullOfOverlappingSquares() throws {
+        let square1 = try XCTUnwrap(Polygon(.square()))
         for _ in 0 ..< 10 {
-            let square2 = Polygon(.square())!.translated(by: [0.5, 0.5]).rotated(by: .random(in: .xy))
+            let square2 = try XCTUnwrap(Polygon(.square())?.translated(by: [0.5, 0.5]).rotated(by: .random(in: .xy)))
             let mesh = Mesh.convexHull(of: [square1, square2])
             XCTAssert(mesh.isKnownConvex)
             XCTAssert(mesh.isActuallyConvex)
@@ -383,10 +383,10 @@ class MeshCSGTests: XCTestCase {
         }
     }
 
-    func testPlanarHullConvexityEdgeCase() {
-        let square1 = Polygon(.square())!
+    func testPlanarHullConvexityEdgeCase() throws {
+        let square1 = try XCTUnwrap(Polygon(.square()))
         let r = Rotation(unchecked: .unitZ, angle: .radians(1.9113781280442135))
-        let square2 = Polygon(.square())!.translated(by: [0.5, 0.5]).rotated(by: r)
+        let square2 = try XCTUnwrap(Polygon(.square())?.translated(by: [0.5, 0.5]).rotated(by: r))
         let mesh = Mesh.convexHull(of: [square1, square2])
         XCTAssert(mesh.isKnownConvex)
         XCTAssert(mesh.isActuallyConvex)
@@ -528,8 +528,8 @@ class MeshCSGTests: XCTestCase {
         #endif
     }
 
-    func testMinkowskiSumWithPolygon() {
-        let square = Polygon(.square(color: .red))!
+    func testMinkowskiSumWithPolygon() throws {
+        let square = try XCTUnwrap(Polygon(.square(color: .red)))
         let mesh = Mesh.cube().minkowskiSum(with: square)
         XCTAssertEqual(mesh.bounds, Bounds(min: [-1, -1, -0.5], max: [1, 1, 0.5]))
         let vertices = mesh.polygons.flatMap(\.vertices)
@@ -583,8 +583,8 @@ class MeshCSGTests: XCTestCase {
         #endif
     }
 
-    func testMinkowskiSumPolygonColorBlending() {
-        let square = Polygon(.square(color: .red))!
+    func testMinkowskiSumPolygonColorBlending() throws {
+        let square = try XCTUnwrap(Polygon(.square(color: .red)))
         let mesh = Mesh.cube().mapVertexColors { _ in .blue }.minkowskiSum(with: square)
         XCTAssertEqual(mesh.bounds, Bounds(min: [-1, -1, -0.5], max: [1, 1, 0.5]))
         let vertices = mesh.polygons.flatMap(\.vertices)

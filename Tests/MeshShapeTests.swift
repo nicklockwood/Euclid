@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class MeshShapeTests: XCTestCase {
+final class MeshShapeTests: XCTestCase {
     // MARK: Fill
 
     func testFillClockwiseQuad() {

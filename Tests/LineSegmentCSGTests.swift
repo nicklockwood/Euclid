@@ -9,17 +9,17 @@
 @testable import Euclid
 import XCTest
 
-class LineSegmentCSGTests: XCTestCase {
+final class LineSegmentCSGTests: XCTestCase {
     // MARK: Plane Splitting
 
-    func testSplitAlongPlaneConsistentWithIntersection() {
+    func testSplitAlongPlaneConsistentWithIntersection() throws {
         let line = LineSegment(unchecked: [0.40685660304473714, 0.3725735878210516, 0.0], [0.5, 0, 0])
         let plane = Plane(
             unchecked: [0.7670920387775096, 0.5573249890665806, -0.31773992604974827],
             w: 0.4508853875443005
         )
         let (front, back) = line.split(along: plane)
-        let intersection = line.intersection(with: plane)!
+        let intersection = try XCTUnwrap(line.intersection(with: plane))
         XCTAssertEqual(front?.end, back?.start)
         XCTAssertEqual(front?.end, intersection)
     }

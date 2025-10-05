@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class VectorTests: XCTestCase {
+final class VectorTests: XCTestCase {
     // MARK: Vector length
 
     func testAxisAlignedLength() {
@@ -37,15 +37,15 @@ class VectorTests: XCTestCase {
         XCTAssertEqual(vector1.angle(with: vector2), .pi)
     }
 
-    func testAngles() {
-        let rotations = [
+    func testAngles() throws {
+        let rotations = try [
             Rotation(unchecked: .unitX, angle: .degrees(30)),
             Rotation(unchecked: -.unitX, angle: .degrees(30)),
             Rotation(unchecked: .unitY, angle: .degrees(10)),
             Rotation(unchecked: .unitY, angle: .degrees(17)),
             Rotation(unchecked: .unitY, angle: .degrees(135)),
             Rotation(unchecked: .unitY, angle: .degrees(182)),
-            Rotation(axis: [1, 0.5, 0], angle: .degrees(55))!,
+            XCTUnwrap(Rotation(axis: [1, 0.5, 0], angle: .degrees(55))),
         ]
 
         for r in rotations {

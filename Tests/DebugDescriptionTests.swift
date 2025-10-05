@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class DebugDescriptionTests: XCTestCase {
+final class DebugDescriptionTests: XCTestCase {
     // MARK: Vector
 
     func testVector() {
@@ -37,7 +37,7 @@ class DebugDescriptionTests: XCTestCase {
     // MARK: PathPoint
 
     func testPathPoint() {
-        let point = PathPoint.point(0.0, 0.0, 1.0)
+        let point = PathPoint(0.0, 0.0, 1.0)
         XCTAssertEqual(point.debugDescription, "PathPoint.point(0.0, 0.0, 1.0)")
     }
 
@@ -47,17 +47,17 @@ class DebugDescriptionTests: XCTestCase {
     }
 
     func testPathPoint2D() {
-        let point = PathPoint.point(0.0, 0.0)
+        let point = PathPoint(0.0, 0.0)
         XCTAssertEqual(point.debugDescription, "PathPoint.point(0.0, 0.0)")
     }
 
     func testPathPointWithTexcoord() {
-        let vertex = PathPoint.point(0.0, 0.0, texcoord: .unitX)
+        let vertex = PathPoint(0.0, 0.0, texcoord: .unitX)
         XCTAssertEqual(vertex.debugDescription, "PathPoint.point(0.0, 0.0, texcoord: [1.0, 0.0, 0.0])")
     }
 
     func testPathPointWithColor() {
-        let vertex = PathPoint.point(0.0, 0.0, color: .red)
+        let vertex = PathPoint(0.0, 0.0, color: .red)
         XCTAssertEqual(vertex.debugDescription, "PathPoint.point(0.0, 0.0, color: [1.0, 0.0, 0.0, 1.0])")
     }
 

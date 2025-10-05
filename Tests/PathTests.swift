@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class PathTests: XCTestCase {
+final class PathTests: XCTestCase {
     // MARK: isSimple
 
     func testSinglePoint() {
@@ -197,9 +197,9 @@ class PathTests: XCTestCase {
         var points = [PathPoint]()
         let sides = 5
         for _ in 0 ..< sides {
-            points.append(PathPoint.point(0, -0.5).transformed(by: transform))
+            points.append(.point(0, -0.5).transformed(by: transform))
             transform.rotate(by: .roll(.pi / Double(sides)))
-            points.append(PathPoint.point(0, -1).transformed(by: transform))
+            points.append(.point(0, -1).transformed(by: transform))
             transform.rotate(by: .roll(.pi / Double(sides)))
         }
         points.append(.point(0, -0.5))

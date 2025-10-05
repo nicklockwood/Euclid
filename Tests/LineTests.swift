@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class LineTests: XCTestCase {
+final class LineTests: XCTestCase {
     // MARK: Point distance
 
     func testDistanceFromPointSimple() {

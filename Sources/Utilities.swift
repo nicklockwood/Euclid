@@ -694,7 +694,7 @@ protocol UnkeyedCodable {
 
 // MARK: Data
 
-class Buffer {
+final class Buffer {
     private(set) var buffer: UnsafeMutablePointer<UInt8>
     let capacity: Int
     var count: Int = 0 {

@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class CodingTests: XCTestCase {
+final class CodingTests: XCTestCase {
     private func decode<T: Decodable>(_ string: String) throws -> T {
         let data = string.data(using: .utf8)!
         return try JSONDecoder().decode(T.self, from: data)
@@ -239,7 +239,7 @@ class CodingTests: XCTestCase {
                 1, 2, 2,
                 normal: [1, 0, 0],
                 texcoord: [0, 1],
-                color: Color(0, 1, 0, 0.5)
+                color: [0, 1, 0, 0.5]
             )),
             "[1,2,2,1,0,0,0,1,0,0,1,0,0.5]"
         )
@@ -680,20 +680,20 @@ class CodingTests: XCTestCase {
     // MARK: PathPoint
 
     func testDecodingPathPoint2D() {
-        XCTAssertEqual(try decode("[1, 2]"), PathPoint.point(1, 2))
+        XCTAssertEqual(try decode("[1, 2]"), PathPoint(1, 2))
     }
 
     func testEncodingPathPoint2D() throws {
-        let encoded = try encode(PathPoint.point([1, 2]))
+        let encoded = try encode(PathPoint(1, 2))
         XCTAssertEqual(encoded, "[1,2]")
     }
 
     func testDecodingPathPoint3D() {
-        XCTAssertEqual(try decode("[1, 2, 3]"), PathPoint.point(1, 2, 3))
+        XCTAssertEqual(try decode("[1, 2, 3]"), PathPoint(1, 2, 3))
     }
 
     func testEncodingPathPoint3D() throws {
-        let encoded = try encode(PathPoint.point(1, 2, 3))
+        let encoded = try encode(PathPoint(1, 2, 3))
         XCTAssertEqual(encoded, "[1,2,3]")
     }
 
@@ -718,60 +718,60 @@ class CodingTests: XCTestCase {
     func testDecodingPathPoint2DWithTexcoord() {
         XCTAssertEqual(
             try decode("[1, 2, 3, 4]"),
-            PathPoint.point(1, 2, texcoord: [3, 4])
+            PathPoint(1, 2, texcoord: [3, 4])
         )
     }
 
     func testEncodingPathPoint2DWithTexcoord() throws {
-        let encoded = try encode(PathPoint.point(1, 2, texcoord: [3, 4]))
+        let encoded = try encode(PathPoint(1, 2, texcoord: [3, 4]))
         XCTAssertEqual(encoded, "[1,2,3,4]")
     }
 
     func testEncodingPathPoint2DWithTexcoord3D() throws {
-        let encoded = try encode(PathPoint.point(1, 2, texcoord: [3, 4, 5]))
+        let encoded = try encode(PathPoint(1, 2, texcoord: [3, 4, 5]))
         XCTAssertEqual(encoded, "[1,2,0,3,4,5]")
     }
 
     func testEncodingPathPoint2DWithOpaqueColor() throws {
-        let encoded = try encode(PathPoint.point(1, 2, color: .red))
+        let encoded = try encode(PathPoint(1, 2, color: .red))
         XCTAssertEqual(encoded, "[1,2,0,1,0,0,1]")
     }
 
     func testDecodingPathPoint3DWithTexcoord() {
         XCTAssertEqual(
             try decode("[1, 2, 3, 4, 5]"),
-            PathPoint.point(1, 2, 3, texcoord: [4, 5])
+            PathPoint(1, 2, 3, texcoord: [4, 5])
         )
     }
 
     func testDecodingPathPoint3DWithOpaqueColor() {
         XCTAssertEqual(
             try decode("[1, 2, 3, 1, 0, 0, 1]"),
-            PathPoint.point(1, 2, 3, color: .red)
+            PathPoint(1, 2, 3, color: .red)
         )
     }
 
     func testDecodingPathPoint3DWithTranslucentColor() {
         XCTAssertEqual(
             try decode("[1, 2, 3, 1, 0, 0, 0.5]"),
-            PathPoint.point(1, 2, 3, color: .red.withAlpha(0.5))
+            PathPoint(1, 2, 3, color: .red.withAlpha(0.5))
         )
     }
 
     func testDecodingPathPoint3DWithTexcoord3D() {
         XCTAssertEqual(
             try decode("[1, 2, 3, 4, 5, 6]"),
-            PathPoint.point(1, 2, 3, texcoord: [4, 5, 6])
+            PathPoint(1, 2, 3, texcoord: [4, 5, 6])
         )
     }
 
     func testEncodingPathPoint3DWithTexcoord() throws {
-        let encoded = try encode(PathPoint.point(1, 2, 3, texcoord: [4, 5]))
+        let encoded = try encode(PathPoint(1, 2, 3, texcoord: [4, 5]))
         XCTAssertEqual(encoded, "[1,2,3,4,5]")
     }
 
     func testEncodingPathPoint3DWithTexcoord3D() throws {
-        let encoded = try encode(PathPoint.point(1, 2, 3, texcoord: [4, 5, 6]))
+        let encoded = try encode(PathPoint(1, 2, 3, texcoord: [4, 5, 6]))
         XCTAssertEqual(encoded, "[1,2,3,4,5,6]")
     }
 
@@ -928,7 +928,7 @@ class CodingTests: XCTestCase {
     }
 
     func testEncodingAndDecodingRotation() throws {
-        let rotation = Rotation(axis: .unitX, angle: .radians(2))!
+        let rotation = try XCTUnwrap(Rotation(axis: .unitX, angle: .radians(2)))
         let encoded = try encode(rotation)
         XCTAssertEqual(rotation, try decode(encoded))
     }

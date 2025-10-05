@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class PlaneTests: XCTestCase {
+final class PlaneTests: XCTestCase {
     func testConcavePolygonClockwiseWinding() {
         var transform = Transform.identity
         var points = [Vector]()
@@ -123,9 +123,9 @@ class PlaneTests: XCTestCase {
         XCTAssertEqual(intersection, Line(origin: [1, -1, 0], direction: -.unitZ))
     }
 
-    func testIntersectionWithRandomPlane() {
-        let plane1 = Plane(normal: [1.2, 0.4, 5.7], w: 6)!
-        let plane2 = Plane(normal: [0.5, 0.7, 0.1], w: 8)!
+    func testIntersectionWithRandomPlane() throws {
+        let plane1 = try XCTUnwrap(Plane(normal: [1.2, 0.4, 5.7], w: 6))
+        let plane2 = try XCTUnwrap(Plane(normal: [0.5, 0.7, 0.1], w: 8))
 
         guard let intersection = plane1.intersection(with: plane2) else {
             XCTFail()

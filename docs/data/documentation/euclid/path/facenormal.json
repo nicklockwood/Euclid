@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "The face normal for the path.",
+      "text" : "The face normal vector for the path.",
       "type" : "text"
     }
   ],
@@ -205,7 +205,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/faceNormal": {
   "abstract" : [
     {
-      "text" : "The face normal for the path.",
+      "text" : "The face normal vector for the path.",
       "type" : "text"
     }
   ],

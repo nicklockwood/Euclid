@@ -10,7 +10,7 @@ import Euclid
 import SceneKit
 import UIKit
 
-class SceneKitViewController: UIViewController {
+final class SceneKitViewController: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         title = "SceneKit"

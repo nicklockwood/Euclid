@@ -10,7 +10,7 @@ import Euclid
 import XCTest
 
 final class PerformanceTests: XCTestCase {
-    func testMeshClipping() throws {
+    func testMeshClipping() {
         let detail = 64
         let a = Mesh.sphere(slices: detail)
         let b = a.translated(by: [0.5, 0, 0])
@@ -20,7 +20,7 @@ final class PerformanceTests: XCTestCase {
         }
     }
 
-    func testConvexHullOfMeshes() throws {
+    func testConvexHullOfMeshes() {
         let detail = 64
         let a = Mesh.sphere(slices: detail)
         let b = a.translated(by: [1, 0, 0])
@@ -30,7 +30,7 @@ final class PerformanceTests: XCTestCase {
         }
     }
 
-    func testMinkowskiSumOfConvexMeshes() throws {
+    func testMinkowskiSumOfConvexMeshes() {
         let detail = 32
         let a = Mesh.sphere(slices: detail)
         let b = Mesh.cube()
@@ -40,7 +40,7 @@ final class PerformanceTests: XCTestCase {
         }
     }
 
-    func testMinkowskiSumWithNonconvexMesh() throws {
+    func testMinkowskiSumWithNonconvexMesh() {
         #if canImport(CoreText)
         let detail = 16
         let a = Mesh.sphere(radius: 0.1, slices: detail)
@@ -56,7 +56,7 @@ final class PerformanceTests: XCTestCase {
         #if canImport(CoreText)
         let detail = 16
         let a = Mesh.sphere(radius: 0.1, slices: detail)
-        let b = Polygon(.text("G")[0])!
+        let b = try XCTUnwrap(Polygon(.text("G")[0]))
         measure {
             let c = a.withoutOptimizations().minkowskiSum(with: b)
             XCTAssertFalse(c.isEmpty)

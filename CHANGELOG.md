@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.8.10](https://github.com/nicklockwood/Euclid/releases/tag/0.8.10) (2025-10-05)
+
+- Fixed `Mesh.minkowskiSum(with: Path)` output when path has subpaths
+- Fixed vertex color blending logic for `Mesh.minkowskiSum()` and `Mesh.extrusion()` methods
+- Fixed bug with `Mesh.tessellate()` producing more than the optimal number of polygons 
+- Added `Path.withDetail(_:twist:)` and `Path.withNormalizedPosition()` methods
+- Added `Path.hasColors` and `Path.hasTexcoords` properties
+- Improved `Path.init` ergonomics
+
 ## [0.8.9](https://github.com/nicklockwood/Euclid/releases/tag/0.8.9) (2025-09-22)
 
 - Fixed some bugs in `Polygon`/`Line` intersection logic

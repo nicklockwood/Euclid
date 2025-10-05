@@ -21,7 +21,7 @@ private extension Data {
     }
 }
 
-class MeshImportTests: XCTestCase {
+final class MeshImportTests: XCTestCase {
     // MARK: STL import
 
     func testCubeSTL() {
@@ -264,7 +264,7 @@ class MeshImportTests: XCTestCase {
         XCTAssertEqual(cube, expected)
     }
 
-    func testCubeSTLStringData() {
+    func testCubeSTLStringData() throws {
         let data = """
         solid Foo
         facet normal 1 0 0
@@ -353,7 +353,7 @@ class MeshImportTests: XCTestCase {
         endfacet
         endsolid Foo
         """.data(using: .utf8)
-        let cube = Mesh(stlData: data!)
+        let cube = try Mesh(stlData: XCTUnwrap(data))
         let expected = Mesh.cube()
             .translated(by: [0.5, 0.5, 0.5])
             .withoutTexcoords()

@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class RotationTests: XCTestCase {
+final class RotationTests: XCTestCase {
     func testAxisAngle() {
         let rotations: [(axis: Vector, angle: Angle)] = [
             (.unitX, .degrees(30)),

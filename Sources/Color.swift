@@ -160,7 +160,7 @@ public extension Color {
 
     /// Creates a copy of the color updated with the specified alpha.
     func withAlpha(_ a: Double) -> Color {
-        Color(r, g, b, a)
+        .init(r, g, b, a)
     }
 
     /// Linearly interpolate between two colors.
@@ -174,7 +174,7 @@ public extension Color {
 
     /// Returns a color with its components multiplied by the specified color.
     static func * (lhs: Color, rhs: Color) -> Color {
-        [lhs.r * rhs.r, lhs.g * rhs.g, lhs.b * rhs.b, lhs.a * rhs.a]
+        .init(lhs.r * rhs.r, lhs.g * rhs.g, lhs.b * rhs.b, lhs.a * rhs.a)
     }
 
     /// Multiplies the components of the color by the specified color.

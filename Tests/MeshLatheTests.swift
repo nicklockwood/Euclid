@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class MeshLatheTests: XCTestCase {
+final class MeshLatheTests: XCTestCase {
     func testClosedPathTouchingOrigin() {
         let path = Path([
             .point(0, 0),

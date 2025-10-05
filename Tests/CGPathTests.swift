@@ -12,7 +12,7 @@ import CoreGraphics
 @testable import Euclid
 import XCTest
 
-class CGPathTests: XCTestCase {
+final class CGPathTests: XCTestCase {
     func testRectangularCGPath() {
         let cgRect = CGRect(x: 0, y: 0, width: 1, height: 2)
         let cgPath = CGPath(rect: cgRect, transform: nil)

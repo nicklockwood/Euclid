@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class VertexSetTests: XCTestCase {
+final class VertexSetTests: XCTestCase {
     func testExactMapping() {
         var set = VertexSet(precision: 0)
         let vertices = Mesh.cube().translated(by: .random(in: -1 ... 1)).polygons.flatMap(\.vertices)

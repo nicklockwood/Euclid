@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class PolygonTests: XCTestCase {
+final class PolygonTests: XCTestCase {
     // MARK: initialization
 
     func testConvexPolygonAnticlockwiseWinding() {
@@ -445,7 +445,7 @@ class PolygonTests: XCTestCase {
         XCTAssert([polygon].mergingVertices(withPrecision: 1e-7).isEmpty)
     }
 
-    func testMergingCubeWithModulatedFaces() throws {
+    func testMergingCubeWithModulatedFaces() {
         let threshold = 0.10778596717606788
         let polygons = Mesh.cube().polygons
         for _ in 0 ..< 10 {
@@ -459,7 +459,7 @@ class PolygonTests: XCTestCase {
         }
     }
 
-    func testMergingCubeWithModulatedVertices() throws {
+    func testMergingCubeWithModulatedVertices() {
         let threshold = 0.10778596717606788
         let polygons = Mesh.cube().polygons
         for _ in 0 ..< 10 {
@@ -890,11 +890,11 @@ class PolygonTests: XCTestCase {
 
     // MARK: edges
 
-    func testOrderedEdges() {
-        let circle = Polygon(.circle())!
+    func testOrderedEdges() throws {
+        let circle = try XCTUnwrap(Polygon(.circle()))
         let edges = circle.orderedEdges
         XCTAssertEqual(edges.count, circle.vertices.count)
-        var u = circle.vertices.last!
+        var u = try XCTUnwrap(circle.vertices.last)
         for (e, v) in zip(edges, circle.vertices) {
             XCTAssertEqual(e.start, u.position)
             XCTAssertEqual(e.end, v.position)
@@ -902,8 +902,8 @@ class PolygonTests: XCTestCase {
         }
     }
 
-    func testUndirectedEdges() {
-        let circle = Polygon(.circle())!
+    func testUndirectedEdges() throws {
+        let circle = try XCTUnwrap(Polygon(.circle()))
         let orderedEdges = circle.orderedEdges
         let undirectedEdges = circle.undirectedEdges
         XCTAssertEqual(orderedEdges.count, undirectedEdges.count)

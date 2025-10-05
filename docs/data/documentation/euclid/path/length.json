@@ -265,7 +265,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/isPlanar": {
   "abstract" : [
     {
-      "text" : "Indicates whether all the path’s points lie on a single plane.",
+      "text" : "A Boolean value that indicates whether all the path’s points lie on a single plane.",
       "type" : "text"
     }
   ],

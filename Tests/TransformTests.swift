@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class TransformTests: XCTestCase {
+final class TransformTests: XCTestCase {
     // MARK: Transform multiplication
 
     func testRotationMultipliedByTranslation() {
@@ -89,11 +89,11 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(plane.translated(by: offset), expected)
     }
 
-    func testRotatePlane() {
+    func testRotatePlane() throws {
         let normal = Vector(0.5, 1, 0.5).normalized()
         let position = Vector(10, 5, -3)
         let plane = Plane(unchecked: normal, pointOnPlane: position)
-        let rotation = Rotation(axis: [12, 3, 4], angle: .radians(0.2))!
+        let rotation = try XCTUnwrap(Rotation(axis: [12, 3, 4], angle: .radians(0.2)))
         let rotatedNormal = normal.rotated(by: rotation)
         let rotatedPosition = position.rotated(by: rotation)
         let expected = Plane(unchecked: rotatedNormal, pointOnPlane: rotatedPosition)

@@ -9,7 +9,7 @@
 @testable import Euclid
 import XCTest
 
-class AngleTests: XCTestCase {
+final class AngleTests: XCTestCase {
     func testConstructor() {
         let angle = Angle.degrees(30)
         XCTAssertEqual(30, angle.degrees)
