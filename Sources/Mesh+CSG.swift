@@ -540,6 +540,12 @@ public extension Mesh {
         guard let point = path.points.first else {
             return .empty
         }
+        let subpaths = path.subpaths
+        if subpaths.count > 1 {
+            return .union(subpaths.map {
+                minkowskiSum(with: $0, isCancelled: isCancelled)
+            }, isCancelled: isCancelled)
+        }
         let color = point.color ?? .white
         var a = translated(by: point.position).mapVertexColors { $0 * color }
         guard path.points.count > 1 else {
