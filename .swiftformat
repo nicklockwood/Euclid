@@ -19,9 +19,15 @@
 
 --lintonly unusedArguments
 --lintonly unusedPrivateDeclarations
---enable isEmpty
 --enable docComments
---enable throwingTests
---enable redundantProperty
+--enable isEmpty
+--enable emptyExtensions
+--enable noForceTryInTests
+--enable noForceUnwrapInTests
+# --enable noGuardInTests
+--enable preferFinalClasses
+--enable redundantAsync
 --enable redundantEquatable
 --enable redundantMemberwiseInit
+--enable redundantProperty
+--enable redundantThrows

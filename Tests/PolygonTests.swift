@@ -878,11 +878,11 @@ class PolygonTests: XCTestCase {
 
     // MARK: edges
 
-    func testOrderedEdges() {
-        let circle = Polygon(.circle())!
+    func testOrderedEdges() throws {
+        let circle = try XCTUnwrap(Polygon(.circle()))
         let edges = circle.orderedEdges
         XCTAssertEqual(edges.count, circle.vertices.count)
-        var u = circle.vertices.last!
+        var u = try XCTUnwrap(circle.vertices.last)
         for (e, v) in zip(edges, circle.vertices) {
             XCTAssertEqual(e.start, u.position)
             XCTAssertEqual(e.end, v.position)
@@ -890,8 +890,8 @@ class PolygonTests: XCTestCase {
         }
     }
 
-    func testUndirectedEdges() {
-        let circle = Polygon(.circle())!
+    func testUndirectedEdges() throws {
+        let circle = try XCTUnwrap(Polygon(.circle()))
         let orderedEdges = circle.orderedEdges
         let undirectedEdges = circle.undirectedEdges
         XCTAssertEqual(orderedEdges.count, undirectedEdges.count)

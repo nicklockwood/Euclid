@@ -56,7 +56,7 @@ final class PerformanceTests: XCTestCase {
         #if canImport(CoreText)
         let detail = 16
         let a = Mesh.sphere(radius: 0.1, slices: detail)
-        let b = Polygon(.text("G")[0])!
+        let b = try XCTUnwrap(Polygon(.text("G")[0]))
         measure {
             let c = a.withoutOptimizations().minkowskiSum(with: b)
             XCTAssertFalse(c.isEmpty)

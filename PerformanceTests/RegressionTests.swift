@@ -27,13 +27,13 @@ final class RegressionTests: XCTestCase {
         XCTAssertTrue(mesh.isWatertight)
     }
 
-    func testMakeExtrudedTextWatertight() {
+    func testMakeExtrudedTextWatertight() throws {
         #if canImport(CoreText)
         let detail = 64
-        var mesh = Mesh.extrude(
+        var mesh = try Mesh.extrude(
             Path(subpaths: Path.text("Hello", detail: detail / 8))
                 .scaled(by: 0.1)
-                .rotated(by: .init(axis: .unitZ, angle: -.halfPi)!),
+                .rotated(by: XCTUnwrap(.init(axis: .unitZ, angle: -.halfPi))),
             along: .curve([
                 .point(0, 0),
                 .curve(0, 0, 1),

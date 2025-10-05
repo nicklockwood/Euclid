@@ -928,7 +928,7 @@ class CodingTests: XCTestCase {
     }
 
     func testEncodingAndDecodingRotation() throws {
-        let rotation = Rotation(axis: .unitX, angle: .radians(2))!
+        let rotation = try XCTUnwrap(Rotation(axis: .unitX, angle: .radians(2)))
         let encoded = try encode(rotation)
         XCTAssertEqual(rotation, try decode(encoded))
     }

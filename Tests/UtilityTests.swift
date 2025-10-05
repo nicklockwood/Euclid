@@ -449,14 +449,14 @@ class UtilityTests: XCTestCase {
 
     // MARK: rotation
 
-    func testRotation() {
-        let rotations = [
+    func testRotation() throws {
+        let rotations = try [
             Rotation(unchecked: .unitX, angle: .degrees(30)),
             Rotation(unchecked: -.unitX, angle: .degrees(30)),
             Rotation(unchecked: .unitY, angle: .degrees(10)),
             Rotation(unchecked: .unitY, angle: .degrees(17)),
             Rotation(unchecked: .unitY, angle: .degrees(135)),
-            Rotation(axis: [1, 0.5, 0], angle: .degrees(55))!,
+            XCTUnwrap(Rotation(axis: [1, 0.5, 0], angle: .degrees(55))),
         ]
 
         for r in rotations {
