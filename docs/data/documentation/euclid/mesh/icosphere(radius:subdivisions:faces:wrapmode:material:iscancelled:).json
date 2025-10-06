@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.",
+      "text" : "Creates a sphere by subdividing an icosahedron.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/icosphere(radius:subdivisions:faces:wrapMode:material:isCancelled:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV4fill_5faces8material11isCancelledACSayAA4PathVG_AC5FacesOs11AnyHashableVSgSbyXEtFZ",
+    "externalID" : "s:6Euclid4MeshV9icosphere6radius12subdivisions5faces8wrapMode8material11isCancelledACSd_SiAC5FacesOAC04WrapH0Os11AnyHashableVSgSbyXEtFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -40,20 +40,45 @@
       },
       {
         "kind" : "identifier",
-        "text" : "fill"
+        "text" : "icosphere"
       },
       {
         "kind" : "text",
-        "text" : "(["
+        "text" : "("
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "radius"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4PathV",
-        "text" : "Path"
+        "preciseIdentifier" : "s:Sd",
+        "text" : "Double"
       },
       {
         "kind" : "text",
-        "text" : "], "
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "subdivisions"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:Si",
+        "text" : "Int"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
       },
       {
         "kind" : "externalParam",
@@ -67,6 +92,23 @@
         "kind" : "typeIdentifier",
         "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
         "text" : "Faces"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "wrapMode"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid4MeshV8WrapModeO",
+        "text" : "WrapMode"
       },
       {
         "kind" : "text",
@@ -120,7 +162,7 @@
     "role" : "symbol",
     "roleHeading" : "Type Method",
     "symbolKind" : "method",
-    "title" : "fill(_:faces:material:isCancelled:)"
+    "title" : "icosphere(radius:subdivisions:faces:wrapMode:material:isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -151,7 +193,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "fill"
+              "text" : "icosphere"
             },
             {
               "kind" : "text",
@@ -159,29 +201,37 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "_"
+              "text" : "radius"
             },
             {
               "kind" : "text",
-              "text" : " "
+              "text" : ": "
             },
             {
-              "kind" : "internalParam",
-              "text" : "shapes"
-            },
-            {
-              "kind" : "text",
-              "text" : ": ["
-            },
-            {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4PathV",
-              "text" : "Path"
+              "preciseIdentifier" : "s:Sd",
+              "text" : "Double"
             },
             {
               "kind" : "text",
-              "text" : "], "
+              "text" : " = 0.5, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "subdivisions"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Si",
+              "text" : "Int"
+            },
+            {
+              "kind" : "text",
+              "text" : " = 2, "
             },
             {
               "kind" : "externalParam",
@@ -196,6 +246,24 @@
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
               "text" : "Faces"
+            },
+            {
+              "kind" : "text",
+              "text" : " = .default, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "wrapMode"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid4MeshV8WrapModeO",
+              "text" : "WrapMode"
             },
             {
               "kind" : "text",
@@ -256,14 +324,28 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The array of paths to be filled.",
+                  "text" : "The radius of the icosphere.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "shapes"
+          "name" : "radius"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The number of times to subdivide (each iteration quadruples the triangle count).",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "subdivisions"
         },
         {
           "content" : [
@@ -278,6 +360,20 @@
             }
           ],
           "name" : "faces"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The mode in which texture coordinates are wrapped around the mesh.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "wrapMode"
         },
         {
           "content" : [
@@ -321,7 +417,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)"
+        "\/documentation\/euclid\/mesh\/icosphere(radius:subdivisions:faces:wrapmode:material:iscancelled:)"
       ],
       "traits" : [
         {
@@ -499,10 +595,44 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/material"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/WrapMode": {
   "abstract" : [
     {
-      "text" : "Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.",
+      "text" : "The texture wrapping mode to use when generating a mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "WrapMode"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "WrapMode"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh.WrapMode",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/wrapmode"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/icosphere(radius:subdivisions:faces:wrapMode:material:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a sphere by subdividing an icosahedron.",
       "type" : "text"
     }
   ],
@@ -525,20 +655,45 @@
     },
     {
       "kind" : "identifier",
-      "text" : "fill"
+      "text" : "icosphere"
     },
     {
       "kind" : "text",
-      "text" : "(["
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "radius"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
     },
     {
       "kind" : "text",
-      "text" : "], "
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "subdivisions"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
     },
     {
       "kind" : "externalParam",
@@ -552,6 +707,23 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
       "text" : "Faces"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "wrapMode"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8WrapModeO",
+      "text" : "WrapMode"
     },
     {
       "kind" : "text",
@@ -597,46 +769,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/icosphere(radius:subdivisions:faces:wrapMode:material:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "fill(_:faces:material:isCancelled:)",
+  "title" : "icosphere(radius:subdivisions:faces:wrapMode:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
-  "abstract" : [
-    {
-      "text" : "A path made up of a sequence of straight line segments between points.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Path"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Path",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path"
+  "url" : "\/documentation\/euclid\/mesh\/icosphere(radius:subdivisions:faces:wrapmode:material:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/Material-swift.typealias": {
   "abstract" : [

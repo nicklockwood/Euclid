@@ -282,12 +282,14 @@ public extension Mesh {
     ///   - faces: The direction the polygon faces.
     ///   - wrapMode: The mode in which texture coordinates are wrapped around the mesh.
     ///   - material: The optional material for the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func icosphere(
         radius: Double = 0.5,
         subdivisions: Int = 2,
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         let icosahedron = icosahedron(
             radius: 1,
@@ -296,7 +298,7 @@ public extension Mesh {
             material: material
         )
         var triangles = icosahedron.polygons
-        for _ in 0 ..< subdivisions {
+        for _ in 0 ..< subdivisions where !isCancelled() {
             triangles = triangles.subdivide()
         }
         triangles = triangles.mapVertices {
@@ -349,7 +351,8 @@ public extension Mesh {
             wrapMode: wrapMode,
             material: material,
             isConvex: true,
-            isWatertight: true
+            isWatertight: true,
+            isCancelled: { false }
         )
     }
 
@@ -391,7 +394,8 @@ public extension Mesh {
             wrapMode: wrapMode,
             material: material,
             isConvex: true,
-            isWatertight: true
+            isWatertight: true,
+            isCancelled: { false }
         )
     }
 
@@ -435,7 +439,8 @@ public extension Mesh {
             wrapMode: wrapMode == .default ? .tube : wrapMode,
             material: material,
             isConvex: true,
-            isWatertight: true
+            isWatertight: true,
+            isCancelled: { false }
         )
     }
 
@@ -458,6 +463,7 @@ public extension Mesh {
     ///   - faces: The direction of the generated polygon faces.
     ///   - wrapMode: The way that texture coordinates are calculated for the lathed mesh.
     ///   - material: The optional material for the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func lathe(
         _ profile: Path,
         slices: Int = 16,
@@ -465,7 +471,8 @@ public extension Mesh {
         addDetailForFlatPoles: Bool = false,
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         lathe(
             unchecked: profile,
@@ -476,7 +483,8 @@ public extension Mesh {
             wrapMode: wrapMode,
             material: material,
             isConvex: false, // TODO: Can we work out if profile is convex?
-            isWatertight: nil // TODO: Can we work this out?
+            isWatertight: nil, // TODO: Can we work this out?
+            isCancelled: isCancelled
         )
     }
 
@@ -488,17 +496,19 @@ public extension Mesh {
     ///   - sections: Number of sections to create along extrusion.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func extrude(
         _ shape: Path,
         depth: Double = 1,
         twist: Angle = .zero,
         sections: Int = 0,
         faces: Faces = .default,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         let depth = abs(depth)
         if depth < scaleLimit {
-            return fill(shape, faces: faces, material: material)
+            return fill(shape, faces: faces, material: material, isCancelled: isCancelled)
         }
         let faceNormal = shape.faceNormal
         let offset = faceNormal * depth
@@ -519,7 +529,8 @@ public extension Mesh {
             material: material,
             verifiedCoplanar: true,
             isConvex: polygon?.isConvex == true,
-            isWatertight: polygon.map { _ in true } // TODO: make less strict
+            isWatertight: polygon.map { _ in true }, // TODO: make less strict
+            isCancelled: isCancelled
         )
     }
 
@@ -548,7 +559,8 @@ public extension Mesh {
                 twist: twist,
                 sections: sections,
                 faces: faces,
-                material: material
+                material: material,
+                isCancelled: isCancelled
             )
         }, isCancelled: isCancelled), isCancelled: isCancelled)
     }
@@ -580,7 +592,8 @@ public extension Mesh {
                     twist: twist,
                     align: align,
                     faces: faces,
-                    material: material
+                    material: material,
+                    isCancelled: isCancelled
                 )
             }, isCancelled: isCancelled))
         }
@@ -596,10 +609,12 @@ public extension Mesh {
     ///   - shapes: The paths to connect.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func loft(
         _ shapes: [Path],
         faces: Faces = .default,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         loft(
             unchecked: shapes,
@@ -607,7 +622,8 @@ public extension Mesh {
             material: material,
             verifiedCoplanar: false,
             isConvex: false,
-            isWatertight: nil
+            isWatertight: nil,
+            isCancelled: isCancelled
         )
     }
 
@@ -616,14 +632,18 @@ public extension Mesh {
     ///   - shape: The shape to be filled.
     ///   - faces: The direction the polygon faces.
     ///   - material: The optional material for the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func fill(
         _ shape: Path,
         faces: Faces = .default,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         let subpaths = shape.subpaths
         if subpaths.count > 1 {
-            return .symmetricDifference(subpaths.map { .fill($0, faces: faces, material: material) })
+            return .symmetricDifference(subpaths.map {
+                .fill($0, faces: faces, material: material, isCancelled: isCancelled)
+            }, isCancelled: isCancelled)
         }
 
         let polygons = shape.closed().facePolygons(material: material)
@@ -672,7 +692,7 @@ public extension Mesh {
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         .union(build(shapes, using: {
-            fill($0, faces: faces, material: material)
+            fill($0, faces: faces, material: material, isCancelled: isCancelled)
         }, isCancelled: isCancelled), isCancelled: isCancelled)
     }
 
@@ -730,7 +750,7 @@ public extension Mesh {
                 material: material,
                 isCancelled: isCancelled
             )
-        }, isCancelled: isCancelled))
+        }, isCancelled: isCancelled), isCancelled: isCancelled)
     }
 
     /// Efficiently strokes a collection of line segments (useful for drawing wireframes).
@@ -793,7 +813,8 @@ private extension Mesh {
         wrapMode: WrapMode,
         material: Material?,
         isConvex: Bool,
-        isWatertight: Bool?
+        isWatertight: Bool?,
+        isCancelled: CancellationHandler
     ) -> Mesh {
         let subpaths = profile.subpaths
         if subpaths.count > 1 {
@@ -805,9 +826,10 @@ private extension Mesh {
                     addDetailForFlatPoles: addDetailForFlatPoles,
                     faces: faces,
                     wrapMode: wrapMode,
-                    material: material
+                    material: material,
+                    isCancelled: isCancelled
                 )
-            })
+            }, isCancelled: isCancelled)
         }
 
         // normalize profile
@@ -854,7 +876,7 @@ private extension Mesh {
         }
 
         var polygons = [Polygon]()
-        for i in 0 ..< slices {
+        for i in 0 ..< slices where !isCancelled() {
             let t0 = Double(i) / Double(slices)
             let t1 = Double(i + 1) / Double(slices)
             let a0 = t0 * Angle.twoPi
@@ -1023,7 +1045,8 @@ private extension Mesh {
         material: Material?,
         verifiedCoplanar: Bool,
         isConvex: Bool,
-        isWatertight: Bool?
+        isWatertight: Bool?,
+        isCancelled: CancellationHandler
     ) -> Mesh {
         var subpathCount = 0
         let arrayOfSubpaths: [[Path]] = shapes.map {
@@ -1038,7 +1061,9 @@ private extension Mesh {
                     subshapes[i].append(subpath)
                 }
             }
-            return .symmetricDifference(subshapes.map { .loft($0, faces: faces, material: material) })
+            return .symmetricDifference(subshapes.map {
+                .loft($0, faces: faces, material: material, isCancelled: isCancelled)
+            }, isCancelled: isCancelled)
         }
         let shapes = shapes.filter { !$0.points.isEmpty }
         guard let first = shapes.first, let last = shapes.last else {
@@ -1073,7 +1098,7 @@ private extension Mesh {
         let uvstep = Double(1) / Double(count - 1)
         prev = first
         var curvestart = true
-        for (i, shape) in shapes.enumerated().dropFirst() {
+        for (i, shape) in shapes.enumerated().dropFirst() where !isCancelled() {
             let uvx1 = uvx0 + uvstep
             if shape == prev {
                 curvestart = false
@@ -1146,6 +1171,8 @@ private extension Mesh {
         material: Material?,
         into polygons: inout [Polygon]
     ) {
+        assert(p0.subpaths.count == 1)
+        assert(p1.subpaths.count == 1)
         var p0 = p0, p1 = p1
         var n0 = p0.faceNormal, n1 = p1.faceNormal
         let direction = directionBetweenShapes(p0, p1)
@@ -1310,7 +1337,7 @@ private extension Mesh {
     static func build(
         _ shapes: some Collection<Path>,
         using fn: (Path) -> Mesh,
-        isCancelled: CancellationHandler = { false }
+        isCancelled: CancellationHandler
     ) -> [Mesh] {
         var uniquePaths = [Path]()
         let indexesAndOffsets = shapes.map { path -> (Int, Vector) in

@@ -269,8 +269,8 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/lathe(_:slices:poledetail:adddetailforflatpoles:faces:wrapmode:material:)",
-                "title" : "static func lathe(Path, slices: Int, poleDetail: Int, addDetailForFlatPoles: Bool, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/lathe(_:slices:poledetail:adddetailforflatpoles:faces:wrapmode:material:iscancelled:)",
+                "title" : "static func lathe(Path, slices: Int, poleDetail: Int, addDetailForFlatPoles: Bool, faces: Faces, wrapMode: WrapMode, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -279,28 +279,28 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:)",
-                "title" : "static func extrude(Path, depth: Double, twist: Angle, sections: Int, faces: Faces, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-2tivu",
+                "title" : "static func extrude(Path, depth: Double, twist: Angle, sections: Int, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)",
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-460t4",
                 "title" : "static func extrude(some Collection<Path>, depth: Double, twist: Angle, sections: Int, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:)",
-                "title" : "static func fill(Path, faces: Faces, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-56xlt",
+                "title" : "static func fill(Path, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:)",
-                "title" : "static func fill(Path, faces: Faces, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-3eajk",
+                "title" : "static func fill([Path], faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/loft(_:faces:material:)",
-                "title" : "static func loft([Path], faces: Faces, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/loft(_:faces:material:iscancelled:)",
+                "title" : "static func loft([Path], faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -902,13 +902,8 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)",
-                "title" : "static func fill([Path], faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/icosphere(radius:subdivisions:faces:wrapmode:material:)",
-                "title" : "static func icosphere(radius: Double, subdivisions: Int, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/icosphere(radius:subdivisions:faces:wrapmode:material:iscancelled:)",
+                "title" : "static func icosphere(radius: Double, subdivisions: Int, faces: Faces, wrapMode: WrapMode, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {

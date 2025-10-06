@@ -44,13 +44,13 @@
 ### Creating Meshes from Paths
 
 - ``Mesh/convexHull(of:material:isCancelled:)-(Collection<Path>,_,_)``
-- ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:)``
+- ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)``
 - ``Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)``
-- ``Mesh/extrude(_:depth:twist:sections:faces:material:)``
-- ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)``
-- ``Mesh/fill(_:faces:material:)``
-- ``Mesh/fill(_:faces:material:)``
-- ``Mesh/loft(_:faces:material:)``
+- ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Path,_,_,_,_,_,_)``
+- ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Collection<Path>,_,_,_,_,_,_)``
+- ``Mesh/fill(_:faces:material:isCancelled:)-(Path,_,_,_)``
+- ``Mesh/fill(_:faces:material:isCancelled:)-([Path],_,_,_)``
+- ``Mesh/loft(_:faces:material:isCancelled:)``
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Path,_,_,_,_)``
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Collection<Path>,_,_,_,_)``
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Collection<LineSegment>,_,_,_,_)``
