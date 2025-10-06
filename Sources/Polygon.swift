@@ -419,20 +419,22 @@ public extension Polygon {
             return polygons
         }
         var i = polygons.count - 1
-        while i > 1 {
+        while i > 0 {
             let a = polygons[i]
             let count = a.vertices.count
-            if count < maxSides,
-               let j = polygons.firstIndex(where: {
-                   $0.vertices.count + count - 2 <= maxSides
-               }),
-               j < i,
-               let merged = a.merge(unchecked: polygons[j], ensureConvex: true)
-            {
-                precondition(merged.vertices.count <= maxSides)
-                precondition(merged.isConvex)
-                polygons[j] = merged
-                polygons.remove(at: i)
+            if count < maxSides {
+                for j in (0 ..< i).reversed() {
+                    let b = polygons[j]
+                    if b.vertices.count + count - 2 <= maxSides,
+                       let merged = a.merge(unchecked: polygons[j], ensureConvex: true)
+                    {
+                        precondition(merged.vertices.count <= maxSides)
+                        precondition(merged.isConvex)
+                        polygons[j] = merged
+                        polygons.remove(at: i)
+                        break
+                    }
+                }
             }
             i -= 1
         }

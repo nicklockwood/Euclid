@@ -148,6 +148,94 @@ class PolygonTests: XCTestCase {
         })
     }
 
+    // MARK: intersects point
+
+    func testConvexAnticlockwisePolygonContainsPoint() {
+        let path = Path([
+            .point(-1, 1),
+            .point(-1, -1),
+            .point(1, -1),
+            .point(1, 1),
+            .point(-1, 1),
+        ])
+        guard let polygon = Polygon(path) else {
+            XCTFail()
+            return
+        }
+        XCTAssertTrue(polygon.intersects([0, 0]))
+        XCTAssertTrue(polygon.intersects([-0.999, 0.999]))
+        XCTAssertTrue(polygon.intersects([0.999, 0.999]))
+        XCTAssertTrue(polygon.intersects([0.999, -0.999]))
+        XCTAssertTrue(polygon.intersects([-0.999, -0.999]))
+        XCTAssertFalse(polygon.intersects([-1.001, 0]))
+        XCTAssertFalse(polygon.intersects([1.001, 0]))
+        XCTAssertFalse(polygon.intersects([0, -1.001]))
+        XCTAssertFalse(polygon.intersects([0, 1.001]))
+    }
+
+    func testConvexClockwisePolygonContainsPoint() {
+        let path = Path([
+            .point(-1, -1),
+            .point(-1, 1),
+            .point(1, 1),
+            .point(1, -1),
+            .point(-1, -1),
+        ])
+        guard let polygon = Polygon(path) else {
+            XCTFail()
+            return
+        }
+        XCTAssertTrue(polygon.intersects([0, 0]))
+        XCTAssertTrue(polygon.intersects([-0.999, 0.999]))
+        XCTAssertTrue(polygon.intersects([0.999, 0.999]))
+        XCTAssertTrue(polygon.intersects([0.999, -0.999]))
+        XCTAssertTrue(polygon.intersects([-0.999, -0.999]))
+        XCTAssertFalse(polygon.intersects([-1.001, 0]))
+        XCTAssertFalse(polygon.intersects([1.001, 0]))
+        XCTAssertFalse(polygon.intersects([0, -1.001]))
+        XCTAssertFalse(polygon.intersects([0, 1.001]))
+    }
+
+    func testConcaveAnticlockwisePolygonContainsPoint() {
+        let path = Path([
+            .point(-1, 0),
+            .point(0, 0),
+            .point(0, -1),
+            .point(1, -1),
+            .point(1, 1),
+            .point(-1, 1),
+            .point(-1, 0),
+        ])
+        guard let polygon = Polygon(path) else {
+            XCTFail()
+            return
+        }
+        XCTAssertTrue(polygon.intersects([-0.5, 0.5]))
+        XCTAssertTrue(polygon.intersects([0.5, 0.5]))
+        XCTAssertFalse(polygon.intersects([-0.5, -0.5]))
+        XCTAssertTrue(polygon.intersects([0.5, -0.5]))
+    }
+
+    func testConcaveAnticlockwisePolygonContainsPoint2() {
+        let path = Path([
+            .point(0, 1),
+            .point(0.5, 0),
+            .point(0, -1),
+            .point(1, 0),
+            .point(0, 1),
+        ])
+        guard let polygon = Polygon(path) else {
+            XCTFail()
+            return
+        }
+        XCTAssertTrue(polygon.intersects([0.75, 0]))
+        XCTAssertFalse(polygon.intersects([0.25, 0]))
+        XCTAssertFalse(polygon.intersects([0.25, 0.25]))
+        XCTAssertFalse(polygon.intersects([0.25, -0.25]))
+        XCTAssertTrue(polygon.intersects([0.25, 0.5]))
+        XCTAssertTrue(polygon.intersects([0.25, -0.5]))
+    }
+
     // MARK: merging
 
     func testMerge1() {
@@ -345,94 +433,6 @@ class PolygonTests: XCTestCase {
         XCTAssertEqual(a.merge(b), c)
     }
 
-    // MARK: containsPoint
-
-    func testConvexAnticlockwisePolygonContainsPoint() {
-        let path = Path([
-            .point(-1, 1),
-            .point(-1, -1),
-            .point(1, -1),
-            .point(1, 1),
-            .point(-1, 1),
-        ])
-        guard let polygon = Polygon(path) else {
-            XCTFail()
-            return
-        }
-        XCTAssertTrue(polygon.intersects([0, 0]))
-        XCTAssertTrue(polygon.intersects([-0.999, 0.999]))
-        XCTAssertTrue(polygon.intersects([0.999, 0.999]))
-        XCTAssertTrue(polygon.intersects([0.999, -0.999]))
-        XCTAssertTrue(polygon.intersects([-0.999, -0.999]))
-        XCTAssertFalse(polygon.intersects([-1.001, 0]))
-        XCTAssertFalse(polygon.intersects([1.001, 0]))
-        XCTAssertFalse(polygon.intersects([0, -1.001]))
-        XCTAssertFalse(polygon.intersects([0, 1.001]))
-    }
-
-    func testConvexClockwisePolygonContainsPoint() {
-        let path = Path([
-            .point(-1, -1),
-            .point(-1, 1),
-            .point(1, 1),
-            .point(1, -1),
-            .point(-1, -1),
-        ])
-        guard let polygon = Polygon(path) else {
-            XCTFail()
-            return
-        }
-        XCTAssertTrue(polygon.intersects([0, 0]))
-        XCTAssertTrue(polygon.intersects([-0.999, 0.999]))
-        XCTAssertTrue(polygon.intersects([0.999, 0.999]))
-        XCTAssertTrue(polygon.intersects([0.999, -0.999]))
-        XCTAssertTrue(polygon.intersects([-0.999, -0.999]))
-        XCTAssertFalse(polygon.intersects([-1.001, 0]))
-        XCTAssertFalse(polygon.intersects([1.001, 0]))
-        XCTAssertFalse(polygon.intersects([0, -1.001]))
-        XCTAssertFalse(polygon.intersects([0, 1.001]))
-    }
-
-    func testConcaveAnticlockwisePolygonContainsPoint() {
-        let path = Path([
-            .point(-1, 0),
-            .point(0, 0),
-            .point(0, -1),
-            .point(1, -1),
-            .point(1, 1),
-            .point(-1, 1),
-            .point(-1, 0),
-        ])
-        guard let polygon = Polygon(path) else {
-            XCTFail()
-            return
-        }
-        XCTAssertTrue(polygon.intersects([-0.5, 0.5]))
-        XCTAssertTrue(polygon.intersects([0.5, 0.5]))
-        XCTAssertFalse(polygon.intersects([-0.5, -0.5]))
-        XCTAssertTrue(polygon.intersects([0.5, -0.5]))
-    }
-
-    func testConcaveAnticlockwisePolygonContainsPoint2() {
-        let path = Path([
-            .point(0, 1),
-            .point(0.5, 0),
-            .point(0, -1),
-            .point(1, 0),
-            .point(0, 1),
-        ])
-        guard let polygon = Polygon(path) else {
-            XCTFail()
-            return
-        }
-        XCTAssertTrue(polygon.intersects([0.75, 0]))
-        XCTAssertFalse(polygon.intersects([0.25, 0]))
-        XCTAssertFalse(polygon.intersects([0.25, 0.25]))
-        XCTAssertFalse(polygon.intersects([0.25, -0.25]))
-        XCTAssertTrue(polygon.intersects([0.25, 0.5]))
-        XCTAssertTrue(polygon.intersects([0.25, -0.5]))
-    }
-
     // MARK: merging
 
     func testMergingVerticesCrash() throws {
@@ -539,6 +539,18 @@ class PolygonTests: XCTestCase {
         ])
         XCTAssert(a == expectedA || a == expectedB)
         XCTAssert(b == expectedA || b == expectedB)
+    }
+
+    func testCircleIsOptimallyTessellated() throws {
+        let path = Path.circle(segments: 32)
+        let polygon = try XCTUnwrap(Polygon(path))
+        loop: for i in 3 ... 32 {
+            let polygons = polygon.tessellate(maxSides: i)
+            for polygon in polygons {
+                XCTAssertLessThanOrEqual(polygon.vertices.count, i)
+            }
+            XCTAssertEqual(polygons.count, Int(ceil(30.0 / Double(i - 2))))
+        }
     }
 
     // MARK: triangulation
