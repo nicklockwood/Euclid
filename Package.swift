@@ -15,7 +15,8 @@ let package = Package(
         .testTarget(
             name: "EuclidTests",
             dependencies: ["Euclid"],
-            path: "Tests"
+            path: "Tests",
+            exclude: ["Cube.stl"]
         ),
     ]
 )

@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.8.11](https://github.com/nicklockwood/Euclid/releases/tag/0.8.11) (2025-10-12)
+
+- Fix regression in `Mesh.loft()` method when one or more input paths has a single point
+- Made more long-running Mesh shape operations cancellable
+
 ## [0.8.10](https://github.com/nicklockwood/Euclid/releases/tag/0.8.10) (2025-10-05)
 
 - Fixed `Mesh.minkowskiSum(with: Path)` output when path has subpaths

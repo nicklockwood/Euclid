@@ -24,3 +24,5 @@ DerivedData
 .docc-build/
 all_identifiers.txt
 all_symbols.txt
+docs/linkable-entities.json
+docs/indexing-records.json
