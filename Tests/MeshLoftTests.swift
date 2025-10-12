@@ -394,4 +394,32 @@ final class MeshLoftTests: XCTestCase {
         XCTAssertFalse(loft.isKnownConvex) // can't determine this yet
         XCTAssertTrue(loft.isActuallyConvex)
     }
+
+    func testLoftPointToSquare() {
+        let shapes = [
+            Path([.point(0, 0, -1)]),
+            Path.square(),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssert(loft.isWatertight)
+        XCTAssert(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 5)
+        XCTAssertFalse(loft.isKnownConvex) // can't determine this yet
+        XCTAssertTrue(loft.isActuallyConvex)
+    }
+
+    func testLoftSquareToPoint() {
+        let shapes = [
+            Path.square(),
+            Path([.point(0, 0, 1)]),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssert(loft.isWatertight)
+        XCTAssert(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 5)
+        XCTAssertFalse(loft.isKnownConvex) // can't determine this yet
+        XCTAssertTrue(loft.isActuallyConvex)
+    }
 }

@@ -1174,12 +1174,13 @@ private extension Mesh {
         assert(p0.subpaths.count == 1)
         assert(p1.subpaths.count == 1)
         var p0 = p0, p1 = p1
-        var n0 = p0.faceNormal, n1 = p1.faceNormal
         let direction = directionBetweenShapes(p0, p1)
+        var n0 = p0.points.count < 2 ? direction : p0.faceNormal
         if direction.dot(n0) < 0 {
             p0 = p0.inverted()
             n0 = -n0
         }
+        var n1 = p1.points.count < 2 ? direction : p1.faceNormal
         if direction.dot(n1) < 0 {
             p1 = p1.inverted()
             n1 = -n1
@@ -1262,7 +1263,7 @@ private extension Mesh {
             }
         }
         var e0 = p0.edgeVertices, e1 = p1.edgeVertices
-        guard e0.count > 1, e1.count > 1 else {
+        guard e0.count > 1 || e1.count > 1 else {
             return
         }
         var t0 = -p0.bounds.center, t1 = -p1.bounds.center
