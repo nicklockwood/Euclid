@@ -386,7 +386,7 @@ public extension Mesh {
                 .point(0, 0),
                 .point(-radius, 0),
                 .point(0, 0),
-            ], plane: .xy, subpathIndices: []),
+            ], plane: .xy),
             slices: slices,
             poleDetail: poleDetail,
             addDetailForFlatPoles: true,
@@ -431,7 +431,7 @@ public extension Mesh {
             .point(Double(i) * xstep, height / 2 - Double(i) * ystep)
         } + [.point(0, -height / 2)]
         return lathe(
-            unchecked: Path(unchecked: points, plane: .xy, subpathIndices: []),
+            unchecked: Path(unchecked: points, plane: .xy),
             slices: slices,
             poleDetail: poleDetail ?? 3,
             addDetailForFlatPoles: addDetailAtBottomPole,

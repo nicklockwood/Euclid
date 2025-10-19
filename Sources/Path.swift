@@ -44,34 +44,32 @@ import Foundation
 /// not *required* to be. Even a flat ``Path`` (where all points lie on the same plane) can be translated or
 /// rotated so that its points do not necessarily lie on the *XY* plane.
 public struct Path: Hashable, Sendable {
-    let subpathIndices: [Int]
-    /// The array of points that makes up this path.
-    public let points: [PathPoint]
-    /// Indicates whether the path is a closed path.
-    public let isClosed: Bool
+    private let storage: Storage
+
     /// The plane upon which all path points lie. Will be nil for non-planar paths.
-    public private(set) var plane: Plane?
+    public let plane: Plane?
 }
 
 extension Path: CustomDebugStringConvertible, CustomReflectable {
     public var debugDescription: String {
-        if points.isEmpty {
+        switch storage {
+        case .points([]):
             return "Path.empty"
-        } else if subpaths.count > 1 {
+        case let .points(points):
+            let v = points.map {
+                "\n\t\("\($0)".dropFirst("PathPoint".count)),"
+            }.joined()
+            return "Path([\(v)\n])"
+        case let .subpaths(subpaths):
             let p = subpaths.map {
                 "\n\t\("\($0)".replacingOccurrences(of: "\n", with: "\n\t")),"
             }.joined()
             return "Path(subpaths: [\(p)\n])"
         }
-        let v = points.map {
-            "\n\t\("\($0)".dropFirst("PathPoint".count)),"
-        }.joined()
-        return "Path([\(v)\n])"
     }
 
     public var customMirror: Mirror {
         Mirror(self, children: [
-            "subpathIndices": subpathIndices,
             "isClosed": isClosed,
             "plane": plane as Any,
         ], displayStyle: .struct)
@@ -126,6 +124,30 @@ public extension Path {
         points.isEmpty
     }
 
+    /// The array of points that makes up this path.
+    /// > Note: If the path has subpaths then the points returned may not represent a single contour
+    var points: [PathPoint] {
+        switch storage {
+        case let .points(points): return points
+        case let .subpaths(subpaths): return subpaths.flatMap(\.points)
+        }
+    }
+
+    /// An array of the subpaths that make up the path.
+    /// > Note: For paths without nested subpaths, this will return an array containing only `self`.
+    var subpaths: [Path] {
+        switch storage {
+        case .points: return [self]
+        case let .subpaths(subpaths): return subpaths
+        }
+    }
+
+    /// Indicates whether the path is a closed path.
+    /// > Note: If the path has subpaths then this result of this may be misleading
+    var isClosed: Bool {
+        pointsAreClosed(unchecked: points)
+    }
+
     /// A Boolean value that indicates whether all the path's points lie on a single plane.
     var isPlanar: Bool {
         plane != nil
@@ -160,9 +182,12 @@ public extension Path {
     /// Returns a copy of the polygon with transformed point colors
     /// - Parameter transform: A closure to be applied to each color in the path.
     func mapColors(_ transform: (Color?) -> Color?) -> Path {
-        Path(unchecked: points.map {
-            $0.withColor(transform($0.color))
-        }, plane: plane, subpathIndices: subpathIndices)
+        switch storage {
+        case let .points(points):
+            return .init(unchecked: .points(points.map { $0.withColor(transform($0.color)) }), plane: plane)
+        case let .subpaths(subpaths):
+            return .init(unchecked: .subpaths(subpaths.map { $0.mapColors(transform) }), plane: plane)
+        }
     }
 
     /// Returns a copy of the path with the specified color applied to each point.
@@ -179,31 +204,22 @@ public extension Path {
         }
         var points = points
         points.append(points[0])
-        return Path(unchecked: points, plane: plane, subpathIndices: nil)
+        return Path(unchecked: points, plane: plane)
     }
 
     /// Flips the path along its plane and reverses the path points.
     /// - Returns: The inverted path.
     func inverted() -> Path {
-        let subpaths = subpaths
         if subpaths.count > 1 {
             return .init(subpaths: subpaths.map { $0.inverted() })
         }
-        return Path(
-            unchecked: points.reversed(),
-            plane: plane?.inverted(),
-            subpathIndices: nil
-        )
+        return Path(unchecked: points.reversed(), plane: plane?.inverted())
     }
 
     /// Creates a path from a collection of  path points.
     /// - Parameter points: An ordered collection of ``PathPoint`` making up the path.
     init(_ points: some Collection<PathPoint>) {
-        self.init(
-            unchecked: sanitizePoints(points),
-            plane: nil,
-            subpathIndices: nil
-        )
+        self.init(Array(points), plane: nil)
     }
 
     /// Creates a composite path from a collection of subpaths.
@@ -214,26 +230,27 @@ public extension Path {
             self = subpaths.first ?? .empty
             return
         }
-        let points = subpaths.flatMap(\.points)
-        var startIndex = 0
-        var subpathIndices: [Int]? = subpaths.map {
-            startIndex = startIndex + $0.points.count
-            return startIndex - 1
-        }
-        // Remove duplicate points
-        // TODO: share logic with sanitizePoints function
-        var result = [PathPoint]()
-        for point in points {
-            if let last = result.last, point.position == last.position {
-                subpathIndices = nil // Invalidated
-                if !point.isCurved, last.isCurved {
-                    result[result.count - 1].isCurved = false
+        let d = subpaths.flatMap(\.undirectedEdges).reduce(epsilon) { min($0, $1.length / 2) }
+        var pathpoints: [[PathPoint]] = subpaths.map { $0.points }
+        outer: do {
+            for (i, p) in pathpoints.enumerated() where !pointsAreClosed(unchecked: p) {
+                for (j, q) in pathpoints.enumerated() where i != j && !pointsAreClosed(unchecked: q) {
+                    let p = p.last!.position
+                    if p.isApproximatelyEqual(to: q.first!.position, absoluteTolerance: d) {
+                        pathpoints[i] += q.dropFirst()
+                    } else if p.isApproximatelyEqual(to: q.last!.position, absoluteTolerance: d) {
+                        pathpoints[i] += q.dropLast().reversed()
+                    } else {
+                        continue
+                    }
+                    pathpoints.remove(at: j)
+                    continue outer
                 }
-            } else {
-                result.append(point)
             }
         }
-        self.init(unchecked: result, plane: nil, subpathIndices: subpathIndices)
+        self.init(unchecked: .subpaths(pathpoints.map {
+            Path(unchecked: .points(sanitizePoints($0)), plane: nil)
+        }), plane: nil)
     }
 
     /// Creates a closed path from a polygon.
@@ -248,11 +265,7 @@ public extension Path {
                 color: hasVertexColors ? $0.color : nil
             )
         }
-        self.init(
-            unchecked: points + [points[0]],
-            plane: polygon.plane,
-            subpathIndices: nil
-        )
+        self.init(unchecked: points + [points[0]], plane: polygon.plane)
     }
 
     /// Creates a path from a collection of  path points with a common color.
@@ -276,43 +289,7 @@ public extension Path {
     ///   - segments: An unsorted, undirected collection of``LineSegment``s to convert to a path.
     ///   - color: An optional ``Color`` to apply to the path's points.
     init(_ segments: some Collection<LineSegment>, color: Color? = nil) {
-        let d = segments.reduce(epsilon) { min($0, $1.length / 2) }
-        var paths = segments.map { [$0.start, $0.end] }
-        outer: do {
-            for (i, p) in paths.enumerated() {
-                let matches = paths.enumerated().filter { j, q in
-                    guard i != j, let p = p.last, !q.isEmpty else {
-                        return false
-                    }
-                    return p.isApproximatelyEqual(to: q.first!, absoluteTolerance: d)
-                        || p.isApproximatelyEqual(to: q.last!, absoluteTolerance: d)
-                }
-                // TODO: for multiple matches find the longest contiguous path
-                if let (j, q) = matches.first, matches.count == 1 {
-                    var points = p
-                    if p.last!.isApproximatelyEqual(to: q.first!, absoluteTolerance: d) {
-                        points += q.dropFirst()
-                    } else {
-                        points += q.dropLast().reversed()
-                    }
-                    paths[i] = points
-                    paths.remove(at: j)
-                    continue outer
-                }
-            }
-        }
-        self.init(subpaths: paths.map { Path($0.map { .point($0, color: color) }) })
-    }
-
-    /// An array of the subpaths that make up the path.
-    ///
-    /// For paths without nested subpaths, this will return an array containing only `self`.
-    var subpaths: [Path] {
-        var startIndex = 0
-        return subpathIndices.count > 1 ? subpathIndices.map { i in
-            defer { startIndex = i + 1 }
-            return Path(unchecked: points[startIndex ... i], plane: nil, subpathIndices: [])
-        } : [self]
+        self.init(subpaths: segments.map { Path($0, color: color) })
     }
 
     /// Returns one or more polygons needed to fill the path.
@@ -593,46 +570,59 @@ public extension Polygon {
 }
 
 extension Path {
-    init(
-        unchecked points: some Collection<PathPoint>,
-        plane: Plane?,
-        subpathIndices: [Int]?
-    ) {
-        var points = Array(points)
-        var subpathIndices = subpathIndices
-        if subpathIndices == nil {
-            let subpaths = subpathsFor(points)
-            if subpaths.count > 1 {
-                points = subpaths.flatMap(\.points)
-                var startIndex = 0
-                subpathIndices = subpaths.map {
-                    startIndex = startIndex + $0.points.count
-                    return startIndex - 1
-                }
+    enum Storage: Hashable, Sendable {
+        case points([PathPoint])
+        case subpaths([Path])
+    }
+
+    /// Used by Transformable functions
+    /// This method validates the points and will create sub-paths if needed
+    init(_ points: [PathPoint], plane: Plane?) {
+        let subpaths = subpathsFor(points)
+        self.init(unchecked: .subpaths(subpaths), plane: plane)
+    }
+
+    /// This method assumed points do not have subpaths and may assert if they do
+    init(unchecked points: [PathPoint], plane: Plane?) {
+        assert(subpathsFor(points).count <= 1)
+        self.init(unchecked: .points(points), plane: plane)
+    }
+
+    init(unchecked storage: Storage, plane: Plane?) {
+        switch storage {
+        case let .points(points):
+            assert(sanitizePoints(points) == points)
+            self.storage = storage
+            if let plane {
+                assert(points.map(\.position).allSatisfy { plane.intersects($0) })
             }
-        }
-        self.points = points
-        self.isClosed = pointsAreClosed(unchecked: points)
-//        let subpathIndices = subpathIndices ?? subpathIndicesFor(points)
-        self.subpathIndices = subpathIndices ?? []
-        if let plane {
-            self.plane = plane
-            assert(points.map(\.position).allSatisfy { plane.intersects($0) })
-        } else if subpathIndices?.isEmpty ?? true {
-            self.plane = Plane(points: points.map(\.position))
-        } else {
-            for path in subpaths {
-                guard let plane = path.plane else {
-                    self.plane = nil
-                    break
-                }
-                if let existing = self.plane {
-                    guard existing.isApproximatelyEqual(to: plane) else {
+            self.plane = plane ?? Plane(points: points.map(\.position))
+        case let .subpaths(subpaths):
+            switch subpaths.count {
+            case 0:
+                assert(plane == nil)
+                self.storage = .points([])
+                self.plane = nil
+            case 1:
+                self = subpaths[0]
+            default:
+                assert(subpaths.allSatisfy { sanitizePoints($0.points) == $0.points })
+                self.storage = storage
+                if let plane {
+                    self.plane = plane
+                    assert(points.map(\.position).allSatisfy { plane.intersects($0) })
+                } else {
+                    let plane = subpaths.first?.plane
+                    if subpaths.dropFirst().allSatisfy({
+                        $0.plane.isApproximatelyEqual(to: plane) ||
+                            // TODO: if plane is inverted, should we invert the path?
+                            $0.plane.isApproximatelyEqual(to: plane?.inverted())
+                    }) {
+                        self.plane = plane
+                    } else {
                         self.plane = nil
-                        break
                     }
                 }
-                self.plane = plane
             }
         }
     }
@@ -657,7 +647,7 @@ extension Path {
     // flattens z-axis
     // TODO: this is a hack and should be replaced by a better solution
     func flattened() -> Path {
-        guard subpathIndices.isEmpty else {
+        guard subpaths.count == 1 else {
             return Path(subpaths: subpaths.map { $0.flattened() })
         }
         if points.allSatisfy({ $0.position.z == 0 }) {
@@ -671,11 +661,11 @@ extension Path {
                 color: $0.color,
                 isCurved: $0.isCurved
             )
-        }), plane: .xy, subpathIndices: [])
+        }), plane: .xy)
     }
 
     func clippedToYAxis() -> Path {
-        guard subpathIndices.isEmpty else {
+        guard subpaths.count == 1 else {
             return Path(subpaths: subpaths.map { $0.clippedToYAxis() })
         }
         var points = points
@@ -747,8 +737,7 @@ extension Path {
         }
         return Path(
             unchecked: points,
-            plane: nil, // Might have changed if path is self-intersecting
-            subpathIndices: nil
+            plane: nil // Might have changed if path is self-intersecting
         )
     }
 }

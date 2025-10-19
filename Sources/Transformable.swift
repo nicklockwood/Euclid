@@ -376,17 +376,15 @@ extension PathPoint: Transformable {
 extension Path: Transformable {
     public func translated(by distance: Vector) -> Path {
         Path(
-            unchecked: points.translated(by: distance),
-            plane: plane?.translated(by: distance),
-            subpathIndices: subpathIndices
+            points.translated(by: distance),
+            plane: plane?.translated(by: distance)
         )
     }
 
     public func rotated(by rotation: Rotation) -> Path {
         Path(
-            unchecked: points.rotated(by: rotation),
-            plane: nil, // Avoids loss of precision from rotating plane
-            subpathIndices: subpathIndices
+            points.rotated(by: rotation),
+            plane: nil // Avoids loss of precision from rotating plane
         )
     }
 
@@ -401,26 +399,23 @@ extension Path: Transformable {
             plane = plane?.inverted()
         }
         return Path(
-            unchecked: points.scaled(by: scale),
-            plane: plane?.scaled(by: scale),
-            subpathIndices: subpathIndices
+            points.scaled(by: scale),
+            plane: plane?.scaled(by: scale)
         )
     }
 
     public func scaled(by factor: Double) -> Path {
         let factor = factor.clampedToScaleLimit()
         return Path(
-            unchecked: points.scaled(by: factor),
-            plane: plane?.scaled(by: factor),
-            subpathIndices: subpathIndices
+            points.scaled(by: factor),
+            plane: plane?.scaled(by: factor)
         )
     }
 
     public func transformed(by transform: Transform) -> Path {
         Path(
-            unchecked: points.transformed(by: transform),
-            plane: plane?.transformed(by: transform),
-            subpathIndices: subpathIndices
+            points.transformed(by: transform),
+            plane: plane?.transformed(by: transform)
         )
     }
 }

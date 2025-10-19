@@ -118,6 +118,19 @@ final class PathTests: XCTestCase {
         XCTAssertTrue(path.isClosed)
     }
 
+    func testClosedPathWithOffshoot() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1),
+            .point(0, 1),
+            .point(0, 0),
+            .point(-1, 0),
+        ])
+        XCTAssertTrue(path.isSimple)
+        XCTAssertFalse(path.isClosed)
+    }
+
     // MARK: winding direction
 
     func testConvexClosedPathAnticlockwiseWinding() {
@@ -824,7 +837,7 @@ final class PathTests: XCTestCase {
                 .point(0, 0),
             ]),
         ])
-        XCTAssertNil(path.plane)
+        XCTAssertEqual(path.plane, .xy.inverted())
     }
 
     func testPathWithTwoSeparateLoopsHasCorrectSubpaths() {
@@ -865,7 +878,27 @@ final class PathTests: XCTestCase {
         let second = Path.arc(angle: quarterTurn, segments: 4)
             .rotated(by: .roll(quarterTurn))
         let path = Path(subpaths: [first, second])
+        XCTAssertEqual(path.subpaths.count, 1)
         XCTAssertEqual(path.points, Path.arc(angle: .pi, segments: 8).points)
+    }
+
+    func testTouchingClosedPathsNotLinked() {
+        let first = Path([
+            .point(0, 0),
+            .point(0, 1),
+            .point(1, 1),
+            .point(1, 0),
+            .point(0, 0),
+        ])
+        let second = Path([
+            .point(0, 0),
+            .point(0, -1),
+            .point(1, -1),
+            .point(1, 0),
+            .point(0, 0),
+        ])
+        let path = Path(subpaths: [first, second])
+        XCTAssertEqual(path.subpaths, [first, second])
     }
 
     func testNestedSubpathsAreFlattenedCorrectly() {

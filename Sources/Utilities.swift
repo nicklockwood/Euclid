@@ -632,14 +632,14 @@ func subpathsFor(_ _points: [PathPoint]) -> [Path] {
         if points.last?.position == points.first?.position {
             points[points.startIndex] = points.last!
         }
-        paths.append(Path(unchecked: points, plane: nil, subpathIndices: []))
+        paths.append(Path(unchecked: .points(sanitizePoints(points)), plane: nil))
     }
     return paths.isEmpty && !_points.isEmpty ? [
-        Path(unchecked: _points, plane: nil, subpathIndices: []),
+        Path(unchecked: .points(sanitizePoints(_points)), plane: nil),
     ] : paths
 }
 
-func subpathIndicesFor(_ points: [PathPoint]) -> [Int] {
+private func subpathIndicesFor(_ points: [PathPoint]) -> [Int] {
     // TODO: ensure closing points are of the same type as the opening point;
     // should this be part of the sanitize function?
     var lastIndex = 0

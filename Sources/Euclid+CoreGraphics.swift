@@ -134,7 +134,7 @@ public extension CGPath {
                 }
                 let points = sanitizePoints(points)
                 let plane = flattenedPointsAreClockwise(points.map(\.position)) ? Plane.xy.inverted() : .xy
-                paths.append(Path(unchecked: points, plane: plane, subpathIndices: []))
+                paths.append(Path(unchecked: points, plane: plane))
             }
             points.removeAll()
             firstElement = nil

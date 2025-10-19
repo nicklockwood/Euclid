@@ -81,7 +81,7 @@ public extension Path {
             points.append(.curve(sin(a) * radius, cos(a) * radius, color: color))
         }
         let plane = angle > .zero ? Plane.xy.inverted() : .xy
-        return Path(unchecked: points, plane: plane, subpathIndices: [])
+        return Path(unchecked: points, plane: plane)
     }
 
     /// Creates a closed circular path.
@@ -120,7 +120,7 @@ public extension Path {
         let h = max(abs(height / 2), scaleLimit / 2)
         return Path(unchecked: stride(from: 0, through: to, by: step).map {
             .curve(w * -sin($0), h * cos($0), color: color)
-        }, plane: .xy, subpathIndices: [])
+        }, plane: .xy)
     }
 
     /// Creates a closed regular polygon.
@@ -136,7 +136,7 @@ public extension Path {
         let circle = circle(radius: radius, segments: sides)
         return Path(unchecked: circle.points.map {
             .point($0.position, color: color)
-        }, plane: .xy, subpathIndices: [])
+        }, plane: .xy)
     }
 
     /// Creates a closed square path.
@@ -170,7 +170,7 @@ public extension Path {
             .point(-w, h, color: color), .point(-w, -h, color: color),
             .point(w, -h, color: color), .point(w, h, color: color),
             .point(-w, h, color: color),
-        ], plane: .xy, subpathIndices: [])
+        ], plane: .xy)
     }
 
     /// Creates a rounded rectangle path.
@@ -199,7 +199,7 @@ public extension Path {
                 .curve(-w, h, color: color), .curve(-w, -h, color: color),
                 .curve(w, -h, color: color), .curve(w, h, color: color),
                 .curve(-w, h, color: color),
-            ], plane: .xy, subpathIndices: [])
+            ], plane: .xy)
         }
         let r = min(radius, w, h)
         var points = [PathPoint]()
@@ -223,7 +223,7 @@ public extension Path {
             points.append(.curve(x - r * sin(a), y + r * cos(a), color: color))
         }
         points.append(points[0])
-        return Path(unchecked: points, plane: .xy, subpathIndices: [])
+        return Path(unchecked: points, plane: .xy)
     }
 
     /// Creates a quadratic bezier spline.
@@ -310,7 +310,7 @@ public extension Path {
 
         let points = sanitizePoints(points)
         guard detail > 0, points.count > 2 else {
-            return Path(unchecked: points, plane: nil, subpathIndices: nil)
+            return Path(unchecked: points, plane: nil)
         }
         var result = [PathPoint]()
         let count = points.count
@@ -366,7 +366,7 @@ public extension Path {
         } else {
             result.append(result[0])
         }
-        let path = Path(unchecked: result, plane: nil, subpathIndices: nil)
+        let path = Path(unchecked: result, plane: nil)
         assert(path.isClosed == isClosed)
         return path
     }
@@ -384,15 +384,14 @@ public extension Path {
 
     /// Cropped and flattened version of path suitable for lathing around the Y axis.
     var latheProfile: Path {
-        guard subpathIndices.isEmpty else {
+        guard subpaths.count == 1 else {
             return Path(subpaths: subpaths.map(\.latheProfile))
         }
         let profile = flattened().clippedToYAxis()
         if profile.faceNormal.z < 0 {
             return Path(
                 unchecked: profile.points.reversed(),
-                plane: profile.plane?.inverted(),
-                subpathIndices: []
+                plane: profile.plane?.inverted()
             )
         }
         return profile
@@ -523,6 +522,7 @@ public extension Path {
 
         func addShape(_ p2: PathPoint) {
             var p1p2 = (p2.position - p1.position)
+            assert(p1p2 != .zero)
             if axisAligned {
                 p1p2 = p1p2.projected(onto: pathPlane.rawValue)
             }
