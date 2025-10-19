@@ -983,6 +983,13 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(c.subpaths.last, b)
     }
 
+    func testCrashOnEmptySubpath() {
+        let a = Path.empty
+        let b = Path(subpaths: [a, .square()])
+        XCTAssertEqual(a.subpaths.count, 1)
+        XCTAssertEqual(b.subpaths.count, 1)
+    }
+
     // MARK: flattening
 
     func testFlattenVerticalPath() {

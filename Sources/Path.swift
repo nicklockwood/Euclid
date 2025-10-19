@@ -209,7 +209,7 @@ public extension Path {
     /// Creates a composite path from a collection of subpaths.
     /// - Parameter subpaths: A collection of paths.
     init(subpaths: some Collection<Path>) {
-        let subpaths = subpaths.flatMap(\.subpaths)
+        let subpaths = subpaths.flatMap(\.subpaths).filter { !$0.isEmpty }
         guard subpaths.count > 1 else {
             self = subpaths.first ?? .empty
             return
