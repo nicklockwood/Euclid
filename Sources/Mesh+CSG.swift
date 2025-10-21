@@ -508,7 +508,7 @@ public extension Mesh {
                 translated(by: vertex.position).mapVertexColors { $0 * vertex.color }
             })
         }
-        return .union([mesh] + mesh.polygons.map {
+        return .union([mesh.translated(by: bounds.center)] + mesh.polygons.map {
             isCancelled() ? .empty : minkowskiSum(with: $0)
         }, isCancelled: isCancelled)
     }
