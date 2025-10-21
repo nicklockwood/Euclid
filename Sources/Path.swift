@@ -143,9 +143,12 @@ public extension Path {
     }
 
     /// Indicates whether the path is a closed path.
-    /// > Note: If the path has subpaths then this result of this may be misleading
+    /// > Note: If path is empty, will return true. If path has subpaths, will return true only if all are closed.
     var isClosed: Bool {
-        pointsAreClosed(unchecked: points)
+        switch storage {
+        case let .points(points): return pointsAreClosed(unchecked: points)
+        case let .subpaths(subpaths): return subpaths.allSatisfy(\.isClosed)
+        }
     }
 
     /// A Boolean value that indicates whether all the path's points lie on a single plane.
@@ -197,23 +200,28 @@ public extension Path {
     }
 
     /// Closes the path by joining last point to first.
-    /// - Returns: A new path, or `self` if the path is already closed, or cannot be closed.
+    /// - Returns: The closed path, or `self` if the path is already closed or empty.
     func closed() -> Path {
-        if isClosed || self.points.isEmpty {
+        if isClosed || points.isEmpty {
             return self
         }
-        var points = points
-        points.append(points[0])
-        return Path(unchecked: points, plane: plane)
+        switch storage {
+        case let .points(points):
+            return .init(unchecked: .points(points + [points[0]]), plane: plane)
+        case let .subpaths(subpaths):
+            return .init(unchecked: .subpaths(subpaths.map { $0.closed() }), plane: plane)
+        }
     }
 
     /// Flips the path along its plane and reverses the path points.
     /// - Returns: The inverted path.
     func inverted() -> Path {
-        if subpaths.count > 1 {
-            return .init(subpaths: subpaths.map { $0.inverted() })
+        switch storage {
+        case let .points(points):
+            return .init(unchecked: .points(points.reversed()), plane: plane)
+        case let .subpaths(subpaths):
+            return .init(unchecked: .subpaths(subpaths.map { $0.inverted() }), plane: plane)
         }
-        return Path(unchecked: points.reversed(), plane: plane?.inverted())
     }
 
     /// Creates a path from a collection of  path points.
