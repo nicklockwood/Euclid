@@ -1065,6 +1065,7 @@ extension Polygon {
         let join2 = result.count - 1
 
         // can the merged points be removed?
+        // TODO: add option to always preserve merge points
         func testPoint(_ index: Int) {
             let prev = (index == 0) ? result.count - 1 : index - 1
             let va = (result[index].position - result[prev].position).normalized()
@@ -1217,6 +1218,9 @@ private extension Polygon {
             }
             var vertices = vertices
             vertices.insert(vertex, at: i)
+            guard !verticesAreDegenerate(vertices) else {
+                return false
+            }
             self = Polygon(
                 unchecked: vertices,
                 plane: plane,
