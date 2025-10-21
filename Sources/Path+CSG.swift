@@ -36,12 +36,17 @@ public extension Path {
     ///   - mesh: The ``Mesh``  to clip the path to.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A path that lies outside the mesh.
-    func clipped(to mesh: Mesh, isCancelled: CancellationHandler? = nil) -> Path {
+    func clipped(to mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Path {
         guard bounds.intersects(mesh.bounds) else {
             return self
         }
-        let isCancelled = isCancelled ?? { false }
         return BSP(mesh, isCancelled).clip(self, .greaterThan, isCancelled)
+    }
+
+    /// Deprecated.
+    @available(*, deprecated)
+    func clipped(to mesh: Mesh, isCancelled: CancellationHandler?) -> Path {
+        clipped(to: mesh, isCancelled: isCancelled ?? { false })
     }
 }
 

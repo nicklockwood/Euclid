@@ -45,12 +45,17 @@ public extension Polygon {
     ///   - mesh: The ``Mesh``  to clip the polygon to.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: An array of polygon fragments that lie outside the Mesh.
-    func clipped(to mesh: Mesh, isCancelled: CancellationHandler? = nil) -> [Polygon] {
+    func clipped(to mesh: Mesh, isCancelled: CancellationHandler = { false }) -> [Polygon] {
         guard bounds.intersects(mesh.bounds) else {
             return [self]
         }
-        let isCancelled = isCancelled ?? { false }
         return BSP(mesh, isCancelled).clip([self], .greaterThan, isCancelled)
+    }
+
+    /// Deprecated.
+    @available(*, deprecated)
+    func clipped(to mesh: Mesh, isCancelled: CancellationHandler?) -> [Polygon] {
+        clipped(to: mesh, isCancelled: isCancelled ?? { false })
     }
 
     /// Computes a set of edges where the polygon intersects a plane.
