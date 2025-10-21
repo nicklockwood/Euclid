@@ -41,13 +41,15 @@ public extension Path {
     ///   - font: The font to use for the text.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
+    ///   - color: An optional color to apply to the text.
     static func text(
         _ text: String,
         font: CTFont? = nil,
         width: Double? = nil,
-        detail: Int = 2
+        detail: Int = 2,
+        color: Color? = nil
     ) -> [Path] {
-        let attributedString = NSAttributedString(string: text, font: font)
+        let attributedString = NSAttributedString(string: text, font: font, color: color)
         return self.text(attributedString, width: width, detail: detail)
     }
 
@@ -166,9 +168,10 @@ extension NSAttributedString.Key {
 
 private extension NSAttributedString {
     /// Creates a new attributed string using text in the font you provide.
-    convenience init(string: String, font: CTFont?) {
+    convenience init(string: String, font: CTFont?, color: Color? = nil) {
         let font = font ?? CTFontCreateWithName("Helvetica" as CFString, 1, nil)
-        let attributes = [NSAttributedString.Key.font: font]
+        var attributes: [NSAttributedString.Key: Any] = [.font: font]
+        attributes[.foregroundColor] = color.map(OSColor.init)
         self.init(string: string, attributes: attributes)
     }
 
