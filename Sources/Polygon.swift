@@ -266,10 +266,7 @@ public extension Polygon {
     ///
     /// > Note: Vertex normals will be set to match the overall face normal of the polygon.
     /// Texture coordinates will be set to zero. Vertex colors will be defaulted to white.
-    init?(
-        _ vertices: some Collection<Vector>,
-        material: Material? = nil
-    ) {
+    init?(_ vertices: some Collection<Vector>, material: Material? = nil) {
         self.init(vertices.map(Vertex.init), material: material)
     }
 
@@ -282,15 +279,12 @@ public extension Polygon {
     /// Merges this polygon with another, removing redundant vertices where possible.
     /// - Parameters:
     ///   - other: The polygon to merge with.
-    ///   - ensureConvex: A Boolean indicating is the resultant polygon must be convex.
+    ///   - ensureConvex: A Boolean indicating if the resultant polygon must be convex.
     /// - Returns: The combined polygon, or `nil` if the polygons can't be merged.
     func merge(_ other: Polygon, ensureConvex: Bool = false) -> Polygon? {
-        // do they have the same material?
-        guard material == other.material else {
-            return nil
-        }
-        // are they coplanar?
-        guard plane.isApproximatelyEqual(to: other.plane) else {
+        guard material == other.material,
+              plane.isApproximatelyEqual(to: other.plane)
+        else {
             return nil
         }
         return merge(unchecked: other, ensureConvex: ensureConvex)
@@ -414,31 +408,11 @@ public extension Polygon {
         if vertices.count <= maxSides, isConvex {
             return [self]
         }
-        var polygons = triangulate()
+        let polygons = triangulate()
         if maxSides == 3 {
             return polygons
         }
-        var i = polygons.count - 1
-        while i > 0 {
-            let a = polygons[i]
-            let count = a.vertices.count
-            if count < maxSides {
-                for j in (0 ..< i).reversed() {
-                    let b = polygons[j]
-                    if b.vertices.count + count - 2 <= maxSides,
-                       let merged = a.merge(unchecked: polygons[j], ensureConvex: true)
-                    {
-                        precondition(merged.vertices.count <= maxSides)
-                        precondition(merged.isConvex)
-                        polygons[j] = merged
-                        polygons.remove(at: i)
-                        break
-                    }
-                }
-            }
-            i -= 1
-        }
-        return polygons
+        return polygons.coplanarDetessellate(ensureConvex: true, maxSides: maxSides)
     }
 
     /// Tessellates the polygon into triangles.
@@ -650,9 +624,14 @@ extension Collection<Polygon> {
         return edges
     }
 
+    /// Check if polygons all lie on the same plane.
+    var areCoplanar: Bool {
+        allSatisfy { $0.plane.isApproximatelyEqual(to: first!.plane) }
+    }
+
     /// Assuming that polygons are coplanar, determines if they form a convex boudary
     var coplanarPolygonsAreConvex: Bool {
-        assert(isEmpty || allSatisfy { $0.plane.isApproximatelyEqual(to: first!.plane) })
+        assert(areCoplanar)
         let boundary = Path(boundingEdges)
         return Polygon(boundary)?.isConvex ?? false
     }
@@ -665,6 +644,11 @@ extension Collection<Polygon> {
     /// Returns the sum of the signed volumes of all the polygons.
     var signedVolume: Double {
         reduce(0) { $0 + $1.signedVolume }
+    }
+
+    /// Create copy of polygons with specified id
+    func withID(_ id: Int) -> [Polygon] {
+        map { $0.withID(id) }
     }
 
     /// Insert missing vertices needed to prevent hairline cracks.
@@ -843,32 +827,37 @@ extension Collection<Polygon> {
         flatMap { $0.triangulate() }
     }
 
-    /// Merge coplanar polygons that share one or more edges
-    /// Note: polygons must be sorted by plane prior to calling this method
-    func detessellate(ensureConvex: Bool = false) -> [Polygon] {
-        var polygons = Array(self)
-        assert(polygons.areSortedByPlane)
-        var i = 0
-        var firstPolygonInPlane = 0
-        while i < polygons.count {
-            var j = i + 1
-            let a = polygons[i]
-            while j < polygons.count {
-                let b = polygons[j]
-                guard a.plane.isApproximatelyEqual(to: b.plane) else {
-                    firstPolygonInPlane = j
-                    i = firstPolygonInPlane - 1
-                    break
-                }
-                if let merged = a.merge(b, ensureConvex: ensureConvex) {
-                    polygons[i] = merged
-                    polygons.remove(at: j)
-                    i = firstPolygonInPlane - 1
-                    break
-                }
-                j += 1
+    /// Merge polygons
+    func detessellate(ensureConvex: Bool) -> [Polygon] {
+        groupedByMaterial().flatMap {
+            $0.polygons.groupedByPlane().flatMap {
+                $0.polygons.coplanarDetessellate(ensureConvex: ensureConvex, maxSides: .max)
             }
-            i += 1
+        }
+    }
+
+    /// Merge coplanar polygons that share one or more edges
+    func coplanarDetessellate(ensureConvex: Bool, maxSides: Int) -> [Polygon] {
+        assert(areCoplanar)
+        var polygons = Array(self)
+        var i = polygons.count - 1
+        while i > 0 {
+            let a = polygons[i]
+            let count = a.vertices.count
+            if count < maxSides {
+                for j in (0 ..< i).reversed() {
+                    let b = polygons[j]
+                    if b.vertices.count + count - 2 <= maxSides,
+                       let merged = a.merge(unchecked: polygons[j], ensureConvex: ensureConvex)
+                    {
+                        assert(merged.vertices.count <= maxSides)
+                        polygons[j] = merged
+                        polygons.remove(at: i)
+                        break
+                    }
+                }
+            }
+            i -= 1
         }
         return polygons
     }
@@ -903,15 +892,18 @@ extension Collection<Polygon> {
         return sorted
     }
 
-    /// Sort polygons by plane
-    func sortedByPlane() -> [Polygon] {
-        groupedByPlane().flatMap(\.polygons)
-    }
-
     /// Group by material
-    func groupedByMaterial() -> [Polygon.Material?: [Polygon]] {
-        var polygonsByMaterial = [Polygon.Material?: [Polygon]]()
-        forEach { polygonsByMaterial[$0.material, default: []].append($0) }
+    func groupedByMaterial() -> [(Polygon.Material?, polygons: [Polygon])] {
+        var indicesByMaterial = [Polygon.Material?: Int]()
+        var polygonsByMaterial = [(Polygon.Material?, polygons: [Polygon])]()
+        for polygon in self {
+            if let index = indicesByMaterial[polygon.material] {
+                polygonsByMaterial[index].polygons.append(polygon)
+            } else {
+                indicesByMaterial[polygon.material] = polygonsByMaterial.count
+                polygonsByMaterial.append((polygon.material, [polygon]))
+            }
+        }
         return polygonsByMaterial
     }
 
@@ -944,8 +936,9 @@ extension Collection<Polygon> {
     }
 }
 
-extension MutableCollection where Element == Polygon, Index == Int {
+private extension Collection<Polygon> where Index == Int {
     /// Merge coplanar polygons that share one or more edges
+    /// > Note: this method is On^2 - do not use outside of debug mode
     var areSortedByPlane: Bool {
         guard !isEmpty else {
             return true
@@ -1018,9 +1011,9 @@ extension Polygon {
         self.id = id
     }
 
-    /// Join touching polygons (without checking they are coplanar or share the same material)
+    /// Join touching polygons (without checking they are coplanar)
     func merge(unchecked other: Polygon, ensureConvex: Bool) -> Polygon? {
-        assert(material == other.material)
+        guard material == other.material else { return nil }
         assert(plane.isApproximatelyEqual(to: other.plane))
 
         // get vertices

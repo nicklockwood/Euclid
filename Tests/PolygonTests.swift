@@ -9,6 +9,12 @@
 @testable import Euclid
 import XCTest
 
+private extension Collection<Euclid.Polygon> {
+    func detessellate() -> [Euclid.Polygon] {
+        detessellate(ensureConvex: false)
+    }
+}
+
 final class PolygonTests: XCTestCase {
     // MARK: initialization
 
@@ -784,7 +790,7 @@ final class PolygonTests: XCTestCase {
                 [0.9349999999999999, 0.0, 0.16999999999999998],
             ],
         ])
-        let merged = triangles.detessellate(ensureConvex: false)
+        let merged = triangles.detessellate()
         XCTAssertEqual(Set(merged.flatMap(\.vertices)), Set(polygon.vertices))
     }
 
@@ -822,7 +828,7 @@ final class PolygonTests: XCTestCase {
                 [1.086, 0.0, 0.16999999999999998],
             ],
         ])
-        let merged = triangles.detessellate(ensureConvex: false)
+        let merged = triangles.detessellate()
         XCTAssertEqual(Set(merged.flatMap(\.vertices)), Set(polygon.vertices))
     }
 
@@ -999,7 +1005,7 @@ final class PolygonTests: XCTestCase {
         let result = triangles.detessellate()
         XCTAssertEqual(result.count, 1)
         XCTAssertEqual(result, [
-            Polygon(unchecked: [[0, -1], [-2, 0], [0, 1], [2, 0]]),
+            Polygon(unchecked: [[0, 1], [2, 0], [0, -1], [-2, 0]]),
         ])
     }
 

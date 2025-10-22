@@ -64,7 +64,7 @@ extension BSP {
         batch(polygons, stride: 50) { polygons in
             var id = 0
             var out: [Polygon]?
-            return clip(polygons.map { $0.withID(0) }, keeping, &out, &id, isCancelled)
+            return clip(polygons.withID(0), keeping, &out, &id, isCancelled)
         }
     }
 
@@ -98,7 +98,7 @@ extension BSP {
     ) -> ([Polygon], [Polygon]) {
         var id = 0
         var rhs: [Polygon]? = []
-        let lhs = clip(polygons.map { $0.withID(0) }, left, &rhs, &id, isCancelled)
+        let lhs = clip(polygons.withID(0), left, &rhs, &id, isCancelled)
         switch (left, right) {
         case (.lessThan, .greaterThan),
              (.greaterThan, .lessThan):

@@ -130,7 +130,7 @@ public extension Mesh {
 
     /// The polygons in the mesh, grouped by material.
     var polygonsByMaterial: [Material?: [Polygon]] {
-        polygons.groupedByMaterial()
+        Dictionary(uniqueKeysWithValues: polygons.groupedByMaterial())
     }
 
     /// A Boolean value that indicates whether the mesh includes texture coordinates.
@@ -343,7 +343,7 @@ public extension Mesh {
     /// - Returns: A new mesh containing the merged (possibly non-convex) polygons.
     func detessellate() -> Mesh {
         Mesh(
-            unchecked: polygons.sortedByPlane().detessellate(),
+            unchecked: polygons.detessellate(ensureConvex: false),
             bounds: boundsIfSet,
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
@@ -356,7 +356,7 @@ public extension Mesh {
     /// - Returns: A new mesh containing the merged polygons.
     func detriangulate() -> Mesh {
         Mesh(
-            unchecked: polygons.sortedByPlane().detessellate(ensureConvex: true),
+            unchecked: polygons.detessellate(ensureConvex: true),
             bounds: boundsIfSet,
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
