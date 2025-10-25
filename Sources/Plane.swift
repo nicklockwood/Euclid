@@ -131,7 +131,8 @@ public extension Plane {
         }
         self.init(unchecked: points)
         // Check all points lie on this plane
-        if points.count > 3, points.contains(where: { !intersects($0) }) {
+        // Note: can't assume that even 3 points will form a valid/precise triangle
+        if !points.allSatisfy(intersects) {
             return nil
         }
     }
