@@ -840,24 +840,30 @@ extension Collection<Polygon> {
     func coplanarDetessellate(ensureConvex: Bool, maxSides: Int) -> [Polygon] {
         assert(areCoplanar)
         var polygons = Array(self)
-        var i = polygons.count - 1
-        while i > 0 {
-            let a = polygons[i]
-            let count = a.vertices.count
-            if count < maxSides {
-                for j in (0 ..< i).reversed() {
-                    let b = polygons[j]
-                    if b.vertices.count + count - 2 <= maxSides,
-                       let merged = a.merge(unchecked: polygons[j], ensureConvex: ensureConvex)
-                    {
-                        assert(merged.vertices.count <= maxSides)
-                        polygons[j] = merged
-                        polygons.remove(at: i)
-                        break
+        var shouldContinue = true
+        while shouldContinue {
+            shouldContinue = false
+            var i = polygons.count - 1
+            while i > 0 {
+                let a = polygons[i]
+                let count = a.vertices.count
+                if count <= maxSides {
+                    for j in (0 ..< i).reversed() {
+                        let b = polygons[j]
+                        let combinedCount = b.vertices.count + count - 2
+                        if combinedCount - 2 <= maxSides,
+                           let merged = a.merge(unchecked: polygons[j], ensureConvex: ensureConvex),
+                           merged.vertices.count <= maxSides
+                        {
+                            polygons[i] = merged
+                            polygons.remove(at: j)
+                            shouldContinue = true
+                            break
+                        }
                     }
                 }
+                i -= 1
             }
-            i -= 1
         }
         return polygons
     }
@@ -1057,8 +1063,8 @@ extension Polygon {
         }
         let join2 = result.count - 1
 
-        // can the merged points be removed?
-        // TODO: add option to always preserve merge points
+        // Check if merged points can be removed
+        // TODO: add option to always preserve merged points
         func testPoint(_ index: Int) {
             let prev = (index == 0) ? result.count - 1 : index - 1
             let va = (result[index].position - result[prev].position).normalized()

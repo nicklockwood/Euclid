@@ -1009,6 +1009,36 @@ final class PolygonTests: XCTestCase {
         ])
     }
 
+    func testDetessellateComplexCharacterPaths() {
+        #if canImport(CoreText)
+        let font = CTFontCreateWithName("Helvetica" as CFString, 2, nil)
+        let paths = Path.text("eo", font: font, width: nil, detail: 2)
+        let polygons = paths.flatMap {
+            $0.subpaths.flatMap { $0.facePolygons() }
+        }
+        XCTAssertEqual(polygons.detessellate().count, 4)
+        #endif
+    }
+
+    func testMergeRectsDoesntExceedMaxSides() {
+        let normal = Vector.unitZ
+        let a = Polygon(unchecked: [
+            Vertex(-1, 1, normal: normal),
+            Vertex(-1, 0, normal: normal),
+            Vertex(1, 0, normal: normal),
+            Vertex(1, 1, normal: normal),
+        ])
+        let b = Polygon(unchecked: [
+            Vertex(-1, 0, normal: normal),
+            Vertex(-1, -1, normal: normal),
+            Vertex(1, -1, normal: normal),
+            Vertex(1, 0, normal: normal),
+        ])
+        let c = [a, b].coplanarDetessellate(ensureConvex: true, maxSides: 4)
+        XCTAssertEqual(c.count, 1)
+        XCTAssertEqual(c.first?.vertices.count, 4)
+    }
+
     // MARK: area
 
     func testAreaOfClockwiseSquare() {
