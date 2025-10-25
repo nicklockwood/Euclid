@@ -432,7 +432,7 @@ func faceNormalForPoints(_ points: [Vector]) -> Vector {
         }
     }
 
-    // Points must be linear, so find what line they line on
+    // Points must be linear, so find what line they lie on
     // and then return the orthogonal vector to that one
     let ab = points.count > 1 ? points[1] - points[0] : .zero
     if let normal = ab.cross(.unitZ).cross(ab).direction {

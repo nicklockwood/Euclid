@@ -117,21 +117,28 @@
           "type" : "heading"
         },
         {
-          "inlineContent" : [
+          "content" : [
             {
-              "text" : "For paths without nested subpaths, this will return an array containing only ",
-              "type" : "text"
-            },
-            {
-              "code" : "self",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : ".",
-              "type" : "text"
+              "inlineContent" : [
+                {
+                  "text" : "For paths without nested subpaths, this will return an array containing only ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "self",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
             }
           ],
-          "type" : "paragraph"
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
         }
       ],
       "kind" : "content"

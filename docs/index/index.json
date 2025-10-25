@@ -1363,7 +1363,12 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/clipped(to:iscancelled:)",
+                "path" : "\/documentation\/euclid\/polygon\/clipped(to:iscancelled:)-9srba",
+                "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler) -> [Polygon]",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/clipped(to:iscancelled:)-zq0h",
                 "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler?) -> [Polygon]",
                 "type" : "method"
               },
@@ -1816,8 +1821,8 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/text(_:font:width:detail:)",
-                "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int) -> [Path]",
+                "path" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:)",
+                "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int, color: Color?) -> [Path]",
                 "type" : "method"
               },
               {
@@ -1831,12 +1836,12 @@
               },
               {
                 "path" : "\/documentation\/euclid\/path\/points",
-                "title" : "let points: [PathPoint]",
+                "title" : "var points: [PathPoint]",
                 "type" : "property"
               },
               {
                 "path" : "\/documentation\/euclid\/path\/plane",
-                "title" : "var plane: Plane?",
+                "title" : "let plane: Plane?",
                 "type" : "property"
               },
               {
@@ -1851,7 +1856,7 @@
               },
               {
                 "path" : "\/documentation\/euclid\/path\/isclosed",
-                "title" : "let isClosed: Bool",
+                "title" : "var isClosed: Bool",
                 "type" : "property"
               },
               {
@@ -1981,7 +1986,12 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)",
+                "path" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)-2ai93",
+                "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler) -> Path",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)-54zhj",
                 "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler?) -> Path",
                 "type" : "method"
               },

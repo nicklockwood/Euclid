@@ -251,6 +251,7 @@ final class PlaneTests: XCTestCase {
         XCTAssertTrue(points.allSatisfy(plane.intersects))
     }
 
+    @available(*, deprecated)
     func testDeprecatedPointPlaneDistance() {
         let point = Vector(-10, 0, 0)
         let plane = Plane(unchecked: .unitX, w: 0)

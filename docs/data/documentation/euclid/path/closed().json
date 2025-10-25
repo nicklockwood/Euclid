@@ -103,7 +103,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "A new path, or ",
+              "text" : "The closed path, or ",
               "type" : "text"
             },
             {
@@ -111,7 +111,7 @@
               "type" : "codeVoice"
             },
             {
-              "text" : " if the path is already closed, or cannot be closed.",
+              "text" : " if the path is already closed or empty.",
               "type" : "text"
             }
           ],

@@ -1065,7 +1065,8 @@ private extension Mesh {
                 .loft($0, faces: faces, material: material, isCancelled: isCancelled)
             }, isCancelled: isCancelled)
         }
-        let shapes = shapes.filter { !$0.points.isEmpty }
+        // TODO: could we split the extrusion at empty shapes instead?
+        let shapes = shapes.filter { !$0.isEmpty }
         guard let first = shapes.first, let last = shapes.last else {
             return .empty
         }

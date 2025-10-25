@@ -28,7 +28,7 @@
 
 ### Creating Text Paths
 
-- ``Path/text(_:font:width:detail:)``
+- ``Path/text(_:font:width:detail:color:)``
 - ``Path/text(_:width:detail:)``
 
 ### Path Properties

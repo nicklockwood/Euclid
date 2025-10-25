@@ -191,7 +191,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "A Boolean indicating is the resultant polygon must be convex.",
+                  "text" : "A Boolean indicating if the resultant polygon must be convex.",
                   "type" : "text"
                 }
               ],

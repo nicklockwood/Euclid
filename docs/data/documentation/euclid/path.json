@@ -347,7 +347,7 @@
     {
       "anchor" : "Creating-Text-Paths",
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)"
       ],
       "title" : "Creating Text Paths"
@@ -409,7 +409,8 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)-2ai93",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)-54zhj",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/edgeVertices(for:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/extrusionContours(along:twist:align:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)",
@@ -1154,13 +1155,85 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/clipped(to:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/clipped(to:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/clipped(to:isCancelled:)-2ai93": {
   "abstract" : [
     {
       "text" : "Clip path to the specified mesh.",
       "type" : "text"
     }
   ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "clipped"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)-2ai93",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "clipped(to:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)-2ai93"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/clipped(to:isCancelled:)-54zhj": {
+  "abstract" : [
+    {
+      "text" : "Deprecated.",
+      "type" : "text"
+    }
+  ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -1218,12 +1291,12 @@
       "text" : "Path"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)-54zhj",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "clipped(to:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)"
+  "url" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)-54zhj"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/closed()": {
   "abstract" : [
@@ -2411,7 +2484,7 @@
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "let"
+      "text" : "var"
     },
     {
       "kind" : "text",
@@ -2844,7 +2917,7 @@
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "var"
+      "text" : "let"
     },
     {
       "kind" : "text",
@@ -2885,7 +2958,7 @@
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "let"
+      "text" : "var"
     },
     {
       "kind" : "text",
@@ -3595,7 +3668,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/subpaths"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:font:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:font:width:detail:color:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from a string and font you provide.",
@@ -3685,7 +3758,24 @@
     },
     {
       "kind" : "text",
-      "text" : ") -> ["
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "color"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> ["
     },
     {
       "kind" : "typeIdentifier",
@@ -3697,12 +3787,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:font:width:detail:)",
+  "title" : "text(_:font:width:detail:color:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:font:width:detail:)"
+  "url" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:)": {
   "abstract" : [

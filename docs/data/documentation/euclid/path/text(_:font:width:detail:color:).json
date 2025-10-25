@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4PathV4text_4font5width6detailSayACGSS_So9CTFontRefaSgSdSgSitFZ",
+    "externalID" : "s:6Euclid4PathV4text_4font5width6detail5colorSayACGSS_So9CTFontRefaSgSdSgSiAA5ColorVSgtFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -104,7 +104,24 @@
       },
       {
         "kind" : "text",
-        "text" : ") -> ["
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "color"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid5ColorV",
+        "text" : "Color"
+      },
+      {
+        "kind" : "text",
+        "text" : "?) -> ["
       },
       {
         "kind" : "typeIdentifier",
@@ -124,7 +141,7 @@
     "role" : "symbol",
     "roleHeading" : "Type Method",
     "symbolKind" : "method",
-    "title" : "text(_:font:width:detail:)"
+    "title" : "text(_:font:width:detail:color:)"
   },
   "primaryContentSections" : [
     {
@@ -235,7 +252,25 @@
             },
             {
               "kind" : "text",
-              "text" : " = 2) -> ["
+              "text" : " = 2, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "color"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid5ColorV",
+              "text" : "Color"
+            },
+            {
+              "kind" : "text",
+              "text" : "? = nil) -> ["
             },
             {
               "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
@@ -310,6 +345,20 @@
             }
           ],
           "name" : "detail"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "An optional color to apply to the text.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "color"
         }
       ]
     }
@@ -335,7 +384,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/path\/text(_:font:width:detail:)"
+        "\/documentation\/euclid\/path\/text(_:font:width:detail:color:)"
       ],
       "traits" : [
         {
@@ -359,6 +408,40 @@
   "title" : "Euclid",
   "type" : "topic",
   "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
+  "abstract" : [
+    {
+      "text" : "A color in RGBA format.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Color"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Color"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Color",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
   "abstract" : [
@@ -394,7 +477,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:font:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:font:width:detail:color:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from a string and font you provide.",
@@ -484,7 +567,24 @@
     },
     {
       "kind" : "text",
-      "text" : ") -> ["
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "color"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> ["
     },
     {
       "kind" : "typeIdentifier",
@@ -496,12 +596,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:font:width:detail:)",
+  "title" : "text(_:font:width:detail:color:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:font:width:detail:)"
+  "url" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:)": {
   "abstract" : [

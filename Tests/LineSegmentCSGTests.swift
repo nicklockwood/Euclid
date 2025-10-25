@@ -64,6 +64,7 @@ final class LineSegmentCSGTests: XCTestCase {
 
     // MARK: Mesh Subtraction
 
+    @available(*, deprecated)
     func testSubtractCube() {
         let line = LineSegment(unchecked: [0, -2, 0], [0, 2, 0])
         let mesh = Mesh.cube()

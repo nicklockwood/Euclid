@@ -1,8 +1,22 @@
 # Change Log
 
+## [0.8.12](https://github.com/nicklockwood/Euclid/releases/tag/0.8.12) (2025-10-26)
+
+- Fixed crash when creating a path from empty subpaths
+- Fixed `Mesh.minkowskiSum()` output for off-center input meshes
+- Improved `Mesh.detesselate()` algorithm (now merges more polygons than before)
+- The `Path.closed()` method and `Path.isClosed` property now behave correctly for subpaths
+- Improved subpaths implementation (more reliably preserves distinct subpaths)
+- Fixed assertion in `Plane.init` for very small or degenerate triangles
+- Fixed assertion in internal `Polygon.insertPoint()` method
+- Fixed assertion in internal `detessellate()` method
+- Fixed bug with internal `sanitizePoints()` method introducing neighboring duplicate points
+- Deprecated optional cancellation handlers in `Path.clipped()` and `Polygon.clipped()`
+- Added optional `color` parameter to `Path.text()` constructor
+
 ## [0.8.11](https://github.com/nicklockwood/Euclid/releases/tag/0.8.11) (2025-10-12)
 
-- Fix regression in `Mesh.loft()` method when one or more input paths has a single point
+- Fixed regression in `Mesh.loft()` method when one or more input paths has a single point
 - Made more long-running Mesh shape operations cancellable
 
 ## [0.8.10](https://github.com/nicklockwood/Euclid/releases/tag/0.8.10) (2025-10-05)

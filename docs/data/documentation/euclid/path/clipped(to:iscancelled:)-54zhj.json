@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Clip polygon to the specified mesh",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
@@ -9,18 +9,18 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clipped(to:isCancelled:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)-54zhj"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid7PolygonV7clipped2to11isCancelledSayACGAA4MeshV_SbycSgtF",
+    "externalID" : "s:6Euclid4PathV7clipped2to11isCancelledAcA4MeshV_SbycSgtF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -65,26 +65,29 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid7PolygonV19CancellationHandlera",
+        "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
         "text" : "CancellationHandler"
       },
       {
         "kind" : "text",
-        "text" : "?) -> ["
+        "text" : "?) -> "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid7PolygonV",
-        "text" : "Polygon"
-      },
-      {
-        "kind" : "text",
-        "text" : "]"
+        "preciseIdentifier" : "s:6Euclid4PathV",
+        "text" : "Path"
       }
     ],
     "modules" : [
       {
         "name" : "Euclid"
+      }
+    ],
+    "platforms" : [
+      {
+        "beta" : false,
+        "deprecated" : true,
+        "unavailable" : false
       }
     ],
     "role" : "symbol",
@@ -154,91 +157,25 @@
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/CancellationHandler",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid7PolygonV19CancellationHandlera",
+              "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
               "text" : "CancellationHandler"
             },
             {
               "kind" : "text",
-              "text" : "? = nil) -> ["
+              "text" : "?) -> "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid7PolygonV",
-              "text" : "Polygon"
-            },
-            {
-              "kind" : "text",
-              "text" : "]"
+              "preciseIdentifier" : "s:6Euclid4PathV",
+              "text" : "Path"
             }
           ]
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The ",
-                  "type" : "text"
-                },
-                {
-                  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-                  "isActive" : true,
-                  "type" : "reference"
-                },
-                {
-                  "text" : "  to clip the polygon to.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "mesh"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "Callback used to cancel the operation.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "isCancelled"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "An array of polygon fragments that lie outside the Mesh.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -252,7 +189,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/polygon\/clipped(to:iscancelled:)"
+        "\/documentation\/euclid\/path\/clipped(to:iscancelled:)-54zhj"
       ],
       "traits" : [
         {
@@ -311,10 +248,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
   "abstract" : [
     {
-      "text" : "A polygon in 3D space.",
+      "text" : "A path made up of a sequence of straight line segments between points.",
       "type" : "text"
     }
   ],
@@ -329,23 +266,23 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Polygon"
+      "text" : "Path"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Polygon"
+      "text" : "Path"
     }
   ],
   "role" : "symbol",
-  "title" : "Polygon",
+  "title" : "Path",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon"
+  "url" : "\/documentation\/euclid\/path"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/CancellationHandler": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/CancellationHandler": {
   "abstract" : [
     {
       "text" : "Callback used to cancel a long-running operation.",
@@ -366,7 +303,7 @@
       "text" : "CancellationHandler"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/CancellationHandler",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
@@ -375,17 +312,18 @@
     }
   ],
   "role" : "symbol",
-  "title" : "Polygon.CancellationHandler",
+  "title" : "Path.CancellationHandler",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/cancellationhandler"
+  "url" : "\/documentation\/euclid\/path\/cancellationhandler"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/clipped(to:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/clipped(to:isCancelled:)-54zhj": {
   "abstract" : [
     {
-      "text" : "Clip polygon to the specified mesh",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -430,29 +368,25 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid7PolygonV19CancellationHandlera",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
       "text" : "CancellationHandler"
     },
     {
       "kind" : "text",
-      "text" : "?) -> ["
+      "text" : "?) -> "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid7PolygonV",
-      "text" : "Polygon"
-    },
-    {
-      "kind" : "text",
-      "text" : "]"
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clipped(to:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)-54zhj",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "clipped(to:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/clipped(to:iscancelled:)"
+  "url" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)-54zhj"
 }
 }
 }

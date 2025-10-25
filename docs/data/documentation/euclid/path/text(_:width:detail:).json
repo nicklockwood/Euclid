@@ -285,7 +285,7 @@
       "anchor" : "Creating-Text-Paths",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)"
       ],
       "title" : "Creating Text Paths"
     }
@@ -366,7 +366,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:font:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:font:width:detail:color:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from a string and font you provide.",
@@ -456,7 +456,24 @@
     },
     {
       "kind" : "text",
-      "text" : ") -> ["
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "color"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> ["
     },
     {
       "kind" : "typeIdentifier",
@@ -468,12 +485,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:font:width:detail:)",
+  "title" : "text(_:font:width:detail:color:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:font:width:detail:)"
+  "url" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:)": {
   "abstract" : [
