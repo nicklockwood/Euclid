@@ -27,6 +27,52 @@ final class RegressionTests: XCTestCase {
         XCTAssertTrue(mesh.isWatertight)
     }
 
+    func testMakeDifferenceWatertight2() {
+        let detail = 190
+        let height = 64.0
+        let radiusBottom = 94.0
+        let radiusTop = 104.8
+        let depth = height / 2
+        let thickness = radiusBottom / 10
+        let wallThickness = 1.0
+        let diameter = (thickness * (.pi / 2) - 1.0)
+
+        let lathe = Mesh.lathe(.init([
+            .point(0, height),
+            .point(radiusTop / 2 + thickness, height),
+            .point(radiusBottom / 2 + thickness, 0),
+            .point(0, 0),
+        ]), slices: detail)
+
+        let cube = Mesh.cube()
+            .scaled(by: [
+                radiusTop + thickness * 2 + wallThickness,
+                height - depth,
+                radiusTop + thickness * 2 + wallThickness,
+            ])
+            .translated(by: [0, (height + diameter) - (height - depth) / 2])
+
+        let cone = Mesh.cone(slices: detail)
+            .scaled(by: [
+                radiusTop + thickness * 2 + wallThickness * 2,
+                thickness * 2,
+                radiusTop + thickness * 2 + wallThickness * 2,
+            ])
+            .rotated(by: .roll(.pi))
+            .translated(by: [0, height / 2 + thickness / 2])
+
+        var mesh = Mesh.difference([lathe, cube, cone])
+        XCTAssertFalse(mesh.isWatertight)
+
+        XCTAssertEqual(lathe.polygons.count, 570)
+        XCTAssertEqual(cube.polygons.count, 6)
+        XCTAssertEqual(cone.polygons.count, 950)
+        XCTAssertEqual(mesh.polygons.count, 1140)
+
+        mesh = mesh.makeWatertight()
+        XCTAssertTrue(mesh.isWatertight)
+    }
+
     func testMakeExtrudedTextWatertight() throws {
         #if canImport(CoreText)
         let detail = 64

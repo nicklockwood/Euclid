@@ -20,6 +20,36 @@ final class PerformanceTests: XCTestCase {
         }
     }
 
+    func testDifference() {
+        let detail = 64
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: detail)
+        measure {
+            let c = a.withoutOptimizations().subtracting(b.withoutOptimizations())
+            XCTAssertFalse(c.isEmpty)
+        }
+    }
+
+    func testUnion() {
+        let detail = 64
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: detail)
+        measure {
+            let c = a.withoutOptimizations().union(b.withoutOptimizations())
+            XCTAssertFalse(c.isEmpty)
+        }
+    }
+
+    func testStencil() {
+        let detail = 64
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: detail)
+        measure {
+            let c = a.withoutOptimizations().stencil(b.withoutOptimizations())
+            XCTAssertFalse(c.isEmpty)
+        }
+    }
+
     func testConvexHullOfMeshes() {
         let detail = 64
         let a = Mesh.sphere(slices: detail)
@@ -62,6 +92,29 @@ final class PerformanceTests: XCTestCase {
             XCTAssertFalse(c.isEmpty)
         }
         #endif
+    }
+
+    func testMakeWatertight() {
+        let detail = 128
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: detail)
+        let c = a.subtracting(b)
+        XCTAssertFalse(c.isWatertight)
+        measure {
+            let d = c.withoutOptimizations().makeWatertight()
+            XCTAssert(d.isWatertight)
+        }
+    }
+
+    func testDetesselate() {
+        let detail = 128
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: detail)
+        let c = a.subtracting(b).makeWatertight()
+        measure {
+            let d = c.withoutOptimizations().detessellate()
+            XCTAssert(d.polygons.count < c.polygons.count)
+        }
     }
 }
 
