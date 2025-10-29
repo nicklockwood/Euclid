@@ -1019,7 +1019,7 @@ extension Polygon {
 
     /// Join touching polygons (without checking they are coplanar)
     func merge(unchecked other: Polygon, ensureConvex: Bool) -> Polygon? {
-        guard material == other.material else { return nil }
+        assert(material == other.material)
         assert(plane.isApproximatelyEqual(to: other.plane))
 
         // get vertices
@@ -1075,8 +1075,8 @@ extension Polygon {
                 result.remove(at: index)
             }
         }
-        testPoint(join2)
-        testPoint(join1)
+        testPoint(max(join1, join2))
+        testPoint(min(join1, join2))
 
         // check result is not degenerate
         guard !verticesAreDegenerate(result) else {
