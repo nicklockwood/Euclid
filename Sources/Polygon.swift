@@ -1068,25 +1068,15 @@ extension Polygon {
         }
         let join2 = result.count - 1
 
-        // Check if merged points can be removed
-        // TODO: add option to always preserve merged points
-        func testPoint(_ index: Int) {
-            let prev = (index == 0) ? result.count - 1 : index - 1
-            let va = (result[index].position - result[prev].position).normalized()
-            let vb = (result[(index + 1) % result.count].position - result[index].position).normalized()
-            // check if point is redundant
-            if abs(va.dot(vb) - 1) < epsilon {
-                // TODO: should we check that normal and uv ~= slerp of values either side?
-                result.remove(at: index)
-            }
-        }
-        testPoint(max(join1, join2))
-        testPoint(min(join1, join2))
-
         // check result is not degenerate
         guard !verticesAreDegenerate(result) else {
             return nil
         }
+
+        // Check if merged points can be removed
+        // TODO: add option to always preserve merged points
+        _ = result.removeIfRedundant(at: max(join1, join2))
+        _ = result.removeIfRedundant(at: min(join1, join2))
 
         // check if convex
         let isConvex = verticesAreConvex(result)

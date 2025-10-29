@@ -487,4 +487,19 @@ final class UtilityTests: XCTestCase {
             XCTAssertEqual(rotated, -v)
         }
     }
+
+    // MARK: Removing vertices
+
+    func testRemoveIfRedundantDoesntMakeVerticesDegenerate() {
+        var vertices = [
+            Vertex(1.185524352454, 1.035359353068, 1.997189024967),
+            Vertex(1.178617988232, 1.01083392529, 1.997293666847),
+            Vertex(1.182384793963, 1.024210358813, 1.997236594032),
+            Vertex(1.185012758882, 1.033542615519, 1.997196776384),
+        ]
+        XCTAssertFalse(verticesAreDegenerate(vertices))
+        XCTAssertFalse(vertices.removeIfRedundant(at: 3))
+        vertices.remove(at: 3)
+        XCTAssertTrue(verticesAreDegenerate(vertices))
+    }
 }

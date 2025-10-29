@@ -79,6 +79,30 @@ extension Collection<Vertex> {
     }
 }
 
+extension [Vertex] {
+    /// Check if vertex is redundant - i.e. that the interpolated values would be the same if it were removed
+    mutating func removeIfRedundant(at index: Int) -> Bool {
+        guard count > 3 else { return false }
+        assert(!verticesAreDegenerate(self))
+        let a = self[(index == 0) ? count - 1 : index - 1]
+        let b = self[index]
+        let c = self[(index + 1) % count]
+        let ab = b.position - a.position, bc = c.position - b.position
+        let abl = ab.length, bcl = bc.length
+        // check if point is redundant
+        guard abs((ab / abl).dot(bc / bcl) - 1) < epsilon else {
+            return false
+        }
+        // check that removing point won't make vertices degenerate
+        let removed = remove(at: index)
+        if verticesAreDegenerate(self) {
+            insert(removed, at: index)
+            return false
+        }
+        return true
+    }
+}
+
 func verticesAreDegenerate(_ vertices: some Collection<Vertex>) -> Bool {
     guard vertices.count > 2 else {
         return true
