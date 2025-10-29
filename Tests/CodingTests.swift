@@ -523,15 +523,15 @@ final class CodingTests: XCTestCase {
     func testEncodingPolygonWhereVertexNormalsDoNotMatchPlane() throws {
         let polygon = Polygon(
             unchecked: [
-                Vertex(0, 0, 1, normal: .unitZ),
-                Vertex(1, 0, 1, normal: .unitZ),
-                Vertex(1, 1, 1, normal: .unitZ),
+                Vertex(0, 0, 1, normal: -.unitZ),
+                Vertex(1, 0, 1, normal: -.unitZ),
+                Vertex(1, 1, 1, normal: -.unitZ),
             ],
-            plane: Plane(normal: [0, 0, -1], w: -1)
+            plane: Plane(normal: [0, 0, 1], w: 1)
         )
         let encoded = try encode(polygon)
         XCTAssertEqual(try decode(encoded), polygon)
-        XCTAssertEqual(encoded, "[[[0,0,1,0,0,1],[1,0,1,0,0,1],[1,1,1,0,0,1]],[0,0,-1,-1]]")
+        XCTAssertEqual(encoded, "[[0,0,1,-0,-0,-1],[1,0,1,-0,-0,-1],[1,1,1,-0,-0,-1]]")
     }
 
     // MARK: Material

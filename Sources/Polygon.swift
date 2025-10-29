@@ -883,7 +883,10 @@ extension Collection<Polygon> {
         var groups = [(plane: Plane, polygons: [Polygon])]()
         for p in polygons {
             if p.plane.w.isApproximatelyEqual(to: plane.w, absoluteTolerance: planeEpsilon) {
-                if let i = groups.lastIndex(where: { $0.plane.isApproximatelyEqual(to: p.plane) }) {
+                if let i = groups.lastIndex(where: {
+                    $0.plane.isApproximatelyEqual(to: p.plane)
+                        && p.vertices.allSatisfy($0.plane.intersects)
+                }) {
                     groups[i].polygons.append(p)
                 } else {
                     groups.append((p.plane, [p]))
@@ -993,7 +996,7 @@ extension Polygon {
     /// Vertices are assumed to be in anticlockwise order for the purpose of deriving the plane
     init(
         unchecked vertices: [Vertex],
-        plane: Plane?,
+        plane _plane: Plane?,
         isConvex: Bool?,
         sanitizeNormals: Bool,
         material: Material?,
@@ -1003,7 +1006,8 @@ extension Polygon {
         let points = vertices.map(\.position)
         assert(isConvex == nil || pointsAreConvex(points) == isConvex)
         assert(sanitizeNormals || vertices.allSatisfy { $0.normal != .zero })
-        let plane = plane ?? Plane(unchecked: points)
+        let plane = _plane ?? Plane(unchecked: points)
+        assert(_plane?.isApproximatelyEqual(to: plane) ?? true)
         assert(vertices.allSatisfy(plane.intersects))
         let isConvex = isConvex ?? pointsAreConvex(points)
         self.storage = Storage(
@@ -1021,6 +1025,7 @@ extension Polygon {
     func merge(unchecked other: Polygon, ensureConvex: Bool) -> Polygon? {
         assert(material == other.material)
         assert(plane.isApproximatelyEqual(to: other.plane))
+        assert(other.vertices.allSatisfy(plane.intersects))
 
         // get vertices
         let va = vertices
@@ -1215,6 +1220,7 @@ private extension Polygon {
             guard !vertex.isApproximatelyEqual(to: last), !vertex.isApproximatelyEqual(to: v) else {
                 return false
             }
+            assert(plane.intersects(vertex))
             var vertices = vertices
             vertices.insert(vertex, at: i)
             guard !verticesAreDegenerate(vertices) else {
