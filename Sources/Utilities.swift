@@ -341,8 +341,9 @@ func pointsAreDegenerate(_ points: [Vector]) -> Bool {
     return false
 }
 
-/// Note: assumes points are not degenerate
+/// Note: assumes points are not degenerate and do not contain duplicates
 func pointsAreConvex(_ points: [Vector]) -> Bool {
+    assert(!pointsAreClosed(unchecked: points))
     let count = points.count
     guard count > 3, let a = points.last else {
         return count > 2
@@ -457,6 +458,15 @@ func flattenedPointsAreClockwise(_ points: [Vector]) -> Bool {
     }
     // abs(sum / 2) is the area of the polygon
     return sum > 0
+}
+
+func pointsAreClockwise(_ points: [Vector], relativeTo axis: Vector) -> Bool {
+    assert(axis.isNormalized)
+    return faceNormalForPoints(points).dot(axis) < 0
+}
+
+func pointsAreClosed(unchecked points: [Vector]) -> Bool {
+    points.last == points.first
 }
 
 // MARK: Curve utilities
