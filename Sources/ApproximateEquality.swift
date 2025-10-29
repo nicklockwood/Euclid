@@ -48,6 +48,28 @@ extension Double: ApproximateEquality {
     }
 }
 
+extension Line: ApproximateEquality {
+    func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
+        origin.isApproximatelyEqual(to: other.origin, absoluteTolerance: absoluteTolerance) &&
+            direction.isApproximatelyEqual(to: other.direction, absoluteTolerance: absoluteTolerance)
+    }
+}
+
+extension LineSegment: ApproximateEquality {
+    func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
+        start.isApproximatelyEqual(to: other.start, absoluteTolerance: absoluteTolerance) &&
+            end.isApproximatelyEqual(to: other.end, absoluteTolerance: absoluteTolerance)
+    }
+}
+
+extension Mesh: ApproximateEquality {
+    static var absoluteTolerance: Double { Polygon.absoluteTolerance }
+
+    func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
+        polygons.isApproximatelyEqual(to: other.polygons, absoluteTolerance: absoluteTolerance)
+    }
+}
+
 extension Path: ApproximateEquality {
     func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
         points.count == other.points.count && zip(points, other.points).allSatisfy {
@@ -70,6 +92,14 @@ extension Plane: ApproximateEquality {
     func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
         w.isApproximatelyEqual(to: other.w, absoluteTolerance: absoluteTolerance) &&
             isParallel(to: other, absoluteTolerance: absoluteTolerance)
+    }
+}
+
+extension Polygon: ApproximateEquality {
+    static var absoluteTolerance: Double { Vertex.absoluteTolerance }
+
+    func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
+        vertices.isApproximatelyEqual(to: other.vertices, absoluteTolerance: absoluteTolerance)
     }
 }
 
@@ -96,22 +126,6 @@ extension Vertex: ApproximateEquality {
             normal.isApproximatelyEqual(to: other.normal, absoluteTolerance: absoluteTolerance) &&
             texcoord.isApproximatelyEqual(to: other.texcoord, absoluteTolerance: absoluteTolerance) &&
             color.isApproximatelyEqual(to: other.color, absoluteTolerance: absoluteTolerance)
-    }
-}
-
-extension Polygon: ApproximateEquality {
-    static var absoluteTolerance: Double { Vertex.absoluteTolerance }
-
-    func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
-        vertices.isApproximatelyEqual(to: other.vertices, absoluteTolerance: absoluteTolerance)
-    }
-}
-
-extension Mesh: ApproximateEquality {
-    static var absoluteTolerance: Double { Polygon.absoluteTolerance }
-
-    func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
-        polygons.isApproximatelyEqual(to: other.polygons, absoluteTolerance: absoluteTolerance)
     }
 }
 
