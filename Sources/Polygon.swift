@@ -1168,35 +1168,6 @@ extension Polygon {
         // e.g. if nearer to edge than vertex, must be closest point
         return orderedEdges.distance(from: point)
     }
-}
-
-private extension Polygon {
-    final class Storage: Hashable, @unchecked Sendable {
-        let vertices: [Vertex]
-        let plane: Plane
-        let isConvex: Bool
-        var material: Material?
-
-        static func == (lhs: Storage, rhs: Storage) -> Bool {
-            lhs === rhs || (lhs.vertices == rhs.vertices && lhs.material == rhs.material)
-        }
-
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(vertices)
-        }
-
-        init(
-            vertices: [Vertex],
-            plane: Plane,
-            isConvex: Bool,
-            material: Material?
-        ) {
-            self.vertices = vertices
-            self.plane = plane
-            self.isConvex = isConvex
-            self.material = material
-        }
-    }
 
     /// Attempt to a add a new edge vertex at the specified location.
     /// - Returns: `true` if a point was added or `false` if it wasn't (either because point was not on the edge, or
@@ -1229,7 +1200,7 @@ private extension Polygon {
             self = Polygon(
                 unchecked: vertices,
                 plane: plane,
-                isConvex: isConvex,
+                isConvex: nil, // Inserting a point can alter convexity
                 sanitizeNormals: false,
                 material: material,
                 id: id
@@ -1237,6 +1208,35 @@ private extension Polygon {
             return true
         }
         return false
+    }
+}
+
+private extension Polygon {
+    final class Storage: Hashable, @unchecked Sendable {
+        let vertices: [Vertex]
+        let plane: Plane
+        let isConvex: Bool
+        var material: Material?
+
+        static func == (lhs: Storage, rhs: Storage) -> Bool {
+            lhs === rhs || (lhs.vertices == rhs.vertices && lhs.material == rhs.material)
+        }
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(vertices)
+        }
+
+        init(
+            vertices: [Vertex],
+            plane: Plane,
+            isConvex: Bool,
+            material: Material?
+        ) {
+            self.vertices = vertices
+            self.plane = plane
+            self.isConvex = isConvex
+            self.material = material
+        }
     }
 }
 

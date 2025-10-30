@@ -1234,4 +1234,19 @@ final class PolygonTests: XCTestCase {
         line.translate(by: [0.1, 0])
         XCTAssertEqual(polygon.distance(from: line), 0.1)
     }
+
+    // MARK: InsertEdgePoint
+
+    func testInsertEdgePointChangesConvexity() {
+        var polygon = Polygon(unchecked: [
+            [-0.496338834765, -0.17904070811, 0.600248465803],
+            [-0.29941098710999997, -0.23664576933, 0.805321458235],
+            [-0.299840180153, -0.235652447769, 0.799803057807],
+            [-0.299574480497, -0.235690029285, 0.7998451571749999],
+            [-0.493235048748, -0.17904070811, 0.59817458229],
+        ])
+        XCTAssertFalse(polygon.isConvex)
+        XCTAssertTrue(polygon.insertEdgePoint([-0.299839394845, -0.235654265282, 0.799813155002]))
+        XCTAssertTrue(polygon.isConvex)
+    }
 }
