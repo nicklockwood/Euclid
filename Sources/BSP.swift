@@ -284,7 +284,7 @@ private extension BSP {
         }
         if isActuallyConvex {
             // Check that last node wasn't coincidentally the only backface
-            isActuallyConvex = polygons.allSatisfy { $0.compare(with: nodes.last!.plane) != .front }
+            isActuallyConvex = polygons.allSatisfy { $0.plane.compare(with: nodes.last!.plane) != .front }
         }
         if isActuallyConvex {
             switch nodes.count {

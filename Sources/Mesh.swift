@@ -531,10 +531,8 @@ private extension Mesh {
 
         private(set) var isKnownConvex: Bool
         func isConvex(isCancelled: CancellationHandler = { false }) -> Bool {
-            if !isKnownConvex {
-                let isConvex = bsp(isCancelled: isCancelled).isConvex
-                if isCancelled() { return isConvex }
-                isKnownConvex = isConvex
+            if !isKnownConvex, bspIfSet == nil {
+                _ = bsp(isCancelled: isCancelled)
             }
             return isKnownConvex
         }
