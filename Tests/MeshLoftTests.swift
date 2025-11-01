@@ -10,29 +10,95 @@
 import XCTest
 
 final class MeshLoftTests: XCTestCase {
-    func testLoftParallelFaces() {
+    func testLoftCoplanarFaces() {
+        let shapes = [
+            Path.square(),
+            Path.square().translated(by: [1.0, 1.0, 0.0]),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssertTrue(loft.isWatertight)
+        XCTAssertEqual(loft.watertightIfSet, true)
+        XCTAssertTrue(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 6)
+        XCTAssertEqual(loft.signedVolume, 0)
+        XCTAssertFalse(loft.isKnownConvex)
+        XCTAssertTrue(loft.isActuallyConvex)
+
+        let loft2 = Mesh.loft(shapes, faces: .front)
+        XCTAssertTrue(loft2.isWatertight)
+        XCTAssertEqual(loft2.watertightIfSet, true)
+        XCTAssertTrue(loft2.polygons.areWatertight)
+        XCTAssertEqual(loft2.polygons.count, loft.polygons.count)
+        XCTAssertEqual(loft2.signedVolume, loft.signedVolume)
+        XCTAssertFalse(loft2.isKnownConvex)
+        XCTAssertTrue(loft2.isActuallyConvex)
+
+        // Every vertex in the loft should be contained by one of our shapes
+        let vertices = loft.polygons.flatMap(\.vertices)
+        XCTAssert(vertices.allSatisfy { vertex in
+            shapes.contains(where: {
+                $0.points.contains(where: { $0.position == vertex.position })
+            })
+        })
+    }
+
+    func testLoftOverlappingCoplanarFaces() {
+        let shapes = [
+            Path.square(),
+            Path.square().translated(by: [0.5, 0.5, 0.0]),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssertTrue(loft.isWatertight)
+        XCTAssertEqual(loft.watertightIfSet, true)
+        XCTAssertTrue(loft.polygons.areWatertight)
+        XCTAssertEqual(loft.polygons.count, 6)
+        XCTAssertEqual(loft.signedVolume, 0)
+        XCTAssertFalse(loft.isKnownConvex)
+        XCTAssertTrue(loft.isActuallyConvex)
+
+        let loft2 = Mesh.loft(shapes, faces: .front)
+        XCTAssertTrue(loft2.isWatertight)
+        XCTAssertEqual(loft2.watertightIfSet, true)
+        XCTAssertTrue(loft2.polygons.areWatertight)
+        XCTAssertEqual(loft2.polygons.count, loft.polygons.count)
+        XCTAssertEqual(loft2.signedVolume, loft.signedVolume)
+        XCTAssertFalse(loft2.isKnownConvex)
+        XCTAssertTrue(loft2.isActuallyConvex)
+
+        // Every vertex in the loft should be contained by one of our shapes
+        let vertices = loft.polygons.flatMap(\.vertices)
+        XCTAssert(vertices.allSatisfy { vertex in
+            shapes.contains(where: {
+                $0.points.contains(where: { $0.position == vertex.position })
+            })
+        })
+    }
+
+    func testLoftAdjacentCoplanarFaces() {
         let shapes = [
             Path.square(),
             Path.square().translated(by: [0.0, 1.0, 0.0]),
         ]
 
         let loft = Mesh.loft(shapes)
-        XCTAssertTrue(loft.isWatertight) // TODO: not sure this is right?
+        XCTAssertTrue(loft.isWatertight)
         XCTAssertEqual(loft.watertightIfSet, true)
         XCTAssertTrue(loft.polygons.areWatertight)
         XCTAssertEqual(loft.polygons.count, 4)
         XCTAssertEqual(loft.signedVolume, 0)
         XCTAssertFalse(loft.isKnownConvex)
-        XCTAssertFalse(loft.isActuallyConvex)
+        XCTAssertTrue(loft.isActuallyConvex)
 
         let loft2 = Mesh.loft(shapes, faces: .front)
-        XCTAssertTrue(loft2.isWatertight) // TODO: not sure this is right?
+        XCTAssertTrue(loft2.isWatertight)
         XCTAssertEqual(loft2.watertightIfSet, true)
         XCTAssertTrue(loft2.polygons.areWatertight)
         XCTAssertEqual(loft2.polygons.count, loft.polygons.count)
         XCTAssertEqual(loft2.signedVolume, loft.signedVolume)
         XCTAssertFalse(loft2.isKnownConvex)
-        XCTAssertFalse(loft2.isActuallyConvex)
+        XCTAssertTrue(loft2.isActuallyConvex)
 
         // Every vertex in the loft should be contained by one of our shapes
         let vertices = loft.polygons.flatMap(\.vertices)
@@ -86,7 +152,7 @@ final class MeshLoftTests: XCTestCase {
         })
     }
 
-    func testLoftNonParallelFaces2() {
+    func testLoftNonParallelFaces() {
         let shapes = [
             Path.circle().rotated(by: Rotation(yaw: .pi / 8)),
             Path.circle().rotated(by: Rotation(yaw: -.pi / 8))

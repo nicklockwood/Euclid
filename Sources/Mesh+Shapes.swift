@@ -1091,7 +1091,7 @@ private extension Mesh {
             } else if let next = shapes.first(where: { $0 != first }) {
                 let p0p1 = directionBetweenShapes(first, next)
                 polygons += facePolygons.map {
-                    p0p1.dot($0.plane.normal) > 0 ? $0.inverted() : $0
+                    p0p1.dot($0.plane.normal) >= 0 ? $0.inverted() : $0
                 }
             }
         }
