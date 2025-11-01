@@ -1330,7 +1330,7 @@ final class PolygonTests: XCTestCase {
             ]),
         ]
         XCTAssertTrue(polygons.areWatertight) // TODO: not sure this is right?
-        XCTAssertFalse(polygons.coplanarPolygonsAreConvex) // TODO: not sure this is right?
+        XCTAssertTrue(polygons.coplanarPolygonsAreConvex)
     }
 
     func testAdjacentPolygons() {
@@ -1379,12 +1379,12 @@ final class PolygonTests: XCTestCase {
             ]),
         ]
         XCTAssertFalse(polygons.areWatertight)
-        XCTAssertFalse(polygons.coplanarPolygonsAreConvex) // TODO: not sure this is right?
+        XCTAssertTrue(polygons.coplanarPolygonsAreConvex)
 
         let mesh = Mesh(polygons)
         XCTAssertFalse(mesh.isWatertight)
         XCTAssertFalse(mesh.isKnownConvex)
-        XCTAssertFalse(mesh.isActuallyConvex) // TODO: not sure this is right?
+        XCTAssertTrue(mesh.isActuallyConvex)
     }
 
     func testCoincidentPolygonsWithOpposingAdjacentPolygons() {
@@ -1419,6 +1419,6 @@ final class PolygonTests: XCTestCase {
         let mesh = Mesh(polygons)
         XCTAssertTrue(mesh.isWatertight) // TODO: not sure this is right?
         XCTAssertFalse(mesh.isKnownConvex)
-        XCTAssertFalse(mesh.isActuallyConvex) // TODO: not sure this is right?
+        XCTAssertTrue(mesh.isActuallyConvex)
     }
 }

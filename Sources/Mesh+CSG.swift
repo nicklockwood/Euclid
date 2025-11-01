@@ -1005,7 +1005,7 @@ private extension [Polygon] {
         }
         // Extend polygons to include point
         guard facing.isEmpty else {
-            addTriangles(with: facing.boundingEdges, faceNormal: nil)
+            addTriangles(with: facing.boundingEdges.sorted(), faceNormal: nil)
             return
         }
         // Only add coplanar points if the triangle is added to both sides
@@ -1015,7 +1015,7 @@ private extension [Polygon] {
         }
         for (plane, polygons) in coplanar {
             guard let polygon = polygons.first else { continue }
-            let edges = polygons.boundingEdges.compactMap {
+            let edges = polygons.boundingEdges.sorted().compactMap {
                 let edgePlane = polygon.edgePlane(for: $0)
                 if point.compare(with: edgePlane) == .front {
                     return $0.inverted()

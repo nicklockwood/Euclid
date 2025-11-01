@@ -618,17 +618,16 @@ extension Collection<Polygon> {
         return edges
     }
 
-    /// Like holeEdges, but also returns the edges of double-sided polygons
-    var boundingEdges: [LineSegment] {
-        var edges = [LineSegment]()
+    /// Like holeEdges, but preserves edge directionality
+    /// > Note: only suitable for use with polygons that are coplanar or don't include reverse faces
+    var boundingEdges: Set<LineSegment> {
+        var edges = Set<LineSegment>()
         for polygon in self {
             for edge in polygon.orderedEdges {
-                if let index = edges.firstIndex(where: {
-                    $0.start == edge.end && $0.end == edge.start
-                }) {
+                if let index = edges.firstIndex(of: edge.inverted()) {
                     edges.remove(at: index)
                 } else {
-                    edges.append(edge)
+                    edges.insert(edge)
                 }
             }
         }
