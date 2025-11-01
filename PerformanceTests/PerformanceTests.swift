@@ -72,7 +72,7 @@ final class PerformanceTests: XCTestCase {
 
     func testMinkowskiSumWithNonconvexMesh() {
         #if canImport(CoreText)
-        let detail = 16
+        let detail = 8
         let a = Mesh.sphere(radius: 0.1, slices: detail)
         let b = Mesh.text("G")
         measure {
@@ -94,6 +94,36 @@ final class PerformanceTests: XCTestCase {
         #endif
     }
 
+    func testEdgeStroke() {
+        let edges = Mesh.sphere(slices: 128).uniqueEdges
+        measure {
+            let mesh = Mesh.stroke(edges, detail: 3)
+            XCTAssertFalse(mesh.isEmpty)
+        }
+    }
+
+    func testPathStroke() {
+        #if canImport(CoreText)
+        let detail = 32
+        let paths = Path.text("hello world", detail: detail)
+        measure {
+            let mesh = Mesh.stroke(paths)
+            XCTAssertFalse(mesh.isEmpty)
+        }
+        #endif
+    }
+
+    func testPathFill() {
+        #if canImport(CoreText)
+        let detail = 8
+        let paths = Path.text("hello world", detail: detail)
+        measure {
+            let mesh = Mesh.fill(paths)
+            XCTAssertFalse(mesh.isEmpty)
+        }
+        #endif
+    }
+
     func testMakeWatertight() {
         let detail = 128
         let a = Mesh.cube(size: 0.8)
@@ -107,7 +137,7 @@ final class PerformanceTests: XCTestCase {
     }
 
     func testDetesselate() {
-        let detail = 128
+        let detail = 64
         let a = Mesh.cube(size: 0.8)
         let b = Mesh.sphere(slices: detail)
         let c = a.subtracting(b).makeWatertight()
