@@ -524,10 +524,9 @@ public extension Mesh {
         }
         let polygon = Polygon(shape)
         return loft(
-            unchecked: shapes,
+            shapes,
             faces: faces,
             material: material,
-            verifiedCoplanar: true,
             isConvex: polygon?.isConvex == true,
             isWatertight: polygon.map { _ in true }, // TODO: make less strict
             isCancelled: isCancelled
@@ -617,10 +616,9 @@ public extension Mesh {
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         loft(
-            unchecked: shapes,
+            shapes,
             faces: faces,
             material: material,
-            verifiedCoplanar: false,
             isConvex: false,
             isWatertight: nil,
             isCancelled: isCancelled
@@ -787,7 +785,6 @@ public extension Mesh {
                 unchecked: shape0, shape1,
                 curvestart: true, curveend: true,
                 uvstart: 0, uvend: 1,
-                verifiedCoplanar: true,
                 material: material,
                 into: &polygons
             )
@@ -1040,10 +1037,9 @@ private extension Mesh {
     }
 
     static func loft(
-        unchecked shapes: [Path],
-        faces: Faces = .default,
+        _ shapes: [Path],
+        faces: Faces,
         material: Material?,
-        verifiedCoplanar: Bool,
         isConvex: Bool,
         isWatertight: Bool?,
         isCancelled: CancellationHandler
@@ -1113,7 +1109,6 @@ private extension Mesh {
                 unchecked: prev, shape,
                 curvestart: curvestart, curveend: curveend,
                 uvstart: uvx0, uvend: uvx1,
-                verifiedCoplanar: verifiedCoplanar,
                 material: material,
                 into: &polygons
             )
@@ -1168,7 +1163,6 @@ private extension Mesh {
         unchecked p0: Path, _ p1: Path,
         curvestart: Bool, curveend: Bool,
         uvstart: Double, uvend: Double,
-        verifiedCoplanar: Bool,
         material: Material?,
         into polygons: inout [Polygon]
     ) {
@@ -1233,9 +1227,7 @@ private extension Mesh {
                     vertices.remove(at: 2)
                 }
             }
-            let degenerate = verifiedCoplanar ? false : verticesAreDegenerate(vertices)
-            assert(!verifiedCoplanar || !verticesAreDegenerate(vertices))
-            guard !degenerate else {
+            guard !verticesAreDegenerate(vertices) else {
                 // This is a hack to make the best of a bad edge case
                 // TODO: find a better solution
                 polygons += triangulateVertices(
@@ -1284,7 +1276,7 @@ private extension Mesh {
             }
             return closestIndex
         }
-        if verifiedCoplanar || e0.count == e1.count {
+        if e0.count == e1.count {
             for j in stride(from: 0, to: e0.count, by: 2) {
                 addFace(e0[j], e0[j + 1], e1[j + 1], e1[j])
             }
