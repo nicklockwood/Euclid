@@ -64,7 +64,7 @@ public extension Path {
     ) -> Path {
         var points = [PathPoint]()
         let angle = max(-.twoPi, min(.twoPi, angle))
-        let span = angle.radians / (2 * .pi)
+        let span = angle / .twoPi
         let segments = segments.map {
             switch abs(span) {
             case 0 ... 0.25:

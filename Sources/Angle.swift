@@ -182,9 +182,19 @@ public extension Angle {
         .radians(lhs.radians * rhs)
     }
 
+    /// Returns the product of an angle and numeric multiplier.
+    static func * (lhs: Angle, rhs: Int) -> Angle {
+        .radians(lhs.radians * Double(rhs))
+    }
+
     /// Returns the product of a numeric multiplier and an angle.
     static func * (lhs: Double, rhs: Angle) -> Angle {
         .radians(lhs * rhs.radians)
+    }
+
+    /// Returns the product of a numeric multiplier and an angle.
+    static func * (lhs: Int, rhs: Angle) -> Angle {
+        .radians(Double(lhs) * rhs.radians)
     }
 
     /// Multiplies the angle by a numeric value.
@@ -192,14 +202,34 @@ public extension Angle {
         lhs.radians *= rhs
     }
 
+    /// Multiplies the angle by a numeric value.
+    static func *= (lhs: inout Angle, rhs: Int) {
+        lhs.radians *= Double(rhs)
+    }
+
+    /// Returns the angle divided by another angle.
+    static func / (lhs: Angle, rhs: Angle) -> Double {
+        lhs.radians / rhs.radians
+    }
+
     /// Returns the angle divided by a numeric denominator.
     static func / (lhs: Angle, rhs: Double) -> Angle {
         .radians(lhs.radians / rhs)
     }
 
+    /// Returns the angle divided by a numeric denominator.
+    static func / (lhs: Angle, rhs: Int) -> Angle {
+        .radians(lhs.radians / Double(rhs))
+    }
+
     /// Divides the angle by a numeric denominator.
     static func /= (lhs: inout Angle, rhs: Double) {
         lhs.radians /= rhs
+    }
+
+    /// Divides the angle by a numeric denominator.
+    static func /= (lhs: inout Angle, rhs: Int) {
+        lhs.radians /= Double(rhs)
     }
 
     /// Returns the inverse angle.
@@ -210,5 +240,11 @@ public extension Angle {
     /// Returns whether the leftmost angle has the lower value.
     static func < (lhs: Angle, rhs: Angle) -> Bool {
         lhs.radians < rhs.radians
+    }
+
+    /// Returns the remainder of this angle divided by the given angle.
+    /// - Parameter other: The angle to use when dividing this angle.
+    func remainder(dividingBy other: Angle) -> Angle {
+        .radians(radians.remainder(dividingBy: other.radians))
     }
 }
