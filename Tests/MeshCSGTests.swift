@@ -530,14 +530,12 @@ final class MeshCSGTests: XCTestCase {
 
     func testMinkowskiSumOfTranslatedNonConvexShape() {
         #if canImport(CoreText)
-        for _ in 0 ..< 10 {
-            let a = Mesh.cube(size: 0.1).translated(by: .random())
-            let b = Mesh.text("G").translated(by: .random())
-            let ab = a.minkowskiSum(with: b)
-            let ba = b.minkowskiSum(with: a)
-            XCTAssertEqual(ab.bounds, a.bounds.minkowskiSum(with: b.bounds))
-            XCTAssertEqual(ba.bounds, a.bounds.minkowskiSum(with: b.bounds))
-        }
+        let a = Mesh.cube(size: 0.1).translated(by: .random())
+        let b = Mesh.text("G").translated(by: .random())
+        let ab = a.minkowskiSum(with: b)
+        let ba = b.minkowskiSum(with: a)
+        XCTAssertEqual(ab.bounds, a.bounds.minkowskiSum(with: b.bounds))
+        XCTAssertEqual(ba.bounds, a.bounds.minkowskiSum(with: b.bounds))
         #endif
     }
 

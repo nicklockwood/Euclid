@@ -328,19 +328,25 @@ func angleBetweenNormalizedVectorAndPlane(_ v: Vector, _ p: Plane) -> Angle {
     return .asin(v.dot(p.normal))
 }
 
-func rotationBetweenNormalizedVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
+func axisAndAngleBetweenNormalizedVectors(_ v0: Vector, _ v1: Vector) -> (axis: Vector, angle: Angle) {
     assert(v0.isNormalized && v1.isNormalized)
     let axis = v0.cross(v1)
     if axis != .zero {
         let cross = axis.length
         let angle = Angle.atan2(y: cross, x: v0.dot(v1))
-        return .init(unchecked: axis / cross, angle: -angle)
+        return (axis / -cross, angle: angle)
     } else if v0.isApproximatelyEqual(to: v1) {
-        return .identity
+        let identity = Rotation.identity
+        return (identity.axis, identity.angle)
     } else {
         let orthonormal = v0.cross(v0.leastParallelAxis).normalized()
-        return .init(unchecked: orthonormal, angle: .pi)
+        return (orthonormal, .pi)
     }
+}
+
+func rotationBetweenNormalizedVectors(_ v0: Vector, _ v1: Vector) -> Rotation {
+    let (axis, angle) = axisAndAngleBetweenNormalizedVectors(v0, v1)
+    return Rotation(unchecked: axis, angle: angle)
 }
 
 func pointsAreDegenerate(_ points: [Vector]) -> Bool {

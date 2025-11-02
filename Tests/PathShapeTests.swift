@@ -401,4 +401,21 @@ final class PathShapeTests: XCTestCase {
         let contours = Path.circle().extrusionContours(along: .line(.zero, .zero))
         XCTAssertEqual(contours, [.circle()])
     }
+
+    func testTwistedExtrudeAlongAlignment() {
+        #if canImport(CoreText)
+        let detail = 16
+        for i in 0 ... 4 {
+            let twist = Angle.halfPi * Double(i)
+            let contours = Path.square(size: 0.1).extrusionContours(
+                along: .text("w")[0].withDetail(detail, twist: twist),
+                twist: twist
+            )
+            XCTAssertEqual(contours.first?.bounds, contours.last?.bounds)
+            if i == 0 || i == 4 {
+                XCTAssertEqual(contours.first, contours.last)
+            }
+        }
+        #endif
+    }
 }

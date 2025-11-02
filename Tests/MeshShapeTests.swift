@@ -138,6 +138,47 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertEqual(mesh, .fill(Path.circle().translated(by: .init(1, 0.5))))
     }
 
+    func testExtrudeAlongAlignment() {
+        let detail = 64
+        let mesh = Mesh.extrude(
+            .square(size: 0.1),
+            along: .curve([
+                .curve(0, 1),
+                .curve(-1, 0, 0.75),
+                .curve(0, -1, 0.25),
+                .curve(1, 0, 1),
+                .curve(1, 1, 1),
+                .curve(0, 1),
+            ], detail: detail)
+        )
+        XCTAssert(mesh.isWatertight)
+    }
+
+    func testExtrudeAlongAlignment2() {
+        #if canImport(CoreText)
+        let mesh = Mesh.extrude(
+            .square(size: 0.1),
+            along: .text("w")[0]
+        )
+        XCTAssert(mesh.isWatertight)
+        #endif
+    }
+
+    func testTwistedExtrudeAlongAlignment() {
+        #if canImport(CoreText)
+        let detail = 16
+        for i in 0 ..< 4 {
+            let twist = Angle.halfPi * Double(i)
+            let mesh = Mesh.extrude(
+                .square(size: 0.1),
+                along: .text("w")[0].withDetail(detail, twist: twist),
+                twist: twist
+            )
+            XCTAssert(mesh.isWatertight)
+        }
+        #endif
+    }
+
     // MARK: Stroke
 
     func testStrokeLine() {
