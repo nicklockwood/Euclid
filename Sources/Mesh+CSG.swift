@@ -594,6 +594,32 @@ public extension Mesh {
         minkowskiSum(with: edge)
     }
 
+    /// Returns a new mesh representing the Minkowski difference of the
+    /// mesh parameter and the receiver.
+    ///
+    ///     __
+    ///    /A \
+    ///    \__/  +-------+        ____
+    ///          |       |       |    |
+    ///          |   B   |   =   |    |
+    ///          |       |       |____|
+    ///          +-------+
+    ///
+    /// - Parameters:
+    ///   - mesh: The mesh to subtract the receiver from.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: A new mesh representing the Minkowski difference of the input meshes.
+    func minkowskiDifference(from mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
+        if isEmpty {
+            return mesh
+        } else if mesh.isEmpty {
+            return .empty
+        }
+        return .difference([mesh.translated(by: -bounds.center)] + mesh.polygons.map {
+            isCancelled() ? .empty : minkowskiSum(with: $0)
+        }, isCancelled: isCancelled)
+    }
+
     /// Split the mesh along a plane.
     /// - Parameter plane: The ``Plane`` to split the mesh along.
     /// - Returns: A pair of meshes representing the parts in front of and behind the plane respectively.
