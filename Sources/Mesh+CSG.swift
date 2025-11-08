@@ -890,6 +890,11 @@ private extension Mesh {
         assert(startingMesh?.isWatertight != false)
         var polygons = startingMesh?.polygons ?? []
         var polygonsToAdd = polygonsToAdd
+        if let center = startingMesh?.bounds.center ?? bounds?.center {
+            polygonsToAdd = polygonsToAdd.filter {
+                center.compare(with: $0.plane) != .front
+            }
+        }
         if polygons.isEmpty {
             let polygon: Polygon
             if let index = polygonsToAdd.lastIndex(where: { $0.isConvex }) {
@@ -913,7 +918,7 @@ private extension Mesh {
         }
         // Add remaining polygons
         // Note: no need to use a VertexSet here as vertex positions should already
-        // be unique, but perhaps there is a opportunity to merge some things?
+        // be unique, but perhaps there is an opportunity to merge some things?
         var pointSet = Set<Vector>()
         for polygon in polygonsToAdd where !isCancelled() {
             for vertex in polygon.vertices where pointSet.insert(vertex.position).inserted {
@@ -939,33 +944,79 @@ private extension Mesh {
         material: Material?,
         _ isCancelled: CancellationHandler
     ) -> Mesh {
+        if verticesByPosition.isEmpty { return .empty }
         var points = verticesByPosition.keys.sorted()
         var polygons = [Polygon]()
-        // Form a starting triangle pair from 3 non-collinear points
-        var i = 3
-        while i <= points.endIndex {
-            let range = i - 3 ..< i
-            if let triangle = Polygon(
-                points: points[range],
-                verticesByPosition: verticesByPosition,
-                faceNormal: nil,
-                material: material
-            ), let inverse = Polygon(
-                // Note: not the same as triangle.inverse()
-                points: points[range].reversed(),
-                verticesByPosition: verticesByPosition,
-                faceNormal: nil,
-                material: material
-            ) {
-                polygons += [triangle, inverse]
-                points.removeSubrange(range)
-                break
+
+        // Find min/max points
+        var minXPoint = 0, maxXPoint = 0
+        var minYPoint = 0, maxYPoint = 0
+        var minZPoint = 0, maxZPoint = 0
+        for (i, point) in points.enumerated() {
+            if point.x < points[minXPoint].x {
+                minXPoint = i
+            } else if point.x > points[maxXPoint].x {
+                maxXPoint = i
             }
-            i += 1
+            if point.y < points[minYPoint].y {
+                minYPoint = i
+            } else if point.y > points[maxYPoint].y {
+                maxYPoint = i
+            }
+            if point.z < points[minZPoint].z {
+                minZPoint = i
+            } else if point.z > points[maxZPoint].y {
+                maxZPoint = i
+            }
         }
-        if polygons.isEmpty {
+
+        // Find most distant pair to form base line
+        let a, b: Vector
+        let xDistance = points[maxXPoint].x - points[minXPoint].x
+        let yDistance = points[maxYPoint].y - points[minYPoint].y
+        let zDistance = points[maxZPoint].z - points[minZPoint].z
+        if xDistance > yDistance, xDistance > zDistance {
+            a = points.remove(at: max(minXPoint, maxXPoint))
+            b = points.remove(at: min(minXPoint, maxXPoint))
+        } else if yDistance > zDistance {
+            a = points.remove(at: max(minYPoint, maxYPoint))
+            b = points.remove(at: min(minYPoint, maxYPoint))
+        } else if zDistance > 0 {
+            a = points.remove(at: max(minZPoint, maxZPoint))
+            b = points.remove(at: min(minZPoint, maxZPoint))
+        } else {
             return .empty
         }
+        guard let baseline = LineSegment(start: a, end: b) else {
+            return .empty
+        }
+
+        // Find next most distant point to form starting triangle
+        var maxDistance = 0.0
+        var cIndex: Int?
+        for (i, point) in points.enumerated() {
+            let distance = baseline.distance(from: point)
+            if distance > maxDistance {
+                maxDistance = distance
+                cIndex = i
+            }
+        }
+        guard let c = cIndex.map({ points.remove(at: $0) }), let triangle = Polygon(
+            points: [a, b, c],
+            verticesByPosition: verticesByPosition,
+            faceNormal: nil,
+            material: material
+        ), let inverse = Polygon(
+            // Note: not the same as triangle.inverse()
+            points: [c, b, a],
+            verticesByPosition: verticesByPosition,
+            faceNormal: -triangle.plane.normal,
+            material: material
+        ) else {
+            return .empty
+        }
+        polygons += [triangle, inverse]
+
         // Add remaining points
         // TODO: find better way to batch for cancellation purposes
         for (i, point) in points.enumerated() where i % 100 > 0 || !isCancelled() {
