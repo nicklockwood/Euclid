@@ -132,6 +132,22 @@ public extension Bounds {
         }
     }
 
+    /// Creates a bounds from a collection of vertices.
+    /// - Parameter points: A collection of points that the bounds contains.
+    init(_ points: some Collection<Vertex>) {
+        self = points.reduce(.empty) {
+            Bounds(min: Euclid.min($0.min, $1.position), max: Euclid.max($0.max, $1.position))
+        }
+    }
+
+    /// Creates a bounds from a collection of path points.
+    /// - Parameter points: A collection of points that the bounds contains.
+    init(_ points: some Collection<PathPoint>) {
+        self = points.reduce(.empty) {
+            Bounds(min: Euclid.min($0.min, $1.position), max: Euclid.max($0.max, $1.position))
+        }
+    }
+
     /// Creates a bounds from a collection of bounds.
     /// - Parameter bounds: A collection of existing bounds that the bounds contains.
     init(_ bounds: some Collection<Bounds>) {
