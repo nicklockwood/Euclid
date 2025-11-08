@@ -60,6 +60,39 @@ final class PerformanceTests: XCTestCase {
         }
     }
 
+    func testConvexHullOfVertices() {
+        let detail = 64
+        let a = Mesh.sphere(slices: detail)
+        let b = a.translated(by: [1, 0, 0])
+        let vertices = (a.polygons + b.polygons).flatMap(\.vertices)
+        measure {
+            let c = Mesh.convexHull(of: vertices)
+            XCTAssertFalse(c.isEmpty)
+        }
+    }
+
+    func testConvexHullOfLineSegments() {
+        let detail = 64
+        let a = Mesh.sphere(slices: detail)
+        let b = a.translated(by: [1, 0, 0])
+        let edges = (a.polygons + b.polygons).flatMap(\.orderedEdges)
+        measure {
+            let c = Mesh.convexHull(of: edges)
+            XCTAssertFalse(c.isEmpty)
+        }
+    }
+
+    func testConvexHullOfPaths() {
+        let detail = 64
+        let a = Mesh.sphere(slices: detail)
+        let b = a.translated(by: [1, 0, 0])
+        let paths = Path((a.polygons + b.polygons).flatMap(\.orderedEdges)).subpaths
+        measure {
+            let c = Mesh.convexHull(of: paths)
+            XCTAssertFalse(c.isEmpty)
+        }
+    }
+
     func testMinkowskiSumOfConvexMeshes() {
         let detail = 32
         let a = Mesh.sphere(slices: detail)
