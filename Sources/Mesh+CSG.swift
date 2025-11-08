@@ -1036,7 +1036,7 @@ private extension [Polygon] {
         }
         // Only add coplanar points if the triangle is added to both sides
         // TODO: make this check more robust, e.g. check each coplanar polygon has a counterpart
-        guard !coplanar.isEmpty, coplanar.count % 2 == 0, signedVolume == 0 else {
+        guard !coplanar.isEmpty, coplanar.count % 2 == 0, abs(signedVolume) < epsilon else {
             return
         }
         for (plane, polygons) in coplanar {
