@@ -225,6 +225,7 @@
       "anchor" : "Instance-Properties",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/centroid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/hasVertexNormals",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/signedVolume"
       ],
@@ -870,31 +871,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/center": {
   "abstract" : [
     {
-      "text" : "The position of the center of the polygon.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "This is calculated as the average of the vertex positions, and may not be equal to the center of the polygon’s",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/bounds",
-      "isActive" : true,
-      "type" : "reference"
-    },
-    {
-      "text" : ".",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -924,6 +905,59 @@
   "title" : "center",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/center"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/centroid": {
+  "abstract" : [
+    {
+      "text" : "The position of the centroid of the polygon.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "This is calculated as the average of the vertex positions, and may not be equal to ",
+      "type" : "text"
+    },
+    {
+      "code" : "bounds.center",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "centroid"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/centroid",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "centroid",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/centroid"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/clip(to:)": {
   "abstract" : [

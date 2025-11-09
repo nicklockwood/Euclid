@@ -1,5 +1,18 @@
 # Change Log
 
+## [0.8.13](https://github.com/nicklockwood/Euclid/releases/tag/0.8.13) (2025-11-09)
+
+- Added `Mesh.minkowskiDifference()` function (inverse of `minkowskiSum()`)
+- Added divide and remainder functions for `Angle` type
+- Fixed missing vertices when using `Mesh.convexHull` or `minkowskiSum()`
+- Fixed incorrect normal calculation for extrusions along a path
+- Fixed angular misalignment with twisted extrusions
+- Fixed bug where lofting coplanar shapes produced inverted faces
+- Fixed `Path.orderedEdges` output for nested paths
+- Fixed spurious assertion when merging polygons
+- Improved `Mesh.convexHull()` performance by ~20%
+- Renamed `Polygon.center` to `centroid`
+
 ## [0.8.12](https://github.com/nicklockwood/Euclid/releases/tag/0.8.12) (2025-10-26)
 
 - Fixed crash when creating a path from empty subpaths

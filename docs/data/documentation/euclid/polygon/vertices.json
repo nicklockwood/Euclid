@@ -407,31 +407,11 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/center": {
   "abstract" : [
     {
-      "text" : "The position of the center of the polygon.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "This is calculated as the average of the vertex positions, and may not be equal to the center of the polygon’s",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/bounds",
-      "isActive" : true,
-      "type" : "reference"
-    },
-    {
-      "text" : ".",
+      "text" : "Deprecated.",
       "type" : "text"
     }
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

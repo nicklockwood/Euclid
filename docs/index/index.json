@@ -799,6 +799,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/minkowskidifference(from:iscancelled:)",
+                "title" : "func minkowskiDifference(from: Mesh, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/minkowskisum(along:)",
                 "title" : "func minkowskiSum(along: LineSegment) -> Mesh",
                 "type" : "method"
@@ -1342,6 +1347,11 @@
               {
                 "title" : "Instance Properties",
                 "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/centroid",
+                "title" : "var centroid: Vector",
+                "type" : "property"
               },
               {
                 "path" : "\/documentation\/euclid\/polygon\/hasvertexnormals",
@@ -4309,8 +4319,18 @@
                 "type" : "op"
               },
               {
-                "path" : "\/documentation\/euclid\/angle\/*=(_:_:)",
+                "path" : "\/documentation\/euclid\/angle\/*=(_:_:)-627c2",
                 "title" : "static func *= (inout Angle, Double)",
+                "type" : "op"
+              },
+              {
+                "path" : "\/documentation\/euclid\/angle\/*=(_:_:)-7mvfa",
+                "title" : "static func *= (inout Angle, Int)",
+                "type" : "op"
+              },
+              {
+                "path" : "\/documentation\/euclid\/angle\/_(_:_:)-2mi78",
+                "title" : "static func \/ (Angle, Angle) -> Double",
                 "type" : "op"
               },
               {
@@ -4319,9 +4339,38 @@
                 "type" : "op"
               },
               {
-                "path" : "\/documentation\/euclid\/angle\/_=(_:_:)",
+                "path" : "\/documentation\/euclid\/angle\/_(_:_:)-3cj5w",
+                "title" : "static func \/ (Angle, Int) -> Angle",
+                "type" : "op"
+              },
+              {
+                "path" : "\/documentation\/euclid\/angle\/_=(_:_:)-81sn3",
                 "title" : "static func \/= (inout Angle, Double)",
                 "type" : "op"
+              },
+              {
+                "path" : "\/documentation\/euclid\/angle\/_=(_:_:)-3i39k",
+                "title" : "static func \/= (inout Angle, Int)",
+                "type" : "op"
+              },
+              {
+                "path" : "\/documentation\/euclid\/angle\/*(_:_:)-8r8im",
+                "title" : "static func * (Angle, Int) -> Angle",
+                "type" : "op"
+              },
+              {
+                "path" : "\/documentation\/euclid\/angle\/*(_:_:)-98smn",
+                "title" : "static func * (Int, Angle) -> Angle",
+                "type" : "op"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/angle\/remainder(dividingby:)",
+                "title" : "func remainder(dividingBy: Angle) -> Angle",
+                "type" : "method"
               },
               {
                 "title" : "Default Implementations",
@@ -5370,6 +5419,16 @@
               {
                 "path" : "\/documentation\/euclid\/bounds\/init(_:)-5bh7b",
                 "title" : "init((min: SCNVector3, max: SCNVector3))",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/bounds\/init(_:)-7w2gb",
+                "title" : "init(some Collection<PathPoint>)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/bounds\/init(_:)-fb5g",
+                "title" : "init(some Collection<Vertex>)",
                 "type" : "init"
               },
               {

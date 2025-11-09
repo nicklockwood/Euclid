@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns the inverse angle.",
+      "text" : "Multiplies the angle by a numeric value.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/-(_:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*=(_:_:)-627c2"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid5AngleV1sopyA2CFZ",
+    "externalID" : "s:6Euclid5AngleV2meoiyyACz_SdtFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -40,7 +40,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "-"
+        "text" : "*="
       },
       {
         "kind" : "text",
@@ -51,18 +51,30 @@
         "text" : "("
       },
       {
+        "kind" : "keyword",
+        "text" : "inout"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
         "kind" : "typeIdentifier",
         "preciseIdentifier" : "s:6Euclid5AngleV",
         "text" : "Angle"
       },
       {
         "kind" : "text",
-        "text" : ") -> "
+        "text" : ", "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid5AngleV",
-        "text" : "Angle"
+        "preciseIdentifier" : "s:Sd",
+        "text" : "Double"
+      },
+      {
+        "kind" : "text",
+        "text" : ")"
       }
     ],
     "modules" : [
@@ -73,7 +85,7 @@
     "role" : "symbol",
     "roleHeading" : "Operator",
     "symbolKind" : "op",
-    "title" : "-(_:)"
+    "title" : "*=(_:_:)"
   },
   "primaryContentSections" : [
     {
@@ -104,7 +116,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "-"
+              "text" : "*="
             },
             {
               "kind" : "text",
@@ -116,13 +128,21 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "angle"
+              "text" : "lhs"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
+              "kind" : "keyword",
+              "text" : "inout"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
               "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:6Euclid5AngleV",
@@ -130,13 +150,24 @@
             },
             {
               "kind" : "text",
-              "text" : ") -> "
+              "text" : ", "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle",
+              "kind" : "internalParam",
+              "text" : "rhs"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid5AngleV",
-              "text" : "Angle"
+              "preciseIdentifier" : "s:Sd",
+              "text" : "Double"
+            },
+            {
+              "kind" : "text",
+              "text" : ")"
             }
           ]
         }
@@ -159,11 +190,11 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/+(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/+=(_:_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/-(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/-(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/-=(_:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*(_:_:)-2ew65",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*(_:_:)-8l78z",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*=(_:_:)-627c2",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/*=(_:_:)-7mvfa",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_(_:_:)-2mi78",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/_(_:_:)-34kn9",
@@ -177,7 +208,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/angle\/-(_:)"
+        "\/documentation\/euclid\/angle\/*=(_:_:)-627c2"
       ],
       "traits" : [
         {
