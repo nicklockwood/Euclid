@@ -142,7 +142,7 @@ extension Mesh: Transformable {
     }
 
     public func scaled(by scale: Vector) -> Mesh {
-        if scale.x == scale.y, scale.y == scale.z {
+        if scale.isUniform {
             // optimization - avoids scaling normals
             return scaled(by: scale.x)
         }
@@ -205,11 +205,10 @@ extension Polygon: Transformable {
     }
 
     public func scaled(by scale: Vector) -> Polygon {
-        if scale.x == scale.y, scale.y == scale.z {
+        if scale.isUniform {
             // optimization - avoids scaling normals
             return scaled(by: scale.x)
         }
-
         let scale = scale.clampedToScaleLimit()
         let vertices = vertices.scaled(by: scale)
         let vn = Vector(1 / scale.x, 1 / scale.y, 1 / scale.z)
@@ -375,20 +374,23 @@ extension PathPoint: Transformable {
 
 extension Path: Transformable {
     public func translated(by distance: Vector) -> Path {
-        Path(
+        distance.isZero ? self : Path(
             points.translated(by: distance),
             plane: plane?.translated(by: distance)
         )
     }
 
     public func rotated(by rotation: Rotation) -> Path {
-        Path(
+        rotation.isIdentity ? self : Path(
             points.rotated(by: rotation),
             plane: nil // Avoids loss of precision from rotating plane
         )
     }
 
     public func scaled(by scale: Vector) -> Path {
+        if scale.isUniform {
+            return scaled(by: scale.x)
+        }
         let scale = scale.clampedToScaleLimit()
         var plane = plane
         if isFlippedScale(scale) {
@@ -422,11 +424,11 @@ extension Path: Transformable {
 
 extension Plane: Transformable {
     public func translated(by distance: Vector) -> Plane {
-        Plane(unchecked: normal, pointOnPlane: normal * w + distance)
+        distance.isZero ? self : Plane(unchecked: normal, pointOnPlane: normal * w + distance)
     }
 
     public func rotated(by rotation: Rotation) -> Plane {
-        Plane(unchecked: normal.rotated(by: rotation), w: w)
+        rotation.isIdentity ? self : Plane(unchecked: normal.rotated(by: rotation), w: w)
     }
 
     public func scaled(by scale: Vector) -> Plane {
@@ -440,7 +442,10 @@ extension Plane: Transformable {
     }
 
     public func scaled(by factor: Double) -> Plane {
-        Plane(unchecked: normal, w: w * factor.clampedToScaleLimit())
+        factor.isApproximatelyEqual(to: 1, absoluteTolerance: epsilon) ? self : Plane(
+            unchecked: normal,
+            w: w * factor.clampedToScaleLimit()
+        )
     }
 }
 
@@ -495,7 +500,7 @@ extension Array: Transformable where Element: Transformable {
             } else if transform.isIdentity {
                 return translated(by: transform.translation)
             }
-        } else if transform.rotation == .identity, transform.translation.isZero {
+        } else if transform.rotation.isIdentity, transform.translation.isZero {
             return scaled(by: transform.scale)
         }
         return map { $0.transformed(by: transform) }
