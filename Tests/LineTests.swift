@@ -83,7 +83,7 @@ final class LineTests: XCTestCase {
         for _ in 0 ..< 10 {
             let distance = Vector.random(in: plane) - l1.origin
             let l2 = Line(unchecked: l1.origin + distance, direction: l1.direction)
-            XCTAssertEqual(l1.distance(from: l2), distance.length)
+            XCTAssertEqual(l1.distance(from: l2), distance.length, accuracy: epsilon)
         }
     }
 
