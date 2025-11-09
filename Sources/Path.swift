@@ -464,11 +464,11 @@ public extension Path {
 
     /// Returns the ordered array of path edges.
     var orderedEdges: [LineSegment] {
-        var p0 = points.first?.position
-        return points.dropFirst().compactMap {
-            let p1 = $0.position
-            defer { p0 = p1 }
-            return LineSegment(start: p0!, end: p1)
+        switch storage {
+        case let .subpaths(subpaths):
+            return subpaths.flatMap(\.orderedEdges)
+        case let .points(points):
+            return points.orderedEdges
         }
     }
 

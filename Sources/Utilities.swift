@@ -594,6 +594,15 @@ extension Collection<PathPoint> {
     var centroid: Vector {
         map(\.position).centroid
     }
+
+    var orderedEdges: [LineSegment] {
+        var p0 = first?.position
+        return dropFirst().compactMap {
+            let p1 = $0.position
+            defer { p0 = p1 }
+            return LineSegment(start: p0!, end: p1)
+        }
+    }
 }
 
 /// Sanitize a set of path points by removing duplicates and invalid points

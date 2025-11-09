@@ -1058,4 +1058,15 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(path.points.map(\.position), text.points.map(\.position))
         #endif
     }
+
+    func testOrderedEdgesForLetterO() {
+        #if canImport(CoreText)
+        let text = Path.text("O")[0]
+        let edges = text.orderedEdges
+        XCTAssertEqual(edges.count, 32)
+        let path = Path(edges)
+        XCTAssertEqual(path.subpaths.count, 2)
+        XCTAssertEqual(path.points.map(\.position), text.points.map(\.position))
+        #endif
+    }
 }
