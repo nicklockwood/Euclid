@@ -311,7 +311,7 @@ public extension Polygon {
     func mapVertices(_ transform: (Vertex) -> Vertex) -> [Polygon] {
         let vertices = vertices.map(transform)
         // TODO: is it worth checking if positions have changed as a fast path?
-        return .init(vertices, material: material, id: id)
+        return .init(vertices, plane: nil, ensureConvex: false, maxSides: .max, material: material, id: id)
     }
 
     /// Return a copy of the polygon without texture coordinates
@@ -547,19 +547,30 @@ extension Collection<LineSegment> {
 
 extension [Polygon] {
     /// Create one or more polygons from a closed loop of vertices
-    init(_ vertices: [Vertex], material: Polygon.Material?, id: Int = 0) {
+    init(
+        _ vertices: [Vertex],
+        plane: Plane? = nil,
+        ensureConvex: Bool = false,
+        maxSides: Int = .max,
+        material: Polygon.Material?,
+        id: Int = 0
+    ) {
         if let polygon = Polygon(vertices, material: material)?.withID(id) {
             self = [polygon]
             return
         }
-        self = triangulateVertices(
+        let triangles = triangulateVertices(
             vertices,
-            plane: nil,
+            plane: plane,
             isConvex: nil,
             sanitizeNormals: true,
             material: material,
             id: id
-        ).detessellate(ensureConvex: false)
+        )
+        let groupedByPlane = plane.map { [($0, triangles)] } ?? triangles.groupedByPlane()
+        self = groupedByPlane.flatMap {
+            $0.polygons.coplanarDetessellate(ensureConvex: ensureConvex, maxSides: maxSides)
+        }
     }
 }
 
@@ -828,10 +839,10 @@ extension Collection<Polygon> {
     }
 
     /// Merge polygons
-    func detessellate(ensureConvex: Bool) -> [Polygon] {
+    func detessellate(ensureConvex: Bool, maxSides: Int = .max) -> [Polygon] {
         groupedByMaterial().flatMap {
             $0.polygons.groupedByPlane().flatMap {
-                $0.polygons.coplanarDetessellate(ensureConvex: ensureConvex, maxSides: .max)
+                $0.polygons.coplanarDetessellate(ensureConvex: ensureConvex, maxSides: maxSides)
             }
         }
     }
@@ -839,6 +850,10 @@ extension Collection<Polygon> {
     /// Merge coplanar polygons that share one or more edges
     func coplanarDetessellate(ensureConvex: Bool, maxSides: Int) -> [Polygon] {
         assert(areCoplanar)
+        assert(allSatisfy { $0.material == first?.material })
+        assert(allSatisfy { $0.vertices.count <= maxSides })
+        assert(!ensureConvex || allSatisfy(\.isConvex))
+
         var polygons = Array(self)
         var shouldContinue = true
         while shouldContinue {

@@ -1009,6 +1009,26 @@ final class PolygonTests: XCTestCase {
         ])
     }
 
+    func testWatertightMeshDetesselated() {
+        let detail = 64
+        let a = Mesh.cube(size: 0.8)
+        let b = Mesh.sphere(slices: detail)
+        let c = a.subtracting(b).makeWatertight()
+        let d = c.detessellate()
+        XCTAssert(d.polygons.count < c.polygons.count)
+    }
+
+    func testDetessellateComplexCharacterPath() {
+        #if canImport(CoreText)
+        let font = CTFontCreateWithName("Courier" as CFString, 2, nil)
+        let paths = Path.text("p", font: font, width: nil, detail: 2)
+        let polygons = paths.flatMap {
+            $0.subpaths.flatMap { $0.facePolygons() }
+        }
+        XCTAssertEqual(polygons.detessellate().count, 2)
+        #endif
+    }
+
     func testDetessellateComplexCharacterPaths() {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Helvetica" as CFString, 2, nil)
