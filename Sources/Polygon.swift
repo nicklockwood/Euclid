@@ -191,11 +191,16 @@ public extension Polygon {
         vertices.contains(where: { $0.color != .white })
     }
 
-    /// The position of the center of the polygon.
-    /// This is calculated as the average of the vertex positions, and may not be equal to the center of the polygon's
-    /// ``bounds``.
-    var center: Vector {
+    /// The position of the centroid of the polygon.
+    /// This is calculated as the average of the vertex positions, and may not be equal to `bounds.center`.
+    var centroid: Vector {
         vertices.reduce(.zero) { $0 + $1.position } / Double(vertices.count)
+    }
+
+    /// Deprecated.
+    @available(*, deprecated, renamed: "centroid")
+    var center: Vector {
+        centroid
     }
 
     /// Returns the ordered array of polygon edges.

@@ -35,7 +35,7 @@ public extension Mesh {
     /// Return a copy of the mesh with spherically-mapped texture coordinates.
     func sphereMapped() -> Mesh {
         mapPolygonTexcoords { p in
-            let c = p.center
+            let c = p.centroid
             let ch = Vector(c.x, c.z), cv = Vector(ch.length, c.y)
             let chn = ch.normalized(), cvn = cv.normalized()
             let cha = Angle.atan2(y: chn.y, x: chn.x)
@@ -86,7 +86,7 @@ public extension Mesh {
     /// Return a copy of the mesh with cylindrically-mapped texture coordinates.
     func cylinderMapped() -> Mesh {
         mapPolygonTexcoords { p in
-            let c = p.center, cd = Vector(c.x, c.z)
+            let c = p.centroid, cd = Vector(c.x, c.z)
             let cn = cd.normalized()
             let ca = Angle.atan2(y: cn.y, x: cn.x)
             return p.vertices.map {
@@ -134,7 +134,7 @@ public extension Mesh {
                 }
             }
 
-            let (ch, cv) = coords(for: p.center)
+            let (ch, cv) = coords(for: p.centroid)
             let chn = ch.normalized(), cvn = cv.normalized()
             let cha = Angle.atan2(y: chn.y, x: chn.x)
             let cva = Angle.atan2(y: cvn.y, x: cvn.x)
