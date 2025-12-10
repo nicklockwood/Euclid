@@ -23,6 +23,11 @@ final class UtilityTests: XCTestCase {
         XCTAssertEqual(point, [-1, 0, 0])
     }
 
+    func testInfiniteVectorToScaleLimit() {
+        let point = Vector(.infinity, -.infinity).clampedToScaleLimit()
+        XCTAssertEqual(point, [1, -1, scaleLimit])
+    }
+
     // MARK: convexness
 
     func testConvexnessResultNotAffectedByTranslation() {

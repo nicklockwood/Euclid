@@ -58,7 +58,11 @@ extension Comparable {
 
 extension Double {
     func clampedToScaleLimit() -> Double {
-        self < 0 ? min(self, -scaleLimit) : max(self, scaleLimit)
+        if isFinite {
+            return self < 0 ? min(self, -scaleLimit) : max(self, scaleLimit)
+        } else {
+            return self < 0 ? -1 : 1
+        }
     }
 }
 
