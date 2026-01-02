@@ -890,7 +890,8 @@ private extension Mesh {
         assert(startingMesh?.isWatertight != false)
         var polygons = startingMesh?.polygons ?? []
         var polygonsToAdd = polygonsToAdd
-        if let center = startingMesh?.bounds.center ?? bounds?.center {
+        if let bounds = startingMesh?.bounds ?? bounds, !bounds.isEmpty {
+            let center = bounds.center
             polygonsToAdd = polygonsToAdd.filter {
                 center.compare(with: $0.plane) != .front
             }
