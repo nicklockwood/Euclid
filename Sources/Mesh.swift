@@ -252,6 +252,28 @@ public extension Mesh {
         )
     }
 
+    /// Returns a copy of the mesh with transformed polygons.
+    /// This is potentiall cheaper than creating a new mesh from the updated polygons.
+    func mapPolygons(_ transform: (Polygon) -> Polygon) -> Mesh {
+        let polygons = polygons.map(transform)
+        // Check if changes affect shape
+        for (old, new) in zip(self.polygons, polygons) {
+            for (old, new) in zip(old.vertices, new.vertices) {
+                if old.position != new.position {
+                    return .init(polygons)
+                }
+            }
+        }
+        return Mesh(
+            unchecked: polygons,
+            bounds: boundsIfSet,
+            bsp: nil, // TODO: Can we update this directly?
+            isConvex: isKnownConvex,
+            isWatertight: watertightIfSet,
+            submeshes: submeshesIfEmpty
+        )
+    }
+
     /// Merges the polygons from two meshes.
     /// - Parameter mesh: The mesh to merge with this one.
     /// - Returns: A new mesh that includes all polygons from both meshes.

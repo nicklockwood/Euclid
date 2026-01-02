@@ -315,8 +315,25 @@ public extension Polygon {
     /// this method returns an array of zero or more polygons constructed from the mapped vertices.
     func mapVertices(_ transform: (Vertex) -> Vertex) -> [Polygon] {
         let vertices = vertices.map(transform)
-        // TODO: is it worth checking if positions have changed as a fast path?
-        return .init(vertices, plane: nil, ensureConvex: false, maxSides: .max, material: material, id: id)
+        // Check if changes affect shape
+        for (old, new) in zip(self.vertices, vertices) where old.position != new.position {
+            return .init(
+                vertices,
+                plane: nil,
+                ensureConvex: false,
+                maxSides: .max,
+                material: material,
+                id: id
+            )
+        }
+        return [Polygon(
+            unchecked: vertices,
+            plane: plane,
+            isConvex: isConvex,
+            sanitizeNormals: true,
+            material: material,
+            id: id
+        )]
     }
 
     /// Return a copy of the polygon without texture coordinates

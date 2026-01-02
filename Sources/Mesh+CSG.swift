@@ -809,7 +809,7 @@ public extension Mesh {
     /// - Parameter plane: The ``Plane`` against which the vertices are to be reflected.
     /// - Returns: A ``Mesh`` representing the reflected mesh.
     func reflected(along plane: Plane) -> Mesh {
-        Mesh(polygons.map { $0.reflected(along: plane) })
+        mapPolygons { $0.reflected(along: plane) }
     }
 }
 
