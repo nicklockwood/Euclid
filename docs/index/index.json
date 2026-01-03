@@ -794,6 +794,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/mappolygons(_:)",
+                "title" : "func mapPolygons((Polygon) -> Polygon) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/mapvertexcolors(_:)",
                 "title" : "func mapVertexColors((Color) -> Color?) -> Mesh",
                 "type" : "method"

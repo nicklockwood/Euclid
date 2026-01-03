@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.8.14](https://github.com/nicklockwood/Euclid/releases/tag/0.8.14) (2026-01-03)
+
+- Fixed clampedToScaleLimit() behavior when scale is infinite (typically due to a divide by zero)
+- Fixed bug in `Mesh.convexHull()` when one or more mesh parameters are empty
+- Added `Mesh.mapPolygons()` method to optimize updates where geometry doesn't change
+
 ## [0.8.13](https://github.com/nicklockwood/Euclid/releases/tag/0.8.13) (2025-11-09)
 
 - Added `Mesh.minkowskiDifference()` function (inverse of `minkowskiSum()`)

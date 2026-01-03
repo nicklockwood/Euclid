@@ -397,6 +397,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/edges(intersecting:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/flatteningNormals()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/inset(by:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/mapPolygons(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/mapVertexColors(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiDifference(from:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(along:)",
@@ -5943,6 +5944,69 @@
   "title" : "makeWatertight()",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/makewatertight()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/mapPolygons(_:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a copy of the mesh with transformed polygons.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "This is potentiall cheaper than creating a new mesh from the updated polygons.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "mapPolygons"
+    },
+    {
+      "kind" : "text",
+      "text" : "(("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/mapPolygons(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "mapPolygons(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/mappolygons(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/mapVertexColors(_:)": {
   "abstract" : [
