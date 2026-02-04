@@ -311,10 +311,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable/intersects(_:)-7wey": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the point touches or intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

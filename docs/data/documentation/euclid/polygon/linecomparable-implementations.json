@@ -106,10 +106,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/distance(from:)-4hlw9": {
   "abstract" : [
-    {
-      "text" : "Returns the absolute distance between the receiver and the specified line.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -160,10 +157,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/intersects(_:)-4f51y": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -206,10 +200,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/intersects(_:)-6gem2": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

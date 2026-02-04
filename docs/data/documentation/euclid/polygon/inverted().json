@@ -305,10 +305,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/rotated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a rotated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -359,10 +356,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/scaled(by:)-69m6m": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -413,10 +407,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/scaled(by:)-8sjrv": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -467,10 +458,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/transformed(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -520,10 +508,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/translated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a translated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

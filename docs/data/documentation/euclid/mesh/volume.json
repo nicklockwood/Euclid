@@ -50,12 +50,7 @@
       }
     ],
     "platforms" : [
-      {
-        "beta" : false,
-        "deprecated" : true,
-        "renamed" : "signedVolume",
-        "unavailable" : false
-      }
+
     ],
     "role" : "symbol",
     "roleHeading" : "Instance Property",

@@ -323,10 +323,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/distance(from:)-77i61": {
   "abstract" : [
-    {
-      "text" : "Returns the absolute distance between the receiver and the specified line.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

@@ -114,10 +114,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/distance(from:)": {
   "abstract" : [
-    {
-      "text" : "Returns the absolute distance between the receiver and the specified line.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -168,10 +165,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/intersects(_:)-7lw4v": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -214,10 +208,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/intersects(_:)-8wr1y": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

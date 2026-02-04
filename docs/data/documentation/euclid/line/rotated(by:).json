@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a rotated copy of the value.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "Transformable.rotated(by:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -134,25 +142,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "A rotation to apply to the value.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "rotation"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -227,10 +216,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/rotated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a rotated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

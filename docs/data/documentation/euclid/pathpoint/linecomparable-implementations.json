@@ -104,10 +104,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/distance(from:)": {
   "abstract" : [
-    {
-      "text" : "Returns the absolute distance between the receiver and the specified line.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

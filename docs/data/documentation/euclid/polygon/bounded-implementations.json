@@ -104,10 +104,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/bounds": {
   "abstract" : [
-    {
-      "text" : "The bounds of the object.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

@@ -106,10 +106,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/distance(from:)-2o5e6": {
   "abstract" : [
-    {
-      "text" : "Returns the absolute distance between the receiver and the specified line.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -160,10 +157,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/intersects(_:)-790uh": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -206,10 +200,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/intersects(_:)-eqdg": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

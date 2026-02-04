@@ -79,12 +79,7 @@
       }
     ],
     "platforms" : [
-      {
-        "beta" : false,
-        "deprecated" : true,
-        "message" : "Use array-returning version instead",
-        "unavailable" : false
-      }
+
     ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",

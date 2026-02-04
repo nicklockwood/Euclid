@@ -84,12 +84,7 @@
       }
     ],
     "platforms" : [
-      {
-        "beta" : false,
-        "deprecated" : true,
-        "renamed" : "clipped(to:fill:)",
-        "unavailable" : false
-      }
+
     ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",

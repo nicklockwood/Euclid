@@ -50,12 +50,7 @@
       }
     ],
     "platforms" : [
-      {
-        "beta" : false,
-        "deprecated" : true,
-        "renamed" : "centroid",
-        "unavailable" : false
-      }
+
     ],
     "role" : "symbol",
     "roleHeading" : "Instance Property",
@@ -339,10 +334,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/bounds": {
   "abstract" : [
-    {
-      "text" : "The bounds of the object.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

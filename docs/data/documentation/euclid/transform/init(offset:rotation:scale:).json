@@ -88,12 +88,7 @@
       }
     ],
     "platforms" : [
-      {
-        "beta" : false,
-        "deprecated" : true,
-        "renamed" : "init(scale:rotation:translation:)",
-        "unavailable" : false
-      }
+
     ],
     "role" : "symbol",
     "roleHeading" : "Initializer",

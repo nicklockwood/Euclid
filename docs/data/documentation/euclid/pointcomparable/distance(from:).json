@@ -319,10 +319,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PointComparable/distance(from:)-3c6uk": {
   "abstract" : [
-    {
-      "text" : "Returns the distance between the receiver and the specified point.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

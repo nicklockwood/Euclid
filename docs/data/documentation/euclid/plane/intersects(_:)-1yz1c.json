@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a true if the point touches or intersects the receiver.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "PointComparable.intersects(_:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -125,61 +133,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The point to compare with.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "point"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "",
-              "type" : "text"
-            },
-            {
-              "code" : "true",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " if the point and receiver intersect, and ",
-              "type" : "text"
-            },
-            {
-              "code" : "false",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " otherwise.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -254,10 +207,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/intersects(_:)-1yz1c": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the point touches or intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

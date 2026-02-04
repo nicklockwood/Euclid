@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "The bounds of the object.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "Bounded.bounds",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -233,10 +241,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/bounds": {
   "abstract" : [
-    {
-      "text" : "The bounds of the object.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

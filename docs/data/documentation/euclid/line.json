@@ -91,6 +91,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
+        "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
         "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
         "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
@@ -490,10 +491,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/distance(from:)-77i61": {
   "abstract" : [
-    {
-      "text" : "Returns the absolute distance between the receiver and the specified line.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1346,6 +1344,11 @@
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
   "title" : "Swift.Sendable",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s9EscapableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
+  "title" : "Swift.Escapable",
   "type" : "unresolvable"
 }
 }

@@ -173,6 +173,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
+        "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
         "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
         "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
@@ -1540,10 +1541,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/rotated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a rotated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1594,10 +1592,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/scaled(by:)-4wtbg": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1648,10 +1643,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/scaled(by:)-7e3o7": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1743,10 +1735,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/transformed(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1797,10 +1786,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/translated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a translated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -2020,6 +2006,11 @@
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
   "title" : "Swift.Sendable",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s9EscapableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
+  "title" : "Swift.Escapable",
   "type" : "unresolvable"
 }
 }

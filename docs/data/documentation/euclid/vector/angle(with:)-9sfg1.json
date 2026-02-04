@@ -417,10 +417,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-3eglz": {
   "abstract" : [
-    {
-      "text" : "Returns the absolute distance between the receiver and the specified line.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

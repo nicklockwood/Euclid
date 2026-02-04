@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a transformed copy of the value.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "Transformable.transformed(by:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -131,25 +139,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "A transform to apply to the value.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "transform"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -395,10 +384,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/rotated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a rotated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -449,10 +435,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/scaled(by:)-1dtbr": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -503,10 +486,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/scaled(by:)-20sq4": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -557,10 +537,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/transformed(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -610,10 +587,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/translated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a translated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

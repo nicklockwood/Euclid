@@ -367,10 +367,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/intersects(_:)-8wr1y": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

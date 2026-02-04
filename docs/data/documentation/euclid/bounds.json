@@ -98,6 +98,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
+        "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
         "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
         "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
@@ -1500,10 +1501,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/intersects(_:)-8wr1y": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1811,10 +1809,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/scaled(by:)-5dvvh": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1865,10 +1860,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/scaled(by:)-6epo6": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1956,10 +1948,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/transformed(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -2009,10 +1998,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/translated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a translated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -2546,6 +2532,11 @@
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
   "title" : "Swift.Sendable",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s9EscapableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
+  "title" : "Swift.Escapable",
   "type" : "unresolvable"
 }
 }

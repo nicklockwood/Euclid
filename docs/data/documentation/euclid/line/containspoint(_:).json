@@ -59,12 +59,7 @@
       }
     ],
     "platforms" : [
-      {
-        "beta" : false,
-        "deprecated" : true,
-        "renamed" : "intersects(_:)",
-        "unavailable" : false
-      }
+
     ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
@@ -268,10 +263,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/distance(from:)-77i61": {
   "abstract" : [
-    {
-      "text" : "Returns the absolute distance between the receiver and the specified line.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Returns the distance between the receiver and the specified point.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "PointComparable.distance(from:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -133,53 +141,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The point to compare with.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "point"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "The distance between the receiver and the point. The value is always positive",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "if the receiver is not touching the point, or zero if it touches or intersects the point.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -254,10 +215,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/distance(from:)-25au9": {
   "abstract" : [
-    {
-      "text" : "Returns the distance between the receiver and the specified point.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

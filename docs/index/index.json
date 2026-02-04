@@ -40,11 +40,6 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/cone(radius:height:slices:stacks:poledetail:adddetailatbottompole:faces:wrapmode:material:)",
-                "title" : "static func cone(radius: Double, height: Double, slices: Int, stacks: Int, poleDetail: Int?, addDetailAtBottomPole: Bool, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/mesh\/cube(center:size:faces:wrapmode:material:)-8t5q8",
                 "title" : "static func cube(center: Vector, size: Vector, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
                 "type" : "method"
@@ -52,16 +47,6 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/cube(center:size:faces:wrapmode:material:)-eado",
                 "title" : "static func cube(center: Vector, size: Double, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/cylinder(radius:height:slices:poledetail:faces:wrapmode:material:)",
-                "title" : "static func cylinder(radius: Double, height: Double, slices: Int, poleDetail: Int, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/sphere(radius:slices:stacks:poledetail:faces:wrapmode:material:)",
-                "title" : "static func sphere(radius: Double, slices: Int, stacks: Int?, poleDetail: Int, faces: Faces, wrapMode: WrapMode, material: Material?) -> Mesh",
                 "type" : "method"
               },
               {
@@ -912,8 +897,23 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/cone(radius:height:slices:stacks:poledetail:adddetailatbottompole:faces:wrapmode:material:iscancelled:)",
+                "title" : "static func cone(radius: Double, height: Double, slices: Int, stacks: Int, poleDetail: Int?, addDetailAtBottomPole: Bool, faces: Faces, wrapMode: WrapMode, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/cylinder(radius:height:slices:poledetail:faces:wrapmode:material:iscancelled:)",
+                "title" : "static func cylinder(radius: Double, height: Double, slices: Int, poleDetail: Int, faces: Faces, wrapMode: WrapMode, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/icosphere(radius:subdivisions:faces:wrapmode:material:iscancelled:)",
                 "title" : "static func icosphere(radius: Double, subdivisions: Int, faces: Faces, wrapMode: WrapMode, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/sphere(radius:slices:stacks:poledetail:faces:wrapmode:material:iscancelled:)",
+                "title" : "static func sphere(radius: Double, slices: Int, stacks: Int?, poleDetail: Int, faces: Faces, wrapMode: WrapMode, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -1793,11 +1793,6 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/arc(angle:radius:segments:color:)",
-                "title" : "static func arc(angle: Angle, radius: Double, segments: Int?, color: Color?) -> Path",
-                "type" : "method"
-              },
-              {
                 "title" : "Creating Shape Paths",
                 "type" : "groupMarker"
               },
@@ -2063,6 +2058,15 @@
                 "path" : "\/documentation\/euclid\/path\/cancellationhandler",
                 "title" : "Path.CancellationHandler",
                 "type" : "typealias"
+              },
+              {
+                "title" : "Type Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/arc(angle:radius:segments:color:iscancelled:)",
+                "title" : "static func arc(angle: Angle, radius: Double, segments: Int?, color: Color?, isCancelled: CancellationHandler) -> Path",
+                "type" : "method"
               },
               {
                 "title" : "Enumerations",

@@ -322,10 +322,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transformable/transformed(by:)-21ah6": {
   "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

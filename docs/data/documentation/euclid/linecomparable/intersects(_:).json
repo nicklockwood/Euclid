@@ -345,10 +345,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineComparable/intersects(_:)-3xh7b": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

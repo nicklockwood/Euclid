@@ -99,6 +99,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
+        "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
         "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
         "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
@@ -1609,10 +1610,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-5v6ed": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1655,10 +1653,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-76jp5": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the point touches or intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1879,10 +1874,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/rotated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a rotated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1933,10 +1925,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/scaled(by:)-2lm8c": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1987,10 +1976,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/scaled(by:)-37r1v": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -2153,10 +2139,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/transformed(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -2206,10 +2189,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/translated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a translated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -2451,6 +2431,11 @@
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
   "title" : "Swift.Sendable",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s9EscapableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
+  "title" : "Swift.Escapable",
   "type" : "unresolvable"
 }
 }

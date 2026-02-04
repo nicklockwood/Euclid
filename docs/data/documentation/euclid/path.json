@@ -280,6 +280,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
+        "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
         "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
         "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
@@ -327,8 +328,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:detail:color:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/curve(_:detail:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/line(_:_:color:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/line(_:color:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/arc(angle:radius:segments:color:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/line(_:color:)"
       ],
       "title" : "Creating Paths"
     },
@@ -430,6 +430,14 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler"
       ],
       "title" : "Type Aliases"
+    },
+    {
+      "anchor" : "Type-Methods",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/arc(angle:radius:segments:color:isCancelled:)"
+      ],
+      "title" : "Type Methods"
     },
     {
       "anchor" : "Enumerations",
@@ -855,7 +863,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/transformable-implementations"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/arc(angle:radius:segments:color:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/arc(angle:radius:segments:color:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates a circular arc.",
@@ -953,7 +961,24 @@
     },
     {
       "kind" : "text",
-      "text" : "?) -> "
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -961,19 +986,16 @@
       "text" : "Path"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/arc(angle:radius:segments:color:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/arc(angle:radius:segments:color:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "arc(angle:radius:segments:color:)",
+  "title" : "arc(angle:radius:segments:color:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/arc(angle:radius:segments:color:)"
+  "url" : "\/documentation\/euclid\/path\/arc(angle:radius:segments:color:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/bounds": {
   "abstract" : [
-    {
-      "text" : "The bounds of the object.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -3183,10 +3205,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/rotated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a rotated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -3367,10 +3386,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/scaled(by:)-19jpq": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -3421,10 +3437,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/scaled(by:)-84xdd": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -3888,10 +3901,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/transformed(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -3942,10 +3952,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/translated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a translated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -4378,6 +4385,11 @@
 "doc://com.charcoaldesign.Euclid/s8SendableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
   "title" : "Swift.Sendable",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s9EscapableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
+  "title" : "Swift.Escapable",
   "type" : "unresolvable"
 }
 }

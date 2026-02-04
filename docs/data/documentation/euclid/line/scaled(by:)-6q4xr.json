@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a scaled copy of the value.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "Transformable.scaled(by:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -133,25 +141,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "A uniform scale factor to apply to the value.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "factor"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -226,10 +215,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/scaled(by:)-6q4xr": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

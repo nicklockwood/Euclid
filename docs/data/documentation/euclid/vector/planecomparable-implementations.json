@@ -106,10 +106,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/compare(with:)": {
   "abstract" : [
-    {
-      "text" : "The relationship between the receiver and the specified plane.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -214,10 +211,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/signedDistance(from:)": {
   "abstract" : [
-    {
-      "text" : "Returns the signed distance between the receiver and the specified plane.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

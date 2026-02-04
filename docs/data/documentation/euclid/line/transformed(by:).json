@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a transformed copy of the value.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "Transformable.transformed(by:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -131,25 +139,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "A transform to apply to the value.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "transform"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -224,10 +213,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/transformed(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

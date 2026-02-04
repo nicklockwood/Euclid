@@ -107,10 +107,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/distance(from:)-25au9": {
   "abstract" : [
-    {
-      "text" : "Returns the distance between the receiver and the specified point.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -219,10 +216,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-76jp5": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the point touches or intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -265,10 +259,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/nearestPoint(to:)": {
   "abstract" : [
-    {
-      "text" : "Returns the nearest point on the receiver to the specified point.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "The relationship between the receiver and the specified plane.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "PlaneComparable.compare(with:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -134,53 +142,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The plane to compare with.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "plane"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "The ",
-              "type" : "text"
-            },
-            {
-              "code" : "PlaneComparison",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " between the receiver and the plane.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -409,10 +370,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vertex/compare(with:)": {
   "abstract" : [
-    {
-      "text" : "The relationship between the receiver and the specified plane.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

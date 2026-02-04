@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Returns the signed distance between the receiver and the specified plane.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "PlaneComparable.signedDistance(from:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -133,53 +141,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The plane to compare with.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "plane"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "The distance between the receiver and the plane. The value is positive if the receiver lies",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "in front of the plane, negative if it lies behind it, or zero if it lies exactly on the plane, or crosses it.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -288,10 +249,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/signedDistance(from:)": {
   "abstract" : [
-    {
-      "text" : "Returns the signed distance between the receiver and the specified plane.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

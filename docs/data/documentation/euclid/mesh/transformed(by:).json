@@ -278,10 +278,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/rotated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a rotated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -332,10 +329,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/scaled(by:)-90bab": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -386,10 +380,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/scaled(by:)-94kks": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -494,10 +485,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/translated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a translated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

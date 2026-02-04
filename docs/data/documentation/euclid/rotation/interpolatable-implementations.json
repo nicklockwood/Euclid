@@ -104,10 +104,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/interpolated(with:by:)": {
   "abstract" : [
-    {
-      "text" : "Interpolate between two values.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

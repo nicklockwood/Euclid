@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.8.15](https://github.com/nicklockwood/Euclid/releases/tag/0.8.15) (2026-06-15)
+
+- Fixed bug where `Mesh.loft()` could produce invalid geometry for mismatched vertices
+- Importing an OFF file with negative index or face counts no longer crashes
+- Fixed bug when importing OBJ files that include normals but not texture coordinate
+- Fixed potential stack overflow in the OBJ file parser
+- Fixed bug where clipping a path to a mesh returned the wrong path fragment
+- Generation of curved primitives such as spheres or cylinders is now cancellable
+- Fixed bug in convex hull cancellation logic
+- Interleaved `SCNGeometrySource` channels are now handled correctly when importing `SCNGeometry`
+
 ## [0.8.14](https://github.com/nicklockwood/Euclid/releases/tag/0.8.14) (2026-01-03)
 
 - Fixed clampedToScaleLimit() behavior when scale is infinite (typically due to a divide by zero)

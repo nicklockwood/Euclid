@@ -95,12 +95,7 @@
       }
     ],
     "platforms" : [
-      {
-        "beta" : false,
-        "deprecated" : true,
-        "message" : "Path.init(_:) instead",
-        "unavailable" : false
-      }
+
     ],
     "role" : "symbol",
     "roleHeading" : "Type Method",
@@ -222,8 +217,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(subpaths:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:detail:color:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/curve(_:detail:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/line(_:_:color:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/arc(angle:radius:segments:color:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/line(_:_:color:)"
       ],
       "title" : "Creating Paths"
     }
@@ -371,119 +365,6 @@
   "title" : "Path",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/arc(angle:radius:segments:color:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a circular arc.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "arc"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "angle"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5AngleV",
-      "text" : "Angle"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "radius"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "segments"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "color"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5ColorV",
-      "text" : "Color"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/arc(angle:radius:segments:color:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "arc(angle:radius:segments:color:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/arc(angle:radius:segments:color:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/curve(_:detail:)": {
   "abstract" : [

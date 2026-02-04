@@ -115,6 +115,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/Se",
         "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
+        "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transformable"
       ],
@@ -1187,10 +1188,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/rotated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a rotated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1477,10 +1475,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/scaled(by:)-19ukh": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1531,10 +1526,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/scaled(by:)-9vwak": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1647,10 +1639,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/transformed(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1701,10 +1690,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/translated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a translated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -1886,6 +1872,11 @@
 "doc://com.charcoaldesign.Euclid/s8CopyableP": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8CopyableP",
   "title" : "Swift.Copyable",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s9EscapableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s9EscapableP",
+  "title" : "Swift.Escapable",
   "type" : "unresolvable"
 }
 }

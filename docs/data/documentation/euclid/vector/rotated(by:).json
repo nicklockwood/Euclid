@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a rotated copy of the value.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "Transformable.rotated(by:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -134,25 +142,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "A rotation to apply to the value.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "rotation"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -312,10 +301,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/rotated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a rotated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -366,10 +352,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/scaled(by:)-350oy": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -420,10 +403,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/scaled(by:)-356zr": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -474,10 +454,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/transformed(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -527,10 +504,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/translated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a translated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

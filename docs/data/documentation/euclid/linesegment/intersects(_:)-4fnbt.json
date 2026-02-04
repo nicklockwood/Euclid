@@ -613,10 +613,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-5v6ed": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -659,10 +656,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-76jp5": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the point touches or intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

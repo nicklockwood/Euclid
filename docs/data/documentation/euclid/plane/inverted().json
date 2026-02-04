@@ -216,10 +216,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/rotated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a rotated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -270,10 +267,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/scaled(by:)-29v7y": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -324,10 +318,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/scaled(by:)-6axqe": {
   "abstract" : [
-    {
-      "text" : "Returns a scaled copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -378,10 +369,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/transformed(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a transformed copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -431,10 +419,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Plane/translated(by:)": {
   "abstract" : [
-    {
-      "text" : "Returns a translated copy of the value.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

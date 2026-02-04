@@ -106,10 +106,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/distance(from:)-27q5u": {
   "abstract" : [
-    {
-      "text" : "Returns the absolute distance between the receiver and the specified line.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -160,10 +157,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersects(_:)-3rdg": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
@@ -206,10 +200,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersects(_:)-btim": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

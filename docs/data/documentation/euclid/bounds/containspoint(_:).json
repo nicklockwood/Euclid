@@ -59,12 +59,7 @@
       }
     ],
     "platforms" : [
-      {
-        "beta" : false,
-        "deprecated" : true,
-        "renamed" : "intersects(_:)",
-        "unavailable" : false
-      }
+
     ],
     "role" : "symbol",
     "roleHeading" : "Instance Method",
@@ -321,10 +316,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Bounds/intersects(_:)-8wr1y": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {

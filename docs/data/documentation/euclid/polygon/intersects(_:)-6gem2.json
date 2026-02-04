@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a true if the line intersects the receiver.",
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "LineComparable.intersects(_:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
@@ -125,61 +133,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The line to compare with.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "line"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "",
-              "type" : "text"
-            },
-            {
-              "code" : "true",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " if the line and receiver intersect, and ",
-              "type" : "text"
-            },
-            {
-              "code" : "false",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " otherwise.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -288,10 +241,7 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/intersects(_:)-6gem2": {
   "abstract" : [
-    {
-      "text" : "Returns a true if the line intersects the receiver.",
-      "type" : "text"
-    }
+
   ],
   "fragments" : [
     {
