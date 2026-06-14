@@ -186,13 +186,11 @@ private extension ArraySlice where Element == String {
             guard let part = parts.popFirst() else {
                 return nil
             }
-            let indexParts = part.components(separatedBy: "/").compactMap(Int.init(_:))
-            switch indexParts.count {
-            case 0: return (0, 0, 0)
-            case 1: return (indexParts[0], 0, 0)
-            case 2: return (indexParts[0], indexParts[1], 0)
-            default: return (indexParts[0], indexParts[1], indexParts[2])
+            let indexParts = part.components(separatedBy: "/")
+            func index(at position: Int) -> Int {
+                indexParts.indices.contains(position) ? Int(indexParts[position]) ?? 0 : 0
             }
+            return (index(at: 0), index(at: 1), index(at: 2))
         }
 
         func readFace() -> [OBJVertex] {

@@ -426,14 +426,22 @@ final class MeshImportTests: XCTestCase {
         XCTAssertTrue(mesh.isConvex())
     }
 
+    func testOBJWithNormalsAndNoTexcoordsRoundTrips() throws {
+        let cylinder = Mesh.cylinder(slices: 4).withoutTexcoords()
+        let objString = cylinder.objString()
+        XCTAssert(objString.contains("//"))
+        XCTAssertFalse(objString.contains("\nvt "))
+        XCTAssertEqual(try XCTUnwrap(Mesh(objString: objString)), cylinder)
+    }
+
     func testMalformedOBJFiles() {
-        let badOffs: [String] = [
+        let badOBJs: [String] = [
             "", // Empty
             "v 1 0 1\nf -1 -1 -1", // Negative index
             "v 1 0 1\nf 1 2 1", // Index out of bounds
         ]
-        for off in badOffs {
-            let mesh = Mesh(offString: off) ?? .empty
+        for obj in badOBJs {
+            let mesh = Mesh(objString: obj) ?? .empty
             XCTAssertEqual(mesh, .empty)
         }
     }
