@@ -70,8 +70,12 @@ public extension Mesh {
         let vertices = (0 ..< counts.vertices).compactMap { _ in
             lines.readVertex()
         }
-        let faces = (0 ..< counts.faces).flatMap { _ in
-            lines.readFace(with: vertices)
+        var faces = [Polygon]()
+        for _ in 0 ..< counts.faces {
+            guard let face = lines.readFace(with: vertices) else {
+                return nil
+            }
+            faces += face
         }
         self = Mesh(faces)
     }
@@ -113,14 +117,15 @@ private extension ArraySlice where Element == String {
         readDoubles().flatMap(Vector.init(_:))
     }
 
-    mutating func readFace(with vertices: [Vector]) -> [Polygon] {
+    mutating func readFace(with vertices: [Vector]) -> [Polygon]? {
         guard let doubles = readDoubles(),
               let count = doubles.first.flatMap(Int.init(exactly:)),
-              count < doubles.count,
-              case let indices = doubles[1 ... count].compactMap(Int.init(exactly:)),
-              indices.allSatisfy({ $0 < vertices.count })
+              count >= 0, count < doubles.count,
+              case let indices = doubles.dropFirst().prefix(count).compactMap(Int.init(exactly:)),
+              indices.count == count,
+              indices.allSatisfy({ vertices.indices.contains($0) })
         else {
-            return []
+            return nil
         }
         return .init(indices.map { Vertex(vertices[$0]) }, material: nil)
     }

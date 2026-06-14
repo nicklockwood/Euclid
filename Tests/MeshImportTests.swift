@@ -632,10 +632,11 @@ final class MeshImportTests: XCTestCase {
             "OFF\n0 -1 0", // Negative face count
             "OFF\n2 1 0\n1 0 0\n0 1 0\n3 0 1 2", // Index out of bounds
             "OFF\n2 1 0\n1 0 0\n0 1 0\n3 0 1", // Missing index
+            "OFF\n3 1 0\n0 0 0\n1 0 0\n0 1 0\n-1", // Negative face vertex count
+            "OFF\n3 1 0\n0 0 0\n1 0 0\n0 1 0\n3 -1 1 2", // Negative vertex index
         ]
         for off in badOffs {
-            let mesh = Mesh(offString: off) ?? .empty
-            XCTAssertEqual(mesh, .empty)
+            XCTAssertNil(Mesh(offString: off))
         }
     }
 
