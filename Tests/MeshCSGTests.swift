@@ -479,6 +479,23 @@ final class MeshCSGTests: XCTestCase {
         XCTAssert(mesh.polygons.areWatertight)
     }
 
+    func testConvexHullOfPointsCanBeCancelled() {
+        let points = (0 ..< 1_000).map { i in
+            Vector(
+                Double(i % 10) / 10,
+                Double(i % 100) / 100,
+                Double(i) / 1_000
+            )
+        }
+        var checks = 0
+        let mesh = Mesh.convexHull(of: points) {
+            checks += 1
+            return checks > 1
+        }
+        XCTAssertEqual(checks, 2)
+        XCTAssertEqual(mesh, .empty)
+    }
+
     // MARK: Minkowski Sum
 
     func testMinkowskiSumOfCubes() {

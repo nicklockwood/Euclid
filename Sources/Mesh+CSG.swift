@@ -1019,8 +1019,10 @@ private extension Mesh {
         polygons += [triangle, inverse]
 
         // Add remaining points
-        // TODO: find better way to batch for cancellation purposes
-        for (i, point) in points.enumerated() where i % 100 > 0 || !isCancelled() {
+        for (i, point) in points.enumerated() {
+            if i.isMultiple(of: 100), isCancelled() {
+                return .empty
+            }
             polygons.addPoint(
                 point,
                 material: material,
