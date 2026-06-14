@@ -434,6 +434,18 @@ final class MeshImportTests: XCTestCase {
         XCTAssertEqual(try XCTUnwrap(Mesh(objString: objString)), cylinder)
     }
 
+    func testOBJWithManyUnknownCommands() throws {
+        let unknownCommands = Array(repeating: "g group", count: 20_000)
+        let objString = (unknownCommands + [
+            "v 0 0 0",
+            "v 1 0 0",
+            "v 0 1 0",
+            "f 1 2 3",
+        ]).joined(separator: "\n")
+        let mesh = try XCTUnwrap(Mesh(objString: objString))
+        XCTAssertEqual(mesh.polygons.count, 1)
+    }
+
     func testMalformedOBJFiles() {
         let badOBJs: [String] = [
             "", // Empty

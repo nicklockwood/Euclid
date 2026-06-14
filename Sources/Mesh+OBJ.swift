@@ -163,50 +163,52 @@ private extension ArraySlice where Element == String {
     }
 
     mutating func readCommand() -> OBJCommand? {
-        skipBlankLinesAndComments()
-        guard let line = popFirst() else { return nil }
+        while true {
+            skipBlankLinesAndComments()
+            guard let line = popFirst() else { return nil }
 
-        var parts = ArraySlice(line
-            .components(separatedBy: .whitespaces)
-            .filter { !$0.isEmpty }
-        )
+            var parts = ArraySlice(line
+                .components(separatedBy: .whitespaces)
+                .filter { !$0.isEmpty }
+            )
 
-        func readVector() -> Vector {
-            .init(parts.compactMap(Double.init(_:)))
-        }
-
-        func readVertex() -> Vertex {
-            let doubles = parts.compactMap(Double.init(_:))
-            let vector = Vector(doubles)
-            let color = doubles.count > 3 ? Color(doubles.dropFirst(3)) : nil
-            return .init(vector, color: color)
-        }
-
-        func readIndex() -> OBJVertex? {
-            guard let part = parts.popFirst() else {
-                return nil
+            func readVector() -> Vector {
+                .init(parts.compactMap(Double.init(_:)))
             }
-            let indexParts = part.components(separatedBy: "/")
-            func index(at position: Int) -> Int {
-                indexParts.indices.contains(position) ? Int(indexParts[position]) ?? 0 : 0
-            }
-            return (index(at: 0), index(at: 1), index(at: 2))
-        }
 
-        func readFace() -> [OBJVertex] {
-            var indices = [OBJVertex]()
-            while let index = readIndex() {
-                indices.append(index)
+            func readVertex() -> Vertex {
+                let doubles = parts.compactMap(Double.init(_:))
+                let vector = Vector(doubles)
+                let color = doubles.count > 3 ? Color(doubles.dropFirst(3)) : nil
+                return .init(vector, color: color)
             }
-            return indices
-        }
 
-        switch parts.popFirst()?.lowercased() {
-        case "v": return .vertex(readVertex())
-        case "vn": return .normal(readVector())
-        case "vt": return .texcoord(readVector())
-        case "f": return .face(readFace())
-        default: return readCommand()
+            func readIndex() -> OBJVertex? {
+                guard let part = parts.popFirst() else {
+                    return nil
+                }
+                let indexParts = part.components(separatedBy: "/")
+                func index(at position: Int) -> Int {
+                    indexParts.indices.contains(position) ? Int(indexParts[position]) ?? 0 : 0
+                }
+                return (index(at: 0), index(at: 1), index(at: 2))
+            }
+
+            func readFace() -> [OBJVertex] {
+                var indices = [OBJVertex]()
+                while let index = readIndex() {
+                    indices.append(index)
+                }
+                return indices
+            }
+
+            switch parts.popFirst()?.lowercased() {
+            case "v": return .vertex(readVertex())
+            case "vn": return .normal(readVector())
+            case "vt": return .texcoord(readVector())
+            case "f": return .face(readFace())
+            default: continue
+            }
         }
     }
 }
