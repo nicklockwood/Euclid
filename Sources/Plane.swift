@@ -182,8 +182,8 @@ public extension Plane {
         let n1 = normal.components
         let n2 = plane.normal.components
 
-        // http://geomalgorithms.com/a05-_intersect-1.html
         func findCommonPoint(_ a: Int, _ b: Int) -> Vector {
+            // http://geomalgorithms.com/a05-_intersect-1.html
             let a1 = n1[a], b1 = n1[b]
             let a2 = n2[a], b2 = n2[b]
 

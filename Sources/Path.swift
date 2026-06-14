@@ -577,7 +577,7 @@ public extension Polygon {
 }
 
 extension Path {
-    enum Storage: Hashable, Sendable {
+    enum Storage: Hashable {
         case points([PathPoint])
         case subpaths([Path])
     }

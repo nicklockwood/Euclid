@@ -209,6 +209,16 @@ final class PathShapeTests: XCTestCase {
         XCTAssertEqual(path, .circle(radius: 2, segments: 3))
     }
 
+    func testHighDetailArcCanBeCancelled() {
+        var checks = 0
+        let path = Path.arc(segments: 20_000_000) {
+            checks += 1
+            return checks > 2
+        }
+        XCTAssertEqual(checks, 3)
+        XCTAssert(path.isEmpty)
+    }
+
     // MARK: Circle
 
     func testCircleIsClosed() {

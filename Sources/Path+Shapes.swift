@@ -53,6 +53,7 @@ public extension Path {
     ///   - radius: The distance from the center of the arc to each point used to approximate its shape.
     ///   - segments: The number of line segments used to approximate the circle.
     ///   - color: An optional ``Color`` to apply to the path's points.
+    ///   - isCancelled: Callback used to cancel the operation.
     ///
     /// > Note: Because the arc is approximated using line segments, its radius is not uniform. The radius
     /// specified is the *outer* radius, i.e. the radius at the end points.
@@ -60,7 +61,8 @@ public extension Path {
         angle: Angle = .pi,
         radius: Double = 0.5,
         segments: Int? = nil,
-        color: Color? = nil
+        color: Color? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Path {
         var points = [PathPoint]()
         let angle = max(-.twoPi, min(.twoPi, angle))
@@ -77,6 +79,9 @@ public extension Path {
         } ?? Int(ceil(abs(span) * 16))
         let radius = max(abs(radius), scaleLimit / 2)
         for i in 0 ... segments {
+            if i.isMultiple(of: 100), isCancelled() {
+                return .empty
+            }
             let a = Double(i) / Double(segments) * angle
             points.append(.curve(sin(a) * radius, cos(a) * radius, color: color))
         }

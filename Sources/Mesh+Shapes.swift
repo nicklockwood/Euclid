@@ -332,6 +332,7 @@ public extension Mesh {
     ///   - faces: The direction the polygon faces.
     ///   - wrapMode: The way that texture coordinates are calculated for the sphere.
     ///   - material: The optional material for the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func sphere(
         radius: Double = 0.5,
         slices: Int = 16,
@@ -339,11 +340,12 @@ public extension Mesh {
         poleDetail: Int = 0,
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         let stacks = max(2, stacks ?? (slices / 2))
         return lathe(
-            unchecked: .arc(radius: radius, segments: stacks),
+            unchecked: .arc(radius: radius, segments: stacks, isCancelled: isCancelled),
             slices: slices,
             poleDetail: poleDetail,
             addDetailForFlatPoles: false,
@@ -352,7 +354,7 @@ public extension Mesh {
             material: material,
             isConvex: true,
             isWatertight: true,
-            isCancelled: { false }
+            isCancelled: isCancelled
         )
     }
 
@@ -365,6 +367,7 @@ public extension Mesh {
     ///   - faces: The direction of the generated polygon faces.
     ///   - wrapMode: The way that texture coordinates are calculated for the cylinder.
     ///   - material: The optional material for the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func cylinder(
         radius: Double = 0.5,
         height: Double = 1,
@@ -372,7 +375,8 @@ public extension Mesh {
         poleDetail: Int = 0,
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         let radius = max(abs(radius), scaleLimit / 2)
         let wrapMode = wrapMode == .default ? .tube : wrapMode
@@ -395,7 +399,7 @@ public extension Mesh {
             material: material,
             isConvex: true,
             isWatertight: true,
-            isCancelled: { false }
+            isCancelled: isCancelled
         )
     }
 
@@ -410,6 +414,7 @@ public extension Mesh {
     ///   - faces: The direction of the generated polygon faces.
     ///   - wrapMode: The way that texture coordinates are calculated for the cone.
     ///   - material: The optional material for the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     ///
     /// > Note: The default `nil` value for poleDetail will derive value automatically.
     /// Use zero instead if you wish to add no extra detail at the poles.
@@ -422,7 +427,8 @@ public extension Mesh {
         addDetailAtBottomPole: Bool = false,
         faces: Faces = .default,
         wrapMode: WrapMode = .default,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         let radius = max(abs(radius), scaleLimit / 2)
         let stacks = max(1, stacks)
@@ -440,7 +446,7 @@ public extension Mesh {
             material: material,
             isConvex: true,
             isWatertight: true,
-            isCancelled: { false }
+            isCancelled: isCancelled
         )
     }
 
@@ -873,7 +879,9 @@ private extension Mesh {
         }
 
         var polygons = [Polygon]()
-        for i in 0 ..< slices where !isCancelled() {
+        var completedSlices = 0
+        for i in 0 ..< slices {
+            if isCancelled() { break }
             let t0 = Double(i) / Double(slices)
             let t1 = Double(i + 1) / Double(slices)
             let a0 = t0 * Angle.twoPi
@@ -980,10 +988,13 @@ private extension Mesh {
                     }
                 }
             }
+            completedSlices += 1
         }
 
+        let wasCancelled = completedSlices < slices
+        let isConvex = isConvex && !wasCancelled
         let isSealed = isConvex && !pointsAreSelfIntersecting(profile.points.map(\.position))
-        let isWatertight = isSealed ? true : isWatertight
+        let isWatertight = wasCancelled ? nil : isSealed ? true : isWatertight
         switch faces {
         case .default where isSealed, .front:
             return Mesh(
