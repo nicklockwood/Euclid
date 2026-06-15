@@ -568,8 +568,28 @@ public extension Mesh {
     ///   - materialLookup: An optional closure to map SceneKit materials to Euclid materials.
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
     init?(_ scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider? = nil) {
+        do {
+            try self.init(scnGeometry: scnGeometry, materialLookup: materialLookup)
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+
+    /// Creates a mesh from a SceneKit geometry, with optional material mapping.
+    /// - Parameters:
+    ///   - scnGeometry: The `SCNGeometry` to convert into a mesh.
+    ///   - materialLookup: An optional closure to map SceneKit materials to Euclid materials.
+    ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
+    private init(scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider? = nil) throws {
         // Force properties to update
         let scnGeometry = scnGeometry.copy() as! SCNGeometry
+
+        if #available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *),
+           scnGeometry.geometrySourceChannels?.count ?? 0 > 0
+        {
+            throw IOError("SCNGeometrySource channels are not supported")
+        }
 
         var polygons = [Polygon]()
         var vertices = [Vertex]()
@@ -577,8 +597,8 @@ public extension Mesh {
             let count = source.vectorCount
             if vertices.isEmpty {
                 vertices = Array(repeating: Vertex(.zero), count: count)
-            } else if vertices.count != source.vectorCount {
-                return nil
+            } else if vertices.count != count {
+                throw IOError("Mismatched element counts in SCNGeometry")
             }
             var offset = source.dataOffset
             let stride = source.dataStride
@@ -617,14 +637,19 @@ public extension Mesh {
             let material = materials.isEmpty ? nil : materials[index % materials.count]
             let indexData = element.data
             let indexSize = element.bytesPerIndex
-            func vertex(at i: Int) -> Vertex {
-                let index = indexData.index(at: i, bytes: indexSize)
-                return vertices[Int(index)]
+            let indexCount = indexData.count / indexSize
+            func vertex(at i: Int) throws -> Vertex {
+                let index = Int(indexData.index(at: i, bytes: indexSize))
+                return vertices[index]
             }
             switch element.primitiveType {
             case .triangles:
-                for i in 0 ..< element.primitiveCount {
-                    Polygon([
+                let triangleCount = element.primitiveCount
+                if triangleCount * 3 > indexCount {
+                    throw IOError("Triangle count \(triangleCount) * 3 exceeds index count \(indexCount)")
+                }
+                for i in 0 ..< triangleCount {
+                    try Polygon([
                         vertex(at: i * 3),
                         vertex(at: i * 3 + 1),
                         vertex(at: i * 3 + 2),
@@ -633,15 +658,19 @@ public extension Mesh {
                     }
                 }
             case .triangleStrip:
+                // TODO: fix the math here
+                if element.primitiveCount > indexCount {
+                    throw IOError("Triangle strip index \(element.primitiveCount) exceeds index count \(indexCount)")
+                }
                 for i in stride(from: 0, to: element.primitiveCount - 1, by: 2) {
-                    Polygon([
+                    try Polygon([
                         vertex(at: i),
                         vertex(at: i + 1),
                         vertex(at: i + 2),
                     ], material: material).map {
                         polygons.append($0)
                     }
-                    Polygon([
+                    try Polygon([
                         vertex(at: i + 3),
                         vertex(at: i + 2),
                         vertex(at: i + 1),
@@ -649,22 +678,26 @@ public extension Mesh {
                         polygons.append($0)
                     }
                 }
-            case let type where type.rawValue == 4: // polygon
+            case .polygon:
                 let polyCount = element.primitiveCount
+                if polyCount > indexCount {
+                    throw IOError("Polygon count \(polyCount) exceeds index count \(indexCount)")
+                }
                 var index = polyCount
                 for i in 0 ..< polyCount {
-                    let vertexCount = indexData.index(at: i, bytes: indexSize)
+                    let vertexCount = Int(indexData.index(at: i, bytes: indexSize))
+                    if index + vertexCount > indexCount {
+                        throw IOError("Polygon index \(index + vertexCount + 1) exceeds index count \(indexCount)")
+                    }
                     var vertices = [Vertex]()
                     for _ in 0 ..< vertexCount {
-                        vertices.append(vertex(at: index))
+                        try vertices.append(vertex(at: index))
                         index += 1
                     }
                     polygons += .init(vertices, material: material)
                 }
             default:
-                // TODO: throw detailed error message instead
-                print("Unsupported SCNGeometryPrimitiveType: \(element.primitiveType.rawValue)")
-                return nil
+                throw IOError("Unsupported SCNGeometryPrimitiveType: \(element.primitiveType.rawValue)")
             }
         }
         let isKnownConvex: Bool
