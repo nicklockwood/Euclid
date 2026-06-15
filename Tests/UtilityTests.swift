@@ -14,6 +14,19 @@ final class UtilityTests: XCTestCase {
         XCTAssertFalse([Vector.zero].isApproximatelyEqual(to: [.zero, .one]))
     }
 
+    func testVertexGeometryMatchesVectorGeometry() {
+        let points: [Vector] = [
+            [0, 0],
+            [1, 0],
+            [1, 1],
+            [0, 0],
+        ]
+        let vertices = points.map(Vertex.init)
+        XCTAssertEqual(vertices.vectorArea, points.vectorArea)
+        XCTAssertEqual(vertices.signedVolume, points.signedVolume)
+        XCTAssertEqual(vertices.centroid, points.centroid)
+    }
+
     // MARK: Clamped vectors
 
     func testClampedVector() {

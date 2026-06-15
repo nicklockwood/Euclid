@@ -26,6 +26,13 @@ struct VertexSet {
     mutating func insert(_ vertex: Vertex) -> Vertex {
         var vertex = vertex
         let point = vertex.position
+        if precision == 0 {
+            if let match = storage[point]?.first(where: { $0 == vertex }) {
+                return match
+            }
+            storage[point, default: []].append(vertex)
+            return vertex
+        }
         if let bucket = storage[point.hashValue(withPrecision: precision)] {
             // if exact match found, return it
             if let vertex = bucket.first(where: {
@@ -50,8 +57,8 @@ struct VertexSet {
             }
         }
         // insert into hash
-        for hashValue in point.hashValues(withPrecision: precision) {
-            storage[hashValue, default: []].append(vertex)
+        point.forEachHashValue(withPrecision: precision) {
+            storage[$0, default: []].append(vertex)
         }
         return vertex
     }
@@ -63,7 +70,7 @@ private extension Vector {
         return [round(x / precision), round(y / precision), round(z / precision)]
     }
 
-    func hashValues(withPrecision precision: Double) -> Set<Vector> {
+    func forEachHashValue(withPrecision precision: Double, _ body: (Vector) -> Void) {
         let precision = precision * 2
         let xf = floor(x / precision)
         let xc = ceil(x / precision)
@@ -71,15 +78,27 @@ private extension Vector {
         let yc = ceil(y / precision)
         let zf = floor(z / precision)
         let zc = ceil(z / precision)
-        return [
-            [xf, yf, zf],
-            [xf, yf, zc],
-            [xf, yc, zf],
-            [xf, yc, zc],
-            [xc, yf, zf],
-            [xc, yf, zc],
-            [xc, yc, zf],
-            [xc, yc, zc],
-        ]
+        body([xf, yf, zf])
+        if zc != zf {
+            body([xf, yf, zc])
+        }
+        if yc != yf {
+            body([xf, yc, zf])
+            if zc != zf {
+                body([xf, yc, zc])
+            }
+        }
+        if xc != xf {
+            body([xc, yf, zf])
+            if zc != zf {
+                body([xc, yf, zc])
+            }
+            if yc != yf {
+                body([xc, yc, zf])
+                if zc != zf {
+                    body([xc, yc, zc])
+                }
+            }
+        }
     }
 }
