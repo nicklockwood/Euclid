@@ -1267,14 +1267,14 @@ private extension Mesh {
         guard e0.count > 1 || e1.count > 1 else {
             return
         }
-        var t0 = -p0.bounds.center, t1 = -p1.bounds.center
-        var r = rotationBetweenNormalizedVectors(n1, n0)
         if e0.count == e1.count {
             for j in stride(from: 0, to: e0.count, by: 2) {
                 addFace(e0[j], e0[j + 1], e1[j + 1], e1[j])
             }
             return
         }
+        var t0 = -p0.bounds.center, t1 = -p1.bounds.center
+        var r = rotationBetweenNormalizedVectors(n1, n0)
         let fp0 = p0.flatteningPlane, fp1 = p1.flatteningPlane
         var closed0 = p0.isClosed, closed1 = p1.isClosed
         // e1 count must be > than e0, so swap everything if not
@@ -1302,23 +1302,22 @@ private extension Mesh {
 
         let sparseCount = e0.count / 2
         let denseCount = e1.count / 2
-        func sparsePosition(_ index: Int) -> Vector {
-            let vertex = index == sparseCount ? e0.last! : e0[index * 2]
-            return vertex.position.translated(by: t0)
+        let sparsePositions = stride(from: 0, to: e0.count, by: 2).map {
+            e0[$0].position.translated(by: t0)
         }
-        func densePosition(_ index: Int) -> Vector {
-            let vertex = index == denseCount ? e1.last! : e1[index * 2]
-            return vertex.position.translated(by: t1).rotated(by: r)
+        var densePositions = stride(from: 0, to: e1.count, by: 2).map {
+            e1[$0].position.translated(by: t1).rotated(by: r)
         }
+        densePositions.append(e1.last!.position.translated(by: t1).rotated(by: r))
 
         func nearestSparseIndex(to point: Vector) -> Int {
             var closestIndex = 0
             var best = Double.infinity
             for i in 0 ..< sparseCount {
-                let distance = point.distance(from: sparsePosition(i))
-                if distance < best {
+                let distanceSquared = (point - sparsePositions[i]).lengthSquared
+                if distanceSquared < best {
                     closestIndex = i
-                    best = distance
+                    best = distanceSquared
                 }
             }
             return closestIndex
@@ -1326,8 +1325,8 @@ private extension Mesh {
 
         // Map dense vertices to nearest sparse vertices, then unwrap and
         // clamp the indices so correspondence never moves backwards
-        var mapping = (0 ... denseCount).map {
-            nearestSparseIndex(to: densePosition($0))
+        var mapping = densePositions.map {
+            nearestSparseIndex(to: $0)
         }
         if closed0, closed1 {
             let start = mapping[0]
