@@ -133,8 +133,8 @@ extension Array: ApproximateEquality where Element: ApproximateEquality {
     static var absoluteTolerance: Double { Element.absoluteTolerance }
 
     func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
-        zip(self, other).reduce(true) { result, pair in
-            result && pair.0.isApproximatelyEqual(to: pair.1, absoluteTolerance: absoluteTolerance)
+        count == other.count && zip(self, other).allSatisfy {
+            $0.isApproximatelyEqual(to: $1, absoluteTolerance: absoluteTolerance)
         }
     }
 }

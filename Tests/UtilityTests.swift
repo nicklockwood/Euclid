@@ -10,6 +10,10 @@
 import XCTest
 
 final class UtilityTests: XCTestCase {
+    func testArrayApproximateEqualityRequiresEqualCounts() {
+        XCTAssertFalse([Vector.zero].isApproximatelyEqual(to: [.zero, .one]))
+    }
+
     // MARK: Clamped vectors
 
     func testClampedVector() {
