@@ -585,50 +585,40 @@ public extension Mesh {
         // Force properties to update
         let scnGeometry = scnGeometry.copy() as! SCNGeometry
 
-        if #available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *),
-           scnGeometry.geometrySourceChannels?.count ?? 0 > 0
-        {
-            throw IOError("SCNGeometrySource channels are not supported")
-        }
-
         var polygons = [Polygon]()
-        var vertices = [Vertex]()
-        for source in scnGeometry.sources {
-            let count = source.vectorCount
-            if vertices.isEmpty {
-                vertices = Array(repeating: Vertex(.zero), count: count)
-            } else if vertices.count != count {
-                throw IOError("Mismatched element counts in SCNGeometry")
+        let sources = scnGeometry.sources
+        let sourceChannels: [Int]
+        if #available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *) {
+            sourceChannels = scnGeometry.geometrySourceChannels?.map(\.intValue) ??
+                Array(repeating: 0, count: sources.count)
+        } else {
+            sourceChannels = Array(repeating: 0, count: sources.count)
+        }
+        if sourceChannels.count != sources.count {
+            throw IOError("Mismatched source and source-channel counts in SCNGeometry")
+        }
+        let supportedSources = zip(sources, sourceChannels).filter {
+            [.vertex, .normal, .color, .texcoord].contains($0.0.semantic)
+        }
+        func apply(_ source: SCNGeometrySource, at index: Int, to vertex: inout Vertex) throws {
+            guard index >= 0, index < source.vectorCount else {
+                throw IOError("SCNGeometry source index \(index) exceeds vector count \(source.vectorCount)")
             }
-            var offset = source.dataOffset
-            let stride = source.dataStride
-            let data = source.data
+            let offset = source.dataOffset + index * source.dataStride
             switch source.semantic {
             case .vertex:
-                for i in 0 ..< count {
-                    vertices[i].position = data.vector(at: offset)
-                    offset += stride
-                }
+                vertex.position = source.data.vector(at: offset)
             case .normal:
-                for i in 0 ..< count {
-                    vertices[i].normal = data.vector(at: offset)
-                    offset += stride
-                }
+                vertex.normal = source.data.vector(at: offset)
             case .color:
-                for i in 0 ..< count {
-                    vertices[i].color = data.color(at: offset).toSRGB()
-                    offset += stride
-                }
+                vertex.color = source.data.color(at: offset).toSRGB()
             case .texcoord:
-                for i in 0 ..< count {
-                    vertices[i].texcoord = [
-                        data.float(at: offset),
-                        data.float(at: offset + 4),
-                    ]
-                    offset += stride
-                }
+                vertex.texcoord = [
+                    source.data.float(at: offset),
+                    source.data.float(at: offset + 4),
+                ]
             default:
-                continue
+                break
             }
         }
         let materialLookup = materialLookup ?? { $0 as Material }
@@ -638,42 +628,75 @@ public extension Mesh {
             let indexData = element.data
             let indexSize = element.bytesPerIndex
             let indexCount = indexData.count / indexSize
-            func vertex(at i: Int) throws -> Vertex {
-                let index = Int(indexData.index(at: i, bytes: indexSize))
-                return vertices[index]
+            let channelCount: Int
+            let channelsAreInterleaved: Bool
+            if #available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *) {
+                channelCount = element.indicesChannelCount
+                channelsAreInterleaved = element.hasInterleavedIndicesChannels
+            } else {
+                channelCount = 1
+                channelsAreInterleaved = false
+            }
+            guard channelCount > 0 else {
+                throw IOError("SCNGeometry element has no index channels")
+            }
+            func sourceIndex(at i: Int, channel: Int, channelIndexCount: Int, offset: Int = 0) throws -> Int {
+                guard channel >= 0, channel < channelCount else {
+                    throw IOError("SCNGeometry source channel \(channel) exceeds channel count \(channelCount)")
+                }
+                let index = offset + (channelsAreInterleaved ?
+                    i * channelCount + channel :
+                    channel * channelIndexCount + i)
+                guard index >= 0, index < indexCount else {
+                    throw IOError("SCNGeometry element index \(index) exceeds index count \(indexCount)")
+                }
+                return Int(indexData.index(at: index, bytes: indexSize))
+            }
+            func vertex(at i: Int, channelIndexCount: Int, offset: Int = 0) throws -> Vertex {
+                var vertex = Vertex(.zero)
+                for (source, channel) in supportedSources {
+                    try apply(
+                        source,
+                        at: sourceIndex(at: i, channel: channel, channelIndexCount: channelIndexCount, offset: offset),
+                        to: &vertex
+                    )
+                }
+                return vertex
             }
             switch element.primitiveType {
             case .triangles:
                 let triangleCount = element.primitiveCount
-                if triangleCount * 3 > indexCount {
-                    throw IOError("Triangle count \(triangleCount) * 3 exceeds index count \(indexCount)")
+                let channelIndexCount = triangleCount * 3
+                if channelIndexCount * channelCount > indexCount {
+                    throw IOError("Triangle index count exceeds SCNGeometry element index count")
                 }
                 for i in 0 ..< triangleCount {
                     try Polygon([
-                        vertex(at: i * 3),
-                        vertex(at: i * 3 + 1),
-                        vertex(at: i * 3 + 2),
+                        vertex(at: i * 3, channelIndexCount: channelIndexCount),
+                        vertex(at: i * 3 + 1, channelIndexCount: channelIndexCount),
+                        vertex(at: i * 3 + 2, channelIndexCount: channelIndexCount),
                     ], material: material).map {
                         polygons.append($0)
                     }
                 }
             case .triangleStrip:
                 // TODO: fix the math here
-                if element.primitiveCount > indexCount {
-                    throw IOError("Triangle strip index \(element.primitiveCount) exceeds index count \(indexCount)")
+                let channelIndexCount = element.primitiveCount + 2
+                if channelIndexCount * channelCount > indexCount {
+                    throw IOError("Triangle strip index count exceeds SCNGeometry element index count")
                 }
                 for i in stride(from: 0, to: element.primitiveCount - 1, by: 2) {
                     try Polygon([
-                        vertex(at: i),
-                        vertex(at: i + 1),
-                        vertex(at: i + 2),
+                        vertex(at: i, channelIndexCount: channelIndexCount),
+                        vertex(at: i + 1, channelIndexCount: channelIndexCount),
+                        vertex(at: i + 2, channelIndexCount: channelIndexCount),
                     ], material: material).map {
                         polygons.append($0)
                     }
                     try Polygon([
-                        vertex(at: i + 3),
-                        vertex(at: i + 2),
-                        vertex(at: i + 1),
+                        vertex(at: i + 3, channelIndexCount: channelIndexCount),
+                        vertex(at: i + 2, channelIndexCount: channelIndexCount),
+                        vertex(at: i + 1, channelIndexCount: channelIndexCount),
                     ], material: material).map {
                         polygons.append($0)
                     }
@@ -683,15 +706,22 @@ public extension Mesh {
                 if polyCount > indexCount {
                     throw IOError("Polygon count \(polyCount) exceeds index count \(indexCount)")
                 }
-                var index = polyCount
+                let channelIndexCount = (0 ..< polyCount).reduce(0) {
+                    $0 + Int(indexData.index(at: $1, bytes: indexSize))
+                }
+                if polyCount + channelIndexCount * channelCount > indexCount {
+                    throw IOError("Polygon indices exceed SCNGeometry element index count")
+                }
+                var index = 0
                 for i in 0 ..< polyCount {
                     let vertexCount = Int(indexData.index(at: i, bytes: indexSize))
-                    if index + vertexCount > indexCount {
-                        throw IOError("Polygon index \(index + vertexCount + 1) exceeds index count \(indexCount)")
-                    }
                     var vertices = [Vertex]()
                     for _ in 0 ..< vertexCount {
-                        try vertices.append(vertex(at: index))
+                        try vertices.append(vertex(
+                            at: index,
+                            channelIndexCount: channelIndexCount,
+                            offset: polyCount
+                        ))
                         index += 1
                     }
                     polygons += .init(vertices, material: material)

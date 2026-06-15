@@ -58,6 +58,52 @@ final class SceneKitTests: XCTestCase {
         }
     }
 
+    @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
+    func testImportGeometrySourceChannels() throws {
+        let positions = SCNGeometrySource(vertices: [
+            SCNVector3(0, 0, 0),
+            SCNVector3(1, 0, 0),
+            SCNVector3(0, 1, 0),
+        ])
+        let texcoords = SCNGeometrySource(textureCoordinates: [
+            CGPoint(x: 9, y: 9),
+            CGPoint(x: 0, y: 0),
+            CGPoint(x: 1, y: 0),
+            CGPoint(x: 0, y: 1),
+        ])
+        func check(
+            _ indices: [UInt16],
+            primitiveType: SCNGeometryPrimitiveType,
+            interleaved: Bool
+        ) throws {
+            let data = indices.withUnsafeBytes { Data($0) }
+            let element = SCNGeometryElement(
+                data: data,
+                primitiveType: primitiveType,
+                primitiveCount: 1,
+                indicesChannelCount: 2,
+                interleavedIndicesChannels: interleaved,
+                bytesPerIndex: MemoryLayout<UInt16>.size
+            )
+            let geometry = SCNGeometry(
+                sources: [positions, texcoords],
+                elements: [element],
+                sourceChannels: [0, 1]
+            )
+            let polygon = try XCTUnwrap(Mesh(geometry)?.polygons.first)
+            XCTAssertEqual(polygon.vertices.map(\.position), [
+                [0, 0, 0], [1, 0, 0], [0, 1, 0],
+            ])
+            XCTAssertEqual(polygon.vertices.map(\.texcoord), [
+                [0, 1, 0], [1, 0, 0], [0, 0, 0],
+            ])
+        }
+        try check([0, 3, 1, 2, 2, 1], primitiveType: .triangles, interleaved: true)
+        try check([0, 1, 2, 3, 2, 1], primitiveType: .triangles, interleaved: false)
+        try check([3, 0, 3, 1, 2, 2, 1], primitiveType: .polygon, interleaved: true)
+        try check([3, 0, 1, 2, 3, 2, 1], primitiveType: .polygon, interleaved: false)
+    }
+
     func testSCNBoxIsWatertight() throws {
         for s in [0.01, 0.1, 0.2, 0.8, 1, 10] as [CGFloat] {
             let cube = SCNBox(width: s, height: s, length: s, chamferRadius: 0)
