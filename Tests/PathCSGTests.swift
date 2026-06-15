@@ -90,4 +90,18 @@ final class PathCSGTests: XCTestCase {
         XCTAssertEqual(b.back, a)
         XCTAssert(b.front.isEmpty)
     }
+
+    // MARK: Mesh clipping
+
+    func testPathClippedToMeshReturnsRejectedFragments() {
+        let path = Path.line([-1, 0, 0], [1, 0, 0])
+        let bsp = BSP(Mesh.cube()) { false }
+        var rejected: [Path]? = []
+        let kept = bsp.clip(path, .greaterThan, &rejected) { false }
+        XCTAssertEqual(Set(kept), Set([
+            .line([-1, 0, 0], [-0.5, 0, 0]),
+            .line([0.5, 0, 0], [1, 0, 0]),
+        ]))
+        XCTAssertEqual(Path(subpaths: rejected ?? []), .line([-0.5, 0, 0], [0.5, 0, 0]))
+    }
 }

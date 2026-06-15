@@ -437,7 +437,9 @@ private extension BSP {
         out = rejects
         return total
     }
+}
 
+extension BSP {
     func clip(
         _ path: Path,
         _ keeping: ClipRule,
@@ -474,7 +476,7 @@ private extension BSP {
                 } else if !keepFront {
                     total.append(contentsOf: back)
                 } else {
-                    out?.append(contentsOf: front)
+                    out?.append(contentsOf: back)
                 }
             }
         }
