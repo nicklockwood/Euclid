@@ -283,6 +283,47 @@ final class MeshLoftTests: XCTestCase {
         XCTAssertTrue(loft.isActuallyConvex)
     }
 
+    func testLoftBetweenDifferentPolygonVertexCounts() {
+        for lowerSides in 3 ... 8 {
+            for upperSides in 3 ... 12 where lowerSides != upperSides {
+                let shapes = [
+                    Path.polygon(radius: 0.5, sides: lowerSides),
+                    Path.polygon(radius: 0.75, sides: upperSides)
+                        .rotated(by: .roll(.pi / Double(upperSides)))
+                        .translated(by: [0, 0, 1]),
+                ]
+
+                let loft = Mesh.loft(shapes)
+                XCTAssertTrue(
+                    loft.polygons.areWatertight,
+                    "\(lowerSides)-sided to \(upperSides)-sided loft is not watertight"
+                )
+                XCTAssertTrue(
+                    loft.isActuallyConvex,
+                    "\(lowerSides)-sided to \(upperSides)-sided loft is not convex"
+                )
+            }
+        }
+    }
+
+    func testLoftBetweenIrregularDifferentVertexCounts() {
+        let angles = [0.0, 0.05, 0.1, 1.5, 3.0, 4.5]
+        var points = angles.map {
+            PathPoint.point(cos($0), sin($0), 1)
+        }
+        points.append(points[0])
+        let shapes = [
+            Path.square(),
+            Path(points),
+        ]
+
+        for shapes in [shapes, shapes.reversed()] {
+            let loft = Mesh.loft(shapes)
+            XCTAssertTrue(loft.polygons.areWatertight)
+            XCTAssertTrue(loft.isActuallyConvex)
+        }
+    }
+
     func testLoftCircleToClosedPath() {
         let shapes = [
             Path.circle(),
@@ -440,7 +481,7 @@ final class MeshLoftTests: XCTestCase {
         let loft = Mesh.loft(shapes)
         XCTAssert(loft.isWatertight)
         XCTAssert(loft.polygons.areWatertight)
-        XCTAssertEqual(loft.polygons.count, 5)
+        XCTAssertEqual(loft.polygons.count, 6)
     }
 
     func testLoftLineToSquare() {
