@@ -39,11 +39,16 @@ import Foundation
 /// be computed automatically.
 public struct PathPoint: Hashable, Sendable {
     /// The position  of the path point.
-    public var position: Vector
+    public var position: Vector {
+        didSet { position = position._quantized() }
+    }
+
     /// The texture coordinate of the path point (optional). If omitted, will be inferred automatically.
     public var texcoord: Vector?
+
     /// The color of the path point (optional).
     public var color: Color?
+
     /// A Boolean indicating whether the point is curved or sharp.
     public var isCurved: Bool
 }
