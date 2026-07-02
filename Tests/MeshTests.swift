@@ -295,6 +295,40 @@ final class MeshTests: XCTestCase {
         #endif
     }
 
+    func testMakeWatertightCapUsesSurroundingMaterial() throws {
+        let red = Color(1, 0, 0)
+        let blue = Color(0, 0, 1)
+        let mesh = Mesh(openBoxPolygons(topMaterials: [red, red, blue, red]))
+
+        let watertight = mesh.makeWatertight()
+        let cap = try XCTUnwrap(watertight.polygons.first(where: { polygon in
+            polygon.vertices.allSatisfy { $0.position.z == 1 }
+        }))
+
+        XCTAssertTrue(watertight.isWatertight)
+        XCTAssertEqual(cap.material, red)
+    }
+
+    func testMakeWatertightCapUsesInterpolatedNormalsAndTexcoords() throws {
+        let red = Color(1, 0, 0)
+        let mesh = Mesh(openBoxPolygons(topMaterials: [red, red, red, red]))
+
+        let watertight = mesh.makeWatertight()
+        let cap = try XCTUnwrap(watertight.polygons.first(where: { polygon in
+            polygon.vertices.allSatisfy { $0.position.z == 1 }
+        }))
+
+        XCTAssertTrue(watertight.isWatertight)
+        XCTAssertFalse(cap.hasVertexNormals)
+        XCTAssertTrue(cap.hasTexcoords)
+        for vertex in cap.vertices {
+            XCTAssert(vertex.normal.isApproximatelyEqual(to: cap.plane.normal))
+            XCTAssert((0 ... 1).contains(vertex.texcoord.x))
+            XCTAssert((0 ... 1).contains(vertex.texcoord.y))
+        }
+        XCTAssertGreaterThan(Set(cap.vertices.map(\.texcoord)).count, 1)
+    }
+
     // MARK: plane intersection
 
     func testCubePlaneIntersection() {
@@ -574,5 +608,42 @@ final class MeshTests: XCTestCase {
 
         XCTAssertEqual(reflection.plane.normal, -.unitY)
         XCTAssertEqual(reflection.vertices, expected.vertices)
+    }
+}
+
+private extension MeshTests {
+    func openBoxPolygons(topMaterials: [Mesh.Material?]) -> [Euclid.Polygon] {
+        precondition(topMaterials.count == 4)
+        let bottom = Polygon(unchecked: [
+            [-1, -1, -1],
+            [-1, 1, -1],
+            [1, 1, -1],
+            [1, -1, -1],
+        ])
+        let front = Polygon([
+            [-1, -1, -1],
+            [1, -1, -1],
+            [1, -1, 1],
+            [-1, -1, 1],
+        ], material: topMaterials[0])!
+        let right = Polygon([
+            [1, -1, -1],
+            [1, 1, -1],
+            [1, 1, 1],
+            [1, -1, 1],
+        ], material: topMaterials[1])!
+        let back = Polygon([
+            [1, 1, -1],
+            [-1, 1, -1],
+            [-1, 1, 1],
+            [1, 1, 1],
+        ], material: topMaterials[2])!
+        let left = Polygon([
+            [-1, 1, -1],
+            [-1, -1, -1],
+            [-1, -1, 1],
+            [-1, 1, 1],
+        ], material: topMaterials[3])!
+        return [bottom, front, right, back, left]
     }
 }
