@@ -146,7 +146,7 @@ extension Transform {
 }
 
 extension Path {
-    static var compoundPath: Path = .init(subpaths: [
+    static let compoundPath: Path = .init(subpaths: [
         Path([
             .point(0, 0),
             .point(2, 0),
@@ -163,7 +163,7 @@ extension Path {
         ]),
     ])
 
-    static var qrCodeLikeCompoundPath: Path {
+    static let qrCodeLikeCompoundPath: Path = {
         func rectangle(
             _ x: Double,
             _ y: Double,
@@ -229,5 +229,5 @@ extension Path {
             rectangle(176, 176, 8, 8),
             rectangle(192, 192, 8, 8),
         ])
-    }
+    }()
 }

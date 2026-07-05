@@ -30,7 +30,7 @@
 //
 
 /// The relationship between a point or shape and a plane.
-public enum PlaneComparison: Int {
+public enum PlaneComparison: Int, Sendable {
     /// All points in the shape lie on the plane.
     case coplanar = 0
     /// All points in the shape lie in front of the plane.

@@ -34,7 +34,7 @@
 public extension Mesh {
     /// Callback used to cancel a long-running operation.
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
-    typealias CancellationHandler = () -> Bool
+    typealias CancellationHandler = @Sendable () -> Bool
 
     /// Returns a new mesh representing the combined volume of the
     /// mesh parameter and the receiver, with inner faces removed.
@@ -68,7 +68,7 @@ public extension Mesh {
                 }
             )
         }
-        var lhs: [Polygon] = [], rhs: [Polygon] = []
+        nonisolated(unsafe) var lhs: [Polygon] = [], rhs: [Polygon] = []
         inParallel({
             var aout: [Polygon] = []
             let ap = BSP(mesh, isCancelled).clip(
@@ -129,7 +129,7 @@ public extension Mesh {
         guard !intersection.isEmpty else {
             return self
         }
-        var lhs: [Polygon] = [], rhs: [Polygon] = []
+        nonisolated(unsafe) var lhs: [Polygon] = [], rhs: [Polygon] = []
         inParallel({
             var aout: [Polygon] = []
             let ap = BSP(mesh, isCancelled).clip(
@@ -189,13 +189,13 @@ public extension Mesh {
         guard !intersection.isEmpty else {
             return merge(mesh)
         }
-        var absp, bbsp: BSP!
+        nonisolated(unsafe) var absp, bbsp: BSP!
         inParallel({
             absp = BSP(self, isCancelled)
         }, {
             bbsp = BSP(mesh, isCancelled)
         })
-        var lhs: [Polygon] = [], rhs: [Polygon] = []
+        nonisolated(unsafe) var lhs: [Polygon] = [], rhs: [Polygon] = []
         inParallel({
             var aout: [Polygon] = []
             let ap = boundsTest(intersection, polygons, &aout)
@@ -251,7 +251,7 @@ public extension Mesh {
         guard !intersection.isEmpty else {
             return .empty
         }
-        var lhs: [Polygon] = [], rhs: [Polygon] = []
+        nonisolated(unsafe) var lhs: [Polygon] = [], rhs: [Polygon] = []
         inParallel({
             lhs = BSP(mesh, isCancelled).clip(
                 boundsTest(intersection, polygons),
@@ -1137,7 +1137,7 @@ private extension Polygon {
 
 import Dispatch
 
-private func inParallel(_ op1: () -> Void, _ op2: () -> Void) {
+private func inParallel(_ op1: @Sendable () -> Void, _ op2: @Sendable () -> Void) {
     DispatchQueue.concurrentPerform(iterations: 2) { index in
         switch index {
         case 0: op1()
@@ -1148,7 +1148,7 @@ private func inParallel(_ op1: () -> Void, _ op2: () -> Void) {
 
 #else
 
-private func inParallel(_ op1: () -> Void, _ op2: () -> Void) {
+private func inParallel(_ op1: @Sendable () -> Void, _ op2: @Sendable () -> Void) {
     op1()
     op2()
 }

@@ -38,7 +38,7 @@ public extension Mesh {
     typealias Alignment = Path.Alignment
 
     /// The face generation policy for Euclid to use when creating a mesh.
-    enum Faces {
+    enum Faces: Sendable {
         /// The default face generation behavior. Context-dependent.
         case `default`
         /// Generate front faces.
@@ -50,7 +50,7 @@ public extension Mesh {
     }
 
     /// The texture wrapping mode to use when generating a mesh.
-    enum WrapMode {
+    enum WrapMode: Sendable {
         /// The default wrap behavior. Context-dependent.
         case `default`
         /// Texture is shrink-wrapped.
@@ -557,14 +557,15 @@ public extension Mesh {
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        .union(build(shapes, using: {
+        let material = SendableMaterial(material)
+        return .union(build(shapes, using: {
             extrude(
                 $0,
                 depth: depth,
                 twist: twist,
                 sections: sections,
                 faces: faces,
-                material: material,
+                material: material.value,
                 isCancelled: isCancelled
             )
         }, isCancelled: isCancelled), isCancelled: isCancelled)
@@ -590,6 +591,7 @@ public extension Mesh {
     ) -> Mesh {
         let subpaths = along.subpaths
         guard subpaths.count == 1 else {
+            let material = SendableMaterial(material)
             return .merge(build(subpaths, using: {
                 extrude(
                     shape,
@@ -597,7 +599,7 @@ public extension Mesh {
                     twist: twist,
                     align: align,
                     faces: faces,
-                    material: material,
+                    material: material.value,
                     isCancelled: isCancelled
                 )
             }, isCancelled: isCancelled))
@@ -697,8 +699,9 @@ public extension Mesh {
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        .union(build(shapes, using: {
-            fill($0, faces: faces, material: material, isCancelled: isCancelled)
+        let material = SendableMaterial(material)
+        return .union(build(shapes, using: {
+            fill($0, faces: faces, material: material.value, isCancelled: isCancelled)
         }, isCancelled: isCancelled), isCancelled: isCancelled)
     }
 
@@ -748,12 +751,13 @@ public extension Mesh {
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        .union(build(shapes, using: {
+        let material = SendableMaterial(material)
+        return .union(build(shapes, using: {
             stroke(
                 $0,
                 width: width,
                 detail: detail,
-                material: material,
+                material: material.value,
                 isCancelled: isCancelled
             )
         }, isCancelled: isCancelled), isCancelled: isCancelled)
@@ -1742,7 +1746,7 @@ private extension Mesh {
 
     static func build(
         _ shapes: some Collection<Path>,
-        using fn: (Path) -> Mesh,
+        using fn: @Sendable (Path) -> Mesh,
         isCancelled: CancellationHandler
     ) -> [Mesh] {
         var uniquePaths = [Path]()
@@ -1760,6 +1764,14 @@ private extension Mesh {
         return isCancelled() ? [] : indexesAndOffsets.map { index, offset in
             meshes[index].translated(by: offset)
         }
+    }
+}
+
+private struct SendableMaterial: @unchecked Sendable {
+    let value: Mesh.Material?
+
+    init(_ value: Mesh.Material?) {
+        self.value = value
     }
 }
 

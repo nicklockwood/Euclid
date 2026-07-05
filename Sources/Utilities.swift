@@ -826,10 +826,10 @@ import Dispatch
 private let minBatchCount = 2
 private let cpuCores = ProcessInfo.processInfo.activeProcessorCount
 
-func batch<T, U>(
+func batch<T: Sendable, U>(
     _ elements: [T],
     stride minBatchSize: Int,
-    fn: ([T]) -> [U]
+    fn: @Sendable ([T]) -> [U]
 ) -> [U] {
     let batchCount = min(max(elements.count / minBatchSize, 1), cpuCores * 3, 24)
     let batchSize = Int(ceil(Double(elements.count) / Double(batchCount)))
@@ -842,6 +842,7 @@ func batch<T, U>(
     let parts = stride(from: 0, to: elements.count, by: batchSize).map {
         Array(elements[$0 ..< min($0 + batchSize, elements.count)])
     }
+    nonisolated(unsafe)
     var a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x: [U]?
     DispatchQueue.concurrentPerform(iterations: parts.count) { index in
         let result = fn(parts[index])

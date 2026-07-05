@@ -36,7 +36,7 @@ import Metal
 import RealityKit
 
 @available(macOS 10.15, iOS 13.0, tvOS 26.0, *)
-private final class MaterialWrapper: NSObject {
+private final class MaterialWrapper: NSObject, @unchecked Sendable {
     let material: RealityKit.Material
 
     init(_ material: Material) {
@@ -59,6 +59,7 @@ public extension RealityKit.Transform {
     }
 }
 
+@MainActor
 @available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
 private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.Material? {
     switch material {
@@ -181,12 +182,13 @@ public extension MeshDescriptor {
     }
 }
 
+@MainActor
 @available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
 public extension ModelEntity {
     /// A closure that maps a Euclid material to a RealityKit material.
     /// - Parameter material: A Euclid material to convert, or `nil` for the default material.
     /// - Returns: A `Material` used by RealityKit.
-    typealias MaterialProvider = (_ material: Polygon.Material?) -> RealityKit.Material?
+    typealias MaterialProvider = @MainActor (_ material: Polygon.Material?) -> RealityKit.Material?
 
     /// Creates a model entity from a ``Mesh`` using the default tessellation method.
     /// - Parameters:
@@ -228,6 +230,7 @@ public extension ModelEntity {
 }
 
 private extension Mesh {
+    @MainActor
     @available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
     func materials(for materialLookup: ModelEntity.MaterialProvider?) -> [RealityKit.Material] {
         let materialLookup = materialLookup ?? defaultMaterialLookup
@@ -376,7 +379,7 @@ public extension Mesh {
     /// A closure that converts a RealityKit material to a Euclid material.
     /// - Parameter material: A RealityKit material to convert.
     /// - Returns: A Euclid `Material`.
-    typealias RealityKitMaterialProvider = (_ material: RealityKit.Material) -> Polygon.Material?
+    typealias RealityKitMaterialProvider = @MainActor (_ material: RealityKit.Material) -> Polygon.Material?
 
     /// Creates a mesh from a RealityKit `MeshDescriptor` with optional material.
     /// - Parameters:
@@ -426,6 +429,7 @@ public extension Mesh {
     /// - Parameters:
     ///   - meshResource: The `MeshResource` to convert into a mesh.
     ///   - materials: An array of materials to apply to the mesh.
+    @MainActor
     init(_ meshResource: MeshResource, materials: [Polygon.Material?] = []) {
         var models = [String: Mesh]()
         self.init(submeshes: meshResource.contents.instances.compactMap {
@@ -465,6 +469,7 @@ public extension Mesh {
     /// - Parameters:
     ///   - modelEntity: The `ModelEntity` to convert into a mesh.
     ///   - materialLookup: An optional closure to map the RealityKit materials to Euclid materials.
+    @MainActor
     init(_ modelEntity: ModelEntity, materialLookup: RealityKitMaterialProvider? = nil) {
         guard let model = modelEntity.model else {
             self = .empty
@@ -478,6 +483,7 @@ public extension Mesh {
     /// - Parameters:
     ///   - component: The `ModelComponent` to convert into a mesh.
     ///   - materialLookup: An optional closure to map the RealityKit materials to Euclid materials.
+    @MainActor
     init(_ component: ModelComponent, materialLookup: RealityKitMaterialProvider? = nil) {
         let materialLookup = materialLookup ?? {
             switch $0 {

@@ -32,7 +32,7 @@ public extension Mesh {
     ///   - url: The `URL` of the file to be loaded.
     ///   - materialLookup: A closure to map format-specific materials to Euclid materials. Use `nil` for default
     ///     mapping.
-    init(url: URL, materialLookup: ((AnyHashable?) -> Material?)? = nil) throws {
+    init(url: URL, materialLookup: (@Sendable (AnyHashable?) -> Material?)? = nil) throws {
         switch url.pathExtension.lowercased() {
         case "stl", "stla":
             let data = try Data(contentsOf: url)
@@ -84,10 +84,12 @@ public extension Mesh {
     ///   - url: The `URL` of the file to be written.
     ///   - materialLookup: A closure to map Euclid materials to format-appropriate materials. Use `nil` for default
     ///     mapping.
-    func write(to url: URL, materialLookup: ((Material?) -> AnyHashable?)? = nil) throws {
+    func write(to url: URL, materialLookup: (@Sendable (Material?) -> AnyHashable?)? = nil) throws {
         switch url.pathExtension.lowercased() {
         case "stl":
-            let colorLookup = materialLookup.map { lookup in { defaultColorMapping(lookup($0)) } }
+            let colorLookup = materialLookup.map { lookup in
+                { @Sendable in defaultColorMapping(lookup($0)) }
+            }
             let data = stlData(colorLookup: colorLookup)
             try data.write(to: url, options: .atomic)
         case "stla":

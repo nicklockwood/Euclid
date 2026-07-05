@@ -85,7 +85,7 @@ final class MeshTests: XCTestCase {
             { Mesh.cylinder(slices: 256, isCancelled: $0) },
             { Mesh.sphere(slices: 256, isCancelled: $0) },
         ] {
-            var checks = 0
+            nonisolated(unsafe) var checks = 0
             let mesh = build {
                 checks += 1
                 return checks > 3
@@ -102,7 +102,7 @@ final class MeshTests: XCTestCase {
             { Mesh.cylinder(slices: 20_000_000, isCancelled: $0) },
             { Mesh.sphere(slices: 20_000_000, isCancelled: $0) },
         ] {
-            var checks = 0
+            nonisolated(unsafe) var checks = 0
             let mesh = build {
                 checks += 1
                 return true
@@ -113,7 +113,7 @@ final class MeshTests: XCTestCase {
     }
 
     func testHighDetailSphereGenerationCanBeCancelledWhileBuildingProfile() {
-        var checks = 0
+        nonisolated(unsafe) var checks = 0
         let mesh = Mesh.sphere(slices: 20_000_000) {
             checks += 1
             return checks > 2

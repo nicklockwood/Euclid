@@ -9,7 +9,7 @@
 public extension Polygon {
     /// Callback used to cancel a long-running operation.
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
-    typealias CancellationHandler = () -> Bool
+    typealias CancellationHandler = @Sendable () -> Bool
 
     /// Split the polygon along a plane.
     /// - Parameter plane: The ``Plane`` to split the polygon along.

@@ -88,6 +88,7 @@ final class RealityKitTests: XCTestCase {
         }
     }
 
+    @MainActor
     func testConvertToFromModelEntity() throws {
         let cube = Mesh.cube(size: 1).triangulate()
         let modelEntity = try ModelEntity(cube)

@@ -37,7 +37,7 @@ struct BSP {
 }
 
 extension BSP {
-    typealias CancellationHandler = () -> Bool
+    typealias CancellationHandler = @Sendable () -> Bool
 
     enum ClipRule {
         case greaterThan

@@ -487,7 +487,7 @@ final class MeshCSGTests: XCTestCase {
                 Double(i) / 1_000
             )
         }
-        var checks = 0
+        nonisolated(unsafe) var checks = 0
         let mesh = Mesh.convexHull(of: points) {
             checks += 1
             return checks > 1

@@ -210,7 +210,7 @@ final class PathShapeTests: XCTestCase {
     }
 
     func testHighDetailArcCanBeCancelled() {
-        var checks = 0
+        nonisolated(unsafe) var checks = 0
         let path = Path.arc(segments: 20_000_000) {
             checks += 1
             return checks > 2

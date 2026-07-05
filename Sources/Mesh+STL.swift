@@ -14,7 +14,7 @@ private let triangleSize = 50
 // MARK: Export
 
 /// Configuration options for text/ASCII STL export.
-public struct STLTextOptions {
+public struct STLTextOptions: Sendable {
     /// The name to be embedded in the file.
     public var name: String
     /// A whitespace string to use as the indent value.
@@ -34,7 +34,7 @@ public struct STLTextOptions {
 }
 
 /// Configuration options for binary STL export.
-public struct STLBinaryOptions {
+public struct STLBinaryOptions: Sendable {
     /// Data to use for file header.
     /// Note: data will be padded to 80 bytes. If more than 80 bytes are provided, data will be truncated.
     public var header: Data
@@ -55,7 +55,7 @@ public struct STLBinaryOptions {
 }
 
 /// Configuration for exported STL file.
-public enum STLFormat {
+public enum STLFormat: Sendable {
     /// Export in ASCII format.
     case text(STLTextOptions)
     /// Export in binary format.
@@ -80,7 +80,7 @@ public extension Mesh {
     /// A closure that maps a Euclid material to an STL facet color.
     /// - Parameter m: A Euclid material to convert, or `nil` for the default material.
     /// - Returns: A Euclid `Color` value.
-    typealias STLColorProvider = (_ m: Material?) -> Color?
+    typealias STLColorProvider = @Sendable (_ m: Material?) -> Color?
 
     /// Return binary STL data for the mesh.
     /// - Parameter colorLookup: A closure to map Euclid materials to STL facet colors. Use `nil` for default mapping.
@@ -176,6 +176,7 @@ import UIKit
 import SceneKit
 #endif
 
+@Sendable
 func defaultColorMapping(_ material: Polygon.Material?) -> Color? {
     if let color = material as? Color {
         return color
@@ -211,7 +212,7 @@ public extension Mesh {
     /// A closure that maps an STL facet color to a Euclid material.
     /// - Parameter c: A Euclid `Color` to convert, or `nil` for the default color.
     /// - Returns: A Euclid `Material` value, or `nil` for the default material.
-    typealias STLMaterialProvider = (_ c: Color?) -> Material?
+    typealias STLMaterialProvider = @Sendable (_ c: Color?) -> Material?
 
     /// Create a mesh from STL data.
     /// - Parameters:

@@ -9,7 +9,7 @@
 public extension Path {
     /// Callback used to cancel a long-running operation.
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
-    typealias CancellationHandler = () -> Bool
+    typealias CancellationHandler = @Sendable () -> Bool
 
     /// Split the path along a plane.
     /// - Parameter plane: The ``Plane`` to split the path along.

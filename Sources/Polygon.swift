@@ -144,7 +144,7 @@ public extension Polygon {
     typealias Material = AnyHashable
 
     /// Supported `NSSecureCodable` Material base classes.
-    static var codableClasses: [AnyClass] = {
+    nonisolated(unsafe) static var codableClasses: [AnyClass] = {
         #if canImport(AppKit) || canImport(UIKit)
         return [OSImage.self, OSColor.self] + scnMaterialTypes
         #else

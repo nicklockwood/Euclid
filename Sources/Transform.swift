@@ -33,7 +33,7 @@
 ///
 /// Working with intermediate transform objects instead of directly updating the vertex positions of a mesh
 /// is more efficient and avoids a buildup of rounding errors.
-public struct Transform: Hashable {
+public struct Transform: Hashable, Sendable {
     /// The size or scale component of the transform.
     public var scale: Vector {
         didSet { scale = scale.clampedToScaleLimit() }

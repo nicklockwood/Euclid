@@ -377,7 +377,7 @@ public extension Path {
     }
 
     /// Alignment mode to use when extruding along a path.
-    enum Alignment {
+    enum Alignment: Sendable {
         /// Use default alignment heuristic for the given path.
         case `default`
         /// Align extruded cross-sections to the tangent of the path curve.

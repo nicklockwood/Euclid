@@ -9,7 +9,7 @@
 public extension LineSegment {
     /// Callback used to cancel a long-running operation.
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
-    typealias CancellationHandler = () -> Bool
+    typealias CancellationHandler = @Sendable () -> Bool
 
     /// Split the line segment along a plane.
     /// - Parameter plane: The ``Plane`` to split the line segment along.
@@ -54,7 +54,7 @@ public extension LineSegment {
 public extension Collection<LineSegment> {
     /// Callback used to cancel a long-running operation.
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
-    typealias CancellationHandler = () -> Bool
+    typealias CancellationHandler = @Sendable () -> Bool
 
     /// Split the line segments along a plane.
     /// - Parameter plane: The ``Plane`` to split the line segments along.
