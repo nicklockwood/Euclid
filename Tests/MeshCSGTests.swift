@@ -281,6 +281,21 @@ final class MeshCSGTests: XCTestCase {
         XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
+    func testConvexHullReconstructsSmoothNormalsFromFlatSphere() {
+        let sphere = Mesh.sphere(slices: 16).flatteningNormals()
+        let mesh = Mesh.convexHull(of: sphere.polygons)
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+
+        for polygon in mesh.polygons {
+            for vertex in polygon.vertices {
+                let radialNormal = vertex.position.normalized()
+                XCTAssertGreaterThan(vertex.normal.dot(radialNormal), 0.98)
+            }
+        }
+    }
+
     func testConvexHullOfCubeIsItself() {
         let cube = Mesh.cube()
         let mesh = Mesh.convexHull(of: [cube])

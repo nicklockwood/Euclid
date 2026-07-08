@@ -437,9 +437,13 @@ public extension Mesh {
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        var verticesByPosition = [Vector: [(faceNormal: Vector, Vertex)]]()
+        var verticesByPosition = [Vector: [HullVertexMatch]]()
         for v in vertices {
-            verticesByPosition[v.position, default: []].append((v.normal, v))
+            verticesByPosition[v.position, default: []].append(HullVertexMatch(
+                faceNormal: v.normal,
+                vertex: v,
+                weight: 1
+            ))
         }
         return convexHull(of: verticesByPosition, material: material, isCancelled)
     }
@@ -911,12 +915,10 @@ private extension Mesh {
             }
             polygons = [polygon, polygon.inverted()]
         }
-        var verticesByPosition = [Vector: [(faceNormal: Vector, Vertex)]]()
-        for p in polygonsToAdd + polygons {
-            for v in p.vertices {
-                verticesByPosition[v.position, default: []].append((p.plane.normal, v))
-            }
-        }
+        let sourcePolygons = polygonsToAdd + polygons
+        let verticesByPosition = sourcePolygons.needsHullNormalReconstruction ?
+            sourcePolygons.hullVertexMatchesByPosition() :
+            sourcePolygons.hullVertexMatchesByPositionWithoutReconstruction()
         // Add remaining polygons
         // Note: no need to use a VertexSet here as vertex positions should already
         // be unique, but perhaps there is an opportunity to merge some things?
@@ -941,7 +943,7 @@ private extension Mesh {
     }
 
     static func convexHull(
-        of verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]],
+        of verticesByPosition: [Vector: [HullVertexMatch]],
         material: Material?,
         _ isCancelled: CancellationHandler
     ) -> Mesh {
@@ -966,7 +968,7 @@ private extension Mesh {
             }
             if point.z < points[minZPoint].z {
                 minZPoint = i
-            } else if point.z > points[maxZPoint].y {
+            } else if point.z > points[maxZPoint].z {
                 maxZPoint = i
             }
         }
@@ -1044,7 +1046,7 @@ private extension [Polygon] {
     mutating func addPoint(
         _ point: Vector,
         material: Polygon.Material?,
-        verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]]
+        verticesByPosition: [Vector: [HullVertexMatch]]
     ) {
         var facing = [Polygon](), coplanar = [(plane: Plane, polygons: [Polygon])]()
         loop: for (i, polygon) in enumerated().reversed() {
@@ -1112,24 +1114,121 @@ private extension Polygon {
     /// Create polygon from points with nearest matches in a vertex collection
     init?(
         points: some Collection<Vector>,
-        verticesByPosition: [Vector: [(faceNormal: Vector, Vertex)]],
+        verticesByPosition: [Vector: [HullVertexMatch]],
         faceNormal: Vector?,
         material: Polygon.Material?
     ) {
         let faceNormal = faceNormal ?? faceNormalForPoints(Array(points))
         let vertices = points.map { p -> Vertex in
             let matches = verticesByPosition[p] ?? []
-            var best = Vertex(p), bestDot = -Double.infinity
-            for (n, v) in matches {
-                let dot = n.dot(faceNormal)
+            guard !matches.isEmpty else {
+                return Vertex(p)
+            }
+            var bestDot = -Double.infinity
+            var best = matches[0].vertex
+            for match in matches {
+                let dot = match.faceNormal.dot(faceNormal)
                 if dot > bestDot {
                     bestDot = dot
-                    best = v
+                    best = match.vertex
                 }
             }
-            return best
+            var normal = Vector.zero
+            for match in matches {
+                let dot = match.faceNormal.dot(faceNormal)
+                if bestDot > 0 ? dot > 0 : dot == bestDot {
+                    normal += match.vertex.normal * match.weight
+                }
+            }
+            return normal == .zero ? best : best.withNormal(normal)
         }
         self.init(vertices, material: material)
+    }
+}
+
+private struct HullVertexMatch {
+    let faceNormal: Vector
+    let vertex: Vertex
+    let weight: Double
+}
+
+private extension Collection<Polygon> {
+    var needsHullNormalReconstruction: Bool {
+        contains { polygon in
+            polygon.vertices.allSatisfy {
+                $0.normal.isApproximatelyEqual(to: polygon.plane.normal)
+            }
+        }
+    }
+
+    func hullVertexMatchesByPositionWithoutReconstruction() -> [Vector: [HullVertexMatch]] {
+        var result = [Vector: [HullVertexMatch]]()
+        for polygon in self {
+            for vertex in polygon.vertices {
+                result[vertex.position, default: []].append(HullVertexMatch(
+                    faceNormal: polygon.plane.normal,
+                    vertex: vertex,
+                    weight: 1
+                ))
+            }
+        }
+        return result
+    }
+
+    func hullVertexMatchesByPosition() -> [Vector: [HullVertexMatch]] {
+        let polygons = Array(self)
+        var edgesToPolygons = [LineSegment: [Int]]()
+        for (index, polygon) in polygons.enumerated() {
+            for edge in polygon.undirectedEdges.sorted() {
+                edgesToPolygons[edge, default: []].append(index)
+            }
+        }
+
+        var polygonGroups = Array(repeating: -1, count: polygons.count)
+        var groupPolygons = [[Int]]()
+        for start in polygons.indices where polygonGroups[start] < 0 {
+            let group = groupPolygons.count
+            var members = [Int]()
+            var queue = [start]
+            polygonGroups[start] = group
+            while let index = queue.popLast() {
+                members.append(index)
+                for edge in polygons[index].undirectedEdges.sorted() {
+                    for neighbor in edgesToPolygons[edge] ?? [] where polygonGroups[neighbor] < 0 {
+                        guard polygons[index].plane.isApproximatelyEqual(to: polygons[neighbor].plane) else {
+                            continue
+                        }
+                        polygonGroups[neighbor] = group
+                        queue.append(neighbor)
+                    }
+                }
+            }
+            groupPolygons.append(members)
+        }
+
+        var result = [Vector: [HullVertexMatch]]()
+        for group in groupPolygons {
+            let faceNormal = polygons[group[0]].plane.normal
+            let weight = Swift.max(group.reduce(0) { $0 + polygons[$1].area }, 1)
+            var verticesByPosition = [Vector: [Vertex]]()
+            for index in group {
+                for vertex in polygons[index].vertices {
+                    verticesByPosition[vertex.position, default: []].append(vertex)
+                }
+            }
+            for position in verticesByPosition.keys.sorted() {
+                let vertices = verticesByPosition[position]!
+                let first = vertices[0]
+                let normal = vertices.reduce(Vector.zero) { $0 + $1.normal }
+                let vertex = normal == .zero ? first : first.withNormal(normal)
+                result[position, default: []].append(HullVertexMatch(
+                    faceNormal: faceNormal,
+                    vertex: vertex,
+                    weight: weight
+                ))
+            }
+        }
+        return result
     }
 }
 
