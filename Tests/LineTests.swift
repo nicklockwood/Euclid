@@ -87,6 +87,13 @@ final class LineTests: XCTestCase {
         }
     }
 
+    func testDistanceBetweenParallelLinesWithNearZeroXDirection() {
+        let direction = Vector(1e-12, 1, 0).normalized()
+        let l1 = Line(unchecked: [100, 2, 3], direction: direction)
+        let l2 = Line(unchecked: l1.origin + .unitZ, direction: direction)
+        XCTAssertEqual(l1.distance(from: l2), 1, accuracy: epsilon)
+    }
+
     // MARK: Line intersection
 
     func testLineIntersectionXY() {

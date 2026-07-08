@@ -182,11 +182,15 @@ public extension Line {
 extension Line {
     init(unchecked origin: Vector, direction: Vector) {
         assert(direction.isNormalized)
-        self.origin = origin - direction * (
-            direction.x != 0 ? origin.x / direction.x :
-                direction.y != 0 ? origin.y / direction.y :
-                origin.z / direction.z
-        )
+        let distance = switch direction.mostParallelAxis {
+        case .unitX:
+            origin.x / direction.x
+        case .unitY:
+            origin.y / direction.y
+        default:
+            origin.z / direction.z
+        }
+        self.origin = origin - direction * distance
         self.direction = direction
     }
 
