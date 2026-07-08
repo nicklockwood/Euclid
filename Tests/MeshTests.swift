@@ -587,6 +587,101 @@ final class MeshTests: XCTestCase {
         XCTAssertFalse(sphere.hasVertexNormals)
     }
 
+    func testSmoothingNormalsWeightsCoplanarPolygonGroups() {
+        let center = Vertex(0, 0, 0)
+        let topCorners = [
+            Vertex(-1, 0, -1),
+            Vertex(1, 0, -1),
+            Vertex(1, 0, 1),
+            Vertex(-1, 0, 1),
+        ]
+        let bottomCorners = [
+            Vertex(-1, -0.2, -1),
+            Vertex(1, -0.2, -1),
+            Vertex(1, -0.2, 1),
+            Vertex(-1, -0.2, 1),
+        ]
+        let top = topCorners.indices.map { i in
+            Polygon(unchecked: [
+                center,
+                topCorners[(i + 1) % topCorners.count],
+                topCorners[i],
+            ])
+        }
+        let sides = topCorners.indices.map { i in
+            Polygon(unchecked: [
+                topCorners[i],
+                topCorners[(i + 1) % topCorners.count],
+                bottomCorners[(i + 1) % bottomCorners.count],
+                bottomCorners[i],
+            ])
+        }
+
+        let mesh = Mesh(top + sides).smoothingNormals(forAnglesGreaterThan: .pi)
+        let smoothedTop = mesh.polygons.prefix(top.count)
+        for polygon in smoothedTop {
+            for vertex in polygon.vertices {
+                XCTAssertEqual(vertex.normal.y, 1, accuracy: 0.02)
+            }
+        }
+    }
+
+    func testSmoothingNormalsReconstructsSmoothSphereNormals() {
+        let sphere = Mesh.sphere(slices: 32)
+        let smoothed = sphere.flatteningNormals().smoothingNormals(forAnglesGreaterThan: .pi)
+        for (expected, actual) in zip(sphere.polygons, smoothed.polygons) {
+            for (expected, actual) in zip(expected.vertices, actual.vertices) {
+                XCTAssertEqual(actual.position, expected.position)
+                XCTAssertGreaterThan(actual.normal.dot(expected.normal), 0.99)
+            }
+        }
+    }
+
+    func testSmoothingNormalsForPiSmoothsAllSphereFacesAtEachVertex() {
+        let smoothed = Mesh.sphere(slices: 32)
+            .flatteningNormals()
+            .smoothingNormals(forAnglesGreaterThan: .pi)
+
+        var normalsByPosition = [Vector: Vector]()
+        for polygon in smoothed.polygons {
+            for vertex in polygon.vertices {
+                if let normal = normalsByPosition[vertex.position] {
+                    XCTAssertEqual(vertex.normal, normal, accuracy: 1e-10)
+                } else {
+                    normalsByPosition[vertex.position] = vertex.normal
+                }
+            }
+        }
+    }
+
+    func testSmoothingNormalsAreIndependentOfPolygonOrder() throws {
+        struct VertexKey: Hashable {
+            let position: Vector
+            let plane: Plane
+        }
+
+        func normalsByVertex(in mesh: Mesh) -> [VertexKey: Vector] {
+            var result = [VertexKey: Vector]()
+            for polygon in mesh.polygons {
+                for vertex in polygon.vertices {
+                    result[VertexKey(position: vertex.position, plane: polygon.plane)] = vertex.normal
+                }
+            }
+            return result
+        }
+
+        let polygons = Mesh.sphere(slices: 32).flatteningNormals().polygons
+        let forward = Mesh(polygons).smoothingNormals(forAnglesGreaterThan: .pi)
+        let reversed = Mesh(Array(polygons.reversed())).smoothingNormals(forAnglesGreaterThan: .pi)
+        let expectedNormals = normalsByVertex(in: forward)
+
+        XCTAssertEqual(normalsByVertex(in: reversed).count, expectedNormals.count)
+        for (key, normal) in normalsByVertex(in: reversed) {
+            let expectedNormal = try XCTUnwrap(expectedNormals[key])
+            XCTAssertEqual(normal, expectedNormal, accuracy: 1e-15)
+        }
+    }
+
     // MARK: Reflection
 
     func testQuadReflectionAlongPlane() {

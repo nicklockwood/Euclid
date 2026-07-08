@@ -854,21 +854,77 @@ extension Collection<Polygon> {
         guard threshold > .zero else {
             return flatteningNormals()
         }
-        var polygonsByVertex = [Vector: [Polygon]]()
-        forEach { polygon in
-            for vertex in polygon.vertices {
-                polygonsByVertex[vertex.position, default: []].append(polygon)
+
+        let polygons = Array(self)
+        var edgesToPolygons = [LineSegment: [Int]]()
+        for (index, polygon) in polygons.enumerated() {
+            for edge in polygon.undirectedEdges.sorted() {
+                edgesToPolygons[edge, default: []].append(index)
             }
         }
-        return map { p0 in
-            let n0 = p0.plane.normal
+
+        var polygonGroups = Array(repeating: -1, count: polygons.count)
+        var groupPolygons = [[Int]]()
+        for start in polygons.indices where polygonGroups[start] < 0 {
+            let group = groupPolygons.count
+            var members = [Int]()
+            var queue = [start]
+            polygonGroups[start] = group
+            while let index = queue.popLast() {
+                members.append(index)
+                for edge in polygons[index].undirectedEdges.sorted() {
+                    for neighbor in edgesToPolygons[edge] ?? [] where polygonGroups[neighbor] < 0 {
+                        guard polygons[index].plane.isApproximatelyEqual(to: polygons[neighbor].plane) else {
+                            continue
+                        }
+                        polygonGroups[neighbor] = group
+                        queue.append(neighbor)
+                    }
+                }
+            }
+            groupPolygons.append(members)
+        }
+
+        let groupNormals = groupPolygons.map { polygons[$0[0]].plane.normal }
+        let groupWeights = groupPolygons.map { group -> Double in
+            let area = group.reduce(0) { $0 + polygons[$1].area }
+            return area > 0 ? area : 1
+        }
+
+        var groupsByVertex = [Vector: Set<Int>]()
+        for (index, polygon) in polygons.enumerated() {
+            let group = polygonGroups[index]
+            for vertex in polygon.vertices {
+                groupsByVertex[vertex.position, default: []].insert(group)
+            }
+        }
+
+        func smoothedNormal(for group: Int, at vertex: Vector) -> Vector {
+            let normal = groupNormals[group]
+            let groups = (groupsByVertex[vertex] ?? [group])
+                .filter {
+                    angleBetweenNormalizedVectors(normal, groupNormals[$0]) < threshold
+                }
+                .sorted { lhs, rhs in
+                    if groupNormals[lhs] != groupNormals[rhs] {
+                        return groupNormals[lhs] < groupNormals[rhs]
+                    }
+                    if groupWeights[lhs] != groupWeights[rhs] {
+                        return groupWeights[lhs] < groupWeights[rhs]
+                    }
+                    return lhs < rhs
+                }
+            let sum = groups.reduce(Vector.zero) {
+                $0 + groupNormals[$1] * groupWeights[$1]
+            }
+            return sum == .zero ? normal : sum
+        }
+
+        return polygons.enumerated().map { index, p0 in
+            let group = polygonGroups[index]
             return Polygon(
                 unchecked: p0.vertices.map { v0 in
-                    let polygons = polygonsByVertex[v0.position] ?? []
-                    return v0.withNormal(polygons.compactMap { p1 in
-                        let n1 = p1.plane.normal
-                        return .acos(n0.dot(n1)) < threshold ? n1 : nil
-                    }.reduce(.zero) { $0 + $1 })
+                    v0.withNormal(smoothedNormal(for: group, at: v0.position))
                 },
                 plane: p0.plane,
                 isConvex: p0.isConvex,
