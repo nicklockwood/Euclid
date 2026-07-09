@@ -67,6 +67,18 @@ final class TextTests: XCTestCase {
         min: \(normalDots.min() ?? 0)
         """)
     }
+
+    func testInsetLetterOExpandsInnerContour() throws {
+        let font = CTFontCreateWithName("Helvetica" as CFString, 12, nil)
+        let shape = try XCTUnwrap(Path.text("o", font: font).first)
+        let before = shape.subpaths.sorted { $0.bounds.size.x < $1.bounds.size.x }
+        let after = shape.inset(by: 0.1).subpaths.sorted { $0.bounds.size.x < $1.bounds.size.x }
+
+        XCTAssertEqual(before.count, 2)
+        XCTAssertEqual(after.count, 2)
+        XCTAssertGreaterThan(after[0].bounds.size.x, before[0].bounds.size.x)
+        XCTAssertLessThan(after[1].bounds.size.x, before[1].bounds.size.x)
+    }
 }
 
 #endif

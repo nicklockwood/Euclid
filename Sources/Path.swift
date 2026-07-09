@@ -413,8 +413,18 @@ public extension Path {
     ///
     /// > Note: Passing a negative `distance` will expand the path instead of shrinking it.
     func inset(by distance: Double) -> Path {
-        guard subpaths.count <= 1, points.count >= 2 else {
+        guard subpaths.count <= 1 else {
+            let subpaths = subpaths
+            return Path(subpaths: subpaths.enumerated().map { index, subpath in
+                let distance = subpaths.containmentDepth(of: index).isMultiple(of: 2) ? distance : -distance
+                return subpath.inset(by: distance)
+            })
+        }
+        guard points.count >= 2 else {
             return Path(subpaths: subpaths.map { $0.inset(by: distance) })
+        }
+        if isClosed, !isSimple, let boundary = nonZeroFillBoundary() {
+            return boundary.inset(by: distance)
         }
         let source = points
         let count = source.count
@@ -487,6 +497,26 @@ public extension Path {
             return [point]
         })
         return split ? path.withDetail(detail, twist: twist) : path
+    }
+}
+
+private extension [Path] {
+    func containmentDepth(of index: Index) -> Int {
+        guard indices.contains(index),
+              let point = self[index].points.first?.position
+        else {
+            return 0
+        }
+        return indices.reduce(0) { count, otherIndex in
+            guard otherIndex != index,
+                  self[otherIndex].bounds.intersects(point),
+                  let polygon = Polygon(self[otherIndex]),
+                  polygon.intersects(point)
+            else {
+                return count
+            }
+            return count + 1
+        }
     }
 }
 

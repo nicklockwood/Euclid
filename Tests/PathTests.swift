@@ -658,6 +658,58 @@ final class PathTests: XCTestCase {
         XCTAssertFalse(result.orderedEdgesContainCrossings)
     }
 
+    func testInsetCompoundPathExpandsHole() {
+        let path = Path(subpaths: [
+            .square(size: 2),
+            .square(size: 0.5),
+        ])
+        let result = path.inset(by: 0.25)
+        XCTAssertEqual(result, Path(subpaths: [
+            .square(size: 1.5),
+            .square(size: 1),
+        ]))
+    }
+
+    func testInsetCompoundPathAlternatesNestedContours() {
+        let path = Path(subpaths: [
+            .square(size: 4),
+            .square(size: 2),
+            .square(size: 1),
+        ])
+        let result = path.inset(by: 0.25)
+        XCTAssertEqual(result, Path(subpaths: [
+            .square(size: 3.5),
+            .square(size: 2.5),
+            .square(size: 0.5),
+        ]))
+    }
+
+    func testInsetSelfIntersectingPathUsesNonZeroFillBoundary() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 1),
+            .point(1, 0),
+            .point(0, 1),
+        ])
+        let result = path.inset(by: 0.1)
+        XCTAssertFalse(result.orderedEdgesContainCrossings)
+        XCTAssertTrue(Mesh.fill(result).isWatertight)
+    }
+
+    func testInsetSelfIntersectingCurvedPathUsesNonZeroFillBoundary() {
+        let path = Path([
+            .curve(0, 0),
+            .curve(1, 0),
+            .curve(0, 2),
+            .curve(1, 2),
+            .curve(0, 0),
+        ])
+        let result = path.inset(by: 0.1)
+        XCTAssertGreaterThan(result.subpaths.count, 1)
+        XCTAssertFalse(result.orderedEdgesContainCrossings)
+        XCTAssertTrue(Mesh.fill(result).isWatertight)
+    }
+
     // MARK: Y-axis clipping
 
     func testClipClosedClockwiseTriangleToRightOfAxis() {
