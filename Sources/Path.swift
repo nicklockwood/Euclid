@@ -985,7 +985,7 @@ private extension Collection<Polygon> {
                 }
             }
             points = points.rotatedToCanonicalStart()
-            paths.append(Path(unchecked: points, plane: plane))
+            paths.append(Path(points))
         }
         return paths.sorted { lhs, rhs in
             lhs.points.map(\.position).lexicographicallyPrecedes(

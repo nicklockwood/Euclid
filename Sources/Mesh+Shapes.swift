@@ -1265,50 +1265,35 @@ private extension Mesh {
                         id: 0
                     )
                 }
+                func triangulatedSidePolygons(_ vertices: [Vertex]) -> [Polygon] {
+                    triangulateVertices(
+                        vertices,
+                        plane: nil,
+                        isConvex: nil,
+                        sanitizeNormals: false,
+                        material: material,
+                        id: 0
+                    ).withVertexNormalsFacingPlane()
+                }
                 if vertices.count == 4 {
                     let c = vertices[0], d = vertices[1], b = vertices[2], a = vertices[3]
-                    let bcd = Polygon(
-                        unchecked: [b, c, d],
-                        plane: nil,
-                        isConvex: true,
-                        sanitizeNormals: false,
-                        material: material
-                    )
+                    guard let bcd = Polygon([b, c, d], material: material) else {
+                        return triangulatedSidePolygons([c, d, b, a])
+                    }
                     switch a.position.compare(with: bcd.plane) {
                     case .coplanar, .spanning:
-                        let polygon = Polygon(
-                            unchecked: [c, d, b, a],
-                            plane: nil,
-                            isConvex: nil,
-                            sanitizeNormals: false,
-                            material: material
-                        )
-                        return [polygon]
+                        return Polygon([c, d, b, a], material: material)
+                            .map { [$0.withVertexNormalsFacingPlane()] } ??
+                            triangulatedSidePolygons([c, d, b, a])
                     case .back:
-                        let polygon = Polygon(
-                            unchecked: [c, b, a],
-                            plane: nil,
-                            isConvex: true,
-                            sanitizeNormals: false,
-                            material: material
-                        )
-                        return [polygon, bcd]
+                        let polygons = [Polygon([c, b, a], material: material), bcd].compactMap { $0 }
+                        return polygons.count == 2 ? polygons : triangulatedSidePolygons([c, d, b, a])
                     case .front:
-                        let polygon0 = Polygon(
-                            unchecked: [c, d, a],
-                            plane: nil,
-                            isConvex: true,
-                            sanitizeNormals: false,
-                            material: material
-                        )
-                        let polygon1 = Polygon(
-                            unchecked: [b, a, d],
-                            plane: nil,
-                            isConvex: true,
-                            sanitizeNormals: false,
-                            material: material
-                        )
-                        return [polygon0, polygon1]
+                        let polygons = [
+                            Polygon([c, d, a], material: material),
+                            Polygon([b, a, d], material: material),
+                        ].compactMap { $0 }
+                        return polygons.count == 2 ? polygons : triangulatedSidePolygons([c, d, b, a])
                     }
                 } else if let polygon = Polygon(vertices, material: material) {
                     return [polygon]
@@ -1356,7 +1341,7 @@ private extension Mesh {
                         }
                     }
                 }
-                polygons += loopPolygons.map { $0.withVertexNormalsFacingPlane() }
+                polygons += loopPolygons.withVertexNormalsFacingPlane()
             }
         } else {
             polygons = boundarySubshapes.flatMap { subshapes in
@@ -1387,11 +1372,9 @@ private extension Mesh {
                 }
             }
         }
-        polygons = polygons.withConsistentWinding {
-            abs($0.plane.normal.dot(capNormal)) > 0.5
-        }.map { polygon in
-            return polygon.withVertexNormalsFacingPlane()
-        }
+        polygons = polygons
+            .withConsistentWinding { abs($0.plane.normal.dot(capNormal)) > 0.5 }
+            .withVertexNormalsFacingPlane()
         switch faces {
         case .front, .default:
             return Mesh(
@@ -1579,18 +1562,18 @@ private extension Mesh {
         }
         var invert = false
         func makePolygon(_ vertices: [Vertex]) -> Polygon? {
-            Polygon(invert ? vertices.reversed() : vertices, material: material)
-                .map { $0.withVertexNormalsFacingPlane() }
+            Polygon(invert ? vertices.reversed() : vertices, material: material)?
+                .withVertexNormalsFacingPlane()
         }
-        func makePolygon(_ vertices: Vertex...) -> Polygon {
-            let polygon = Polygon(
-                unchecked: invert ? vertices.reversed() : vertices,
+        func addTriangulatedFace(_ vertices: [Vertex]) {
+            polygons += triangulateVertices(
+                vertices,
                 plane: nil,
                 isConvex: nil,
                 sanitizeNormals: false,
-                material: material
-            )
-            return polygon.withVertexNormalsFacingPlane()
+                material: material,
+                id: 0
+            ).withVertexNormalsFacingPlane()
         }
         var uvstart = uvstart, uvend = uvend
         func addFace(_ a: Vertex, _ b: Vertex, _ c: Vertex, _ d: Vertex) {
@@ -1626,26 +1609,25 @@ private extension Mesh {
             guard !verticesAreDegenerate(vertices) else {
                 // This is a hack to make the best of a bad edge case
                 // TODO: find a better solution
-                polygons += triangulateVertices(
-                    vertices,
-                    plane: nil,
-                    isConvex: nil,
-                    sanitizeNormals: false,
-                    material: material,
-                    id: 0
-                ).map { $0.withVertexNormalsFacingPlane() }
+                addTriangulatedFace(vertices)
                 return
             }
             if vertices.count == 4 {
                 let c = vertices[0], d = vertices[1], b = vertices[2], a = vertices[3]
-                let bcd = makePolygon(b, c, d)
+                guard let bcd = makePolygon([b, c, d]) else {
+                    addTriangulatedFace([c, d, b, a])
+                    return
+                }
                 switch a.position.compare(with: bcd.plane) {
                 case .coplanar, .spanning:
-                    makePolygon([c, d, b, a]).map { polygons.append($0) }
+                    makePolygon([c, d, b, a]).map { polygons.append($0) } ??
+                        addTriangulatedFace([c, d, b, a])
                 case .back:
-                    polygons += [makePolygon(c, b, a), bcd]
+                    let split = [makePolygon([c, b, a]), bcd].compactMap { $0 }
+                    split.count == 2 ? polygons += split : addTriangulatedFace([c, d, b, a])
                 case .front:
-                    polygons += [makePolygon(c, d, a), makePolygon(b, a, d)]
+                    let split = [makePolygon([c, d, a]), makePolygon([b, a, d])].compactMap { $0 }
+                    split.count == 2 ? polygons += split : addTriangulatedFace([c, d, b, a])
                 }
             } else if let polygon = makePolygon(vertices) {
                 polygons.append(polygon)
@@ -1778,6 +1760,12 @@ private extension Mesh {
         return isCancelled() ? [] : indexesAndOffsets.map { index, offset in
             meshes[index].translated(by: offset)
         }
+    }
+}
+
+private extension Collection<Polygon> {
+    func withVertexNormalsFacingPlane() -> [Polygon] {
+        map { $0.withVertexNormalsFacingPlane() }
     }
 }
 

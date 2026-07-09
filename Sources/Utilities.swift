@@ -132,7 +132,7 @@ func triangulateVertices(
     flipped: Bool = false
 ) -> [Polygon] {
     guard vertices.count > 3 else {
-        guard vertices.count > 2 else {
+        guard !verticesAreDegenerate(vertices) else {
             return []
         }
         return [Polygon(
