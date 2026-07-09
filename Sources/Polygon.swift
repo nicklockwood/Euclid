@@ -594,6 +594,94 @@ extension [Polygon] {
             $0.polygons.coplanarDetessellate(ensureConvex: ensureConvex, maxSides: maxSides)
         }
     }
+
+    /// Returns a copy of the polygons with winding made consistent across shared edges.
+    ///
+    /// The repair is propagated through two-polygon shared edges first, then makes
+    /// bounded balancing passes over non-manifold edges that are shared by more
+    /// than two polygons.
+    ///
+    /// - Parameter isLocked: A predicate that returns `true` for polygons whose
+    ///   current orientation should be preserved. Components containing locked
+    ///   polygons are used as fixed references when neighboring polygons are
+    ///   inverted to resolve inconsistent winding.
+    /// - Returns: A copy of the receiver with polygons inverted as needed to make
+    ///   shared-edge winding consistent.
+    func withConsistentWinding(isLocked: (Polygon) -> Bool = { _ in false }) -> [Polygon] {
+        let edgeMap = windingEdgeMap
+        var adjacency = [[(index: Int, parity: Int)]](repeating: [], count: count)
+        for matches in edgeMap.values where matches.count == 2 {
+            let parity = -matches[0].sign * matches[1].sign
+            adjacency[matches[0].index].append((matches[1].index, parity))
+            adjacency[matches[1].index].append((matches[0].index, parity))
+        }
+        let locked = map(isLocked)
+        var signs = [Int](repeating: 0, count: count)
+        var componentIDs = [Int](repeating: -1, count: count)
+        var components = [[Int]]()
+        func addComponent(from start: Int) {
+            let componentID = components.count
+            var component = [Int]()
+            signs[start] = 1
+            componentIDs[start] = componentID
+            var queue = [start]
+            while let index = queue.popLast() {
+                component.append(index)
+                for neighbor in adjacency[index] {
+                    let expectedSign = signs[index] * neighbor.parity
+                    if componentIDs[neighbor.index] < 0 {
+                        signs[neighbor.index] = expectedSign
+                        componentIDs[neighbor.index] = componentID
+                        queue.append(neighbor.index)
+                    }
+                }
+            }
+            components.append(component)
+        }
+        for start in indices where locked[start] && componentIDs[start] < 0 {
+            addComponent(from: start)
+        }
+        for start in indices where componentIDs[start] < 0 {
+            addComponent(from: start)
+        }
+        let componentIsLocked = components.map { component in
+            component.contains { locked[$0] }
+        }
+        var componentSigns = [Int](repeating: 1, count: components.count)
+        let multiEdgeMatches = inconsistentWindingEdges(in: edgeMap).compactMap {
+            edgeMap[$0]
+        }.filter {
+            $0.count != 2
+        }
+        let maxPasses = multiEdgeMatches.count
+        for _ in 0 ..< maxPasses {
+            var changed = false
+            for matches in multiEdgeMatches {
+                let balance = matches.reduce(0) {
+                    $0 + componentSigns[componentIDs[$1.index]] * signs[$1.index] * $1.sign
+                }
+                guard balance != 0 else {
+                    continue
+                }
+                let signToFlip = balance > 0 ? 1 : -1
+                if let match = matches.first(where: {
+                    let componentID = componentIDs[$0.index]
+                    return !componentIsLocked[componentID] &&
+                        componentSigns[componentID] * signs[$0.index] * $0.sign == signToFlip
+                }) {
+                    componentSigns[componentIDs[match.index]] *= -1
+                    changed = true
+                }
+            }
+            if !changed {
+                break
+            }
+        }
+        return enumerated().map { index, polygon in
+            let sign = signs[index] * componentSigns[componentIDs[index]]
+            return sign < 0 ? polygon.inverted() : polygon
+        }
+    }
 }
 
 extension Collection<Polygon> {
@@ -627,15 +715,7 @@ extension Collection<Polygon> {
 
     /// Check if polygons have consistent winding, i.e. that they are not showing any back faces.
     var areConsistentlyWound: Bool {
-        var edgeBalance = [LineSegment: Int]()
-        for polygon in self {
-            for edge in polygon.orderedEdges {
-                let undirectedEdge = LineSegment(undirected: edge)
-                let sign = edge == undirectedEdge ? 1 : -1
-                edgeBalance[undirectedEdge, default: 0] += sign
-            }
-        }
-        return edgeBalance.values.allSatisfy { $0 == 0 }
+        inconsistentlyWoundEdges.isEmpty
     }
 
     /// Returns all edges that exist at the boundary of a hole.
@@ -667,6 +747,11 @@ extension Collection<Polygon> {
             }
         }
         return edges
+    }
+
+    /// Returns all edges that are wound inconsistently.
+    var inconsistentlyWoundEdges: [LineSegment] {
+        inconsistentWindingEdges(in: windingEdgeMap)
     }
 
     /// Check if polygons all lie on the same plane.
@@ -991,6 +1076,42 @@ extension Collection<Polygon> {
             }
         }
         return submeshes
+    }
+}
+
+private extension Collection<Polygon> {
+    typealias EdgeIndexMap = [LineSegment: [(index: Index, sign: Int)]]
+
+    /// Returns a map of undirected polygon edges to the polygons that contain them.
+    ///
+    /// Each map value preserves the collection index for the containing polygon
+    /// and a sign indicating whether that polygon uses the normalized edge
+    /// direction (`1`) or the opposite direction (`-1`).
+    var windingEdgeMap: EdgeIndexMap {
+        var edgeMap = EdgeIndexMap()
+        for index in indices {
+            for edge in self[index].orderedEdges {
+                let undirectedEdge = LineSegment(undirected: edge)
+                let sign = edge == undirectedEdge ? 1 : -1
+                edgeMap[undirectedEdge, default: []].append((index, sign))
+            }
+        }
+        return edgeMap
+    }
+
+    /// Returns edges whose matched polygon directions do not balance.
+    ///
+    /// Consistently wound two-polygon edges have one `1` sign and one `-1` sign.
+    /// Non-manifold edges are considered balanced when their signed uses sum to
+    /// zero.
+    ///
+    /// - Parameter edgeMap: A map produced by `windingEdgeMap`.
+    /// - Returns: The undirected edges whose signed uses do not cancel out.
+    func inconsistentWindingEdges(in edgeMap: EdgeIndexMap) -> [LineSegment] {
+        edgeMap.compactMap { edge, matches in
+            let balance = matches.reduce(0) { $0 + $1.sign }
+            return balance == 0 ? nil : edge
+        }
     }
 }
 

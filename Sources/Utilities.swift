@@ -285,6 +285,17 @@ extension [Vector] {
             return total + point
         } / Double(Swift.max(1, count))
     }
+
+    func removingAdjacentDuplicates() -> [Vector] {
+        var result = [Vector]()
+        for point in self where result.last?.isApproximatelyEqual(to: point) != true {
+            result.append(point)
+        }
+        if result.count > 1, result[0].isApproximatelyEqual(to: result[result.count - 1]) {
+            result.removeLast()
+        }
+        return result
+    }
 }
 
 extension Vector {

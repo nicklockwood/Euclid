@@ -643,18 +643,19 @@ public extension Mesh {
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
+        let shape = shape.closed()
         let subpaths = shape.subpaths
-        if subpaths.count > 1 {
+        let polygons = shape.facePolygons(material: material)
+        if subpaths.count > 1, polygons.isEmpty {
             return .symmetricDifference(subpaths.map {
                 .fill($0, faces: faces, material: material, isCancelled: isCancelled)
             }, isCancelled: isCancelled)
         }
-
-        let polygons = shape.closed().facePolygons(material: material)
         let isConvex = polygons.count == 1 && polygons[0].isConvex
+        let mesh: Mesh
         switch faces {
         case .front:
-            return Mesh(
+            mesh = Mesh(
                 unchecked: polygons,
                 bounds: nil,
                 bsp: nil,
@@ -663,7 +664,7 @@ public extension Mesh {
                 submeshes: []
             )
         case .back:
-            return Mesh(
+            mesh = Mesh(
                 unchecked: polygons.inverted(),
                 bounds: nil,
                 bsp: nil,
@@ -672,7 +673,7 @@ public extension Mesh {
                 submeshes: []
             )
         case .frontAndBack, .default:
-            return Mesh(
+            mesh = Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil,
                 bsp: nil,
@@ -681,6 +682,7 @@ public extension Mesh {
                 submeshes: []
             )
         }
+        return shape.usesNonZeroFill ? mesh.detessellate() : mesh
     }
 
     /// Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.
@@ -806,6 +808,161 @@ public extension Mesh {
     }
 }
 
+private extension Collection<Path> {
+    func normalizingCompoundPathsForLoft() -> (shapes: [Path], isNonZeroBoundary: Bool) {
+        guard let first,
+              let boundary = first.nonZeroFillBoundaryForLoft()
+        else {
+            return (map { shape in
+                guard let boundary = shape.nonZeroFillBoundaryForLoft()
+                else {
+                    return shape
+                }
+                return boundary
+            }, contains { $0.nonZeroFillBoundaryForLoft() != nil })
+        }
+        var normalizedShapes = [Path]()
+        normalizedShapes.reserveCapacity(count)
+        for shape in self {
+            guard let transform = shape.sectionTransform(relativeTo: first)
+            else {
+                return (map { shape in
+                    guard let boundary = shape.nonZeroFillBoundaryForLoft()
+                    else {
+                        return shape
+                    }
+                    return boundary
+                }, false)
+            }
+            normalizedShapes.append(boundary.mapPoints {
+                $0.withPosition(transform($0.position))
+            })
+        }
+        return (normalizedShapes, true)
+    }
+}
+
+private extension Path {
+    func nonZeroFillBoundaryForLoft() -> Path? {
+        guard isClosed, let boundary = nonZeroFillBoundary() else {
+            return nil
+        }
+        if subpaths.count == 1 {
+            return usesNonZeroFill || (pointsAreAllCurved && boundary.subpathsShareVertices) ? boundary : nil
+        }
+        if hasCurvedPoints {
+            return subpathsShareVertices ? boundary : nil
+        }
+        guard boundary.subpaths.count > 1 || subpathsHaveConsistentWinding || subpathsShareVertices else {
+            return nil
+        }
+        return boundary
+    }
+
+    var hasCurvedPoints: Bool {
+        points.contains { $0.isCurved }
+    }
+
+    var pointsAreAllCurved: Bool {
+        let points = points.dropLast(isClosed ? 1 : 0)
+        return !points.isEmpty && points.allSatisfy(\.isCurved)
+    }
+
+    var subpathsShareVertices: Bool {
+        var previousEdges = [LineSegment]()
+        var vertices = Set<Vector>()
+        for subpath in subpaths {
+            let positions = subpath.points.dropLast(subpath.isClosed ? 1 : 0).map(\.position)
+            for position in positions {
+                guard vertices.insert(position).inserted else {
+                    return true
+                }
+            }
+            for edge in subpath.orderedEdges {
+                if previousEdges.contains(where: {
+                    lineIntersection(edge.start, edge.end, true, $0.start, $0.end, true) != nil
+                }) {
+                    return true
+                }
+            }
+            previousEdges += subpath.orderedEdges
+        }
+        return false
+    }
+
+    var subpathsHaveConsistentWinding: Bool {
+        let subpaths = subpaths.filter { $0.isClosed && !$0.hasZeroArea }
+        guard let first = subpaths.first else {
+            return false
+        }
+        let isClockwise = flattenedPointsAreClockwise(first.flattened().points.map(\.position))
+        return subpaths.dropFirst().allSatisfy {
+            flattenedPointsAreClockwise($0.flattened().points.map(\.position)) == isClockwise
+        }
+    }
+
+    func sectionTransform(relativeTo other: Path) -> ((Vector) -> Vector)? {
+        if self == other {
+            return { $0 }
+        }
+        let points = points.map(\.position)
+        let otherPoints = other.points.map(\.position)
+        guard points.count == otherPoints.count,
+              let first = points.first,
+              let otherFirst = otherPoints.first
+        else {
+            return nil
+        }
+
+        guard let xIndex = otherPoints.indices.dropFirst().first(where: {
+            !otherPoints[$0].isApproximatelyEqual(to: otherFirst)
+        }) else {
+            return { _ in first }
+        }
+        let sourceU = otherPoints[xIndex] - otherFirst
+        let targetU = points[xIndex] - first
+        let sourceNormal = other.faceNormal.normalized()
+        let targetNormal = faceNormal.normalized()
+        guard sourceU != .zero, targetU != .zero,
+              sourceNormal != .zero, targetNormal != .zero
+        else {
+            return nil
+        }
+
+        guard let yIndex = otherPoints.indices.dropFirst().first(where: {
+            let sourceV = otherPoints[$0] - otherFirst
+            return sourceU.cross(sourceV).length > epsilon
+        }) else {
+            return nil
+        }
+        let sourceV = otherPoints[yIndex] - otherFirst
+        let targetV = points[yIndex] - first
+        let sourceUU = sourceU.dot(sourceU)
+        let sourceUV = sourceU.dot(sourceV)
+        let sourceVV = sourceV.dot(sourceV)
+        let denominator = sourceUU * sourceVV - sourceUV * sourceUV
+        guard abs(denominator) > epsilon else {
+            return nil
+        }
+
+        let transform: (Vector) -> Vector = { point in
+            let p = point - otherFirst
+            let pU = p.dot(sourceU)
+            let pV = p.dot(sourceV)
+            let u = (pU * sourceVV - pV * sourceUV) / denominator
+            let v = (pV * sourceUU - pU * sourceUV) / denominator
+            let w = p.dot(sourceNormal)
+            return first + targetU * u + targetV * v + targetNormal * w
+        }
+        for (point, otherPoint) in zip(points, otherPoints) {
+            guard point.isApproximatelyEqual(to: transform(otherPoint), absoluteTolerance: 1e-6) else {
+                return nil
+            }
+        }
+        return transform
+    }
+}
+
 private extension Mesh {
     static func lathe(
         unchecked profile: Path,
@@ -821,6 +978,20 @@ private extension Mesh {
     ) -> Mesh {
         let subpaths = profile.subpaths
         if subpaths.count > 1 {
+            if let boundary = profile.closed().nonZeroFillBoundaryForLoft() {
+                return .merge(boundary.subpaths.map {
+                    .lathe(
+                        $0,
+                        slices: slices,
+                        poleDetail: poleDetail,
+                        addDetailForFlatPoles: addDetailForFlatPoles,
+                        faces: faces,
+                        wrapMode: wrapMode,
+                        material: material,
+                        isCancelled: isCancelled
+                    )
+                })
+            }
             return .symmetricDifference(subpaths.map {
                 .lathe(
                     $0,
@@ -1047,6 +1218,211 @@ private extension Mesh {
         (s1.bounds.center - s0.bounds.center).normalized()
     }
 
+    static func compoundLoft(
+        originalShapes: [Path],
+        boundarySubshapes: [[Path]],
+        faces: Faces,
+        material: Material?,
+        isCancelled: CancellationHandler
+    ) -> Mesh {
+        let faceNormal = originalShapes.first?.faceNormal ?? .zero
+        let shapes = originalShapes.filter { !$0.isEmpty }
+        let first = shapes.first
+        let firstFacePolygons = first?.facePolygons(material: material) ?? []
+        let firstCapPolygons: [Polygon] = first.flatMap { first in
+            shapes.first(where: { $0 != first }).map { next in
+                let p0p1 = directionBetweenShapes(first, next)
+                return firstFacePolygons.map {
+                    p0p1.dot($0.plane.normal) >= 0 ? $0.inverted() : $0
+                }
+            }
+        } ?? []
+        let capNormal = firstCapPolygons.first?.plane.normal ?? faceNormal
+        let transforms = first.map { first in
+            shapes.map { $0.sectionTransform(relativeTo: first) }
+        } ?? []
+        let canBuildMappedSides = transforms.allSatisfy { $0 != nil }
+        var polygons: [Polygon]
+        if canBuildMappedSides,
+           let first,
+           let boundary = first.nonZeroFillBoundary()
+        {
+            polygons = []
+            func transformedVertex(_ vertex: Vertex, by transform: (Vector) -> Vector) -> Vertex {
+                let position = transform(vertex.position)
+                let normal = vertex.normal == .zero ? .zero :
+                    (transform(vertex.position + vertex.normal) - position).normalized()
+                return Vertex(unchecked: position, normal, vertex.texcoord, vertex.color)
+            }
+            func sidePolygons(_ vertices: [Vertex]) -> [Polygon] {
+                guard !verticesAreDegenerate(vertices) else {
+                    return triangulateVertices(
+                        vertices,
+                        plane: nil,
+                        isConvex: nil,
+                        sanitizeNormals: true,
+                        material: material,
+                        id: 0
+                    )
+                }
+                if vertices.count == 4 {
+                    let c = vertices[0], d = vertices[1], b = vertices[2], a = vertices[3]
+                    let bcd = Polygon(
+                        unchecked: [b, c, d],
+                        plane: nil,
+                        isConvex: true,
+                        sanitizeNormals: false,
+                        material: material
+                    )
+                    switch a.position.compare(with: bcd.plane) {
+                    case .coplanar, .spanning:
+                        let polygon = Polygon(
+                            unchecked: [c, d, b, a],
+                            plane: nil,
+                            isConvex: nil,
+                            sanitizeNormals: false,
+                            material: material
+                        )
+                        return [polygon]
+                    case .back:
+                        let polygon = Polygon(
+                            unchecked: [c, b, a],
+                            plane: nil,
+                            isConvex: true,
+                            sanitizeNormals: false,
+                            material: material
+                        )
+                        return [polygon, bcd]
+                    case .front:
+                        let polygon0 = Polygon(
+                            unchecked: [c, d, a],
+                            plane: nil,
+                            isConvex: true,
+                            sanitizeNormals: false,
+                            material: material
+                        )
+                        let polygon1 = Polygon(
+                            unchecked: [b, a, d],
+                            plane: nil,
+                            isConvex: true,
+                            sanitizeNormals: false,
+                            material: material
+                        )
+                        return [polygon0, polygon1]
+                    }
+                } else if let polygon = Polygon(vertices, material: material) {
+                    return [polygon]
+                }
+                return []
+            }
+            for boundarySubpath in boundary.subpaths {
+                let boundaryVertices = boundarySubpath.edgeVertices(
+                    for: .default,
+                    resolvingNonZeroFill: false
+                )
+                var loopPolygons = [Polygon]()
+                func capUsesBoundaryEdgeForward(_ edge: LineSegment) -> Bool? {
+                    for polygon in firstCapPolygons {
+                        for capEdge in polygon.orderedEdges {
+                            if capEdge.start == edge.start, capEdge.end == edge.end {
+                                return true
+                            }
+                            if capEdge.start == edge.end, capEdge.end == edge.start {
+                                return false
+                            }
+                        }
+                    }
+                    return nil
+                }
+                for ((shape0, shape1), (transform0, transform1)) in zip(
+                    zip(shapes, shapes.dropFirst()),
+                    zip(transforms, transforms.dropFirst())
+                ) where shape0 != shape1 {
+                    let transform0 = transform0!, transform1 = transform1!
+                    for i in stride(from: 0, to: boundaryVertices.count, by: 2) {
+                        let v0 = boundaryVertices[i]
+                        let v1 = boundaryVertices[i + 1]
+                        let sidePolygons = sidePolygons([
+                            transformedVertex(v0, by: transform0),
+                            transformedVertex(v1, by: transform0),
+                            transformedVertex(v1, by: transform1),
+                            transformedVertex(v0, by: transform1),
+                        ])
+                        let edge = LineSegment(unchecked: v0.position, v1.position)
+                        if capUsesBoundaryEdgeForward(edge) == true {
+                            loopPolygons += sidePolygons.map { $0.inverted() }
+                        } else {
+                            loopPolygons += sidePolygons
+                        }
+                    }
+                }
+                polygons += loopPolygons.map { $0.withVertexNormalsFacingPlane() }
+            }
+        } else {
+            polygons = boundarySubshapes.flatMap { subshapes in
+                let capNormals = [subshapes.first, subshapes.last].flatMap {
+                    $0?.facePolygons(material: material).map(\.plane.normal) ?? []
+                }
+                return loft(subshapes, faces: .front, material: material, isCancelled: isCancelled)
+                    .polygons.filter { polygon in
+                        !capNormals.contains {
+                            abs($0.dot(polygon.plane.normal)) > 0.5
+                        }
+                    }
+            }
+        }
+        if let first = shapes.first, let last = shapes.last, first != last {
+            if !firstCapPolygons.isEmpty {
+                polygons += firstCapPolygons
+            }
+            if let prev = shapes.last(where: { $0 != last }) {
+                let p0p1 = directionBetweenShapes(prev, last)
+                let lastFacePolygons = last.sectionTransform(relativeTo: first).map { transform in
+                    firstFacePolygons.compactMap {
+                        Polygon($0.vertices.map { transform($0.position) }, material: material)
+                    }
+                } ?? last.facePolygons(material: material)
+                polygons += lastFacePolygons.map {
+                    p0p1.dot($0.plane.normal) < 0 ? $0.inverted() : $0
+                }
+            }
+        }
+        polygons = polygons.withConsistentWinding {
+            abs($0.plane.normal.dot(capNormal)) > 0.5
+        }.map { polygon in
+            return polygon.withVertexNormalsFacingPlane()
+        }
+        switch faces {
+        case .front, .default:
+            return Mesh(
+                unchecked: polygons,
+                bounds: nil,
+                bsp: nil,
+                isConvex: false,
+                isWatertight: nil,
+                submeshes: nil
+            )
+        case .back:
+            return Mesh(
+                unchecked: polygons.inverted(),
+                bounds: nil,
+                bsp: nil,
+                isConvex: false,
+                isWatertight: nil,
+                submeshes: nil
+            )
+        case .frontAndBack:
+            return Mesh(
+                unchecked: polygons + polygons.inverted(),
+                bounds: nil,
+                bsp: nil,
+                isConvex: false,
+                isWatertight: true,
+                submeshes: nil
+            )
+        }
+    }
+
     static func loft(
         _ shapes: [Path],
         faces: Faces,
@@ -1055,24 +1431,31 @@ private extension Mesh {
         isWatertight: Bool?,
         isCancelled: CancellationHandler
     ) -> Mesh {
-        let normalizedShapes = shapes.map { shape -> Path in
-            shape.subpaths.count > 1 ? Path(shape.points, plane: shape.plane) : shape
-        }
+        let (normalizedShapes, isNonZeroBoundary) = shapes.normalizingCompoundPathsForLoft()
         var subpathCount = 0
         let arrayOfSubpaths: [[Path]] = normalizedShapes.map {
             let subpaths = $0.subpaths
             subpathCount = max(subpathCount, subpaths.count)
             return subpaths
         }
-        if subpathCount > 1 {
+        if isNonZeroBoundary || subpathCount > 1 {
             var subshapes = Array(repeating: [Path](), count: subpathCount)
             for subpaths in arrayOfSubpaths {
                 for (i, subpath) in subpaths.enumerated() {
                     subshapes[i].append(subpath)
                 }
             }
+            if isNonZeroBoundary {
+                return compoundLoft(
+                    originalShapes: shapes,
+                    boundarySubshapes: subshapes,
+                    faces: faces,
+                    material: material,
+                    isCancelled: isCancelled
+                )
+            }
             return .symmetricDifference(subshapes.map {
-                .loft($0, faces: faces, material: material, isCancelled: isCancelled)
+                Mesh.loft($0, faces: faces, material: material, isCancelled: isCancelled)
             }, isCancelled: isCancelled)
         }
         // TODO: could we split the extrusion at empty shapes instead?
@@ -1197,15 +1580,17 @@ private extension Mesh {
         var invert = false
         func makePolygon(_ vertices: [Vertex]) -> Polygon? {
             Polygon(invert ? vertices.reversed() : vertices, material: material)
+                .map { $0.withVertexNormalsFacingPlane() }
         }
         func makePolygon(_ vertices: Vertex...) -> Polygon {
-            Polygon(
+            let polygon = Polygon(
                 unchecked: invert ? vertices.reversed() : vertices,
                 plane: nil,
                 isConvex: nil,
                 sanitizeNormals: false,
                 material: material
             )
+            return polygon.withVertexNormalsFacingPlane()
         }
         var uvstart = uvstart, uvend = uvend
         func addFace(_ a: Vertex, _ b: Vertex, _ c: Vertex, _ d: Vertex) {
@@ -1248,7 +1633,7 @@ private extension Mesh {
                     sanitizeNormals: false,
                     material: material,
                     id: 0
-                )
+                ).map { $0.withVertexNormalsFacingPlane() }
                 return
             }
             if vertices.count == 4 {
@@ -1278,7 +1663,6 @@ private extension Mesh {
         }
         var t0 = -p0.bounds.center, t1 = -p1.bounds.center
         var r = rotationBetweenNormalizedVectors(n1, n0)
-        let fp0 = p0.flatteningPlane, fp1 = p1.flatteningPlane
         var closed0 = p0.isClosed, closed1 = p1.isClosed
         // e1 count must be > than e0, so swap everything if not
         if e0.count > e1.count {
@@ -1293,6 +1677,7 @@ private extension Mesh {
             }
             return
         }
+        let fp0 = p0.flatteningPlane, fp1 = p1.flatteningPlane
         // Ensure edges have the same orientation
         if flattenedPointsAreClockwise(e0.map {
             fp0.flattenPoint($0.position)
@@ -1302,7 +1687,6 @@ private extension Mesh {
             e0.reverse()
             // TODO: fix mirrored texture coords
         }
-
         let sparseCount = e0.count / 2
         let denseCount = e1.count / 2
         let sparsePositions = stride(from: 0, to: e0.count, by: 2).map {
@@ -1394,5 +1778,20 @@ private extension Mesh {
         return isCancelled() ? [] : indexesAndOffsets.map { index, offset in
             meshes[index].translated(by: offset)
         }
+    }
+}
+
+private extension Polygon {
+    func withVertexNormalsFacingPlane() -> Polygon {
+        Polygon(
+            unchecked: vertices.map {
+                let normal = $0.normal.dot(plane.normal) < 0 ? -$0.normal : $0.normal
+                return $0.withNormal(normal)
+            },
+            plane: plane,
+            isConvex: isConvex,
+            sanitizeNormals: false,
+            material: material
+        )
     }
 }

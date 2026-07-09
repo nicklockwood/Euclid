@@ -51,6 +51,22 @@ final class TextTests: XCTestCase {
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.isConsistentlyWound)
     }
+
+    func testExtrudedTextWithHoleHasOutwardRimVertexNormals() throws {
+        let font = CTFontCreateWithName("Helvetica" as CFString, 12, nil)
+        let shape = try XCTUnwrap(Path.text("o", font: font).first)
+        let mesh = Mesh.extrude(shape)
+        let sidePolygons = mesh.polygons.filter { abs($0.plane.normal.z) < 0.5 }
+        let normalDots = sidePolygons.flatMap { polygon in
+            polygon.vertices.map { $0.normal.dot(polygon.plane.normal) }
+        }
+
+        XCTAssertFalse(sidePolygons.isEmpty)
+        XCTAssert(normalDots.allSatisfy { $0 > 0 }, """
+        bad normals: \(normalDots.filter { $0 <= 0 }.count) / \(normalDots.count), \
+        min: \(normalDots.min() ?? 0)
+        """)
+    }
 }
 
 #endif

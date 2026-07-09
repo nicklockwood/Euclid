@@ -77,6 +77,14 @@ extension Mesh {
     var isActuallyConvex: Bool {
         Mesh(polygons).isConvex()
     }
+
+    var hasSmoothSideVertexNormals: Bool {
+        polygons.contains { polygon in
+            abs(polygon.plane.normal.z) < 0.5 && polygon.vertices.contains {
+                !$0.normal.isApproximatelyEqual(to: polygon.plane.normal)
+            }
+        }
+    }
 }
 
 extension Vector {
@@ -154,4 +162,72 @@ extension Path {
             .point(4, 3),
         ]),
     ])
+
+    static var qrCodeLikeCompoundPath: Path {
+        func rectangle(
+            _ x: Double,
+            _ y: Double,
+            _ width: Double,
+            _ height: Double,
+            clockwise: Bool = false
+        ) -> Path {
+            let points: [PathPoint] = [
+                .point(x, y),
+                .point(x + width, y),
+                .point(x + width, y + height),
+                .point(x, y + height),
+                .point(x, y),
+            ]
+            return Path(clockwise ? points.reversed() : points)
+        }
+        return Path(subpaths: [
+            rectangle(0, 0, 56, 56),
+            rectangle(8, 8, 40, 40, clockwise: true),
+            rectangle(16, 16, 24, 24),
+            rectangle(144, 0, 56, 56),
+            rectangle(152, 8, 40, 40, clockwise: true),
+            rectangle(160, 16, 24, 24),
+            rectangle(0, 144, 56, 56),
+            rectangle(8, 152, 40, 40, clockwise: true),
+            rectangle(16, 160, 24, 24),
+            rectangle(64, 0, 8, 8),
+            rectangle(80, 0, 8, 16),
+            rectangle(96, 0, 24, 8),
+            rectangle(72, 8, 16, 8),
+            rectangle(104, 8, 8, 16),
+            rectangle(64, 24, 16, 8),
+            rectangle(88, 24, 32, 8),
+            rectangle(120, 32, 16, 8),
+            rectangle(80, 40, 24, 16),
+            rectangle(64, 48, 8, 16),
+            rectangle(96, 56, 16, 16),
+            rectangle(120, 64, 24, 8),
+            rectangle(152, 64, 16, 16),
+            rectangle(176, 64, 24, 8),
+            rectangle(8, 80, 32, 16),
+            rectangle(48, 72, 24, 24),
+            rectangle(80, 80, 16, 8),
+            rectangle(104, 80, 32, 24),
+            rectangle(144, 88, 24, 8),
+            rectangle(176, 80, 16, 16),
+            rectangle(16, 112, 24, 24),
+            rectangle(48, 120, 16, 8),
+            rectangle(72, 112, 32, 16),
+            rectangle(112, 120, 16, 24),
+            rectangle(136, 112, 24, 8),
+            rectangle(168, 112, 32, 16),
+            rectangle(64, 144, 16, 32),
+            rectangle(88, 136, 16, 16),
+            rectangle(104, 152, 24, 24),
+            rectangle(136, 136, 24, 24),
+            rectangle(168, 144, 8, 24),
+            rectangle(184, 136, 16, 16),
+            rectangle(64, 192, 8, 8),
+            rectangle(80, 184, 24, 16),
+            rectangle(112, 184, 16, 16),
+            rectangle(144, 176, 24, 24),
+            rectangle(176, 176, 8, 8),
+            rectangle(192, 192, 8, 8),
+        ])
+    }
 }

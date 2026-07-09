@@ -393,7 +393,17 @@ public extension Mesh {
     /// > Note: This method is not always successful. Check ``Mesh/isWatertight`` after to verify.
     func makeWatertight() -> Mesh {
         if watertightIfSet == true {
-            return self
+            guard !polygons.areConsistentlyWound else {
+                return self
+            }
+            return Mesh(
+                unchecked: polygons.withConsistentWinding(),
+                bounds: boundsIfSet,
+                bsp: nil,
+                isConvex: isKnownConvex,
+                isWatertight: true,
+                submeshes: submeshesIfEmpty
+            )
         }
         var holeEdges = polygons.holeEdges, polygons = polygons
         var precision = epsilon
@@ -473,12 +483,13 @@ public extension Mesh {
                 holeEdges = newEdges
             }
         }
+        let isWatertight = holeEdges.isEmpty
         return Mesh(
-            unchecked: polygons,
+            unchecked: isWatertight ? polygons.withConsistentWinding() : polygons,
             bounds: boundsIfSet,
             bsp: nil,
             isConvex: false, // TODO: can makeWatertight make this false?
-            isWatertight: holeEdges.isEmpty,
+            isWatertight: isWatertight,
             submeshes: submeshesIfEmpty
         )
     }
@@ -564,8 +575,17 @@ extension Mesh {
         storage.isConvex(isCancelled: isCancelled)
     }
 
+    /// Checks whether all polygon windings are consistent across shared edges.
     var isConsistentlyWound: Bool {
         polygons.areConsistentlyWound
+    }
+
+    var vertexNormalsFaceOutward: Bool {
+        polygons.allSatisfy { polygon in
+            polygon.vertices.allSatisfy {
+                $0.normal.dot(polygon.plane.normal) > 0
+            }
+        }
     }
 
     var boundsIfSet: Bounds? { storage.boundsIfSet }

@@ -46,7 +46,52 @@ final class MeshShapeTests: XCTestCase {
             .point(0, 1),
         ])
         let mesh = Mesh.fill(path)
-        XCTAssert(mesh.polygons.isEmpty)
+        XCTAssertFalse(mesh.polygons.isEmpty)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+    }
+
+    func testFillSelfIntersectingCurvedPathUsesNonZeroWindingRule() {
+        let path = Path([
+            .curve(0, 0),
+            .curve(1, 0),
+            .curve(0, 2),
+            .curve(1, 2),
+            .curve(0, 0),
+        ])
+        let mesh = Mesh.fill(path)
+
+        XCTAssertFalse(mesh.polygons.isEmpty)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+
+        let front = Mesh.fill(path, faces: .front)
+        XCTAssertFalse(front.polygons.isEmpty)
+        XCTAssertFalse(front.polygons.triangulate().isEmpty)
+        XCTAssertTrue(front.polygons.allSatisfy { $0.plane.normal == .unitZ })
+        XCTAssertGreaterThan(front.polygons.surfaceArea, 0)
+    }
+
+    func testFillCompoundPathUsesNonZeroWindingRule() {
+        let outer = Path([
+            .point(0, 0),
+            .point(10, 0),
+            .point(10, 10),
+            .point(0, 10),
+            .point(0, 0),
+        ])
+        let inner = Path([
+            .point(2, 2),
+            .point(8, 2),
+            .point(8, 8),
+            .point(2, 8),
+            .point(2, 2),
+        ])
+        let mesh = Mesh.fill(Path(subpaths: [outer, inner]))
+
+        XCTAssertEqual(mesh.polygons.surfaceArea, 200)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
     }
 
     func testFillNonPlanarQuad() {
@@ -76,7 +121,163 @@ final class MeshShapeTests: XCTestCase {
         ])
         let mesh = Mesh.extrude(path)
         XCTAssertFalse(mesh.polygons.isEmpty)
-        XCTAssertEqual(mesh, .extrude(path, faces: .frontAndBack))
+    }
+
+    func testExtrudeSelfIntersectingCurvedPathUsesNonZeroWindingRule() {
+        let path = Path.curve([
+            .curve(0, 0),
+            .curve(1, 0),
+            .curve(0, 2),
+            .curve(1, 2),
+            .curve(0, 0),
+        ])
+        let mesh = Mesh.extrude(path, depth: 1)
+
+        XCTAssertFalse(mesh.polygons.isEmpty)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConsistentlyWound)
+        XCTAssertTrue(mesh.vertexNormalsFaceOutward)
+    }
+
+    func testExtrudeCompoundPathUsesNonZeroWindingRule() {
+        let outer = Path([
+            .point(0, 0),
+            .point(10, 0),
+            .point(10, 10),
+            .point(0, 10),
+            .point(0, 0),
+        ])
+        let inner = Path([
+            .point(2, 2),
+            .point(8, 2),
+            .point(8, 8),
+            .point(2, 8),
+            .point(2, 2),
+        ])
+        let mesh = Mesh.extrude(Path(subpaths: [outer, inner]), depth: 1)
+
+        XCTAssertEqual(mesh.polygons.surfaceArea, 240)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+    }
+
+    func testExtrudeQRCodeLikeCompoundPathIsWatertight() {
+        let path = Path.qrCodeLikeCompoundPath
+        let mesh = Mesh.extrude(path, depth: 8)
+
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConsistentlyWound)
+        XCTAssertTrue(mesh.vertexNormalsFaceOutward)
+        XCTAssertFalse(mesh.hasSmoothSideVertexNormals)
+    }
+
+    func testExtrudeQRCodeLikeCompoundPathAlongBentPathIsWatertight() {
+        let path = Path.qrCodeLikeCompoundPath
+        let mesh = Mesh.extrude(path, along: Path([
+            .point(1, 20),
+            .point(0, 10),
+            .point(0, -10),
+        ]))
+
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConsistentlyWound)
+        XCTAssertTrue(mesh.vertexNormalsFaceOutward)
+    }
+
+    func testExtrudeNestedCompoundPathAlongCurvedPathIsWatertight() {
+        func rectangle(
+            _ x: Double,
+            _ y: Double,
+            _ width: Double,
+            _ height: Double,
+            clockwise: Bool = false
+        ) -> Path {
+            let points: [PathPoint] = [
+                .point(x, y),
+                .point(x + width, y),
+                .point(x + width, y + height),
+                .point(x, y + height),
+                .point(x, y),
+            ]
+            return Path(clockwise ? points.reversed() : points)
+        }
+        let path = Path(subpaths: [
+            rectangle(0, 0, 56, 56),
+            rectangle(8, 8, 40, 40, clockwise: true),
+            rectangle(16, 16, 24, 24),
+        ])
+        let mesh = Mesh.extrude(path, along: Path.curve([
+            .curve(10, 20),
+            .curve(0, 10),
+            .curve(0, -10),
+        ], detail: 8))
+
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConsistentlyWound)
+        XCTAssertTrue(mesh.vertexNormalsFaceOutward)
+    }
+
+    func testExtrudeCurvedCompoundPathPreservesSmoothSideNormals() {
+        let path = Path(subpaths: [
+            .circle(radius: 10, segments: 16),
+            .square(size: 8).translated(by: [20, 0]),
+        ])
+        let mesh = Mesh.extrude(path, depth: 8)
+
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConsistentlyWound)
+        XCTAssertTrue(mesh.vertexNormalsFaceOutward)
+        XCTAssertTrue(mesh.hasSmoothSideVertexNormals)
+    }
+
+    func testLatheCompoundPathUsesNonZeroWindingRule() {
+        let outer = Path([
+            .point(1, 0),
+            .point(3, 0),
+            .point(3, 10),
+            .point(1, 10),
+            .point(1, 0),
+        ])
+        let inner = Path([
+            .point(1.5, 2),
+            .point(2, 2),
+            .point(2, 8),
+            .point(1.5, 8),
+            .point(1.5, 2),
+        ])
+
+        let mesh = Mesh.lathe(Path(subpaths: [outer, inner]), slices: 8)
+        let expected = Mesh.lathe(outer, slices: 8)
+
+        XCTAssertEqual(mesh.bounds, expected.bounds)
+        XCTAssertEqual(mesh.polygons.surfaceArea, expected.polygons.surfaceArea)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+    }
+
+    func testLoftCompoundPathUsesNonZeroWindingRule() {
+        let outer = Path([
+            .point(0, 0),
+            .point(10, 0),
+            .point(10, 10),
+            .point(0, 10),
+            .point(0, 0),
+        ])
+        let inner = Path([
+            .point(2, 2),
+            .point(8, 2),
+            .point(8, 8),
+            .point(2, 8),
+            .point(2, 2),
+        ])
+        let compound = Path(subpaths: [outer, inner])
+        let mesh = Mesh.loft([compound, compound.translated(by: .unitZ)])
+        let expected = Mesh.loft([outer, outer.translated(by: .unitZ)])
+
+        XCTAssertEqual(mesh.bounds, expected.bounds)
+        XCTAssertEqual(mesh.polygons.surfaceArea, expected.polygons.surfaceArea)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
     }
 
     func testExtrudeClosedLine() {

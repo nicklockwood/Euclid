@@ -295,4 +295,27 @@ enum FlatteningPlane: RawRepresentable {
         case .xy: return [point.x, point.y]
         }
     }
+
+    func unflattenPoint(_ point: Vector, onto plane: Plane) -> Vector {
+        switch self {
+        case .xy:
+            return [
+                point.x,
+                point.y,
+                (plane.w - plane.normal.x * point.x - plane.normal.y * point.y) / plane.normal.z,
+            ]
+        case .xz:
+            return [
+                point.x,
+                (plane.w - plane.normal.x * point.x - plane.normal.z * point.y) / plane.normal.y,
+                point.y,
+            ]
+        case .yz:
+            return [
+                (plane.w - plane.normal.y * point.x - plane.normal.z * point.y) / plane.normal.x,
+                point.x,
+                point.y,
+            ]
+        }
+    }
 }

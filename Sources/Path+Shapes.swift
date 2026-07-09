@@ -371,7 +371,7 @@ public extension Path {
         } else {
             result.append(result[0])
         }
-        let path = Path(unchecked: result, plane: nil)
+        let path = Path(result)
         assert(path.isClosed == isClosed)
         return path
     }
