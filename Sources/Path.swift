@@ -415,8 +415,9 @@ public extension Path {
     func inset(by distance: Double) -> Path {
         guard subpaths.count <= 1 else {
             let subpaths = subpaths
+            let containment = PathContainmentIndex(subpaths)
             return Path(subpaths: subpaths.enumerated().map { index, subpath in
-                let distance = subpaths.containmentDepth(of: index).isMultiple(of: 2) ? distance : -distance
+                let distance = containment.depth(of: index).isMultiple(of: 2) ? distance : -distance
                 return subpath.inset(by: distance)
             })
         }
@@ -500,18 +501,23 @@ public extension Path {
     }
 }
 
-private extension [Path] {
-    func containmentDepth(of index: Index) -> Int {
-        guard indices.contains(index),
-              let point = self[index].points.first?.position
+private struct PathContainmentIndex {
+    private let entries: [(point: Vector?, bounds: Bounds, polygon: Polygon?)]
+
+    init(_ paths: [Path]) {
+        self.entries = paths.map { ($0.points.first?.position, $0.bounds, Polygon($0)) }
+    }
+
+    func depth(of index: Int) -> Int {
+        guard entries.indices.contains(index),
+              let point = entries[index].point
         else {
             return 0
         }
-        return indices.reduce(0) { count, otherIndex in
+        return entries.indices.reduce(0) { count, otherIndex in
             guard otherIndex != index,
-                  self[otherIndex].bounds.intersects(point),
-                  let polygon = Polygon(self[otherIndex]),
-                  polygon.intersects(point)
+                  entries[otherIndex].bounds.intersects(point),
+                  entries[otherIndex].polygon?.intersects(point) == true
             else {
                 return count
             }
@@ -770,16 +776,22 @@ extension Path {
         struct ScanlineEdge {
             let start: Vector
             let end: Vector
+            let segment: LineSegment
+            let bounds: Bounds
             let yMin: Double
             let yMax: Double
             let winding: Int
 
             init?(_ start: Vector, _ end: Vector) {
-                guard !start.y.isApproximatelyEqual(to: end.y) else {
+                guard !start.y.isApproximatelyEqual(to: end.y),
+                      let segment = LineSegment(start: start, end: end)
+                else {
                     return nil
                 }
                 self.start = start
                 self.end = end
+                self.segment = segment
+                self.bounds = segment.bounds
                 self.yMin = min(start.y, end.y)
                 self.yMax = max(start.y, end.y)
                 self.winding = start.y < end.y ? 1 : -1
@@ -812,12 +824,9 @@ extension Path {
 
         var yValues = edges.flatMap { [$0.yMin, $0.yMax] }
         for i in edges.indices {
-            guard let e0 = LineSegment(start: edges[i].start, end: edges[i].end) else {
-                continue
-            }
             for j in edges.indices.dropFirst(i + 1) {
-                guard let e1 = LineSegment(start: edges[j].start, end: edges[j].end),
-                      let intersection = e0.intersection(with: e1),
+                guard edges[i].bounds.intersects(edges[j].bounds),
+                      let intersection = edges[i].segment.intersection(with: edges[j].segment),
                       edges[i].yMin < intersection.y,
                       intersection.y < edges[i].yMax,
                       edges[j].yMin < intersection.y,
