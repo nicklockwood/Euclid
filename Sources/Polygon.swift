@@ -403,14 +403,15 @@ public extension Polygon {
     ///
     /// > Note: Passing a negative `distance` will expand the polygon instead of shrinking it.
     func inset(by distance: Double) -> Polygon? {
-        let count = vertices.count
-        var v1 = vertices[count - 1]
-        var v2 = vertices[0]
+        let source = vertices
+        let count = source.count
+        var v1 = source[count - 1]
+        var v2 = source[0]
         var p1p2 = v2.position - v1.position
         var n1: Vector!
-        return Polygon((0 ..< count).map { i in
+        let insetVertices = (0 ..< count).map { i in
             v1 = v2
-            v2 = i < count - 1 ? vertices[i + 1] : vertices[0]
+            v2 = i < count - 1 ? source[i + 1] : source[0]
             let p0p1 = p1p2
             p1p2 = v2.position - v1.position
             let faceNormal = plane.normal
@@ -419,7 +420,25 @@ public extension Polygon {
             // TODO: do we need to inset texcoord as well? If so, by how much?
             let normal = (n0 + n1).normalized()
             return v1.translated(by: normal * -(distance / n0.dot(normal)))
-        })
+        }
+        let inset = resolveInsetIntersections(
+            in: insetVertices,
+            isClosed: true,
+            normal: plane.normal,
+            position: { (vertex: Vertex) in vertex.position },
+            interpolate: { (a: Vertex, b: Vertex, t: Double) in a.lerp(b, t) }
+        ).dropLast()
+        guard inset.count > 2, !verticesAreDegenerate(inset) else {
+            return nil
+        }
+        return Polygon(
+            unchecked: Array(inset),
+            plane: plane,
+            isConvex: nil,
+            sanitizeNormals: false,
+            material: material,
+            id: id
+        )
     }
 
     /// Splits a polygon into two or more convex polygons using the "ear clipping" method.

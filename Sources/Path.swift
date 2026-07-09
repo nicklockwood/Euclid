@@ -416,22 +416,23 @@ public extension Path {
         guard subpaths.count <= 1, points.count >= 2 else {
             return Path(subpaths: subpaths.map { $0.inset(by: distance) })
         }
-        let count = points.count
-        var p1 = isClosed ? points[count - 2] : (
+        let source = points
+        let count = source.count
+        var p1 = isClosed ? source[count - 2] : (
             count > 2 ?
-                extrapolate(points[2], points[1], points[0]) :
-                extrapolate(points[1], points[0])
+                extrapolate(source[2], source[1], source[0]) :
+                extrapolate(source[1], source[0])
         )
-        var p2 = points[0]
+        var p2 = source[0]
         var p1p2 = p2.position - p1.position
         var n1: Vector!
-        return Path((0 ..< count).map { i in
+        let insetPoints = (0 ..< count).map { i in
             p1 = p2
-            p2 = i < count - 1 ? points[i + 1] :
-                (isClosed ? points[1] : (
+            p2 = i < count - 1 ? source[i + 1] :
+                (isClosed ? source[1] : (
                     count > 2 ?
-                        extrapolate(points[i - 2], points[i - 1], points[i]) :
-                        extrapolate(points[i - 1], points[i])
+                        extrapolate(source[i - 2], source[i - 1], source[i]) :
+                        extrapolate(source[i - 1], source[i])
                 ))
             let p0p1 = p1p2
             p1p2 = p2.position - p1.position
@@ -441,7 +442,18 @@ public extension Path {
             // TODO: do we need to inset texcoord as well? If so, by how much?
             let normal = (n0 + n1).normalized()
             return p1.translated(by: normal * -(distance / n0.dot(normal)))
-        })
+        }
+        let inset = resolveInsetIntersections(
+            in: insetPoints,
+            isClosed: isClosed,
+            normal: isClosed ? faceNormal : nil,
+            position: { (point: PathPoint) in point.position },
+            interpolate: { (a: PathPoint, b: PathPoint, t: Double) in a.lerp(b, t) }
+        )
+        guard !inset.isEmpty else {
+            return .empty
+        }
+        return Path(inset)
     }
 
     /// Returns the path recentered on the origin.

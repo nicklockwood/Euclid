@@ -642,6 +642,22 @@ final class PathTests: XCTestCase {
         ]))
     }
 
+    func testInsetNarrowUShapeRemovesCrossingLines() {
+        let path = Path([
+            .point(0, 0),
+            .point(0, 3),
+            .point(1, 3),
+            .point(1, 1),
+            .point(2, 1),
+            .point(2, 3),
+            .point(3, 3),
+            .point(3, 0),
+            .point(0, 0),
+        ])
+        let result = path.inset(by: 0.6)
+        XCTAssertFalse(result.orderedEdgesContainCrossings)
+    }
+
     // MARK: Y-axis clipping
 
     func testClipClosedClockwiseTriangleToRightOfAxis() {

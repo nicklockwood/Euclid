@@ -751,6 +751,77 @@ func extrapolate(_ p0: PathPoint, _ p1: PathPoint) -> PathPoint {
     return .point(p1.position + p0p1)
 }
 
+func resolveInsetIntersections<T>(
+    in points: [T],
+    isClosed: Bool,
+    normal: Vector?,
+    position: (T) -> Vector,
+    interpolate: (T, T, Double) -> T
+) -> [T] {
+    var points = points
+    if isClosed, points.count > 1,
+       position(points[0]) == position(points[points.count - 1])
+    {
+        points.removeLast()
+    }
+    while let intersection = firstInsetIntersection(
+        in: points,
+        isClosed: isClosed,
+        position: position
+    ) {
+        let point = interpolate(
+            points[intersection.i],
+            points[(intersection.i + 1) % points.count],
+            intersection.t
+        )
+        points.replaceSubrange(intersection.i + 1 ... intersection.j, with: [point])
+        if points.count < (isClosed ? 3 : 2) {
+            return []
+        }
+    }
+    guard !isClosed else {
+        guard normal.map({ faceNormalForPoints(points.map(position)).dot($0) > 0 }) ?? true,
+              let first = points.first
+        else {
+            return []
+        }
+        return points + [first]
+    }
+    return points
+}
+
+private func firstInsetIntersection<T>(
+    in points: [T],
+    isClosed: Bool,
+    position: (T) -> Vector
+) -> (i: Int, j: Int, t: Double)? {
+    let edgeCount = isClosed ? points.count : points.count - 1
+    guard edgeCount > 2 else {
+        return nil
+    }
+    func insetEdgesAreAdjacent(_ a: Int, _ b: Int, edgeCount: Int, isClosed: Bool) -> Bool {
+        abs(a - b) == 1 || (isClosed && a == 0 && b == edgeCount - 1)
+    }
+    for i in 0 ..< edgeCount {
+        let a0 = position(points[i])
+        let a1 = position(points[(i + 1) % points.count])
+        for j in i + 1 ..< edgeCount where !insetEdgesAreAdjacent(i, j, edgeCount: edgeCount, isClosed: isClosed) {
+            let b0 = position(points[j])
+            let b1 = position(points[(j + 1) % points.count])
+            guard let p = lineIntersection(a0, a1, true, b0, b1, true),
+                  !p.isApproximatelyEqual(to: a0),
+                  !p.isApproximatelyEqual(to: a1),
+                  !p.isApproximatelyEqual(to: b0),
+                  !p.isApproximatelyEqual(to: b1)
+            else {
+                continue
+            }
+            return (i, j, a0.distance(from: p) / a0.distance(from: a1))
+        }
+    }
+    return nil
+}
+
 // MARK: Coding
 
 /// Protocol for types that can be encoded directly into an unkeyed

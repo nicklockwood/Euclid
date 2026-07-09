@@ -71,6 +71,10 @@ extension Euclid.Polygon {
     init(unchecked points: [Vector]) {
         self.init(unchecked: points.map(Vertex.init))
     }
+
+    var orderedEdgesContainCrossings: Bool {
+        orderedEdges.containCrossings(isClosed: true)
+    }
 }
 
 extension Mesh {
@@ -230,4 +234,30 @@ extension Path {
             rectangle(192, 192, 8, 8),
         ])
     }()
+
+    var orderedEdgesContainCrossings: Bool {
+        orderedEdges.containCrossings(isClosed: isClosed)
+    }
+}
+
+private extension [LineSegment] {
+    func containCrossings(isClosed: Bool) -> Bool {
+        for i in indices {
+            for j in indices.dropFirst(i + 1) where !edgesAreAdjacent(i, j, isClosed: isClosed) {
+                if let p = self[i].intersection(with: self[j]),
+                   !p.isApproximatelyEqual(to: self[i].start),
+                   !p.isApproximatelyEqual(to: self[i].end),
+                   !p.isApproximatelyEqual(to: self[j].start),
+                   !p.isApproximatelyEqual(to: self[j].end)
+                {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    func edgesAreAdjacent(_ a: Int, _ b: Int, isClosed: Bool) -> Bool {
+        abs(a - b) == 1 || (isClosed && a == 0 && b == count - 1)
+    }
 }

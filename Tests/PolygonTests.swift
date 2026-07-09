@@ -1215,6 +1215,21 @@ final class PolygonTests: XCTestCase {
         XCTAssertEqual(result, expected)
     }
 
+    func testInsetNarrowUShapeRemovesCrossingLines() {
+        let polygon = Polygon(unchecked: [
+            [0, 0],
+            [0, 3],
+            [1, 3],
+            [1, 1],
+            [2, 1],
+            [2, 3],
+            [3, 3],
+            [3, 0],
+        ])
+        let result = polygon.inset(by: 0.6)
+        XCTAssertFalse(result?.orderedEdgesContainCrossings ?? false)
+    }
+
     // MARK: LineComparable
 
     func testDistanceFromParallelLine() {
