@@ -70,6 +70,83 @@ final class MeshTests: XCTestCase {
         }
     }
 
+    func testInsetExtrudedConcaveShapeRemovesCrossingFaces() {
+        let shape = Path([
+            .point(0, 0),
+            .point(0, 3),
+            .point(1, 3),
+            .point(1, 1),
+            .point(2, 1),
+            .point(2, 3),
+            .point(3, 3),
+            .point(3, 0),
+            .point(0, 0),
+        ])
+        let mesh = Mesh.extrude(shape).inset(by: 0.6)
+        XCTAssertFalse(mesh.polygons.contains { $0.orderedEdgesContainCrossings })
+    }
+
+    func testInsetConeDoesNotTurnTipInsideOut() {
+        let cone = Mesh.cone()
+        let mesh = cone.inset(by: 0.1)
+        XCTAssertEqual(mesh.polygons.count, cone.polygons.count)
+        XCTAssert(mesh.isWatertight, "hole edges: \(mesh.polygons.holeEdges.count)")
+        XCTAssert(mesh.polygons.areWatertight, "hole edges: \(mesh.polygons.holeEdges.count)")
+        XCTAssertFalse(mesh.polygons.contains {
+            $0.orderedEdgesContainCrossings
+        }, "crossing faces: \(mesh.polygons.filter(\.orderedEdgesContainCrossings).count)")
+    }
+
+    func testInsetConeKeepsSideEdgesStraight() throws {
+        let mesh = Mesh.cone().inset(by: 0.1)
+        let positions = Set(mesh.polygons.flatMap { $0.vertices.map(\.position) })
+        let side = positions.filter {
+            let radius = Vector($0.x, $0.z).length
+            return radius > epsilon && $0.y > mesh.bounds.min.y + epsilon
+        }
+        let directions = Dictionary(grouping: side) { position in
+            let angle = atan2(position.z, position.x)
+            return Int((angle / (Double.pi * 2) * 16).rounded())
+        }
+        for line in directions.values where line.count > 2 {
+            let sorted = line.sorted { $0.y < $1.y }
+            let edge = try XCTUnwrap(sorted.last) - sorted.first!
+            for position in sorted.dropFirst().dropLast() {
+                XCTAssert(edge.cross(position - sorted.first!).length < 1e-6)
+            }
+        }
+    }
+
+    func testInsetConePreservesAspectRatio() {
+        let cone = Mesh.cone()
+        let mesh = cone.inset(by: 0.1)
+        let coneSize = cone.bounds.size
+        let meshSize = mesh.bounds.size
+        XCTAssertEqual(meshSize.x / coneSize.x, meshSize.y / coneSize.y, accuracy: 1e-6)
+        XCTAssertEqual(meshSize.z / coneSize.z, meshSize.y / coneSize.y, accuracy: 1e-6)
+    }
+
+    func testInsetConeDisappearsWhenInsetPastRadius() {
+        let mesh = Mesh.cone().inset(by: 0.5)
+        XCTAssert(mesh.isEmpty, "polygons: \(mesh.polygons.count), bounds: \(mesh.bounds)")
+    }
+
+    func testInsetCubeSubtractingSphereDoesNotDisappear() {
+        let source = Mesh.cube(size: 0.8).subtracting(Mesh.sphere()).makeWatertight()
+        let mesh = source.inset(by: 0.01)
+        XCTAssert(source.isWatertight, "source hole edges: \(source.polygons.holeEdges.count)")
+        XCTAssertFalse(mesh.isEmpty)
+        XCTAssertGreaterThanOrEqual(mesh.polygons.count, source.polygons.count)
+        XCTAssert(
+            mesh.isWatertight,
+            "source polygons: \(source.polygons.count), inset polygons: \(mesh.polygons.count), inset hole edges: \(mesh.polygons.holeEdges.count)"
+        )
+        XCTAssert(mesh.polygons.areWatertight, "inset hole edges: \(mesh.polygons.holeEdges.count)")
+        XCTAssertFalse(mesh.polygons.contains {
+            $0.orderedEdgesContainCrossings
+        }, "crossing faces: \(mesh.polygons.filter(\.orderedEdgesContainCrossings).count)")
+    }
+
     func testSphereIsWatertightAndConvex() {
         let mesh = Mesh.sphere()
         XCTAssertEqual(mesh.watertightIfSet, true)

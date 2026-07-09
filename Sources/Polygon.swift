@@ -555,6 +555,33 @@ public extension Polygon {
     }
 }
 
+private extension Polygon {
+    /// Returns inset polygons, splitting into triangles if the moved polygon becomes invalid.
+    func insetPolygons(using positionCache: [Vector: Vector], by distance: Double) -> [Polygon] {
+        func moved(_ polygon: Polygon) -> Polygon? {
+            let vertices = polygon.vertices.map { vertex -> Vertex in
+                let key = vertex.position
+                let position = positionCache[key] ?? key.translated(by: polygon.plane.normal * -distance)
+                return Vertex(unchecked: position, vertex.normal, vertex.texcoord, vertex.color)
+            }
+            guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+                return nil
+            }
+            return Polygon(
+                unchecked: vertices,
+                normal: polygon.plane.normal,
+                isConvex: nil, // Inset can alter shape
+                sanitizeNormals: false,
+                material: polygon.material
+            )
+        }
+        if let polygon = moved(self) {
+            return [polygon]
+        }
+        return triangulate().compactMap(moved)
+    }
+}
+
 extension Collection<LineSegment> {
     /// Set of all unique start/end points in edge collection.
     var endPoints: Set<Vector> {
@@ -980,41 +1007,180 @@ extension Collection<Polygon> {
 
     /// Inset along face normals
     func insetFaces(by distance: Double) -> [Polygon] {
-        compactMap { p0 in
-            Polygon(
-                p0.vertices.map { v0 in
-                    var planes: [Plane] = [p0.plane]
-                    for p1 in self where p1.vertices.contains(where: {
-                        $0.position.isApproximatelyEqual(to: v0.position)
-                    }) {
-                        let plane = p1.plane
-                        if !planes.contains(where: { $0.isApproximatelyEqual(to: plane) }) {
-                            planes.append(plane)
-                        }
-                    }
-                    let position: Vector
-                    switch planes.count {
-                    case 2:
-                        let normal = planes.map(\.normal).reduce(.zero) { $0 + $1 }.normalized()
-                        let distance = -(distance / p0.plane.normal.dot(normal))
-                        position = v0.position.translated(by: normal * distance)
-                    case 3...:
-                        planes = planes.map { $0.translated(by: $0.normal * -distance) }
-                        if let line = planes[0].intersection(with: planes[1]),
-                           let p = line.intersection(with: planes[2])
-                        {
-                            position = p
-                        } else {
-                            fallthrough
-                        }
-                    default:
-                        position = v0.position.translated(by: p0.plane.normal * -distance)
-                    }
-                    return Vertex(unchecked: position, v0.normal, v0.texcoord, v0.color)
-                },
-                material: p0.material
+        let source = Array(self).mergingVertices(withPrecision: epsilon)
+        var vertexInfo = [Vector: (planes: [Plane], neighbors: Set<Vector>)]()
+        for polygon in source {
+            for i in polygon.vertices.indices {
+                let position = polygon.vertices[i].position
+                let previous = polygon.vertices[i == 0 ? polygon.vertices.count - 1 : i - 1].position
+                let next = polygon.vertices[(i + 1) % polygon.vertices.count].position
+                var info = vertexInfo[position] ?? ([], [])
+                if !info.planes.contains(where: { $0.isApproximatelyEqual(to: polygon.plane) }) {
+                    info.planes.append(polygon.plane)
+                }
+                info.neighbors.insert(previous)
+                info.neighbors.insert(next)
+                vertexInfo[position] = info
+            }
+        }
+
+        var positionCache = [Vector: Vector]()
+        for (position, info) in vertexInfo {
+            positionCache[position] = insetPosition(
+                for: position,
+                planes: info.planes,
+                by: distance
             )
         }
+        let sourceBounds = Bounds(source.flatMap(\.vertices))
+        let isConvexSurface = source.isConvexSurface
+        if isConvexSurface {
+            for position in positionCache.keys {
+                guard let (a, b, t) = straightChain(for: position, in: vertexInfo),
+                      let a1 = positionCache[a],
+                      let b1 = positionCache[b]
+                else {
+                    continue
+                }
+                positionCache[position] = a1 + (b1 - a1) * t
+            }
+        }
+        let polygons = source.flatMap { polygon in
+            polygon.insetPolygons(using: positionCache, by: distance)
+        }
+        guard distance > 0, isConvexSurface else {
+            return polygons.mergingVertices(withPrecision: epsilon)
+        }
+        let insetBounds = Bounds(polygons.flatMap(\.vertices))
+        return insetBounds.isInside(sourceBounds) ? polygons
+            .mergingVertices(withPrecision: epsilon) : []
+    }
+
+    /// Returns true if all polygon vertices lie behind every face plane.
+    private var isConvexSurface: Bool {
+        let points = flatMap { $0.vertices.map(\.position) }
+        return allSatisfy { polygon in
+            points.allSatisfy { $0.signedDistance(from: polygon.plane) < epsilon }
+        }
+    }
+
+    /// Finds the longest straight neighbor chain passing through a vertex.
+    private func straightChain(
+        for position: Vector,
+        in vertexInfo: [Vector: (planes: [Plane], neighbors: Set<Vector>)]
+    ) -> (Vector, Vector, Double)? {
+        guard let info = vertexInfo[position] else {
+            return nil
+        }
+        let neighbors = Array(info.neighbors)
+        var best: (Vector, Vector)?
+        var bestLengthSquared = 0.0
+        for i in neighbors.indices {
+            for j in neighbors.indices.dropFirst(i + 1) {
+                let a = neighbors[i], b = neighbors[j]
+                guard pointsAreCollinear(a, position, b),
+                      (a - position).dot(b - position) < 0
+                else {
+                    continue
+                }
+                let lengthSquared = (b - a).lengthSquared
+                if lengthSquared > bestLengthSquared {
+                    best = (a, b)
+                    bestLengthSquared = lengthSquared
+                }
+            }
+        }
+        guard let best else {
+            return nil
+        }
+        let a = chainEndpoint(from: best.0, through: position, in: vertexInfo)
+        let b = chainEndpoint(from: best.1, through: position, in: vertexInfo)
+        let ab = b - a
+        let lengthSquared = ab.lengthSquared
+        guard lengthSquared > epsilon else {
+            return nil
+        }
+        let t = (position - a).dot(ab) / lengthSquared
+        guard t > epsilon, t < 1 - epsilon else {
+            return nil
+        }
+        return (a, b, t)
+    }
+
+    /// Walks from a vertex to the end of a straight chain.
+    private func chainEndpoint(
+        from neighbor: Vector,
+        through position: Vector,
+        in vertexInfo: [Vector: (planes: [Plane], neighbors: Set<Vector>)]
+    ) -> Vector {
+        var previous = position
+        var current = neighbor
+        while let next = vertexInfo[current]?.neighbors.first(where: {
+            $0 != previous && pointsAreCollinear(previous, current, $0) &&
+                ($0 - current).dot(current - previous) > 0
+        }) {
+            previous = current
+            current = next
+        }
+        return current
+    }
+
+    /// Calculates the inset position produced by offsetting the adjacent planes.
+    private func insetPosition(for position: Vector, planes: [Plane], by distance: Double) -> Vector {
+        let planes = planes.map { $0.translated(by: $0.normal * -distance) }
+        switch planes.count {
+        case 0:
+            return position
+        case 1:
+            return planes[0].nearestPoint(to: position)
+        case 2:
+            return planes[0].intersection(with: planes[1])?.nearestPoint(to: position) ?? position
+        case 3:
+            if let line = planes[0].intersection(with: planes[1]),
+               let point = line.intersection(with: planes[2])
+            {
+                return point
+            }
+            return bestFitIntersection(of: planes) ?? position
+        default:
+            return bestFitIntersection(of: planes) ?? position
+        }
+    }
+
+    /// Finds the least-squares intersection point for a set of planes.
+    private func bestFitIntersection(of planes: [Plane]) -> Vector? {
+        var m00 = 0.0, m01 = 0.0, m02 = 0.0
+        var m11 = 0.0, m12 = 0.0, m22 = 0.0
+        var b0 = 0.0, b1 = 0.0, b2 = 0.0
+        for plane in planes {
+            let n = plane.normal
+            m00 += n.x * n.x
+            m01 += n.x * n.y
+            m02 += n.x * n.z
+            m11 += n.y * n.y
+            m12 += n.y * n.z
+            m22 += n.z * n.z
+            b0 += n.x * plane.w
+            b1 += n.y * plane.w
+            b2 += n.z * plane.w
+        }
+        let determinant = m00 * (m11 * m22 - m12 * m12) -
+            m01 * (m01 * m22 - m12 * m02) +
+            m02 * (m01 * m12 - m11 * m02)
+        guard abs(determinant) > epsilon else {
+            return nil
+        }
+        return Vector(
+            (b0 * (m11 * m22 - m12 * m12) -
+                m01 * (b1 * m22 - m12 * b2) +
+                m02 * (b1 * m12 - m11 * b2)) / determinant,
+            (m00 * (b1 * m22 - m12 * b2) -
+                b0 * (m01 * m22 - m12 * m02) +
+                m02 * (m01 * b2 - b1 * m02)) / determinant,
+            (m00 * (m11 * b2 - b1 * m12) -
+                m01 * (m01 * b2 - b1 * m02) +
+                b0 * (m01 * m12 - m11 * m02)) / determinant
+        )
     }
 
     /// Flip each polygon along its plane

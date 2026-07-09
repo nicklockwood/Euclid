@@ -296,6 +296,16 @@ extension Bounds {
         max.x < min.x || max.y < min.y || max.z < min.z
     }
 
+    /// Returns a Boolean value that indicates whether this bounds is fully inside the specified bounds.
+    func isInside(_ other: Bounds, tolerance: Double = epsilon) -> Bool {
+        min.x >= other.min.x - tolerance &&
+            min.y >= other.min.y - tolerance &&
+            min.z >= other.min.z - tolerance &&
+            max.x <= other.max.x + tolerance &&
+            max.y <= other.max.y + tolerance &&
+            max.z <= other.max.z + tolerance
+    }
+
     /// Planes representing the edges of the bounds.
     /// If the bounds is empty this will return an empty array.
     var edgePlanes: [Plane] {
