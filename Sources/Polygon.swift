@@ -625,6 +625,19 @@ extension Collection<Polygon> {
         holeEdges.isEmpty
     }
 
+    /// Check if polygons have consistent winding, i.e. that they are not showing any back faces.
+    var areConsistentlyWound: Bool {
+        var edgeBalance = [LineSegment: Int]()
+        for polygon in self {
+            for edge in polygon.orderedEdges {
+                let undirectedEdge = LineSegment(undirected: edge)
+                let sign = edge == undirectedEdge ? 1 : -1
+                edgeBalance[undirectedEdge, default: 0] += sign
+            }
+        }
+        return edgeBalance.values.allSatisfy { $0 == 0 }
+    }
+
     /// Returns all edges that exist at the boundary of a hole.
     var holeEdges: Set<LineSegment> {
         var edges = Set<LineSegment>()

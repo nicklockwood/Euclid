@@ -44,6 +44,13 @@ final class TextTests: XCTestCase {
         XCTAssert(mesh.bounds.max.x > 20)
         XCTAssert(mesh.polygons.count > 150)
     }
+
+    func testExtrudedCharacterHasCorrectWinding() throws {
+        let shape = try XCTUnwrap(Path.text("e").first)
+        let mesh = Mesh.extrude(shape).makeWatertight()
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConsistentlyWound)
+    }
 }
 
 #endif

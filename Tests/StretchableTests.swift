@@ -43,4 +43,15 @@ final class StretchableTests: XCTestCase {
         let r = p.stretched(by: 1.5, along: .unitX)
         XCTAssertEqual(r, p.scaled(by: [1.5, 1, 1]))
     }
+
+    func testStretchCompoundPathPreservesSubpaths() {
+        let path = Path.compoundPath
+        let line = Line(unchecked: .zero, direction: Vector(1, 1).normalized())
+        let stretched = path.stretched(by: 1.5, along: line)
+
+        XCTAssertEqual(stretched.subpaths.count, path.subpaths.count)
+        XCTAssertEqual(stretched.subpaths, path.subpaths.map {
+            $0.stretched(by: 1.5, along: line)
+        })
+    }
 }

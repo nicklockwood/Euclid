@@ -344,4 +344,12 @@ public extension PathPoint {
         point.color = color
         return point
     }
+
+    /// Replace a point position.
+    /// - Parameter position: The position to apply to the point.
+    func withPosition(_ position: Vector) -> PathPoint {
+        var point = self
+        point.position = position
+        return point
+    }
 }

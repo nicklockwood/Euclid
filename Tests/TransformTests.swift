@@ -147,6 +147,46 @@ final class TransformTests: XCTestCase {
         XCTAssertFalse(zeroPath.edgeVertices.isEmpty)
     }
 
+    func testTranslateCompoundPathPreservesSubpaths() {
+        let path = Path.compoundPath
+        let offset = Vector(2, -3, 4)
+        let translated = path.translated(by: offset)
+
+        XCTAssertEqual(translated.subpaths.count, path.subpaths.count)
+        XCTAssertEqual(translated.subpaths, path.subpaths.map { $0.translated(by: offset) })
+    }
+
+    func testRotateCompoundPathPreservesSubpaths() {
+        let path = Path.compoundPath
+        let rotation = Rotation(roll: .degrees(35), yaw: .degrees(20), pitch: .degrees(-15))
+        let rotated = path.rotated(by: rotation)
+
+        XCTAssertEqual(rotated.subpaths.count, path.subpaths.count)
+        XCTAssertEqual(rotated.subpaths, path.subpaths.map { $0.rotated(by: rotation) })
+    }
+
+    func testScaleCompoundPathPreservesSubpaths() {
+        let path = Path.compoundPath
+        let scale = Vector(1.5, 0.75, 2)
+        let scaled = path.scaled(by: scale)
+
+        XCTAssertEqual(scaled.subpaths.count, path.subpaths.count)
+        XCTAssertEqual(scaled.subpaths, path.subpaths.map { $0.scaled(by: scale) })
+    }
+
+    func testTransformCompoundPathPreservesSubpaths() {
+        let path = Path.compoundPath
+        let transform = Transform(
+            scale: [1.5, 0.75, 2],
+            rotation: Rotation(roll: .degrees(35), yaw: .degrees(20), pitch: .degrees(-15)),
+            translation: [2, -3, 4]
+        )
+        let transformed = path.transformed(by: transform)
+
+        XCTAssertEqual(transformed.subpaths.count, path.subpaths.count)
+        XCTAssertEqual(transformed.subpaths, path.subpaths.map { $0.transformed(by: transform) })
+    }
+
     // MARK: Mesh transforms
 
     func testBoundsNotPreservedWhenMeshRotated() {

@@ -136,3 +136,22 @@ extension Transform {
         )
     }
 }
+
+extension Path {
+    static var compoundPath: Path = .init(subpaths: [
+        Path([
+            .point(0, 0),
+            .point(2, 0),
+            .point(2, 1),
+            .point(0, 1),
+            .point(0, 0),
+        ]),
+        Path([
+            .point(4, 3),
+            .point(5, 3),
+            .point(5, 5),
+            .point(4, 5),
+            .point(4, 3),
+        ]),
+    ])
+}

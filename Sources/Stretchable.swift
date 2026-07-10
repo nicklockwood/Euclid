@@ -50,18 +50,13 @@ extension Stretchable {
 
 extension Path: Stretchable {
     func stretched(by scaleFactor: Double, along: Line) -> Path {
-        Path(points.map { $0.stretched(by: scaleFactor, along: along) }, plane: nil)
+        mapPoints { $0.stretched(by: scaleFactor, along: along) }
     }
 }
 
 extension PathPoint: Stretchable {
     func stretched(by scaleFactor: Double, along: Line) -> PathPoint {
-        PathPoint(
-            position: position.stretched(by: scaleFactor, along: along),
-            texcoord: texcoord,
-            color: color,
-            isCurved: isCurved
-        )
+        withPosition(position.stretched(by: scaleFactor, along: along))
     }
 }
 

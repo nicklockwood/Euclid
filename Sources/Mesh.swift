@@ -501,6 +501,10 @@ extension Mesh {
         storage.isConvex(isCancelled: isCancelled)
     }
 
+    var isConsistentlyWound: Bool {
+        polygons.areConsistentlyWound
+    }
+
     var boundsIfSet: Bounds? { storage.boundsIfSet }
     var bspIfSet: BSP? { storage.bspIfSet }
     var watertightIfSet: Bool? { storage.watertightIfSet }

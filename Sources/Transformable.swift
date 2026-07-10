@@ -327,63 +327,38 @@ extension Vector: Transformable {
 
 extension PathPoint: Transformable {
     public func translated(by distance: Vector) -> PathPoint {
-        PathPoint(
-            position + distance,
-            texcoord: texcoord,
-            color: color,
-            isCurved: isCurved
-        )
+        withPosition(position + distance)
     }
 
     public func rotated(by rotation: Rotation) -> PathPoint {
-        PathPoint(
-            position.rotated(by: rotation),
-            texcoord: texcoord,
-            color: color,
-            isCurved: isCurved
-        )
+        withPosition(position.rotated(by: rotation))
     }
 
     public func scaled(by scale: Vector) -> PathPoint {
-        PathPoint(
-            position.scaled(by: scale),
-            texcoord: texcoord,
-            color: color,
-            isCurved: isCurved
-        )
+        withPosition(position.scaled(by: scale))
     }
 
     public func scaled(by factor: Double) -> PathPoint {
-        PathPoint(
-            position * factor,
-            texcoord: texcoord,
-            color: color,
-            isCurved: isCurved
-        )
+        withPosition(position * factor)
     }
 
     public func transformed(by transform: Transform) -> PathPoint {
-        PathPoint(
-            position.transformed(by: transform),
-            texcoord: texcoord,
-            color: color,
-            isCurved: isCurved
-        )
+        withPosition(position.transformed(by: transform))
     }
 }
 
 extension Path: Transformable {
     public func translated(by distance: Vector) -> Path {
-        distance.isZero ? self : Path(
-            points.translated(by: distance),
+        distance.isZero ? self : mapPoints(
+            unchecked: { $0.translated(by: distance) },
             plane: plane?.translated(by: distance)
         )
     }
 
     public func rotated(by rotation: Rotation) -> Path {
-        rotation.isIdentity ? self : Path(
-            points.rotated(by: rotation),
-            plane: nil // Avoids loss of precision from rotating plane
+        rotation.isIdentity ? self : mapPoints(
+            unchecked: { $0.rotated(by: rotation) },
+            plane: plane?.rotated(by: rotation)
         )
     }
 
@@ -400,25 +375,17 @@ extension Path: Transformable {
             }
             plane = plane?.inverted()
         }
-        return Path(
-            points.scaled(by: scale),
-            plane: plane?.scaled(by: scale)
-        )
+        let scaledPlane = plane?.scaled(by: scale)
+        return mapPoints(unchecked: { $0.scaled(by: scale) }, plane: scaledPlane)
     }
 
     public func scaled(by factor: Double) -> Path {
         let factor = factor.clampedToScaleLimit()
-        return Path(
-            points.scaled(by: factor),
-            plane: plane?.scaled(by: factor)
-        )
-    }
-
-    public func transformed(by transform: Transform) -> Path {
-        Path(
-            points.transformed(by: transform),
-            plane: plane?.transformed(by: transform)
-        )
+        guard !factor.isApproximatelyEqual(to: 1, absoluteTolerance: epsilon) else {
+            return self
+        }
+        let plane = plane?.scaled(by: factor)
+        return mapPoints(unchecked: { $0.scaled(by: factor) }, plane: plane)
     }
 }
 

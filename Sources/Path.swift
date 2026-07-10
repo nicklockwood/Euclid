@@ -182,15 +182,16 @@ public extension Path {
         plane?.normal ?? faceNormalForPoints(points.map(\.position))
     }
 
+    /// Returns a copy of the polygon with transformed points
+    /// - Parameter transform: A closure to be applied to each point in the path.
+    func mapPoints(_ transform: (PathPoint) -> PathPoint) -> Path {
+        mapPoints(unchecked: transform, plane: nil)
+    }
+
     /// Returns a copy of the polygon with transformed point colors
     /// - Parameter transform: A closure to be applied to each color in the path.
     func mapColors(_ transform: (Color?) -> Color?) -> Path {
-        switch storage {
-        case let .points(points):
-            return .init(unchecked: .points(points.map { $0.withColor(transform($0.color)) }), plane: plane)
-        case let .subpaths(subpaths):
-            return .init(unchecked: .subpaths(subpaths.map { $0.mapColors(transform) }), plane: plane)
-        }
+        mapPoints(unchecked: { $0.withColor(transform($0.color)) }, plane: plane)
     }
 
     /// Returns a copy of the path with the specified color applied to each point.
@@ -649,6 +650,20 @@ extension Path {
     // TODO: Could this make use of Polygon.area?
     var hasZeroArea: Bool {
         points.count < (isClosed ? 4 : 3)
+    }
+
+    /// Returns a copy of the polygon with transformed points, preserving current plane
+    func mapPoints(unchecked transform: (PathPoint) -> PathPoint, plane: Plane?) -> Path {
+        switch storage {
+        case let .points(points):
+            return .init(unchecked: .points(sanitizePoints(points.map(transform))), plane: plane)
+        case let .subpaths(subpaths):
+            return .init(unchecked: .subpaths(subpaths.map {
+                // subpaths can sometimes have an inverse plane to the overall path
+                let plane = $0.plane == self.plane ? plane : plane?.inverted()
+                return $0.mapPoints(unchecked: transform, plane: plane)
+            }), plane: plane)
+        }
     }
 
     // flattens z-axis
