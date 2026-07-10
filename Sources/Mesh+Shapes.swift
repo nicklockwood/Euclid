@@ -1055,8 +1055,11 @@ private extension Mesh {
         isWatertight: Bool?,
         isCancelled: CancellationHandler
     ) -> Mesh {
+        let normalizedShapes = shapes.map { shape -> Path in
+            shape.subpaths.count > 1 ? Path(shape.points, plane: shape.plane) : shape
+        }
         var subpathCount = 0
-        let arrayOfSubpaths: [[Path]] = shapes.map {
+        let arrayOfSubpaths: [[Path]] = normalizedShapes.map {
             let subpaths = $0.subpaths
             subpathCount = max(subpathCount, subpaths.count)
             return subpaths
@@ -1073,7 +1076,7 @@ private extension Mesh {
             }, isCancelled: isCancelled)
         }
         // TODO: could we split the extrusion at empty shapes instead?
-        let shapes = shapes.filter { !$0.isEmpty }
+        let shapes = normalizedShapes.filter { !$0.isEmpty }
         guard let first = shapes.first, let last = shapes.last else {
             return .empty
         }
