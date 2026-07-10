@@ -38,7 +38,7 @@ jobs:
       fail-fast: false
       matrix:
         swiftver:
-          - swift:5.7
+          - swift:5.10
           - swiftlang/swift:nightly-main
         swiftos:
           - focal
@@ -52,10 +52,13 @@ jobs:
       - name: Build and Test
         run: swift test --enable-test-discovery
 
-  swiftwasm_test_5_9:
+  swiftwasm_test:
     runs-on: ubuntu-latest
+    container: swift:6.0.3
     steps:
       - uses: actions/checkout@v3
-      - uses: swiftwasm/swiftwasm-action@v5.9
-        with:
-          shell-action: carton test
+      - name: Setup SwiftWasm
+        id: setup-swiftwasm
+        uses: swiftwasm/setup-swiftwasm@v2
+      - name: Build Tests
+        run: swift build --build-tests --swift-sdk ${{ steps.setup-swiftwasm.outputs['swift-sdk-id'] }}

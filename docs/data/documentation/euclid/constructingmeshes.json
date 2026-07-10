@@ -18,11 +18,6 @@
   },
   "kind" : "article",
   "metadata" : {
-    "modules" : [
-      {
-        "name" : "Euclid"
-      }
-    ],
     "role" : "article",
     "roleHeading" : "Article",
     "title" : "Constructing Meshes"
@@ -43,9 +38,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh",
+              "type" : "codeVoice"
             },
             {
               "text" : " in Euclid.",
@@ -60,9 +54,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Polygon",
+              "type" : "codeVoice"
             },
             {
               "text" : " instances, but that’s pretty tedious.",
@@ -92,9 +85,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh",
+              "type" : "codeVoice"
             },
             {
               "text" : " is to start with an existing primitive, such as a cube or sphere.",
@@ -109,9 +101,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh",
+              "type" : "codeVoice"
             },
             {
               "text" : ":",
@@ -127,18 +118,16 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cube(center:size:faces:wrapMode:material:)-8t5q8",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/cube(center:size:faces:wrapMode:material:)-8t5q8",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - A cubic ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " (or cuboid, if you specify different values for the width, height and\/or depth).",
@@ -212,9 +201,8 @@
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : ".",
@@ -308,18 +296,16 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh",
+              "type" : "codeVoice"
             },
             {
               "text" : " primitives listed, there are also 2D ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : " primitives.",
@@ -334,18 +320,16 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : " type instead of ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh",
+              "type" : "codeVoice"
             },
             {
               "text" : ":",
@@ -361,9 +345,8 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/line(_:color:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path\/line(_:color:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - A straight line.",
@@ -379,18 +362,16 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/ellipse(width:height:segments:color:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path\/ellipse(width:height:segments:color:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : "- A closed, elliptical ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : ".",
@@ -406,18 +387,16 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/circle(radius:segments:color:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path\/circle(radius:segments:color:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : "  - A closed, circular ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : ".",
@@ -433,18 +412,16 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/rectangle(width:height:color:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path\/rectangle(width:height:color:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - A closed, rectangular ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : ".",
@@ -460,18 +437,16 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/roundedRectangle(width:height:radius:detail:color:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path\/roundedRectangle(width:height:radius:detail:color:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - A closed, rectangular ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " with rounded corners.",
@@ -487,18 +462,16 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/square(size:color:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path\/square(size:color:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - Same as ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/rectangle(width:height:color:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path\/rectangle(width:height:color:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : ", but with equal width and height.",
@@ -514,18 +487,16 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/polygon(radius:sides:color:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path\/polygon(radius:sides:color:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - A regular polygon shape (not to be confused with Euclid’s ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Polygon",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " type).",
@@ -582,18 +553,16 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh",
+              "type" : "codeVoice"
             },
             {
               "text" : " from a (typically) 2D ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : ".",
@@ -608,9 +577,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh",
+              "type" : "codeVoice"
             },
             {
               "text" : " type:",
@@ -626,9 +594,8 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-56xlt",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/fill(_:faces:material:isCancelled:)-(Path,_,_,_)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - This builder fills a single ",
@@ -660,9 +627,8 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-85o14",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/stroke(_:width:detail:material:isCancelled:)-85o14",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - This builder strokes a single ",
@@ -677,18 +643,16 @@
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-2rx6l",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/stroke(_:width:detail:material:isCancelled:)-(Collection<LineSegment>,_,_,_,_)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : ") of the function accepts an collection of ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "LineSegment",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : ", which is convenient for creating a wireframe geometry from the ",
@@ -703,9 +667,8 @@
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : ".",
@@ -721,27 +684,24 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - This builder takes a 2D ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " and rotates it around the Y-axis to create a rotationally symmetrical ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : ". This is an easy way to create complex shapes like candlesticks, chess pieces, rocket ships, etc.",
@@ -757,18 +717,16 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - This builder fills a ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " and extrudes it along its axis, or another path. This can turn a circular path into a tube, or a square into a cube etc.",
@@ -784,45 +742,40 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/loft(_:faces:material:isCancelled:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/loft(_:faces:material:isCancelled:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - This builder is similar to ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : ", but takes multiple ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " instances and joins them. The sequence of ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " instances do not need to be the same shape, but must all have the same number of points and subpaths. To work correctly, each ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " must be pre-positioned in 3D space so they do not all lie on the same plane.",
@@ -838,27 +791,24 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:isCancelled:)-9jzvt",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/convexHull(of:material:isCancelled:)-(Collection<Vector>,_,_)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - Similar the the ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/loft(_:faces:material:isCancelled:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/loft(_:faces:material:isCancelled:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " builder, this method can form a Mesh by wrapping a skin around one or more ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Path",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " instances. But unlike the other builders, in addition to paths you can also form a convex hull around a collection of meshes, polygons, vertices or points.",
@@ -885,27 +835,24 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh",
+              "type" : "codeVoice"
             },
             {
               "text" : " instances from one or more ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : " instances, but what about creating an interesting ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : " in the first place?",
@@ -921,9 +868,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : " by specifying points individually is straightforward, but creating ",
@@ -972,9 +918,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/curve(_:detail:)",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path\/curve(_:detail:)",
+              "type" : "codeVoice"
             },
             {
               "text" : " constructor method.",
@@ -990,18 +935,16 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/curve(_:detail:)",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path\/curve(_:detail:)",
+              "type" : "codeVoice"
             },
             {
               "text" : " method takes an array of ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "PathPoint",
+              "type" : "codeVoice"
             },
             {
               "text" : " and a ",
@@ -1024,27 +967,24 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/isCurved",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "PathPoint\/isCurved",
+              "type" : "codeVoice"
             },
             {
               "text" : " property is used to calculate surface normals (for lighting purposes), but with the ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/curve(_:detail:)",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path\/curve(_:detail:)",
+              "type" : "codeVoice"
             },
             {
               "text" : " method it actually affects the shape of the ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : ".",
@@ -1060,18 +1000,16 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "PathPoint",
+              "type" : "codeVoice"
             },
             {
               "text" : "s create sharp corners in the ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : " as normal, but curved ones are treated as off-curve Bezier control points.",
@@ -1094,9 +1032,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/curve(_:detail:)",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path\/curve(_:detail:)",
+              "type" : "codeVoice"
             },
             {
               "text" : " method controls how many line segments are used to approximate the curve.",
@@ -1112,9 +1049,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/curve(_:detail:)",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path\/curve(_:detail:)",
+              "type" : "codeVoice"
             },
             {
               "text" : " method uses second-order (quadratic) Bezier curves, where each curve has two on-curve end points and a single off-curve control point.",
@@ -1129,9 +1065,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "PathPoint",
+              "type" : "codeVoice"
             },
             {
               "text" : " are used in sequence then an on-curve point is interpolated between them.",
@@ -1173,9 +1108,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : " from a Core Graphics ",
@@ -1241,9 +1175,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh",
+              "type" : "codeVoice"
             },
             {
               "text" : " type:",
@@ -1259,9 +1192,8 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/subtracting(_:isCancelled:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/subtracting(_:isCancelled:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - Subtracts the volume of one ",
@@ -1285,9 +1217,8 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/symmetricDifference(_:isCancelled:)-swift.type.method",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/symmetricDifference(_:isCancelled:)-swift.type.method",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - Produces a shape representing the non-overlapping parts of the input ",
@@ -1311,9 +1242,8 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/union(_:isCancelled:)-swift.method",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/union(_:isCancelled:)-swift.method",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - Combines two intersecting ",
@@ -1337,27 +1267,24 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersection(_:isCancelled:)-swift.method",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/intersection(_:isCancelled:)-swift.method",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - Returns a single ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " representing the common volume of two intersecting ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : "es (logical AND).",
@@ -1373,18 +1300,16 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stencil(_:isCancelled:)-swift.method",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/stencil(_:isCancelled:)-swift.method",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - This effectively “paints” part of one ",
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " with the material from another.",
@@ -1400,9 +1325,8 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(with:isCancelled:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/convexHull(with:isCancelled:)-swift.method",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - This creates a convex hull around one or more meshes.",
@@ -1418,9 +1342,8 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-96d9",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/minkowskiSum(with:isCancelled:)-(Mesh,_)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - This traces the edges of one mesh with another.",
@@ -1441,9 +1364,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh",
+              "type" : "codeVoice"
             },
             {
               "text" : "es that are “watertight”, that is they have no holes in their surface.",
@@ -1482,18 +1404,16 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path\/text(_:width:detail:)",
+              "type" : "codeVoice"
             },
             {
               "text" : " method produces an array of 2D ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : " that represent the contours of each glyph in an ",
@@ -1508,18 +1428,16 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-3eajk",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh\/fill(_:faces:material:isCancelled:)-([Path],_,_,_)",
+              "type" : "codeVoice"
             },
             {
               "text" : " or ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-460t4",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Collection<Path>,_,_,_,_,_,_)",
+              "type" : "codeVoice"
             },
             {
               "text" : " builder methods to create solid text.",
@@ -1535,9 +1453,8 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:)",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Mesh\/text(_:font:width:depth:detail:material:)",
+              "type" : "codeVoice"
             },
             {
               "text" : " constructor directly produces an extruded 3D text model from a ",
@@ -1569,18 +1486,16 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : " in the result, but these ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "Path",
+              "type" : "codeVoice"
             },
             {
               "text" : "s may contain nested subpaths.",
@@ -1616,3100 +1531,19 @@
   },
   "sections" : [
 
-  ],
-  "seeAlsoSections" : [
-    {
-      "anchor" : "Using-Euclid",
-      "generated" : true,
-      "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RenderingMeshes"
-      ],
-      "title" : "Using Euclid"
-    }
-  ],
-  "variants" : [
-    {
-      "paths" : [
-        "\/documentation\/euclid\/constructingmeshes"
-      ],
-      "traits" : [
-        {
-          "interfaceLanguage" : "swift"
-        }
-      ]
-    }
   ]
 , 
 "references": {
 "doc://com.charcoaldesign.Euclid/documentation/Euclid": {
   "abstract" : [
-    {
-      "text" : "Euclid is a library for creating and manipulating 3D geometry using techniques such as extruding or “lathing” 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.",
-      "type" : "text"
-    }
+
   ],
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-  "kind" : "symbol",
+  "kind" : "article",
   "role" : "collection",
   "title" : "Euclid",
   "type" : "topic",
   "url" : "\/documentation\/euclid"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment": {
-  "abstract" : [
-    {
-      "text" : "A finite line segment in 3D space.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "LineSegment"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "LineSegment"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "LineSegment",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
-  "abstract" : [
-    {
-      "text" : "A 3D surface made of polygons.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Mesh"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Mesh",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/convexHull(of:material:isCancelled:)-9jzvt": {
-  "abstract" : [
-    {
-      "text" : "Computes the convex hull of a set of points.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "convexHull"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "of"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "some"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sl",
-      "text" : "Collection"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ">, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:isCancelled:)-9jzvt",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "convexHull(of:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/convexhull(of:material:iscancelled:)-9jzvt"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/convexHull(with:isCancelled:)": {
-  "abstract" : [
-    {
-      "text" : "Returns a new mesh representing a convex hull around the",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "mesh parameter and the receiver, with inner faces removed.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "convexHull"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "with"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(with:isCancelled:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "convexHull(with:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/convexhull(with:iscancelled:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cube(center:size:faces:wrapMode:material:)-8t5q8": {
-  "abstract" : [
-    {
-      "text" : "Creates an axis-aligned cuboidal mesh.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "cube"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "center"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "size"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
-      "text" : "Faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "wrapMode"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8WrapModeO",
-      "text" : "WrapMode"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/cube(center:size:faces:wrapMode:material:)-8t5q8",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "cube(center:size:faces:wrapMode:material:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/cube(center:size:faces:wrapmode:material:)-8t5q8"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a mesh by extruding one path along another path.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "extrude"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "along"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "twist"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5AngleV",
-      "text" : "Angle"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "align"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV9Alignmenta",
-      "text" : "Alignment"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
-      "text" : "Faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "extrude(_:along:twist:align:faces:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:faces:material:iscancelled:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-460t4": {
-  "abstract" : [
-    {
-      "text" : "Efficiently extrudes an array of paths along their respective face normals, avoiding duplicate work.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "extrude"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "keyword",
-      "text" : "some"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sl",
-      "text" : "Collection"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ">, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "depth"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "twist"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5AngleV",
-      "text" : "Angle"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "sections"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
-      "text" : "Faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-460t4",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "extrude(_:depth:twist:sections:faces:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-460t4"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)-3eajk": {
-  "abstract" : [
-    {
-      "text" : "Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "fill"
-    },
-    {
-      "kind" : "text",
-      "text" : "(["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : "], "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
-      "text" : "Faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-3eajk",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "fill(_:faces:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-3eajk"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)-56xlt": {
-  "abstract" : [
-    {
-      "text" : "Creates a mesh by filling a path to form one or more polygons.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "fill"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
-      "text" : "Faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-56xlt",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "fill(_:faces:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-56xlt"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersection(_:isCancelled:)-swift.method": {
-  "abstract" : [
-    {
-      "text" : "Returns a new mesh representing the volume shared by both the mesh",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "parameter and the receiver. If these do not intersect, an empty mesh will be returned.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "intersection"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersection(_:isCancelled:)-swift.method",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "intersection(_:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/intersection(_:iscancelled:)-swift.method"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a rotationally symmetrical mesh by turning the specified path around the Y axis.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "lathe"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "slices"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "poleDetail"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "addDetailForFlatPoles"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
-      "text" : "Faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "wrapMode"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8WrapModeO",
-      "text" : "WrapMode"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/lathe(_:slices:poledetail:adddetailforflatpoles:faces:wrapmode:material:iscancelled:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/loft(_:faces:material:isCancelled:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a mesh by connecting a series of 3D paths representing the cross sections.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "loft"
-    },
-    {
-      "kind" : "text",
-      "text" : "(["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : "], "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
-      "text" : "Faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/loft(_:faces:material:isCancelled:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "loft(_:faces:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/loft(_:faces:material:iscancelled:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:isCancelled:)-96d9": {
-  "abstract" : [
-    {
-      "text" : "Returns a new mesh representing the Minkowski sum of the",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "mesh parameter and the receiver.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "minkowskiSum"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "with"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-96d9",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "minkowskiSum(with:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-96d9"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stencil(_:isCancelled:)-swift.method": {
-  "abstract" : [
-    {
-      "text" : "Returns a new mesh that retains the shape of the receiver, but with",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "the intersecting area colored using material from the parameter.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "stencil"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stencil(_:isCancelled:)-swift.method",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "stencil(_:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/stencil(_:iscancelled:)-swift.method"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:detail:material:isCancelled:)-2rx6l": {
-  "abstract" : [
-    {
-      "text" : "Efficiently strokes a collection of line segments (useful for drawing wireframes).",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "stroke"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "keyword",
-      "text" : "some"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sl",
-      "text" : "Collection"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
-      "text" : "LineSegment"
-    },
-    {
-      "kind" : "text",
-      "text" : ">, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "width"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "detail"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-2rx6l",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "stroke(_:width:detail:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-2rx6l"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:detail:material:isCancelled:)-85o14": {
-  "abstract" : [
-    {
-      "text" : "Creates a mesh by stroking a path with the line width, detail, and material you provide.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "stroke"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "width"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "detail"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-85o14",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "stroke(_:width:detail:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-85o14"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/subtracting(_:isCancelled:)": {
-  "abstract" : [
-    {
-      "text" : "Returns a new mesh created by subtracting the volume of the",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "mesh parameter from the receiver.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "subtracting"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/subtracting(_:isCancelled:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "subtracting(_:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/subtracting(_:iscancelled:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/symmetricDifference(_:isCancelled:)-swift.type.method": {
-  "abstract" : [
-    {
-      "text" : "Efficiently XORs multiple meshes.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "symmetricDifference"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "keyword",
-      "text" : "some"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sl",
-      "text" : "Collection"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    },
-    {
-      "kind" : "text",
-      "text" : ">, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/symmetricDifference(_:isCancelled:)-swift.type.method",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "symmetricDifference(_:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/symmetricdifference(_:iscancelled:)-swift.type.method"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/text(_:font:width:depth:detail:material:)": {
-  "abstract" : [
-    {
-      "text" : "Creates an extruded text model from a string.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "text"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "font"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:@T@CTFontRef",
-      "text" : "CTFont"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "width"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "depth"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "detail"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "text(_:font:width:depth:detail:material:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/text(_:font:width:depth:detail:material:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/union(_:isCancelled:)-swift.method": {
-  "abstract" : [
-    {
-      "text" : "Returns a new mesh representing the combined volume of the",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "mesh parameter and the receiver, with inner faces removed.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "union"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/union(_:isCancelled:)-swift.method",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "union(_:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/union(_:iscancelled:)-swift.method"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
-  "abstract" : [
-    {
-      "text" : "A path made up of a sequence of straight line segments between points.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Path"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Path",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/circle(radius:segments:color:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a closed circular path.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "circle"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "radius"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "segments"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "color"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5ColorV",
-      "text" : "Color"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/circle(radius:segments:color:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "circle(radius:segments:color:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/circle(radius:segments:color:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/curve(_:detail:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a quadratic bezier spline.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "curve"
-    },
-    {
-      "kind" : "text",
-      "text" : "(["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid9PathPointV",
-      "text" : "PathPoint"
-    },
-    {
-      "kind" : "text",
-      "text" : "], "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "detail"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/curve(_:detail:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "curve(_:detail:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/curve(_:detail:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/ellipse(width:height:segments:color:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a closed elliptical path.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "ellipse"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "width"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "height"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "segments"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "color"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5ColorV",
-      "text" : "Color"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/ellipse(width:height:segments:color:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "ellipse(width:height:segments:color:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/ellipse(width:height:segments:color:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/line(_:color:)": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "line"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
-      "text" : "LineSegment"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "color"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5ColorV",
-      "text" : "Color"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/line(_:color:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "line(_:color:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/line(_:color:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/polygon(radius:sides:color:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a closed regular polygon.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "polygon"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "radius"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "sides"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "color"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5ColorV",
-      "text" : "Color"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/polygon(radius:sides:color:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "polygon(radius:sides:color:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/polygon(radius:sides:color:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/rectangle(width:height:color:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a closed rectangular path.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "rectangle"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "width"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "height"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "color"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5ColorV",
-      "text" : "Color"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/rectangle(width:height:color:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "rectangle(width:height:color:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/rectangle(width:height:color:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/roundedRectangle(width:height:radius:detail:color:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a rounded rectangle path.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "roundedRectangle"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "width"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "height"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "radius"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "detail"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "color"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5ColorV",
-      "text" : "Color"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/roundedRectangle(width:height:radius:detail:color:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "roundedRectangle(width:height:radius:detail:color:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/roundedrectangle(width:height:radius:detail:color:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/square(size:color:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a closed square path.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "square"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "size"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "color"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5ColorV",
-      "text" : "Color"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/square(size:color:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "square(size:color:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/square(size:color:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:)": {
-  "abstract" : [
-    {
-      "text" : "Creates an array of glyph contours from an attributed string.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "text"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)NSAttributedString",
-      "text" : "NSAttributedString"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "width"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "detail"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> ["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : "]"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "text(_:width:detail:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:width:detail:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint": {
-  "abstract" : [
-    {
-      "text" : "A point along a path.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "PathPoint"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "PathPoint"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "PathPoint",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/isCurved": {
-  "abstract" : [
-    {
-      "text" : "A Boolean indicating whether the point is curved or sharp.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "var"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "isCurved"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/isCurved",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "isCurved",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/pathpoint\/iscurved"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
-  "abstract" : [
-    {
-      "text" : "A polygon in 3D space.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Polygon"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Polygon"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Polygon",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/RenderingMeshes": {
-  "abstract" : [
-    {
-      "text" : "Display the 3D shapes you created with meshes.",
-      "type" : "text"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RenderingMeshes",
-  "kind" : "article",
-  "role" : "article",
-  "title" : "Rendering Meshes",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/renderingmeshes"
 },
 "https://developer.apple.com/fonts/TrueType-Reference-Manual/RM01/Chap1.html": {
   "identifier" : "https:\/\/developer.apple.com\/fonts\/TrueType-Reference-Manual\/RM01\/Chap1.html",

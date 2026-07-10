@@ -1,5 +1,18 @@
 # Change Log
 
+## [0.8.16](https://github.com/nicklockwood/Euclid/releases/tag/0.8.16) (2026-07-10)
+
+- Added `Path.mapPoints()` and `PathPoint.withPosition()` methods
+- Fixed compound path transforms to preserve path planes correctly
+- Fixed bug where mutating a `PathPoint` position did not quantize the new value
+- Fixed precision issue when constructing near-vertical `Line` values
+- Fixed fill, loft and extrusion behavior for nested and self-intersecting paths
+- Improved `Mesh.makeWatertight()` so it can cap holes and repair inconsistent winding
+- Improved vertex normal smoothing and convex hull vertex normal extrapolation
+- Improved `Path.inset()`, `Polygon.inset()` and `Mesh.inset()` behavior, especially for complex shapes
+- Euclid now uses strict concurrency checking
+- Increased minimum Swift version to 5.10
+
 ## [0.8.15](https://github.com/nicklockwood/Euclid/releases/tag/0.8.15) (2026-06-15)
 
 - Fixed bug where `Mesh.loft()` could produce invalid geometry for mismatched vertices
