@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.8.17](https://github.com/nicklockwood/Euclid/releases/tag/0.8.17) (2026-07-13)
+
+- Compound path fills/lofts now use the even-odd fill rule again (broken in 0.8.16)
+- Fixed edge vertex normals for intersecting compound paths (broken in 0.8.16)
+- Fixed `Mesh.loft()` winding glitch when lofting closed shapes with matching edge counts
+- Fixed nondeterministic output from `Mesh.makeWatertight()`
+
 ## [0.8.16](https://github.com/nicklockwood/Euclid/releases/tag/0.8.16) (2026-07-10)
 
 - Added `Path.mapPoints()` and `PathPoint.withPosition()` methods

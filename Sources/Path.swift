@@ -567,7 +567,7 @@ extension Path {
         self.init(unchecked: .subpaths(subpaths), plane: plane)
     }
 
-    /// This method assumed points do not have subpaths and may assert if they do
+    /// This method assumes points do not have subpaths and may assert if they do
     init(unchecked points: [PathPoint], plane: Plane?) {
         assert(subpathsFor(points).count <= 1)
         self.init(unchecked: .points(points), plane: plane)
