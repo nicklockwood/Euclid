@@ -465,7 +465,7 @@ public extension Mesh {
                 }
             }
             while !holeEdges.isEmpty {
-                let paths = Path(holeEdges).subpaths
+                let paths = Path(holeEdges.sorted()).subpaths
                 let caps = paths.flatMap {
                     capPolygons(for: $0, material: capMaterial(for: $0, in: polygons))
                 }
