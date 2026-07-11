@@ -1657,12 +1657,6 @@ private extension Mesh {
         guard e0.count > 1 || e1.count > 1 else {
             return
         }
-        if e0.count == e1.count {
-            for j in stride(from: 0, to: e0.count, by: 2) {
-                addFace(e0[j], e0[j + 1], e1[j + 1], e1[j])
-            }
-            return
-        }
         var t0 = -p0.bounds.center, t1 = -p1.bounds.center
         var r = rotationBetweenNormalizedVectors(n1, n0)
         var closed0 = p0.isClosed, closed1 = p1.isClosed
@@ -1679,6 +1673,13 @@ private extension Mesh {
             }
             return
         }
+        let shouldAlignClosedRings = closed0 && closed1 && abs(n0.dot(n1)) > 1 - epsilon
+        if e0.count == e1.count, !shouldAlignClosedRings {
+            for j in stride(from: 0, to: e0.count, by: 2) {
+                addFace(e0[j], e0[j + 1], e1[j + 1], e1[j])
+            }
+            return
+        }
         let fp0 = p0.flatteningPlane, fp1 = p1.flatteningPlane
         // Ensure edges have the same orientation
         if flattenedPointsAreClockwise(e0.map {
@@ -1688,6 +1689,37 @@ private extension Mesh {
         }) {
             e0.reverse()
             // TODO: fix mirrored texture coords
+        }
+        if e0.count == e1.count {
+            if shouldAlignClosedRings {
+                let count = e0.count / 2
+                var bestOffset = 0
+                var bestDistance = Double.infinity
+                let positions0 = stride(from: 0, to: e0.count, by: 2).map {
+                    e0[$0].position.translated(by: t0)
+                }
+                let positions1 = stride(from: 0, to: e1.count, by: 2).map {
+                    e1[$0].position.translated(by: t1).rotated(by: r)
+                }
+                for offset in 0 ..< count {
+                    var distance = 0.0
+                    for i in 0 ..< count {
+                        distance += (positions0[i] - positions1[(i + offset) % count]).lengthSquared
+                    }
+                    if distance < bestDistance {
+                        bestOffset = offset
+                        bestDistance = distance
+                    }
+                }
+                if bestOffset > 0 {
+                    let index = bestOffset * 2
+                    e1 = Array(e1[index ..< e1.count]) + Array(e1[0 ..< index])
+                }
+            }
+            for j in stride(from: 0, to: e0.count, by: 2) {
+                addFace(e0[j], e0[j + 1], e1[j + 1], e1[j])
+            }
+            return
         }
         let sparseCount = e0.count / 2
         let denseCount = e1.count / 2

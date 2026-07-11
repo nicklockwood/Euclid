@@ -174,6 +174,18 @@ extension Transform {
 }
 
 extension Path {
+    static func star(sides: Int) -> Path {
+        var points = [PathPoint]()
+        for i in 0 ..< sides {
+            let innerAngle = -.pi / 2 + Double(i) * 2 * .pi / Double(sides)
+            let outerAngle = innerAngle + .pi / Double(sides)
+            points.append(.point(0.5 * cos(innerAngle), 0.5 * sin(innerAngle)))
+            points.append(.point(cos(outerAngle), sin(outerAngle)))
+        }
+        points.append(points[0])
+        return Path(points)
+    }
+
     static let compoundPath: Path = .init(subpaths: [
         Path([
             .point(0, 0),

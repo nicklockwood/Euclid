@@ -283,6 +283,21 @@ final class MeshLoftTests: XCTestCase {
         XCTAssertTrue(loft.isActuallyConvex)
     }
 
+    func testLoftCircleToStarWithMatchingEdgeCount() {
+        let shapes = [
+            Path.circle(segments: 10),
+            Path.star(sides: 5).translated(by: [0, 0, 1]),
+        ]
+
+        let loft = Mesh.loft(shapes)
+        XCTAssert(loft.isWatertight)
+        XCTAssert(loft.polygons.areWatertight)
+        XCTAssertLessThanOrEqual(
+            loft.polygons.flatMap(\.orderedEdges).map(\.length).max() ?? 0,
+            1.3
+        )
+    }
+
     func testLoftBetweenDifferentPolygonVertexCounts() {
         for lowerSides in 3 ... 8 {
             for upperSides in 3 ... 12 where lowerSides != upperSides {
