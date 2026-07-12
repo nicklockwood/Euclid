@@ -620,10 +620,10 @@ extension Path {
 
     /// Returns if path should use non-zero fill algorithm
     var usesNonZeroFill: Bool {
-        guard isClosed, plane != nil else {
+        guard isClosed, subpaths.count <= 1, plane != nil else {
             return false
         }
-        return subpaths.count > 1 || pointsAreSelfIntersecting(points.map(\.position))
+        return pointsAreSelfIntersecting(points.map(\.position))
     }
 
     /// Returns the most suitable FlatteningPlane for the path

@@ -647,12 +647,15 @@ public extension Mesh {
     ) -> Mesh {
         let shape = shape.closed()
         let subpaths = shape.subpaths
-        let polygons = shape.facePolygons(material: material)
-        if subpaths.count > 1, polygons.isEmpty {
+        if subpaths.count > 1 {
+            if let boundary = shape.nonZeroFillBoundaryForLoft(), boundary != shape {
+                return fill(boundary, faces: faces, material: material, isCancelled: isCancelled)
+            }
             return .symmetricDifference(subpaths.map {
                 .fill($0, faces: faces, material: material, isCancelled: isCancelled)
             }, isCancelled: isCancelled)
         }
+        let polygons = shape.facePolygons(material: material)
         let isConvex = polygons.count == 1 && polygons[0].isConvex
         let mesh: Mesh
         switch faces {
@@ -857,10 +860,11 @@ private extension Path {
         if hasCurvedPoints {
             return subpathsShareVertices ? boundary : nil
         }
-        guard boundary.subpaths.count > 1 || subpathsHaveConsistentWinding || subpathsShareVertices else {
-            return nil
-        }
-        return boundary
+        let preservesSubpaths = boundary.subpaths.count == subpaths.count
+        return boundary.subpaths.count > 1 && (
+            !subpathsShareVertices || subpathsSharePoints ||
+                (subpathsHaveConsistentWinding && preservesSubpaths)
+        ) ? boundary : nil
     }
 
     var hasCurvedPoints: Bool {
@@ -890,6 +894,19 @@ private extension Path {
                 }
             }
             previousEdges += subpath.orderedEdges
+        }
+        return false
+    }
+
+    var subpathsSharePoints: Bool {
+        var vertices = Set<Vector>()
+        for subpath in subpaths {
+            let positions = subpath.points.dropLast(subpath.isClosed ? 1 : 0).map(\.position)
+            for position in positions {
+                guard vertices.insert(position).inserted else {
+                    return true
+                }
+            }
         }
         return false
     }
@@ -1232,7 +1249,9 @@ private extension Mesh {
         let faceNormal = originalShapes.first?.faceNormal ?? .zero
         let shapes = originalShapes.filter { !$0.isEmpty }
         let first = shapes.first
-        let firstFacePolygons = first?.facePolygons(material: material) ?? []
+        let firstBoundary = first?.nonZeroFillBoundary()
+        let firstFacePolygons = firstBoundary?.facePolygons(material: material) ??
+            first?.facePolygons(material: material) ?? []
         let firstCapPolygons: [Polygon] = first.flatMap { first in
             shapes.first(where: { $0 != first }).map { next in
                 let p0p1 = directionBetweenShapes(first, next)
@@ -1247,10 +1266,7 @@ private extension Mesh {
         } ?? []
         let canBuildMappedSides = transforms.allSatisfy { $0 != nil }
         var polygons: [Polygon]
-        if canBuildMappedSides,
-           let first,
-           let boundary = first.nonZeroFillBoundary()
-        {
+        if canBuildMappedSides, let boundary = firstBoundary {
             polygons = []
             func transformedVertex(_ vertex: Vertex, by transform: (Vector) -> Vector) -> Vertex {
                 let position = transform(vertex.position)
@@ -1441,7 +1457,7 @@ private extension Mesh {
                     isCancelled: isCancelled
                 )
             }
-            return .symmetricDifference(subshapes.map {
+            return Mesh.symmetricDifference(subshapes.map {
                 Mesh.loft($0, faces: faces, material: material, isCancelled: isCancelled)
             }, isCancelled: isCancelled)
         }

@@ -577,7 +577,8 @@ extension Mesh {
 
     /// Checks whether all polygon windings are consistent across shared edges.
     var isConsistentlyWound: Bool {
-        polygons.areConsistentlyWound
+        assert(polygons.areWatertight) // always returns false otherwise
+        return polygons.areConsistentlyWound
     }
 
     var vertexNormalsFaceOutward: Bool {

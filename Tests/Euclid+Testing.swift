@@ -75,6 +75,30 @@ extension Euclid.Polygon {
     var orderedEdgesContainCrossings: Bool {
         orderedEdges.containCrossings(isClosed: true)
     }
+
+    func containsProjectedPoint(_ point: Vector) -> Bool {
+        let positions = vertices.map(\.position)
+        var contains = false
+        var previousIndex = positions.count - 1
+        for index in positions.indices {
+            let current = positions[index]
+            let previous = positions[previousIndex]
+            if (current.y > point.y) != (previous.y > point.y) {
+                let x = (previous.x - current.x) * (point.y - current.y) / (previous.y - current.y) + current.x
+                if point.x < x {
+                    contains.toggle()
+                }
+            }
+            previousIndex = index
+        }
+        return contains
+    }
+}
+
+extension Collection<Euclid.Polygon> {
+    func containProjectedPoint(_ point: Vector) -> Bool {
+        contains { $0.containsProjectedPoint(point) }
+    }
 }
 
 extension Mesh {
