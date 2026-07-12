@@ -299,6 +299,39 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertTrue(mesh.hasSmoothSideVertexNormals)
     }
 
+    func testExtrudeCompoundCircleTreatsCrossingsAsSharpCorners() {
+        let path = Path(subpaths: [
+            .circle(segments: 16),
+            .circle(radius: 0.25, segments: 16).translated(by: [0.5, 0]),
+        ])
+        let mesh = Mesh.extrude(path)
+        let sidePolygons = mesh.polygons.filter { abs($0.plane.normal.z) < 0.5 }
+        var outerVertexCount = 0
+        var crossingNormals = [Vector]()
+
+        for polygon in sidePolygons {
+            for vertex in polygon.vertices {
+                let radial = Vector(vertex.position.x, vertex.position.y, 0)
+                if radial.length.isApproximatelyEqual(to: 0.5) {
+                    outerVertexCount += 1
+                    XCTAssertEqual(vertex.normal.dot(radial.normalized()), 1, accuracy: epsilon)
+                }
+                if abs(vertex.position.x - 0.4375) < 0.02,
+                   abs(abs(vertex.position.y) - 0.242) < 0.02
+                {
+                    crossingNormals.append(vertex.normal)
+                }
+            }
+        }
+
+        XCTAssertGreaterThan(outerVertexCount, 0)
+        XCTAssertTrue(crossingNormals.contains { normal in
+            crossingNormals.contains {
+                normal.dot($0) < 0.99
+            }
+        })
+    }
+
     func testLatheCompoundPathUsesEvenOddRule() {
         let outer = Path([
             .point(1, 0),
