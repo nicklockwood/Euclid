@@ -1052,7 +1052,7 @@ extension Collection<Polygon> {
             return polygons.mergingVertices(withPrecision: epsilon)
         }
         let insetBounds = Bounds(polygons.flatMap(\.vertices))
-        return insetBounds.isInside(sourceBounds) ? polygons
+        return sourceBounds.contains(insetBounds) ? polygons
             .mergingVertices(withPrecision: epsilon) : []
     }
 

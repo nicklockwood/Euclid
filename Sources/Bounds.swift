@@ -250,6 +250,15 @@ public extension Bounds {
         )
     }
 
+    /// Returns a Boolean value that indicates whether the specified bounds is fully contained by the receiver.
+    /// - Parameter other: The bounds to compare.
+    /// - Returns: `true` if the specified bounds is fully inside the receiver, and `false` otherwise.
+    func contains(_ other: Bounds) -> Bool {
+        min.x <= other.min.x + epsilon && max.x >= other.max.x - epsilon &&
+            min.y <= other.min.y + epsilon && max.y >= other.max.y - epsilon &&
+            min.z <= other.min.z + epsilon && max.z >= other.max.z - epsilon
+    }
+
     /// Creates a new bounds representing the Minkowski sum of the specified bounds and this one.
     /// - Parameter other: The bounds with which to form the Minkowski sum.
     /// - Returns: The combined bounds.
@@ -294,16 +303,6 @@ extension Bounds {
     /// A Boolean value that indicates the bounds has a negative volume.
     var hasNegativeVolume: Bool {
         max.x < min.x || max.y < min.y || max.z < min.z
-    }
-
-    /// Returns a Boolean value that indicates whether this bounds is fully inside the specified bounds.
-    func isInside(_ other: Bounds, tolerance: Double = epsilon) -> Bool {
-        min.x >= other.min.x - tolerance &&
-            min.y >= other.min.y - tolerance &&
-            min.z >= other.min.z - tolerance &&
-            max.x <= other.max.x + tolerance &&
-            max.y <= other.max.y + tolerance &&
-            max.z <= other.max.z + tolerance
     }
 
     /// Planes representing the edges of the bounds.
