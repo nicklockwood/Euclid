@@ -1,5 +1,7 @@
 # ``Euclid/Line``
 
+An infinite straight line in three-dimensional space.
+
 ## Topics 
 
 ### Creating Lines

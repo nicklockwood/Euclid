@@ -1,5 +1,7 @@
 # ``Euclid/Transform``
 
+A combined translation, rotation, and scale transform.
+
 ## Topics
 
 ### Creating Transforms

@@ -1,5 +1,7 @@
 # ``Euclid/Plane``
 
+An infinite plane in three-dimensional space.
+
 ## Topics
 
 ### Creating Planes

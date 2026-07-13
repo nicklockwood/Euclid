@@ -1,5 +1,7 @@
 # ``Euclid/Color``
 
+An RGBA color value.
+
 ## Topics
 
 ### Creating a Color

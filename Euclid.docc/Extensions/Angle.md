@@ -1,5 +1,7 @@
 # ``Euclid/Angle``
 
+An angular value in radians or degrees.
+
 ## Topics
 
 ### Creating Angles

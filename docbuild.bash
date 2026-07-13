@@ -7,11 +7,12 @@ set -e
 set -x
 
 rm -rf .build
-mkdir -p .build/symbol-graphs
 
-$(xcrun --find swift) build --target Euclid \
--Xswiftc -emit-symbol-graph \
--Xswiftc -emit-symbol-graph-dir -Xswiftc .build/symbol-graphs
+SYMBOL_GRAPH_DIR=.build/out/symbolgraph
+
+$(xcrun --find swift) package dump-symbol-graph \
+--minimum-access-level public \
+--pretty-print
 
 # Enables deterministic output
 # - useful when you're committing the results to host on github pages
@@ -22,7 +23,7 @@ $(xcrun --find docc) convert Euclid.docc \
 --fallback-display-name Euclid \
 --fallback-bundle-identifier com.charcoaldesign.Euclid \
 --fallback-bundle-version 0.5.16 \
---additional-symbol-graph-dir .build/symbol-graphs \
+--additional-symbol-graph-dir $SYMBOL_GRAPH_DIR \
 --experimental-documentation-coverage \
 --coverage-summary-level brief
 
@@ -31,7 +32,7 @@ $(xcrun --find docc) convert Euclid.docc \
     --fallback-display-name Euclid \
     --fallback-bundle-identifier com.charcoaldesign.Euclid \
     --fallback-bundle-version 0.5.16 \
-    --additional-symbol-graph-dir .build/symbol-graphs \
+    --additional-symbol-graph-dir $SYMBOL_GRAPH_DIR \
     --emit-digest \
     --transform-for-static-hosting \
     --hosting-base-path 'Euclid'

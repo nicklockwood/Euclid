@@ -97,7 +97,7 @@ public extension SCNQuaternion {
     /// Creates a new SceneKit quaternion from a `Rotation`
     /// - Parameter rotation: The rotation to convert.
     ///
-    /// > Note: ``SCNQuaternion`` is actually just a typealias for ``SCNVector4`` so be
+    /// > Note: `SCNQuaternion` is actually just a typealias for ``SCNVector4`` so be
     /// careful to avoid type ambiguity when using this value.
     init(_ rotation: Rotation) {
         self.init(rotation.x, rotation.y, rotation.z, rotation.w)

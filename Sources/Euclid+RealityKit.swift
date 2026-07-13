@@ -99,7 +99,7 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.
 @available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
 public extension MeshDescriptor {
     /// Creates a mesh descriptor from a ``Mesh`` using triangles.
-    /// - Parameter triangles: The mesh to convert into a RealityKit mesh descriptor.
+    /// - Parameter mesh: The mesh to convert into a RealityKit mesh descriptor.
     init(triangles mesh: Mesh) {
         self.init()
         var counts: [UInt8]?
@@ -116,7 +116,7 @@ public extension MeshDescriptor {
     }
 
     /// Creates a mesh descriptor from a ``Mesh`` using convex polygons.
-    /// - Parameter polygons: The mesh to convert into a RealityKit mesh descriptor.
+    /// - Parameter mesh: The mesh to convert into a RealityKit mesh descriptor.
     init(polygons mesh: Mesh) {
         self.init()
         var counts: [UInt8]? = []
@@ -133,7 +133,7 @@ public extension MeshDescriptor {
     }
 
     /// Creates a mesh descriptor from a ``Mesh`` using quads where possible (and triangles as required).
-    /// - Parameter quads: The mesh to convert into a RealityKit mesh descriptor.
+    /// - Parameter mesh: The mesh to convert into a RealityKit mesh descriptor.
     init(quads mesh: Mesh) {
         self.init()
         var counts: [UInt8]? = []
@@ -200,7 +200,7 @@ public extension ModelEntity {
 
     /// Creates a model entity from a ``Mesh`` using triangles.
     /// - Parameters:
-    ///   - triangles: The mesh to convert into a RealityKit model entity.
+    ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
     convenience init(triangles mesh: Mesh, materialLookup: MaterialProvider? = nil) throws {
         let descriptor = MeshDescriptor(triangles: mesh)
@@ -210,7 +210,7 @@ public extension ModelEntity {
 
     /// Creates a model entity from a ``Mesh`` using convex polygons.
     /// - Parameters:
-    ///   - polygons: The mesh to convert into a RealityKit model entity.
+    ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
     convenience init(polygons mesh: Mesh, materialLookup: MaterialProvider? = nil) throws {
         let descriptor = MeshDescriptor(polygons: mesh)
@@ -220,7 +220,7 @@ public extension ModelEntity {
 
     /// Creates a model entity from a ``Mesh`` using quads where possible (and triangles as required).
     /// - Parameters:
-    ///   - quads: The mesh to convert into a RealityKit model entity.
+    ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
     convenience init(quads mesh: Mesh, materialLookup: MaterialProvider? = nil) throws {
         let descriptor = MeshDescriptor(quads: mesh)

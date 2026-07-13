@@ -1,5 +1,7 @@
 # ``Euclid/Rotation``
 
+An orientation or rotation in three-dimensions.
+
 ## Topics
 
 ### Creating Rotations

@@ -1,0 +1,527 @@
+{
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "extendedModule" : "RealityFoundation",
+    "externalID" : "s:e:s:17RealityFoundation11ModelEntityC6EuclidE16MaterialProvidera",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "extension"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "preciseIdentifier" : "s:17RealityFoundation11ModelEntityC",
+        "text" : "ModelEntity"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "Euclid",
+        "relatedModules" : [
+          "RealityFoundation"
+        ]
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "ModelEntity"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Extended Class",
+    "symbolKind" : "extension",
+    "title" : "ModelEntity"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "attribute",
+              "text" : "@"
+            },
+            {
+              "kind" : "attribute",
+              "preciseIdentifier" : "s:ScM",
+              "text" : "MainActor"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "anchor" : "Initializers",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity\/init(_:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity\/init(polygons:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity\/init(quads:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity\/init(triangles:materialLookup:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
+      "anchor" : "Type-Aliases",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity\/MaterialProvider"
+      ],
+      "title" : "Type Aliases"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/euclid\/realityfoundation\/modelentity"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid": {
+  "abstract" : [
+    {
+      "text" : "Euclid is a library for creating and manipulating 3D geometry using techniques such as extruding or “lathing” 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Euclid",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
+  "abstract" : [
+    {
+      "text" : "A 3D surface made of polygons.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Mesh"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "RealityFoundation",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/ModelEntity": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "s:17RealityFoundation11ModelEntityC",
+      "text" : "ModelEntity"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ModelEntity"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ModelEntity",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation\/modelentity"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/ModelEntity/MaterialProvider": {
+  "abstract" : [
+    {
+      "text" : "A closure that maps a Euclid material to a RealityKit material.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "MaterialProvider"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity\/MaterialProvider",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MaterialProvider"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "ModelEntity.MaterialProvider",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation\/modelentity\/materialprovider"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/ModelEntity/init(_:materialLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a model entity from a ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " using the default tessellation method.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation11ModelEntityC6EuclidE16MaterialProvidera",
+      "text" : "MaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity\/init(_:materialLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(_:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/ModelEntity/init(polygons:materialLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a model entity from a ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " using convex polygons.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "polygons"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation11ModelEntityC6EuclidE16MaterialProvidera",
+      "text" : "MaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity\/init(polygons:materialLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(polygons:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(polygons:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/ModelEntity/init(quads:materialLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a model entity from a ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " using quads where possible (and triangles as required).",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "quads"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation11ModelEntityC6EuclidE16MaterialProvidera",
+      "text" : "MaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity\/init(quads:materialLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(quads:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(quads:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/ModelEntity/init(triangles:materialLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a model entity from a ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " using triangles.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "triangles"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:17RealityFoundation11ModelEntityC6EuclidE16MaterialProvidera",
+      "text" : "MaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity\/init(triangles:materialLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(triangles:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(triangles:materiallookup:)"
+}
+}
+}

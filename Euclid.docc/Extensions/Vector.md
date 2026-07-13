@@ -1,5 +1,7 @@
 # ``Euclid/Vector``
 
+A three-dimensional vector or point.
+
 ## Topics
 
 ### Creating Vectors

@@ -1,5 +1,7 @@
 # ``Euclid/Bounds``
 
+An axis-aligned bounding box in three-dimensional space.
+
 ## Topics
 
 ### Creating Bounds

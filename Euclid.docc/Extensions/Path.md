@@ -1,5 +1,7 @@
 # ``Euclid/Path``
 
+A bezier path in three-dimensional space.
+
 ## Topics
 
 ### Default Paths
@@ -15,7 +17,7 @@
 - ``Path/curve(_:detail:)``
 - ``Path/line(_:_:color:)``
 - ``Path/line(_:color:)``
-- ``Path/arc(angle:radius:segments:color:)``
+- ``Path/arc(angle:radius:segments:color:isCancelled:)``
 
 ### Creating Shape Paths
 

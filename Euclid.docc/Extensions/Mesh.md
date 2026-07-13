@@ -1,5 +1,7 @@
 # ``Euclid/Mesh``
 
+A three-dimensional surface made from polygons.
+
 ## Topics
 
 ### Default Meshes
@@ -8,11 +10,11 @@
 
 ### Geometric Primitives
 
-- ``Mesh/cone(radius:height:slices:stacks:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:)``
+- ``Mesh/cone(radius:height:slices:stacks:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:isCancelled:)``
 - ``Mesh/cube(center:size:faces:wrapMode:material:)-8t5q8``
 - ``Mesh/cube(center:size:faces:wrapMode:material:)-eado``
-- ``Mesh/cylinder(radius:height:slices:poleDetail:faces:wrapMode:material:)``
-- ``Mesh/sphere(radius:slices:stacks:poleDetail:faces:wrapMode:material:)``
+- ``Mesh/cylinder(radius:height:slices:poleDetail:faces:wrapMode:material:isCancelled:)``
+- ``Mesh/sphere(radius:slices:stacks:poleDetail:faces:wrapMode:material:isCancelled:)``
 - ``Mesh/icosahedron(radius:faces:wrapMode:material:)``
 
 - ``Mesh/WrapMode``

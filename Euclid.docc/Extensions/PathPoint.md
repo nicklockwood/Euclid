@@ -1,5 +1,7 @@
 # ``Euclid/PathPoint``
 
+A point in a path with optional rendering attributes.
+
 ## Topics 
 
 ### Creating Path Points

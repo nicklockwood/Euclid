@@ -1,5 +1,7 @@
 # ``Euclid/Polygon``
 
+A flat polygonal face in a mesh.
+
 ## Topics
 
 ### Creating Polygons

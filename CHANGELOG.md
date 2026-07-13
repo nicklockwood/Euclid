@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.8.18](https://github.com/nicklockwood/Euclid/releases/tag/0.8.18) (2026-07-13)
+
+- Added `Bounds.contains()` method
+- Fixed path extrusion regression for compound paths with multiple filled regions
+
 ## [0.8.17](https://github.com/nicklockwood/Euclid/releases/tag/0.8.17) (2026-07-13)
 
 - Compound path fills/lofts now use the even-odd fill rule again (broken in 0.8.16)

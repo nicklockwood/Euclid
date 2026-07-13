@@ -1,5 +1,7 @@
 # ``Euclid/LineSegment``
 
+A finite straight line segment between two points.
+
 ## Topics 
 
 ### Creating Line Segments

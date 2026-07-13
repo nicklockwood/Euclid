@@ -1,5 +1,7 @@
 # ``Euclid/Vertex``
 
+A mesh vertex with optional rendering attributes.
+
 ## Topics
 
 ### Creating Vertices
