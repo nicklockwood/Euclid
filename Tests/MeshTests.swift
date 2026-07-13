@@ -372,6 +372,31 @@ final class MeshTests: XCTestCase {
         #endif
     }
 
+    func testMakeCompoundExtrudedTextWatertight() {
+        #if canImport(CoreText)
+        let detail = 16
+        let font = CTFontCreateWithName("comic sans ms" as CFString, 1, nil)
+        let paths = Path.text("Hello\nWorld!", font: font, detail: detail / 8)
+        let circle = Path.circle(radius: 0.5, segments: detail)
+        let text = Mesh.extrude(
+            Path(subpaths: paths),
+            along: circle
+        ).translated(by: [6, 0])
+        let expectedText = Mesh.union(paths.map {
+            Mesh.extrude($0, along: circle)
+        }).translated(by: [6, 0])
+        XCTAssertEqual(text.bounds, expectedText.bounds)
+        var mesh = Mesh.difference([
+            text,
+            .cube(size: 12),
+        ])
+        XCTAssertFalse(mesh.isWatertight)
+        mesh = mesh.makeWatertight()
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(text.bounds.contains(mesh.bounds), "\(text.bounds) does not contain \(mesh.bounds)")
+        #endif
+    }
+
     func testMakeWatertightCapUsesSurroundingMaterial() throws {
         let red = Color(1, 0, 0)
         let blue = Color(0, 0, 1)

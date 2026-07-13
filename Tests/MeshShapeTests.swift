@@ -255,6 +255,57 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertTrue(mesh.vertexNormalsFaceOutward)
     }
 
+    func testExtrudeQRCodeLikeCompoundPathAlongBentPathCapAreaMatchesFilledArea() {
+        let path = Path.qrCodeLikeCompoundPath
+        let along = Path([
+            .point(1, 20),
+            .point(0, 10),
+            .point(0, -10),
+        ])
+        let mesh = Mesh.extrude(path, along: along)
+        let firstContour = path.extrusionContours(along: along)[0]
+        let normal = firstContour.faceNormal.normalized()
+        let capPlane = Plane(unchecked: normal, pointOnPlane: firstContour.points[0].position)
+        let capArea = Mesh(mesh.polygons.filter {
+            abs($0.plane.normal.normalized().dot(normal)) > 0.999 &&
+                abs(capPlane.distance(from: $0)) < epsilon
+        }).surfaceArea
+
+        XCTAssertEqual(capArea, Mesh.fill(firstContour, faces: .front).surfaceArea, accuracy: epsilon)
+    }
+
+    func testExtrudeQRCodeLikeCompoundPathAlongBentPathCapShapeMatchesFilledShape() {
+        let path = Path.qrCodeLikeCompoundPath
+        let along = Path([
+            .point(1, 20),
+            .point(0, 10),
+            .point(0, -10),
+        ])
+        let mesh = Mesh.extrude(path, along: along)
+        let firstContour = path.extrusionContours(along: along)[0]
+        let normal = firstContour.faceNormal.normalized()
+        let capPlane = Plane(unchecked: normal, pointOnPlane: firstContour.points[0].position)
+        let expectedPolygons = Mesh.fill(firstContour, faces: .front).polygons
+        let capPolygons = mesh.polygons.filter {
+            abs($0.plane.normal.normalized().dot(normal)) > 0.999 &&
+                abs(capPlane.distance(from: $0)) < epsilon
+        }
+        let bounds = Bounds(firstContour.points.map {
+            $0.position.projectedForTesting(along: normal)
+        })
+
+        for x in stride(from: bounds.min.x + 4, to: bounds.max.x, by: 8) {
+            for y in stride(from: bounds.min.y + 4, to: bounds.max.y, by: 8) {
+                let point = Vector(x, y)
+                XCTAssertEqual(
+                    capPolygons.containProjectedPoint(point, normal: normal),
+                    expectedPolygons.containProjectedPoint(point, normal: normal),
+                    "Mismatch at \(point)"
+                )
+            }
+        }
+    }
+
     func testExtrudeNestedCompoundPathAlongCurvedPath() {
         func rectangle(
             _ x: Double,

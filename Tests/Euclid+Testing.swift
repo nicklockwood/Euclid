@@ -78,6 +78,18 @@ extension Euclid.Polygon {
 
     func containsProjectedPoint(_ point: Vector) -> Bool {
         let positions = vertices.map(\.position)
+        return positions.containProjectedPoint(point)
+    }
+
+    func containsProjectedPoint(_ point: Vector, normal: Vector) -> Bool {
+        let positions = vertices.map { $0.position.projectedForTesting(along: normal) }
+        return positions.containProjectedPoint(point)
+    }
+}
+
+private extension Collection<Vector> {
+    func containProjectedPoint(_ point: Vector) -> Bool {
+        let positions = Array(self)
         var contains = false
         var previousIndex = positions.count - 1
         for index in positions.indices {
@@ -98,6 +110,26 @@ extension Euclid.Polygon {
 extension Collection<Euclid.Polygon> {
     func containProjectedPoint(_ point: Vector) -> Bool {
         contains { $0.containsProjectedPoint(point) }
+    }
+
+    func containProjectedPoint(_ point: Vector, normal: Vector) -> Bool {
+        contains { $0.containsProjectedPoint(point, normal: normal) }
+    }
+}
+
+extension Vector {
+    func projectedForTesting(along normal: Vector) -> Vector {
+        let normal = normal.normalized()
+        let x = abs(normal.x)
+        let y = abs(normal.y)
+        let z = abs(normal.z)
+        if x > y, x > z {
+            return [self.y, self.z]
+        }
+        if y > z {
+            return [self.x, self.z]
+        }
+        return [self.x, self.y]
     }
 }
 

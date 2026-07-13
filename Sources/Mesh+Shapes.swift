@@ -604,6 +604,25 @@ public extension Mesh {
                 )
             }, isCancelled: isCancelled))
         }
+        let shapeGroups = (shape.nonZeroFillBoundaryForLoft() ?? shape).filledSubpathGroups()
+        if shapeGroups.count > 1 {
+            let material = SendableMaterial(material)
+            let meshes = batch(shapeGroups, stride: 1) {
+                $0.map { shape in
+                    isCancelled() ? .empty : loft(
+                        shape.extrusionContours(
+                            along: along,
+                            twist: twist,
+                            align: align
+                        ),
+                        faces: faces,
+                        material: material.value,
+                        isCancelled: isCancelled
+                    )
+                }
+            }
+            return .merge(meshes)
+        }
         return loft(shape.extrusionContours(
             along: along,
             twist: twist,
@@ -850,6 +869,55 @@ private extension Collection<Path> {
 }
 
 private extension Path {
+    func filledSubpathGroups() -> [Path] {
+        let subpaths = subpaths.filter { !$0.isEmpty }
+        guard subpaths.count > 1 else {
+            return subpaths
+        }
+
+        struct Entry {
+            let point: Vector?
+            let bounds: Bounds
+            let polygon: Polygon?
+        }
+
+        let entries = subpaths.map {
+            Entry(point: $0.points.first?.position, bounds: $0.bounds, polygon: Polygon($0))
+        }
+        let containers = entries.indices.map { index in
+            entries.indices.filter { otherIndex in
+                guard otherIndex != index,
+                      let point = entries[index].point,
+                      entries[otherIndex].bounds.intersects(point),
+                      entries[otherIndex].polygon?.intersects(point) == true
+                else {
+                    return false
+                }
+                return true
+            }
+        }
+        let depths = containers.map(\.count)
+        let outerIndexes = entries.indices.filter { depths[$0].isMultiple(of: 2) }
+        guard outerIndexes.count > 1 else {
+            return [self]
+        }
+
+        return outerIndexes.map { outerIndex in
+            let group = entries.indices.filter { index in
+                if index == outerIndex {
+                    return true
+                }
+                guard !depths[index].isMultiple(of: 2),
+                      depths[index] == depths[outerIndex] + 1
+                else {
+                    return false
+                }
+                return containers[index].contains(outerIndex)
+            }
+            return Path(subpaths: group.sorted().map { subpaths[$0] })
+        }
+    }
+
     func nonZeroFillBoundaryForLoft() -> Path? {
         guard isClosed, let boundary = nonZeroFillBoundary() else {
             return nil
