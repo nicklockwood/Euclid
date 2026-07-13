@@ -112,14 +112,14 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
 
             modelEntity.transform = Transform(
                 scale: .one,
-                rotation: simd_quatf(Rotation(pitch: .radians(self.modelPitch), yaw: .radians(self.modelYaw))),
-                translation: .init(self.modelPosition)
+                rotation: simd_quatf(Rotation(pitch: .radians(modelPitch), yaw: .radians(modelYaw))),
+                translation: .init(modelPosition)
             )
 
             cameraEntity.camera.fieldOfViewInDegrees = Float(cameraFOV)
             cameraEntity.transform = Transform(
                 scale: .one,
-                rotation: simd_quatf(Rotation(roll: .radians(self.cameraRoll))),
+                rotation: simd_quatf(Rotation(roll: .radians(cameraRoll))),
                 translation: .init(0, 0, Float(cameraDistance))
             )
         }

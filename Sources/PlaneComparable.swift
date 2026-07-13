@@ -182,12 +182,12 @@ extension Mesh: PlaneComparable {
         // Note: will return `coplanar` for empty mesh
         switch bounds.compare(with: plane) {
         case .front:
-            return .front
+            .front
         case .back:
-            return .back
+            .back
         case .coplanar, .spanning:
             // TODO: can we optimize this using BSP?
-            return polygons.compare(with: plane)
+            polygons.compare(with: plane)
         }
     }
 }

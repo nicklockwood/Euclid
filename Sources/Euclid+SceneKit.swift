@@ -39,19 +39,19 @@ let scnMaterialTypes: [AnyClass] = [SCNMaterial.self]
 
 private func srgbToLinear(_ x: Double) -> Double {
     switch x {
-    case ..<0: return 0
-    case 1...: return 1
-    case 0 ..< 0.04045: return x / 12.92
-    default: return pow((x + 0.055) / 1.055, 2.4)
+    case ..<0: 0
+    case 1...: 1
+    case 0 ..< 0.04045: x / 12.92
+    default: pow((x + 0.055) / 1.055, 2.4)
     }
 }
 
 private func linearToSRGB(_ x: Double) -> Double {
     switch x {
-    case ..<0: return 0
-    case 1...: return 1
-    case 0 ..< 0.00031308: return 12.92 * x
-    default: return 1.055 * pow(x, 1 / 2.4) - 0.055
+    case ..<0: 0
+    case 1...: 1
+    case 0 ..< 0.00031308: 12.92 * x
+    default: 1.055 * pow(x, 1 / 2.4) - 0.055
     }
 }
 
@@ -405,9 +405,9 @@ public extension SCNGeometry {
 private extension Data {
     func index(at index: Int, bytes: Int) -> UInt32 {
         switch bytes {
-        case 1: return UInt32(self[index])
-        case 2: return UInt32(uint16(at: index * 2))
-        case 4: return uint32(at: index * 4)
+        case 1: UInt32(self[index])
+        case 2: UInt32(uint16(at: index * 2))
+        case 4: uint32(at: index * 4)
         default: preconditionFailure()
         }
     }
@@ -587,12 +587,11 @@ public extension Mesh {
 
         var polygons = [Polygon]()
         let sources = scnGeometry.sources
-        let sourceChannels: [Int]
-        if #available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *) {
-            sourceChannels = scnGeometry.geometrySourceChannels?.map(\.intValue) ??
+        let sourceChannels: [Int] = if #available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *) {
+            scnGeometry.geometrySourceChannels?.map(\.intValue) ??
                 Array(repeating: 0, count: sources.count)
         } else {
-            sourceChannels = Array(repeating: 0, count: sources.count)
+            Array(repeating: 0, count: sources.count)
         }
         if sourceChannels.count != sources.count {
             throw IOError("Mismatched source and source-channel counts in SCNGeometry")

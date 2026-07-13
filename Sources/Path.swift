@@ -128,8 +128,8 @@ public extension Path {
     /// > Note: If the path has subpaths then the points returned may not represent a single contour
     var points: [PathPoint] {
         switch storage {
-        case let .points(points): return points
-        case let .subpaths(subpaths): return subpaths.flatMap(\.points)
+        case let .points(points): points
+        case let .subpaths(subpaths): subpaths.flatMap(\.points)
         }
     }
 
@@ -137,8 +137,8 @@ public extension Path {
     /// > Note: For paths without nested subpaths, this will return an array containing only `self`.
     var subpaths: [Path] {
         switch storage {
-        case .points: return [self]
-        case let .subpaths(subpaths): return subpaths
+        case .points: [self]
+        case let .subpaths(subpaths): subpaths
         }
     }
 
@@ -146,8 +146,8 @@ public extension Path {
     /// > Note: If path is empty, will return true. If path has subpaths, will return true only if all are closed.
     var isClosed: Bool {
         switch storage {
-        case let .points(points): return pointsAreClosed(unchecked: points)
-        case let .subpaths(subpaths): return subpaths.allSatisfy(\.isClosed)
+        case let .points(points): pointsAreClosed(unchecked: points)
+        case let .subpaths(subpaths): subpaths.allSatisfy(\.isClosed)
         }
     }
 
@@ -219,9 +219,9 @@ public extension Path {
     func inverted() -> Path {
         switch storage {
         case let .points(points):
-            return .init(unchecked: .points(points.reversed()), plane: plane)
+            .init(unchecked: .points(points.reversed()), plane: plane)
         case let .subpaths(subpaths):
-            return .init(unchecked: .subpaths(subpaths.map { $0.inverted() }), plane: plane)
+            .init(unchecked: .subpaths(subpaths.map { $0.inverted() }), plane: plane)
         }
     }
 
@@ -395,9 +395,9 @@ public extension Path {
     var orderedEdges: [LineSegment] {
         switch storage {
         case let .subpaths(subpaths):
-            return subpaths.flatMap(\.orderedEdges)
+            subpaths.flatMap(\.orderedEdges)
         case let .points(points):
-            return points.orderedEdges
+            points.orderedEdges
         }
     }
 
@@ -641,9 +641,9 @@ extension Path {
     func mapPoints(unchecked transform: (PathPoint) -> PathPoint, plane: Plane?) -> Path {
         switch storage {
         case let .points(points):
-            return .init(unchecked: .points(sanitizePoints(points.map(transform))), plane: plane)
+            .init(unchecked: .points(sanitizePoints(points.map(transform))), plane: plane)
         case let .subpaths(subpaths):
-            return .init(unchecked: .subpaths(subpaths.map {
+            .init(unchecked: .subpaths(subpaths.map {
                 // subpaths can sometimes have an inverse plane to the overall path
                 let plane = $0.plane == self.plane ? plane : plane?.inverted()
                 return $0.mapPoints(unchecked: transform, plane: plane)

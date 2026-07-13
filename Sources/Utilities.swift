@@ -59,9 +59,9 @@ extension Comparable {
 extension Double {
     func clampedToScaleLimit() -> Double {
         if isFinite {
-            return self < 0 ? min(self, -scaleLimit) : max(self, scaleLimit)
+            self < 0 ? min(self, -scaleLimit) : max(self, scaleLimit)
         } else {
-            return self < 0 ? -1 : 1
+            self < 0 ? -1 : 1
         }
     }
 }
@@ -302,22 +302,22 @@ extension Vector {
     var leastParallelAxis: Vector {
         switch (abs(x), abs(y), abs(z)) {
         case let (x, y, z) where x <= y && x <= z:
-            return .unitX
+            .unitX
         case let (_, y, z) where y <= z:
-            return .unitY
+            .unitY
         default:
-            return .unitZ
+            .unitZ
         }
     }
 
     var mostParallelAxis: Vector {
         switch (abs(x), abs(y), abs(z)) {
         case let (x, y, z) where x > y && x > z:
-            return .unitX
+            .unitX
         case let (x, y, z) where x > z || y > z:
-            return .unitY
+            .unitY
         default:
-            return .unitZ
+            .unitZ
         }
     }
 

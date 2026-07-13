@@ -71,19 +71,17 @@ extension Vertex: Interpolatable {
 extension PathPoint: Interpolatable {
     /// > Note:  Interpolation is applied to the texture coordinate and color, as well as the position.
     public func interpolated(with other: PathPoint, by t: Double) -> PathPoint {
-        let texcoord: Vector?
-        switch (self.texcoord, other.texcoord) {
+        let texcoord: Vector? = switch (self.texcoord, other.texcoord) {
         case let (lhs?, rhs?):
-            texcoord = lhs.interpolated(with: rhs, by: t)
+            lhs.interpolated(with: rhs, by: t)
         case let (lhs, rhs):
-            texcoord = lhs ?? rhs
+            lhs ?? rhs
         }
-        let color: Color?
-        switch (self.color, other.color) {
+        let color: Color? = switch (self.color, other.color) {
         case let (lhs?, rhs?):
-            color = lhs.interpolated(with: rhs, by: t)
+            lhs.interpolated(with: rhs, by: t)
         case let (lhs, rhs):
-            color = lhs ?? rhs
+            lhs ?? rhs
         }
         let isCurved = isCurved || other.isCurved
         return PathPoint(

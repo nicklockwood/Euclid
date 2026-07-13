@@ -107,9 +107,9 @@ public extension Mesh {
     func stlData(format: STLFormat) -> Data {
         switch format {
         case let .binary(options):
-            return stlData(options: options)
+            stlData(options: options)
         case let .text(options):
-            return Data(stlString(options: options).utf8)
+            Data(stlString(options: options).utf8)
         }
     }
 }

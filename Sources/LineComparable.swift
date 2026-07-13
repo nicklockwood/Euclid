@@ -101,9 +101,9 @@ extension Plane: LineComparable {
 extension Path: LineComparable {
     public func distance(from line: Line) -> Double {
         switch points.count {
-        case 0: return 0
-        case 1: return points[0].distance(from: line)
-        default: return orderedEdges.distance(from: line)
+        case 0: 0
+        case 1: points[0].distance(from: line)
+        default: orderedEdges.distance(from: line)
         }
     }
 

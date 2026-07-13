@@ -320,14 +320,13 @@ private extension [Polygon] {
         func materialLookup(_ index: Int) -> Polygon.Material? {
             materials.isEmpty ? nil : materials[index % materials.count]
         }
-        var materials: [Polygon.Material?]
-        switch meshDescriptor.materials {
+        let materials: [Polygon.Material?] = switch meshDescriptor.materials {
         case let .allFaces(index):
-            materials = [materialLookup(Int(index))]
+            [materialLookup(Int(index))]
         case let .perFace(indices):
-            materials = indices.map { materialLookup(Int($0)) }
+            indices.map { materialLookup(Int($0)) }
         @unknown default:
-            materials = []
+            []
         }
         self.init(
             positions: meshDescriptor.positions.elements,
@@ -390,17 +389,16 @@ public extension Mesh {
             self = .empty
             return
         }
-        let polygons: [Polygon]
-        switch primitives {
+        let polygons: [Polygon] = switch primitives {
         case let .triangles(indices):
-            polygons = .init(
+            .init(
                 meshDescriptor: meshDescriptor,
                 indices: indices,
                 counts: [UInt8](repeating: 3, count: indices.count / 3),
                 materials: materials
             )
         case let .trianglesAndQuads(triangles, quads):
-            polygons = .init(
+            .init(
                 meshDescriptor: meshDescriptor,
                 indices: triangles,
                 counts: [UInt8](repeating: 3, count: triangles.count / 3),
@@ -412,7 +410,7 @@ public extension Mesh {
                 materials: materials
             )
         case let .polygons(counts, indices):
-            polygons = .init(
+            .init(
                 meshDescriptor: meshDescriptor,
                 indices: indices,
                 counts: counts,
@@ -420,7 +418,7 @@ public extension Mesh {
             )
         @unknown default:
             // TODO: throw for unknown type?
-            polygons = []
+            []
         }
         self.init(polygons)
     }

@@ -70,11 +70,11 @@ public extension Path {
         let segments = segments.map {
             switch abs(span) {
             case 0 ... 0.25:
-                return max(1, $0)
+                max(1, $0)
             case 0.25 ... 0.5:
-                return max(2, $0)
+                max(2, $0)
             default:
-                return max(3, $0)
+                max(3, $0)
             }
         } ?? Int(ceil(abs(span) * 16))
         let radius = max(abs(radius), scaleLimit / 2)

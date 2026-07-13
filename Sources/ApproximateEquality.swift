@@ -145,9 +145,9 @@ extension Optional: ApproximateEquality where Wrapped: ApproximateEquality {
     func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
         switch (self, other) {
         case let (lhs?, rhs?):
-            return lhs.isApproximatelyEqual(to: rhs, absoluteTolerance: absoluteTolerance)
+            lhs.isApproximatelyEqual(to: rhs, absoluteTolerance: absoluteTolerance)
         case (nil, _), (_, nil):
-            return other == nil
+            other == nil
         }
     }
 }

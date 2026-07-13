@@ -108,10 +108,9 @@ public extension Mesh {
             min: center - halfSize,
             max: center + halfSize
         )
-        let mesh: Mesh
-        switch faces {
+        let mesh = switch faces {
         case .front, .default:
-            mesh = Mesh(
+            Mesh(
                 unchecked: polygons,
                 bounds: bounds,
                 bsp: nil,
@@ -120,7 +119,7 @@ public extension Mesh {
                 submeshes: []
             )
         case .back:
-            mesh = Mesh(
+            Mesh(
                 unchecked: polygons.inverted(),
                 bounds: bounds,
                 bsp: nil,
@@ -129,7 +128,7 @@ public extension Mesh {
                 submeshes: []
             )
         case .frontAndBack:
-            mesh = Mesh(
+            Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: bounds,
                 bsp: nil,
@@ -676,10 +675,9 @@ public extension Mesh {
         }
         let polygons = shape.facePolygons(material: material)
         let isConvex = polygons.count == 1 && polygons[0].isConvex
-        let mesh: Mesh
-        switch faces {
+        let mesh = switch faces {
         case .front:
-            mesh = Mesh(
+            Mesh(
                 unchecked: polygons,
                 bounds: nil,
                 bsp: nil,
@@ -688,7 +686,7 @@ public extension Mesh {
                 submeshes: []
             )
         case .back:
-            mesh = Mesh(
+            Mesh(
                 unchecked: polygons.inverted(),
                 bounds: nil,
                 bsp: nil,
@@ -697,7 +695,7 @@ public extension Mesh {
                 submeshes: []
             )
         case .frontAndBack, .default:
-            mesh = Mesh(
+            Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil,
                 bsp: nil,

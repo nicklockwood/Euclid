@@ -264,11 +264,11 @@ public extension Bounds {
     /// - Returns: The combined bounds.
     func minkowskiSum(with other: Bounds) -> Bounds {
         if isEmpty {
-            return other
+            other
         } else if other.isEmpty {
-            return self
+            self
         } else {
-            return .init(min: min + other.min, max: max + other.max)
+            .init(min: min + other.min, max: max + other.max)
         }
     }
 
