@@ -9,6 +9,11 @@
 import Euclid
 import UIKit
 
+func framingCameraDistance(for bounds: Bounds, fov: Angle) -> Double {
+    let radius = bounds.size.length / 2
+    return max(radius / sin(fov / 2) * 1.1, 2)
+}
+
 let euclidMesh: Mesh = {
     let start = CFAbsoluteTimeGetCurrent()
 

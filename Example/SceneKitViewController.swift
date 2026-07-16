@@ -30,13 +30,24 @@ final class SceneKitViewController: UIViewController {
         // create a new scene
         let scene = SCNScene()
 
+        let bounds = euclidMesh.bounds
+        let fieldOfView = Angle.degrees(60)
+        let cameraDistance = framingCameraDistance(for: bounds, fov: fieldOfView)
+
         // create and add a camera to the scene
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
+        cameraNode.camera?.fieldOfView = fieldOfView.degrees
+        cameraNode.camera?.zNear = 0.01
+        cameraNode.camera?.zFar = max(cameraDistance + bounds.size.length * 2, 100)
         scene.rootNode.addChildNode(cameraNode)
 
         // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 2)
+        cameraNode.position = SCNVector3(
+            x: Float(bounds.center.x),
+            y: Float(bounds.center.y),
+            z: Float(bounds.center.z + cameraDistance)
+        )
 
         // create SCNNode
         let geometry = SCNGeometry(euclidMesh)
@@ -46,6 +57,7 @@ final class SceneKitViewController: UIViewController {
         // configure the SCNView
         let scnView = view as! SCNView
         scnView.scene = scene
+        scnView.pointOfView = cameraNode
         scnView.autoenablesDefaultLighting = true
         scnView.allowsCameraControl = true
         scnView.backgroundColor = .white

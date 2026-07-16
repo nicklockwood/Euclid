@@ -98,8 +98,15 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
             return
         }
 
+        let bounds = euclidMesh.bounds
+        cameraDistance = framingCameraDistance(for: bounds, fov: .degrees(cameraFOV))
+        modelEntity.transform.translation = .init(-bounds.center)
+
+        let modelPivot = Entity()
+        modelPivot.addChild(modelEntity)
+
         let anchor = AnchorEntity(world: .zero)
-        anchor.addChild(modelEntity)
+        anchor.addChild(modelPivot)
         arView.scene.anchors.append(anchor)
 
         let cameraEntity = PerspectiveCamera()
@@ -110,7 +117,7 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
         updateSubscription = arView.scene.subscribe(to: SceneEvents.Update.self) { [weak self] _ in
             guard let self else { return }
 
-            modelEntity.transform = Transform(
+            modelPivot.transform = Transform(
                 scale: .one,
                 rotation: simd_quatf(Rotation(pitch: .radians(modelPitch), yaw: .radians(modelYaw))),
                 translation: .init(modelPosition)
