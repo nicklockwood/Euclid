@@ -689,9 +689,9 @@ public extension Mesh {
         }
         let polygons = shape.facePolygons(material: material)
         let isConvex = polygons.count == 1 && polygons[0].isConvex
-        let mesh = switch faces {
+        switch faces {
         case .front:
-            Mesh(
+            return Mesh(
                 unchecked: polygons,
                 bounds: nil,
                 bsp: nil,
@@ -700,7 +700,7 @@ public extension Mesh {
                 submeshes: []
             )
         case .back:
-            Mesh(
+            return Mesh(
                 unchecked: polygons.inverted(),
                 bounds: nil,
                 bsp: nil,
@@ -709,7 +709,7 @@ public extension Mesh {
                 submeshes: []
             )
         case .frontAndBack, .default:
-            Mesh(
+            return Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil,
                 bsp: nil,
@@ -718,7 +718,6 @@ public extension Mesh {
                 submeshes: []
             )
         }
-        return shape.usesNonZeroFill ? mesh.detessellate() : mesh
     }
 
     /// Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.
@@ -733,6 +732,9 @@ public extension Mesh {
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
+        if shapes.count == 1, let shape = shapes.first {
+            return fill(shape, faces: faces, material: material, isCancelled: isCancelled)
+        }
         let material = SendableMaterial(material)
         return .union(build(shapes, using: {
             fill($0, faces: faces, material: material.value, isCancelled: isCancelled)

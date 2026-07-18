@@ -367,7 +367,8 @@ public extension Mesh {
         Mesh(
             unchecked: polygons.detessellate(
                 ensureConvex: false,
-                useQualityMerge: polygons.areWatertight
+                useQualityMerge: isWatertight,
+                allowDisjointSharedVertices: isPlanar
             ),
             bounds: boundsIfSet,
             bsp: nil, // TODO: would it be safe to preserve this?
@@ -582,6 +583,15 @@ extension Mesh {
     var isConsistentlyWound: Bool {
         assert(polygons.areWatertight) // always returns false otherwise
         return polygons.areConsistentlyWound
+    }
+
+    /// Check if polygons all lie on the same plane (facing either direction).
+    var isPlanar: Bool {
+        guard let plane = polygons.first?.plane else { return true }
+        return polygons.allSatisfy {
+            $0.plane.w.isApproximatelyEqual(to: plane.w, absoluteTolerance: planeEpsilon) &&
+                $0.plane.isParallel(to: plane) || $0.plane.isAntiparallel(to: plane)
+        }
     }
 
     var vertexNormalsFaceOutward: Bool {

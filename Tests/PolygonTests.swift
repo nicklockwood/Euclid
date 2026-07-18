@@ -311,6 +311,34 @@ final class PolygonTests: XCTestCase {
         ]))
     }
 
+    func testMergePolygonsWithMultipleSharedBoundaryVertices() {
+        let normal = Vector.unitZ
+        let a = Polygon(unchecked: [
+            Vertex(0, 0, normal: normal),
+            Vertex(1, 0, normal: normal),
+            Vertex(2, 0, normal: normal),
+            Vertex(2, 1, normal: normal),
+            Vertex(0, 1, normal: normal),
+        ])
+        let b = Polygon(unchecked: [
+            Vertex(2, 0, normal: normal),
+            Vertex(1, 0, normal: normal),
+            Vertex(0, 0, normal: normal),
+            Vertex(0, -1, normal: normal),
+            Vertex(2, -1, normal: normal),
+        ])
+        guard let c = a.merge(b) else {
+            XCTFail()
+            return
+        }
+        XCTAssertEqual(c, Polygon(unchecked: [
+            Vertex(2, 1, normal: normal),
+            Vertex(0, 1, normal: normal),
+            Vertex(0, -1, normal: normal),
+            Vertex(2, -1, normal: normal),
+        ]))
+    }
+
     func testMergeR2LAdjacentRects() {
         let normal = Vector.unitZ
         let a = Polygon(unchecked: [
@@ -1009,6 +1037,26 @@ final class PolygonTests: XCTestCase {
         XCTAssertEqual(result, [
             Polygon(unchecked: [[0, 1], [2, 0], [0, -1], [-2, 0]]),
         ])
+    }
+
+    func testConcentricCirclesDetessellated() {
+        let path = Path(subpaths: [
+            .circle(radius: 1, segments: 16),
+            .circle(radius: 0.5, segments: 16).inverted(),
+        ])
+        let mesh = Mesh.fill(path).detessellate()
+        XCTAssertEqual(mesh.polygons.count, 4)
+        XCTAssertFalse(mesh.polygons.contains { $0.intersects(.zero) })
+    }
+
+    func testRotatedConcentricCirclesDetessellated() {
+        let path = Path(subpaths: [
+            .circle(radius: 1, segments: 16),
+            .circle(radius: 0.5, segments: 16).inverted(),
+        ]).rotated(by: Rotation(pitch: .pi / 4, yaw: .pi / 5))
+        let mesh = Mesh.fill(path).detessellate()
+        XCTAssertEqual(mesh.polygons.count, 4)
+        XCTAssertFalse(mesh.polygons.contains { $0.intersects(.zero) })
     }
 
     func testWatertightMeshDetesselated() {
