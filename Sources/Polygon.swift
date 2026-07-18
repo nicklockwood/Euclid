@@ -217,10 +217,10 @@ public extension Polygon {
     /// The direction of each edge is normalized relative to the origin to simplify edge-equality comparisons.
     var undirectedEdges: Set<LineSegment> {
         var p0 = vertices.last!.position
-        return Set(vertices.compactMap {
+        return Set(vertices.map {
             let p1 = $0.position
             defer { p0 = p1 }
-            return LineSegment(undirected: p0, p1)
+            return LineSegment(uncheckedUndirected: p0, p1)
         })
     }
 
@@ -781,18 +781,21 @@ extension Collection<Polygon> {
 
     /// Like holeEdges, but preserves edge directionality
     /// > Note: only suitable for use with polygons that are coplanar or don't include reverse faces
-    var boundingEdges: Set<LineSegment> {
-        var edges = Set<LineSegment>()
+    var boundingEdges: [LineSegment] {
+        var edgesByInvertedEdge = [LineSegment: Int]()
+        var edges = [LineSegment?]()
         for polygon in self {
             for edge in polygon.orderedEdges {
-                if let index = edges.firstIndex(of: edge.inverted()) {
-                    edges.remove(at: index)
+                if let index = edgesByInvertedEdge[edge] {
+                    edges[index] = nil
+                    edgesByInvertedEdge[edge] = nil
                 } else {
-                    edges.insert(edge)
+                    edgesByInvertedEdge[edge.inverted()] = edges.count
+                    edges.append(edge)
                 }
             }
         }
-        return edges
+        return edges.compactMap { $0 }
     }
 
     /// Returns all edges that are wound inconsistently.
@@ -808,7 +811,7 @@ extension Collection<Polygon> {
     /// Assuming that polygons are coplanar, determines if they form a convex boudary
     var coplanarPolygonsAreConvex: Bool {
         assert(areCoplanar)
-        let boundary = Path(boundingEdges)
+        let boundary = Path(Set(boundingEdges))
         return Polygon(boundary)?.isConvex ?? false
     }
 

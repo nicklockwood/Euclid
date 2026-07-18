@@ -273,4 +273,8 @@ extension LineSegment {
         self.start = start
         self.end = end
     }
+
+    init(uncheckedUndirected start: Vector, _ end: Vector) {
+        self.init(undirected: .init(unchecked: start, end))
+    }
 }

@@ -1068,7 +1068,7 @@ extension Path {
 
 private extension Collection<Polygon> {
     var outlinePaths: [Path] {
-        var edges = outlineEdges
+        var edges = boundingEdges
         var paths = [Path]()
         let plane = first?.plane
         let normal = plane?.normal ?? .zero
@@ -1104,21 +1104,6 @@ private extension Collection<Polygon> {
                 by: <
             )
         }
-    }
-
-    var outlineEdges: [LineSegment] {
-        var edgesByUndirectedEdge = [LineSegment: LineSegment]()
-        for polygon in self {
-            for edge in polygon.orderedEdges {
-                let undirectedEdge = LineSegment(undirected: edge)
-                if edgesByUndirectedEdge[undirectedEdge] != nil {
-                    edgesByUndirectedEdge[undirectedEdge] = nil
-                } else {
-                    edgesByUndirectedEdge[undirectedEdge] = edge
-                }
-            }
-        }
-        return Array(edgesByUndirectedEdge.values)
     }
 }
 

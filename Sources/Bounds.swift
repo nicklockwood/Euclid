@@ -190,18 +190,18 @@ public extension Bounds {
     var undirectedEdges: Set<LineSegment> {
         let corners = corners
         return [
-            LineSegment(undirected: corners[0], corners[1])!,
-            LineSegment(undirected: corners[0], corners[3])!,
-            LineSegment(undirected: corners[0], corners[4])!,
-            LineSegment(undirected: corners[1], corners[2])!,
-            LineSegment(undirected: corners[1], corners[5])!,
-            LineSegment(undirected: corners[2], corners[3])!,
-            LineSegment(undirected: corners[6], corners[2])!,
-            LineSegment(undirected: corners[6], corners[5])!,
-            LineSegment(undirected: corners[6], corners[7])!,
-            LineSegment(undirected: corners[7], corners[3])!,
-            LineSegment(undirected: corners[7], corners[4])!,
-            LineSegment(undirected: corners[5], corners[4])!,
+            LineSegment(uncheckedUndirected: corners[0], corners[1]),
+            LineSegment(uncheckedUndirected: corners[0], corners[3]),
+            LineSegment(uncheckedUndirected: corners[0], corners[4]),
+            LineSegment(uncheckedUndirected: corners[1], corners[2]),
+            LineSegment(uncheckedUndirected: corners[1], corners[5]),
+            LineSegment(uncheckedUndirected: corners[2], corners[3]),
+            LineSegment(uncheckedUndirected: corners[6], corners[2]),
+            LineSegment(uncheckedUndirected: corners[6], corners[5]),
+            LineSegment(uncheckedUndirected: corners[6], corners[7]),
+            LineSegment(uncheckedUndirected: corners[7], corners[3]),
+            LineSegment(uncheckedUndirected: corners[7], corners[4]),
+            LineSegment(uncheckedUndirected: corners[5], corners[4]),
         ]
     }
 
