@@ -978,14 +978,19 @@ private extension Path {
     }
 
     var subpathsHaveConsistentWinding: Bool {
-        let subpaths = subpaths.filter { $0.isClosed && !$0.hasZeroArea }
-        guard let first = subpaths.first else {
-            return false
+        var clockwise: Bool?
+        for subpath in subpaths where subpath.isClosed {
+            let flattened = subpath.flattened()
+            let signedArea = flattened.points.vectorArea.z
+            if abs(signedArea) < epsilon {
+                continue
+            } else if clockwise == nil {
+                clockwise = signedArea < 0
+            } else if clockwise != (signedArea < 0) {
+                return false
+            }
         }
-        let isClockwise = flattenedPointsAreClockwise(first.flattened().points.map(\.position))
-        return subpaths.dropFirst().allSatisfy {
-            flattenedPointsAreClockwise($0.flattened().points.map(\.position)) == isClockwise
-        }
+        return true
     }
 
     func sectionTransform(relativeTo other: Path) -> ((Vector) -> Vector)? {
