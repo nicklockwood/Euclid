@@ -69,15 +69,18 @@ extension Double {
 // MARK: Vertex utilities
 
 extension Collection<Vertex> {
-    /// Magnitude is area, direction is normal
+    /// A vector representation of the area of the polygon formed by the points
+    /// Magnitude is polygon area; direction is polygon normal
     var vectorArea: Vector {
         map(\.position).vectorArea
     }
 
+    /// Signed volume of the polyhedron formed by connecting the vertices to the origin
     var signedVolume: Double {
         map(\.position).signedVolume
     }
 
+    /// Average position of the vertices
     var centroid: Vector {
         map(\.position).centroid
     }
@@ -254,7 +257,8 @@ func triangulateVertices(
 // MARK: Vector utilities
 
 extension [Vector] {
-    /// Magnitude is area, direction is normal
+    /// A vector representation of the area of the polygon formed by the points
+    /// Magnitude is polygon area; direction is polygon normal
     var vectorArea: Vector {
         guard count > 2, let a = first else {
             return .zero
@@ -267,6 +271,7 @@ extension [Vector] {
         } / 2
     }
 
+    /// Signed volume of the polyhedron formed by connecting the points to the origin
     var signedVolume: Double {
         guard count > 2, let a = first else {
             return 0
@@ -278,6 +283,7 @@ extension [Vector] {
         } / 6
     }
 
+    /// Average position of the points, ignoring duplicate closing point
     var centroid: Vector {
         var last = last ?? .zero
         var count = count
@@ -505,20 +511,13 @@ func faceNormalForPoints(_ points: [Vector]) -> Vector {
     return .unitY
 }
 
-/// https://stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order#1165943
 func flattenedPointsAreClockwise(_ points: [Vector]) -> Bool {
     assert(!points.contains(where: { $0.z != 0 }))
-    let points = (points.first == points.last) ? points.dropLast() : ArraySlice(points)
-    guard points.count > 2, var a = points.last else {
+    let points = pointsAreClosed(unchecked: points) ? Array(points.dropLast()) : points
+    guard points.count > 2 else {
         return false
     }
-    var sum = 0.0
-    for b in points {
-        sum += (b.x - a.x) * (b.y + a.y)
-        a = b
-    }
-    // abs(sum / 2) is the area of the polygon
-    return sum > 0
+    return points.vectorArea.z < 0
 }
 
 func pointsAreClockwise(_ points: [Vector], relativeTo axis: Vector) -> Bool {
@@ -761,6 +760,7 @@ func subpathsFor(_ _points: [PathPoint]) -> [Path] {
     ] : paths
 }
 
+/// Finds repeated-point boundaries that split a point array into subpaths.
 private func subpathIndicesFor(_ points: [PathPoint]) -> [Int] {
     // TODO: ensure closing points are of the same type as the opening point;
     // should this be part of the sanitize function?
@@ -803,10 +803,66 @@ func extrapolate(_ p0: PathPoint, _ p1: PathPoint) -> PathPoint {
     return .point(p1.position + p0p1)
 }
 
+/// Finds opposing source edges that would cross after both are inset by the specified distance.
+func firstCollapsedInsetEdgePair(in sourcePoints: [Vector], by distance: Double) -> (Int, Int)? {
+    let count = sourcePoints.count
+    guard count > 3 else {
+        return nil
+    }
+    let winding = sourcePoints.vectorArea.z >= 0 ? 1.0 : -1.0
+
+    func edgesAreAdjacent(_ a: Int, _ b: Int) -> Bool {
+        abs(a - b) == 1 || (a == 0 && b == count - 1)
+    }
+
+    for i in 0 ..< count {
+        let p0 = sourcePoints[i], p1 = sourcePoints[(i + 1) % count]
+        let edge = p1 - p0
+        guard edge.length > epsilon else {
+            continue
+        }
+        let direction = edge.normalized()
+        let inward = Vector(-direction.y, direction.x) * winding
+
+        for j in i + 1 ..< count where !edgesAreAdjacent(i, j) {
+            let q0 = sourcePoints[j], q1 = sourcePoints[(j + 1) % count]
+            let otherEdge = q1 - q0
+            guard otherEdge.length > epsilon else {
+                continue
+            }
+            let otherDirection = otherEdge.normalized()
+            guard direction.dot(otherDirection) < -1 + planeEpsilon else {
+                continue
+            }
+            let otherInward = Vector(-otherDirection.y, otherDirection.x) * winding
+            guard inward.dot(otherInward) < -1 + planeEpsilon,
+                  inward.dot(q0 - p0) > 0,
+                  otherInward.dot(p0 - q0) > 0
+            else {
+                continue
+            }
+            let separation = abs((q0 - p0).dot(inward))
+            guard separation <= distance * 2 + epsilon else {
+                continue
+            }
+            let projected0 = 0.0 ... edge.length
+            let projected1 = [q0, q1].map { ($0 - p0).dot(direction) }
+            guard projected0.upperBound > projected1.min()! + epsilon,
+                  projected1.max()! > projected0.lowerBound + epsilon
+            else {
+                continue
+            }
+            return (i, j)
+        }
+    }
+    return nil
+}
+
 func resolveInsetIntersections<T>(
     in points: [T],
     isClosed: Bool,
     normal: Vector?,
+    collapsedDistance: Double? = nil,
     position: (T) -> Vector,
     interpolate: (T, T, Double) -> T
 ) -> [T] {
@@ -831,6 +887,14 @@ func resolveInsetIntersections<T>(
             return []
         }
     }
+    if let collapsedDistance {
+        points = removeCollapsedInsetVertices(
+            from: points,
+            isClosed: isClosed,
+            collapsedDistance: collapsedDistance,
+            position: position
+        )
+    }
     guard !isClosed else {
         guard normal.map({ faceNormalForPoints(points.map(position)).dot($0) > 0 }) ?? true,
               let first = points.first
@@ -842,6 +906,46 @@ func resolveInsetIntersections<T>(
     return points
 }
 
+/// Removes near-180-degree inset vertices left behind by collapsed joins.
+private func removeCollapsedInsetVertices<T>(
+    from points: [T],
+    isClosed: Bool,
+    collapsedDistance: Double,
+    position: (T) -> Vector
+) -> [T] {
+    let minimumCount = isClosed ? 3 : 2
+    guard points.count > minimumCount else {
+        return points
+    }
+    var points = points
+    let collapsedVertexDotLimit = -0.5
+    var i = isClosed ? 0 : 1
+    while points.count > minimumCount, i < (isClosed ? points.count : points.count - 1) {
+        let previous = position(points[(i + points.count - 1) % points.count])
+        let current = position(points[i])
+        let next = position(points[(i + 1) % points.count])
+        let edgeA = current - previous
+        let edgeB = next - current
+        let directionA = edgeA.normalized()
+        let directionB = edgeB.normalized()
+        guard directionA != .zero, directionB != .zero else {
+            points.remove(at: i)
+            i = max(isClosed ? 0 : 1, i - 1)
+            continue
+        }
+        if directionA.dot(directionB) < collapsedVertexDotLimit,
+           min(edgeA.length, edgeB.length) <= collapsedDistance
+        {
+            points.remove(at: i)
+            i = max(isClosed ? 0 : 1, i - 1)
+            continue
+        }
+        i += 1
+    }
+    return points
+}
+
+/// Finds the first non-adjacent edge crossing in an inset point sequence.
 private func firstInsetIntersection<T>(
     in points: [T],
     isClosed: Bool,

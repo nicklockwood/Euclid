@@ -1624,26 +1624,59 @@ private extension Mesh {
                 }
                 return []
             }
+            func sidePolygonsFaceFilledArea(_ sidePolygons: [Polygon], at edge: LineSegment) -> Bool? {
+                let midpoint = (edge.start + edge.end) / 2
+                for sidePolygon in sidePolygons {
+                    let normal = sidePolygon.plane.normal.normalized()
+                    let normalSideIsFilled = firstFacePolygons.contains {
+                        $0.intersects(midpoint + normal * 1e-4)
+                    }
+                    let backSideIsFilled = firstFacePolygons.contains {
+                        $0.intersects(midpoint - normal * 1e-4)
+                    }
+                    if normalSideIsFilled != backSideIsFilled {
+                        return normalSideIsFilled
+                    }
+                }
+                return nil
+            }
+            var accumulatedSidePolygons = [Polygon]()
             for ((shape0, shape1), (transform0, transform1)) in zip(
                 zip(shapes, shapes.dropFirst()),
                 zip(transforms, transforms.dropFirst())
             ) where shape0 != shape1 {
                 let transform0 = transform0!, transform1 = transform1!
                 for (v0, v1) in boundaryEdgeVertices {
-                    let edge = LineSegment(unchecked: v0.position, v1.position)
-                    let sidePolygons = sidePolygons([
+                    let polygons = sidePolygons([
                         transformedVertex(v0, by: transform0),
                         transformedVertex(v1, by: transform0),
                         transformedVertex(v1, by: transform1),
                         transformedVertex(v0, by: transform1),
                     ])
-                    if capUsesBoundaryEdgeForward(edge) == true {
-                        polygons += sidePolygons.map { $0.inverted() }
-                    } else {
-                        polygons += sidePolygons
+                    let edge = LineSegment(unchecked: v0.position, v1.position)
+                    let transformedEdge = LineSegment(
+                        unchecked: transform0(v0.position),
+                        transform0(v1.position)
+                    )
+                    switch capUsesBoundaryEdgeForward(edge) {
+                    case true?:
+                        accumulatedSidePolygons += polygons.map { $0.inverted() }
+                    case false?:
+                        accumulatedSidePolygons += polygons
+                    case nil where sidePolygonsFaceFilledArea(polygons, at: transformedEdge) == true:
+                        accumulatedSidePolygons += polygons.map { $0.inverted() }
+                    case nil:
+                        accumulatedSidePolygons += polygons
                     }
                 }
             }
+            if usesMeshableNonZeroBoundary, first?.hasCurvedPoints == true {
+                let capPoints = firstCapPolygons.flatMap {
+                    $0.vertices.map(\.position)
+                }
+                accumulatedSidePolygons = accumulatedSidePolygons.insertingEdgePoints(capPoints)
+            }
+            polygons += accumulatedSidePolygons
             polygons = polygons.withVertexNormalsFacingPlane()
         } else {
             polygons = []
@@ -2142,6 +2175,16 @@ private struct SendableMaterial: @unchecked Sendable {
 }
 
 private extension Collection<Polygon> {
+    func insertingEdgePoints(_ points: [Vector]) -> [Polygon] {
+        let sortedPoints = Set(points).sorted()
+        return map { polygon in
+            var polygon = polygon
+            let bounds = polygon.bounds.inset(by: -epsilon)
+            polygon.insertEdgePoints(sortedPoints.filter { bounds.intersects($0) })
+            return polygon
+        }
+    }
+
     func withVertexNormalsFacingPlane() -> [Polygon] {
         map { $0.withVertexNormalsFacingPlane() }
     }

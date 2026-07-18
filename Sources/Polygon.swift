@@ -558,27 +558,127 @@ public extension Polygon {
 private extension Polygon {
     /// Returns inset polygons, splitting into triangles if the moved polygon becomes invalid.
     func insetPolygons(using positionCache: [Vector: Vector], by distance: Double) -> [Polygon] {
-        func moved(_ polygon: Polygon) -> Polygon? {
+        func moved(_ polygon: Polygon) -> [Polygon] {
             let vertices = polygon.vertices.map { vertex -> Vertex in
                 let key = vertex.position
                 let position = positionCache[key] ?? key.translated(by: polygon.plane.normal * -distance)
                 return Vertex(unchecked: position, vertex.normal, vertex.texcoord, vertex.color)
             }
-            guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
-                return nil
+            if vertices.count > 2, !verticesAreDegenerate(vertices) {
+                return [Polygon(
+                    unchecked: vertices,
+                    normal: polygon.plane.normal,
+                    isConvex: nil, // Inset can alter shape
+                    sanitizeNormals: false,
+                    material: polygon.material
+                )]
             }
-            return Polygon(
-                unchecked: vertices,
+            let resolved = resolveInsetIntersections(
+                in: vertices,
+                isClosed: true,
                 normal: polygon.plane.normal,
-                isConvex: nil, // Inset can alter shape
-                sanitizeNormals: false,
-                material: polygon.material
+                position: { (vertex: Vertex) in vertex.position },
+                interpolate: { $0.lerp($1, $2) }
+            ).dropLast()
+            if resolved.count > 2, !verticesAreDegenerate(resolved) {
+                return [Polygon(
+                    unchecked: Array(resolved),
+                    normal: polygon.plane.normal,
+                    isConvex: nil, // Inset can alter shape
+                    sanitizeNormals: false,
+                    material: polygon.material
+                )]
+            }
+            return polygon.splitCollapsedInset(vertices, by: distance) ?? []
+        }
+        let polygons = moved(self)
+        if !polygons.isEmpty {
+            return polygons
+        }
+        return triangulate().flatMap(moved)
+    }
+
+    /// Splits a concave inset polygon around the first pair of edges that collapsed.
+    func splitCollapsedInset(_ insetVertices: [Vertex], by distance: Double) -> [Polygon]? {
+        let source = vertices
+        let inset = insetVertices
+        let count = min(source.count, inset.count)
+        guard let (i, j) = collapsedInsetEdgePair(by: distance), count > j else {
+            return nil
+        }
+        let first = Array(inset[i + 1 ... j]) + [inset[i + 1]]
+        let secondStart = (j + 1) % count
+        let second = (j + 1 < count ? Array(inset[j + 1 ..< count]) : []) +
+            Array(inset[0 ... i]) + [inset[secondStart]]
+        return [first, second].map {
+            resolveInsetIntersections(
+                in: $0,
+                isClosed: true,
+                normal: plane.normal,
+                position: { (vertex: Vertex) in vertex.position },
+                interpolate: { $0.lerp($1, $2) }
+            ).dropLast()
+        }
+        .flatMap { vertices -> [Polygon] in
+            let vertices = removeCollapsedVertices(from: Array(vertices))
+            guard vertices.count > 2, !verticesAreDegenerate(vertices) else {
+                return []
+            }
+            return [Polygon](
+                Array(vertices),
+                plane: plane,
+                material: material
             )
         }
-        if let polygon = moved(self) {
-            return [polygon]
+    }
+
+    /// Returns the source edges that would cross when inset by the specified distance.
+    func collapsedInsetEdges(by distance: Double) -> [LineSegment] {
+        guard let (i, j) = collapsedInsetEdgePair(by: distance) else {
+            return []
         }
-        return triangulate().compactMap(moved)
+        return [i, j].map {
+            LineSegment(
+                uncheckedUndirected: vertices[$0].position,
+                vertices[($0 + 1) % vertices.count].position
+            )
+        }
+    }
+
+    /// Returns the indices of the first nonadjacent edge pair that collapses under inset.
+    func collapsedInsetEdgePair(by distance: Double) -> (Int, Int)? {
+        guard !isConvex, distance > 0, vertices.count > 3 else {
+            return nil
+        }
+        let flatteningPlane = FlatteningPlane(normal: plane.normal)
+        let sourcePoints = vertices.map { flatteningPlane.flattenPoint($0.position) }
+        return firstCollapsedInsetEdgePair(in: sourcePoints, by: distance)
+    }
+
+    /// Removes collinear vertices introduced while resolving a collapsed inset.
+    func removeCollapsedVertices(from vertices: [Vertex]) -> [Vertex] {
+        var vertices = vertices
+        var index = 0
+        while vertices.count > 3, index < vertices.count {
+            let a = vertices[index == 0 ? vertices.count - 1 : index - 1].position
+            let b = vertices[index].position
+            let c = vertices[(index + 1) % vertices.count].position
+            let ab = b - a, bc = c - b
+            guard ab.length > epsilon, bc.length > epsilon,
+                  ab.normalized().cross(bc.normalized()).length < planeEpsilon
+            else {
+                index += 1
+                continue
+            }
+            let removed = vertices.remove(at: index)
+            if verticesAreDegenerate(vertices) {
+                vertices.insert(removed, at: index)
+                index += 1
+            } else {
+                index = max(index - 1, 0)
+            }
+        }
+        return vertices
     }
 }
 
@@ -719,6 +819,7 @@ extension [Polygon] {
         let componentIsLocked = components.map { component in
             component.contains { locked[$0] }
         }
+        let hasLockedComponents = componentIsLocked.contains(true)
         var componentSigns = [Int](repeating: 1, count: components.count)
         let multiEdgeMatches = inconsistentWindingEdges(in: edgeMap).compactMap {
             edgeMap[$0]
@@ -749,10 +850,14 @@ extension [Polygon] {
                 break
             }
         }
-        return enumerated().map { index, polygon in
+        var result = enumerated().map { index, polygon in
             let sign = signs[index] * componentSigns[componentIDs[index]]
             return sign < 0 ? polygon.inverted() : polygon
         }
+        if !hasLockedComponents, signedVolume * result.signedVolume < 0 {
+            result = result.inverted()
+        }
+        return result
     }
 }
 

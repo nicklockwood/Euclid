@@ -252,6 +252,18 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertEqual(sideEdgeSignatures(in: extrudedAlongMesh), expectedSideEdges)
     }
 
+    func testExtrudeCurvedCompoundPathWithDegenerateSubpath() {
+        let path = Path(subpaths: [
+            Path([.point(0, 0)]),
+            Path.circle(segments: 8),
+        ])
+
+        let mesh = Mesh.extrude(path, depth: 1)
+        XCTAssertFalse(mesh.polygons.isEmpty)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+    }
+
     func testExtrudeNestedCompoundPathUsesEvenOddRule() {
         let outer = Path([
             .point(0, 0),
