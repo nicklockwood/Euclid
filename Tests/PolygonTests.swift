@@ -791,6 +791,7 @@ final class PolygonTests: XCTestCase {
             ],
         ])
         let merged = triangles.detessellate()
+        XCTAssertEqual(merged.count, 1)
         XCTAssertEqual(Set(merged.flatMap(\.vertices)), Set(polygon.vertices))
     }
 
@@ -829,6 +830,7 @@ final class PolygonTests: XCTestCase {
             ],
         ])
         let merged = triangles.detessellate()
+        XCTAssertEqual(merged.count, 1)
         XCTAssertEqual(Set(merged.flatMap(\.vertices)), Set(polygon.vertices))
     }
 
@@ -1015,6 +1017,8 @@ final class PolygonTests: XCTestCase {
         let b = Mesh.sphere(slices: detail)
         let c = a.subtracting(b).makeWatertight()
         let d = c.detessellate()
+        XCTAssertEqual(c.polygons.count, 1330)
+        XCTAssertEqual(d.polygons.count, 939)
         XCTAssert(d.polygons.count < c.polygons.count)
     }
 
@@ -1025,6 +1029,7 @@ final class PolygonTests: XCTestCase {
         let polygons = paths.flatMap {
             $0.subpaths.flatMap { $0.facePolygons() }
         }
+        XCTAssertEqual(polygons.count, 2)
         XCTAssertEqual(polygons.detessellate().count, 2)
         #endif
     }
@@ -1036,6 +1041,7 @@ final class PolygonTests: XCTestCase {
         let polygons = paths.flatMap {
             $0.subpaths.flatMap { $0.facePolygons() }
         }
+        XCTAssertEqual(polygons.count, 4)
         XCTAssertEqual(polygons.detessellate().count, 4)
         #endif
     }

@@ -169,7 +169,7 @@ final class PerformanceTests: XCTestCase {
         }
     }
 
-    func testDetesselate() {
+    func testDetessellate() {
         let detail = 64
         let a = Mesh.cube(size: 0.8)
         let b = Mesh.sphere(slices: detail)

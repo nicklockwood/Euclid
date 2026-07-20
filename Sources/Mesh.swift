@@ -365,7 +365,10 @@ public extension Mesh {
     /// - Returns: A new mesh containing the merged (possibly non-convex) polygons.
     func detessellate() -> Mesh {
         Mesh(
-            unchecked: polygons.detessellate(ensureConvex: false),
+            unchecked: polygons.detessellate(
+                ensureConvex: false,
+                useQualityMerge: polygons.areWatertight
+            ),
             bounds: boundsIfSet,
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,

@@ -613,6 +613,32 @@ extension Collection<LineSegment> {
     }
 }
 
+private struct MergeCandidate {
+    let i: Int
+    let j: Int
+    let polygon: Polygon
+    let quality: Double
+    let sharedEdgeLength: Double
+
+    func isBetter(than other: MergeCandidate) -> Bool {
+        if !quality.isApproximatelyEqual(to: other.quality) {
+            return quality > other.quality
+        }
+        if !sharedEdgeLength.isApproximatelyEqual(to: other.sharedEdgeLength) {
+            return sharedEdgeLength > other.sharedEdgeLength
+        }
+        return false
+    }
+}
+
+private struct IndexPair: Hashable {
+    let i, j: Int
+
+    init(_ i: Int, _ j: Int) {
+        (self.i, self.j) = i > j ? (i, j) : (j, i)
+    }
+}
+
 extension [Polygon] {
     /// Create one or more polygons from a closed loop of vertices
     init(
@@ -1202,46 +1228,51 @@ extension Collection<Polygon> {
     }
 
     /// Merge polygons
-    func detessellate(ensureConvex: Bool, maxSides: Int = .max) -> [Polygon] {
+    func detessellate(
+        ensureConvex: Bool,
+        maxSides: Int = .max,
+        useQualityMerge: Bool = true
+    ) -> [Polygon] {
         groupedByMaterial().flatMap {
             $0.polygons.groupedByPlane().flatMap {
-                $0.polygons.coplanarDetessellate(ensureConvex: ensureConvex, maxSides: maxSides)
+                $0.polygons.coplanarDetessellate(
+                    ensureConvex: ensureConvex,
+                    maxSides: maxSides,
+                    useQualityMerge: useQualityMerge
+                )
             }
         }
     }
 
     /// Merge coplanar polygons that share one or more edges
-    func coplanarDetessellate(ensureConvex: Bool, maxSides: Int) -> [Polygon] {
+    func coplanarDetessellate(
+        ensureConvex: Bool,
+        maxSides: Int,
+        useQualityMerge: Bool = true
+    ) -> [Polygon] {
         assert(areCoplanar)
         assert(allSatisfy { $0.material == first?.material })
         assert(allSatisfy { $0.vertices.count <= maxSides })
         assert(!ensureConvex || allSatisfy(\.isConvex))
 
         var polygons = Array(self)
-        var shouldContinue = true
-        while shouldContinue {
-            shouldContinue = false
-            var i = polygons.count - 1
-            while i > 0 {
-                let a = polygons[i]
-                let count = a.vertices.count
-                if count <= maxSides {
-                    for j in (0 ..< i).reversed() {
-                        let b = polygons[j]
-                        let combinedCount = b.vertices.count + count - 2
-                        if combinedCount - 2 <= maxSides,
-                           let merged = a.merge(unchecked: polygons[j], ensureConvex: ensureConvex),
-                           merged.vertices.count <= maxSides
-                        {
-                            polygons[i] = merged
-                            polygons.remove(at: j)
-                            shouldContinue = true
-                            break
-                        }
-                    }
-                }
-                i -= 1
-            }
+        guard useQualityMerge, maxSides == .max, !ensureConvex else {
+            return polygons.greedyDetessellate(ensureConvex: ensureConvex, maxSides: maxSides)
+        }
+        let maxQualityDetessellationPolygons = 64
+        if polygons.count > maxQualityDetessellationPolygons {
+            polygons = polygons.greedyDetessellate(ensureConvex: ensureConvex, maxSides: maxSides)
+            polygons.alignSharedEdgePoints()
+            return polygons.greedyDetessellate(ensureConvex: ensureConvex, maxSides: maxSides)
+        }
+        while let candidate = polygons.bestMergeCandidate(ensureConvex: ensureConvex, maxSides: maxSides) {
+            polygons[candidate.i] = candidate.polygon
+            polygons.remove(at: candidate.j)
+        }
+        polygons.alignSharedEdgePoints()
+        while let candidate = polygons.bestMergeCandidate(ensureConvex: ensureConvex, maxSides: maxSides) {
+            polygons[candidate.i] = candidate.polygon
+            polygons.remove(at: candidate.j)
         }
         return polygons
     }
@@ -1320,6 +1351,106 @@ extension Collection<Polygon> {
             }
         }
         return submeshes
+    }
+}
+
+private extension [Polygon] {
+    /// Repeatedly merge the first compatible polygon pairs until no more matches are found
+    func greedyDetessellate(ensureConvex: Bool, maxSides: Int) -> [Polygon] {
+        var polygons = self
+        var shouldContinue = true
+        while shouldContinue {
+            shouldContinue = false
+            var i = polygons.count - 1
+            while i > 0 {
+                let a = polygons[i]
+                let count = a.vertices.count
+                if count <= maxSides {
+                    for j in (0 ..< i).reversed() {
+                        let b = polygons[j]
+                        let combinedCount = b.vertices.count + count - 2
+                        if combinedCount - 2 <= maxSides,
+                           let merged = a.merge(unchecked: b, ensureConvex: ensureConvex),
+                           merged.vertices.count <= maxSides
+                        {
+                            polygons[i] = merged
+                            polygons.remove(at: j)
+                            shouldContinue = true
+                            break
+                        }
+                    }
+                }
+                i -= 1
+            }
+        }
+        return polygons
+    }
+
+    /// Insert matching edge points into neighboring polygons
+    mutating func alignSharedEdgePoints() {
+        var points = Set<Vector>()
+        for polygon in self {
+            for vertex in polygon.vertices {
+                points.insert(vertex.position)
+            }
+        }
+        let sortedPoints = points.sorted()
+        for i in indices {
+            let bounds = self[i].bounds.inset(by: -epsilon)
+            self[i].insertEdgePoints(sortedPoints.filter { bounds.intersects($0) })
+        }
+    }
+
+    /// Find the best currently mergeable polygon pair
+    func bestMergeCandidate(ensureConvex: Bool, maxSides: Int) -> MergeCandidate? {
+        var best: MergeCandidate?
+        for pair in mergeCandidatePairs {
+            let a = self[pair.i], b = self[pair.j]
+            guard let merged = a.merge(unchecked: b, ensureConvex: ensureConvex),
+                  merged.vertices.count <= maxSides
+            else {
+                continue
+            }
+            let candidate = MergeCandidate(
+                i: pair.i,
+                j: pair.j,
+                polygon: merged,
+                quality: merged.detessellationQuality,
+                sharedEdgeLength: a.sharedEdgeLength(with: b)
+            )
+            if best.map({ candidate.isBetter(than: $0) }) ?? true {
+                best = candidate
+            }
+        }
+        return best
+    }
+
+    /// Polygon pairs with at least two matching vertex positions.
+    ///
+    /// A valid merge still goes through `merge(unchecked:ensureConvex:)`; this
+    /// only avoids trying pairs that cannot share a complete edge.
+    var mergeCandidatePairs: [IndexPair] {
+        var indicesByVertex = [Vector: [Int]]()
+        for (index, polygon) in enumerated() {
+            for position in Set(polygon.vertices.map(\.position)) {
+                indicesByVertex[position, default: []].append(index)
+            }
+        }
+
+        var sharedVertexCounts = [IndexPair: Int]()
+        for indices in indicesByVertex.values where indices.count > 1 {
+            for a in indices.indices.dropFirst() {
+                for b in indices.indices[..<a] {
+                    sharedVertexCounts[IndexPair(indices[a], indices[b]), default: 0] += 1
+                }
+            }
+        }
+
+        return sharedVertexCounts.compactMap { pair, count in
+            count > 1 ? pair : nil
+        }.sorted {
+            $0.i == $1.i ? $0.j > $1.j : $0.i > $1.i
+        }
     }
 }
 
@@ -1516,6 +1647,28 @@ extension Polygon {
         )
     }
 
+    /// A heuristic score used to prefer compact, evenly proportioned detessellation results.
+    var detessellationQuality: Double {
+        let edges = orderedEdges
+        let perimeter = edges.reduce(0) { $0 + $1.length }
+        guard perimeter > epsilon else {
+            return 0
+        }
+        let longestEdge = edges.reduce(0) { Swift.max($0, $1.length) }
+        let shortestEdge = edges.reduce(Double.infinity) { Swift.min($0, $1.length) }
+        let compactness = area / (perimeter * perimeter)
+        let edgeRatio = shortestEdge.isFinite && longestEdge > epsilon ? shortestEdge / longestEdge : 0
+        return compactness + edgeRatio * 0.01
+    }
+
+    /// Returns the total length of all undirected edges shared with another polygon.
+    func sharedEdgeLength(with other: Polygon) -> Double {
+        let otherEdges = other.undirectedEdges
+        return undirectedEdges.reduce(0) { length, edge in
+            otherEdges.contains(edge) ? length + edge.length : length
+        }
+    }
+
     func edgePlane(for edge: LineSegment) -> Plane {
         let tangent = edge.end - edge.start
         let normal = tangent.cross(plane.normal).normalized()
@@ -1613,6 +1766,57 @@ extension Polygon {
             return true
         }
         return false
+    }
+
+    /// Attempt to add new edge vertices at the specified locations in a single pass.
+    mutating func insertEdgePoints(_ points: [Vector]) {
+        guard var last = vertices.last else {
+            assertionFailure()
+            return
+        }
+        var result = [Vertex]()
+        var didInsert = false
+        result.reserveCapacity(vertices.count + points.count)
+        let points = points.filter { point in
+            !vertices.contains(where: { $0.position.isApproximatelyEqual(to: point) })
+        }
+
+        for v in vertices {
+            let edge = LineSegment(unchecked: last.position, v.position)
+            let edgePoints = points.compactMap { p -> (point: Vector, t: Double)? in
+                guard edge.intersects(p) else {
+                    return nil
+                }
+                let t = p.distance(from: edge.start) / edge.length
+                return (p, t)
+            }.sorted { $0.t < $1.t }
+            for point in edgePoints {
+                let vertex = last.lerp(v, point.t)
+                guard !vertex.isApproximatelyEqual(to: last),
+                      !vertex.isApproximatelyEqual(to: v),
+                      result.last.map({ !$0.isApproximatelyEqual(to: vertex) }) ?? true
+                else {
+                    continue
+                }
+                assert(plane.intersects(vertex))
+                result.append(vertex)
+                didInsert = true
+            }
+            result.append(v)
+            last = v
+        }
+
+        guard didInsert, !verticesAreDegenerate(result) else {
+            return
+        }
+        self = Polygon(
+            unchecked: result,
+            plane: plane,
+            isConvex: nil, // Inserting points can alter convexity
+            sanitizeNormals: false,
+            material: material,
+            id: id
+        )
     }
 }
 

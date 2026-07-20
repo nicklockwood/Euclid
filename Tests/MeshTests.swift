@@ -90,11 +90,9 @@ final class MeshTests: XCTestCase {
         let cone = Mesh.cone()
         let mesh = cone.inset(by: 0.1)
         XCTAssertEqual(mesh.polygons.count, cone.polygons.count)
-        XCTAssert(mesh.isWatertight, "hole edges: \(mesh.polygons.holeEdges.count)")
-        XCTAssert(mesh.polygons.areWatertight, "hole edges: \(mesh.polygons.holeEdges.count)")
-        XCTAssertFalse(mesh.polygons.contains {
-            $0.orderedEdgesContainCrossings
-        }, "crossing faces: \(mesh.polygons.filter(\.orderedEdgesContainCrossings).count)")
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+        XCTAssertFalse(mesh.polygons.contains { $0.orderedEdgesContainCrossings })
     }
 
     func testInsetConeKeepsSideEdgesStraight() throws {
@@ -128,23 +126,18 @@ final class MeshTests: XCTestCase {
 
     func testInsetConeDisappearsWhenInsetPastRadius() {
         let mesh = Mesh.cone().inset(by: 0.5)
-        XCTAssert(mesh.isEmpty, "polygons: \(mesh.polygons.count), bounds: \(mesh.bounds)")
+        XCTAssertTrue(mesh.isEmpty)
     }
 
     func testInsetCubeSubtractingSphereDoesNotDisappear() {
         let source = Mesh.cube(size: 0.8).subtracting(Mesh.sphere()).makeWatertight()
         let mesh = source.inset(by: 0.01)
-        XCTAssert(source.isWatertight, "source hole edges: \(source.polygons.holeEdges.count)")
+        XCTAssertTrue(source.isWatertight)
         XCTAssertFalse(mesh.isEmpty)
         XCTAssertGreaterThanOrEqual(mesh.polygons.count, source.polygons.count)
-        XCTAssert(
-            mesh.isWatertight,
-            "source polygons: \(source.polygons.count), inset polygons: \(mesh.polygons.count), inset hole edges: \(mesh.polygons.holeEdges.count)"
-        )
-        XCTAssert(mesh.polygons.areWatertight, "inset hole edges: \(mesh.polygons.holeEdges.count)")
-        XCTAssertFalse(mesh.polygons.contains {
-            $0.orderedEdgesContainCrossings
-        }, "crossing faces: \(mesh.polygons.filter(\.orderedEdgesContainCrossings).count)")
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+        XCTAssertFalse(mesh.polygons.contains { $0.orderedEdgesContainCrossings })
     }
 
     func testSphereIsWatertightAndConvex() {

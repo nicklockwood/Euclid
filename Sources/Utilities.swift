@@ -93,8 +93,13 @@ extension [Vertex] {
         let c = self[(index + 1) % count]
         let ab = b.position - a.position, bc = c.position - b.position
         let abl = ab.length, bcl = bc.length
-        // check if point is redundant
+        // check if point is geometrically redundant
         guard abs((ab / abl).dot(bc / bcl) - 1) < epsilon else {
+            return false
+        }
+        // check that removing point won't change interpolated vertex attributes
+        let t = abl / (abl + bcl)
+        guard a.lerp(c, t).isApproximatelyEqual(to: b) else {
             return false
         }
         // check that removing point won't make vertices degenerate
@@ -617,10 +622,18 @@ func linePlaneIntersection(_ origin: Vector, _ direction: Vector, _ plane: Plane
 // MARK: Path utilities
 
 extension Collection<PathPoint> {
+    /// A vector representation of the area of the polygon formed by the points
+    /// Magnitude is polygon area; direction is polygon normal
+    var vectorArea: Vector {
+        map(\.position).vectorArea
+    }
+
+    /// Average position of the points, ignoring duplicate closing point
     var centroid: Vector {
         map(\.position).centroid
     }
 
+    /// Returns the ordered array of path edges
     var orderedEdges: [LineSegment] {
         var p0 = first?.position
         return dropFirst().compactMap {
