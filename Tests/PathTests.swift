@@ -715,7 +715,7 @@ final class PathTests: XCTestCase {
             .circle(segments: 16),
             .circle(radius: 0.25, segments: 16).translated(by: [0.5, 0]),
         ])
-        let boundary = try XCTUnwrap(path.nonZeroFillBoundary())
+        let boundary = try XCTUnwrap(path.nonZeroFillBoundary)
         let connectorEndpoints = boundary.points.filter {
             (abs(abs($0.position.x) - 0.4318) < 0.001 &&
                 abs(abs($0.position.y) - 0.2364) < 0.001) ||
@@ -732,7 +732,7 @@ final class PathTests: XCTestCase {
             .circle(segments: 16),
             .circle(radius: 0.25, segments: 16).translated(by: [0.5, 0]),
         ])
-        let boundary = try XCTUnwrap(path.nonZeroFillBoundary())
+        let boundary = try XCTUnwrap(path.nonZeroFillBoundary)
         let arcPoints = boundary.points.filter {
             $0.position.isApproximatelyEqual(to: [-0.5, 0], absoluteTolerance: 0.001) ||
                 $0.position.isApproximatelyEqual(to: [0, -0.5], absoluteTolerance: 0.001) ||

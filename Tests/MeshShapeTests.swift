@@ -113,6 +113,18 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertFalse(mesh.isWatertight)
     }
 
+    func testFillOverlappingCurvedCompoundPathUsesEvenOddRule() {
+        let path = Path(subpaths: [
+            .circle(segments: 32),
+            .square().translated(by: [0.5, 0.5, 0]),
+        ])
+        let mesh = Mesh.fill(path, faces: .front)
+        let evenOddMesh = Mesh.symmetricDifference(path.subpaths.map {
+            Mesh.fill($0, faces: .front)
+        })
+        XCTAssertEqual(mesh.surfaceArea, evenOddMesh.surfaceArea, accuracy: epsilon)
+    }
+
     func testFillNonPlanarQuad() {
         let shape = Path([
             .point(0, 0),
@@ -201,6 +213,60 @@ final class MeshShapeTests: XCTestCase {
         mesh = mesh.makeWatertight()
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.polygons.areWatertight)
+    }
+
+    func testExtrudeOverlappingMultiCompoundPathUsesEvenOddRule() {
+        let path = Path(subpaths: [
+            .square(),
+            .square().translated(by: [0.5, 0.5, 0]),
+            .square().translated(by: [0.5, -0.5, 0]),
+        ])
+        let mesh = Mesh.extrude(path, depth: 8).makeWatertight()
+        let expected = Mesh.symmetricDifference(path.subpaths.map {
+            Mesh.extrude($0, depth: 8)
+        }).makeWatertight()
+
+        XCTAssertEqual(mesh.surfaceArea, expected.surfaceArea, accuracy: epsilon)
+    }
+
+    func testExtrudeOverlappingCurvedCompoundPathCapUsesEvenOddRule() {
+        let path = Path(subpaths: [
+            .circle(segments: 32),
+            .circle(segments: 32).translated(by: [0.5, 0.5, 0]),
+        ])
+        let mesh = Mesh.extrude(path, depth: 8).makeWatertight()
+        let capArea = Mesh(mesh.polygons.filter {
+            abs($0.plane.normal.z) > 0.5
+        }).surfaceArea
+
+        XCTAssertEqual(capArea, Mesh.fill(path).surfaceArea, accuracy: epsilon)
+    }
+
+    func testExtrudeOverlappingMixedCompoundPathCapUsesEvenOddRule() {
+        let path = Path(subpaths: [
+            .circle(segments: 32),
+            .square().translated(by: [0.5, 0.5, 0]),
+        ])
+        let mesh = Mesh.extrude(path, depth: 8).makeWatertight()
+        let capArea = Mesh(mesh.polygons.filter {
+            abs($0.plane.normal.z) > 0.5
+        }).surfaceArea
+
+        XCTAssertEqual(capArea, Mesh.fill(path).surfaceArea, accuracy: epsilon)
+    }
+
+    func testExtrudeOverlappingMixedMultiCompoundPathUsesEvenOddRule() {
+        let path = Path(subpaths: [
+            .circle(segments: 32),
+            .square().translated(by: [0.5, 0.5, 0]),
+            .square().translated(by: [0.5, -0.5, 0]),
+        ])
+        let mesh = Mesh.extrude(path, depth: 8).makeWatertight()
+        let expected = Mesh.symmetricDifference(path.subpaths.map {
+            Mesh.extrude($0, depth: 8)
+        }).makeWatertight()
+
+        XCTAssertEqual(mesh.surfaceArea, expected.surfaceArea, accuracy: epsilon)
     }
 
     func testExtrudeQRCodeLikeCompoundPath() {

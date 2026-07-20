@@ -515,6 +515,20 @@ public extension Mesh {
         if depth < scaleLimit {
             return fill(shape, faces: faces, material: material, isCancelled: isCancelled)
         }
+        if shape.shouldExtrudeSubpathsWithEvenOddComposition {
+            let material = SendableMaterial(material)
+            return .symmetricDifference(build(shape.subpaths, using: {
+                extrude(
+                    $0,
+                    depth: depth,
+                    twist: twist,
+                    sections: sections,
+                    faces: faces,
+                    material: material.value,
+                    isCancelled: isCancelled
+                )
+            }, isCancelled: isCancelled), isCancelled: isCancelled)
+        }
         let faceNormal = shape.faceNormal
         let offset = faceNormal * depth
         let sections = max(1, sections)
@@ -603,7 +617,7 @@ public extension Mesh {
                 )
             }, isCancelled: isCancelled))
         }
-        let shapeGroups = (shape.nonZeroFillBoundaryForLoft() ?? shape).filledSubpathGroups()
+        let shapeGroups = (shape.meshableNonZeroFillBoundary ?? shape).filledSubpathGroups()
         if shapeGroups.count > 1 {
             let material = SendableMaterial(material)
             let meshes = batch(shapeGroups, stride: 1) {
@@ -666,7 +680,7 @@ public extension Mesh {
         let shape = shape.closed()
         let subpaths = shape.subpaths
         if subpaths.count > 1 {
-            if let boundary = shape.nonZeroFillBoundaryForLoft(), boundary != shape {
+            if let boundary = shape.fillableNonZeroFillBoundary, boundary != shape {
                 return fill(boundary, faces: faces, material: material, isCancelled: isCancelled)
             }
             return .symmetricDifference(subpaths.map {
@@ -833,17 +847,17 @@ public extension Mesh {
 }
 
 private extension Collection<Path> {
-    func normalizingCompoundPathsForLoft() -> (shapes: [Path], isNonZeroBoundary: Bool) {
+    func normalizingCompoundPathsForLoft() -> (shapes: [Path], usesMeshableNonZeroBoundary: Bool) {
         guard let first,
-              let boundary = first.nonZeroFillBoundaryForLoft()
+              let boundary = first.meshableNonZeroFillBoundary
         else {
             return (map { shape in
-                guard let boundary = shape.nonZeroFillBoundaryForLoft()
+                guard let boundary = shape.meshableNonZeroFillBoundary
                 else {
                     return shape
                 }
                 return boundary
-            }, contains { $0.nonZeroFillBoundaryForLoft() != nil })
+            }, contains { $0.meshableNonZeroFillBoundary != nil })
         }
         var normalizedShapes = [Path]()
         normalizedShapes.reserveCapacity(count)
@@ -851,7 +865,7 @@ private extension Collection<Path> {
             guard let transform = shape.sectionTransform(relativeTo: first)
             else {
                 return (map { shape in
-                    guard let boundary = shape.nonZeroFillBoundaryForLoft()
+                    guard let boundary = shape.meshableNonZeroFillBoundary
                     else {
                         return shape
                     }
@@ -916,21 +930,53 @@ private extension Path {
         }
     }
 
-    func nonZeroFillBoundaryForLoft() -> Path? {
-        guard isClosed, let boundary = nonZeroFillBoundary() else {
+    /// Returns `nonZeroFillBoundary` only when it can safely replace this path for mesh generation.
+    /// Some non-zero boundaries merge or reorder subpaths in ways that break loft side matching.
+    var meshableNonZeroFillBoundary: Path? {
+        guard isClosed, let boundary = nonZeroFillBoundary else {
             return nil
         }
+        return usesNonZeroFill || canPreserveMeshTopology(after: boundary) ? boundary : nil
+    }
+
+    /// Returns `nonZeroFillBoundary` only for fill operations whose shape cannot be represented
+    /// reliably by filling each subpath independently with even-odd composition.
+    var fillableNonZeroFillBoundary: Path? {
+        guard isClosed, let boundary = nonZeroFillBoundary else {
+            return nil
+        }
+        return shouldReplaceWithNonZeroBoundaryForFilling(boundary) ? boundary : nil
+    }
+
+    /// Returns true when fill should use a rebuilt non-zero boundary instead of even-odd
+    /// composition. Single self-intersecting paths need the non-zero winding rule; compound
+    /// paths only use it for SVG/QR-style contours with coincident points.
+    func shouldReplaceWithNonZeroBoundaryForFilling(_ boundary: Path) -> Bool {
+        if subpaths.count <= 1 {
+            return usesNonZeroFill
+        }
+        guard boundary.subpaths.count > 1, subpathsTouchOrIntersect else {
+            return false
+        }
+        return hasRepairableCoincidentContours
+    }
+
+    /// Returns true when the rebuilt non-zero boundary can stand in for this path without
+    /// breaking the subpath and vertex relationships used to generate mesh side faces.
+    /// Curved paths are handled more conservatively because `nonZeroFillBoundary` rebuilds
+    /// polygon outlines first, then restores curve markers by matching edges back to the source.
+    func canPreserveMeshTopology(after boundary: Path) -> Bool {
         if subpaths.count == 1 {
-            return usesNonZeroFill || (pointsAreAllCurved && boundary.subpathsShareVertices) ? boundary : nil
+            return pointsAreAllCurved && boundary.subpathsTouchOrIntersect
         }
         if hasCurvedPoints {
-            return subpathsShareVertices ? boundary : nil
+            return subpathsTouchOrIntersect && !hasMatchingCurvedSubpaths && (
+                !hasMixedCurvedAndStraightSubpaths || hasRepairableCoincidentContours
+            )
         }
-        let preservesSubpaths = boundary.subpaths.count == subpaths.count
         return boundary.subpaths.count > 1 && (
-            !subpathsShareVertices || subpathsSharePoints ||
-                (subpathsHaveConsistentWinding && preservesSubpaths)
-        ) ? boundary : nil
+            !subpathsTouchOrIntersect || hasRepairableCoincidentContours
+        )
     }
 
     var hasCurvedPoints: Bool {
@@ -938,11 +984,43 @@ private extension Path {
     }
 
     var pointsAreAllCurved: Bool {
-        let points = points.dropLast(isClosed ? 1 : 0)
-        return !points.isEmpty && points.allSatisfy(\.isCurved)
+        points.dropLast(isClosed ? 1 : 0).allSatisfy(\.isCurved)
     }
 
-    var subpathsShareVertices: Bool {
+    var hasMatchingCurvedSubpaths: Bool {
+        let subpaths = subpaths.filter { $0.hasCurvedPoints }
+        guard let first = subpaths.first else {
+            return false
+        }
+        let firstPoints = first.points.dropLast(first.isClosed ? 1 : 0)
+        guard !firstPoints.isEmpty else {
+            return false
+        }
+        let firstSize = first.bounds.size
+        return subpaths.dropFirst().contains { subpath in
+            let points = subpath.points.dropLast(subpath.isClosed ? 1 : 0)
+            return points.count == firstPoints.count && subpath.bounds.size.isApproximatelyEqual(to: firstSize)
+        }
+    }
+
+    var hasMixedCurvedAndStraightSubpaths: Bool {
+        subpaths.contains { $0.hasCurvedPoints } && subpaths.contains { !$0.hasCurvedPoints }
+    }
+
+    var shouldExtrudeSubpathsWithEvenOddComposition: Bool {
+        subpaths.count > 1 && subpathsHavePartiallyOverlappingInteriors &&
+            !hasRepairableCoincidentContours && (
+                !hasCurvedPoints || hasMatchingCurvedSubpaths || hasMixedCurvedAndStraightSubpaths
+            )
+    }
+
+    var hasRepairableCoincidentContours: Bool {
+        subpathsHaveCoincidentPoints && !subpathsHavePartialInteriorOverlapWithoutCoincidentPoints
+    }
+
+    /// Returns true when any path point is reused or any subpath edge intersects an earlier subpath edge.
+    /// This identifies compound paths whose original contour boundaries are not independent for meshing.
+    var subpathsTouchOrIntersect: Bool {
         var previousEdges = [LineSegment]()
         var vertices = Set<Vector>()
         for subpath in subpaths {
@@ -964,7 +1042,10 @@ private extension Path {
         return false
     }
 
-    var subpathsSharePoints: Bool {
+    /// Returns true only when path point positions are reused, without checking edge intersections.
+    /// This is narrower than `subpathsTouchOrIntersect` and is used when coincident points preserve
+    /// enough correspondence to use the rebuilt boundary for mesh generation.
+    var subpathsHaveCoincidentPoints: Bool {
         var vertices = Set<Vector>()
         for subpath in subpaths {
             let positions = subpath.points.dropLast(subpath.isClosed ? 1 : 0).map(\.position)
@@ -977,20 +1058,57 @@ private extension Path {
         return false
     }
 
-    var subpathsHaveConsistentWinding: Bool {
-        var clockwise: Bool?
-        for subpath in subpaths where subpath.isClosed {
-            let flattened = subpath.flattened()
-            let signedArea = flattened.points.vectorArea.z
-            if abs(signedArea) < epsilon {
+    func hasCoincidentPoints(with other: Path) -> Bool {
+        let vertices = Set(points.dropLast(isClosed ? 1 : 0).map(\.position))
+        return other.points.dropLast(other.isClosed ? 1 : 0).contains {
+            vertices.contains($0.position)
+        }
+    }
+
+    /// Returns true when subpath interiors partially overlap. Boundary-only contact and full
+    /// containment do not count because those cases can still preserve contour correspondence.
+    var subpathsHavePartiallyOverlappingInteriors: Bool {
+        for (polygon, other, _) in subpathPolygonPairs() {
+            guard polygon.bounds.intersects(other.bounds),
+                  polygon.hasPartialInteriorOverlap(with: other)
+            else {
                 continue
-            } else if clockwise == nil {
-                clockwise = signedArea < 0
-            } else if clockwise != (signedArea < 0) {
-                return false
+            }
+            return true
+        }
+        return false
+    }
+
+    /// Returns true for area overlaps between independent subpaths. This distinguishes ordinary
+    /// even-odd compound overlaps from coincident or doubled-back contours that need boundary repair.
+    var subpathsHavePartialInteriorOverlapWithoutCoincidentPoints: Bool {
+        for (polygon, other, pathsHaveCoincidentPoints) in subpathPolygonPairs() {
+            guard !pathsHaveCoincidentPoints,
+                  polygon.bounds.intersects(other.bounds),
+                  polygon.hasPartialInteriorOverlap(with: other)
+            else {
+                continue
+            }
+            return true
+        }
+        return false
+    }
+
+    func subpathPolygonPairs() -> [(Polygon, Polygon, Bool)] {
+        let polygons = subpaths.map { Polygon($0) }
+        var result = [(Polygon, Polygon, Bool)]()
+        for i in subpaths.indices {
+            guard let polygon = polygons[i] else {
+                continue
+            }
+            for j in subpaths.indices.dropFirst(i + 1) {
+                guard let other = polygons[j] else {
+                    continue
+                }
+                result.append((polygon, other, subpaths[i].hasCoincidentPoints(with: subpaths[j])))
             }
         }
-        return true
+        return result
     }
 
     func sectionTransform(relativeTo other: Path) -> ((Vector) -> Vector)? {
@@ -1070,7 +1188,7 @@ private extension Mesh {
     ) -> Mesh {
         let subpaths = profile.subpaths
         if subpaths.count > 1 {
-            if let boundary = profile.closed().nonZeroFillBoundaryForLoft() {
+            if let boundary = profile.closed().meshableNonZeroFillBoundary {
                 return .merge(boundary.subpaths.map {
                     .lathe(
                         $0,
@@ -1320,7 +1438,7 @@ private extension Mesh {
         let faceNormal = originalShapes.first?.faceNormal ?? .zero
         let shapes = originalShapes.filter { !$0.isEmpty }
         let first = shapes.first
-        let firstBoundary = first?.nonZeroFillBoundary()
+        let firstBoundary = first?.nonZeroFillBoundary
         let firstFacePolygons = firstBoundary?.facePolygons(material: material) ??
             first?.facePolygons(material: material) ?? []
         let firstCapPolygons: [Polygon] = first.flatMap { first in
@@ -1392,10 +1510,7 @@ private extension Mesh {
                 return []
             }
             for boundarySubpath in boundary.subpaths {
-                let boundaryVertices = boundarySubpath.edgeVertices(
-                    for: .default,
-                    resolvingNonZeroFill: false
-                )
+                let boundaryVertices = boundarySubpath.edgeVertices(for: .default)
                 var loopPolygons = [Polygon]()
                 func capUsesBoundaryEdgeForward(_ edge: LineSegment) -> Bool? {
                     for polygon in firstCapPolygons {
@@ -1505,21 +1620,21 @@ private extension Mesh {
         isWatertight: Bool?,
         isCancelled: CancellationHandler
     ) -> Mesh {
-        let (normalizedShapes, isNonZeroBoundary) = shapes.normalizingCompoundPathsForLoft()
+        let (normalizedShapes, usesMeshableNonZeroBoundary) = shapes.normalizingCompoundPathsForLoft()
         var subpathCount = 0
         let arrayOfSubpaths: [[Path]] = normalizedShapes.map {
             let subpaths = $0.subpaths
             subpathCount = max(subpathCount, subpaths.count)
             return subpaths
         }
-        if isNonZeroBoundary || subpathCount > 1 {
+        if usesMeshableNonZeroBoundary || subpathCount > 1 {
             var subshapes = Array(repeating: [Path](), count: subpathCount)
             for subpaths in arrayOfSubpaths {
                 for (i, subpath) in subpaths.enumerated() {
                     subshapes[i].append(subpath)
                 }
             }
-            if isNonZeroBoundary {
+            if usesMeshableNonZeroBoundary {
                 return compoundLoft(
                     originalShapes: shapes,
                     boundarySubshapes: subshapes,
@@ -1901,6 +2016,38 @@ private extension Collection<Polygon> {
 }
 
 private extension Polygon {
+    func hasPartialInteriorOverlap(with other: Polygon) -> Bool {
+        containsInteriorSample(from: other) && other.containsInteriorSample(from: self)
+    }
+
+    func containsInteriorSample(from polygon: Polygon) -> Bool {
+        let offset = max(max(bounds.size.length, polygon.bounds.size.length) * 1e-7, epsilon * 10)
+        let center = polygon.vertices.reduce(.zero) { $0 + $1.position } / Double(polygon.vertices.count)
+        for vertex in polygon.vertices {
+            let inward = (center - vertex.position).normalized()
+            guard !inward.isZero else {
+                continue
+            }
+            if intersects(vertex.position + inward * offset) {
+                return true
+            }
+        }
+        for edge in polygon.orderedEdges {
+            let direction = (edge.end - edge.start).normalized()
+            guard !direction.isZero else {
+                continue
+            }
+            let inward = polygon.plane.normal.cross(direction).normalized()
+            guard !inward.isZero else {
+                continue
+            }
+            if intersects((edge.start + edge.end) / 2 + inward * offset) {
+                return true
+            }
+        }
+        return false
+    }
+
     func withVertexNormalsFacingPlane() -> Polygon {
         Polygon(
             unchecked: vertices.map {
