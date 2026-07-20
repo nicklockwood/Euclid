@@ -461,11 +461,13 @@ extension Array: Transformable where Element: Transformable {
     }
 
     public func transformed(by transform: Transform) -> [Element] {
-        if transform.scale.isOne {
-            if transform.translation.isZero {
-                return rotated(by: transform.rotation)
-            } else if transform.isIdentity {
+        if transform.isIdentity {
+            return self
+        } else if transform.scale.isOne {
+            if transform.rotation.isIdentity {
                 return translated(by: transform.translation)
+            } else if transform.translation.isZero {
+                return rotated(by: transform.rotation)
             }
         } else if transform.rotation.isIdentity, transform.translation.isZero {
             return scaled(by: transform.scale)
