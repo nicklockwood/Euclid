@@ -296,6 +296,30 @@ final class MeshCSGTests: XCTestCase {
         }
     }
 
+    func testConvexHullOfOffsetCylindersDetessellatesWatertight() {
+        func cylinder(size: Vector, position: Vector) -> Mesh {
+            Mesh.cylinder(slices: 16)
+                .scaled(by: size)
+                .rotated(by: Rotation(roll: .radians(.pi / 2)))
+                .translated(by: position)
+        }
+
+        let meshes = [
+            cylinder(size: [0.3, 1, 0.3], position: [0, 0.15, 0.5]),
+            cylinder(size: [0.3, 1, 0.3], position: [0, 0.15, -0.5]),
+            cylinder(size: [0.2, 1.1, 0.2], position: [0, 0.15, 0.5]),
+            cylinder(size: [0.2, 1.1, 0.2], position: [0, 0.15, -0.5]),
+        ]
+        let hull = Mesh.convexHull(of: meshes)
+        let detessellated = hull.detessellate()
+
+        XCTAssert(hull.isKnownConvex)
+        XCTAssert(hull.isActuallyConvex)
+        XCTAssert(hull.polygons.areWatertight)
+        XCTAssert(detessellated.polygons.areWatertight)
+        XCTAssert(detessellated.isWatertight)
+    }
+
     func testConvexHullOfCubeIsItself() {
         let cube = Mesh.cube()
         let mesh = Mesh.convexHull(of: [cube])

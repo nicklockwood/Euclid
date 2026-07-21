@@ -323,7 +323,7 @@ private extension BSP {
                 }
                 var a = a
                 for (i, b) in total.enumerated().reversed() {
-                    if a.id == b.id, let c = a.merge(unchecked: b, ensureConvex: false) {
+                    if a.id == b.id, let c = a.merge(unchecked: b, ensureConvex: true) {
                         a = c
                         total.remove(at: i)
                     }

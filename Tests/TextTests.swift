@@ -23,6 +23,26 @@ final class TextTests: XCTestCase {
         ])
     }
 
+    func testLowercaseTextPaths() {
+        let paths = Path.text("hello")
+        XCTAssertEqual(paths.count, 5)
+        XCTAssertEqual(paths.map(\.subpaths.count), [
+            1, 2, 1, 1, 2,
+        ])
+    }
+
+    func testLowercaseTextFillIsDetessellated() {
+        let polygons = Path.text("hello").flatMap { path in
+            let filledMesh = Mesh.fill(path)
+            let detessellatedMesh = filledMesh.detessellate()
+            XCTAssertLessThanOrEqual(detessellatedMesh.polygons.count, filledMesh.polygons.count)
+            XCTAssertEqual(detessellatedMesh.surfaceArea, filledMesh.surfaceArea, accuracy: epsilon)
+            return detessellatedMesh.polygons
+        }
+        XCTAssertEqual(polygons.count, 14)
+        XCTAssertEqual(polygons.flatMap { $0.triangulate() }.count, 210)
+    }
+
     func testTextMeshWithAttributedString() {
         let text = "Hello"
         let font = CTFontCreateWithName("Helvetica" as CFString, 12, nil)

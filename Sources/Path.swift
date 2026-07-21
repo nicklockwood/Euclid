@@ -219,7 +219,7 @@ public extension Path {
     func inverted() -> Path {
         switch storage {
         case let .points(points):
-            .init(unchecked: .points(points.reversed()), plane: plane)
+            .init(unchecked: .points(sanitizePoints(points.reversed())), plane: plane)
         case let .subpaths(subpaths):
             .init(unchecked: .subpaths(subpaths.map { $0.inverted() }), plane: plane)
         }
@@ -505,7 +505,7 @@ public extension Path {
         guard points.count >= 2 else {
             return Path(subpaths: subpaths.map { $0.inset(by: distance) })
         }
-        if isClosed, !isSimple, let nonZeroFillBoundary {
+        if isClosed, !isSimple {
             return nonZeroFillBoundary.inset(by: distance)
         }
         let source = points
@@ -590,19 +590,24 @@ private struct PathContainmentIndex {
     }
 
     func depth(of index: Int) -> Int {
+        containingPathIndexes(for: index).count
+    }
+
+    /// Returns the indexes of paths whose filled area contains the first point of the indexed path.
+    func containingPathIndexes(for index: Int) -> [Int] {
         guard entries.indices.contains(index),
               let point = entries[index].point
         else {
-            return 0
+            return []
         }
-        return entries.indices.reduce(0) { count, otherIndex in
+        return entries.indices.filter { otherIndex in
             guard otherIndex != index,
                   entries[otherIndex].bounds.intersects(point),
                   entries[otherIndex].polygon?.intersects(point) == true
             else {
-                return count
+                return false
             }
-            return count + 1
+            return true
         }
     }
 }
@@ -699,11 +704,6 @@ extension Path {
         !pointsAreSelfIntersecting(points.map(\.position))
     }
 
-    /// Returns if path should use non-zero fill algorithm
-    var usesNonZeroFill: Bool {
-        isClosed && subpaths.count <= 1 && plane != nil && !isSimple
-    }
-
     /// Returns the most suitable FlatteningPlane for the path
     var flatteningPlane: FlatteningPlane {
         FlatteningPlane(normal: faceNormal)
@@ -749,6 +749,47 @@ extension Path {
         }), plane: .xy)
     }
 
+    /// Groups subpaths into independent filled regions using even-odd containment.
+    /// - Returns: An array of paths, each containing one outer contour and any directly nested hole contours.
+    ///
+    /// This is useful when processing a compound path as filled geometry. Paths with multiple independent
+    /// outer contours are split into separate groups, while a single filled region is returned as `self`.
+    func filledSubpaths() -> [Path] {
+        let subpaths = subpaths.filter { !$0.isEmpty }
+        guard subpaths.count > 1 else {
+            return subpaths
+        }
+        let containment = PathContainmentIndex(subpaths)
+        let depths = subpaths.indices.map { containment.depth(of: $0) }
+        let outerIndexes = subpaths.indices.filter { depths[$0].isMultiple(of: 2) }
+        guard outerIndexes.count > 1 else {
+            return [self]
+        }
+        return outerIndexes.map { outerIndex in
+            let group = subpaths.indices.filter { index in
+                if index == outerIndex {
+                    return true
+                }
+                guard !depths[index].isMultiple(of: 2),
+                      depths[index] == depths[outerIndex] + 1
+                else {
+                    return false
+                }
+                return containment.containingPathIndexes(for: index).contains(outerIndex)
+            }
+            return Path(subpaths: group.sorted().map { subpaths[$0] })
+        }
+    }
+
+    /// Returns if path should use non-zero fill algorithm
+    var usesNonZeroFill: Bool {
+        isClosed && subpaths.count <= 1 && plane != nil && !isSimple
+    }
+
+    /// Returns polygons for the area covered by this path using the non-zero winding fill rule.
+    ///
+    /// The path must be closed and planar. Compound paths are evaluated as contours in the same
+    /// filled region, so overlapping or self-intersecting contours are resolved by winding direction.
     func nonZeroFillPolygons(material: Mesh.Material?) -> [Polygon] {
         guard isClosed, let plane else {
             return []
@@ -875,10 +916,30 @@ extension Path {
         return polygons
     }
 
-    var nonZeroFillBoundary: Path? {
-        let polygons = nonZeroFillPolygons(material: nil)
-        return Path(
+    /// Returns outline paths for the area covered by this path using the non-zero winding fill rule.
+    var nonZeroFillBoundary: Path {
+        nonZeroFillBoundary(from: nonZeroFillPolygons(material: nil))
+    }
+
+    func nonZeroFillBoundary(from polygons: [Polygon]) -> Path {
+        Path(
             unchecked: .subpaths(polygons.outlinePaths),
+            plane: plane
+        ).restoringCurvature(from: self)
+    }
+
+    /// Returns a non-zero fill boundary after aligning split edges between adjacent fill polygons.
+    /// This is useful for mesh side-wall generation, but caps should use `nonZeroFillBoundary`
+    /// or `nonZeroFillPolygons` so real holes are not converted into filled subpaths.
+    var nonZeroFillBoundaryWithAlignedEdges: Path? {
+        let polygons = nonZeroFillPolygons(material: nil)
+        let precision = max(bounds.size.length * 1e-9, epsilon)
+        let outlinePolygons = polygons.count > 1 ?
+            polygons
+            .insertingEdgeVertices(with: polygons.holeEdges)
+            .mergingVertices(withPrecision: precision) : polygons
+        return Path(
+            unchecked: .subpaths(outlinePolygons.outlinePaths),
             plane: plane
         ).restoringCurvature(from: self)
     }
@@ -1074,7 +1135,7 @@ private extension Collection<Polygon> {
         let normal = plane?.normal ?? .zero
         while !edges.isEmpty {
             let firstEdge = edges.removeFirst()
-            var points: [PathPoint] = [.point(firstEdge.start), .point(firstEdge.end)]
+            var points = [PathPoint(firstEdge.start), PathPoint(firstEdge.end)]
             while points.last!.position != points[0].position {
                 let position = points.last!.position
                 let indices = edges.indices.filter { edges[$0].start == position }
@@ -1095,8 +1156,7 @@ private extension Collection<Polygon> {
                     break
                 }
             }
-            points = points.rotatedToCanonicalStart()
-            paths.append(Path(points))
+            paths += subpathsFor(points.rotatedToCanonicalStart())
         }
         return paths.sorted { lhs, rhs in
             lhs.points.map(\.position).lexicographicallyPrecedes(

@@ -120,8 +120,8 @@ final class MeshTests: XCTestCase {
         let mesh = cone.inset(by: 0.1)
         let coneSize = cone.bounds.size
         let meshSize = mesh.bounds.size
-        XCTAssertEqual(meshSize.x / coneSize.x, meshSize.y / coneSize.y, accuracy: 1e-6)
-        XCTAssertEqual(meshSize.z / coneSize.z, meshSize.y / coneSize.y, accuracy: 1e-6)
+        XCTAssertEqual(meshSize.x / coneSize.x, meshSize.y / coneSize.y, accuracy: epsilon)
+        XCTAssertEqual(meshSize.z / coneSize.z, meshSize.y / coneSize.y, accuracy: epsilon)
     }
 
     func testInsetConeDisappearsWhenInsetPastRadius() {
@@ -232,7 +232,7 @@ final class MeshTests: XCTestCase {
     func testFilledLetterOIsWatertightButNotConvex() {
         #if canImport(CoreText)
         let mesh = Mesh.fill(.text("O"))
-        XCTAssertNil(mesh.watertightIfSet)
+        XCTAssertEqual(mesh.watertightIfSet, true)
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.polygons.areWatertight)
         XCTAssertFalse(mesh.isKnownConvex)
@@ -741,7 +741,7 @@ final class MeshTests: XCTestCase {
         for polygon in smoothed.polygons {
             for vertex in polygon.vertices {
                 if let normal = normalsByPosition[vertex.position] {
-                    XCTAssertEqual(vertex.normal, normal, accuracy: 1e-10)
+                    XCTAssertEqual(vertex.normal, normal)
                 } else {
                     normalsByPosition[vertex.position] = vertex.normal
                 }
@@ -773,7 +773,7 @@ final class MeshTests: XCTestCase {
         XCTAssertEqual(normalsByVertex(in: reversed).count, expectedNormals.count)
         for (key, normal) in normalsByVertex(in: reversed) {
             let expectedNormal = try XCTUnwrap(expectedNormals[key])
-            XCTAssertEqual(normal, expectedNormal, accuracy: 1e-15)
+            XCTAssertEqual(normal, expectedNormal)
         }
     }
 

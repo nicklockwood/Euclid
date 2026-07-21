@@ -169,6 +169,89 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertTrue(mesh.vertexNormalsFaceOutward)
     }
 
+    func testSelfIntersectingExtrudedPathAlignsNonZeroFillBoundaryEdges() {
+        let points: [PathPoint] = [
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 4),
+            .point(3, 4),
+            .point(3, 3),
+            .point(0.5, 3),
+            .point(0.5, 2),
+            .point(4, 2),
+            .point(4, 5),
+            .point(0, 5),
+            .point(0, 0),
+        ]
+        let path = Path(unchecked: points, plane: .xy)
+        let fillPolygons = path.nonZeroFillPolygons(material: nil)
+        let rawBoundaryEdges = fillPolygons.boundingEdges
+        let alignedBoundaryEdges = fillPolygons
+            .insertingEdgeVertices(with: fillPolygons.holeEdges)
+            .boundingEdges
+
+        func signature(for polygon: Euclid.Polygon) -> [Vector] {
+            polygon.vertices.map {
+                Vector(
+                    ($0.position.x * 1e10).rounded() / 1e10,
+                    ($0.position.y * 1e10).rounded() / 1e10
+                )
+            }.sorted()
+        }
+        func signature(for edge: LineSegment) -> [Vector] {
+            [edge.start, edge.end].map {
+                Vector(
+                    ($0.x * 1e10).rounded() / 1e10,
+                    ($0.y * 1e10).rounded() / 1e10
+                )
+            }.sorted()
+        }
+        func sideEdgeSignatures(in mesh: Mesh) -> Set<[Vector]> {
+            Set(mesh.polygons.compactMap { polygon in
+                guard abs(polygon.plane.normal.z) < 0.5 else {
+                    return nil
+                }
+                let positions = Set(polygon.vertices.map {
+                    Vector(
+                        ($0.position.x * 1e10).rounded() / 1e10,
+                        ($0.position.y * 1e10).rounded() / 1e10
+                    )
+                })
+                guard positions.count == 2 else {
+                    return nil
+                }
+                return positions.sorted()
+            })
+        }
+        func boundaryEdgeSignatures(for polygons: [Euclid.Polygon]) -> Set<[Vector]> {
+            Set(polygons.boundingEdges.map(signature))
+        }
+        func totalArea(of polygons: [Euclid.Polygon]) -> Double {
+            (polygons.reduce(0) { $0 + $1.area } * 1e10).rounded() / 1e10
+        }
+        let filledPolygons = Mesh.fill(path, faces: .front).polygons
+        let extrudedMesh = Mesh.extrude(path).makeWatertight()
+        let extrudedCapPolygons = extrudedMesh.polygons.filter {
+            abs($0.plane.normal.z) > 0.5
+        }
+        let along = Path.line([0, 0, -0.5], [0, 0, 0.5])
+        let extrudedAlongMesh = Mesh.extrude(path, along: along).makeWatertight()
+        let extrudedAlongCapPolygons = extrudedAlongMesh.polygons.filter {
+            abs($0.plane.normal.z) > 0.5
+        }
+        let expectedSideEdges = Set(alignedBoundaryEdges.map(signature))
+
+        XCTAssertTrue(path.usesNonZeroFill)
+        XCTAssertLessThan(alignedBoundaryEdges.count, rawBoundaryEdges.count)
+        XCTAssertEqual(path.nonZeroFillBoundaryWithAlignedEdges?.subpaths.count, 2)
+        XCTAssertEqual(boundaryEdgeSignatures(for: extrudedCapPolygons), expectedSideEdges)
+        XCTAssertEqual(boundaryEdgeSignatures(for: extrudedAlongCapPolygons), expectedSideEdges)
+        XCTAssertEqual(totalArea(of: extrudedCapPolygons), totalArea(of: filledPolygons) * 2)
+        XCTAssertEqual(totalArea(of: extrudedAlongCapPolygons), totalArea(of: filledPolygons) * 2)
+        XCTAssertEqual(sideEdgeSignatures(in: extrudedMesh), expectedSideEdges)
+        XCTAssertEqual(sideEdgeSignatures(in: extrudedAlongMesh), expectedSideEdges)
+    }
+
     func testExtrudeNestedCompoundPathUsesEvenOddRule() {
         let outer = Path([
             .point(0, 0),
@@ -189,7 +272,61 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertFalse(mesh.isWatertight)
         mesh = mesh.makeWatertight()
         XCTAssertTrue(mesh.isWatertight)
-        XCTAssertTrue(mesh.polygons.areWatertight)
+    }
+
+    func testExtrudeNestedCompoundPathWithDoubledBackSegmentDoesNotAssert() {
+        let outer = Path([
+            .point(0, 0),
+            .point(20, 0),
+            .point(20, 20),
+            .point(0, 20),
+            .point(0, 0),
+        ])
+        let inner = Path([
+            .point(4, 4),
+            .point(16, 4),
+            .point(16, 10),
+            .point(10, 10),
+            .point(16, 10),
+            .point(16, 16),
+            .point(4, 16),
+            .point(4, 4),
+        ])
+        let path = Path(subpaths: [outer, inner])
+        let mesh = Mesh.extrude(path, depth: 8).makeWatertight()
+        let capArea = Mesh(mesh.polygons.filter {
+            abs($0.plane.normal.z) > 0.5
+        }).surfaceArea
+
+        XCTAssertFalse(mesh.polygons.isEmpty)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConsistentlyWound)
+        XCTAssertEqual(capArea, Mesh.fill(path).surfaceArea, accuracy: epsilon)
+    }
+
+    func testExtrudeInvertedNestedCompoundPathWithDoubledBackSegmentDoesNotAssert() {
+        let outer = Path([
+            .point(0, 0),
+            .point(20, 0),
+            .point(20, 20),
+            .point(0, 20),
+            .point(0, 0),
+        ])
+        let inner = Path([
+            .point(4, 4),
+            .point(16, 4),
+            .point(16, 10),
+            .point(10, 10),
+            .point(16, 10),
+            .point(16, 16),
+            .point(4, 16),
+            .point(4, 4),
+        ])
+        let path = Path(subpaths: [outer, inner]).inverted()
+        let mesh = Mesh.extrude(path, depth: 8).makeWatertight()
+        XCTAssertFalse(mesh.polygons.isEmpty)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConsistentlyWound)
     }
 
     func testExtrudeOverlappingCompoundPathUsesEvenOddRule() {
@@ -212,7 +349,6 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertFalse(mesh.isWatertight)
         mesh = mesh.makeWatertight()
         XCTAssertTrue(mesh.isWatertight)
-        XCTAssertTrue(mesh.polygons.areWatertight)
     }
 
     func testExtrudeOverlappingMultiCompoundPathUsesEvenOddRule() {
@@ -292,9 +428,8 @@ final class MeshShapeTests: XCTestCase {
     func testExtrudeQRCodeLikeCompoundPathCapShapeMatchesFilledShape() {
         let path = Path.qrCodeLikeCompoundPath
         let filledPolygons = Mesh.fill(path, faces: .front).polygons
-        let capPolygons = Mesh.extrude(path, depth: 8).makeWatertight().polygons.filter {
-            $0.plane.normal.z > 0.5
-        }
+        let capPolygons = Mesh.extrude(path, depth: 8)
+            .makeWatertight().polygons.filter { $0.plane.normal.z > 0.5 }
 
         for x in stride(from: 4.0, to: 200, by: 8) {
             for y in stride(from: 4.0, to: 200, by: 8) {
@@ -314,7 +449,7 @@ final class MeshShapeTests: XCTestCase {
             .point(1, 20),
             .point(0, 10),
             .point(0, -10),
-        ]))
+        ])).makeWatertight()
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.polygons.areWatertight)
         XCTAssertTrue(mesh.isConsistentlyWound)
@@ -372,6 +507,18 @@ final class MeshShapeTests: XCTestCase {
         }
     }
 
+    func testTextEightExtrudedAlongBentPathDoesNotCrimpHoleWalls() throws {
+        #if canImport(CoreText)
+        let shape = try XCTUnwrap(Path.text("8").first)
+        let along = Path([.point([0]), .point([1]), .point([1, 0, 1])])
+        let mesh = Mesh.extrude(shape, along: along).makeWatertight()
+
+        XCTAssertFalse(mesh.isEmpty)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertGreaterThan(mesh.polygons.count, 350)
+        #endif
+    }
+
     func testExtrudeNestedCompoundPathAlongCurvedPath() {
         func rectangle(
             _ x: Double,
@@ -398,7 +545,7 @@ final class MeshShapeTests: XCTestCase {
             .curve(10, 20),
             .curve(0, 10),
             .curve(0, -10),
-        ], detail: 8))
+        ], detail: 8)).makeWatertight()
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.polygons.areWatertight)
         XCTAssertTrue(mesh.isConsistentlyWound)

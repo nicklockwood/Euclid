@@ -339,6 +339,26 @@ final class PolygonTests: XCTestCase {
         ]))
     }
 
+    func testMergeRejectsRepeatedVertexPositionsWithDifferentAttributes() {
+        let normal = Vector.unitZ
+        let a = Polygon(unchecked: [
+            Vertex(0, 0, normal: normal),
+            Vertex(1, 0, normal: normal),
+            Vertex(1, 1, normal: normal),
+        ])
+        let b = Polygon(unchecked: [
+            Vertex(1, 1, normal: normal),
+            Vertex(1, 0, normal: normal),
+            Vertex(0, 0, normal: .unitX),
+        ])
+
+        XCTAssertNil(a.merge(
+            unchecked: b,
+            ensureConvex: false,
+            allowDisjointSharedVertices: false
+        ))
+    }
+
     func testMergeR2LAdjacentRects() {
         let normal = Vector.unitZ
         let a = Polygon(unchecked: [

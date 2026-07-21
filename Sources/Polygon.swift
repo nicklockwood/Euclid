@@ -1787,6 +1787,13 @@ extension Polygon {
         _ = result.removeIfRedundant(at: max(join1, join2))
         _ = result.removeIfRedundant(at: min(join1, join2))
 
+        // Reject non-simple polygons that loop back through an existing vertex.
+        for i in result.indices.dropFirst() {
+            if result[..<i].contains(where: { $0.position.isApproximatelyEqual(to: result[i].position) }) {
+                return nil
+            }
+        }
+
         // check if convex
         let isConvex = verticesAreConvex(result)
         if ensureConvex, !isConvex {

@@ -973,6 +973,19 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(path.plane?.normal, .unitZ)
     }
 
+    func testFilledSubpathsGroupsNestedContoursWithTheirOuters() {
+        let firstOuter = Path.square(size: 10)
+        let firstInner = Path.square(size: 4)
+        let secondOuter = Path.square(size: 10).translated(by: [20, 0])
+        let secondInner = Path.square(size: 4).translated(by: [20, 0])
+        let path = Path(subpaths: [firstOuter, firstInner, secondOuter, secondInner])
+
+        XCTAssertEqual(path.filledSubpaths(), [
+            Path(subpaths: [firstOuter, firstInner]),
+            Path(subpaths: [secondOuter, secondInner]),
+        ])
+    }
+
     func testLinkedArcSubpathsAreJoinedCorrectly() {
         let quarterTurn = Angle.pi / 2
         let first = Path.arc(angle: quarterTurn, segments: 4)
