@@ -21,6 +21,13 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(path.points.count, 1)
     }
 
+    func testEmptyPathWithPlaneHasNoPlane() {
+        let path = Path([], plane: .xy)
+        XCTAssertEqual(path, .empty)
+        XCTAssertTrue(path.isEmpty)
+        XCTAssertNil(path.plane)
+    }
+
     func testCoincidentPoints() {
         let path = Path([
             .point(0, 0),

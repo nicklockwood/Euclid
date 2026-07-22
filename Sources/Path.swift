@@ -671,7 +671,6 @@ extension Path {
         case let .subpaths(subpaths):
             switch subpaths.count {
             case 0:
-                assert(plane == nil)
                 self.storage = .points([])
                 self.plane = nil
             case 1:
