@@ -983,6 +983,20 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(path.points, Path.arc(angle: .pi, segments: 8).points)
     }
 
+    func testLinkedSubpathsPreserveCurvedEndpoint() {
+        let first = Path([
+            .point(-1, 0),
+            .point(0, 0),
+        ])
+        let second = Path([
+            .curve(0, 0),
+            .curve(1, 0),
+        ])
+        let path = Path(subpaths: [first, second])
+        XCTAssertEqual(path.subpaths.count, 1)
+        XCTAssertEqual(path.points.map(\.isCurved), [false, true, true])
+    }
+
     func testTouchingClosedPathsNotLinked() {
         let first = Path([
             .point(0, 0),

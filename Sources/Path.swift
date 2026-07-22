@@ -244,10 +244,12 @@ public extension Path {
         outer: do {
             for (i, p) in pathpoints.enumerated() where !pointsAreClosed(unchecked: p) {
                 for (j, q) in pathpoints.enumerated() where i != j && !pointsAreClosed(unchecked: q) {
-                    let p = p.last!.position
-                    if p.isApproximatelyEqual(to: q.first!.position, absoluteTolerance: d) {
+                    let position = p.last!.position
+                    if position.isApproximatelyEqual(to: q.first!.position, absoluteTolerance: d) {
+                        pathpoints[i][pathpoints[i].count - 1].isCurved = p.last!.isCurved || q.first!.isCurved
                         pathpoints[i] += q.dropFirst()
-                    } else if p.isApproximatelyEqual(to: q.last!.position, absoluteTolerance: d) {
+                    } else if position.isApproximatelyEqual(to: q.last!.position, absoluteTolerance: d) {
+                        pathpoints[i][pathpoints[i].count - 1].isCurved = p.last!.isCurved || q.last!.isCurved
                         pathpoints[i] += q.dropLast().reversed()
                     } else {
                         continue
