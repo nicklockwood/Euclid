@@ -56,8 +56,8 @@ public struct Vector: Hashable, Sendable, AdditiveArithmetic {
 
 extension Vector: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: Double...) {
-        assert((2 ... 3).contains(elements.count), """
-        Vector components array must contain between 2 and 3 values
+        assert(elements.count < 4, """
+        Vector components array must contain between 0 and 3 values
         """)
         self.init(elements)
     }
