@@ -112,7 +112,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Represent a flat polygonal face in a mesh.",
+              "text" : "A flat polygonal face in a mesh.",
               "type" : "text"
             }
           ],

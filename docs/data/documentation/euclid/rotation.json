@@ -103,7 +103,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Represent a three-dimensional rotation.",
+              "text" : "An orientation or rotation in three-dimensions.",
               "type" : "text"
             }
           ],

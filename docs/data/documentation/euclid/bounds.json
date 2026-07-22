@@ -96,7 +96,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Represent an axis-aligned bounding box in three-dimensional space.",
+              "text" : "An axis-aligned bounding box in three-dimensional space.",
               "type" : "text"
             }
           ],

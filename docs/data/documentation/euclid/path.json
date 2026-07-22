@@ -267,7 +267,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Represent a two-dimensional or three-dimensional path.",
+              "text" : "A bezier path in three-dimensional space.",
               "type" : "text"
             }
           ],

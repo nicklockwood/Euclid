@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.8.19](https://github.com/nicklockwood/Euclid/releases/tag/0.8.19) (2026-07-23)
+
+- Improved polygon detessellation and merge heuristics to produce cleaner output
+- Curvature is now preserved at the join when connecting subpaths
+- Fixed twisted internal faces in compound path extrusions
+- Fixed `Mesh.union()` behavior for disjoint watertight meshes
+- Fixed regression in intersecting path fill algorithm
+- Made polygon/path boundary edge ordering deterministic
+
 ## [0.8.18](https://github.com/nicklockwood/Euclid/releases/tag/0.8.18) (2026-07-13)
 
 - Added `Bounds.contains()` method

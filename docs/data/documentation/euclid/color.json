@@ -121,7 +121,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Represent an RGBA color value.",
+              "text" : "An RGBA color value.",
               "type" : "text"
             }
           ],

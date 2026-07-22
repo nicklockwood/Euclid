@@ -105,7 +105,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Represent a translation, rotation, and scale transform.",
+              "text" : "A combined translation, rotation, and scale transform.",
               "type" : "text"
             }
           ],

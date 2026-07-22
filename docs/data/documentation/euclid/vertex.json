@@ -106,7 +106,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Represent a mesh vertex with optional rendering attributes.",
+              "text" : "A mesh vertex with optional rendering attributes.",
               "type" : "text"
             }
           ],
