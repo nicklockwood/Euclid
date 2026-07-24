@@ -619,6 +619,34 @@ func linePlaneIntersection(_ origin: Vector, _ direction: Vector, _ plane: Plane
     return (planeOrigin - origin).dot(plane.normal) / lineDotPlaneNormal
 }
 
+// MARK: Plane utilities
+
+extension Collection<Plane> {
+    /// Finds the least-squares intersection point for a set of planes.
+    var bestFitIntersection: Vector? {
+        var xColumn = Vector.zero
+        var yColumn = Vector.zero
+        var zColumn = Vector.zero
+        var offset = Vector.zero
+        for plane in self {
+            let normal = plane.normal
+            xColumn += normal * normal.x
+            yColumn += normal * normal.y
+            zColumn += normal * normal.z
+            offset += normal * plane.w
+        }
+        let determinant = xColumn.dot(yColumn.cross(zColumn))
+        guard abs(determinant) > epsilon else {
+            return nil
+        }
+        return Vector(
+            offset.dot(yColumn.cross(zColumn)) / determinant,
+            xColumn.dot(offset.cross(zColumn)) / determinant,
+            xColumn.dot(yColumn.cross(offset)) / determinant
+        )
+    }
+}
+
 // MARK: Path utilities
 
 extension Collection<PathPoint> {
