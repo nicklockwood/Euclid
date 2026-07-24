@@ -427,8 +427,11 @@ public extension Mesh {
         }
         if !holeEdges.isEmpty {
             func capMaterial(for path: Path, in polygons: [Polygon]) -> Material? {
+                capMaterial(for: path.undirectedEdges, in: polygons)
+            }
+
+            func capMaterial(for pathEdges: some Collection<LineSegment>, in polygons: [Polygon]) -> Material? {
                 var weights = [(material: Material?, length: Double)]()
-                let pathEdges = path.undirectedEdges
                 for polygon in polygons {
                     for edge in polygon.undirectedEdges where pathEdges.contains(edge) {
                         if let index = weights.firstIndex(where: { $0.material == polygon.material }) {
@@ -442,6 +445,12 @@ public extension Mesh {
             }
 
             func capPolygons(for path: Path, material: Material?) -> [Polygon] {
+                if path.isClosed {
+                    let vertices = path.points.dropLast().map(Vertex.init)
+                    if vertices.count == 3, let polygon = Polygon(vertices, material: material) {
+                        return [polygon]
+                    }
+                }
                 let polygons = path.closed().facePolygons(material: material)
                 if !polygons.isEmpty {
                     return polygons
@@ -469,9 +478,31 @@ public extension Mesh {
                 }
             }
             while !holeEdges.isEmpty {
-                let paths = Path(holeEdges.sorted()).subpaths
-                let caps = paths.flatMap {
-                    capPolygons(for: $0, material: capMaterial(for: $0, in: polygons))
+                let loops = holeEdges.closedLoops
+                let caps = loops.flatMap { points -> [Polygon] in
+                    let material = capMaterial(for: points.undirectedEdges, in: polygons)
+                    let closedVertices = points.map { position in
+                        let vertices = polygons.flatMap { polygon in
+                            polygon.vertices.compactMap {
+                                $0.position == position ? $0 : nil
+                            }
+                        }
+                        if let vertex = vertices.first(where: { $0.color != .white }) {
+                            return vertex
+                        }
+                        return vertices.first ?? Vertex(position)
+                    }
+                    let vertices = Array(closedVertices.dropLast())
+                    if vertices.count == 3, let polygon = Polygon(vertices, material: material) {
+                        return [polygon.flatteningNormals()]
+                    }
+                    guard vertices.count > 3 else {
+                        return []
+                    }
+                    let path = Path(closedVertices.map {
+                        .point($0.position, color: $0.color == .white ? nil : $0.color)
+                    })
+                    return capPolygons(for: path, material: material).flatteningNormals()
                 }
                 guard !caps.isEmpty else {
                     break
@@ -548,7 +579,32 @@ public extension Mesh {
     ///
     /// > Note: Passing a negative `distance` will expand the mesh instead of shrinking it.
     func inset(by distance: Double) -> Mesh {
-        Mesh(polygons.insetFaces(by: distance))
+        var mesh = Mesh(polygons.insetFaces(by: distance))
+        let signedVolume = signedVolume
+        guard distance > 0, signedVolume > epsilon, !mesh.isEmpty else {
+            return mesh
+        }
+        // A positive inset of a solid should shrink toward zero volume, not flip it.
+        guard signedVolume * mesh.signedVolume > 0 else {
+            return .empty
+        }
+        if !mesh.polygons.holeEdges.isEmpty {
+            mesh = mesh.makeWatertight()
+            var precision = epsilon * 10
+            while !mesh.polygons.holeEdges.isEmpty, precision <= distance * 0.25 {
+                let holeEdges = mesh.polygons.holeEdges
+                let holePoints = holeEdges.endPoints
+                let polygons = mesh.polygons.mergingVertices(holePoints, withPrecision: precision)
+                let merged = Mesh(polygons).makeWatertight()
+                guard merged.polygons.holeEdges.count < holeEdges.count else {
+                    precision *= 10
+                    continue
+                }
+                mesh = Mesh(merged.polygons.mergingSmoothVertexNormals())
+                precision *= 10
+            }
+        }
+        return signedVolume * mesh.signedVolume > 0 ? mesh : .empty
     }
 }
 
@@ -733,6 +789,49 @@ private extension Mesh {
             self.isKnownConvex = polygons.isEmpty || bsp?.isConvex ?? isKnownConvex
             self.watertightIfSet = polygons.isEmpty ? true : isWatertight
             self.submeshesIfSet = submeshes ?? (isKnownConvex ? [] : nil)
+        }
+    }
+}
+
+private extension Set<LineSegment> {
+    var closedLoops: [[Vector]] {
+        var edges = self
+        var loops = [[Vector]]()
+        while let first = edges.popFirst() {
+            var points = [first.start, first.end]
+            while points.last != points.first {
+                guard let last = points.last,
+                      let index = edges.firstIndex(where: {
+                          $0.start == last || $0.end == last
+                      })
+                else {
+                    break
+                }
+                let edge = edges.remove(at: index)
+                points.append(edge.start == last ? edge.end : edge.start)
+            }
+            guard points.count > 3, points.last == points.first else {
+                continue
+            }
+            loops.append(points)
+        }
+        return loops
+    }
+}
+
+private extension Collection<Vector> {
+    var undirectedEdges: [LineSegment] {
+        let points = Array(self)
+        guard points.count > 1 else {
+            return []
+        }
+        let endIndex = points.last == points.first ? points.index(before: points.endIndex) : points.endIndex
+        return points[..<endIndex].indices.compactMap { i in
+            let j = i == points.index(before: points.endIndex) ? points.startIndex : points.index(after: i)
+            guard points[i] != points[j] else {
+                return nil
+            }
+            return LineSegment(uncheckedUndirected: points[i], points[j])
         }
     }
 }

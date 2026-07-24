@@ -564,6 +564,26 @@ private extension Polygon {
                 let position = positionCache[key] ?? key.translated(by: polygon.plane.normal * -distance)
                 return Vertex(unchecked: position, vertex.normal, vertex.texcoord, vertex.color)
             }
+            let flatteningPlane = FlatteningPlane(normal: polygon.plane.normal)
+            let points = vertices.map { flatteningPlane.flattenPoint($0.position) }
+            if pointsAreSelfIntersecting(points, isClosed: true) {
+                let resolved = resolveInsetIntersections(
+                    in: vertices,
+                    isClosed: true,
+                    normal: polygon.plane.normal,
+                    position: { (vertex: Vertex) in vertex.position },
+                    interpolate: { $0.lerp($1, $2) }
+                ).dropLast()
+                if resolved.count > 2, !verticesAreDegenerate(resolved) {
+                    return [Polygon(
+                        unchecked: Array(resolved),
+                        normal: polygon.plane.normal,
+                        isConvex: nil, // Inset can alter shape
+                        sanitizeNormals: false,
+                        material: polygon.material
+                    )]
+                }
+            }
             if vertices.count > 2, !verticesAreDegenerate(vertices) {
                 return [Polygon(
                     unchecked: vertices,
@@ -679,6 +699,31 @@ private extension Polygon {
             }
         }
         return vertices
+    }
+
+    /// Returns true for antiparallel, overlapping faces close enough to be duplicate
+    /// internal sheets left behind by an inset collapse.
+    func isCollapsedInsetSheetPair(with other: Polygon, by distance: Double) -> Bool {
+        guard plane.isAntiparallel(to: other.plane) else {
+            return false
+        }
+        let separation = abs(plane.w + other.plane.w)
+        guard separation < distance + epsilon else {
+            return false
+        }
+        let flatteningPlane = FlatteningPlane(normal: plane.normal)
+        let a = Bounds(vertices.map { flatteningPlane.flattenPoint($0.position) })
+        let b = Bounds(other.vertices.map { flatteningPlane.flattenPoint($0.position) })
+        guard !a.isEmpty, !b.isEmpty, a.intersects(b) else {
+            return false
+        }
+        let intersection = a.intersection(b)
+        let overlapArea = intersection.size.x * intersection.size.y
+        let smallerArea = min(a.size.x * a.size.y, b.size.x * b.size.y)
+        guard smallerArea > epsilon else {
+            return false
+        }
+        return overlapArea / smallerArea > 1 - epsilon
     }
 }
 
@@ -1132,6 +1177,35 @@ extension Collection<Polygon> {
         mapVertexColors { _ in nil }
     }
 
+    /// Merges compatible vertex normals at shared positions.
+    func mergingSmoothVertexNormals() -> [Polygon] {
+        let verticesByPosition = Dictionary(grouping: flatMap(\.vertices), by: \.position)
+        let normalsByPosition = verticesByPosition.mapValues {
+            $0.map(\.normal).filter { $0.length > epsilon }
+        }
+        return map { polygon in
+            let vertices = polygon.vertices.map { vertex in
+                guard let normals = normalsByPosition[vertex.position] else {
+                    return vertex
+                }
+                let compatible = normals.filter { $0.dot(vertex.normal) > epsilon }
+                guard compatible.count > 1 else {
+                    return vertex
+                }
+                let normal = compatible.reduce(.zero, +).normalized()
+                return normal.length > epsilon ? vertex.withNormal(normal) : vertex
+            }
+            return Polygon(
+                unchecked: vertices,
+                plane: polygon.plane,
+                isConvex: polygon.isConvex,
+                sanitizeNormals: false,
+                material: polygon.material,
+                id: polygon.id
+            )
+        }
+    }
+
     /// Return polygons with transformed vertex colors
     func mapVertexColors(_ transform: (Color) -> Color?) -> [Polygon] {
         map { $0.mapVertexColors(transform) }
@@ -1236,7 +1310,7 @@ extension Collection<Polygon> {
         }
         let polygons = source.flatMap { polygon in
             polygon.insetPolygons(using: positionCache, by: distance)
-        }
+        }.removingCollapsedInsetSheets(by: distance)
         guard distance > 0, isConvexSurface else {
             return polygons.mergingVertices(withPrecision: epsilon)
         }
@@ -1557,6 +1631,36 @@ private extension [Polygon] {
             count > 1 ? pair : nil
         }.sorted {
             $0.i == $1.i ? $0.j > $1.j : $0.i > $1.i
+        }
+    }
+
+    /// Removes paired sheets left behind when opposing faces collapse through an inset.
+    func removingCollapsedInsetSheets(by distance: Double) -> [Polygon] {
+        guard distance > 0, count > 1 else {
+            return self
+        }
+        let polygons = self
+        let originalHoleCount = polygons.holeEdges.count
+        var removed = Set<Int>()
+        for i in polygons.indices where !removed.contains(i) {
+            for j in polygons.indices.dropFirst(i + 1) where !removed.contains(j) {
+                guard polygons[i].isCollapsedInsetSheetPair(with: polygons[j], by: distance) else {
+                    continue
+                }
+                var candidateRemoved = removed
+                candidateRemoved.insert(i)
+                candidateRemoved.insert(j)
+                let candidate = polygons.indices.compactMap {
+                    candidateRemoved.contains($0) ? nil : polygons[$0]
+                }
+                if candidate.holeEdges.count <= originalHoleCount {
+                    removed = candidateRemoved
+                    break
+                }
+            }
+        }
+        return removed.isEmpty ? polygons : polygons.indices.compactMap {
+            removed.contains($0) ? nil : polygons[$0]
         }
     }
 }
