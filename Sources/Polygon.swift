@@ -1565,32 +1565,6 @@ private extension Collection<Polygon> {
     }
 }
 
-private extension Collection<Polygon> where Index == Int {
-    /// Merge coplanar polygons that share one or more edges
-    /// > Note: this method is On^2 - do not use outside of debug mode
-    var areSortedByPlane: Bool {
-        guard !isEmpty else {
-            return true
-        }
-        let count = count
-        for i in 0 ..< count - 1 {
-            let p = self[i]
-            let plane = p.plane
-            var wasSame = true
-            for j in (i + 1) ..< count {
-                if self[j].plane.isApproximatelyEqual(to: plane) {
-                    if !wasSame {
-                        return false
-                    }
-                } else {
-                    wasSame = false
-                }
-            }
-        }
-        return true
-    }
-}
-
 extension Polygon {
     /// Create polygon from vertices and face normal without performing validation
     /// Vertices may be convex or concave, but are assumed to describe a non-degenerate polygon
