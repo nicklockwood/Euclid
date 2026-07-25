@@ -579,6 +579,22 @@ public extension Mesh {
     ///
     /// > Note: Passing a negative `distance` will expand the mesh instead of shrinking it.
     func inset(by distance: Double) -> Mesh {
+        if distance > 0, isPlanar, let plane = polygons.first?.plane, materials.count <= 1 {
+            // If mesh is planar, inset edges only rather than making it vanish
+            let facingPolygons = polygons.filter {
+                $0.plane.normal.dot(plane.normal) > 0
+            }
+            let outlinePaths = facingPolygons.outlinePaths
+            guard !outlinePaths.isEmpty else {
+                return .empty
+            }
+            let hasOpposingFaces = polygons.contains {
+                $0.plane.normal.dot(plane.normal) < 0
+            }
+            let path = Path(unchecked: .subpaths(outlinePaths), plane: plane).inset(by: distance)
+            let faces: Faces = hasOpposingFaces ? .frontAndBack : .front
+            return Mesh.fill(path, faces: faces, material: materials.first ?? nil)
+        }
         var mesh = Mesh(polygons.insetFaces(by: distance))
         let signedVolume = signedVolume
         guard distance > 0, signedVolume > epsilon, !mesh.isEmpty else {

@@ -1354,7 +1354,7 @@ extension Path {
     }
 }
 
-private extension Collection<Polygon> {
+extension Collection<Polygon> {
     var outlinePaths: [Path] {
         var edges = boundingEdges
         var paths = [Path]()

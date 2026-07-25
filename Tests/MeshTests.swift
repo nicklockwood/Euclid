@@ -90,6 +90,35 @@ final class MeshTests: XCTestCase {
         XCTAssertFalse(mesh.polygons.contains { $0.orderedEdgesContainCrossings })
     }
 
+    func testInsetFilledPathMatchesInsetPathThenFill() {
+        let shape = Path.square()
+        let mesh = Mesh.fill(shape).inset(by: 0.25)
+        let expected = Mesh.fill(shape.inset(by: 0.25))
+
+        XCTAssertEqual(mesh.polygons.surfaceArea, expected.polygons.surfaceArea, accuracy: epsilon)
+        XCTAssertEqual(mesh.bounds, expected.bounds)
+        XCTAssertEqual(mesh.materials, expected.materials)
+    }
+
+    func testInsetFilledTextDoesNotDisappear() {
+        #if canImport(CoreText)
+        let mesh = Mesh.fill(.text("txt")).inset(by: 0.01)
+
+        XCTAssertFalse(mesh.isEmpty)
+        XCTAssertGreaterThan(mesh.polygons.surfaceArea, 0)
+        #endif
+    }
+
+    func testInsetFilledTextPreservesCharacterOffsets() {
+        #if canImport(CoreText)
+        let original = Mesh.fill(.text("txt"))
+        let mesh = original.inset(by: 0.01)
+
+        XCTAssertFalse(mesh.isEmpty)
+        XCTAssertGreaterThan(mesh.bounds.size.x, original.bounds.size.x * 0.5)
+        #endif
+    }
+
     func testInsetExtrudedLetterHCapMatchesInsetPath() throws {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Helvetica" as CFString, 1, nil)
