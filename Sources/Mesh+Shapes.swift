@@ -585,7 +585,7 @@ public extension Mesh {
             )
         }
         let material = SendableMaterial(material)
-        return .union(build(shapes, using: {
+        return .union(build(shapes, normalizePositions: twist == .zero, using: {
             extrude(
                 $0,
                 depth: depth,
@@ -2199,12 +2199,13 @@ private extension Mesh {
 
     static func build(
         _ shapes: some Collection<Path>,
+        normalizePositions: Bool = true,
         using fn: @Sendable (Path) -> Mesh,
         isCancelled: CancellationHandler
     ) -> [Mesh] {
         var uniquePaths = [Path]()
         let indexesAndOffsets = shapes.map { path -> (Int, Vector) in
-            let (p, offset) = path.withNormalizedPosition()
+            let (p, offset) = normalizePositions ? path.withNormalizedPosition() : (path, .zero)
             if let index = uniquePaths.firstIndex(where: { p.isApproximatelyEqual(to: $0) }) {
                 return (index, offset)
             }

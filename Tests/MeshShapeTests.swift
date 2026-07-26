@@ -186,6 +186,18 @@ final class MeshShapeTests: XCTestCase {
         )
     }
 
+    func testTwistedExtrudeShapeCollectionPreservesPathOffsets() {
+        let shapes = [
+            Path.square().translated(by: [-2, 0]),
+            Path.square().translated(by: [2, 0]),
+        ]
+
+        XCTAssertEqual(
+            Mesh.extrude(shapes, twist: .pi, sections: 8),
+            Mesh.union(shapes.map { Mesh.extrude($0, twist: .pi, sections: 8) })
+        )
+    }
+
     func testExtrudeSelfIntersectingCurvedPathUsesNonZeroWindingRule() {
         let path = Path.curve([
             .curve(0, 0),
