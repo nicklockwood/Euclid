@@ -152,6 +152,130 @@ func triangulateVertices(
             id: id
         )]
     }
+
+    /// Triangulates directly in 3D for non-planar or numerically awkward boundaries.
+    func triangulatePossiblyNonPlanarVertices(
+        _ vertices: [Vertex],
+        plane: Plane?,
+        isConvex: Bool?,
+        sanitizeNormals: Bool,
+        material: Mesh.Material?,
+        id: Int,
+        flipped: Bool = false
+    ) -> [Polygon] {
+        var triangles = [Polygon]()
+        func addTriangle(_ vertices: [Vertex]) -> Bool {
+            guard !verticesAreDegenerate(vertices) else {
+                return false
+            }
+            triangles.append(Polygon(
+                unchecked: vertices,
+                plane: plane,
+                isConvex: true,
+                sanitizeNormals: sanitizeNormals,
+                material: material,
+                id: id
+            ))
+            return true
+        }
+        let isConvex = isConvex ?? verticesAreConvex(vertices)
+        if isConvex {
+            var vertices = vertices
+            var i = 0
+            var attempts = 0
+            while vertices.count > 3 {
+                let a = vertices[i]
+                let b = vertices[(i + 1) % vertices.count]
+                let c = vertices[(i + 2) % vertices.count]
+                let d = vertices[(i + 3) % vertices.count]
+                if LineSegment(start: c.position, end: a.position)?.intersects(d.position) == false,
+                   addTriangle([a, b, c])
+                {
+                    vertices.remove(at: (i + 1) % vertices.count)
+                    i = i % vertices.count
+                    attempts = 0
+                } else {
+                    i = (i + 1) % vertices.count
+                    attempts += 1
+                }
+                if attempts > vertices.count * 2 {
+                    assert(plane == nil || triangles.allSatisfy { $0.plane == plane })
+                    return triangles
+                }
+            }
+            if addTriangle(vertices) {
+                assert(plane == nil || triangles.allSatisfy { $0.plane == plane })
+                return triangles
+            }
+            triangles.removeAll()
+        }
+        let faceNormal = plane?.normal ?? faceNormalForPoints(vertices.map(\.position))
+        var start = 0, i = 0
+        outer: while start < vertices.count {
+            var attempts = 0
+            var vertices = vertices
+            while vertices.count > 3 {
+                let j = (i - 1 + vertices.count) % vertices.count
+                let k = (i + 1) % vertices.count
+                let p0 = vertices[j], p1 = vertices[i], p2 = vertices[k]
+                let triangle = Polygon([p0, p1, p2], material: material)
+                if triangle == nil || vertices.enumerated().contains(where: { index, v in
+                    ![i, j, k].contains(index) && triangle!.intersects(v.position)
+                }) || (triangle!.plane.normal.dot(faceNormal) <= 0) || !addTriangle([p0, p1, p2]) {
+                    i += 1
+                    if i == vertices.count {
+                        i = 0
+                        attempts += 1
+                        if attempts > 2 {
+                            triangles.removeAll()
+                            start += 1
+                            i = start
+                            continue outer
+                        }
+                    }
+                } else {
+                    attempts = 0
+                    vertices.remove(at: i)
+                    if i == vertices.count {
+                        i = 0
+                    }
+                }
+            }
+            if vertices.count == 3, addTriangle(vertices) || flipped {
+                break
+            }
+            triangles.removeAll()
+            start += 1
+            i = start
+        }
+        if !flipped, triangles.isEmpty {
+            return triangulatePossiblyNonPlanarVertices(
+                vertices.inverted(),
+                plane: plane?.inverted(),
+                isConvex: isConvex,
+                sanitizeNormals: sanitizeNormals,
+                material: material,
+                id: id,
+                flipped: true
+            ).inverted()
+        }
+        assert(plane == nil || triangles.allSatisfy { $0.plane == plane })
+        return triangles
+    }
+
+    if vertices.count == 4, isConvex ?? verticesAreConvex(vertices) {
+        // Preserve established quad diagonals for stable serialized output.
+        return triangulatePossiblyNonPlanarVertices(
+            vertices,
+            plane: plane,
+            isConvex: true,
+            sanitizeNormals: sanitizeNormals,
+            material: material,
+            id: id,
+            flipped: flipped
+        )
+    }
+
     var triangles = [Polygon]()
     func addTriangle(_ vertices: [Vertex]) -> Bool {
         guard !verticesAreDegenerate(vertices) else {
@@ -167,89 +291,124 @@ func triangulateVertices(
         ))
         return true
     }
-    let isConvex = isConvex ?? verticesAreConvex(vertices)
-    if isConvex {
-        var vertices = vertices
-        var i = 0
-        var attempts = 0
-        while vertices.count > 3 {
-            let a = vertices[i]
-            let b = vertices[(i + 1) % vertices.count]
-            let c = vertices[(i + 2) % vertices.count]
-            let d = vertices[(i + 3) % vertices.count]
-            if LineSegment(start: c.position, end: a.position)?.intersects(d.position) == false,
-               addTriangle([a, b, c])
-            {
-                vertices.remove(at: (i + 1) % vertices.count)
-                i = i % vertices.count
-                attempts = 0
-            } else {
-                i = (i + 1) % vertices.count
-                attempts += 1
-            }
-            if attempts > vertices.count * 2 {
-                assert(plane == nil || triangles.allSatisfy { $0.plane == plane })
-                return triangles
-            }
-        }
-        if addTriangle(vertices) {
-            assert(plane == nil || triangles.allSatisfy { $0.plane == plane })
-            return triangles
-        }
-        triangles.removeAll()
+
+    struct Ear {
+        let ringIndex: Int
+        let triangle: [Int]
+        let score: Double
     }
-    let faceNormal = plane?.normal ?? faceNormalForPoints(vertices.map(\.position))
-    var start = 0, i = 0
-    outer: while start < vertices.count {
-        var attempts = 0
-        var vertices = vertices
-        while vertices.count > 3 {
-            let j = (i - 1 + vertices.count) % vertices.count
-            let k = (i + 1) % vertices.count
-            let p0 = vertices[j], p1 = vertices[i], p2 = vertices[k]
-            let triangle = Polygon([p0, p1, p2], material: material)
-            if triangle == nil || vertices.enumerated().contains(where: { index, v in
-                ![i, j, k].contains(index) && triangle!.intersects(v.position)
-            }) || (triangle!.plane.normal.dot(faceNormal) <= 0) || !addTriangle([p0, p1, p2]) {
-                i += 1
-                if i == vertices.count {
-                    i = 0
-                    attempts += 1
-                    if attempts > 2 {
-                        triangles.removeAll()
-                        start += 1
-                        i = start
-                        continue outer
+
+    /// Returns the signed 2D area of a triangle in flattened polygon space.
+    func signedArea(_ a: Vector, _ b: Vector, _ c: Vector) -> Double {
+        (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
+    }
+
+    /// Checks whether a flattened point lies inside a flattened triangle.
+    func containsPoint(_ point: Vector, inTriangle triangle: (Vector, Vector, Vector), winding: Double) -> Bool {
+        let (a, b, c) = triangle
+        let tolerance = -epsilon
+        return signedArea(a, b, point) * winding >= tolerance &&
+            signedArea(b, c, point) * winding >= tolerance &&
+            signedArea(c, a, point) * winding >= tolerance
+    }
+
+    /// Scores a flattened triangle by compactness so ear clipping prefers less narrow triangles.
+    func triangleScore(_ a: Vector, _ b: Vector, _ c: Vector) -> Double {
+        let ab = (b - a).lengthSquared
+        let bc = (c - b).lengthSquared
+        let ca = (a - c).lengthSquared
+        let area = abs(signedArea(a, b, c))
+        let perimeterSquared = ab + bc + ca
+        guard area > epsilon, perimeterSquared > epsilon else {
+            return 0
+        }
+        return area / perimeterSquared
+    }
+
+    /// Triangulates via 2D projection, preferring compact ears over first-valid ears.
+    func triangulateProjected() -> [[Int]] {
+        let faceNormal = plane?.normal ?? faceNormalForPoints(vertices.map(\.position))
+        let flatteningPlane = FlatteningPlane(normal: faceNormal)
+        let points = vertices.map { flatteningPlane.flattenPoint($0.position) }
+        let winding = flattenedPointsSignedArea(points)
+        guard abs(winding) > epsilon else {
+            return []
+        }
+
+        let windingSign = winding < 0 ? -1.0 : 1.0
+        let knownConvex = isConvex ?? verticesAreConvex(vertices)
+        var ring = Array(vertices.indices)
+        var result = [[Int]]()
+
+        func ear(at ringIndex: Int) -> Ear? {
+            let count = ring.count
+            let previousRingIndex = (ringIndex + count - 1) % count
+            let nextRingIndex = (ringIndex + 1) % count
+            let previous = ring[previousRingIndex]
+            let current = ring[ringIndex]
+            let next = ring[nextRingIndex]
+            let a = points[previous], b = points[current], c = points[next]
+            guard signedArea(a, b, c) * windingSign > epsilon else {
+                return nil
+            }
+            let triangle = [previous, current, next]
+            guard !verticesAreDegenerate(triangle.map { vertices[$0] }) else {
+                return nil
+            }
+            if !knownConvex {
+                for pointIndex in ring where !triangle.contains(pointIndex) {
+                    if containsPoint(points[pointIndex], inTriangle: (a, b, c), winding: windingSign) {
+                        return nil
                     }
                 }
-            } else {
-                attempts = 0
-                vertices.remove(at: i)
-                if i == vertices.count {
-                    i = 0
-                }
             }
+            let score = triangleScore(a, b, c)
+            guard score > 0 else {
+                return nil
+            }
+            return Ear(ringIndex: ringIndex, triangle: triangle, score: score)
         }
-        // TODO: find better solution for when addTriangle fails
-        if vertices.count == 3, addTriangle(vertices) || flipped {
+
+        while ring.count > 3 {
+            guard let bestEar = ring.indices.compactMap(ear).max(by: {
+                if !$0.score.isApproximatelyEqual(to: $1.score) {
+                    return $0.score < $1.score
+                }
+                return $0.ringIndex > $1.ringIndex
+            }) else {
+                return []
+            }
+            result.append(bestEar.triangle)
+            ring.remove(at: bestEar.ringIndex)
+        }
+
+        guard ring.count == 3 else {
+            return []
+        }
+        result.append(ring)
+        return result
+    }
+
+    let triangleIndices = triangulateProjected()
+    for indices in triangleIndices {
+        guard addTriangle(indices.map { vertices[$0] }) else {
+            triangles.removeAll()
             break
         }
-        triangles.removeAll()
-        start += 1
-        i = start
     }
-    if !flipped, triangles.isEmpty {
-        return triangulateVertices(
-            vertices.inverted(),
-            plane: plane?.inverted(),
+
+    if triangles.isEmpty {
+        // Keep the older 3D ear clipping as a fallback for numerically awkward boundaries.
+        return triangulatePossiblyNonPlanarVertices(
+            vertices,
+            plane: plane,
             isConvex: isConvex,
             sanitizeNormals: sanitizeNormals,
             material: material,
             id: id,
-            flipped: true
-        ).inverted()
+            flipped: flipped
+        )
     }
-//    assert(triangles.count == vertices.count - 2)
     assert(plane == nil || triangles.allSatisfy { $0.plane == plane })
     return triangles
 }
@@ -516,13 +675,17 @@ func faceNormalForPoints(_ points: [Vector]) -> Vector {
     return .unitY
 }
 
-func flattenedPointsAreClockwise(_ points: [Vector]) -> Bool {
+func flattenedPointsSignedArea(_ points: [Vector]) -> Double {
     assert(!points.contains(where: { $0.z != 0 }))
     let points = pointsAreClosed(unchecked: points) ? Array(points.dropLast()) : points
     guard points.count > 2 else {
-        return false
+        return 0
     }
-    return points.vectorArea.z < 0
+    return points.vectorArea.z
+}
+
+func flattenedPointsAreClockwise(_ points: [Vector]) -> Bool {
+    flattenedPointsSignedArea(points) < 0
 }
 
 func pointsAreClockwise(_ points: [Vector], relativeTo axis: Vector) -> Bool {

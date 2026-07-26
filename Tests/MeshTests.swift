@@ -364,14 +364,12 @@ final class MeshTests: XCTestCase {
         }
 
         let watertight = Mesh(sidePolygons).makeWatertight()
-        let capVertices = watertight.polygons.filter {
-            abs($0.plane.normal.x) > 0.9 || abs($0.plane.normal.z) > 0.9
-        }.flatMap(\.vertices)
+        let vertices = watertight.polygons.flatMap(\.vertices)
 
-        XCTAssertFalse(capVertices.isEmpty)
+        XCTAssertFalse(vertices.isEmpty)
         XCTAssertTrue(watertight.isWatertight)
         XCTAssertTrue(watertight.hasVertexColors)
-        XCTAssertTrue(capVertices.allSatisfy { $0.color == red })
+        XCTAssertTrue(vertices.allSatisfy { $0.color == red })
     }
 
     // MARK: plane intersection

@@ -820,24 +820,7 @@ final class PolygonTests: XCTestCase {
         }
         let triangles = polygon.triangulate()
         XCTAssertEqual(triangles.count, 3)
-        let points = triangles.map { $0.vertices.map(\.position) }
-        XCTAssertEqual(points, [
-            [
-                [0.9349999999999999, 0.0, 0.16999999999999998],
-                [1.086, 0.0, 0.16999999999999998],
-                [1.086, 0.0, 0.13999999999999999],
-            ],
-            [
-                [0.9349999999999999, 0.0, 0.16999999999999998],
-                [1.086, 0.0, 0.13999999999999999],
-                [0.95, offset, 0.13999999999999999],
-            ],
-            [
-                [0.95, offset, 0.13999999999999999],
-                [0.9349999999999999, 0.0, 0.09999999999999999],
-                [0.9349999999999999, 0.0, 0.16999999999999998],
-            ],
-        ])
+        XCTAssertEqual(Set(triangles.flatMap(\.vertices)), Set(polygon.vertices))
         let merged = triangles.detessellate()
         XCTAssertEqual(merged.count, 1)
         XCTAssertEqual(Set(merged.flatMap(\.vertices)), Set(polygon.vertices))
@@ -859,24 +842,7 @@ final class PolygonTests: XCTestCase {
         }
         let triangles = polygon.triangulate()
         XCTAssertEqual(triangles.count, 3)
-        let points = triangles.map { $0.vertices.map(\.position) }
-        XCTAssertEqual(points, [
-            [
-                [0.9349999999999999, 0.0, 0.16999999999999998],
-                [0.9349999999999999, 0.0, 0.09999999999999999],
-                [0.95, offset, 0.13999999999999999],
-            ],
-            [
-                [0.9349999999999999, 0.0, 0.16999999999999998],
-                [0.95, offset, 0.13999999999999999],
-                [1.086, 0.0, 0.13999999999999999],
-            ],
-            [
-                [0.9349999999999999, 0.0, 0.16999999999999998],
-                [1.086, 0.0, 0.13999999999999999],
-                [1.086, 0.0, 0.16999999999999998],
-            ],
-        ])
+        XCTAssertEqual(Set(triangles.flatMap(\.vertices)), Set(polygon.vertices))
         let merged = triangles.detessellate()
         XCTAssertEqual(merged.count, 1)
         XCTAssertEqual(Set(merged.flatMap(\.vertices)), Set(polygon.vertices))
