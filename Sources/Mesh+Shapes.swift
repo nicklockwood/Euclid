@@ -506,7 +506,7 @@ public extension Mesh {
         _ shape: Path,
         depth: Double = 1,
         twist: Angle = .zero,
-        sections: Int = 0,
+        sections: Int? = nil,
         faces: Faces = .default,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
@@ -534,7 +534,7 @@ public extension Mesh {
         }
         let faceNormal = shape.faceNormal
         let offset = faceNormal * depth
-        let sections = max(1, sections)
+        let sections = max(1, sections ?? Int(ceil(abs(twist / .twoPi) * 16)))
         let step = offset / Double(sections)
         let rotation = Rotation(unchecked: faceNormal, angle: twist / Double(sections))
         var shape = shape.translated(by: -offset / 2)
@@ -568,7 +568,7 @@ public extension Mesh {
         _ shapes: some Collection<Path>,
         depth: Double = 1,
         twist: Angle = .zero,
-        sections: Int = 0,
+        sections: Int? = nil,
         faces: Faces = .default,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }

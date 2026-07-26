@@ -137,10 +137,6 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertEqual(mesh.polygons.count, 4)
     }
 
-    // MARK: Lathe (see MeshLatheTests)
-
-    // MARK: Loft (see MeshLoftTests)
-
     // MARK: Extrude
 
     func testExtrudeSelfIntersectingPath() {
@@ -160,6 +156,33 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertEqual(
             Mesh.extrude([shape], depth: 2, twist: .degrees(90), sections: 2),
             Mesh.extrude(shape, depth: 2, twist: .degrees(90), sections: 2)
+        )
+    }
+
+    func testTwistedExtrudeCalculatesSectionsIfUnspecified() {
+        let shape = Path.square()
+
+        XCTAssertEqual(
+            Mesh.extrude(shape, twist: .pi),
+            Mesh.extrude(shape, twist: .pi, sections: 8)
+        )
+    }
+
+    func testNegativeTwistedExtrudeCalculatesSectionsFromMagnitude() {
+        let shape = Path.square()
+
+        XCTAssertEqual(
+            Mesh.extrude(shape, twist: -.halfPi),
+            Mesh.extrude(shape, twist: -.halfPi, sections: 4)
+        )
+    }
+
+    func testTwistedExtrudeSingleShapeArrayCalculatesSectionsIfUnspecified() {
+        let shape = Path.square().translated(by: [1, 2])
+
+        XCTAssertEqual(
+            Mesh.extrude([shape], twist: .twoPi),
+            Mesh.extrude(shape, twist: .twoPi, sections: 16)
         )
     }
 
