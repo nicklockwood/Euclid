@@ -83,6 +83,16 @@ final class MeshTests: XCTestCase {
         XCTAssert(mesh.isActuallyConvex)
     }
 
+    func testIcosphereIsWatertightAndConvex() {
+        let mesh = Mesh.icosphere()
+        XCTAssertEqual(mesh.watertightIfSet, true)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssert(mesh.makeWatertight().isWatertight)
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+    }
+
     func testLatheCircleIsWatertightAndConvex() {
         let mesh = Mesh.lathe(.circle())
         XCTAssertNil(mesh.watertightIfSet)

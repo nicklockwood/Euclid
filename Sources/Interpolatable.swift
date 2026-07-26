@@ -24,7 +24,7 @@ public protocol Interpolatable {
 
 extension Double: Interpolatable {
     public func interpolated(with other: Double, by t: Double) -> Double {
-        self + (other - self) * t
+        t == 0.5 ? (self + other) * 0.5 : self + (other - self) * t
     }
 }
 
@@ -32,19 +32,19 @@ extension Double: Interpolatable {
 
 extension SIMD2: Interpolatable where Scalar: BinaryFloatingPoint {
     public func interpolated(with other: Self, by t: Double) -> Self {
-        self + (other - self) * Scalar(t)
+        t == 0.5 ? (self + other) * 0.5 : self + (other - self) * Scalar(t)
     }
 }
 
 extension SIMD3: Interpolatable where Scalar: BinaryFloatingPoint {
     public func interpolated(with other: Self, by t: Double) -> Self {
-        self + (other - self) * Scalar(t)
+        t == 0.5 ? (self + other) * 0.5 : self + (other - self) * Scalar(t)
     }
 }
 
 extension SIMD4: Interpolatable where Scalar: BinaryFloatingPoint {
     public func interpolated(with other: Self, by t: Double) -> Self {
-        self + (other - self) * Scalar(t)
+        t == 0.5 ? (self + other) * 0.5 : self + (other - self) * Scalar(t)
     }
 }
 
@@ -52,7 +52,7 @@ extension SIMD4: Interpolatable where Scalar: BinaryFloatingPoint {
 
 extension Vector: Interpolatable {
     public func interpolated(with other: Vector, by t: Double) -> Vector {
-        self + (other - self).scaled(by: t)
+        t == 0.5 ? (self + other) * 0.5 : self + (other - self).scaled(by: t)
     }
 }
 
