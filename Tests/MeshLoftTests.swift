@@ -544,4 +544,28 @@ final class MeshLoftTests: XCTestCase {
         XCTAssertFalse(loft.isKnownConvex) // can't determine this yet
         XCTAssertTrue(loft.isActuallyConvex)
     }
+
+    func testLoftCompoundPathUsesEvenOddRule() {
+        let outer = Path([
+            .point(0, 0),
+            .point(10, 0),
+            .point(10, 10),
+            .point(0, 10),
+            .point(0, 0),
+        ])
+        let inner = Path([
+            .point(2, 2),
+            .point(8, 2),
+            .point(8, 8),
+            .point(2, 8),
+            .point(2, 2),
+        ])
+        let compound = Path(subpaths: [outer, inner])
+        var mesh = Mesh.loft([compound, compound.translated(by: .unitZ)])
+        XCTAssertEqual(mesh.bounds, Bounds([0, 0, 0], [10, 10, 1]))
+        XCTAssertEqual(mesh.polygons.surfaceArea, 192)
+        XCTAssertFalse(mesh.isWatertight)
+        mesh = mesh.makeWatertight()
+        XCTAssertTrue(mesh.isWatertight)
+    }
 }

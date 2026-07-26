@@ -140,4 +140,30 @@ final class MeshLatheTests: XCTestCase {
         XCTAssertFalse(mesh.isActuallyConvex)
         XCTAssertFalse(mesh.isKnownConvex)
     }
+
+    func testLatheCompoundPathUsesEvenOddRule() {
+        let outer = Path([
+            .point(1, 0),
+            .point(3, 0),
+            .point(3, 10),
+            .point(1, 10),
+            .point(1, 0),
+        ])
+        let inner = Path([
+            .point(1.5, 2),
+            .point(2, 2),
+            .point(2, 8),
+            .point(1.5, 8),
+            .point(1.5, 2),
+        ])
+        let mesh = Mesh.lathe(Path(subpaths: [outer, inner]), slices: 8)
+        let expected = Mesh.symmetricDifference([
+            Mesh.lathe(outer, slices: 8),
+            Mesh.lathe(inner, slices: 8),
+        ])
+        XCTAssertEqual(mesh.bounds, expected.bounds)
+        XCTAssertEqual(mesh.polygons.surfaceArea, expected.polygons.surfaceArea)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+    }
 }
