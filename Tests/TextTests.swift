@@ -71,6 +71,20 @@ final class TextTests: XCTestCase {
         XCTAssert(mesh.polygons.count > 150)
     }
 
+    func testTwistedExtrudedTextArrayMatchesCompoundPathBounds() {
+        let paths = Path.text("Hello")
+        let arrayMesh = Mesh.extrude(paths, twist: .halfPi, sections: 8)
+        let compoundMesh = Mesh.extrude(Path(subpaths: paths), twist: .halfPi, sections: 8)
+
+        XCTAssertEqual(arrayMesh.bounds.min.x, compoundMesh.bounds.min.x, accuracy: 1)
+        XCTAssertEqual(arrayMesh.bounds.min.y, compoundMesh.bounds.min.y, accuracy: 1)
+        XCTAssertEqual(arrayMesh.bounds.min.z, compoundMesh.bounds.min.z, accuracy: epsilon)
+        XCTAssertEqual(arrayMesh.bounds.max.x, compoundMesh.bounds.max.x, accuracy: 1)
+        XCTAssertEqual(arrayMesh.bounds.max.y, compoundMesh.bounds.max.y, accuracy: 1)
+        XCTAssertEqual(arrayMesh.bounds.max.z, compoundMesh.bounds.max.z, accuracy: epsilon)
+        XCTAssertEqual(arrayMesh.surfaceArea, compoundMesh.surfaceArea, accuracy: 10)
+    }
+
     func testExtrudedCharacterHasCorrectWinding() {
         let mesh = Mesh.extrude(.text("e")).makeWatertight()
         XCTAssertTrue(mesh.isWatertight)

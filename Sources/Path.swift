@@ -219,9 +219,9 @@ public extension Path {
     func inverted() -> Path {
         switch storage {
         case let .points(points):
-            .init(unchecked: .points(sanitizePoints(points.reversed())), plane: plane)
+            .init(unchecked: .points(sanitizePoints(points.reversed())), plane: plane?.inverted())
         case let .subpaths(subpaths):
-            .init(unchecked: .subpaths(subpaths.map { $0.inverted() }), plane: plane)
+            .init(unchecked: .subpaths(subpaths.map { $0.inverted() }), plane: plane?.inverted())
         }
     }
 

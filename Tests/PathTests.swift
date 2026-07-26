@@ -1011,6 +1011,15 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(path.plane, .xy.inverted())
     }
 
+    func testInvertedPathFlipsPlaneNormal() {
+        let path = Path.square()
+        let inverted = path.inverted()
+
+        XCTAssertEqual(path.faceNormal, .unitZ)
+        XCTAssertEqual(inverted.faceNormal, -.unitZ)
+        XCTAssertEqual(inverted.plane, path.plane?.inverted())
+    }
+
     func testPathWithTwoSeparateLoopsHasCorrectSubpaths() {
         let path = Path([
             .point(0, 0),
