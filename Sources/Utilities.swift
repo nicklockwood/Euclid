@@ -294,7 +294,9 @@ func triangulateVertices(
 
     struct Ear {
         let ringIndex: Int
-        let triangle: [Int]
+        let previous: Int
+        let current: Int
+        let next: Int
         let score: Double
     }
 
@@ -337,8 +339,24 @@ func triangulateVertices(
 
         let windingSign = winding < 0 ? -1.0 : 1.0
         let knownConvex = isConvex ?? verticesAreConvex(vertices)
+
+        func ear(previous: Int, current: Int, next: Int, ringIndex: Int) -> Ear? {
+            let a = points[previous], b = points[current], c = points[next]
+            guard signedArea(a, b, c) * windingSign > epsilon,
+                  !verticesAreDegenerate([vertices[previous], vertices[current], vertices[next]])
+            else {
+                return nil
+            }
+            let score = triangleScore(a, b, c)
+            guard score > 0 else {
+                return nil
+            }
+            return Ear(ringIndex: ringIndex, previous: previous, current: current, next: next, score: score)
+        }
+
         var ring = Array(vertices.indices)
         var result = [[Int]]()
+        result.reserveCapacity(vertices.count - 2)
 
         func ear(at ringIndex: Int) -> Ear? {
             let count = ring.count
@@ -347,38 +365,42 @@ func triangulateVertices(
             let previous = ring[previousRingIndex]
             let current = ring[ringIndex]
             let next = ring[nextRingIndex]
-            let a = points[previous], b = points[current], c = points[next]
-            guard signedArea(a, b, c) * windingSign > epsilon else {
-                return nil
-            }
-            let triangle = [previous, current, next]
-            guard !verticesAreDegenerate(triangle.map { vertices[$0] }) else {
+            guard let ear = ear(previous: previous, current: current, next: next, ringIndex: ringIndex) else {
                 return nil
             }
             if !knownConvex {
-                for pointIndex in ring where !triangle.contains(pointIndex) {
+                let a = points[previous], b = points[current], c = points[next]
+                for pointIndex in ring where pointIndex != previous && pointIndex != current && pointIndex != next {
                     if containsPoint(points[pointIndex], inTriangle: (a, b, c), winding: windingSign) {
                         return nil
                     }
                 }
             }
-            let score = triangleScore(a, b, c)
-            guard score > 0 else {
-                return nil
-            }
-            return Ear(ringIndex: ringIndex, triangle: triangle, score: score)
+            return ear
         }
 
         while ring.count > 3 {
-            guard let bestEar = ring.indices.compactMap(ear).max(by: {
-                if !$0.score.isApproximatelyEqual(to: $1.score) {
-                    return $0.score < $1.score
+            var bestEar: Ear?
+            for ringIndex in ring.indices {
+                guard let candidate = ear(at: ringIndex) else {
+                    continue
                 }
-                return $0.ringIndex > $1.ringIndex
-            }) else {
+                guard let best = bestEar else {
+                    bestEar = candidate
+                    continue
+                }
+                if !candidate.score.isApproximatelyEqual(to: best.score) {
+                    if candidate.score > best.score {
+                        bestEar = candidate
+                    }
+                } else if candidate.ringIndex < best.ringIndex {
+                    bestEar = candidate
+                }
+            }
+            guard let bestEar else {
                 return []
             }
-            result.append(bestEar.triangle)
+            result.append([bestEar.previous, bestEar.current, bestEar.next])
             ring.remove(at: bestEar.ringIndex)
         }
 
