@@ -200,4 +200,50 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 3), .unitX * radius * 3)
         XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 4), .unitX * radius * 3)
     }
+
+    // MARK: cancellation
+
+    func testPrimitiveGenerationCanBeCancelled() {
+        for build in [
+            { Mesh.cone(slices: 256, isCancelled: $0) },
+            { Mesh.cylinder(slices: 256, isCancelled: $0) },
+            { Mesh.sphere(slices: 256, isCancelled: $0) },
+        ] {
+            nonisolated(unsafe) var checks = 0
+            let mesh = build {
+                checks += 1
+                return checks > 3
+            }
+            XCTAssertGreaterThan(checks, 3)
+            XCTAssertLessThan(checks, 10)
+            XCTAssertLessThan(mesh.polygons.count, 256 * 2)
+        }
+    }
+
+    func testHighDetailPrimitiveGenerationCanBeCancelledImmediately() {
+        for build in [
+            { Mesh.cone(slices: 20_000_000, isCancelled: $0) },
+            { Mesh.cylinder(slices: 20_000_000, isCancelled: $0) },
+            { Mesh.sphere(slices: 20_000_000, isCancelled: $0) },
+        ] {
+            nonisolated(unsafe) var checks = 0
+            let mesh = build {
+                checks += 1
+                return true
+            }
+            XCTAssertLessThan(checks, 5)
+            XCTAssert(mesh.polygons.isEmpty)
+        }
+    }
+
+    func testHighDetailSphereGenerationCanBeCancelledWhileBuildingProfile() {
+        nonisolated(unsafe) var checks = 0
+        let mesh = Mesh.sphere(slices: 20_000_000) {
+            checks += 1
+            return checks > 2
+        }
+        XCTAssertGreaterThan(checks, 2)
+        XCTAssertLessThan(checks, 10)
+        XCTAssert(mesh.polygons.isEmpty)
+    }
 }
