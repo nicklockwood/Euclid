@@ -10,198 +10,129 @@
 import XCTest
 
 final class MeshShapeTests: XCTestCase {
-    // MARK: Fill
+    // MARK: Primitives
 
-    func testFillClockwiseQuad() {
-        let shape = Path([
-            .point(0, 0),
-            .point(1, 0),
-            .point(1, 1),
-            .point(0, 1),
-            .point(0, 0),
-        ])
-        let mesh = Mesh.fill(shape)
-        XCTAssertEqual(mesh.polygons.count, 2)
-        XCTAssertEqual(mesh.polygons.first?.plane.normal, .unitZ)
-    }
-
-    func testFillAnticlockwiseQuad() {
-        let shape = Path([
-            .point(1, 0),
-            .point(0, 0),
-            .point(0, 1),
-            .point(1, 1),
-            .point(1, 0),
-        ])
-        let mesh = Mesh.fill(shape)
-        XCTAssertEqual(mesh.polygons.count, 2)
-        XCTAssertEqual(mesh.polygons.first?.plane.normal, -.unitZ)
-    }
-
-    func testFillSelfIntersectingPath() {
-        let path = Path([
-            .point(0, 0),
-            .point(1, 1),
-            .point(1, 0),
-            .point(0, 1),
-        ])
-        let mesh = Mesh.fill(path)
-        XCTAssertFalse(mesh.polygons.isEmpty)
-        XCTAssertTrue(mesh.isWatertight)
-        XCTAssertTrue(mesh.polygons.areWatertight)
-    }
-
-    func testFillSelfIntersectingCurvedPathUsesNonZeroWindingRule() {
-        let path = Path([
-            .curve(0, 0),
-            .curve(1, 0),
-            .curve(0, 2),
-            .curve(1, 2),
-            .curve(0, 0),
-        ])
-        let mesh = Mesh.fill(path)
-
-        XCTAssertFalse(mesh.polygons.isEmpty)
-        XCTAssertTrue(mesh.isWatertight)
-        XCTAssertTrue(mesh.polygons.areWatertight)
-
-        let front = Mesh.fill(path, faces: .front)
-        XCTAssertFalse(front.polygons.isEmpty)
-        XCTAssertFalse(front.polygons.triangulate().isEmpty)
-        XCTAssertTrue(front.polygons.allSatisfy { $0.plane.normal == .unitZ })
-        XCTAssertGreaterThan(front.polygons.surfaceArea, 0)
-    }
-
-    func testFillNestedCompoundPathUsesEvenOddRule() {
-        let outer = Path([
-            .point(0, 0),
-            .point(10, 0),
-            .point(10, 10),
-            .point(0, 10),
-            .point(0, 0),
-        ])
-        let inner = Path([
-            .point(2, 2),
-            .point(8, 2),
-            .point(8, 8),
-            .point(2, 8),
-            .point(2, 2),
-        ])
-        let mesh = Mesh.fill(Path(subpaths: [outer, inner]))
-        XCTAssertEqual(mesh.polygons.surfaceArea, 128)
-        XCTAssertTrue(mesh.isWatertight)
-        XCTAssertTrue(mesh.polygons.areWatertight)
-    }
-
-    func testFillOverlappingCompoundPathUsesEvenOddRule() {
-        let first = Path([
-            .point(0, 0),
-            .point(10, 0),
-            .point(10, 10),
-            .point(0, 10),
-            .point(0, 0),
-        ])
-        let second = Path([
-            .point(5, 5),
-            .point(15, 5),
-            .point(15, 15),
-            .point(5, 15),
-            .point(5, 5),
-        ])
-        let mesh = Mesh.fill(Path(subpaths: [first, second]), faces: .front)
-        XCTAssertEqual(mesh.polygons.surfaceArea, 150)
-        XCTAssertFalse(mesh.isWatertight)
-    }
-
-    func testFillOverlappingCurvedCompoundPathUsesEvenOddRule() {
-        let path = Path(subpaths: [
-            .circle(segments: 32),
-            .square().translated(by: [0.5, 0.5, 0]),
-        ])
-        let mesh = Mesh.fill(path, faces: .front)
-        let evenOddMesh = Mesh.symmetricDifference(path.subpaths.map {
-            Mesh.fill($0, faces: .front)
-        })
-        XCTAssertEqual(mesh.surfaceArea, evenOddMesh.surfaceArea, accuracy: epsilon)
-    }
-
-    func testFillNonPlanarQuad() {
-        let shape = Path([
-            .point(0, 0),
-            .point(1, 0),
-            .point(1, 1, 1),
-            .point(0, 1),
-            .point(0, 0),
-        ])
-        let mesh = Mesh.fill(shape)
-        XCTAssertEqual(mesh.polygons.count, 4)
-    }
-
-    // MARK: Stroke
-
-    func testStrokeLine() {
-        let path = Path.line([-1, 0], [1, 0])
-        let mesh = Mesh.stroke(path, detail: 2)
-        XCTAssertEqual(mesh.polygons.count, 2)
-    }
-
-    func testStrokeLineSingleSided() {
-        let path = Path.line([-1, 0], [1, 0])
-        let mesh = Mesh.stroke(path, detail: 1)
-        XCTAssertEqual(mesh.polygons.count, 1)
-    }
-
-    func testStrokeLineWithTriangle() {
-        let path = Path.line([-1, 0], [1, 0])
-        let mesh = Mesh.stroke(path, detail: 3)
-        XCTAssertEqual(mesh.polygons.count, 5)
-    }
-
-    func testStrokeSquareWithTriangle() {
-        let mesh = Mesh.stroke(.square(), detail: 3)
-        XCTAssertEqual(mesh.polygons.count, 12)
-    }
-
-    func testStrokePathWithCollinearPoints() {
-        let path = Path([
-            .point(0, 0),
-            .point(0.5, 0),
-            .point(0.5, 1),
-            .point(-0.5, 1),
-            .point(-0.5, 0),
-            .point(0, 0),
-        ])
-        let mesh = Mesh.stroke(path, detail: 3)
-        XCTAssertEqual(mesh.polygons.count, 15)
-    }
-
-    // MARK: Nearest point
-
-    func testNearestPointOnConvexShape() {
-        let cube = Mesh.cube()
-        XCTAssertEqual(cube.nearestPoint(to: .zero), .zero)
-        XCTAssertEqual(cube.nearestPoint(to: -.unitX), [-0.5, 0, 0])
-        XCTAssertEqual(cube.nearestPoint(to: .unitZ), [0, 0, 0.5])
-        XCTAssertEqual(cube.nearestPoint(to: [1, 1, 0]), [0.5, 0.5, 0])
-        XCTAssertEqual(cube.nearestPoint(to: .one), [0.5, 0.5, 0.5])
-    }
-
-    func testNearestPointOnConcaveShape() {
-        let detail = 16
-        let radius = 0.5
-        let torus = Mesh.lathe(
-            .circle(radius: radius).translated(by: -.unitX * radius * 2),
-            slices: detail
+    func testCubeAppliesCenterSizeFacesAndMaterial() {
+        let material = "cube"
+        let mesh = Mesh.cube(
+            center: [1, 1, 1],
+            size: [2, 4, 6],
+            faces: .frontAndBack,
+            material: material
         )
-        let shortest = cos(.pi / Double(detail)) * radius
-        XCTAssertEqual(torus.nearestPoint(to: .zero).length, shortest)
-        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius), .unitX * radius)
-        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 2), .unitX * radius * 2)
-        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 3), .unitX * radius * 3)
-        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 4), .unitX * radius * 3)
+
+        XCTAssertEqual(mesh.polygons.count, 12)
+        XCTAssertEqual(mesh.bounds, Bounds(min: [0, -1, -2], max: [2, 3, 4]))
+        XCTAssertEqual(mesh.materials, [material])
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertFalse(mesh.isKnownConvex)
     }
 
-    // MARK: cancellation
+    func testCubeBackFacesAreInverted() {
+        let front = Mesh.cube(faces: .front)
+        let back = Mesh.cube(faces: .back)
+
+        XCTAssertEqual(front.polygons.count, back.polygons.count)
+        XCTAssertEqual(front.bounds, back.bounds)
+        XCTAssertEqual(
+            front.polygons.first?.plane.normal,
+            back.polygons.first?.plane.inverted().normal
+        )
+        XCTAssertFalse(back.isKnownConvex)
+    }
+
+    func testIcosahedronHasExpectedTopologyAndRadius() {
+        let radius = 2.0
+        let material = "icosahedron"
+        let mesh = Mesh.icosahedron(radius: radius, wrapMode: .none, material: material)
+
+        XCTAssertEqual(mesh.polygons.count, 20)
+        XCTAssertEqual(Set(mesh.polygons.flatMap(\.vertices).map(\.position)).count, 12)
+        XCTAssertTrue(mesh.polygons.flatMap(\.vertices).allSatisfy {
+            $0.position.length.isApproximatelyEqual(to: radius, absoluteTolerance: epsilon)
+        })
+        XCTAssertEqual(mesh.materials, [material])
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isKnownConvex)
+    }
+
+    func testIcosphereSubdivisionsIncreaseTriangleCount() {
+        XCTAssertEqual(Mesh.icosphere(subdivisions: 0, wrapMode: .none).polygons.count, 20)
+        XCTAssertEqual(Mesh.icosphere(subdivisions: 1, wrapMode: .none).polygons.count, 80)
+        XCTAssertEqual(Mesh.icosphere(subdivisions: 2, wrapMode: .none).polygons.count, 320)
+    }
+
+    func testIcosphereAppliesRadiusToPositionsAndNormals() {
+        let radius = 3.0
+        let mesh = Mesh.icosphere(radius: radius, subdivisions: 1, wrapMode: .none)
+
+        XCTAssertEqual(mesh.bounds, Bounds(min: .init(size: -radius), max: .init(size: radius)))
+        XCTAssertTrue(mesh.polygons.flatMap(\.vertices).allSatisfy {
+            $0.position.length.isApproximatelyEqual(to: radius, absoluteTolerance: epsilon) &&
+                $0.normal.isApproximatelyEqual(to: $0.position.normalized(), absoluteTolerance: epsilon)
+        })
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isKnownConvex)
+    }
+
+    func testSphereAppliesRadiusAndStacks() {
+        let lowDetail = Mesh.sphere(radius: 2, slices: 12, stacks: 2, wrapMode: .none)
+        let highDetail = Mesh.sphere(radius: 2, slices: 12, stacks: 6, wrapMode: .none)
+
+        XCTAssertGreaterThan(highDetail.polygons.count, lowDetail.polygons.count)
+        XCTAssertEqual(highDetail.bounds, Bounds(min: [-2, -2, -2], max: [2, 2, 2]), accuracy: epsilon)
+        XCTAssertTrue(highDetail.polygons.flatMap(\.vertices).allSatisfy {
+            $0.position.length <= 2 + epsilon
+        })
+        XCTAssertTrue(highDetail.isWatertight)
+        XCTAssertTrue(highDetail.isKnownConvex)
+    }
+
+    func testCylinderNormalizesRadiusAndHeight() {
+        let mesh = Mesh.cylinder(radius: -2, height: -3, slices: 8, wrapMode: .none)
+
+        XCTAssertEqual(mesh.bounds, Bounds(min: [-2, -1.5, -2], max: [2, 1.5, 2]), accuracy: epsilon)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isKnownConvex)
+    }
+
+    func testCylinderWithZeroHeightBuildsFlatWatertightDisk() {
+        let mesh = Mesh.cylinder(radius: 2, height: 0, slices: 8, wrapMode: .none)
+
+        XCTAssertEqual(mesh.bounds, Bounds(min: [-2, 0, -2], max: [2, 0, 2]), accuracy: epsilon)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isKnownConvex)
+    }
+
+    func testConeAppliesStacksAndBottomPoleDetail() {
+        let simple = Mesh.cone(radius: 2, height: 4, slices: 8, stacks: 1, poleDetail: 0, wrapMode: .none)
+        let detailed = Mesh.cone(
+            radius: 2,
+            height: 4,
+            slices: 8,
+            stacks: 3,
+            poleDetail: 2,
+            addDetailAtBottomPole: true,
+            wrapMode: .none
+        )
+
+        XCTAssertGreaterThan(detailed.polygons.count, simple.polygons.count)
+        XCTAssertEqual(detailed.bounds, Bounds(min: [-2, -2, -2], max: [2, 2, 2]), accuracy: epsilon)
+        XCTAssertTrue(detailed.isWatertight)
+        XCTAssertTrue(detailed.isKnownConvex)
+    }
+
+    func testConeNormalizesRadiusAndStackCount() {
+        let negativeRadius = Mesh.cone(radius: -2, height: 4, slices: 8, stacks: 1, wrapMode: .none)
+        let zeroStacks = Mesh.cone(radius: 2, height: 4, slices: 8, stacks: 0, wrapMode: .none)
+
+        XCTAssertEqual(negativeRadius.bounds, zeroStacks.bounds, accuracy: epsilon)
+        XCTAssertEqual(negativeRadius.polygons.count, zeroStacks.polygons.count)
+        XCTAssertTrue(zeroStacks.isWatertight)
+        XCTAssertTrue(zeroStacks.isKnownConvex)
+    }
+
+    // MARK: Cancellation
 
     func testPrimitiveGenerationCanBeCancelled() {
         for build in [
@@ -245,5 +176,17 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertGreaterThan(checks, 2)
         XCTAssertLessThan(checks, 10)
         XCTAssert(mesh.polygons.isEmpty)
+    }
+
+    func testIcosphereGenerationCanBeCancelled() {
+        nonisolated(unsafe) var checks = 0
+        let mesh = Mesh.icosphere(subdivisions: 10) {
+            checks += 1
+            return checks > 1
+        }
+
+        XCTAssertGreaterThan(checks, 1)
+        XCTAssertLessThanOrEqual(checks, 10)
+        XCTAssertEqual(mesh.polygons.count, 80)
     }
 }

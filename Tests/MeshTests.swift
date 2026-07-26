@@ -28,6 +28,32 @@ final class MeshTests: XCTestCase {
         XCTAssertEqual(edges.count, 12)
     }
 
+    // MARK: PointComparable
+
+    func testNearestPointOnConvexMesh() {
+        let cube = Mesh.cube()
+        XCTAssertEqual(cube.nearestPoint(to: .zero), .zero)
+        XCTAssertEqual(cube.nearestPoint(to: -.unitX), [-0.5, 0, 0])
+        XCTAssertEqual(cube.nearestPoint(to: .unitZ), [0, 0, 0.5])
+        XCTAssertEqual(cube.nearestPoint(to: [1, 1, 0]), [0.5, 0.5, 0])
+        XCTAssertEqual(cube.nearestPoint(to: .one), [0.5, 0.5, 0.5])
+    }
+
+    func testNearestPointOnConcaveMesh() {
+        let detail = 16
+        let radius = 0.5
+        let torus = Mesh.lathe(
+            .circle(radius: radius).translated(by: -.unitX * radius * 2),
+            slices: detail
+        )
+        let shortest = cos(.pi / Double(detail)) * radius
+        XCTAssertEqual(torus.nearestPoint(to: .zero).length, shortest)
+        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius), .unitX * radius)
+        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 2), .unitX * radius * 2)
+        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 3), .unitX * radius * 3)
+        XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 4), .unitX * radius * 3)
+    }
+
     // MARK: isWatertight/isConvex
 
     func testCubeIsWatertightAndConvex() {
