@@ -77,7 +77,7 @@ final class RegressionTests: XCTestCase {
         #if canImport(CoreText)
         let detail = 64
         var mesh = try Mesh.extrude(
-            Path(subpaths: Path.text("Hello", detail: detail / 8))
+            Path(subpaths: .text("Hello", detail: detail / 8))
                 .scaled(by: 0.1)
                 .rotated(by: XCTUnwrap(.init(axis: .unitZ, angle: -.halfPi))),
             along: .curve([
@@ -100,7 +100,7 @@ final class RegressionTests: XCTestCase {
         let font = CTFontCreateWithName("comic sans ms" as CFString, 1, nil)
         var mesh = Mesh.difference([
             .extrude(
-                Path(subpaths: Path.text("Hello\nWorld!", font: font, detail: detail / 8)),
+                .text("Hello\nWorld!", font: font, detail: detail / 8),
                 along: .circle(radius: 0.5, segments: detail)
             ).translated(by: [6, 0]),
             .cube(size: 12),

@@ -51,7 +51,7 @@ A three-dimensional surface made from polygons.
 - ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Path,_,_,_,_,_,_)``
 - ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Collection<Path>,_,_,_,_,_,_)``
 - ``Mesh/fill(_:faces:material:isCancelled:)-(Path,_,_,_)``
-- ``Mesh/fill(_:faces:material:isCancelled:)-([Path],_,_,_)``
+- ``Mesh/fill(_:faces:material:isCancelled:)-(Collection<Path>,_,_,_)``
 - ``Mesh/loft(_:faces:material:isCancelled:)``
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Path,_,_,_,_)``
 - ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Collection<Path>,_,_,_,_)``

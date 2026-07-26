@@ -36,23 +36,25 @@ final class TextTests: XCTestCase {
         ])
     }
 
+    func testTextPathCollectionPreservesContextType() {
+        let paths: ContiguousArray<Path> = .text("hello")
+        XCTAssertEqual(paths.count, 5)
+    }
+
     func testLowercaseTextFillIsDetessellated() {
-        let polygons = Path.text("hello").flatMap { path in
-            let filledMesh = Mesh.fill(path)
-            let detessellatedMesh = filledMesh.detessellate()
-            XCTAssertLessThanOrEqual(detessellatedMesh.polygons.count, filledMesh.polygons.count)
-            XCTAssertEqual(detessellatedMesh.surfaceArea, filledMesh.surfaceArea, accuracy: epsilon)
-            return detessellatedMesh.polygons
-        }
+        let filledMesh = Mesh.fill(.text("hello"))
+        let detessellatedMesh = filledMesh.detessellate()
+        XCTAssertLessThanOrEqual(detessellatedMesh.polygons.count, filledMesh.polygons.count)
+        XCTAssertEqual(detessellatedMesh.surfaceArea, filledMesh.surfaceArea, accuracy: epsilon)
+        let polygons = detessellatedMesh.polygons
         XCTAssertEqual(polygons.count, 14)
         XCTAssertEqual(polygons.flatMap { $0.triangulate() }.count, 210)
     }
 
     func testTextMeshWithAttributedString() {
-        let text = "Hello"
         let font = CTFontCreateWithName("Helvetica" as CFString, 12, nil)
         let attributes = [NSAttributedString.Key.font: font]
-        let string = NSAttributedString(string: text, attributes: attributes)
+        let string = NSAttributedString(string: "Hello", attributes: attributes)
         let mesh = Mesh.text(string, depth: 1.0)
         XCTAssertEqual(mesh.bounds.min.z, -0.5)
         XCTAssertEqual(mesh.bounds.max.z, 0.5)
@@ -61,30 +63,26 @@ final class TextTests: XCTestCase {
     }
 
     func testTextMeshWithString() {
-        let text = "Hello"
         let font = CTFontCreateWithName("Helvetica" as CFString, 12, nil)
-        let mesh = Mesh.text(text, font: font, depth: 1.0)
+        let mesh = Mesh.text("Hello", font: font, depth: 1.0)
         XCTAssertEqual(mesh.bounds.min.z, -0.5)
         XCTAssertEqual(mesh.bounds.max.z, 0.5)
         XCTAssert(mesh.bounds.max.x > 20)
         XCTAssert(mesh.polygons.count > 150)
     }
 
-    func testExtrudedCharacterHasCorrectWinding() throws {
-        let shape = try XCTUnwrap(Path.text("e").first)
-        let mesh = Mesh.extrude(shape).makeWatertight()
+    func testExtrudedCharacterHasCorrectWinding() {
+        let mesh = Mesh.extrude(.text("e")).makeWatertight()
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.isConsistentlyWound)
     }
 
-    func testExtrudedLowercaseQAlongCurveHasCorrectWinding() throws {
-        let shape = try Path(subpaths: XCTUnwrap(Path.text("q").first).subpaths)
-        let along = Path.curve([
+    func testExtrudedLowercaseQAlongCurveHasCorrectWinding() {
+        let mesh = Mesh.extrude(.text("q"), along: .curve([
             .point(0, 0, 0),
             .curve(1, 0, 0),
             .point(1, 0, 1),
-        ])
-        let mesh = Mesh.extrude(shape, along: along).makeWatertight()
+        ])).makeWatertight()
 
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.isConsistentlyWound)
@@ -92,10 +90,9 @@ final class TextTests: XCTestCase {
         XCTAssertTrue(mesh.vertexNormalsFaceOutward)
     }
 
-    func testExtrudedTextWithHoleHasOutwardRimVertexNormals() throws {
+    func testExtrudedTextWithHoleHasOutwardRimVertexNormals() {
         let font = CTFontCreateWithName("Helvetica" as CFString, 12, nil)
-        let shape = try XCTUnwrap(Path.text("o", font: font).first)
-        let mesh = Mesh.extrude(shape)
+        let mesh = Mesh.extrude(.text("o", font: font))
         let sidePolygons = mesh.polygons.filter { abs($0.plane.normal.z) < 0.5 }
         let normalDots = sidePolygons.flatMap { polygon in
             polygon.vertices.map { $0.normal.dot(polygon.plane.normal) }
@@ -269,6 +266,7 @@ final class TextTests: XCTestCase {
     func testInsetLowercaseHBeforeCollapseIsValid() throws {
         let shape = try XCTUnwrap(Path.text("h").first)
         let inset = shape.inset(by: 0.027)
+
         XCTAssertFalse(inset.orderedEdgesContainCrossings)
         XCTAssertTrue(inset.isContained(in: shape))
         XCTAssertTrue(Mesh.fill(inset).isWatertight)

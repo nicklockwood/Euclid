@@ -1247,9 +1247,9 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(path.undirectedEdges.count, 2)
     }
 
-    func testOrderedEdgesForLetterG() {
+    func testOrderedEdgesForLetterG() throws {
         #if canImport(CoreText)
-        let text = Path.text("G")[0]
+        let text = try XCTUnwrap(Path.text("G").first)
         let edges = text.orderedEdges
         let path = Path(edges)
         XCTAssertEqual(path.subpaths.count, 1)
@@ -1257,9 +1257,9 @@ final class PathTests: XCTestCase {
         #endif
     }
 
-    func testOrderedEdgesForLetterO() {
+    func testOrderedEdgesForLetterO() throws {
         #if canImport(CoreText)
-        let text = Path.text("O")[0]
+        let text = try XCTUnwrap(Path.text("O").first)
         let edges = text.orderedEdges
         XCTAssertEqual(edges.count, 32)
         let path = Path(edges)

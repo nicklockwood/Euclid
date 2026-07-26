@@ -555,7 +555,7 @@ public extension Mesh {
         )
     }
 
-    /// Efficiently extrudes an array of paths along their respective face normals, avoiding duplicate work.
+    /// Efficiently extrudes a collection of paths along their respective face normals, avoiding duplicate work.
     /// - Parameters:
     ///   - shapes: The collection of paths to extrude in order to create the mesh.
     ///   - depth: The depth of the extrusion.
@@ -573,6 +573,17 @@ public extension Mesh {
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
+        if shapes.count == 1, let shape = shapes.first {
+            return extrude(
+                shape,
+                depth: depth,
+                twist: twist,
+                sections: sections,
+                faces: faces,
+                material: material,
+                isCancelled: isCancelled
+            )
+        }
         let material = SendableMaterial(material)
         return .union(build(shapes, using: {
             extrude(
@@ -669,6 +680,49 @@ public extension Mesh {
         ), faces: faces, material: material)
     }
 
+    /// Efficiently extrudes a collection of paths along another path, avoiding duplicate work.
+    /// - Parameters:
+    ///   - shapes: The collection of paths to extrude in order to create the mesh.
+    ///   - along: The path along which to extrude the shape.
+    ///   - twist: Angular twist to apply along the extrusion.
+    ///   - align: The alignment mode to use for the extruded shape.
+    ///   - faces: The direction of the generated polygon faces.
+    ///   - material: The optional material for the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
+    static func extrude(
+        _ shapes: some Collection<Path>,
+        along: Path,
+        twist: Angle = .zero,
+        align: Alignment = .default,
+        faces: Faces = .default,
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        if shapes.count == 1, let shape = shapes.first {
+            return extrude(
+                shape,
+                along: along,
+                twist: twist,
+                align: align,
+                faces: faces,
+                material: material,
+                isCancelled: isCancelled
+            )
+        }
+        let material = SendableMaterial(material)
+        return .union(build(shapes, using: {
+            extrude(
+                $0,
+                along: along,
+                twist: twist,
+                align: align,
+                faces: faces,
+                material: material.value,
+                isCancelled: isCancelled
+            )
+        }, isCancelled: isCancelled), isCancelled: isCancelled)
+    }
+
     /// Creates a mesh by connecting a series of 3D paths representing the cross sections.
     /// - Parameters:
     ///   - shapes: The paths to connect.
@@ -736,14 +790,14 @@ public extension Mesh {
         }
     }
 
-    /// Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.
+    /// Efficiently fills a collection of paths, avoiding unnecessary work if there are duplicates.
     /// - Parameters:
-    ///   - shapes: The array of paths to be filled.
+    ///   - shapes: The collection of paths to be filled.
     ///   - faces: The direction the polygon faces.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
     static func fill(
-        _ shapes: [Path],
+        _ shapes: some Collection<Path>,
         faces: Faces = .default,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
@@ -789,7 +843,7 @@ public extension Mesh {
         )
     }
 
-    /// Efficiently strokes an array of paths, avoiding duplicate work.
+    /// Efficiently strokes a collection of paths, avoiding duplicate work.
     /// - Parameters:
     ///   - shapes: The paths to stroke.
     ///   - width: The line width of the stroke.

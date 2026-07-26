@@ -154,6 +154,15 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertFalse(mesh.polygons.isEmpty)
     }
 
+    func testExtrudeSingleShapeArrayMatchesSingleShape() {
+        let shape = Path.circle(segments: 8).translated(by: [1, 2])
+
+        XCTAssertEqual(
+            Mesh.extrude([shape], depth: 2, twist: .degrees(90), sections: 2),
+            Mesh.extrude(shape, depth: 2, twist: .degrees(90), sections: 2)
+        )
+    }
+
     func testExtrudeSelfIntersectingCurvedPathUsesNonZeroWindingRule() {
         let path = Path.curve([
             .curve(0, 0),
@@ -733,24 +742,23 @@ final class MeshShapeTests: XCTestCase {
         XCTAssert(mesh.isWatertight)
     }
 
-    func testExtrudeAlongAlignment2() {
+    func testExtrudeAlongAlignment2() throws {
         #if canImport(CoreText)
-        let mesh = Mesh.extrude(
-            .square(size: 0.1),
-            along: .text("w")[0]
-        )
+        let path = try XCTUnwrap(Path.text("w").first)
+        let mesh = Mesh.extrude(.square(size: 0.1), along: path)
         XCTAssert(mesh.isWatertight)
         #endif
     }
 
-    func testTwistedExtrudeAlongAlignment() {
+    func testTwistedExtrudeAlongAlignment() throws {
         #if canImport(CoreText)
         let detail = 16
         for i in 0 ..< 4 {
             let twist = Angle.halfPi * Double(i)
+            let path = try XCTUnwrap(Path.text("w").first)
             let mesh = Mesh.extrude(
                 .square(size: 0.1),
-                along: .text("w")[0].withDetail(detail, twist: twist),
+                along: path.withDetail(detail, twist: twist),
                 twist: twist
             )
             XCTAssert(mesh.isWatertight)

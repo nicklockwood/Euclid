@@ -92,7 +92,7 @@ Using a CSG operation on a mesh that isn't sealed may result in unexpected resul
 
 On macOS and iOS you can make use of Euclid's Core Text integration to create 2D or 3D extruded text.
 
-The ``Path/text(_:width:detail:)`` method produces an array of 2D ``Path`` that represent the contours of each glyph in an `AttributedString`. You can use these paths with either ``Mesh/fill(_:faces:material:isCancelled:)-([Path],_,_,_)`` or ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Collection<Path>,_,_,_,_,_,_)`` builder methods to create solid text.
+The ``Path/text(_:width:detail:)`` method produces an array of 2D ``Path`` that represent the contours of each glyph in an `AttributedString`. You can use these paths with either ``Mesh/fill(_:faces:material:isCancelled:)-(Collection<Path>,_,_,_)`` or ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Collection<Path>,_,_,_,_,_,_)`` builder methods to create solid text.
 
 Alternatively, the ``Mesh/text(_:font:width:depth:detail:material:)`` constructor directly produces an extruded 3D text model from a `String` or `AttributedString`.
 
