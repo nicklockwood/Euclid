@@ -412,6 +412,33 @@ final class PathShapeTests: XCTestCase {
         XCTAssertEqual(contours, [.circle()])
     }
 
+    func testExtrusionWithDuplicateInitialPoint() {
+        let contours = Path.square().extrusionContours(along: Path([
+            .point(0, 0, 0),
+            .point(0, 0, 0),
+            .point(0, 0, 1),
+        ]), align: .axis)
+
+        XCTAssertEqual(contours.count, 4)
+        XCTAssertEqual(contours[0].bounds.center, .zero)
+        XCTAssertEqual(contours[1].bounds.center, .zero)
+        XCTAssertEqual(contours.last?.bounds.center, .unitZ)
+    }
+
+    func testExtrusionWithDuplicateInteriorPoint() {
+        let contours = Path.square().extrusionContours(along: Path([
+            .point(0, 0, 0),
+            .point(1, 0, 0),
+            .point(1, 0, 0),
+            .point(1, 0, 1),
+        ]))
+
+        XCTAssertEqual(contours.count, 6)
+        XCTAssertEqual(contours[1].bounds.center, [1, 0, 0])
+        XCTAssertEqual(contours[2].bounds.center, [1, 0, 0])
+        XCTAssertEqual(contours.last?.bounds.center, [1, 0, 1])
+    }
+
     func testTwistedExtrudeAlongAlignment() {
         #if canImport(CoreText)
         let detail = 16

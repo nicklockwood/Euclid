@@ -471,13 +471,16 @@ public extension Path {
             shapeNormal.rotate(by: rotation)
         }
 
-        func lengthAndDirection(from a: PathPoint, to b: PathPoint) -> (length: Double, direction: Vector) {
+        func lengthAndDirection(from a: PathPoint, to b: PathPoint) -> (length: Double, direction: Vector?) {
             var ab = b.position - a.position
             let length = ab.length
             if axisAligned {
-                ab = ab.projected(onto: pathPlane.rawValue)
+                let projected = ab.projected(onto: pathPlane.rawValue)
+                if !projected.isZero {
+                    ab = projected
+                }
             }
-            return (length, ab.normalized())
+            return (length, ab.direction)
         }
 
         func transformedShape(for p: PathPoint, _ scale: (distance: Double, along: Vector)?) -> Path {
@@ -505,7 +508,9 @@ public extension Path {
             let (length, n1) = lengthAndDirection(from: p0, to: p1)
             let (_, n2) = lengthAndDirection(from: p1, to: p2)
             twistShape(length)
-            assert(n1 != .zero)
+            guard let n1, let n2 else {
+                return transformedShape(for: p1, nil)
+            }
             let r = rotationBetweenNormalizedVectors(n1, n2) / 2
             rotateShape(by: r)
             let stretchAxis = (n1 + n2).cross(r.axis).normalized()
@@ -520,9 +525,14 @@ public extension Path {
         do {
             var p0p1 = (points[1].position - points[0].position)
             if align == .axis {
-                p0p1 = p0p1.projected(onto: pathPlane.rawValue)
+                let projected = p0p1.projected(onto: pathPlane.rawValue)
+                if !projected.isZero {
+                    p0p1 = projected
+                }
             }
-            rotateShape(by: rotationBetweenNormalizedVectors(shapeNormal, p0p1.normalized()))
+            if let p0p1 = p0p1.direction {
+                rotateShape(by: rotationBetweenNormalizedVectors(shapeNormal, p0p1))
+            }
         }
         let initialShape = shape
 

@@ -1985,6 +1985,9 @@ private extension Mesh {
             p1 = p1.inverted()
             n1 = -n1
         }
+        let normalizedDirection = direction.direction
+        n0 = n0.direction ?? normalizedDirection ?? .unitZ
+        n1 = n1.direction ?? normalizedDirection ?? n0
         var invert = false
         func makePolygon(_ vertices: [Vertex]) -> Polygon? {
             Polygon(invert ? vertices.reversed() : vertices, material: material)?
@@ -2003,13 +2006,13 @@ private extension Mesh {
         var uvstart = uvstart, uvend = uvend
         func addFace(_ a: Vertex, _ b: Vertex, _ c: Vertex, _ d: Vertex) {
             var vertices = [a, b, c, d]
-            if !curvestart {
-                let r = rotationBetweenNormalizedVectors(n0, direction)
+            if !curvestart, let normalizedDirection {
+                let r = rotationBetweenNormalizedVectors(n0, normalizedDirection)
                 vertices[0].normal.rotate(by: r)
                 vertices[1].normal.rotate(by: r)
             }
-            if !curveend {
-                let r = rotationBetweenNormalizedVectors(n1, direction)
+            if !curveend, let normalizedDirection {
+                let r = rotationBetweenNormalizedVectors(n1, normalizedDirection)
                 vertices[2].normal.rotate(by: r)
                 vertices[3].normal.rotate(by: r)
             }

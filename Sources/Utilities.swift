@@ -982,8 +982,10 @@ func pointsAreClosed(unchecked points: [PathPoint]) -> Bool {
 
 func extrapolate(_ p0: PathPoint, _ p1: PathPoint, _ p2: PathPoint) -> PathPoint {
     let (length, p0p1) = (p1.position - p0.position).lengthAndDirection
-    let p1p2 = (p2.position - p1.position).normalized()
-    let r = rotationBetweenNormalizedVectors(p0p1 ?? .zero, p1p2)
+    guard let p0p1, let p1p2 = (p2.position - p1.position).direction else {
+        return .curve(p2.position)
+    }
+    let r = rotationBetweenNormalizedVectors(p0p1, p1p2)
     let p2pe = p1p2.rotated(by: r) * length
     return .curve(p2.position + p2pe)
 }

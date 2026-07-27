@@ -238,6 +238,16 @@ final class UtilityTests: XCTestCase {
         XCTAssertEqual(result, expected)
     }
 
+    func testExtrapolateWithZeroLengthOutgoingSegment() {
+        let result = extrapolate(
+            .point(0, 0),
+            .curve(1, 0),
+            .curve(1, 0)
+        )
+
+        XCTAssertEqual(result, .curve(1, 0))
+    }
+
     // MARK: vectorArea
 
     func testAreaOfClockwiseSquare() {

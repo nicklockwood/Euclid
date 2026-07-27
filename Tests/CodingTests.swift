@@ -274,6 +274,19 @@ final class CodingTests: XCTestCase {
         XCTAssertEqual(try decode("[0, 0, 1, 0]"), Plane(normal: .unitZ, w: 0))
     }
 
+    func testDecodingKeyedPlaneWithZeroNormalThrows() {
+        XCTAssertThrowsError(try decode("""
+        {
+            "normal": [0, 0, 0],
+            "w": 1
+        }
+        """) as Plane)
+    }
+
+    func testDecodingUnkeyedPlaneWithZeroNormalThrows() {
+        XCTAssertThrowsError(try decode("[0, 0, 0, 1]") as Plane)
+    }
+
     func testEncodingPlane() {
         XCTAssertEqual(try encode(Plane(normal: .unitZ, w: 0)), "[0,0,1,0]")
     }

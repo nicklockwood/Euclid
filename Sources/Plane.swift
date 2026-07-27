@@ -77,14 +77,23 @@ extension Plane: Codable {
     /// Creates a new plane by decoding from the given decoder.
     /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
+        let normal: Vector
+        let w: Double
         if var container = try? decoder.unkeyedContainer() {
-            self.normal = try Vector(from: &container).normalized()
-            self.w = try container.decode(Double.self)
+            normal = try Vector(from: &container)
+            w = try container.decode(Double.self)
         } else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.normal = try container.decode(Vector.self, forKey: .normal).normalized()
-            self.w = try container.decode(Double.self, forKey: .w)
+            normal = try container.decode(Vector.self, forKey: .normal)
+            w = try container.decode(Double.self, forKey: .w)
         }
+        guard let plane = Plane(normal: normal, w: w) else {
+            throw DecodingError.dataCorrupted(.init(
+                codingPath: decoder.codingPath,
+                debugDescription: "Plane normal must be non-zero"
+            ))
+        }
+        self = plane
     }
 
     /// Encodes this plane into the given encoder.
