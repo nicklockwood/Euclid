@@ -18,6 +18,18 @@ private extension Collection<Euclid.Polygon> {
 final class PolygonTests: XCTestCase {
     // MARK: initialization
 
+    func testPolygonIntersectsPointNearBounds() throws {
+        let polygon = try XCTUnwrap(Polygon([
+            Vertex(-1, 1),
+            Vertex(-1, -1),
+            Vertex(1, -1),
+            Vertex(1, 1),
+        ]))
+
+        XCTAssertTrue(polygon.intersects([1 - epsilon / 2, 0]))
+        XCTAssertFalse(polygon.intersects([1 + epsilon * 2, 0]))
+    }
+
     func testConvexPolygonAnticlockwiseWinding() {
         let normal = Vector.unitZ
         guard let polygon = Polygon([

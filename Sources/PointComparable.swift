@@ -138,7 +138,8 @@ extension Polygon: PointComparable {
     }
 
     public func intersects(_ point: Vector) -> Bool {
-        plane.intersects(point) ? intersectsCoplanarPoint(point) : false
+        bounds.inset(by: -epsilon).intersects(point) && plane.intersects(point) ?
+            intersectsCoplanarPoint(point) : false
     }
 }
 
