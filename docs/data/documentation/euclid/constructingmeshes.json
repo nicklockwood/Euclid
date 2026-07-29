@@ -760,9 +760,8 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : " - This builder fills a ",
@@ -796,9 +795,8 @@
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
-                      "isActive" : true,
-                      "type" : "reference"
+                      "code" : "Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
+                      "type" : "codeVoice"
                     },
                     {
                       "text" : ", but takes multiple ",
@@ -1511,7 +1509,7 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-14bcr",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-kzfi",
               "isActive" : true,
               "type" : "reference"
             },
@@ -1520,7 +1518,7 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-ul3q",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-4zpja",
               "isActive" : true,
               "type" : "reference"
             },
@@ -2444,166 +2442,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/cylinder(radius:height:slices:poledetail:faces:wrapmode:material:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-4zpja": {
   "abstract" : [
     {
-      "text" : "Creates a mesh by extruding one path along another path.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "extrude"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "along"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "twist"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5AngleV",
-      "text" : "Angle"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "align"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV9Alignmenta",
-      "text" : "Alignment"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
-      "text" : "Faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "extrude(_:along:twist:align:faces:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:faces:material:iscancelled:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-ul3q": {
-  "abstract" : [
-    {
-      "text" : "Efficiently extrudes an array of paths along their respective face normals, avoiding duplicate work.",
+      "text" : "Efficiently extrudes a collection of paths along their respective face normals, avoiding duplicate work.",
       "type" : "text"
     }
   ],
@@ -2707,7 +2549,7 @@
     },
     {
       "kind" : "text",
-      "text" : ", "
+      "text" : "?, "
     },
     {
       "kind" : "externalParam",
@@ -2766,117 +2608,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-ul3q",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-4zpja",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "extrude(_:depth:twist:sections:faces:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-ul3q"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)-14bcr": {
-  "abstract" : [
-    {
-      "text" : "Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "fill"
-    },
-    {
-      "kind" : "text",
-      "text" : "(["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : "], "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
-      "text" : "Faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-14bcr",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "fill(_:faces:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-14bcr"
+  "url" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-4zpja"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)-5z4d6": {
   "abstract" : [
@@ -2982,6 +2719,128 @@
   "title" : "fill(_:faces:material:isCancelled:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-5z4d6"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)-kzfi": {
+  "abstract" : [
+    {
+      "text" : "Efficiently fills a collection of paths, avoiding unnecessary work if there are duplicates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "fill"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "faces"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
+      "text" : "Faces"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "material"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-kzfi",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "fill(_:faces:material:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-kzfi"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersection(_:isCancelled:)-swift.method": {
   "abstract" : [

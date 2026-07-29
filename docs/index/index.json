@@ -274,18 +274,13 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:faces:material:iscancelled:)",
-                "title" : "static func extrude(Path, along: Path, twist: Angle, align: Alignment, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-901ij",
+                "title" : "static func extrude(Path, depth: Double, twist: Angle, sections: Int?, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-3vvj9",
-                "title" : "static func extrude(Path, depth: Double, twist: Angle, sections: Int, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-ul3q",
-                "title" : "static func extrude(some Collection<Path>, depth: Double, twist: Angle, sections: Int, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-4zpja",
+                "title" : "static func extrude(some Collection<Path>, depth: Double, twist: Angle, sections: Int?, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -294,8 +289,8 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-14bcr",
-                "title" : "static func fill([Path], faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-kzfi",
+                "title" : "static func fill(some Collection<Path>, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -911,6 +906,16 @@
               {
                 "title" : "Type Methods",
                 "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:faces:material:iscancelled:)-2gj6k",
+                "title" : "static func extrude(Path, along: Path, twist: Angle, align: Alignment, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:faces:material:iscancelled:)-3rc57",
+                "title" : "static func extrude(some Collection<Path>, along: Path, twist: Angle, align: Alignment, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/icosphere(radius:subdivisions:faces:wrapmode:material:iscancelled:)",
@@ -7725,10 +7730,45 @@
                     "path" : "\/documentation\/euclid\/swift\/collection\/cancellationhandler",
                     "title" : "Collection.CancellationHandler",
                     "type" : "typealias"
+                  },
+                  {
+                    "title" : "Type Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/swift\/collection\/text(_:font:width:detail:)",
+                    "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int) -> Self",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/swift\/collection\/text(_:width:detail:)",
+                    "title" : "static func text(NSAttributedString, width: Double?, detail: Int) -> Self",
+                    "type" : "method"
                   }
                 ],
                 "path" : "\/documentation\/euclid\/swift\/collection",
                 "title" : "Collection",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Type Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:font:width:detail:)",
+                    "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int) -> Self",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:width:detail:)",
+                    "title" : "static func text(NSAttributedString, width: Double?, detail: Int) -> Self",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/swift\/rangereplaceablecollection",
+                "title" : "RangeReplaceableCollection",
                 "type" : "extension"
               },
               {
@@ -7750,20 +7790,6 @@
                     "path" : "\/documentation\/euclid\/swift\/array\/init(_:)-6un53",
                     "title" : "init([Double])",
                     "type" : "init"
-                  },
-                  {
-                    "title" : "Type Methods",
-                    "type" : "groupMarker"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/swift\/array\/text(_:font:width:detail:)",
-                    "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int) -> [Path]",
-                    "type" : "method"
-                  },
-                  {
-                    "path" : "\/documentation\/euclid\/swift\/array\/text(_:width:detail:)",
-                    "title" : "static func text(NSAttributedString, width: Double?, detail: Int) -> [Path]",
-                    "type" : "method"
                   },
                   {
                     "title" : "Default Implementations",

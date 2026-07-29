@@ -36,7 +36,8 @@
       "anchor" : "Extended-Protocols",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection"
       ],
       "title" : "Extended Protocols"
     },
@@ -365,6 +366,51 @@
   "title" : "Range",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/swift\/range"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/RangeReplaceableCollection": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "s:Sm",
+      "text" : "RangeReplaceableCollection"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "RangeReplaceableCollection"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "RangeReplaceableCollection",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/swift\/rangereplaceablecollection"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/SIMD2": {
   "abstract" : [

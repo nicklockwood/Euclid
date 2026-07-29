@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates an array of glyph contours from an attributed string.",
+      "text" : "Creates an array of glyph contours from a string and font you provide.",
       "type" : "text"
     }
   ],
@@ -10,13 +10,13 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Array"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Array\/text(_:width:detail:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:font:width:detail:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -35,7 +35,7 @@
       ],
       "constraints" : [
         {
-          "code" : "Element",
+          "code" : "Self",
           "type" : "codeVoice"
         },
         {
@@ -43,7 +43,7 @@
           "type" : "text"
         },
         {
-          "code" : "Path",
+          "code" : "[Path]",
           "type" : "codeVoice"
         },
         {
@@ -53,7 +53,7 @@
       ]
     },
     "extendedModule" : "Swift",
-    "externalID" : "s:Sa6EuclidAA4PathVRszlE4text_5width6detailSayACGSo18NSAttributedStringC_SdSgSitFZ",
+    "externalID" : "s:Sl6EuclidSayAA4PathVGRszrlE4text_4font5width6detailADSS_So9CTFontRefaSgSdSgSitFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -81,12 +81,29 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "c:objc(cs)NSAttributedString",
-        "text" : "NSAttributedString"
+        "preciseIdentifier" : "s:SS",
+        "text" : "String"
       },
       {
         "kind" : "text",
         "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "font"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "c:@T@CTFontRef",
+        "text" : "CTFont"
+      },
+      {
+        "kind" : "text",
+        "text" : "?, "
       },
       {
         "kind" : "externalParam",
@@ -120,16 +137,11 @@
       },
       {
         "kind" : "text",
-        "text" : ") -> ["
+        "text" : ") -> "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4PathV",
-        "text" : "Path"
-      },
-      {
-        "kind" : "text",
-        "text" : "]"
+        "text" : "Self"
       }
     ],
     "modules" : [
@@ -143,7 +155,7 @@
     "role" : "symbol",
     "roleHeading" : "Type Method",
     "symbolKind" : "method",
-    "title" : "text(_:width:detail:)"
+    "title" : "text(_:font:width:detail:)"
   },
   "primaryContentSections" : [
     {
@@ -198,12 +210,29 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "c:objc(cs)NSAttributedString",
-              "text" : "NSAttributedString"
+              "preciseIdentifier" : "s:SS",
+              "text" : "String"
             },
             {
               "kind" : "text",
               "text" : ", "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "font"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "c:@T@CTFontRef",
+              "text" : "CTFont"
+            },
+            {
+              "kind" : "text",
+              "text" : "? = nil, "
             },
             {
               "kind" : "externalParam",
@@ -237,17 +266,11 @@
             },
             {
               "kind" : "text",
-              "text" : " = 2) -> ["
+              "text" : " = 2) -> "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4PathV",
-              "text" : "Path"
-            },
-            {
-              "kind" : "text",
-              "text" : "]"
+              "text" : "Self"
             }
           ]
         }
@@ -270,6 +293,20 @@
             }
           ],
           "name" : "text"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The font to use for the text.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "font"
         },
         {
           "content" : [
@@ -313,7 +350,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/swift\/array\/text(_:width:detail:)"
+        "\/documentation\/euclid\/swift\/collection\/text(_:font:width:detail:)"
       ],
       "traits" : [
         {
@@ -338,40 +375,6 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
-  "abstract" : [
-    {
-      "text" : "A path made up of a sequence of straight line segments between points.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Path"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Path",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path"
-},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift": {
   "abstract" : [
 
@@ -383,7 +386,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/swift"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Array": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection": {
   "abstract" : [
 
   ],
@@ -398,27 +401,40 @@
     },
     {
       "kind" : "identifier",
-      "preciseIdentifier" : "s:Sa",
-      "text" : "Array"
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Array",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Array"
+      "text" : "Collection"
     }
   ],
   "role" : "symbol",
-  "title" : "Array",
+  "title" : "Collection",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/array"
+  "url" : "\/documentation\/euclid\/swift\/collection"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Array/text(_:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection/text(_:font:width:detail:)": {
   "abstract" : [
     {
-      "text" : "Creates an array of glyph contours from an attributed string.",
+      "text" : "Creates an array of glyph contours from a string and font you provide.",
       "type" : "text"
     }
   ],
@@ -437,7 +453,7 @@
     ],
     "constraints" : [
       {
-        "code" : "Element",
+        "code" : "Self",
         "type" : "codeVoice"
       },
       {
@@ -445,7 +461,7 @@
         "type" : "text"
       },
       {
-        "code" : "Path",
+        "code" : "[Path]",
         "type" : "codeVoice"
       },
       {
@@ -481,12 +497,29 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)NSAttributedString",
-      "text" : "NSAttributedString"
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
     },
     {
       "kind" : "text",
       "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "font"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@T@CTFontRef",
+      "text" : "CTFont"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
     },
     {
       "kind" : "externalParam",
@@ -520,24 +553,19 @@
     },
     {
       "kind" : "text",
-      "text" : ") -> ["
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : "]"
+      "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Array\/text(_:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:font:width:detail:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:width:detail:)",
+  "title" : "text(_:font:width:detail:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/array\/text(_:width:detail:)"
+  "url" : "\/documentation\/euclid\/swift\/collection\/text(_:font:width:detail:)"
 }
 }
 }

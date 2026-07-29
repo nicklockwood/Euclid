@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates an array of glyph contours from a string and font you provide.",
+      "text" : "Creates a collection of glyph contours from a string and font you provide.",
       "type" : "text"
     }
   ],
@@ -10,13 +10,13 @@
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Array"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Array\/text(_:font:width:detail:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:font:width:detail:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -53,7 +53,7 @@
       ]
     },
     "extendedModule" : "Swift",
-    "externalID" : "s:Sa6EuclidAA4PathVRszlE4text_4font5width6detailSayACGSS_So9CTFontRefaSgSdSgSitFZ",
+    "externalID" : "s:Sm6EuclidAA4PathV7ElementRtzrlE4text_4font5width6detailxSS_So9CTFontRefaSgSdSgSitFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -137,16 +137,11 @@
       },
       {
         "kind" : "text",
-        "text" : ") -> ["
+        "text" : ") -> "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4PathV",
-        "text" : "Path"
-      },
-      {
-        "kind" : "text",
-        "text" : "]"
+        "text" : "Self"
       }
     ],
     "modules" : [
@@ -271,17 +266,11 @@
             },
             {
               "kind" : "text",
-              "text" : " = 2) -> ["
+              "text" : " = 2) -> "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4PathV",
-              "text" : "Path"
-            },
-            {
-              "kind" : "text",
-              "text" : "]"
+              "text" : "Self"
             }
           ]
         }
@@ -361,7 +350,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/swift\/array\/text(_:font:width:detail:)"
+        "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:font:width:detail:)"
       ],
       "traits" : [
         {
@@ -386,40 +375,6 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
-  "abstract" : [
-    {
-      "text" : "A path made up of a sequence of straight line segments between points.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Path"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Path",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path"
-},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift": {
   "abstract" : [
 
@@ -431,7 +386,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/swift"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Array": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/RangeReplaceableCollection": {
   "abstract" : [
 
   ],
@@ -446,27 +401,40 @@
     },
     {
       "kind" : "identifier",
-      "preciseIdentifier" : "s:Sa",
-      "text" : "Array"
+      "preciseIdentifier" : "s:Sm",
+      "text" : "RangeReplaceableCollection"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ">"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Array",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Array"
+      "text" : "RangeReplaceableCollection"
     }
   ],
   "role" : "symbol",
-  "title" : "Array",
+  "title" : "RangeReplaceableCollection",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/array"
+  "url" : "\/documentation\/euclid\/swift\/rangereplaceablecollection"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Array/text(_:font:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/RangeReplaceableCollection/text(_:font:width:detail:)": {
   "abstract" : [
     {
-      "text" : "Creates an array of glyph contours from a string and font you provide.",
+      "text" : "Creates a collection of glyph contours from a string and font you provide.",
       "type" : "text"
     }
   ],
@@ -585,24 +553,19 @@
     },
     {
       "kind" : "text",
-      "text" : ") -> ["
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : "]"
+      "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Array\/text(_:font:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:font:width:detail:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "text(_:font:width:detail:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/array\/text(_:font:width:detail:)"
+  "url" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:font:width:detail:)"
 }
 }
 }

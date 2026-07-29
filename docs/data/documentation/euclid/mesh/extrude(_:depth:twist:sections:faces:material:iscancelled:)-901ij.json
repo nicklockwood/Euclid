@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.",
+      "text" : "Creates a mesh by extruding a path along its face normal.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-14bcr"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-901ij"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV4fill_5faces8material11isCancelledACSayAA4PathVG_AC5FacesOs11AnyHashableVSgSbyYbXEtFZ",
+    "externalID" : "s:6Euclid4MeshV7extrude_5depth5twist8sections5faces8material11isCancelledAcA4PathV_SdAA5AngleVSiSgAC5FacesOs11AnyHashableVSgSbyYbXEtFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -40,11 +40,11 @@
       },
       {
         "kind" : "identifier",
-        "text" : "fill"
+        "text" : "extrude"
       },
       {
         "kind" : "text",
-        "text" : "(["
+        "text" : "("
       },
       {
         "kind" : "typeIdentifier",
@@ -53,7 +53,58 @@
       },
       {
         "kind" : "text",
-        "text" : "], "
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "depth"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:Sd",
+        "text" : "Double"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "twist"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid5AngleV",
+        "text" : "Angle"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "sections"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:Si",
+        "text" : "Int"
+      },
+      {
+        "kind" : "text",
+        "text" : "?, "
       },
       {
         "kind" : "externalParam",
@@ -120,7 +171,7 @@
     "role" : "symbol",
     "roleHeading" : "Type Method",
     "symbolKind" : "method",
-    "title" : "fill(_:faces:material:isCancelled:)"
+    "title" : "extrude(_:depth:twist:sections:faces:material:isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -151,7 +202,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "fill"
+              "text" : "extrude"
             },
             {
               "kind" : "text",
@@ -167,11 +218,11 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "shapes"
+              "text" : "shape"
             },
             {
               "kind" : "text",
-              "text" : ": ["
+              "text" : ": "
             },
             {
               "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
@@ -181,7 +232,59 @@
             },
             {
               "kind" : "text",
-              "text" : "], "
+              "text" : ", "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "depth"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Sd",
+              "text" : "Double"
+            },
+            {
+              "kind" : "text",
+              "text" : " = 1, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "twist"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid5AngleV",
+              "text" : "Angle"
+            },
+            {
+              "kind" : "text",
+              "text" : " = .zero, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "sections"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Si",
+              "text" : "Int"
+            },
+            {
+              "kind" : "text",
+              "text" : "? = nil, "
             },
             {
               "kind" : "externalParam",
@@ -256,21 +359,63 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The array of paths to be filled.",
+                  "text" : "The path to extrude in order to create the mesh.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "shapes"
+          "name" : "shape"
         },
         {
           "content" : [
             {
               "inlineContent" : [
                 {
-                  "text" : "The direction the polygon faces.",
+                  "text" : "The depth of the extrusion.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "depth"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Angular twist to apply along the extrusion.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "twist"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Number of sections to create along extrusion.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "sections"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The direction of the generated polygon faces.",
                   "type" : "text"
                 }
               ],
@@ -308,12 +453,6 @@
           "name" : "isCancelled"
         }
       ]
-    },
-    {
-      "kind" : "mentions",
-      "mentions" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes"
-      ]
     }
   ],
   "schemaVersion" : {
@@ -331,10 +470,9 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:isCancelled:)-9lt31",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-3vvj9",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-ul3q",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-4zpja",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-5z4d6",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-kzfi",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/loft(_:faces:material:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-6vzw0",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-3vczb",
@@ -346,7 +484,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-14bcr"
+        "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-901ij"
       ],
       "traits" : [
         {
@@ -371,19 +509,39 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/ConstructingMeshes": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle": {
   "abstract" : [
     {
-      "text" : "Define 3D objects by constructing meshes.",
+      "text" : "An angle or 2D rotation.",
       "type" : "text"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes",
-  "kind" : "article",
-  "role" : "article",
-  "title" : "Constructing Meshes",
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Angle"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Angle"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Angle",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/constructingmeshes"
+  "url" : "\/documentation\/euclid\/angle"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [
@@ -651,322 +809,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/convexhull(of:material:iscancelled:)-9lt31"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-4zpja": {
   "abstract" : [
     {
-      "text" : "Creates a mesh by extruding one path along another path.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "extrude"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "along"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "twist"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5AngleV",
-      "text" : "Angle"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "align"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV9Alignmenta",
-      "text" : "Alignment"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
-      "text" : "Faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:faces:material:isCancelled:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "extrude(_:along:twist:align:faces:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:faces:material:iscancelled:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-3vvj9": {
-  "abstract" : [
-    {
-      "text" : "Creates a mesh by extruding a path along its face normal.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "extrude"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "depth"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "twist"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5AngleV",
-      "text" : "Angle"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "sections"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
-      "text" : "Faces"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "material"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
-      "text" : "Material"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-3vvj9",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "extrude(_:depth:twist:sections:faces:material:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-3vvj9"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-ul3q": {
-  "abstract" : [
-    {
-      "text" : "Efficiently extrudes an array of paths along their respective face normals, avoiding duplicate work.",
+      "text" : "Efficiently extrudes a collection of paths along their respective face normals, avoiding duplicate work.",
       "type" : "text"
     }
   ],
@@ -1070,7 +916,7 @@
     },
     {
       "kind" : "text",
-      "text" : ", "
+      "text" : "?, "
     },
     {
       "kind" : "externalParam",
@@ -1129,17 +975,17 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-ul3q",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-4zpja",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "extrude(_:depth:twist:sections:faces:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-ul3q"
+  "url" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-4zpja"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)-14bcr": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-901ij": {
   "abstract" : [
     {
-      "text" : "Efficiently fills an array of paths, avoiding unnecessary work if there are duplicates.",
+      "text" : "Creates a mesh by extruding a path along its face normal.",
       "type" : "text"
     }
   ],
@@ -1162,11 +1008,11 @@
     },
     {
       "kind" : "identifier",
-      "text" : "fill"
+      "text" : "extrude"
     },
     {
       "kind" : "text",
-      "text" : "(["
+      "text" : "("
     },
     {
       "kind" : "typeIdentifier",
@@ -1175,7 +1021,58 @@
     },
     {
       "kind" : "text",
-      "text" : "], "
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "depth"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "twist"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "sections"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
     },
     {
       "kind" : "externalParam",
@@ -1234,12 +1131,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-14bcr",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-901ij",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "fill(_:faces:material:isCancelled:)",
+  "title" : "extrude(_:depth:twist:sections:faces:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-14bcr"
+  "url" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-901ij"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)-5z4d6": {
   "abstract" : [
@@ -1345,6 +1242,128 @@
   "title" : "fill(_:faces:material:isCancelled:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-5z4d6"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)-kzfi": {
+  "abstract" : [
+    {
+      "text" : "Efficiently fills a collection of paths, avoiding unnecessary work if there are duplicates.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "fill"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "faces"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
+      "text" : "Faces"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "material"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-kzfi",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "fill(_:faces:material:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/fill(_:faces:material:iscancelled:)-kzfi"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)": {
   "abstract" : [
@@ -1766,7 +1785,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:detail:material:isCancelled:)-3vczb": {
   "abstract" : [
     {
-      "text" : "Efficiently strokes an array of paths, avoiding duplicate work.",
+      "text" : "Efficiently strokes a collection of paths, avoiding duplicate work.",
       "type" : "text"
     }
   ],

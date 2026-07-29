@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.8.20](https://github.com/nicklockwood/Euclid/releases/tag/0.8.20) (2026-07-29)
+
+- Further improved `Path.inset()` and `Mesh.inset()` functionality
+- Inset now works more intuitively for planar meshes
+- Added a convenience method for extruding an array of paths
+- Extrude section count is now automatically computed from twist value
+- Fixed text paths sometimes being generated with inverted planes
+- Fixed assertion failures due to bad normalization assumptions
+- Icosphere primitive is now reliably watertight
+- Improved triangulation reliability
+
 ## [0.8.19](https://github.com/nicklockwood/Euclid/releases/tag/0.8.19) (2026-07-23)
 
 - Improved polygon detessellation and merge heuristics to produce cleaner output
