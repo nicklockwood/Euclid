@@ -710,7 +710,7 @@ public extension Mesh {
             )
         }
         let material = SendableMaterial(material)
-        return .union(build(shapes, using: {
+        return .union(build(shapes, normalizePositions: false, using: {
             extrude(
                 $0,
                 along: along,
