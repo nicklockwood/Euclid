@@ -463,6 +463,21 @@ final class MeshExtrudeTests: XCTestCase {
         XCTAssertTrue(mesh.vertexNormalsFaceOutward)
     }
 
+    func testExtrudeAlongAcuteMiterLimitedPathDoesNotInvertGeometry() {
+        let shape = Path.square()
+        let along = Path([
+            .point(0, 0, 0),
+            .point(1, 0, 0),
+            .point(0.5, 0, 1),
+        ])
+        let mesh = Mesh.extrude(shape, along: along, miterLimit: 1)
+
+        XCTAssertFalse(mesh.isEmpty)
+        XCTAssertTrue(mesh.makeWatertight().isWatertight)
+        XCTAssertTrue(mesh.isConsistentlyWound)
+        XCTAssertTrue(mesh.vertexNormalsFaceOutward)
+    }
+
     func testExtrudeNestedCompoundPathAlongCurvedPath() {
         func rectangle(
             _ x: Double,

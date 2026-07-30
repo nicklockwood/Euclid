@@ -485,7 +485,11 @@ public extension Path {
             return (length, ab.direction)
         }
 
-        func transformedShape(for p: PathPoint, _ scale: (distance: Double, along: Vector)?) -> Path {
+        func transformedShape(
+            for p: PathPoint,
+            _ scale: (distance: Double, along: Vector)?,
+            snappingTo snapPoint: Vector? = nil
+        ) -> Path {
             var shape = shape
             if let color = p.color {
                 shape = shape.mapColors { ($0 ?? .white) * color }
@@ -494,7 +498,39 @@ public extension Path {
                 shape.stretch(by: distance, along: line)
             }
             shape.translate(by: p.position)
+            if let snapPoint {
+                shape = shape.mapPoints {
+                    $0.position.isApproximatelyEqual(to: snapPoint) ? $0.withPosition(snapPoint) : $0
+                }
+            }
             return shape
+        }
+
+        func projectionRange(of shape: Path, along axis: Vector) -> (min: Double, max: Double) {
+            var result = (min: Double.infinity, max: -Double.infinity)
+            for p in shape.points {
+                let projection = p.position.dot(axis)
+                result.min = min(result.min, projection)
+                result.max = max(result.max, projection)
+            }
+            if result.min == .infinity {
+                return (0, 0)
+            }
+            return result
+        }
+
+        func snapCoincidentPoints(in shapes: [Path]) -> [Path] {
+            var points = [Vector]()
+            func snap(_ position: Vector) -> Vector {
+                if let match = points.first(where: { $0.isApproximatelyEqual(to: position) }) {
+                    return match
+                }
+                points.append(position)
+                return position
+            }
+            return shapes.map { shape in
+                shape.mapPoints { $0.withPosition(snap($0.position)) }
+            }
         }
 
         func twistShape(_ distance: Double) {
@@ -516,14 +552,64 @@ public extension Path {
             }
             var (axis, angle) = axisAndAngleBetweenNormalizedVectors(n1, n2)
             if (1 / cos(angle / 2)) > miterLimit {
-                let incoming = transformedShape(for: p1, nil)
+                let bevelAngle = angle / 3
+                let stretchDistance = 1 / cos(bevelAngle)
+                let useInnerCornerIntersection = angle > .halfPi + .radians(epsilon)
+                let innerCorner: Vector?
+                if useInnerCornerIntersection {
+                    let incomingSideAxis = n1.rotated(by: Rotation(unchecked: axis, angle: -.halfPi))
+                    let incomingSideRange = projectionRange(of: shape, along: incomingSideAxis)
+                    let outgoingSideAxis = n1.rotated(by: Rotation(unchecked: axis, angle: angle - .halfPi))
+                    let outgoingShape = shape.rotated(by: Rotation(unchecked: axis, angle: angle))
+                    let outgoingSideRange = projectionRange(of: outgoingShape, along: outgoingSideAxis)
+                    innerCorner = Line(
+                        origin: p1.position + incomingSideAxis * incomingSideRange.min,
+                        direction: n1
+                    ).flatMap { incomingLine in
+                        Line(
+                            origin: p1.position + outgoingSideAxis * outgoingSideRange.min,
+                            direction: n2
+                        ).flatMap { incomingLine.intersection(with: $0) }
+                    }
+                } else {
+                    innerCorner = nil
+                }
+                rotateShape(by: Rotation(unchecked: axis, angle: bevelAngle))
+                let incomingAxis = n1.rotated(by: Rotation(unchecked: axis, angle: bevelAngle - .halfPi))
+                let incomingRange = projectionRange(of: shape, along: incomingAxis)
+                let incomingAdvance = innerCorner.map {
+                    let incomingSupport = incomingRange.min * stretchDistance
+                    return (
+                        p1.position.dot(incomingAxis) + incomingSupport - $0.dot(incomingAxis)
+                    ) / n1.dot(incomingAxis)
+                } ?? incomingRange.max * (1 - tan(bevelAngle))
+                let incoming = transformedShape(
+                    for: p1.withPosition(p1.position - n1 * incomingAdvance),
+                    (stretchDistance, incomingAxis),
+                    snappingTo: innerCorner
+                )
                 shapeToPointIndex.append(index - 1)
-                rotateShape(by: Rotation(unchecked: axis, angle: angle))
+                rotateShape(by: Rotation(unchecked: axis, angle: bevelAngle))
                 guard !firstOnly else {
+                    rotateShape(by: Rotation(unchecked: axis, angle: bevelAngle))
                     return [incoming]
                 }
+                let outgoingAxis = n1.rotated(by: Rotation(unchecked: axis, angle: bevelAngle * 2 - .halfPi))
+                let outgoingRange = projectionRange(of: shape, along: outgoingAxis)
+                let outgoingAdvance = innerCorner.map {
+                    let outgoingSupport = outgoingRange.min * stretchDistance
+                    return (
+                        $0.dot(outgoingAxis) - p1.position.dot(outgoingAxis) - outgoingSupport
+                    ) / n2.dot(outgoingAxis)
+                } ?? outgoingRange.max * (1 - tan(bevelAngle))
+                let outgoing = transformedShape(
+                    for: p1.withPosition(p1.position + n2 * outgoingAdvance),
+                    (stretchDistance, outgoingAxis),
+                    snappingTo: innerCorner
+                )
                 shapeToPointIndex.append(index - 1)
-                return [incoming, transformedShape(for: p1, nil)]
+                rotateShape(by: Rotation(unchecked: axis, angle: bevelAngle))
+                return [incoming, outgoing]
             }
             angle /= 2
             let r = Rotation(unchecked: axis, angle: angle)
@@ -629,6 +715,6 @@ public extension Path {
         if shouldDoubleClosingShape {
             shapes.append(shapes[shapes.count - 1])
         }
-        return shapes
+        return along.isClosed ? snapCoincidentPoints(in: shapes) : shapes
     }
 }

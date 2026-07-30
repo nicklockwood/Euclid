@@ -432,10 +432,14 @@ final class PathShapeTests: XCTestCase {
         ]), miterLimit: 1)
 
         XCTAssertEqual(contours.count, 6)
-        XCTAssertTrue(contours[1].faceNormal.isApproximatelyEqual(to: .unitX))
-        XCTAssertTrue(contours[2].faceNormal.isApproximatelyEqual(to: .unitX))
-        XCTAssertTrue(contours[3].faceNormal.isApproximatelyEqual(to: .unitY))
-        XCTAssertTrue(contours[4].faceNormal.isApproximatelyEqual(to: .unitY))
+        XCTAssertTrue(contours[1].faceNormal.isApproximatelyEqual(to: [sqrt(0.75), 0.5, 0]))
+        XCTAssertTrue(contours[2].faceNormal.isApproximatelyEqual(to: [sqrt(0.75), 0.5, 0]))
+        XCTAssertTrue(contours[3].faceNormal.isApproximatelyEqual(to: [0.5, sqrt(0.75), 0]))
+        XCTAssertTrue(contours[4].faceNormal.isApproximatelyEqual(to: [0.5, sqrt(0.75), 0]))
+        XCTAssertNotEqual(contours[1].bounds.center, [1, 0, 0])
+        XCTAssertNotEqual(contours[3].bounds.center, [1, 0, 0])
+        XCTAssertEqual(contours[1].bounds.center.y, 0)
+        XCTAssertEqual(contours[3].bounds.center.x, 1)
     }
 
     func testClosedExtrusionWithMiteredCornersDoublesClosingContour() {
@@ -447,6 +451,38 @@ final class PathShapeTests: XCTestCase {
         XCTAssertTrue(contours[4].isApproximatelyEqual(to: contours[5]))
         XCTAssertTrue(contours[6].isApproximatelyEqual(to: contours[7]))
         XCTAssertTrue(contours[8].isApproximatelyEqual(to: contours[9]))
+    }
+
+    func testSquareExtrusionWithMiterLimitedCornersPreservesBounds() {
+        let shape = Path.square()
+        let along = Path.square(size: 2)
+        let miterLimited = Bounds(shape.extrusionContours(along: along, miterLimit: 1))
+        let mitered = Bounds(shape.extrusionContours(along: along, miterLimit: 2))
+
+        XCTAssertTrue(miterLimited.isApproximatelyEqual(to: mitered))
+        XCTAssertTrue(miterLimited.isApproximatelyEqual(to: Bounds([-1.5, -1.5, -0.5], [1.5, 1.5, 0.5])))
+    }
+
+    func testSquareExtrusionWithMiterLimitedCornersPreservesInnerHole() {
+        let contours = Path.square().extrusionContours(along: .square(size: 2), miterLimit: 1)
+        let innerPoints = contours.flatMap(\.points).map(\.position).filter {
+            abs($0.x) <= 0.5 + epsilon && abs($0.y) <= 0.5 + epsilon
+        }
+
+        XCTAssertTrue(Bounds(innerPoints).isApproximatelyEqual(to: Bounds([-0.5, -0.5, -0.5], [0.5, 0.5, 0.5])))
+    }
+
+    func testAcuteExtrusionWithMiterLimitedCornerBevelContoursTouchAtInnerCorner() {
+        let contours = Path.square().extrusionContours(along: Path([
+            .point(0, 0, 0),
+            .point(1, 0, 0),
+            .point(0.5, 0, 1),
+        ]), miterLimit: 1)
+        let sharedPoints = contours[1].points.filter { p0 in
+            contours[3].points.contains { $0.position.isApproximatelyEqual(to: p0.position) }
+        }
+
+        XCTAssertEqual(Set(sharedPoints.map(\.position)).count, 2)
     }
 
     func testExtrusionWithDuplicateInitialPoint() {
