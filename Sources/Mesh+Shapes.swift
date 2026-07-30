@@ -615,6 +615,7 @@ public extension Mesh {
     ///   - along: The path along which to extrude the shape.
     ///   - twist: Angular twist to apply along the extrusion.
     ///   - align: The alignment mode to use for the extruded shape.
+    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
@@ -623,6 +624,7 @@ public extension Mesh {
         along: Path,
         twist: Angle = .zero,
         align: Alignment = .default,
+        miterLimit: Double = .infinity,
         faces: Faces = .default,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
@@ -636,6 +638,7 @@ public extension Mesh {
                     along: $0,
                     twist: twist,
                     align: align,
+                    miterLimit: miterLimit,
                     faces: faces,
                     material: material.value,
                     isCancelled: isCancelled
@@ -643,11 +646,13 @@ public extension Mesh {
             }, isCancelled: isCancelled))
         }
         if shape.meshableNonZeroFillBoundary != nil {
-            return loft(shape.extrusionContours(
+            let contours = shape.extrusionContours(
                 along: along,
                 twist: twist,
-                align: align
-            ), faces: faces, material: material, isCancelled: isCancelled)
+                align: align,
+                miterLimit: miterLimit
+            )
+            return loft(contours, faces: faces, material: material, isCancelled: isCancelled)
         } else if shape.shouldExtrudeSubpathsWithEvenOddComposition {
             let material = SendableMaterial(material)
             let meshes = batch(shape.subpaths, stride: 1) {
@@ -657,6 +662,7 @@ public extension Mesh {
                         along: along,
                         twist: twist,
                         align: align,
+                        miterLimit: miterLimit,
                         faces: faces,
                         material: material.value,
                         isCancelled: isCancelled
@@ -674,7 +680,8 @@ public extension Mesh {
                         shape.extrusionContours(
                             along: along,
                             twist: twist,
-                            align: align
+                            align: align,
+                            miterLimit: miterLimit
                         ),
                         faces: faces,
                         material: material.value,
@@ -684,11 +691,13 @@ public extension Mesh {
             }
             return .merge(meshes)
         }
-        return loft(shape.extrusionContours(
+        let contours = shape.extrusionContours(
             along: along,
             twist: twist,
-            align: align
-        ), faces: faces, material: material)
+            align: align,
+            miterLimit: miterLimit
+        )
+        return loft(contours, faces: faces, material: material)
     }
 
     /// Efficiently extrudes a collection of paths along another path, avoiding duplicate work.
@@ -697,6 +706,7 @@ public extension Mesh {
     ///   - along: The path along which to extrude the shape.
     ///   - twist: Angular twist to apply along the extrusion.
     ///   - align: The alignment mode to use for the extruded shape.
+    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
@@ -705,6 +715,7 @@ public extension Mesh {
         along: Path,
         twist: Angle = .zero,
         align: Alignment = .default,
+        miterLimit: Double = .infinity,
         faces: Faces = .default,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
@@ -715,6 +726,7 @@ public extension Mesh {
                 along: along,
                 twist: twist,
                 align: align,
+                miterLimit: miterLimit,
                 faces: faces,
                 material: material,
                 isCancelled: isCancelled
@@ -727,6 +739,7 @@ public extension Mesh {
                 along: along,
                 twist: twist,
                 align: align,
+                miterLimit: miterLimit,
                 faces: faces,
                 material: material.value,
                 isCancelled: isCancelled
@@ -826,12 +839,14 @@ public extension Mesh {
     /// - Parameters:
     ///   - shape: The path to stroke.
     ///   - width: The line width of the stroke.
+    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
     ///   - detail: The number of sides to use for the cross-sectional shape of the stroked mesh.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
     static func stroke(
         _ shape: Path,
         width: Double = 0.01,
+        miterLimit: Double = 2,
         detail: Int = 2,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
@@ -844,11 +859,11 @@ public extension Mesh {
         case let sides:
             path = .circle(radius: radius, segments: sides)
         }
-        let faces: Faces = detail == 2 ? .frontAndBack : .front
         return extrude(
             path,
             along: shape,
-            faces: faces,
+            miterLimit: miterLimit,
+            faces: detail == 2 ? .frontAndBack : .front,
             material: material,
             isCancelled: isCancelled
         )
@@ -858,12 +873,14 @@ public extension Mesh {
     /// - Parameters:
     ///   - shapes: The paths to stroke.
     ///   - width: The line width of the stroke.
+    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
     ///   - detail: The number of sides to use for the cross-sectional shape of each stroked mesh.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
     static func stroke(
         _ shapes: some Collection<Path>,
         width: Double = 0.01,
+        miterLimit: Double = 2,
         detail: Int = 2,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
@@ -873,6 +890,7 @@ public extension Mesh {
             stroke(
                 $0,
                 width: width,
+                miterLimit: miterLimit,
                 detail: detail,
                 material: material.value,
                 isCancelled: isCancelled

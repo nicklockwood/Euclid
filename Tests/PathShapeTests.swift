@@ -412,6 +412,43 @@ final class PathShapeTests: XCTestCase {
         XCTAssertEqual(contours, [.circle()])
     }
 
+    func testExtrusionWithMiteredCornerUsesBisectingContour() {
+        let contours = Path.square().extrusionContours(along: Path([
+            .point(0, 0, 0),
+            .point(1, 0, 0),
+            .point(1, 1, 0),
+        ]), miterLimit: .infinity)
+
+        XCTAssertEqual(contours.count, 4)
+        XCTAssertTrue(contours[1].faceNormal.isApproximatelyEqual(to: [sqrt(0.5), sqrt(0.5), 0]))
+        XCTAssertTrue(contours[2].faceNormal.isApproximatelyEqual(to: [sqrt(0.5), sqrt(0.5), 0]))
+    }
+
+    func testExtrusionWithMiterLimitedCornerUsesBevelContours() {
+        let contours = Path.square().extrusionContours(along: Path([
+            .point(0, 0, 0),
+            .point(1, 0, 0),
+            .point(1, 1, 0),
+        ]), miterLimit: 1)
+
+        XCTAssertEqual(contours.count, 6)
+        XCTAssertTrue(contours[1].faceNormal.isApproximatelyEqual(to: .unitX))
+        XCTAssertTrue(contours[2].faceNormal.isApproximatelyEqual(to: .unitX))
+        XCTAssertTrue(contours[3].faceNormal.isApproximatelyEqual(to: .unitY))
+        XCTAssertTrue(contours[4].faceNormal.isApproximatelyEqual(to: .unitY))
+    }
+
+    func testClosedExtrusionWithMiteredCornersDoublesClosingContour() {
+        let contours = Path.square().extrusionContours(along: .square(size: 4), miterLimit: 2)
+
+        XCTAssertEqual(contours.count, 10)
+        XCTAssertTrue(contours[0].isApproximatelyEqual(to: contours[1]))
+        XCTAssertTrue(contours[2].isApproximatelyEqual(to: contours[3]))
+        XCTAssertTrue(contours[4].isApproximatelyEqual(to: contours[5]))
+        XCTAssertTrue(contours[6].isApproximatelyEqual(to: contours[7]))
+        XCTAssertTrue(contours[8].isApproximatelyEqual(to: contours[9]))
+    }
+
     func testExtrusionWithDuplicateInitialPoint() {
         let contours = Path.square().extrusionContours(along: Path([
             .point(0, 0, 0),

@@ -407,10 +407,12 @@ public extension Path {
     ///   - along: The path along which to extrude the shape.
     ///   - twist: Angular twist to apply along the extrusion.
     ///   - align: The alignment mode to use for the extruded shape.
+    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
     func extrusionContours(
         along: Path,
         twist: Angle = .zero,
-        align: Alignment = .default
+        align: Alignment = .default,
+        miterLimit: Double = .infinity
     ) -> [Path] {
         let points = along.points
         switch points.count {
@@ -500,7 +502,7 @@ public extension Path {
             rotateShape(by: Rotation(unchecked: shapeNormal, angle: angle))
         }
 
-        func transformedShape(for index: Int) -> Path {
+        func transformedShapes(for index: Int, firstOnly: Bool = false) -> [Path] {
             assert(index > 0)
             let p0 = points[index > 1 ? index - 2 : points.count - 2]
             let p1 = points[index - 1]
@@ -509,19 +511,35 @@ public extension Path {
             let (_, n2) = lengthAndDirection(from: p1, to: p2)
             twistShape(length)
             guard let n1, let n2 else {
-                return transformedShape(for: p1, nil)
+                shapeToPointIndex.append(index - 1)
+                return [transformedShape(for: p1, nil)]
             }
-            let r = rotationBetweenNormalizedVectors(n1, n2) / 2
+            var (axis, angle) = axisAndAngleBetweenNormalizedVectors(n1, n2)
+            if (1 / cos(angle / 2)) > miterLimit {
+                let incoming = transformedShape(for: p1, nil)
+                shapeToPointIndex.append(index - 1)
+                rotateShape(by: Rotation(unchecked: axis, angle: angle))
+                guard !firstOnly else {
+                    return [incoming]
+                }
+                shapeToPointIndex.append(index - 1)
+                return [incoming, transformedShape(for: p1, nil)]
+            }
+            angle /= 2
+            let r = Rotation(unchecked: axis, angle: angle)
             rotateShape(by: r)
-            let stretchAxis = (n1 + n2).cross(r.axis).normalized()
-            let result = transformedShape(for: p1, (1 / cos(r.angle), stretchAxis))
+            let stretchDistance = 1 / cos(angle)
+            let stretchAxis = n1.rotated(by: Rotation(unchecked: axis, angle: angle - .halfPi))
+            let results = [transformedShape(for: p1, (stretchDistance, stretchAxis))]
+            shapeToPointIndex.append(index - 1)
             rotateShape(by: r)
-            return result
+            return results
         }
 
         // Prepare initial shape
         let length = along.length
         var shapes = [Path]()
+        var shapeToPointIndex: [Int] = []
         do {
             var p0p1 = (points[1].position - points[0].position)
             if align == .axis {
@@ -538,18 +556,20 @@ public extension Path {
 
         if along.isClosed {
             for i in 2 ..< points.count {
-                shapes.append(transformedShape(for: i))
+                shapes += transformedShapes(for: i)
             }
-            shapes.append(transformedShape(for: 1))
-            shapes.append(transformedShape(for: 2))
+            shapes += transformedShapes(for: 1)
+            shapes += transformedShapes(for: 2, firstOnly: true)
         } else {
             shapes.append(transformedShape(for: points[0], nil))
+            shapeToPointIndex.append(points.count - 0)
             for i in 2 ..< points.count {
-                shapes.append(transformedShape(for: i))
+                shapes += transformedShapes(for: i)
             }
             let last2 = points.suffix(2).map(\.position)
             twistShape((last2[1] - last2[0]).length)
             shapes.append(transformedShape(for: points.last!, nil))
+            shapeToPointIndex.append(points.count - 1)
         }
 
         if along.isClosed {
@@ -557,7 +577,7 @@ public extension Path {
             shape = initialShape
             shapeNormal = shape.faceNormal
             twistShape(length)
-            let expected = transformedShape(for: 2)
+            let expected = transformedShapes(for: 2, firstOnly: true)[0]
 
             func rotationBetween(_ a: Path?, _ b: Path, checkSign: Bool = true) -> Rotation {
                 guard let a else { return .identity }
@@ -586,7 +606,7 @@ public extension Path {
                 var distance = 0.0
                 var prev = points[0].position
                 for i in 0 ..< shapes.count - 1 {
-                    let position = points[i].position
+                    let position = points[shapeToPointIndex[i]].position
                     distance += position.distance(from: prev)
                     prev = position
                     var shape = shapes[i]
@@ -602,8 +622,12 @@ public extension Path {
 
         // Double up shapes at sharp corners
         let startIndex = along.isClosed ? 0 : 1
-        for i in (startIndex ..< shapes.count - 1).reversed() where !points[i].isCurved {
+        let shouldDoubleClosingShape = along.isClosed && !points[shapeToPointIndex[shapes.count - 1]].isCurved
+        for i in (startIndex ..< shapes.count - 1).reversed() where !points[shapeToPointIndex[i]].isCurved {
             shapes.insert(shapes[i], at: i)
+        }
+        if shouldDoubleClosingShape {
+            shapes.append(shapes[shapes.count - 1])
         }
         return shapes
     }
