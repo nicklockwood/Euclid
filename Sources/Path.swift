@@ -540,6 +540,70 @@ public extension Path {
         })
         return split ? path.withDetail(detail, forTwist: twist) : path
     }
+
+    /// Returns a copy of the path with over-limit corners split into bevels.
+    /// - Parameters:
+    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
+    ///   - strokeWidth: The stroke width used to calculate bevel point positions.
+    func withMiterLimit(_ miterLimit: Double, forStrokeWidth strokeWidth: Double) -> Path {
+        guard miterLimit.isFinite, strokeWidth > 0 else {
+            return self
+        }
+        switch storage {
+        case let .subpaths(subpaths):
+            return .init(unchecked: .subpaths(subpaths.map {
+                $0.withMiterLimit(miterLimit, forStrokeWidth: strokeWidth)
+            }), plane: plane)
+        case let .points(points):
+            let isClosed = pointsAreClosed(unchecked: points)
+            let count = isClosed ? points.count - 1 : points.count
+            guard count > 2 else {
+                return self
+            }
+            let miterLimit = max(miterLimit, 1)
+            var result = [PathPoint]()
+            result.reserveCapacity(points.count)
+            for i in 0 ..< count {
+                let p1 = points[i]
+                guard isClosed || i > 0 && i < count - 1 else {
+                    result.append(p1)
+                    continue
+                }
+                let p0 = points[i > 0 ? i - 1 : count - 1]
+                let p2 = points[i < count - 1 ? i + 1 : 0]
+                let incoming = (p1.position - p0.position).lengthAndDirection
+                let outgoing = (p2.position - p1.position).lengthAndDirection
+                guard let n1 = incoming.direction, let n2 = outgoing.direction else {
+                    result.append(p1)
+                    continue
+                }
+                let angle = angleBetweenNormalizedVectors(n1, n2)
+                guard (1 / cos(angle / 2)) > miterLimit else {
+                    result.append(p1)
+                    continue
+                }
+                let advance = min(
+                    strokeWidth / 2 * tan(angle / 2),
+                    incoming.length,
+                    outgoing.length
+                ) / 2
+                guard advance > scaleLimit else {
+                    result.append(p1)
+                    continue
+                }
+                let incomingPoint = p0.lerp(p1, 1 - advance / incoming.length)
+                    .curved(p1.isCurved)
+                let outgoingPoint = p1.lerp(p2, advance / outgoing.length)
+                    .curved(p1.isCurved)
+                result.append(incomingPoint)
+                result.append(outgoingPoint)
+            }
+            if isClosed, let first = result.first {
+                result.append(first)
+            }
+            return .init(unchecked: .points(sanitizePoints(result)), plane: plane)
+        }
+    }
 }
 
 struct PathContainmentIndex {

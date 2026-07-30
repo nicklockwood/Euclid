@@ -1093,6 +1093,93 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(b.subpaths.count, 1)
     }
 
+    // MARK: miter limit
+
+    func testWithInfiniteMiterLimitReturnsOriginalPath() {
+        let path = Path([
+            .curve(0, 0),
+            .curve(1, 0),
+            .curve(1, 1),
+        ])
+
+        XCTAssertEqual(path.withMiterLimit(.infinity, forStrokeWidth: 1), path)
+    }
+
+    func testWithMiterLimitSplitsOverLimitCorner() {
+        let path = Path([
+            .curve(0, 0),
+            .curve(1, 0, texcoord: [1, 0], color: .red),
+            .curve(1, 1, texcoord: [1, 1], color: .blue),
+        ])
+        let limited = path.withMiterLimit(1, forStrokeWidth: 1)
+
+        XCTAssertEqual(limited.points.count, 4)
+        XCTAssertEqual(limited.points[0], .curve(0, 0))
+        XCTAssertEqual(limited.points[1].position, [0.75, 0])
+        XCTAssertEqual(limited.points[2].position, [1, 0.25])
+        XCTAssertEqual(limited.points[3].position, [1, 1])
+        XCTAssertTrue(limited.points[1].isCurved)
+        XCTAssertTrue(limited.points[2].isCurved)
+        XCTAssertEqual(limited.points[1].texcoord, [1, 0])
+        XCTAssertEqual(limited.points[2].texcoord, [1, 0.25])
+        XCTAssertEqual(limited.points[1].color, .red)
+        XCTAssertEqual(limited.points[2].color, Color(0.75, 0, 0.25, 1))
+    }
+
+    func testWithMiterLimitUsesStrokeWidthForBevelDistance() {
+        let path = Path([
+            .curve(0, 0),
+            .curve(1, 0),
+            .curve(1, 1),
+        ])
+        let narrow = path.withMiterLimit(1, forStrokeWidth: 0.5)
+        let wide = path.withMiterLimit(1, forStrokeWidth: 1)
+
+        XCTAssertEqual(narrow.points[1].position, [0.875, 0])
+        XCTAssertEqual(narrow.points[2].position, [1, 0.125])
+        XCTAssertEqual(wide.points[1].position, [0.75, 0])
+        XCTAssertEqual(wide.points[2].position, [1, 0.25])
+    }
+
+    func testWithMiterLimitLeavesUnderLimitCornerUnchanged() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1),
+        ])
+
+        XCTAssertEqual(path.withMiterLimit(2, forStrokeWidth: 1), path)
+    }
+
+    func testWithMiterLimitPreservesClosedPath() {
+        let path = Path([
+            .point(-1, -1),
+            .point(1, -1),
+            .point(1, 1),
+            .point(-1, 1),
+            .point(-1, -1),
+        ])
+        let limited = path.withMiterLimit(1, forStrokeWidth: 1)
+
+        XCTAssertTrue(limited.isClosed)
+        XCTAssertEqual(limited.points.count, 9)
+        XCTAssertEqual(limited.points.first, limited.points.last)
+        XCTAssertEqual(limited.points[0].position, [-1, -0.75])
+        XCTAssertEqual(limited.points[1].position, [-0.75, -1])
+    }
+
+    func testWithMiterLimitProcessesSubpaths() {
+        let path = Path(subpaths: [
+            Path([.point(0, 0), .point(1, 0), .point(1, 1)]),
+            Path([.point(2, 0), .point(3, 0), .point(3, 1)]),
+        ])
+        let limited = path.withMiterLimit(1, forStrokeWidth: 0.5)
+
+        XCTAssertEqual(limited.subpaths.count, 2)
+        XCTAssertEqual(limited.subpaths[0].points.count, 4)
+        XCTAssertEqual(limited.subpaths[1].points.count, 4)
+    }
+
     // MARK: flattening
 
     func testFlattenVerticalPath() {
