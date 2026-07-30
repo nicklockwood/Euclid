@@ -485,6 +485,81 @@ final class PathShapeTests: XCTestCase {
         XCTAssertEqual(Set(sharedPoints.map(\.position)).count, 2)
     }
 
+    func testShallowExtrusionWithMiterLimitedCornerKeepsBevelContoursNearCorner() throws {
+        let contours = Path.square(size: 0.2).extrusionContours(along: Path([
+            .point(0, 0, 0),
+            .point(1, 0, 0),
+            .point(2, 0, 0.2),
+        ]), miterLimit: 1)
+
+        XCTAssertEqual(contours.count, 6)
+        XCTAssertLessThan(contours[1].bounds.center.distance(from: [1, 0, 0]), 0.02)
+        XCTAssertLessThan(contours[3].bounds.center.distance(from: [1, 0, 0]), 0.02)
+        let distances = contours[1].points.flatMap { p0 in
+            contours[3].points.map { $0.position.distance(from: p0.position) }
+        }
+        XCTAssertGreaterThan(try XCTUnwrap(distances.min()), 0)
+        XCTAssertLessThan(try XCTUnwrap(distances.min()), 1e-4)
+    }
+
+    func testMiterLimitedCornerDoesNotExtendPastHalfOfShortOutgoingSegment() {
+        let along = Path([
+            .point(0, 0, 0),
+            .point(1, 0, 0),
+            .point(0.8, -0.2, 0),
+        ])
+        let contours = Path.circle().extrusionContours(along: along, miterLimit: 1)
+        let incoming = Vector.unitX
+        let outgoing = (Vector(0.8, -0.2, 0) - Vector(1, 0, 0)).normalized()
+        let incomingAdvance = (Vector(1, 0, 0) - contours[1].bounds.center).dot(incoming)
+        let outgoingAdvance = (contours[3].bounds.center - Vector(1, 0, 0)).dot(outgoing)
+        let halfOutgoingLength = Vector(0.8, -0.2, 0).distance(from: Vector(1, 0, 0)) / 2
+
+        XCTAssertLessThanOrEqual(outgoingAdvance, halfOutgoingLength + epsilon)
+        XCTAssertEqual(incomingAdvance, outgoingAdvance, accuracy: epsilon)
+    }
+
+    func testExtrusionWithMiterLimitFallsBackWhenBevelsWouldOverlap() throws {
+        #if canImport(CoreText)
+        let shape = Path.square(size: 0.1)
+        let along = try XCTUnwrap(Path.text("o").first?.subpaths.first)
+        let sharpAlong = Path(along.points.map { PathPoint($0.position) })
+
+        func isOnRail(_ position: Vector, _ rail: Path) -> Bool {
+            let points = rail.points
+            return points.indices.dropLast().contains { index in
+                LineSegment(unchecked: points[index].position, points[index + 1].position)
+                    .intersects(position)
+            }
+        }
+
+        for rail in [along, sharpAlong] {
+            let contours = shape.extrusionContours(along: rail, miterLimit: 1)
+            XCTAssertTrue(contours.allSatisfy { contour in
+                isOnRail(contour.bounds.center, rail)
+            })
+        }
+        #endif
+    }
+
+    func testSmallTextEExtrusionContoursWithMiterLimitDoNotCollapse() throws {
+        #if canImport(CoreText)
+        for scale in [0.02, 0.01] {
+            let path = try XCTUnwrap(Path.text("e").first).scaled(by: scale)
+            for rail in path.subpaths {
+                let contours = path.extrusionContours(along: rail, miterLimit: 1)
+                let centers = contours.map(\.bounds.center)
+                let badPairs = centers.indices.dropFirst().filter {
+                    centers[$0].isApproximatelyEqual(to: centers[$0 - 1]) &&
+                        !contours[$0].isApproximatelyEqual(to: contours[$0 - 1])
+                }
+
+                XCTAssertTrue(badPairs.isEmpty)
+            }
+        }
+        #endif
+    }
+
     func testExtrusionWithDuplicateInitialPoint() {
         let contours = Path.square().extrusionContours(along: Path([
             .point(0, 0, 0),

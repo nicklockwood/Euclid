@@ -470,12 +470,79 @@ final class MeshExtrudeTests: XCTestCase {
             .point(1, 0, 0),
             .point(0.5, 0, 1),
         ])
+        let mesh = Mesh
+            .extrude(shape, along: along, miterLimit: 1)
+            .makeWatertight()
+
+        XCTAssertFalse(mesh.isEmpty)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.isConsistentlyWound)
+        XCTAssertTrue(mesh.vertexNormalsFaceOutward)
+    }
+
+    func testExtrudeTextOAlongItselfWithMiterLimitDoesNotInvertOuterRing() throws {
+        #if canImport(CoreText)
+        let path = try XCTUnwrap(Path.text("o").first).scaled(by: 0.1)
+        let mesh = Mesh.extrude(path, along: path, miterLimit: 1)
+
+        XCTAssertFalse(mesh.isEmpty)
+        XCTAssertNotEqual(mesh.signedVolume, 0)
+        XCTAssertTrue(mesh.vertexNormalsFaceOutward)
+        XCTAssertTrue(mesh.hasSmoothSideVertexNormals)
+        #endif
+    }
+
+    func testExtrudeTextEAroundTextOWithMiterLimitDoesNotInvertInnerRing() throws {
+        #if canImport(CoreText)
+        let shape = try XCTUnwrap(Path.text("e").first).scaled(by: 0.1)
+        let along = try XCTUnwrap(Path.text("o").first).scaled(by: 0.1)
         let mesh = Mesh.extrude(shape, along: along, miterLimit: 1)
 
         XCTAssertFalse(mesh.isEmpty)
-        XCTAssertTrue(mesh.makeWatertight().isWatertight)
-        XCTAssertTrue(mesh.isConsistentlyWound)
+        XCTAssertNotEqual(mesh.signedVolume, 0)
         XCTAssertTrue(mesh.vertexNormalsFaceOutward)
+        XCTAssertTrue(mesh.hasSmoothSideVertexNormals)
+        #endif
+    }
+
+    func testExtrudeSmallTextEAroundTextEWithMiterLimitPreservesInnerRing() throws {
+        #if canImport(CoreText)
+        for scale in [0.05, 0.02, 0.01] {
+            let path = try XCTUnwrap(Path.text("e").first).scaled(by: scale)
+            let mesh = Mesh.extrude(path, along: path, miterLimit: 1)
+
+            XCTAssertFalse(mesh.isEmpty)
+            XCTAssertNotEqual(mesh.signedVolume, 0)
+            XCTAssertTrue(mesh.vertexNormalsFaceOutward)
+            XCTAssertTrue(mesh.hasSmoothSideVertexNormals)
+        }
+        #endif
+    }
+
+    func testExtrudeAlongCompoundTextPreservesRailLoopWinding() throws {
+        #if canImport(CoreText)
+        func check(shape shapeGlyph: String, along railGlyph: String, scale: Double) throws {
+            let shape = try XCTUnwrap(Path.text(shapeGlyph).first).scaled(by: scale)
+            let along = try XCTUnwrap(Path.text(railGlyph).first).scaled(by: scale)
+            let expected = Mesh.merge(along.subpaths.map { rail in
+                Mesh.extrude(shape, along: rail, miterLimit: 1)
+            })
+
+            let result = Mesh.extrude(shape, along: along, miterLimit: 1)
+            XCTAssertFalse(result.isEmpty)
+            XCTAssertEqual(result.signedVolume, expected.signedVolume, accuracy: 1e-6)
+            for rail in along.subpaths {
+                let railMesh = Mesh.extrude(shape, along: rail, miterLimit: 1)
+                XCTAssertGreaterThan(railMesh.signedVolume, 0)
+                XCTAssertTrue(railMesh.vertexNormalsFaceOutward)
+            }
+        }
+        try check(shape: "o", along: "o", scale: 0.1)
+        try check(shape: "e", along: "o", scale: 0.1)
+        try check(shape: "e", along: "e", scale: 0.05)
+        try check(shape: "e", along: "e", scale: 0.02)
+        try check(shape: "e", along: "e", scale: 0.01)
+        #endif
     }
 
     func testExtrudeNestedCompoundPathAlongCurvedPath() {

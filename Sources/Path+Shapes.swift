@@ -543,83 +543,114 @@ public extension Path {
             let p0 = points[index > 1 ? index - 2 : points.count - 2]
             let p1 = points[index - 1]
             let p2 = points[index]
-            let (length, n1) = lengthAndDirection(from: p0, to: p1)
-            let (_, n2) = lengthAndDirection(from: p1, to: p2)
-            twistShape(length)
+            let (incomingLength, n1) = lengthAndDirection(from: p0, to: p1)
+            let (outgoingLength, n2) = lengthAndDirection(from: p1, to: p2)
+            twistShape(incomingLength)
             guard let n1, let n2 else {
                 shapeToPointIndex.append(index - 1)
                 return [transformedShape(for: p1, nil)]
             }
             var (axis, angle) = axisAndAngleBetweenNormalizedVectors(n1, n2)
+            func miteredShape() -> [Path] {
+                angle /= 2
+                let r = Rotation(unchecked: axis, angle: angle)
+                rotateShape(by: r)
+                let stretchDistance = 1 / cos(angle)
+                let stretchAxis = n1.rotated(by: Rotation(unchecked: axis, angle: angle - .halfPi))
+                let results = [transformedShape(for: p1, (stretchDistance, stretchAxis))]
+                shapeToPointIndex.append(index - 1)
+                rotateShape(by: r)
+                return results
+            }
             if (1 / cos(angle / 2)) > miterLimit {
                 let bevelAngle = angle / 3
                 let stretchDistance = 1 / cos(bevelAngle)
-                let useInnerCornerIntersection = angle > .halfPi + .radians(epsilon)
-                let innerCorner: Vector?
-                if useInnerCornerIntersection {
-                    let incomingSideAxis = n1.rotated(by: Rotation(unchecked: axis, angle: -.halfPi))
-                    let incomingSideRange = projectionRange(of: shape, along: incomingSideAxis)
-                    let outgoingSideAxis = n1.rotated(by: Rotation(unchecked: axis, angle: angle - .halfPi))
-                    let outgoingShape = shape.rotated(by: Rotation(unchecked: axis, angle: angle))
-                    let outgoingSideRange = projectionRange(of: outgoingShape, along: outgoingSideAxis)
-                    innerCorner = Line(
-                        origin: p1.position + incomingSideAxis * incomingSideRange.min,
-                        direction: n1
-                    ).flatMap { incomingLine in
-                        Line(
-                            origin: p1.position + outgoingSideAxis * outgoingSideRange.min,
-                            direction: n2
-                        ).flatMap { incomingLine.intersection(with: $0) }
-                    }
-                } else {
-                    innerCorner = nil
+                let shouldSeparateInnerCorner = angle < .halfPi - .radians(epsilon)
+                let maximumInnerCornerGap = shouldSeparateInnerCorner ?
+                    max(shape.bounds.size.length * 1e-5, scaleLimit * 2) : 0
+                let incomingSideAxis = n1.rotated(by: Rotation(unchecked: axis, angle: -.halfPi))
+                let incomingSideRange = projectionRange(of: shape, along: incomingSideAxis)
+                let outgoingSideAxis = n1.rotated(by: Rotation(unchecked: axis, angle: angle - .halfPi))
+                let outgoingShape = shape.rotated(by: Rotation(unchecked: axis, angle: angle))
+                let outgoingSideRange = projectionRange(of: outgoingShape, along: outgoingSideAxis)
+                let innerCorner = Line(
+                    origin: p1.position + incomingSideAxis * incomingSideRange.min,
+                    direction: n1
+                ).flatMap { incomingLine in
+                    Line(
+                        origin: p1.position + outgoingSideAxis * outgoingSideRange.min,
+                        direction: n2
+                    ).flatMap { incomingLine.intersection(with: $0) }
                 }
-                rotateShape(by: Rotation(unchecked: axis, angle: bevelAngle))
+                let bevelRotation = Rotation(unchecked: axis, angle: bevelAngle)
+                rotateShape(by: bevelRotation)
                 let incomingAxis = n1.rotated(by: Rotation(unchecked: axis, angle: bevelAngle - .halfPi))
                 let incomingRange = projectionRange(of: shape, along: incomingAxis)
-                let incomingAdvance = innerCorner.map {
+                let incomingAdvanceToCorner: Double? = innerCorner.flatMap {
+                    let denominator = n1.dot(incomingAxis)
+                    guard abs(denominator) > epsilon else {
+                        return nil
+                    }
                     let incomingSupport = incomingRange.min * stretchDistance
-                    return (
+                    let advance = (
                         p1.position.dot(incomingAxis) + incomingSupport - $0.dot(incomingAxis)
-                    ) / n1.dot(incomingAxis)
-                } ?? incomingRange.max * (1 - tan(bevelAngle))
-                let incoming = transformedShape(
-                    for: p1.withPosition(p1.position - n1 * incomingAdvance),
-                    (stretchDistance, incomingAxis),
-                    snappingTo: innerCorner
-                )
-                shapeToPointIndex.append(index - 1)
-                rotateShape(by: Rotation(unchecked: axis, angle: bevelAngle))
-                guard !firstOnly else {
-                    rotateShape(by: Rotation(unchecked: axis, angle: bevelAngle))
-                    return [incoming]
+                    ) / denominator
+                    return advance.isFinite ? advance : nil
                 }
+                let rawIncomingAdvance = incomingAdvanceToCorner ??
+                    incomingRange.max * tan(angle / 2)
+                let incomingGap = min(max(rawIncomingAdvance / 2, 0), maximumInnerCornerGap)
+                let incomingLimit = incomingLength / 2
+                let incomingAdvance = min(
+                    max(rawIncomingAdvance - incomingGap, 0),
+                    incomingLimit
+                )
+                rotateShape(by: bevelRotation)
                 let outgoingAxis = n1.rotated(by: Rotation(unchecked: axis, angle: bevelAngle * 2 - .halfPi))
                 let outgoingRange = projectionRange(of: shape, along: outgoingAxis)
-                let outgoingAdvance = innerCorner.map {
+                let outgoingAdvanceToCorner: Double? = innerCorner.flatMap {
+                    let denominator = n2.dot(outgoingAxis)
+                    guard abs(denominator) > epsilon else {
+                        return nil
+                    }
                     let outgoingSupport = outgoingRange.min * stretchDistance
-                    return (
+                    let advance = (
                         $0.dot(outgoingAxis) - p1.position.dot(outgoingAxis) - outgoingSupport
-                    ) / n2.dot(outgoingAxis)
-                } ?? outgoingRange.max * (1 - tan(bevelAngle))
-                let outgoing = transformedShape(
-                    for: p1.withPosition(p1.position + n2 * outgoingAdvance),
-                    (stretchDistance, outgoingAxis),
-                    snappingTo: innerCorner
+                    ) / denominator
+                    return advance.isFinite ? advance : nil
+                }
+                let rawOutgoingAdvance = outgoingAdvanceToCorner ??
+                    outgoingRange.max * tan(angle / 2)
+                let outgoingGap = min(max(rawOutgoingAdvance / 2, 0), maximumInnerCornerGap)
+                let outgoingLimit = outgoingLength / 2
+                let outgoingAdvance = min(
+                    max(rawOutgoingAdvance - outgoingGap, 0),
+                    outgoingLimit
                 )
+                let advance = min(incomingAdvance, outgoingAdvance)
+                let outgoing = firstOnly ? nil : transformedShape(
+                    for: p1.withPosition(p1.position + n2 * advance),
+                    (stretchDistance, outgoingAxis),
+                    snappingTo: shouldSeparateInnerCorner || outgoingAdvanceToCorner == nil ? nil : innerCorner
+                )
+                rotateShape(by: -bevelRotation)
+                let incoming = transformedShape(
+                    for: p1.withPosition(p1.position - n1 * advance),
+                    (stretchDistance, incomingAxis),
+                    snappingTo: shouldSeparateInnerCorner || incomingAdvanceToCorner == nil ? nil : innerCorner
+                )
+                rotateShape(by: bevelRotation)
+                guard let outgoing else {
+                    shapeToPointIndex.append(index - 1)
+                    rotateShape(by: bevelRotation)
+                    return [incoming]
+                }
                 shapeToPointIndex.append(index - 1)
-                rotateShape(by: Rotation(unchecked: axis, angle: bevelAngle))
+                shapeToPointIndex.append(index - 1)
+                rotateShape(by: bevelRotation)
                 return [incoming, outgoing]
             }
-            angle /= 2
-            let r = Rotation(unchecked: axis, angle: angle)
-            rotateShape(by: r)
-            let stretchDistance = 1 / cos(angle)
-            let stretchAxis = n1.rotated(by: Rotation(unchecked: axis, angle: angle - .halfPi))
-            let results = [transformedShape(for: p1, (stretchDistance, stretchAxis))]
-            shapeToPointIndex.append(index - 1)
-            rotateShape(by: r)
-            return results
+            return miteredShape()
         }
 
         // Prepare initial shape
