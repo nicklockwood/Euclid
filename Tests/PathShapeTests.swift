@@ -445,7 +445,7 @@ final class PathShapeTests: XCTestCase {
         for i in 0 ... 4 {
             let twist = Angle.halfPi * Double(i)
             let contours = Path.square(size: 0.1).extrusionContours(
-                along: .text("w")[0].withDetail(detail, twist: twist),
+                along: .text("w")[0].withDetail(detail, forTwist: twist),
                 twist: twist
             )
             XCTAssertEqual(contours.first?.bounds, contours.last?.bounds)

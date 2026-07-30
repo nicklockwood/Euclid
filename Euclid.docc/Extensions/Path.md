@@ -50,4 +50,5 @@ A bezier path in three-dimensional space.
 - ``Path/translated(by:)``
 - ``Path/transformed(by:)``
 - ``Path/withColor(_:)``
+- ``Path/withDetail(_:forTwist:)``
 - ``Path/closed()``

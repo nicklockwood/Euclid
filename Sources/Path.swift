@@ -494,15 +494,27 @@ public extension Path {
         return offset.isZero ? (self, .zero) : (translated(by: -offset), offset)
     }
 
-    /// Increase path detail in proportion to twist angle
+    @available(*, deprecated, renamed: "withDetail(_:forTwist:)")
     func withDetail(_ detail: Int, twist: Angle) -> Path {
+        withDetail(detail, forTwist: twist)
+    }
+
+    /// Returns a copy of the path with added points to support a twist.
+    /// - Parameters:
+    ///   - detail: The target number of segments per full rotation.
+    ///   - twist: The total twist angle to apply along the path.
+    /// - Returns: A path with additional points inserted where needed, or `self` if no extra detail is required.
+    ///
+    /// Use this method to subdivide path segments before extruding a shape with a twist, so the
+    /// extrusion has enough intermediate cross-sections to represent the rotation smoothly.
+    func withDetail(_ detail: Int, forTwist twist: Angle) -> Path {
         guard detail > 2, twist != .zero, var prev = points.first else {
             return self
         }
         let subpaths = subpaths
         guard subpaths.count == 1 else {
             return Path(subpaths: subpaths.map {
-                $0.withDetail(detail, twist: twist)
+                $0.withDetail(detail, forTwist: twist)
             })
         }
         let total = length
@@ -518,7 +530,7 @@ public extension Path {
             }
             return [point]
         })
-        return split ? path.withDetail(detail, twist: twist) : path
+        return split ? path.withDetail(detail, forTwist: twist) : path
     }
 }
 

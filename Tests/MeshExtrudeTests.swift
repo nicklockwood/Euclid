@@ -616,7 +616,7 @@ final class MeshExtrudeTests: XCTestCase {
             let path = try XCTUnwrap(Path.text("w").first)
             let mesh = Mesh.extrude(
                 .square(size: 0.1),
-                along: path.withDetail(detail, twist: twist),
+                along: path.withDetail(detail, forTwist: twist),
                 twist: twist
             )
             XCTAssert(mesh.isWatertight)
