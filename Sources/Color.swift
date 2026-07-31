@@ -141,6 +141,27 @@ public extension Color {
         self.alpha = alpha
     }
 
+    /// Creates a color from hue, saturation, brightness, and optional alpha components.
+    /// - Parameters:
+    ///   - hue: The hue component of the color, from 0 to 1.
+    ///   - saturation: The saturation component of the color, from 0 to 1.
+    ///   - brightness: The brightness component of the color, from 0 to 1.
+    ///   - alpha: The alpha component. Defaults to 1 (fully opaque)
+    init(hue: Double, saturation: Double, brightness: Double, alpha: Double = 1) {
+        let hue = hue - hue.rounded(.down)
+        let c = brightness * saturation
+        let x = c * (1 - abs((hue * 6).truncatingRemainder(dividingBy: 2) - 1))
+        let m = brightness - c
+        switch hue * 6 {
+        case 0 ..< 1: self.init(red: c + m, green: x + m, blue: m, alpha: alpha)
+        case 1 ..< 2: self.init(red: x + m, green: c + m, blue: m, alpha: alpha)
+        case 2 ..< 3: self.init(red: m, green: c + m, blue: x + m, alpha: alpha)
+        case 3 ..< 4: self.init(red: m, green: x + m, blue: c + m, alpha: alpha)
+        case 4 ..< 5: self.init(red: x + m, green: m, blue: c + m, alpha: alpha)
+        default: self.init(red: c + m, green: m, blue: x + m, alpha: alpha)
+        }
+    }
+
     /// Creates a color from an array of component values.
     /// - Parameter components: An array of vector components.
     ///
@@ -161,6 +182,21 @@ public extension Color {
     /// Returns an array containing the red, green, blue, and alpha components of the color.
     var components: [Double] {
         [red, green, blue, alpha]
+    }
+
+    /// The hue component of the color, from 0 to 1.
+    var hue: Double {
+        hsbComponents.hue
+    }
+
+    /// The saturation component of the color, from 0 to 1.
+    var saturation: Double {
+        hsbComponents.saturation
+    }
+
+    /// The brightness component of the color, from 0 to 1.
+    var brightness: Double {
+        hsbComponents.brightness
     }
 
     /// Creates a copy of the color updated with the specified alpha component.
@@ -249,6 +285,28 @@ extension Color {
             assertionFailure()
             self = .clear
         }
+    }
+
+    /// Returns the hue, saturation, brightness, and alpha components of the color.
+    var hsbComponents: (hue: Double, saturation: Double, brightness: Double, alpha: Double) {
+        let max = Swift.max(red, green, blue)
+        let min = Swift.min(red, green, blue)
+        let delta = max - min
+        let hue: Double = if delta == 0 {
+            0
+        } else if max == red {
+            ((green - blue) / delta).truncatingRemainder(dividingBy: 6) / 6
+        } else if max == green {
+            ((blue - red) / delta + 2) / 6
+        } else {
+            ((red - green) / delta + 4) / 6
+        }
+        return (
+            hue: hue < 0 ? hue + 1 : hue,
+            saturation: max == 0 ? 0 : delta / max,
+            brightness: max,
+            alpha: alpha
+        )
     }
 }
 
