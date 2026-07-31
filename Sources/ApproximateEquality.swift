@@ -35,10 +35,10 @@ extension Bounds: ApproximateEquality {
 
 extension Color: ApproximateEquality {
     func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
-        r.isApproximatelyEqual(to: other.r, absoluteTolerance: absoluteTolerance) &&
-            g.isApproximatelyEqual(to: other.g, absoluteTolerance: absoluteTolerance) &&
-            b.isApproximatelyEqual(to: other.b, absoluteTolerance: absoluteTolerance) &&
-            a.isApproximatelyEqual(to: other.a, absoluteTolerance: absoluteTolerance)
+        red.isApproximatelyEqual(to: other.red, absoluteTolerance: absoluteTolerance) &&
+            green.isApproximatelyEqual(to: other.green, absoluteTolerance: absoluteTolerance) &&
+            blue.isApproximatelyEqual(to: other.blue, absoluteTolerance: absoluteTolerance) &&
+            alpha.isApproximatelyEqual(to: other.alpha, absoluteTolerance: absoluteTolerance)
     }
 }
 

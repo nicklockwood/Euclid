@@ -40,7 +40,7 @@ public extension Mesh {
 
 private extension Color {
     var offString: String {
-        "\(r.offString) \(g.offString) \(b.offString)"
+        "\(red.offString) \(green.offString) \(blue.offString)"
     }
 }
 

@@ -149,9 +149,9 @@ private extension Buffer {
     }
 
     func append(_ color: Color) {
-        let red = UInt16(round(color.r * 31))
-        let green = UInt16(round(color.g * 31))
-        let blue = UInt16(round(color.b * 31))
+        let red = UInt16(round(color.red * 31))
+        let green = UInt16(round(color.green * 31))
+        let blue = UInt16(round(color.blue * 31))
         append(0x8000 | red << 10 | green << 5 | blue)
     }
 
@@ -235,10 +235,10 @@ public extension Mesh {
         let colorPrefix = "COLOR=".data(using: .utf8)!
         if let range = stlData[0 ..< headerSize].range(of: colorPrefix) {
             baseColor = Color(
-                Double(stlData[range.upperBound]) / 255,
-                Double(stlData[range.upperBound + 1]) / 255,
-                Double(stlData[range.upperBound + 2]) / 255,
-                Double(stlData[range.upperBound + 3]) / 255
+                red: Double(stlData[range.upperBound]) / 255,
+                green: Double(stlData[range.upperBound + 1]) / 255,
+                blue: Double(stlData[range.upperBound + 2]) / 255,
+                alpha: Double(stlData[range.upperBound + 3]) / 255
             )
         }
         let count = Int(stlData.withUnsafeBytes { $0.readUInt32(at: &offset) })
@@ -357,7 +357,7 @@ private extension UnsafeRawBufferPointer {
         let blue = Double(color & 31) / 31
         let green = Double((color & (31 << 5)) >> 5) / 31
         let red = Double((color & (31 << 10)) >> 10) / 31
-        return .init(red, green, blue)
+        return .init(red: red, green: green, blue: blue)
     }
 
     func readMaterialiseMagicsColor(at offset: inout Int) -> Color? {
@@ -368,7 +368,7 @@ private extension UnsafeRawBufferPointer {
         let red = Double(color & 31) / 31
         let green = Double((color & (31 << 5)) >> 5) / 31
         let blue = Double((color & (31 << 10)) >> 10) / 31
-        return .init(red, green, blue)
+        return .init(red: red, green: green, blue: blue)
     }
 
     func readTriangle(at offset: inout Int, baseColor: Color?, materialLookup: Mesh.STLMaterialProvider) -> Polygon? {

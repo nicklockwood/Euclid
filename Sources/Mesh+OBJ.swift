@@ -79,7 +79,7 @@ public extension Mesh {
 
 private extension Color {
     var objString: String {
-        "\(r.objString) \(g.objString) \(b.objString)"
+        "\(red.objString) \(green.objString) \(blue.objString)"
     }
 }
 

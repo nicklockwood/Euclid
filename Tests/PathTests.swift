@@ -1123,7 +1123,7 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(limited.points[1].texcoord, [1, 0])
         XCTAssertEqual(limited.points[2].texcoord, [1, 0.25])
         XCTAssertEqual(limited.points[1].color, .red)
-        XCTAssertEqual(limited.points[2].color, Color(0.75, 0, 0.25, 1))
+        XCTAssertEqual(limited.points[2].color, Color(red: 0.75, green: 0, blue: 0.25, alpha: 1))
     }
 
     func testWithMiterLimitUsesStrokeWidthForBevelDistance() {

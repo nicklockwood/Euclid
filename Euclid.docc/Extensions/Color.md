@@ -6,8 +6,8 @@ An RGBA color value.
 
 ### Creating a Color
 
-- ``Color/init(_:_:_:_:)``
-- ``Color/init(_:_:)``
+- ``Color/init(red:green:blue:alpha:)``
+- ``Color/init(white:alpha:)``
 - ``Color/init(_:)-25eby``
 - ``Color/init(_:)-(T)``
 - ``Color/init(_:)-7d8un``
@@ -18,9 +18,9 @@ An RGBA color value.
 - ``Color/black``
 - ``Color/white``
 - ``Color/gray``
-- ``Color/red``
-- ``Color/green``
-- ``Color/blue``
+- ``Color/red-swift.type.property``
+- ``Color/green-swift.type.property``
+- ``Color/blue-swift.type.property``
 - ``Color/yellow``
 - ``Color/cyan``
 - ``Color/magenta``
@@ -28,11 +28,12 @@ An RGBA color value.
 
 ### Color properties
 
-- ``Color/r``
-- ``Color/g``
-- ``Color/b``
-- ``Color/a``
+- ``Color/red-swift.property``
+- ``Color/green-swift.property``
+- ``Color/blue-swift.property``
+- ``Color/alpha``
+- ``Color/components``
 
 ### Mutating Colors
 
-- ``Color/withAlpha(_:)``
+- ``Color/withAlphaComponent(_:)``

@@ -100,10 +100,10 @@ extension PathPoint: Interpolatable {
 extension Color: Interpolatable {
     public func interpolated(with other: Color, by t: Double) -> Color {
         .init(
-            r.interpolated(with: other.r, by: t),
-            g.interpolated(with: other.g, by: t),
-            b.interpolated(with: other.b, by: t),
-            a.interpolated(with: other.a, by: t)
+            red: red.interpolated(with: other.red, by: t),
+            green: green.interpolated(with: other.green, by: t),
+            blue: blue.interpolated(with: other.blue, by: t),
+            alpha: alpha.interpolated(with: other.alpha, by: t)
         )
     }
 }

@@ -30,7 +30,7 @@ final class DebugDescriptionTests: XCTestCase {
     }
 
     func testColorWithAlpha() {
-        let color = Color.red.withAlpha(0.5)
+        let color = Color.red.withAlphaComponent(0.5)
         XCTAssertEqual(color.debugDescription, "Color(1.0, 0.0, 0.0, 0.5)")
     }
 

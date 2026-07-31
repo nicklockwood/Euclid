@@ -357,8 +357,8 @@ final class MeshTests: XCTestCase {
     }
 
     func testMakeWatertightCapUsesSurroundingMaterial() throws {
-        let red = Color(1, 0, 0)
-        let blue = Color(0, 0, 1)
+        let red = Color(red: 1, green: 0, blue: 0)
+        let blue = Color(red: 0, green: 0, blue: 1)
         let mesh = Mesh(openBoxPolygons(topMaterials: [red, red, blue, red]))
 
         let watertight = mesh.makeWatertight()
@@ -371,7 +371,7 @@ final class MeshTests: XCTestCase {
     }
 
     func testMakeWatertightCapUsesInterpolatedNormalsAndTexcoords() throws {
-        let red = Color(1, 0, 0)
+        let red = Color(red: 1, green: 0, blue: 0)
         let mesh = Mesh(openBoxPolygons(topMaterials: [red, red, red, red]))
 
         let watertight = mesh.makeWatertight()
@@ -391,7 +391,7 @@ final class MeshTests: XCTestCase {
     }
 
     func testMakeWatertightCapPreservesBoundaryVertexColors() {
-        let red = Color(1, 0, 0)
+        let red = Color(red: 1, green: 0, blue: 0)
         let sidePolygons = Mesh.extrude(
             .circle(color: red),
             along: Path([

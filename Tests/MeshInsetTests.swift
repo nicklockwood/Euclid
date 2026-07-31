@@ -282,8 +282,8 @@ final class MeshInsetTests: XCTestCase {
     }
 
     func testInsetMixedMaterialExtrusionPreservesFaceMaterials() {
-        let red = Color(1, 0, 0)
-        let blue = Color(0, 0, 1)
+        let red = Color(red: 1, green: 0, blue: 0)
+        let blue = Color(red: 0, green: 0, blue: 1)
         let mesh = Mesh.extrude(.rectangle(width: 2, height: 1), depth: 1).mapPolygons {
             $0.withMaterial(abs($0.plane.normal.z) > 0.5 ? red : blue)
         }.inset(by: 0.1)
@@ -295,7 +295,7 @@ final class MeshInsetTests: XCTestCase {
     }
 
     func testInsetExtrusionPreservesCapVertexAttributes() {
-        let color = Color(1, 0, 0)
+        let color = Color(red: 1, green: 0, blue: 0)
         let shape = Path([
             .point(-1, -1, texcoord: [0.2, 0.3], color: color),
             .point(1, -1, texcoord: [0.8, 0.3], color: color),

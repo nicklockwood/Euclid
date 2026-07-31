@@ -58,19 +58,19 @@ private func linearToSRGB(_ x: Double) -> Double {
 private extension Color {
     func toLinear() -> Color {
         .init(
-            srgbToLinear(r),
-            srgbToLinear(g),
-            srgbToLinear(b),
-            srgbToLinear(a)
+            red: srgbToLinear(red),
+            green: srgbToLinear(green),
+            blue: srgbToLinear(blue),
+            alpha: srgbToLinear(alpha)
         )
     }
 
     func toSRGB() -> Color {
         .init(
-            linearToSRGB(r),
-            linearToSRGB(g),
-            linearToSRGB(b),
-            linearToSRGB(a)
+            red: linearToSRGB(red),
+            green: linearToSRGB(green),
+            blue: linearToSRGB(blue),
+            alpha: linearToSRGB(alpha)
         )
     }
 }
@@ -89,7 +89,7 @@ public extension SCNVector4 {
     /// Creates a 4D SceneKit vector from a color.
     /// - Parameter c: The color to convert.
     init(_ c: Color) {
-        self.init(c.r, c.g, c.b, c.a)
+        self.init(c.red, c.green, c.blue, c.alpha)
     }
 }
 
@@ -451,10 +451,10 @@ private extension Data {
 
     func color(at index: Int) -> Color {
         Color(
-            float(at: index),
-            float(at: index + 4),
-            float(at: index + 8),
-            float(at: index + 12)
+            red: float(at: index),
+            green: float(at: index + 4),
+            blue: float(at: index + 8),
+            alpha: float(at: index + 12)
         )
     }
 }

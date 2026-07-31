@@ -139,7 +139,7 @@ extension PathPoint: Codable {
             } catch {
                 isCurved = false
                 texcoord = nil
-                color = try Color(uOrR, vOrG, wOrB, container.decode(Double.self))
+                color = try Color(red: uOrR, green: vOrG, blue: wOrB, alpha: container.decode(Double.self))
             }
             self.init(position, texcoord: texcoord, color: color, isCurved: isCurved)
         case 8:
@@ -164,10 +164,10 @@ extension PathPoint: Codable {
             let isCurved: Bool, color: Color?
             do {
                 isCurved = try container.decodeIfPresent(Bool.self) ?? false
-                color = Color(r, g, b)
+                color = Color(red: r, green: g, blue: b)
             } catch {
                 isCurved = false
-                color = try Color(r, g, b, container.decode(Double.self))
+                color = try Color(red: r, green: g, blue: b, alpha: container.decode(Double.self))
             }
             self.init(position, texcoord: texcoord, color: color, isCurved: isCurved)
         case 11:
@@ -191,7 +191,7 @@ extension PathPoint: Codable {
         var container = encoder.unkeyedContainer()
         let skipTextureZ = texcoord?.z ?? 0 == 0
         let skipPositionZ = color == nil && position.z == 0 && skipTextureZ
-        let skipAlpha = texcoord != nil && color?.a ?? 1 == 1
+        let skipAlpha = texcoord != nil && color?.alpha ?? 1 == 1
         try position.encode(to: &container, skipZ: skipPositionZ)
         try texcoord?.encode(to: &container, skipZ: skipTextureZ)
         try color?.encode(to: &container, skipA: skipAlpha)

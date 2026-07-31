@@ -83,6 +83,22 @@ final class CodingTests: XCTestCase {
         """), Vertex(1, 2, 2, normal: .unitX, texcoord: .unitY, color: .red))
     }
 
+    func testDecodingVertexWithLegacyKeyedColor() {
+        XCTAssertEqual(try decode("""
+        {
+            "position": [1, 2, 2],
+            "normal": [1, 0, 0],
+            "texcoord": [0, 1],
+            "color": {"r": 1, "g": 0.5, "b": 0, "a": 0.25}
+        }
+        """), Vertex(
+            1, 2, 2,
+            normal: .unitX,
+            texcoord: .unitY,
+            color: Color(red: 1, green: 0.5, blue: 0, alpha: 0.25)
+        ))
+    }
+
     func testDecodingVertexWithTexcoord3D() {
         XCTAssertEqual(try decode("""
         {
@@ -110,7 +126,7 @@ final class CodingTests: XCTestCase {
     func testDecodingFlattenedVertexWithTranslucentColor() {
         XCTAssertEqual(
             try decode("[1, 2, 2, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0.5]"),
-            Vertex(1, 2, 2, normal: .unitX, texcoord: .unitY, color: Color(1, 0, 0, 0.5))
+            Vertex(1, 2, 2, normal: .unitX, texcoord: .unitY, color: Color(red: 1, green: 0, blue: 0, alpha: 0.5))
         )
     }
 
@@ -590,6 +606,17 @@ final class CodingTests: XCTestCase {
         XCTAssertEqual(decoded.material, polygon?.material)
     }
 
+    func testDecodingPolygonWithLegacyKeyedColorMaterial() throws {
+        let decoded = try decode("""
+        [
+            [[0, 0], [1, 0], [1, 1]],
+            [0, 0, 1, 0],
+            {"color": {"r": 1, "g": 0.5, "b": 0, "a": 0.25}}
+        ]
+        """) as Euclid.Polygon
+        XCTAssertEqual(decoded.material as? Color, Color(red: 1, green: 0.5, blue: 0, alpha: 0.25))
+    }
+
     func testEncodingPolygonWithOSColorMaterial() throws {
         #if canImport(UIKit)
         let polygon = Polygon(.square(), material: UIColor.red)
@@ -607,15 +634,27 @@ final class CodingTests: XCTestCase {
     // MARK: Color
 
     func testDecodingRGBAColor() {
-        XCTAssertEqual(try decode("[1, 0, 0, 0.5]"), Color.red.withAlpha(0.5))
+        XCTAssertEqual(try decode("[1, 0, 0, 0.5]"), Color.red.withAlphaComponent(0.5))
     }
 
     func testEncodingRGBAColor() {
-        XCTAssertEqual(try encode(Color.gray.withAlpha(0.5)), "[0.5,0.5,0.5,0.5]")
+        XCTAssertEqual(try encode(Color.gray.withAlphaComponent(0.5)), "[0.5,0.5,0.5,0.5]")
     }
 
     func testDecodingRGBColor() {
         XCTAssertEqual(try decode("[1, 1, 0]"), Color.yellow)
+    }
+
+    func testDecodingKeyedColor() {
+        XCTAssertEqual(try decode("""
+        {"red": 1, "green": 0.5, "blue": 0, "alpha": 0.25}
+        """), Color(red: 1, green: 0.5, blue: 0, alpha: 0.25))
+    }
+
+    func testDecodingLegacyKeyedColor() {
+        XCTAssertEqual(try decode("""
+        {"r": 1, "g": 0.5, "b": 0, "a": 0.25}
+        """), Color(red: 1, green: 0.5, blue: 0, alpha: 0.25))
     }
 
     func testEncodingRGBColor() {
@@ -767,7 +806,7 @@ final class CodingTests: XCTestCase {
     func testDecodingPathPoint3DWithTranslucentColor() {
         XCTAssertEqual(
             try decode("[1, 2, 3, 1, 0, 0, 0.5]"),
-            PathPoint(1, 2, 3, color: .red.withAlpha(0.5))
+            PathPoint(1, 2, 3, color: .red.withAlphaComponent(0.5))
         )
     }
 
@@ -805,7 +844,7 @@ final class CodingTests: XCTestCase {
     func testDecodingCurvedPathPoint2DWithTranslucentColor() {
         XCTAssertEqual(
             try decode("[1, 2, 0, 1, 0, 0, 0.5, true]"),
-            PathPoint.curve(1, 2, color: .red.withAlpha(0.5))
+            PathPoint.curve(1, 2, color: .red.withAlphaComponent(0.5))
         )
     }
 
@@ -848,7 +887,7 @@ final class CodingTests: XCTestCase {
     func testDecodingCurvedPathPoint3DWithTexcoord3DAndTranslucentColor() {
         XCTAssertEqual(
             try decode("[1, 2, 3, 4, 5, 6, 1, 0, 0, 0.5, true]"),
-            PathPoint.curve(1, 2, 3, texcoord: [4, 5, 6], color: .red.withAlpha(0.5))
+            PathPoint.curve(1, 2, 3, texcoord: [4, 5, 6], color: .red.withAlphaComponent(0.5))
         )
     }
 
@@ -866,7 +905,7 @@ final class CodingTests: XCTestCase {
         let encoded = try encode(PathPoint.curve(
             Vector(1, 2, 3),
             texcoord: Vector(4, 5),
-            color: .red.withAlpha(0.5)
+            color: .red.withAlphaComponent(0.5)
         ))
         XCTAssertEqual(encoded, "[1,2,3,4,5,1,0,0,0.5,true]")
     }
@@ -882,7 +921,7 @@ final class CodingTests: XCTestCase {
     }
 
     func testEncodingCurvedPathPoint3DWithTexcoord3DAndTranslucentColor() throws {
-        let encoded = try encode(PathPoint.curve(1, 2, 3, texcoord: [4, 5, 6], color: .red.withAlpha(0.5)))
+        let encoded = try encode(PathPoint.curve(1, 2, 3, texcoord: [4, 5, 6], color: .red.withAlphaComponent(0.5)))
         XCTAssertEqual(encoded, "[1,2,3,4,5,6,1,0,0,0.5,true]")
     }
 

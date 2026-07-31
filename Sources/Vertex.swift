@@ -121,7 +121,7 @@ extension Vertex: Codable {
         try position.encode(to: &container, skipZ: skipPositionZ)
         try hasNormal ? normal.encode(to: &container, skipZ: false) : ()
         try hasTexcoord ? texcoord.encode(to: &container, skipZ: skipTextureZ) : ()
-        try hasColor ? color.encode(to: &container, skipA: color.a == 1) : ()
+        try hasColor ? color.encode(to: &container, skipA: color.alpha == 1) : ()
     }
 }
 

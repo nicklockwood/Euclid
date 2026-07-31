@@ -48,10 +48,10 @@ public extension NSColor {
     /// - Parameter color: The color to convert.
     convenience init(_ color: Color) {
         self.init(
-            red: CGFloat(color.r),
-            green: CGFloat(color.g),
-            blue: CGFloat(color.b),
-            alpha: CGFloat(color.a)
+            red: CGFloat(color.red),
+            green: CGFloat(color.green),
+            blue: CGFloat(color.blue),
+            alpha: CGFloat(color.alpha)
         )
     }
 }
