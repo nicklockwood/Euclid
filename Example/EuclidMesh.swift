@@ -20,7 +20,9 @@ let euclidMesh: Mesh = {
     // create some geometry using Euclid
     let cube = Mesh.cube(size: 0.8, material: UIColor.red)
     let sphere = Mesh.sphere(slices: 120, material: CGImage.checkerboard())
-    let mesh = cube.subtracting(sphere).makeWatertight()
+    // let mesh = cube.subtracting(sphere).makeWatertight()
+
+    let mesh = Mesh.extrude(.text("e").scaled(by: 0.05), along: .text("w")[0], miterLimit: 1)
 
     print("Time:", CFAbsoluteTimeGetCurrent() - start)
     print("Polygons:", mesh.polygons.count)

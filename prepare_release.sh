@@ -43,20 +43,14 @@ fi
 
 # 2. Update version in README.md
 echo "Updating README.md..."
-sed -i '' "s/'~> [^\']*'/'~> $NEW_VERSION'/" README.md
 sed -i '' "s/\" ~> [^ \n]*/\" ~> $NEW_VERSION/" README.md
 sed -i '' "s/from: \"[^\"]*\"/from: \"$NEW_VERSION\"/" README.md
 
-# 3. Update version in Euclid.podspec.json
-echo "Updating Euclid.podspec.json..."
-sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" Euclid.podspec.json
-sed -i '' "s/\"tag\": \"[^\"]*\"/\"tag\": \"$NEW_VERSION\"/" Euclid.podspec.json
-
-# 4. Update version in Euclid.xcodeproj
+# 3. Update version in Euclid.xcodeproj
 echo "Updating Euclid.xcodeproj..."
 sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = $NEW_VERSION/" Euclid.xcodeproj/project.pbxproj
 
-# 5. Run tests
+# 4. Run tests
 echo "Running tests..."
 if ! swift test --parallel --num-workers 10; then
     echo "Error: Tests failed. Please fix the issues before proceeding."
@@ -65,7 +59,7 @@ fi
 
 echo "Tests passed successfully."
 
-# 6. Update docs
+# 5. Update docs
 echo "Updating docs..."
 if ! "./docbuild.bash"; then
     echo "Error: Docbuild failed. Please fix the issues before proceeding."
@@ -79,5 +73,4 @@ echo "Remaining steps to be completed manually:"
 echo "   - Fill out CHANGELOG.md"
 echo "   - Push to main branch and check CI passes"
 echo "   - Tag release and push tag"
-echo "   - Update Cocoapod with 'pod trunk push --allow-warnings'"
 echo ""

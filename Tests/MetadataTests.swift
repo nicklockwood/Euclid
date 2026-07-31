@@ -19,9 +19,6 @@ private let changelogURL = projectDirectory
 private let readmeURL = projectDirectory
     .appendingPathComponent("README.md")
 
-private let podspecURL = projectDirectory
-    .appendingPathComponent("Euclid.podspec.json")
-
 private let projectURL = projectDirectory
     .appendingPathComponent("Euclid.xcodeproj")
     .appendingPathComponent("project.pbxproj")
@@ -82,18 +79,6 @@ final class MetadataTests: XCTestCase {
         XCTAssertTrue(
             readme.contains("from: \"\(projectVersion)\""),
             "README.md version does not match latest release"
-        )
-    }
-
-    func testLatestVersionInPodspec() throws {
-        let podspec = try String(contentsOf: podspecURL, encoding: .utf8)
-        XCTAssertTrue(
-            podspec.contains("\"version\": \"\(projectVersion)\""),
-            "Podspec version does not match latest release"
-        )
-        XCTAssertTrue(
-            podspec.contains("\"tag\": \"\(projectVersion)\""),
-            "Podspec tag does not match latest release"
         )
     }
 
