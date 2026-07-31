@@ -16,6 +16,8 @@ An RGBA color value.
 
 - ``Color/clear``
 - ``Color/black``
+- ``Color/darkGray``
+- ``Color/lightGray``
 - ``Color/white``
 - ``Color/gray``
 - ``Color/red-swift.type.property``
@@ -25,6 +27,12 @@ An RGBA color value.
 - ``Color/cyan``
 - ``Color/magenta``
 - ``Color/orange``
+- ``Color/purple``
+- ``Color/brown``
+- ``Color/mint``
+- ``Color/teal``
+- ``Color/indigo``
+- ``Color/pink``
 
 ### Color properties
 

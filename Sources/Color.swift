@@ -120,6 +120,8 @@ extension Color: Codable {
 public extension Color {
     static let clear = Color(white: 0, alpha: 0)
     static let black = Color(white: 0)
+    static let darkGray = Color(white: 1.0 / 3.0)
+    static let lightGray = Color(white: 2.0 / 3.0)
     static let white = Color(white: 1)
     static let gray = Color(white: 0.5)
     static let red = Color(red: 1, green: 0, blue: 0)
@@ -129,6 +131,12 @@ public extension Color {
     static let cyan = Color(red: 0, green: 1, blue: 1)
     static let magenta = Color(red: 1, green: 0, blue: 1)
     static let orange = Color(red: 1, green: 0.5, blue: 0)
+    static let purple = Color(red: 0.5, green: 0, blue: 0.5)
+    static let brown = Color(red: 0.6, green: 0.4, blue: 0.2)
+    static let mint = Color(red: 0, green: 199.0 / 255.0, blue: 190.0 / 255.0)
+    static let teal = Color(red: 48.0 / 255.0, green: 176.0 / 255.0, blue: 199.0 / 255.0)
+    static let indigo = Color(red: 88.0 / 255.0, green: 86.0 / 255.0, blue: 214.0 / 255.0)
+    static let pink = Color(red: 1, green: 45.0 / 255.0, blue: 85.0 / 255.0)
 
     /// Creates a color from a luminance value and optional alpha component.
     /// - Parameters:
