@@ -407,12 +407,12 @@ public extension Path {
     ///   - along: The path along which to extrude the shape.
     ///   - twist: Angular twist to apply along the extrusion.
     ///   - align: The alignment mode to use for the extruded shape.
-    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
+    ///   - miterLimit: The miter threshold beyond which a corner is beveled.
     func extrusionContours(
         along: Path,
         twist: Angle = .zero,
         align: Alignment = .default,
-        miterLimit: Double = .infinity
+        miterLimit: MiterLimit = .infinity
     ) -> [Path] {
         let points = along.points
         switch points.count {
@@ -562,7 +562,7 @@ public extension Path {
                 rotateShape(by: r)
                 return results
             }
-            if (1 / cos(angle / 2)) > miterLimit {
+            if angle > miterLimit.angle {
                 let bevelAngle = angle / 3
                 let stretchDistance = 1 / cos(bevelAngle)
                 let shouldSeparateInnerCorner = angle < .halfPi - .radians(epsilon)

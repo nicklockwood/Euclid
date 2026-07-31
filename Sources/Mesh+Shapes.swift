@@ -615,7 +615,7 @@ public extension Mesh {
     ///   - along: The path along which to extrude the shape.
     ///   - twist: Angular twist to apply along the extrusion.
     ///   - align: The alignment mode to use for the extruded shape.
-    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
+    ///   - miterLimit: The miter threshold beyond which a corner is beveled.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
@@ -624,7 +624,7 @@ public extension Mesh {
         along: Path,
         twist: Angle = .zero,
         align: Alignment = .default,
-        miterLimit: Double = .infinity,
+        miterLimit: MiterLimit = .infinity,
         faces: Faces = .default,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
@@ -706,7 +706,7 @@ public extension Mesh {
     ///   - along: The path along which to extrude the shape.
     ///   - twist: Angular twist to apply along the extrusion.
     ///   - align: The alignment mode to use for the extruded shape.
-    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
+    ///   - miterLimit: The miter threshold beyond which a corner is beveled.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
@@ -715,7 +715,7 @@ public extension Mesh {
         along: Path,
         twist: Angle = .zero,
         align: Alignment = .default,
-        miterLimit: Double = .infinity,
+        miterLimit: MiterLimit = .infinity,
         faces: Faces = .default,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
@@ -839,14 +839,14 @@ public extension Mesh {
     /// - Parameters:
     ///   - shape: The path to stroke.
     ///   - width: The line width of the stroke.
-    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
+    ///   - miterLimit: The miter threshold beyond which a corner is beveled.
     ///   - detail: The number of sides to use for the cross-sectional shape of the stroked mesh.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
     static func stroke(
         _ shape: Path,
         width: Double = 0.01,
-        miterLimit: Double = 2,
+        miterLimit: MiterLimit = 2,
         detail: Int = 2,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
@@ -873,14 +873,14 @@ public extension Mesh {
     /// - Parameters:
     ///   - shapes: The paths to stroke.
     ///   - width: The line width of the stroke.
-    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
+    ///   - miterLimit: The miter threshold beyond which a corner is beveled.
     ///   - detail: The number of sides to use for the cross-sectional shape of each stroked mesh.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
     static func stroke(
         _ shapes: some Collection<Path>,
         width: Double = 0.01,
-        miterLimit: Double = 2,
+        miterLimit: MiterLimit = 2,
         detail: Int = 2,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }

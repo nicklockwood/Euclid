@@ -543,10 +543,10 @@ public extension Path {
 
     /// Returns a copy of the path with over-limit corners split into bevels.
     /// - Parameters:
-    ///   - miterLimit: The maximum ratio of the miter length to the stroke width.
+    ///   - miterLimit: The miter threshold beyond which a corner is beveled.
     ///   - strokeWidth: The stroke width used to calculate bevel point positions.
-    func withMiterLimit(_ miterLimit: Double, forStrokeWidth strokeWidth: Double) -> Path {
-        guard miterLimit.isFinite, strokeWidth > 0 else {
+    func withMiterLimit(_ miterLimit: MiterLimit, forStrokeWidth strokeWidth: Double) -> Path {
+        guard miterLimit.ratio.isFinite, strokeWidth > 0 else {
             return self
         }
         switch storage {
@@ -560,7 +560,7 @@ public extension Path {
             guard count > 2 else {
                 return self
             }
-            let miterLimit = max(miterLimit, 1)
+            let miterAngle = miterLimit.angle
             var result = [PathPoint]()
             result.reserveCapacity(points.count)
             for i in 0 ..< count {
@@ -578,7 +578,7 @@ public extension Path {
                     continue
                 }
                 let angle = angleBetweenNormalizedVectors(n1, n2)
-                guard (1 / cos(angle / 2)) > miterLimit else {
+                guard angle > miterAngle else {
                     result.append(p1)
                     continue
                 }

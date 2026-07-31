@@ -78,6 +78,14 @@ extension Angle: Codable {
     }
 }
 
+/// Computes the absolute value of an angle.
+/// - Parameter angle: The angle to calculate the absolute value for.
+/// - Returns: The absolute value of the angle.
+@_disfavoredOverload
+public func abs(_ angle: Angle) -> Angle {
+    .radians(abs(angle.radians))
+}
+
 /// Computes the trigonometric cosine of an angle.
 /// - Parameter angle: The angle to calculate the cosine for.
 /// - Returns: The trigonometric cosine of the angle.
