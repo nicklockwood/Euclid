@@ -119,6 +119,16 @@ final class MeshTests: XCTestCase {
         XCTAssert(mesh.isActuallyConvex)
     }
 
+    func testCubeTubeTexcoordsAreDistributedByHeight() {
+        let mesh = Mesh.cube(wrapMode: .tube)
+        assertTubeTexcoordsDistributedByHeight(in: mesh)
+    }
+
+    func testIcosphereTubeTexcoordsAreDistributedByHeight() {
+        let mesh = Mesh.icosphere(wrapMode: .tube)
+        assertTubeTexcoordsDistributedByHeight(in: mesh)
+    }
+
     func testLatheCircleIsWatertightAndConvex() {
         let mesh = Mesh.lathe(.circle())
         XCTAssertNil(mesh.watertightIfSet)
@@ -750,6 +760,23 @@ final class MeshTests: XCTestCase {
 }
 
 private extension MeshTests {
+    func assertTubeTexcoordsDistributedByHeight(
+        in mesh: Mesh,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let bounds = mesh.bounds
+        let height = bounds.size.y
+        XCTAssertGreaterThan(height, epsilon, file: file, line: line)
+        for polygon in mesh.polygons {
+            for vertex in polygon.vertices {
+                let expectedY = (bounds.max.y - vertex.position.y) / height
+                XCTAssertEqual(vertex.texcoord.y, expectedY, accuracy: epsilon, file: file, line: line)
+                XCTAssert((0 ... 1).contains(vertex.texcoord.y), file: file, line: line)
+            }
+        }
+    }
+
     func openBoxPolygons(topMaterials: [Mesh.Material?]) -> [Euclid.Polygon] {
         precondition(topMaterials.count == 4)
         let bottom = Polygon(unchecked: [

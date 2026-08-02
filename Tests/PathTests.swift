@@ -469,6 +469,38 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(vertices[5].normal, [0, -1])
     }
 
+    func testTubeEdgeVerticesAreDistributedByHeight() {
+        let path = Path([
+            .point(0, 1),
+            .point(-2, 1),
+            .point(-1, 0),
+            .point(-3, -1),
+            .point(0, -1),
+        ])
+        let vertices = path.edgeVertices(for: .tube)
+        XCTAssertEqual(vertices.count, 8)
+        guard vertices.count >= 8 else { return }
+        // texture coords
+        XCTAssertEqual(vertices[0].texcoord, [0, 0])
+        XCTAssertEqual(vertices[1].texcoord, [0, 0])
+        XCTAssertEqual(vertices[2].texcoord, [0, 0])
+        XCTAssertEqual(vertices[3].texcoord, [0, 0.5])
+        XCTAssertEqual(vertices[4].texcoord, [0, 0.5])
+        XCTAssertEqual(vertices[5].texcoord, [0, 1])
+        XCTAssertEqual(vertices[6].texcoord, [0, 1])
+        XCTAssertEqual(vertices[7].texcoord, [0, 1])
+    }
+
+    func testTubeEdgeVerticesWithNoHeightHaveZeroTexcoords() {
+        let path = Path([
+            .point(-1, 1),
+            .point(1, 1),
+        ])
+        let vertices = path.edgeVertices(for: .tube)
+        XCTAssertEqual(vertices.count, 2)
+        XCTAssertEqual(vertices.map(\.texcoord), [.zero, .zero])
+    }
+
     func testEdgeVerticesForCircle() {
         let path = Path.circle(radius: 1, segments: 4)
         let vertices = path.edgeVertices

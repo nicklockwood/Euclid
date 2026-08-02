@@ -395,6 +395,8 @@ public extension Path {
 
         // get path length
         var totalLength = 0.0
+        var minY = 0.0
+        var maxY = 0.0
         switch wrapMode {
         case .shrink, .default:
             var prev = points[0].position
@@ -403,13 +405,13 @@ public extension Path {
                 return total + point.distance(from: prev)
             }
         case .tube:
-            var min = Double.infinity
-            var max = -Double.infinity
+            minY = Double.infinity
+            maxY = -Double.infinity
             for point in points {
-                min = Swift.min(min, point.position.y)
-                max = Swift.max(max, point.position.y)
+                minY = Swift.min(minY, point.position.y)
+                maxY = Swift.max(maxY, point.position.y)
             }
-            totalLength = max - min
+            totalLength = maxY - minY
         case .none:
             break
         }
@@ -439,14 +441,15 @@ public extension Path {
             p1p2 = p2.position - p1.position
             let n0 = n1 ?? p0p1.cross(faceNormal).normalized()
             n1 = p1p2.cross(faceNormal).normalized()
-            let uv = Vector(0, v, 0)
+            let uv: Vector
             switch wrapMode {
             case .shrink, .default:
+                uv = [0, v]
                 v += p1p2.length / totalLength
             case .tube:
-                v += abs(p1p2.y) / totalLength
+                uv = totalLength > epsilon ? [0, (maxY - p1.position.y) / totalLength] : .zero
             case .none:
-                break
+                uv = .zero
             }
             if p1.isCurved {
                 let v = Vertex(
@@ -464,7 +467,12 @@ public extension Path {
         }
         var first = vertices.removeFirst()
         if isClosed {
-            first.texcoord = [0, v, 0]
+            switch wrapMode {
+            case .shrink, .default:
+                first.texcoord = [0, v]
+            case .tube, .none:
+                break
+            }
             vertices.append(first)
         } else {
             vertices.removeLast()

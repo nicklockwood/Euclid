@@ -85,7 +85,8 @@ public extension Mesh {
 
     /// Return a copy of the mesh with cylindrically-mapped texture coordinates.
     func cylinderMapped() -> Mesh {
-        mapPolygonTexcoords { p in
+        let height = bounds.size.y
+        return mapPolygonTexcoords { p in
             let c = p.centroid, cd = Vector(c.x, c.z)
             let cn = cd.normalized()
             let ca = Angle.atan2(y: cn.y, x: cn.x)
@@ -94,7 +95,9 @@ public extension Mesh {
                 let ha: Angle
                 // TODO: can we find a less arbitrary value for this?
                 let epsilon = 0.1
-                if d.length < epsilon, d.length < cd.length {
+                if cd.length < epsilon {
+                    ha = d.length < epsilon ? ca : Angle.atan2(y: d.y, x: d.x)
+                } else if d.length < epsilon, d.length < cd.length {
                     ha = ca
                 } else {
                     let n = d.normalized()
@@ -110,7 +113,7 @@ public extension Mesh {
                     }
                 }
                 let x = ha / -.twoPi + 0.5
-                let y = (p.y - bounds.min.y) / -bounds.size.y
+                let y = height > epsilon ? (bounds.max.y - p.y) / height : 0
                 return $0.withTexcoord([x, y])
             }
         }
