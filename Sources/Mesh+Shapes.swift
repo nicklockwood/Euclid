@@ -91,7 +91,7 @@ public extension Mesh {
                         i & 2 > 0 ? 0.5 : -0.5,
                         i & 4 > 0 ? 0.5 : -0.5
                     ).scaled(by: size)
-                    let texcoord = wrapMode == .default ? Vector(
+                    let texcoord = wrapMode == .default || wrapMode == .box ? Vector(
                         (1 ... 2).contains(index) ? 1 : 0,
                         (0 ... 1).contains(index) ? 1 : 0
                     ) : .zero
@@ -138,7 +138,7 @@ public extension Mesh {
             )
         }
         switch wrapMode {
-        case .default, .none:
+        case .default, .box, .none:
             return mesh
         case .shrink:
             return mesh.sphereMapped()
