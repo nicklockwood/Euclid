@@ -129,6 +129,36 @@ final class MeshTests: XCTestCase {
         assertTubeTexcoordsDistributedByHeight(in: mesh)
     }
 
+    func testCubeMappedMatchesDefaultCubeTexcoords() {
+        let mesh = Mesh.cube(wrapMode: .none).cubeMapped()
+        let expected = Mesh.cube()
+        assertTexcoords(in: mesh, equalTexcoordsIn: expected)
+    }
+
+    func testCubeBoxWrapModeUsesDefaultMapping() {
+        let mesh = Mesh.cube(wrapMode: .box)
+        let expected = Mesh.cube()
+        assertTexcoords(in: mesh, equalTexcoordsIn: expected)
+    }
+
+    func testIcosphereBoxWrapModeUsesCubeMapping() {
+        let mesh = Mesh.icosphere(wrapMode: .box)
+        let expected = Mesh.icosphere(wrapMode: .none).cubeMapped()
+        assertTexcoords(in: mesh, equalTexcoordsIn: expected)
+    }
+
+    func testLatheBoxWrapModeUsesCubeMapping() {
+        let profile = Path([
+            .point(0, 1),
+            .point(-1, 1),
+            .point(-1, -1),
+            .point(0, -1),
+        ])
+        let mesh = Mesh.lathe(profile, wrapMode: .box)
+        let expected = Mesh.lathe(profile, wrapMode: .none).cubeMapped()
+        assertTexcoords(in: mesh, equalTexcoordsIn: expected)
+    }
+
     func testLatheCircleIsWatertightAndConvex() {
         let mesh = Mesh.lathe(.circle())
         XCTAssertNil(mesh.watertightIfSet)
@@ -760,6 +790,22 @@ final class MeshTests: XCTestCase {
 }
 
 private extension MeshTests {
+    func assertTexcoords(
+        in mesh: Mesh,
+        equalTexcoordsIn expected: Mesh,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        XCTAssertEqual(mesh.polygons.count, expected.polygons.count, file: file, line: line)
+        for (polygon, expectedPolygon) in zip(mesh.polygons, expected.polygons) {
+            XCTAssertEqual(polygon.vertices.count, expectedPolygon.vertices.count, file: file, line: line)
+            for (vertex, expectedVertex) in zip(polygon.vertices, expectedPolygon.vertices) {
+                XCTAssertEqual(vertex.position, expectedVertex.position, file: file, line: line)
+                XCTAssertEqual(vertex.texcoord, expectedVertex.texcoord, file: file, line: line)
+            }
+        }
+    }
+
     func assertTubeTexcoordsDistributedByHeight(
         in mesh: Mesh,
         file: StaticString = #filePath,

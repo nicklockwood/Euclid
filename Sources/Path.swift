@@ -412,7 +412,7 @@ public extension Path {
                 maxY = Swift.max(maxY, point.position.y)
             }
             totalLength = maxY - minY
-        case .none:
+        case .box, .none:
             break
         }
 
@@ -448,7 +448,7 @@ public extension Path {
                 v += p1p2.length / totalLength
             case .tube:
                 uv = totalLength > epsilon ? [0, (maxY - p1.position.y) / totalLength] : .zero
-            case .none:
+            case .box, .none:
                 uv = .zero
             }
             if p1.isCurved {
@@ -470,7 +470,7 @@ public extension Path {
             switch wrapMode {
             case .shrink, .default:
                 first.texcoord = [0, v]
-            case .tube, .none:
+            case .tube, .box, .none:
                 break
             }
             vertices.append(first)

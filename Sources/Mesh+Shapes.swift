@@ -57,6 +57,8 @@ public extension Mesh {
         case shrink
         /// Texture is tube-wrapped.
         case tube
+        /// Texture is box-wrapped.
+        case box
         /// Do not generate texture coordinates.
         case none
     }
@@ -91,10 +93,15 @@ public extension Mesh {
                         i & 2 > 0 ? 0.5 : -0.5,
                         i & 4 > 0 ? 0.5 : -0.5
                     ).scaled(by: size)
-                    let texcoord = wrapMode == .default || wrapMode == .box ? Vector(
-                        (1 ... 2).contains(index) ? 1 : 0,
-                        (0 ... 1).contains(index) ? 1 : 0
-                    ) : .zero
+                    let texcoord: Vector = switch wrapMode {
+                    case .default, .box:
+                        [
+                            (1 ... 2).contains(index) ? 1 : 0,
+                            (0 ... 1).contains(index) ? 1 : 0,
+                        ]
+                    case .shrink, .tube, .none:
+                        .zero
+                    }
                     return Vertex(unchecked: pos, normal, texcoord, nil)
                 },
                 normal: normal,
@@ -269,6 +276,8 @@ public extension Mesh {
             return mesh.sphereMapped()
         case .tube:
             return mesh.cylinderMapped()
+        case .box:
+            return mesh.cubeMapped()
         case .none:
             return mesh
         }
@@ -317,6 +326,8 @@ public extension Mesh {
             return mesh.sphereMapped()
         case .tube:
             return mesh.cylinderMapped()
+        case .box:
+            return mesh.cubeMapped()
         case .none:
             return mesh
         }
@@ -1499,9 +1510,10 @@ private extension Mesh {
         let isConvex = isConvex && !wasCancelled
         let isSealed = isConvex && !pointsAreSelfIntersecting(profile.points.map(\.position))
         let isWatertight = wasCancelled ? nil : isSealed ? true : isWatertight
+        let mesh: Mesh
         switch faces {
         case .default where isSealed, .front:
-            return Mesh(
+            mesh = Mesh(
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
                 bsp: nil,
@@ -1510,7 +1522,7 @@ private extension Mesh {
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .back:
-            return Mesh(
+            mesh = Mesh(
                 unchecked: polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
                 bsp: nil,
@@ -1519,7 +1531,7 @@ private extension Mesh {
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .frontAndBack:
-            return Mesh(
+            mesh = Mesh(
                 unchecked: polygons + polygons.inverted(),
                 bounds: nil, // TODO: can we calculate this efficiently?
                 bsp: nil,
@@ -1536,7 +1548,7 @@ private extension Mesh {
             {
                 polygons += polygons.inverted()
             }
-            return Mesh(
+            mesh = Mesh(
                 unchecked: polygons,
                 bounds: nil, // TODO: can we calculate this efficiently?
                 bsp: nil,
@@ -1545,6 +1557,7 @@ private extension Mesh {
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         }
+        return wrapMode == .box ? mesh.cubeMapped() : mesh
     }
 
     static func directionBetweenShapes(_ s0: Path, _ s1: Path) -> Vector {
