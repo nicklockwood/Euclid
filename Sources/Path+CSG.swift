@@ -42,12 +42,6 @@ public extension Path {
         }
         return BSP(mesh, isCancelled).clip(self, .greaterThan, isCancelled)
     }
-
-    /// Deprecated.
-    @available(*, deprecated)
-    func clipped(to mesh: Mesh, isCancelled: CancellationHandler?) -> Path {
-        clipped(to: mesh, isCancelled: isCancelled ?? { false })
-    }
 }
 
 extension Path {

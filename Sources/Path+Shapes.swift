@@ -32,12 +32,6 @@
 import Foundation
 
 public extension Path {
-    /// Deprecated.
-    @available(*, deprecated, message: "Path.init(_:) instead")
-    static func line(_ line: LineSegment, color: Color? = nil) -> Path {
-        .line(line.start, line.end, color: color)
-    }
-
     /// Creates a linear path from a start and end point.
     /// - Parameters:
     ///   - start: The starting point of the line.

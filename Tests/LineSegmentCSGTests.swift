@@ -62,19 +62,16 @@ final class LineSegmentCSGTests: XCTestCase {
         XCTAssertEqual(line.split(along: plane).back, line) // TODO: does this inconsistency matter?
     }
 
-    // MARK: Mesh Subtraction
+    // MARK: Mesh Clipping
 
-    @available(*, deprecated)
-    func testSubtractCube() {
+    func testClipCollectionToCube() {
         let line = LineSegment(unchecked: [0, -2, 0], [0, 2, 0])
         let mesh = Mesh.cube()
-        XCTAssertEqual([line].subtracting(mesh), [
-            LineSegment(undirected: [0, -2, 0], [0, -0.5, 0]),
-            LineSegment(undirected: [0, 0.5, 0], [0, 2, 0]),
+        XCTAssertEqual([line].clipped(to: mesh), [
+            LineSegment(start: [0, -2, 0], end: [0, -0.5, 0]),
+            LineSegment(start: [0, 0.5, 0], end: [0, 2, 0]),
         ])
     }
-
-    // MARK: Mesh Clipping
 
     func testClipToCube() {
         let line = LineSegment(unchecked: [0, -2, 0], [0, 2, 0])

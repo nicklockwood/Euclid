@@ -16,7 +16,6 @@ An infinite straight line in three-dimensional space.
 
 ### Comparing Lines
 
-- ``Line/containsPoint(_:)``
 - ``Line/distance(from:)-(LineComparable)``
 - ``Line/distance(from:)-77i61``
 - ``Line/intersection(with:)-2nysu``

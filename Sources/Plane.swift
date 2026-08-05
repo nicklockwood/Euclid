@@ -151,12 +151,6 @@ public extension Plane {
         Plane(unchecked: -normal, w: -w)
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "intersects(_:)")
-    func containsPoint(_ point: Vector) -> Bool {
-        intersects(point)
-    }
-
     /// Returns the signed distance between the plane and a `PlaneComparable` object.
     /// - Parameter object: The object to compare with.
     /// - Returns: The distance between the object and the plane. The value will be positive if the object lies

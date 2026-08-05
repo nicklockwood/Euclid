@@ -109,12 +109,6 @@ public extension Line {
         self.init(unchecked: segment.start, direction: segment.direction)
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "intersects(_:)")
-    func containsPoint(_ point: Vector) -> Bool {
-        intersects(point)
-    }
-
     /// Returns the point where the specified line intersects this one.
     /// - Parameter line: The line to compare with.
     /// - Returns: The point of intersection, or `nil` if the lines don't intersect.

@@ -513,29 +513,6 @@ public extension Mesh {
     /// - Returns: A ``Material`` instance, or `nil` for the default material.
     typealias SCNMaterialProvider = (_ m: SCNMaterial) -> Material?
 
-    /// Deprecated
-    @available(*, deprecated, message: "Use Mesh.init(url:materialLookup:) instead.")
-    init(url: URL, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider? = nil) throws {
-        var options: [SCNSceneSource.LoadingOption: Any] = [
-            .checkConsistency: false,
-            .flattenScene: true,
-            .createNormalsIfAbsent: true,
-            .convertToYUp: true,
-        ]
-        if #available(iOS 13, tvOS 13, macOS 10.12, *) {
-            options[.preserveOriginalTopology] = true
-        }
-        if !FileManager.default.isReadableFile(atPath: url.path) {
-            _ = try Data(contentsOf: url) // Will throw error if unreachable
-        }
-        let importedScene = try SCNScene(url: url, options: options)
-        self.init(
-            importedScene.rootNode,
-            ignoringTransforms: ignoringTransforms,
-            materialLookup: materialLookup
-        )
-    }
-
     /// Creates a mesh from a SceneKit node, with optional material mapping.
     /// - Parameters:
     ///   - scnNode: The `SCNNode` to convert into a mesh.

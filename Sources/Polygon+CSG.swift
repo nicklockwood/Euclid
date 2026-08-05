@@ -34,12 +34,6 @@ public extension Polygon {
         split(along: plane).front
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "clipped(to:)")
-    func clip(to plane: Plane) -> [Polygon] {
-        clipped(to: plane)
-    }
-
     /// Clip polygon to the specified mesh
     /// - Parameters:
     ///   - mesh: The ``Mesh``  to clip the polygon to.
@@ -50,12 +44,6 @@ public extension Polygon {
             return [self]
         }
         return BSP(mesh, isCancelled).clip([self], .greaterThan, isCancelled)
-    }
-
-    /// Deprecated.
-    @available(*, deprecated)
-    func clipped(to mesh: Mesh, isCancelled: CancellationHandler?) -> [Polygon] {
-        clipped(to: mesh, isCancelled: isCancelled ?? { false })
     }
 
     /// Computes a set of edges where the polygon intersects a plane.

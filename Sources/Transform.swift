@@ -116,12 +116,6 @@ public extension Transform {
         .init(translation: translation)
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "translation(_:)")
-    static func offset(_ offset: Vector) -> Transform {
-        .init(translation: offset)
-    }
-
     /// Creates a scale transform.
     /// - Parameter scale: A vector scale factor to apply.
     static func scale(_ scale: Vector) -> Transform {
@@ -153,23 +147,6 @@ public extension Transform {
         self.scale = .init(size: scale.clampedToScaleLimit())
         self.rotation = rotation ?? .identity
         self.translation = translation ?? .zero
-    }
-
-    /// Deprecated
-    @available(*, deprecated, renamed: "translation")
-    var offset: Vector {
-        set { translation = newValue }
-        get { translation }
-    }
-
-    /// Deprecated
-    @available(*, deprecated, renamed: "init(scale:rotation:translation:)")
-    init(
-        offset: Vector?,
-        rotation: Rotation? = nil,
-        scale: Vector? = nil
-    ) {
-        self.init(scale: scale, rotation: rotation, translation: offset)
     }
 
     /// Transform has no effect.

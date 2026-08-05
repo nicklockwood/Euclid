@@ -628,7 +628,7 @@ final class MeshTests: XCTestCase {
         XCTAssertEqual(mesh.signedVolume, -8)
     }
 
-    // MARK: containsPoint
+    // MARK: intersects
 
     func testCubeContainsPoint() {
         let edgePoints: [Vector] = [

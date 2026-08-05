@@ -22,7 +22,6 @@ An infinite plane in three-dimensional space.
 
 ### Comparing Planes
 
-- ``Plane/containsPoint(_:)``
 - ``Plane/signedDistance(from:)-(PlaneComparable)``
 - ``Plane/distance(from:)-(PlaneComparable)``
 - ``Plane/intersection(with:)-4v7tg``

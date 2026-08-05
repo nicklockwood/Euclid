@@ -160,12 +160,6 @@ public extension LineSegment {
         .init(unchecked: end, start)
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "intersects(_:)")
-    func containsPoint(_ point: Vector) -> Bool {
-        intersects(point)
-    }
-
     /// Returns the point where the specified plane intersects the line segment.
     /// - Parameter plane: The plane to compare with.
     /// - Returns: The point of intersection, or `nil` if the line segment and plane don't intersect.

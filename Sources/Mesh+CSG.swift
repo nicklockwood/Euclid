@@ -618,12 +618,6 @@ public extension Mesh {
         })
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "minkowskiSum(with:isCancelled:)")
-    func minkowskiSum(along path: Path, isCancelled: CancellationHandler = { false }) -> Mesh {
-        minkowskiSum(with: path, isCancelled: isCancelled)
-    }
-
     /// Computes the Minkowski sum of the receiver and a polygon.
     /// - Parameter polygon: The polygon with which to sum the mesh.
     /// - Returns: A new mesh representing the Minkowski sum of the inputs.
@@ -644,12 +638,6 @@ public extension Mesh {
             translated(by: edge.start),
             translated(by: edge.end),
         ])
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "minkowskiSum(with:isCancelled:)")
-    func minkowskiSum(along edge: LineSegment) -> Mesh {
-        minkowskiSum(with: edge)
     }
 
     /// Returns a new mesh representing the Minkowski difference of the
@@ -798,12 +786,6 @@ public extension Mesh {
                 submeshes: isKnownConvex ? submeshesIfEmpty : nil
             )
         }
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "clipped(to:fill:)")
-    func clip(to plane: Plane, fill: Material? = nil) -> Mesh {
-        clipped(to: plane, fill: fill)
     }
 
     /// Computes a set of edges where the mesh intersects a plane.

@@ -19,7 +19,6 @@ A finite straight line segment between two points.
 
 ### Comparing Line Segments
 
-- ``LineSegment/containsPoint(_:)``
 - ``LineSegment/intersection(with:)-1tffl``
 - ``LineSegment/intersection(with:)-2u7vo``
 - ``LineSegment/intersects(_:)-(Bounds)``

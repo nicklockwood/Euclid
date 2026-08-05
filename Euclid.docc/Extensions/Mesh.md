@@ -101,7 +101,7 @@ A three-dimensional surface made from polygons.
 
 ### Comparing Meshes
 
-- ``Mesh/containsPoint(_:)``
+- ``Mesh/intersects(_:)``
 - ``Mesh/edges(intersecting:)``
 
 ### Transforming Meshes
@@ -130,7 +130,7 @@ A three-dimensional surface made from polygons.
 
 ### Splitting Meshes
 
-- ``Mesh/clip(to:fill:)``
+- ``Mesh/clipped(to:fill:)``
 - ``Mesh/split(along:)``
 - ``Mesh/submeshes``
 

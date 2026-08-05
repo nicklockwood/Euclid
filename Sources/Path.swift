@@ -656,12 +656,6 @@ public extension Polygon {
             material: material
         )
     }
-
-    /// Deprecated
-    @available(*, deprecated, renamed: "init(_:material:)")
-    init?(shape: Path, material: Material? = nil) {
-        self.init(shape, material: material)
-    }
 }
 
 extension Path {

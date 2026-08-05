@@ -335,12 +335,6 @@ public extension Vector {
         angleBetweenNormalizedVectorAndPlane(normalized(), plane)
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "signedDistance(from:)")
-    func distance(from plane: Plane) -> Double {
-        signedDistance(from: plane)
-    }
-
     /// Returns the nearest point on the specified plane to the vector (representing a position in space).
     /// - Parameter plane: The plane to project onto.
     /// - Returns: The nearest point in 3D space that lies on the plane.

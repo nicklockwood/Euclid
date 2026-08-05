@@ -251,12 +251,9 @@ final class PlaneTests: XCTestCase {
         XCTAssertTrue(points.allSatisfy(plane.intersects))
     }
 
-    @available(*, deprecated)
-    func testDeprecatedPointPlaneDistance() {
+    func testPointPlaneDistance() {
         let point = Vector(-10, 0, 0)
         let plane = Plane(unchecked: .unitX, w: 0)
-        // This should be -10 when it's calling the deprecated method
-        // When the deprecated method is removed it will return 10 instead
-        XCTAssertEqual(point.distance(from: plane), -10)
+        XCTAssertEqual(point.distance(from: plane), 10)
     }
 }

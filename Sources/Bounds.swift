@@ -278,12 +278,6 @@ public extension Bounds {
         self = minkowskiSum(with: other)
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "intersects(_:)")
-    func containsPoint(_ point: Vector) -> Bool {
-        intersects(point)
-    }
-
     /// Returns a new bounds inset by the specified distance.
     /// - Parameter distance: The distance to inset the bounds by. Use negative values to expand the bounds.
     /// - Returns: The inset bounds.

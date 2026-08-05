@@ -29,12 +29,6 @@ public extension LineSegment {
         split(along: plane).front
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "clipped(to:)")
-    func clip(to plane: Plane) -> LineSegment? {
-        clipped(to: plane)
-    }
-
     /// Returns the parts of the line segment that lie outside of the specified mesh.
     /// - Parameters:
     ///   - mesh: The mesh volume against which to clip the segments.
@@ -72,20 +66,6 @@ public extension Collection<LineSegment> {
         var front = [LineSegment](), back: [LineSegment]?
         forEach { $0.split(along: plane, &front, &back) }
         return front
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, message: "Use clipped(to:isCancelled:) instead.")
-    func subtracting(
-        _ mesh: Mesh,
-        isCancelled: CancellationHandler = { false }
-    ) -> Set<LineSegment> {
-        var aout: [LineSegment] = []
-        return Set(BSP(mesh, isCancelled).clip(
-            boundsTest(mesh.bounds, self, &aout),
-            .greaterThan,
-            isCancelled
-        )).union(aout)
     }
 
     /// Returns the line segments that lie outside of the specified mesh, preserving their original order.

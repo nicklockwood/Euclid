@@ -181,12 +181,6 @@ public extension Mesh {
         polygons.signedVolume
     }
 
-    /// The volume of a watertight mesh.
-    @available(*, deprecated, renamed: "signedVolume")
-    var volume: Double {
-        polygons.signedVolume
-    }
-
     /// Creates a new mesh from an array of polygons.
     /// - Parameter polygons: The polygons making up the mesh.
     init(_ polygons: [Polygon]) {
@@ -643,12 +637,6 @@ public extension Mesh {
             isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, renamed: "intersects(_:)")
-    func containsPoint(_ point: Vector) -> Bool {
-        intersects(point)
     }
 }
 

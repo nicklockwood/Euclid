@@ -197,12 +197,6 @@ public extension Polygon {
         vertices.reduce(.zero) { $0 + $1.position } / Double(vertices.count)
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "centroid")
-    var center: Vector {
-        centroid
-    }
-
     /// Returns the ordered array of polygon edges.
     var orderedEdges: [LineSegment] {
         var p0 = vertices.last!.position
@@ -275,12 +269,6 @@ public extension Polygon {
         self.init(vertices.map(Vertex.init), material: material)
     }
 
-    /// Deprecated.
-    @available(*, deprecated, renamed: "intersects(_:)")
-    func containsPoint(_ point: Vector) -> Bool {
-        intersects(point)
-    }
-
     /// Merges this polygon with another, removing redundant vertices where possible.
     /// - Parameters:
     ///   - other: The polygon to merge with.
@@ -293,19 +281,6 @@ public extension Polygon {
             return nil
         }
         return merge(unchecked: other, ensureConvex: ensureConvex)
-    }
-
-    /// Deprecated.
-    @available(*, deprecated, message: "Use array-returning version instead")
-    func mapVertices(_ transform: (Vertex) -> Vertex) -> Polygon {
-        Polygon(
-            unchecked: vertices.map(transform),
-            plane: nil,
-            isConvex: nil,
-            sanitizeNormals: true,
-            material: material,
-            id: id
-        )
     }
 
     /// Return a copy of the polygon with transformed vertices.

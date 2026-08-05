@@ -28,7 +28,6 @@ An axis-aligned bounding box in three-dimensional space.
 
 ### Comparing Bounds
 
-- ``Bounds/containsPoint(_:)``
 - ``Bounds/intersects(_:)-(Line)``
 - ``Bounds/intersects(_:)-(Bounds)``
 - ``Bounds/intersects(_:)-(Plane)``
