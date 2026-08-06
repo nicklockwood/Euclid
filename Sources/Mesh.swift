@@ -761,9 +761,10 @@ private extension Mesh {
 
 private extension Set<LineSegment> {
     var closedLoops: [[Vector]] {
-        var edges = self
+        var edges = sorted()
         var loops = [[Vector]]()
-        while let first = edges.popFirst() {
+        while !edges.isEmpty {
+            let first = edges.removeFirst()
             var points = [first.start, first.end]
             while points.last != points.first {
                 guard let last = points.last,

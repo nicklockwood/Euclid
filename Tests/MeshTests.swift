@@ -310,6 +310,10 @@ final class MeshTests: XCTestCase {
         let d = c.makeWatertight()
         XCTAssertTrue(d.isWatertight)
         XCTAssertTrue(d.polygons.areWatertight)
+        let fingerprint = d.orderedFingerprint
+        for _ in 0 ..< 20 {
+            XCTAssertEqual(c.makeWatertight().orderedFingerprint, fingerprint)
+        }
         #if !arch(wasm32)
         XCTAssertEqual(d.triangulate().polygons.count, 524)
         #endif

@@ -386,6 +386,15 @@ final class MeshInsetTests: XCTestCase {
         XCTAssertFalse(mesh.polygons.contains { $0.orderedEdgesContainCrossings })
     }
 
+    func testInsetCubeSubtractingSphereIsDeterministic() {
+        let source = Mesh.cube(size: 0.8).subtracting(Mesh.sphere()).makeWatertight()
+        let expected = source.inset(by: 0.01).orderedFingerprint
+
+        for _ in 0 ..< 20 {
+            XCTAssertEqual(source.inset(by: 0.01).orderedFingerprint, expected)
+        }
+    }
+
     func testInsetExtrudedTextPastStrokeWidthIsEmpty() throws {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("comic sans ms" as CFString, 1, nil)

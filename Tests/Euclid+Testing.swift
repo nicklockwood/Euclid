@@ -138,6 +138,20 @@ extension Mesh {
         Mesh(polygons).isConvex()
     }
 
+    var orderedFingerprint: String {
+        polygons.map { polygon in
+            let vertices = polygon.vertices.map { vertex in
+                [
+                    vertex.position.components,
+                    vertex.normal.components,
+                    vertex.texcoord.components,
+                    vertex.color.components,
+                ].description
+            }.joined(separator: "|")
+            return "\(String(describing: polygon.material)):\(vertices)"
+        }.joined(separator: "\n")
+    }
+
     var hasSmoothSideVertexNormals: Bool {
         polygons.contains { polygon in
             abs(polygon.plane.normal.z) < 0.5 && polygon.vertices.contains {
