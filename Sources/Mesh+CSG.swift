@@ -505,6 +505,9 @@ public extension Mesh {
                 // Preserve concavity
                 return mesh.minkowskiSum(with: self)
             }
+            if polygons.count < mesh.polygons.count {
+                return mesh.minkowskiSum(with: self, isCancelled: isCancelled)
+            }
             let vertices = Set(mesh.polygons.flatMap {
                 $0.vertices.map { Vertex($0.position, color: $0.color) }
             }).sorted(by: { $0.position < $1.position })
@@ -526,6 +529,12 @@ public extension Mesh {
         of meshes: some Collection<Mesh>,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
+        let meshes = meshes.sorted {
+            if $0.polygons.count != $1.polygons.count {
+                return $0.polygons.count > $1.polygons.count
+            }
+            return $0.bounds.size < $1.bounds.size
+        }
         guard let first = meshes.first else {
             return .empty
         }

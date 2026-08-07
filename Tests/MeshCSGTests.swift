@@ -576,6 +576,13 @@ final class MeshCSGTests: XCTestCase {
         XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
+    func testMinkowskiSumOrdersConvexMeshesByPolygonCount() {
+        let cube = Mesh.cube()
+        let sphere = Mesh.sphere()
+        XCTAssertEqual(cube.minkowskiSum(with: sphere), sphere.minkowskiSum(with: cube))
+        XCTAssertEqual(Mesh.minkowskiSum(of: [cube, sphere]), Mesh.minkowskiSum(of: [sphere, cube]))
+    }
+
     func testMinkowskiSumOfTranslatedShapes() {
         let mesh1 = Mesh.cube().translated(by: .random())
         let mesh2 = Mesh.sphere().translated(by: .random())
