@@ -320,6 +320,18 @@ final class MeshCSGTests: XCTestCase {
         XCTAssert(detessellated.isWatertight)
     }
 
+    func testMinkowskiSumOfConeAndSphereIsWatertight() {
+        let cone = Mesh.cone(slices: 16)
+        let sphere = Mesh.sphere(slices: 16)
+        let mesh = cone.minkowskiSum(with: sphere)
+
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssert(mesh.detessellate().polygons.areWatertight)
+        XCTAssert(mesh.detessellate().isWatertight)
+    }
+
     func testConvexHullOfCubeIsItself() {
         let cube = Mesh.cube()
         let mesh = Mesh.convexHull(of: [cube])

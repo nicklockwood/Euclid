@@ -364,16 +364,20 @@ public extension Mesh {
     /// Merges any coplanar polygons that share one or more edges.
     /// - Returns: A new mesh containing the merged (possibly non-convex) polygons.
     func detessellate() -> Mesh {
-        Mesh(
-            unchecked: polygons.detessellate(
-                ensureConvex: false,
-                useQualityMerge: isWatertight,
-                allowDisjointSharedVertices: isPlanar
-            ),
+        let polygons = polygons.detessellate(
+            ensureConvex: false,
+            useQualityMerge: isWatertight,
+            allowDisjointSharedVertices: isPlanar,
+            // A vertex that is redundant within one coplanar face can still be needed by
+            // adjacent non-coplanar faces to preserve matching edge segmentation.
+            preserveRedundantVertices: watertightIfSet == true && !isPlanar
+        )
+        return Mesh(
+            unchecked: polygons,
             bounds: boundsIfSet,
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
-            isWatertight: nil, // TODO: can this be done without introducing holes?
+            isWatertight: watertightIfSet,
             submeshes: submeshesIfEmpty
         )
     }

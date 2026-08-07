@@ -1023,7 +1023,8 @@ extension Collection<Polygon> {
         ensureConvex: Bool,
         maxSides: Int = .max,
         useQualityMerge: Bool = true,
-        allowDisjointSharedVertices: Bool = true
+        allowDisjointSharedVertices: Bool = true,
+        preserveRedundantVertices: Bool = false
     ) -> [Polygon] {
         groupedByMaterial().flatMap {
             $0.polygons.groupedByPlane().flatMap {
@@ -1031,7 +1032,8 @@ extension Collection<Polygon> {
                     ensureConvex: ensureConvex,
                     maxSides: maxSides,
                     useQualityMerge: useQualityMerge,
-                    allowDisjointSharedVertices: allowDisjointSharedVertices
+                    allowDisjointSharedVertices: allowDisjointSharedVertices,
+                    preserveRedundantVertices: preserveRedundantVertices
                 )
             }
         }
@@ -1050,7 +1052,8 @@ extension Collection<Polygon> {
         ensureConvex: Bool,
         maxSides: Int,
         useQualityMerge: Bool = true,
-        allowDisjointSharedVertices: Bool = true
+        allowDisjointSharedVertices: Bool = true,
+        preserveRedundantVertices: Bool = false
     ) -> [Polygon] {
         assert(areCoplanar)
         assert(allSatisfy { $0.material == first?.material })
@@ -1064,7 +1067,8 @@ extension Collection<Polygon> {
                 ensureConvex: ensureConvex,
                 maxSides: maxSides,
                 allowDisjointSharedVertices: allowDisjointSharedVertices,
-                insertingEdgeVertices: allowDisjointSharedVertices
+                insertingEdgeVertices: allowDisjointSharedVertices,
+                preserveRedundantVertices: preserveRedundantVertices
             )
         }
         let maxQualityDetessellationPolygons = 64
@@ -1072,19 +1076,22 @@ extension Collection<Polygon> {
             polygons = polygons.greedyDetessellate(
                 ensureConvex: ensureConvex,
                 maxSides: maxSides,
-                allowDisjointSharedVertices: allowDisjointSharedVertices
+                allowDisjointSharedVertices: allowDisjointSharedVertices,
+                preserveRedundantVertices: preserveRedundantVertices
             )
             polygons.alignSharedEdgePoints()
             return polygons.greedyDetessellate(
                 ensureConvex: ensureConvex,
                 maxSides: maxSides,
-                allowDisjointSharedVertices: allowDisjointSharedVertices
+                allowDisjointSharedVertices: allowDisjointSharedVertices,
+                preserveRedundantVertices: preserveRedundantVertices
             )
         }
         while let candidate = polygons.bestMergeCandidate(
             ensureConvex: ensureConvex,
             maxSides: maxSides,
-            allowDisjointSharedVertices: allowDisjointSharedVertices
+            allowDisjointSharedVertices: allowDisjointSharedVertices,
+            preserveRedundantVertices: preserveRedundantVertices
         ) {
             polygons[candidate.i] = candidate.polygon
             polygons.remove(at: candidate.j)
@@ -1093,7 +1100,8 @@ extension Collection<Polygon> {
         while let candidate = polygons.bestMergeCandidate(
             ensureConvex: ensureConvex,
             maxSides: maxSides,
-            allowDisjointSharedVertices: allowDisjointSharedVertices
+            allowDisjointSharedVertices: allowDisjointSharedVertices,
+            preserveRedundantVertices: preserveRedundantVertices
         ) {
             polygons[candidate.i] = candidate.polygon
             polygons.remove(at: candidate.j)
@@ -1192,7 +1200,8 @@ private extension [Polygon] {
         ensureConvex: Bool,
         maxSides: Int,
         allowDisjointSharedVertices: Bool = true,
-        insertingEdgeVertices: Bool = false
+        insertingEdgeVertices: Bool = false,
+        preserveRedundantVertices: Bool = false
     ) -> [Polygon] {
         let shouldInsertEdgeVertices = insertingEdgeVertices && !ensureConvex && maxSides == .max
         var polygons = self
@@ -1214,7 +1223,8 @@ private extension [Polygon] {
                            let merged = a.merge(
                                unchecked: b,
                                ensureConvex: ensureConvex,
-                               allowDisjointSharedVertices: allowDisjointSharedVertices
+                               allowDisjointSharedVertices: allowDisjointSharedVertices,
+                               preserveRedundantVertices: preserveRedundantVertices
                            ),
                            merged.vertices.count <= maxSides
                         {
@@ -1254,7 +1264,8 @@ private extension [Polygon] {
     func bestMergeCandidate(
         ensureConvex: Bool,
         maxSides: Int,
-        allowDisjointSharedVertices: Bool
+        allowDisjointSharedVertices: Bool,
+        preserveRedundantVertices: Bool
     ) -> MergeCandidate? {
         var best: MergeCandidate?
         for pair in mergeCandidatePairs {
@@ -1262,7 +1273,8 @@ private extension [Polygon] {
             guard let merged = a.merge(
                 unchecked: b,
                 ensureConvex: ensureConvex,
-                allowDisjointSharedVertices: allowDisjointSharedVertices
+                allowDisjointSharedVertices: allowDisjointSharedVertices,
+                preserveRedundantVertices: preserveRedundantVertices
             ),
                 merged.vertices.count <= maxSides
             else {
@@ -1405,7 +1417,8 @@ extension Polygon {
     func merge(
         unchecked other: Polygon,
         ensureConvex: Bool,
-        allowDisjointSharedVertices: Bool = true
+        allowDisjointSharedVertices: Bool = true,
+        preserveRedundantVertices: Bool = false
     ) -> Polygon? {
         assert(material == other.material)
         // TODO: figure out why this can fail while plane.intersects passes
@@ -1539,9 +1552,10 @@ extension Polygon {
         }
 
         // Check if merged points can be removed
-        // TODO: add option to always preserve merged points
-        _ = result.removeIfRedundant(at: max(join1, join2))
-        _ = result.removeIfRedundant(at: min(join1, join2))
+        if !preserveRedundantVertices {
+            _ = result.removeIfRedundant(at: max(join1, join2))
+            _ = result.removeIfRedundant(at: min(join1, join2))
+        }
 
         // Reject non-simple polygons that loop back through an existing vertex.
         for i in result.indices.dropFirst() {
