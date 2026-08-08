@@ -7,6 +7,7 @@
 //
 
 import Euclid
+import Foundation
 import XCTest
 
 final class PerformanceTests: XCTestCase {
@@ -179,11 +180,262 @@ final class PerformanceTests: XCTestCase {
             XCTAssert(d.polygons.count < c.polygons.count)
         }
     }
+
+    @MainActor
+    func testInsetCancellationPerformanceRegression() throws {
+        let workloads = Self.insetCancellationPerformanceWorkloads
+        let iterations = 3
+        let cancellationDelay = 0.05
+        let maximumCancellationLatency = 0.2
+        let maximumUncancelledDuration = 1.0
+
+        var result = InsetCancellationPerformanceResult()
+        for workload in workloads {
+            let uncancelledDurations = (0 ..< iterations).map { _ in
+                Self.duration {
+                    let mesh = workload.mesh.inset(by: workload.distance) { false }
+                    XCTAssertFalse(mesh.isEmpty, workload.name)
+                }
+            }
+            let cancellationLatencies = (0 ..< iterations).map { _ in
+                Self.cancellationLatency(
+                    for: workload.mesh,
+                    distance: workload.distance,
+                    cancellationDelay: cancellationDelay
+                )
+            }
+            result.uncancelledDurationsByWorkload[workload.name] = uncancelledDurations.median()
+            result.cancellationLatenciesByWorkload[workload.name] = cancellationLatencies.compactMap(\.self).median()
+            result.didObserveCancellation = result.didObserveCancellation && cancellationLatencies
+                .allSatisfy { $0 != nil }
+        }
+
+        let report = Self.insetCancellationPerformanceReport(
+            result: result,
+            maximumCancellationLatency: maximumCancellationLatency,
+            maximumUncancelledDuration: maximumUncancelledDuration
+        )
+        XCTContext.runActivity(named: "Inset cancellation performance") {
+            let attachment = XCTAttachment(string: report)
+            attachment.lifetime = .keepAlways
+            $0.add(attachment)
+        }
+        try report.write(
+            toFile: "/tmp/euclid-inset-cancellation-performance-report.txt",
+            atomically: true,
+            encoding: .utf8
+        )
+        print(report)
+
+        guard result.didObserveCancellation else {
+            throw XCTSkip("Inset completed before cancellation could be requested.")
+        }
+        XCTAssertLessThanOrEqual(
+            result.worstCancellationLatency ?? .infinity,
+            maximumCancellationLatency
+        )
+        XCTAssertLessThanOrEqual(result.totalUncancelledDuration, maximumUncancelledDuration)
+    }
 }
 
 private extension Mesh {
     /// Remove cached BSP, isConvex, etc
     func withoutOptimizations() -> Self {
         Mesh(polygons)
+    }
+}
+
+private struct InsetCancellationPerformanceResult {
+    var uncancelledDurationsByWorkload = [String: TimeInterval]()
+    var cancellationLatenciesByWorkload = [String: TimeInterval?]()
+    var didObserveCancellation = true
+
+    var totalUncancelledDuration: TimeInterval {
+        uncancelledDurationsByWorkload.values.reduce(0, +)
+    }
+
+    var worstCancellationLatency: TimeInterval? {
+        let latencies = cancellationLatenciesByWorkload.values.compactMap(\.self)
+        return latencies.isEmpty ? nil : latencies.max()
+    }
+}
+
+private struct InsetCancellationPerformanceWorkload {
+    var name: String
+    var mesh: Mesh
+    var distance: Double
+}
+
+private final class CancellationProbe: @unchecked Sendable {
+    private let lock = NSLock()
+    private var cancelled = false
+    private var requestTime: TimeInterval?
+
+    func requestCancellation() {
+        lock.lock()
+        cancelled = true
+        requestTime = ProcessInfo.processInfo.systemUptime
+        lock.unlock()
+    }
+
+    func isCancelled() -> Bool {
+        lock.lock()
+        let cancelled = cancelled
+        lock.unlock()
+        return cancelled
+    }
+
+    var requestedAt: TimeInterval? {
+        lock.lock()
+        let requestTime = requestTime
+        lock.unlock()
+        return requestTime
+    }
+}
+
+private extension PerformanceTests {
+    static var insetCancellationPerformanceWorkloads: [InsetCancellationPerformanceWorkload] {
+        [
+            .init(
+                name: "disconnected cubes",
+                mesh: disconnectedCubesBenchmarkMesh,
+                distance: -0.01
+            ),
+            .init(
+                name: "connected surface",
+                mesh: connectedSurfaceBenchmarkMesh,
+                distance: 0.002
+            ),
+        ]
+    }
+
+    static var disconnectedCubesBenchmarkMesh: Mesh {
+        let gridSize = 80
+        let cube = Mesh.cube(size: 0.8)
+        let offset = Double(gridSize - 1) / 2
+        var polygons: [Euclid.Polygon] = []
+        polygons.reserveCapacity(gridSize * gridSize * cube.polygons.count)
+        for y in 0 ..< gridSize {
+            for x in 0 ..< gridSize {
+                let position = Vector(Double(x) - offset, Double(y) - offset, 0)
+                let transform = Transform(translation: position)
+                polygons += cube.transformed(by: transform).polygons
+            }
+        }
+        return Mesh(polygons).withoutOptimizations()
+    }
+
+    static var connectedSurfaceBenchmarkMesh: Mesh {
+        let gridSize = 40
+        let scale = 1.0 / Double(gridSize)
+        let offset = Double(gridSize) / 2
+        var positions = [[Vector]]()
+        positions.reserveCapacity(gridSize + 1)
+        for y in 0 ... gridSize {
+            var row = [Vector]()
+            row.reserveCapacity(gridSize + 1)
+            for x in 0 ... gridSize {
+                let px = (Double(x) - offset) * scale
+                let py = (Double(y) - offset) * scale
+                let z = sin(Double(x) * 0.17) * cos(Double(y) * 0.13) * scale * 2
+                row.append(Vector(px, py, z))
+            }
+            positions.append(row)
+        }
+        var polygons: [Euclid.Polygon] = []
+        polygons.reserveCapacity(gridSize * gridSize * 2)
+        for y in 0 ..< gridSize {
+            for x in 0 ..< gridSize {
+                let firstTriangle = [
+                    positions[y][x],
+                    positions[y + 1][x],
+                    positions[y + 1][x + 1],
+                ]
+                let secondTriangle = [
+                    positions[y][x],
+                    positions[y + 1][x + 1],
+                    positions[y][x + 1],
+                ]
+                guard let a = Euclid.Polygon(firstTriangle),
+                      let b = Euclid.Polygon(secondTriangle)
+                else {
+                    fatalError("Generated invalid connected-surface benchmark polygon")
+                }
+                polygons.append(a)
+                polygons.append(b)
+            }
+        }
+        return Mesh(polygons).withoutOptimizations()
+    }
+
+    static func duration(_ body: () -> Void) -> TimeInterval {
+        let start = ProcessInfo.processInfo.systemUptime
+        body()
+        return ProcessInfo.processInfo.systemUptime - start
+    }
+
+    static func cancellationLatency(
+        for mesh: Mesh,
+        distance: Double,
+        cancellationDelay: TimeInterval
+    ) -> TimeInterval? {
+        let probe = CancellationProbe()
+        let queue = DispatchQueue.global(qos: .userInitiated)
+        queue.asyncAfter(deadline: .now() + cancellationDelay) {
+            probe.requestCancellation()
+        }
+        let endTime = ProcessInfo.processInfo.systemUptime + duration {
+            _ = mesh.inset(by: distance) { probe.isCancelled() }
+        }
+        guard let requestedAt = probe.requestedAt else {
+            return nil
+        }
+        return endTime - requestedAt
+    }
+
+    static func insetCancellationPerformanceReport(
+        result: InsetCancellationPerformanceResult,
+        maximumCancellationLatency: TimeInterval,
+        maximumUncancelledDuration: TimeInterval
+    ) -> String {
+        let rows = result.uncancelledDurationsByWorkload.keys.sorted().map { name in
+            let uncancelled = result.uncancelledDurationsByWorkload[name, default: .infinity]
+            let cancellation = result.cancellationLatenciesByWorkload[name] ?? nil
+            let cancellationText = cancellation.map {
+                String(format: "%.1fms", $0 * 1000)
+            } ?? "not observed"
+            return String(
+                format: "%@: %.1fms uncancelled, %@ cancellation",
+                name,
+                uncancelled * 1000,
+                cancellationText
+            )
+        }
+        let total = String(format: "%.1fms", result.totalUncancelledDuration * 1000)
+        let worstCancellation = result.worstCancellationLatency.map {
+            String(format: "%.1fms", $0 * 1000)
+        } ?? "not observed"
+        return """
+        inset cancellation performance
+        maximum uncancelled runtime: \(Int(maximumUncancelledDuration * 1000))ms
+        maximum cancellation latency: \(Int(maximumCancellationLatency * 1000))ms
+
+        total uncancelled runtime: \(total)
+        worst cancellation latency: \(worstCancellation)
+
+        \(rows.joined(separator: "\n"))
+        """
+    }
+}
+
+private extension [TimeInterval] {
+    func median() -> TimeInterval {
+        guard !isEmpty else { return .infinity }
+        let values = sorted()
+        let middle = values.count / 2
+        if values.count.isMultiple(of: 2) {
+            return (values[middle - 1] + values[middle]) / 2
+        }
+        return values[middle]
     }
 }
