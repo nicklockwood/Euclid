@@ -109,6 +109,41 @@ final class MeshTests: XCTestCase {
         XCTAssert(mesh.isActuallyConvex)
     }
 
+    func testFilledPlanarPathHasPlanarStateSet() {
+        let mesh = Mesh.fill(.square(), faces: .front)
+        XCTAssertEqual(mesh.planarIfSet, true)
+        XCTAssertTrue(mesh.isPlanar)
+    }
+
+    func testFilledPlanarPathWithFrontAndBackFacesHasPlanarStateSet() {
+        let mesh = Mesh.fill(.square())
+        XCTAssertEqual(mesh.planarIfSet, true)
+        XCTAssertTrue(mesh.isPlanar)
+    }
+
+    func testFilledNonPlanarPathHasPlanarStateSet() {
+        let path = Path([
+            .point(0, 0, 0),
+            .point(1, 0, 0),
+            .point(1, 1, 1),
+            .point(0, 1, 0),
+            .point(0, 0, 0),
+        ])
+        let mesh = Mesh.fill(path, faces: .front)
+        XCTAssertEqual(mesh.planarIfSet, false)
+        XCTAssertFalse(mesh.isPlanar)
+    }
+
+    func testTransformingPlanarMeshPreservesPlanarState() {
+        let mesh = Mesh.fill(.square())
+        XCTAssertEqual(mesh.planarIfSet, true)
+        XCTAssertEqual(mesh.translated(by: .one).planarIfSet, true)
+        XCTAssertEqual(mesh.rotated(by: .roll(.pi / 4)).planarIfSet, true)
+        XCTAssertEqual(mesh.scaled(by: [1, 2, 3]).planarIfSet, true)
+        XCTAssertEqual(mesh.scaled(by: 2).planarIfSet, true)
+        XCTAssertEqual(mesh.transformed(by: .translation(.one)).planarIfSet, true)
+    }
+
     func testIcosphereIsWatertightAndConvex() {
         let mesh = Mesh.icosphere()
         XCTAssertEqual(mesh.watertightIfSet, true)
@@ -506,7 +541,8 @@ final class MeshTests: XCTestCase {
                 bounds: mesh.bounds,
                 bsp: nil,
                 isConvex: true,
-                isWatertight: mesh.isWatertight,
+                isWatertight: mesh.watertightIfSet,
+                isPlanar: mesh.planarIfSet,
                 submeshes: mesh.submeshes
             )
             XCTAssertEqual(mesh2.submeshes, [mesh2])

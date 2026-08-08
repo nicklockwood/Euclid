@@ -56,6 +56,7 @@ extension Mesh: CustomDebugStringConvertible {
         Mirror(self, children: [
             "bounds": storage.boundsIfSet.map { "\($0)" } ?? "unset",
             "isWatertight": storage.watertightIfSet.map { "\($0)" } ?? "unset",
+            "isPlanar": storage.planarIfSet.map { "\($0)" } ?? "unset",
             "isKnownConvex": storage.isKnownConvex,
             "bsp": storage.bspIfSet == nil ? "set" : "unset",
         ], displayStyle: .struct)
@@ -161,6 +162,11 @@ public extension Mesh {
         storage.isWatertight
     }
 
+    /// Check if polygons all lie on the same plane (facing either direction).
+    var isPlanar: Bool {
+        storage.isPlanar
+    }
+
     /// The bounds of the mesh.
     var bounds: Bounds { storage.bounds }
 
@@ -190,6 +196,7 @@ public extension Mesh {
             bsp: nil,
             isConvex: false,
             isWatertight: nil,
+            isPlanar: nil,
             submeshes: nil
         )
     }
@@ -212,6 +219,7 @@ public extension Mesh {
             bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -224,6 +232,7 @@ public extension Mesh {
             bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -236,6 +245,7 @@ public extension Mesh {
             bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -248,6 +258,7 @@ public extension Mesh {
             bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -270,6 +281,7 @@ public extension Mesh {
             bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -290,6 +302,7 @@ public extension Mesh {
             bsp: nil, // TODO: Can we merge these directly?
             isConvex: false,
             isWatertight: nil,
+            isPlanar: nil,
             submeshes: nil // TODO: can we preserve this?
         )
     }
@@ -316,6 +329,7 @@ public extension Mesh {
             bsp: nil, // TODO: Can we merge these directly?
             isConvex: false,
             isWatertight: nil,
+            isPlanar: nil,
             submeshes: nil // TODO: can we preserve this?
         )
     }
@@ -329,6 +343,7 @@ public extension Mesh {
             bsp: nil, // TODO: Can we invert this directly?
             isConvex: false,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -344,6 +359,7 @@ public extension Mesh {
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -357,6 +373,7 @@ public extension Mesh {
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -378,6 +395,7 @@ public extension Mesh {
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -391,6 +409,7 @@ public extension Mesh {
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: nil, // TODO: can this be done without introducing holes?
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -410,6 +429,7 @@ public extension Mesh {
                 bsp: nil,
                 isConvex: isKnownConvex,
                 isWatertight: true,
+                isPlanar: planarIfSet,
                 submeshes: submeshesIfEmpty
             )
         }
@@ -529,6 +549,7 @@ public extension Mesh {
             bsp: nil,
             isConvex: false, // TODO: can makeWatertight make this false?
             isWatertight: isWatertight,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -541,6 +562,7 @@ public extension Mesh {
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -555,6 +577,7 @@ public extension Mesh {
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -567,6 +590,7 @@ public extension Mesh {
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -585,6 +609,7 @@ extension Mesh {
         bsp: BSP?,
         isConvex: Bool,
         isWatertight: Bool?,
+        isPlanar: Bool?,
         submeshes: [Mesh]?
     ) {
         self.storage = polygons.isEmpty ? .empty : Storage(
@@ -593,6 +618,7 @@ extension Mesh {
             bsp: bsp,
             isKnownConvex: isConvex,
             isWatertight: isWatertight,
+            isPlanar: isPlanar,
             submeshes: submeshes
         )
     }
@@ -611,15 +637,6 @@ extension Mesh {
         return polygons.areConsistentlyWound
     }
 
-    /// Check if polygons all lie on the same plane (facing either direction).
-    var isPlanar: Bool {
-        guard let plane = polygons.first?.plane else { return true }
-        return polygons.allSatisfy {
-            $0.plane.w.isApproximatelyEqual(to: plane.w, absoluteTolerance: planeEpsilon) &&
-                $0.plane.isParallel(to: plane) || $0.plane.isAntiparallel(to: plane)
-        }
-    }
-
     var vertexNormalsFaceOutward: Bool {
         polygons.allSatisfy { polygon in
             polygon.vertices.allSatisfy {
@@ -631,6 +648,7 @@ extension Mesh {
     var boundsIfSet: Bounds? { storage.boundsIfSet }
     var bspIfSet: BSP? { storage.bspIfSet }
     var watertightIfSet: Bool? { storage.watertightIfSet }
+    var planarIfSet: Bool? { storage.planarIfSet }
     /// > Note: a mesh can be convex without being watertight
     var isKnownConvex: Bool { storage.isKnownConvex }
     /// > Note: we don't expose submeshesIfSet because it's unsafe to reuse
@@ -644,6 +662,7 @@ private extension Mesh {
         let polygons: [Polygon]
         private let bspLock = NSLock()
         private let watertightLock = NSLock()
+        private let planarLock = NSLock()
         private let submeshesLock = NSLock()
 
         static let empty = Storage(
@@ -652,6 +671,7 @@ private extension Mesh {
             bsp: nil,
             isKnownConvex: true,
             isWatertight: true,
+            isPlanar: true,
             submeshes: []
         )
 
@@ -709,6 +729,24 @@ private extension Mesh {
             return watertightIfSet!
         }
 
+        private(set) var planarIfSet: Bool?
+        var isPlanar: Bool {
+            planarLock.lock()
+            if planarIfSet == nil {
+                guard let plane = polygons.first?.plane else {
+                    planarIfSet = true
+                    planarLock.unlock()
+                    return true
+                }
+                planarIfSet = polygons.allSatisfy {
+                    $0.plane.w.isApproximatelyEqual(to: plane.w, absoluteTolerance: planeEpsilon) &&
+                        $0.plane.isParallel(to: plane) || $0.plane.isAntiparallel(to: plane)
+                }
+            }
+            planarLock.unlock()
+            return planarIfSet!
+        }
+
         private(set) var submeshesIfSet: [Mesh]?
         var submeshes: [Mesh] {
             submeshesLock.lock()
@@ -736,6 +774,7 @@ private extension Mesh {
             bsp: BSP?,
             isKnownConvex: Bool,
             isWatertight: Bool?,
+            isPlanar: Bool?,
             submeshes: [Mesh]?
         ) {
             assert(isWatertight == nil || isWatertight == polygons.areWatertight)
@@ -758,6 +797,7 @@ private extension Mesh {
             self.bspIfSet = bsp
             self.isKnownConvex = polygons.isEmpty || bsp?.isConvex ?? isKnownConvex
             self.watertightIfSet = polygons.isEmpty ? true : isWatertight
+            self.planarIfSet = polygons.isEmpty ? true : isPlanar
             self.submeshesIfSet = submeshes ?? (isKnownConvex ? [] : nil)
         }
     }

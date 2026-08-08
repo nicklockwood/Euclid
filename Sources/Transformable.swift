@@ -126,6 +126,7 @@ extension Mesh: Transformable {
             bsp: nil, // TODO: Make BSP transformable
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -137,6 +138,7 @@ extension Mesh: Transformable {
             bsp: nil, // TODO: Make BSP transformable
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -152,6 +154,7 @@ extension Mesh: Transformable {
             bsp: nil, // TODO: Make BSP transformable
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -163,6 +166,7 @@ extension Mesh: Transformable {
             bsp: nil, // TODO: Make BSP transformable
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -178,6 +182,7 @@ extension Mesh: Transformable {
             bsp: nil, // TODO: Make BSP transformable
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }

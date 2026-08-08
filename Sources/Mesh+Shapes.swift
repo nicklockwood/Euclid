@@ -123,6 +123,7 @@ public extension Mesh {
                 bsp: nil,
                 isConvex: true,
                 isWatertight: true,
+                isPlanar: false,
                 submeshes: []
             )
         case .back:
@@ -132,6 +133,7 @@ public extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: true,
+                isPlanar: false,
                 submeshes: []
             )
         case .frontAndBack:
@@ -141,6 +143,7 @@ public extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: true,
+                isPlanar: false,
                 submeshes: []
             )
         }
@@ -250,6 +253,7 @@ public extension Mesh {
                 bsp: nil,
                 isConvex: true,
                 isWatertight: true,
+                isPlanar: false,
                 submeshes: []
             )
         case .back:
@@ -259,6 +263,7 @@ public extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: true,
+                isPlanar: false,
                 submeshes: []
             )
         case .frontAndBack:
@@ -268,6 +273,7 @@ public extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: true,
+                isPlanar: false,
                 submeshes: []
             )
         }
@@ -319,6 +325,7 @@ public extension Mesh {
             bsp: nil,
             isConvex: true,
             isWatertight: true,
+            isPlanar: false,
             submeshes: []
         )
         switch wrapMode {
@@ -783,6 +790,7 @@ public extension Mesh {
     ) -> Mesh {
         let polygons = shape.fillPolygons(material: material, isCancelled: isCancelled)
         let isConvex = polygons.count == 1 && polygons[0].isConvex
+        let isPlanar = shape.isPlanar
         switch faces {
         case .front:
             return Mesh(
@@ -791,6 +799,7 @@ public extension Mesh {
                 bsp: nil,
                 isConvex: isConvex, // A single polygon counts as convex
                 isWatertight: false,
+                isPlanar: isPlanar,
                 submeshes: []
             )
         case .back:
@@ -800,6 +809,7 @@ public extension Mesh {
                 bsp: nil,
                 isConvex: isConvex, // A single polygon counts as convex
                 isWatertight: false,
+                isPlanar: isPlanar,
                 submeshes: []
             )
         case .frontAndBack, .default:
@@ -809,6 +819,7 @@ public extension Mesh {
                 bsp: nil,
                 isConvex: isConvex,
                 isWatertight: true,
+                isPlanar: isPlanar,
                 submeshes: []
             )
         }
@@ -942,6 +953,7 @@ public extension Mesh {
             bsp: nil,
             isConvex: false,
             isWatertight: nil,
+            isPlanar: nil,
             submeshes: nil
         )
     }
@@ -1528,6 +1540,8 @@ private extension Mesh {
         let isConvex = isConvex && !wasCancelled
         let isSealed = isConvex && !pointsAreSelfIntersecting(profile.points.map(\.position))
         let isWatertight = wasCancelled ? nil : isSealed ? true : isWatertight
+        let profileSize = profile.bounds.size
+        let isPlanar = wasCancelled ? nil : profileSize.x > epsilon ? profileSize.y <= epsilon : nil
         let mesh: Mesh
         switch faces {
         case .default where isSealed, .front:
@@ -1537,6 +1551,7 @@ private extension Mesh {
                 bsp: nil,
                 isConvex: isConvex,
                 isWatertight: isWatertight,
+                isPlanar: isPlanar,
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .back:
@@ -1546,6 +1561,7 @@ private extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: isWatertight,
+                isPlanar: isPlanar,
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .frontAndBack:
@@ -1555,6 +1571,7 @@ private extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: isWatertight,
+                isPlanar: isPlanar,
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .default:
@@ -1572,6 +1589,7 @@ private extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: isWatertight,
+                isPlanar: isPlanar,
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         }
@@ -1822,6 +1840,7 @@ private extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: nil,
+                isPlanar: nil,
                 submeshes: nil
             )
         case .back:
@@ -1831,6 +1850,7 @@ private extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: nil,
+                isPlanar: nil,
                 submeshes: nil
             )
         case .frontAndBack:
@@ -1840,6 +1860,7 @@ private extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: true,
+                isPlanar: nil,
                 submeshes: nil
             )
         }
@@ -1972,6 +1993,7 @@ private extension Mesh {
                 bsp: nil,
                 isConvex: isConvex,
                 isWatertight: isWatertight,
+                isPlanar: nil,
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .back:
@@ -1981,6 +2003,7 @@ private extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: isWatertight,
+                isPlanar: nil,
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         case .frontAndBack, .default:
@@ -1990,6 +2013,7 @@ private extension Mesh {
                 bsp: nil,
                 isConvex: false,
                 isWatertight: true, // double sided shapes are always watertight
+                isPlanar: nil,
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         }

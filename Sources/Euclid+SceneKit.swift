@@ -770,6 +770,7 @@ public extension Mesh {
             bsp: nil,
             isConvex: isKnownConvex,
             isWatertight: holeEdges.isEmpty,
+            isPlanar: nil,
             submeshes: noSubmeshes ? [] : nil
         )
     }

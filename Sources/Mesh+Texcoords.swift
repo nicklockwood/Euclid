@@ -15,6 +15,7 @@ public extension Mesh {
             bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -28,6 +29,7 @@ public extension Mesh {
             bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -172,6 +174,7 @@ private extension Mesh {
             bsp: nil, // TODO: Can we update this directly?
             isConvex: isKnownConvex,
             isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }

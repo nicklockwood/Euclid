@@ -26,6 +26,7 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertEqual(mesh.materials, [material])
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertFalse(mesh.isKnownConvex)
+        XCTAssertEqual(mesh.planarIfSet, false)
     }
 
     func testCubeBackFacesAreInverted() {
@@ -41,6 +42,11 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertFalse(back.isKnownConvex)
     }
 
+    func testThinCubeHasNonPlanarStateSet() {
+        let mesh = Mesh.cube(size: [1, 1, epsilon / 2])
+        XCTAssertEqual(mesh.planarIfSet, false)
+    }
+
     func testIcosahedronHasExpectedTopologyAndRadius() {
         let radius = 2.0
         let material = "icosahedron"
@@ -54,6 +60,7 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertEqual(mesh.materials, [material])
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.isKnownConvex)
+        XCTAssertEqual(mesh.planarIfSet, false)
     }
 
     func testIcosphereSubdivisionsIncreaseTriangleCount() {
@@ -73,6 +80,7 @@ final class MeshShapeTests: XCTestCase {
         })
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.isKnownConvex)
+        XCTAssertEqual(mesh.planarIfSet, false)
     }
 
     func testSphereAppliesRadiusAndStacks() {
@@ -86,6 +94,7 @@ final class MeshShapeTests: XCTestCase {
         })
         XCTAssertTrue(highDetail.isWatertight)
         XCTAssertTrue(highDetail.isKnownConvex)
+        XCTAssertEqual(highDetail.planarIfSet, false)
     }
 
     func testCylinderNormalizesRadiusAndHeight() {
@@ -94,6 +103,7 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertEqual(mesh.bounds, Bounds(min: [-2, -1.5, -2], max: [2, 1.5, 2]), accuracy: epsilon)
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.isKnownConvex)
+        XCTAssertEqual(mesh.planarIfSet, false)
     }
 
     func testCylinderWithZeroHeightBuildsFlatWatertightDisk() {
@@ -102,6 +112,7 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertEqual(mesh.bounds, Bounds(min: [-2, 0, -2], max: [2, 0, 2]), accuracy: epsilon)
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.isKnownConvex)
+        XCTAssertEqual(mesh.planarIfSet, true)
     }
 
     func testConeAppliesStacksAndBottomPoleDetail() {
@@ -120,6 +131,7 @@ final class MeshShapeTests: XCTestCase {
         XCTAssertEqual(detailed.bounds, Bounds(min: [-2, -2, -2], max: [2, 2, 2]), accuracy: epsilon)
         XCTAssertTrue(detailed.isWatertight)
         XCTAssertTrue(detailed.isKnownConvex)
+        XCTAssertEqual(detailed.planarIfSet, false)
     }
 
     func testConeNormalizesRadiusAndStackCount() {

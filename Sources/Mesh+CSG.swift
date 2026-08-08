@@ -63,6 +63,7 @@ public extension Mesh {
                 isWatertight: watertightIfSet.flatMap { isWatertight in
                     mesh.watertightIfSet.map { $0 && isWatertight }
                 },
+                isPlanar: nil,
                 submeshes: submeshesIfEmpty.flatMap { _ in
                     mesh.submeshesIfEmpty.map { _ in [self, mesh] }
                 }
@@ -92,6 +93,7 @@ public extension Mesh {
             bsp: nil, // TODO: Is there a cheap way to calculate this?
             isConvex: false,
             isWatertight: nil,
+            isPlanar: nil,
             submeshes: nil // TODO: can this be preserved?
         )
     }
@@ -152,6 +154,7 @@ public extension Mesh {
             bsp: nil, // TODO: Is there a cheap way to calculate this?
             isConvex: false,
             isWatertight: nil,
+            isPlanar: planarIfSet,
             submeshes: nil // TODO: can this be preserved?
         )
     }
@@ -214,6 +217,7 @@ public extension Mesh {
             bsp: nil, // TODO: Is there a cheap way to calculate this?
             isConvex: false,
             isWatertight: nil,
+            isPlanar: nil,
             submeshes: nil // TODO: can this be preserved?
         )
     }
@@ -271,6 +275,9 @@ public extension Mesh {
             bsp: nil, // TODO: Is there a cheap way to calculate this?
             isConvex: isKnownConvex && mesh.isKnownConvex,
             isWatertight: nil,
+            isPlanar: planarIfSet.flatMap { lhs in
+                mesh.planarIfSet.map { rhs in lhs || rhs }
+            },
             submeshes: nil // TODO: can this be preserved?
         )
     }
@@ -326,6 +333,7 @@ public extension Mesh {
             bsp: nil, // TODO: Would it be safe to keep this?
             isConvex: isKnownConvex,
             isWatertight: nil, // TODO: figure out why stencil creates holes
+            isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )
     }
@@ -666,6 +674,7 @@ public extension Mesh {
                     bsp: nil, // TODO: can we compute this cheaply?
                     isConvex: isKnownConvex,
                     isWatertight: nil,
+                    isPlanar: planarIfSet == true ? true : nil,
                     submeshes: nil
                 ),
                 Mesh(
@@ -674,6 +683,7 @@ public extension Mesh {
                     bsp: nil, // TODO: can we compute this cheaply?
                     isConvex: isKnownConvex,
                     isWatertight: nil,
+                    isPlanar: planarIfSet == true ? true : nil,
                     submeshes: nil
                 )
             )
@@ -711,6 +721,7 @@ public extension Mesh {
                 bsp: nil, // TODO: can we compute this cheaply?
                 isConvex: isKnownConvex,
                 isWatertight: nil,
+                isPlanar: planarIfSet == true ? true : nil,
                 submeshes: isKnownConvex ? submeshesIfEmpty : nil
             )
             guard let material = fill else {
@@ -746,6 +757,7 @@ public extension Mesh {
                 bsp: nil,
                 isConvex: isKnownConvex,
                 isWatertight: isWatertight,
+                isPlanar: planarIfSet == true ? true : nil,
                 submeshes: isKnownConvex ? submeshesIfEmpty : nil
             )
         }
@@ -792,6 +804,7 @@ public extension Mesh {
             bsp: nil, // TODO: Is there a cheaper way to calculate this?
             isConvex: false,
             isWatertight: nil,
+            isPlanar: planarIfSet == true ? true : nil,
             submeshes: nil
         )
     }
@@ -947,6 +960,7 @@ private extension Mesh {
             bsp: nil,
             isConvex: true,
             isWatertight: true,
+            isPlanar: nil, // TODO: can we compute this cheaply?
             submeshes: []
         )
     }
@@ -1046,6 +1060,7 @@ private extension Mesh {
             bsp: nil,
             isConvex: true,
             isWatertight: nil,
+            isPlanar: nil, // TODO: can we compute this cheaply?
             submeshes: []
         )
     }
