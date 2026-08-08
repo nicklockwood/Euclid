@@ -79,7 +79,7 @@ public extension Path {
         } ?? Int(ceil(abs(span) * 16))
         let radius = max(abs(radius), scaleLimit / 2)
         for i in 0 ... segments {
-            if i.isMultiple(of: 100), isCancelled() {
+            if i.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return .empty
             }
             let a = Double(i) / Double(segments) * angle

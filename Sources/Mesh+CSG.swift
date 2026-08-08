@@ -1031,7 +1031,7 @@ private extension Mesh {
 
         // Add remaining points
         for (i, point) in points.enumerated() {
-            if i.isMultiple(of: 100), isCancelled() {
+            if i.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return .empty
             }
             polygons.addPoint(

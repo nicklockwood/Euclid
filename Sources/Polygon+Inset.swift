@@ -54,7 +54,10 @@ public extension Polygon {
 
 private extension Polygon {
     /// Returns inset polygons, splitting into triangles if the moved polygon becomes invalid.
-    func insetPolygons(using positionCache: [Vector: Vector], by distance: Double) -> [Polygon] {
+    func insetPolygons(
+        using positionCache: [Vector: Vector],
+        by distance: Double
+    ) -> [Polygon] {
         func moved(_ polygon: Polygon) -> [Polygon] {
             let vertices = polygon.vertices.map { vertex -> Vertex in
                 let key = vertex.position
@@ -234,10 +237,15 @@ extension [Polygon] {
     }
 
     /// Inset along face normals
-    func insetFaces(by distance: Double) -> [Polygon] {
+    func insetFaces(
+        by distance: Double,
+        isCancelled: Polygon.CancellationHandler = { false }
+    ) -> [Polygon] {
+        guard !isCancelled() else { return [] }
         let source = Array(self).mergingVertices(withPrecision: epsilon)
         var vertexInfo = [Vector: (planes: [Plane], neighbors: Set<Vector>)]()
-        for polygon in source {
+        for (index, polygon) in source.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() { return [] }
             for i in polygon.vertices.indices {
                 let position = polygon.vertices[i].position
                 let previous = polygon.vertices[i == 0 ? polygon.vertices.count - 1 : i - 1].position
@@ -264,6 +272,7 @@ extension [Polygon] {
             var best: (Vector, Vector)?
             var bestLengthSquared = 0.0
             for i in neighbors.indices {
+                if i.isMultiple(of: cancellationCheckInterval), isCancelled() { return nil }
                 for j in neighbors.indices.dropFirst(i + 1) {
                     let a = neighbors[i], b = neighbors[j]
                     guard pointsAreCollinear(a, position, b),
@@ -303,24 +312,30 @@ extension [Polygon] {
         ) -> Vector {
             var previous = position
             var current = neighbor
+            var steps = 0
             while let next = vertexInfo[current]?.neighbors.first(where: {
                 $0 != previous && pointsAreCollinear(previous, current, $0) &&
                     ($0 - current).dot(current - previous) > 0
             }) {
+                if steps.isMultiple(of: cancellationCheckInterval), isCancelled() { break }
                 previous = current
                 current = next
+                steps += 1
             }
             return current
         }
 
         var positionCache = [Vector: Vector]()
-        for (position, info) in vertexInfo {
+        for (index, element) in vertexInfo.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() { return [] }
+            let (position, info) = element
             positionCache[position] = info.planes.insetPosition(for: position, by: distance)
         }
         let sourceBounds = Bounds(source.flatMap(\.vertices))
         let isConvexSurface = source.isConvexSurface
         if isConvexSurface {
-            for position in positionCache.keys {
+            for (index, position) in positionCache.keys.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() { return [] }
                 guard let (a, b, t) = straightChain(for: position, in: vertexInfo),
                       let a1 = positionCache[a],
                       let b1 = positionCache[b]
@@ -330,9 +345,18 @@ extension [Polygon] {
                 positionCache[position] = a1 + (b1 - a1) * t
             }
         }
-        let polygons = source.flatMap { polygon in
-            polygon.insetPolygons(using: positionCache, by: distance)
-        }.removingCollapsedInsetSheets(by: distance)
+        guard !isCancelled() else { return [] }
+        var wasCancelled = false
+        let polygons: [Polygon] = source.enumerated().flatMap { index, polygon in
+            if wasCancelled || index.isMultiple(of: cancellationCheckInterval) && isCancelled() {
+                wasCancelled = true
+                return [Polygon]()
+            }
+            return polygon.insetPolygons(
+                using: positionCache,
+                by: distance
+            )
+        }.removingCollapsedInsetSheets(by: distance, isCancelled: isCancelled)
         guard distance > 0, isConvexSurface else {
             return polygons.mergingVertices(withPrecision: epsilon)
         }
@@ -342,15 +366,20 @@ extension [Polygon] {
     }
 
     /// Removes paired sheets left behind when opposing faces collapse through an inset.
-    func removingCollapsedInsetSheets(by distance: Double) -> [Polygon] {
-        guard distance > 0, count > 1 else {
+    func removingCollapsedInsetSheets(
+        by distance: Double,
+        isCancelled: Polygon.CancellationHandler = { false }
+    ) -> [Polygon] {
+        guard !isCancelled(), distance > 0, count > 1 else {
             return self
         }
         let polygons = self
         let originalHoleCount = polygons.holeEdges.count
         var removed = Set<Int>()
         for i in polygons.indices where !removed.contains(i) {
+            if i.isMultiple(of: cancellationCheckInterval), isCancelled() { break }
             for j in polygons.indices.dropFirst(i + 1) where !removed.contains(j) {
+                if j.isMultiple(of: cancellationCheckInterval), isCancelled() { break }
                 guard polygons[i].isCollapsedInsetSheetPair(with: polygons[j], by: distance) else {
                     continue
                 }

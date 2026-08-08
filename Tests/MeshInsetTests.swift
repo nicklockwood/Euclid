@@ -14,6 +14,17 @@ import CoreText
 #endif
 
 final class MeshInsetTests: XCTestCase {
+    func testInsetCanBeCancelled() {
+        nonisolated(unsafe) var checks = 0
+        let mesh = Mesh.cube().inset(by: 0.1) {
+            checks += 1
+            return checks > 1
+        }
+
+        XCTAssertGreaterThan(checks, 1)
+        XCTAssertTrue(mesh.isEmpty)
+    }
+
     func testInsetExtrudedConcaveShapeRemovesCrossingFaces() {
         let shape = Path([
             .point(0, 0),

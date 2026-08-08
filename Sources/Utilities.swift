@@ -40,6 +40,9 @@ let planeEpsilon: Double = 2e-8
 /// Smallest valid scale factor
 let scaleLimit: Double = 1e-8
 
+/// Number of loop iterations between cancellation checks.
+let cancellationCheckInterval = 100
+
 /// Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
     let precision = 1e-12
