@@ -109,7 +109,7 @@ final class MeshInsetTests: XCTestCase {
         let paths = Path.text("8", font: font)
         let shape = try XCTUnwrap(paths.first)
         let distance = 0.01
-        let mesh = Mesh.extrude(shape).detessellate().makeWatertight().inset(by: distance)
+        let mesh = Mesh.extrude(shape).makeWatertight().detessellate().inset(by: distance)
         XCTAssertTrue(mesh.isWatertight)
         let expected = Mesh.extrude(shape.inset(by: distance))
         let capArea = mesh.polygons.filter {
@@ -209,7 +209,7 @@ final class MeshInsetTests: XCTestCase {
 
     func testInsetRotatedExtrudedRoundedRectanglePreservesSmoothSideNormals() {
         let shape = Path.roundedRectangle(width: 2, height: 1, radius: 0.25, detail: 4)
-        let source = Mesh.extrude(shape).detessellate().makeWatertight()
+        let source = Mesh.extrude(shape).makeWatertight().detessellate()
         let distance = 0.01
         let rotation = Rotation(pitch: .radians(.pi / 5), yaw: .radians(.pi / 7), roll: .radians(.pi / 9))
         let capNormal = shape.faceNormal.rotated(by: rotation)

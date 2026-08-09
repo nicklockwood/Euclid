@@ -43,6 +43,13 @@ let scaleLimit: Double = 1e-8
 /// Number of loop iterations between cancellation checks.
 let cancellationCheckInterval = 500
 
+/// Deterministic UInt64 hash
+func deterministicHash(_ seed: UInt64) -> UInt64 {
+    // See https://github.com/wangyi-fudan/wyhash/
+    let result = seed.multipliedFullWidth(by: seed ^ 0xE7037ED1A0B428DB)
+    return result.high ^ result.low
+}
+
 /// Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
     let precision = 1e-12

@@ -281,6 +281,39 @@ final class MeshCSGTests: XCTestCase {
         XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
     }
 
+    func testConvexHullOfDetail50YAxisAlignedSpheresDetessellates() {
+        let radius = 0.0042 / 2
+        let innerRadius = 0.296 + 0.019 * 0.18 - (0.022 - 0.0042)
+        let outerRadius = 0.296 + 0.019 * 0.18
+        let mesh1 = Mesh.sphere(radius: radius, slices: 50).translated(by: [0, -innerRadius, 0])
+        let mesh2 = Mesh.sphere(radius: radius, slices: 50).translated(by: [0, -outerRadius, 0])
+        let mesh = Mesh.convexHull(of: [mesh1, mesh2]).detessellate()
+        XCTAssert(mesh.isKnownConvex)
+        XCTAssert(mesh.isActuallyConvex)
+        XCTAssert(mesh.isWatertight)
+        XCTAssert(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.bounds, mesh1.bounds.union(mesh2.bounds))
+        XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+    }
+
+    func testConvexHullOfProblematicDetailDiagonalSpheresDetessellates() {
+        for detail in [52, 54, 63] {
+            let mesh1 = Mesh.sphere(slices: detail)
+                .scaled(by: 0.0018)
+                .translated(by: [0.021920310216782973, 0.02192031021678297, 0.029])
+            let mesh2 = Mesh.sphere(slices: detail)
+                .scaled(by: 0.0018)
+                .translated(by: [-0.10966680337261942, 0.2648919860483299, 0])
+            let mesh = Mesh.convexHull(of: [mesh1, mesh2])
+            XCTAssert(mesh.isKnownConvex)
+            XCTAssert(mesh.isWatertight)
+            XCTAssert(mesh.polygons.areWatertight)
+            XCTAssertLessThan(mesh.polygons.count, 5_000)
+            XCTAssertEqual(mesh.bounds, mesh1.bounds.union(mesh2.bounds))
+            XCTAssertEqual(mesh.bounds, Bounds(mesh.polygons))
+        }
+    }
+
     func testConvexHullReconstructsSmoothNormalsFromFlatSphere() {
         let sphere = Mesh.sphere(slices: 16).flatteningNormals()
         let mesh = Mesh.convexHull(of: sphere.polygons)
@@ -330,6 +363,22 @@ final class MeshCSGTests: XCTestCase {
         XCTAssert(mesh.polygons.areWatertight)
         XCTAssert(mesh.detessellate().polygons.areWatertight)
         XCTAssert(mesh.detessellate().isWatertight)
+    }
+
+    func testMinkowskiSumRepairBeforeDetessellateIsWatertight() {
+        let cube = Mesh.cube()
+        let cylinder = Mesh.cylinder(radius: 0.225, height: 1.2, slices: 16)
+            .rotated(by: Rotation(roll: .halfPi))
+            .translated(by: [0.45, 0, 0])
+        let source = Mesh.union([cube, cylinder]).makeWatertight()
+        let mesh = source.inset(by: 0.06)
+            .minkowskiSum(with: Mesh.sphere(radius: 0.06, slices: 16))
+            .makeWatertight()
+            .detessellate()
+
+        XCTAssertTrue(source.isWatertight)
+        XCTAssertTrue(mesh.isWatertight, "hole edges: \(mesh.polygons.holeEdges.count)")
+        XCTAssertTrue(mesh.polygons.areWatertight)
     }
 
     func testConvexHullOfCubeIsItself() {

@@ -769,6 +769,15 @@ extension Collection<Polygon> {
         return allSatisfy { $0.plane.isApproximatelyEqual(to: plane) }
     }
 
+    /// Check if polygons all lie on the same plane, regardless of winding direction.
+    var arePlanar: Bool {
+        guard let plane = first?.plane else { return true }
+        return allSatisfy {
+            $0.plane.isApproximatelyEqual(to: plane) ||
+                $0.plane.isApproximatelyEqual(to: plane.inverted())
+        }
+    }
+
     /// Assuming that polygons are coplanar, determines if they form a convex boudary
     var coplanarPolygonsAreConvex: Bool {
         assert(areCoplanar)

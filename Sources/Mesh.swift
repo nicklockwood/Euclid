@@ -733,15 +733,7 @@ private extension Mesh {
         var isPlanar: Bool {
             planarLock.lock()
             if planarIfSet == nil {
-                guard let plane = polygons.first?.plane else {
-                    planarIfSet = true
-                    planarLock.unlock()
-                    return true
-                }
-                planarIfSet = polygons.allSatisfy {
-                    $0.plane.w.isApproximatelyEqual(to: plane.w, absoluteTolerance: planeEpsilon) &&
-                        $0.plane.isParallel(to: plane) || $0.plane.isAntiparallel(to: plane)
-                }
+                planarIfSet = polygons.arePlanar
             }
             planarLock.unlock()
             return planarIfSet!
