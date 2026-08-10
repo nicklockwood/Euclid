@@ -6,8 +6,6 @@
 //  Copyright © 2024 Nick Lockwood. All rights reserved.
 //
 
-#if !arch(wasm32)
-
 import Foundation
 #if canImport(SceneKit)
 import SceneKit
@@ -128,5 +126,3 @@ public extension Mesh {
         }
     }
 }
-
-#endif
