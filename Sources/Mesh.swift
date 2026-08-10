@@ -570,6 +570,40 @@ public extension Mesh {
         )
     }
 
+    /// Returns a copy of the mesh with winding made consistent across shared edges.
+    ///
+    /// For closed, non-planar submeshes, the result is also oriented so that the signed volume is positive.
+    /// Open or planar surfaces will have locally consistent winding, but their absolute orientation is ambiguous.
+    /// - Parameter isCancelled: Callback used to cancel the operation.
+    /// - Returns: A new mesh with consistently wound polygons.
+    func withConsistentWinding(isCancelled: CancellationHandler = { false }) -> Mesh {
+        guard !isCancelled() else { return .empty }
+        let groups = polygons.groupedSubmeshIndices
+        var result = polygons
+        for (index, indices) in groups.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return self
+            }
+            let group = indices.map { polygons[$0] }
+            var repaired = group.withConsistentWinding(isCancelled: isCancelled)
+            if repaired.areWatertight, !repaired.arePlanar, repaired.signedVolume < 0 {
+                repaired = repaired.inverted()
+            }
+            for (index, polygon) in zip(indices, repaired) {
+                result[index] = polygon
+            }
+        }
+        return Mesh(
+            unchecked: result,
+            bounds: boundsIfSet,
+            bsp: nil,
+            isConvex: isKnownConvex && groups.count <= 1,
+            isWatertight: watertightIfSet,
+            isPlanar: planarIfSet,
+            submeshes: nil
+        )
+    }
+
     /// Flatten vertex normals (set them to match the face normals of each polygon).
     func flatteningNormals() -> Mesh {
         Mesh(
@@ -808,6 +842,38 @@ private extension Mesh {
             self.planarIfSet = polygons.isEmpty ? true : isPlanar
             self.submeshesIfSet = submeshes ?? (isKnownConvex ? [] : nil)
         }
+    }
+}
+
+private extension [Polygon] {
+    /// Group by touching vertices, returning polygon indices in original order.
+    var groupedSubmeshIndices: [[Int]] {
+        var submeshes = [[Int]]()
+        var points = [Set<Vector>]()
+        for (index, poly) in enumerated() {
+            let positions = Set(poly.vertices.map(\.position))
+            var lastMatch: Int?
+            for i in points.indices.reversed() {
+                if !points[i].isDisjoint(with: positions) {
+                    if !submeshes[i].contains(index) {
+                        submeshes[i].append(index)
+                    }
+                    points[i].formUnion(positions)
+                    if let j = lastMatch {
+                        for index in submeshes.remove(at: j) where !submeshes[i].contains(index) {
+                            submeshes[i].append(index)
+                        }
+                        points[i].formUnion(points.remove(at: j))
+                    }
+                    lastMatch = i
+                }
+            }
+            if lastMatch == nil {
+                submeshes.append([index])
+                points.append(positions)
+            }
+        }
+        return submeshes.map { $0.sorted() }
     }
 }
 

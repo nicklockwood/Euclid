@@ -100,6 +100,30 @@ final class MeshTests: XCTestCase {
         }
     }
 
+    func testWithConsistentWindingRepairsFlippedFace() {
+        let cube = Mesh.cube()
+        var polygons = cube.polygons
+        polygons[0] = polygons[0].inverted()
+
+        let mesh = Mesh(polygons).withConsistentWinding()
+        XCTAssertEqual(mesh, cube)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertGreaterThan(mesh.signedVolume, 0)
+    }
+
+    func testWithConsistentWindingRepairsInvertedSubmeshesIndependently() {
+        let cube = Mesh.cube()
+        let mesh = Mesh.merge([
+            cube.inverted(),
+            cube.translated(by: [2, 0, 0]),
+        ])
+
+        let result = mesh.withConsistentWinding()
+        XCTAssertEqual(result.submeshes.count, 2)
+        XCTAssertTrue(result.submeshes.allSatisfy { $0.signedVolume > 0 })
+        XCTAssertEqual(result.signedVolume, cube.signedVolume * 2, accuracy: epsilon)
+    }
+
     func testSphereIsWatertightAndConvex() {
         let mesh = Mesh.sphere()
         XCTAssertEqual(mesh.watertightIfSet, true)
