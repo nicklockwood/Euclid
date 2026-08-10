@@ -200,13 +200,15 @@ func defaultColorMapping(_ material: Polygon.Material?) -> Color? {
 
 public extension Mesh {
     /// Create a mesh from an STL string.
-    /// - Parameter stlString: ASCII STL string data.
-    init?(stlString: String) {
+    /// - Parameters:
+    ///   - stlString: ASCII STL string data.
+    ///   - options: The import options.
+    init?(stlString: String, options: ImportOptions = .init()) {
         var lines = ArraySlice(stlString.components(separatedBy: .newlines))
         guard let mesh = lines.readSolid() else {
             return nil
         }
-        self = mesh
+        self = (options.repairWinding ?? true) ? mesh.withConsistentWinding() : mesh
     }
 
     /// A closure that maps an STL facet color to a Euclid material.
@@ -217,14 +219,19 @@ public extension Mesh {
     /// Create a mesh from STL data.
     /// - Parameters:
     ///   - stlData: binary or ASCII STL file data
+    ///   - options: The import options.
     ///   - materialLookup: A closure to map STL facet colors to Euclid materials. Use `nil` for default mapping.
-    init?(stlData: Data, materialLookup: STLMaterialProvider? = nil) {
+    init?(
+        stlData: Data,
+        options: ImportOptions = .init(),
+        materialLookup: STLMaterialProvider? = nil
+    ) {
         if stlData.count >= 5,
            let prefix = String(data: stlData[0 ..< 5], encoding: .utf8),
            prefix.caseInsensitiveCompare("solid") == .orderedSame,
            let string = String(data: stlData, encoding: .utf8)
         {
-            self.init(stlString: string)
+            self.init(stlString: string, options: options)
             return
         }
         var offset = headerSize
@@ -255,7 +262,11 @@ public extension Mesh {
                 )
             }
         }
-        self.init(triangles)
+        var mesh = Mesh(triangles)
+        if options.repairWinding ?? true {
+            mesh = mesh.withConsistentWinding()
+        }
+        self = mesh
     }
 }
 

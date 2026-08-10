@@ -106,8 +106,10 @@ private typealias OBJVertex = (
 
 public extension Mesh {
     /// Create a mesh from a Wavefront OBJ string.
-    /// - Parameter objString: OBJ string data.
-    init?(objString: String) {
+    /// - Parameters:
+    ///   - objString: OBJ string data.
+    ///   - options: The import options.
+    init?(objString: String, options: ImportOptions = .init()) {
         var vertices = [Vertex]()
         var normals = [Vector]()
         var texcoords = [Vector]()
@@ -140,9 +142,13 @@ public extension Mesh {
             return vertex
         }
 
-        self = Mesh(faces.flatMap {
+        var mesh = Mesh(faces.flatMap {
             [Polygon]($0.compactMap(lookup), material: nil)
         })
+        if options.repairWinding ?? false {
+            mesh = mesh.withConsistentWinding()
+        }
+        self = mesh
     }
 }
 

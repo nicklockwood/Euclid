@@ -12,6 +12,16 @@ import SceneKit
 #endif
 
 public extension Mesh {
+    /// Configuration options for mesh import.
+    struct ImportOptions: Sendable {
+        /// Should face winding be repaired after loading? Use `nil` for format-specific default.
+        public var repairWinding: Bool?
+
+        public init(repairWinding: Bool? = nil) {
+            self.repairWinding = repairWinding
+        }
+    }
+
     /// Input/output error.
     struct IOError: Error, CustomNSError {
         let message: String
@@ -28,19 +38,24 @@ public extension Mesh {
     /// Loads a mesh from a file, with optional material mapping.
     /// - Parameters:
     ///   - url: The `URL` of the file to be loaded.
+    ///   - options: The import options.
     ///   - materialLookup: A closure to map format-specific materials to Euclid materials. Use `nil` for default
     ///     mapping.
-    init(url: URL, materialLookup: (@Sendable (AnyHashable?) -> Material?)? = nil) throws {
+    init(
+        url: URL,
+        options: ImportOptions = .init(),
+        materialLookup: (@Sendable (AnyHashable?) -> Material?)? = nil
+    ) throws {
         switch url.pathExtension.lowercased() {
         case "stl", "stla":
             let data = try Data(contentsOf: url)
-            guard let mesh = Mesh(stlData: data, materialLookup: materialLookup) else {
+            guard let mesh = Mesh(stlData: data, options: options, materialLookup: materialLookup) else {
                 throw IOError("Invalid STL file")
             }
             self = mesh
         case "off":
             let string = try String(contentsOf: url)
-            guard let mesh = Mesh(offString: string) else {
+            guard let mesh = Mesh(offString: string, options: options) else {
                 throw IOError("Invalid OFF file")
             }
             self = mesh
@@ -50,7 +65,7 @@ public extension Mesh {
             fallthrough
             #else
             let string = try String(contentsOf: url)
-            guard let mesh = Mesh(objString: string) else {
+            guard let mesh = Mesh(objString: string, options: options) else {
                 throw IOError("Invalid OBJ file")
             }
             self = mesh
@@ -60,17 +75,20 @@ public extension Mesh {
                 _ = try Data(contentsOf: url) // Will throw error if unreachable
             }
             #if canImport(SceneKit)
-            var options: [SCNSceneSource.LoadingOption: Any] = [
+            var sceneOptions: [SCNSceneSource.LoadingOption: Any] = [
                 .checkConsistency: true,
                 .flattenScene: true,
                 .createNormalsIfAbsent: true,
                 .convertToYUp: true,
             ]
             if #available(iOS 13, tvOS 13, macOS 10.12, *) {
-                options[.preserveOriginalTopology] = true
+                sceneOptions[.preserveOriginalTopology] = true
             }
-            let importedScene = try SCNScene(url: url, options: options)
+            let importedScene = try SCNScene(url: url, options: sceneOptions)
             self.init(importedScene.rootNode, materialLookup: materialLookup)
+            if options.repairWinding == true {
+                self = withConsistentWinding()
+            }
             #else
             throw IOError("Unsupported mesh file format '\(url.pathExtension)'")
             #endif

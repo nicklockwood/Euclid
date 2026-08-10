@@ -361,6 +361,32 @@ final class MeshImportTests: XCTestCase {
         XCTAssertEqual(cube, expected)
     }
 
+    func testInvertedSTLWindingIsRepairedByDefault() throws {
+        let expected = Mesh.cube().withoutTexcoords().triangulate()
+        let stlString = expected.inverted().stlString()
+        let mesh = try XCTUnwrap(Mesh(stlString: stlString))
+        XCTAssertEqual(mesh, expected)
+        XCTAssertGreaterThan(mesh.signedVolume, 0)
+    }
+
+    func testSTLWindingRepairCanBeDisabled() throws {
+        let stlString = Mesh.cube().withoutTexcoords().triangulate().inverted().stlString()
+        let mesh = try XCTUnwrap(Mesh(
+            stlString: stlString,
+            options: .init(repairWinding: false)
+        ))
+        XCTAssertLessThan(mesh.signedVolume, 0)
+    }
+
+    func testSTLDataWindingRepairCanBeDisabled() throws {
+        let data = Mesh.cube().withoutTexcoords().triangulate().inverted().stlData()
+        let mesh = try XCTUnwrap(Mesh(
+            stlData: data,
+            options: .init(repairWinding: false)
+        ))
+        XCTAssertLessThan(mesh.signedVolume, 0)
+    }
+
     // MARK: OBJ import
 
     func testCubeOBJ() throws {
@@ -424,6 +450,32 @@ final class MeshImportTests: XCTestCase {
         XCTAssertEqual(mesh, cube)
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.isConvex())
+    }
+
+    func testInvertedOBJWindingIsPreservedByDefault() throws {
+        let objString = Mesh.cube().inverted().objString()
+        let mesh = try XCTUnwrap(Mesh(objString: objString))
+        XCTAssertLessThan(mesh.signedVolume, 0)
+    }
+
+    func testInvertedOBJWindingCanBeRepaired() throws {
+        let expected = Mesh.cube()
+        let objString = expected.inverted().objString()
+        let mesh = try XCTUnwrap(Mesh(
+            objString: objString,
+            options: .init(repairWinding: true)
+        ))
+        XCTAssertEqual(mesh, expected)
+        XCTAssertGreaterThan(mesh.signedVolume, 0)
+    }
+
+    func testOBJWindingRepairCanBeDisabled() throws {
+        let objString = Mesh.cube().inverted().objString()
+        let mesh = try XCTUnwrap(Mesh(
+            objString: objString,
+            options: .init(repairWinding: false)
+        ))
+        XCTAssertLessThan(mesh.signedVolume, 0)
     }
 
     func testOBJWithNormalsAndNoTexcoordsRoundTrips() throws {
@@ -625,6 +677,83 @@ final class MeshImportTests: XCTestCase {
         let cube = Mesh.cube().translated(by: [0.5, 0.5, 0.5])
         let mesh = Mesh(offString: offString)
         XCTAssertEqual(mesh, cube.withoutTexcoords())
+    }
+
+    func testInvertedCubeOFFWindingIsRepairedByDefault() throws {
+        let offString = """
+        OFF
+        8 6 0
+        1 0 1
+        1 0 0
+        1 1 0
+        1 1 1
+        0 0 0
+        0 0 1
+        0 1 1
+        0 1 0
+        4 3 2 1 0
+        4 7 6 5 4
+        4 7 2 3 6
+        4 5 0 1 4
+        4 6 3 0 5
+        4 2 7 4 1
+        """
+        let mesh = try XCTUnwrap(Mesh(offString: offString))
+        let expected = Mesh.cube().translated(by: [0.5, 0.5, 0.5]).withoutTexcoords()
+        XCTAssertEqual(mesh, expected)
+        XCTAssertGreaterThan(mesh.signedVolume, 0)
+    }
+
+    func testInconsistentCubeOFFWindingIsRepairedByDefault() throws {
+        let offString = """
+        OFF
+        8 6 0
+        1 0 1
+        1 0 0
+        1 1 0
+        1 1 1
+        0 0 0
+        0 0 1
+        0 1 1
+        0 1 0
+        4 0 1 2 3
+        4 7 6 5 4
+        4 6 3 2 7
+        4 4 1 0 5
+        4 5 0 3 6
+        4 1 4 7 2
+        """
+        let mesh = try XCTUnwrap(Mesh(offString: offString))
+        let expected = Mesh.cube().translated(by: [0.5, 0.5, 0.5]).withoutTexcoords()
+        XCTAssertEqual(mesh, expected)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertGreaterThan(mesh.signedVolume, 0)
+    }
+
+    func testOFFWindingRepairCanBeDisabled() throws {
+        let offString = """
+        OFF
+        8 6 0
+        1 0 1
+        1 0 0
+        1 1 0
+        1 1 1
+        0 0 0
+        0 0 1
+        0 1 1
+        0 1 0
+        4 3 2 1 0
+        4 7 6 5 4
+        4 7 2 3 6
+        4 5 0 1 4
+        4 6 3 0 5
+        4 2 7 4 1
+        """
+        let mesh = try XCTUnwrap(Mesh(
+            offString: offString,
+            options: .init(repairWinding: false)
+        ))
+        XCTAssertLessThan(mesh.signedVolume, 0)
     }
 
     func testEmptyOFF() {

@@ -61,8 +61,10 @@ private extension Double {
 
 public extension Mesh {
     /// Create a mesh from an Object File Format string.
-    /// - Parameter offString: OFF string data.
-    init?(offString: String) {
+    /// - Parameters:
+    ///   - offString: OFF string data.
+    ///   - options: The import options.
+    init?(offString: String, options: ImportOptions = .init()) {
         var lines = ArraySlice(offString.components(separatedBy: .newlines))
         guard let counts = lines.readHeader() else {
             return nil
@@ -77,7 +79,11 @@ public extension Mesh {
             }
             faces += face
         }
-        self = Mesh(faces)
+        var mesh = Mesh(faces)
+        if options.repairWinding ?? true {
+            mesh = mesh.withConsistentWinding()
+        }
+        self = mesh
     }
 }
 
