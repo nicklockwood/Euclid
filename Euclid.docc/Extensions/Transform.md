@@ -6,8 +6,9 @@ A combined translation, rotation, and scale transform.
 
 ### Creating Transforms
 
-- ``Transform/init(offset:rotation:scale:)``
-- ``Transform/offset(_:)``
+- ``Transform/init(scale:rotation:translation:)-3r4ze``
+- ``Transform/init(scale:rotation:translation:)-62ups``
+- ``Transform/translation(_:)``
 - ``Transform/rotation(_:)``
 - ``Transform/scale(_:)-55t4p``
 - ``Transform/scale(_:)-7a30s``
@@ -21,7 +22,7 @@ A combined translation, rotation, and scale transform.
 
 - ``Transform/rotation``
 - ``Transform/scale``
-- ``Transform/offset``
+- ``Transform/translation``
 - ``Transform/isFlipped``
 - ``Transform/isIdentity``
 

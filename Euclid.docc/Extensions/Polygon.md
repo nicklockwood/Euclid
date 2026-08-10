@@ -25,7 +25,9 @@ A flat polygonal face in a mesh.
 
 ### Comparing Polygons
 
-- ``Polygon/intersects(_:)``
+- ``Polygon/intersects(_:)-4f51y``
+- ``Polygon/intersects(_:)-(Plane)``
+- ``Polygon/intersects(_:)-87xk8``
 - ``Polygon/edges(intersecting:)``
 
 ### Transforming Polygons

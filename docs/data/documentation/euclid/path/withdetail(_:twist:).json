@@ -1,10 +1,4 @@
 {
-  "abstract" : [
-    {
-      "text" : "Increase path detail in proportion to twist angle",
-      "type" : "text"
-    }
-  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -268,11 +262,9 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/withDetail(_:twist:)": {
   "abstract" : [
-    {
-      "text" : "Increase path detail in proportion to twist angle",
-      "type" : "text"
-    }
+
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

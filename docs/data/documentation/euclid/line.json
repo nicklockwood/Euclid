@@ -162,7 +162,6 @@
     {
       "anchor" : "Comparing-Lines",
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/containsPoint(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-9e6ey",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/distance(from:)-77i61",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/intersection(with:)-2nysu",
@@ -424,53 +423,6 @@
   "title" : "Transformable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/line\/transformable-implementations"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/containsPoint(_:)": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "containsPoint"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Line\/containsPoint(_:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "containsPoint(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/line\/containspoint(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Line/direction": {
   "abstract" : [

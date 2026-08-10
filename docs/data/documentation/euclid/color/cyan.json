@@ -118,14 +118,19 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/clear",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/black",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/darkGray",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/lightGray",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/white",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/gray",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/red",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/green",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/blue",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/red-swift.type.property",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/green-swift.type.property",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/blue-swift.type.property",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/yellow",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/magenta",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/orange"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/orange",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/purple",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/brown",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/mint"
       ],
       "title" : "Default Colors"
     }
@@ -234,7 +239,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/black"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/blue": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/blue-swift.type.property": {
   "abstract" : [
 
   ],
@@ -269,12 +274,54 @@
       "text" : "Color"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/blue",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/blue-swift.type.property",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "blue",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/blue"
+  "url" : "\/documentation\/euclid\/color\/blue-swift.type.property"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/brown": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "brown"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/brown",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "brown",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/brown"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/clear": {
   "abstract" : [
@@ -360,6 +407,48 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/cyan"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/darkGray": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "darkGray"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/darkGray",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "darkGray",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/darkgray"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/gray": {
   "abstract" : [
 
@@ -402,7 +491,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/gray"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/green": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/green-swift.type.property": {
   "abstract" : [
 
   ],
@@ -437,12 +526,54 @@
       "text" : "Color"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/green",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/green-swift.type.property",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "green",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/green"
+  "url" : "\/documentation\/euclid\/color\/green-swift.type.property"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/lightGray": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "lightGray"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/lightGray",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "lightGray",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/lightgray"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/magenta": {
   "abstract" : [
@@ -486,6 +617,48 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/magenta"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/mint": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "mint"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/mint",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "mint",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/mint"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/orange": {
   "abstract" : [
 
@@ -528,7 +701,49 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/orange"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/red": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/purple": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "purple"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/purple",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "purple",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/purple"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/red-swift.type.property": {
   "abstract" : [
 
   ],
@@ -563,12 +778,12 @@
       "text" : "Color"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/red",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/red-swift.type.property",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "red",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/red"
+  "url" : "\/documentation\/euclid\/color\/red-swift.type.property"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/white": {
   "abstract" : [

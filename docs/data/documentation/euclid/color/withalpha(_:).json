@@ -1,10 +1,4 @@
 {
-  "abstract" : [
-    {
-      "text" : "Creates a copy of the color updated with the specified alpha.",
-      "type" : "text"
-    }
-  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -199,11 +193,9 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/withAlpha(_:)": {
   "abstract" : [
-    {
-      "text" : "Creates a copy of the color updated with the specified alpha.",
-      "type" : "text"
-    }
+
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",

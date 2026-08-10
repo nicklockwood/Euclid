@@ -76,6 +76,11 @@
                     "type" : "groupMarker"
                   },
                   {
+                    "path" : "\/documentation\/euclid\/mesh\/wrapmode\/box",
+                    "title" : "case box",
+                    "type" : "case"
+                  },
+                  {
                     "path" : "\/documentation\/euclid\/mesh\/wrapmode\/default",
                     "title" : "case `default`",
                     "type" : "case"
@@ -274,6 +279,16 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:miterlimit:faces:material:iscancelled:)-6crez",
+                "title" : "static func extrude(Path, along: Path, twist: Angle, align: Alignment, miterLimit: MiterLimit, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:miterlimit:faces:material:iscancelled:)-646jk",
+                "title" : "static func extrude(some Collection<Path>, along: Path, twist: Angle, align: Alignment, miterLimit: MiterLimit, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-901ij",
                 "title" : "static func extrude(Path, depth: Double, twist: Angle, sections: Int?, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
@@ -299,17 +314,17 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-6vzw0",
-                "title" : "static func stroke(Path, width: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:miterlimit:detail:material:iscancelled:)-9uirg",
+                "title" : "static func stroke(Path, width: Double, miterLimit: MiterLimit, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-3vczb",
-                "title" : "static func stroke(some Collection<Path>, width: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:miterlimit:detail:material:iscancelled:)-3t1zn",
+                "title" : "static func stroke(some Collection<Path>, width: Double, miterLimit: MiterLimit, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-3lg97",
+                "path" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)",
                 "title" : "static func stroke(some Collection<LineSegment>, width: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
@@ -370,24 +385,58 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(stlstring:)",
-                "title" : "init?(stlString: String)",
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/importoptions\/init(repairwinding:)",
+                    "title" : "init(repairWinding: Bool?)",
+                    "type" : "init"
+                  },
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/importoptions\/repairwinding",
+                    "title" : "var repairWinding: Bool?",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/mesh\/importoptions",
+                "title" : "Mesh.ImportOptions",
+                "type" : "struct"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(objstring:options:)",
+                "title" : "init?(objString: String, options: ImportOptions)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(stldata:materiallookup:)",
-                "title" : "init?(stlData: Data, materialLookup: STLMaterialProvider?)",
+                "path" : "\/documentation\/euclid\/mesh\/init(offstring:options:)",
+                "title" : "init?(offString: String, options: ImportOptions)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(url:materiallookup:)",
-                "title" : "init(url: URL, materialLookup: (@Sendable (AnyHashable?) -> Material?)?) throws",
+                "path" : "\/documentation\/euclid\/mesh\/init(stlstring:options:)",
+                "title" : "init?(stlString: String, options: ImportOptions)",
                 "type" : "init"
               },
               {
-                "deprecated" : true,
-                "path" : "\/documentation\/euclid\/mesh\/init(url:ignoringtransforms:materiallookup:)",
-                "title" : "init(url: URL, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider?) throws",
+                "path" : "\/documentation\/euclid\/mesh\/init(stldata:options:materiallookup:)",
+                "title" : "init?(stlData: Data, options: ImportOptions, materialLookup: STLMaterialProvider?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(url:options:materiallookup:)",
+                "title" : "init(url: URL, options: ImportOptions, materialLookup: (@Sendable (AnyHashable?) -> Material?)?) throws",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:materiallookup:)",
+                "title" : "init(SCNNode, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider?)",
                 "type" : "init"
               },
               {
@@ -463,8 +512,18 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/containspoint(_:)",
-                "title" : "func containsPoint(Vector) -> Bool",
+                "path" : "\/documentation\/euclid\/mesh\/intersects(_:)-3rdg",
+                "title" : "func intersects(Line) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/intersects(_:)-81cpy",
+                "title" : "func intersects(Plane) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/intersects(_:)-1nvd3",
+                "title" : "func intersects(Vector) -> Bool",
                 "type" : "method"
               },
               {
@@ -564,8 +623,8 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/clip(to:fill:)",
-                "title" : "func clip(to: Plane, fill: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/clipped(to:fill:)",
+                "title" : "func clipped(to: Plane, fill: Material?) -> Mesh",
                 "type" : "method"
               },
               {
@@ -593,8 +652,8 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/detessellate()",
-                "title" : "func detessellate() -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/detessellate(iscancelled:)",
+                "title" : "func detessellate(isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -603,8 +662,13 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/makewatertight()",
-                "title" : "func makeWatertight() -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/makewatertight(iscancelled:)",
+                "title" : "func makeWatertight(isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/withconsistentwinding(iscancelled:)",
+                "title" : "func withConsistentWinding(isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -712,16 +776,6 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(objstring:)",
-                "title" : "init?(objString: String)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/init(offstring:)",
-                "title" : "init?(offString: String)",
-                "type" : "init"
-              },
-              {
                 "title" : "Instance Properties",
                 "type" : "groupMarker"
               },
@@ -741,6 +795,11 @@
                 "type" : "property"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/isplanar",
+                "title" : "var isPlanar: Bool",
+                "type" : "property"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/signedvolume",
                 "title" : "var signedVolume: Double",
                 "type" : "property"
@@ -751,18 +810,8 @@
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/volume",
-                "title" : "var volume: Double",
-                "type" : "property"
-              },
-              {
                 "title" : "Instance Methods",
                 "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/clipped(to:fill:)",
-                "title" : "func clipped(to: Plane, fill: Material?) -> Mesh",
-                "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/clipped(to:iscancelled:)",
@@ -785,8 +834,8 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/inset(by:)",
-                "title" : "func inset(by: Double) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/inset(by:iscancelled:)",
+                "title" : "func inset(by: Double, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -802,16 +851,6 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/minkowskidifference(from:iscancelled:)",
                 "title" : "func minkowskiDifference(from: Mesh, isCancelled: CancellationHandler) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(along:)",
-                "title" : "func minkowskiSum(along: LineSegment) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(along:iscancelled:)",
-                "title" : "func minkowskiSum(along: Path, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -906,16 +945,6 @@
               {
                 "title" : "Type Methods",
                 "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:faces:material:iscancelled:)-2gj6k",
-                "title" : "static func extrude(Path, along: Path, twist: Angle, align: Alignment, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:faces:material:iscancelled:)-3rc57",
-                "title" : "static func extrude(some Collection<Path>, along: Path, twist: Angle, align: Alignment, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
-                "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/icosphere(radius:subdivisions:faces:wrapmode:material:iscancelled:)",
@@ -1201,11 +1230,6 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/init(shape:material:)",
-                "title" : "init?(shape: Path, material: Material?)",
-                "type" : "init"
-              },
-              {
                 "title" : "Polygon Properties",
                 "type" : "groupMarker"
               },
@@ -1225,8 +1249,8 @@
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/center",
-                "title" : "var center: Vector",
+                "path" : "\/documentation\/euclid\/polygon\/centroid",
+                "title" : "var centroid: Vector",
                 "type" : "property"
               },
               {
@@ -1269,8 +1293,18 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/containspoint(_:)",
-                "title" : "func containsPoint(Vector) -> Bool",
+                "path" : "\/documentation\/euclid\/polygon\/intersects(_:)-4f51y",
+                "title" : "func intersects(Line) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/intersects(_:)-jd8x",
+                "title" : "func intersects(Plane) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/intersects(_:)-87xk8",
+                "title" : "func intersects(Vector) -> Bool",
                 "type" : "method"
               },
               {
@@ -1327,8 +1361,8 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/clip(to:)",
-                "title" : "func clip(to: Plane) -> [Polygon]",
+                "path" : "\/documentation\/euclid\/polygon\/clipped(to:)",
+                "title" : "func clipped(to: Plane) -> [Polygon]",
                 "type" : "method"
               },
               {
@@ -1360,11 +1394,6 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/centroid",
-                "title" : "var centroid: Vector",
-                "type" : "property"
-              },
-              {
                 "path" : "\/documentation\/euclid\/polygon\/hasvertexnormals",
                 "title" : "var hasVertexNormals: Bool",
                 "type" : "property"
@@ -1379,17 +1408,7 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/clipped(to:)",
-                "title" : "func clipped(to: Plane) -> [Polygon]",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/polygon\/clipped(to:iscancelled:)-1k1rk",
-                "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler?) -> [Polygon]",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/polygon\/clipped(to:iscancelled:)-22y8b",
+                "path" : "\/documentation\/euclid\/polygon\/clipped(to:iscancelled:)",
                 "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler) -> [Polygon]",
                 "type" : "method"
               },
@@ -1414,13 +1433,7 @@
                 "type" : "method"
               },
               {
-                "deprecated" : true,
-                "path" : "\/documentation\/euclid\/polygon\/mapvertices(_:)-3k938",
-                "title" : "func mapVertices((Vertex) -> Vertex) -> Polygon",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/polygon\/mapvertices(_:)-6evr",
+                "path" : "\/documentation\/euclid\/polygon\/mapvertices(_:)",
                 "title" : "func mapVertices((Vertex) -> Vertex) -> [Polygon]",
                 "type" : "method"
               },
@@ -1795,12 +1808,6 @@
                 "type" : "method"
               },
               {
-                "deprecated" : true,
-                "path" : "\/documentation\/euclid\/path\/line(_:color:)",
-                "title" : "static func line(LineSegment, color: Color?) -> Path",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/path\/arc(angle:radius:segments:color:iscancelled:)",
                 "title" : "static func arc(angle: Angle, radius: Double, segments: Int?, color: Color?, isCancelled: CancellationHandler) -> Path",
                 "type" : "method"
@@ -1922,6 +1929,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/withdetail(_:fortwist:)",
+                "title" : "func withDetail(Int, forTwist: Angle) -> Path",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/closed()",
                 "title" : "func closed() -> Path",
                 "type" : "method"
@@ -2009,12 +2021,7 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)-66gea",
-                "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler?) -> Path",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)-80yba",
+                "path" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)",
                 "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler) -> Path",
                 "type" : "method"
               },
@@ -2024,8 +2031,8 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/extrusioncontours(along:twist:align:)",
-                "title" : "func extrusionContours(along: Path, twist: Angle, align: Alignment) -> [Path]",
+                "path" : "\/documentation\/euclid\/path\/extrusioncontours(along:twist:align:miterlimit:)",
+                "title" : "func extrusionContours(along: Path, twist: Angle, align: Alignment, miterLimit: MiterLimit) -> [Path]",
                 "type" : "method"
               },
               {
@@ -2061,6 +2068,11 @@
               {
                 "path" : "\/documentation\/euclid\/path\/withdetail(_:twist:)",
                 "title" : "func withDetail(Int, twist: Angle) -> Path",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/withmiterlimit(_:forstrokewidth:)",
+                "title" : "func withMiterLimit(MiterLimit, forStrokeWidth: Double) -> Path",
                 "type" : "method"
               },
               {
@@ -2762,11 +2774,6 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/line\/containspoint(_:)",
-                "title" : "func containsPoint(Vector) -> Bool",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/line\/distance(from:)-9e6ey",
                 "title" : "func distance(from: some LineComparable) -> Double",
                 "type" : "method"
@@ -3128,11 +3135,6 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/linesegment\/containspoint(_:)",
-                "title" : "func containsPoint(Vector) -> Bool",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/linesegment\/intersection(with:)-1tffl",
                 "title" : "func intersection(with: Plane) -> Vector?",
                 "type" : "method"
@@ -3213,11 +3215,6 @@
               {
                 "title" : "Instance Methods",
                 "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/linesegment\/clip(to:)",
-                "title" : "func clip(to: Plane) -> LineSegment?",
-                "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/linesegment\/clipped(to:)",
@@ -3892,13 +3889,18 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/transform\/init(offset:rotation:scale:)",
-                "title" : "init(offset: Vector?, rotation: Rotation?, scale: Vector?)",
+                "path" : "\/documentation\/euclid\/transform\/init(scale:rotation:translation:)-3r4ze",
+                "title" : "init(scale: Double, rotation: Rotation?, translation: Vector?)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/transform\/offset(_:)",
-                "title" : "static func offset(Vector) -> Transform",
+                "path" : "\/documentation\/euclid\/transform\/init(scale:rotation:translation:)-62ups",
+                "title" : "init(scale: Vector?, rotation: Rotation?, translation: Vector?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/transform\/translation(_:)",
+                "title" : "static func translation(Vector) -> Transform",
                 "type" : "method"
               },
               {
@@ -3945,8 +3947,8 @@
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/euclid\/transform\/offset",
-                "title" : "var offset: Vector",
+                "path" : "\/documentation\/euclid\/transform\/translation",
+                "title" : "var translation: Vector",
                 "type" : "property"
               },
               {
@@ -4020,34 +4022,6 @@
                 "path" : "\/documentation\/euclid\/transform\/init(_:)-cys2",
                 "title" : "init(RealityKit.Transform)",
                 "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/transform\/init(scale:rotation:translation:)-3r4ze",
-                "title" : "init(scale: Double, rotation: Rotation?, translation: Vector?)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/transform\/init(scale:rotation:translation:)-62ups",
-                "title" : "init(scale: Vector?, rotation: Rotation?, translation: Vector?)",
-                "type" : "init"
-              },
-              {
-                "title" : "Instance Properties",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/transform\/translation",
-                "title" : "var translation: Vector",
-                "type" : "property"
-              },
-              {
-                "title" : "Type Methods",
-                "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/transform\/translation(_:)",
-                "title" : "static func translation(Vector) -> Transform",
-                "type" : "method"
               },
               {
                 "title" : "Default Implementations",
@@ -4773,8 +4747,18 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/vector\/distance(from:)-5p7ko",
+                "path" : "\/documentation\/euclid\/vector\/distance(from:)-9tjq5",
                 "title" : "func distance(from: Plane) -> Double",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/distance(from:)-9jrcu",
+                "title" : "func distance(from: some PointComparable) -> Double",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/distance(from:)-2e328",
+                "title" : "func distance(from: Vector) -> Double",
                 "type" : "method"
               },
               {
@@ -4877,11 +4861,6 @@
               {
                 "title" : "Instance Methods",
                 "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/vector\/distance(from:)-9jrcu",
-                "title" : "func distance(from: some PointComparable) -> Double",
-                "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/vector\/intersects(_:)-6v9sq",
@@ -5347,11 +5326,6 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/bounds\/containspoint(_:)",
-                "title" : "func containsPoint(Vector) -> Bool",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/bounds\/intersects(_:)-8wr1y",
                 "title" : "func intersects(Line) -> Bool",
                 "type" : "method"
@@ -5785,11 +5759,6 @@
               {
                 "title" : "Comparing Planes",
                 "type" : "groupMarker"
-              },
-              {
-                "path" : "\/documentation\/euclid\/plane\/containspoint(_:)",
-                "title" : "func containsPoint(Vector) -> Bool",
-                "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/plane\/signeddistance(from:)-8apl1",
@@ -6581,13 +6550,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/init(_:_:_:_:)",
-                "title" : "init(Double, Double, Double, Double)",
+                "path" : "\/documentation\/euclid\/color\/init(red:green:blue:alpha:)",
+                "title" : "init(red: Double, green: Double, blue: Double, alpha: Double)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/init(_:_:)",
-                "title" : "init(Double, Double)",
+                "path" : "\/documentation\/euclid\/color\/init(white:alpha:)",
+                "title" : "init(white: Double, alpha: Double)",
                 "type" : "init"
               },
               {
@@ -6620,6 +6589,16 @@
                 "type" : "property"
               },
               {
+                "path" : "\/documentation\/euclid\/color\/darkgray",
+                "title" : "static let darkGray: Color",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/lightgray",
+                "title" : "static let lightGray: Color",
+                "type" : "property"
+              },
+              {
                 "path" : "\/documentation\/euclid\/color\/white",
                 "title" : "static let white: Color",
                 "type" : "property"
@@ -6630,17 +6609,17 @@
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/red",
+                "path" : "\/documentation\/euclid\/color\/red-swift.type.property",
                 "title" : "static let red: Color",
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/green",
+                "path" : "\/documentation\/euclid\/color\/green-swift.type.property",
                 "title" : "static let green: Color",
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/blue",
+                "path" : "\/documentation\/euclid\/color\/blue-swift.type.property",
                 "title" : "static let blue: Color",
                 "type" : "property"
               },
@@ -6665,27 +6644,62 @@
                 "type" : "property"
               },
               {
+                "path" : "\/documentation\/euclid\/color\/purple",
+                "title" : "static let purple: Color",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/brown",
+                "title" : "static let brown: Color",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/mint",
+                "title" : "static let mint: Color",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/teal",
+                "title" : "static let teal: Color",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/indigo",
+                "title" : "static let indigo: Color",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/pink",
+                "title" : "static let pink: Color",
+                "type" : "property"
+              },
+              {
                 "title" : "Color properties",
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/r",
-                "title" : "var r: Double",
+                "path" : "\/documentation\/euclid\/color\/red-swift.property",
+                "title" : "var red: Double",
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/g",
-                "title" : "var g: Double",
+                "path" : "\/documentation\/euclid\/color\/green-swift.property",
+                "title" : "var green: Double",
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/b",
-                "title" : "var b: Double",
+                "path" : "\/documentation\/euclid\/color\/blue-swift.property",
+                "title" : "var blue: Double",
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/a",
-                "title" : "var a: Double",
+                "path" : "\/documentation\/euclid\/color\/alpha",
+                "title" : "var alpha: Double",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/components",
+                "title" : "var components: [Double]",
                 "type" : "property"
               },
               {
@@ -6693,8 +6707,8 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/withalpha(_:)",
-                "title" : "func withAlpha(Double) -> Color",
+                "path" : "\/documentation\/euclid\/color\/withalphacomponent(_:)",
+                "title" : "func withAlphaComponent(Double) -> Color",
                 "type" : "method"
               },
               {
@@ -6712,12 +6726,61 @@
                 "type" : "op"
               },
               {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/init(_:_:)",
+                "title" : "init(Double, Double)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/init(_:_:_:_:)",
+                "title" : "init(Double, Double, Double, Double)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/init(hue:saturation:brightness:alpha:)",
+                "title" : "init(hue: Double, saturation: Double, brightness: Double, alpha: Double)",
+                "type" : "init"
+              },
+              {
                 "title" : "Instance Properties",
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/components",
-                "title" : "var components: [Double]",
+                "path" : "\/documentation\/euclid\/color\/a",
+                "title" : "var a: Double",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/b",
+                "title" : "var b: Double",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/brightness",
+                "title" : "var brightness: Double",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/g",
+                "title" : "var g: Double",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/hue",
+                "title" : "var hue: Double",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/r",
+                "title" : "var r: Double",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/saturation",
+                "title" : "var saturation: Double",
                 "type" : "property"
               },
               {
@@ -6727,6 +6790,11 @@
               {
                 "path" : "\/documentation\/euclid\/color\/lerp(_:_:)",
                 "title" : "func lerp(Color, Double) -> Color",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/withalpha(_:)",
+                "title" : "func withAlpha(Double) -> Color",
                 "type" : "method"
               },
               {
@@ -7128,6 +7196,230 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/miterlimit\/init(angle:)",
+                "title" : "init(angle: Angle)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/miterlimit\/init(ratio:)",
+                "title" : "init(ratio: Double)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/miterlimit\/angle",
+                "title" : "var angle: Angle",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/miterlimit\/ratio",
+                "title" : "var ratio: Double",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/miterlimit\/infinity",
+                "title" : "static let infinity: MiterLimit",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/miterlimit\/angle(_:)",
+                "title" : "static func angle(Angle) -> MiterLimit",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/miterlimit\/degrees(_:)",
+                "title" : "static func degrees(Double) -> MiterLimit",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/miterlimit\/radians(_:)",
+                "title" : "static func radians(Double) -> MiterLimit",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/miterlimit\/ratio(_:)",
+                "title" : "static func ratio(Double) -> MiterLimit",
+                "type" : "method"
+              },
+              {
+                "title" : "Default Implementations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Operators",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/'...(_:)-38vs0",
+                    "title" : "static func ... (Self) -> PartialRangeFrom<Self>",
+                    "type" : "op"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/'...(_:)-6x8nd",
+                    "title" : "static func ... (Self) -> PartialRangeThrough<Self>",
+                    "type" : "op"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/'...(_:_:)",
+                    "title" : "static func ... (Self, Self) -> ClosedRange<Self>",
+                    "type" : "op"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/'.._(_:)",
+                    "title" : "static func ..< (Self) -> PartialRangeUpTo<Self>",
+                    "type" : "op"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/'.._(_:_:)",
+                    "title" : "static func ..< (Self, Self) -> Range<Self>",
+                    "type" : "op"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/_(_:_:)",
+                    "title" : "static func < (MiterLimit, MiterLimit) -> Bool",
+                    "type" : "op"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/_(_:_:)-1sczr",
+                    "title" : "static func > (borrowing Self, borrowing Self) -> Bool",
+                    "type" : "op"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/_=(_:_:)-1133p",
+                    "title" : "static func >= (borrowing Self, borrowing Self) -> Bool",
+                    "type" : "op"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/_=(_:_:)-7u6dw",
+                    "title" : "static func <= (borrowing Self, borrowing Self) -> Bool",
+                    "type" : "op"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/miterlimit\/comparable-implementations",
+                "title" : "Comparable Implementations",
+                "type" : "collection"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/description",
+                    "title" : "var description: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/miterlimit\/customstringconvertible-implementations",
+                "title" : "CustomStringConvertible Implementations",
+                "type" : "collection"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/init(from:)",
+                    "title" : "init(from: Decoder) throws",
+                    "type" : "init"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/miterlimit\/decodable-implementations",
+                "title" : "Decodable Implementations",
+                "type" : "collection"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/encode(to:)",
+                    "title" : "func encode(to: Encoder) throws",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/miterlimit\/encodable-implementations",
+                "title" : "Encodable Implementations",
+                "type" : "collection"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Operators",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/!=(_:_:)",
+                    "title" : "static func != (borrowing Self, borrowing Self) -> Bool",
+                    "type" : "op"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/miterlimit\/equatable-implementations",
+                "title" : "Equatable Implementations",
+                "type" : "collection"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/init(floatliteral:)",
+                    "title" : "init(floatLiteral: Double)",
+                    "type" : "init"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/miterlimit\/expressiblebyfloatliteral-implementations",
+                "title" : "ExpressibleByFloatLiteral Implementations",
+                "type" : "collection"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/miterlimit\/init(integerliteral:)",
+                    "title" : "init(integerLiteral: Int)",
+                    "type" : "init"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/miterlimit\/expressiblebyintegerliteral-implementations",
+                "title" : "ExpressibleByIntegerLiteral Implementations",
+                "type" : "collection"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/miterlimit",
+            "title" : "MiterLimit",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
                 "path" : "\/documentation\/euclid\/stlbinaryoptions\/init(header:zeronormals:colorlookup:)",
                 "title" : "init(header: Data, zeroNormals: Bool, colorLookup: Mesh.STLColorProvider?)",
                 "type" : "init"
@@ -7190,6 +7482,15 @@
             "path" : "\/documentation\/euclid\/stltextoptions",
             "title" : "STLTextOptions",
             "type" : "struct"
+          },
+          {
+            "title" : "Functions",
+            "type" : "groupMarker"
+          },
+          {
+            "path" : "\/documentation\/euclid\/abs(_:)",
+            "title" : "func abs(Angle) -> Angle",
+            "type" : "func"
           },
           {
             "title" : "Enumerations",
@@ -7714,12 +8015,6 @@
                   {
                     "path" : "\/documentation\/euclid\/swift\/collection\/split(along:)",
                     "title" : "func split(along: Plane) -> (front: [LineSegment], back: [LineSegment])",
-                    "type" : "method"
-                  },
-                  {
-                    "deprecated" : true,
-                    "path" : "\/documentation\/euclid\/swift\/collection\/subtracting(_:iscancelled:)",
-                    "title" : "func subtracting(Mesh, isCancelled: CancellationHandler) -> Set<LineSegment>",
                     "type" : "method"
                   },
                   {

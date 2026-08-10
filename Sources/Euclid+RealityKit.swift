@@ -35,7 +35,7 @@ import CoreGraphics
 import Metal
 import RealityKit
 
-@available(macOS 10.15, iOS 13.0, tvOS 26.0, *)
+@available(tvOS 26.0, *)
 private final class MaterialWrapper: NSObject, @unchecked Sendable {
     let material: RealityKit.Material
 
@@ -46,7 +46,7 @@ private final class MaterialWrapper: NSObject, @unchecked Sendable {
 
 // MARK: export
 
-@available(macOS 10.15, iOS 13.0, tvOS 26.0, *)
+@available(tvOS 26.0, *)
 public extension RealityKit.Transform {
     /// Creates a RealityKit`Transform` from a Euclid ``Transform``.
     /// - Parameter transform: The Euclid transform  to convert into a RealityKit transform.
@@ -290,7 +290,7 @@ private extension Mesh {
 
 // MARK: import
 
-@available(macOS 10.15, iOS 13.0, tvOS 26.0, *)
+@available(tvOS 26.0, *)
 public extension Euclid.Transform {
     /// Creates a Euclid``Transform`` from a RealityKit `Transform`.
     /// - Parameter transform: The RealityKit transform  to convert into a Euclid transform.

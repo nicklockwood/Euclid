@@ -1,5 +1,26 @@
 # Change Log
 
+## [0.9.0](https://github.com/nicklockwood/Euclid/releases/tag/0.9.0) (2026-08-10)
+
+- Removed previously deprecated APIs
+- Dropped CocoaPods support
+- Raised minimum supported OS versions to macOS 10.15, iOS 14 and tvOS 14
+- Updated `Color` API naming to better match Apple conventions
+- Added HSB support and additional named color constants
+- Added `MiterLimit` and `Path.withMiterLimit()` APIs
+- Added `WrapMode.box` and improved box, tube and cylinder texture mapping
+- Added `Mesh.withConsistentWinding()` method
+- Added `Mesh.ImportOptions` with `repairWinding` option
+- Enabled OBJ, OFF and STL file import/export APIs for WASM
+- Importing STL or OFF files now repairs inconsistent polygon winding by default
+- Made `Mesh.isPlanar` public and memoized
+- Made `Mesh.inset()`, `Mesh.detessellate()` and `Mesh.makeWatertight()` cancellable
+- Fixed `Mesh.convexHull()` stalling on detailed intersecting spheres
+- Fixed `Mesh.detessellate()` breaking watertightness in some cases
+- Fixed nondeterministic `Mesh.makeWatertight()` output
+- Fixed extrusion of multiple shapes along a path
+- Improved Minkowski mesh reordering heuristics
+
 ## [0.8.20](https://github.com/nicklockwood/Euclid/releases/tag/0.8.20) (2026-07-29)
 
 - Further improved `Path.inset()` and `Mesh.inset()` functionality

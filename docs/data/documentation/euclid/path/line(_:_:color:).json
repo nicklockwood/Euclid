@@ -268,6 +268,12 @@
           "name" : "color"
         }
       ]
+    },
+    {
+      "kind" : "mentions",
+      "mentions" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes"
+      ]
     }
   ],
   "schemaVersion" : {
@@ -288,7 +294,6 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(subpaths:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:detail:color:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/curve(_:detail:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/line(_:color:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/arc(angle:radius:segments:color:isCancelled:)"
       ],
       "title" : "Creating Paths"
@@ -355,6 +360,20 @@
   "title" : "Color",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ConstructingMeshes": {
+  "abstract" : [
+    {
+      "text" : "Define 3D objects by constructing meshes.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes",
+  "kind" : "article",
+  "role" : "article",
+  "title" : "Constructing Meshes",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/constructingmeshes"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
   "abstract" : [
@@ -886,78 +905,6 @@
   "title" : "line(_:_:color:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/line(_:_:color:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/line(_:color:)": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "line"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
-      "text" : "LineSegment"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "color"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5ColorV",
-      "text" : "Color"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/line(_:color:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "line(_:color:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/line(_:color:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
   "abstract" : [

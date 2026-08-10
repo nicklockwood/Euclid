@@ -158,8 +158,9 @@
     {
       "anchor" : "Creating-Transforms",
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(offset:rotation:scale:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/offset(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(scale:rotation:translation:)-3r4ze",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(scale:rotation:translation:)-62ups",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/translation(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotation(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scale(_:)-55t4p",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scale(_:)-7a30s",
@@ -179,7 +180,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotation",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scale",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/offset",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/translation",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/isFlipped",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/isIdentity"
       ],
@@ -210,27 +211,9 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-7hvb3",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-83oy3",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-cys2",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(scale:rotation:translation:)-3r4ze",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(scale:rotation:translation:)-62ups"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-cys2"
       ],
       "title" : "Initializers"
-    },
-    {
-      "anchor" : "Instance-Properties",
-      "generated" : true,
-      "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/translation"
-      ],
-      "title" : "Instance Properties"
-    },
-    {
-      "anchor" : "Type-Methods",
-      "generated" : true,
-      "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/translation(_:)"
-      ],
-      "title" : "Type Methods"
     },
     {
       "anchor" : "Default-Implementations",
@@ -804,82 +787,6 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform\/init(_:)-cys2"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(offset:rotation:scale:)": {
-  "abstract" : [
-    {
-      "text" : "Deprecated",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "offset"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "rotation"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid8RotationV",
-      "text" : "Rotation"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "scale"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : "?)"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(offset:rotation:scale:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(offset:rotation:scale:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform\/init(offset:rotation:scale:)"
-},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(scale:rotation:translation:)-3r4ze": {
   "abstract" : [
     {
@@ -1103,99 +1010,6 @@
   "title" : "isIdentity",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform\/isidentity"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/offset": {
-  "abstract" : [
-    {
-      "text" : "Deprecated",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "var"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "offset"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/offset",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "offset",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform\/offset"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/offset(_:)": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "offset"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid9TransformV",
-      "text" : "Transform"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/offset(_:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "offset(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform\/offset(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/rotated(by:)": {
   "abstract" : [

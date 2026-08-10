@@ -25,7 +25,7 @@ Control the quality of these approximations by using the `slices` and/or `stacks
 In addition to the 3D ``Mesh`` primitives listed, there are also 2D ``Path`` primitives. 
 These are implemented as static constructor methods on the ``Path`` type instead of ``Mesh``:
 
-- ``Path/line(_:color:)`` - A straight line.
+- ``Path/line(_:_:color:)`` - A straight line.
 - ``Path/ellipse(width:height:segments:color:)``- A closed, elliptical ``Path``.
 - ``Path/circle(radius:segments:color:)``  - A closed, circular ``Path``.
 - ``Path/rectangle(width:height:color:)`` - A closed, rectangular ``Path``.
@@ -42,10 +42,10 @@ Builders create a ``Mesh`` from a (typically) 2D ``Path``.
 The following builders are defined as static constructor functions on the ``Mesh`` type:
 
 - ``Mesh/fill(_:faces:material:isCancelled:)-(Path,_,_,_)`` - This builder fills a single `Path` to create a pair of `Polygon`s (front and back faces).
-- ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Path,_,_,_,_)`` - This builder strokes a single `Path` to create a strip or tube. A second variant (``Mesh/stroke(_:width:detail:material:isCancelled:)-(Collection<LineSegment>,_,_,_,_)``) of the function accepts an collection of ``LineSegment``, which is convenient for creating a wireframe geometry from the `uniqueEdges` of a ``Mesh``.
+- ``Mesh/stroke(_:width:miterLimit:detail:material:isCancelled:)-9uirg`` - This builder strokes a single `Path` to create a strip or tube. A second variant (``Mesh/stroke(_:width:detail:material:isCancelled:)``) of the function accepts an collection of ``LineSegment``, which is convenient for creating a wireframe geometry from the `uniqueEdges` of a ``Mesh``.
 - ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)`` - This builder takes a 2D ``Path`` and rotates it around the Y-axis to create a rotationally symmetrical ``Mesh``. This is an easy way to create complex shapes like candlesticks, chess pieces, rocket ships, etc.
-- ``Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)`` - This builder fills a ``Path`` and extrudes it along its axis, or another path. This can turn a circular path into a tube, or a square into a cube etc.
-- ``Mesh/loft(_:faces:material:isCancelled:)`` - This builder is similar to ``Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)``, but takes multiple ``Path`` instances and joins them. The sequence of ``Path`` instances do not need to be the same shape, but must all have the same number of points and subpaths. To work correctly, each ``Path`` must be pre-positioned in 3D space so they do not all lie on the same plane.
+- ``Mesh/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-6crez`` - This builder fills a ``Path`` and extrudes it along its axis, or another path. This can turn a circular path into a tube, or a square into a cube etc.
+- ``Mesh/loft(_:faces:material:isCancelled:)`` - This builder is similar to ``Mesh/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-6crez``, but takes multiple ``Path`` instances and joins them. The sequence of ``Path`` instances do not need to be the same shape, but must all have the same number of points and subpaths. To work correctly, each ``Path`` must be pre-positioned in 3D space so they do not all lie on the same plane.
 - ``Mesh/convexHull(of:material:isCancelled:)-(Collection<Vector>,_,_)`` - Similar the the ``Mesh/loft(_:faces:material:isCancelled:)`` builder, this method can form a Mesh by wrapping a skin around one or more ``Path`` instances. But unlike the other builders, in addition to paths you can also form a convex hull around a collection of meshes, polygons, vertices or points.
 
 ### Curves

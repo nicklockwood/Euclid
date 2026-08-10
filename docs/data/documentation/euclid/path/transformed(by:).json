@@ -159,6 +159,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/scaled(by:)-84xdd",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/translated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/withColor(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/withDetail(_:forTwist:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/closed()"
       ],
       "title" : "Transforming Paths"
@@ -562,6 +563,69 @@
   "title" : "withColor(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/withcolor(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/withDetail(_:forTwist:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a copy of the path with added points to support a twist.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "withDetail"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "forTwist"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/withDetail(_:forTwist:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "withDetail(_:forTwist:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/withdetail(_:fortwist:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform": {
   "abstract" : [

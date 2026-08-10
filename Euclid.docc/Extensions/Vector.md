@@ -57,7 +57,9 @@ A three-dimensional vector or point.
 - ``Vector/angle(with:)-29paf``
 - ``Vector/angle(with:)-9sfg1``
 - ``Vector/distance(from:)-3eglz``
-- ``Vector/distance(from:)-5p7ko``
+- ``Vector/distance(from:)-(Plane)``
+- ``Vector/distance(from:)-(PointComparable)``
+- ``Vector/distance(from:)-2e328``
 - ``Vector/projected(onto:)-(Line)``
 - ``Vector/projected(onto:)-(Plane)``
 

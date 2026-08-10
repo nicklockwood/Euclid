@@ -470,13 +470,15 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(of:material:isCancelled:)-9lt31",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-6crez",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-646jk",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-4zpja",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-5z4d6",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/fill(_:faces:material:isCancelled:)-kzfi",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/loft(_:faces:material:isCancelled:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-6vzw0",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-3vczb",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-3lg97"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:miterLimit:detail:material:isCancelled:)-9uirg",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:miterLimit:detail:material:isCancelled:)-3t1zn",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)"
       ],
       "title" : "Creating Meshes from Paths"
     }
@@ -808,6 +810,369 @@
   "title" : "convexHull(of:material:isCancelled:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/convexhull(of:material:iscancelled:)-9lt31"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-646jk": {
+  "abstract" : [
+    {
+      "text" : "Efficiently extrudes a collection of paths along another path, avoiding duplicate work.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "extrude"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sl",
+      "text" : "Collection"
+    },
+    {
+      "kind" : "text",
+      "text" : "<"
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ">, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "along"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "twist"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "align"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV9Alignmenta",
+      "text" : "Alignment"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "miterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid10MiterLimitV",
+      "text" : "MiterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "faces"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
+      "text" : "Faces"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "material"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-646jk",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:miterlimit:faces:material:iscancelled:)-646jk"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-6crez": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh by extruding one path along another path.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "extrude"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "along"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "twist"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "align"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV9Alignmenta",
+      "text" : "Alignment"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "miterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid10MiterLimitV",
+      "text" : "MiterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "faces"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV5FacesO",
+      "text" : "Faces"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "material"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-6crez",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:miterlimit:faces:material:iscancelled:)-6crez"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-4zpja": {
   "abstract" : [
@@ -1643,7 +2008,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/loft(_:faces:material:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:detail:material:isCancelled:)-3lg97": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:detail:material:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Efficiently strokes a collection of line segments (useful for drawing wireframes).",
@@ -1775,14 +2140,14 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-3lg97",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "stroke(_:width:detail:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-3lg97"
+  "url" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:detail:material:isCancelled:)-3vczb": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:miterLimit:detail:material:isCancelled:)-3t1zn": {
   "abstract" : [
     {
       "text" : "Efficiently strokes a collection of paths, avoiding duplicate work.",
@@ -1859,6 +2224,23 @@
     },
     {
       "kind" : "externalParam",
+      "text" : "miterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid10MiterLimitV",
+      "text" : "MiterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
       "text" : "detail"
     },
     {
@@ -1914,14 +2296,14 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-3vczb",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:miterLimit:detail:material:isCancelled:)-3t1zn",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "stroke(_:width:detail:material:isCancelled:)",
+  "title" : "stroke(_:width:miterLimit:detail:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-3vczb"
+  "url" : "\/documentation\/euclid\/mesh\/stroke(_:width:miterlimit:detail:material:iscancelled:)-3t1zn"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:detail:material:isCancelled:)-6vzw0": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:miterLimit:detail:material:isCancelled:)-9uirg": {
   "abstract" : [
     {
       "text" : "Creates a mesh by stroking a path with the line width, detail, and material you provide.",
@@ -1981,6 +2363,23 @@
     },
     {
       "kind" : "externalParam",
+      "text" : "miterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid10MiterLimitV",
+      "text" : "MiterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
       "text" : "detail"
     },
     {
@@ -2036,12 +2435,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:detail:material:isCancelled:)-6vzw0",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stroke(_:width:miterLimit:detail:material:isCancelled:)-9uirg",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "stroke(_:width:detail:material:isCancelled:)",
+  "title" : "stroke(_:width:miterLimit:detail:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/stroke(_:width:detail:material:iscancelled:)-6vzw0"
+  "url" : "\/documentation\/euclid\/mesh\/stroke(_:width:miterlimit:detail:material:iscancelled:)-9uirg"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
   "abstract" : [

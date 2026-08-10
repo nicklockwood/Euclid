@@ -47,15 +47,16 @@ A three-dimensional surface made from polygons.
 
 - ``Mesh/convexHull(of:material:isCancelled:)-(Collection<Path>,_,_)``
 - ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)``
-- ``Mesh/extrude(_:along:twist:align:faces:material:isCancelled:)``
+- ``Mesh/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-6crez``
+- ``Mesh/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-646jk``
 - ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Path,_,_,_,_,_,_)``
 - ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Collection<Path>,_,_,_,_,_,_)``
 - ``Mesh/fill(_:faces:material:isCancelled:)-(Path,_,_,_)``
 - ``Mesh/fill(_:faces:material:isCancelled:)-(Collection<Path>,_,_,_)``
 - ``Mesh/loft(_:faces:material:isCancelled:)``
-- ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Path,_,_,_,_)``
-- ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Collection<Path>,_,_,_,_)``
-- ``Mesh/stroke(_:width:detail:material:isCancelled:)-(Collection<LineSegment>,_,_,_,_)``
+- ``Mesh/stroke(_:width:miterLimit:detail:material:isCancelled:)-9uirg``
+- ``Mesh/stroke(_:width:miterLimit:detail:material:isCancelled:)-3t1zn``
+- ``Mesh/stroke(_:width:detail:material:isCancelled:)``
 
 ### Creating Meshes from Vertices, Points or LineSegments
 
@@ -76,10 +77,13 @@ A three-dimensional surface made from polygons.
 
 ### Importing Meshes
 
-- ``Mesh/init(stlString:)``
-- ``Mesh/init(stlData:materialLookup:)``
-- ``Mesh/init(url:materialLookup:)``
-- ``Mesh/init(url:ignoringTransforms:materialLookup:)``
+- ``Mesh/ImportOptions``
+- ``Mesh/init(objString:options:)``
+- ``Mesh/init(offString:options:)``
+- ``Mesh/init(stlString:options:)``
+- ``Mesh/init(stlData:options:materialLookup:)``
+- ``Mesh/init(url:options:materialLookup:)``
+- ``Mesh/init(_:ignoringTransforms:materialLookup:)``
 
 ### Exporting Meshes
 
@@ -101,7 +105,9 @@ A three-dimensional surface made from polygons.
 
 ### Comparing Meshes
 
-- ``Mesh/intersects(_:)``
+- ``Mesh/intersects(_:)-3rdg``
+- ``Mesh/intersects(_:)-(Plane)``
+- ``Mesh/intersects(_:)-1nvd3``
 - ``Mesh/edges(intersecting:)``
 
 ### Transforming Meshes
@@ -138,7 +144,8 @@ A three-dimensional surface made from polygons.
 
 - ``Mesh/tessellate(maxSides:)``
 - ``Mesh/triangulate()``
-- ``Mesh/detessellate()``
+- ``Mesh/detessellate(isCancelled:)``
 - ``Mesh/detriangulate()``
-- ``Mesh/makeWatertight()``
+- ``Mesh/makeWatertight(isCancelled:)``
+- ``Mesh/withConsistentWinding(isCancelled:)``
 - ``Mesh/smoothingNormals(forAnglesGreaterThan:)``

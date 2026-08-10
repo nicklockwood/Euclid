@@ -191,7 +191,9 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/angle(with:)-29paf",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/angle(with:)-9sfg1",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-3eglz",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-5p7ko",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-9tjq5",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-9jrcu",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-2e328",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/projected(onto:)-2zsww"
       ],
       "title" : "Comparing Vectors"
@@ -401,6 +403,57 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/angle(with:)-9sfg1"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-2e328": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "distance"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-2e328",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "distance(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/distance(from:)-2e328"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-3eglz": {
   "abstract" : [
 
@@ -452,14 +505,75 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector\/distance(from:)-3eglz"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-5p7ko": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-9jrcu": {
   "abstract" : [
     {
-      "text" : "Deprecated.",
+      "text" : "Returns the distance between the vector (representing a position in space) and the specified object.",
       "type" : "text"
     }
   ],
-  "deprecated" : true,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "distance"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "some"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid15PointComparableP",
+      "text" : "PointComparable"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-9jrcu",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "distance(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/distance(from:)-9jrcu"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/distance(from:)-9tjq5": {
+  "abstract" : [
+    {
+      "text" : "Returns the absolute distance between the receiver and the specified plane.",
+      "type" : "text"
+    }
+  ],
   "fragments" : [
     {
       "kind" : "keyword",
@@ -500,12 +614,12 @@
       "text" : "Double"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-5p7ko",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/distance(from:)-9tjq5",
   "kind" : "symbol",
   "role" : "symbol",
   "title" : "distance(from:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/vector\/distance(from:)-5p7ko"
+  "url" : "\/documentation\/euclid\/vector\/distance(from:)-9tjq5"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/projected(onto:)-2zsww": {
   "abstract" : [

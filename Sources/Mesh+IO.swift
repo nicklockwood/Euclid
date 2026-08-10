@@ -75,15 +75,13 @@ public extension Mesh {
                 _ = try Data(contentsOf: url) // Will throw error if unreachable
             }
             #if canImport(SceneKit)
-            var sceneOptions: [SCNSceneSource.LoadingOption: Any] = [
+            let sceneOptions: [SCNSceneSource.LoadingOption: Any] = [
                 .checkConsistency: true,
                 .flattenScene: true,
                 .createNormalsIfAbsent: true,
                 .convertToYUp: true,
+                .preserveOriginalTopology: true,
             ]
-            if #available(iOS 13, tvOS 13, macOS 10.12, *) {
-                sceneOptions[.preserveOriginalTopology] = true
-            }
             let importedScene = try SCNScene(url: url, options: sceneOptions)
             self.init(importedScene.rootNode, materialLookup: materialLookup)
             if options.repairWinding == true {

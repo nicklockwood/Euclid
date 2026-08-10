@@ -282,8 +282,8 @@
       "anchor" : "Creating-a-Color",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:_:_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(red:green:blue:alpha:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(white:alpha:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-25eby",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:)-7d8un"
       ],
@@ -475,49 +475,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/init(_:)-987r7"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:_:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a color from a luminance value and optional alpha component.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/init(_:_:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:_:_:_:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(red:green:blue:alpha:)": {
   "abstract" : [
     {
       "text" : "Create a color from RGB values and optional alpha component",
@@ -534,6 +492,14 @@
       "text" : "("
     },
     {
+      "kind" : "externalParam",
+      "text" : "red"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:Sd",
       "text" : "Double"
@@ -543,6 +509,14 @@
       "text" : ", "
     },
     {
+      "kind" : "externalParam",
+      "text" : "green"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:Sd",
       "text" : "Double"
@@ -552,6 +526,14 @@
       "text" : ", "
     },
     {
+      "kind" : "externalParam",
+      "text" : "blue"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:Sd",
       "text" : "Double"
@@ -559,6 +541,14 @@
     {
       "kind" : "text",
       "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "alpha"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
@@ -570,12 +560,70 @@
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:_:_:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(red:green:blue:alpha:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(_:_:_:_:)",
+  "title" : "init(red:green:blue:alpha:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/init(_:_:_:_:)"
+  "url" : "\/documentation\/euclid\/color\/init(red:green:blue:alpha:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(white:alpha:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a color from a luminance value and optional alpha component.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "white"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "alpha"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(white:alpha:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(white:alpha:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/init(white:alpha:)"
 }
 }
 }

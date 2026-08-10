@@ -120,7 +120,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/vertices",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/plane",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/bounds",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/center",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/centroid",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/material-swift.property",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/isConvex",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/hasTexcoords",
@@ -362,14 +362,29 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/bounds"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/center": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/centroid": {
   "abstract" : [
     {
-      "text" : "Deprecated.",
+      "text" : "The position of the centroid of the polygon.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "This is calculated as the average of the vertex positions, and may not be equal to ",
+      "type" : "text"
+    },
+    {
+      "code" : "bounds.center",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
       "type" : "text"
     }
   ],
-  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -381,7 +396,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "center"
+      "text" : "centroid"
     },
     {
       "kind" : "text",
@@ -393,12 +408,12 @@
       "text" : "Vector"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/center",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/centroid",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "center",
+  "title" : "centroid",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/center"
+  "url" : "\/documentation\/euclid\/polygon\/centroid"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/hasTexcoords": {
   "abstract" : [

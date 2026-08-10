@@ -178,9 +178,10 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/tessellate(maxSides:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/triangulate()",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detessellate()",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detessellate(isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detriangulate()",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/makeWatertight()"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/makeWatertight(isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withConsistentWinding(isCancelled:)"
       ],
       "title" : "Adjusting Mesh Topology"
     }
@@ -281,10 +282,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/detessellate()": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/detessellate(isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Merges any coplanar polygons that share one or more edges.",
+      "text" : "Merges any coplanar polygons that share one or more edges. Resultant polygons may be non-convex.",
       "type" : "text"
     }
   ],
@@ -303,7 +304,24 @@
     },
     {
       "kind" : "text",
-      "text" : "() -> "
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -311,12 +329,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detessellate()",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detessellate(isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "detessellate()",
+  "title" : "detessellate(isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/detessellate()"
+  "url" : "\/documentation\/euclid\/mesh\/detessellate(iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/detriangulate()": {
   "abstract" : [
@@ -355,7 +373,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/detriangulate()"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/makeWatertight()": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/makeWatertight(isCancelled:)": {
   "abstract" : [
     {
       "text" : "Removes holes by inserting additional vertices and capping closed boundary loops.",
@@ -377,7 +395,24 @@
     },
     {
       "kind" : "text",
-      "text" : "() -> "
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -385,12 +420,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/makeWatertight()",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/makeWatertight(isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "makeWatertight()",
+  "title" : "makeWatertight(isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/makewatertight()"
+  "url" : "\/documentation\/euclid\/mesh\/makewatertight(iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/smoothingNormals(forAnglesGreaterThan:)": {
   "abstract" : [
@@ -544,6 +579,60 @@
   "title" : "triangulate()",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/triangulate()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/withConsistentWinding(isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a copy of the mesh with winding made consistent across shared edges.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "withConsistentWinding"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withConsistentWinding(isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "withConsistentWinding(isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/withconsistentwinding(iscancelled:)"
 }
 }
 }

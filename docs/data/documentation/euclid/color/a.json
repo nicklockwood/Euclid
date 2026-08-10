@@ -1,10 +1,4 @@
 {
-  "abstract" : [
-    {
-      "text" : "The alpha component of the color.",
-      "type" : "text"
-    }
-  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -19,6 +13,7 @@
   },
   "kind" : "symbol",
   "metadata" : {
+    "extendedModule" : "Euclid",
     "externalID" : "s:6Euclid5ColorV1aSdvp",
     "fragments" : [
       {
@@ -84,6 +79,26 @@
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:Sd",
               "text" : "Double"
+            },
+            {
+              "kind" : "text",
+              "text" : " { "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "get"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "set"
+            },
+            {
+              "kind" : "text",
+              "text" : " }"
             }
           ]
         }
@@ -98,18 +113,6 @@
   },
   "sections" : [
 
-  ],
-  "seeAlsoSections" : [
-    {
-      "anchor" : "Color-properties",
-      "generated" : true,
-      "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/r",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/g",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/b"
-      ],
-      "title" : "Color properties"
-    }
   ],
   "variants" : [
     {
@@ -175,11 +178,9 @@
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/a": {
   "abstract" : [
-    {
-      "text" : "The alpha component of the color.",
-      "type" : "text"
-    }
+
   ],
+  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -209,117 +210,6 @@
   "title" : "a",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/a"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/b": {
-  "abstract" : [
-    {
-      "text" : "The blue component of the color.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "var"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "b"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/b",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "b",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/b"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/g": {
-  "abstract" : [
-    {
-      "text" : "The green component of the color.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "var"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "g"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/g",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "g",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/g"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/r": {
-  "abstract" : [
-    {
-      "text" : "The red component of the color.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "var"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "r"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/r",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "r",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/r"
 }
 }
 }

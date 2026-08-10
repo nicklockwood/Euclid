@@ -122,6 +122,7 @@
       "anchor" : "Enumeration-Cases",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode\/box",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode\/default",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode\/none",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode\/shrink",
@@ -288,6 +289,34 @@
   "title" : "Equatable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/wrapmode\/equatable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/WrapMode/box": {
+  "abstract" : [
+    {
+      "text" : "Texture is box-wrapped.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "box"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode\/box",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "Mesh.WrapMode.box",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/wrapmode\/box"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/WrapMode/default": {
   "abstract" : [

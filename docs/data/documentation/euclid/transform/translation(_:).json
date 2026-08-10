@@ -171,6 +171,21 @@
   "sections" : [
 
   ],
+  "seeAlsoSections" : [
+    {
+      "anchor" : "Creating-Transforms",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(scale:rotation:translation:)-3r4ze",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(scale:rotation:translation:)-62ups",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotation(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scale(_:)-55t4p",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scale(_:)-7a30s",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/transform(from:)"
+      ],
+      "title" : "Creating Transforms"
+    }
+  ],
   "variants" : [
     {
       "paths" : [
@@ -232,6 +247,380 @@
   "title" : "Transform",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(scale:rotation:translation:)-3r4ze": {
+  "abstract" : [
+    {
+      "text" : "Creates a new transform with a uniform scale factor",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "scale"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "rotation"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid8RotationV",
+      "text" : "Rotation"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "translation"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(scale:rotation:translation:)-3r4ze",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(scale:rotation:translation:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/transform\/init(scale:rotation:translation:)-3r4ze"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(scale:rotation:translation:)-62ups": {
+  "abstract" : [
+    {
+      "text" : "Creates a new transform.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "scale"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "rotation"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid8RotationV",
+      "text" : "Rotation"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "translation"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(scale:rotation:translation:)-62ups",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(scale:rotation:translation:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/transform\/init(scale:rotation:translation:)-62ups"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/rotation(_:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a rotation transform.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "rotation"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid8RotationV",
+      "text" : "Rotation"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid9TransformV",
+      "text" : "Transform"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotation(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "rotation(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/transform\/rotation(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/scale(_:)-55t4p": {
+  "abstract" : [
+    {
+      "text" : "Creates a scale transform.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "scale"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid9TransformV",
+      "text" : "Transform"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scale(_:)-55t4p",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "scale(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/transform\/scale(_:)-55t4p"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/scale(_:)-7a30s": {
+  "abstract" : [
+    {
+      "text" : "Creates a uniform scale transform.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "scale"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid9TransformV",
+      "text" : "Transform"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scale(_:)-7a30s",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "scale(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/transform\/scale(_:)-7a30s"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/transform(from:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a transform from the current position, scale and orientation of a SceneKit node.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "transform"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)SCNNode",
+      "text" : "SCNNode"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid9TransformV",
+      "text" : "Transform"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/transform(from:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "transform(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/transform\/transform(from:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/translation(_:)": {
   "abstract" : [

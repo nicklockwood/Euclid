@@ -161,7 +161,7 @@
       "anchor" : "Splitting-Polygons",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clip(to:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clipped(to:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/split(along:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/tessellate(maxSides:)"
       ],
@@ -230,14 +230,13 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/clip(to:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/clipped(to:)": {
   "abstract" : [
     {
-      "text" : "Deprecated.",
+      "text" : "Clip polygon to the specified plane",
       "type" : "text"
     }
   ],
-  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -249,7 +248,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "clip"
+      "text" : "clipped"
     },
     {
       "kind" : "text",
@@ -282,12 +281,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clip(to:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clipped(to:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "clip(to:)",
+  "title" : "clipped(to:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/clip(to:)"
+  "url" : "\/documentation\/euclid\/polygon\/clipped(to:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/split(along:)": {
   "abstract" : [

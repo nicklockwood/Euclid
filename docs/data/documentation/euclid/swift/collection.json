@@ -108,8 +108,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/clipped(to:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/clipped(to:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/lerp(_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/split(along:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/subtracting(_:isCancelled:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/split(along:)"
       ],
       "title" : "Instance Methods"
     },
@@ -678,115 +677,6 @@
   "title" : "split(along:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/swift\/collection\/split(along:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection/subtracting(_:isCancelled:)": {
-  "abstract" : [
-    {
-      "text" : "Deprecated.",
-      "type" : "text"
-    }
-  ],
-  "conformance" : {
-    "availabilityPrefix" : [
-      {
-        "text" : "Available when",
-        "type" : "text"
-      }
-    ],
-    "conformancePrefix" : [
-      {
-        "text" : "Conforms when",
-        "type" : "text"
-      }
-    ],
-    "constraints" : [
-      {
-        "code" : "Element",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : " is ",
-        "type" : "text"
-      },
-      {
-        "code" : "LineSegment",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : ".",
-        "type" : "text"
-      }
-    ]
-  },
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "subtracting"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sl6EuclidAA11LineSegmentV7ElementRtzrlE19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sh",
-      "text" : "Set"
-    },
-    {
-      "kind" : "text",
-      "text" : "<"
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
-      "text" : "LineSegment"
-    },
-    {
-      "kind" : "text",
-      "text" : ">"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/subtracting(_:isCancelled:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "subtracting(_:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/collection\/subtracting(_:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection/text(_:font:width:detail:)": {
   "abstract" : [

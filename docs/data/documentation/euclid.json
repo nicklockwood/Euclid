@@ -189,10 +189,19 @@
       "anchor" : "Structures",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/MiterLimit",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/STLBinaryOptions",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/STLTextOptions"
       ],
       "title" : "Structures"
+    },
+    {
+      "anchor" : "Functions",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/abs(_:)"
+      ],
+      "title" : "Functions"
     },
     {
       "anchor" : "Enumerations",
@@ -607,6 +616,40 @@
   "title" : "Mesh",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/MiterLimit": {
+  "abstract" : [
+    {
+      "text" : "The miter threshold beyond which a corner is beveled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "MiterLimit"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/MiterLimit",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MiterLimit"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MiterLimit",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/miterlimit"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
   "abstract" : [
@@ -1193,6 +1236,52 @@
   "title" : "Vertex",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vertex"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/abs(_:)": {
+  "abstract" : [
+    {
+      "text" : "Computes the absolute value of an angle.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "abs"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/abs(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "abs(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/abs(_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/cos(_:)": {
   "abstract" : [

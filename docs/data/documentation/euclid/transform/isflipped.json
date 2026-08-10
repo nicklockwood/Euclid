@@ -119,7 +119,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/rotation",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/scale",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/offset",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/translation",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/isIdentity"
       ],
       "title" : "Transform properties"
@@ -261,44 +261,6 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform\/isidentity"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/offset": {
-  "abstract" : [
-    {
-      "text" : "Deprecated",
-      "type" : "text"
-    }
-  ],
-  "deprecated" : true,
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "var"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "offset"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/offset",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "offset",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform\/offset"
-},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/rotation": {
   "abstract" : [
     {
@@ -372,6 +334,43 @@
   "title" : "scale",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/transform\/scale"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/translation": {
+  "abstract" : [
+    {
+      "text" : "The translation or position component of the transform.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "translation"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/translation",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "translation",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/transform\/translation"
 }
 }
 }
