@@ -1037,16 +1037,25 @@ extension Collection<Polygon> {
         isCancelled: Polygon.CancellationHandler
     ) -> [Polygon] {
         guard !isCancelled() else { return [] }
-        var detessellated = [Polygon]()
+        var planeGroups = [[Polygon]]()
         for (index, materialGroup) in groupedByMaterial().enumerated() {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
-                return detessellated
+                return []
             }
             for (index, planeGroup) in materialGroup.polygons.groupedByPlane().enumerated() {
                 if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return []
+                }
+                planeGroups.append(planeGroup.polygons)
+            }
+        }
+        return batch(planeGroups, stride: 4) { planeGroups in
+            var detessellated = [Polygon]()
+            for (index, polygons) in planeGroups.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                     return detessellated
                 }
-                detessellated += planeGroup.polygons.coplanarDetessellate(
+                detessellated += polygons.coplanarDetessellate(
                     ensureConvex: ensureConvex,
                     maxSides: maxSides,
                     useQualityMerge: useQualityMerge,
@@ -1055,8 +1064,8 @@ extension Collection<Polygon> {
                     isCancelled: isCancelled
                 )
             }
+            return detessellated
         }
-        return detessellated
     }
 
     /// Merge coplanar polygons that share one or more edges

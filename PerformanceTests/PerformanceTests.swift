@@ -181,6 +181,41 @@ final class PerformanceTests: XCTestCase {
         }
     }
 
+    func testDetessellateFilledText() {
+        #if canImport(CoreText)
+        let font = CTFontCreateWithName("Helvetica" as CFString, 2, nil)
+        let mesh = Mesh.fill(Path.text("&", font: font, detail: 2)).triangulate()
+        XCTAssertEqual(mesh.polygons.count, 532)
+        measure {
+            let detessellated = mesh.withoutOptimizations().detessellate()
+            XCTAssertEqual(detessellated.polygons.count, 6)
+        }
+        #endif
+    }
+
+    func testDetessellateExtrudedText() {
+        #if canImport(CoreText)
+        let font = CTFontCreateWithName("Helvetica" as CFString, 2, nil)
+        let mesh = Mesh.extrude(Path.text("Euclid", font: font, detail: 2), depth: 0.2).triangulate()
+        XCTAssertEqual(mesh.polygons.count, 458)
+        measure {
+            let detessellated = mesh.withoutOptimizations().detessellate()
+            XCTAssertEqual(detessellated.polygons.count, 167)
+        }
+        #endif
+    }
+
+    func testDetessellateManyPlaneGroups() {
+        #if canImport(CoreText)
+        let mesh = Self.stackedTextPlanes(count: 16)
+        XCTAssertEqual(mesh.polygons.count, 8512)
+        measure {
+            let detessellated = mesh.withoutOptimizations().detessellate()
+            XCTAssertEqual(detessellated.polygons.count, 352)
+        }
+        #endif
+    }
+
     @MainActor
     func testInsetCancellationPerformanceRegression() throws {
         let workloads = Self.insetCancellationPerformanceWorkloads
@@ -367,6 +402,20 @@ private extension PerformanceTests {
         }
         return Mesh(polygons).withoutOptimizations()
     }
+
+    #if canImport(CoreText)
+    static func stackedTextPlanes(count: Int) -> Mesh {
+        let font = CTFontCreateWithName("Helvetica" as CFString, 2, nil)
+        let glyph = Mesh.fill(Path.text("&", font: font, detail: 2)).triangulate()
+        var polygons = [Euclid.Polygon]()
+        polygons.reserveCapacity(glyph.polygons.count * count)
+        for i in 0 ..< count {
+            let z = Double(i) * 0.01
+            polygons += glyph.translated(by: [0, 0, z]).polygons
+        }
+        return Mesh(polygons).withoutOptimizations()
+    }
+    #endif
 
     static func duration(_ body: () -> Void) -> TimeInterval {
         let start = ProcessInfo.processInfo.systemUptime
