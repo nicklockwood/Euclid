@@ -378,16 +378,20 @@ public extension Mesh {
         )
     }
 
-    /// Merges any coplanar polygons that share one or more edges.
+    /// Merges any coplanar polygons that share one or more edges. Resultant polygons may be non-convex.
+    /// - Parameter isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh containing the merged (possibly non-convex) polygons.
-    func detessellate() -> Mesh {
+    ///
+    /// > Note: This method can be very time-consuming. For convex polygons use `triangulate()` instead.
+    func detessellate(isCancelled: CancellationHandler = { false }) -> Mesh {
         let polygons = polygons.detessellate(
             ensureConvex: false,
             useQualityMerge: isWatertight,
             allowDisjointSharedVertices: isPlanar,
             // A vertex that is redundant within one coplanar face can still be needed by
             // adjacent non-coplanar faces to preserve matching edge segmentation.
-            preserveRedundantVertices: watertightIfSet == true && !isPlanar
+            preserveRedundantVertices: watertightIfSet == true && !isPlanar,
+            isCancelled: isCancelled
         )
         return Mesh(
             unchecked: polygons,
@@ -404,11 +408,11 @@ public extension Mesh {
     /// - Returns: A new mesh containing the merged polygons.
     func detriangulate() -> Mesh {
         Mesh(
-            unchecked: polygons.detessellate(ensureConvex: true),
+            unchecked: polygons.detessellate(ensureConvex: true) { false },
             bounds: boundsIfSet,
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
-            isWatertight: nil, // TODO: can this be done without introducing holes?
+            isWatertight: watertightIfSet,
             isPlanar: planarIfSet,
             submeshes: submeshesIfEmpty
         )

@@ -10,8 +10,8 @@
 import XCTest
 
 private extension Collection<Euclid.Polygon> {
-    func detessellate() -> [Euclid.Polygon] {
-        detessellate(ensureConvex: false)
+    func detessellate(isCancelled: Euclid.Polygon.CancellationHandler = { false }) -> [Euclid.Polygon] {
+        detessellate(ensureConvex: false, isCancelled: isCancelled)
     }
 }
 
@@ -1060,6 +1060,34 @@ final class PolygonTests: XCTestCase {
         XCTAssertEqual(c.polygons.count, 1330)
         XCTAssertEqual(d.polygons.count, 939)
         XCTAssert(d.polygons.count < c.polygons.count)
+    }
+
+    func testMeshDetessellateCanBeCancelledImmediately() {
+        let mesh = Mesh.fill(.square()).detessellate { true }
+        XCTAssert(mesh.isEmpty)
+    }
+
+    func testPolygonDetessellateCanBeCancelled() {
+        let polygons = Self.gridTriangles(width: 30, height: 30)
+        nonisolated(unsafe) var checks = 0
+        let result = polygons.detessellate {
+            checks += 1
+            return checks > 3
+        }
+        XCTAssertGreaterThan(checks, 3)
+        XCTAssertLessThan(result.count, polygons.count)
+    }
+
+    private static func gridTriangles(width: Int, height: Int) -> [Euclid.Polygon] {
+        (0 ..< width).flatMap { x in
+            (0 ..< height).flatMap { y in
+                let x = Double(x), y = Double(y)
+                return [
+                    Polygon(unchecked: [[x, y], [x + 1, y], [x + 1, y + 1]]),
+                    Polygon(unchecked: [[x, y], [x + 1, y + 1], [x, y + 1]]),
+                ]
+            }
+        }
     }
 
     func testDetessellateComplexCharacterPath() throws {

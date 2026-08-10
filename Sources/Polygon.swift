@@ -1033,19 +1033,30 @@ extension Collection<Polygon> {
         maxSides: Int = .max,
         useQualityMerge: Bool = true,
         allowDisjointSharedVertices: Bool = true,
-        preserveRedundantVertices: Bool = false
+        preserveRedundantVertices: Bool = false,
+        isCancelled: Polygon.CancellationHandler
     ) -> [Polygon] {
-        groupedByMaterial().flatMap {
-            $0.polygons.groupedByPlane().flatMap {
-                $0.polygons.coplanarDetessellate(
+        guard !isCancelled() else { return [] }
+        var detessellated = [Polygon]()
+        for (index, materialGroup) in groupedByMaterial().enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return detessellated
+            }
+            for (index, planeGroup) in materialGroup.polygons.groupedByPlane().enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return detessellated
+                }
+                detessellated += planeGroup.polygons.coplanarDetessellate(
                     ensureConvex: ensureConvex,
                     maxSides: maxSides,
                     useQualityMerge: useQualityMerge,
                     allowDisjointSharedVertices: allowDisjointSharedVertices,
-                    preserveRedundantVertices: preserveRedundantVertices
+                    preserveRedundantVertices: preserveRedundantVertices,
+                    isCancelled: isCancelled
                 )
             }
         }
+        return detessellated
     }
 
     /// Merge coplanar polygons that share one or more edges
@@ -1062,13 +1073,15 @@ extension Collection<Polygon> {
         maxSides: Int,
         useQualityMerge: Bool = true,
         allowDisjointSharedVertices: Bool = true,
-        preserveRedundantVertices: Bool = false
+        preserveRedundantVertices: Bool = false,
+        isCancelled: Polygon.CancellationHandler = { false }
     ) -> [Polygon] {
         assert(areCoplanar)
         assert(allSatisfy { $0.material == first?.material })
         assert(allSatisfy { $0.vertices.count <= maxSides })
         assert(!ensureConvex || allSatisfy(\.isConvex))
 
+        guard !isCancelled() else { return [] }
         var polygons = Array(self)
         let shouldUseQualityMerge = useQualityMerge && allowDisjointSharedVertices && maxSides == .max && !ensureConvex
         guard shouldUseQualityMerge else {
@@ -1077,7 +1090,8 @@ extension Collection<Polygon> {
                 maxSides: maxSides,
                 allowDisjointSharedVertices: allowDisjointSharedVertices,
                 insertingEdgeVertices: allowDisjointSharedVertices,
-                preserveRedundantVertices: preserveRedundantVertices
+                preserveRedundantVertices: preserveRedundantVertices,
+                isCancelled: isCancelled
             )
         }
         let maxQualityDetessellationPolygons = 64
@@ -1086,31 +1100,35 @@ extension Collection<Polygon> {
                 ensureConvex: ensureConvex,
                 maxSides: maxSides,
                 allowDisjointSharedVertices: allowDisjointSharedVertices,
-                preserveRedundantVertices: preserveRedundantVertices
+                preserveRedundantVertices: preserveRedundantVertices,
+                isCancelled: isCancelled
             )
-            polygons.alignSharedEdgePoints()
+            polygons.alignSharedEdgePoints(isCancelled: isCancelled)
             return polygons.greedyDetessellate(
                 ensureConvex: ensureConvex,
                 maxSides: maxSides,
                 allowDisjointSharedVertices: allowDisjointSharedVertices,
-                preserveRedundantVertices: preserveRedundantVertices
+                preserveRedundantVertices: preserveRedundantVertices,
+                isCancelled: isCancelled
             )
         }
         while let candidate = polygons.bestMergeCandidate(
             ensureConvex: ensureConvex,
             maxSides: maxSides,
             allowDisjointSharedVertices: allowDisjointSharedVertices,
-            preserveRedundantVertices: preserveRedundantVertices
+            preserveRedundantVertices: preserveRedundantVertices,
+            isCancelled: isCancelled
         ) {
             polygons[candidate.i] = candidate.polygon
             polygons.remove(at: candidate.j)
         }
-        polygons.alignSharedEdgePoints()
+        polygons.alignSharedEdgePoints(isCancelled: isCancelled)
         while let candidate = polygons.bestMergeCandidate(
             ensureConvex: ensureConvex,
             maxSides: maxSides,
             allowDisjointSharedVertices: allowDisjointSharedVertices,
-            preserveRedundantVertices: preserveRedundantVertices
+            preserveRedundantVertices: preserveRedundantVertices,
+            isCancelled: isCancelled
         ) {
             polygons[candidate.i] = candidate.polygon
             polygons.remove(at: candidate.j)
@@ -1210,22 +1228,32 @@ private extension [Polygon] {
         maxSides: Int,
         allowDisjointSharedVertices: Bool = true,
         insertingEdgeVertices: Bool = false,
-        preserveRedundantVertices: Bool = false
+        preserveRedundantVertices: Bool = false,
+        isCancelled: Polygon.CancellationHandler = { false }
     ) -> [Polygon] {
         let shouldInsertEdgeVertices = insertingEdgeVertices && !ensureConvex && maxSides == .max
         var polygons = self
         var shouldContinue = true
-        while shouldContinue {
+        var steps = 0
+        while shouldContinue, !isCancelled() {
             shouldContinue = false
             if shouldInsertEdgeVertices {
                 polygons = polygons.insertingEdgeVertices(with: polygons.uniqueEdges)
             }
             var i = polygons.count - 1
             while i > 0 {
+                steps += 1
+                if steps.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return polygons
+                }
                 let a = polygons[i]
                 let count = a.vertices.count
                 if count <= maxSides {
                     for j in (0 ..< i).reversed() {
+                        steps += 1
+                        if steps.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                            return polygons
+                        }
                         let b = polygons[j]
                         let combinedCount = b.vertices.count + count - 2
                         if shouldInsertEdgeVertices || combinedCount - 2 <= maxSides,
@@ -1251,15 +1279,21 @@ private extension [Polygon] {
     }
 
     /// Insert matching edge points into neighboring polygons
-    mutating func alignSharedEdgePoints() {
+    mutating func alignSharedEdgePoints(isCancelled: Polygon.CancellationHandler = { false }) {
         var points = Set<Vector>()
-        for polygon in self {
+        for (index, polygon) in enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return
+            }
             for vertex in polygon.vertices {
                 points.insert(vertex.position)
             }
         }
         let sortedPoints = points.sorted()
-        for i in indices {
+        for (index, i) in indices.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return
+            }
             let bounds = self[i].bounds.inset(by: -epsilon)
             self[i].insertEdgePoints(sortedPoints.filter { bounds.intersects($0) })
         }
@@ -1274,10 +1308,14 @@ private extension [Polygon] {
         ensureConvex: Bool,
         maxSides: Int,
         allowDisjointSharedVertices: Bool,
-        preserveRedundantVertices: Bool
+        preserveRedundantVertices: Bool,
+        isCancelled: Polygon.CancellationHandler = { false }
     ) -> MergeCandidate? {
         var best: MergeCandidate?
-        for pair in mergeCandidatePairs {
+        for (index, pair) in mergeCandidatePairs(isCancelled: isCancelled).enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return nil
+            }
             let a = self[pair.i], b = self[pair.j]
             guard let merged = a.merge(
                 unchecked: b,
@@ -1307,16 +1345,22 @@ private extension [Polygon] {
     ///
     /// A valid merge still goes through `merge(unchecked:ensureConvex:)`; this
     /// only avoids trying pairs that cannot share a complete edge.
-    var mergeCandidatePairs: [IndexPair] {
+    func mergeCandidatePairs(isCancelled: Polygon.CancellationHandler = { false }) -> [IndexPair] {
         var indicesByVertex = [Vector: [Int]]()
         for (index, polygon) in enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return []
+            }
             for position in Set(polygon.vertices.map(\.position)) {
                 indicesByVertex[position, default: []].append(index)
             }
         }
 
         var sharedVertexCounts = [IndexPair: Int]()
-        for indices in indicesByVertex.values where indices.count > 1 {
+        for (index, indices) in indicesByVertex.values.enumerated() where indices.count > 1 {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return []
+            }
             for a in indices.indices.dropFirst() {
                 for b in indices.indices[..<a] {
                     sharedVertexCounts[IndexPair(indices[a], indices[b]), default: 0] += 1
