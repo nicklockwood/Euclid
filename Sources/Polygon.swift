@@ -608,10 +608,17 @@ extension [Polygon] {
     ///   inverted to resolve inconsistent winding.
     /// - Returns: A copy of the receiver with polygons inverted as needed to make
     ///   shared-edge winding consistent.
-    func withConsistentWinding(isLocked: (Polygon) -> Bool = { _ in false }) -> [Polygon] {
+    func withConsistentWinding(
+        isLocked: (Polygon) -> Bool = { _ in false },
+        isCancelled: Polygon.CancellationHandler
+    ) -> [Polygon] {
+        guard !isCancelled() else { return self }
         let edgeMap = windingEdgeMap
         var adjacency = [[(index: Int, parity: Int)]](repeating: [], count: count)
-        for matches in edgeMap.values where matches.count == 2 {
+        for (index, matches) in edgeMap.values.enumerated() where matches.count == 2 {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return self
+            }
             let parity = -matches[0].sign * matches[1].sign
             adjacency[matches[0].index].append((matches[1].index, parity))
             adjacency[matches[1].index].append((matches[0].index, parity))
@@ -626,7 +633,7 @@ extension [Polygon] {
             signs[start] = 1
             componentIDs[start] = componentID
             var queue = [start]
-            while let index = queue.popLast() {
+            while let index = queue.popLast(), !isCancelled() {
                 component.append(index)
                 for neighbor in adjacency[index] {
                     let expectedSign = signs[index] * neighbor.parity
@@ -640,9 +647,11 @@ extension [Polygon] {
             components.append(component)
         }
         for start in indices where locked[start] && componentIDs[start] < 0 {
+            if isCancelled() { return self }
             addComponent(from: start)
         }
         for start in indices where componentIDs[start] < 0 {
+            if isCancelled() { return self }
             addComponent(from: start)
         }
         let componentIsLocked = components.map { component in
@@ -656,7 +665,10 @@ extension [Polygon] {
             $0.count != 2
         }
         let maxPasses = multiEdgeMatches.count
-        for _ in 0 ..< maxPasses {
+        for pass in 0 ..< maxPasses {
+            if pass.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return self
+            }
             var changed = false
             for matches in multiEdgeMatches {
                 let balance = matches.reduce(0) {
@@ -726,8 +738,16 @@ extension Collection<Polygon> {
 
     /// Returns all edges that exist at the boundary of a hole.
     var holeEdges: Set<LineSegment> {
+        holeEdges()
+    }
+
+    /// Returns all edges that exist at the boundary of a hole.
+    func holeEdges(isCancelled: Polygon.CancellationHandler = { false }) -> Set<LineSegment> {
         var edges = Set<LineSegment>()
-        for polygon in self {
+        for (index, polygon) in enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return edges
+            }
             for edge in polygon.undirectedEdges {
                 if let index = edges.firstIndex(of: edge) {
                     edges.remove(at: index)
@@ -801,17 +821,29 @@ extension Collection<Polygon> {
     }
 
     /// Insert missing vertices needed to prevent hairline cracks.
-    func insertingEdgeVertices(with holeEdges: Set<LineSegment>) -> [Polygon] {
+    func insertingEdgeVertices(
+        with holeEdges: Set<LineSegment>,
+        isCancelled: Polygon.CancellationHandler = { false }
+    ) -> [Polygon] {
         var points = Set<Vector>()
-        for edge in holeEdges {
+        for (index, edge) in holeEdges.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return Array(self)
+            }
             points.insert(edge.start)
             points.insert(edge.end)
         }
         var polygons = Array(self)
         let sortedPoints = points.sorted()
-        for i in polygons.indices {
+        for (index, i) in polygons.indices.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return polygons
+            }
             let bounds = polygons[i].bounds.inset(by: -epsilon)
-            for point in sortedPoints where bounds.intersects(point) {
+            for (index, point) in sortedPoints.enumerated() where bounds.intersects(point) {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return polygons
+                }
                 _ = polygons[i].insertEdgePoint(point)
             }
         }
@@ -820,20 +852,34 @@ extension Collection<Polygon> {
 
     /// Merge vertices with similar positions.
     /// - Parameter precision: The maximum distance between vertices.
-    func mergingVertices(withPrecision precision: Double) -> [Polygon] {
-        mergingVertices(nil, withPrecision: precision)
+    func mergingVertices(
+        withPrecision precision: Double,
+        isCancelled: Polygon.CancellationHandler = { false }
+    ) -> [Polygon] {
+        mergingVertices(nil, withPrecision: precision, isCancelled: isCancelled)
     }
 
     /// Merge vertices with similar positions.
     /// - Parameters:
     ///   - vertices: The vertices to consider for merging. If `nil`, all vertices will be considered.
     ///   - precision: The distance threshold for merging vertices
-    func mergingVertices(_ vertices: Set<Vector>?, withPrecision precision: Double) -> [Polygon] {
+    func mergingVertices(
+        _ vertices: Set<Vector>?,
+        withPrecision precision: Double,
+        isCancelled: Polygon.CancellationHandler = { false }
+    ) -> [Polygon] {
         var positions = VertexSet(precision: precision)
-        return compactMap {
+        var result = [Polygon]()
+        for (index, polygon) in enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return result.isEmpty ? Array(self) : result
+            }
             var merged = [Vertex]()
             var modified = false
-            for v in $0.vertices {
+            for (index, v) in polygon.vertices.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return result.isEmpty ? Array(self) : result
+                }
                 if let vertices, !vertices.contains(v.position) {
                     merged.append(v)
                     continue
@@ -849,15 +895,19 @@ extension Collection<Polygon> {
                 merged.append(u)
             }
             if !modified {
-                return $0
+                result.append(polygon)
+                continue
             }
             if merged.count > 1, let w = merged.first,
                w.position == merged.last?.position
             {
                 merged[0] = w.lerp(merged.removeLast(), 0.5)
             }
-            return Polygon(merged, material: $0.material)
+            if let polygon = Polygon(merged, material: polygon.material) {
+                result.append(polygon)
+            }
         }
+        return result
     }
 
     /// Flatten vertex normals (set them to match the face normal)

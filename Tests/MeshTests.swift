@@ -354,6 +354,25 @@ final class MeshTests: XCTestCase {
         #endif
     }
 
+    func testMakeWatertightCanBeCancelledImmediately() {
+        let mesh = Mesh.cube().makeWatertight {
+            true
+        }
+        XCTAssert(mesh.isEmpty)
+    }
+
+    func testMakeWatertightCanBeCancelled() {
+        let mesh = Mesh(Mesh.sphere(slices: 128).polygons)
+        nonisolated(unsafe) var checks = 0
+        let result = mesh.makeWatertight {
+            checks += 1
+            return checks > 1
+        }
+        XCTAssertGreaterThan(checks, 1)
+        XCTAssertFalse(result.isEmpty)
+        XCTAssertEqual(result.polygons, mesh.polygons)
+    }
+
     func testMakeExtrudedTextWatertight() {
         #if canImport(CoreText)
         let detail = 16

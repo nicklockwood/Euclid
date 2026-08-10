@@ -46,13 +46,13 @@ public extension Mesh {
             return .empty
         }
         if !isCancelled(), !mesh.polygons.holeEdges.isEmpty {
-            mesh = mesh.makeWatertight()
+            mesh = mesh.makeWatertight(isCancelled: isCancelled)
             var precision = epsilon * 10
             while !isCancelled(), !mesh.polygons.holeEdges.isEmpty, precision <= distance * 0.25 {
                 let holeEdges = mesh.polygons.holeEdges
                 let holePoints = holeEdges.endPoints
                 let polygons = mesh.polygons.mergingVertices(holePoints, withPrecision: precision)
-                let merged = Mesh(polygons).makeWatertight()
+                let merged = Mesh(polygons).makeWatertight(isCancelled: isCancelled)
                 guard merged.polygons.holeEdges.count < holeEdges.count else {
                     precision *= 10
                     continue

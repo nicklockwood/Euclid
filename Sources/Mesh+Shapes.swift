@@ -1827,7 +1827,10 @@ private extension Mesh {
                 }
             }
         }
-        polygons = polygons.withConsistentWinding(isLocked: { lockedCapPolygons.contains($0) })
+        polygons = polygons.withConsistentWinding(
+            isLocked: { lockedCapPolygons.contains($0) },
+            isCancelled: isCancelled
+        )
         if polygons.signedVolume < 0 {
             polygons = polygons.inverted()
         }

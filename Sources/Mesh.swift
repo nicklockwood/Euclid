@@ -419,16 +419,18 @@ public extension Mesh {
     }
 
     /// Removes holes by inserting additional vertices and capping closed boundary loops.
+    /// - Parameter isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh with new vertices and polygons inserted if needed.
     ///
     /// > Note: This method is not always successful. Check ``Mesh/isWatertight`` after to verify.
-    func makeWatertight() -> Mesh {
+    func makeWatertight(isCancelled: CancellationHandler = { false }) -> Mesh {
+        guard !isCancelled() else { return .empty }
         if watertightIfSet == true {
             guard !polygons.areConsistentlyWound else {
                 return self
             }
             return Mesh(
-                unchecked: polygons.withConsistentWinding(),
+                unchecked: polygons.withConsistentWinding(isCancelled: isCancelled),
                 bounds: boundsIfSet,
                 bsp: nil,
                 isConvex: isKnownConvex,
@@ -437,13 +439,13 @@ public extension Mesh {
                 submeshes: submeshesIfEmpty
             )
         }
-        var holeEdges = polygons.holeEdges, polygons = polygons
+        var holeEdges = polygons.holeEdges(isCancelled: isCancelled), polygons = polygons
         var precision = epsilon
-        while !holeEdges.isEmpty {
+        while !holeEdges.isEmpty, !isCancelled() {
             let merged = polygons
-                .insertingEdgeVertices(with: holeEdges)
-                .mergingVertices(withPrecision: precision)
-            let newEdges = merged.holeEdges
+                .insertingEdgeVertices(with: holeEdges, isCancelled: isCancelled)
+                .mergingVertices(withPrecision: precision, isCancelled: isCancelled)
+            let newEdges = merged.holeEdges(isCancelled: isCancelled)
             if newEdges.count < holeEdges.count {
                 polygons = merged
                 holeEdges = newEdges
@@ -460,7 +462,10 @@ public extension Mesh {
 
             func capMaterial(for pathEdges: some Collection<LineSegment>, in polygons: [Polygon]) -> Material? {
                 var weights = [(material: Material?, length: Double)]()
-                for polygon in polygons {
+                for (index, polygon) in polygons.enumerated() {
+                    if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                        return nil
+                    }
                     for edge in polygon.undirectedEdges where pathEdges.contains(edge) {
                         if let index = weights.firstIndex(where: { $0.material == polygon.material }) {
                             weights[index].length += edge.length
@@ -492,6 +497,9 @@ public extension Mesh {
                 }
                 let center = Vertex(vertices.centroid)
                 return vertices.indices.compactMap { i in
+                    if i.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                        return nil
+                    }
                     let j = (i + 1) % vertices.count
                     guard vertices[i].position != vertices[j].position else {
                         return nil
@@ -505,9 +513,12 @@ public extension Mesh {
                     )
                 }
             }
-            while !holeEdges.isEmpty {
+            while !holeEdges.isEmpty, !isCancelled() {
                 let loops = holeEdges.closedLoops
-                let caps = loops.flatMap { points -> [Polygon] in
+                let caps = loops.enumerated().flatMap { index, points -> [Polygon] in
+                    if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                        return []
+                    }
                     let material = capMaterial(for: points.undirectedEdges, in: polygons)
                     let closedVertices = points.map { position in
                         let vertices = polygons.flatMap { polygon in
@@ -536,9 +547,9 @@ public extension Mesh {
                     break
                 }
                 let capped = (polygons + caps)
-                    .insertingEdgeVertices(with: holeEdges)
-                    .mergingVertices(withPrecision: epsilon)
-                let newEdges = capped.holeEdges
+                    .insertingEdgeVertices(with: holeEdges, isCancelled: isCancelled)
+                    .mergingVertices(withPrecision: epsilon, isCancelled: isCancelled)
+                let newEdges = capped.holeEdges(isCancelled: isCancelled)
                 guard newEdges.count < holeEdges.count else {
                     break
                 }
@@ -548,7 +559,8 @@ public extension Mesh {
         }
         let isWatertight = holeEdges.isEmpty
         return Mesh(
-            unchecked: isWatertight ? polygons.withConsistentWinding() : polygons,
+            unchecked: isWatertight && !isCancelled() ?
+                polygons.withConsistentWinding(isCancelled: isCancelled) : polygons,
             bounds: boundsIfSet,
             bsp: nil,
             isConvex: false, // TODO: can makeWatertight make this false?
