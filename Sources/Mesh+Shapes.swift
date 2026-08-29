@@ -38,7 +38,7 @@ public extension Mesh {
     typealias Alignment = Path.Alignment
 
     /// The face generation policy for Euclid to use when creating a mesh.
-    enum Faces: Sendable {
+    enum Faces: Hashable, Codable, Sendable {
         /// The default face generation behavior. Context-dependent.
         case `default`
         /// Generate front faces.
@@ -50,7 +50,7 @@ public extension Mesh {
     }
 
     /// The texture wrapping mode to use when generating a mesh.
-    enum WrapMode: Sendable {
+    enum WrapMode: Hashable, Codable, Sendable {
         /// The default wrap behavior. Context-dependent.
         case `default`
         /// Texture is shrink-wrapped.
