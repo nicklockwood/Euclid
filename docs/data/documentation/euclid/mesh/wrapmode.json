@@ -83,6 +83,8 @@
   "relationshipsSections" : [
     {
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/Se",
+        "doc:\/\/com.charcoaldesign.Euclid\/SE",
         "doc:\/\/com.charcoaldesign.Euclid\/SQ",
         "doc:\/\/com.charcoaldesign.Euclid\/SH",
         "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
@@ -131,6 +133,14 @@
       "title" : "Enumeration Cases"
     },
     {
+      "anchor" : "Initializers",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode\/init(from:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
       "anchor" : "Default-Implementations",
       "generated" : true,
       "identifiers" : [
@@ -153,6 +163,11 @@
   ]
 , 
 "references": {
+"doc://com.charcoaldesign.Euclid/SE": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/SE",
+  "title" : "Swift.Encodable",
+  "type" : "unresolvable"
+},
 "doc://com.charcoaldesign.Euclid/SH": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/SH",
   "title" : "Swift.Hashable",
@@ -161,6 +176,11 @@
 "doc://com.charcoaldesign.Euclid/SQ": {
   "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/SQ",
   "title" : "Swift.Equatable",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/Se": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/Se",
+  "title" : "Swift.Decodable",
   "type" : "unresolvable"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid": {
@@ -345,6 +365,48 @@
   "title" : "Mesh.WrapMode.default",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/wrapmode\/default"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/WrapMode/init(from:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": any "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:s7DecoderP",
+      "text" : "Decoder"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/WrapMode\/init(from:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(from:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/wrapmode\/init(from:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/WrapMode/none": {
   "abstract" : [

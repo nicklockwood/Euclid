@@ -1,20 +1,11 @@
 {
   "abstract" : [
     {
-      "text" : "Creates a Euclid",
+      "text" : "Inherited from ",
       "type" : "text"
     },
     {
-      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
-      "isActive" : true,
-      "type" : "reference"
-    },
-    {
-      "text" : " from a RealityKit ",
-      "type" : "text"
-    },
-    {
-      "code" : "Transform",
+      "code" : "Decodable.init(from:)",
       "type" : "codeVoice"
     },
     {
@@ -26,18 +17,18 @@
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Faces"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-cys2"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Faces\/init(from:)"
   },
   "kind" : "symbol",
   "metadata" : {
-    "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid9TransformVyAC17RealityFoundationABVcfc",
+    "externalID" : "s:6Euclid4MeshV5FacesO4fromAEs7Decoder_p_tKcfc",
     "fragments" : [
       {
         "kind" : "identifier",
@@ -45,20 +36,28 @@
       },
       {
         "kind" : "text",
-        "text" : "(RealityKit"
+        "text" : "("
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "from"
       },
       {
         "kind" : "text",
-        "text" : "."
+        "text" : ": any "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:17RealityFoundation9TransformV",
-        "text" : "Transform"
+        "preciseIdentifier" : "s:s7DecoderP",
+        "text" : "Decoder"
       },
       {
         "kind" : "text",
-        "text" : ")"
+        "text" : ") "
+      },
+      {
+        "kind" : "keyword",
+        "text" : "throws"
       }
     ],
     "modules" : [
@@ -66,19 +65,10 @@
         "name" : "Euclid"
       }
     ],
-    "platforms" : [
-      {
-        "beta" : false,
-        "deprecated" : false,
-        "introducedAt" : "26.0",
-        "name" : "tvOS",
-        "unavailable" : false
-      }
-    ],
     "role" : "symbol",
     "roleHeading" : "Initializer",
     "symbolKind" : "init",
-    "title" : "init(_:)"
+    "title" : "init(from:)"
   },
   "primaryContentSections" : [
     {
@@ -101,7 +91,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "_"
+              "text" : "from"
             },
             {
               "kind" : "text",
@@ -109,48 +99,29 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "transform"
+              "text" : "decoder"
             },
             {
               "kind" : "text",
-              "text" : ": RealityKit"
-            },
-            {
-              "kind" : "text",
-              "text" : "."
+              "text" : ": any "
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:17RealityFoundation9TransformV",
-              "text" : "Transform"
+              "preciseIdentifier" : "s:s7DecoderP",
+              "text" : "Decoder"
             },
             {
               "kind" : "text",
-              "text" : ")"
+              "text" : ") "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "throws"
             }
           ]
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The RealityKit transform  to convert into a Euclid transform.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "transform"
-        }
-      ]
     }
   ],
   "schemaVersion" : {
@@ -164,7 +135,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/transform\/init(_:)-cys2"
+        "\/documentation\/euclid\/mesh\/faces\/init(from:)"
       ],
       "traits" : [
         {
@@ -189,10 +160,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [
     {
-      "text" : "A combined rotation, position, and scale that can be applied to a 3D object.",
+      "text" : "A 3D surface made of polygons.",
       "type" : "text"
     }
   ],
@@ -207,45 +178,59 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Transform"
+      "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Transform"
+      "text" : "Mesh"
     }
   ],
   "role" : "symbol",
-  "title" : "Transform",
+  "title" : "Mesh",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform"
+  "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Transform/init(_:)-cys2": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Faces": {
   "abstract" : [
     {
-      "text" : "Creates a Euclid",
-      "type" : "text"
-    },
-    {
-      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform",
-      "isActive" : true,
-      "type" : "reference"
-    },
-    {
-      "text" : " from a RealityKit ",
-      "type" : "text"
-    },
-    {
-      "code" : "Transform",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : ".",
+      "text" : "The face generation policy for Euclid to use when creating a mesh.",
       "type" : "text"
     }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Faces"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Faces",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Faces"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh.Faces",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/faces"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Faces/init(from:)": {
+  "abstract" : [
+
   ],
   "fragments" : [
     {
@@ -254,28 +239,36 @@
     },
     {
       "kind" : "text",
-      "text" : "(RealityKit"
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
     },
     {
       "kind" : "text",
-      "text" : "."
+      "text" : ": any "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:17RealityFoundation9TransformV",
-      "text" : "Transform"
+      "preciseIdentifier" : "s:s7DecoderP",
+      "text" : "Decoder"
     },
     {
       "kind" : "text",
-      "text" : ")"
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Transform\/init(_:)-cys2",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Faces\/init(from:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(_:)",
+  "title" : "init(from:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/transform\/init(_:)-cys2"
+  "url" : "\/documentation\/euclid\/mesh\/faces\/init(from:)"
 }
 }
 }

@@ -101,6 +101,15 @@
                     "type" : "case"
                   },
                   {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/wrapmode\/init(from:)",
+                    "title" : "init(from: any Decoder) throws",
+                    "type" : "init"
+                  },
+                  {
                     "title" : "Default Implementations",
                     "type" : "groupMarker"
                   },
@@ -150,6 +159,15 @@
                     "path" : "\/documentation\/euclid\/mesh\/faces\/frontandback",
                     "title" : "case frontAndBack",
                     "type" : "case"
+                  },
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/mesh\/faces\/init(from:)",
+                    "title" : "init(from: any Decoder) throws",
+                    "type" : "init"
                   },
                   {
                     "title" : "Default Implementations",
@@ -2113,6 +2131,15 @@
                     "path" : "\/documentation\/euclid\/path\/alignment\/tangent",
                     "title" : "case tangent",
                     "type" : "case"
+                  },
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/path\/alignment\/init(from:)",
+                    "title" : "init(from: any Decoder) throws",
+                    "type" : "init"
                   },
                   {
                     "title" : "Default Implementations",

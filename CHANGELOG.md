@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.9.1](https://github.com/nicklockwood/Euclid/releases/tag/0.9.1) (2026-08-30)
+
+- `Mesh.Faces`, `Mesh.WrapMode` and `Path.Alignment` now conform to `Hashable` and `Codable`
+
 ## [0.9.0](https://github.com/nicklockwood/Euclid/releases/tag/0.9.0) (2026-08-10)
 
 - Removed previously deprecated APIs
