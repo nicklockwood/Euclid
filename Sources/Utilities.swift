@@ -960,6 +960,28 @@ func subpathsFor(_ _points: [PathPoint]) -> [Path] {
     ] : paths
 }
 
+func removingRepeatedClosedPrefixTail(from points: [PathPoint]) -> [PathPoint] {
+    guard points.count > 3 else {
+        return points
+    }
+    let firstPosition = points[0].position
+    for repeatIndex in 1 ..< points.count - 1 where points[repeatIndex].position == firstPosition {
+        let tailCount = points.count - repeatIndex
+        guard tailCount > 1, tailCount <= 32, tailCount <= repeatIndex + 1 else {
+            continue
+        }
+        var repeatsPrefix = true
+        for offset in 0 ..< tailCount where points[repeatIndex + offset].position != points[offset].position {
+            repeatsPrefix = false
+            break
+        }
+        if repeatsPrefix {
+            return Array(points[...repeatIndex])
+        }
+    }
+    return points
+}
+
 /// Finds repeated-point boundaries that split a point array into subpaths.
 private func subpathIndicesFor(_ points: [PathPoint]) -> [Int] {
     // TODO: ensure closing points are of the same type as the opening point;

@@ -529,13 +529,14 @@ public extension Mesh {
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
+        let normalizedShape = shape.removingRepeatedClosedPrefixTailForMeshing
         let depth = abs(depth)
         if depth < scaleLimit {
-            return fill(shape, faces: faces, material: material, isCancelled: isCancelled)
+            return fill(normalizedShape, faces: faces, material: material, isCancelled: isCancelled)
         }
-        if shape.shouldExtrudeSubpathsWithEvenOddComposition {
+        if normalizedShape.shouldExtrudeSubpathsWithEvenOddComposition {
             let material = SendableMaterial(material)
-            let meshes = batch(shape.subpaths, stride: 1) {
+            let meshes = batch(normalizedShape.subpaths, stride: 1) {
                 $0.map { shape in
                     isCancelled() ? .empty : extrude(
                         shape,
@@ -550,12 +551,12 @@ public extension Mesh {
             }
             return .symmetricDifference(meshes, isCancelled: isCancelled)
         }
-        let faceNormal = shape.faceNormal
+        let faceNormal = normalizedShape.faceNormal
         let offset = faceNormal * depth
         let sections = max(1, sections ?? Int(ceil(abs(twist / .twoPi) * 16)))
         let step = offset / Double(sections)
         let rotation = Rotation(unchecked: faceNormal, angle: twist / Double(sections))
-        var shape = shape.translated(by: -offset / 2)
+        var shape = normalizedShape.translated(by: -offset / 2)
         var shapes = [shape]
         for _ in 0 ..< sections {
             shape.translate(by: step)
@@ -1002,6 +1003,36 @@ private extension Collection<Path> {
 }
 
 private extension Path {
+    var removingRepeatedClosedPrefixTailForMeshing: Path {
+        let subpaths = subpaths
+        if subpaths.count > 1,
+           let first = subpaths.first,
+           first.isClosed,
+           first.points.count > 256
+        {
+            let tail = subpaths.dropFirst().flatMap(\.points).map(\.position)
+            let contour = first.points.dropLast(first.isClosed ? 1 : 0).map(\.position)
+            if !tail.isEmpty, tail.count <= 64, tail.count <= contour.count,
+               contour.indices.contains(where: { start in
+                   tail.indices.allSatisfy { tailIndex in
+                       tail[tailIndex] == contour[(start + tailIndex) % contour.count]
+                   }
+               })
+            {
+                return first
+            }
+        }
+        let points = points
+        guard points.count > 256 else {
+            return self
+        }
+        let trimmed = removingRepeatedClosedPrefixTail(from: points)
+        guard trimmed.count < points.count else {
+            return self
+        }
+        return Path(sanitizePoints(trimmed))
+    }
+
     /// Builds the same front-facing cap polygons used by `fill`, so extrusion caps and filled paths
     /// agree for compound non-zero boundaries and even-odd subpath composition.
     func fillPolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon] {
@@ -1031,6 +1062,9 @@ private extension Path {
     /// Returns `nonZeroFillBoundary` only when it can safely replace this path for mesh generation.
     /// Some non-zero boundaries merge or reorder subpaths in ways that break loft side matching.
     var meshableNonZeroFillBoundary: Path? {
+        if subpaths.count == 1, points.count > 256 {
+            return nil
+        }
         guard isClosed, let boundary = nonZeroFillBoundaryWithAlignedEdges else {
             return nil
         }

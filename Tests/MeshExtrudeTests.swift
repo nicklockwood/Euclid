@@ -32,6 +32,30 @@ final class MeshExtrudeTests: XCTestCase {
         )
     }
 
+    func testExtrudeClosedPathWithRepeatedPrefixTailMatchesTrimmedPath() {
+        let expected = Path.circle(segments: 300)
+        let path = Path(expected.points + expected.points.dropFirst().prefix(8))
+
+        XCTAssertEqual(Mesh.extrude(path), Mesh.extrude(expected))
+    }
+
+    func testZeroDepthExtrudeClosedPathWithRepeatedPrefixTailMatchesTrimmedFill() {
+        let expected = Path.circle(segments: 300)
+        let path = Path(expected.points + expected.points.dropFirst().prefix(8))
+
+        XCTAssertEqual(Mesh.extrude(path, depth: 0), Mesh.fill(expected))
+    }
+
+    func testExtrudeCompoundPathWithRepeatedPrefixTailMatchesTrimmedPath() {
+        let expected = Path.circle(segments: 300)
+        let path = Path(subpaths: [
+            expected,
+            Path(Array(expected.points.dropFirst().prefix(8))),
+        ])
+
+        XCTAssertEqual(Mesh.extrude(path), Mesh.extrude(expected))
+    }
+
     func testTwistedExtrudeCalculatesSectionsIfUnspecified() {
         let shape = Path.square()
 
