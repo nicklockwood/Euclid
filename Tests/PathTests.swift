@@ -138,6 +138,23 @@ final class PathTests: XCTestCase {
         XCTAssertFalse(path.isClosed)
     }
 
+    func testLargeClosedPathIsSimple() {
+        let path = Path.circle(segments: 300)
+
+        XCTAssertTrue(path.isSimple)
+    }
+
+    func testLargeClosedPathWithCrossingSegmentsIsNotSimple() {
+        let points = (0 ... 300).map { PathPoint.point(Double($0), 0) } + [
+            .point(150.5, -1),
+            .point(150.5, 1),
+            .point(0, 0),
+        ]
+        let path = Path(points)
+
+        XCTAssertFalse(path.isSimple)
+    }
+
     // MARK: winding direction
 
     func testConvexClosedPathAnticlockwiseWinding() {

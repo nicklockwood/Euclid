@@ -367,6 +367,7 @@ func triangulateVertices(
         var ring = Array(vertices.indices)
         var result = [[Int]]()
         result.reserveCapacity(vertices.count - 2)
+        let prefersBestEar = vertices.count < 256
 
         func ear(at ringIndex: Int) -> Ear? {
             let count = ring.count
@@ -394,6 +395,10 @@ func triangulateVertices(
             for ringIndex in ring.indices {
                 guard let candidate = ear(at: ringIndex) else {
                     continue
+                }
+                guard prefersBestEar else {
+                    bestEar = candidate
+                    break
                 }
                 guard let best = bestEar else {
                     bestEar = candidate
@@ -630,8 +635,7 @@ func pointsAreConvex(_ points: [Vector]) -> Bool {
     return true
 }
 
-// Test if path is self-intersecting
-// TODO: optimize by using http://www.webcitation.org/6ahkPQIsN
+/// Test if path is self-intersecting
 func pointsAreSelfIntersecting(_ points: [Vector], isClosed: Bool? = nil) -> Bool {
     let isClosed = isClosed ?? pointsAreClosed(unchecked: points)
     let points = isClosed && !pointsAreClosed(unchecked: points) ? points + [points[0]] : points
@@ -639,27 +643,131 @@ func pointsAreSelfIntersecting(_ points: [Vector], isClosed: Bool? = nil) -> Boo
         // A triangle can't be self-intersecting (is this true?)
         return false
     }
+    if points.count > 256 {
+        return largePointsAreSelfIntersecting(points, isClosed: isClosed)
+    }
     for i in 0 ..< points.count - 2 {
         let p0 = points[i], p1 = points[i + 1]
         guard let l1 = LineSegment(start: p0, end: p1) else {
             continue
         }
+        let b1 = l1.bounds
         for j in i + 2 ..< points.count - 1 {
-            guard !isClosed || i != 0 || j != points.count - 2 else {
-                continue
-            }
             let p2 = points[j], p3 = points[j + 1]
-            let tolerance = 1e-6
-            guard !p1.isApproximatelyEqual(to: p2, absoluteTolerance: tolerance),
-                  !p1.isApproximatelyEqual(to: p3, absoluteTolerance: tolerance),
-                  !p0.isApproximatelyEqual(to: p2, absoluteTolerance: tolerance),
-                  !p0.isApproximatelyEqual(to: p3, absoluteTolerance: tolerance),
+            guard !isClosed || i != 0 || j != points.count - 2,
+                  b1.intersects(Bounds(p2, p3)),
+                  !p1.isApproximatelyEqual(to: p2),
+                  !p1.isApproximatelyEqual(to: p3),
+                  !p0.isApproximatelyEqual(to: p2),
+                  !p0.isApproximatelyEqual(to: p3),
                   let l2 = LineSegment(start: p2, end: p3)
             else {
                 continue
             }
             if l1.intersects(l2) {
                 return true
+            }
+        }
+    }
+    return false
+}
+
+/// Uses a uniform spatial grid to avoid testing every segment pair in large paths.
+/// - Note: Shamos-Hoey has better worst-case complexity, but grid is simpler and suits typical local-segment paths.
+private func largePointsAreSelfIntersecting(_ points: [Vector], isClosed: Bool) -> Bool {
+    struct Segment {
+        let index: Int
+        let line: LineSegment
+        let bounds: Bounds
+        let cellRanges: (ClosedRange<Int>, ClosedRange<Int>, ClosedRange<Int>)
+    }
+
+    let totalBounds = Bounds(points)
+    let segmentCount = max(1, points.count - 1)
+    let cellCount = max(1, min(64, Int(Double(segmentCount).squareRoot())))
+
+    func cellRange(
+        _ minValue: Double,
+        _ maxValue: Double,
+        _ boundsMin: Double,
+        _ boundsMax: Double
+    ) -> ClosedRange<Int> {
+        let size = boundsMax - boundsMin
+        guard size > epsilon else {
+            return 0 ... 0
+        }
+        let scale = Double(cellCount) / size
+        let lower = Int(((minValue - boundsMin) * scale).rounded(.down)).clamped(to: 0 ... cellCount - 1)
+        let upper = Int(((maxValue - boundsMin) * scale).rounded(.down)).clamped(to: 0 ... cellCount - 1)
+        return lower ... upper
+    }
+
+    func cellRanges(for segmentBounds: Bounds) -> (ClosedRange<Int>, ClosedRange<Int>, ClosedRange<Int>) {
+        (
+            cellRange(segmentBounds.min.x, segmentBounds.max.x, totalBounds.min.x, totalBounds.max.x),
+            cellRange(segmentBounds.min.y, segmentBounds.max.y, totalBounds.min.y, totalBounds.max.y),
+            cellRange(segmentBounds.min.z, segmentBounds.max.z, totalBounds.min.z, totalBounds.max.z)
+        )
+    }
+
+    func cellIndex(x: Int, y: Int, z: Int) -> Int {
+        x + y * cellCount + z * cellCount * cellCount
+    }
+
+    var segmentIndicesByCell = [Int: [Int]]()
+    var segments = [Segment?](repeating: nil, count: points.count - 1)
+    for index in 0 ..< points.count - 1 {
+        guard let line = LineSegment(start: points[index], end: points[index + 1]) else {
+            continue
+        }
+        let bounds = line.bounds
+        let segment = Segment(index: index, line: line, bounds: bounds, cellRanges: cellRanges(for: bounds))
+        segments[index] = segment
+        for x in segment.cellRanges.0 {
+            for y in segment.cellRanges.1 {
+                for z in segment.cellRanges.2 {
+                    segmentIndicesByCell[cellIndex(x: x, y: y, z: z), default: []].append(index)
+                }
+            }
+        }
+    }
+
+    var candidateMarks = [Int](repeating: 0, count: points.count - 1)
+    var mark = 0
+    for maybeSegment in segments {
+        guard let segment = maybeSegment else {
+            continue
+        }
+        mark += 1
+        for x in segment.cellRanges.0 {
+            for y in segment.cellRanges.1 {
+                for z in segment.cellRanges.2 {
+                    for index in segmentIndicesByCell[cellIndex(x: x, y: y, z: z)] ?? []
+                        where index > segment.index + 1
+                    {
+                        guard candidateMarks[index] != mark else {
+                            continue
+                        }
+                        candidateMarks[index] = mark
+                        guard !isClosed || segment.index != 0 || index != points.count - 2,
+                              let other = segments[index],
+                              segment.bounds.intersects(other.bounds)
+                        else {
+                            continue
+                        }
+                        let p0 = segment.line.start, p1 = segment.line.end
+                        let p2 = other.line.start, p3 = other.line.end
+                        guard !p1.isApproximatelyEqual(to: p2),
+                              !p1.isApproximatelyEqual(to: p3),
+                              !p0.isApproximatelyEqual(to: p2),
+                              !p0.isApproximatelyEqual(to: p3),
+                              segment.line.intersects(other.line)
+                        else {
+                            continue
+                        }
+                        return true
+                    }
+                }
             }
         }
     }
