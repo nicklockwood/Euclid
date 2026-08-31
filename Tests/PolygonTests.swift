@@ -1062,6 +1062,17 @@ final class PolygonTests: XCTestCase {
         XCTAssert(d.polygons.count < c.polygons.count)
     }
 
+    func testLargeWatertightNonPlanarMeshDetessellateReturnsSelf() {
+        let mesh = Mesh.sphere(slices: 80)
+        let detessellated = mesh.detessellate()
+
+        XCTAssertEqual(mesh.watertightIfSet, true)
+        XCTAssertFalse(mesh.isPlanar)
+        XCTAssertGreaterThan(mesh.polygons.count, 2048)
+        XCTAssertEqual(detessellated.polygons.count, mesh.polygons.count)
+        XCTAssertEqual(detessellated.surfaceArea, mesh.surfaceArea, accuracy: epsilon)
+    }
+
     func testMeshDetessellateCanBeCancelledImmediately() {
         let mesh = Mesh.fill(.square()).detessellate { true }
         XCTAssert(mesh.isEmpty)

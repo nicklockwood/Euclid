@@ -1375,36 +1375,34 @@ private extension [Polygon] {
         return best
     }
 
-    /// Polygon pairs with at least two matching vertex positions.
+    /// Polygon pairs with at least one matching undirected edge.
     ///
     /// A valid merge still goes through `merge(unchecked:ensureConvex:)`; this
     /// only avoids trying pairs that cannot share a complete edge.
     func mergeCandidatePairs(isCancelled: Polygon.CancellationHandler = { false }) -> [IndexPair] {
-        var indicesByVertex = [Vector: [Int]]()
+        var indicesByEdge = [LineSegment: [Int]]()
         for (index, polygon) in enumerated() {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return []
             }
-            for position in Set(polygon.vertices.map(\.position)) {
-                indicesByVertex[position, default: []].append(index)
+            for edge in polygon.undirectedEdges {
+                indicesByEdge[edge, default: []].append(index)
             }
         }
 
-        var sharedVertexCounts = [IndexPair: Int]()
-        for (index, indices) in indicesByVertex.values.enumerated() where indices.count > 1 {
+        var sharedEdgeCounts = [IndexPair: Int]()
+        for (index, indices) in indicesByEdge.values.enumerated() where indices.count > 1 {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return []
             }
             for a in indices.indices.dropFirst() {
                 for b in indices.indices[..<a] {
-                    sharedVertexCounts[IndexPair(indices[a], indices[b]), default: 0] += 1
+                    sharedEdgeCounts[IndexPair(indices[a], indices[b]), default: 0] += 1
                 }
             }
         }
 
-        return sharedVertexCounts.compactMap { pair, count in
-            count > 1 ? pair : nil
-        }.sorted {
+        return sharedEdgeCounts.keys.sorted {
             $0.i == $1.i ? $0.j > $1.j : $0.i > $1.i
         }
     }
@@ -1511,6 +1509,9 @@ extension Polygon {
         // TODO: figure out why this can fail while plane.intersects passes
         // assert(plane.isApproximatelyEqual(to: other.plane))
         assert(other.vertices.allSatisfy(plane.intersects))
+        guard bounds.inset(by: epsilon).intersects(other.bounds) else {
+            return nil
+        }
 
         // get vertices
         let va = vertices
