@@ -368,6 +368,7 @@ func triangulateVertices(
         var result = [[Int]]()
         result.reserveCapacity(vertices.count - 2)
         let prefersBestEar = vertices.count < 256
+        var searchStartIndex = 0
 
         func ear(at ringIndex: Int) -> Ear? {
             let count = ring.count
@@ -379,22 +380,52 @@ func triangulateVertices(
             guard let ear = ear(previous: previous, current: current, next: next, ringIndex: ringIndex) else {
                 return nil
             }
-            if !knownConvex {
-                let a = points[previous], b = points[current], c = points[next]
-                for pointIndex in ring where pointIndex != previous && pointIndex != current && pointIndex != next {
-                    if containsPoint(points[pointIndex], inTriangle: (a, b, c), winding: windingSign) {
-                        return nil
-                    }
-                }
-            }
             return ear
         }
 
         while ring.count > 3 {
+            let reflexVertices: [Int] = knownConvex ? [] : ring.indices.compactMap { ringIndex in
+                let count = ring.count
+                let previous = points[ring[(ringIndex + count - 1) % count]]
+                let current = points[ring[ringIndex]]
+                let next = points[ring[(ringIndex + 1) % count]]
+                return signedArea(previous, current, next) * windingSign <= epsilon ?
+                    ring[ringIndex] : nil
+            }
             var bestEar: Ear?
-            for ringIndex in ring.indices {
+            for offset in ring.indices {
+                let ringIndex = prefersBestEar ? offset : (searchStartIndex + offset) % ring.count
                 guard let candidate = ear(at: ringIndex) else {
                     continue
+                }
+                if !knownConvex {
+                    let triangle = (
+                        points[candidate.previous],
+                        points[candidate.current],
+                        points[candidate.next]
+                    )
+                    let triangleBounds = Bounds([triangle.0, triangle.1, triangle.2])
+                    var containsReflexVertex = false
+                    for pointIndex in reflexVertices where pointIndex != candidate.previous &&
+                        pointIndex != candidate.current &&
+                        pointIndex != candidate.next
+                    {
+                        let point = points[pointIndex]
+                        guard point.x >= triangleBounds.min.x - epsilon,
+                              point.x <= triangleBounds.max.x + epsilon,
+                              point.y >= triangleBounds.min.y - epsilon,
+                              point.y <= triangleBounds.max.y + epsilon
+                        else {
+                            continue
+                        }
+                        if containsPoint(point, inTriangle: triangle, winding: windingSign) {
+                            containsReflexVertex = true
+                            break
+                        }
+                    }
+                    guard !containsReflexVertex else {
+                        continue
+                    }
                 }
                 guard prefersBestEar else {
                     bestEar = candidate
@@ -417,6 +448,7 @@ func triangulateVertices(
             }
             result.append([bestEar.previous, bestEar.current, bestEar.next])
             ring.remove(at: bestEar.ringIndex)
+            searchStartIndex = ring.isEmpty ? 0 : bestEar.ringIndex % ring.count
         }
 
         guard ring.count == 3 else {

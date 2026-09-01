@@ -11,6 +11,50 @@ import Foundation
 import XCTest
 
 final class PerformanceTests: XCTestCase {
+    @MainActor
+    func testGearCapTriangulation() throws {
+        let polygon = try XCTUnwrap(Self.largeGearCapPolygon)
+        let iterations = 5
+        var triangleCount = 0
+        let durations = (0 ..< iterations).map { _ in
+            Self.duration {
+                let triangles = polygon.triangulate()
+                XCTAssertFalse(triangles.isEmpty)
+                triangleCount = triangles.count
+            }
+        }
+        let report = String(format: """
+        Gear cap triangulation
+        vertices: %d
+        triangles: %d
+        iterations: %d
+        median: %.3fs
+        min: %.3fs
+        max: %.3fs
+        """, polygon.vertices.count, triangleCount, iterations, durations.median(), durations.min() ?? 0, durations.max(
+        ) ?? 0)
+        XCTContext.runActivity(named: "Gear cap triangulation performance") {
+            let attachment = XCTAttachment(string: report)
+            attachment.lifetime = .keepAlways
+            $0.add(attachment)
+        }
+        try report.write(
+            toFile: "/tmp/euclid-gear-cap-triangulation-performance-report.txt",
+            atomically: true,
+            encoding: .utf8
+        )
+        print(report)
+        XCTAssertGreaterThan(polygon.vertices.count, 1000)
+    }
+
+    func testGearCapTriangulationMeasurement() throws {
+        let polygon = try XCTUnwrap(Self.largeGearCapPolygon)
+        measure {
+            let triangles = polygon.triangulate()
+            XCTAssertFalse(triangles.isEmpty)
+        }
+    }
+
     func testMeshClipping() {
         let detail = 64
         let a = Mesh.sphere(slices: detail)
@@ -329,6 +373,24 @@ private final class CancellationProbe: @unchecked Sendable {
 }
 
 private extension PerformanceTests {
+    static var largeGearCapPolygon: Euclid.Polygon? {
+        let toothCount = 100
+        let samplesPerTooth = 38
+        let vertexCount = toothCount * samplesPerTooth
+        let baseRadius = 2.0
+        let toothDepth = 0.06
+
+        let points = (0 ..< vertexCount).map { i -> Vector in
+            let angle = Double(i) / Double(vertexCount) * .twoPi
+            let phase = Double(i % samplesPerTooth) / Double(samplesPerTooth)
+            let toothProfile = 0.5 + 0.5 * cos(phase * .twoPi)
+            let radius = baseRadius + toothDepth * toothProfile
+            return [radius * cos(angle), radius * sin(angle)]
+        }
+
+        return .init(points)
+    }
+
     static var insetCancellationPerformanceWorkloads: [InsetCancellationPerformanceWorkload] {
         [
             .init(
