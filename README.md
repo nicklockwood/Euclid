@@ -35,13 +35,13 @@ Euclid is packaged as a dynamic framework that you can import into your Xcode pr
 To install using Carthage, add this to your Cartfile:
 
 ```ogdl
-github "nicklockwood/Euclid" ~> 0.9.1
+github "nicklockwood/Euclid" ~> 0.9.2
 ```
 
 To install using Swift Package Manager, add this to the `dependencies:` section in your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.9.1")),
+.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.9.2")),
 ```
 
 

@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.9.2](https://github.com/nicklockwood/Euclid/releases/tag/0.9.2) (2026-09-02)
+
+- Fixed path extrusion when closed paths contain repeated tail points
+- Improved performance for complex polygon triangulation
+- Improved detessellation performance by pruning expensive merge candidates
+- Improved performance for large path geometry checks
+
 ## [0.9.1](https://github.com/nicklockwood/Euclid/releases/tag/0.9.1) (2026-08-30)
 
 - `Mesh.Faces`, `Mesh.WrapMode` and `Path.Alignment` now conform to `Hashable` and `Codable`
