@@ -820,8 +820,8 @@ private extension Mesh {
                 }
                 return submeshes.flatMap { mesh -> [Mesh] in
                     switch mesh.submeshes.count {
-                    case 0, 1: return [mesh]
-                    default: return mesh.submeshes
+                    case 0, 1: [mesh]
+                    default: mesh.submeshes
                     }
                 }
             }

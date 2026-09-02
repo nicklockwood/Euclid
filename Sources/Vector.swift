@@ -128,7 +128,7 @@ public func max(_ lhs: Vector, _ rhs: Vector) -> Vector {
     [max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z)]
 }
 
-public extension Range where Bound == Vector {
+public extension Range<Vector> {
     func contains(_ vector: Vector) -> Bool {
         vector.x >= lowerBound.x &&
             vector.y >= lowerBound.y &&
@@ -139,7 +139,7 @@ public extension Range where Bound == Vector {
     }
 }
 
-public extension ClosedRange where Bound == Vector {
+public extension ClosedRange<Vector> {
     func contains(_ vector: Vector) -> Bool {
         vector.x >= lowerBound.x &&
             vector.y >= lowerBound.y &&

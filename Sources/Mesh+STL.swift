@@ -270,7 +270,7 @@ public extension Mesh {
     }
 }
 
-private extension ArraySlice where Element == String {
+private extension ArraySlice<String> {
     mutating func readCommand(_ name: String, parts: inout [Double]) -> Bool {
         var line = ""
         guard readCommand(name, line: &line) else {

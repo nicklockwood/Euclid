@@ -159,7 +159,7 @@ private enum OBJCommand {
     case face([OBJVertex])
 }
 
-private extension ArraySlice where Element == String {
+private extension ArraySlice<String> {
     mutating func skipBlankLinesAndComments() {
         while let line = first?.trimmingCharacters(in: .whitespaces),
               line.isEmpty || line.hasPrefix("#")

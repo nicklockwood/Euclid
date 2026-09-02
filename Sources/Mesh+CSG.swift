@@ -1115,7 +1115,7 @@ private extension Mesh {
         )
     }
 
-    // Orders hull points from the outside in, with a deterministic tie-breaker for regular rings.
+    /// Orders hull points from the outside in, with a deterministic tie-breaker for regular rings.
     static func hullInsertionPrecedes(_ lhs: Vector, _ rhs: Vector, center: Vector) -> Bool {
         let lDistance = lhs.distance(from: center)
         let rDistance = rhs.distance(from: center)
@@ -1125,7 +1125,7 @@ private extension Mesh {
         return hullInsertionHash(lhs) < hullInsertionHash(rhs)
     }
 
-    // Produces a stable coordinate hash used to scatter otherwise adjacent hull points.
+    /// Produces a stable coordinate hash used to scatter otherwise adjacent hull points.
     static func hullInsertionHash(_ point: Vector) -> UInt64 {
         var hash: UInt64 = 0
         hash = deterministicHash(hash ^ point.x.bitPattern)
