@@ -379,15 +379,14 @@ public extension Mesh {
     /// > Note: This method can be very time-consuming. For convex polygons use `detriangulate()` instead.
     func detessellate(isCancelled: CancellationHandler = { false }) -> Mesh {
         let isPlanar = isPlanar
+        let isLargeMesh = polygons.count > 2048
         let preserveWatertightness = watertightIfSet == true && !isPlanar
-        if preserveWatertightness, polygons.count > 2048 {
-            return self
-        }
         let polygons = polygons.detessellate(
             ensureConvex: false,
-            useQualityMerge: watertightIfSet == true,
+            useQualityMerge: watertightIfSet == true && !isLargeMesh,
             allowDisjointSharedVertices: isPlanar,
             preserveWatertightness: preserveWatertightness,
+            removeWatertightSafeRedundantVertices: !isLargeMesh,
             isCancelled: isCancelled
         )
         return Mesh(

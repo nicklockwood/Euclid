@@ -1055,12 +1055,15 @@ extension Collection<Polygon> {
     ///     contiguous shared boundary.
     ///   - preserveWatertightness: When `true`, redundant vertices are removed only after all coplanar
     ///     merges are complete, and only when doing so preserves watertight edge pairing.
+    ///   - removeWatertightSafeRedundantVertices: When `true`, perform the final redundant vertex cleanup
+    ///     pass for removals that preserve watertight edge pairing.
     func detessellate(
         ensureConvex: Bool,
         maxSides: Int = .max,
         useQualityMerge: Bool = true,
         allowDisjointSharedVertices: Bool = true,
         preserveWatertightness: Bool = false,
+        removeWatertightSafeRedundantVertices: Bool = true,
         isCancelled: Polygon.CancellationHandler
     ) -> [Polygon] {
         guard !isCancelled() else { return [] }
@@ -1093,7 +1096,7 @@ extension Collection<Polygon> {
             }
             return detessellated
         }
-        guard preserveWatertightness else {
+        guard preserveWatertightness, removeWatertightSafeRedundantVertices else {
             return detessellated
         }
         return detessellated.removingWatertightSafeRedundantVertices(isCancelled: isCancelled)
