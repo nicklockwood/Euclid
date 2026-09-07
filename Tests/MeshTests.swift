@@ -133,6 +133,20 @@ final class MeshTests: XCTestCase {
         XCTAssert(mesh.isActuallyConvex)
     }
 
+    func testDetriangulatePreservesKnownWatertightTopology() {
+        let cube = Mesh.cube(size: 0.8, material: Color.red)
+        let sphere = Mesh.sphere(slices: 48, material: Color.blue)
+        let mesh = cube.subtracting(sphere).makeWatertight()
+        let triangulated = mesh.triangulate()
+
+        XCTAssertTrue(Mesh(triangulated.polygons).isWatertight)
+
+        let detriangulated = triangulated.detriangulate()
+
+        XCTAssertTrue(detriangulated.isWatertight)
+        XCTAssertTrue(Mesh(detriangulated.polygons).isWatertight)
+    }
+
     func testFilledPlanarPathHasPlanarStateSet() {
         let mesh = Mesh.fill(.square(), faces: .front)
         XCTAssertEqual(mesh.planarIfSet, true)

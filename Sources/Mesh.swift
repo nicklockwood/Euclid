@@ -376,7 +376,7 @@ public extension Mesh {
     /// - Parameter isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh containing the merged (possibly non-convex) polygons.
     ///
-    /// > Note: This method can be very time-consuming. For convex polygons use `triangulate()` instead.
+    /// > Note: This method can be very time-consuming. For convex polygons use `detriangulate()` instead.
     func detessellate(isCancelled: CancellationHandler = { false }) -> Mesh {
         let isPlanar = isPlanar
         let preserveRedundantVertices = watertightIfSet == true && !isPlanar
@@ -404,10 +404,18 @@ public extension Mesh {
     }
 
     /// Merges coplanar polygons that share one or more edges, provided the result will be convex.
+    /// - Parameter isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh containing the merged polygons.
-    func detriangulate() -> Mesh {
-        Mesh(
-            unchecked: polygons.detessellate(ensureConvex: true) { false },
+    func detriangulate(isCancelled: CancellationHandler = { false }) -> Mesh {
+        let isPlanar = isPlanar
+        let preserveRedundantVertices = watertightIfSet == true && !isPlanar
+        return Mesh(
+            unchecked: polygons.detessellate(
+                ensureConvex: true,
+                allowDisjointSharedVertices: isPlanar,
+                preserveRedundantVertices: preserveRedundantVertices,
+                isCancelled: isCancelled
+            ),
             bounds: boundsIfSet,
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,
