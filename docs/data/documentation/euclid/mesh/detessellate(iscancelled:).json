@@ -183,7 +183,7 @@
                   "type" : "text"
                 },
                 {
-                  "code" : "triangulate()",
+                  "code" : "detriangulate()",
                   "type" : "codeVoice"
                 },
                 {
@@ -217,7 +217,6 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/tessellate(maxSides:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/triangulate()",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detriangulate()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/makeWatertight(isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withConsistentWinding(isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/smoothingNormals(forAnglesGreaterThan:)"
@@ -374,43 +373,6 @@
   "title" : "detessellate(isCancelled:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/detessellate(iscancelled:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/detriangulate()": {
-  "abstract" : [
-    {
-      "text" : "Merges coplanar polygons that share one or more edges, provided the result will be convex.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "detriangulate"
-    },
-    {
-      "kind" : "text",
-      "text" : "() -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detriangulate()",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "detriangulate()",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/detriangulate()"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/makeWatertight(isCancelled:)": {
   "abstract" : [

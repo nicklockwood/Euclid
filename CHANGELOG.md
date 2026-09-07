@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.9.3](https://github.com/nicklockwood/Euclid/releases/tag/0.9.3) (2026-09-07)
+
+- Fixed bug where `Mesh.detriangulate()` could break watertightness
+- `Mesh.detessellate()` no longer does expensive `isWatertight` check
+- `Mesh.detriangulate()` is now cancellable
+
 ## [0.9.2](https://github.com/nicklockwood/Euclid/releases/tag/0.9.2) (2026-09-02)
 
 - Fixed path extrusion when closed paths contain repeated tail points

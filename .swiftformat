@@ -26,3 +26,4 @@
 --disable wrapFunctionBodies
 --disable wrapPropertyBodies
 --disable wrapIfStatementBodies
+--disable wrapIfExpressionBodies

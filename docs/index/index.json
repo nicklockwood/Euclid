@@ -675,11 +675,6 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/detriangulate()",
-                "title" : "func detriangulate() -> Mesh",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/mesh\/makewatertight(iscancelled:)",
                 "title" : "func makeWatertight(isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
@@ -839,6 +834,11 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/convexhull(with:iscancelled:)",
                 "title" : "func convexHull(with: Mesh, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/detriangulate(iscancelled:)",
+                "title" : "func detriangulate(isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
