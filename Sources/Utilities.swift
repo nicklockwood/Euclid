@@ -97,8 +97,8 @@ extension Collection<Vertex> {
 }
 
 extension [Vertex] {
-    /// Check if vertex is redundant - i.e. that the interpolated values would be the same if it were removed
-    mutating func removeIfRedundant(at index: Int) -> Bool {
+    /// Check if vertex is redundant - i.e. if the interpolated values would be the same if it were removed
+    func isRedundant(at index: Int) -> Bool {
         guard count > 3 else { return false }
         assert(!verticesAreDegenerate(self))
         let a = self[(index == 0) ? count - 1 : index - 1]
@@ -115,7 +115,17 @@ extension [Vertex] {
         guard a.lerp(c, t).isApproximatelyEqual(to: b) else {
             return false
         }
-        // check that removing point won't make vertices degenerate
+        return true
+    }
+
+    /// Removes a redundant vertex if doing so preserves a valid vertex loop.
+    /// - Parameter index: The index of the vertex to test and remove.
+    /// - Returns: `true` if the vertex was removed, otherwise, `false`.
+    mutating func removeIfRedundant(at index: Int) -> Bool {
+        guard isRedundant(at: index) else {
+            return false
+        }
+        // check that removing point didn't make the vertices degenerate
         let removed = remove(at: index)
         if verticesAreDegenerate(self) {
             insert(removed, at: index)

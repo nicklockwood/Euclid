@@ -379,17 +379,15 @@ public extension Mesh {
     /// > Note: This method can be very time-consuming. For convex polygons use `detriangulate()` instead.
     func detessellate(isCancelled: CancellationHandler = { false }) -> Mesh {
         let isPlanar = isPlanar
-        let preserveRedundantVertices = watertightIfSet == true && !isPlanar
-        if preserveRedundantVertices, polygons.count > 2048 {
+        let preserveWatertightness = watertightIfSet == true && !isPlanar
+        if preserveWatertightness, polygons.count > 2048 {
             return self
         }
         let polygons = polygons.detessellate(
             ensureConvex: false,
             useQualityMerge: watertightIfSet == true,
             allowDisjointSharedVertices: isPlanar,
-            // A vertex that is redundant within one coplanar face can still be needed by
-            // adjacent non-coplanar faces to preserve matching edge segmentation.
-            preserveRedundantVertices: preserveRedundantVertices,
+            preserveWatertightness: preserveWatertightness,
             isCancelled: isCancelled
         )
         return Mesh(
@@ -408,14 +406,15 @@ public extension Mesh {
     /// - Returns: A new mesh containing the merged polygons.
     func detriangulate(isCancelled: CancellationHandler = { false }) -> Mesh {
         let isPlanar = isPlanar
-        let preserveRedundantVertices = watertightIfSet == true && !isPlanar
+        let preserveWatertightness = watertightIfSet == true && !isPlanar
+        let polygons = polygons.detessellate(
+            ensureConvex: true,
+            allowDisjointSharedVertices: isPlanar,
+            preserveWatertightness: preserveWatertightness,
+            isCancelled: isCancelled
+        )
         return Mesh(
-            unchecked: polygons.detessellate(
-                ensureConvex: true,
-                allowDisjointSharedVertices: isPlanar,
-                preserveRedundantVertices: preserveRedundantVertices,
-                isCancelled: isCancelled
-            ),
+            unchecked: polygons,
             bounds: boundsIfSet,
             bsp: nil, // TODO: would it be safe to preserve this?
             isConvex: isKnownConvex,

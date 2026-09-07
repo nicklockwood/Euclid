@@ -147,6 +147,54 @@ final class MeshTests: XCTestCase {
         XCTAssertTrue(Mesh(detriangulated.polygons).isWatertight)
     }
 
+    func testDetessellateRemovesWatertightSafeRedundantVertices() throws {
+        let midpoint = Vector(1, -1, 0)
+        let mesh = try Self.segmentedEdgeCube()
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertFalse(mesh.isPlanar)
+        XCTAssertEqual(mesh.polygons.flatMap(\.vertices).filter { $0.position == midpoint }.count, 2)
+
+        let detessellated = mesh.detessellate()
+
+        XCTAssertTrue(detessellated.isWatertight)
+        XCTAssertTrue(Mesh(detessellated.polygons).isWatertight)
+        XCTAssertFalse(detessellated.polygons.flatMap(\.vertices).contains { $0.position == midpoint })
+    }
+
+    func testDetriangulateRemovesWatertightSafeRedundantVertices() throws {
+        let midpoint = Vector(1, -1, 0)
+        let mesh = try Self.segmentedEdgeCube()
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertFalse(mesh.isPlanar)
+
+        let detriangulated = mesh.detriangulate()
+
+        XCTAssertTrue(detriangulated.isWatertight)
+        XCTAssertTrue(Mesh(detriangulated.polygons).isWatertight)
+        XCTAssertFalse(detriangulated.polygons.flatMap(\.vertices).contains { $0.position == midpoint })
+    }
+
+    private static func segmentedEdgeCube() throws -> Mesh {
+        let p0 = Vector(-1, -1, -1)
+        let p1 = Vector(1, -1, -1)
+        let p2 = Vector(1, -1, 0)
+        let p3 = Vector(1, -1, 1)
+        let p4 = Vector(-1, -1, 1)
+        let p5 = Vector(1, 1, -1)
+        let p6 = Vector(1, 1, 1)
+        let p7 = Vector(-1, 1, -1)
+        let p8 = Vector(-1, 1, 1)
+        let polygons = try [
+            [p0, p1, p2, p3, p4],
+            [p1, p5, p6, p3, p2],
+            [p5, p7, p8, p6],
+            [p7, p0, p4, p8],
+            [p7, p5, p1, p0],
+            [p4, p3, p6, p8],
+        ].map { try XCTUnwrap(Polygon($0)) }
+        return Mesh(polygons)
+    }
+
     func testFilledPlanarPathHasPlanarStateSet() {
         let mesh = Mesh.fill(.square(), faces: .front)
         XCTAssertEqual(mesh.planarIfSet, true)
