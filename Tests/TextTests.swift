@@ -48,7 +48,7 @@ final class TextTests: XCTestCase {
         XCTAssertEqual(detessellatedMesh.surfaceArea, filledMesh.surfaceArea, accuracy: epsilon)
         let polygons = detessellatedMesh.polygons
         XCTAssertEqual(polygons.count, 14)
-        XCTAssertEqual(polygons.flatMap { $0.triangulate() }.count, 210)
+        XCTAssertEqual(polygons.flatMap { $0.triangulate() }.count, 212)
     }
 
     func testTextMeshWithAttributedString() {

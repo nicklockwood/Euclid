@@ -385,7 +385,7 @@ public extension Mesh {
         }
         let polygons = polygons.detessellate(
             ensureConvex: false,
-            useQualityMerge: isWatertight,
+            useQualityMerge: watertightIfSet == true,
             allowDisjointSharedVertices: isPlanar,
             // A vertex that is redundant within one coplanar face can still be needed by
             // adjacent non-coplanar faces to preserve matching edge segmentation.
