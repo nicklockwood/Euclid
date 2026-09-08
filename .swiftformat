@@ -9,6 +9,7 @@
 --decimalgrouping ignore
 --ifdef no-indent
 --self init-only
+--modifier-order nonisolated,convenience
 --shortoptionals except-properties
 --wraparguments before-first
 --wrapcollections before-first

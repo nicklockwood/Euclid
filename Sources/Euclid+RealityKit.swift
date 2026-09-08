@@ -29,7 +29,7 @@
 //  SOFTWARE.
 //
 
-#if canImport(RealityKit) && swift(>=5.4)
+#if canImport(RealityKit)
 
 import CoreGraphics
 import Metal
@@ -188,17 +188,30 @@ public extension ModelEntity {
     /// A closure that maps a Euclid material to a RealityKit material.
     /// - Parameter material: A Euclid material to convert, or `nil` for the default material.
     /// - Returns: A `Material` used by RealityKit.
-    typealias MaterialProvider = @MainActor (_ material: Polygon.Material?) -> RealityKit.Material?
+    typealias MaterialProvider = @MainActor @Sendable (_ material: Polygon.Material?) -> RealityKit.Material?
 
-    /// Creates a model entity from a ``Mesh`` using the default tessellation method.
+    /// Synchrononously creates a model entity from a ``Mesh`` using the default tessellation method.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
+    @MainActor
     convenience init(_ mesh: Mesh, materialLookup: MaterialProvider? = nil) throws {
         try self.init(triangles: mesh, materialLookup: materialLookup)
     }
 
-    /// Creates a model entity from a ``Mesh`` using triangles.
+    /// Asynchronously creates a model entity from a ``Mesh`` using the default tessellation method.
+    ///
+    /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
+    /// generation, material creation, and entity initialization.
+    ///
+    /// - Parameters:
+    ///   - mesh: The mesh to convert into a RealityKit model entity.
+    ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
+    nonisolated convenience init(_ mesh: Mesh, materialLookup: MaterialProvider? = nil) async throws {
+        try await self.init(triangles: mesh, materialLookup: materialLookup)
+    }
+
+    /// Synchrononously creates a model entity from a ``Mesh`` using triangles.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
@@ -208,7 +221,22 @@ public extension ModelEntity {
         self.init(mesh: resource, materials: mesh.materials(for: materialLookup))
     }
 
-    /// Creates a model entity from a ``Mesh`` using convex polygons.
+    /// Asynchronously creates a model entity from a ``Mesh`` using triangles.
+    ///
+    /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
+    /// generation, material creation, and entity initialization.
+    ///
+    /// - Parameters:
+    ///   - mesh: The mesh to convert into a RealityKit model entity.
+    ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
+    nonisolated convenience init(triangles mesh: Mesh, materialLookup: MaterialProvider? = nil) async throws {
+        let descriptor = MeshDescriptor(triangles: mesh)
+        let resource = try await MeshResource.generate(from: [descriptor])
+        let materials = await mesh.materialList(for: materialLookup)
+        await self.init(mesh: resource, materials: materials.values)
+    }
+
+    /// Synchronously creates a model entity from a ``Mesh`` using convex polygons.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
@@ -218,7 +246,22 @@ public extension ModelEntity {
         self.init(mesh: resource, materials: mesh.materials(for: materialLookup))
     }
 
-    /// Creates a model entity from a ``Mesh`` using quads where possible (and triangles as required).
+    /// Asynchronously creates a model entity from a ``Mesh`` using convex polygons.
+    ///
+    /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
+    /// generation, material creation, and entity initialization.
+    ///
+    /// - Parameters:
+    ///   - mesh: The mesh to convert into a RealityKit model entity.
+    ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
+    nonisolated convenience init(polygons mesh: Mesh, materialLookup: MaterialProvider? = nil) async throws {
+        let descriptor = MeshDescriptor(polygons: mesh)
+        let resource = try await MeshResource.generate(from: [descriptor])
+        let materials = await mesh.materialList(for: materialLookup)
+        await self.init(mesh: resource, materials: materials.values)
+    }
+
+    /// Synchronously creates a model entity from a ``Mesh`` using quads where possible (and triangles as required).
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
@@ -227,14 +270,38 @@ public extension ModelEntity {
         let resource = try MeshResource.generate(from: [descriptor])
         self.init(mesh: resource, materials: mesh.materials(for: materialLookup))
     }
+
+    /// Asynchronously creates a model entity from a ``Mesh`` using quads where possible (and triangles as required).
+    ///
+    /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
+    /// generation, material creation, and entity initialization.
+    ///
+    /// - Parameters:
+    ///   - mesh: The mesh to convert into a RealityKit model entity.
+    ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
+    nonisolated convenience init(quads mesh: Mesh, materialLookup: MaterialProvider? = nil) async throws {
+        let descriptor = MeshDescriptor(quads: mesh)
+        let resource = try await MeshResource.generate(from: [descriptor])
+        let materials = await mesh.materialList(for: materialLookup)
+        await self.init(mesh: resource, materials: materials.values)
+    }
 }
 
+@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
 private extension Mesh {
+    struct ModelEntityMaterials: @unchecked Sendable {
+        let values: [RealityKit.Material]
+    }
+
     @MainActor
-    @available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
     func materials(for materialLookup: ModelEntity.MaterialProvider?) -> [RealityKit.Material] {
+        materialList(for: materialLookup).values
+    }
+
+    @MainActor
+    func materialList(for materialLookup: ModelEntity.MaterialProvider?) -> ModelEntityMaterials {
         let materialLookup = materialLookup ?? defaultMaterialLookup
-        return materials.map { materialLookup($0) ?? SimpleMaterial() }
+        return ModelEntityMaterials(values: materials.map { materialLookup($0) ?? SimpleMaterial() })
     }
 
     func getVertexData(maxSides: UInt8, counts: inout [UInt8]?) -> (
@@ -368,6 +435,105 @@ private extension [Polygon] {
     }
 }
 
+@MainActor
+@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
+private func defaultMaterialLookup(_ material: RealityKit.Material) -> Polygon.Material? {
+    switch material {
+    case let simpleMaterial as SimpleMaterial:
+        var material = SimpleMaterial()
+        material.color = simpleMaterial.color
+        material.roughness = simpleMaterial.roughness
+        material.metallic = simpleMaterial.metallic
+        #if compiler(>=6)
+        if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+            material.triangleFillMode = simpleMaterial.triangleFillMode
+            if #available(visionOS 2.0, *) {
+                material.faceCulling = simpleMaterial.faceCulling
+            }
+        }
+        #endif
+        return MaterialWrapper(material)
+    case let unlitMaterial as UnlitMaterial:
+        var material = UnlitMaterial()
+        material.color = unlitMaterial.color
+        material.opacityThreshold = unlitMaterial.opacityThreshold
+        material.blending = unlitMaterial.blending
+        #if compiler(>=6)
+        if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+            material.triangleFillMode = unlitMaterial.triangleFillMode
+            if #available(visionOS 2.0, *) {
+                material.faceCulling = unlitMaterial.faceCulling
+            }
+        }
+        #endif
+        return MaterialWrapper(material)
+    case let occlusionMaterial as OcclusionMaterial:
+        #if os(visionOS)
+        let material = OcclusionMaterial()
+        #else
+        let material = OcclusionMaterial(receivesDynamicLighting: occlusionMaterial.receivesDynamicLighting)
+        #endif
+        return MaterialWrapper(material)
+    case let videoMaterial as VideoMaterial:
+        guard let avPlayer = videoMaterial.avPlayer else { return nil }
+        var material = VideoMaterial(avPlayer: avPlayer)
+        #if compiler(>=6)
+        if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+            material.controller.preferredViewingMode = videoMaterial.controller.preferredViewingMode
+            material.triangleFillMode = videoMaterial.triangleFillMode
+            if #available(visionOS 2.0, *) {
+                material.faceCulling = videoMaterial.faceCulling
+            }
+        }
+        #endif
+        return MaterialWrapper(material)
+    case let pbrMaterial as PhysicallyBasedMaterial:
+        var material = PhysicallyBasedMaterial()
+        material.baseColor = pbrMaterial.baseColor
+        material.metallic = pbrMaterial.metallic
+        material.roughness = pbrMaterial.roughness
+        material.emissiveColor = pbrMaterial.emissiveColor
+        material.emissiveIntensity = pbrMaterial.emissiveIntensity
+        material.specular = pbrMaterial.specular
+        material.clearcoat = pbrMaterial.clearcoat
+        material.clearcoatRoughness = pbrMaterial.clearcoatRoughness
+        material.opacityThreshold = pbrMaterial.opacityThreshold
+        material.faceCulling = pbrMaterial.faceCulling
+        material.blending = pbrMaterial.blending
+        material.normal = pbrMaterial.normal
+        material.ambientOcclusion = pbrMaterial.ambientOcclusion
+        material.anisotropyLevel = pbrMaterial.anisotropyLevel
+        material.anisotropyAngle = pbrMaterial.anisotropyAngle
+        material.sheen = pbrMaterial.sheen
+        material.textureCoordinateTransform = pbrMaterial.textureCoordinateTransform
+        material.secondaryTextureCoordinateTransform = pbrMaterial.secondaryTextureCoordinateTransform
+        #if compiler(>=6)
+        if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+            material.triangleFillMode = pbrMaterial.triangleFillMode
+            if #available(visionOS 2.0, *) {
+                material.faceCulling = pbrMaterial.faceCulling
+            }
+        }
+        #endif
+        return MaterialWrapper(material)
+    default:
+        #if compiler(>=6)
+        if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *),
+           let portalMaterial = material as? PortalMaterial
+        {
+            var material = PortalMaterial()
+            material.triangleFillMode = portalMaterial.triangleFillMode
+            if #available(visionOS 2.0, *) {
+                material.faceCulling = portalMaterial.faceCulling
+            }
+            return MaterialWrapper(material)
+        }
+        #endif
+        // Not supported
+        return nil
+    }
+}
+
 #if compiler(>=6.1) && compiler(<6.2)
 // Workaround for Xcode 16.3 bug
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, tvOS 26.0, *)
@@ -378,9 +544,9 @@ public extension Mesh {
     /// A closure that converts a RealityKit material to a Euclid material.
     /// - Parameter material: A RealityKit material to convert.
     /// - Returns: A Euclid `Material`.
-    typealias RealityKitMaterialProvider = @MainActor (_ material: RealityKit.Material) -> Polygon.Material?
+    typealias RealityKitMaterialProvider = @MainActor @Sendable (_ material: RealityKit.Material) -> Polygon.Material?
 
-    /// Creates a mesh from a RealityKit `MeshDescriptor` with optional material.
+    /// Synchronously creates a mesh from a RealityKit `MeshDescriptor` with optional material.
     /// - Parameters:
     ///   - meshDescriptor: The `MeshDescriptor` to convert into a mesh.
     ///   - materials: An array of materials to apply to the mesh.
@@ -423,7 +589,7 @@ public extension Mesh {
         self.init(polygons)
     }
 
-    /// Creates a mesh from a RealityKit `MeshResource`.
+    /// Synchronously creates a mesh from a RealityKit `MeshResource`.
     /// - Parameters:
     ///   - meshResource: The `MeshResource` to convert into a mesh.
     ///   - materials: An array of materials to apply to the mesh.
@@ -441,7 +607,22 @@ public extension Mesh {
         })
     }
 
-    /// Creates a mesh from a RealityKit `MeshResource.Model`.
+    /// Asynchronously creates a mesh from a RealityKit `MeshResource`.
+    ///
+    /// The RealityKit mesh contents are read on the main actor, then Euclid mesh construction is performed
+    /// in a child task.
+    ///
+    /// - Parameters:
+    ///   - meshResource: The `MeshResource` to convert into a mesh.
+    ///   - materials: An array of materials to apply to the mesh.
+    init(_ meshResource: MeshResource, materials: [Polygon.Material?] = []) async {
+        let contents = await Mesh.contents(of: meshResource)
+        let materials = MaterialList(values: materials)
+        async let mesh = Mesh(contents, materials: materials)
+        self = await mesh
+    }
+
+    /// Synchronously creates a mesh from a RealityKit `MeshResource.Model`.
     /// - Parameters:
     ///   - model: The `MeshResource.Model` to convert into a mesh.
     ///   - materials: An array of materials to apply to the mesh.
@@ -463,7 +644,7 @@ public extension Mesh {
         self.init(polygons)
     }
 
-    /// Creates a mesh from a RealityKit `ModelEntity` with optional material mapping.
+    /// Synchronously creates a mesh from a RealityKit `ModelEntity` with optional material mapping.
     /// - Parameters:
     ///   - modelEntity: The `ModelEntity` to convert into a mesh.
     ///   - materialLookup: An optional closure to map the RealityKit materials to Euclid materials.
@@ -477,109 +658,141 @@ public extension Mesh {
         transform(by: .init(modelEntity.transform))
     }
 
-    /// Creates a mesh from a RealityKit `ModelComponent` with optional material mapping.
+    /// Asynchronously creates a mesh from a RealityKit `ModelEntity` with optional material mapping.
+    ///
+    /// The RealityKit model component, transform, mesh contents, and materials are read on the main actor.
+    /// Euclid mesh construction is then performed in a child task.
+    ///
+    /// - Parameters:
+    ///   - modelEntity: The `ModelEntity` to convert into a mesh.
+    ///   - materialLookup: An optional closure to map the RealityKit materials to Euclid materials.
+    init(_ modelEntity: ModelEntity, materialLookup: RealityKitMaterialProvider? = nil) async {
+        guard let snapshot = await Mesh.snapshot(
+            modelEntity: modelEntity,
+            materialLookup: materialLookup
+        ) else {
+            self = .empty
+            return
+        }
+        async let mesh = Mesh(snapshot)
+        self = await mesh
+    }
+
+    /// Synchronously creates a mesh from a RealityKit `ModelComponent` with optional material mapping.
     /// - Parameters:
     ///   - component: The `ModelComponent` to convert into a mesh.
     ///   - materialLookup: An optional closure to map the RealityKit materials to Euclid materials.
     @MainActor
     init(_ component: ModelComponent, materialLookup: RealityKitMaterialProvider? = nil) {
-        let materialLookup = materialLookup ?? {
-            switch $0 {
-            case let simpleMaterial as SimpleMaterial:
-                var material = SimpleMaterial()
-                material.color = simpleMaterial.color
-                material.roughness = simpleMaterial.roughness
-                material.metallic = simpleMaterial.metallic
-                #if compiler(>=6)
-                if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
-                    material.triangleFillMode = simpleMaterial.triangleFillMode
-                    if #available(visionOS 2.0, *) {
-                        material.faceCulling = simpleMaterial.faceCulling
-                    }
-                }
-                #endif
-                return MaterialWrapper(material)
-            case let unlitMaterial as UnlitMaterial:
-                var material = UnlitMaterial()
-                material.color = unlitMaterial.color
-                material.opacityThreshold = unlitMaterial.opacityThreshold
-                material.blending = unlitMaterial.blending
-                #if compiler(>=6)
-                if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
-                    material.triangleFillMode = unlitMaterial.triangleFillMode
-                    if #available(visionOS 2.0, *) {
-                        material.faceCulling = unlitMaterial.faceCulling
-                    }
-                }
-                #endif
-                return MaterialWrapper(material)
-            case let occlusionMaterial as OcclusionMaterial:
-                #if os(visionOS)
-                let material = OcclusionMaterial()
-                #else
-                let material = OcclusionMaterial(receivesDynamicLighting: occlusionMaterial.receivesDynamicLighting)
-                #endif
-                return MaterialWrapper(material)
-            case let videoMaterial as VideoMaterial:
-                guard let avPlayer = videoMaterial.avPlayer else { return nil }
-                var material = VideoMaterial(avPlayer: avPlayer)
-                #if compiler(>=6)
-                if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
-                    material.controller.preferredViewingMode = videoMaterial.controller.preferredViewingMode
-                    material.triangleFillMode = videoMaterial.triangleFillMode
-                    if #available(visionOS 2.0, *) {
-                        material.faceCulling = videoMaterial.faceCulling
-                    }
-                }
-                #endif
-                return MaterialWrapper(material)
-            case let pbrMaterial as PhysicallyBasedMaterial:
-                var material = PhysicallyBasedMaterial()
-                material.baseColor = pbrMaterial.baseColor
-                material.metallic = pbrMaterial.metallic
-                material.roughness = pbrMaterial.roughness
-                material.emissiveColor = pbrMaterial.emissiveColor
-                material.emissiveIntensity = pbrMaterial.emissiveIntensity
-                material.specular = pbrMaterial.specular
-                material.clearcoat = pbrMaterial.clearcoat
-                material.clearcoatRoughness = pbrMaterial.clearcoatRoughness
-                material.opacityThreshold = pbrMaterial.opacityThreshold
-                material.faceCulling = pbrMaterial.faceCulling
-                material.blending = pbrMaterial.blending
-                material.normal = pbrMaterial.normal
-                material.ambientOcclusion = pbrMaterial.ambientOcclusion
-                material.anisotropyLevel = pbrMaterial.anisotropyLevel
-                material.anisotropyAngle = pbrMaterial.anisotropyAngle
-                material.sheen = pbrMaterial.sheen
-                material.textureCoordinateTransform = pbrMaterial.textureCoordinateTransform
-                material.secondaryTextureCoordinateTransform = pbrMaterial.secondaryTextureCoordinateTransform
-                #if compiler(>=6)
-                if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
-                    material.triangleFillMode = pbrMaterial.triangleFillMode
-                    if #available(visionOS 2.0, *) {
-                        material.faceCulling = pbrMaterial.faceCulling
-                    }
-                }
-                #endif
-                return MaterialWrapper(material)
-            default:
-                #if compiler(>=6)
-                if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *),
-                   let portalMaterial = $0 as? PortalMaterial
-                {
-                    var material = PortalMaterial()
-                    material.triangleFillMode = portalMaterial.triangleFillMode
-                    if #available(visionOS 2.0, *) {
-                        material.faceCulling = portalMaterial.faceCulling
-                    }
-                    return MaterialWrapper(material)
-                }
-                #endif
-                // Not supported
-                return nil
-            }
-        }
+        let materialLookup = materialLookup ?? defaultMaterialLookup
         self.init(component.mesh, materials: component.materials.map { materialLookup($0) })
+    }
+
+    /// Asynchronously creates a mesh from a RealityKit `ModelComponent` with optional material mapping.
+    ///
+    /// The RealityKit mesh contents and materials are read on the main actor, then Euclid mesh construction
+    /// is performed in a child task.
+    ///
+    /// - Parameters:
+    ///   - component: The `ModelComponent` to convert into a mesh.
+    ///   - materialLookup: An optional closure to map the RealityKit materials to Euclid materials.
+    @MainActor
+    init(_ component: ModelComponent, materialLookup: RealityKitMaterialProvider? = nil) async {
+        let contents = MeshResourceContents(value: component.mesh.contents)
+        let materials = Mesh.materials(
+            for: RealityKitMaterialList(values: component.materials),
+            materialLookup: materialLookup
+        )
+        let snapshot = ModelComponentSnapshot(contents: contents, materials: materials)
+        async let mesh = Mesh(snapshot)
+        self = await mesh
+    }
+}
+
+#if compiler(>=6.1) && compiler(<6.2)
+// Workaround for Xcode 16.3 bug
+@available(visionOS 2.0, macOS 15.0, iOS 18.0, tvOS 26.0, *)
+#else
+@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
+#endif
+private extension Mesh {
+    struct MaterialList: @unchecked Sendable {
+        let values: [Polygon.Material?]
+    }
+
+    struct RealityKitMaterialList: @unchecked Sendable {
+        let values: [RealityKit.Material]
+    }
+
+    struct MeshResourceContents: @unchecked Sendable {
+        let value: MeshResource.Contents
+    }
+
+    struct ModelComponentSnapshot: @unchecked Sendable {
+        let contents: MeshResourceContents
+        let materials: MaterialList
+    }
+
+    struct ModelEntitySnapshot: @unchecked Sendable {
+        let component: ModelComponentSnapshot
+        let transform: Euclid.Transform
+    }
+
+    @MainActor
+    static func contents(of meshResource: MeshResource) -> MeshResourceContents {
+        MeshResourceContents(value: meshResource.contents)
+    }
+
+    @MainActor
+    static func materials(
+        for materials: RealityKitMaterialList,
+        materialLookup: RealityKitMaterialProvider?
+    ) -> MaterialList {
+        let materialLookup = materialLookup ?? defaultMaterialLookup
+        return MaterialList(values: materials.values.map { materialLookup($0) })
+    }
+
+    @MainActor
+    static func snapshot(
+        modelEntity: ModelEntity,
+        materialLookup: RealityKitMaterialProvider?
+    ) async -> ModelEntitySnapshot? {
+        guard let component = modelEntity.model else {
+            return nil
+        }
+        let materials = materials(
+            for: RealityKitMaterialList(values: component.materials),
+            materialLookup: materialLookup
+        )
+        return ModelEntitySnapshot(
+            component: ModelComponentSnapshot(
+                contents: MeshResourceContents(value: component.mesh.contents),
+                materials: materials
+            ),
+            transform: Transform(modelEntity.transform)
+        )
+    }
+
+    init(_ contents: MeshResourceContents, materials: MaterialList) {
+        var models = [String: Mesh]()
+        self.init(submeshes: contents.value.instances.compactMap {
+            var mesh = models[$0.model]
+            if mesh == nil, let model = contents.value.models[$0.model] {
+                let modelMesh = Mesh(model, materials: materials.values)
+                models[$0.model] = modelMesh
+                mesh = modelMesh
+            }
+            return mesh?.transformed(by: Transform($0.transform))
+        })
+    }
+
+    init(_ snapshot: ModelComponentSnapshot) {
+        self.init(snapshot.contents, materials: snapshot.materials)
+    }
+
+    init(_ snapshot: ModelEntitySnapshot) {
+        self.init(snapshot.component)
+        transform(by: snapshot.transform)
     }
 }
 

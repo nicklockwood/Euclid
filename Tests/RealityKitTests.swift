@@ -104,6 +104,16 @@ final class RealityKitTests: XCTestCase {
         XCTAssertEqual(result.polygons.count, 12)
         XCTAssertEqual(cube, result.replacing(result.materials[0], with: nil))
     }
+
+    func testAsyncConvertToFromModelEntity() async throws {
+        let cube = Mesh.cube(size: 1).triangulate()
+        let modelEntity = try await ModelEntity(cube)
+        let result = await Mesh(modelEntity)
+        XCTAssertTrue(result.isWatertight)
+        XCTAssertTrue(result.isActuallyConvex)
+        XCTAssertEqual(result.polygons.count, 12)
+        XCTAssertEqual(cube, result.replacing(result.materials[0], with: nil))
+    }
 }
 
 #endif
