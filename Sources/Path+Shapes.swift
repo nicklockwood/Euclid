@@ -307,7 +307,7 @@ public extension Path {
             }
         }
 
-        let points = sanitizePoints(points)
+        let points = removingRepeatedClosedPrefixTail(from: sanitizePoints(points))
         guard detail > 0, points.count > 2 else {
             return Path(unchecked: points, plane: nil)
         }

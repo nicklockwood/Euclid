@@ -1012,10 +1012,12 @@ private extension Path {
         {
             let tail = subpaths.dropFirst().flatMap(\.points).map(\.position)
             let contour = first.points.dropLast(first.isClosed ? 1 : 0).map(\.position)
-            if !tail.isEmpty, tail.count <= 64, tail.count <= contour.count,
+            if !tail.isEmpty, tail.count <= contour.count,
                contour.indices.contains(where: { start in
                    tail.indices.allSatisfy { tailIndex in
-                       tail[tailIndex] == contour[(start + tailIndex) % contour.count]
+                       tail[tailIndex].isApproximatelyEqual(
+                           to: contour[(start + tailIndex) % contour.count]
+                       )
                    }
                })
             {

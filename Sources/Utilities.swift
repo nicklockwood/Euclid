@@ -1110,23 +1110,41 @@ func subpathsFor(_ _points: [PathPoint]) -> [Path] {
     ] : paths
 }
 
+/// Removes a trailing repeat of an already-closed prefix contour
 func removingRepeatedClosedPrefixTail(from points: [PathPoint]) -> [PathPoint] {
     guard points.count > 3 else {
         return points
     }
-    let firstPosition = points[0].position
-    for repeatIndex in 1 ..< points.count - 1 where points[repeatIndex].position == firstPosition {
-        let tailCount = points.count - repeatIndex
-        guard tailCount > 1, tailCount <= 32, tailCount <= repeatIndex + 1 else {
+    let tolerance = max(Bounds(points.map(\.position)).size.length * 1e-9, epsilon)
+    func positionsMatch(_ a: Vector, _ b: Vector) -> Bool {
+        a.isApproximatelyEqual(to: b, absoluteTolerance: tolerance)
+    }
+    func tailRepeatsPrefix(at index: Int, tailCount: Int) -> Bool {
+        for offset in 0 ..< tailCount where !positionsMatch(
+            points[index + offset].position,
+            points[offset].position
+        ) {
+            return false
+        }
+        return true
+    }
+    func tailLiesOnPrefixContour(at index: Int) -> Bool {
+        let contour = points[...index].map(\.position)
+        let tail = points[index...].map(\.position)
+        return tail.allSatisfy { point in
+            contour.contains { positionsMatch(point, $0) }
+        }
+    }
+    let first = points[0].position
+    for index in 1 ..< points.count - 1 where positionsMatch(points[index].position, first) {
+        let tailCount = points.count - index
+        guard tailCount > 1, tailCount <= index + 1 else {
             continue
         }
-        var repeatsPrefix = true
-        for offset in 0 ..< tailCount where points[repeatIndex + offset].position != points[offset].position {
-            repeatsPrefix = false
-            break
-        }
-        if repeatsPrefix {
-            return Array(points[...repeatIndex])
+        if tailRepeatsPrefix(at: index, tailCount: tailCount) ||
+            tailLiesOnPrefixContour(at: index)
+        {
+            return Array(points[...index])
         }
     }
     return points

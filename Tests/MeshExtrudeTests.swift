@@ -729,6 +729,34 @@ final class MeshExtrudeTests: XCTestCase {
         #endif
     }
 
+    func testExtrudeHighDetailGearProfileWithRepeatedFinalTooth() {
+        let expectedProfile = Self.gearProfile(detail: 62, includesRepeatedFinalTooth: false)
+        let profile = Self.gearProfile(detail: 62, includesRepeatedFinalTooth: true)
+        let expectedOuter = Mesh.extrude(expectedProfile, depth: 0.2)
+        let expectedInner = Mesh.extrude(expectedProfile.scaled(by: 0.5), depth: 0.2)
+        let outer = Mesh.extrude(profile, depth: 0.2)
+        let inner = Mesh.extrude(profile.scaled(by: 0.5), depth: 0.2)
+
+        XCTAssertEqual(outer.polygons.count, expectedOuter.polygons.count)
+        XCTAssertEqual(inner.polygons.count, expectedInner.polygons.count)
+        XCTAssertTrue(outer.isWatertight, "hole edges: \(outer.polygons.holeEdges.count)")
+        XCTAssertTrue(inner.isWatertight, "hole edges: \(inner.polygons.holeEdges.count)")
+    }
+
+    func testExtrudeZeroDetailGearProfileWithRepeatedFinalTooth() {
+        let expectedProfile = Self.gearProfile(detail: 0, includesRepeatedFinalTooth: false)
+        let profile = Self.gearProfile(detail: 0, includesRepeatedFinalTooth: true)
+        let expectedOuter = Mesh.extrude(expectedProfile, depth: 0.2)
+        let expectedInner = Mesh.extrude(expectedProfile.scaled(by: 0.5), depth: 0.2)
+        let outer = Mesh.extrude(profile, depth: 0.2)
+        let inner = Mesh.extrude(profile.scaled(by: 0.5), depth: 0.2)
+
+        XCTAssertEqual(outer.polygons.count, expectedOuter.polygons.count)
+        XCTAssertEqual(inner.polygons.count, expectedInner.polygons.count)
+        XCTAssertTrue(outer.isWatertight, "hole edges: \(outer.polygons.holeEdges.count)")
+        XCTAssertTrue(inner.isWatertight, "hole edges: \(inner.polygons.holeEdges.count)")
+    }
+
     func testTwistedExtrudeAlongAlignment() throws {
         #if canImport(CoreText)
         let detail = 16
@@ -743,5 +771,61 @@ final class MeshExtrudeTests: XCTestCase {
             XCTAssert(mesh.isWatertight)
         }
         #endif
+    }
+}
+
+private extension MeshExtrudeTests {
+    static func gearProfile(detail: Int, includesRepeatedFinalTooth: Bool) -> Path {
+        let toothCount = 10
+        let toothSpacing = 0.12566
+        let toothDepth = toothSpacing / 2
+        let radius = Double(toothCount) * toothSpacing / (2 * .pi)
+        let innerRadius = radius - toothDepth / 2
+        let outerRadius = radius + toothDepth / 2
+        let innerToothHalfturns = 2 / (Double(toothCount) * 3)
+        let innerArcLength = innerToothHalfturns * .pi * innerRadius
+        let outerToothHalfturns = innerArcLength / (.pi * outerRadius)
+        let stepHalfturns = (innerToothHalfturns + innerToothHalfturns - outerToothHalfturns) / 2
+        let approachHalfturns = stepHalfturns * 0.5
+        let contactHalfturns = stepHalfturns * 0.5
+        var points = [PathPoint]()
+        var rotation = 0.0
+
+        func rotatedPoint(radius: Double, isCurved: Bool) -> PathPoint {
+            let position = Vector(radius, 0).rotated(
+                by: Rotation(unchecked: .unitZ, angle: .radians(rotation * .pi))
+            )
+            return isCurved ? .curve(position) : .point(position)
+        }
+
+        for _ in 0 ..< toothCount {
+            points.append(rotatedPoint(radius: outerRadius, isCurved: false))
+            rotation += approachHalfturns
+            points.append(rotatedPoint(radius: radius, isCurved: true))
+            rotation += contactHalfturns
+            points.append(rotatedPoint(radius: innerRadius, isCurved: false))
+            rotation += innerToothHalfturns
+            points.append(rotatedPoint(radius: innerRadius, isCurved: false))
+            rotation += contactHalfturns
+            points.append(rotatedPoint(radius: radius, isCurved: true))
+            rotation += approachHalfturns
+            points.append(rotatedPoint(radius: outerRadius, isCurved: false))
+            rotation += outerToothHalfturns
+        }
+        points.append(rotatedPoint(radius: outerRadius, isCurved: false))
+        if includesRepeatedFinalTooth {
+            rotation += approachHalfturns
+            points.append(rotatedPoint(radius: radius, isCurved: true))
+            rotation += contactHalfturns
+            points.append(rotatedPoint(radius: innerRadius, isCurved: false))
+            rotation += innerToothHalfturns
+            points.append(rotatedPoint(radius: innerRadius, isCurved: false))
+            rotation += contactHalfturns
+            points.append(rotatedPoint(radius: radius, isCurved: true))
+            rotation += approachHalfturns
+            points.append(rotatedPoint(radius: outerRadius, isCurved: false))
+        }
+
+        return Path.curve(points, detail: detail)
     }
 }
