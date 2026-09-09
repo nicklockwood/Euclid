@@ -237,12 +237,9 @@ extension [Polygon] {
     }
 
     /// Inset along face normals
-    func insetFaces(
-        by distance: Double,
-        isCancelled: Polygon.CancellationHandler = { false }
-    ) -> [Polygon] {
+    func insetFaces(by distance: Double, isCancelled: CancellationHandler) -> [Polygon] {
         guard !isCancelled() else { return [] }
-        let source = Array(self).mergingVertices(withPrecision: epsilon)
+        let source = mergingVertices(withPrecision: epsilon, isCancelled: isCancelled)
         var vertexInfo = [Vector: (planes: [Plane], neighbors: Set<Vector>)]()
         for (index, polygon) in source.enumerated() {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() { return [] }
@@ -347,28 +344,29 @@ extension [Polygon] {
         }
         guard !isCancelled() else { return [] }
         var wasCancelled = false
-        let polygons: [Polygon] = source.enumerated().flatMap { index, polygon in
-            if wasCancelled || index.isMultiple(of: cancellationCheckInterval) && isCancelled() {
-                wasCancelled = true
-                return [Polygon]()
+        let polygons: [Polygon] = source.enumerated()
+            .flatMap { index, polygon in
+                if wasCancelled || index
+                    .isMultiple(of: cancellationCheckInterval) && isCancelled()
+                {
+                    wasCancelled = true
+                    return [Polygon]()
+                }
+                return polygon.insetPolygons(using: positionCache, by: distance)
             }
-            return polygon.insetPolygons(
-                using: positionCache,
-                by: distance
-            )
-        }.removingCollapsedInsetSheets(by: distance, isCancelled: isCancelled)
+            .removingCollapsedInsetSheets(by: distance, isCancelled: isCancelled)
         guard distance > 0, isConvexSurface else {
-            return polygons.mergingVertices(withPrecision: epsilon)
+            return polygons.mergingVertices(withPrecision: epsilon, isCancelled: isCancelled)
         }
         let insetBounds = Bounds(polygons.flatMap(\.vertices))
         return sourceBounds.contains(insetBounds) ? polygons
-            .mergingVertices(withPrecision: epsilon) : []
+            .mergingVertices(withPrecision: epsilon, isCancelled: isCancelled) : []
     }
 
     /// Removes paired sheets left behind when opposing faces collapse through an inset.
     func removingCollapsedInsetSheets(
         by distance: Double,
-        isCancelled: Polygon.CancellationHandler = { false }
+        isCancelled: CancellationHandler
     ) -> [Polygon] {
         guard !isCancelled(), distance > 0, count > 1 else {
             return self

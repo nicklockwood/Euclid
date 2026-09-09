@@ -546,7 +546,7 @@ public extension Mesh {
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
     init?(_ scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider? = nil) {
         do {
-            try self.init(scnGeometry: scnGeometry, materialLookup: materialLookup)
+            try self.init(scnGeometry, materialLookup: materialLookup) { false }
         } catch {
             print(error)
             return nil
@@ -558,7 +558,12 @@ public extension Mesh {
     ///   - scnGeometry: The `SCNGeometry` to convert into a mesh.
     ///   - materialLookup: An optional closure to map SceneKit materials to Euclid materials.
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
-    private init(scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider? = nil) throws {
+    ///   - isCancelled: Callback used to cancel the operation.
+    init(
+        _ scnGeometry: SCNGeometry,
+        materialLookup: SCNMaterialProvider? = nil,
+        isCancelled: CancellationHandler
+    ) throws {
         // Force properties to update
         let scnGeometry = scnGeometry.copy() as! SCNGeometry
 
@@ -737,7 +742,7 @@ public extension Mesh {
                 $0.insert($1.start)
                 $0.insert($1.end)
             }
-            polygons = polygons.mergingVertices(holePoints, withPrecision: precision)
+            polygons = polygons.mergingVertices(holePoints, withPrecision: precision, isCancelled: isCancelled)
             holeEdges = polygons.holeEdges
             precision *= 10
         }

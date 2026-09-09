@@ -9,7 +9,7 @@
 public extension Path {
     /// Callback used to cancel a long-running operation.
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
-    typealias CancellationHandler = @Sendable () -> Bool
+    typealias CancellationHandler = Euclid.CancellationHandler
 
     /// Split the path along a plane.
     /// - Parameter plane: The ``Plane`` to split the path along.
@@ -48,12 +48,21 @@ extension Path {
     func clip(
         to coplanarPolygons: [Polygon],
         _ inside: inout [Path],
-        _ outside: inout [Path]
+        _ outside: inout [Path],
+        _ isCancelled: CancellationHandler = { false }
     ) {
         var toTest = [self]
-        for polygon in coplanarPolygons.tessellate() where !toTest.isEmpty {
+        for (index, polygon) in coplanarPolygons.tessellate().enumerated() where !toTest.isEmpty {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return
+            }
             var _outside: [Path]! = []
-            toTest.forEach { polygon.clip($0, &inside, &_outside) }
+            for (index, path) in toTest.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return
+                }
+                polygon.clip(path, &inside, &_outside, isCancelled)
+            }
             toTest = _outside
         }
         outside += toTest
@@ -63,11 +72,17 @@ extension Path {
         along plane: Plane,
         _ coplanar: inout [Path]?,
         _ front: inout [Path],
-        _ back: inout [Path]?
+        _ back: inout [Path]?,
+        _ isCancelled: CancellationHandler = { false }
     ) {
         let subpaths = subpaths
         guard subpaths.count == 1 else {
-            subpaths.forEach { $0.split(along: plane, &coplanar, &front, &back) }
+            for (index, subpath) in subpaths.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return
+                }
+                subpath.split(along: plane, &coplanar, &front, &back, isCancelled)
+            }
             return
         }
         guard var p0 = points.first else {
@@ -76,7 +91,10 @@ extension Path {
         var t0 = p0.position.compare(with: plane)
         var comparison = t0
         var points = [p0]
-        for p1 in self.points.dropFirst() {
+        for (index, p1) in self.points.dropFirst().enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return
+            }
             let t1 = p1.position.compare(with: plane)
             comparison = comparison.union(t1)
             switch comparison {
@@ -122,15 +140,19 @@ private extension Polygon {
     func clip(
         _ coplanarPath: Path,
         _ inside: inout [Path],
-        _ outside: inout [Path]
+        _ outside: inout [Path],
+        _ isCancelled: CancellationHandler
     ) {
         assert(isConvex)
         assert(coplanarPath.compare(with: plane) == .coplanar)
         var path = coplanarPath
         var coplanar: [Path]! = []
-        for plane in edgePlanes {
+        for (index, plane) in edgePlanes.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return
+            }
             var back: [Path]! = []
-            path.split(along: plane, &coplanar, &outside, &back)
+            path.split(along: plane, &coplanar, &outside, &back, isCancelled)
             back.append(contentsOf: coplanar)
             guard let p = back.first else {
                 return

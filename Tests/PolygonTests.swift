@@ -10,7 +10,7 @@
 import XCTest
 
 private extension Collection<Euclid.Polygon> {
-    func detessellate(isCancelled: Euclid.Polygon.CancellationHandler = { false }) -> [Euclid.Polygon] {
+    func detessellate(isCancelled: Euclid.CancellationHandler = { false }) -> [Euclid.Polygon] {
         detessellate(ensureConvex: false, isCancelled: isCancelled)
     }
 }

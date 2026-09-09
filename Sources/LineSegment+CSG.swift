@@ -9,7 +9,7 @@
 public extension LineSegment {
     /// Callback used to cancel a long-running operation.
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
-    typealias CancellationHandler = @Sendable () -> Bool
+    typealias CancellationHandler = Euclid.CancellationHandler
 
     /// Split the line segment along a plane.
     /// - Parameter plane: The ``Plane`` to split the line segment along.
@@ -48,7 +48,7 @@ public extension LineSegment {
 public extension Collection<LineSegment> {
     /// Callback used to cancel a long-running operation.
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
-    typealias CancellationHandler = @Sendable () -> Bool
+    typealias CancellationHandler = Euclid.CancellationHandler
 
     /// Split the line segments along a plane.
     /// - Parameter plane: The ``Plane`` to split the line segments along.
@@ -104,12 +104,21 @@ extension LineSegment {
     func clip(
         to coplanarPolygons: [Polygon],
         _ inside: inout [LineSegment],
-        _ outside: inout [LineSegment]
+        _ outside: inout [LineSegment],
+        _ isCancelled: CancellationHandler
     ) {
         var toTest = [self]
-        for polygon in coplanarPolygons.tessellate() where !toTest.isEmpty {
+        for (index, polygon) in coplanarPolygons.tessellate().enumerated() where !toTest.isEmpty {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return
+            }
             var _outside = [LineSegment]()
-            toTest.forEach { polygon.clip($0, &inside, &_outside) }
+            for (index, lineSegment) in toTest.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return
+                }
+                polygon.clip(lineSegment, &inside, &_outside, isCancelled)
+            }
             toTest = _outside
         }
         outside += toTest
@@ -170,13 +179,17 @@ private extension Polygon {
     func clip(
         _ coplanarSegment: LineSegment,
         _ inside: inout [LineSegment],
-        _ outside: inout [LineSegment]
+        _ outside: inout [LineSegment],
+        _ isCancelled: CancellationHandler
     ) {
         assert(isConvex)
         assert(coplanarSegment.compare(with: plane) == .coplanar)
         var lineSegment = coplanarSegment
         var coplanar = [LineSegment]()
-        for plane in edgePlanes {
+        for (index, plane) in edgePlanes.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return
+            }
             var back = [LineSegment]()
             lineSegment.split(along: plane, &coplanar, &outside, &back)
             back.append(contentsOf: coplanar)

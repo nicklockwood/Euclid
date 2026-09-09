@@ -14,10 +14,7 @@ public extension Mesh {
     /// - Returns: A copy of the mesh, inset by the specified distance.
     ///
     /// > Note: Passing a negative `distance` will expand the mesh instead of shrinking it.
-    func inset(
-        by distance: Double,
-        isCancelled: CancellationHandler = { false }
-    ) -> Mesh {
+    func inset(by distance: Double, isCancelled: CancellationHandler = { false }) -> Mesh {
         guard !isCancelled() else { return .empty }
         if distance > 0, isPlanar, let plane = polygons.first?.plane, materials.count <= 1 {
             // If mesh is planar, inset edges only rather than making it vanish
@@ -34,7 +31,12 @@ public extension Mesh {
             let path = Path(unchecked: .subpaths(outlinePaths), plane: plane)
                 .inset(by: distance)
             let faces: Faces = hasOpposingFaces ? .frontAndBack : .front
-            return Mesh.fill(path, faces: faces, material: materials.first ?? nil, isCancelled: isCancelled)
+            return Mesh.fill(
+                path,
+                faces: faces,
+                material: materials.first ?? nil,
+                isCancelled: isCancelled
+            )
         }
         var mesh = Mesh(polygons.insetFaces(by: distance, isCancelled: isCancelled))
         let signedVolume = signedVolume
@@ -48,10 +50,17 @@ public extension Mesh {
         if !isCancelled(), !mesh.polygons.holeEdges.isEmpty {
             mesh = mesh.makeWatertight(isCancelled: isCancelled)
             var precision = epsilon * 10
-            while !isCancelled(), !mesh.polygons.holeEdges.isEmpty, precision <= distance * 0.25 {
+            while !isCancelled(),
+                  !mesh.polygons.holeEdges.isEmpty,
+                  precision <= distance * 0.25
+            {
                 let holeEdges = mesh.polygons.holeEdges
                 let holePoints = holeEdges.endPoints
-                let polygons = mesh.polygons.mergingVertices(holePoints, withPrecision: precision)
+                let polygons = mesh.polygons.mergingVertices(
+                    holePoints,
+                    withPrecision: precision,
+                    isCancelled: isCancelled
+                )
                 let merged = Mesh(polygons).makeWatertight(isCancelled: isCancelled)
                 guard merged.polygons.holeEdges.count < holeEdges.count else {
                     precision *= 10

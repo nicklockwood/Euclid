@@ -37,8 +37,6 @@ struct BSP {
 }
 
 extension BSP {
-    typealias CancellationHandler = @Sendable () -> Bool
-
     enum ClipRule {
         case greaterThan
         case greaterThanEqual
@@ -50,7 +48,11 @@ extension BSP {
         self = mesh.bsp(isCancelled: isCancelled)
     }
 
-    init(unchecked polygons: [Polygon], isKnownConvex: Bool, _ isCancelled: CancellationHandler) {
+    init(
+        unchecked polygons: [Polygon],
+        isKnownConvex: Bool,
+        _ isCancelled: CancellationHandler
+    ) {
         self.nodes = [BSPNode]()
         self.isConvex = isKnownConvex
         initialize(polygons, isCancelled)
@@ -221,16 +223,20 @@ private extension BSP {
         }
 
         // Create nodes
-        nodes = polygons
-            .groupedByPlane()
-            .shuffled(using: &rng)
-            .enumerated()
-            .map { i, group in
-                var node = BSPNode(plane: group.plane)
-                node.polygons = group.polygons
-                node.back = i + 1
-                return node
+        let groups = polygons.groupedByPlane(isCancelled: isCancelled).shuffled(using: &rng)
+        nodes.reserveCapacity(groups.count)
+        for (i, group) in groups.enumerated() {
+            if i.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                break
             }
+            var node = BSPNode(plane: group.plane)
+            node.polygons = group.polygons
+            node.back = i + 1
+            nodes.append(node)
+        }
+        guard !nodes.isEmpty else {
+            return
+        }
 
         // Fixup last node
         nodes[nodes.count - 1].back = 0
@@ -241,7 +247,10 @@ private extension BSP {
         var stack = [(node: 0, polygons: polygons)]
         while let (node, polygons) = stack.popLast(), !isCancelled() {
             var front = [Polygon](), back = [Polygon]()
-            for polygon in polygons {
+            for (index, polygon) in polygons.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return
+                }
                 let plane = nodes[node].plane
                 switch polygon.compare(with: plane) {
                 case .coplanar:
@@ -257,7 +266,7 @@ private extension BSP {
                     back.append(polygon)
                 case .spanning:
                     var id = 0
-                    polygon.split(spanning: plane, &front, &back, &id)
+                    polygon.split(spanning: plane, &front, &back, &id, isCancelled)
                     isActuallyConvex = false
                 }
             }
@@ -279,6 +288,9 @@ private extension BSP {
                 }
                 stack.append((next, back))
             }
+        }
+        guard !isCancelled() else {
+            return
         }
         if isActuallyConvex {
             // Check that last node wasn't coincidentally the only backface
@@ -313,14 +325,20 @@ private extension BSP {
         }
         var total = [Polygon]()
         var rejects = [Polygon]()
-        func addPolygons(_ polygons: [Polygon], to total: inout [Polygon]) {
-            for a in polygons {
+        func addPolygons(_ polygons: [Polygon], to total: inout [Polygon]) -> Bool {
+            for (index, a) in polygons.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return false
+                }
                 guard a.id != 0 else {
                     total.append(a)
                     continue
                 }
                 var a = a
                 for (i, b) in total.enumerated().reversed() {
+                    if i.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                        return false
+                    }
                     if a.id == b.id, let c = a.merge(unchecked: b, ensureConvex: true) {
                         a = c
                         total.remove(at: i)
@@ -328,23 +346,30 @@ private extension BSP {
                 }
                 total.append(a)
             }
+            return true
         }
         let keepFront = [.greaterThan, .greaterThanEqual].contains(keeping)
         var stack = [(node: nodes[0], polygons: polygons)]
         while let (node, polygons) = stack.popLast(), !isCancelled() {
             var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
-            for polygon in polygons {
-                polygon.split(along: node.plane, &coplanar, &front, &back, &id)
+            for (index, polygon) in polygons.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return []
+                }
+                polygon.split(along: node.plane, &coplanar, &front, &back, &id, isCancelled)
             }
-            for polygon in coplanar {
+            for (index, polygon) in coplanar.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return []
+                }
                 switch keeping {
                 case .greaterThan, .lessThanEqual:
-                    polygon.clip(to: node.polygons, &back, &front, &id)
+                    polygon.clip(to: node.polygons, &back, &front, &id, isCancelled)
                 case .greaterThanEqual, .lessThan:
                     if node.plane.normal.dot(polygon.plane.normal) > 0 {
                         front.append(polygon)
                     } else {
-                        polygon.clip(to: node.polygons, &back, &front, &id)
+                        polygon.clip(to: node.polygons, &back, &front, &id, isCancelled)
                     }
                 }
             }
@@ -352,18 +377,30 @@ private extension BSP {
                 if node.front > 0 {
                     stack.append((nodes[node.front], front))
                 } else if keepFront {
-                    addPolygons(front, to: &total)
+                    if !addPolygons(front, to: &total) {
+                        out = rejects
+                        return total
+                    }
                 } else if out != nil {
-                    addPolygons(front, to: &rejects)
+                    if !addPolygons(front, to: &rejects) {
+                        out = rejects
+                        return total
+                    }
                 }
             }
             if !back.isEmpty {
                 if node.back > 0 {
                     stack.append((nodes[node.back], back))
                 } else if !keepFront {
-                    addPolygons(back, to: &total)
+                    if !addPolygons(back, to: &total) {
+                        out = rejects
+                        return total
+                    }
                 } else if out != nil {
-                    addPolygons(back, to: &rejects)
+                    if !addPolygons(back, to: &rejects) {
+                        out = rejects
+                        return total
+                    }
                 }
             }
         }
@@ -382,10 +419,16 @@ private extension BSP {
         }
         var total = [LineSegment]()
         var rejects = [LineSegment]()
-        func addEdges(_ edges: [LineSegment], to total: inout [LineSegment]) {
+        func addEdges(_ edges: [LineSegment], to total: inout [LineSegment]) -> Bool {
             // TODO: we only need to try to rejoin edges which were actually split
-            outer: for var a in edges {
+            outer: for (index, var a) in edges.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return false
+                }
                 for (i, b) in total.enumerated().reversed() {
+                    if i.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                        return false
+                    }
                     if b.end == a.start {
                         // TODO: is this check needed and/or is there a cheaper way?
                         if a.direction.isApproximatelyEqual(to: b.direction) {
@@ -402,33 +445,52 @@ private extension BSP {
                 }
                 total.append(a)
             }
+            return true
         }
         let keepFront = [.greaterThan, .greaterThanEqual].contains(keeping)
         var stack = [(node: nodes[0], edges: edges)]
         while let (node, edges) = stack.popLast(), !isCancelled() {
             var coplanar = [LineSegment](), front = [LineSegment](), back = [LineSegment]()
-            for edge in edges {
+            for (index, edge) in edges.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return []
+                }
                 edge.split(along: node.plane, &coplanar, &front, &back)
             }
-            for edge in coplanar {
-                edge.clip(to: node.polygons, &back, &front)
+            for (index, edge) in coplanar.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return []
+                }
+                edge.clip(to: node.polygons, &back, &front, isCancelled)
             }
             if !front.isEmpty {
                 if node.front > 0 {
                     stack.append((nodes[node.front], front))
                 } else if keepFront {
-                    addEdges(front, to: &total)
+                    if !addEdges(front, to: &total) {
+                        out = rejects
+                        return total
+                    }
                 } else if out != nil {
-                    addEdges(front, to: &rejects)
+                    if !addEdges(front, to: &rejects) {
+                        out = rejects
+                        return total
+                    }
                 }
             }
             if !back.isEmpty {
                 if node.back > 0 {
                     stack.append((nodes[node.back], back))
                 } else if !keepFront {
-                    addEdges(back, to: &total)
+                    if !addEdges(back, to: &total) {
+                        out = rejects
+                        return total
+                    }
                 } else if out != nil {
-                    addEdges(back, to: &rejects)
+                    if !addEdges(back, to: &rejects) {
+                        out = rejects
+                        return total
+                    }
                 }
             }
         }
@@ -453,11 +515,17 @@ extension BSP {
         var stack = [(node: nodes[0], paths: [path])]
         while let (node, paths) = stack.popLast(), !isCancelled() {
             var coplanar: [Path]! = [], front = [Path](), back: [Path]! = []
-            for path in paths {
-                path.split(along: node.plane, &coplanar, &front, &back)
+            for (index, path) in paths.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return []
+                }
+                path.split(along: node.plane, &coplanar, &front, &back, isCancelled)
             }
-            for path in coplanar {
-                path.clip(to: node.polygons, &back, &front)
+            for (index, path) in coplanar.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return []
+                }
+                path.clip(to: node.polygons, &back, &front, isCancelled)
             }
             if !front.isEmpty {
                 if node.front > 0 {

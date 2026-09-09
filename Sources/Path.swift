@@ -952,14 +952,11 @@ extension Path {
     var nonZeroFillBoundaryWithAlignedEdges: Path? {
         let polygons = nonZeroFillPolygons(material: nil)
         let precision = max(bounds.size.length * 1e-9, epsilon)
-        let outlinePolygons = polygons.count > 1 ?
-            polygons
-            .insertingEdgeVertices(with: polygons.holeEdges)
-            .mergingVertices(withPrecision: precision) : polygons
-        return Path(
-            unchecked: .subpaths(outlinePolygons.outlinePaths),
-            plane: plane
-        ).restoringCurvature(from: self)
+        let outlinePolygons = polygons.count > 1 ? polygons
+            .insertingEdgeVertices(with: polygons.holeEdges) { false }
+            .mergingVertices(withPrecision: precision) { false } : polygons
+        return Path(unchecked: .subpaths(outlinePolygons.outlinePaths), plane: plane)
+            .restoringCurvature(from: self)
     }
 
     func restoringCurvature(from source: Path) -> Path {

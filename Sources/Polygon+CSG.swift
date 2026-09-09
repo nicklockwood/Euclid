@@ -9,17 +9,22 @@
 public extension Polygon {
     /// Callback used to cancel a long-running operation.
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
-    typealias CancellationHandler = @Sendable () -> Bool
+    typealias CancellationHandler = Euclid.CancellationHandler
 
     /// Split the polygon along a plane.
-    /// - Parameter plane: The ``Plane`` to split the polygon along.
+    /// - Parameters:
+    ///   - plane: The ``Plane`` to split the polygon along.
+    ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A pair of arrays representing the polygon fragments in front of and behind the plane respectively.
     ///
     /// > Note: If the plane and polygon do not intersect, one of the returned arrays will be empty.
-    func split(along plane: Plane) -> (front: [Polygon], back: [Polygon]) {
+    func split(
+        along plane: Plane,
+        _ isCancelled: CancellationHandler = { false }
+    ) -> (front: [Polygon], back: [Polygon]) {
         var id = 0
         var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
-        split(along: plane, &coplanar, &front, &back, &id)
+        split(along: plane, &coplanar, &front, &back, &id, isCancelled)
         for polygon in coplanar {
             plane.normal.dot(polygon.plane.normal) > 0 ?
                 front.append(polygon) : back.append(polygon)
@@ -75,12 +80,21 @@ extension Polygon {
         to polygons: [Polygon],
         _ inside: inout [Polygon],
         _ outside: inout [Polygon],
-        _ id: inout Int
+        _ id: inout Int,
+        _ isCancelled: CancellationHandler
     ) {
         var toTest = tessellate()
-        for polygon in polygons.tessellate() where !toTest.isEmpty {
+        for (index, polygon) in polygons.tessellate().enumerated() where !toTest.isEmpty {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return
+            }
             var _outside = [Polygon]()
-            toTest.forEach { polygon.clip($0, &inside, &_outside, &id) }
+            for (index, testedPolygon) in toTest.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return
+                }
+                polygon.clip(testedPolygon, &inside, &_outside, &id, isCancelled)
+            }
             toTest = _outside
         }
         outside += toTest
@@ -92,7 +106,8 @@ extension Polygon {
         _ coplanar: inout [Polygon],
         _ front: inout [Polygon],
         _ back: inout [Polygon],
-        _ id: inout Int
+        _ id: inout Int,
+        _ isCancelled: CancellationHandler
     ) {
         switch compare(with: plane) {
         case .coplanar:
@@ -102,7 +117,7 @@ extension Polygon {
         case .back:
             back.append(self)
         case .spanning:
-            split(spanning: plane, &front, &back, &id)
+            split(spanning: plane, &front, &back, &id, isCancelled)
         }
     }
 
@@ -110,7 +125,8 @@ extension Polygon {
         spanning plane: Plane,
         _ front: inout [Polygon],
         _ back: inout [Polygon],
-        _ id: inout Int
+        _ id: inout Int,
+        _ isCancelled: CancellationHandler
     ) {
         assert(compare(with: plane) == .spanning)
         var polygon = self
@@ -120,14 +136,20 @@ extension Polygon {
         }
         guard polygon.isConvex else {
             var coplanar = [Polygon]()
-            for polygon in polygon.tessellate() {
-                polygon.split(along: plane, &coplanar, &front, &back, &id)
+            for (index, polygon) in polygon.tessellate().enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return
+                }
+                polygon.split(along: plane, &coplanar, &front, &back, &id, isCancelled)
             }
             return
         }
         var f = [Vertex](), b = [Vertex]()
         var v0 = polygon.vertices.last!, t0 = v0.position.compare(with: plane)
-        for v1 in polygon.vertices {
+        for (index, v1) in polygon.vertices.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return
+            }
             if t0 != .back {
                 f.append(v0)
             }
@@ -221,15 +243,19 @@ private extension Polygon {
         _ coplanarPolygon: Polygon,
         _ inside: inout [Polygon],
         _ outside: inout [Polygon],
-        _ id: inout Int
+        _ id: inout Int,
+        _ isCancelled: CancellationHandler
     ) {
         assert(isConvex)
         assert(coplanarPolygon.compare(with: plane) == .coplanar)
         var polygon = coplanarPolygon
         var coplanar = [Polygon]()
-        for plane in edgePlanes {
+        for (index, plane) in edgePlanes.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return
+            }
             var back = [Polygon]()
-            polygon.split(along: plane, &coplanar, &outside, &back, &id)
+            polygon.split(along: plane, &coplanar, &outside, &back, &id, isCancelled)
             guard let p = back.first else {
                 return
             }

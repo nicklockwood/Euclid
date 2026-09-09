@@ -672,7 +672,7 @@ extension Mesh {
         )
     }
 
-    func bsp(isCancelled: CancellationHandler = { false }) -> BSP {
+    func bsp(isCancelled: CancellationHandler) -> BSP {
         storage.bsp(isCancelled: isCancelled)
     }
 
@@ -748,7 +748,7 @@ private extension Mesh {
         }
 
         private(set) var isKnownConvex: Bool
-        func isConvex(isCancelled: CancellationHandler = { false }) -> Bool {
+        func isConvex(isCancelled: CancellationHandler) -> Bool {
             if !isKnownConvex, bspIfSet == nil {
                 _ = bsp(isCancelled: isCancelled)
             }
@@ -756,7 +756,7 @@ private extension Mesh {
         }
 
         private(set) var bspIfSet: BSP?
-        func bsp(isCancelled: CancellationHandler = { false }) -> BSP {
+        func bsp(isCancelled: CancellationHandler) -> BSP {
             bspLock.lock()
             if bspIfSet == nil {
                 let bsp = BSP(unchecked: polygons, isKnownConvex: isKnownConvex, isCancelled)

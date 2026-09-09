@@ -1049,7 +1049,7 @@ private extension Path {
                 // Compound paths only use this for SVG-style contours with coincident points.
                 let nonZeroFillPolygons = shape.nonZeroFillPolygons(material: material)
                 if shape.nonZeroFillBoundary(from: nonZeroFillPolygons).subpaths.count > 1 {
-                    return shape.nonZeroFillCapPolygons(nonZeroFillPolygons)
+                    return shape.nonZeroFillCapPolygons(nonZeroFillPolygons, isCancelled: isCancelled)
                 }
             }
         } else if !shape.subpathsHavePartiallyOverlappingInteriors, shape.hasNestedSubpaths {
@@ -1267,16 +1267,21 @@ private extension Path {
 
     /// Builds cap polygons directly from the scanline non-zero fill, then inserts
     /// any split edge vertices needed to match side-wall boundary edges.
-    func nonZeroFillCapPolygons(material: Mesh.Material?) -> [Polygon] {
-        nonZeroFillCapPolygons(nonZeroFillPolygons(material: material))
+    func nonZeroFillCapPolygons(
+        material: Mesh.Material?,
+        isCancelled: CancellationHandler
+    ) -> [Polygon] {
+        nonZeroFillCapPolygons(nonZeroFillPolygons(material: material), isCancelled: isCancelled)
     }
 
-    func nonZeroFillCapPolygons(_ polygons: [Polygon]) -> [Polygon] {
+    func nonZeroFillCapPolygons(
+        _ polygons: [Polygon],
+        isCancelled: CancellationHandler
+    ) -> [Polygon] {
         let precision = max(bounds.size.length * 1e-9, epsilon)
-        return polygons.count > 1 ?
-            polygons
-            .insertingEdgeVertices(with: polygons.holeEdges)
-            .mergingVertices(withPrecision: precision) : polygons
+        return polygons.count > 1 ? polygons
+            .insertingEdgeVertices(with: polygons.holeEdges, isCancelled: isCancelled)
+            .mergingVertices(withPrecision: precision, isCancelled: isCancelled) : polygons
     }
 
     /// Returns original subpaths with every odd-depth contour flipped so non-zero winding
@@ -1365,7 +1370,10 @@ private extension Path {
             return first + targetU * u + targetV * v + targetNormal * w
         }
         for (point, otherPoint) in zip(points, otherPoints) {
-            guard point.isApproximatelyEqual(to: transform(otherPoint), absoluteTolerance: 1e-6) else {
+            guard point.isApproximatelyEqual(
+                to: transform(otherPoint),
+                absoluteTolerance: 1e-6
+            ) else {
                 return nil
             }
         }
@@ -1669,31 +1677,33 @@ private extension Mesh {
                 (vertices[$0], vertices[$0 + 1])
             }
         }
-        let firstBoundaryEdgeVertices = canBuildMappedSides ? first.flatMap { first -> [(Vertex, Vertex)]? in
-            if usesMeshableNonZeroBoundary {
-                let firstBoundarySubpaths = boundarySubshapes.compactMap(\.first)
-                if preservesMappedBoundaryWinding,
-                   firstBoundarySubpaths.contains(where: \.hasCurvedPoints)
-                {
-                    let edgeVertices = firstBoundarySubpaths.flatMap {
-                        edgeVertexPairs(from: $0, invertNormals: preservesMappedBoundaryWinding)
+        let firstBoundaryEdgeVertices = canBuildMappedSides ? first
+            .flatMap { first -> [(Vertex, Vertex)]? in
+                if usesMeshableNonZeroBoundary {
+                    let firstBoundarySubpaths = boundarySubshapes.compactMap(\.first)
+                    if preservesMappedBoundaryWinding,
+                       firstBoundarySubpaths.contains(where: \.hasCurvedPoints)
+                    {
+                        let edgeVertices = firstBoundarySubpaths.flatMap {
+                            edgeVertexPairs(from: $0, invertNormals: preservesMappedBoundaryWinding)
+                        }
+                        if !edgeVertices.isEmpty {
+                            return edgeVertices
+                        }
                     }
-                    if !edgeVertices.isEmpty {
-                        return edgeVertices
+                    return first
+                        .nonZeroFillCapPolygons(material: material, isCancelled: isCancelled)
+                        .boundingEdges
+                        .map { (Vertex($0.start), Vertex($0.end)) }
+                }
+                let edgeVertices = boundarySubshapes.flatMap { subshapes -> [(Vertex, Vertex)] in
+                    guard let subshape = subshapes.first else {
+                        return []
                     }
+                    return edgeVertexPairs(from: subshape)
                 }
-                return first.nonZeroFillCapPolygons(material: material).boundingEdges.map {
-                    (Vertex($0.start), Vertex($0.end))
-                }
-            }
-            let edgeVertices = boundarySubshapes.flatMap { subshapes -> [(Vertex, Vertex)] in
-                guard let subshape = subshapes.first else {
-                    return []
-                }
-                return edgeVertexPairs(from: subshape)
-            }
-            return edgeVertices.isEmpty ? nil : edgeVertices
-        } : nil
+                return edgeVertices.isEmpty ? nil : edgeVertices
+            } : nil
         let firstCapPolygons: [Polygon] = first.flatMap { first in
             shapes.first(where: { $0 != first }).map { next in
                 let p0p1 = directionBetweenShapes(first, next)

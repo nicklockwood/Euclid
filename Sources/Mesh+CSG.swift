@@ -34,7 +34,7 @@
 public extension Mesh {
     /// Callback used to cancel a long-running operation.
     /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
-    typealias CancellationHandler = @Sendable () -> Bool
+    typealias CancellationHandler = Euclid.CancellationHandler
 
     /// Returns a new mesh representing the combined volume of the
     /// mesh parameter and the receiver, with inner faces removed.
@@ -73,7 +73,7 @@ public extension Mesh {
         inParallel({
             var aout: [Polygon] = []
             let ap = BSP(mesh, isCancelled).clip(
-                boundsTest(intersection, polygons, &aout),
+                boundsTest(intersection, polygons, &aout, isCancelled),
                 .greaterThan,
                 isCancelled
             )
@@ -81,7 +81,7 @@ public extension Mesh {
         }, {
             var bout: [Polygon] = []
             let bp = BSP(self, isCancelled).clip(
-                boundsTest(intersection, mesh.polygons, &bout),
+                boundsTest(intersection, mesh.polygons, &bout, isCancelled),
                 .greaterThanEqual,
                 isCancelled
             )
@@ -135,14 +135,14 @@ public extension Mesh {
         inParallel({
             var aout: [Polygon] = []
             let ap = BSP(mesh, isCancelled).clip(
-                boundsTest(intersection, polygons, &aout),
+                boundsTest(intersection, polygons, &aout, isCancelled),
                 .greaterThan,
                 isCancelled
             )
             lhs = aout + ap
         }, {
             let bp = BSP(self, isCancelled).clip(
-                boundsTest(intersection, mesh.polygons),
+                boundsTest(intersection, mesh.polygons, isCancelled),
                 .lessThan,
                 isCancelled
             )
@@ -201,12 +201,12 @@ public extension Mesh {
         nonisolated(unsafe) var lhs: [Polygon] = [], rhs: [Polygon] = []
         inParallel({
             var aout: [Polygon] = []
-            let ap = boundsTest(intersection, polygons, &aout)
+            let ap = boundsTest(intersection, polygons, &aout, isCancelled)
             let (ap1, ap2) = bbsp.split(ap, .greaterThan, .lessThan, isCancelled)
             lhs = aout + ap1 + ap2.inverted()
         }, {
             var bout: [Polygon] = []
-            let bp = boundsTest(intersection, mesh.polygons, &bout)
+            let bp = boundsTest(intersection, mesh.polygons, &bout, isCancelled)
             let (bp2, bp1) = absp.split(bp, .greaterThan, .lessThan, isCancelled)
             rhs = bout + bp2 + bp1.inverted()
         })
@@ -258,13 +258,13 @@ public extension Mesh {
         nonisolated(unsafe) var lhs: [Polygon] = [], rhs: [Polygon] = []
         inParallel({
             lhs = BSP(mesh, isCancelled).clip(
-                boundsTest(intersection, polygons),
+                boundsTest(intersection, polygons, isCancelled),
                 .lessThan,
                 isCancelled
             )
         }, {
             rhs = BSP(self, isCancelled).clip(
-                boundsTest(intersection, mesh.polygons),
+                boundsTest(intersection, mesh.polygons, isCancelled),
                 .lessThanEqual,
                 isCancelled
             )
@@ -297,6 +297,7 @@ public extension Mesh {
             return .empty
         }
         return tail.reduce(into: head) {
+            guard !isCancelled() else { return }
             $0 = $0.intersection($1, isCancelled: isCancelled)
         }
     }
@@ -323,7 +324,7 @@ public extension Mesh {
             return self
         }
         var aout: [Polygon] = []
-        let ap = boundsTest(bounds.intersection(mesh.bounds), polygons, &aout)
+        let ap = boundsTest(bounds.intersection(mesh.bounds), polygons, &aout, isCancelled)
         let bsp = BSP(mesh, isCancelled)
         let (outside, inside) = bsp.split(ap, .greaterThan, .lessThanEqual, isCancelled)
         let material = mesh.polygons.first?.material
@@ -667,11 +668,16 @@ public extension Mesh {
     }
 
     /// Split the mesh along a plane.
-    /// - Parameter plane: The ``Plane`` to split the mesh along.
+    /// - Parameters:
+    ///   - plane: The ``Plane`` to split the mesh along.
+    ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A pair of meshes representing the parts in front of and behind the plane respectively.
     ///
     /// > Note: If the plane and mesh do not intersect, one of the returned meshes will be `nil`.
-    func split(along plane: Plane) -> (front: Mesh?, back: Mesh?) {
+    func split(
+        along plane: Plane,
+        isCancelled: CancellationHandler = { false }
+    ) -> (front: Mesh?, back: Mesh?) {
         switch bounds.compare(with: plane) {
         case .front:
             return (self, nil)
@@ -681,7 +687,7 @@ public extension Mesh {
             var id = 0
             var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
             for polygon in polygons {
-                polygon.split(along: plane, &coplanar, &front, &back, &id)
+                polygon.split(along: plane, &coplanar, &front, &back, &id, isCancelled)
             }
             for polygon in coplanar {
                 plane.normal.dot(polygon.plane.normal) > 0 ?
@@ -719,9 +725,14 @@ public extension Mesh {
     /// - Parameters:
     ///   - plane: The plane to clip the mesh to
     ///   - fill: The material to fill the sheared face(s) with.
+    ///   - isCancelled: Callback used to cancel the operation.
     ///
     /// > Note: Specifying nil for the fill material will leave the sheared face unfilled.
-    func clipped(to plane: Plane, fill: Material? = nil) -> Mesh {
+    func clipped(
+        to plane: Plane,
+        fill: Material? = nil,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
         guard !polygons.isEmpty else {
             return self
         }
@@ -735,7 +746,7 @@ public extension Mesh {
             var id = 0
             var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
             for polygon in polygons {
-                polygon.split(along: plane, &coplanar, &front, &back, &id)
+                polygon.split(along: plane, &coplanar, &front, &back, &id, isCancelled)
             }
             for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
                 front.append(polygon)
@@ -813,7 +824,7 @@ public extension Mesh {
         }
         var aout: [Polygon] = []
         let ap = BSP(mesh, isCancelled).clip(
-            boundsTest(intersection, polygons, &aout),
+            boundsTest(intersection, polygons, &aout, isCancelled),
             .greaterThan,
             isCancelled
         )
@@ -846,7 +857,7 @@ public extension Mesh {
             (a, b) = (b, a)
         }
         let bsp = BSP(a, isCancelled)
-        let polygons = boundsTest(intersection, b.polygons)
+        let polygons = boundsTest(intersection, b.polygons, isCancelled)
         return bsp.clip(polygons, .lessThan, isCancelled).holeEdges
     }
 
@@ -858,22 +869,41 @@ public extension Mesh {
     }
 }
 
-private func boundsTest(_ bounds: Bounds, _ polygons: [Polygon]) -> [Polygon] {
-    polygons.filter { $0.bounds.intersects(bounds) }
+private func boundsTest(
+    _ bounds: Bounds,
+    _ polygons: [Polygon],
+    _ isCancelled: CancellationHandler = { false }
+) -> [Polygon] {
+    var result = [Polygon]()
+    for (index, polygon) in polygons.enumerated() {
+        if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+            return []
+        }
+        if polygon.bounds.intersects(bounds) {
+            result.append(polygon)
+        }
+    }
+    return result
 }
 
 private func boundsTest(
     _ bounds: Bounds,
     _ polygons: [Polygon],
-    _ out: inout [Polygon]
+    _ out: inout [Polygon],
+    _ isCancelled: CancellationHandler = { false }
 ) -> [Polygon] {
-    polygons.filter {
-        if $0.bounds.intersects(bounds) {
-            return true
+    var result = [Polygon]()
+    for (index, polygon) in polygons.enumerated() {
+        if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+            return []
         }
-        out.append($0)
-        return false
+        if polygon.bounds.intersects(bounds) {
+            result.append(polygon)
+        } else {
+            out.append(polygon)
+        }
     }
+    return result
 }
 
 private extension Mesh {
@@ -885,7 +915,7 @@ private extension Mesh {
     ) -> Mesh {
         var meshes = Array(meshes)
         var i = 0
-        while i < meshes.count {
+        while i < meshes.count, !isCancelled() {
             _ = reduce(&meshes, at: i, using: fn, isCancelled)
             i += 1
         }
@@ -910,7 +940,7 @@ private extension Mesh {
     ) -> Mesh {
         var m = meshes[i]
         var j = i + 1
-        while j < meshes.count {
+        while j < meshes.count, !isCancelled() {
             let n = meshes[j]
             if m.bounds.intersects(n.bounds) {
                 withoutActuallyEscaping(isCancelled) { isCancelled in
@@ -937,7 +967,7 @@ private extension Mesh {
         scatterInsertion: Bool = false,
         _ isCancelled: CancellationHandler
     ) -> Mesh {
-        assert(startingMesh?.isConvex() != false)
+        assert(startingMesh?.isConvex(isCancelled: isCancelled) != false)
         assert(startingMesh?.isWatertight != false)
         var polygons = startingMesh?.polygons ?? []
         var polygonsToAdd = polygonsToAdd

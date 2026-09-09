@@ -31,6 +31,10 @@
 
 import Foundation
 
+/// Callback used to cancel a long-running operation.
+/// - Returns: `true` if operation should be cancelled, or `false` otherwise.
+public typealias CancellationHandler = @Sendable () -> Bool
+
 /// Tolerance used for calculating approximate equality
 let epsilon: Double = 1e-8
 
