@@ -207,6 +207,18 @@ final class MeshInsetTests: XCTestCase {
         #endif
     }
 
+    func testInsetExtrudedNumber8SkipsZeroAreaCapLoops() throws {
+        #if canImport(CoreText)
+        let font = CTFontCreateWithName("comic sans ms" as CFString, 1, nil)
+        let paths = Path.text("8", font: font)
+        let shape = try XCTUnwrap(paths.first)
+        let mesh = Mesh.extrude(shape).inset(by: 0.03)
+
+        XCTAssertFalse(mesh.isEmpty)
+        XCTAssertGreaterThan(mesh.signedVolume, 0)
+        #endif
+    }
+
     func testInsetRotatedExtrudedRoundedRectanglePreservesSmoothSideNormals() {
         let shape = Path.roundedRectangle(width: 2, height: 1, radius: 0.25, detail: 4)
         let source = Mesh.extrude(shape).makeWatertight().detessellate()

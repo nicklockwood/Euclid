@@ -540,7 +540,7 @@ public extension Mesh {
                     if vertices.count == 3, let polygon = Polygon(vertices, material: material) {
                         return [polygon.flatteningNormals()]
                     }
-                    guard vertices.count > 3 else {
+                    guard vertices.count > 3, vertices.vectorArea.length > epsilon else {
                         return []
                     }
                     let path = Path(closedVertices.map {
