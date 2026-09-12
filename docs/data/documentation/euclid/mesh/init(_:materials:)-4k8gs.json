@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates a mesh from a RealityKit ",
+      "text" : "Synchronously creates a mesh from a RealityKit ",
       "type" : "text"
     },
     {
@@ -326,7 +326,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-4k8gs": {
   "abstract" : [
     {
-      "text" : "Creates a mesh from a RealityKit ",
+      "text" : "Synchronously creates a mesh from a RealityKit ",
       "type" : "text"
     },
     {

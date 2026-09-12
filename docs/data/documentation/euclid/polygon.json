@@ -218,7 +218,6 @@
       "anchor" : "Splitting-Polygons",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clipped(to:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/split(along:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/tessellate(maxSides:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/triangulate()"
       ],
@@ -252,6 +251,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertexColors(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertices(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/reflected(along:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/split(along:_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/subdivide()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/withoutTexcoords()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/withoutVertexColors()"
@@ -2369,7 +2369,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/signedvolume"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/split(along:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/split(along:_:)": {
   "abstract" : [
     {
       "text" : "Split the polygon along a plane.",
@@ -2408,6 +2408,15 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> (front"
     },
     {
@@ -2437,12 +2446,12 @@
       "text" : "])"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/split(along:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/split(along:_:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "split(along:)",
+  "title" : "split(along:_:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/split(along:)"
+  "url" : "\/documentation\/euclid\/polygon\/split(along:_:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/subdivide()": {
   "abstract" : [

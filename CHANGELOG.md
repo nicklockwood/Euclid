@@ -1,5 +1,15 @@
 # Change Log
 
+## [0.9.4](https://github.com/nicklockwood/Euclid/releases/tag/0.9.4) (2026-09-12)
+
+- Fixed inset watertight capping for zero-area hole loops
+- Fixed extrusion of high-detail closed paths with repeated tail contours
+- Improved cancellation responsiveness for CSG, clipping, inset, fill and mesh repair operations
+- `Mesh.detessellate()` now works on large watertight meshes while preserving watertightness
+- `Mesh.detessellate()` and `Mesh.detriangulate()` now remove redundant vertices when this preserves watertightness
+- Added async RealityKit conversion APIs for `ModelEntity`, `ModelComponent` and `MeshResource`
+- Raised Xcode project deployment targets to macOS 12, iOS 15, tvOS 15 and watchOS 9
+
 ## [0.9.3](https://github.com/nicklockwood/Euclid/releases/tag/0.9.3) (2026-09-07)
 
 - Fixed bug where `Mesh.detriangulate()` could break watertightness

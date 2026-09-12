@@ -76,20 +76,17 @@
             },
             {
               "kind" : "text",
-              "text" : " = "
-            },
-            {
-              "kind" : "attribute",
-              "text" : "@Sendable"
+              "text" : " = Euclid"
             },
             {
               "kind" : "text",
-              "text" : " () -> "
+              "text" : "."
             },
             {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/CancellationHandler",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Sb",
-              "text" : "Bool"
+              "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+              "text" : "CancellationHandler"
             }
           ]
         }
@@ -190,6 +187,40 @@
   "title" : "Euclid",
   "type" : "topic",
   "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/CancellationHandler": {
+  "abstract" : [
+    {
+      "text" : "Callback used to cancel a long-running operation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/CancellationHandler",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "CancellationHandler",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/cancellationhandler"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
   "abstract" : [

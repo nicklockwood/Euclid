@@ -205,7 +205,6 @@
       "anchor" : "Splitting-Polygons",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/split(along:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/tessellate(maxSides:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/triangulate()"
       ],
@@ -365,81 +364,6 @@
   "title" : "clipped(to:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/clipped(to:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/split(along:)": {
-  "abstract" : [
-    {
-      "text" : "Split the polygon along a plane.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "split"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "along"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5PlaneV",
-      "text" : "Plane"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> (front"
-    },
-    {
-      "kind" : "text",
-      "text" : ": ["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid7PolygonV",
-      "text" : "Polygon"
-    },
-    {
-      "kind" : "text",
-      "text" : "], back"
-    },
-    {
-      "kind" : "text",
-      "text" : ": ["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid7PolygonV",
-      "text" : "Polygon"
-    },
-    {
-      "kind" : "text",
-      "text" : "])"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/split(along:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "split(along:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/split(along:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/tessellate(maxSides:)": {
   "abstract" : [

@@ -1,7 +1,7 @@
 [![PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UJWT2RWPE7VA8&source=url)
 [![Build](https://github.com/nicklockwood/Euclid/actions/workflows/build.yml/badge.svg)](https://github.com/nicklockwood/Euclid/actions/workflows/build.yml)
 [![Codecov](https://codecov.io/gh/nicklockwood/Euclid/graphs/badge.svg)](https://codecov.io/gh/nicklockwood/Euclid)
-[![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20Mac%20|%20tvOS%20|%20Linux-lightgray.svg)]()
+[![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20macOS%20|%20tvOS%20|%20watchOS%20|%20Linux-lightgray.svg)]()
 [![Swift 5.10](https://img.shields.io/badge/swift-5.10-red.svg?style=flat)](https://developer.apple.com/swift)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://opensource.org/licenses/MIT)
 [![Mastodon](https://img.shields.io/badge/mastodon-@nicklockwood@mastodon.social-636dff.svg)](https://mastodon.social/@nicklockwood)
@@ -30,18 +30,18 @@ If you would like to support the development of Euclid, please consider buying a
 
 Euclid is packaged as a dynamic framework that you can import into your Xcode project. You can install this manually, or by using Carthage or Swift Package Manager.
 
-**Note:** Euclid requires Xcode 16+ to build, and runs on iOS 14+, macOS 10.15+ or tvOS 14+.
+**Note:** Euclid requires Xcode 16+ to build, and runs on iOS 15+, macOS 12+, tvOS 15+ or watchOS 9+.
 
 To install using Carthage, add this to your Cartfile:
 
 ```ogdl
-github "nicklockwood/Euclid" ~> 0.9.3
+github "nicklockwood/Euclid" ~> 0.9.4
 ```
 
 To install using Swift Package Manager, add this to the `dependencies:` section in your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.9.3")),
+.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.9.4")),
 ```
 
 

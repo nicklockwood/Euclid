@@ -641,16 +641,6 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/clipped(to:fill:)",
-                "title" : "func clipped(to: Plane, fill: Material?) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/split(along:)",
-                "title" : "func split(along: Plane) -> (front: Mesh?, back: Mesh?)",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/mesh\/submeshes",
                 "title" : "var submeshes: [Mesh]",
                 "type" : "property"
@@ -759,8 +749,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-6uuzt",
-                "title" : "init(ModelComponent, materialLookup: RealityKitMaterialProvider?)",
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-2do3c",
+                "title" : "init(ModelEntity, materialLookup: RealityKitMaterialProvider?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-4105n",
+                "title" : "init(ModelEntity, materialLookup: RealityKitMaterialProvider?) async",
                 "type" : "init"
               },
               {
@@ -769,8 +764,18 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-bloy",
-                "title" : "init(ModelEntity, materialLookup: RealityKitMaterialProvider?)",
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-ea6f",
+                "title" : "init(ModelComponent, materialLookup: RealityKitMaterialProvider?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-vea7",
+                "title" : "init(ModelComponent, materialLookup: RealityKitMaterialProvider?) async",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:iscancelled:)",
+                "title" : "init(SCNGeometry, materialLookup: SCNMaterialProvider?, isCancelled: CancellationHandler) throws",
                 "type" : "init"
               },
               {
@@ -786,6 +791,11 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/init(_:materials:)-4k8gs",
                 "title" : "init(MeshResource, materials: [Polygon.Material?])",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:materials:)-74smy",
+                "title" : "init(MeshResource, materials: [Polygon.Material?]) async",
                 "type" : "init"
               },
               {
@@ -825,6 +835,11 @@
               {
                 "title" : "Instance Methods",
                 "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/clipped(to:fill:iscancelled:)",
+                "title" : "func clipped(to: Plane, fill: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/clipped(to:iscancelled:)",
@@ -899,6 +914,11 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/reflected(along:)",
                 "title" : "func reflected(along: Plane) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/split(along:iscancelled:)",
+                "title" : "func split(along: Plane, isCancelled: CancellationHandler) -> (front: Mesh?, back: Mesh?)",
                 "type" : "method"
               },
               {
@@ -1384,11 +1404,6 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/split(along:)",
-                "title" : "func split(along: Plane) -> (front: [Polygon], back: [Polygon])",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/polygon\/tessellate(maxsides:)",
                 "title" : "func tessellate(maxSides: Int) -> [Polygon]",
                 "type" : "method"
@@ -1458,6 +1473,11 @@
               {
                 "path" : "\/documentation\/euclid\/polygon\/reflected(along:)",
                 "title" : "func reflected(along: Plane) -> Polygon",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/split(along:_:)",
+                "title" : "func split(along: Plane, CancellationHandler) -> (front: [Polygon], back: [Polygon])",
                 "type" : "method"
               },
               {
@@ -7520,6 +7540,15 @@
             "type" : "func"
           },
           {
+            "title" : "Type Aliases",
+            "type" : "groupMarker"
+          },
+          {
+            "path" : "\/documentation\/euclid\/cancellationhandler",
+            "title" : "CancellationHandler",
+            "type" : "typealias"
+          },
+          {
             "title" : "Enumerations",
             "type" : "groupMarker"
           },
@@ -7800,23 +7829,43 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(_:materiallookup:)",
+                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(_:materiallookup:)-90tda",
                     "title" : "init(Mesh, materialLookup: MaterialProvider?) throws",
                     "type" : "init"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(polygons:materiallookup:)",
+                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(_:materiallookup:)-nlqg",
+                    "title" : "init(Mesh, materialLookup: MaterialProvider?) async throws",
+                    "type" : "init"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(polygons:materiallookup:)-1e9yn",
                     "title" : "init(polygons: Mesh, materialLookup: MaterialProvider?) throws",
                     "type" : "init"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(quads:materiallookup:)",
+                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(polygons:materiallookup:)-6taep",
+                    "title" : "init(polygons: Mesh, materialLookup: MaterialProvider?) async throws",
+                    "type" : "init"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(quads:materiallookup:)-1ayg1",
                     "title" : "init(quads: Mesh, materialLookup: MaterialProvider?) throws",
                     "type" : "init"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(triangles:materiallookup:)",
+                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(quads:materiallookup:)-1djpl",
+                    "title" : "init(quads: Mesh, materialLookup: MaterialProvider?) async throws",
+                    "type" : "init"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(triangles:materiallookup:)-63n4j",
                     "title" : "init(triangles: Mesh, materialLookup: MaterialProvider?) throws",
+                    "type" : "init"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(triangles:materiallookup:)-lst",
+                    "title" : "init(triangles: Mesh, materialLookup: MaterialProvider?) async throws",
                     "type" : "init"
                   },
                   {
