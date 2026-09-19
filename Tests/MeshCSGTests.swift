@@ -381,6 +381,27 @@ final class MeshCSGTests: XCTestCase {
         XCTAssertTrue(mesh.polygons.areWatertight)
     }
 
+    func testUnionOfMinkowskiComponentsDoesNotUseIntermediateResultAsBSP() {
+        let cube = Mesh.cube()
+        let cylinder = Mesh.cylinder(radius: 0.225, height: 1.2, slices: 8)
+            .rotated(by: Rotation(roll: .halfPi))
+            .translated(by: [0.45, 0, 0])
+        let source = Mesh.union([cube, cylinder]).makeWatertight().inset(by: 0.06)
+        let sphere = Mesh.sphere(radius: 0.06, slices: 8)
+        let components = [source.translated(by: sphere.bounds.center)] + source.polygons.map {
+            sphere.minkowskiSum(with: $0)
+        }
+
+        let expected = Mesh.union(components)
+        let progressive = components.dropFirst().reduce(components[0]) {
+            $0.union($1)
+        }
+        let result = source.minkowskiSum(with: sphere)
+
+        XCTAssertNotEqual(expected, progressive)
+        XCTAssertEqual(result, expected)
+    }
+
     func testConvexHullOfCubeIsItself() {
         let cube = Mesh.cube()
         let mesh = Mesh.convexHull(of: [cube])

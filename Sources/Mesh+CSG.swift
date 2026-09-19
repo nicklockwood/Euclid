@@ -107,7 +107,97 @@ public extension Mesh {
         _ meshes: some Collection<Mesh>,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        merge(meshes, using: { $0.union($1, isCancelled: $2) }, isCancelled)
+        let meshes = meshes.filter { !$0.isEmpty }
+        guard !meshes.isEmpty, !isCancelled() else {
+            return .empty
+        }
+
+        // Divide the inputs into groups whose bounds overlap, so disjoint meshes
+        // can be preserved without building BSPs or clipping their polygons.
+        var remaining = Array(meshes.indices)
+        var groups = [[Mesh]]()
+        while !remaining.isEmpty {
+            var group = [remaining.removeFirst()]
+            var i = 0
+            while i < remaining.count {
+                if isCancelled() {
+                    return .empty
+                }
+                if group.contains(where: {
+                    meshes[$0].bounds.intersects(meshes[remaining[i]].bounds)
+                }) {
+                    group.append(remaining.remove(at: i))
+                    // The new mesh may overlap one that was previously skipped.
+                    i = 0
+                } else {
+                    i += 1
+                }
+            }
+            groups.append(group.sorted().map { meshes[$0] })
+        }
+
+        let unions = groups.map { meshes -> Mesh in
+            switch meshes.count {
+            case 1:
+                return meshes[0]
+            case 2:
+                return meshes[0].union(meshes[1], isCancelled: isCancelled)
+            default:
+                break
+            }
+
+            // Clip every original operand against every other original operand.
+            // Using a partially unioned, potentially non-watertight intermediate
+            // mesh as a BSP here can leave internal fragments behind.
+            let bsps = meshes.map { BSP($0, isCancelled) }
+            guard !isCancelled() else {
+                return .empty
+            }
+            var polygons = [Polygon]()
+            for i in meshes.indices {
+                var outside = meshes[i].polygons
+                for j in meshes.indices where i != j {
+                    if isCancelled() {
+                        return .empty
+                    }
+                    let intersection = meshes[i].bounds.intersection(meshes[j].bounds)
+                    guard !intersection.isEmpty else {
+                        continue
+                    }
+                    var nonintersecting = [Polygon]()
+                    let intersecting = boundsTest(
+                        intersection,
+                        outside,
+                        &nonintersecting,
+                        isCancelled
+                    )
+                    outside = nonintersecting + bsps[j].clip(
+                        intersecting,
+                        i < j ? .greaterThan : .greaterThanEqual,
+                        isCancelled
+                    )
+                    if outside.isEmpty {
+                        break
+                    }
+                }
+                polygons += outside
+            }
+            guard !isCancelled() else {
+                return .empty
+            }
+            return Mesh(
+                unchecked: polygons,
+                bounds: meshes.dropFirst().reduce(into: meshes[0].bounds) {
+                    $0.formUnion($1.bounds)
+                },
+                bsp: nil,
+                isConvex: false,
+                isWatertight: nil,
+                isPlanar: nil,
+                submeshes: nil
+            )
+        }
+        return isCancelled() ? .empty : .merge(unions)
     }
 
     /// Returns a new mesh created by subtracting the volume of the
