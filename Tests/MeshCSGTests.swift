@@ -402,6 +402,30 @@ final class MeshCSGTests: XCTestCase {
         XCTAssertEqual(result, expected)
     }
 
+    func testMinkowskiHullDoesNotRetainInternalSeedFaces() {
+        let polygon = Polygon(unchecked: [
+            Vector(-0.44, -0.44, -0.44),
+            Vector(0.44, -0.44, -0.44),
+            Vector(0.44, -0.44, -0.061911096256999996),
+            Vector(0.44, -0.44, 0.44),
+            Vector(-0.44, -0.44, 0.44),
+        ])
+        let sphere = Mesh.sphere(radius: 0.06, slices: 51)
+        let spherePoints = Set(sphere.polygons.flatMap { $0.vertices.map(\.position) })
+        let points = polygon.vertices.flatMap { vertex in
+            spherePoints.map { $0 + vertex.position }
+        }
+        let hull = sphere.minkowskiSum(with: polygon)
+
+        XCTAssertTrue(hull.polygons.areWatertight)
+        XCTAssertTrue(hull.isActuallyConvex)
+        XCTAssertTrue(hull.polygons.allSatisfy { hullPolygon in
+            points.allSatisfy {
+                $0.signedDistance(from: hullPolygon.plane) <= planeEpsilon
+            }
+        })
+    }
+
     func testConvexHullOfCubeIsItself() {
         let cube = Mesh.cube()
         let mesh = Mesh.convexHull(of: [cube])

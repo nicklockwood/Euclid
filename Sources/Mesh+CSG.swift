@@ -488,6 +488,9 @@ public extension Mesh {
         }
         let bounds = Bounds(meshes)
         let sourcePolygonCount = polygons.count + (best?.polygons.count ?? 0)
+        func isValidHull(_ mesh: Mesh) -> Bool {
+            !mesh.isEmpty && Mesh(mesh.polygons).isConvex(isCancelled: isCancelled)
+        }
         // This is a runaway detector for the optimized seeded hull path.
         // The seeded path should reduce work by reusing an input hull.
         // If the intermediate hull grows larger than the input boundary, regular coplanar point
@@ -503,7 +506,7 @@ public extension Mesh {
             scatterInsertion: false,
             isCancelled
         )
-        if !mesh.isEmpty || isCancelled() {
+        if isValidHull(mesh) || isCancelled() {
             return mesh
         }
         let scatteredMesh = convexHull(
@@ -514,7 +517,7 @@ public extension Mesh {
             scatterInsertion: true,
             isCancelled
         )
-        if !scatteredMesh.isEmpty || isCancelled() {
+        if isValidHull(scatteredMesh) || isCancelled() {
             return scatteredMesh
         }
         return .convexHull(
@@ -1113,11 +1116,13 @@ private extension Mesh {
             }
         }
         for (vertex, material) in verticesToAdd where !isCancelled() {
-            polygons.addPoint(
+            guard polygons.addPoint(
                 vertex.position,
                 material: material,
                 verticesByPosition: verticesByPosition
-            )
+            ) else {
+                return .empty
+            }
             if let polygonLimit, polygons.count > polygonLimit {
                 return .empty
             }
@@ -1220,7 +1225,7 @@ private extension Mesh {
             if i.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return .empty
             }
-            polygons.addPoint(
+            _ = polygons.addPoint(
                 point,
                 material: material,
                 verticesByPosition: verticesByPosition
@@ -1258,11 +1263,13 @@ private extension Mesh {
 }
 
 private extension [Polygon] {
+    /// Adds a point to a convex hull, returning false if the current hull cannot
+    /// be expanded safely to include it.
     mutating func addPoint(
         _ point: Vector,
         material: Polygon.Material?,
         verticesByPosition: [Vector: [HullVertexMatch]]
-    ) {
+    ) -> Bool {
         var facing = [Polygon](), coplanar = [(plane: Plane, polygons: [Polygon])]()
         loop: for (i, polygon) in enumerated().reversed() {
             switch point.compare(with: polygon.plane) {
@@ -1273,7 +1280,7 @@ private extension [Polygon] {
                 // TODO: improve intersects implementation so both checks aren't needed
                 if polygon.vertices.contains(where: { $0.position == point }) || polygon.intersects(point) {
                     // if point is inside an existing polygon we can skip it
-                    return
+                    return true
                 }
                 // TODO: improve this part
                 if let index = coplanar.firstIndex(where: { $0.plane.isApproximatelyEqual(to: polygon.plane) }) {
@@ -1286,7 +1293,7 @@ private extension [Polygon] {
             }
         }
         // Create triangles from point to edges
-        func addTriangles(with edges: [LineSegment], faceNormal: Vector?) {
+        func addTriangles(with edges: [LineSegment], faceNormal: Vector?) -> Bool {
             for edge in edges {
                 guard let triangle = Polygon(
                     points: [point, edge.start, edge.end],
@@ -1295,21 +1302,25 @@ private extension [Polygon] {
                     material: material
                 ) else {
                     assertionFailure()
-                    continue
+                    return false
                 }
                 append(triangle)
             }
+            return true
         }
         // Extend polygons to include point
         guard facing.isEmpty else {
-            addTriangles(with: facing.boundingEdges, faceNormal: nil)
-            return
+            return addTriangles(with: facing.boundingEdges, faceNormal: nil)
         }
-        // Coplanar expansion is only valid for genuinely planar hulls. In a 3D hull, a
-        // coplanar hit means the point is already on an existing face and should not grow
-        // side faces; doing so is what lets regular sphere rings explode in polygon count.
+        // This coplanar expansion only works for planar hulls. A coplanar point outside
+        // a face of a 3D hull also requires new side faces, so the seeded implementation
+        // cannot safely incorporate it here.
         guard !coplanar.isEmpty, coplanar.count % 2 == 0, arePlanar else {
-            return
+            // A point behind every face is already inside the hull. A coplanar
+            // point outside the matching face is not: silently skipping it
+            // leaves that face inside the eventual hull. Let the caller retry
+            // using the unseeded vertex-set implementation instead.
+            return coplanar.isEmpty
         }
         for (plane, polygons) in coplanar {
             guard let polygon = polygons.first else { continue }
@@ -1320,9 +1331,12 @@ private extension [Polygon] {
                 }
                 return nil
             }
-            addTriangles(with: edges, faceNormal: plane.normal)
+            guard addTriangles(with: edges, faceNormal: plane.normal) else {
+                return false
+            }
         }
         assert(groupedByPlane().allSatisfy(\.polygons.coplanarPolygonsAreConvex))
+        return true
     }
 }
 
