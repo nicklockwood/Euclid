@@ -878,26 +878,50 @@ private extension [Polygon] {
 
 private extension Set<LineSegment> {
     var closedLoops: [[Vector]] {
-        var edges = sorted()
+        var remainingEdges = self
+        let sortedEdges = sorted()
+        var edgesByVertex = [Vector: [LineSegment]]()
+        for edge in sortedEdges {
+            edgesByVertex[edge.start, default: []].append(edge)
+            edgesByVertex[edge.end, default: []].append(edge)
+        }
         var loops = [[Vector]]()
-        while !edges.isEmpty {
-            let first = edges.removeFirst()
-            var points = [first.start, first.end]
-            while points.last != points.first {
-                guard let last = points.last,
-                      let index = edges.firstIndex(where: {
-                          $0.start == last || $0.end == last
-                      })
-                else {
-                    break
-                }
-                let edge = edges.remove(at: index)
-                points.append(edge.start == last ? edge.end : edge.start)
+        var firstIndex = 0
+        while !remainingEdges.isEmpty {
+            while firstIndex < sortedEdges.count, !remainingEdges.contains(sortedEdges[firstIndex]) {
+                firstIndex += 1
             }
-            guard points.count > 3, points.last == points.first else {
+            guard firstIndex < sortedEdges.count else {
+                break
+            }
+            let first = sortedEdges[firstIndex]
+            remainingEdges.remove(first)
+
+            var stack = [first.end]
+            var visited = Set<Vector>(stack)
+            var parentByVertex = [Vector: (Vector, LineSegment)]()
+            while let vertex = stack.popLast(), parentByVertex[first.start] == nil {
+                for edge in edgesByVertex[vertex] ?? [] where remainingEdges.contains(edge) {
+                    let next = edge.start == vertex ? edge.end : edge.start
+                    guard visited.insert(next).inserted else {
+                        continue
+                    }
+                    parentByVertex[next] = (vertex, edge)
+                    stack.append(next)
+                }
+            }
+            guard parentByVertex[first.start] != nil else {
                 continue
             }
-            loops.append(points)
+
+            var path = [first.start]
+            var vertex = first.start
+            while vertex != first.end, let (parent, edge) = parentByVertex[vertex] {
+                remainingEdges.remove(edge)
+                path.append(parent)
+                vertex = parent
+            }
+            loops.append([first.start] + path.reversed())
         }
         return loops
     }
