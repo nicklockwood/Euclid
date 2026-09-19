@@ -104,6 +104,15 @@ final class UtilityTests: XCTestCase {
         XCTAssertTrue(verticesAreDegenerate(vertices))
     }
 
+    func testShallowTriangleIsNotDegenerate() {
+        let vertices = [
+            Vertex(-0.44, 0.245145776738),
+            Vertex(-0.217666279771, 0.250958241945),
+            Vertex(0.212140968122, 0.262194682696),
+        ]
+        XCTAssertFalse(verticesAreDegenerate(vertices))
+    }
+
     // MARK: path sanitization
 
     func testSanitizeInvalidClosedPath() {
@@ -532,6 +541,6 @@ final class UtilityTests: XCTestCase {
         XCTAssertFalse(verticesAreDegenerate(vertices))
         XCTAssertFalse(vertices.removeIfRedundant(at: 3))
         vertices.remove(at: 3)
-        XCTAssertTrue(verticesAreDegenerate(vertices))
+        XCTAssertFalse(verticesAreDegenerate(vertices))
     }
 }

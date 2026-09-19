@@ -129,9 +129,30 @@ extension [Vertex] {
         guard isRedundant(at: index) else {
             return false
         }
+
+        // Unlike `verticesAreDegenerate()`, this deliberately treats
+        // turns that round to 180 degrees after normalization as reversed
+        // so a vertex removal cannot collapse a face.
+        func haveApproximatelyReversedTurn() -> Bool {
+            guard count > 2, let last = last?.position else {
+                return false
+            }
+            var ab = (self[0].position - last).normalized()
+            for i in indices {
+                let b = self[i].position
+                let c = self[(i + 1) % count].position
+                let bc = (c - b).normalized()
+                if abs(ab.dot(bc) + 1) == 0 {
+                    return true
+                }
+                ab = bc
+            }
+            return false
+        }
+
         // check that removing point didn't make the vertices degenerate
         let removed = remove(at: index)
-        if verticesAreDegenerate(self) {
+        if verticesAreDegenerate(self) || haveApproximatelyReversedTurn() {
             insert(removed, at: index)
             return false
         }
@@ -362,7 +383,11 @@ func triangulateVertices(
 
         // The fast greedy pass can get trapped by nearly collinear vertices. Retry from the
         // original ring and explore alternate ears before falling back to the slower 3D clipper.
+        let maxBacktrackingVertexCount = 8
         func triangulateWithBacktracking(_ ring: [Int]) -> [[Int]]? {
+            guard ring.count <= maxBacktrackingVertexCount else {
+                return nil
+            }
             guard ring.count > 3 else {
                 guard ring.count == 3,
                       signedArea(points[ring[0]], points[ring[1]], points[ring[2]]) * windingSign > 0
@@ -682,15 +707,15 @@ func pointsAreDegenerate(_ points: [Vector]) -> Bool {
     guard count > 2, var a = points.last else {
         return false
     }
-    var ab = (points[0] - a).normalized()
+    var ab = points[0] - a
     for i in 0 ..< count {
         let b = points[i]
         let c = points[(i + 1) % count]
         if b == c || a == b {
             return true
         }
-        let bc = (c - b).normalized()
-        guard abs(ab.dot(bc) + 1) > 0 else {
+        let bc = c - b
+        guard ab.cross(bc) != .zero || ab.dot(bc) >= 0 else {
             return true
         }
         a = b

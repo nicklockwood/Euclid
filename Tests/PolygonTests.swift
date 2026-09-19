@@ -1100,6 +1100,27 @@ final class PolygonTests: XCTestCase {
         XCTAssert(mesh.isEmpty)
     }
 
+    func testInsertingEdgeVerticesCancellationIsNotBlockedByBoundsFilter() {
+        let polygon = Polygon(unchecked: [
+            Vector(0, 0),
+            Vector(1, 0),
+            Vector(1, 1),
+            Vector(0, 1),
+        ])
+        let edges = Set((0 ..< 1000).map { index in
+            let x = Double(index + 10)
+            return LineSegment(unchecked: [x, 0], [x, 1])
+        })
+        nonisolated(unsafe) var checks = 0
+
+        _ = [polygon].insertingEdgeVertices(with: edges) {
+            checks += 1
+            return checks > 3
+        }
+
+        XCTAssertGreaterThan(checks, 3)
+    }
+
     func testPolygonDetessellateCanBeCancelled() {
         let polygons = Self.gridTriangles(width: 30, height: 30)
         nonisolated(unsafe) var checks = 0

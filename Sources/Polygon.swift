@@ -800,6 +800,27 @@ extension Collection<Polygon> {
         with holeEdges: Set<LineSegment>,
         isCancelled: Euclid.CancellationHandler = { false }
     ) -> [Polygon] {
+        func insertEdgePoints(_ points: ArraySlice<Vector>, into polygon: inout Polygon) -> Bool {
+            guard !isCancelled() else {
+                return false
+            }
+            var candidate = polygon
+            if candidate.insertEdgePoints(Array(points), isCancelled: isCancelled) {
+                polygon = candidate
+                return true
+            }
+            guard !isCancelled() else {
+                return false
+            }
+            guard points.count > 1 else {
+                _ = points.first.map { polygon.insertEdgePoint($0) }
+                return true
+            }
+            let midpoint = points.index(points.startIndex, offsetBy: points.count / 2)
+            return insertEdgePoints(points[..<midpoint], into: &polygon) &&
+                insertEdgePoints(points[midpoint...], into: &polygon)
+        }
+
         var points = Set<Vector>()
         for (index, edge) in holeEdges.enumerated() {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
@@ -815,11 +836,17 @@ extension Collection<Polygon> {
                 return polygons
             }
             let bounds = polygons[i].bounds.inset(by: -epsilon)
-            for (index, point) in sortedPoints.enumerated() where bounds.intersects(point) {
+            var edgePoints = [Vector]()
+            for (index, point) in sortedPoints.enumerated() {
                 if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                     return polygons
                 }
-                _ = polygons[i].insertEdgePoint(point)
+                if bounds.intersects(point) {
+                    edgePoints.append(point)
+                }
+            }
+            if !insertEdgePoints(edgePoints[...], into: &polygons[i]) {
+                return polygons
             }
         }
         return polygons
@@ -1946,21 +1973,37 @@ extension Polygon {
     }
 
     /// Attempt to add new edge vertices at the specified locations in a single pass.
-    mutating func insertEdgePoints(_ points: [Vector]) {
+    /// Inserts edge points in a single validated batch.
+    /// - Returns: `false` if the combined insertion would make the polygon degenerate or was cancelled.
+    @discardableResult
+    mutating func insertEdgePoints(
+        _ points: [Vector],
+        isCancelled: Euclid.CancellationHandler = { false }
+    ) -> Bool {
         guard var last = vertices.last else {
             assertionFailure()
-            return
+            return false
         }
         var result = [Vertex]()
         var didInsert = false
         result.reserveCapacity(vertices.count + points.count)
-        let points = points.filter { point in
-            !vertices.contains(where: { $0.position.isApproximatelyEqual(to: point) })
+        var filteredPoints = [Vector]()
+        filteredPoints.reserveCapacity(points.count)
+        for point in points {
+            if isCancelled() {
+                return false
+            }
+            if !vertices.contains(where: { $0.position.isApproximatelyEqual(to: point) }) {
+                filteredPoints.append(point)
+            }
         }
 
         for v in vertices {
+            if isCancelled() {
+                return false
+            }
             let edge = LineSegment(unchecked: last.position, v.position)
-            let edgePoints = points.compactMap { p -> (point: Vector, t: Double)? in
+            let edgePoints = filteredPoints.compactMap { p -> (point: Vector, t: Double)? in
                 guard edge.intersects(p) else {
                     return nil
                 }
@@ -1983,8 +2026,11 @@ extension Polygon {
             last = v
         }
 
-        guard didInsert, !verticesAreDegenerate(result) else {
-            return
+        guard didInsert else {
+            return true
+        }
+        guard !verticesAreDegenerate(result) else {
+            return false
         }
         self = Polygon(
             unchecked: result,
@@ -1994,6 +2040,7 @@ extension Polygon {
             material: material,
             id: id
         )
+        return true
     }
 }
 

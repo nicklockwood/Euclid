@@ -378,15 +378,13 @@ public extension Mesh {
     ///
     /// > Note: This method can be very time-consuming. For convex polygons use `detriangulate()` instead.
     func detessellate(isCancelled: CancellationHandler = { false }) -> Mesh {
-        let isPlanar = isPlanar
         let isLargeMesh = polygons.count > 2048
-        let preserveWatertightness = watertightIfSet == true && !isPlanar
         let polygons = polygons.detessellate(
             ensureConvex: false,
             useQualityMerge: watertightIfSet == true && !isLargeMesh,
             allowDisjointSharedVertices: isPlanar,
-            preserveWatertightness: preserveWatertightness,
-            removeWatertightSafeRedundantVertices: !isLargeMesh,
+            preserveWatertightness: !isPlanar,
+            removeWatertightSafeRedundantVertices: watertightIfSet == true && !isLargeMesh,
             isCancelled: isCancelled
         )
         return Mesh(
@@ -404,12 +402,11 @@ public extension Mesh {
     /// - Parameter isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh containing the merged polygons.
     func detriangulate(isCancelled: CancellationHandler = { false }) -> Mesh {
-        let isPlanar = isPlanar
-        let preserveWatertightness = watertightIfSet == true && !isPlanar
         let polygons = polygons.detessellate(
             ensureConvex: true,
             allowDisjointSharedVertices: isPlanar,
-            preserveWatertightness: preserveWatertightness,
+            preserveWatertightness: !isPlanar,
+            removeWatertightSafeRedundantVertices: watertightIfSet == true,
             isCancelled: isCancelled
         )
         return Mesh(
@@ -461,27 +458,6 @@ public extension Mesh {
             break
         }
         if !holeEdges.isEmpty {
-            func capMaterial(for path: Path, in polygons: [Polygon]) -> Material? {
-                capMaterial(for: path.undirectedEdges, in: polygons)
-            }
-
-            func capMaterial(for pathEdges: some Collection<LineSegment>, in polygons: [Polygon]) -> Material? {
-                var weights = [(material: Material?, length: Double)]()
-                for (index, polygon) in polygons.enumerated() {
-                    if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
-                        return nil
-                    }
-                    for edge in polygon.undirectedEdges where pathEdges.contains(edge) {
-                        if let index = weights.firstIndex(where: { $0.material == polygon.material }) {
-                            weights[index].length += edge.length
-                        } else {
-                            weights.append((polygon.material, edge.length))
-                        }
-                    }
-                }
-                return weights.max(by: { $0.length < $1.length })?.material
-            }
-
             func capPolygons(for path: Path, material: Material?) -> [Polygon] {
                 if path.isClosed {
                     let vertices = path.points.dropLast().map(Vertex.init)
@@ -489,9 +465,15 @@ public extension Mesh {
                         return [polygon]
                     }
                 }
-                let polygons = path.closed().facePolygons(material: material)
-                if !polygons.isEmpty {
-                    return polygons
+                // Complex non-planar boundaries can make polygon triangulation pathologically
+                // expensive. For large loops, skip directly to the linear-time triangle fan
+                // fallback below.
+                let maximumPolygonizedCapVertexCount = 256
+                if path.points.count <= maximumPolygonizedCapVertexCount {
+                    let polygons = path.closed().facePolygons(material: material)
+                    if !polygons.isEmpty {
+                        return polygons
+                    }
                 }
                 guard path.isClosed else {
                     return []
@@ -520,17 +502,35 @@ public extension Mesh {
             }
             while !holeEdges.isEmpty, !isCancelled() {
                 let loops = holeEdges.closedLoops
+                var materialsByEdge = [LineSegment: [Material?]]()
+                var verticesByPosition = [Vector: [Vertex]]()
+                for (index, polygon) in polygons.enumerated() {
+                    if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                        break
+                    }
+                    for vertex in polygon.vertices {
+                        verticesByPosition[vertex.position, default: []].append(vertex)
+                    }
+                    for edge in polygon.undirectedEdges where holeEdges.contains(edge) {
+                        materialsByEdge[edge, default: []].append(polygon.material)
+                    }
+                }
+                guard !isCancelled() else {
+                    break
+                }
                 let caps = loops.enumerated().flatMap { index, points -> [Polygon] in
                     if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                         return []
                     }
-                    let material = capMaterial(for: points.undirectedEdges, in: polygons)
-                    let closedVertices = points.map { position in
-                        let vertices = polygons.flatMap { polygon in
-                            polygon.vertices.compactMap {
-                                $0.position == position ? $0 : nil
-                            }
+                    var materialWeights = [Material?: Double]()
+                    for edge in points.undirectedEdges {
+                        for material in materialsByEdge[edge] ?? [] {
+                            materialWeights[material, default: 0] += edge.length
                         }
+                    }
+                    let material = materialWeights.max(by: { $0.value < $1.value })?.key ?? nil
+                    let closedVertices = points.map { position in
+                        let vertices = verticesByPosition[position] ?? []
                         if let vertex = vertices.first(where: { $0.color != .white }) {
                             return vertex
                         }

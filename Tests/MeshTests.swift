@@ -147,6 +147,48 @@ final class MeshTests: XCTestCase {
         XCTAssertTrue(Mesh(detriangulated.polygons).isWatertight)
     }
 
+    func testDetessellatePreservesBoundaryVerticesForNonWatertightMesh() throws {
+        let midpoint = Vector(1, -1, 0)
+        let cube = try Self.segmentedEdgeCube().triangulate()
+        let openTriangle = try XCTUnwrap(Polygon([
+            Vector(3, 0, 0),
+            Vector(3, 1, 0),
+            Vector(3, 0, 1),
+        ]))
+        let mesh = Mesh(cube.polygons + [openTriangle])
+        XCTAssertFalse(mesh.isWatertight)
+
+        let detessellated = mesh.detessellate()
+
+        XCTAssertFalse(detessellated.isWatertight)
+        XCTAssertEqual(detessellated.polygons.holeEdges, mesh.polygons.holeEdges)
+        XCTAssertTrue(detessellated.polygons.flatMap(\.vertices).contains { $0.position == midpoint })
+    }
+
+    func testMakeWatertightCapsLargeNonPlanarBoundary() {
+        let count = 300
+        let boundary = (0 ..< count).map { index -> Vector in
+            let angle = Double(index) / Double(count) * .pi * 2
+            return [cos(angle), sin(angle), sin(angle * 3) * 0.1]
+        }
+        let apex = Vector(0, 0, -1)
+        let polygons = boundary.indices.map { index in
+            Polygon(unchecked: [
+                apex,
+                boundary[index],
+                boundary[(index + 1) % count],
+            ])
+        }
+        let mesh = Mesh(polygons)
+        XCTAssertFalse(mesh.isWatertight)
+        XCTAssertEqual(mesh.polygons.holeEdges.count, count)
+
+        let repaired = mesh.makeWatertight()
+
+        XCTAssertTrue(repaired.isWatertight)
+        XCTAssertTrue(repaired.polygons.areWatertight)
+    }
+
     func testDetessellateRemovesWatertightSafeRedundantVertices() throws {
         let midpoint = Vector(1, -1, 0)
         let mesh = try Self.segmentedEdgeCube()
