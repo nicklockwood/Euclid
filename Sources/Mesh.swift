@@ -844,7 +844,7 @@ private extension Mesh {
     }
 }
 
-private extension [Polygon] {
+extension [Polygon] {
     /// Group by touching vertices, returning polygon indices in original order.
     var groupedSubmeshIndices: [[Int]] {
         var submeshes = [[Int]]()

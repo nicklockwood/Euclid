@@ -1769,13 +1769,12 @@ private extension Mesh {
                     let sourceEdges = first.subpaths.flatMap {
                         edgeVertexPairs(from: $0)
                     }
-                    let sourcePoints = sourceEdges.flatMap { [$0.0.position, $0.1.position] }
                     let capPolygons = first.applyingFaceAttributes(
                         to: first.nonZeroFillCapPolygons(
                             material: material,
                             isCancelled: isCancelled
                         )
-                    ).insertingEdgePoints(sourcePoints)
+                    )
                     return boundaryEdgeVertexPairs(from: capPolygons).map { v0, v1 in
                         let edge = LineSegment(unchecked: v0.position, v1.position)
                         let normal = edge.direction.cross(first.faceNormal)
@@ -2064,7 +2063,22 @@ private extension Mesh {
             isLocked: { lockedCapPolygons.contains($0) },
             isCancelled: isCancelled
         )
-        if polygons.signedVolume < 0 {
+        let isClosed = shapes.first == shapes.last
+        if isClosed {
+            let submeshIndices = polygons.groupedSubmeshIndices
+            if submeshIndices.count > 1 {
+                for indices in submeshIndices {
+                    let submesh = indices.map { polygons[$0] }
+                    if submesh.areWatertight, !submesh.arePlanar, submesh.signedVolume < 0 {
+                        for index in indices {
+                            polygons[index] = polygons[index].inverted()
+                        }
+                    }
+                }
+            } else if polygons.signedVolume < 0 {
+                polygons = polygons.inverted()
+            }
+        } else if polygons.signedVolume < 0 {
             polygons = polygons.inverted()
         }
         polygons = polygons.withVertexNormalsFacingPlane()
