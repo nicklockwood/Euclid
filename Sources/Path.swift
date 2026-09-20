@@ -818,6 +818,7 @@ extension Path {
         }.filter { $0.count > 2 }
 
         struct ScanlineEdge {
+            let id: Int
             let start: Vector
             let end: Vector
             let segment: LineSegment
@@ -826,12 +827,13 @@ extension Path {
             let yMax: Double
             let winding: Int
 
-            init?(_ start: Vector, _ end: Vector) {
+            init?(_ start: Vector, _ end: Vector, id: Int) {
                 guard !start.y.isApproximatelyEqual(to: end.y),
                       let segment = LineSegment(start: start, end: end)
                 else {
                     return nil
                 }
+                self.id = id
                 self.start = start
                 self.end = end
                 self.segment = segment
@@ -851,12 +853,29 @@ extension Path {
             }
         }
 
+        struct ScanlineSpan: Hashable {
+            let leftEdgeID: Int
+            let rightEdgeID: Int
+        }
+
+        struct PolygonPair: Hashable {
+            let first: Int
+            let second: Int
+
+            init(_ first: Int, _ second: Int) {
+                self.first = min(first, second)
+                self.second = max(first, second)
+            }
+        }
+
+        var nextEdgeID = 0
         let edges = contours.flatMap { contour -> [ScanlineEdge] in
             var edges = [ScanlineEdge]()
             var p0 = contour.last!
             for p1 in contour {
-                if let edge = ScanlineEdge(p0, p1) {
+                if let edge = ScanlineEdge(p0, p1, id: nextEdgeID) {
                     edges.append(edge)
+                    nextEdgeID += 1
                 }
                 p0 = p1
             }
@@ -890,6 +909,9 @@ extension Path {
         }
 
         var polygons = [Polygon]()
+        var scanlineLevelsByPolygon = [(Double, Double)]()
+        var pointsByScanline = [Double: Set<Vector>]()
+        var previousPolygonIndexBySpan = [ScanlineSpan: Int]()
         for (y0, y1) in zip(yValues, yValues.dropFirst()) where y1 - y0 > epsilon {
             let y = (y0 + y1) / 2
             let activeEdges = edges.filter { $0.contains(y) }.sorted {
@@ -902,6 +924,7 @@ extension Path {
 
             var winding = 0
             var startEdge: ScanlineEdge?
+            var polygonIndexBySpan = [ScanlineSpan: Int]()
             for edge in activeEdges {
                 let previousWinding = winding
                 winding += edge.winding
@@ -924,14 +947,134 @@ extension Path {
                     if vertices.count > 2,
                        let polygon = Polygon(vertices, material: material)
                     {
-                        polygons.append(polygon.plane.normal.dot(plane.normal) < 0 ? polygon.inverted() : polygon)
+                        let polygon = polygon.plane.normal.dot(plane.normal) < 0 ? polygon.inverted() : polygon
+                        let span = ScanlineSpan(leftEdgeID: leftEdge.id, rightEdgeID: edge.id)
+                        if let index = previousPolygonIndexBySpan[span],
+                           let merged = polygons[index].merge(polygon)
+                        {
+                            polygons[index] = merged
+                            scanlineLevelsByPolygon[index].1 = y1
+                            polygonIndexBySpan[span] = index
+                        } else {
+                            polygonIndexBySpan[span] = polygons.count
+                            polygons.append(polygon)
+                            scanlineLevelsByPolygon.append((y0, y1))
+                        }
+                        for point in vertices {
+                            let flattenedY = flatteningPlane.flattenPoint(point).y
+                            if flattenedY.isApproximatelyEqual(to: y0) {
+                                pointsByScanline[y0, default: []].insert(point)
+                            } else if flattenedY.isApproximatelyEqual(to: y1) {
+                                pointsByScanline[y1, default: []].insert(point)
+                            }
+                        }
                     }
                     startEdge = nil
                 }
             }
+            previousPolygonIndexBySpan = polygonIndexBySpan
         }
 
-        return polygons
+        guard polygons.count > 1 else {
+            return polygons
+        }
+
+        // A contour vertex anywhere in the path adds a global scanline, which can subdivide otherwise
+        // unrelated spans. Align T-junctions between bands, then merge exclusively across horizontal
+        // scanline boundaries. This removes scanline artifacts without generally detessellating the fill.
+        for (index, levels) in scanlineLevelsByPolygon.enumerated() {
+            let bounds = polygons[index].bounds.inset(by: -epsilon)
+            let points = pointsByScanline[levels.0, default: []]
+                .union(pointsByScanline[levels.1, default: []])
+                .filter { bounds.intersects($0) }
+            polygons[index].insertEdgePoints(Array(points))
+        }
+        var polygonIndicesByScanlineEdge = [LineSegment: [Int]]()
+        for (index, polygon) in polygons.enumerated() {
+            for edge in polygon.undirectedEdges {
+                let start = flatteningPlane.flattenPoint(edge.start)
+                let end = flatteningPlane.flattenPoint(edge.end)
+                if start.y.isApproximatelyEqual(to: end.y) {
+                    polygonIndicesByScanlineEdge[edge, default: []].append(index)
+                }
+            }
+        }
+
+        var visitedPairs = Set<PolygonPair>()
+        let pairs = polygonIndicesByScanlineEdge.keys.sorted().compactMap { edge -> PolygonPair? in
+            guard let indices = polygonIndicesByScanlineEdge[edge], indices.count == 2 else {
+                return nil
+            }
+            let pair = PolygonPair(indices[0], indices[1])
+            return visitedPairs.insert(pair).inserted ? pair : nil
+        }
+        var parents = Array(polygons.indices)
+        var mergedPolygons = polygons.map(Optional.some)
+        func root(of index: Int) -> Int {
+            var index = index
+            while parents[index] != index {
+                index = parents[index]
+            }
+            return index
+        }
+        for pair in pairs {
+            let first = root(of: pair.first)
+            let second = root(of: pair.second)
+            guard first != second else {
+                continue
+            }
+            let kept = min(first, second)
+            let removed = max(first, second)
+            guard let a = mergedPolygons[kept],
+                  let b = mergedPolygons[removed],
+                  a.material == b.material,
+                  a.plane.isApproximatelyEqual(to: b.plane),
+                  let merged = a.merge(
+                      unchecked: b,
+                      ensureConvex: false,
+                      allowDisjointSharedVertices: true,
+                      allowRepeatedVertexPositions: true
+                  )
+            else {
+                continue
+            }
+            mergedPolygons[kept] = merged
+            mergedPolygons[removed] = nil
+            parents[removed] = kept
+        }
+        var result = mergedPolygons.compactMap { $0 }
+        // The adjacency pass above is bounded by the original scanline graph. Orthogonal paths can be
+        // exhaustively merged without producing costly high-vertex curved polygons.
+        guard edges.allSatisfy({ $0.start.x.isApproximatelyEqual(to: $0.end.x) }) else {
+            return result
+        }
+        while true {
+            var indicesByEdge = [LineSegment: [Int]]()
+            for (index, polygon) in result.enumerated() {
+                for edge in polygon.undirectedEdges {
+                    let start = flatteningPlane.flattenPoint(edge.start)
+                    let end = flatteningPlane.flattenPoint(edge.end)
+                    if start.y.isApproximatelyEqual(to: end.y) {
+                        indicesByEdge[edge, default: []].append(index)
+                    }
+                }
+            }
+            var didMerge = false
+            for edge in indicesByEdge.keys.sorted() {
+                guard let indices = indicesByEdge[edge], indices.count == 2,
+                      let merged = result[indices[0]].merge(result[indices[1]])
+                else {
+                    continue
+                }
+                result[indices[0]] = merged
+                result.remove(at: indices[1])
+                didMerge = true
+                break
+            }
+            if !didMerge {
+                return result
+            }
+        }
     }
 
     /// Returns outline paths for the area covered by this path using the non-zero winding fill rule.

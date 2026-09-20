@@ -1059,7 +1059,7 @@ final class PolygonTests: XCTestCase {
             .circle(radius: 0.5, segments: 16).inverted(),
         ])
         let mesh = Mesh.fill(path).detessellate()
-        XCTAssertEqual(mesh.polygons.count, 4)
+        XCTAssertEqual(mesh.polygons.count, 2)
         XCTAssertFalse(mesh.polygons.contains { $0.intersects(.zero) })
     }
 
@@ -1069,7 +1069,7 @@ final class PolygonTests: XCTestCase {
             .circle(radius: 0.5, segments: 16).inverted(),
         ]).rotated(by: Rotation(pitch: .pi / 4, yaw: .pi / 5))
         let mesh = Mesh.fill(path).detessellate()
-        XCTAssertEqual(mesh.polygons.count, 4)
+        XCTAssertEqual(mesh.polygons.count, 2)
         XCTAssertFalse(mesh.polygons.contains { $0.intersects(.zero) })
     }
 

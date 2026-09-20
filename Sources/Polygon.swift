@@ -723,7 +723,9 @@ extension Collection<Polygon> {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return edges
             }
-            for edge in polygon.undirectedEdges {
+            // Use ordered edges rather than `undirectedEdges` so the two directions of a zero-width
+            // bridge in a weakly-simple polygon cancel within that polygon.
+            for edge in polygon.orderedEdges.map(LineSegment.init(undirected:)) {
                 if let index = edges.firstIndex(of: edge) {
                     edges.remove(at: index)
                 } else {
@@ -1679,7 +1681,8 @@ extension Polygon {
         unchecked other: Polygon,
         ensureConvex: Bool,
         allowDisjointSharedVertices: Bool = true,
-        preserveRedundantVertices: Bool = false
+        preserveRedundantVertices: Bool = false,
+        allowRepeatedVertexPositions: Bool = false
     ) -> Polygon? {
         assert(material == other.material)
         // TODO: figure out why this can fail while plane.intersects passes
@@ -1821,10 +1824,14 @@ extension Polygon {
             _ = result.removeIfRedundant(at: min(join1, join2))
         }
 
-        // Reject non-simple polygons that loop back through an existing vertex.
-        for i in result.indices.dropFirst() {
-            if result[..<i].contains(where: { $0.position.isApproximatelyEqual(to: result[i].position) }) {
-                return nil
+        // Repeated positions form a weakly-simple polygon. These are useful for scanline fills, where
+        // they allow a hole to be connected to the outer boundary by a zero-width bridge, but general
+        // mesh detessellation must keep matching front and back partitions to remain watertight.
+        if !allowRepeatedVertexPositions {
+            for i in result.indices.dropFirst() {
+                if result[..<i].contains(where: { $0.position.isApproximatelyEqual(to: result[i].position) }) {
+                    return nil
+                }
             }
         }
 

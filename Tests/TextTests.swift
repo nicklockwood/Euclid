@@ -41,14 +41,21 @@ final class TextTests: XCTestCase {
         XCTAssertEqual(paths.count, 5)
     }
 
-    func testLowercaseTextFillIsDetessellated() {
+    func testLowercaseTextFillDoesNotNeedDetessellation() {
         let filledMesh = Mesh.fill(.text("hello"))
         let detessellatedMesh = filledMesh.detessellate()
-        XCTAssertLessThanOrEqual(detessellatedMesh.polygons.count, filledMesh.polygons.count)
+        XCTAssertEqual(detessellatedMesh.polygons.count, filledMesh.polygons.count)
         XCTAssertEqual(detessellatedMesh.surfaceArea, filledMesh.surfaceArea, accuracy: epsilon)
         let polygons = detessellatedMesh.polygons
-        XCTAssertEqual(polygons.count, 14)
-        XCTAssertEqual(polygons.flatMap { $0.triangulate() }.count, 212)
+        XCTAssertEqual(polygons.count, 10)
+        XCTAssertEqual(polygons.flatMap { $0.triangulate() }.count, 206)
+    }
+
+    func testLowercaseEFillHasNoScanlineArtifacts() {
+        let mesh = Mesh.fill(.text("e"))
+
+        XCTAssertEqual(mesh.polygons.count, 2)
+        XCTAssertEqual(mesh.polygons.flatMap { $0.triangulate() }.count, 88)
     }
 
     func testTextMeshWithAttributedString() {

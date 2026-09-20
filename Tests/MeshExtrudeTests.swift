@@ -183,7 +183,7 @@ final class MeshExtrudeTests: XCTestCase {
         let expectedSideEdges = Set(alignedBoundaryEdges.map(signature))
 
         XCTAssertTrue(path.usesNonZeroFill)
-        XCTAssertLessThan(alignedBoundaryEdges.count, rawBoundaryEdges.count)
+        XCTAssertEqual(Set(rawBoundaryEdges.map(signature)), expectedSideEdges)
         XCTAssertEqual(path.nonZeroFillBoundaryWithAlignedEdges?.subpaths.count, 2)
         XCTAssertEqual(boundaryEdgeSignatures(for: extrudedCapPolygons), expectedSideEdges)
         XCTAssertEqual(boundaryEdgeSignatures(for: extrudedAlongCapPolygons), expectedSideEdges)
@@ -366,6 +366,32 @@ final class MeshExtrudeTests: XCTestCase {
         XCTAssertTrue(mesh.isConsistentlyWound)
         XCTAssertTrue(mesh.vertexNormalsFaceOutward)
         XCTAssertFalse(mesh.hasSmoothSideVertexNormals)
+        XCTAssertEqual(mesh.polygons.filter { abs($0.plane.normal.z) > 0.5 }.count, 80)
+    }
+
+    func testCompoundPathCapDoesNotRetainScanlineSplits() {
+        func rectangle(_ min: Vector, _ max: Vector, clockwise: Bool = false) -> Path {
+            let points: [PathPoint] = [
+                .point(min.x, min.y),
+                .point(max.x, min.y),
+                .point(max.x, max.y),
+                .point(min.x, max.y),
+                .point(min.x, min.y),
+            ]
+            return Path(clockwise ? points.reversed() : points)
+        }
+        let path = Path(subpaths: [
+            rectangle([0, 0], [10, 10]),
+            rectangle([3, 3], [7, 7], clockwise: true),
+            rectangle([12, 1], [14, 2]),
+        ])
+
+        let polygons = Mesh.fill(path, faces: .front).polygons
+
+        // The ring is represented by one weakly-simple polygon and the separate rectangle by another.
+        // Neither the hole nor the separate rectangle should leave horizontal scanline seams.
+        XCTAssertEqual(polygons.count, 2)
+        XCTAssertEqual(polygons.surfaceArea, 86, accuracy: epsilon)
     }
 
     func testExtrudeQRCodeLikeCompoundPathCapAreaMatchesFilledArea() {
@@ -465,10 +491,20 @@ final class MeshExtrudeTests: XCTestCase {
         let shape = try XCTUnwrap(Path.text("8").first)
         let along = Path([.point([0]), .point([1]), .point([1, 0, 1])])
         let mesh = Mesh.extrude(shape, along: along).makeWatertight()
+        let contours = shape.extrusionContours(along: along)
+        let capPlanes = try [XCTUnwrap(contours.first), XCTUnwrap(contours.last)].map {
+            Plane(unchecked: $0.faceNormal.normalized(), pointOnPlane: $0.points[0].position)
+        }
+        let sidePolygons = mesh.polygons.filter { polygon in
+            !capPlanes.contains { plane in
+                abs(plane.normal.dot(polygon.plane.normal)) > 1 - epsilon &&
+                    abs(plane.distance(from: polygon)) < epsilon
+            }
+        }
 
         XCTAssertFalse(mesh.isEmpty)
         XCTAssertTrue(mesh.isWatertight)
-        XCTAssertGreaterThan(mesh.polygons.count, 350)
+        XCTAssertGreaterThanOrEqual(sidePolygons.count, shape.orderedEdges.count * 2)
         #endif
     }
 
