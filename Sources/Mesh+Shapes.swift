@@ -1035,30 +1035,89 @@ private extension Path {
         return Path(sanitizePoints(trimmed))
     }
 
-    /// Builds the same front-facing cap polygons used by `fill`, so extrusion caps and filled paths
-    /// agree for compound non-zero boundaries and even-odd subpath composition.
+    func applyingFaceAttributes(to polygons: [Polygon]) -> [Polygon] {
+        guard subpaths.count > 1 else {
+            return polygons
+        }
+        let subpathPoints = subpaths.map {
+            Array($0.points.dropLast($0.isClosed ? 1 : 0))
+        }
+        let allPoints = subpathPoints.flatMap { $0 }
+        let hasExplicitTexcoords = allPoints.allSatisfy { $0.texcoord != nil }
+        let flatteningPlane = flatteningPlane
+        let flattenedPoints = allPoints.map {
+            flatteningPlane.flattenPoint($0.position)
+        }
+        let bounds = Bounds(flattenedPoints)
+        let uvScale = bounds.size
+        func vertex(for point: PathPoint) -> Vertex {
+            var vertex = Vertex(point)
+            if !hasExplicitTexcoords {
+                let flattened = flatteningPlane.flattenPoint(point.position)
+                vertex.texcoord = [
+                    (flattened.x - bounds.min.x) / uvScale.x,
+                    1 - (flattened.y - bounds.min.y) / uvScale.y,
+                    0,
+                ]
+            }
+            return vertex
+        }
+        let sourceEdges = subpathPoints.flatMap { points -> [(Vertex, Vertex)] in
+            let vertices = points.map(vertex(for:))
+            guard vertices.count > 1 else {
+                return []
+            }
+            return vertices.indices.map {
+                (vertices[$0], vertices[($0 + 1) % vertices.count])
+            }
+        }
+        return polygons.mapVertices { vertex in
+            guard let source = sourceEdges.first(where: {
+                LineSegment(unchecked: $0.0.position, $0.1.position).intersects(vertex.position)
+            }) else {
+                return vertex
+            }
+            let edge = LineSegment(unchecked: source.0.position, source.1.position)
+            let distance = (vertex.position - edge.start).dot(edge.direction)
+            let t = min(1, max(0, distance / edge.length))
+            let attributes = source.0.lerp(source.1, t)
+            return vertex.withTexcoord(attributes.texcoord).withColor(attributes.color)
+        }
+    }
+
+    /// Builds front-facing polygons for `fill` and extrusion caps, with consistent attributes.
     func fillPolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon] {
         let shape = closed()
         let subpaths = shape.subpaths
-        guard subpaths.count > 1 else {
-            return shape.facePolygons(material: material)
-        }
-        if shape.subpathsTouchOrIntersect {
-            if shape.hasRepairableCoincidentContours {
-                // Fill may need a rebuilt non-zero boundary instead of odd-even composition.
-                // Compound paths only use this for SVG-style contours with coincident points.
-                let nonZeroFillPolygons = shape.nonZeroFillPolygons(material: material)
-                if shape.nonZeroFillBoundary(from: nonZeroFillPolygons).subpaths.count > 1 {
-                    return shape.nonZeroFillCapPolygons(nonZeroFillPolygons, isCancelled: isCancelled)
-                }
+        let polygons: [Polygon]
+        if subpaths.count <= 1 {
+            polygons = shape.facePolygons(material: material)
+        } else if shape.subpathsTouchOrIntersect, shape.hasRepairableCoincidentContours {
+            // Fill may need a rebuilt non-zero boundary instead of odd-even composition.
+            // Compound paths only use this for SVG-style contours with coincident points.
+            let nonZeroFillPolygons = shape.nonZeroFillPolygons(material: material)
+            if shape.nonZeroFillBoundary(from: nonZeroFillPolygons).subpaths.count > 1 {
+                polygons = shape.nonZeroFillCapPolygons(
+                    nonZeroFillPolygons,
+                    isCancelled: isCancelled
+                )
+            } else {
+                polygons = Mesh.symmetricDifference(subpaths.map {
+                    Mesh.fill($0, faces: .front, material: material, isCancelled: isCancelled)
+                }, isCancelled: isCancelled).polygons
             }
-        } else if !shape.subpathsHavePartiallyOverlappingInteriors, shape.hasNestedSubpaths {
+        } else if !shape.subpathsTouchOrIntersect,
+                  !shape.subpathsHavePartiallyOverlappingInteriors,
+                  shape.hasNestedSubpaths
+        {
             // Fill should use the default odd/even approach
-            return shape.oddEvenFillPolygons(material: material)
+            polygons = shape.oddEvenFillPolygons(material: material)
+        } else {
+            polygons = Mesh.symmetricDifference(subpaths.map {
+                Mesh.fill($0, faces: .front, material: material, isCancelled: isCancelled)
+            }, isCancelled: isCancelled).polygons
         }
-        return Mesh.symmetricDifference(subpaths.map {
-            Mesh.fill($0, faces: .front, material: material, isCancelled: isCancelled)
-        }, isCancelled: isCancelled).polygons
+        return shape.applyingFaceAttributes(to: polygons)
     }
 
     /// Returns `nonZeroFillBoundary` only when it can safely replace this path for mesh generation.
@@ -1716,59 +1775,8 @@ private extension Mesh {
                 return edge.intersects(p0) && edge.intersects(p1)
             })
         }
-        func faceEdgeVertexPairs(from path: Path) -> [(Vertex, Vertex)] {
-            let subpathPoints = path.subpaths.map {
-                Array($0.points.dropLast($0.isClosed ? 1 : 0))
-            }
-            let allPoints = subpathPoints.flatMap { $0 }
-            let hasExplicitTexcoords = allPoints.allSatisfy { $0.texcoord != nil }
-            let flatteningPlane = path.flatteningPlane
-            let flattenedPoints = allPoints.map {
-                flatteningPlane.flattenPoint($0.position)
-            }
-            let bounds = Bounds(flattenedPoints)
-            let uvScale = bounds.size
-            func vertex(for point: PathPoint) -> Vertex {
-                var vertex = Vertex(point)
-                if !hasExplicitTexcoords {
-                    let flattened = flatteningPlane.flattenPoint(point.position)
-                    vertex.texcoord = [
-                        (flattened.x - bounds.min.x) / uvScale.x,
-                        1 - (flattened.y - bounds.min.y) / uvScale.y,
-                        0,
-                    ]
-                }
-                return vertex
-            }
-            return subpathPoints.flatMap { points -> [(Vertex, Vertex)] in
-                let vertices = points.map(vertex(for:))
-                guard vertices.count > 1 else {
-                    return []
-                }
-                return vertices.indices.map {
-                    (vertices[$0], vertices[($0 + 1) % vertices.count])
-                }
-            }
-        }
-        func applyingFaceAttributes(_ polygons: [Polygon], from shape: Path) -> [Polygon] {
-            let sourceEdges = faceEdgeVertexPairs(from: shape)
-            return polygons.mapVertices { vertex in
-                guard let index = sourceEdgeIndex(
-                    at: vertex.position, vertex.position, in: sourceEdges
-                ) else {
-                    return vertex
-                }
-                let source = sourceVertices(
-                    at: vertex.position, vertex.position, on: sourceEdges[index]
-                ).0
-                return vertex.withTexcoord(source.texcoord).withColor(source.color)
-            }
-        }
         let firstFacePolygons = first.map {
-            applyingFaceAttributes(
-                $0.fillPolygons(material: material, isCancelled: isCancelled),
-                from: $0
-            )
+            $0.fillPolygons(material: material, isCancelled: isCancelled)
         } ?? []
         let sourceEdgesByShape = shapes.map { shape in
             shape.subpaths.flatMap { edgeVertexPairs(from: $0) }
@@ -1791,12 +1799,11 @@ private extension Mesh {
                         edgeVertexPairs(from: $0)
                     }
                     let sourcePoints = sourceEdges.flatMap { [$0.0.position, $0.1.position] }
-                    let capPolygons = applyingFaceAttributes(
-                        first.nonZeroFillCapPolygons(
+                    let capPolygons = first.applyingFaceAttributes(
+                        to: first.nonZeroFillCapPolygons(
                             material: material,
                             isCancelled: isCancelled
-                        ),
-                        from: first
+                        )
                     ).insertingEdgePoints(sourcePoints)
                     return boundaryEdgeVertexPairs(from: capPolygons).map { v0, v1 in
                         let edge = LineSegment(unchecked: v0.position, v1.position)
@@ -2064,9 +2071,9 @@ private extension Mesh {
             }
             if let prev = shapes.last(where: { $0 != last }) {
                 let p0p1 = directionBetweenShapes(prev, last)
-                let lastFacePolygons = applyingFaceAttributes(
-                    last.fillPolygons(material: material, isCancelled: isCancelled),
-                    from: last
+                let lastFacePolygons = last.fillPolygons(
+                    material: material,
+                    isCancelled: isCancelled
                 )
                 let lastCapPolygons = lastFacePolygons.map {
                     p0p1.dot($0.plane.normal) < 0 ? $0.inverted() : $0

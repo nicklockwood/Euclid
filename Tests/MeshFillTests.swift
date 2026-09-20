@@ -41,6 +41,28 @@ final class MeshFillTests: XCTestCase {
         XCTAssertEqual(Mesh.fill([shape]), Mesh.fill(shape))
     }
 
+    func testFillQRCodeLikeCompoundPathPreservesColorsAndUsesSharedTexcoordBounds() {
+        let shape = Path.qrCodeLikeCompoundPath.withColor(.red)
+        let vertices = Mesh.fill(shape, faces: .front).polygons.flatMap(\.vertices)
+        let flatteningPlane = shape.flatteningPlane
+        let bounds = Bounds(shape.points.map {
+            flatteningPlane.flattenPoint($0.position)
+        })
+
+        XCTAssertFalse(vertices.isEmpty)
+        XCTAssertTrue(vertices.allSatisfy { vertex in
+            let point = flatteningPlane.flattenPoint(vertex.position)
+            let expectedTexcoord = Vector(
+                (point.x - bounds.min.x) / bounds.size.x,
+                1 - (point.y - bounds.min.y) / bounds.size.y
+            )
+            return vertex.color == .red && vertex.texcoord.isApproximatelyEqual(
+                to: expectedTexcoord,
+                absoluteTolerance: 1e-9
+            )
+        })
+    }
+
     func testFillSelfIntersectingPath() {
         let path = Path([
             .point(0, 0),
