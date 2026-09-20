@@ -1654,9 +1654,6 @@ private extension Mesh {
     ) -> Mesh {
         let shapes = originalShapes.filter { !$0.isEmpty }
         let first = shapes.first
-        let firstFacePolygons = first.map {
-            $0.fillPolygons(material: material, isCancelled: isCancelled)
-        } ?? []
         let transforms = first.map { first in
             shapes.map { $0.sectionTransform(relativeTo: first) }
         } ?? []
@@ -1677,6 +1674,105 @@ private extension Mesh {
                 (vertices[$0], vertices[$0 + 1])
             }
         }
+        func boundaryEdgeVertexPairs(from polygons: [Polygon]) -> [(Vertex, Vertex)] {
+            var edgesByInvertedEdge = [LineSegment: Int]()
+            var edges = [(Vertex, Vertex)?]()
+            for polygon in polygons {
+                var v0 = polygon.vertices.last!
+                for v1 in polygon.vertices {
+                    let edge = LineSegment(unchecked: v0.position, v1.position)
+                    if let index = edgesByInvertedEdge[edge] {
+                        edges[index] = nil
+                        edgesByInvertedEdge[edge] = nil
+                    } else {
+                        edgesByInvertedEdge[edge.inverted()] = edges.count
+                        edges.append((v0, v1))
+                    }
+                    v0 = v1
+                }
+            }
+            return edges.compactMap { $0 }
+        }
+        func sourceVertices(
+            at p0: Vector,
+            _ p1: Vector,
+            on source: (Vertex, Vertex)
+        ) -> (Vertex, Vertex) {
+            let sourceEdge = LineSegment(unchecked: source.0.position, source.1.position)
+            func vertex(at position: Vector) -> Vertex {
+                let distance = (position - sourceEdge.start).dot(sourceEdge.direction)
+                let t = min(1, max(0, distance / sourceEdge.length))
+                return source.0.lerp(source.1, t).withPosition(position)
+            }
+            return (vertex(at: p0), vertex(at: p1))
+        }
+        func sourceEdgeIndex(
+            at p0: Vector,
+            _ p1: Vector,
+            in edges: [(Vertex, Vertex)]
+        ) -> Int? {
+            edges.firstIndex(where: {
+                let edge = LineSegment(unchecked: $0.0.position, $0.1.position)
+                return edge.intersects(p0) && edge.intersects(p1)
+            })
+        }
+        func faceEdgeVertexPairs(from path: Path) -> [(Vertex, Vertex)] {
+            let subpathPoints = path.subpaths.map {
+                Array($0.points.dropLast($0.isClosed ? 1 : 0))
+            }
+            let allPoints = subpathPoints.flatMap { $0 }
+            let hasExplicitTexcoords = allPoints.allSatisfy { $0.texcoord != nil }
+            let flatteningPlane = path.flatteningPlane
+            let flattenedPoints = allPoints.map {
+                flatteningPlane.flattenPoint($0.position)
+            }
+            let bounds = Bounds(flattenedPoints)
+            let uvScale = bounds.size
+            func vertex(for point: PathPoint) -> Vertex {
+                var vertex = Vertex(point)
+                if !hasExplicitTexcoords {
+                    let flattened = flatteningPlane.flattenPoint(point.position)
+                    vertex.texcoord = [
+                        (flattened.x - bounds.min.x) / uvScale.x,
+                        1 - (flattened.y - bounds.min.y) / uvScale.y,
+                        0,
+                    ]
+                }
+                return vertex
+            }
+            return subpathPoints.flatMap { points -> [(Vertex, Vertex)] in
+                let vertices = points.map(vertex(for:))
+                guard vertices.count > 1 else {
+                    return []
+                }
+                return vertices.indices.map {
+                    (vertices[$0], vertices[($0 + 1) % vertices.count])
+                }
+            }
+        }
+        func applyingFaceAttributes(_ polygons: [Polygon], from shape: Path) -> [Polygon] {
+            let sourceEdges = faceEdgeVertexPairs(from: shape)
+            return polygons.mapVertices { vertex in
+                guard let index = sourceEdgeIndex(
+                    at: vertex.position, vertex.position, in: sourceEdges
+                ) else {
+                    return vertex
+                }
+                let source = sourceVertices(
+                    at: vertex.position, vertex.position, on: sourceEdges[index]
+                ).0
+                return vertex.withTexcoord(source.texcoord).withColor(source.color)
+            }
+        }
+        let firstFacePolygons = first.map {
+            applyingFaceAttributes(
+                $0.fillPolygons(material: material, isCancelled: isCancelled),
+                from: $0
+            )
+        } ?? []
+        let sourceEdgesByShape = shapes.map { shape in
+            shape.subpaths.flatMap { edgeVertexPairs(from: $0) }
+        }
         let firstBoundaryEdgeVertices = canBuildMappedSides ? first
             .flatMap { first -> [(Vertex, Vertex)]? in
                 if usesMeshableNonZeroBoundary {
@@ -1691,10 +1787,30 @@ private extension Mesh {
                             return edgeVertices
                         }
                     }
-                    return first
-                        .nonZeroFillCapPolygons(material: material, isCancelled: isCancelled)
-                        .boundingEdges
-                        .map { (Vertex($0.start), Vertex($0.end)) }
+                    let sourceEdges = first.subpaths.flatMap {
+                        edgeVertexPairs(from: $0)
+                    }
+                    let sourcePoints = sourceEdges.flatMap { [$0.0.position, $0.1.position] }
+                    let capPolygons = applyingFaceAttributes(
+                        first.nonZeroFillCapPolygons(
+                            material: material,
+                            isCancelled: isCancelled
+                        ),
+                        from: first
+                    ).insertingEdgePoints(sourcePoints)
+                    return boundaryEdgeVertexPairs(from: capPolygons).map { v0, v1 in
+                        let edge = LineSegment(unchecked: v0.position, v1.position)
+                        let normal = edge.direction.cross(first.faceNormal)
+                        guard let index = sourceEdgeIndex(
+                            at: v0.position, v1.position, in: sourceEdges
+                        ) else {
+                            return (v0.withNormal(normal), v1.withNormal(normal))
+                        }
+                        let source = sourceVertices(
+                            at: v0.position, v1.position, on: sourceEdges[index]
+                        )
+                        return (source.0.withNormal(normal), source.1.withNormal(normal))
+                    }
                 }
                 let edgeVertices = boundarySubshapes.flatMap { subshapes -> [(Vertex, Vertex)] in
                     guard let subshape = subshapes.first else {
@@ -1728,6 +1844,28 @@ private extension Mesh {
         var polygons: [Polygon]
         if canBuildMappedSides, let boundaryEdgeVertices = firstBoundaryEdgeVertices {
             polygons = []
+            var sourceEdgeIndexByLine = [LineSegment: Int]()
+            for (index, source) in (sourceEdgesByShape.first ?? []).enumerated() {
+                let edge = LineSegment(unchecked: source.0.position, source.1.position)
+                if sourceEdgeIndexByLine[edge] == nil {
+                    sourceEdgeIndexByLine[edge] = index
+                }
+                if sourceEdgeIndexByLine[edge.inverted()] == nil {
+                    sourceEdgeIndexByLine[edge.inverted()] = index
+                }
+            }
+            let boundarySourceEdgeIndices = boundaryEdgeVertices.map { v0, v1 -> Int? in
+                let edge = LineSegment(unchecked: v0.position, v1.position)
+                if let index = sourceEdgeIndexByLine[edge] {
+                    return index
+                }
+                guard usesMeshableNonZeroBoundary else {
+                    return nil
+                }
+                return sourceEdgesByShape.first.flatMap {
+                    sourceEdgeIndex(at: v0.position, v1.position, in: $0)
+                }
+            }
             func transformedVertex(_ vertex: Vertex, by transform: (Vector) -> Vector) -> Vertex {
                 let position = transform(vertex.position)
                 let normal = vertex.normal == .zero ? .zero :
@@ -1790,17 +1928,78 @@ private extension Mesh {
                 return nil
             }
             var accumulatedSidePolygons = [Polygon]()
-            for ((shape0, shape1), (transform0, transform1)) in zip(
-                zip(shapes, shapes.dropFirst()),
-                zip(transforms, transforms.dropFirst())
-            ) where shape0 != shape1 {
-                let transform0 = transform0!, transform1 = transform1!
-                for (v0, v1) in boundaryEdgeVertices {
+            var count = 1
+            var previous = shapes.first
+            for shape in shapes.dropFirst() where shape != previous {
+                count += 1
+                previous = shape
+            }
+            var uvstart = 0.0
+            let uvstep = 1 / Double(max(1, count - 1))
+            var curvestart = true
+            for i in shapes.indices.dropFirst() {
+                let shape0 = shapes[i - 1], shape1 = shapes[i]
+                let uvend = uvstart + uvstep
+                if shape0 == shape1 {
+                    curvestart = false
+                    continue
+                }
+                let curveend = i == shapes.index(before: shapes.endIndex) || shape1 != shapes[i + 1]
+                let transform0 = transforms[i - 1]!, transform1 = transforms[i]!
+                let direction = directionBetweenShapes(shape0, shape1)
+                var n0 = shape0.faceNormal, n1 = shape1.faceNormal
+                if direction.dot(n0) < 0 { n0 = -n0 }
+                if direction.dot(n1) < 0 { n1 = -n1 }
+                for (edgeIndex, (v0, v1)) in boundaryEdgeVertices.enumerated() {
+                    func transformedSectionVertex(
+                        _ vertex: Vertex,
+                        by transform: (Vector) -> Vector,
+                        from normal: Vector,
+                        isCurved: Bool,
+                        uv: Double,
+                        attributes: Vertex?
+                    ) -> Vertex {
+                        var vertex = transformedVertex(vertex, by: transform)
+                        if let attributes {
+                            vertex.texcoord = attributes.texcoord
+                            vertex.color = attributes.color
+                        }
+                        if !isCurved {
+                            vertex.normal.rotate(by: rotationBetweenNormalizedVectors(normal, direction))
+                        }
+                        vertex.texcoord = [vertex.texcoord.y, uv]
+                        return vertex
+                    }
+                    let p00 = transform0(v0.position), p01 = transform0(v1.position)
+                    let p10 = transform1(v0.position), p11 = transform1(v1.position)
+                    let sourceIndex = boundarySourceEdgeIndices[edgeIndex]
+                    let attributes0 = sourceIndex.flatMap { index in
+                        sourceEdgesByShape[i - 1].indices.contains(index) ? sourceVertices(
+                            at: p00, p01, on: sourceEdgesByShape[i - 1][index]
+                        ) : nil
+                    }
+                    let attributes1 = sourceIndex.flatMap { index in
+                        sourceEdgesByShape[i].indices.contains(index) ? sourceVertices(
+                            at: p10, p11, on: sourceEdgesByShape[i][index]
+                        ) : nil
+                    }
                     let polygons = sidePolygons([
-                        transformedVertex(v0, by: transform0),
-                        transformedVertex(v1, by: transform0),
-                        transformedVertex(v1, by: transform1),
-                        transformedVertex(v0, by: transform1),
+                        transformedSectionVertex(
+                            v0, by: transform0, from: n0, isCurved: curvestart,
+                            uv: uvstart, attributes: attributes0?.0
+                        ),
+                        transformedSectionVertex(
+                            v1, by: transform0, from: n0, isCurved: curvestart,
+                            uv: uvstart, attributes: attributes0?.1
+                        ),
+                        transformedSectionVertex(
+                            v1, by: transform1, from: n1, isCurved: curveend,
+                            uv: uvend, attributes: attributes1?.1
+                        ),
+                        transformedSectionVertex(
+                            v0, by: transform1, from: n1, isCurved: curveend,
+                            uv: uvend, attributes: attributes1?.0
+                        ),
                     ])
                     let edge = LineSegment(unchecked: v0.position, v1.position)
                     let transformedEdge = LineSegment(
@@ -1818,6 +2017,8 @@ private extension Mesh {
                         accumulatedSidePolygons += polygons
                     }
                 }
+                curvestart = true
+                uvstart = uvend
             }
             if usesMeshableNonZeroBoundary, first?.hasCurvedPoints == true {
                 let capPoints = firstCapPolygons.flatMap {
@@ -1863,7 +2064,10 @@ private extension Mesh {
             }
             if let prev = shapes.last(where: { $0 != last }) {
                 let p0p1 = directionBetweenShapes(prev, last)
-                let lastFacePolygons = last.fillPolygons(material: material, isCancelled: isCancelled)
+                let lastFacePolygons = applyingFaceAttributes(
+                    last.fillPolygons(material: material, isCancelled: isCancelled),
+                    from: last
+                )
                 let lastCapPolygons = lastFacePolygons.map {
                     p0p1.dot($0.plane.normal) < 0 ? $0.inverted() : $0
                 }
