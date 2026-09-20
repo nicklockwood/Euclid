@@ -76,7 +76,7 @@ extension Color: ExpressibleByArrayLiteral {
 
 extension Color: CustomDebugStringConvertible, CustomReflectable {
     public var debugDescription: String {
-        "Color(\(red), \(green), \(blue)\(alpha == 1 ? "" : ", \(alpha)"))"
+        "Color(red: \(red), green: \(green), blue: \(blue)\(alpha == 1 ? "" : ", alpha: \(alpha)"))"
     }
 
     public var customMirror: Mirror {

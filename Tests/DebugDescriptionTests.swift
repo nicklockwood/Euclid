@@ -26,12 +26,12 @@ final class DebugDescriptionTests: XCTestCase {
 
     func testColor() {
         let color = Color.red
-        XCTAssertEqual(color.debugDescription, "Color(1.0, 0.0, 0.0)")
+        XCTAssertEqual(color.debugDescription, "Color(red: 1.0, green: 0.0, blue: 0.0)")
     }
 
     func testColorWithAlpha() {
         let color = Color.red.withAlphaComponent(0.5)
-        XCTAssertEqual(color.debugDescription, "Color(1.0, 0.0, 0.0, 0.5)")
+        XCTAssertEqual(color.debugDescription, "Color(red: 1.0, green: 0.0, blue: 0.0, alpha: 0.5)")
     }
 
     // MARK: PathPoint
@@ -171,37 +171,37 @@ final class DebugDescriptionTests: XCTestCase {
                 Vertex(0.5, -0.5, -0.5, normal: [1.0, 0.0, 0.0], texcoord: [1.0, 1.0, 0.0]),
                 Vertex(0.5, 0.5, -0.5, normal: [1.0, 0.0, 0.0], texcoord: [1.0, 0.0, 0.0]),
                 Vertex(0.5, 0.5, 0.5, normal: [1.0, 0.0, 0.0]),
-            ], material: Color(0.0, 0.0, 1.0)),
+            ], material: Color(red: 0.0, green: 0.0, blue: 1.0)),
             Polygon([
                 Vertex(-0.5, -0.5, -0.5, normal: [-1.0, -0.0, -0.0], texcoord: [0.0, 1.0, 0.0]),
                 Vertex(-0.5, -0.5, 0.5, normal: [-1.0, -0.0, -0.0], texcoord: [1.0, 1.0, 0.0]),
                 Vertex(-0.5, 0.5, 0.5, normal: [-1.0, -0.0, -0.0], texcoord: [1.0, 0.0, 0.0]),
                 Vertex(-0.5, 0.5, -0.5, normal: [-1.0, -0.0, -0.0]),
-            ], material: Color(0.0, 0.0, 1.0)),
+            ], material: Color(red: 0.0, green: 0.0, blue: 1.0)),
             Polygon([
                 Vertex(-0.5, 0.5, 0.5, normal: [0.0, 1.0, 0.0], texcoord: [0.0, 1.0, 0.0]),
                 Vertex(0.5, 0.5, 0.5, normal: [0.0, 1.0, 0.0], texcoord: [1.0, 1.0, 0.0]),
                 Vertex(0.5, 0.5, -0.5, normal: [0.0, 1.0, 0.0], texcoord: [1.0, 0.0, 0.0]),
                 Vertex(-0.5, 0.5, -0.5, normal: [0.0, 1.0, 0.0]),
-            ], material: Color(0.0, 0.0, 1.0)),
+            ], material: Color(red: 0.0, green: 0.0, blue: 1.0)),
             Polygon([
                 Vertex(-0.5, -0.5, -0.5, normal: [-0.0, -1.0, -0.0], texcoord: [0.0, 1.0, 0.0]),
                 Vertex(0.5, -0.5, -0.5, normal: [-0.0, -1.0, -0.0], texcoord: [1.0, 1.0, 0.0]),
                 Vertex(0.5, -0.5, 0.5, normal: [-0.0, -1.0, -0.0], texcoord: [1.0, 0.0, 0.0]),
                 Vertex(-0.5, -0.5, 0.5, normal: [-0.0, -1.0, -0.0]),
-            ], material: Color(0.0, 0.0, 1.0)),
+            ], material: Color(red: 0.0, green: 0.0, blue: 1.0)),
             Polygon([
                 Vertex(-0.5, -0.5, 0.5, normal: [0.0, 0.0, 1.0], texcoord: [0.0, 1.0, 0.0]),
                 Vertex(0.5, -0.5, 0.5, normal: [0.0, 0.0, 1.0], texcoord: [1.0, 1.0, 0.0]),
                 Vertex(0.5, 0.5, 0.5, normal: [0.0, 0.0, 1.0], texcoord: [1.0, 0.0, 0.0]),
                 Vertex(-0.5, 0.5, 0.5, normal: [0.0, 0.0, 1.0]),
-            ], material: Color(0.0, 0.0, 1.0)),
+            ], material: Color(red: 0.0, green: 0.0, blue: 1.0)),
             Polygon([
                 Vertex(0.5, -0.5, -0.5, normal: [-0.0, -0.0, -1.0], texcoord: [0.0, 1.0, 0.0]),
                 Vertex(-0.5, -0.5, -0.5, normal: [-0.0, -0.0, -1.0], texcoord: [1.0, 1.0, 0.0]),
                 Vertex(-0.5, 0.5, -0.5, normal: [-0.0, -0.0, -1.0], texcoord: [1.0, 0.0, 0.0]),
                 Vertex(0.5, 0.5, -0.5, normal: [-0.0, -0.0, -1.0]),
-            ], material: Color(0.0, 0.0, 1.0)),
+            ], material: Color(red: 0.0, green: 0.0, blue: 1.0)),
         ])
         """)
     }
