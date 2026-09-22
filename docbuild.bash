@@ -6,7 +6,14 @@ echo "git rebase -i origin/master docs"
 set -e
 set -x
 
-rm -rf .build
+# SwiftPM can briefly recreate files in .build while it is being removed.
+# Retry the cleanup so a transient "Directory not empty" error does not abort
+# the documentation build.
+for attempt in {1..3}; do
+    rm -rf .build && break
+    sleep 1
+done
+test ! -e .build
 
 SYMBOL_GRAPH_DIR=.build/out/symbolgraph
 

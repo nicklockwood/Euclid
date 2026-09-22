@@ -211,6 +211,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/tessellate(maxSides:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/triangulate()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detessellate(isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detriangulate(isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/makeWatertight(isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/smoothingNormals(forAnglesGreaterThan:)"
       ],
@@ -366,6 +367,60 @@
   "title" : "detessellate(isCancelled:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/detessellate(iscancelled:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/detriangulate(isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Merges coplanar polygons that share one or more edges, provided the result will be convex.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "detriangulate"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detriangulate(isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "detriangulate(isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/detriangulate(iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/makeWatertight(isCancelled:)": {
   "abstract" : [

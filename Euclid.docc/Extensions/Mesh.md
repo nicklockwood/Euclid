@@ -136,8 +136,8 @@ A three-dimensional surface made from polygons.
 
 ### Splitting Meshes
 
-- ``Mesh/clipped(to:fill:)``
-- ``Mesh/split(along:)``
+- ``Mesh/clipped(to:fill:isCancelled:)``
+- ``Mesh/split(along:isCancelled:)``
 - ``Mesh/submeshes``
 
 ### Adjusting Mesh Topology
@@ -145,7 +145,7 @@ A three-dimensional surface made from polygons.
 - ``Mesh/tessellate(maxSides:)``
 - ``Mesh/triangulate()``
 - ``Mesh/detessellate(isCancelled:)``
-- ``Mesh/detriangulate()``
+- ``Mesh/detriangulate(isCancelled:)``
 - ``Mesh/makeWatertight(isCancelled:)``
 - ``Mesh/withConsistentWinding(isCancelled:)``
 - ``Mesh/smoothingNormals(forAnglesGreaterThan:)``
