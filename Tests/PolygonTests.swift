@@ -780,6 +780,28 @@ final class PolygonTests: XCTestCase {
         }
     }
 
+    func testPolygonWithShallowConvexTurnsCorrectlyTriangulated() throws {
+        let points: [Vector] = [
+            [-0.44, 0.245145776738],
+            [-0.217666279771, 0.250958241945],
+            [0.158869624166, 0.240788496084],
+            [0.212140968122, 0.262194682696],
+        ]
+        let polygon = try XCTUnwrap(Polygon(points))
+        XCTAssertFalse(polygon.isConvex)
+
+        var triangles = polygon.triangulate()
+        XCTAssertEqual(triangles.count, points.count - 2)
+        XCTAssertEqual(triangles.reduce(0) { $0 + $1.area }, polygon.area, accuracy: epsilon)
+        XCTAssertEqual(Set(triangles.flatMap(\.vertices)), Set(polygon.vertices))
+
+        let inverted = polygon.inverted()
+        triangles = inverted.triangulate()
+        XCTAssertEqual(triangles.count, points.count - 2)
+        XCTAssertEqual(triangles.reduce(0) { $0 + $1.area }, polygon.area, accuracy: epsilon)
+        XCTAssertEqual(Set(triangles.flatMap(\.vertices)), Set(inverted.vertices))
+    }
+
     func testHouseShapedPolygonCorrectlyTriangulated() {
         let normal = -Vector.unitZ
         guard let polygon = Polygon([

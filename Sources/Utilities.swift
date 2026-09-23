@@ -300,22 +300,6 @@ func triangulateVertices(
         )
     }
 
-    var triangles = [Polygon]()
-    func addTriangle(_ vertices: [Vertex]) -> Bool {
-        guard !verticesAreDegenerate(vertices) else {
-            return false
-        }
-        triangles.append(Polygon(
-            unchecked: vertices,
-            plane: plane,
-            isConvex: true,
-            sanitizeNormals: sanitizeNormals,
-            material: material,
-            id: id
-        ))
-        return true
-    }
-
     struct Ear {
         let ringIndex: Int
         let previous: Int
@@ -345,7 +329,7 @@ func triangulateVertices(
         let ca = (a - c).lengthSquared
         let area = abs(signedArea(a, b, c))
         let perimeterSquared = ab + bc + ca
-        guard area > epsilon, perimeterSquared > epsilon else {
+        guard area > 0, perimeterSquared > epsilon else {
             return 0
         }
         return area / perimeterSquared
@@ -366,9 +350,7 @@ func triangulateVertices(
 
         func ear(previous: Int, current: Int, next: Int, ringIndex: Int) -> Ear? {
             let a = points[previous], b = points[current], c = points[next]
-            guard signedArea(a, b, c) * windingSign > epsilon,
-                  !verticesAreDegenerate([vertices[previous], vertices[current], vertices[next]])
-            else {
+            guard signedArea(a, b, c) * windingSign > 0 else {
                 return nil
             }
             let score = triangleScore(a, b, c)
@@ -376,6 +358,77 @@ func triangulateVertices(
                 return nil
             }
             return Ear(ringIndex: ringIndex, previous: previous, current: current, next: next, score: score)
+        }
+
+        // The fast greedy pass can get trapped by nearly collinear vertices. Retry from the
+        // original ring and explore alternate ears before falling back to the slower 3D clipper.
+        func triangulateWithBacktracking(_ ring: [Int]) -> [[Int]]? {
+            guard ring.count > 3 else {
+                guard ring.count == 3,
+                      signedArea(points[ring[0]], points[ring[1]], points[ring[2]]) * windingSign > 0
+                else {
+                    return nil
+                }
+                return [ring]
+            }
+            let reflexVertices: [Int] = knownConvex ? [] : ring.indices.compactMap { ringIndex in
+                let count = ring.count
+                let previous = points[ring[(ringIndex + count - 1) % count]]
+                let current = points[ring[ringIndex]]
+                let next = points[ring[(ringIndex + 1) % count]]
+                return signedArea(previous, current, next) * windingSign <= 0 ?
+                    ring[ringIndex] : nil
+            }
+            var ears = ring.indices.compactMap { ringIndex -> Ear? in
+                let count = ring.count
+                let previous = ring[(ringIndex + count - 1) % count]
+                let current = ring[ringIndex]
+                let next = ring[(ringIndex + 1) % count]
+                guard let candidate = ear(
+                    previous: previous,
+                    current: current,
+                    next: next,
+                    ringIndex: ringIndex
+                ) else {
+                    return nil
+                }
+                guard !knownConvex else { return candidate }
+                let triangle = (points[previous], points[current], points[next])
+                let triangleBounds = Bounds([triangle.0, triangle.1, triangle.2])
+                for pointIndex in reflexVertices where pointIndex != previous &&
+                    pointIndex != current && pointIndex != next
+                {
+                    let point = points[pointIndex]
+                    guard point.x >= triangleBounds.min.x - epsilon,
+                          point.x <= triangleBounds.max.x + epsilon,
+                          point.y >= triangleBounds.min.y - epsilon,
+                          point.y <= triangleBounds.max.y + epsilon
+                    else {
+                        continue
+                    }
+                    if signedArea(triangle.0, triangle.1, point) * windingSign > 0,
+                       signedArea(triangle.1, triangle.2, point) * windingSign > 0,
+                       signedArea(triangle.2, triangle.0, point) * windingSign > 0
+                    {
+                        return nil
+                    }
+                }
+                return candidate
+            }
+            ears.sort {
+                if !$0.score.isApproximatelyEqual(to: $1.score) {
+                    return $0.score > $1.score
+                }
+                return $0.ringIndex < $1.ringIndex
+            }
+            for candidate in ears {
+                var remainder = ring
+                remainder.remove(at: candidate.ringIndex)
+                if let result = triangulateWithBacktracking(remainder) {
+                    return [[candidate.previous, candidate.current, candidate.next]] + result
+                }
+            }
+            return nil
         }
 
         var ring = Array(vertices.indices)
@@ -458,26 +511,33 @@ func triangulateVertices(
                 }
             }
             guard let bestEar else {
-                return []
+                return triangulateWithBacktracking(Array(vertices.indices)) ?? []
             }
             result.append([bestEar.previous, bestEar.current, bestEar.next])
             ring.remove(at: bestEar.ringIndex)
             searchStartIndex = ring.isEmpty ? 0 : bestEar.ringIndex % ring.count
         }
 
-        guard ring.count == 3 else {
-            return []
+        guard ring.count == 3,
+              signedArea(points[ring[0]], points[ring[1]], points[ring[2]]) * windingSign > 0
+        else {
+            return triangulateWithBacktracking(Array(vertices.indices)) ?? []
         }
         result.append(ring)
         return result
     }
 
-    let triangleIndices = triangulateProjected()
-    for indices in triangleIndices {
-        guard addTriangle(indices.map { vertices[$0] }) else {
-            triangles.removeAll()
-            break
-        }
+    let triangles = triangulateProjected().map { indices in
+        // The projected signed-area checks are more reliable for shallow planar triangles than
+        // verticesAreDegenerate(), whose normalized dot products can round to exactly collinear.
+        Polygon(
+            unchecked: indices.map { vertices[$0] },
+            plane: plane,
+            isConvex: true,
+            sanitizeNormals: sanitizeNormals,
+            material: material,
+            id: id
+        )
     }
 
     if triangles.isEmpty {
