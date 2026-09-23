@@ -570,6 +570,7 @@ public extension Mesh {
             material: material,
             isConvex: polygon?.isConvex == true,
             isWatertight: polygon.map { _ in true }, // TODO: make less strict
+            preserveEvenOddWinding: false,
             isCancelled: isCancelled
         )
     }
@@ -663,6 +664,9 @@ public extension Mesh {
             contours,
             faces: faces,
             material: material,
+            isConvex: false,
+            isWatertight: nil,
+            preserveEvenOddWinding: along.isClosed,
             isCancelled: isCancelled
         )
     }
@@ -732,6 +736,7 @@ public extension Mesh {
             material: material,
             isConvex: false,
             isWatertight: nil,
+            preserveEvenOddWinding: false,
             isCancelled: isCancelled
         )
     }
@@ -946,7 +951,7 @@ private extension Collection<Path> {
                           !shape.subpathsHavePartiallyOverlappingInteriors,
                           shape.hasNestedSubpaths
                 {
-                    shapes.append(Path(subpaths: shape.oddEvenOrientedSubpaths()))
+                    shapes.append(Path(subpaths: shape.oddEvenOrientedSubpaths))
                     usesMeshableNonZeroBoundary = true
                     usesOddEvenBoundary = true
                 } else {
@@ -1067,7 +1072,7 @@ private extension Path {
             // Fill may need a rebuilt non-zero boundary instead of odd-even composition.
             // Compound paths only use this for SVG-style contours with coincident points.
             let nonZeroFillPolygons = shape.nonZeroFillPolygons(material: material)
-            if shape.nonZeroFillBoundary(from: nonZeroFillPolygons).subpaths.count > 1 {
+            if shape.filledAreaBoundary(from: nonZeroFillPolygons).subpaths.count > 1 {
                 polygons = shape.nonZeroFillCapPolygons(
                     nonZeroFillPolygons,
                     isCancelled: isCancelled
@@ -1193,30 +1198,6 @@ private extension Path {
         return false
     }
 
-    /// Returns true when any path point is reused or any subpath edge intersects an earlier subpath edge.
-    /// This identifies compound paths whose original contour boundaries are not independent for meshing.
-    var subpathsTouchOrIntersect: Bool {
-        var previousEdges = [LineSegment]()
-        var vertices = Set<Vector>()
-        for subpath in subpaths {
-            let positions = subpath.points.dropLast(subpath.isClosed ? 1 : 0).map(\.position)
-            for position in positions {
-                guard vertices.insert(position).inserted else {
-                    return true
-                }
-            }
-            for edge in subpath.orderedEdges {
-                if previousEdges.contains(where: {
-                    lineIntersection(edge.start, edge.end, true, $0.start, $0.end, true) != nil
-                }) {
-                    return true
-                }
-            }
-            previousEdges += subpath.orderedEdges
-        }
-        return false
-    }
-
     /// Returns true only when path point positions are reused, without checking edge intersections.
     /// This is narrower than `subpathsTouchOrIntersect` and is used when coincident points preserve
     /// enough correspondence to use the rebuilt boundary for mesh generation.
@@ -1233,31 +1214,10 @@ private extension Path {
         return false
     }
 
-    func hasCoincidentPoints(with other: Path) -> Bool {
-        let vertices = Set(points.dropLast(isClosed ? 1 : 0).map(\.position))
-        return other.points.dropLast(other.isClosed ? 1 : 0).contains {
-            vertices.contains($0.position)
-        }
-    }
-
-    /// Returns true when subpath interiors partially overlap. Boundary-only contact and full
-    /// containment do not count because those cases can still preserve contour correspondence.
-    var subpathsHavePartiallyOverlappingInteriors: Bool {
-        for (polygon, other, _) in subpathPolygonPairs() {
-            guard polygon.bounds.intersects(other.bounds),
-                  polygon.hasPartialInteriorOverlap(with: other)
-            else {
-                continue
-            }
-            return true
-        }
-        return false
-    }
-
     /// Returns true for area overlaps between independent subpaths. This distinguishes ordinary
     /// even-odd compound overlaps from coincident or doubled-back contours that need boundary repair.
     var subpathsHavePartialInteriorOverlapWithoutCoincidentPoints: Bool {
-        for (polygon, other, pathsHaveCoincidentPoints) in subpathPolygonPairs() {
+        for (polygon, other, pathsHaveCoincidentPoints) in subpathPolygonPairs {
             guard !pathsHaveCoincidentPoints,
                   polygon.bounds.intersects(other.bounds),
                   polygon.hasPartialInteriorOverlap(with: other)
@@ -1267,32 +1227,6 @@ private extension Path {
             return true
         }
         return false
-    }
-
-    func subpathPolygonPairs() -> [(Polygon, Polygon, Bool)] {
-        let polygons = subpaths.map { Polygon($0) }
-        var result = [(Polygon, Polygon, Bool)]()
-        for i in subpaths.indices {
-            guard let polygon = polygons[i] else {
-                continue
-            }
-            for j in subpaths.indices.dropFirst(i + 1) {
-                guard let other = polygons[j] else {
-                    continue
-                }
-                result.append((polygon, other, subpaths[i].hasCoincidentPoints(with: subpaths[j])))
-            }
-        }
-        return result
-    }
-
-    /// Builds caps for independent nested contours with odd-even semantics by orienting
-    /// nested subpaths for a non-zero winding pass.
-    func oddEvenFillPolygons(material: Mesh.Material?) -> [Polygon] {
-        Path(
-            unchecked: .subpaths(oddEvenOrientedSubpaths()),
-            plane: plane
-        ).nonZeroFillPolygons(material: material)
     }
 
     /// Builds cap polygons directly from the scanline non-zero fill, then inserts
@@ -1312,38 +1246,6 @@ private extension Path {
         return polygons.count > 1 ? polygons
             .insertingEdgeVertices(with: polygons.holeEdges, isCancelled: isCancelled)
             .mergingVertices(withPrecision: precision, isCancelled: isCancelled) : polygons
-    }
-
-    /// Returns original subpaths with every odd-depth contour flipped so non-zero winding
-    /// produces the same filled area as odd-even composition.
-    func oddEvenOrientedSubpaths() -> [Path] {
-        let subpaths = subpaths.filter { !$0.isEmpty }
-        let entries = subpaths.map {
-            (
-                points: Array($0.points.dropLast($0.isClosed ? 1 : 0).map(\.position)),
-                bounds: $0.bounds,
-                polygon: Polygon($0)
-            )
-        }
-        let flatteningPlane = flatteningPlane
-        return subpaths.enumerated().map { index, subpath -> Path in
-            let depth = entries.indices.filter { otherIndex in
-                guard otherIndex != index,
-                      let polygon = entries[otherIndex].polygon
-                else {
-                    return false
-                }
-                let insideCount = entries[index].points.filter {
-                    entries[otherIndex].bounds.intersects($0) && polygon.intersects($0)
-                }.count
-                return insideCount > entries[index].points.count / 2
-            }.count
-            let isClockwise = flattenedPointsAreClockwise(subpath.points.map {
-                flatteningPlane.flattenPoint($0.position)
-            })
-            let shouldBeClockwise = depth.isMultiple(of: 2)
-            return isClockwise == shouldBeClockwise ? subpath : subpath.inverted()
-        }
     }
 
     func sectionTransform(relativeTo other: Path) -> ((Vector) -> Vector)? {
@@ -1424,38 +1326,50 @@ private extension Mesh {
         isWatertight: Bool?,
         isCancelled: CancellationHandler
     ) -> Mesh {
-        let subpaths = profile.subpaths
-        if subpaths.count > 1 {
-            if let boundary = profile.closed().meshableNonZeroFillBoundary {
-                return .merge(boundary.subpaths.map {
-                    .lathe(
-                        $0,
-                        slices: slices,
-                        poleDetail: poleDetail,
-                        addDetailForFlatPoles: addDetailForFlatPoles,
-                        faces: faces,
-                        wrapMode: wrapMode,
-                        material: material,
-                        isCancelled: isCancelled
-                    )
-                })
-            }
-            return .symmetricDifference(subpaths.map {
-                .lathe(
-                    $0,
+        let profiles = profile.latheProfile.subpaths
+        guard profiles.count == 1, let profile = profiles.first else {
+            return .merge(profiles.map { profile in
+                lathePreparedProfile(
+                    profile,
                     slices: slices,
                     poleDetail: poleDetail,
                     addDetailForFlatPoles: addDetailForFlatPoles,
                     faces: faces,
                     wrapMode: wrapMode,
                     material: material,
+                    isConvex: false,
+                    isWatertight: nil,
                     isCancelled: isCancelled
                 )
-            }, isCancelled: isCancelled)
+            })
         }
+        return lathePreparedProfile(
+            profile,
+            slices: slices,
+            poleDetail: poleDetail,
+            addDetailForFlatPoles: addDetailForFlatPoles,
+            faces: faces,
+            wrapMode: wrapMode,
+            material: material,
+            isConvex: isConvex,
+            isWatertight: isWatertight,
+            isCancelled: isCancelled
+        )
+    }
 
-        // normalize profile
-        let profile = profile.latheProfile
+    /// Revolves a profile that has already been normalized and split into a single contour.
+    static func lathePreparedProfile(
+        _ profile: Path,
+        slices: Int,
+        poleDetail: Int,
+        addDetailForFlatPoles: Bool,
+        faces: Faces,
+        wrapMode: WrapMode,
+        material: Material?,
+        isConvex: Bool,
+        isWatertight: Bool?,
+        isCancelled: CancellationHandler
+    ) -> Mesh {
         if profile.points.count < 2 {
             return .empty
         }
@@ -1677,7 +1591,8 @@ private extension Mesh {
     static func compoundLoft(
         originalShapes: [Path],
         boundarySubshapes: [[Path]],
-        usesMeshableNonZeroBoundary: Bool,
+        useMeshableNonZeroBoundary: Bool,
+        preserveEvenOddWinding: Bool,
         faces: Faces,
         material: Material?,
         isCancelled: CancellationHandler
@@ -1754,7 +1669,7 @@ private extension Mesh {
         }
         let firstBoundaryEdgeVertices = canBuildMappedSides ? first
             .flatMap { first -> [(Vertex, Vertex)]? in
-                if usesMeshableNonZeroBoundary {
+                if useMeshableNonZeroBoundary {
                     let firstBoundarySubpaths = boundarySubshapes.compactMap(\.first)
                     if preservesMappedBoundaryWinding,
                        firstBoundarySubpaths.contains(where: \.hasCurvedPoints)
@@ -1841,7 +1756,7 @@ private extension Mesh {
                 if let index = sourceEdgeIndexByLine[edge] {
                     return index
                 }
-                guard usesMeshableNonZeroBoundary else {
+                guard useMeshableNonZeroBoundary else {
                     return nil
                 }
                 return sourceEdgesByShape.first.flatMap {
@@ -2002,7 +1917,7 @@ private extension Mesh {
                 curvestart = true
                 uvstart = uvend
             }
-            if usesMeshableNonZeroBoundary, first?.hasCurvedPoints == true {
+            if useMeshableNonZeroBoundary, first?.hasCurvedPoints == true {
                 let capPoints = firstCapPolygons.flatMap {
                     $0.vertices.map(\.position)
                 }
@@ -2064,7 +1979,7 @@ private extension Mesh {
             isCancelled: isCancelled
         )
         let isClosed = shapes.first == shapes.last
-        if isClosed {
+        if isClosed, !preserveEvenOddWinding {
             let submeshIndices = polygons.groupedSubmeshIndices
             if submeshIndices.count > 1 {
                 for indices in submeshIndices {
@@ -2122,6 +2037,7 @@ private extension Mesh {
         material: Material?,
         isConvex: Bool,
         isWatertight: Bool?,
+        preserveEvenOddWinding: Bool,
         isCancelled: CancellationHandler
     ) -> Mesh {
         let (
@@ -2141,11 +2057,14 @@ private extension Mesh {
                 subshapes[i].append(subpath)
             }
         }
-        if usesMeshableNonZeroBoundary {
+        if usesMeshableNonZeroBoundary,
+           !(preserveEvenOddWinding && usesOddEvenBoundary)
+        {
             return compoundLoft(
                 originalShapes: usesOddEvenBoundary ? normalizedShapes : shapes,
                 boundarySubshapes: subshapes,
-                usesMeshableNonZeroBoundary: true,
+                useMeshableNonZeroBoundary: true,
+                preserveEvenOddWinding: false,
                 faces: faces,
                 material: material,
                 isCancelled: isCancelled
@@ -2166,7 +2085,8 @@ private extension Mesh {
             return compoundLoft(
                 originalShapes: normalizedShapes,
                 boundarySubshapes: subshapes,
-                usesMeshableNonZeroBoundary: false,
+                useMeshableNonZeroBoundary: false,
+                preserveEvenOddWinding: preserveEvenOddWinding && usesOddEvenBoundary,
                 faces: faces,
                 material: material,
                 isCancelled: isCancelled
@@ -2558,38 +2478,6 @@ private extension Collection<Polygon> {
 }
 
 private extension Polygon {
-    func hasPartialInteriorOverlap(with other: Polygon) -> Bool {
-        containsInteriorSample(from: other) && other.containsInteriorSample(from: self)
-    }
-
-    func containsInteriorSample(from polygon: Polygon) -> Bool {
-        let offset = max(max(bounds.size.length, polygon.bounds.size.length) * 1e-7, epsilon * 10)
-        let center = polygon.vertices.reduce(.zero) { $0 + $1.position } / Double(polygon.vertices.count)
-        for vertex in polygon.vertices {
-            let inward = (center - vertex.position).normalized()
-            guard !inward.isZero else {
-                continue
-            }
-            if intersects(vertex.position + inward * offset) {
-                return true
-            }
-        }
-        for edge in polygon.orderedEdges {
-            let direction = (edge.end - edge.start).normalized()
-            guard !direction.isZero else {
-                continue
-            }
-            let inward = polygon.plane.normal.cross(direction).normalized()
-            guard !inward.isZero else {
-                continue
-            }
-            if intersects((edge.start + edge.end) / 2 + inward * offset) {
-                return true
-            }
-        }
-        return false
-    }
-
     func withVertexNormalsFacingPlane() -> Polygon {
         Polygon(
             unchecked: vertices.map {

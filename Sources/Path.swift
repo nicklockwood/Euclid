@@ -799,16 +799,11 @@ extension Path {
         }
     }
 
-    /// Returns if path should use non-zero fill algorithm
-    var usesNonZeroFill: Bool {
-        isClosed && subpaths.count <= 1 && plane != nil && !isSimple
-    }
-
-    /// Returns polygons for the area covered by this path using the non-zero winding fill rule.
-    ///
-    /// The path must be closed and planar. Compound paths are evaluated as contours in the same
-    /// filled region, so overlapping or self-intersecting contours are resolved by winding direction.
-    func nonZeroFillPolygons(material: Mesh.Material?) -> [Polygon] {
+    /// Decomposes the filled area of a closed planar path into coplanar polygons.
+    /// - Parameters:
+    ///   - material: The material assigned to every returned polygon.
+    ///   - usingEvenOddRule: Whether to use even-odd instead of nonzero winding.
+    func filledPolygons(material: Mesh.Material?, usingEvenOddRule: Bool) -> [Polygon] {
         guard isClosed, let plane else {
             return []
         }
@@ -928,9 +923,11 @@ extension Path {
             for edge in activeEdges {
                 let previousWinding = winding
                 winding += edge.winding
-                if previousWinding == 0, winding != 0 {
+                let wasFilled = usingEvenOddRule ? !previousWinding.isMultiple(of: 2) : previousWinding != 0
+                let isFilled = usingEvenOddRule ? !winding.isMultiple(of: 2) : winding != 0
+                if !wasFilled, isFilled {
                     startEdge = edge
-                } else if previousWinding != 0, winding == 0, let leftEdge = startEdge {
+                } else if wasFilled, !isFilled, let leftEdge = startEdge {
                     let x0Left = leftEdge.x(at: y0)
                     let x0Right = edge.x(at: y0)
                     let x1Right = edge.x(at: y1)
@@ -1077,16 +1074,135 @@ extension Path {
         }
     }
 
-    /// Returns outline paths for the area covered by this path using the non-zero winding fill rule.
-    var nonZeroFillBoundary: Path {
-        nonZeroFillBoundary(from: nonZeroFillPolygons(material: nil))
+    /// Returns if path should use non-zero fill algorithm
+    var usesNonZeroFill: Bool {
+        isClosed && subpaths.count <= 1 && plane != nil && !isSimple
     }
 
-    func nonZeroFillBoundary(from polygons: [Polygon]) -> Path {
+    /// Returns polygons for the area covered by this path using the non-zero winding fill rule.
+    ///
+    /// The path must be closed and planar. Compound paths are evaluated as contours in the same
+    /// filled region, so overlapping or self-intersecting contours are resolved by winding direction.
+    func nonZeroFillPolygons(material: Mesh.Material?) -> [Polygon] {
+        filledPolygons(material: material, usingEvenOddRule: false)
+    }
+
+    /// Builds cap polygons for the area covered by this path using the even-odd fill rule.
+    func oddEvenFillPolygons(material: Mesh.Material?) -> [Polygon] {
+        filledPolygons(material: material, usingEvenOddRule: true)
+    }
+
+    /// Reconstructs the path around the filled area represented by `polygons`.
+    func filledAreaBoundary(from polygons: [Polygon]) -> Path {
         Path(
             unchecked: .subpaths(polygons.outlinePaths),
             plane: plane
         ).restoringCurvature(from: self)
+    }
+
+    /// Returns true when any path point is reused or any subpath edge intersects an earlier subpath edge.
+    var subpathsTouchOrIntersect: Bool {
+        var previousEdges = [LineSegment]()
+        var vertices = Set<Vector>()
+        for subpath in subpaths {
+            let positions = subpath.points.dropLast(subpath.isClosed ? 1 : 0).map(\.position)
+            for position in positions {
+                guard vertices.insert(position).inserted else {
+                    return true
+                }
+            }
+            for edge in subpath.orderedEdges {
+                if previousEdges.contains(where: {
+                    lineIntersection(edge.start, edge.end, true, $0.start, $0.end, true) != nil
+                }) {
+                    return true
+                }
+            }
+            previousEdges += subpath.orderedEdges
+        }
+        return false
+    }
+
+    /// Returns true when subpath interiors partially overlap. Boundary-only contact and full
+    /// containment do not count because those cases can still preserve contour correspondence.
+    var subpathsHavePartiallyOverlappingInteriors: Bool {
+        for (polygon, other, _) in subpathPolygonPairs {
+            guard polygon.bounds.intersects(other.bounds),
+                  polygon.hasPartialInteriorOverlap(with: other)
+            else {
+                continue
+            }
+            return true
+        }
+        return false
+    }
+
+    /// Returns every unique pair of subpaths that can each be represented by a polygon.
+    ///
+    /// Each tuple contains the polygons for two distinct subpaths and a Boolean indicating whether
+    /// their source subpaths share a vertex position. Duplicate closing points are excluded from
+    /// that comparison. Pairs involving an open, degenerate, or otherwise non-polygonal subpath
+    /// are omitted.
+    var subpathPolygonPairs: [(Polygon, Polygon, Bool)] {
+        let polygons = subpaths.map { Polygon($0) }
+        var result = [(Polygon, Polygon, Bool)]()
+        for i in subpaths.indices {
+            guard let polygon = polygons[i] else {
+                continue
+            }
+            for j in subpaths.indices.dropFirst(i + 1) {
+                guard let other = polygons[j] else {
+                    continue
+                }
+                result.append((polygon, other, subpaths[i].hasCoincidentPoints(with: subpaths[j])))
+            }
+        }
+        return result
+    }
+
+    /// Returns whether the paths share a vertex position, ignoring duplicate closing points.
+    func hasCoincidentPoints(with other: Path) -> Bool {
+        let vertices = Set(points.dropLast(isClosed ? 1 : 0).map(\.position))
+        return other.points.dropLast(other.isClosed ? 1 : 0).contains {
+            vertices.contains($0.position)
+        }
+    }
+
+    /// Returns original subpaths with every odd-depth contour flipped so non-zero winding
+    /// produces the same filled area as even-odd composition.
+    var oddEvenOrientedSubpaths: [Path] {
+        let subpaths = subpaths.filter { !$0.isEmpty }
+        let entries = subpaths.map {
+            (
+                points: Array($0.points.dropLast($0.isClosed ? 1 : 0).map(\.position)),
+                bounds: $0.bounds,
+                polygon: Polygon($0)
+            )
+        }
+        let flatteningPlane = flatteningPlane
+        return subpaths.enumerated().map { index, subpath -> Path in
+            let depth = entries.indices.filter { otherIndex in
+                guard otherIndex != index,
+                      let polygon = entries[otherIndex].polygon
+                else {
+                    return false
+                }
+                let insideCount = entries[index].points.filter {
+                    entries[otherIndex].bounds.intersects($0) && polygon.intersects($0)
+                }.count
+                return insideCount > entries[index].points.count / 2
+            }.count
+            let isClockwise = flattenedPointsAreClockwise(subpath.points.map {
+                flatteningPlane.flattenPoint($0.position)
+            })
+            let shouldBeClockwise = depth.isMultiple(of: 2)
+            return isClockwise == shouldBeClockwise ? subpath : subpath.inverted()
+        }
+    }
+
+    /// Returns outline paths for the area covered by this path using the non-zero winding fill rule.
+    var nonZeroFillBoundary: Path {
+        filledAreaBoundary(from: nonZeroFillPolygons(material: nil))
     }
 
     /// Returns a non-zero fill boundary after aligning split edges between adjacent fill polygons.

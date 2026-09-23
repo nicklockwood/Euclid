@@ -157,13 +157,58 @@ final class MeshLatheTests: XCTestCase {
             .point(1.5, 2),
         ])
         let mesh = Mesh.lathe(Path(subpaths: [outer, inner]), slices: 8)
-        let expected = Mesh.symmetricDifference([
-            Mesh.lathe(outer, slices: 8),
-            Mesh.lathe(inner, slices: 8),
-        ])
-        XCTAssertEqual(mesh.bounds, expected.bounds)
-        XCTAssertEqual(mesh.polygons.surfaceArea, expected.polygons.surfaceArea)
+        let submeshes = mesh.submeshes
+
+        XCTAssertEqual(
+            mesh.polygons.count,
+            Mesh.lathe(outer, slices: 8).polygons.count +
+                Mesh.lathe(inner, slices: 8).polygons.count
+        )
+        XCTAssertEqual(submeshes.count, 2)
+        XCTAssertEqual(submeshes.filter { $0.signedVolume < 0 }.count, 1)
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertTrue(mesh.polygons.areWatertight)
+    }
+
+    func testLatheOverlappingCompoundPathUsesEvenOddRule() {
+        let first = Path([
+            .point(1, 0), .point(3, 0), .point(3, 4), .point(1, 4), .point(1, 0),
+        ])
+        let second = Path([
+            .point(2, 0), .point(4, 0), .point(4, 4), .point(2, 4), .point(2, 0),
+        ])
+        let mesh = Mesh.lathe(Path(subpaths: [first, second]), slices: 8)
+        let submeshes = mesh.submeshes
+
+        XCTAssertEqual(mesh.polygons.count, 64)
+        XCTAssertEqual(submeshes.count, 2)
+        XCTAssertTrue(submeshes.allSatisfy { $0.signedVolume > 0 })
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+    }
+
+    func testLatheMatchesCircularExtrusion() {
+        let outer = Path([
+            .point(1, -5), .point(3, -5), .point(3, 5), .point(1, 5), .point(1, -5),
+        ])
+        let inner = Path([
+            .point(1.5, -3), .point(2.5, -3), .point(2.5, 3), .point(1.5, 3), .point(1.5, -3),
+        ])
+        let profile = Path(subpaths: [outer, inner])
+        let lathed = Mesh.lathe(profile, slices: 8)
+        let rail = Path.circle(radius: 2, segments: 8).rotated(by: .pitch(.halfPi))
+        // Compensate for the circular extrusion's polygon miter so its radial edges align with the lathe.
+        let scale = cos(Double.pi / 8)
+        let crossSection = profile.translated(by: [-2, 0]).scaled(by: [scale, 1])
+        let extruded = Mesh.extrude(crossSection, along: rail)
+
+        XCTAssertEqual(lathed.bounds, extruded.bounds)
+        XCTAssertEqual(lathed.surfaceArea, extruded.surfaceArea, accuracy: 1e-6)
+        XCTAssertEqual(lathed.signedVolume, extruded.signedVolume, accuracy: 1e-6)
+        XCTAssertEqual(lathed.polygons.count, extruded.polygons.count)
+        XCTAssertEqual(
+            lathed.submeshes.map(\.signedVolume.sign),
+            extruded.submeshes.map(\.signedVolume.sign)
+        )
     }
 }

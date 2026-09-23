@@ -2049,6 +2049,40 @@ extension Polygon {
         )
         return true
     }
+
+    /// Returns whether the polygons overlap without merely touching or fully containing one another.
+    func hasPartialInteriorOverlap(with other: Polygon) -> Bool {
+        func containsInteriorSample(_ subject: Polygon, _ polygon: Polygon) -> Bool {
+            let scale = max(max(subject.bounds.size.length, polygon.bounds.size.length), 1)
+            let offset = scale * epsilon * 10
+            let center = polygon.vertices.reduce(.zero) { $0 + $1.position } / Double(polygon.vertices.count)
+            for vertex in polygon.vertices {
+                let inward = (center - vertex.position).normalized()
+                guard !inward.isZero else {
+                    continue
+                }
+                if subject.intersects(vertex.position + inward * offset) {
+                    return true
+                }
+            }
+            for edge in polygon.orderedEdges {
+                let direction = (edge.end - edge.start).normalized()
+                guard !direction.isZero else {
+                    continue
+                }
+                let inward = polygon.plane.normal.cross(direction).normalized()
+                guard !inward.isZero else {
+                    continue
+                }
+                if subject.intersects((edge.start + edge.end) / 2 + inward * offset) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        return containsInteriorSample(self, other) && containsInteriorSample(other, self)
+    }
 }
 
 private extension Polygon {

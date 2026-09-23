@@ -14,6 +14,22 @@ import Foundation
 import XCTest
 
 final class TextTests: XCTestCase {
+    func testHelloWorldCircularExtrusionPreservesCounters() {
+        let rail = Path.circle(radius: 1, segments: 16)
+        XCTAssertTrue(rail.isClosed)
+        for path in Path.text("Hello\nWorld") where path.subpaths.count > 1 {
+            let mesh = Mesh.extrude(path, along: rail)
+            let submeshes = mesh.submeshes
+            let expectedPolygonCount = path.subpaths.reduce(0) {
+                $0 + Mesh.extrude($1, along: rail).polygons.count
+            }
+            XCTAssertEqual(mesh.polygons.count, expectedPolygonCount)
+            XCTAssertEqual(submeshes.count, path.subpaths.count)
+            XCTAssertEqual(submeshes.filter { $0.signedVolume < 0 }.count, 1)
+            XCTAssertTrue(mesh.isWatertight)
+        }
+    }
+
     private let textInsetDetails = [1, 2, 4, 8]
     private let positiveTextInsetDistances = [0.005, 0.01, 0.015, 0.02, 0.022, 0.024, 0.026, 0.027, 0.0275, 0.028]
     private let collapsedTextInsetDistances = [0.032, 0.035]

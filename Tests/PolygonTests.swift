@@ -30,6 +30,27 @@ final class PolygonTests: XCTestCase {
         XCTAssertFalse(polygon.intersects([1 + epsilon * 2, 0]))
     }
 
+    func testPartialInteriorOverlapIsSymmetricAndExcludesContainment() throws {
+        func rectangle(_ min: Vector, _ max: Vector) throws -> Euclid.Polygon {
+            try XCTUnwrap(Euclid.Polygon([
+                Vertex(min.x, max.y),
+                Vertex(min.x, min.y),
+                Vertex(max.x, min.y),
+                Vertex(max.x, max.y),
+            ]))
+        }
+
+        let outer = try rectangle([-2, -2], [2, 2])
+        let inner = try rectangle([-1, -1], [1, 1])
+        XCTAssertFalse(outer.hasPartialInteriorOverlap(with: inner))
+        XCTAssertFalse(inner.hasPartialInteriorOverlap(with: outer))
+
+        let left = try rectangle([-2, -1], [1, 1])
+        let right = try rectangle([-1, -1], [2, 1])
+        XCTAssertTrue(left.hasPartialInteriorOverlap(with: right))
+        XCTAssertTrue(right.hasPartialInteriorOverlap(with: left))
+    }
+
     func testConvexPolygonAnticlockwiseWinding() {
         let normal = Vector.unitZ
         guard let polygon = Polygon([

@@ -381,19 +381,32 @@ public extension Path {
         case axis
     }
 
-    /// Cropped and flattened version of path suitable for lathing around the Y axis.
+    /// Normalized, cropped and flattened version of the path suitable for lathing around the Y axis.
+    /// Compound paths are resolved using the even-odd fill rule, with hole contours oriented opposite
+    /// their containing contours so the resulting profile can be lathed without Boolean operations.
     var latheProfile: Path {
-        guard subpaths.count == 1 else {
-            return Path(subpaths: subpaths.map(\.latheProfile))
+        let subpaths = subpaths
+        if subpaths.count > 1 || usesNonZeroFill {
+            let shape = closed()
+            let orientedSubpaths: [Path]
+            if subpaths.count > 1,
+               !shape.subpathsTouchOrIntersect,
+               !shape.subpathsHavePartiallyOverlappingInteriors
+            {
+                orientedSubpaths = shape.oddEvenOrientedSubpaths
+            } else {
+                let polygons = shape.filledPolygons(
+                    material: nil,
+                    usingEvenOddRule: subpaths.count > 1
+                )
+                let boundary = shape.filledAreaBoundary(from: polygons)
+                orientedSubpaths = boundary.oddEvenOrientedSubpaths
+            }
+            return Path(subpaths: orientedSubpaths.map { $0.flattened().clippedToYAxis() })
         }
+
         let profile = flattened().clippedToYAxis()
-        if profile.faceNormal.z < 0 {
-            return Path(
-                unchecked: profile.points.reversed(),
-                plane: profile.plane?.inverted()
-            )
-        }
-        return profile
+        return profile.faceNormal.z < 0 ? profile.inverted() : profile
     }
 
     /// Creates an array of contours by extruding one path along another path.
