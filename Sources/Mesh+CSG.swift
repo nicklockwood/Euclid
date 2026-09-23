@@ -549,7 +549,7 @@ public extension Mesh {
         if mesh.isConvex(isCancelled: isCancelled) {
             guard isConvex(isCancelled: isCancelled) else {
                 // Preserve concavity
-                return mesh.minkowskiSum(with: self)
+                return mesh.minkowskiSum(with: self, isCancelled: isCancelled)
             }
             if polygons.count < mesh.polygons.count {
                 return mesh.minkowskiSum(with: self, isCancelled: isCancelled)
@@ -557,9 +557,11 @@ public extension Mesh {
             let vertices = Set(mesh.polygons.flatMap {
                 $0.vertices.map { Vertex($0.position, color: $0.color) }
             }).sorted(by: { $0.position < $1.position })
-            return .convexHull(of: vertices.map { vertex in
-                translated(by: vertex.position).mapVertexColors { $0 * vertex.color }
-            })
+            let meshes = vertices.compactMap { vertex -> Mesh? in
+                guard !isCancelled() else { return nil }
+                return translated(by: vertex.position).mapVertexColors { $0 * vertex.color }
+            }
+            return .convexHull(of: meshes, isCancelled: isCancelled)
         }
         return .union([mesh.translated(by: bounds.center)] + mesh.polygons.map {
             isCancelled() ? .empty : minkowskiSum(with: $0)

@@ -644,6 +644,16 @@ final class MeshCSGTests: XCTestCase {
         XCTAssertEqual(Mesh.minkowskiSum(of: [cube, sphere]), Mesh.minkowskiSum(of: [sphere, cube]))
     }
 
+    func testMinkowskiSumOfConvexMeshesPollsForCancellation() {
+        nonisolated(unsafe) var cancellationChecks = 0
+        let mesh = Mesh.cube().minkowskiSum(with: .sphere(slices: 128)) {
+            cancellationChecks += 1
+            return true
+        }
+        XCTAssertTrue(mesh.isEmpty)
+        XCTAssertGreaterThanOrEqual(cancellationChecks, 8)
+    }
+
     func testMinkowskiSumOfTranslatedShapes() {
         let mesh1 = Mesh.cube().translated(by: .random())
         let mesh2 = Mesh.sphere().translated(by: .random())
