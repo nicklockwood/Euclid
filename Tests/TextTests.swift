@@ -58,6 +58,17 @@ final class TextTests: XCTestCase {
         XCTAssertEqual(mesh.polygons.flatMap { $0.triangulate() }.count, 88)
     }
 
+    func testLowercaseEExtrusionHasNoBooleanFragments() throws {
+        let path = try XCTUnwrap(Path.text("e").first)
+        let mesh = Mesh.extrude(path)
+        let caps = mesh.polygons.filter { abs($0.plane.normal.z) > 0.5 }
+
+        XCTAssertEqual(caps.count, 2)
+        XCTAssertEqual(caps.filter { $0.plane.normal.z > 0.5 }.count, 1)
+        XCTAssertEqual(caps.filter { $0.plane.normal.z < -0.5 }.count, 1)
+        XCTAssertTrue(mesh.isWatertight)
+    }
+
     func testTextMeshWithAttributedString() {
         let font = CTFontCreateWithName("Helvetica" as CFString, 12, nil)
         let attributes = [NSAttributedString.Key.font: font]
@@ -65,8 +76,8 @@ final class TextTests: XCTestCase {
         let mesh = Mesh.text(string, depth: 1.0)
         XCTAssertEqual(mesh.bounds.min.z, -0.5)
         XCTAssertEqual(mesh.bounds.max.z, 0.5)
-        XCTAssert(mesh.bounds.max.x > 20)
-        XCTAssert(mesh.polygons.count > 150)
+        XCTAssertGreaterThan(mesh.bounds.max.x, 20)
+        XCTAssertGreaterThan(mesh.polygons.count, 100)
     }
 
     func testTextMeshWithString() {
@@ -74,8 +85,8 @@ final class TextTests: XCTestCase {
         let mesh = Mesh.text("Hello", font: font, depth: 1.0)
         XCTAssertEqual(mesh.bounds.min.z, -0.5)
         XCTAssertEqual(mesh.bounds.max.z, 0.5)
-        XCTAssert(mesh.bounds.max.x > 20)
-        XCTAssert(mesh.polygons.count > 150)
+        XCTAssertGreaterThan(mesh.bounds.max.x, 20)
+        XCTAssertGreaterThan(mesh.polygons.count, 100)
     }
 
     func testTwistedExtrudedTextArrayMatchesCompoundPathBounds() {

@@ -653,59 +653,18 @@ public extension Mesh {
                 )
             }, isCancelled: isCancelled))
         }
-        if shape.meshableNonZeroFillBoundary != nil {
-            let contours = shape.extrusionContours(
-                along: along,
-                twist: twist,
-                align: align,
-                miterLimit: miterLimit
-            )
-            return loft(contours, faces: faces, material: material, isCancelled: isCancelled)
-        } else if shape.shouldExtrudeSubpathsWithEvenOddComposition {
-            let material = SendableMaterial(material)
-            let meshes = batch(shape.subpaths, stride: 1) {
-                $0.map { shape in
-                    isCancelled() ? .empty : extrude(
-                        shape,
-                        along: along,
-                        twist: twist,
-                        align: align,
-                        miterLimit: miterLimit,
-                        faces: faces,
-                        material: material.value,
-                        isCancelled: isCancelled
-                    )
-                }
-            }
-            return .symmetricDifference(meshes, isCancelled: isCancelled)
-        }
-        let shapeGroups = shape.filledSubpaths()
-        if shapeGroups.count > 1 {
-            let material = SendableMaterial(material)
-            let meshes = batch(shapeGroups, stride: 1) {
-                $0.map { shape in
-                    isCancelled() ? .empty : loft(
-                        shape.extrusionContours(
-                            along: along,
-                            twist: twist,
-                            align: align,
-                            miterLimit: miterLimit
-                        ),
-                        faces: faces,
-                        material: material.value,
-                        isCancelled: isCancelled
-                    )
-                }
-            }
-            return .merge(meshes)
-        }
         let contours = shape.extrusionContours(
             along: along,
             twist: twist,
             align: align,
             miterLimit: miterLimit
         )
-        return loft(contours, faces: faces, material: material)
+        return loft(
+            contours,
+            faces: faces,
+            material: material,
+            isCancelled: isCancelled
+        )
     }
 
     /// Efficiently extrudes a collection of paths along another path, avoiding duplicate work.
@@ -961,44 +920,56 @@ public extension Mesh {
 }
 
 private extension Collection<Path> {
-    func normalizingCompoundPathsForLoft() -> (shapes: [Path], usesMeshableNonZeroBoundary: Bool) {
+    func normalizingCompoundPathsForLoft() -> (
+        shapes: [Path],
+        usesMeshableNonZeroBoundary: Bool,
+        usesOddEvenBoundary: Bool
+    ) {
         guard let first else {
-            return ([], false)
+            return ([], false, false)
         }
-        let firstBoundary = first.meshableNonZeroFillBoundary
 
-        func replacingMeshableNonZeroFillBoundaries() -> (shapes: [Path], usesMeshableNonZeroBoundary: Bool) {
+        func replacingMeshableNonZeroFillBoundaries() -> (
+            shapes: [Path],
+            usesMeshableNonZeroBoundary: Bool,
+            usesOddEvenBoundary: Bool
+        ) {
             var usesMeshableNonZeroBoundary = false
+            var usesOddEvenBoundary = false
             var shapes = [Path]()
             shapes.reserveCapacity(count)
-            for index in indices {
-                let shape = self[index]
-                let boundary = index == startIndex ? firstBoundary : shape.meshableNonZeroFillBoundary
-                if let boundary {
+            for shape in self {
+                if let boundary = shape.meshableNonZeroFillBoundary {
                     shapes.append(boundary)
                     usesMeshableNonZeroBoundary = true
+                } else if !shape.subpathsTouchOrIntersect,
+                          !shape.subpathsHavePartiallyOverlappingInteriors,
+                          shape.hasNestedSubpaths
+                {
+                    shapes.append(Path(subpaths: shape.oddEvenOrientedSubpaths()))
+                    usesMeshableNonZeroBoundary = true
+                    usesOddEvenBoundary = true
                 } else {
                     shapes.append(shape)
                 }
             }
-            return (shapes, usesMeshableNonZeroBoundary)
+            return (shapes, usesMeshableNonZeroBoundary, usesOddEvenBoundary)
         }
 
-        guard let boundary = firstBoundary else {
+        guard let firstBoundary = first.meshableNonZeroFillBoundary else {
             return replacingMeshableNonZeroFillBoundaries()
         }
         var normalizedShapes = [Path]()
         normalizedShapes.reserveCapacity(count)
         for shape in self {
-            guard let transform = shape.sectionTransform(relativeTo: first)
-            else {
+            guard let transform = shape.sectionTransform(relativeTo: first) else {
                 return replacingMeshableNonZeroFillBoundaries()
             }
-            normalizedShapes.append(boundary.mapPoints {
+            normalizedShapes.append(firstBoundary.mapPoints {
                 $0.withPosition(transform($0.position))
             })
         }
-        return (normalizedShapes, true)
+        return (normalizedShapes, true, false)
     }
 }
 
@@ -1816,7 +1787,12 @@ private extension Mesh {
                         let source = sourceVertices(
                             at: v0.position, v1.position, on: sourceEdges[index]
                         )
-                        return (source.0.withNormal(normal), source.1.withNormal(normal))
+                        return (
+                            source.0.normal.dot(normal) < 0 ?
+                                source.0.withNormal(-source.0.normal) : source.0,
+                            source.1.normal.dot(normal) < 0 ?
+                                source.1.withNormal(-source.1.normal) : source.1
+                        )
                     }
                 }
                 let edgeVertices = boundarySubshapes.flatMap { subshapes -> [(Vertex, Vertex)] in
@@ -2134,7 +2110,11 @@ private extension Mesh {
         isWatertight: Bool?,
         isCancelled: CancellationHandler
     ) -> Mesh {
-        let (normalizedShapes, usesMeshableNonZeroBoundary) = shapes.normalizingCompoundPathsForLoft()
+        let (
+            normalizedShapes,
+            usesMeshableNonZeroBoundary,
+            usesOddEvenBoundary
+        ) = shapes.normalizingCompoundPathsForLoft()
         var subpathCount = 0
         let arrayOfSubpaths: [[Path]] = normalizedShapes.map {
             let subpaths = $0.subpaths
@@ -2149,7 +2129,7 @@ private extension Mesh {
         }
         if usesMeshableNonZeroBoundary {
             return compoundLoft(
-                originalShapes: shapes,
+                originalShapes: usesOddEvenBoundary ? normalizedShapes : shapes,
                 boundarySubshapes: subshapes,
                 usesMeshableNonZeroBoundary: true,
                 faces: faces,

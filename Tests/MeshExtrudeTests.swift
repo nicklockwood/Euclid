@@ -220,10 +220,8 @@ final class MeshExtrudeTests: XCTestCase {
             .point(2, 8),
             .point(2, 2),
         ])
-        var mesh = Mesh.extrude(Path(subpaths: [outer, inner]), depth: 1)
+        let mesh = Mesh.extrude(Path(subpaths: [outer, inner]), depth: 1)
         XCTAssertEqual(mesh.polygons.surfaceArea, 192)
-        XCTAssertFalse(mesh.isWatertight)
-        mesh = mesh.makeWatertight()
         XCTAssertTrue(mesh.isWatertight)
     }
 

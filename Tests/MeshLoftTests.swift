@@ -561,11 +561,9 @@ final class MeshLoftTests: XCTestCase {
             .point(2, 2),
         ])
         let compound = Path(subpaths: [outer, inner])
-        var mesh = Mesh.loft([compound, compound.translated(by: .unitZ)])
+        let mesh = Mesh.loft([compound, compound.translated(by: .unitZ)])
         XCTAssertEqual(mesh.bounds, Bounds([0, 0, 0], [10, 10, 1]))
         XCTAssertEqual(mesh.polygons.surfaceArea, 192)
-        XCTAssertFalse(mesh.isWatertight)
-        mesh = mesh.makeWatertight()
         XCTAssertTrue(mesh.isWatertight)
     }
 }
