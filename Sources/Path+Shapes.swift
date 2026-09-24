@@ -397,7 +397,8 @@ public extension Path {
             } else {
                 let polygons = shape.filledPolygons(
                     material: nil,
-                    usingEvenOddRule: subpaths.count > 1
+                    usingEvenOddRule: subpaths.count > 1,
+                    isCancelled: { false }
                 )
                 let boundary = shape.filledAreaBoundary(from: polygons)
                 orientedSubpaths = boundary.oddEvenOrientedSubpaths

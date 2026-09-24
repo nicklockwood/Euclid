@@ -138,6 +138,19 @@ final class MeshFillTests: XCTestCase {
         XCTAssertFalse(mesh.isWatertight)
     }
 
+    func testCompoundFillPollsForCancellation() {
+        let first = Path.square()
+        let second = Path.square().translated(by: [0.5, 0.5])
+        nonisolated(unsafe) var cancellationChecks = 0
+        let mesh = Mesh.fill(Path(subpaths: [first, second])) {
+            cancellationChecks += 1
+            return cancellationChecks > 2
+        }
+
+        XCTAssertTrue(mesh.isEmpty)
+        XCTAssertGreaterThanOrEqual(cancellationChecks, 3)
+    }
+
     func testFillOverlappingCurvedCompoundPathUsesEvenOddRule() {
         let path = Path(subpaths: [
             .circle(segments: 32),

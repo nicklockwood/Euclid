@@ -566,4 +566,18 @@ final class MeshLoftTests: XCTestCase {
         XCTAssertEqual(mesh.polygons.surfaceArea, 192)
         XCTAssertTrue(mesh.isWatertight)
     }
+
+    func testLoftParallelTransformedCurvedCompoundPath() {
+        let compound = Path(subpaths: [
+            .circle(segments: 16).translated(by: [-1, 0, 0]),
+            .circle(segments: 16).translated(by: [1, 0, 0]),
+        ])
+        let mesh = Mesh.loft([compound, compound.translated(by: .unitZ)])
+        let fill = Mesh.fill(compound, faces: .front)
+        let boundaryLength = fill.polygons.outlinePaths.reduce(0) { $0 + $1.length }
+        let expectedSurfaceArea = fill.surfaceArea * 2 + boundaryLength
+
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertEqual(mesh.surfaceArea, expectedSurfaceArea, accuracy: epsilon)
+    }
 }

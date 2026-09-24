@@ -534,29 +534,27 @@ public extension Mesh {
         if depth < scaleLimit {
             return fill(normalizedShape, faces: faces, material: material, isCancelled: isCancelled)
         }
-        if normalizedShape.shouldExtrudeSubpathsWithEvenOddComposition {
-            let material = SendableMaterial(material)
-            let meshes = batch(normalizedShape.subpaths, stride: 1) {
-                $0.map { shape in
-                    isCancelled() ? .empty : extrude(
-                        shape,
-                        depth: depth,
-                        twist: twist,
-                        sections: sections,
-                        faces: faces,
-                        material: material.value,
-                        isCancelled: isCancelled
-                    )
-                }
-            }
-            return .symmetricDifference(meshes, isCancelled: isCancelled)
+        let extrusionShape: Path
+        if normalizedShape.shouldResolveExtrusionWithEvenOddBoundary {
+            let shape = normalizedShape.closed()
+            let polygons = shape.oddEvenFillPolygons(
+                material: nil,
+                isCancelled: isCancelled
+            )
+            let boundary = shape.filledAreaBoundary(from: polygons)
+            extrusionShape = Path(subpaths: boundary.oddEvenOrientedSubpaths)
+        } else {
+            extrusionShape = normalizedShape
         }
-        let faceNormal = normalizedShape.faceNormal
+        guard !isCancelled() else {
+            return .empty
+        }
+        let faceNormal = extrusionShape.faceNormal
         let offset = faceNormal * depth
         let sections = max(1, sections ?? Int(ceil(abs(twist / .twoPi) * 16)))
         let step = offset / Double(sections)
         let rotation = Rotation(unchecked: faceNormal, angle: twist / Double(sections))
-        var shape = normalizedShape.translated(by: -offset / 2)
+        var shape = extrusionShape.translated(by: -offset / 2)
         var shapes = [shape]
         for _ in 0 ..< sections {
             shape.translate(by: step)
@@ -1063,48 +1061,61 @@ private extension Path {
 
     /// Builds front-facing polygons for `fill` and extrusion caps, with consistent attributes.
     func fillPolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon] {
-        let shape = closed()
-        let subpaths = shape.subpaths
+        guard !isCancelled() else {
+            return []
+        }
+        let closedShape = closed()
+        let closedSubpaths = closedShape.subpaths
+        let subpaths = closedSubpaths.filter {
+            Set($0.points.dropLast($0.isClosed ? 1 : 0).map(\.position)).count >= 3
+        }
+        let shape = subpaths.count == closedSubpaths.count ? closedShape : Path(subpaths: subpaths)
         let polygons: [Polygon]
         if subpaths.count <= 1 {
             polygons = shape.facePolygons(material: material)
-        } else if shape.subpathsTouchOrIntersect, shape.hasRepairableCoincidentContours {
+        } else if shape.hasRepairableCoincidentContours {
             // Fill may need a rebuilt non-zero boundary instead of odd-even composition.
             // Compound paths only use this for SVG-style contours with coincident points.
-            let nonZeroFillPolygons = shape.nonZeroFillPolygons(material: material)
+            let nonZeroFillPolygons = shape.nonZeroFillPolygons(
+                material: material,
+                isCancelled: isCancelled
+            )
             if shape.filledAreaBoundary(from: nonZeroFillPolygons).subpaths.count > 1 {
                 polygons = shape.nonZeroFillCapPolygons(
                     nonZeroFillPolygons,
                     isCancelled: isCancelled
                 )
             } else {
-                polygons = Mesh.symmetricDifference(subpaths.map {
-                    Mesh.fill($0, faces: .front, material: material, isCancelled: isCancelled)
-                }, isCancelled: isCancelled).polygons
+                polygons = shape.oddEvenFillPolygons(
+                    material: material,
+                    isCancelled: isCancelled
+                )
             }
-        } else if !shape.subpathsTouchOrIntersect,
-                  !shape.subpathsHavePartiallyOverlappingInteriors,
-                  shape.hasNestedSubpaths
-        {
-            // Fill should use the default odd/even approach
-            polygons = shape.oddEvenFillPolygons(material: material)
         } else {
-            polygons = Mesh.symmetricDifference(subpaths.map {
-                Mesh.fill($0, faces: .front, material: material, isCancelled: isCancelled)
-            }, isCancelled: isCancelled).polygons
+            polygons = shape.oddEvenFillPolygons(
+                material: material,
+                isCancelled: isCancelled
+            )
         }
         return shape.applyingFaceAttributes(to: polygons)
     }
 
-    /// Returns `nonZeroFillBoundary` only when it can safely replace this path for mesh generation.
-    /// Some non-zero boundaries merge or reorder subpaths in ways that break loft side matching.
+    /// Returns an edge-aligned non-zero fill boundary when it can safely replace this path for
+    /// mesh generation. Some boundaries merge or reorder subpaths in ways that break side matching.
     var meshableNonZeroFillBoundary: Path? {
         if subpaths.count == 1, points.count > 256 {
             return nil
         }
-        guard isClosed, let boundary = nonZeroFillBoundaryWithAlignedEdges else {
+        guard isClosed else {
             return nil
         }
+        let polygons = nonZeroFillPolygons(material: nil) { false }
+        let precision = max(bounds.size.length * 1e-9, epsilon)
+        let outlinePolygons = polygons.count > 1 ? polygons
+            .insertingEdgeVertices(with: polygons.holeEdges) { false }
+            .mergingVertices(withPrecision: precision) { false } : polygons
+        let boundary = Path(unchecked: .subpaths(outlinePolygons.outlinePaths), plane: plane)
+            .restoringCurvature(from: self)
         if subpaths.count > 1,
            subpathsHavePartiallyOverlappingInteriors,
            !hasRepairableCoincidentContours
@@ -1144,7 +1155,7 @@ private extension Path {
         subpaths.contains { $0.hasCurvedPoints } && subpaths.contains { !$0.hasCurvedPoints }
     }
 
-    var shouldExtrudeSubpathsWithEvenOddComposition: Bool {
+    var shouldResolveExtrusionWithEvenOddBoundary: Bool {
         guard subpaths.count > 1, !hasRepairableCoincidentContours else {
             return false
         }
@@ -1235,7 +1246,10 @@ private extension Path {
         material: Mesh.Material?,
         isCancelled: CancellationHandler
     ) -> [Polygon] {
-        nonZeroFillCapPolygons(nonZeroFillPolygons(material: material), isCancelled: isCancelled)
+        nonZeroFillCapPolygons(
+            nonZeroFillPolygons(material: material, isCancelled: isCancelled),
+            isCancelled: isCancelled
+        )
     }
 
     func nonZeroFillCapPolygons(
@@ -2072,10 +2086,7 @@ private extension Mesh {
         }
         if subpathCount > 1 {
             let shouldMapCompoundSides = normalizedShapes.first.map { first in
-                normalizedShapes.allSatisfy { $0.sectionTransform(relativeTo: first) != nil } &&
-                    normalizedShapes.contains {
-                        abs($0.faceNormal.dot(first.faceNormal)) < 1 - epsilon
-                    }
+                normalizedShapes.allSatisfy { $0.sectionTransform(relativeTo: first) != nil }
             } ?? false
             guard shouldMapCompoundSides else {
                 return Mesh.symmetricDifference(subshapes.map {

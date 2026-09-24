@@ -312,7 +312,7 @@ public extension Path {
     /// path point positions relative to the bounding rectangle of the path.
     func facePolygons(material: Mesh.Material? = nil) -> [Polygon] {
         if usesNonZeroFill {
-            return nonZeroFillPolygons(material: material)
+            return nonZeroFillPolygons(material: material) { false }
         }
         guard subpaths.count <= 1 else {
             return subpaths.flatMap { $0.facePolygons(material: material) }
@@ -803,8 +803,13 @@ extension Path {
     /// - Parameters:
     ///   - material: The material assigned to every returned polygon.
     ///   - usingEvenOddRule: Whether to use even-odd instead of nonzero winding.
-    func filledPolygons(material: Mesh.Material?, usingEvenOddRule: Bool) -> [Polygon] {
-        guard isClosed, let plane else {
+    ///   - isCancelled: Callback used to cancel the operation.
+    func filledPolygons(
+        material: Mesh.Material?,
+        usingEvenOddRule: Bool,
+        isCancelled: CancellationHandler
+    ) -> [Polygon] {
+        guard isClosed, let plane, !isCancelled() else {
             return []
         }
         let flatteningPlane = FlatteningPlane(normal: plane.normal)
@@ -881,8 +886,13 @@ extension Path {
         }
 
         var yValues = edges.flatMap { [$0.yMin, $0.yMax] }
+        var intersectionChecks = 0
         for i in edges.indices {
             for j in edges.indices.dropFirst(i + 1) {
+                if intersectionChecks.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return []
+                }
+                intersectionChecks += 1
                 guard edges[i].bounds.intersects(edges[j].bounds),
                       let intersection = edges[i].segment.intersection(with: edges[j].segment),
                       edges[i].yMin < intersection.y,
@@ -902,12 +912,18 @@ extension Path {
             }
             values.append(y)
         }
+        guard !isCancelled() else {
+            return []
+        }
 
         var polygons = [Polygon]()
         var scanlineLevelsByPolygon = [(Double, Double)]()
         var pointsByScanline = [Double: Set<Vector>]()
         var previousPolygonIndexBySpan = [ScanlineSpan: Int]()
         for (y0, y1) in zip(yValues, yValues.dropFirst()) where y1 - y0 > epsilon {
+            if isCancelled() {
+                return []
+            }
             let y = (y0 + y1) / 2
             let activeEdges = edges.filter { $0.contains(y) }.sorted {
                 let x0 = $0.x(at: y), x1 = $1.x(at: y)
@@ -980,6 +996,9 @@ extension Path {
         // unrelated spans. Align T-junctions between bands, then merge exclusively across horizontal
         // scanline boundaries. This removes scanline artifacts without generally detessellating the fill.
         for (index, levels) in scanlineLevelsByPolygon.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return []
+            }
             let bounds = polygons[index].bounds.inset(by: -epsilon)
             let points = pointsByScanline[levels.0, default: []]
                 .union(pointsByScanline[levels.1, default: []])
@@ -988,6 +1007,9 @@ extension Path {
         }
         var polygonIndicesByScanlineEdge = [LineSegment: [Int]]()
         for (index, polygon) in polygons.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return []
+            }
             for edge in polygon.undirectedEdges {
                 let start = flatteningPlane.flattenPoint(edge.start)
                 let end = flatteningPlane.flattenPoint(edge.end)
@@ -1005,6 +1027,9 @@ extension Path {
             let pair = PolygonPair(indices[0], indices[1])
             return visitedPairs.insert(pair).inserted ? pair : nil
         }
+        guard !isCancelled() else {
+            return []
+        }
         var parents = Array(polygons.indices)
         var mergedPolygons = polygons.map(Optional.some)
         func root(of index: Int) -> Int {
@@ -1014,7 +1039,10 @@ extension Path {
             }
             return index
         }
-        for pair in pairs {
+        for (index, pair) in pairs.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return []
+            }
             let first = root(of: pair.first)
             let second = root(of: pair.second)
             guard first != second else {
@@ -1046,6 +1074,9 @@ extension Path {
             return result
         }
         while true {
+            if isCancelled() {
+                return []
+            }
             var indicesByEdge = [LineSegment: [Int]]()
             for (index, polygon) in result.enumerated() {
                 for edge in polygon.undirectedEdges {
@@ -1083,13 +1114,13 @@ extension Path {
     ///
     /// The path must be closed and planar. Compound paths are evaluated as contours in the same
     /// filled region, so overlapping or self-intersecting contours are resolved by winding direction.
-    func nonZeroFillPolygons(material: Mesh.Material?) -> [Polygon] {
-        filledPolygons(material: material, usingEvenOddRule: false)
+    func nonZeroFillPolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon] {
+        filledPolygons(material: material, usingEvenOddRule: false, isCancelled: isCancelled)
     }
 
     /// Builds cap polygons for the area covered by this path using the even-odd fill rule.
-    func oddEvenFillPolygons(material: Mesh.Material?) -> [Polygon] {
-        filledPolygons(material: material, usingEvenOddRule: true)
+    func oddEvenFillPolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon] {
+        filledPolygons(material: material, usingEvenOddRule: true, isCancelled: isCancelled)
     }
 
     /// Reconstructs the path around the filled area represented by `polygons`.
@@ -1202,20 +1233,7 @@ extension Path {
 
     /// Returns outline paths for the area covered by this path using the non-zero winding fill rule.
     var nonZeroFillBoundary: Path {
-        filledAreaBoundary(from: nonZeroFillPolygons(material: nil))
-    }
-
-    /// Returns a non-zero fill boundary after aligning split edges between adjacent fill polygons.
-    /// This is useful for mesh side-wall generation, but caps should use `nonZeroFillBoundary`
-    /// or `nonZeroFillPolygons` so real holes are not converted into filled subpaths.
-    var nonZeroFillBoundaryWithAlignedEdges: Path? {
-        let polygons = nonZeroFillPolygons(material: nil)
-        let precision = max(bounds.size.length * 1e-9, epsilon)
-        let outlinePolygons = polygons.count > 1 ? polygons
-            .insertingEdgeVertices(with: polygons.holeEdges) { false }
-            .mergingVertices(withPrecision: precision) { false } : polygons
-        return Path(unchecked: .subpaths(outlinePolygons.outlinePaths), plane: plane)
-            .restoringCurvature(from: self)
+        filledAreaBoundary(from: nonZeroFillPolygons(material: nil) { false })
     }
 
     func restoringCurvature(from source: Path) -> Path {

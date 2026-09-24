@@ -125,7 +125,7 @@ final class MeshExtrudeTests: XCTestCase {
             .point(0, 0),
         ]
         let path = Path(unchecked: points, plane: .xy)
-        let fillPolygons = path.nonZeroFillPolygons(material: nil)
+        let fillPolygons = path.nonZeroFillPolygons(material: nil) { false }
         let rawBoundaryEdges = fillPolygons.boundingEdges
         let alignedBoundaryEdges = fillPolygons
             .insertingEdgeVertices(with: fillPolygons.holeEdges)
@@ -184,7 +184,6 @@ final class MeshExtrudeTests: XCTestCase {
 
         XCTAssertTrue(path.usesNonZeroFill)
         XCTAssertEqual(Set(rawBoundaryEdges.map(signature)), expectedSideEdges)
-        XCTAssertEqual(path.nonZeroFillBoundaryWithAlignedEdges?.subpaths.count, 2)
         XCTAssertEqual(boundaryEdgeSignatures(for: extrudedCapPolygons), expectedSideEdges)
         XCTAssertEqual(boundaryEdgeSignatures(for: extrudedAlongCapPolygons), expectedSideEdges)
         XCTAssertEqual(totalArea(of: extrudedCapPolygons), totalArea(of: filledPolygons) * 2)
@@ -295,10 +294,8 @@ final class MeshExtrudeTests: XCTestCase {
             .point(5, 15),
             .point(5, 5),
         ])
-        var mesh = Mesh.extrude(Path(subpaths: [first, second]), depth: 1)
+        let mesh = Mesh.extrude(Path(subpaths: [first, second]), depth: 1)
         XCTAssertEqual(mesh.polygons.surfaceArea, 380)
-        XCTAssertFalse(mesh.isWatertight)
-        mesh = mesh.makeWatertight()
         XCTAssertTrue(mesh.isWatertight)
     }
 
@@ -308,12 +305,13 @@ final class MeshExtrudeTests: XCTestCase {
             .square().translated(by: [0.5, 0.5, 0]),
             .square().translated(by: [0.5, -0.5, 0]),
         ])
-        let mesh = Mesh.extrude(path, depth: 8).makeWatertight()
-        let expected = Mesh.symmetricDifference(path.subpaths.map {
-            Mesh.extrude($0, depth: 8)
-        }).makeWatertight()
+        let mesh = Mesh.extrude(path, depth: 8)
+        let fill = Mesh.fill(path, faces: .front)
+        let boundaryLength = fill.polygons.outlinePaths.reduce(0) { $0 + $1.length }
+        let expectedSurfaceArea = fill.surfaceArea * 2 + boundaryLength * 8
 
-        XCTAssertEqual(mesh.surfaceArea, expected.surfaceArea, accuracy: epsilon)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertEqual(mesh.surfaceArea, expectedSurfaceArea, accuracy: epsilon)
     }
 
     func testExtrudeOverlappingCurvedCompoundPathCapUsesEvenOddRule() {
@@ -348,12 +346,13 @@ final class MeshExtrudeTests: XCTestCase {
             .square().translated(by: [0.5, 0.5, 0]),
             .square().translated(by: [0.5, -0.5, 0]),
         ])
-        let mesh = Mesh.extrude(path, depth: 8).makeWatertight()
-        let expected = Mesh.symmetricDifference(path.subpaths.map {
-            Mesh.extrude($0, depth: 8)
-        }).makeWatertight()
+        let mesh = Mesh.extrude(path, depth: 8)
+        let fill = Mesh.fill(path, faces: .front)
+        let boundaryLength = fill.polygons.outlinePaths.reduce(0) { $0 + $1.length }
+        let expectedSurfaceArea = fill.surfaceArea * 2 + boundaryLength * 8
 
-        XCTAssertEqual(mesh.surfaceArea, expected.surfaceArea, accuracy: epsilon)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertEqual(mesh.surfaceArea, expectedSurfaceArea, accuracy: epsilon)
     }
 
     func testExtrudeQRCodeLikeCompoundPath() {
