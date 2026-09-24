@@ -111,7 +111,23 @@ final class MeshExtrudeTests: XCTestCase {
     }
 
     func testSelfIntersectingExtrudedPathAlignsNonZeroFillBoundaryEdges() {
-        let points: [PathPoint] = [
+        assertSelfIntersectingExtrusionAlignsNonZeroFillBoundaryEdges(Path(unchecked: [
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 4),
+            .point(3, 4),
+            .point(3, 3),
+            .point(0.5, 3),
+            .point(0.5, 2),
+            .point(4, 2),
+            .point(4, 5),
+            .point(0, 5),
+            .point(0, 0),
+        ], plane: .xy))
+    }
+
+    func testDetailedSelfIntersectingExtrudedPathAlignsNonZeroFillBoundaryEdges() throws {
+        let controlPoints: [PathPoint] = [
             .point(0, 0),
             .point(1, 0),
             .point(1, 4),
@@ -124,7 +140,16 @@ final class MeshExtrudeTests: XCTestCase {
             .point(0, 5),
             .point(0, 0),
         ]
+        let points = try zip(controlPoints, controlPoints.dropFirst()).flatMap { start, end in
+            (0 ..< 32).map { start.lerp(end, Double($0) / 32) }
+        } + [XCTUnwrap(controlPoints.last)]
         let path = Path(unchecked: points, plane: .xy)
+
+        XCTAssertGreaterThan(path.points.count, 256)
+        assertSelfIntersectingExtrusionAlignsNonZeroFillBoundaryEdges(path)
+    }
+
+    private func assertSelfIntersectingExtrusionAlignsNonZeroFillBoundaryEdges(_ path: Path) {
         let fillPolygons = path.nonZeroFillPolygons(material: nil) { false }
         let rawBoundaryEdges = fillPolygons.boundingEdges
         let alignedBoundaryEdges = fillPolygons

@@ -1103,7 +1103,7 @@ private extension Path {
     /// Returns an edge-aligned non-zero fill boundary when it can safely replace this path for
     /// mesh generation. Some boundaries merge or reorder subpaths in ways that break side matching.
     var meshableNonZeroFillBoundary: Path? {
-        if subpaths.count == 1, points.count > 256 {
+        if subpaths.count == 1, !usesNonZeroFill {
             return nil
         }
         guard isClosed else {
