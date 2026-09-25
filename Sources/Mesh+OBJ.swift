@@ -19,7 +19,7 @@ public extension Mesh {
         let hasTexcoords = hasTexcoords, hasVertexNormals = hasVertexNormals
         let hasVertexColors = hasVertexColors
 
-        let indices = polygons.tessellate().map { polygon -> [OBJVertex] in
+        let indices = polygons.tessellate { false }.map { polygon -> [OBJVertex] in
             polygon.vertices.map { vertex -> OBJVertex in
                 let texcoordIndex = hasTexcoords ? indicesByTexcoord[vertex.texcoord] ?? {
                     let index = indicesByTexcoord.count + 1

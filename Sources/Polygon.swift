@@ -373,25 +373,35 @@ public extension Polygon {
     }
 
     /// Splits a polygon into two or more convex polygons using the "ear clipping" method.
-    /// - Parameter maxSides: The maximum number of sides each polygon may have.
+    /// - Parameters:
+    ///   - maxSides: The maximum number of sides each polygon may have.
+    ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: An array of convex polygons.
-    func tessellate(maxSides: Int = .max) -> [Polygon] {
+    func tessellate(
+        maxSides: Int = .max,
+        isCancelled: CancellationHandler = { false }
+    ) -> [Polygon] {
         let maxSides = max(maxSides, 3)
         if vertices.count <= maxSides, isConvex {
             return [self]
         }
-        let polygons = triangulate()
+        let polygons = triangulate(isCancelled: isCancelled)
         if maxSides == 3 {
             return polygons
         }
-        return polygons.coplanarDetessellate(ensureConvex: true, maxSides: maxSides)
+        return polygons.coplanarDetessellate(
+            ensureConvex: true,
+            maxSides: maxSides,
+            isCancelled: isCancelled
+        )
     }
 
     /// Tessellates the polygon into triangles.
+    /// - Parameter isCancelled: Callback used to cancel the operation.
     /// - Returns: An array of triangles.
     ///
     /// > Note: If the polygon is already a triangle then it is returned unchanged.
-    func triangulate() -> [Polygon] {
+    func triangulate(isCancelled: CancellationHandler = { false }) -> [Polygon] {
         guard vertices.count > 3 else {
             return [self]
         }
@@ -401,7 +411,8 @@ public extension Polygon {
             isConvex: isConvex,
             sanitizeNormals: false,
             material: material,
-            id: id
+            id: id,
+            isCancelled: isCancelled
         )
     }
 
@@ -563,11 +574,18 @@ extension [Polygon] {
             isConvex: nil,
             sanitizeNormals: true,
             material: material,
-            id: id
+            id: id,
+            isCancelled: { false }
         )
-        let groupedByPlane = plane.map { [($0, triangles)] } ?? triangles.groupedByPlane()
+        let groupedByPlane = plane.map { [($0, triangles)] } ?? triangles.groupedByPlane(
+            isCancelled: { false }
+        )
         self = groupedByPlane.flatMap {
-            $0.polygons.coplanarDetessellate(ensureConvex: ensureConvex, maxSides: maxSides)
+            $0.polygons.coplanarDetessellate(
+                ensureConvex: ensureConvex,
+                maxSides: maxSides,
+                isCancelled: { false }
+            )
         }
     }
 
@@ -602,13 +620,18 @@ extension [Polygon] {
         var signs = [Int](repeating: 0, count: count)
         var componentIDs = [Int](repeating: -1, count: count)
         var components = [[Int]]()
-        func addComponent(from start: Int) {
+        var traversalSteps = 0
+        func addComponent(from start: Int) -> Bool {
             let componentID = components.count
             var component = [Int]()
             signs[start] = 1
             componentIDs[start] = componentID
             var queue = [start]
-            while let index = queue.popLast(), !isCancelled() {
+            while let index = queue.popLast() {
+                if traversalSteps.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return false
+                }
+                traversalSteps += 1
                 component.append(index)
                 for neighbor in adjacency[index] {
                     let expectedSign = signs[index] * neighbor.parity
@@ -620,14 +643,15 @@ extension [Polygon] {
                 }
             }
             components.append(component)
+            return true
         }
-        for start in indices where locked[start] && componentIDs[start] < 0 {
-            if isCancelled() { return self }
-            addComponent(from: start)
+        for (index, start) in indices.enumerated() where locked[start] && componentIDs[start] < 0 {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() { return self }
+            guard addComponent(from: start) else { return self }
         }
-        for start in indices where componentIDs[start] < 0 {
-            if isCancelled() { return self }
-            addComponent(from: start)
+        for (index, start) in indices.enumerated() where componentIDs[start] < 0 {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() { return self }
+            guard addComponent(from: start) else { return self }
         }
         let componentIsLocked = components.map { component in
             component.contains { locked[$0] }
@@ -800,7 +824,7 @@ extension Collection<Polygon> {
     /// Insert missing vertices needed to prevent hairline cracks.
     func insertingEdgeVertices(
         with holeEdges: Set<LineSegment>,
-        isCancelled: Euclid.CancellationHandler = { false }
+        isCancelled: Euclid.CancellationHandler
     ) -> [Polygon] {
         func insertEdgePoints(_ points: ArraySlice<Vector>, into polygon: inout Polygon) -> Bool {
             guard !isCancelled() else {
@@ -861,7 +885,7 @@ extension Collection<Polygon> {
     func mergingVertices(
         _ vertices: Set<Vector>? = nil,
         withPrecision precision: Double,
-        isCancelled: Euclid.CancellationHandler = { false }
+        isCancelled: Euclid.CancellationHandler
     ) -> [Polygon] {
         var positions = VertexSet(precision: precision)
         var result = [Polygon]()
@@ -1059,13 +1083,16 @@ extension Collection<Polygon> {
     }
 
     /// Decompose each concave polygon into 2 or more convex polygons
-    func tessellate(maxSides: Int = .max) -> [Polygon] {
-        flatMap { $0.tessellate(maxSides: maxSides) }
+    func tessellate(
+        maxSides: Int = .max,
+        isCancelled: Euclid.CancellationHandler
+    ) -> [Polygon] {
+        return flatMap { $0.tessellate(maxSides: maxSides, isCancelled: isCancelled) }
     }
 
     /// Decompose each polygon into triangles
-    func triangulate() -> [Polygon] {
-        flatMap { $0.triangulate() }
+    func triangulate(isCancelled: Euclid.CancellationHandler) -> [Polygon] {
+        return flatMap { $0.triangulate(isCancelled: isCancelled) }
     }
 
     /// Merge polygons
@@ -1096,7 +1123,9 @@ extension Collection<Polygon> {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return []
             }
-            for (index, planeGroup) in materialGroup.polygons.groupedByPlane().enumerated() {
+            for (index, planeGroup) in materialGroup.polygons.groupedByPlane(
+                isCancelled: isCancelled
+            ).enumerated() {
                 if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                     return []
                 }
@@ -1141,7 +1170,7 @@ extension Collection<Polygon> {
         useQualityMerge: Bool = true,
         allowDisjointSharedVertices: Bool = true,
         preserveRedundantVertices: Bool = false,
-        isCancelled: Euclid.CancellationHandler = { false }
+        isCancelled: Euclid.CancellationHandler
     ) -> [Polygon] {
         assert(areCoplanar)
         assert(allSatisfy { $0.material == first?.material })
@@ -1210,7 +1239,7 @@ extension Collection<Polygon> {
 
     /// Group polygons by plane
     func groupedByPlane(
-        isCancelled: Euclid.CancellationHandler = { false }
+        isCancelled: Euclid.CancellationHandler
     ) -> [(plane: Plane, polygons: [Polygon])] {
         let polygons = sorted(by: { $0.plane.w < $1.plane.w })
         guard var plane = polygons.first?.plane else {
@@ -1370,7 +1399,10 @@ private extension [Polygon] {
                 return
             }
             let bounds = self[i].bounds.inset(by: -epsilon)
-            self[i].insertEdgePoints(sortedPoints.filter { bounds.intersects($0) })
+            self[i].insertEdgePoints(
+                sortedPoints.filter { bounds.intersects($0) },
+                isCancelled: isCancelled
+            )
         }
     }
 
@@ -1807,7 +1839,8 @@ extension Polygon {
                     isConvex: nil,
                     sanitizeNormals: false,
                     material: material,
-                    id: id
+                    id: id,
+                    isCancelled: { false }
                 ).surfaceArea
                 guard triangulatedArea.isApproximatelyEqual(
                     to: sourceArea,
@@ -1985,7 +2018,7 @@ extension Polygon {
     @discardableResult
     mutating func insertEdgePoints(
         _ points: [Vector],
-        isCancelled: Euclid.CancellationHandler = { false }
+        isCancelled: Euclid.CancellationHandler
     ) -> Bool {
         guard var last = vertices.last else {
             assertionFailure()

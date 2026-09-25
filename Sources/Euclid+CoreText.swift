@@ -42,15 +42,22 @@ public extension Path {
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
     ///   - color: An optional color to apply to the text.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: String,
         font: CTFont? = nil,
         width: Double? = nil,
         detail: Int = 2,
-        color: Color? = nil
+        color: Color? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> [Path] {
         let attributedString = NSAttributedString(string: text, font: font, color: color)
-        return self.text(attributedString, width: width, detail: detail)
+        return self.text(
+            attributedString,
+            width: width,
+            detail: detail,
+            isCancelled: isCancelled
+        )
     }
 
     /// Creates an array of glyph contours from an attributed string.
@@ -58,18 +65,21 @@ public extension Path {
     ///   - text: The text to convert.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: NSAttributedString,
         width: Double? = nil,
-        detail: Int = 2
+        detail: Int = 2,
+        isCancelled: CancellationHandler = { false }
     ) -> [Path] {
-        text.cgPaths(width: width).map {
+        let paths = text.cgPaths(width: width, isCancelled: isCancelled).map {
             let cgPath = CGMutablePath()
             let transform = CGAffineTransform(translationX: $1.x, y: $1.y)
             cgPath.addPath($0, transform: transform)
             let path = Path(cgPath, detail: detail, color: $2)
             return path.faceNormal.dot(.unitZ) > 0 ? path.inverted() : path
         }
+        return paths
     }
 }
 
@@ -80,13 +90,21 @@ public extension RangeReplaceableCollection<Path> {
     ///   - font: The font to use for the text.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: String,
         font: CTFont? = nil,
         width: Double? = nil,
-        detail: Int = 2
+        detail: Int = 2,
+        isCancelled: Euclid.CancellationHandler = { false }
     ) -> Self {
-        Self(Path.text(text, font: font, width: width, detail: detail))
+        Self(Path.text(
+            text,
+            font: font,
+            width: width,
+            detail: detail,
+            isCancelled: isCancelled
+        ))
     }
 
     /// Creates a collection of glyph contours from an attributed string.
@@ -94,12 +112,14 @@ public extension RangeReplaceableCollection<Path> {
     ///   - text: The text to convert.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: NSAttributedString,
         width: Double? = nil,
-        detail: Int = 2
+        detail: Int = 2,
+        isCancelled: Euclid.CancellationHandler = { false }
     ) -> Self {
-        Self(Path.text(text, width: width, detail: detail))
+        Self(Path.text(text, width: width, detail: detail, isCancelled: isCancelled))
     }
 }
 
@@ -110,13 +130,21 @@ public extension Collection<Path> where Self == [Path] {
     ///   - font: The font to use for the text.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: String,
         font: CTFont? = nil,
         width: Double? = nil,
-        detail: Int = 2
+        detail: Int = 2,
+        isCancelled: Euclid.CancellationHandler = { false }
     ) -> Self {
-        Path.text(text, font: font, width: width, detail: detail)
+        Path.text(
+            text,
+            font: font,
+            width: width,
+            detail: detail,
+            isCancelled: isCancelled
+        )
     }
 
     /// Creates an array of glyph contours from an attributed string.
@@ -124,12 +152,14 @@ public extension Collection<Path> where Self == [Path] {
     ///   - text: The text to convert.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: NSAttributedString,
         width: Double? = nil,
-        detail: Int = 2
+        detail: Int = 2,
+        isCancelled: Euclid.CancellationHandler = { false }
     ) -> Self {
-        Path.text(text, width: width, detail: detail)
+        Path.text(text, width: width, detail: detail, isCancelled: isCancelled)
     }
 }
 
@@ -142,20 +172,23 @@ public extension Mesh {
     ///   - depth: The depth of the extruded text.
     ///   - detail: The number line segments used to approximate glyph curves.
     ///   - material: An optional material to apply to the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: String,
         font: CTFont? = nil,
         width: Double? = nil,
         depth: Double = 1,
         detail: Int = 2,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         .text(
             NSAttributedString(string: text, font: font),
             width: width,
             depth: depth,
             detail: detail,
-            material: material
+            material: material,
+            isCancelled: isCancelled
         )
     }
 
@@ -166,27 +199,35 @@ public extension Mesh {
     ///   - depth: The depth of the extruded text.
     ///   - detail: The number line segments used to approximate glyph curves.
     ///   - material: Optional material to apply to the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: NSAttributedString,
         width: Double? = nil,
         depth: Double = 1,
         detail: Int = 2,
-        material: Material? = nil
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         var meshes = [Mesh]()
         var cache = [CGPath: Mesh]()
-        for (cgPath, cgPoint, color) in text.cgPaths(width: width) {
+        for (cgPath, cgPoint, color) in text.cgPaths(width: width, isCancelled: isCancelled) {
+            guard !isCancelled() else { return .empty }
             let offset = Vector(cgPoint)
             guard let mesh = cache[cgPath] else {
                 let path = Path(cgPath, detail: detail, color: color)
-                let mesh = Mesh.extrude(path, depth: depth, material: material)
+                let mesh = Mesh.extrude(
+                    path,
+                    depth: depth,
+                    material: material,
+                    isCancelled: isCancelled
+                )
                 cache[cgPath] = mesh
                 meshes.append(mesh.translated(by: offset))
                 continue
             }
             meshes.append(mesh.translated(by: offset))
         }
-        return .union(meshes)
+        return meshes.isEmpty ? .empty : .union(meshes, isCancelled: isCancelled)
     }
 }
 
@@ -208,7 +249,11 @@ private extension NSAttributedString {
 
     /// Returns an array of (path, position, color) tuples
     /// for the glyphs in an attributed string
-    func cgPaths(width: Double?) -> [(glyph: CGPath, offset: CGPoint, color: Color?)] {
+    func cgPaths(
+        width: Double?,
+        isCancelled: Euclid.CancellationHandler
+    ) -> [(glyph: CGPath, offset: CGPoint, color: Color?)] {
+        guard !isCancelled() else { return [] }
         let framesetter = CTFramesetterCreateWithAttributedString(self as CFAttributedString)
 
         let range = CFRangeMake(0, 0)
@@ -223,14 +268,19 @@ private extension NSAttributedString {
 
         var paths = [(CGPath, CGPoint, Color?)]()
         for (line, origin) in zip(lines, origins) {
+            guard !isCancelled() else { return [] }
             let runs = CTLineGetGlyphRuns(line) as! [CTRun]
             for run in runs {
+                guard !isCancelled() else { return [] }
                 let attributes = CTRunGetAttributes(run) as! [NSAttributedString.Key: Any]
                 let font = attributes[.font] as! CTFont
                 let color = attributes[.foregroundColor] as? OSColor
 
                 var glyph = CGGlyph()
                 for index in 0 ..< CTRunGetGlyphCount(run) {
+                    if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                        return []
+                    }
                     let range = CFRangeMake(index, 1)
                     CTRunGetGlyphs(run, range, &glyph)
                     guard let letter = CTFontCreatePathForGlyph(font, glyph, nil) else {

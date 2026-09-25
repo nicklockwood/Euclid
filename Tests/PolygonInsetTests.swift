@@ -62,4 +62,17 @@ final class PolygonInsetTests: XCTestCase {
         let result = polygon.inset(by: 0.6)
         XCTAssertFalse(result?.orderedEdgesContainCrossings ?? false)
     }
+
+    func testInsetCanBeCancelled() {
+        nonisolated(unsafe) var cancellationChecks = 0
+        let result = Polygon(unchecked: [
+            [-1, 1], [-1, -1], [1, -1], [1, 1],
+        ]).inset(by: 0.25) {
+            cancellationChecks += 1
+            return true
+        }
+
+        XCTAssertNil(result)
+        XCTAssertEqual(cancellationChecks, 1)
+    }
 }

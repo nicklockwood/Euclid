@@ -321,7 +321,10 @@ private extension Mesh {
         let perFaceMaterials = materials.count > 1
         for (materialIndex, material) in materials.enumerated() {
             let polygons = polygonsByMaterial[material] ?? []
-            for polygon in polygons.tessellate(maxSides: Int(maxSides)) {
+            for polygon in polygons.tessellate(
+                maxSides: Int(maxSides),
+                isCancelled: { false }
+            ) {
                 counts?.append(UInt8(polygon.vertices.count))
                 for var vertex in polygon.vertices {
                     vertex.color = .white // Note: vertex colors are not supported

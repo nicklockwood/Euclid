@@ -304,18 +304,30 @@ public extension Path {
     }
 
     /// Returns one or more polygons needed to fill the path.
-    /// - Parameter material: An optional ``Polygon/Material-swift.typealias`` to apply to the polygons.
+    /// - Parameters:
+    ///   - material: An optional ``Polygon/Material-swift.typealias`` to apply to the polygons.
+    ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: An array of polygons needed to fill the path, or an empty array if path is not closed.
     ///
     /// > Note: Polygon normals are calculated automatically based on the curvature of the path points.
     /// If the path points do not include textcoords, they will be calculated automatically based on the
     /// path point positions relative to the bounding rectangle of the path.
-    func facePolygons(material: Mesh.Material? = nil) -> [Polygon] {
+    func facePolygons(
+        material: Mesh.Material? = nil,
+        isCancelled: CancellationHandler = { false }
+    ) -> [Polygon] {
         if usesNonZeroFill {
-            return nonZeroFillPolygons(material: material) { false }
+            return nonZeroFillPolygons(material: material, isCancelled: isCancelled)
         }
         guard subpaths.count <= 1 else {
-            return subpaths.flatMap { $0.facePolygons(material: material) }
+            var polygons = [Polygon]()
+            for subpath in subpaths {
+                guard !isCancelled() else {
+                    return []
+                }
+                polygons += subpath.facePolygons(material: material, isCancelled: isCancelled)
+            }
+            return polygons
         }
         guard let vertices = faceVertices else {
             return []
@@ -920,10 +932,13 @@ extension Path {
         var scanlineLevelsByPolygon = [(Double, Double)]()
         var pointsByScanline = [Double: Set<Vector>]()
         var previousPolygonIndexBySpan = [ScanlineSpan: Int]()
-        for (y0, y1) in zip(yValues, yValues.dropFirst()) where y1 - y0 > epsilon {
-            if isCancelled() {
+        for (index, levels) in zip(yValues, yValues.dropFirst()).enumerated()
+            where levels.1 - levels.0 > epsilon
+        {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return []
             }
+            let (y0, y1) = levels
             let y = (y0 + y1) / 2
             let activeEdges = edges.filter { $0.contains(y) }.sorted {
                 let x0 = $0.x(at: y), x1 = $1.x(at: y)
@@ -957,9 +972,7 @@ extension Path {
                         flatteningPlane.unflattenPoint([x1Right, y1], onto: plane),
                         flatteningPlane.unflattenPoint([x1Left, y1], onto: plane),
                     ].removingAdjacentDuplicates()
-                    if vertices.count > 2,
-                       let polygon = Polygon(vertices, material: material)
-                    {
+                    if vertices.count > 2, let polygon = Polygon(vertices, material: material) {
                         let polygon = polygon.plane.normal.dot(plane.normal) < 0 ? polygon.inverted() : polygon
                         let span = ScanlineSpan(leftEdgeID: leftEdge.id, rightEdgeID: edge.id)
                         if let index = previousPolygonIndexBySpan[span],
@@ -996,20 +1009,16 @@ extension Path {
         // unrelated spans. Align T-junctions between bands, then merge exclusively across horizontal
         // scanline boundaries. This removes scanline artifacts without generally detessellating the fill.
         for (index, levels) in scanlineLevelsByPolygon.enumerated() {
-            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
-                return []
-            }
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() { return [] }
             let bounds = polygons[index].bounds.inset(by: -epsilon)
             let points = pointsByScanline[levels.0, default: []]
                 .union(pointsByScanline[levels.1, default: []])
                 .filter { bounds.intersects($0) }
-            polygons[index].insertEdgePoints(Array(points))
+            polygons[index].insertEdgePoints(Array(points), isCancelled: isCancelled)
         }
         var polygonIndicesByScanlineEdge = [LineSegment: [Int]]()
         for (index, polygon) in polygons.enumerated() {
-            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
-                return []
-            }
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() { return [] }
             for edge in polygon.undirectedEdges {
                 let start = flatteningPlane.flattenPoint(edge.start)
                 let end = flatteningPlane.flattenPoint(edge.end)
@@ -1040,9 +1049,7 @@ extension Path {
             return index
         }
         for (index, pair) in pairs.enumerated() {
-            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
-                return []
-            }
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() { return [] }
             let first = root(of: pair.first)
             let second = root(of: pair.second)
             guard first != second else {
@@ -1233,7 +1240,12 @@ extension Path {
 
     /// Returns outline paths for the area covered by this path using the non-zero winding fill rule.
     var nonZeroFillBoundary: Path {
-        filledAreaBoundary(from: nonZeroFillPolygons(material: nil) { false })
+        nonZeroFillBoundary { false }
+    }
+
+    /// Returns the non-zero fill boundary while polling for cancellation.
+    func nonZeroFillBoundary(isCancelled: CancellationHandler) -> Path {
+        filledAreaBoundary(from: nonZeroFillPolygons(material: nil, isCancelled: isCancelled))
     }
 
     func restoringCurvature(from source: Path) -> Path {

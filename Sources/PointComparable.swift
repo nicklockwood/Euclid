@@ -145,13 +145,25 @@ extension Polygon: PointComparable {
 
 extension Mesh: PointComparable {
     public func nearestPoint(to point: Vector) -> Vector {
+        nearestPoint(to: point, isCancelled: { false })
+    }
+
+    /// Returns the nearest point on the mesh to the specified point.
+    /// - Parameters:
+    ///   - point: The point to compare with.
+    ///   - isCancelled: A closure that returns `true` when the operation should stop.
+    /// - Returns: The nearest point on the mesh, or the best partial result if cancelled.
+    public func nearestPoint(to point: Vector, isCancelled: CancellationHandler) -> Vector {
         guard isKnownConvex else {
-            return BSP(self) { false }.nearestPoint(to: point)
+            return bsp(isCancelled: isCancelled).nearestPoint(to: point, isCancelled: isCancelled)
         }
         var result = point
         var shortest = Double.infinity
         var outside = false
-        for polygon in polygons {
+        for (index, polygon) in polygons.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return result
+            }
             switch point.compare(with: polygon.plane) {
             case .front:
                 outside = true
@@ -178,13 +190,25 @@ extension Mesh: PointComparable {
     }
 
     public func intersects(_ point: Vector) -> Bool {
+        intersects(point, isCancelled: { false })
+    }
+
+    /// Returns whether the specified point intersects the mesh.
+    /// - Parameters:
+    ///   - point: The point to test for intersection with the mesh.
+    ///   - isCancelled: A closure that returns `true` when the operation should stop.
+    /// - Returns: `true` if the point intersects the mesh, or `false` otherwise.
+    public func intersects(_ point: Vector, isCancelled: CancellationHandler) -> Bool {
         if !bounds.intersects(point) {
             return false
         }
         guard isKnownConvex else {
-            return BSP(self) { false }.intersects(point)
+            return bsp(isCancelled: isCancelled).intersects(point, isCancelled: isCancelled)
         }
-        for polygon in polygons {
+        for (index, polygon) in polygons.enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return false
+            }
             switch point.compare(with: polygon.plane) {
             case .coplanar, .spanning:
                 return polygon.intersects(point)
@@ -209,5 +233,38 @@ extension Collection where Element: PointComparable {
 
     func distance(from point: Vector) -> Double {
         reduce(.infinity) { Swift.min($0, $1.distance(from: point)) }
+    }
+}
+
+extension Collection where Element == Polygon {
+    /// Returns the nearest point on the polygons while polling for cancellation.
+    func nearestPoint(to point: Vector, isCancelled: Euclid.CancellationHandler) -> Vector {
+        var result = point
+        var shortest = Double.infinity
+        for (index, polygon) in enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                break
+            }
+            let nearest = polygon.nearestPoint(to: point)
+            let distance = point.distance(from: nearest)
+            if distance < shortest {
+                shortest = distance
+                result = nearest
+            }
+        }
+        return result
+    }
+
+    /// Returns whether any polygon intersects the point while polling for cancellation.
+    func intersects(_ point: Vector, isCancelled: Euclid.CancellationHandler) -> Bool {
+        for (index, polygon) in enumerated() {
+            if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return false
+            }
+            if polygon.intersects(point) {
+                return true
+            }
+        }
+        return false
     }
 }

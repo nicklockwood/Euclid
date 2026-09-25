@@ -54,6 +54,32 @@ final class MeshTests: XCTestCase {
         XCTAssertEqual(torus.nearestPoint(to: .unitX * radius * 4), .unitX * radius * 3)
     }
 
+    func testNearestPointOnConcaveMeshCanBeCancelledWhileBuildingBSP() {
+        let torus = Mesh.lathe(.circle().translated(by: -.unitX * 2), slices: 32)
+        nonisolated(unsafe) var cancellationChecks = 0
+        let point = Vector(0.25, 0, 0)
+        let nearest = torus.nearestPoint(to: point) {
+            cancellationChecks += 1
+            return true
+        }
+
+        XCTAssertEqual(nearest, point)
+        XCTAssertGreaterThan(cancellationChecks, 0)
+    }
+
+    func testPointIntersectionWithConcaveMeshCanBeCancelledWhileTraversingBSP() {
+        let torus = Mesh.lathe(.circle().translated(by: -.unitX * 2), slices: 32)
+        _ = torus.nearestPoint(to: .zero) // Populate the cached BSP
+        nonisolated(unsafe) var cancellationChecks = 0
+        let intersects = torus.intersects(.unitX * 2) {
+            cancellationChecks += 1
+            return true
+        }
+
+        XCTAssertFalse(intersects)
+        XCTAssertEqual(cancellationChecks, 1)
+    }
+
     // MARK: isWatertight/isConvex
 
     func testCubeIsWatertightAndConvex() {

@@ -135,7 +135,7 @@ extension Vector {
 
 extension Mesh {
     var isActuallyConvex: Bool {
-        Mesh(polygons).isConvex()
+        Mesh(polygons).isConvex { false }
     }
 
     var orderedFingerprint: String {

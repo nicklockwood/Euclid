@@ -176,4 +176,15 @@ final class PathInsetTests: XCTestCase {
         XCTAssertFalse(result.orderedEdgesContainCrossings)
         XCTAssertTrue(Mesh.fill(result).isWatertight)
     }
+
+    func testInsetCanBeCancelled() {
+        nonisolated(unsafe) var cancellationChecks = 0
+        let result = Path.square().inset(by: 0.1) {
+            cancellationChecks += 1
+            return true
+        }
+
+        XCTAssertEqual(result, .empty)
+        XCTAssertEqual(cancellationChecks, 1)
+    }
 }

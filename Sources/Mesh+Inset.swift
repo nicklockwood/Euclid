@@ -29,7 +29,7 @@ public extension Mesh {
                 $0.plane.normal.dot(plane.normal) < 0
             }
             let path = Path(unchecked: .subpaths(outlinePaths), plane: plane)
-                .inset(by: distance)
+                .inset(by: distance, isCancelled: isCancelled)
             let faces: Faces = hasOpposingFaces ? .frontAndBack : .front
             return Mesh.fill(
                 path,
@@ -47,14 +47,15 @@ public extension Mesh {
         guard signedVolume * mesh.signedVolume > 0 else {
             return .empty
         }
-        if !isCancelled(), !mesh.polygons.holeEdges.isEmpty {
+        var holeEdges = mesh.polygons.holeEdges(isCancelled: isCancelled)
+        if !isCancelled(), !holeEdges.isEmpty {
             mesh = mesh.makeWatertight(isCancelled: isCancelled)
+            holeEdges = mesh.polygons.holeEdges(isCancelled: isCancelled)
             var precision = epsilon * 10
             while !isCancelled(),
-                  !mesh.polygons.holeEdges.isEmpty,
+                  !holeEdges.isEmpty,
                   precision <= distance * 0.25
             {
-                let holeEdges = mesh.polygons.holeEdges
                 let holePoints = holeEdges.endPoints
                 let polygons = mesh.polygons.mergingVertices(
                     holePoints,
@@ -62,11 +63,13 @@ public extension Mesh {
                     isCancelled: isCancelled
                 )
                 let merged = Mesh(polygons).makeWatertight(isCancelled: isCancelled)
-                guard merged.polygons.holeEdges.count < holeEdges.count else {
+                let mergedHoleEdges = merged.polygons.holeEdges(isCancelled: isCancelled)
+                guard mergedHoleEdges.count < holeEdges.count else {
                     precision *= 10
                     continue
                 }
                 mesh = Mesh(merged.polygons.mergingSmoothVertexNormals())
+                holeEdges = mergedHoleEdges
                 precision *= 10
             }
         }

@@ -724,6 +724,18 @@ final class MeshCSGTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(cancellationChecks, 8)
     }
 
+    func testMinkowskiSumWithPolygonCanBeCancelled() {
+        let polygon = Path.square().facePolygons().first!
+        nonisolated(unsafe) var cancellationChecks = 0
+        let mesh = Mesh.cube().minkowskiSum(with: polygon) {
+            cancellationChecks += 1
+            return true
+        }
+
+        XCTAssertEqual(mesh, .empty)
+        XCTAssertEqual(cancellationChecks, 1)
+    }
+
     func testMinkowskiSumOfTranslatedShapes() {
         let mesh1 = Mesh.cube().translated(by: .random())
         let mesh2 = Mesh.sphere().translated(by: .random())
@@ -762,8 +774,8 @@ final class MeshCSGTests: XCTestCase {
         let b = Mesh.text("G")
         let ab = a.minkowskiSum(with: b)
         let ba = b.minkowskiSum(with: a)
-        XCTAssertFalse(ab.isConvex())
-        XCTAssertFalse(ba.isConvex())
+        XCTAssertFalse(ab.isConvex { false })
+        XCTAssertFalse(ba.isConvex { false })
         XCTAssertEqual(ab, ba)
         #endif
     }
@@ -992,6 +1004,16 @@ final class MeshCSGTests: XCTestCase {
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)
         let b = a.clipped(to: plane)
         XCTAssertEqual(b.bounds, .init([0, -0.5], [0.5, 0.5]))
+    }
+
+    func testClipToPlaneWithFillPollsForCancellation() {
+        nonisolated(unsafe) var cancellationChecks = 0
+        _ = Mesh.cube().clipped(to: .yz, fill: Color.white) {
+            cancellationChecks += 1
+            return true
+        }
+
+        XCTAssertGreaterThan(cancellationChecks, 0)
     }
 
     func testSquareClippedToItsOwnPlane() {

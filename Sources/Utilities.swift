@@ -182,6 +182,7 @@ func triangulateVertices(
     sanitizeNormals: Bool,
     material: Mesh.Material?,
     id: Int,
+    isCancelled: CancellationHandler,
     flipped: Bool = false
 ) -> [Polygon] {
     guard vertices.count > 3 else {
@@ -197,6 +198,7 @@ func triangulateVertices(
             id: id
         )]
     }
+    guard !isCancelled() else { return [] }
 
     /// Triangulates directly in 3D for non-planar or numerically awkward boundaries.
     func triangulatePossiblyNonPlanarVertices(
@@ -229,6 +231,7 @@ func triangulateVertices(
             var i = 0
             var attempts = 0
             while vertices.count > 3 {
+                guard !isCancelled() else { return [] }
                 let a = vertices[i]
                 let b = vertices[(i + 1) % vertices.count]
                 let c = vertices[(i + 2) % vertices.count]
@@ -257,9 +260,11 @@ func triangulateVertices(
         let faceNormal = plane?.normal ?? faceNormalForPoints(vertices.map(\.position))
         var start = 0, i = 0
         outer: while start < vertices.count {
+            guard !isCancelled() else { return [] }
             var attempts = 0
             var vertices = vertices
             while vertices.count > 3 {
+                guard !isCancelled() else { return [] }
                 let j = (i - 1 + vertices.count) % vertices.count
                 let k = (i + 1) % vertices.count
                 let p0 = vertices[j], p1 = vertices[i], p2 = vertices[k]
@@ -385,6 +390,7 @@ func triangulateVertices(
         // original ring and explore alternate ears before falling back to the slower 3D clipper.
         let maxBacktrackingVertexCount = 8
         func triangulateWithBacktracking(_ ring: [Int]) -> [[Int]]? {
+            guard !isCancelled() else { return nil }
             guard ring.count <= maxBacktrackingVertexCount else {
                 return nil
             }
@@ -476,6 +482,7 @@ func triangulateVertices(
         }
 
         while ring.count > 3 {
+            guard !isCancelled() else { return [] }
             let reflexVertices: [Int] = knownConvex ? [] : ring.indices.compactMap { ringIndex in
                 let count = ring.count
                 let previous = points[ring[(ringIndex + count - 1) % count]]
@@ -486,6 +493,9 @@ func triangulateVertices(
             }
             var bestEar: Ear?
             for offset in ring.indices {
+                if offset.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return []
+                }
                 let ringIndex = prefersBestEar ? offset : (searchStartIndex + offset) % ring.count
                 guard let candidate = ear(at: ringIndex) else {
                     continue

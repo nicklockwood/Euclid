@@ -114,16 +114,26 @@ extension BSP {
 
 extension BSP: PointComparable {
     func nearestPoint(to point: Vector) -> Vector {
+        nearestPoint(to: point, isCancelled: { false })
+    }
+
+    /// Returns the nearest point in the BSP while polling for cancellation.
+    func nearestPoint(to point: Vector, isCancelled: CancellationHandler) -> Vector {
         guard var node = nodes.first else {
             return point
         }
         var result = point
         var shortest = Double.infinity
         var visited: IndexSet = [0]
+        var steps = 0
         while true {
+            if steps.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return result
+            }
+            steps += 1
             switch point.compare(with: node.plane) {
             case .coplanar, .spanning, .front:
-                let nearest = node.polygons.nearestPoint(to: point)
+                let nearest = node.polygons.nearestPoint(to: point, isCancelled: isCancelled)
                 let distance = nearest.distance(from: point)
                 if distance < shortest {
                     shortest = distance
@@ -154,13 +164,23 @@ extension BSP: PointComparable {
     }
 
     func intersects(_ point: Vector) -> Bool {
+        intersects(point, isCancelled: { false })
+    }
+
+    /// Returns whether the point intersects the BSP while polling for cancellation.
+    func intersects(_ point: Vector, isCancelled: CancellationHandler) -> Bool {
         guard var node = nodes.first else {
             return false
         }
+        var steps = 0
         while true {
+            if steps.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                return false
+            }
+            steps += 1
             switch point.compare(with: node.plane) {
             case .coplanar, .spanning:
-                if node.polygons.contains(where: { $0.intersects(point) }) {
+                if node.polygons.intersects(point, isCancelled: isCancelled) {
                     return true
                 }
                 fallthrough

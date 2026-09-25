@@ -416,7 +416,7 @@ final class MeshImportTests: XCTestCase {
         let mesh = try XCTUnwrap(Mesh(objString: objString))
         XCTAssertEqual(mesh, cube)
         XCTAssertTrue(mesh.isWatertight)
-        XCTAssertTrue(mesh.isConvex())
+        XCTAssertTrue(mesh.isConvex { false })
     }
 
     func testCubeOBJWithWhitespaceAndComments() throws {
@@ -449,7 +449,7 @@ final class MeshImportTests: XCTestCase {
         let mesh = try XCTUnwrap(Mesh(objString: objString))
         XCTAssertEqual(mesh, cube)
         XCTAssertTrue(mesh.isWatertight)
-        XCTAssertTrue(mesh.isConvex())
+        XCTAssertTrue(mesh.isConvex { false })
     }
 
     func testInvertedOBJWindingIsPreservedByDefault() throws {
@@ -567,7 +567,7 @@ final class MeshImportTests: XCTestCase {
         let mesh = try XCTUnwrap(Mesh(objString: objString))
         XCTAssertEqual(mesh, cylinder)
         XCTAssertTrue(mesh.isWatertight)
-        XCTAssertTrue(mesh.isConvex())
+        XCTAssertTrue(mesh.isConvex { false })
     }
 
     func testGradientLatheOBJ() throws {
@@ -621,7 +621,7 @@ final class MeshImportTests: XCTestCase {
         let mesh = try XCTUnwrap(Mesh(objString: objString))
         XCTAssertEqual(mesh, cylinder)
         XCTAssertTrue(mesh.isWatertight)
-        XCTAssertTrue(mesh.isConvex())
+        XCTAssertTrue(mesh.isConvex { false })
     }
 
     // MARK: OFF import
@@ -836,6 +836,6 @@ final class MeshImportTests: XCTestCase {
         XCTAssertEqual(mesh.polygons.count, 36)
         XCTAssertTrue(mesh.polygons.allSatisfy { $0.vertices.count == 3 })
         XCTAssertTrue(mesh.isWatertight)
-        XCTAssertFalse(mesh.isConvex())
+        XCTAssertFalse(mesh.isConvex { false })
     }
 }

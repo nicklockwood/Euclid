@@ -108,7 +108,9 @@ extension LineSegment {
         _ isCancelled: CancellationHandler
     ) {
         var toTest = [self]
-        for (index, polygon) in coplanarPolygons.tessellate().enumerated() where !toTest.isEmpty {
+        for (index, polygon) in coplanarPolygons.tessellate(isCancelled: isCancelled).enumerated()
+            where !toTest.isEmpty
+        {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return
             }

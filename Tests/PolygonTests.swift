@@ -529,7 +529,10 @@ final class PolygonTests: XCTestCase {
             [0.01478208, 0.006122928, 0.04],
             [0.014782069226, 0.0061229441239999995, 0.04],
         ]))
-        XCTAssert([polygon].mergingVertices(withPrecision: 1e-7).isEmpty)
+        XCTAssert([polygon].mergingVertices(
+            withPrecision: 1e-7,
+            isCancelled: { false }
+        ).isEmpty)
     }
 
     func testMergingCubeWithModulatedFaces() {
@@ -540,7 +543,10 @@ final class PolygonTests: XCTestCase {
                 .transformed(by: .random())
                 .map { $0.translated(by: .random(in: -threshold * 0.5 ... threshold * 0.5)) }
             XCTAssertEqual(modulated.count, polygons.count)
-            let merged = modulated.mergingVertices(withPrecision: threshold)
+            let merged = modulated.mergingVertices(
+                withPrecision: threshold,
+                isCancelled: { false }
+            )
             XCTAssert(merged.areWatertight)
             XCTAssertEqual(merged.count, polygons.count)
         }
@@ -554,7 +560,10 @@ final class PolygonTests: XCTestCase {
                 .transformed(by: .random())
                 .mapVertices { $0.translated(by: .random(in: -threshold * 0.5 ... threshold * 0.5)) }
             XCTAssertGreaterThanOrEqual(modulated.count, polygons.count)
-            let merged = modulated.mergingVertices(withPrecision: threshold)
+            let merged = modulated.mergingVertices(
+                withPrecision: threshold,
+                isCancelled: { false }
+            )
             XCTAssert(merged.areWatertight)
             XCTAssertEqual(merged.count, modulated.count)
         }
@@ -939,7 +948,7 @@ final class PolygonTests: XCTestCase {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Courier" as CFString, 2, nil)
         let path = try XCTUnwrap(Path.text("p", font: font, width: nil, detail: 2).first)
-        XCTAssertFalse(path.facePolygons().triangulate().isEmpty)
+        XCTAssertFalse(path.facePolygons().triangulate { false }.isEmpty)
         #endif
     }
 
@@ -947,7 +956,7 @@ final class PolygonTests: XCTestCase {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Courier" as CFString, 2, nil)
         let path = try XCTUnwrap(Path.text("n", font: font, width: nil, detail: 2).first)
-        XCTAssertFalse(path.facePolygons().triangulate().isEmpty)
+        XCTAssertFalse(path.facePolygons().triangulate { false }.isEmpty)
         #endif
     }
 
@@ -955,7 +964,7 @@ final class PolygonTests: XCTestCase {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Times" as CFString, 2, nil)
         let path = try XCTUnwrap(Path.text("H", font: font, width: nil, detail: 2).first)
-        XCTAssertFalse(path.facePolygons().triangulate().isEmpty)
+        XCTAssertFalse(path.facePolygons().triangulate { false }.isEmpty)
         #endif
     }
 
@@ -1121,6 +1130,19 @@ final class PolygonTests: XCTestCase {
         XCTAssert(mesh.isEmpty)
     }
 
+    func testMeshTriangulateCanBeCancelledImmediately() {
+        let mesh = Mesh.fill(.square()).triangulate { true }
+        XCTAssertEqual(mesh, .empty)
+    }
+
+    func testPolygonTessellateCanBeCancelledImmediately() {
+        let polygon = Polygon(unchecked: [
+            [0, 0], [2, 0], [1, 1], [2, 2], [0, 2],
+        ])
+        XCTAssertTrue(polygon.tessellate { true }.isEmpty)
+        XCTAssertTrue(polygon.triangulate { true }.isEmpty)
+    }
+
     func testInsertingEdgeVerticesCancellationIsNotBlockedByBoundsFilter() {
         let polygon = Polygon(unchecked: [
             Vector(0, 0),
@@ -1199,7 +1221,11 @@ final class PolygonTests: XCTestCase {
             Vertex(1, -1, normal: normal),
             Vertex(1, 0, normal: normal),
         ])
-        let c = [a, b].coplanarDetessellate(ensureConvex: true, maxSides: 4)
+        let c = [a, b].coplanarDetessellate(
+            ensureConvex: true,
+            maxSides: 4,
+            isCancelled: { false }
+        )
         XCTAssertEqual(c.count, 1)
         XCTAssertEqual(c.first?.vertices.count, 4)
     }

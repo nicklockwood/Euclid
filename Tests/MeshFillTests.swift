@@ -92,7 +92,7 @@ final class MeshFillTests: XCTestCase {
 
         let front = Mesh.fill(path, faces: .front)
         XCTAssertFalse(front.polygons.isEmpty)
-        XCTAssertFalse(front.polygons.triangulate().isEmpty)
+        XCTAssertFalse(front.polygons.triangulate { false }.isEmpty)
         XCTAssertTrue(front.polygons.allSatisfy { $0.plane.normal == .unitZ })
         XCTAssertGreaterThan(front.polygons.surfaceArea, 0)
     }

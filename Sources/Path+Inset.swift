@@ -8,24 +8,35 @@
 
 public extension Path {
     /// Applies a uniform inset to the edges of the path.
-    /// - Parameter distance: The distance by which to inset the path edges.
+    /// - Parameters:
+    ///   - distance: The distance by which to inset the path edges.
+    ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A copy of the path, inset by the specified distance.
     ///
     /// > Note: Passing a negative `distance` will expand the path instead of shrinking it.
-    func inset(by distance: Double) -> Path {
+    func inset(
+        by distance: Double,
+        isCancelled: CancellationHandler = { false }
+    ) -> Path {
         guard subpaths.count <= 1 else {
             let subpaths = subpaths
             let containment = PathContainmentIndex(subpaths)
-            return Path(subpaths: subpaths.enumerated().map { index, subpath in
+            var insetSubpaths = [Path]()
+            for (index, subpath) in subpaths.enumerated() {
+                guard !isCancelled() else {
+                    return .empty
+                }
                 let distance = containment.depth(of: index).isMultiple(of: 2) ? distance : -distance
-                return subpath.inset(by: distance)
-            })
+                insetSubpaths.append(subpath.inset(by: distance, isCancelled: isCancelled))
+            }
+            return Path(subpaths: insetSubpaths)
         }
         guard points.count >= 2 else {
-            return Path(subpaths: subpaths.map { $0.inset(by: distance) })
+            return self
         }
         if isClosed, !isSimple {
-            return nonZeroFillBoundary.inset(by: distance)
+            return nonZeroFillBoundary(isCancelled: isCancelled)
+                .inset(by: distance, isCancelled: isCancelled)
         }
         if isClosed, distance > 0, !insetHalfPlanesHaveIntersection(by: distance) {
             return .empty
@@ -60,6 +71,9 @@ public extension Path {
             }
         }
         let insetPoints = makeInsetPoints()
+        guard !isCancelled() else {
+            return .empty
+        }
         func resolvedInset(from points: [PathPoint]) -> [PathPoint] {
             resolveInsetIntersections(
                 in: points,

@@ -1243,4 +1243,18 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(path.points.map(\.position), text.points.map(\.position))
         #endif
     }
+
+    func testFacePolygonsCanBeCancelled() {
+        nonisolated(unsafe) var cancellationChecks = 0
+        let path = Path([
+            .point(0, 0), .point(1, 1), .point(1, 0), .point(0, 1), .point(0, 0),
+        ])
+        let polygons = path.facePolygons {
+            cancellationChecks += 1
+            return true
+        }
+
+        XCTAssertTrue(polygons.isEmpty)
+        XCTAssertEqual(cancellationChecks, 1)
+    }
 }

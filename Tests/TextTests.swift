@@ -340,6 +340,24 @@ final class TextTests: XCTestCase {
         XCTAssertTrue(inset.isContained(in: shape))
         XCTAssertTrue(Mesh.fill(inset).isWatertight)
     }
+
+    func testTextGenerationCanBeCancelled() {
+        nonisolated(unsafe) var pathChecks = 0
+        let paths = Path.text("Hello") {
+            pathChecks += 1
+            return true
+        }
+        nonisolated(unsafe) var meshChecks = 0
+        let mesh = Mesh.text("Hello") {
+            meshChecks += 1
+            return true
+        }
+
+        XCTAssertTrue(paths.isEmpty)
+        XCTAssertEqual(pathChecks, 1)
+        XCTAssertEqual(mesh, .empty)
+        XCTAssertEqual(meshChecks, 1)
+    }
 }
 
 private extension Path {

@@ -907,6 +907,7 @@ public extension Mesh {
                 curvestart: true, curveend: true,
                 uvstart: 0, uvend: 1,
                 material: material,
+                isCancelled: isCancelled,
                 into: &polygons
             )
         }
@@ -923,7 +924,9 @@ public extension Mesh {
 }
 
 private extension Collection<Path> {
-    func normalizingCompoundPathsForLoft() -> (
+    func normalizingCompoundPathsForLoft(
+        isCancelled: Euclid.CancellationHandler
+    ) -> (
         shapes: [Path],
         usesMeshableNonZeroBoundary: Bool,
         usesOddEvenBoundary: Bool
@@ -942,7 +945,10 @@ private extension Collection<Path> {
             var shapes = [Path]()
             shapes.reserveCapacity(count)
             for shape in self {
-                if let boundary = shape.meshableNonZeroFillBoundary {
+                guard !isCancelled() else {
+                    return ([], false, false)
+                }
+                if let boundary = shape.meshableNonZeroFillBoundary(isCancelled: isCancelled) {
                     shapes.append(boundary)
                     usesMeshableNonZeroBoundary = true
                 } else if !shape.subpathsTouchOrIntersect,
@@ -959,12 +965,15 @@ private extension Collection<Path> {
             return (shapes, usesMeshableNonZeroBoundary, usesOddEvenBoundary)
         }
 
-        guard let firstBoundary = first.meshableNonZeroFillBoundary else {
+        guard let firstBoundary = first.meshableNonZeroFillBoundary(isCancelled: isCancelled) else {
             return replacingMeshableNonZeroFillBoundaries()
         }
         var normalizedShapes = [Path]()
         normalizedShapes.reserveCapacity(count)
         for shape in self {
+            guard !isCancelled() else {
+                return ([], false, false)
+            }
             guard let transform = shape.sectionTransform(relativeTo: first) else {
                 return replacingMeshableNonZeroFillBoundaries()
             }
@@ -1102,18 +1111,21 @@ private extension Path {
 
     /// Returns an edge-aligned non-zero fill boundary when it can safely replace this path for
     /// mesh generation. Some boundaries merge or reorder subpaths in ways that break side matching.
-    var meshableNonZeroFillBoundary: Path? {
+    func meshableNonZeroFillBoundary(isCancelled: CancellationHandler) -> Path? {
         if subpaths.count == 1, !usesNonZeroFill {
             return nil
         }
         guard isClosed else {
             return nil
         }
-        let polygons = nonZeroFillPolygons(material: nil) { false }
+        let polygons = nonZeroFillPolygons(material: nil, isCancelled: isCancelled)
         let precision = max(bounds.size.length * 1e-9, epsilon)
         let outlinePolygons = polygons.count > 1 ? polygons
-            .insertingEdgeVertices(with: polygons.holeEdges) { false }
-            .mergingVertices(withPrecision: precision) { false } : polygons
+            .insertingEdgeVertices(
+                with: polygons.holeEdges(isCancelled: isCancelled),
+                isCancelled: isCancelled
+            )
+            .mergingVertices(withPrecision: precision, isCancelled: isCancelled) : polygons
         let boundary = Path(unchecked: .subpaths(outlinePolygons.outlinePaths), plane: plane)
             .restoringCurvature(from: self)
         if subpaths.count > 1,
@@ -1340,7 +1352,7 @@ private extension Mesh {
         isWatertight: Bool?,
         isCancelled: CancellationHandler
     ) -> Mesh {
-        let profiles = profile.latheProfile.subpaths
+        let profiles = profile.latheProfile(isCancelled: isCancelled).subpaths
         guard profiles.count == 1, let profile = profiles.first else {
             return .merge(profiles.map { profile in
                 lathePreparedProfile(
@@ -1791,7 +1803,8 @@ private extension Mesh {
                         isConvex: nil,
                         sanitizeNormals: false,
                         material: material,
-                        id: 0
+                        id: 0,
+                        isCancelled: isCancelled
                     ).withVertexNormalsFacingPlane()
                 }
                 if vertices.count == 4 {
@@ -1935,7 +1948,10 @@ private extension Mesh {
                 let capPoints = firstCapPolygons.flatMap {
                     $0.vertices.map(\.position)
                 }
-                accumulatedSidePolygons = accumulatedSidePolygons.insertingEdgePoints(capPoints)
+                accumulatedSidePolygons = accumulatedSidePolygons.insertingEdgePoints(
+                    capPoints,
+                    isCancelled: isCancelled
+                )
             }
             polygons += accumulatedSidePolygons
             polygons = polygons.withVertexNormalsFacingPlane()
@@ -1954,6 +1970,7 @@ private extension Mesh {
                             curvestart: true, curveend: true,
                             uvstart: uvx0, uvend: uvx1,
                             material: material,
+                            isCancelled: isCancelled,
                             into: &sidePolygons
                         )
                     }
@@ -2058,7 +2075,7 @@ private extension Mesh {
             normalizedShapes,
             usesMeshableNonZeroBoundary,
             usesOddEvenBoundary
-        ) = shapes.normalizingCompoundPathsForLoft()
+        ) = shapes.normalizingCompoundPathsForLoft(isCancelled: isCancelled)
         var subpathCount = 0
         let arrayOfSubpaths: [[Path]] = normalizedShapes.map {
             let subpaths = $0.subpaths
@@ -2117,13 +2134,13 @@ private extension Mesh {
         let allShapesAreClosed = shapes.allSatisfy(\.isClosed)
         let isClosed = allShapesAreClosed && (shapes.first == shapes.last)
         if count < 3, isClosed {
-            return fill(first, faces: faces, material: material)
+            return fill(first, faces: faces, material: material, isCancelled: isCancelled)
         }
         var polygons = [Polygon]()
         polygons.reserveCapacity(shapes.reduce(0) { $0 + $1.points.count })
         var isCapped = true
         if !isClosed {
-            let facePolygons = first.facePolygons(material: material)
+            let facePolygons = first.facePolygons(material: material, isCancelled: isCancelled)
             if facePolygons.isEmpty {
                 isCapped = isCapped && first.isClosed && first.hasZeroArea
             } else if let next = shapes.first(where: { $0 != first }) {
@@ -2152,6 +2169,7 @@ private extension Mesh {
                 curvestart: curvestart, curveend: curveend,
                 uvstart: uvx0, uvend: uvx1,
                 material: material,
+                isCancelled: isCancelled,
                 into: &polygons
             )
             prev = shape
@@ -2159,7 +2177,7 @@ private extension Mesh {
             uvx0 = uvx1
         }
         if !isClosed {
-            let facePolygons = last.facePolygons(material: material)
+            let facePolygons = last.facePolygons(material: material, isCancelled: isCancelled)
             if facePolygons.isEmpty {
                 isCapped = isCapped && last.isClosed && last.hasZeroArea
             } else if let prev = shapes.last(where: { $0 != last }) {
@@ -2209,6 +2227,7 @@ private extension Mesh {
         curvestart: Bool, curveend: Bool,
         uvstart: Double, uvend: Double,
         material: Material?,
+        isCancelled: CancellationHandler,
         into polygons: inout [Polygon]
     ) {
         assert(p0.subpaths.count == 1)
@@ -2240,7 +2259,8 @@ private extension Mesh {
                 isConvex: nil,
                 sanitizeNormals: false,
                 material: material,
-                id: 0
+                id: 0,
+                isCancelled: isCancelled
             ).withVertexNormalsFacingPlane()
         }
         var uvstart = uvstart, uvend = uvend
@@ -2473,14 +2493,27 @@ private struct SendableMaterial: @unchecked Sendable {
 }
 
 private extension Collection<Polygon> {
-    func insertingEdgePoints(_ points: [Vector]) -> [Polygon] {
+    /// Inserts matching vertices into polygon edges until the operation is cancelled.
+    func insertingEdgePoints(
+        _ points: [Vector],
+        isCancelled: Euclid.CancellationHandler
+    ) -> [Polygon] {
         let sortedPoints = Set(points).sorted()
-        return map { polygon in
+        var result = [Polygon]()
+        result.reserveCapacity(count)
+        for (index, polygon) in enumerated() {
+            guard !index.isMultiple(of: cancellationCheckInterval) || !isCancelled() else {
+                return []
+            }
             var polygon = polygon
             let bounds = polygon.bounds.inset(by: -epsilon)
-            polygon.insertEdgePoints(sortedPoints.filter { bounds.intersects($0) })
-            return polygon
+            polygon.insertEdgePoints(
+                sortedPoints.filter { bounds.intersects($0) },
+                isCancelled: isCancelled
+            )
+            result.append(polygon)
         }
+        return result
     }
 
     func withVertexNormalsFacingPlane() -> [Polygon] {

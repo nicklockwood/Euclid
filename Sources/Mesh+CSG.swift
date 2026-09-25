@@ -631,7 +631,7 @@ public extension Mesh {
             return .convexHull(of: meshes, isCancelled: isCancelled)
         }
         return .union([mesh.translated(by: bounds.center)] + mesh.polygons.map {
-            isCancelled() ? .empty : minkowskiSum(with: $0)
+            isCancelled() ? .empty : minkowskiSum(with: $0, isCancelled: isCancelled)
         }, isCancelled: isCancelled)
     }
 
@@ -685,29 +685,44 @@ public extension Mesh {
             let b = translated(by: point.position).mapVertexColors { $0 * color }
             defer { a = b }
             return .convexHull(of: [a, b], isCancelled: isCancelled)
-        })
+        }, isCancelled: isCancelled)
     }
 
     /// Computes the Minkowski sum of the receiver and a polygon.
-    /// - Parameter polygon: The polygon with which to sum the mesh.
+    /// - Parameters:
+    ///   - polygon: The polygon with which to sum the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the Minkowski sum of the inputs.
-    func minkowskiSum(with polygon: Polygon) -> Mesh {
+    func minkowskiSum(
+        with polygon: Polygon,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        guard !isCancelled() else {
+            return .empty
+        }
         guard polygon.isConvex else {
-            return .union(polygon.tessellate().map(minkowskiSum(with:)))
+            return .union(polygon.tessellate(isCancelled: isCancelled).map {
+                minkowskiSum(with: $0, isCancelled: isCancelled)
+            }, isCancelled: isCancelled)
         }
         return .convexHull(of: polygon.vertices.map { vertex in
             translated(by: vertex.position).mapVertexColors { $0 * vertex.color }
-        })
+        }, isCancelled: isCancelled)
     }
 
     /// Computes the minkowskiSum sum of the receiver with the specified edge.
-    /// - Parameter edge: A ``LineSegment`` with which to sum the mesh.
+    /// - Parameters:
+    ///   - edge: A ``LineSegment`` with which to sum the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh representing the Minkowski sum of the inputs.
-    func minkowskiSum(with edge: LineSegment) -> Mesh {
+    func minkowskiSum(
+        with edge: LineSegment,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
         .convexHull(of: [
             translated(by: edge.start),
             translated(by: edge.end),
-        ])
+        ], isCancelled: isCancelled)
     }
 
     /// Returns a new mesh representing the Minkowski difference of the
@@ -732,7 +747,7 @@ public extension Mesh {
             return .empty
         }
         return .difference([mesh.translated(by: -bounds.center)] + mesh.polygons.map {
-            isCancelled() ? .empty : minkowskiSum(with: $0)
+            isCancelled() ? .empty : minkowskiSum(with: $0, isCancelled: isCancelled)
         }, isCancelled: isCancelled)
     }
 
@@ -811,25 +826,30 @@ public extension Mesh {
         case .back:
             return .empty
         case .spanning, .coplanar:
+            guard !isCancelled() else { return .empty }
             // TODO: can we use BSP to improve perf here at all?
             var id = 0
             var coplanar = [Polygon](), front = [Polygon](), back = [Polygon]()
-            for polygon in polygons {
+            for (index, polygon) in polygons.enumerated() {
+                if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
+                    return .empty
+                }
                 polygon.split(along: plane, &coplanar, &front, &back, &id, isCancelled)
             }
             for polygon in coplanar where plane.normal.dot(polygon.plane.normal) > 0 {
                 front.append(polygon)
             }
+            let wasCancelled = isCancelled()
             let mesh = Mesh(
                 unchecked: front,
                 bounds: nil,
                 bsp: nil, // TODO: can we compute this cheaply?
-                isConvex: isKnownConvex,
+                isConvex: wasCancelled ? false : isKnownConvex,
                 isWatertight: nil,
                 isPlanar: planarIfSet == true ? true : nil,
-                submeshes: isKnownConvex ? submeshesIfEmpty : nil
+                submeshes: !wasCancelled && isKnownConvex ? submeshesIfEmpty : nil
             )
-            guard let material = fill else {
+            guard let material = fill, !wasCancelled else {
                 return mesh
             }
             // Project each corner of mesh bounds onto plane to find radius
@@ -855,7 +875,6 @@ public extension Mesh {
             .rotated(by: rotationBetweenNormalizedVectors(.unitZ, -plane.normal))
             .translated(by: plane.normal * plane.w)
             // Clip rect
-            let isCancelled: CancellationHandler = { false }
             return Mesh(
                 unchecked: mesh.polygons + BSP(self, isCancelled).clip([rect], .lessThanEqual, isCancelled),
                 bounds: nil,
@@ -927,7 +946,7 @@ public extension Mesh {
         }
         let bsp = BSP(a, isCancelled)
         let polygons = boundsTest(intersection, b.polygons, isCancelled)
-        return bsp.clip(polygons, .lessThan, isCancelled).holeEdges
+        return bsp.clip(polygons, .lessThan, isCancelled).holeEdges(isCancelled: isCancelled)
     }
 
     /// Reflects each polygon of the mesh along a plane.
@@ -941,7 +960,7 @@ public extension Mesh {
 private func boundsTest(
     _ bounds: Bounds,
     _ polygons: [Polygon],
-    _ isCancelled: CancellationHandler = { false }
+    _ isCancelled: CancellationHandler
 ) -> [Polygon] {
     var result = [Polygon]()
     for (index, polygon) in polygons.enumerated() {
@@ -959,7 +978,7 @@ private func boundsTest(
     _ bounds: Bounds,
     _ polygons: [Polygon],
     _ out: inout [Polygon],
-    _ isCancelled: CancellationHandler = { false }
+    _ isCancelled: CancellationHandler
 ) -> [Polygon] {
     var result = [Polygon]()
     for (index, polygon) in polygons.enumerated() {
@@ -1402,7 +1421,7 @@ private extension [Polygon] {
                 return false
             }
         }
-        assert(groupedByPlane().allSatisfy(\.polygons.coplanarPolygonsAreConvex))
+        assert(groupedByPlane { false }.allSatisfy(\.polygons.coplanarPolygonsAreConvex))
         return true
     }
 }

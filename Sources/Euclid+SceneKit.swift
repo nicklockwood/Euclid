@@ -199,7 +199,7 @@ public extension SCNGeometry {
             let polygons = polygonsByMaterial[material] ?? []
             materials.append(materialLookup(material) ?? SCNMaterial())
             var indices = [UInt32]()
-            for triangle in polygons.triangulate() {
+            for triangle in polygons.triangulate(isCancelled: { false }) {
                 for vertex in triangle.vertices {
                     if let index = indicesByVertex[vertex] {
                         indices.append(index)
@@ -250,7 +250,9 @@ public extension SCNGeometry {
         let polygonsByMaterial = mesh.polygonsByMaterial
         for material in mesh.materials {
             materials.append(materialLookup(material) ?? SCNMaterial())
-            let polygons = polygonsByMaterial[material]?.tessellate() ?? []
+            let polygons = polygonsByMaterial[material]?.tessellate(
+                isCancelled: { false }
+            ) ?? []
             let bufferSize = polygons.reduce(polygons.count) { $0 + $1.vertices.count }
             let indexBuffer = Buffer(capacity: bufferSize * 4)
             for polygon in polygons {
@@ -735,15 +737,15 @@ public extension Mesh {
             isKnownConvex = false
             noSubmeshes = false
         }
-        var holeEdges = polygons.holeEdges
+        var holeEdges = polygons.holeEdges(isCancelled: isCancelled)
         var precision = epsilon * 10
-        for _ in 0 ..< 3 where !holeEdges.isEmpty {
+        for _ in 0 ..< 3 where !holeEdges.isEmpty && !isCancelled() {
             let holePoints = holeEdges.reduce(into: Set<Vector>()) {
                 $0.insert($1.start)
                 $0.insert($1.end)
             }
             polygons = polygons.mergingVertices(holePoints, withPrecision: precision, isCancelled: isCancelled)
-            holeEdges = polygons.holeEdges
+            holeEdges = polygons.holeEdges(isCancelled: isCancelled)
             precision *= 10
         }
         self.init(

@@ -14,7 +14,7 @@ public extension Mesh {
     /// Return Object File Format string data for the mesh.
     func offString() -> String {
         var vertices = [Vector](), indicesByVertex = [Vector: Int]()
-        let indices = polygons.tessellate().map { polygon -> [Int] in
+        let indices = polygons.tessellate { false }.map { polygon -> [Int] in
             polygon.vertices.map { vertex -> Int in
                 let position = vertex.position
                 if let index = indicesByVertex[position] {

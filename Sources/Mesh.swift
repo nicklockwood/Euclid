@@ -344,31 +344,41 @@ public extension Mesh {
 
     /// Splits all polygons in the mesh that are concave or have more than the specified number of
     /// sides into two or more convex polygons.
-    /// - Parameter maxSides: The maximum number of sides each polygon may have.
+    /// - Parameters:
+    ///   - maxSides: The maximum number of sides each polygon may have.
+    ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh containing the convex polygons.
-    func tessellate(maxSides: Int = .max) -> Mesh {
-        Mesh(
-            unchecked: polygons.tessellate(maxSides: maxSides),
-            bounds: boundsIfSet,
+    func tessellate(
+        maxSides: Int = .max,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        let polygons = polygons.tessellate(maxSides: maxSides, isCancelled: isCancelled)
+        let wasCancelled = isCancelled()
+        return Mesh(
+            unchecked: polygons,
+            bounds: wasCancelled ? nil : boundsIfSet,
             bsp: nil, // TODO: would it be safe to preserve this?
-            isConvex: isKnownConvex,
-            isWatertight: watertightIfSet,
+            isConvex: wasCancelled ? false : isKnownConvex,
+            isWatertight: wasCancelled ? nil : watertightIfSet,
             isPlanar: planarIfSet,
-            submeshes: submeshesIfEmpty
+            submeshes: wasCancelled ? nil : submeshesIfEmpty
         )
     }
 
     /// Splits all polygons in the mesh into triangles.
+    /// - Parameter isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh containing the triangles.
-    func triangulate() -> Mesh {
-        Mesh(
-            unchecked: polygons.triangulate(),
-            bounds: boundsIfSet,
+    func triangulate(isCancelled: CancellationHandler = { false }) -> Mesh {
+        let polygons = polygons.triangulate(isCancelled: isCancelled)
+        let wasCancelled = isCancelled()
+        return Mesh(
+            unchecked: polygons,
+            bounds: wasCancelled ? nil : boundsIfSet,
             bsp: nil, // TODO: would it be safe to preserve this?
-            isConvex: isKnownConvex,
-            isWatertight: watertightIfSet,
+            isConvex: wasCancelled ? false : isKnownConvex,
+            isWatertight: wasCancelled ? nil : watertightIfSet,
             isPlanar: planarIfSet,
-            submeshes: submeshesIfEmpty
+            submeshes: wasCancelled ? nil : submeshesIfEmpty
         )
     }
 
@@ -470,7 +480,10 @@ public extension Mesh {
                 // fallback below.
                 let maximumPolygonizedCapVertexCount = 256
                 if path.points.count <= maximumPolygonizedCapVertexCount {
-                    let polygons = path.closed().facePolygons(material: material)
+                    let polygons = path.closed().facePolygons(
+                        material: material,
+                        isCancelled: isCancelled
+                    )
                     if !polygons.isEmpty {
                         return polygons
                     }
@@ -676,7 +689,7 @@ extension Mesh {
         storage.bsp(isCancelled: isCancelled)
     }
 
-    func isConvex(isCancelled: CancellationHandler = { false }) -> Bool {
+    func isConvex(isCancelled: CancellationHandler) -> Bool {
         storage.isConvex(isCancelled: isCancelled)
     }
 
@@ -758,13 +771,13 @@ private extension Mesh {
         private(set) var bspIfSet: BSP?
         func bsp(isCancelled: CancellationHandler) -> BSP {
             bspLock.lock()
+            defer { bspLock.unlock() }
             if bspIfSet == nil {
                 let bsp = BSP(unchecked: polygons, isKnownConvex: isKnownConvex, isCancelled)
                 if isCancelled() { return bsp }
                 bspIfSet = bsp
                 isKnownConvex = bsp.isConvex
             }
-            bspLock.unlock()
             return bspIfSet!
         }
 

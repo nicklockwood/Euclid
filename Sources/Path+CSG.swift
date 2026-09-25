@@ -18,7 +18,7 @@ public extension Path {
     /// > Note: If the path and plane do not intersect, one of the returned paths will be empty.
     func split(along plane: Plane) -> (front: Path, back: Path) {
         var front = [Path](), back: [Path]! = [], coplanar: [Path]?
-        split(along: plane, &coplanar, &front, &back)
+        split(along: plane, &coplanar, &front, &back, { false })
         return (Path(subpaths: front), Path(subpaths: back))
     }
 
@@ -27,7 +27,7 @@ public extension Path {
     /// - Returns: A path consisting of the parts of the original path that lie in front of the plane.
     func clipped(to plane: Plane) -> Path {
         var front = [Path](), back: [Path]?, coplanar: [Path]?
-        split(along: plane, &coplanar, &front, &back)
+        split(along: plane, &coplanar, &front, &back, { false })
         return Path(subpaths: front)
     }
 
@@ -49,10 +49,12 @@ extension Path {
         to coplanarPolygons: [Polygon],
         _ inside: inout [Path],
         _ outside: inout [Path],
-        _ isCancelled: CancellationHandler = { false }
+        _ isCancelled: CancellationHandler
     ) {
         var toTest = [self]
-        for (index, polygon) in coplanarPolygons.tessellate().enumerated() where !toTest.isEmpty {
+        for (index, polygon) in coplanarPolygons.tessellate(isCancelled: isCancelled).enumerated()
+            where !toTest.isEmpty
+        {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return
             }
@@ -73,7 +75,7 @@ extension Path {
         _ coplanar: inout [Path]?,
         _ front: inout [Path],
         _ back: inout [Path]?,
-        _ isCancelled: CancellationHandler = { false }
+        _ isCancelled: CancellationHandler
     ) {
         let subpaths = subpaths
         guard subpaths.count == 1 else {

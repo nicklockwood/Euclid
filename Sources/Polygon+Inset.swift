@@ -8,18 +8,28 @@
 
 public extension Polygon {
     /// Applies a uniform inset to the edges of the polygon.
-    /// - Parameter distance: The distance by which to inset the polygon edges.
+    /// - Parameters:
+    ///   - distance: The distance by which to inset the polygon edges.
+    ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A copy of the polygon, inset by the specified distance.
     ///
     /// > Note: Passing a negative `distance` will expand the polygon instead of shrinking it.
-    func inset(by distance: Double) -> Polygon? {
+    func inset(
+        by distance: Double,
+        isCancelled: CancellationHandler = { false }
+    ) -> Polygon? {
         let source = vertices
         let count = source.count
         var v1 = source[count - 1]
         var v2 = source[0]
         var p1p2 = v2.position - v1.position
         var n1: Vector!
-        let insetVertices = (0 ..< count).map { i in
+        var insetVertices = [Vertex]()
+        insetVertices.reserveCapacity(count)
+        for i in 0 ..< count {
+            guard !i.isMultiple(of: cancellationCheckInterval) || !isCancelled() else {
+                return nil
+            }
             v1 = v2
             v2 = i < count - 1 ? source[i + 1] : source[0]
             let p0p1 = p1p2
@@ -29,7 +39,7 @@ public extension Polygon {
             n1 = p1p2.cross(faceNormal).normalized()
             // TODO: do we need to inset texcoord as well? If so, by how much?
             let normal = (n0 + n1).normalized()
-            return v1.translated(by: normal * -(distance / n0.dot(normal)))
+            insetVertices.append(v1.translated(by: normal * -(distance / n0.dot(normal))))
         }
         let inset = resolveInsetIntersections(
             in: insetVertices,
@@ -56,9 +66,13 @@ private extension Polygon {
     /// Returns inset polygons, splitting into triangles if the moved polygon becomes invalid.
     func insetPolygons(
         using positionCache: [Vector: Vector],
-        by distance: Double
+        by distance: Double,
+        isCancelled: Euclid.CancellationHandler
     ) -> [Polygon] {
         func moved(_ polygon: Polygon) -> [Polygon] {
+            guard !isCancelled() else {
+                return []
+            }
             let vertices = polygon.vertices.map { vertex -> Vertex in
                 let key = vertex.position
                 let position = positionCache[key] ?? key.translated(by: polygon.plane.normal * -distance)
@@ -352,7 +366,11 @@ extension [Polygon] {
                     wasCancelled = true
                     return [Polygon]()
                 }
-                return polygon.insetPolygons(using: positionCache, by: distance)
+                return polygon.insetPolygons(
+                    using: positionCache,
+                    by: distance,
+                    isCancelled: isCancelled
+                )
             }
             .removingCollapsedInsetSheets(by: distance, isCancelled: isCancelled)
         guard distance > 0, isConvexSurface else {
@@ -372,7 +390,7 @@ extension [Polygon] {
             return self
         }
         let polygons = self
-        let originalHoleCount = polygons.holeEdges.count
+        let originalHoleCount = polygons.holeEdges(isCancelled: isCancelled).count
         var removed = Set<Int>()
         for i in polygons.indices where !removed.contains(i) {
             if i.isMultiple(of: cancellationCheckInterval), isCancelled() { break }
@@ -387,7 +405,7 @@ extension [Polygon] {
                 let candidate = polygons.indices.compactMap {
                     candidateRemoved.contains($0) ? nil : polygons[$0]
                 }
-                if candidate.holeEdges.count <= originalHoleCount {
+                if candidate.holeEdges(isCancelled: isCancelled).count <= originalHoleCount {
                     removed = candidateRemoved
                     break
                 }

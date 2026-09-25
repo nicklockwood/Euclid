@@ -385,6 +385,11 @@ public extension Path {
     /// Compound paths are resolved using the even-odd fill rule, with hole contours oriented opposite
     /// their containing contours so the resulting profile can be lathed without Boolean operations.
     var latheProfile: Path {
+        latheProfile { false }
+    }
+
+    /// Returns a normalized lathe profile, polling `isCancelled` during compound-path filling.
+    func latheProfile(isCancelled: CancellationHandler) -> Path {
         let subpaths = subpaths
         if subpaths.count > 1 || usesNonZeroFill {
             let shape = closed()
@@ -398,7 +403,7 @@ public extension Path {
                 let polygons = shape.filledPolygons(
                     material: nil,
                     usingEvenOddRule: subpaths.count > 1,
-                    isCancelled: { false }
+                    isCancelled: isCancelled
                 )
                 let boundary = shape.filledAreaBoundary(from: polygons)
                 orientedSubpaths = boundary.oddEvenOrientedSubpaths

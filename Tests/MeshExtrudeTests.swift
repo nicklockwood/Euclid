@@ -153,7 +153,10 @@ final class MeshExtrudeTests: XCTestCase {
         let fillPolygons = path.nonZeroFillPolygons(material: nil) { false }
         let rawBoundaryEdges = fillPolygons.boundingEdges
         let alignedBoundaryEdges = fillPolygons
-            .insertingEdgeVertices(with: fillPolygons.holeEdges)
+            .insertingEdgeVertices(
+                with: fillPolygons.holeEdges,
+                isCancelled: { false }
+            )
             .boundingEdges
 
         func signature(for polygon: Euclid.Polygon) -> [Vector] {

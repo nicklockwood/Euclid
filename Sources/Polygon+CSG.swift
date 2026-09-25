@@ -84,7 +84,9 @@ extension Polygon {
         _ isCancelled: CancellationHandler
     ) {
         var toTest = tessellate()
-        for (index, polygon) in polygons.tessellate().enumerated() where !toTest.isEmpty {
+        for (index, polygon) in polygons.tessellate(isCancelled: isCancelled).enumerated()
+            where !toTest.isEmpty
+        {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return
             }
@@ -136,7 +138,7 @@ extension Polygon {
         }
         guard polygon.isConvex else {
             var coplanar = [Polygon]()
-            for (index, polygon) in polygon.tessellate().enumerated() {
+            for (index, polygon) in polygon.tessellate(isCancelled: isCancelled).enumerated() {
                 if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                     return
                 }

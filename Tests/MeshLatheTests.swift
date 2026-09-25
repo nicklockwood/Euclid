@@ -187,6 +187,23 @@ final class MeshLatheTests: XCTestCase {
         XCTAssertTrue(mesh.polygons.areWatertight)
     }
 
+    func testLatheOverlappingCompoundPathPropagatesCancellationDuringNormalization() {
+        let first = Path([
+            .point(1, 0), .point(3, 0), .point(3, 4), .point(1, 4), .point(1, 0),
+        ])
+        let second = Path([
+            .point(2, 0), .point(4, 0), .point(4, 4), .point(2, 4), .point(2, 0),
+        ])
+        nonisolated(unsafe) var cancellationChecks = 0
+        let mesh = Mesh.lathe(Path(subpaths: [first, second]), slices: 128) {
+            cancellationChecks += 1
+            return cancellationChecks > 1
+        }
+
+        XCTAssertEqual(mesh, .empty)
+        XCTAssertGreaterThanOrEqual(cancellationChecks, 2)
+    }
+
     func testLatheMatchesCircularExtrusion() {
         let outer = Path([
             .point(1, -5), .point(3, -5), .point(3, 5), .point(1, 5), .point(1, -5),

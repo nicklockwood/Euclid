@@ -567,6 +567,20 @@ final class MeshLoftTests: XCTestCase {
         XCTAssertTrue(mesh.isWatertight)
     }
 
+    func testLoftCompoundPathPropagatesCancellationDuringNormalization() {
+        let first = Path.square(size: 2)
+        let second = Path.square(size: 2).translated(by: [1, 0])
+        let compound = Path(subpaths: [first, second])
+        nonisolated(unsafe) var cancellationChecks = 0
+        let mesh = Mesh.loft([compound, compound.translated(by: .unitZ)]) {
+            cancellationChecks += 1
+            return cancellationChecks > 1
+        }
+
+        XCTAssertEqual(mesh, .empty)
+        XCTAssertGreaterThanOrEqual(cancellationChecks, 2)
+    }
+
     func testLoftParallelTransformedCurvedCompoundPath() {
         let compound = Path(subpaths: [
             .circle(segments: 16).translated(by: [-1, 0, 0]),
