@@ -356,8 +356,8 @@
     {
       "anchor" : "Creating-Text-Paths",
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:isCancelled:)"
       ],
       "title" : "Creating Text Paths"
     },
@@ -422,9 +422,10 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/clipped(to:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/edgeVertices(for:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/extrusionContours(along:twist:align:miterLimit:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inverted()",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/latheProfile(isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/mapColors(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/mapPoints(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/split(along:)",
@@ -1771,7 +1772,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/facenormal"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/facePolygons(material:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/facePolygons(material:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Returns one or more polygons needed to fill the path.",
@@ -1819,7 +1820,24 @@
     },
     {
       "kind" : "text",
-      "text" : "?) -> ["
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> ["
     },
     {
       "kind" : "typeIdentifier",
@@ -1831,12 +1849,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "facePolygons(material:)",
+  "title" : "facePolygons(material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/facepolygons(material:)"
+  "url" : "\/documentation\/euclid\/path\/facepolygons(material:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/faceVertices": {
   "abstract" : [
@@ -2353,7 +2371,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/init(subpaths:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/inset(by:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/inset(by:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Applies a uniform inset to the edges of the path.",
@@ -2392,6 +2410,23 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> "
     },
     {
@@ -2400,12 +2435,12 @@
       "text" : "Path"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "inset(by:)",
+  "title" : "inset(by:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/inset(by:)"
+  "url" : "\/documentation\/euclid\/path\/inset(by:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/inverted()": {
   "abstract" : [
@@ -2558,7 +2593,23 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/latheProfile": {
   "abstract" : [
     {
-      "text" : "Cropped and flattened version of path suitable for lathing around the Y axis.",
+      "text" : "Normalized, cropped and flattened version of the path suitable for lathing around the Y axis.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Compound paths are resolved using the even-odd fill rule, with hole contours oriented opposite",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "their containing contours so the resulting profile can be lathed without Boolean operations.",
       "type" : "text"
     }
   ],
@@ -2591,6 +2642,68 @@
   "title" : "latheProfile",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/latheprofile"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/latheProfile(isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a normalized lathe profile, polling ",
+      "type" : "text"
+    },
+    {
+      "code" : "isCancelled",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " during compound-path filling.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "latheProfile"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/latheProfile(isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "latheProfile(isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/latheprofile(iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/length": {
   "abstract" : [
@@ -3612,7 +3725,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/subpaths"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:font:width:detail:color:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:font:width:detail:color:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from a string and font you provide.",
@@ -3719,7 +3832,24 @@
     },
     {
       "kind" : "text",
-      "text" : "?) -> ["
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> ["
     },
     {
       "kind" : "typeIdentifier",
@@ -3731,14 +3861,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:font:width:detail:color:)",
+  "title" : "text(_:font:width:detail:color:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:)"
+  "url" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from an attributed string.",
@@ -3811,6 +3941,23 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> ["
     },
     {
@@ -3823,12 +3970,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:width:detail:)",
+  "title" : "text(_:width:detail:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:width:detail:)"
+  "url" : "\/documentation\/euclid\/path\/text(_:width:detail:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/transformed(by:)": {
   "abstract" : [

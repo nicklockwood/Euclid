@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Computes the Minkowski sum of the receiver and a polygon.",
+      "text" : "Returns whether the specified point intersects the mesh.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-kn6k"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersects(_:isCancelled:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4MeshV12minkowskiSum4withAcA7PolygonV_tF",
+    "externalID" : "s:6Euclid4MeshV10intersects_11isCancelledSbAA6VectorV_SbyYbXEtF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,15 +32,24 @@
       },
       {
         "kind" : "identifier",
-        "text" : "minkowskiSum"
+        "text" : "intersects"
       },
       {
         "kind" : "text",
         "text" : "("
       },
       {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid6VectorV",
+        "text" : "Vector"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
         "kind" : "externalParam",
-        "text" : "with"
+        "text" : "isCancelled"
       },
       {
         "kind" : "text",
@@ -48,8 +57,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid7PolygonV",
-        "text" : "Polygon"
+        "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+        "text" : "CancellationHandler"
       },
       {
         "kind" : "text",
@@ -57,8 +66,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid4MeshV",
-        "text" : "Mesh"
+        "preciseIdentifier" : "s:Sb",
+        "text" : "Bool"
       }
     ],
     "modules" : [
@@ -69,7 +78,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "minkowskiSum(with:)"
+    "title" : "intersects(_:isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -92,7 +101,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "minkowskiSum"
+              "text" : "intersects"
             },
             {
               "kind" : "text",
@@ -100,7 +109,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "with"
+              "text" : "_"
             },
             {
               "kind" : "text",
@@ -108,27 +117,44 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "polygon"
+              "text" : "point"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid7PolygonV",
-              "text" : "Polygon"
+              "preciseIdentifier" : "s:6Euclid6VectorV",
+              "text" : "Vector"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "isCancelled"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/CancellationHandler",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+              "text" : "CancellationHandler"
             },
             {
               "kind" : "text",
               "text" : ") -> "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid4MeshV",
-              "text" : "Mesh"
+              "preciseIdentifier" : "s:Sb",
+              "text" : "Bool"
             }
           ]
         }
@@ -143,14 +169,36 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The polygon with which to sum the mesh.",
+                  "text" : "The point to test for intersection with the mesh.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "polygon"
+          "name" : "point"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "A closure that returns ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "true",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " when the operation should stop.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "isCancelled"
         }
       ]
     },
@@ -165,7 +213,23 @@
         {
           "inlineContent" : [
             {
-              "text" : "A new mesh representing the Minkowski sum of the inputs.",
+              "text" : "",
+              "type" : "text"
+            },
+            {
+              "code" : "true",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " if the point intersects the mesh, or ",
+              "type" : "text"
+            },
+            {
+              "code" : "false",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " otherwise.",
               "type" : "text"
             }
           ],
@@ -186,7 +250,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/mesh\/minkowskisum(with:)-kn6k"
+        "\/documentation\/euclid\/mesh\/intersects(_:iscancelled:)"
       ],
       "traits" : [
         {
@@ -245,10 +309,44 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:)-kn6k": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/CancellationHandler": {
   "abstract" : [
     {
-      "text" : "Computes the Minkowski sum of the receiver and a polygon.",
+      "text" : "Callback used to cancel a long-running operation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/CancellationHandler",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh.CancellationHandler",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/cancellationhandler"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersects(_:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns whether the specified point intersects the mesh.",
       "type" : "text"
     }
   ],
@@ -263,15 +361,24 @@
     },
     {
       "kind" : "identifier",
-      "text" : "minkowskiSum"
+      "text" : "intersects"
     },
     {
       "kind" : "text",
       "text" : "("
     },
     {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
       "kind" : "externalParam",
-      "text" : "with"
+      "text" : "isCancelled"
     },
     {
       "kind" : "text",
@@ -279,8 +386,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid7PolygonV",
-      "text" : "Polygon"
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
     },
     {
       "kind" : "text",
@@ -288,21 +395,21 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-kn6k",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersects(_:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "minkowskiSum(with:)",
+  "title" : "intersects(_:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:)-kn6k"
+  "url" : "\/documentation\/euclid\/mesh\/intersects(_:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
   "abstract" : [
     {
-      "text" : "A polygon in 3D space.",
+      "text" : "A distance or position in 3D space.",
       "type" : "text"
     }
   ],
@@ -317,21 +424,21 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Polygon"
+      "text" : "Vector"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Polygon"
+      "text" : "Vector"
     }
   ],
   "role" : "symbol",
-  "title" : "Polygon",
+  "title" : "Vector",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon"
+  "url" : "\/documentation\/euclid\/vector"
 }
 }
 }

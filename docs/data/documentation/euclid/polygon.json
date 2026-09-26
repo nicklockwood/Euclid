@@ -219,8 +219,8 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clipped(to:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/split(along:_:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/tessellate(maxSides:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/triangulate()"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/tessellate(maxSides:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/triangulate(isCancelled:)"
       ],
       "title" : "Splitting Polygons"
     },
@@ -247,7 +247,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/clipped(to:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/flatteningNormals()",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapTexcoords(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertexColors(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/mapVertices(_:)",
@@ -1497,7 +1497,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/init(_:material:)-9mns5"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/inset(by:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/inset(by:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Applies a uniform inset to the edges of the polygon.",
@@ -1536,6 +1536,23 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> "
     },
     {
@@ -1548,12 +1565,12 @@
       "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "inset(by:)",
+  "title" : "inset(by:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/inset(by:)"
+  "url" : "\/documentation\/euclid\/polygon\/inset(by:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/intersects(_:)-4f51y": {
   "abstract" : [
@@ -2494,7 +2511,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/subdivide()"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/tessellate(maxSides:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/tessellate(maxSides:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Splits a polygon into two or more convex polygons using the “ear clipping” method.",
@@ -2533,6 +2550,23 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> ["
     },
     {
@@ -2545,12 +2579,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/tessellate(maxSides:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/tessellate(maxSides:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "tessellate(maxSides:)",
+  "title" : "tessellate(maxSides:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/tessellate(maxsides:)"
+  "url" : "\/documentation\/euclid\/polygon\/tessellate(maxsides:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/transformed(by:)": {
   "abstract" : [
@@ -2653,7 +2687,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/translated(by:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/triangulate()": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/triangulate(isCancelled:)": {
   "abstract" : [
     {
       "text" : "Tessellates the polygon into triangles.",
@@ -2675,7 +2709,24 @@
     },
     {
       "kind" : "text",
-      "text" : "() -> ["
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> ["
     },
     {
       "kind" : "typeIdentifier",
@@ -2687,12 +2738,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/triangulate()",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/triangulate(isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "triangulate()",
+  "title" : "triangulate(isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/triangulate()"
+  "url" : "\/documentation\/euclid\/polygon\/triangulate(iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/undirectedEdges": {
   "abstract" : [

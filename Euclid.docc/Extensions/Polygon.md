@@ -45,5 +45,5 @@ A flat polygonal face in a mesh.
 
 - ``Polygon/clipped(to:)``
 - ``Polygon/split(along:_:)``
-- ``Polygon/tessellate(maxSides:)``
-- ``Polygon/triangulate()``
+- ``Polygon/tessellate(maxSides:isCancelled:)``
+- ``Polygon/triangulate(isCancelled:)``

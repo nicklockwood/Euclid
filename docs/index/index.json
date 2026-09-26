@@ -375,13 +375,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/text(_:font:width:depth:detail:material:)",
-                "title" : "static func text(String, font: CTFont?, width: Double?, depth: Double, detail: Int, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/text(_:font:width:depth:detail:material:iscancelled:)",
+                "title" : "static func text(String, font: CTFont?, width: Double?, depth: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/text(_:width:depth:detail:material:)",
-                "title" : "static func text(NSAttributedString, width: Double?, depth: Double, detail: Int, material: Material?) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/text(_:width:depth:detail:material:iscancelled:)",
+                "title" : "static func text(NSAttributedString, width: Double?, depth: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -660,13 +660,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/tessellate(maxsides:)",
-                "title" : "func tessellate(maxSides: Int) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/tessellate(maxsides:iscancelled:)",
+                "title" : "func tessellate(maxSides: Int, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/triangulate()",
-                "title" : "func triangulate() -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/triangulate(iscancelled:)",
+                "title" : "func triangulate(isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -877,6 +877,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/intersects(_:iscancelled:)",
+                "title" : "func intersects(Vector, isCancelled: CancellationHandler) -> Bool",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/mappolygons(_:)",
                 "title" : "func mapPolygons((Polygon) -> Polygon) -> Mesh",
                 "type" : "method"
@@ -892,23 +897,28 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(with:)-3zfuj",
-                "title" : "func minkowskiSum(with: LineSegment) -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(with:)-kn6k",
-                "title" : "func minkowskiSum(with: Polygon) -> Mesh",
-                "type" : "method"
-              },
-              {
                 "path" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-2qcvm",
                 "title" : "func minkowskiSum(with: Path, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-5ousg",
+                "title" : "func minkowskiSum(with: LineSegment, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-6ti0g",
+                "title" : "func minkowskiSum(with: Polygon, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-776gt",
                 "title" : "func minkowskiSum(with: Mesh, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/nearestpoint(to:iscancelled:)",
+                "title" : "func nearestPoint(to: Vector, isCancelled: CancellationHandler) -> Vector",
                 "type" : "method"
               },
               {
@@ -1409,13 +1419,13 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/tessellate(maxsides:)",
-                "title" : "func tessellate(maxSides: Int) -> [Polygon]",
+                "path" : "\/documentation\/euclid\/polygon\/tessellate(maxsides:iscancelled:)",
+                "title" : "func tessellate(maxSides: Int, isCancelled: CancellationHandler) -> [Polygon]",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/triangulate()",
-                "title" : "func triangulate() -> [Polygon]",
+                "path" : "\/documentation\/euclid\/polygon\/triangulate(iscancelled:)",
+                "title" : "func triangulate(isCancelled: CancellationHandler) -> [Polygon]",
                 "type" : "method"
               },
               {
@@ -1456,8 +1466,8 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/polygon\/inset(by:)",
-                "title" : "func inset(by: Double) -> Polygon?",
+                "path" : "\/documentation\/euclid\/polygon\/inset(by:iscancelled:)",
+                "title" : "func inset(by: Double, isCancelled: CancellationHandler) -> Polygon?",
                 "type" : "method"
               },
               {
@@ -1889,13 +1899,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:)",
-                "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int, color: Color?) -> [Path]",
+                "path" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:iscancelled:)",
+                "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int, color: Color?, isCancelled: CancellationHandler) -> [Path]",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/text(_:width:detail:)",
-                "title" : "static func text(NSAttributedString, width: Double?, detail: Int) -> [Path]",
+                "path" : "\/documentation\/euclid\/path\/text(_:width:detail:iscancelled:)",
+                "title" : "static func text(NSAttributedString, width: Double?, detail: Int, isCancelled: CancellationHandler) -> [Path]",
                 "type" : "method"
               },
               {
@@ -2074,18 +2084,23 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/facepolygons(material:)",
-                "title" : "func facePolygons(material: Mesh.Material?) -> [Polygon]",
+                "path" : "\/documentation\/euclid\/path\/facepolygons(material:iscancelled:)",
+                "title" : "func facePolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon]",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/inset(by:)",
-                "title" : "func inset(by: Double) -> Path",
+                "path" : "\/documentation\/euclid\/path\/inset(by:iscancelled:)",
+                "title" : "func inset(by: Double, isCancelled: CancellationHandler) -> Path",
                 "type" : "method"
               },
               {
                 "path" : "\/documentation\/euclid\/path\/inverted()",
                 "title" : "func inverted() -> Path",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/latheprofile(iscancelled:)",
+                "title" : "func latheProfile(isCancelled: CancellationHandler) -> Path",
                 "type" : "method"
               },
               {
@@ -8107,13 +8122,13 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/swift\/collection\/text(_:font:width:detail:)",
-                    "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int) -> Self",
+                    "path" : "\/documentation\/euclid\/swift\/collection\/text(_:font:width:detail:iscancelled:)",
+                    "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
                     "type" : "method"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/swift\/collection\/text(_:width:detail:)",
-                    "title" : "static func text(NSAttributedString, width: Double?, detail: Int) -> Self",
+                    "path" : "\/documentation\/euclid\/swift\/collection\/text(_:width:detail:iscancelled:)",
+                    "title" : "static func text(NSAttributedString, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
                     "type" : "method"
                   }
                 ],
@@ -8128,13 +8143,13 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:font:width:detail:)",
-                    "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int) -> Self",
+                    "path" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:font:width:detail:iscancelled:)",
+                    "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
                     "type" : "method"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:width:detail:)",
-                    "title" : "static func text(NSAttributedString, width: Double?, detail: Int) -> Self",
+                    "path" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:width:detail:iscancelled:)",
+                    "title" : "static func text(NSAttributedString, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
                     "type" : "method"
                   }
                 ],

@@ -655,7 +655,7 @@ public extension Polygon {
     ///   - material: An optional ``Material-swift.typealias`` to apply to the polygon.
     ///
     /// Path may be convex or concave, but must be closed, planar and non-degenerate, and must not
-    /// include subpaths. For a non-planar path, or one with subpaths, use ``Path/facePolygons(material:)``.
+    /// include subpaths. For a non-planar path, or one with subpaths, use ``Path/facePolygons(material:isCancelled:)``.
     init?(_ shape: Path, material: Material? = nil) {
         guard let vertices = shape.faceVertices, let plane = shape.plane else {
             return nil

@@ -1,7 +1,23 @@
 {
   "abstract" : [
     {
-      "text" : "Cropped and flattened version of path suitable for lathing around the Y axis.",
+      "text" : "Normalized, cropped and flattened version of the path suitable for lathing around the Y axis.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Compound paths are resolved using the even-odd fill rule, with hole contours oriented opposite",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "their containing contours so the resulting profile can be lathed without Boolean operations.",
       "type" : "text"
     }
   ],
@@ -178,7 +194,23 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/latheProfile": {
   "abstract" : [
     {
-      "text" : "Cropped and flattened version of path suitable for lathing around the Y axis.",
+      "text" : "Normalized, cropped and flattened version of the path suitable for lathing around the Y axis.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Compound paths are resolved using the even-odd fill rule, with hole contours oriented opposite",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "their containing contours so the resulting profile can be lathed without Boolean operations.",
       "type" : "text"
     }
   ],

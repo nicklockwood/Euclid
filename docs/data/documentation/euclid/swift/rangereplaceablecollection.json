@@ -14,7 +14,7 @@
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Swift",
-    "externalID" : "s:e:s:Sm6EuclidAA4PathV7ElementRtzrlE4text_4font5width6detailxSS_So9CTFontRefaSgSdSgSitFZ",
+    "externalID" : "s:e:s:Sm6EuclidAA4PathV7ElementRtzrlE4text_4font5width6detail11isCancelledxSS_So9CTFontRefaSgSdSgSiSbyYbXEtFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -105,8 +105,8 @@
       "anchor" : "Type-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:font:width:detail:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:width:detail:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:font:width:detail:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:width:detail:isCancelled:)"
       ],
       "title" : "Type Methods"
     }
@@ -195,7 +195,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/swift\/rangereplaceablecollection"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/RangeReplaceableCollection/text(_:font:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/RangeReplaceableCollection/text(_:font:width:detail:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates a collection of glyph contours from a string and font you provide.",
@@ -317,6 +317,27 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": Euclid"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> "
     },
     {
@@ -324,14 +345,14 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:font:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:font:width:detail:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:font:width:detail:)",
+  "title" : "text(_:font:width:detail:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:font:width:detail:)"
+  "url" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:font:width:detail:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/RangeReplaceableCollection/text(_:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/RangeReplaceableCollection/text(_:width:detail:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates a collection of glyph contours from an attributed string.",
@@ -436,6 +457,27 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": Euclid"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> "
     },
     {
@@ -443,12 +485,12 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:width:detail:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:width:detail:)",
+  "title" : "text(_:width:detail:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:width:detail:)"
+  "url" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:width:detail:iscancelled:)"
 }
 }
 }

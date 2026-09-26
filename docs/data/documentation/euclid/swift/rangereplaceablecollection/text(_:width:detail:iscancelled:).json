@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates a collection of glyph contours from a string and font you provide.",
+      "text" : "Creates a collection of glyph contours from an attributed string.",
       "type" : "text"
     }
   ],
@@ -16,7 +16,7 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:font:width:detail:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:width:detail:isCancelled:)"
   },
   "kind" : "symbol",
   "metadata" : {
@@ -53,7 +53,7 @@
       ]
     },
     "extendedModule" : "Swift",
-    "externalID" : "s:Sm6EuclidAA4PathV7ElementRtzrlE4text_4font5width6detailxSS_So9CTFontRefaSgSdSgSitFZ",
+    "externalID" : "s:Sm6EuclidAA4PathV7ElementRtzrlE4text_5width6detail11isCancelledxSo18NSAttributedStringC_SdSgSiSbyYbXEtFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -81,29 +81,12 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:SS",
-        "text" : "String"
+        "preciseIdentifier" : "c:objc(cs)NSAttributedString",
+        "text" : "NSAttributedString"
       },
       {
         "kind" : "text",
         "text" : ", "
-      },
-      {
-        "kind" : "externalParam",
-        "text" : "font"
-      },
-      {
-        "kind" : "text",
-        "text" : ": "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "c:@T@CTFontRef",
-        "text" : "CTFont"
-      },
-      {
-        "kind" : "text",
-        "text" : "?, "
       },
       {
         "kind" : "externalParam",
@@ -137,6 +120,27 @@
       },
       {
         "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "isCancelled"
+      },
+      {
+        "kind" : "text",
+        "text" : ": Euclid"
+      },
+      {
+        "kind" : "text",
+        "text" : "."
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+        "text" : "CancellationHandler"
+      },
+      {
+        "kind" : "text",
         "text" : ") -> "
       },
       {
@@ -155,7 +159,7 @@
     "role" : "symbol",
     "roleHeading" : "Type Method",
     "symbolKind" : "method",
-    "title" : "text(_:font:width:detail:)"
+    "title" : "text(_:width:detail:isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -210,29 +214,12 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:SS",
-              "text" : "String"
+              "preciseIdentifier" : "c:objc(cs)NSAttributedString",
+              "text" : "NSAttributedString"
             },
             {
               "kind" : "text",
               "text" : ", "
-            },
-            {
-              "kind" : "externalParam",
-              "text" : "font"
-            },
-            {
-              "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "c:@T@CTFontRef",
-              "text" : "CTFont"
-            },
-            {
-              "kind" : "text",
-              "text" : "? = nil, "
             },
             {
               "kind" : "externalParam",
@@ -266,7 +253,29 @@
             },
             {
               "kind" : "text",
-              "text" : " = 2) -> "
+              "text" : " = 2, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "isCancelled"
+            },
+            {
+              "kind" : "text",
+              "text" : ": Euclid"
+            },
+            {
+              "kind" : "text",
+              "text" : "."
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/CancellationHandler",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+              "text" : "CancellationHandler"
+            },
+            {
+              "kind" : "text",
+              "text" : " = { false }) -> "
             },
             {
               "kind" : "typeIdentifier",
@@ -299,20 +308,6 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The font to use for the text.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "font"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
                   "text" : "The optional width at which to line-wrap the text.",
                   "type" : "text"
                 }
@@ -335,6 +330,20 @@
             }
           ],
           "name" : "detail"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Callback used to cancel the operation.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "isCancelled"
         }
       ]
     }
@@ -350,7 +359,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:font:width:detail:)"
+        "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:width:detail:iscancelled:)"
       ],
       "traits" : [
         {
@@ -374,6 +383,40 @@
   "title" : "Euclid",
   "type" : "topic",
   "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/CancellationHandler": {
+  "abstract" : [
+    {
+      "text" : "Callback used to cancel a long-running operation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/CancellationHandler",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "CancellationHandler",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/cancellationhandler"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift": {
   "abstract" : [
@@ -431,10 +474,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/swift\/rangereplaceablecollection"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/RangeReplaceableCollection/text(_:font:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/RangeReplaceableCollection/text(_:width:detail:isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Creates a collection of glyph contours from a string and font you provide.",
+      "text" : "Creates a collection of glyph contours from an attributed string.",
       "type" : "text"
     }
   ],
@@ -497,29 +540,12 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
+      "preciseIdentifier" : "c:objc(cs)NSAttributedString",
+      "text" : "NSAttributedString"
     },
     {
       "kind" : "text",
       "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "font"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:@T@CTFontRef",
-      "text" : "CTFont"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
     },
     {
       "kind" : "externalParam",
@@ -553,6 +579,27 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": Euclid"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> "
     },
     {
@@ -560,12 +607,12 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:font:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/RangeReplaceableCollection\/text(_:width:detail:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:font:width:detail:)",
+  "title" : "text(_:width:detail:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:font:width:detail:)"
+  "url" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:width:detail:iscancelled:)"
 }
 }
 }

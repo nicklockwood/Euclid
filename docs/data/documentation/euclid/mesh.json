@@ -253,8 +253,8 @@
     {
       "anchor" : "Creating-Meshes-from-Text",
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:width:depth:detail:material:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:width:depth:detail:material:isCancelled:)"
       ],
       "title" : "Creating Meshes from Text"
     },
@@ -358,8 +358,8 @@
     {
       "anchor" : "Adjusting-Mesh-Topology",
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/tessellate(maxSides:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/triangulate()",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/tessellate(maxSides:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/triangulate(isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detessellate(isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/detriangulate(isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/makeWatertight(isCancelled:)",
@@ -415,13 +415,15 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/edges(intersecting:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/flatteningNormals()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/inset(by:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersects(_:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/mapPolygons(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/mapVertexColors(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiDifference(from:isCancelled:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-3zfuj",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-kn6k",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-2qcvm",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-5ousg",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-6ti0g",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-776gt",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/nearestPoint(to:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/reflected(along:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(format:)",
@@ -6179,6 +6181,69 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/intersects(_:)-81cpy"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/intersects(_:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns whether the specified point intersects the mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersects"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/intersects(_:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersects(_:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/intersects(_:iscancelled:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/inverted()": {
   "abstract" : [
     {
@@ -7134,114 +7199,6 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/minkowskisum(of:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:)-3zfuj": {
-  "abstract" : [
-    {
-      "text" : "Computes the minkowskiSum sum of the receiver with the specified edge.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "minkowskiSum"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "with"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
-      "text" : "LineSegment"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-3zfuj",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "minkowskiSum(with:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:)-3zfuj"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:)-kn6k": {
-  "abstract" : [
-    {
-      "text" : "Computes the Minkowski sum of the receiver and a polygon.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "minkowskiSum"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "with"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid7PolygonV",
-      "text" : "Polygon"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV",
-      "text" : "Mesh"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:)-kn6k",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "minkowskiSum(with:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:)-kn6k"
-},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:isCancelled:)-2qcvm": {
   "abstract" : [
     {
@@ -7312,6 +7269,148 @@
   "title" : "minkowskiSum(with:isCancelled:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-2qcvm"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:isCancelled:)-5ousg": {
+  "abstract" : [
+    {
+      "text" : "Computes the minkowskiSum sum of the receiver with the specified edge.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "minkowskiSum"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid11LineSegmentV",
+      "text" : "LineSegment"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-5ousg",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "minkowskiSum(with:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-5ousg"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:isCancelled:)-6ti0g": {
+  "abstract" : [
+    {
+      "text" : "Computes the Minkowski sum of the receiver and a polygon.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "minkowskiSum"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "with"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV",
+      "text" : "Polygon"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-6ti0g",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "minkowskiSum(with:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-6ti0g"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/minkowskiSum(with:isCancelled:)-776gt": {
   "abstract" : [
@@ -7391,6 +7490,77 @@
   "title" : "minkowskiSum(with:isCancelled:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/minkowskisum(with:iscancelled:)-776gt"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/nearestPoint(to:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns the nearest point on the mesh to the specified point.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "nearestPoint"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/nearestPoint(to:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "nearestPoint(to:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/nearestpoint(to:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/objString()": {
   "abstract" : [
@@ -9436,7 +9606,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/symmetricdifference(_:iscancelled:)-swift.type.method"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/tessellate(maxSides:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/tessellate(maxSides:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Splits all polygons in the mesh that are concave or have more than the specified number of",
@@ -9483,6 +9653,23 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> "
     },
     {
@@ -9491,14 +9678,14 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/tessellate(maxSides:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/tessellate(maxSides:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "tessellate(maxSides:)",
+  "title" : "tessellate(maxSides:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/tessellate(maxsides:)"
+  "url" : "\/documentation\/euclid\/mesh\/tessellate(maxsides:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/text(_:font:width:depth:detail:material:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/text(_:font:width:depth:detail:material:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an extruded text model from a string.",
@@ -9622,7 +9809,24 @@
     },
     {
       "kind" : "text",
-      "text" : "?) -> "
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -9630,14 +9834,14 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:font:width:depth:detail:material:)",
+  "title" : "text(_:font:width:depth:detail:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/text(_:font:width:depth:detail:material:)"
+  "url" : "\/documentation\/euclid\/mesh\/text(_:font:width:depth:detail:material:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/text(_:width:depth:detail:material:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/text(_:width:depth:detail:material:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an extruded text model from an attributed string",
@@ -9744,7 +9948,24 @@
     },
     {
       "kind" : "text",
-      "text" : "?) -> "
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -9752,12 +9973,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:width:depth:detail:material:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:width:depth:detail:material:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:width:depth:detail:material:)",
+  "title" : "text(_:width:depth:detail:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/text(_:width:depth:detail:material:)"
+  "url" : "\/documentation\/euclid\/mesh\/text(_:width:depth:detail:material:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/transformed(by:)": {
   "abstract" : [
@@ -9864,7 +10085,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/translated(by:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/triangulate()": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/triangulate(isCancelled:)": {
   "abstract" : [
     {
       "text" : "Splits all polygons in the mesh into triangles.",
@@ -9886,7 +10107,24 @@
     },
     {
       "kind" : "text",
-      "text" : "() -> "
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -9894,12 +10132,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/triangulate()",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/triangulate(isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "triangulate()",
+  "title" : "triangulate(isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/triangulate()"
+  "url" : "\/documentation\/euclid\/mesh\/triangulate(iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/union(_:isCancelled:)-swift.method": {
   "abstract" : [

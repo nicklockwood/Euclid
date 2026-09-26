@@ -1,7 +1,15 @@
 {
   "abstract" : [
     {
-      "text" : "Applies a uniform inset to the edges of the path.",
+      "text" : "Returns a normalized lathe profile, polling ",
+      "type" : "text"
+    },
+    {
+      "code" : "isCancelled",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " during compound-path filling.",
       "type" : "text"
     }
   ],
@@ -15,12 +23,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/latheProfile(isCancelled:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4PathV5inset2byACSd_tF",
+    "externalID" : "s:6Euclid4PathV12latheProfile11isCancelledACSbyYbXE_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -32,7 +40,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "inset"
+        "text" : "latheProfile"
       },
       {
         "kind" : "text",
@@ -40,7 +48,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "by"
+        "text" : "isCancelled"
       },
       {
         "kind" : "text",
@@ -48,8 +56,8 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Sd",
-        "text" : "Double"
+        "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+        "text" : "CancellationHandler"
       },
       {
         "kind" : "text",
@@ -69,7 +77,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "inset(by:)"
+    "title" : "latheProfile(isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -92,7 +100,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "inset"
+              "text" : "latheProfile"
             },
             {
               "kind" : "text",
@@ -100,24 +108,17 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "by"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "internalParam",
-              "text" : "distance"
+              "text" : "isCancelled"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Sd",
-              "text" : "Double"
+              "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+              "text" : "CancellationHandler"
             },
             {
               "kind" : "text",
@@ -133,80 +134,6 @@
         }
       ],
       "kind" : "declarations"
-    },
-    {
-      "kind" : "parameters",
-      "parameters" : [
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The distance by which to inset the path edges.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "distance"
-        }
-      ]
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "return-value",
-          "level" : 2,
-          "text" : "Return Value",
-          "type" : "heading"
-        },
-        {
-          "inlineContent" : [
-            {
-              "text" : "A copy of the path, inset by the specified distance.",
-              "type" : "text"
-            }
-          ],
-          "type" : "paragraph"
-        }
-      ],
-      "kind" : "content"
-    },
-    {
-      "content" : [
-        {
-          "anchor" : "discussion",
-          "level" : 2,
-          "text" : "Discussion",
-          "type" : "heading"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "Passing a negative ",
-                  "type" : "text"
-                },
-                {
-                  "code" : "distance",
-                  "type" : "codeVoice"
-                },
-                {
-                  "text" : " will expand the path instead of shrinking it.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "Note",
-          "style" : "note",
-          "type" : "aside"
-        }
-      ],
-      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -220,7 +147,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/path\/inset(by:)"
+        "\/documentation\/euclid\/path\/latheprofile(iscancelled:)"
       ],
       "traits" : [
         {
@@ -279,10 +206,52 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/inset(by:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/CancellationHandler": {
   "abstract" : [
     {
-      "text" : "Applies a uniform inset to the edges of the path.",
+      "text" : "Callback used to cancel a long-running operation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Path.CancellationHandler",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/cancellationhandler"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/latheProfile(isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns a normalized lathe profile, polling ",
+      "type" : "text"
+    },
+    {
+      "code" : "isCancelled",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " during compound-path filling.",
       "type" : "text"
     }
   ],
@@ -297,7 +266,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "inset"
+      "text" : "latheProfile"
     },
     {
       "kind" : "text",
@@ -305,7 +274,7 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "by"
+      "text" : "isCancelled"
     },
     {
       "kind" : "text",
@@ -313,8 +282,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
     },
     {
       "kind" : "text",
@@ -326,12 +295,12 @@
       "text" : "Path"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/latheProfile(isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "inset(by:)",
+  "title" : "latheProfile(isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/inset(by:)"
+  "url" : "\/documentation\/euclid\/path\/latheprofile(iscancelled:)"
 }
 }
 }

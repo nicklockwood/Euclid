@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:isCancelled:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4PathV12facePolygons8materialSayAA7PolygonVGs11AnyHashableVSg_tF",
+    "externalID" : "s:6Euclid4PathV12facePolygons8material11isCancelledSayAA7PolygonVGs11AnyHashableVSg_SbyYbXEtF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -62,7 +62,24 @@
       },
       {
         "kind" : "text",
-        "text" : "?) -> ["
+        "text" : "?, "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "isCancelled"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+        "text" : "CancellationHandler"
+      },
+      {
+        "kind" : "text",
+        "text" : ") -> ["
       },
       {
         "kind" : "typeIdentifier",
@@ -82,7 +99,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "facePolygons(material:)"
+    "title" : "facePolygons(material:isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -137,7 +154,25 @@
             },
             {
               "kind" : "text",
-              "text" : "? = nil) -> ["
+              "text" : "? = nil, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "isCancelled"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+              "text" : "CancellationHandler"
+            },
+            {
+              "kind" : "text",
+              "text" : " = { false }) -> ["
             },
             {
               "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
@@ -179,6 +214,20 @@
             }
           ],
           "name" : "material"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Callback used to cancel the operation.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "isCancelled"
         }
       ]
     },
@@ -257,7 +306,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/path\/facepolygons(material:)"
+        "\/documentation\/euclid\/path\/facepolygons(material:iscancelled:)"
       ],
       "traits" : [
         {
@@ -401,7 +450,41 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/facePolygons(material:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/CancellationHandler": {
+  "abstract" : [
+    {
+      "text" : "Callback used to cancel a long-running operation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Path.CancellationHandler",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/cancellationhandler"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/facePolygons(material:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Returns one or more polygons needed to fill the path.",
@@ -449,7 +532,24 @@
     },
     {
       "kind" : "text",
-      "text" : "?) -> ["
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> ["
     },
     {
       "kind" : "typeIdentifier",
@@ -461,12 +561,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "facePolygons(material:)",
+  "title" : "facePolygons(material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/facepolygons(material:)"
+  "url" : "\/documentation\/euclid\/path\/facepolygons(material:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
   "abstract" : [

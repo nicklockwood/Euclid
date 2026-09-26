@@ -92,9 +92,9 @@ Using a CSG operation on a mesh that isn't sealed may result in unexpected resul
 
 On macOS and iOS you can make use of Euclid's Core Text integration to create 2D or 3D extruded text.
 
-The ``Path/text(_:width:detail:)`` method produces an array of 2D ``Path`` that represent the contours of each glyph in an `AttributedString`. You can use these paths with either ``Mesh/fill(_:faces:material:isCancelled:)-(Collection<Path>,_,_,_)`` or ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Collection<Path>,_,_,_,_,_,_)`` builder methods to create solid text.
+The ``Path/text(_:width:detail:isCancelled:)`` method produces an array of 2D ``Path`` that represent the contours of each glyph in an `AttributedString`. You can use these paths with either ``Mesh/fill(_:faces:material:isCancelled:)-(Collection<Path>,_,_,_)`` or ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Collection<Path>,_,_,_,_,_,_)`` builder methods to create solid text.
 
-Alternatively, the ``Mesh/text(_:font:width:depth:detail:material:)`` constructor directly produces an extruded 3D text model from a `String` or `AttributedString`.
+Alternatively, the ``Mesh/text(_:font:width:depth:detail:material:isCancelled:)`` constructor directly produces an extruded 3D text model from a `String` or `AttributedString`.
 
 Each glyph in the input string maps to a single ``Path`` in the result, but these ``Path``s may contain nested subpaths. 
 Glyphs formed from multiple subpaths will be filled using the even-odd rule (equivalent to using `symmetricDifference` with the individually filled or extruded subpaths).

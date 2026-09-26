@@ -29,8 +29,8 @@ A bezier path in three-dimensional space.
 
 ### Creating Text Paths
 
-- ``Path/text(_:font:width:detail:color:)``
-- ``Path/text(_:width:detail:)``
+- ``Path/text(_:font:width:detail:color:isCancelled:)``
+- ``Path/text(_:width:detail:isCancelled:)``
 
 ### Path Properties
 

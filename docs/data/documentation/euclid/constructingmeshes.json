@@ -1485,7 +1485,7 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:isCancelled:)",
               "isActive" : true,
               "type" : "reference"
             },
@@ -1538,7 +1538,7 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:)",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:isCancelled:)",
               "isActive" : true,
               "type" : "reference"
             },
@@ -4134,7 +4134,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/symmetricdifference(_:iscancelled:)-swift.type.method"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/text(_:font:width:depth:detail:material:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/text(_:font:width:depth:detail:material:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an extruded text model from a string.",
@@ -4258,7 +4258,24 @@
     },
     {
       "kind" : "text",
-      "text" : "?) -> "
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -4266,12 +4283,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:font:width:depth:detail:material:)",
+  "title" : "text(_:font:width:depth:detail:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/text(_:font:width:depth:detail:material:)"
+  "url" : "\/documentation\/euclid\/mesh\/text(_:font:width:depth:detail:material:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/union(_:isCancelled:)-swift.method": {
   "abstract" : [
@@ -5139,7 +5156,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/square(size:color:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from an attributed string.",
@@ -5212,6 +5229,23 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> ["
     },
     {
@@ -5224,12 +5258,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:width:detail:)",
+  "title" : "text(_:width:detail:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:width:detail:)"
+  "url" : "\/documentation\/euclid\/path\/text(_:width:detail:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint": {
   "abstract" : [

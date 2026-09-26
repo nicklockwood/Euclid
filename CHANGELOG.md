@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.9.6](https://github.com/nicklockwood/Euclid/releases/tag/0.9.6) (2026-09-26)
+
+- Fixed non-zero fill normalization for detailed self-intersecting paths
+- Fixed watertight extrusion of overlapping compound paths
+- Fixed lofting of parallel transformed curved compound paths
+- Fixed nondeterministic cap material selection
+- Added additional cancellation callbacks for long-running operations
+
 ## [0.9.5](https://github.com/nicklockwood/Euclid/releases/tag/0.9.5) (2026-09-22)
 
 - Replaced the seeded convex hull implementation with Quickhull

@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates an array of glyph contours from an attributed string.",
+      "text" : "Applies a uniform inset to the edges of the path.",
       "type" : "text"
     }
   ],
@@ -15,21 +15,13 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:isCancelled:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4PathV4text_5width6detailSayACGSo18NSAttributedStringC_SdSgSitFZ",
+    "externalID" : "s:6Euclid4PathV5inset2by11isCancelledACSd_SbyYbXEtF",
     "fragments" : [
-      {
-        "kind" : "keyword",
-        "text" : "static"
-      },
-      {
-        "kind" : "text",
-        "text" : " "
-      },
       {
         "kind" : "keyword",
         "text" : "func"
@@ -40,24 +32,15 @@
       },
       {
         "kind" : "identifier",
-        "text" : "text"
+        "text" : "inset"
       },
       {
         "kind" : "text",
         "text" : "("
       },
       {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "c:objc(cs)NSAttributedString",
-        "text" : "NSAttributedString"
-      },
-      {
-        "kind" : "text",
-        "text" : ", "
-      },
-      {
         "kind" : "externalParam",
-        "text" : "width"
+        "text" : "by"
       },
       {
         "kind" : "text",
@@ -70,11 +53,11 @@
       },
       {
         "kind" : "text",
-        "text" : "?, "
+        "text" : ", "
       },
       {
         "kind" : "externalParam",
-        "text" : "detail"
+        "text" : "isCancelled"
       },
       {
         "kind" : "text",
@@ -82,21 +65,17 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Si",
-        "text" : "Int"
+        "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+        "text" : "CancellationHandler"
       },
       {
         "kind" : "text",
-        "text" : ") -> ["
+        "text" : ") -> "
       },
       {
         "kind" : "typeIdentifier",
         "preciseIdentifier" : "s:6Euclid4PathV",
         "text" : "Path"
-      },
-      {
-        "kind" : "text",
-        "text" : "]"
       }
     ],
     "modules" : [
@@ -105,9 +84,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Type Method",
+    "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "text(_:width:detail:)"
+    "title" : "inset(by:isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -122,14 +101,6 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "static"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
               "text" : "func"
             },
             {
@@ -138,7 +109,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "text"
+              "text" : "inset"
             },
             {
               "kind" : "text",
@@ -146,7 +117,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "_"
+              "text" : "by"
             },
             {
               "kind" : "text",
@@ -154,24 +125,7 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "text"
-            },
-            {
-              "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "c:objc(cs)NSAttributedString",
-              "text" : "NSAttributedString"
-            },
-            {
-              "kind" : "text",
-              "text" : ", "
-            },
-            {
-              "kind" : "externalParam",
-              "text" : "width"
+              "text" : "distance"
             },
             {
               "kind" : "text",
@@ -184,34 +138,31 @@
             },
             {
               "kind" : "text",
-              "text" : "? = nil, "
+              "text" : ", "
             },
             {
               "kind" : "externalParam",
-              "text" : "detail"
+              "text" : "isCancelled"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Si",
-              "text" : "Int"
+              "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+              "text" : "CancellationHandler"
             },
             {
               "kind" : "text",
-              "text" : " = 2) -> ["
+              "text" : " = { false }) -> "
             },
             {
               "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
               "kind" : "typeIdentifier",
               "preciseIdentifier" : "s:6Euclid4PathV",
               "text" : "Path"
-            },
-            {
-              "kind" : "text",
-              "text" : "]"
             }
           ]
         }
@@ -226,50 +177,85 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The text to convert.",
+                  "text" : "The distance by which to inset the path edges.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "text"
+          "name" : "distance"
         },
         {
           "content" : [
             {
               "inlineContent" : [
                 {
-                  "text" : "The optional width at which to line-wrap the text.",
+                  "text" : "Callback used to cancel the operation.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "width"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
-                  "text" : "The number line segments used to approximate glyph curves.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "detail"
+          "name" : "isCancelled"
         }
       ]
     },
     {
-      "kind" : "mentions",
-      "mentions" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes"
-      ]
+      "content" : [
+        {
+          "anchor" : "return-value",
+          "level" : 2,
+          "text" : "Return Value",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "A copy of the path, inset by the specified distance.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        }
+      ],
+      "kind" : "content"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Passing a negative ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "distance",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " will expand the path instead of shrinking it.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -280,20 +266,10 @@
   "sections" : [
 
   ],
-  "seeAlsoSections" : [
-    {
-      "anchor" : "Creating-Text-Paths",
-      "generated" : true,
-      "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)"
-      ],
-      "title" : "Creating Text Paths"
-    }
-  ],
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/path\/text(_:width:detail:)"
+        "\/documentation\/euclid\/path\/inset(by:iscancelled:)"
       ],
       "traits" : [
         {
@@ -317,20 +293,6 @@
   "title" : "Euclid",
   "type" : "topic",
   "url" : "\/documentation\/euclid"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/ConstructingMeshes": {
-  "abstract" : [
-    {
-      "text" : "Define 3D objects by constructing meshes.",
-      "type" : "text"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes",
-  "kind" : "article",
-  "role" : "article",
-  "title" : "Constructing Meshes",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/constructingmeshes"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
   "abstract" : [
@@ -366,25 +328,17 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:font:width:detail:color:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/CancellationHandler": {
   "abstract" : [
     {
-      "text" : "Creates an array of glyph contours from a string and font you provide.",
+      "text" : "Callback used to cancel a long-running operation.",
       "type" : "text"
     }
   ],
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
+      "text" : "typealias"
     },
     {
       "kind" : "text",
@@ -392,122 +346,30 @@
     },
     {
       "kind" : "identifier",
-      "text" : "text"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:SS",
-      "text" : "String"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "font"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:@T@CTFontRef",
-      "text" : "CTFont"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "width"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "detail"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "color"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid5ColorV",
-      "text" : "Color"
-    },
-    {
-      "kind" : "text",
-      "text" : "?) -> ["
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4PathV",
-      "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : "]"
+      "text" : "CancellationHandler"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
   "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
   "role" : "symbol",
-  "title" : "text(_:font:width:detail:color:)",
+  "title" : "Path.CancellationHandler",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:)"
+  "url" : "\/documentation\/euclid\/path\/cancellationhandler"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/inset(by:isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Creates an array of glyph contours from an attributed string.",
+      "text" : "Applies a uniform inset to the edges of the path.",
       "type" : "text"
     }
   ],
   "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
     {
       "kind" : "keyword",
       "text" : "func"
@@ -518,24 +380,15 @@
     },
     {
       "kind" : "identifier",
-      "text" : "text"
+      "text" : "inset"
     },
     {
       "kind" : "text",
       "text" : "("
     },
     {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)NSAttributedString",
-      "text" : "NSAttributedString"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
       "kind" : "externalParam",
-      "text" : "width"
+      "text" : "by"
     },
     {
       "kind" : "text",
@@ -548,11 +401,11 @@
     },
     {
       "kind" : "text",
-      "text" : "?, "
+      "text" : ", "
     },
     {
       "kind" : "externalParam",
-      "text" : "detail"
+      "text" : "isCancelled"
     },
     {
       "kind" : "text",
@@ -560,29 +413,25 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
     },
     {
       "kind" : "text",
-      "text" : ") -> ["
+      "text" : ") -> "
     },
     {
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:6Euclid4PathV",
       "text" : "Path"
-    },
-    {
-      "kind" : "text",
-      "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:width:detail:)",
+  "title" : "inset(by:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:width:detail:)"
+  "url" : "\/documentation\/euclid\/path\/inset(by:iscancelled:)"
 }
 }
 }

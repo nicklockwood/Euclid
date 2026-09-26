@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:isCancelled:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid7PolygonV5inset2byACSgSd_tF",
+    "externalID" : "s:6Euclid7PolygonV5inset2by11isCancelledACSgSd_SbyYbXEtF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -53,6 +53,23 @@
       },
       {
         "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "isCancelled"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid7PolygonV19CancellationHandlera",
+        "text" : "CancellationHandler"
+      },
+      {
+        "kind" : "text",
         "text" : ") -> "
       },
       {
@@ -73,7 +90,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "inset(by:)"
+    "title" : "inset(by:isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -125,7 +142,25 @@
             },
             {
               "kind" : "text",
-              "text" : ") -> "
+              "text" : ", "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "isCancelled"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/CancellationHandler",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid7PolygonV19CancellationHandlera",
+              "text" : "CancellationHandler"
+            },
+            {
+              "kind" : "text",
+              "text" : " = { false }) -> "
             },
             {
               "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
@@ -158,6 +193,20 @@
             }
           ],
           "name" : "distance"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Callback used to cancel the operation.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "isCancelled"
         }
       ]
     },
@@ -228,7 +277,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/polygon\/inset(by:)"
+        "\/documentation\/euclid\/polygon\/inset(by:iscancelled:)"
       ],
       "traits" : [
         {
@@ -287,7 +336,41 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/inset(by:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/CancellationHandler": {
+  "abstract" : [
+    {
+      "text" : "Callback used to cancel a long-running operation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/CancellationHandler",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Polygon.CancellationHandler",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/cancellationhandler"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/inset(by:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Applies a uniform inset to the edges of the polygon.",
@@ -326,6 +409,23 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid7PolygonV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> "
     },
     {
@@ -338,12 +438,12 @@
       "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/inset(by:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "inset(by:)",
+  "title" : "inset(by:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/polygon\/inset(by:)"
+  "url" : "\/documentation\/euclid\/polygon\/inset(by:iscancelled:)"
 }
 }
 }

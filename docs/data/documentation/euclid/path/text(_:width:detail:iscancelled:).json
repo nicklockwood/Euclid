@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates an array of glyph contours from a string and font you provide.",
+      "text" : "Creates an array of glyph contours from an attributed string.",
       "type" : "text"
     }
   ],
@@ -15,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:isCancelled:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid4PathV4text_4font5width6detail5colorSayACGSS_So9CTFontRefaSgSdSgSiAA5ColorVSgtFZ",
+    "externalID" : "s:6Euclid4PathV4text_5width6detail11isCancelledSayACGSo18NSAttributedStringC_SdSgSiSbyYbXEtFZ",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -48,29 +48,12 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:SS",
-        "text" : "String"
+        "preciseIdentifier" : "c:objc(cs)NSAttributedString",
+        "text" : "NSAttributedString"
       },
       {
         "kind" : "text",
         "text" : ", "
-      },
-      {
-        "kind" : "externalParam",
-        "text" : "font"
-      },
-      {
-        "kind" : "text",
-        "text" : ": "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "c:@T@CTFontRef",
-        "text" : "CTFont"
-      },
-      {
-        "kind" : "text",
-        "text" : "?, "
       },
       {
         "kind" : "externalParam",
@@ -108,7 +91,7 @@
       },
       {
         "kind" : "externalParam",
-        "text" : "color"
+        "text" : "isCancelled"
       },
       {
         "kind" : "text",
@@ -116,12 +99,12 @@
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:6Euclid5ColorV",
-        "text" : "Color"
+        "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+        "text" : "CancellationHandler"
       },
       {
         "kind" : "text",
-        "text" : "?) -> ["
+        "text" : ") -> ["
       },
       {
         "kind" : "typeIdentifier",
@@ -141,7 +124,7 @@
     "role" : "symbol",
     "roleHeading" : "Type Method",
     "symbolKind" : "method",
-    "title" : "text(_:font:width:detail:color:)"
+    "title" : "text(_:width:detail:isCancelled:)"
   },
   "primaryContentSections" : [
     {
@@ -196,29 +179,12 @@
             },
             {
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:SS",
-              "text" : "String"
+              "preciseIdentifier" : "c:objc(cs)NSAttributedString",
+              "text" : "NSAttributedString"
             },
             {
               "kind" : "text",
               "text" : ", "
-            },
-            {
-              "kind" : "externalParam",
-              "text" : "font"
-            },
-            {
-              "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "c:@T@CTFontRef",
-              "text" : "CTFont"
-            },
-            {
-              "kind" : "text",
-              "text" : "? = nil, "
             },
             {
               "kind" : "externalParam",
@@ -256,21 +222,21 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "color"
+              "text" : "isCancelled"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:6Euclid5ColorV",
-              "text" : "Color"
+              "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+              "text" : "CancellationHandler"
             },
             {
               "kind" : "text",
-              "text" : "? = nil) -> ["
+              "text" : " = { false }) -> ["
             },
             {
               "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
@@ -309,20 +275,6 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The font to use for the text.",
-                  "type" : "text"
-                }
-              ],
-              "type" : "paragraph"
-            }
-          ],
-          "name" : "font"
-        },
-        {
-          "content" : [
-            {
-              "inlineContent" : [
-                {
                   "text" : "The optional width at which to line-wrap the text.",
                   "type" : "text"
                 }
@@ -351,15 +303,21 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "An optional color to apply to the text.",
+                  "text" : "Callback used to cancel the operation.",
                   "type" : "text"
                 }
               ],
               "type" : "paragraph"
             }
           ],
-          "name" : "color"
+          "name" : "isCancelled"
         }
+      ]
+    },
+    {
+      "kind" : "mentions",
+      "mentions" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes"
       ]
     }
   ],
@@ -376,7 +334,7 @@
       "anchor" : "Creating-Text-Paths",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:isCancelled:)"
       ],
       "title" : "Creating Text Paths"
     }
@@ -384,7 +342,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/path\/text(_:font:width:detail:color:)"
+        "\/documentation\/euclid\/path\/text(_:width:detail:iscancelled:)"
       ],
       "traits" : [
         {
@@ -409,39 +367,19 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ConstructingMeshes": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "Define 3D objects by constructing meshes.",
       "type" : "text"
     }
   ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "struct"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "Color"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
-  "kind" : "symbol",
-  "navigatorTitle" : [
-    {
-      "kind" : "identifier",
-      "text" : "Color"
-    }
-  ],
-  "role" : "symbol",
-  "title" : "Color",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ConstructingMeshes",
+  "kind" : "article",
+  "role" : "article",
+  "title" : "Constructing Meshes",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color"
+  "url" : "\/documentation\/euclid\/constructingmeshes"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
   "abstract" : [
@@ -477,7 +415,41 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:font:width:detail:color:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/CancellationHandler": {
+  "abstract" : [
+    {
+      "text" : "Callback used to cancel a long-running operation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/CancellationHandler",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Path.CancellationHandler",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/cancellationhandler"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:font:width:detail:color:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from a string and font you provide.",
@@ -584,7 +556,24 @@
     },
     {
       "kind" : "text",
-      "text" : "?) -> ["
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> ["
     },
     {
       "kind" : "typeIdentifier",
@@ -596,14 +585,14 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:font:width:detail:color:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:font:width:detail:color:)",
+  "title" : "text(_:font:width:detail:color:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:)"
+  "url" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from an attributed string.",
@@ -676,6 +665,23 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> ["
     },
     {
@@ -688,12 +694,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:width:detail:)",
+  "title" : "text(_:width:detail:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:width:detail:)"
+  "url" : "\/documentation\/euclid\/path\/text(_:width:detail:iscancelled:)"
 }
 }
 }

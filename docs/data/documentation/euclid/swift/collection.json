@@ -124,8 +124,8 @@
       "anchor" : "Type-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:font:width:detail:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:width:detail:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:font:width:detail:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:width:detail:isCancelled:)"
       ],
       "title" : "Type Methods"
     }
@@ -678,7 +678,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/swift\/collection\/split(along:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection/text(_:font:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection/text(_:font:width:detail:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from a string and font you provide.",
@@ -800,6 +800,27 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": Euclid"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> "
     },
     {
@@ -807,14 +828,14 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:font:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:font:width:detail:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:font:width:detail:)",
+  "title" : "text(_:font:width:detail:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/collection\/text(_:font:width:detail:)"
+  "url" : "\/documentation\/euclid\/swift\/collection\/text(_:font:width:detail:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection/text(_:width:detail:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection/text(_:width:detail:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from an attributed string.",
@@ -919,6 +940,27 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": Euclid"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
       "text" : ") -> "
     },
     {
@@ -926,12 +968,12 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:width:detail:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:width:detail:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:width:detail:)",
+  "title" : "text(_:width:detail:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/collection\/text(_:width:detail:)"
+  "url" : "\/documentation\/euclid\/swift\/collection\/text(_:width:detail:iscancelled:)"
 }
 }
 }
