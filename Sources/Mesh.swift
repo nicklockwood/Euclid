@@ -516,6 +516,8 @@ public extension Mesh {
             while !holeEdges.isEmpty, !isCancelled() {
                 let loops = holeEdges.closedLoops
                 var materialsByEdge = [LineSegment: [Material?]]()
+                // Preserve polygon order so equal-weight materials have a stable winner.
+                var materialOrder = [Material?]()
                 var verticesByPosition = [Vector: [Vertex]]()
                 for (index, polygon) in polygons.enumerated() {
                     if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
@@ -526,6 +528,9 @@ public extension Mesh {
                     }
                     for edge in polygon.undirectedEdges where holeEdges.contains(edge) {
                         materialsByEdge[edge, default: []].append(polygon.material)
+                        if !materialOrder.contains(polygon.material) {
+                            materialOrder.append(polygon.material)
+                        }
                     }
                 }
                 guard !isCancelled() else {
@@ -535,13 +540,17 @@ public extension Mesh {
                     if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                         return []
                     }
-                    var materialWeights = [Material?: Double]()
+                    var materialWeights = Array(repeating: 0.0, count: materialOrder.count)
                     for edge in points.undirectedEdges {
                         for material in materialsByEdge[edge] ?? [] {
-                            materialWeights[material, default: 0] += edge.length
+                            if let index = materialOrder.firstIndex(of: material) {
+                                materialWeights[index] += edge.length
+                            }
                         }
                     }
-                    let material = materialWeights.max(by: { $0.value < $1.value })?.key ?? nil
+                    let material = materialWeights.indices.max(by: {
+                        materialWeights[$0] < materialWeights[$1]
+                    }).map { materialOrder[$0] } ?? nil
                     let closedVertices = points.map { position in
                         let vertices = verticesByPosition[position] ?? []
                         if let vertex = vertices.first(where: { $0.color != .white }) {

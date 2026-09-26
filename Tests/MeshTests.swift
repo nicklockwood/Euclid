@@ -582,6 +582,20 @@ final class MeshTests: XCTestCase {
         XCTAssertEqual(cap.material, red)
     }
 
+    func testMakeWatertightCapMaterialTieUsesFirstSurroundingMaterial() throws {
+        let red = Color(red: 1, green: 0, blue: 0)
+        let blue = Color(red: 0, green: 0, blue: 1)
+        let mesh = Mesh(openBoxPolygons(topMaterials: [red, blue, red, blue]))
+
+        let watertight = mesh.makeWatertight()
+        let cap = try XCTUnwrap(watertight.polygons.first(where: { polygon in
+            polygon.vertices.allSatisfy { $0.position.z == 1 }
+        }))
+
+        XCTAssertTrue(watertight.isWatertight)
+        XCTAssertEqual(cap.material, red)
+    }
+
     func testMakeWatertightCapUsesInterpolatedNormalsAndTexcoords() throws {
         let red = Color(red: 1, green: 0, blue: 0)
         let mesh = Mesh(openBoxPolygons(topMaterials: [red, red, red, red]))
