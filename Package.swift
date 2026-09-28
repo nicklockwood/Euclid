@@ -5,9 +5,11 @@ import PackageDescription
 let package = Package(
     name: "Euclid",
     platforms: [
-        .macOS(.v10_15),
-        .iOS(.v14),
-        .tvOS(.v14),
+        .macOS(.v12),
+        .iOS(.v15),
+        .tvOS(.v15),
+        .watchOS(.v9),
+        .visionOS("1.3"),
     ],
     products: [
         .library(name: "Euclid", targets: ["Euclid"]),

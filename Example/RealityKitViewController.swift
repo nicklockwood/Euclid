@@ -11,7 +11,7 @@ import Euclid
 import RealityKit
 import UIKit
 
-@available(iOS 15.0, tvOS 26.0, *)
+@available(tvOS 26.0, *)
 final class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
     var updateSubscription: Cancellable!
     var modelPosition: Vector = .zero

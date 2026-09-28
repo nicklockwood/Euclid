@@ -514,11 +514,6 @@ public extension Path {
         return offset.isZero ? (self, .zero) : (translated(by: -offset), offset)
     }
 
-    @available(*, deprecated, renamed: "withDetail(_:forTwist:)")
-    func withDetail(_ detail: Int, twist: Angle) -> Path {
-        withDetail(detail, forTwist: twist)
-    }
-
     /// Returns a copy of the path with added points to support a twist.
     /// - Parameters:
     ///   - detail: The target number of segments per full rotation.

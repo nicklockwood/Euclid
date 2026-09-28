@@ -27,7 +27,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         #else
         window?.backgroundColor = UIColor.white
         window?.rootViewController = SceneKitViewController()
-        if #available(iOS 15.0, tvOS 26.0, *) {
+        if #available(tvOS 26.0, *) {
             let tabBarController = UITabBarController()
             tabBarController.viewControllers = [
                 SceneKitViewController(),

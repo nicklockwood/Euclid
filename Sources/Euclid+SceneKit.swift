@@ -571,7 +571,7 @@ public extension Mesh {
 
         var polygons = [Polygon]()
         let sources = scnGeometry.sources
-        let sourceChannels: [Int] = if #available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *) {
+        let sourceChannels: [Int] = if #available(macOS 13.0, iOS 16.0, tvOS 16.0, *) {
             scnGeometry.geometrySourceChannels?.map(\.intValue) ??
                 Array(repeating: 0, count: sources.count)
         } else {
@@ -613,7 +613,7 @@ public extension Mesh {
             let indexCount = indexData.count / indexSize
             let channelCount: Int
             let channelsAreInterleaved: Bool
-            if #available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *) {
+            if #available(macOS 13.0, iOS 16.0, tvOS 16.0, *) {
                 channelCount = element.indicesChannelCount
                 channelsAreInterleaved = element.hasInterleavedIndicesChannels
             } else {

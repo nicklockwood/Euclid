@@ -60,7 +60,7 @@ public extension RealityKit.Transform {
 }
 
 @MainActor
-@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
+@available(tvOS 26.0, *)
 private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.Material? {
     switch material {
     case let wrapper as MaterialWrapper:
@@ -96,7 +96,7 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.
     }
 }
 
-@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
+@available(tvOS 26.0, *)
 public extension MeshDescriptor {
     /// Creates a mesh descriptor from a ``Mesh`` using triangles.
     /// - Parameter mesh: The mesh to convert into a RealityKit mesh descriptor.
@@ -183,7 +183,7 @@ public extension MeshDescriptor {
 }
 
 @MainActor
-@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
+@available(tvOS 26.0, *)
 public extension ModelEntity {
     /// A closure that maps a Euclid material to a RealityKit material.
     /// - Parameter material: A Euclid material to convert, or `nil` for the default material.
@@ -287,7 +287,7 @@ public extension ModelEntity {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
+@available(tvOS 26.0, *)
 private extension Mesh {
     struct ModelEntityMaterials: @unchecked Sendable {
         let values: [RealityKit.Material]
@@ -380,7 +380,7 @@ public extension Euclid.Transform {
 }
 
 private extension [Polygon] {
-    @available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
+    @available(tvOS 26.0, *)
     init(
         meshDescriptor: MeshDescriptor,
         indices: [UInt32],
@@ -439,7 +439,7 @@ private extension [Polygon] {
 }
 
 @MainActor
-@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
+@available(tvOS 26.0, *)
 private func defaultMaterialLookup(_ material: RealityKit.Material) -> Polygon.Material? {
     switch material {
     case let simpleMaterial as SimpleMaterial:
@@ -448,7 +448,7 @@ private func defaultMaterialLookup(_ material: RealityKit.Material) -> Polygon.M
         material.roughness = simpleMaterial.roughness
         material.metallic = simpleMaterial.metallic
         #if compiler(>=6)
-        if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+        if #available(macOS 15.0, iOS 18.0, *) {
             material.triangleFillMode = simpleMaterial.triangleFillMode
             if #available(visionOS 2.0, *) {
                 material.faceCulling = simpleMaterial.faceCulling
@@ -462,7 +462,7 @@ private func defaultMaterialLookup(_ material: RealityKit.Material) -> Polygon.M
         material.opacityThreshold = unlitMaterial.opacityThreshold
         material.blending = unlitMaterial.blending
         #if compiler(>=6)
-        if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+        if #available(macOS 15.0, iOS 18.0, *) {
             material.triangleFillMode = unlitMaterial.triangleFillMode
             if #available(visionOS 2.0, *) {
                 material.faceCulling = unlitMaterial.faceCulling
@@ -481,7 +481,7 @@ private func defaultMaterialLookup(_ material: RealityKit.Material) -> Polygon.M
         guard let avPlayer = videoMaterial.avPlayer else { return nil }
         var material = VideoMaterial(avPlayer: avPlayer)
         #if compiler(>=6)
-        if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+        if #available(macOS 15.0, iOS 18.0, *) {
             material.controller.preferredViewingMode = videoMaterial.controller.preferredViewingMode
             material.triangleFillMode = videoMaterial.triangleFillMode
             if #available(visionOS 2.0, *) {
@@ -511,7 +511,7 @@ private func defaultMaterialLookup(_ material: RealityKit.Material) -> Polygon.M
         material.textureCoordinateTransform = pbrMaterial.textureCoordinateTransform
         material.secondaryTextureCoordinateTransform = pbrMaterial.secondaryTextureCoordinateTransform
         #if compiler(>=6)
-        if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *) {
+        if #available(macOS 15.0, iOS 18.0, *) {
             material.triangleFillMode = pbrMaterial.triangleFillMode
             if #available(visionOS 2.0, *) {
                 material.faceCulling = pbrMaterial.faceCulling
@@ -521,7 +521,7 @@ private func defaultMaterialLookup(_ material: RealityKit.Material) -> Polygon.M
         return MaterialWrapper(material)
     default:
         #if compiler(>=6)
-        if #available(visionOS 1.0, macOS 15.0, iOS 18.0, *),
+        if #available(macOS 15.0, iOS 18.0, *),
            let portalMaterial = material as? PortalMaterial
         {
             var material = PortalMaterial()
@@ -541,7 +541,7 @@ private func defaultMaterialLookup(_ material: RealityKit.Material) -> Polygon.M
 // Workaround for Xcode 16.3 bug
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, tvOS 26.0, *)
 #else
-@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
+@available(tvOS 26.0, *)
 #endif
 public extension Mesh {
     /// A closure that converts a RealityKit material to a Euclid material.
@@ -716,7 +716,7 @@ public extension Mesh {
 // Workaround for Xcode 16.3 bug
 @available(visionOS 2.0, macOS 15.0, iOS 18.0, tvOS 26.0, *)
 #else
-@available(macOS 12.0, iOS 15.0, tvOS 26.0, *)
+@available(tvOS 26.0, *)
 #endif
 private extension Mesh {
     struct MaterialList: @unchecked Sendable {
