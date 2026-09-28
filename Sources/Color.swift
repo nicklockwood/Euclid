@@ -207,6 +207,12 @@ public extension Color {
         hsbComponents.brightness
     }
 
+    /// The perceived luminance of the color.
+    /// Per https://en.wikipedia.org/wiki/Rec._709
+    var luminance: Double {
+        red * 0.2126 + green * 0.7152 + blue * 0.0722
+    }
+
     /// Creates a copy of the color updated with the specified alpha component.
     func withAlphaComponent(_ alpha: Double) -> Color {
         .init(red: red, green: green, blue: blue, alpha: alpha)
