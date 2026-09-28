@@ -377,10 +377,7 @@ public extension Polygon {
     ///   - maxSides: The maximum number of sides each polygon may have.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: An array of convex polygons.
-    func tessellate(
-        maxSides: Int = .max,
-        isCancelled: CancellationHandler = { false }
-    ) -> [Polygon] {
+    func tessellate(maxSides: Int = .max, isCancelled: CancellationHandler = { false }) -> [Polygon] {
         let maxSides = max(maxSides, 3)
         if vertices.count <= maxSides, isConvex {
             return [self]
@@ -1083,16 +1080,13 @@ extension Collection<Polygon> {
     }
 
     /// Decompose each concave polygon into 2 or more convex polygons
-    func tessellate(
-        maxSides: Int = .max,
-        isCancelled: Euclid.CancellationHandler
-    ) -> [Polygon] {
-        return flatMap { $0.tessellate(maxSides: maxSides, isCancelled: isCancelled) }
+    func tessellate(maxSides: Int = .max, isCancelled: Euclid.CancellationHandler) -> [Polygon] {
+        flatMap { $0.tessellate(maxSides: maxSides, isCancelled: isCancelled) }
     }
 
     /// Decompose each polygon into triangles
     func triangulate(isCancelled: Euclid.CancellationHandler) -> [Polygon] {
-        return flatMap { $0.triangulate(isCancelled: isCancelled) }
+        flatMap { $0.triangulate(isCancelled: isCancelled) }
     }
 
     /// Merge polygons
@@ -1179,8 +1173,7 @@ extension Collection<Polygon> {
 
         guard !isCancelled() else { return [] }
         var polygons = Array(self)
-        let shouldUseQualityMerge = useQualityMerge && allowDisjointSharedVertices && maxSides == .max && !ensureConvex
-        guard shouldUseQualityMerge else {
+        guard useQualityMerge && allowDisjointSharedVertices && maxSides == .max && !ensureConvex else {
             return polygons.greedyDetessellate(
                 ensureConvex: ensureConvex,
                 maxSides: maxSides,
@@ -1238,9 +1231,7 @@ extension Collection<Polygon> {
     }
 
     /// Group polygons by plane
-    func groupedByPlane(
-        isCancelled: Euclid.CancellationHandler
-    ) -> [(plane: Plane, polygons: [Polygon])] {
+    func groupedByPlane(isCancelled: Euclid.CancellationHandler) -> [(plane: Plane, polygons: [Polygon])] {
         let polygons = sorted(by: { $0.plane.w < $1.plane.w })
         guard var plane = polygons.first?.plane else {
             return []

@@ -72,14 +72,13 @@ public extension Path {
         detail: Int = 2,
         isCancelled: CancellationHandler = { false }
     ) -> [Path] {
-        let paths = text.cgPaths(width: width, isCancelled: isCancelled).map {
+        text.cgPaths(width: width, isCancelled: isCancelled).map {
             let cgPath = CGMutablePath()
             let transform = CGAffineTransform(translationX: $1.x, y: $1.y)
             cgPath.addPath($0, transform: transform)
             let path = Path(cgPath, detail: detail, color: $2)
             return path.faceNormal.dot(.unitZ) > 0 ? path.inverted() : path
         }
-        return paths
     }
 }
 

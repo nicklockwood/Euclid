@@ -18,7 +18,7 @@ public extension Path {
     /// > Note: If the path and plane do not intersect, one of the returned paths will be empty.
     func split(along plane: Plane) -> (front: Path, back: Path) {
         var front = [Path](), back: [Path]! = [], coplanar: [Path]?
-        split(along: plane, &coplanar, &front, &back, { false })
+        split(along: plane, &coplanar, &front, &back) { false }
         return (Path(subpaths: front), Path(subpaths: back))
     }
 
@@ -27,7 +27,7 @@ public extension Path {
     /// - Returns: A path consisting of the parts of the original path that lie in front of the plane.
     func clipped(to plane: Plane) -> Path {
         var front = [Path](), back: [Path]?, coplanar: [Path]?
-        split(along: plane, &coplanar, &front, &back, { false })
+        split(along: plane, &coplanar, &front, &back) { false }
         return Path(subpaths: front)
     }
 

@@ -724,8 +724,8 @@ final class MeshCSGTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(cancellationChecks, 8)
     }
 
-    func testMinkowskiSumWithPolygonCanBeCancelled() {
-        let polygon = Path.square().facePolygons().first!
+    func testMinkowskiSumWithPolygonCanBeCancelled() throws {
+        let polygon = try XCTUnwrap(Path.square().facePolygons().first)
         nonisolated(unsafe) var cancellationChecks = 0
         let mesh = Mesh.cube().minkowskiSum(with: polygon) {
             cancellationChecks += 1

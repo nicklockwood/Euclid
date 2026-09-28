@@ -236,7 +236,7 @@ extension Collection where Element: PointComparable {
     }
 }
 
-extension Collection where Element == Polygon {
+extension Collection<Polygon> {
     /// Returns the nearest point on the polygons while polling for cancellation.
     func nearestPoint(to point: Vector, isCancelled: Euclid.CancellationHandler) -> Vector {
         var result = point
