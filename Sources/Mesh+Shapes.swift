@@ -312,7 +312,8 @@ public extension Mesh {
             material: material
         )
         var triangles = icosahedron.polygons
-        for _ in 0 ..< subdivisions where !isCancelled() {
+        for _ in 0 ..< subdivisions {
+            guard !isCancelled() else { return .empty }
             triangles = triangles.subdivide()
         }
         triangles = triangles.mapVertices {

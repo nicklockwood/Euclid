@@ -175,7 +175,7 @@ final class MeshShapeTests: XCTestCase {
                 return true
             }
             XCTAssertLessThan(checks, 5)
-            XCTAssert(mesh.polygons.isEmpty)
+            XCTAssertEqual(mesh.polygons.count, 0)
         }
     }
 
@@ -187,7 +187,7 @@ final class MeshShapeTests: XCTestCase {
         }
         XCTAssertGreaterThan(checks, 2)
         XCTAssertLessThan(checks, 10)
-        XCTAssert(mesh.polygons.isEmpty)
+        XCTAssertEqual(mesh.polygons.count, 0)
     }
 
     func testIcosphereGenerationCanBeCancelled() {
@@ -199,6 +199,6 @@ final class MeshShapeTests: XCTestCase {
 
         XCTAssertGreaterThan(checks, 1)
         XCTAssertLessThanOrEqual(checks, 10)
-        XCTAssertEqual(mesh.polygons.count, 80)
+        XCTAssertEqual(mesh.polygons.count, 0)
     }
 }
