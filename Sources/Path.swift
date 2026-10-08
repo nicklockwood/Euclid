@@ -774,38 +774,6 @@ extension Path {
         }), plane: .xy)
     }
 
-    /// Groups subpaths into independent filled regions using even-odd containment.
-    /// - Returns: An array of paths, each containing one outer contour and any directly nested hole contours.
-    ///
-    /// This is useful when processing a compound path as filled geometry. Paths with multiple independent
-    /// outer contours are split into separate groups, while a single filled region is returned as `self`.
-    func filledSubpaths() -> [Path] {
-        let subpaths = subpaths.filter { !$0.isEmpty }
-        guard subpaths.count > 1 else {
-            return subpaths
-        }
-        let containment = PathContainmentIndex(subpaths)
-        let depths = subpaths.indices.map { containment.depth(of: $0) }
-        let outerIndexes = subpaths.indices.filter { depths[$0].isMultiple(of: 2) }
-        guard outerIndexes.count > 1 else {
-            return [self]
-        }
-        return outerIndexes.map { outerIndex in
-            let group = subpaths.indices.filter { index in
-                if index == outerIndex {
-                    return true
-                }
-                guard !depths[index].isMultiple(of: 2),
-                      depths[index] == depths[outerIndex] + 1
-                else {
-                    return false
-                }
-                return containment.containingPathIndexes(for: index).contains(outerIndex)
-            }
-            return Path(subpaths: group.sorted().map { subpaths[$0] })
-        }
-    }
-
     /// Decomposes the filled area of a closed planar path into coplanar polygons.
     /// - Parameters:
     ///   - material: The material assigned to every returned polygon.
