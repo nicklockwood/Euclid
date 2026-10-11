@@ -354,6 +354,24 @@ public extension Rotation {
         }
     }
 
+    /// Creates a rotation with the specified forward and up directions.
+    /// The vectors do not need to be normalized.
+    /// - Parameters:
+    ///   - forward: The direction of the rotated Z axis. Returns `nil` if zero.
+    ///   - up: The direction of the rotated Y axis, projected perpendicular to `forward`.
+    init?(forward: Vector, up: Vector) {
+        guard let forward = forward.direction else {
+            return nil
+        }
+        let base = Rotation(from: .unitZ, to: forward)
+        guard let up = (up - forward * up.dot(forward)).direction else {
+            self = base
+            return
+        }
+        let angle = atan2(up.cross(base.up).dot(forward), up.dot(base.up))
+        self = Rotation(unchecked: forward, angle: .radians(angle)) * base
+    }
+
     /// Creates a rotation around the X axis.
     /// - Parameter rotation: The angle to rotate by.
     static func pitch(_ rotation: Angle) -> Rotation {

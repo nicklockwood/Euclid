@@ -10,6 +10,26 @@
 import XCTest
 
 final class RotationTests: XCTestCase {
+    func testForwardAndUp() throws {
+        let forward = Vector(1, 2, 3)
+        let up = Vector(-2, 1, 1)
+        let rotation = try XCTUnwrap(Rotation(forward: forward, up: up))
+        let direction = forward.normalized()
+        XCTAssertEqual(rotation.forward, direction)
+        XCTAssertEqual(rotation.up, (up - direction * up.dot(direction)).normalized())
+    }
+
+    func testForwardWithZeroOrParallelUp() {
+        let forward = Vector(1, 2, 3)
+        let expected = Rotation(from: .unitZ, to: forward.normalized())
+        XCTAssertEqual(Rotation(forward: forward, up: .zero), expected)
+        XCTAssertEqual(Rotation(forward: .unitZ, up: .unitZ), .identity)
+    }
+
+    func testZeroForward() {
+        XCTAssertNil(Rotation(forward: .zero, up: .unitY))
+    }
+
     func testAxisAngle() {
         let rotations: [(axis: Vector, angle: Angle)] = [
             (.unitX, .degrees(30)),
