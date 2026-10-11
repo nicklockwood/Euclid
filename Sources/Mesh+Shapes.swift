@@ -653,7 +653,7 @@ public extension Mesh {
                 )
             }, isCancelled: isCancelled))
         }
-        let contours = shape.extrusionContours(
+        let (contours, contourOffsets) = shape.extrusionContoursWithOffsets(
             along: along,
             twist: twist,
             align: align,
@@ -661,6 +661,7 @@ public extension Mesh {
         )
         return loft(
             contours,
+            contourOffsets: contourOffsets,
             faces: faces,
             material: material,
             isConvex: false,
@@ -1617,6 +1618,7 @@ private extension Mesh {
 
     static func compoundLoft(
         originalShapes: [Path],
+        contourOffsets: [Double]? = nil,
         boundarySubshapes: [[Path]],
         useMeshableNonZeroBoundary: Bool,
         preserveEvenOddWinding: Bool,
@@ -1624,6 +1626,9 @@ private extension Mesh {
         material: Material?,
         isCancelled: CancellationHandler
     ) -> Mesh {
+        let contourOffsets = contourOffsets.map { values in
+            originalShapes.indices.filter { !originalShapes[$0].isEmpty }.map { values[$0] }
+        }
         let shapes = originalShapes.filter { !$0.isEmpty }
         let first = shapes.first
         let transforms = first.map { first in
@@ -1864,7 +1869,7 @@ private extension Mesh {
             var curvestart = true
             for i in shapes.indices.dropFirst() {
                 let shape0 = shapes[i - 1], shape1 = shapes[i]
-                let uvend = uvstart + uvstep
+                let uvend = contourOffsets?[i] ?? (uvstart + uvstep)
                 if shape0 == shape1 {
                     curvestart = false
                     continue
@@ -1963,8 +1968,8 @@ private extension Mesh {
                 var previous = subshapes.first
                 var uvx0 = 0.0
                 let uvstep = Double(1) / Double(max(1, subshapes.count - 1))
-                for shape in subshapes.dropFirst() where !isCancelled() {
-                    let uvx1 = uvx0 + uvstep
+                for (i, shape) in subshapes.enumerated().dropFirst() where !isCancelled() {
+                    let uvx1 = contourOffsets?[i] ?? (uvx0 + uvstep)
                     if let previous, previous != shape {
                         loft(
                             unchecked: previous, shape,
@@ -2065,6 +2070,7 @@ private extension Mesh {
 
     static func loft(
         _ shapes: [Path],
+        contourOffsets: [Double]? = nil,
         faces: Faces,
         material: Material?,
         isConvex: Bool,
@@ -2094,6 +2100,7 @@ private extension Mesh {
         {
             return compoundLoft(
                 originalShapes: usesOddEvenBoundary ? normalizedShapes : shapes,
+                contourOffsets: contourOffsets,
                 boundarySubshapes: subshapes,
                 useMeshableNonZeroBoundary: true,
                 preserveEvenOddWinding: false,
@@ -2108,11 +2115,16 @@ private extension Mesh {
             } ?? false
             guard shouldMapCompoundSides else {
                 return Mesh.symmetricDifference(subshapes.map {
-                    Mesh.loft($0, faces: faces, material: material, isCancelled: isCancelled)
+                    loft(
+                        $0, contourOffsets: contourOffsets, faces: faces, material: material,
+                        isConvex: false, isWatertight: nil, preserveEvenOddWinding: false,
+                        isCancelled: isCancelled
+                    )
                 }, isCancelled: isCancelled)
             }
             return compoundLoft(
                 originalShapes: normalizedShapes,
+                contourOffsets: contourOffsets,
                 boundarySubshapes: subshapes,
                 useMeshableNonZeroBoundary: false,
                 preserveEvenOddWinding: preserveEvenOddWinding && usesOddEvenBoundary,
@@ -2122,6 +2134,9 @@ private extension Mesh {
             )
         }
         // TODO: could we split the extrusion at empty shapes instead?
+        let contourOffsets = contourOffsets.map { values in
+            normalizedShapes.indices.filter { !normalizedShapes[$0].isEmpty }.map { values[$0] }
+        }
         let shapes = normalizedShapes.filter { !$0.isEmpty }
         guard let first = shapes.first, let last = shapes.last else {
             return .empty
@@ -2156,7 +2171,7 @@ private extension Mesh {
         prev = first
         var curvestart = true
         for (i, shape) in shapes.enumerated().dropFirst() where !isCancelled() {
-            let uvx1 = uvx0 + uvstep
+            let uvx1 = contourOffsets?[i] ?? (uvx0 + uvstep)
             if shape == prev {
                 curvestart = false
                 continue

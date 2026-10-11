@@ -12,6 +12,65 @@ import XCTest
 final class MeshExtrudeTests: XCTestCase {
     // MARK: Extrude
 
+    func testExtrudeTextureCoordinatesFollowPathDistance() {
+        let distances = [0.0, 0.8, 1, 1.2, 2]
+        let shapes: [Path] = [
+            .square(),
+            .square().translated(by: [2, 1]),
+            Path(subpaths: [.square(), .square().scaled(by: 0.5)]),
+        ]
+        for shape in shapes {
+            for curved in [false, true] {
+                let along = Path(distances.map {
+                    PathPoint([$0, 0, 0], isCurved: curved)
+                })
+                let mesh = Mesh.extrude(shape, along: along)
+                let sides = mesh.polygons.filter { abs($0.plane.normal.x) < 0.5 }
+                XCTAssertFalse(sides.isEmpty)
+                for vertex in sides.flatMap(\.vertices) {
+                    XCTAssertEqual(vertex.texcoord.y, vertex.position.x / 2, accuracy: 1e-8)
+                }
+                for distance in distances {
+                    XCTAssertTrue(sides.flatMap(\.vertices).contains {
+                        abs($0.position.x - distance) < 1e-8
+                    })
+                }
+            }
+        }
+    }
+
+    func testExtrudeTextureCoordinatesFollowBentPathDistance() {
+        let along = Path([.point(0, 0), .point(0, 1), .point(3, 1)])
+        let mesh = Mesh.extrude(Path.square(size: 0.1), along: along)
+        let sides = mesh.polygons.filter { polygon in
+            !polygon.vertices.allSatisfy { abs($0.position.y) < 1e-8 } &&
+                !polygon.vertices.allSatisfy { abs($0.position.x - 3) < 1e-8 }
+        }
+        let cornerVertices = sides.flatMap(\.vertices).filter {
+            abs($0.position.x + $0.position.y - 1) < 1e-8
+        }
+        XCTAssertFalse(cornerVertices.isEmpty)
+        for vertex in cornerVertices {
+            XCTAssertEqual(vertex.texcoord.y, 0.25, accuracy: 1e-8)
+        }
+    }
+
+    func testExtrudeTextureCoordinatesWrapClosedBeveledPath() throws {
+        let along = Path([
+            .point(0, 0), .point(0, 1), .point(3, 1), .point(3, 0), .point(0, 0),
+        ])
+        for miterLimit in [MiterLimit.infinity, 1] {
+            let (contours, contourOffsets) = Path.square(size: 0.1).extrusionContoursWithOffsets(
+                along: along, twist: .zero, align: .tangent,
+                miterLimit: miterLimit
+            )
+            XCTAssertEqual(contours.count, contourOffsets.count)
+            XCTAssertEqual(try XCTUnwrap(contourOffsets.first), 0, accuracy: 1e-8)
+            XCTAssertEqual(try XCTUnwrap(contourOffsets.last), 1, accuracy: 1e-8)
+            XCTAssertEqual(contourOffsets, contourOffsets.sorted())
+        }
+    }
+
     func testExtrudeSelfIntersectingPath() {
         let path = Path([
             .point(0, 0),

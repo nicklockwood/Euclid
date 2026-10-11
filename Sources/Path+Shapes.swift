@@ -427,12 +427,32 @@ public extension Path {
         align: Alignment = .default,
         miterLimit: MiterLimit = .infinity
     ) -> [Path] {
+        extrusionContoursWithOffsets(
+            along: along, twist: twist, align: align, miterLimit: miterLimit
+        ).contours
+    }
+}
+
+extension Path {
+    /// Returns contours and their normalized distances along the extrusion path.
+    /// Offsets follow contour order, including duplicates, bevels, and the closing seam.
+    func extrusionContoursWithOffsets(
+        along: Path,
+        twist: Angle,
+        align: Alignment,
+        miterLimit: MiterLimit
+    ) -> (contours: [Path], contourOffsets: [Double]) {
         let points = along.points
+        var contourOffsets = [Double]()
+        var distances = [0.0]
+        for (a, b) in zip(points, points.dropFirst()) {
+            distances.append(distances.last! + a.position.distance(from: b.position))
+        }
         switch points.count {
         case 0:
-            return []
+            return ([], [])
         case 1:
-            return [translated(by: points[0].position)]
+            return ([translated(by: points[0].position)], [0])
         default:
             break
         }
@@ -603,7 +623,7 @@ public extension Path {
             let (outgoingLength, n2) = lengthAndDirection(from: p1, to: p2)
             twistShape(incomingLength)
             guard let n1, let n2 else {
-                shapeToPointIndex.append(index - 1)
+                appendPoint(index - 1)
                 return [transformedShape(for: p1, nil)]
             }
             if let tilt = contourTilts[index - 1] {
@@ -611,7 +631,7 @@ public extension Path {
                 let cosine = normal.dot(n2)
                 let scale: (Double, Vector)? = abs(cosine) > epsilon ?
                     (1 / abs(cosine), n2 - normal * cosine) : nil
-                shapeToPointIndex.append(index - 1)
+                appendPoint(index - 1)
                 return [transformedShape(for: p1, scale, tilt: tilt)]
             }
             var (axis, angle) = axisAndAngleBetweenNormalizedVectors(n1, n2)
@@ -622,7 +642,7 @@ public extension Path {
                 let stretchDistance = 1 / cos(angle)
                 let stretchAxis = n1.rotated(by: Rotation(unchecked: axis, angle: angle - .halfPi))
                 let results = [transformedShape(for: p1, (stretchDistance, stretchAxis))]
-                shapeToPointIndex.append(index - 1)
+                appendPoint(index - 1)
                 rotateShape(by: r)
                 return results
             }
@@ -705,12 +725,12 @@ public extension Path {
                 )
                 rotateShape(by: bevelRotation)
                 guard let outgoing else {
-                    shapeToPointIndex.append(index - 1)
+                    appendPoint(index - 1, offset: -advance)
                     rotateShape(by: bevelRotation)
                     return [incoming]
                 }
-                shapeToPointIndex.append(index - 1)
-                shapeToPointIndex.append(index - 1)
+                appendPoint(index - 1, offset: -advance)
+                appendPoint(index - 1, offset: advance)
                 rotateShape(by: bevelRotation)
                 return [incoming, outgoing]
             }
@@ -721,6 +741,10 @@ public extension Path {
         let length = along.length
         var shapes = [Path]()
         var shapeToPointIndex: [Int] = []
+        func appendPoint(_ index: Int, offset: Double = 0) {
+            shapeToPointIndex.append(index)
+            contourOffsets.append(distances[index] + offset)
+        }
         do {
             var p0p1 = (points[1].position - points[0].position)
             if align == .axis {
@@ -743,14 +767,14 @@ public extension Path {
             shapes += transformedShapes(for: 2, firstOnly: true)
         } else {
             shapes.append(transformedShape(for: points[0], nil))
-            shapeToPointIndex.append(points.count - 0)
+            appendPoint(0)
             for i in 2 ..< points.count {
                 shapes += transformedShapes(for: i)
             }
             let last2 = points.suffix(2).map(\.position)
             twistShape((last2[1] - last2[0]).length)
             shapes.append(transformedShape(for: points.last!, nil))
-            shapeToPointIndex.append(points.count - 1)
+            appendPoint(points.count - 1)
         }
 
         if along.isClosed {
@@ -801,15 +825,32 @@ public extension Path {
             }
         }
 
+        // Discard the extra sample used to check the closing frame, then unwrap
+        // distances around closed paths so the texture seam spans exactly 0...1.
+        contourOffsets = Array(contourOffsets.prefix(shapes.count))
+        if along.isClosed, let first = contourOffsets.first {
+            var previous = first
+            var offset = -first
+            for i in contourOffsets.indices {
+                let distance = contourOffsets[i]
+                if distance < previous { offset += length }
+                contourOffsets[i] = distance + offset
+                previous = distance
+            }
+        }
+        contourOffsets = contourOffsets.map { length > epsilon ? $0 / length : 0 }
+
         // Double up shapes at sharp corners
         let startIndex = along.isClosed ? 0 : 1
         let shouldDoubleClosingShape = along.isClosed && !points[shapeToPointIndex[shapes.count - 1]].isCurved
         for i in (startIndex ..< shapes.count - 1).reversed() where !points[shapeToPointIndex[i]].isCurved {
             shapes.insert(shapes[i], at: i)
+            contourOffsets.insert(contourOffsets[i], at: i)
         }
         if shouldDoubleClosingShape {
             shapes.append(shapes[shapes.count - 1])
+            contourOffsets.append(contourOffsets.last!)
         }
-        return along.isClosed ? snapCoincidentPoints(in: shapes) : shapes
+        return (along.isClosed ? snapCoincidentPoints(in: shapes) : shapes, contourOffsets)
     }
 }
