@@ -22,6 +22,25 @@ public protocol Interpolatable {
     func interpolated(with other: Self, by t: Double) -> Self
 }
 
+public extension Collection where Element: Interpolatable {
+    /// Interpolate between evenly spaced values in the collection.
+    /// - Parameter t: The normalized extent of interpolation, clamped to the range 0 to 1.
+    /// - Returns: The interpolated value, or `nil` if the collection is empty.
+    func interpolated(by t: Double) -> Element? {
+        let steps = count - 1
+        guard steps >= 0 else {
+            return nil
+        }
+        let t = t.clamped(to: 0 ... 1) * Double(steps)
+        let offset = Int(t)
+        let index = index(startIndex, offsetBy: offset)
+        guard offset < steps else {
+            return self[index]
+        }
+        return self[index].interpolated(with: self[self.index(after: index)], by: t - Double(offset))
+    }
+}
+
 extension Double: Interpolatable {
     public func interpolated(with other: Double, by t: Double) -> Double {
         t == 0.5 ? (self + other) * 0.5 : self + (other - self) * t

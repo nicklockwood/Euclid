@@ -248,16 +248,7 @@ public extension Collection<Color> where Index == Int {
     /// - Parameter t: The normalized extent of interpolation between all the colors, from 0 to 1.
     /// - Returns: The interpolated color.
     func lerp(_ t: Double) -> Color {
-        let steps = count - 1
-        guard steps > -1 else {
-            return .clear
-        }
-        let t = Swift.max(0, Swift.min(1, t)) * Double(steps)
-        let index = Int(t)
-        guard index < steps else {
-            return self[steps]
-        }
-        return self[index].lerp(self[index + 1], t - t.rounded(.down))
+        interpolated(by: t) ?? .clear
     }
 }
 
