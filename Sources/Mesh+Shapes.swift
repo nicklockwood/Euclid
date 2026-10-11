@@ -523,6 +523,7 @@ public extension Mesh {
     ///   - slices: The number of radial slices that make up the lathed mesh.
     ///   - miterLimit: The miter threshold beyond which a corner is beveled.
     ///   - faces: The direction of the generated polygon faces.
+    ///   - wrapMode: The way that texture coordinates are calculated for the lathed mesh.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
     static func lathe(
@@ -531,15 +532,16 @@ public extension Mesh {
         slices: Int = 16,
         miterLimit: MiterLimit = .infinity,
         faces: Faces = .default,
+        wrapMode: WrapMode = .default,
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        let (contours, contourOffsets) = profile.latheContoursWithOffsets(
+        let (contours, contourOffsets, axisOffsets) = profile.latheContoursWithOffsets(
             along: along, slices: slices, miterLimit: miterLimit
         )
-        return loft(
+        let mesh = loft(
             contours,
-            contourOffsets: contourOffsets,
+            contourOffsets: wrapMode == .tube ? axisOffsets.map { 1 - $0 } : contourOffsets,
             faces: faces,
             material: material,
             isConvex: false,
@@ -547,6 +549,14 @@ public extension Mesh {
             preserveEvenOddWinding: false,
             isCancelled: isCancelled
         )
+        switch wrapMode {
+        case .default, .shrink, .tube:
+            return mesh
+        case .box:
+            return mesh.cubeMapped()
+        case .none:
+            return mesh.withoutTexcoords()
+        }
     }
 
     /// Creates a mesh by extruding a path along its face normal.
@@ -1901,7 +1911,7 @@ private extension Mesh {
                 count += 1
                 previous = shape
             }
-            var uvstart = 0.0
+            var uvstart = contourOffsets?.first ?? 0
             let uvstep = 1 / Double(max(1, count - 1))
             var curvestart = true
             for i in shapes.indices.dropFirst() {
@@ -2003,7 +2013,7 @@ private extension Mesh {
             for subshapes in boundarySubshapes {
                 var sidePolygons = [Polygon]()
                 var previous = subshapes.first
-                var uvx0 = 0.0
+                var uvx0 = contourOffsets?.first ?? 0
                 let uvstep = Double(1) / Double(max(1, subshapes.count - 1))
                 for (i, shape) in subshapes.enumerated().dropFirst() where !isCancelled() {
                     let uvx1 = contourOffsets?[i] ?? (uvx0 + uvstep)
@@ -2204,7 +2214,7 @@ private extension Mesh {
                 }
             }
         }
-        var uvx0 = 0.0
+        var uvx0 = contourOffsets?.first ?? 0
         let uvstep = Double(1) / Double(count - 1)
         prev = first
         var curvestart = true

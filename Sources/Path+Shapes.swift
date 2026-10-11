@@ -861,12 +861,12 @@ extension Path {
         return (along.isClosed ? snapCoincidentPoints(in: shapes) : shapes, contourOffsets)
     }
 
-    /// Returns contours and normalized distances along the sampled profile.
+    /// Returns contours and normalized distances along the profile and axis.
     func latheContoursWithOffsets(
         along: Path,
         slices: Int,
         miterLimit: MiterLimit = .infinity
-    ) -> (contours: [Path], contourOffsets: [Double]) {
+    ) -> (contours: [Path], contourOffsets: [Double], axisOffsets: [Double]) {
         let axis = along.points.reduce(into: [PathPoint]()) { points, point in
             guard let previous = points.last else {
                 points.append(point)
@@ -878,7 +878,7 @@ extension Path {
         }
         switch axis.count {
         case 0:
-            return ([], [])
+            return ([], [], [])
         case 1:
             return latheProfile.latheContoursWithOffsets(
                 along: .line(axis[0].position, axis[0].position + .unitY), slices: slices, miterLimit: miterLimit
@@ -889,7 +889,7 @@ extension Path {
 
         let profile = latheProfile
         guard profile.points.count > 1 else {
-            return ([], [])
+            return ([], [], [])
         }
         var profilePoints = profile.points
         if profile.isClosed,
@@ -931,7 +931,7 @@ extension Path {
                   let rim = profile.points.max(by: { abs($0.position.x) < abs($1.position.x) }),
                   abs(rim.position.x) > epsilon
             else {
-                return ([], [])
+                return ([], [], [])
             }
             return Path([
                 rim.withPosition([rim.position.x, 1, 0]),
@@ -955,7 +955,7 @@ extension Path {
 
         let axisLength = cumulativeLengths.last ?? 0
         guard axisLength > epsilon else {
-            return ([], [])
+            return ([], [], [])
         }
 
         let isClosed = along.isClosed
@@ -1151,6 +1151,6 @@ extension Path {
                 $0.withPosition($1.position)
             })
         }
-        return (contours, contourOffsets)
+        return (contours, contourOffsets, samples.map { $0.distance / axisLength })
     }
 }

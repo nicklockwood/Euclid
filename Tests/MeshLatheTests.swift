@@ -10,6 +10,54 @@
 import XCTest
 
 final class MeshLatheTests: XCTestCase {
+    func testLatheAlongWrapModes() {
+        let profile = Path([
+            .point(-0.5, 2), .point(-0.5, 1.2), .point(-0.8, 1.2), .point(-0.8, 0),
+        ])
+        let along = Path([.point(0, 0), .point(0, 0.8), .point(0, 2)])
+        let closedProfile = Path([
+            .point(-0.5, 0), .point(-0.5, 2), .point(-0.8, 2), .point(-0.8, 0), .point(-0.5, 0),
+        ])
+        for profile in [profile, profile.inverted(), closedProfile] {
+            let mesh = Mesh.lathe(profile, along: along, slices: 8)
+            XCTAssertEqual(mesh, Mesh.lathe(profile, along: along, slices: 8, wrapMode: .shrink))
+            XCTAssertEqual(mesh.cubeMapped(), Mesh.lathe(profile, along: along, slices: 8, wrapMode: .box))
+            XCTAssertEqual(mesh.withoutTexcoords(), Mesh.lathe(profile, along: along, slices: 8, wrapMode: .none))
+            let tube = Mesh.lathe(profile, along: along, slices: 8, wrapMode: .tube)
+            XCTAssertEqual(tube.withoutTexcoords(), mesh.withoutTexcoords())
+            let sides = tube.polygons.filter { polygon in
+                !polygon.vertices.allSatisfy { abs($0.position.y) < 1e-8 } &&
+                    !polygon.vertices.allSatisfy { abs($0.position.y - 2) < 1e-8 }
+            }
+            XCTAssertFalse(sides.isEmpty)
+            for vertex in sides.flatMap(\.vertices) {
+                XCTAssertEqual(vertex.texcoord.y, 1 - vertex.position.y / 2, accuracy: 1e-8)
+            }
+        }
+    }
+
+    func testLatheAlongTubeWrapPreservesClosedBeveledSeam() throws {
+        let profile = Path([.point(-0.1, 1), .point(-0.2, 0.5), .point(-0.1, 0)])
+        let along = Path.square(size: 2)
+        let (contours, _, axisOffsets) = profile.latheContoursWithOffsets(along: along, slices: 8, miterLimit: 1)
+        let mesh = Mesh.lathe(profile, along: along, slices: 8, miterLimit: 1, wrapMode: .tube)
+        XCTAssertTrue(mesh.polygons.areWatertight)
+        for (contour, offset) in zip(contours, axisOffsets) {
+            for point in contour.points {
+                let vertices = mesh.polygons.flatMap(\.vertices).filter {
+                    $0.position.isApproximatelyEqual(to: point.position)
+                }
+                XCTAssertTrue(vertices.contains { abs($0.texcoord.y - (1 - offset)) < 1e-8 })
+            }
+        }
+        let first = try XCTUnwrap(contours.first)
+        let seam = mesh.polygons.flatMap(\.vertices).filter {
+            $0.position.isApproximatelyEqual(to: first.points[0].position)
+        }
+        XCTAssertTrue(seam.contains { abs($0.texcoord.y) < 1e-8 })
+        XCTAssertTrue(seam.contains { abs($0.texcoord.y - 1) < 1e-8 })
+    }
+
     func testLatheAlongRadialProfileProducesTube() {
         let profiles = [
             Path([.point(0, 0), .point(1, 0)]),
@@ -43,7 +91,7 @@ final class MeshLatheTests: XCTestCase {
         for along in axes {
             for profile in [profile, profile.inverted()] {
                 for limit in [MiterLimit.infinity, 1] {
-                    let (contours, offsets) = profile.latheContoursWithOffsets(
+                    let (contours, offsets, _) = profile.latheContoursWithOffsets(
                         along: along, slices: 8, miterLimit: limit
                     )
                     let first = try XCTUnwrap(contours.first)
@@ -125,7 +173,7 @@ final class MeshLatheTests: XCTestCase {
     func testLatheAlongBevelResamplesRadiusAndTextureOffsets() {
         let profile = Path([.point(-0.2, 1), .point(-0.1, 0)])
         let along = Path([.point(0, -2), .point(0, 0), .point(0.5, -1)])
-        let (contours, offsets) = profile.latheContoursWithOffsets(along: along, slices: 8, miterLimit: 1)
+        let (contours, offsets, _) = profile.latheContoursWithOffsets(along: along, slices: 8, miterLimit: 1)
         XCTAssertEqual(contours.count, 4)
         XCTAssertEqual(offsets.count, contours.count)
         XCTAssertEqual(offsets.first, 0)
