@@ -166,13 +166,18 @@ public extension Path {
         points.contains(where: { $0.texcoord != nil })
     }
 
-    /// The total length of the path.
+    /// The total length of the path or subpaths.
     var length: Double {
-        var prev = points.first?.position ?? .zero
-        return points.dropFirst().reduce(0.0) {
-            let position = $1.position
-            defer { prev = position }
-            return $0 + position.distance(from: prev)
+        switch storage {
+        case let .points(points):
+            var prev = points.first?.position ?? .zero
+            return points.dropFirst().reduce(0.0) {
+                let position = $1.position
+                defer { prev = position }
+                return $0 + position.distance(from: prev)
+            }
+        case let .subpaths(subpaths):
+            return subpaths.reduce(0) { $0 + $1.length }
         }
     }
 
