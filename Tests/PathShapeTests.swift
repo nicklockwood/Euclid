@@ -392,9 +392,54 @@ final class PathShapeTests: XCTestCase {
 
     // MARK: extrusionContours
 
+    func testExtrusionTiltsCollinearContoursBetweenCorners() throws {
+        let axis = Path([
+            .point(0, 0), .point(0, 0.25), .point(0, 1),
+            .point(1.5, 1), .point(3, 1),
+        ])
+        for limit in [MiterLimit.infinity, 1] {
+            let contours = Path.circle(radius: 0.1).extrusionContours(along: axis, miterLimit: limit)
+            let cornerTilt = limit == .infinity ? Double.pi / 4 : Double.pi / 6
+            let samples: [(Vector, Double, Vector)] = [
+                ([0, 0], 0, .unitY),
+                ([0, 0.25], cornerTilt * 0.25, .unitY),
+                ([1.5, 1], Double.pi / 2 - cornerTilt * 0.5, .unitX),
+                ([3, 1], Double.pi / 2, .unitX),
+            ]
+            for (center, angle, direction) in samples {
+                let contour = try XCTUnwrap(contours.first {
+                    $0.bounds.center.isApproximatelyEqual(to: center, absoluteTolerance: epsilon)
+                })
+                XCTAssertEqual(contour.faceNormal, [sin(angle), cos(angle), 0], accuracy: epsilon)
+                for point in contour.points {
+                    let offset = point.position - center
+                    let radial = offset - direction * offset.dot(direction)
+                    XCTAssertEqual(radial.length, 0.1, accuracy: epsilon)
+                }
+            }
+        }
+    }
+
     func testExtrusionAlongZAxis() {
         let contours = Path.circle().extrusionContours(along: .line(.zero, .unitZ))
         XCTAssertEqual(contours, [.circle(), .circle().translated(by: .unitZ)])
+    }
+
+    func testClosedExtrusionInterpolatesTiltAcrossCollinearSeam() throws {
+        let axis = Path([
+            .point(0.5, 0), .point(2, 0), .point(2, 2),
+            .point(0, 2), .point(0, 0), .point(0.5, 0),
+        ])
+        let contours = Path.circle(radius: 0.1).extrusionContours(along: axis)
+        let contour = try XCTUnwrap(contours.first {
+            $0.bounds.center.isApproximatelyEqual(to: [0.5, 0, 0], absoluteTolerance: epsilon)
+        })
+        XCTAssertEqual(contour.faceNormal, [cos(.pi / 8), -sin(.pi / 8), 0], accuracy: epsilon)
+        for point in contour.points {
+            XCTAssertEqual(Vector(0, point.position.y, point.position.z).length, 0.1, accuracy: epsilon)
+        }
+        XCTAssertEqual(contours.first, contours.last)
+        XCTAssertTrue(Mesh.extrude(.circle(radius: 0.1), along: axis).polygons.areWatertight)
     }
 
     func testExtrusionAlongEmptyPath() {

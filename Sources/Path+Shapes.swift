@@ -498,12 +498,55 @@ public extension Path {
             return (length, ab.direction)
         }
 
+        // Only redistribute tilt at vertices inside straight runs. Corner
+        // contours retain their existing miter or bevel, and open ends stay square.
+        let vertexCount = along.isClosed ? points.count - 1 : points.count
+        let edges = zip(points, points.dropFirst()).map { lengthAndDirection(from: $0, to: $1) }
+        let corners = (0 ..< vertexCount).filter { index in
+            if !along.isClosed, index == 0 || index == vertexCount - 1 {
+                return true
+            }
+            guard let incoming = edges[(index + edges.count - 1) % edges.count].direction,
+                  let outgoing = edges[index].direction
+            else {
+                return true
+            }
+            return !incoming.isApproximatelyEqual(to: outgoing)
+        }
+        func cornerTilt(at index: Int, incoming: Bool) -> Rotation {
+            if !along.isClosed, index == 0 || index == vertexCount - 1 {
+                return .identity
+            }
+            guard let n1 = edges[(index + edges.count - 1) % edges.count].direction,
+                  let n2 = edges[index].direction
+            else {
+                return .identity
+            }
+            let (axis, angle) = axisAndAngleBetweenNormalizedVectors(n1, n2)
+            let tilt = angle / (angle > miterLimit.angle ? 3 : 2)
+            return Rotation(unchecked: axis, angle: incoming ? tilt : -tilt)
+        }
+        var contourTilts = [Int: Rotation]()
+        let runEnds = along.isClosed ? corners + corners.prefix(1).map { $0 + vertexCount } : corners
+        for (start, end) in zip(runEnds, runEnds.dropFirst()) where end > start + 1 {
+            let length = (start ..< end).reduce(0.0) { $0 + edges[$1 % edges.count].length }
+            guard length > epsilon else { continue }
+            let startTilt = cornerTilt(at: start, incoming: false)
+            let endTilt = cornerTilt(at: end % vertexCount, incoming: true)
+            var distance = 0.0
+            for index in start + 1 ..< end {
+                distance += edges[(index - 1) % edges.count].length
+                contourTilts[index % vertexCount] = startTilt.interpolated(with: endTilt, by: distance / length)
+            }
+        }
+
         func transformedShape(
             for p: PathPoint,
             _ scale: (distance: Double, along: Vector)?,
+            tilt: Rotation = .identity,
             snappingTo snapPoint: Vector? = nil
         ) -> Path {
-            var shape = shape
+            var shape = shape.rotated(by: tilt)
             if let color = p.color {
                 shape = shape.mapColors { ($0 ?? .white) * color }
             }
@@ -562,6 +605,14 @@ public extension Path {
             guard let n1, let n2 else {
                 shapeToPointIndex.append(index - 1)
                 return [transformedShape(for: p1, nil)]
+            }
+            if let tilt = contourTilts[index - 1] {
+                let normal = shapeNormal.rotated(by: tilt)
+                let cosine = normal.dot(n2)
+                let scale: (Double, Vector)? = abs(cosine) > epsilon ?
+                    (1 / abs(cosine), n2 - normal * cosine) : nil
+                shapeToPointIndex.append(index - 1)
+                return [transformedShape(for: p1, scale, tilt: tilt)]
             }
             var (axis, angle) = axisAndAngleBetweenNormalizedVectors(n1, n2)
             func miteredShape() -> [Path] {
