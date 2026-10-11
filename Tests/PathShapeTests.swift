@@ -10,6 +10,92 @@
 import XCTest
 
 final class PathShapeTests: XCTestCase {
+    func testLatheContourStretchKeepsCylinderSidesParallelToAxisSegments() {
+        let profile = Path([0.0, 0.25, 0.5, 0.75, 1].map { .point(0.5, $0) })
+        let axis = Path([.point(0.2, -0.5), .point(0, 0), .point(0.2, 0.5)])
+        let contours = profile.latheContours(along: axis, slices: 16).sorted {
+            $0.bounds.center.y < $1.bounds.center.y
+        }
+        XCTAssertEqual(contours.count, 5)
+        for (previous, next) in zip(contours, contours.dropFirst()) {
+            let direction = (next.bounds.center - previous.bounds.center).normalized()
+            for contour in [previous, next] {
+                for point in contour.points {
+                    let offset = point.position - contour.bounds.center
+                    let radial = offset - direction * offset.dot(direction)
+                    XCTAssertEqual(radial.length, 0.5, accuracy: epsilon)
+                }
+            }
+            for (a, b) in zip(previous.points, next.points) {
+                XCTAssertEqual((b.position - a.position).cross(direction).length, 0, accuracy: epsilon)
+            }
+        }
+    }
+
+    func testLatheContourTiltInterpolatesBetweenAxisVertices() {
+        let profile = Path([0.0, 0.5, 1, 2.5, 4].map { .point(-0.1, $0) })
+        let axis = Path([.point(0, 0), .point(0, 1), .point(3, 1)])
+        let expectedCenters: [Vector] = [[0, 0], [0, 0.5], [0, 1], [1.5, 1], [3, 1]]
+        for source in [profile, profile.inverted()] {
+            let contours = source.latheContours(along: axis, slices: 8).sorted {
+                let a = $0.bounds.center, b = $1.bounds.center
+                return a.x == b.x ? a.y < b.y : a.x < b.x
+            }
+            XCTAssertEqual(contours.count, expectedCenters.count)
+            for (index, contour) in contours.enumerated() {
+                let angle = Double(index) * Double.pi / 8
+                XCTAssertEqual(contour.faceNormal, [sin(angle), cos(angle), 0], accuracy: epsilon)
+                XCTAssertEqual(contour.bounds.center, expectedCenters[index], accuracy: epsilon)
+            }
+        }
+    }
+
+    func testLatheContoursSplitAtSourcePathVertices() {
+        let profile = Path([
+            .point(-1, 0),
+            .point(-2, 2),
+            .point(-1, 4),
+        ])
+        let axis = Path([
+            .point(0, 0),
+            .point(0, 2),
+            .point(0, 6),
+            .point(2, 6),
+        ])
+        let expectedCenters: [Vector] = [[0, 0], [0, 2], [0, 4], [0, 6], [2, 6]]
+        let expectedRadii = [1.0, 1.5, 2.0, 1.5, 1.0]
+        for source in [profile, profile.inverted()] {
+            for slices in [4, 8, 16, 64] {
+                let contours = source.latheContours(along: axis, slices: slices).sorted {
+                    let a = $0.bounds.center, b = $1.bounds.center
+                    return a.y == b.y ? a.x < b.x : a.y < b.y
+                }
+                XCTAssertEqual(contours.count, expectedCenters.count)
+                for (contour, expected) in zip(contours, zip(expectedCenters, expectedRadii)) {
+                    XCTAssertEqual(contour.bounds.center, expected.0, accuracy: epsilon)
+                    XCTAssertEqual(contour.points.count, slices + 1)
+                    for point in contour.points {
+                        let direction: Vector = expected.0.y < 6 ? .unitY : .unitX
+                        let offset = point.position - expected.0
+                        let radial = offset - direction * offset.dot(direction)
+                        XCTAssertEqual(radial.length, expected.1, accuracy: epsilon)
+                    }
+                }
+            }
+        }
+    }
+
+    func testLatheContoursDoNotSubdivideStraightAxis() {
+        let profile = Path([.point(-1, 0), .point(-1, 1)])
+        let axis = Path.line(.zero, [0, 10, 0])
+        for slices in [4, 16, 64] {
+            let contours = profile.latheContours(along: axis, slices: slices)
+            XCTAssertEqual(contours.count, 2)
+            XCTAssertEqual(contours.first?.bounds.center, .zero)
+            XCTAssertEqual(contours.last?.bounds.center, [0, 10, 0])
+        }
+    }
+
     // MARK: Curve
 
     func testCurveWithSinglePoint() {

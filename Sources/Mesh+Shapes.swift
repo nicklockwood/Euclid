@@ -512,6 +512,43 @@ public extension Mesh {
         )
     }
 
+    /// Creates a mesh by turning the specified path around another path.
+    ///
+    /// The profile's vertical axis is mapped onto the length of the `along` path, and
+    /// the generated contours are oriented perpendicular to that path.
+    ///
+    /// - Parameters:
+    ///   - profile: The path to use as the profile for the mesh.
+    ///   - along: The path to use as the lathe axis.
+    ///   - slices: The number of radial slices that make up the lathed mesh.
+    ///   - miterLimit: The miter threshold beyond which a corner is beveled.
+    ///   - faces: The direction of the generated polygon faces.
+    ///   - material: The optional material for the mesh.
+    ///   - isCancelled: Callback used to cancel the operation.
+    static func lathe(
+        _ profile: Path,
+        along: Path,
+        slices: Int = 16,
+        miterLimit: MiterLimit = .infinity,
+        faces: Faces = .default,
+        material: Material? = nil,
+        isCancelled: CancellationHandler = { false }
+    ) -> Mesh {
+        let (contours, contourOffsets) = profile.latheContoursWithOffsets(
+            along: along, slices: slices, miterLimit: miterLimit
+        )
+        return loft(
+            contours,
+            contourOffsets: contourOffsets,
+            faces: faces,
+            material: material,
+            isConvex: false,
+            isWatertight: nil,
+            preserveEvenOddWinding: false,
+            isCancelled: isCancelled
+        )
+    }
+
     /// Creates a mesh by extruding a path along its face normal.
     /// - Parameters:
     ///   - shape: The path to extrude in order to create the mesh.
@@ -2148,7 +2185,8 @@ private extension Mesh {
             prev = shape
         }
         let allShapesAreClosed = shapes.allSatisfy(\.isClosed)
-        let isClosed = allShapesAreClosed && (shapes.first == shapes.last)
+        // Shape is considered closed if path positions match, regardless of color, texcoords, etc
+        let isClosed = allShapesAreClosed && first.points.map(\.position) == last.points.map(\.position)
         if count < 3, isClosed {
             return fill(first, faces: faces, material: material, isCancelled: isCancelled)
         }

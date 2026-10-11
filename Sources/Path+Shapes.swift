@@ -431,6 +431,15 @@ public extension Path {
             along: along, twist: twist, align: align, miterLimit: miterLimit
         ).contours
     }
+
+    /// Creates an array of circular contours by lathing this profile around a path.
+    /// - Parameters:
+    ///   - along: The path to use as the lathe axis.
+    ///   - slices: The number of radial slices that make up each contour.
+    ///   - miterLimit: The miter threshold beyond which a corner is beveled.
+    func latheContours(along: Path, slices: Int = 16, miterLimit: MiterLimit = .infinity) -> [Path] {
+        latheContoursWithOffsets(along: along, slices: slices, miterLimit: miterLimit).contours
+    }
 }
 
 extension Path {
@@ -518,8 +527,7 @@ extension Path {
             return (length, ab.direction)
         }
 
-        // Only redistribute tilt at vertices inside straight runs. Corner
-        // contours retain their existing miter or bevel, and open ends stay square.
+        // Interpolate tilt along straight sections, keeping corners and ends unchanged
         let vertexCount = along.isClosed ? points.count - 1 : points.count
         let edges = zip(points, points.dropFirst()).map { lengthAndDirection(from: $0, to: $1) }
         let corners = (0 ..< vertexCount).filter { index in
@@ -825,8 +833,7 @@ extension Path {
             }
         }
 
-        // Discard the extra sample used to check the closing frame, then unwrap
-        // distances around closed paths so the texture seam spans exactly 0...1.
+        // Remove the extra closing sample and wrap closed path offsets to 0...1
         contourOffsets = Array(contourOffsets.prefix(shapes.count))
         if along.isClosed, let first = contourOffsets.first {
             var previous = first
@@ -852,5 +859,298 @@ extension Path {
             contourOffsets.append(contourOffsets.last!)
         }
         return (along.isClosed ? snapCoincidentPoints(in: shapes) : shapes, contourOffsets)
+    }
+
+    /// Returns contours and normalized distances along the sampled profile.
+    func latheContoursWithOffsets(
+        along: Path,
+        slices: Int,
+        miterLimit: MiterLimit = .infinity
+    ) -> (contours: [Path], contourOffsets: [Double]) {
+        let axis = along.points.reduce(into: [PathPoint]()) { points, point in
+            guard let previous = points.last else {
+                points.append(point)
+                return
+            }
+            if !point.position.isApproximatelyEqual(to: previous.position, absoluteTolerance: epsilon) {
+                points.append(point)
+            }
+        }
+        switch axis.count {
+        case 0:
+            return ([], [])
+        case 1:
+            return latheProfile.latheContoursWithOffsets(
+                along: .line(axis[0].position, axis[0].position + .unitY), slices: slices, miterLimit: miterLimit
+            )
+        default:
+            break
+        }
+
+        let profile = latheProfile
+        guard profile.points.count > 1 else {
+            return ([], [])
+        }
+        var profilePoints = profile.points
+        if profile.isClosed,
+           let start = profilePoints.indices.dropLast().first(where: {
+               abs(profilePoints[$0].position.x) < epsilon &&
+                   abs(profilePoints[$0 + 1].position.x) >= epsilon
+           })
+        {
+            // Start at the axis so loft can fill the ends
+            profilePoints.removeLast()
+            profilePoints = Array(profilePoints[start...]) + profilePoints[..<start]
+            while profilePoints.count > 1,
+                  abs(profilePoints[profilePoints.count - 1].position.x) < epsilon,
+                  abs(profilePoints[profilePoints.count - 2].position.x) < epsilon
+            {
+                profilePoints.removeLast()
+            }
+        }
+        // Let loft fill flat ends so they stay perpendicular to the path
+        if profilePoints.count > 1,
+           abs(profilePoints[0].position.x) < epsilon,
+           profilePoints[0].position.y.isApproximatelyEqual(to: profilePoints[1].position.y)
+        {
+            profilePoints.removeFirst()
+        }
+        if profilePoints.count > 1,
+           abs(profilePoints[profilePoints.count - 1].position.x) < epsilon,
+           profilePoints[profilePoints.count - 1].position.y.isApproximatelyEqual(
+               to: profilePoints[profilePoints.count - 2].position.y
+           )
+        {
+            profilePoints.removeLast()
+        }
+        let bounds = profile.bounds
+        let height = bounds.size.y
+        guard height > epsilon else {
+            // Sweep the disk using its outer radius
+            guard profile.points.contains(where: { abs($0.position.x) < epsilon }),
+                  let rim = profile.points.max(by: { abs($0.position.x) < abs($1.position.x) }),
+                  abs(rim.position.x) > epsilon
+            else {
+                return ([], [])
+            }
+            return Path([
+                rim.withPosition([rim.position.x, 1, 0]),
+                rim.withPosition([rim.position.x, 0, 0]),
+            ]).latheContoursWithOffsets(along: along, slices: slices, miterLimit: miterLimit)
+        }
+
+        var lengths = [Double]()
+        var cumulativeLengths = [0.0]
+        var directions = [Vector]()
+        for (previous, point) in zip(axis, axis.dropFirst()) {
+            let segment = point.position - previous.position
+            let length = segment.length
+            guard length > epsilon, let direction = segment.direction else {
+                continue
+            }
+            lengths.append(length)
+            cumulativeLengths.append((cumulativeLengths.last ?? 0) + length)
+            directions.append(direction)
+        }
+
+        let axisLength = cumulativeLengths.last ?? 0
+        guard axisLength > epsilon else {
+            return ([], [])
+        }
+
+        let isClosed = along.isClosed
+        func direction(atVertex index: Int) -> Vector {
+            if isClosed, index == 0 || index == directions.count {
+                return (directions.last! + directions[0]).direction ?? directions[0]
+            }
+            return switch index {
+            case 0:
+                directions[0]
+            case directions.count:
+                directions[directions.count - 1]
+            default:
+                (directions[index - 1] + directions[index]).direction ?? directions[index]
+            }
+        }
+
+        // Keep bevel offsets on the original path for sampling the profile
+        var sectionPoints: [PathPoint] = isClosed ? [] : [axis[0]]
+        var sectionDistances: [Double] = isClosed ? [] : [0.0]
+        var sectionNormals: [Vector] = isClosed ? [] : [directions[0]]
+        var sectionDirections: [Vector] = isClosed ? [] : [directions[0]]
+        var bevelSegments = Set<Int>()
+        let maximumRadius = profilePoints.map { abs($0.position.x) }.max() ?? 0
+        let cornerIndices = isClosed ? 0 ..< axis.count : 1 ..< axis.count - 1
+        for index in cornerIndices {
+            let incoming = (index + directions.count - 1) % directions.count
+            let outgoing = index % directions.count
+            let n1 = directions[incoming], n2 = directions[outgoing]
+            let (turnAxis, angle) = axisAndAngleBetweenNormalizedVectors(n1, n2)
+            if angle > miterLimit.angle, maximumRadius > epsilon {
+                let tilt = angle / 3
+                let advance = min(
+                    maximumRadius * (tan(angle / 2) - tan(tilt)),
+                    min(lengths[incoming], lengths[outgoing]) / 2
+                )
+                if advance > epsilon {
+                    sectionPoints.append(axis[incoming].interpolated(
+                        with: axis[index], by: 1 - advance / lengths[incoming]
+                    ))
+                    sectionDistances.append(cumulativeLengths[index] - advance)
+                    sectionNormals.append(n1.rotated(by: Rotation(unchecked: turnAxis, angle: tilt)))
+                    sectionDirections.append(n1)
+                    bevelSegments.insert(sectionPoints.count - 1)
+                    sectionPoints.append(axis[index].interpolated(
+                        with: axis[outgoing + 1], by: advance / lengths[outgoing]
+                    ))
+                    sectionDistances.append(cumulativeLengths[index] + advance)
+                    sectionNormals.append(n1.rotated(by: Rotation(unchecked: turnAxis, angle: tilt * 2)))
+                    sectionDirections.append(n2)
+                    continue
+                }
+            }
+            sectionPoints.append(axis[index])
+            sectionDistances.append(cumulativeLengths[index])
+            sectionNormals.append(direction(atVertex: index))
+            sectionDirections.append(n2)
+        }
+        if !isClosed {
+            sectionPoints.append(axis.last!)
+            sectionDistances.append(axisLength)
+            sectionNormals.append(directions.last!)
+            sectionDirections.append(directions.last!)
+        }
+
+        var previousDirection = sectionNormals[0]
+        var frame = rotationBetweenNormalizedVectors(.unitZ, previousDirection)
+        var frames = [frame]
+        for normal in sectionNormals.dropFirst() {
+            frame = rotationBetweenNormalizedVectors(previousDirection, normal) * frame
+            frames.append(frame)
+            previousDirection = normal
+        }
+
+        if isClosed {
+            // Spread the closing rotation around the loop
+            let closingIndex = frames.count - (bevelSegments.contains(0) ? 2 : 1)
+            let firstAxis = Vector.unitX.rotated(by: frames[0])
+            let lastAxis = Vector.unitX.rotated(by: frames[closingIndex])
+            let correction = rotationBetweenNormalizedVectors(lastAxis, firstAxis)
+            let angle = correction.axis.dot(sectionNormals[0]) < 0 ? -correction.angle : correction.angle
+            for index in frames.indices {
+                let t = (sectionDistances[index] - sectionDistances[0]) / axisLength
+                frames[index] = Rotation(unchecked: sectionNormals[index], angle: angle * t) * frames[index]
+            }
+            frames[closingIndex] = frames[0]
+            if closingIndex + 1 < frames.count {
+                frames[closingIndex + 1] = frames[1]
+            }
+        }
+
+        func pointAndFrame(at distance: Double) -> (point: PathPoint, frame: Rotation, direction: Vector) {
+            let distance = min(max(distance, 0), axisLength)
+            for index in sectionPoints.indices {
+                if distance.isApproximatelyEqual(to: sectionDistances[index], absoluteTolerance: epsilon) {
+                    return (sectionPoints[index], frames[index], sectionDirections[index])
+                }
+            }
+            for index in sectionPoints.indices.dropLast() {
+                let start = sectionDistances[index]
+                let end = sectionDistances[index + 1]
+                if distance <= end {
+                    let t = (distance - start) / (end - start)
+                    let direction = bevelSegments.contains(index) ?
+                        sectionDirections[index].lerp(sectionDirections[index + 1], t).normalized() :
+                        (sectionPoints[index + 1].position - sectionPoints[index].position).normalized()
+                    return (
+                        sectionPoints[index].interpolated(with: sectionPoints[index + 1], by: t),
+                        frames[index].interpolated(with: frames[index + 1], by: t),
+                        direction
+                    )
+                }
+            }
+            return (sectionPoints.last!, frames.last!, sectionDirections.last!)
+        }
+
+        // Keep points at the same height to preserve flat caps and inner walls
+        var samples = [(point: PathPoint, axisPoint: PathPoint, frame: Rotation, direction: Vector, distance: Double)]()
+        func appendSample(_ point: PathPoint, at distance: Double) {
+            let (axisPoint, frame, direction) = pointAndFrame(at: distance)
+            samples.append((point, axisPoint, frame, direction, distance))
+        }
+        var previousPoint = profilePoints[0]
+        var previousAxisDistance = axisLength * (previousPoint.position.y - bounds.min.y) / height
+        appendSample(previousPoint, at: previousAxisDistance)
+        for point in profilePoints.dropFirst() {
+            let axisDistance = axisLength * (point.position.y - bounds.min.y) / height
+            let start = min(previousAxisDistance, axisDistance)
+            let end = max(previousAxisDistance, axisDistance)
+            let intermediateDistances = sectionDistances.filter {
+                $0 > start + epsilon && $0 < end - epsilon
+            }
+            for distance in axisDistance < previousAxisDistance ? intermediateDistances
+                .reversed() : intermediateDistances
+            {
+                let t = (distance - previousAxisDistance) / (axisDistance - previousAxisDistance)
+                appendSample(previousPoint.interpolated(with: point, by: t), at: distance)
+            }
+            appendSample(point, at: axisDistance)
+            previousPoint = point
+            previousAxisDistance = axisDistance
+        }
+        let slices = max(3, slices)
+        var contourOffsets = [0.0]
+        for (previous, sample) in zip(samples, samples.dropFirst()) {
+            contourOffsets.append(contourOffsets.last! + previous.point.position.distance(from: sample.point.position))
+        }
+        let profileLength = contourOffsets.last ?? 0
+        contourOffsets = contourOffsets.map { profileLength > epsilon ? $0 / profileLength : 0 }
+        var contours = samples.map { profilePoint, axisPoint, frame, direction, distance in
+            let radius = abs(profilePoint.position.x)
+            let color = profilePoint.color.map { profileColor in
+                axisPoint.color.map { profileColor * $0 } ?? profileColor
+            } ?? axisPoint.color
+            guard radius >= epsilon else {
+                return Path([.point(axisPoint.position, color: color)])
+            }
+            func section(frame: Rotation, direction: Vector) -> Path {
+                var contour = Path.circle(radius: radius, segments: slices, color: color)
+                    .rotated(by: .roll(-.halfPi))
+                    .rotated(by: frame)
+                let normal = contour.faceNormal
+                let cosine = normal.dot(direction)
+                if abs(cosine) > epsilon,
+                   let stretchAxis = Line(origin: .zero, direction: direction - normal * cosine)
+                {
+                    contour.stretch(by: 1 / abs(cosine), along: stretchAxis)
+                }
+                return contour
+            }
+            var contour = section(frame: frame, direction: direction)
+            if let index = bevelSegments.first(where: {
+                distance > sectionDistances[$0] && distance < sectionDistances[$0 + 1]
+            }) {
+                // Keep bevel sides straight when adding profile points
+                let t = (distance - sectionDistances[index]) /
+                    (sectionDistances[index + 1] - sectionDistances[index])
+                let a = section(frame: frames[index], direction: sectionDirections[index])
+                let b = section(frame: frames[index + 1], direction: sectionDirections[index + 1])
+                contour = Path(zip(a.points, b.points).map { $0.interpolated(with: $1, by: t) })
+            }
+            return contour.translated(by: axisPoint.position)
+        }
+        if isClosed,
+           let firstSample = samples.first, let lastSample = samples.last,
+           abs(firstSample.distance - lastSample.distance).isApproximatelyEqual(to: axisLength),
+           abs(firstSample.point.position.x).isApproximatelyEqual(to: abs(lastSample.point.position.x)),
+           let first = contours.first, let last = contours.last,
+           first.points.count == last.points.count
+        {
+            // Match the closing points without changing their other properties
+            contours[contours.count - 1] = Path(zip(last.points, first.points).map {
+                $0.withPosition($1.position)
+            })
+        }
+        return (contours, contourOffsets)
     }
 }
