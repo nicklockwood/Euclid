@@ -255,6 +255,66 @@ final class MeshCSGTests: XCTestCase {
         XCTAssertEqual(Mesh.empty, .intersection([]))
     }
 
+    func testIntersectionCanBeCancelled() {
+        let a = Mesh.cube()
+        let b = Mesh.cube().rotated(by: .roll(.degrees(30)))
+        XCTAssertEqual(a.intersection(b, isCancelled: { true }), .empty)
+    }
+
+    func testIntersectionOfRotatedBoxes() throws {
+        // Rotations from the OpenSCAD intersecting-boxes fixture.
+        let matrices: [[Double]] = [
+            [1, 0, 0, 0, 1, 0, 0, 0, 1],
+            [
+                0.46984631039,
+                -0.81379768134,
+                -0.34202014332,
+                0.88256411925,
+                0.44096961053,
+                0.16317591116,
+                0.01802831123,
+                -0.37852230637,
+                0.92541657839,
+            ],
+            [
+                0.41721770627,
+                0.64245892818,
+                -0.64278760968,
+                0.66835566162,
+                -0.69617191219,
+                -0.26200263022,
+                -0.61581660836,
+                -0.32029860173,
+                -0.71984631039,
+            ],
+            [
+                0.0190076282,
+                0.02926918072,
+                -0.99939082701,
+                -0.60192849838,
+                0.79846077351,
+                0.01193633086,
+                0.7983237394,
+                0.60133493846,
+                0.03279479952,
+            ],
+        ]
+        let meshes = try matrices.map { matrix in
+            let rotation = try JSONDecoder().decode(Rotation.self, from: JSONEncoder().encode(matrix))
+            return Mesh.cube(size: Vector(100, 20, 20)).rotated(by: rotation)
+        }
+        var mesh = meshes[0]
+        for other in meshes.dropFirst() {
+            mesh = mesh.intersection(other)
+            XCTAssertTrue(mesh.isKnownConvex)
+            XCTAssertTrue(mesh.isActuallyConvex)
+            XCTAssertTrue(mesh.isWatertight)
+            XCTAssertEqual(mesh.polygons.groupedBySubmesh().count, 1)
+            XCTAssertGreaterThan(mesh.signedVolume, 0)
+        }
+        XCTAssertEqual(mesh, .intersection(meshes))
+    }
+
     // MARK: Convex Hull
 
     func testConvexHullOfCubes() {

@@ -348,7 +348,7 @@ public extension Mesh {
         nonisolated(unsafe) var lhs: [Polygon] = [], rhs: [Polygon] = []
         inParallel({
             lhs = BSP(mesh, isCancelled).clip(
-                boundsTest(intersection, polygons, isCancelled),
+                boundsTest(intersection, self.polygons, isCancelled),
                 .lessThan,
                 isCancelled
             )
@@ -359,11 +359,17 @@ public extension Mesh {
                 isCancelled
             )
         })
-        return Mesh(
-            unchecked: lhs + rhs,
+        let isConvex = isKnownConvex && mesh.isKnownConvex
+        // Separate clipping passes can leave shared corners at slightly different positions
+        let polygons = isConvex ? (lhs + rhs).mergingVertices(
+            withPrecision: epsilon,
+            isCancelled: isCancelled
+        ) : lhs + rhs
+        return isCancelled() ? .empty : Mesh(
+            unchecked: polygons,
             bounds: nil, // TODO: is there a way to efficiently preserve this?
             bsp: nil, // TODO: Is there a cheap way to calculate this?
-            isConvex: isKnownConvex && mesh.isKnownConvex,
+            isConvex: isConvex,
             isWatertight: nil,
             isPlanar: planarIfSet.flatMap { lhs in
                 mesh.planarIfSet.map { rhs in lhs || rhs }
