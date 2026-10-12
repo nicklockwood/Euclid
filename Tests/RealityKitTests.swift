@@ -9,6 +9,7 @@
 #if canImport(RealityKit)
 
 @testable import Euclid
+import Metal
 import RealityKit
 import XCTest
 
@@ -90,6 +91,7 @@ final class RealityKitTests: XCTestCase {
 
     @MainActor
     func testConvertToFromModelEntity() throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         let cube = Mesh.cube(size: 1).triangulate()
         let modelEntity = try ModelEntity(cube)
         let contents = try XCTUnwrap(modelEntity.model).mesh.contents
@@ -106,6 +108,7 @@ final class RealityKitTests: XCTestCase {
     }
 
     func testAsyncConvertToFromModelEntity() async throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         let cube = Mesh.cube(size: 1).triangulate()
         let modelEntity = try await ModelEntity(cube)
         let result = await Mesh(modelEntity)
