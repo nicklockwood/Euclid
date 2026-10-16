@@ -294,6 +294,12 @@ public extension Vector {
         [y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x]
     }
 
+    /// Returns whether two nonzero vectors are parallel, including opposite directions.
+    /// The vectors do not need to be normalized. Returns `false` for zero vectors.
+    func isParallel(to vector: Vector) -> Bool {
+        abs(normalized().dot(vector.normalized())) > 1 - epsilon
+    }
+
     /// A Boolean value that indicates whether the vector has a length of `1`.
     var isNormalized: Bool {
         abs(lengthSquared - 1) < sqrt(epsilon)

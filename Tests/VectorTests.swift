@@ -23,6 +23,21 @@ final class VectorTests: XCTestCase {
         XCTAssertEqual(vector.length, length)
     }
 
+    // MARK: Parallel vectors
+
+    func testParallelVectors() {
+        let vector = Vector(2, 3, 4)
+        XCTAssertTrue(vector.isParallel(to: vector))
+        XCTAssertTrue(vector.isParallel(to: vector * 5))
+        XCTAssertTrue(vector.isParallel(to: vector * -3))
+        XCTAssertTrue(Vector.unitX.isParallel(to: [1, 1e-6, 0]))
+        XCTAssertFalse(Vector.unitX.isParallel(to: .unitY))
+        XCTAssertFalse(vector.isParallel(to: [2, 3, 5]))
+        XCTAssertFalse(vector.isParallel(to: .zero))
+        XCTAssertFalse(Vector.zero.isParallel(to: vector))
+        XCTAssertFalse(Vector.zero.isParallel(to: .zero))
+    }
+
     // MARK: Angle with vector
 
     func testRightAngle() {
