@@ -149,9 +149,9 @@ final class MeshExportTests: XCTestCase {
         """)
     }
 
-    func testCubeSTLDataWithCustomHeader() {
+    func testCubeSTLDataWithCustomHeader() throws {
         let cube = Mesh.cube().translated(by: Vector(0.5, 0.5, 0.5))
-        let header = "Hello World".data(using: .utf8)!
+        let header = try XCTUnwrap("Hello World".data(using: .utf8))
         let stlData = cube.stlData(options: .init(header: header))
         XCTAssertEqual(stlData.count, 80 + 4 + 12 * 50)
         XCTAssertEqual(stlData.prefix(header.count), header)

@@ -263,10 +263,8 @@ public extension Mesh {
         let polygons = polygons.map(transform)
         // Check if changes affect shape
         for (old, new) in zip(self.polygons, polygons) {
-            for (old, new) in zip(old.vertices, new.vertices) {
-                if old.position != new.position {
-                    return .init(polygons)
-                }
+            for (old, new) in zip(old.vertices, new.vertices) where old.position != new.position {
+                return .init(polygons)
             }
         }
         return Mesh(
@@ -874,20 +872,18 @@ extension [Polygon] {
         for (index, poly) in enumerated() {
             let positions = Set(poly.vertices.map(\.position))
             var lastMatch: Int?
-            for i in points.indices.reversed() {
-                if !points[i].isDisjoint(with: positions) {
-                    if !submeshes[i].contains(index) {
+            for i in points.indices.reversed() where !points[i].isDisjoint(with: positions) {
+                if !submeshes[i].contains(index) {
+                    submeshes[i].append(index)
+                }
+                points[i].formUnion(positions)
+                if let j = lastMatch {
+                    for index in submeshes.remove(at: j) where !submeshes[i].contains(index) {
                         submeshes[i].append(index)
                     }
-                    points[i].formUnion(positions)
-                    if let j = lastMatch {
-                        for index in submeshes.remove(at: j) where !submeshes[i].contains(index) {
-                            submeshes[i].append(index)
-                        }
-                        points[i].formUnion(points.remove(at: j))
-                    }
-                    lastMatch = i
+                    points[i].formUnion(points.remove(at: j))
                 }
+                lastMatch = i
             }
             if lastMatch == nil {
                 submeshes.append([index])

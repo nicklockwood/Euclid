@@ -194,7 +194,6 @@ public extension ModelEntity {
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
-    @MainActor
     convenience init(_ mesh: Mesh, materialLookup: MaterialProvider? = nil) throws {
         try self.init(triangles: mesh, materialLookup: materialLookup)
     }

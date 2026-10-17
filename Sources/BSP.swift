@@ -401,11 +401,9 @@ private extension BSP {
                         out = rejects
                         return total
                     }
-                } else if out != nil {
-                    if !addPolygons(front, to: &rejects) {
-                        out = rejects
-                        return total
-                    }
+                } else if out != nil, !addPolygons(front, to: &rejects) {
+                    out = rejects
+                    return total
                 }
             }
             if !back.isEmpty {
@@ -416,11 +414,9 @@ private extension BSP {
                         out = rejects
                         return total
                     }
-                } else if out != nil {
-                    if !addPolygons(back, to: &rejects) {
-                        out = rejects
-                        return total
-                    }
+                } else if out != nil, !addPolygons(back, to: &rejects) {
+                    out = rejects
+                    return total
                 }
             }
         }
@@ -491,11 +487,9 @@ private extension BSP {
                         out = rejects
                         return total
                     }
-                } else if out != nil {
-                    if !addEdges(front, to: &rejects) {
-                        out = rejects
-                        return total
-                    }
+                } else if out != nil, !addEdges(front, to: &rejects) {
+                    out = rejects
+                    return total
                 }
             }
             if !back.isEmpty {
@@ -506,11 +500,9 @@ private extension BSP {
                         out = rejects
                         return total
                     }
-                } else if out != nil {
-                    if !addEdges(back, to: &rejects) {
-                        out = rejects
-                        return total
-                    }
+                } else if out != nil, !addEdges(back, to: &rejects) {
+                    out = rejects
+                    return total
                 }
             }
         }

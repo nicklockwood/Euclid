@@ -1345,16 +1345,12 @@ private extension Path {
         let targetU = points[xIndex] - first
         let sourceNormal = other.faceNormal
         let targetNormal = faceNormal
-        guard sourceU != .zero, targetU != .zero,
-              sourceNormal != .zero, targetNormal != .zero
+        guard sourceU != .zero, targetU != .zero, sourceNormal != .zero, targetNormal != .zero,
+              let yIndex = otherPoints.indices.dropFirst().first(where: {
+                  let sourceV = otherPoints[$0] - otherFirst
+                  return sourceU.cross(sourceV).length > epsilon
+              })
         else {
-            return nil
-        }
-
-        guard let yIndex = otherPoints.indices.dropFirst().first(where: {
-            let sourceV = otherPoints[$0] - otherFirst
-            return sourceU.cross(sourceV).length > epsilon
-        }) else {
             return nil
         }
         let sourceV = otherPoints[yIndex] - otherFirst

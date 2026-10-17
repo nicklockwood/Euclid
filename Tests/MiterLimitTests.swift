@@ -54,7 +54,7 @@ final class MiterLimitTests: XCTestCase {
     }
 
     func testDecodingInfiniteLimit() throws {
-        let data = #"{"angle":3.141592653589793}"#.data(using: .utf8)!
+        let data = try XCTUnwrap(#"{"angle":3.141592653589793}"#.data(using: .utf8))
         let limit = try JSONDecoder().decode(MiterLimit.self, from: data)
 
         XCTAssertEqual(limit, .infinity)

@@ -1190,20 +1190,14 @@ private extension Mesh {
             a = points.min { $0.z < $1.z }!
             b = points.max { $0.z < $1.z }!
         }
-        guard let baseline = LineSegment(start: a, end: b) else {
-            return (.empty, false)
-        }
-        guard let c = points.max(by: {
+        guard let baseline = LineSegment(start: a, end: b), let c = points.max(by: {
             baseline.distance(from: $0) < baseline.distance(from: $1)
-        }), baseline.distance(from: c) > epsilon,
-        let basePlane = Plane(points: [a, b, c])
-        else {
+        }), baseline.distance(from: c) > epsilon, let basePlane = Plane(points: [a, b, c]) else {
             return (.empty, false)
         }
         guard let d = points.max(by: {
             basePlane.distance(from: $0) < basePlane.distance(from: $1)
-        }), basePlane.distance(from: d) > epsilon
-        else {
+        }), basePlane.distance(from: d) > epsilon else {
             return (.empty, false) // Planar input; use the existing hull implementation
         }
 

@@ -370,9 +370,9 @@ final class MeshInsetTests: XCTestCase {
         }
         for line in directions.values where line.count > 2 {
             let sorted = line.sorted { $0.y < $1.y }
-            let edge = try XCTUnwrap(sorted.last) - sorted.first!
+            let edge = try XCTUnwrap(sorted.last) - XCTUnwrap(sorted.first)
             for position in sorted.dropFirst().dropLast() {
-                XCTAssert(edge.cross(position - sorted.first!).length < 1e-6)
+                XCTAssert(try edge.cross(position - XCTUnwrap(sorted.first)).length < 1e-6)
             }
         }
     }

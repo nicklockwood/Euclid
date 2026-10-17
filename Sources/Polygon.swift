@@ -1283,18 +1283,16 @@ extension Collection<Polygon> {
         for poly in self {
             let positions = Set(poly.vertices.map(\.position))
             var lastMatch: Int?
-            for i in points.indices.reversed() {
-                if !points[i].isDisjoint(with: positions) {
-                    submeshes[i].append(poly)
-                    points[i].formUnion(positions)
-                    if let j = lastMatch {
-                        for p in submeshes.remove(at: j) where !submeshes[i].contains(p) {
-                            submeshes[i].append(p)
-                        }
-                        points[i].formUnion(points.remove(at: j))
+            for i in points.indices.reversed() where !points[i].isDisjoint(with: positions) {
+                submeshes[i].append(poly)
+                points[i].formUnion(positions)
+                if let j = lastMatch {
+                    for p in submeshes.remove(at: j) where !submeshes[i].contains(p) {
+                        submeshes[i].append(p)
                     }
-                    lastMatch = i
+                    points[i].formUnion(points.remove(at: j))
                 }
+                lastMatch = i
             }
             if lastMatch == nil {
                 submeshes.append([poly])
@@ -1726,10 +1724,7 @@ extension Polygon {
             }
             return (i, j)
         }
-        guard matches.count >= 2 else {
-            return nil
-        }
-        guard allowDisjointSharedVertices || matches.count == 2 else {
+        guard matches.count >= 2, allowDisjointSharedVertices || matches.count == 2 else {
             return nil
         }
 
@@ -1852,10 +1847,10 @@ extension Polygon {
         // they allow a hole to be connected to the outer boundary by a zero-width bridge, but general
         // mesh detessellation must keep matching front and back partitions to remain watertight.
         if !allowRepeatedVertexPositions {
-            for i in result.indices.dropFirst() {
-                if result[..<i].contains(where: { $0.position.isApproximatelyEqual(to: result[i].position) }) {
-                    return nil
-                }
+            for i in result.indices.dropFirst() where result[..<i].contains(where: {
+                $0.position.isApproximatelyEqual(to: result[i].position)
+            }) {
+                return nil
             }
         }
 

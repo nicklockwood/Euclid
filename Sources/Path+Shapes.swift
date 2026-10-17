@@ -1049,10 +1049,11 @@ extension Path {
 
         func pointAndFrame(at distance: Double) -> (point: PathPoint, frame: Rotation, direction: Vector) {
             let distance = min(max(distance, 0), axisLength)
-            for index in sectionPoints.indices {
-                if distance.isApproximatelyEqual(to: sectionDistances[index], absoluteTolerance: epsilon) {
-                    return (sectionPoints[index], frames[index], sectionDirections[index])
-                }
+            for index in sectionPoints.indices where distance.isApproximatelyEqual(
+                to: sectionDistances[index],
+                absoluteTolerance: epsilon
+            ) {
+                return (sectionPoints[index], frames[index], sectionDirections[index])
             }
             for index in sectionPoints.indices.dropLast() {
                 let start = sectionDistances[index]

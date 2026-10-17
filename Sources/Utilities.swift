@@ -390,8 +390,7 @@ func triangulateVertices(
         // original ring and explore alternate ears before falling back to the slower 3D clipper.
         let maxBacktrackingVertexCount = 8
         func triangulateWithBacktracking(_ ring: [Int]) -> [[Int]]? {
-            guard !isCancelled() else { return nil }
-            guard ring.count <= maxBacktrackingVertexCount else {
+            guard !isCancelled(), ring.count <= maxBacktrackingVertexCount else {
                 return nil
             }
             guard ring.count > 3 else {
@@ -1256,15 +1255,13 @@ private func subpathIndicesFor(_ points: [PathPoint]) -> [Int] {
     var lastIndex = 0
     var indices = [Int]()
     for (i, p) in points.enumerated() {
-        for j in lastIndex ..< i {
-            if points[j].position == p.position {
-                if j > lastIndex, j < i - 1 {
-                    indices.append(j)
-                }
-                indices.append(i)
-                lastIndex = i + 1
-                break
+        for j in lastIndex ..< i where points[j].position == p.position {
+            if j > lastIndex, j < i - 1 {
+                indices.append(j)
             }
+            indices.append(i)
+            lastIndex = i + 1
+            break
         }
     }
     if !indices.isEmpty, indices.last != points.count - 1 {
