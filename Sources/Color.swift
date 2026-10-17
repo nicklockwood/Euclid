@@ -218,6 +218,18 @@ public extension Color {
         .init(red: red, green: green, blue: blue, alpha: alpha)
     }
 
+    /// Composites this color over a background using source-over alpha blending.
+    /// - Parameter background: The color beneath this color.
+    /// - Returns: The combined color, or ``clear`` if both colors are fully transparent.
+    func composited(over background: Color) -> Color {
+        let alpha = alpha + background.alpha * (1 - alpha)
+        guard alpha > 0 else {
+            return .clear
+        }
+        return background.interpolated(with: self, by: self.alpha / alpha)
+            .withAlphaComponent(alpha)
+    }
+
     /// Linearly interpolate between two colors.
     /// - Parameters:
     ///   - other: The color to interpolate towards.

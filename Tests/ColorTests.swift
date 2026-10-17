@@ -10,6 +10,43 @@
 import XCTest
 
 final class ColorTests: XCTestCase {
+    func testCompositedOpaqueForeground() {
+        XCTAssertEqual(Color.red.composited(over: .blue.withAlphaComponent(0.5)), .red)
+    }
+
+    func testCompositedTransparentForeground() {
+        let background = Color.blue.withAlphaComponent(0.5)
+        XCTAssertEqual(Color.red.withAlphaComponent(0).composited(over: background), background)
+    }
+
+    func testCompositedTransparentBackground() {
+        let foreground = Color.red.withAlphaComponent(0.5)
+        XCTAssertEqual(foreground.composited(over: .blue.withAlphaComponent(0)), foreground)
+    }
+
+    func testCompositedTransparentColors() {
+        XCTAssertEqual(
+            Color.red.withAlphaComponent(0).composited(over: .blue.withAlphaComponent(0)),
+            .clear
+        )
+    }
+
+    func testCompositedOntoOpaqueBackground() {
+        XCTAssertEqual(
+            Color.red.withAlphaComponent(0.5).composited(over: .blue),
+            Color(red: 0.5, green: 0, blue: 0.5),
+            accuracy: epsilon
+        )
+    }
+
+    func testCompositedTranslucentColors() {
+        XCTAssertEqual(
+            Color.red.withAlphaComponent(0.5).composited(over: .blue.withAlphaComponent(0.5)),
+            Color(red: 2.0 / 3, green: 0, blue: 1.0 / 3, alpha: 0.75),
+            accuracy: epsilon
+        )
+    }
+
     func testCollectionLerp() {
         let colors: [Color] = [.red, .green, .blue]
         XCTAssertEqual(colors.lerp(-1), .red)
