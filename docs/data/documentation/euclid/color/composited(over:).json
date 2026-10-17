@@ -1,4 +1,10 @@
 {
+  "abstract" : [
+    {
+      "text" : "Composites this color over a background using source-over alpha blending.",
+      "type" : "text"
+    }
+  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -9,12 +15,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/withAlpha(_:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/composited(over:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid5ColorV9withAlphayACSdF",
+    "externalID" : "s:6Euclid5ColorV10composited4overA2C_tF",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -26,16 +32,24 @@
       },
       {
         "kind" : "identifier",
-        "text" : "withAlpha"
+        "text" : "composited"
       },
       {
         "kind" : "text",
         "text" : "("
       },
       {
+        "kind" : "externalParam",
+        "text" : "over"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Sd",
-        "text" : "Double"
+        "preciseIdentifier" : "s:6Euclid5ColorV",
+        "text" : "Color"
       },
       {
         "kind" : "text",
@@ -55,7 +69,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Method",
     "symbolKind" : "method",
-    "title" : "withAlpha(_:)"
+    "title" : "composited(over:)"
   },
   "primaryContentSections" : [
     {
@@ -78,7 +92,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "withAlpha"
+              "text" : "composited"
             },
             {
               "kind" : "text",
@@ -86,7 +100,7 @@
             },
             {
               "kind" : "externalParam",
-              "text" : "_"
+              "text" : "over"
             },
             {
               "kind" : "text",
@@ -94,16 +108,17 @@
             },
             {
               "kind" : "internalParam",
-              "text" : "a"
+              "text" : "background"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Sd",
-              "text" : "Double"
+              "preciseIdentifier" : "s:6Euclid5ColorV",
+              "text" : "Color"
             },
             {
               "kind" : "text",
@@ -119,6 +134,54 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The color beneath this color.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "background"
+        }
+      ]
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "return-value",
+          "level" : 2,
+          "text" : "Return Value",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "The combined color, or ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/clear",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " if both colors are fully transparent.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        }
+      ],
+      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -132,7 +195,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/color\/withalpha(_:)"
+        "\/documentation\/euclid\/color\/composited(over:)"
       ],
       "traits" : [
         {
@@ -191,11 +254,55 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/withAlpha(_:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/clear": {
   "abstract" : [
 
   ],
-  "deprecated" : true,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "clear"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/clear",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "clear",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/clear"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/composited(over:)": {
+  "abstract" : [
+    {
+      "text" : "Composites this color over a background using source-over alpha blending.",
+      "type" : "text"
+    }
+  ],
   "fragments" : [
     {
       "kind" : "keyword",
@@ -207,16 +314,24 @@
     },
     {
       "kind" : "identifier",
-      "text" : "withAlpha"
+      "text" : "composited"
     },
     {
       "kind" : "text",
       "text" : "("
     },
     {
+      "kind" : "externalParam",
+      "text" : "over"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
     },
     {
       "kind" : "text",
@@ -228,12 +343,12 @@
       "text" : "Color"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/withAlpha(_:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/composited(over:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "withAlpha(_:)",
+  "title" : "composited(over:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/withalpha(_:)"
+  "url" : "\/documentation\/euclid\/color\/composited(over:)"
 }
 }
 }

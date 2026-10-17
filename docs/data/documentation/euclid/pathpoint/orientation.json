@@ -1,46 +1,50 @@
 {
+  "abstract" : [
+    {
+      "text" : "The path orientation at this point, if known.",
+      "type" : "text"
+    }
+  ],
   "hierarchy" : {
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:)"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/orientation"
   },
   "kind" : "symbol",
   "metadata" : {
-    "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid5ColorVyACSd_Sdtcfc",
+    "externalID" : "s:6Euclid9PathPointV11orientationAA8RotationVSgvp",
     "fragments" : [
       {
+        "kind" : "keyword",
+        "text" : "var"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
         "kind" : "identifier",
-        "text" : "init"
+        "text" : "orientation"
       },
       {
         "kind" : "text",
-        "text" : "("
+        "text" : ": "
       },
       {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Sd",
-        "text" : "Double"
+        "preciseIdentifier" : "s:6Euclid8RotationV",
+        "text" : "Rotation"
       },
       {
         "kind" : "text",
-        "text" : ", "
-      },
-      {
-        "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Sd",
-        "text" : "Double"
-      },
-      {
-        "kind" : "text",
-        "text" : ")"
+        "text" : "?"
       }
     ],
     "modules" : [
@@ -49,9 +53,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Initializer",
-    "symbolKind" : "init",
-    "title" : "init(_:_:)"
+    "roleHeading" : "Instance Property",
+    "symbolKind" : "property",
+    "title" : "orientation"
   },
   "primaryContentSections" : [
     {
@@ -66,61 +70,29 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "init"
-            },
-            {
-              "kind" : "text",
-              "text" : "("
-            },
-            {
-              "kind" : "externalParam",
-              "text" : "_"
+              "text" : "var"
             },
             {
               "kind" : "text",
               "text" : " "
             },
             {
-              "kind" : "internalParam",
-              "text" : "rgb"
+              "kind" : "identifier",
+              "text" : "orientation"
             },
             {
               "kind" : "text",
               "text" : ": "
             },
             {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation",
               "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Sd",
-              "text" : "Double"
+              "preciseIdentifier" : "s:6Euclid8RotationV",
+              "text" : "Rotation"
             },
             {
               "kind" : "text",
-              "text" : ", "
-            },
-            {
-              "kind" : "externalParam",
-              "text" : "_"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "internalParam",
-              "text" : "a"
-            },
-            {
-              "kind" : "text",
-              "text" : ": "
-            },
-            {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Sd",
-              "text" : "Double"
-            },
-            {
-              "kind" : "text",
-              "text" : " = 1)"
+              "text" : "? { get }"
             }
           ]
         }
@@ -139,7 +111,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/color\/init(_:_:)"
+        "\/documentation\/euclid\/pathpoint\/orientation"
       ],
       "traits" : [
         {
@@ -164,10 +136,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A point along a path.",
       "type" : "text"
     }
   ],
@@ -182,61 +154,96 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Color"
+      "text" : "PathPoint"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Color"
+      "text" : "PathPoint"
     }
   ],
   "role" : "symbol",
-  "title" : "Color",
+  "title" : "PathPoint",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color"
+  "url" : "\/documentation\/euclid\/pathpoint"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:_:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/orientation": {
   "abstract" : [
-
+    {
+      "text" : "The path orientation at this point, if known.",
+      "type" : "text"
+    }
   ],
-  "deprecated" : true,
   "fragments" : [
     {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
       "kind" : "identifier",
-      "text" : "init"
+      "text" : "orientation"
     },
     {
       "kind" : "text",
-      "text" : "("
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
+      "preciseIdentifier" : "s:6Euclid8RotationV",
+      "text" : "Rotation"
     },
     {
       "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
-    },
-    {
-      "kind" : "text",
-      "text" : ")"
+      "text" : "?"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:_:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/orientation",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(_:_:)",
+  "title" : "orientation",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/init(_:_:)"
+  "url" : "\/documentation\/euclid\/pathpoint\/orientation"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation": {
+  "abstract" : [
+    {
+      "text" : "An orientation or rotation in 3D space.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Rotation"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Rotation"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Rotation",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation"
 }
 }
 }

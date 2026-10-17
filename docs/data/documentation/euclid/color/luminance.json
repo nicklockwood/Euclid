@@ -1,4 +1,18 @@
 {
+  "abstract" : [
+    {
+      "text" : "The perceived luminance of the color.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Per https:\/\/en.wikipedia.org\/wiki\/Rec._709",
+      "type" : "text"
+    }
+  ],
   "hierarchy" : {
     "paths" : [
       [
@@ -9,12 +23,12 @@
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/g"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/luminance"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid5ColorV1gSdvp",
+    "externalID" : "s:6Euclid5ColorV9luminanceSdvp",
     "fragments" : [
       {
         "kind" : "keyword",
@@ -26,7 +40,7 @@
       },
       {
         "kind" : "identifier",
-        "text" : "g"
+        "text" : "luminance"
       },
       {
         "kind" : "text",
@@ -46,7 +60,7 @@
     "role" : "symbol",
     "roleHeading" : "Instance Property",
     "symbolKind" : "property",
-    "title" : "g"
+    "title" : "luminance"
   },
   "primaryContentSections" : [
     {
@@ -69,7 +83,7 @@
             },
             {
               "kind" : "identifier",
-              "text" : "g"
+              "text" : "luminance"
             },
             {
               "kind" : "text",
@@ -87,14 +101,6 @@
             {
               "kind" : "keyword",
               "text" : "get"
-            },
-            {
-              "kind" : "text",
-              "text" : " "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "set"
             },
             {
               "kind" : "text",
@@ -117,7 +123,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/color\/g"
+        "\/documentation\/euclid\/color\/luminance"
       ],
       "traits" : [
         {
@@ -176,11 +182,21 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/g": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/luminance": {
   "abstract" : [
-
+    {
+      "text" : "The perceived luminance of the color.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Per https:\/\/en.wikipedia.org\/wiki\/Rec._709",
+      "type" : "text"
+    }
   ],
-  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
@@ -192,7 +208,7 @@
     },
     {
       "kind" : "identifier",
-      "text" : "g"
+      "text" : "luminance"
     },
     {
       "kind" : "text",
@@ -204,12 +220,12 @@
       "text" : "Double"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/g",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/luminance",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "g",
+  "title" : "luminance",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/g"
+  "url" : "\/documentation\/euclid\/color\/luminance"
 }
 }
 }

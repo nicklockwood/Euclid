@@ -1173,7 +1173,7 @@ extension Collection<Polygon> {
 
         guard !isCancelled() else { return [] }
         var polygons = Array(self)
-        guard useQualityMerge && allowDisjointSharedVertices && maxSides == .max && !ensureConvex else {
+        guard useQualityMerge, allowDisjointSharedVertices, maxSides == .max, !ensureConvex else {
             return polygons.greedyDetessellate(
                 ensureConvex: ensureConvex,
                 maxSides: maxSides,

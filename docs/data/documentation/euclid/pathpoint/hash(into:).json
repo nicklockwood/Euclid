@@ -1,24 +1,38 @@
 {
+  "abstract" : [
+    {
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "Hashable.hash(into:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
   "hierarchy" : {
     "paths" : [
       [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint"
       ]
     ]
   },
   "identifier" : {
     "interfaceLanguage" : "swift",
-    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/a"
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/hash(into:)"
   },
   "kind" : "symbol",
   "metadata" : {
     "extendedModule" : "Euclid",
-    "externalID" : "s:6Euclid5ColorV1aSdvp",
+    "externalID" : "s:6Euclid9PathPointV4hash4intoys6HasherVz_tF",
     "fragments" : [
       {
         "kind" : "keyword",
-        "text" : "var"
+        "text" : "func"
       },
       {
         "kind" : "text",
@@ -26,16 +40,36 @@
       },
       {
         "kind" : "identifier",
-        "text" : "a"
+        "text" : "hash"
+      },
+      {
+        "kind" : "text",
+        "text" : "("
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "into"
       },
       {
         "kind" : "text",
         "text" : ": "
       },
       {
+        "kind" : "keyword",
+        "text" : "inout"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
         "kind" : "typeIdentifier",
-        "preciseIdentifier" : "s:Sd",
-        "text" : "Double"
+        "preciseIdentifier" : "s:s6HasherV",
+        "text" : "Hasher"
+      },
+      {
+        "kind" : "text",
+        "text" : ")"
       }
     ],
     "modules" : [
@@ -44,9 +78,9 @@
       }
     ],
     "role" : "symbol",
-    "roleHeading" : "Instance Property",
-    "symbolKind" : "property",
-    "title" : "a"
+    "roleHeading" : "Instance Method",
+    "symbolKind" : "method",
+    "title" : "hash(into:)"
   },
   "primaryContentSections" : [
     {
@@ -61,7 +95,7 @@
           "tokens" : [
             {
               "kind" : "keyword",
-              "text" : "var"
+              "text" : "func"
             },
             {
               "kind" : "text",
@@ -69,36 +103,44 @@
             },
             {
               "kind" : "identifier",
-              "text" : "a"
+              "text" : "hash"
             },
             {
               "kind" : "text",
-              "text" : ": "
+              "text" : "("
             },
             {
-              "kind" : "typeIdentifier",
-              "preciseIdentifier" : "s:Sd",
-              "text" : "Double"
-            },
-            {
-              "kind" : "text",
-              "text" : " { "
-            },
-            {
-              "kind" : "keyword",
-              "text" : "get"
+              "kind" : "externalParam",
+              "text" : "into"
             },
             {
               "kind" : "text",
               "text" : " "
             },
             {
-              "kind" : "keyword",
-              "text" : "set"
+              "kind" : "internalParam",
+              "text" : "hasher"
             },
             {
               "kind" : "text",
-              "text" : " }"
+              "text" : ": "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "inout"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:s6HasherV",
+              "text" : "Hasher"
+            },
+            {
+              "kind" : "text",
+              "text" : ")"
             }
           ]
         }
@@ -117,7 +159,7 @@
   "variants" : [
     {
       "paths" : [
-        "\/documentation\/euclid\/color\/a"
+        "\/documentation\/euclid\/pathpoint\/hash(into:)"
       ],
       "traits" : [
         {
@@ -142,10 +184,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A point along a path.",
       "type" : "text"
     }
   ],
@@ -160,31 +202,30 @@
     },
     {
       "kind" : "identifier",
-      "text" : "Color"
+      "text" : "PathPoint"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint",
   "kind" : "symbol",
   "navigatorTitle" : [
     {
       "kind" : "identifier",
-      "text" : "Color"
+      "text" : "PathPoint"
     }
   ],
   "role" : "symbol",
-  "title" : "Color",
+  "title" : "PathPoint",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color"
+  "url" : "\/documentation\/euclid\/pathpoint"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/a": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/hash(into:)": {
   "abstract" : [
 
   ],
-  "deprecated" : true,
   "fragments" : [
     {
       "kind" : "keyword",
-      "text" : "var"
+      "text" : "func"
     },
     {
       "kind" : "text",
@@ -192,24 +233,44 @@
     },
     {
       "kind" : "identifier",
-      "text" : "a"
+      "text" : "hash"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "into"
     },
     {
       "kind" : "text",
       "text" : ": "
     },
     {
+      "kind" : "keyword",
+      "text" : "inout"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
+      "preciseIdentifier" : "s:s6HasherV",
+      "text" : "Hasher"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/a",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/hash(into:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "a",
+  "title" : "hash(into:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/color\/a"
+  "url" : "\/documentation\/euclid\/pathpoint\/hash(into:)"
 }
 }
 }

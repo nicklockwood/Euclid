@@ -326,7 +326,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/length": {
   "abstract" : [
     {
-      "text" : "The total length of the path.",
+      "text" : "The total length of the path or subpaths.",
       "type" : "text"
     }
   ],

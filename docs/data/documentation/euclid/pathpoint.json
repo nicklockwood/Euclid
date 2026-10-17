@@ -94,42 +94,31 @@
         {
           "inlineContent" : [
             {
-              "text" : "A path point can represent a sharp corner or a curve, and has a ",
+              "text" : "A path point can represent a sharp corner or a curve. It has a ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/position",
-              "isActive" : true,
-              "type" : "reference"
+              "code" : "position",
+              "type" : "codeVoice"
             },
             {
-              "text" : ", and optionally",
+              "text" : " and optional ",
               "type" : "text"
             },
             {
-              "text" : " ",
+              "code" : "color",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : "\/",
               "type" : "text"
             },
             {
-              "text" : "a ",
-              "type" : "text"
+              "code" : "texcoord",
+              "type" : "codeVoice"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/texcoord",
-              "isActive" : true,
-              "type" : "reference"
-            },
-            {
-              "text" : " and\/or ",
-              "type" : "text"
-            },
-            {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/color",
-              "isActive" : true,
-              "type" : "reference"
-            },
-            {
-              "text" : ", but no normal. The",
+              "text" : ".",
               "type" : "text"
             },
             {
@@ -137,20 +126,15 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/isCurved",
-              "isActive" : true,
-              "type" : "reference"
-            },
-            {
-              "text" : " property  indicates if the point is sharp or smooth, allowing the normal to",
+              "text" : "The ",
               "type" : "text"
             },
             {
-              "text" : " ",
-              "type" : "text"
+              "code" : "orientation",
+              "type" : "codeVoice"
             },
             {
-              "text" : "be computed automatically.",
+              "text" : "  is computed automatically when the point is added to a path.",
               "type" : "text"
             }
           ],
@@ -273,6 +257,14 @@
       "title" : "Initializers"
     },
     {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/orientation"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
       "anchor" : "Instance-Methods",
       "generated" : true,
       "identifiers" : [
@@ -289,6 +281,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Decodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Encodable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Equatable-Implementations",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Hashable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Interpolatable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/LineComparable-Implementations",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/PlaneComparable-Implementations",
@@ -677,6 +670,17 @@
   "title" : "Equatable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint\/equatable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/Hashable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/Hashable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Hashable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/pathpoint\/hashable-implementations"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/Interpolatable-Implementations": {
   "abstract" : [
@@ -1324,6 +1328,47 @@
   "title" : "lerp(_:_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/pathpoint\/lerp(_:_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/orientation": {
+  "abstract" : [
+    {
+      "text" : "The path orientation at this point, if known.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "orientation"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid8RotationV",
+      "text" : "Rotation"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/PathPoint\/orientation",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "orientation",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/pathpoint\/orientation"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint/point(_:_:_:texcoord:color:)": {
   "abstract" : [

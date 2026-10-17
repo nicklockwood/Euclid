@@ -1,7 +1,7 @@
 [![PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UJWT2RWPE7VA8&source=url)
 [![Build](https://github.com/nicklockwood/Euclid/actions/workflows/build.yml/badge.svg)](https://github.com/nicklockwood/Euclid/actions/workflows/build.yml)
 [![Codecov](https://codecov.io/gh/nicklockwood/Euclid/graphs/badge.svg)](https://codecov.io/gh/nicklockwood/Euclid)
-[![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20macOS%20|%20tvOS%20|%20watchOS%20|%20Linux-lightgray.svg)]()
+[![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20macOS%20|%20tvOS%20|%20watchOS%20|%20visionOS%20|%20Linux%20|%20WebAssembly-lightgray.svg)]()
 [![Swift 5.10](https://img.shields.io/badge/swift-5.10-red.svg?style=flat)](https://developer.apple.com/swift)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://opensource.org/licenses/MIT)
 [![Mastodon](https://img.shields.io/badge/mastodon-@nicklockwood@mastodon.social-636dff.svg)](https://mastodon.social/@nicklockwood)
@@ -17,7 +17,7 @@
 
 # Introduction
 
-Euclid is a Swift library for creating and manipulating 3D geometry using techniques such as extruding or "lathing" 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.
+Euclid is a Swift library for creating and manipulating 3D geometry using techniques such as extruding or "lathing" 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract 2D or 3D shapes from one another.
 
 Euclid is the underlying implementation for the open source [ShapeScript scripting language](https://github.com/nicklockwood/ShapeScript) and ShapeScript [Mac](https://itunes.apple.com/app/id1441135869) and [iOS](https://apps.apple.com/app/id1606439346) apps. Anything you can build in ShapeScript can be replicated programmatically in Swift using this library.
 
@@ -28,20 +28,20 @@ If you would like to support the development of Euclid, please consider buying a
 
 # Installation
 
-Euclid is packaged as a dynamic framework that you can import into your Xcode project. You can install this manually, or by using Carthage or Swift Package Manager.
+Euclid is available as a Swift package or a dynamic framework that you can import into your Xcode project. You can install it manually, or by using Carthage or Swift Package Manager.
 
-**Note:** Euclid requires Xcode 16+ to build, and runs on iOS 15+, macOS 12+, tvOS 15+ or watchOS 9+.
+**Note:** Building with Xcode requires Xcode 16+. Euclid runs on iOS 15+, macOS 12+, tvOS 15+, watchOS 9+ and visionOS 1.3+. The Swift package requires Swift 5.10+ and also supports Linux and WebAssembly (using SwiftWasm).
 
 To install using Carthage, add this to your Cartfile:
 
 ```ogdl
-github "nicklockwood/Euclid" ~> 0.9.6
+github "nicklockwood/Euclid" ~> 0.10.0
 ```
 
 To install using Swift Package Manager, add this to the `dependencies:` section in your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.9.6")),
+.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.10.0")),
 ```
 
 
@@ -54,7 +54,7 @@ If you wish to contribute improvements to the documentation or the code itself, 
 
 # Example
 
-See the included project for an example of how Euclid can be used in conjunction with SceneKit or RealityKit to generate and render a nontrivial 3D shape on iOS.
+See the included project for an example of how Euclid can be used in conjunction with SceneKit or RealityKit to generate and render a nontrivial 3D shape on iOS, including a volumetric RealityKit example for visionOS.
 
 
 # Documentation

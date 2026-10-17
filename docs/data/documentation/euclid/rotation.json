@@ -221,6 +221,7 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(_:)-8izj",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(forward:up:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(from:to:)"
       ],
       "title" : "Initializers"
@@ -1286,6 +1287,72 @@
   "title" : "init(axis:angle:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/rotation\/init(axis:angle:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(forward:up:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a rotation with the specified forward and up directions.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "The vectors do not need to be normalized.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "forward"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "up"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Rotation\/init(forward:up:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(forward:up:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/rotation\/init(forward:up:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation/init(from:to:)": {
   "abstract" : [

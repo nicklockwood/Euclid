@@ -1000,6 +1000,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/lathe(_:along:slices:miterlimit:faces:wrapmode:material:iscancelled:)",
+                "title" : "static func lathe(Path, along: Path, slices: Int, miterLimit: MiterLimit, faces: Faces, wrapMode: WrapMode, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
                 "title" : "Default Implementations",
                 "type" : "groupMarker"
               },
@@ -2074,6 +2079,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/convexhull(with:iscancelled:)",
+                "title" : "func convexHull(with: Path, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/edgevertices(for:)",
                 "title" : "func edgeVertices(for: Mesh.WrapMode) -> [Vertex]",
                 "type" : "method"
@@ -2094,8 +2104,28 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/interpolatedpoint(at:)",
+                "title" : "func interpolatedPoint(at: Double) -> PathPoint?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/interpolatedpoint(by:)",
+                "title" : "func interpolatedPoint(by: Double) -> PathPoint?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/intersection(_:iscancelled:)-swift.method",
+                "title" : "func intersection(Path, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/inverted()",
                 "title" : "func inverted() -> Path",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/lathecontours(along:slices:miterlimit:)",
+                "title" : "func latheContours(along: Path, slices: Int, miterLimit: MiterLimit) -> [Path]",
                 "type" : "method"
               },
               {
@@ -2114,13 +2144,33 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/minkowskisum(with:iscancelled:)",
+                "title" : "func minkowskiSum(with: Path, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/split(along:)",
                 "title" : "func split(along: Plane) -> (front: Path, back: Path)",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/withdetail(_:twist:)",
-                "title" : "func withDetail(Int, twist: Angle) -> Path",
+                "path" : "\/documentation\/euclid\/path\/subtracting(_:iscancelled:)",
+                "title" : "func subtracting(Path, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/symmetricdifference(_:iscancelled:)-swift.method",
+                "title" : "func symmetricDifference(Path, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/union(_:iscancelled:)-swift.method",
+                "title" : "func union(Path, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/withlength(_:)",
+                "title" : "func withLength(Double) -> Path",
                 "type" : "method"
               },
               {
@@ -2141,6 +2191,40 @@
                 "path" : "\/documentation\/euclid\/path\/cancellationhandler",
                 "title" : "Path.CancellationHandler",
                 "type" : "typealias"
+              },
+              {
+                "title" : "Type Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/convexhull(of:iscancelled:)",
+                "title" : "static func convexHull(of: some Collection<Path>, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/difference(_:iscancelled:)",
+                "title" : "static func difference(some Collection<Path>, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/intersection(_:iscancelled:)-swift.type.method",
+                "title" : "static func intersection(some Collection<Path>, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/minkowskisum(of:iscancelled:)",
+                "title" : "static func minkowskiSum(of: some Collection<Path>, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/symmetricdifference(_:iscancelled:)-swift.type.method",
+                "title" : "static func symmetricDifference(some Collection<Path>, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/union(_:iscancelled:)-swift.type.method",
+                "title" : "static func union(some Collection<Path>, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
               },
               {
                 "title" : "Enumerations",
@@ -2550,6 +2634,15 @@
                 "type" : "init"
               },
               {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/pathpoint\/orientation",
+                "title" : "var orientation: Rotation?",
+                "type" : "property"
+              },
+              {
                 "title" : "Instance Methods",
                 "type" : "groupMarker"
               },
@@ -2636,10 +2729,31 @@
                     "path" : "\/documentation\/euclid\/pathpoint\/!=(_:_:)",
                     "title" : "static func != (borrowing Self, borrowing Self) -> Bool",
                     "type" : "op"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/pathpoint\/==(_:_:)",
+                    "title" : "static func == (PathPoint, PathPoint) -> Bool",
+                    "type" : "op"
                   }
                 ],
                 "path" : "\/documentation\/euclid\/pathpoint\/equatable-implementations",
                 "title" : "Equatable Implementations",
+                "type" : "collection"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/pathpoint\/hash(into:)",
+                    "title" : "func hash(into: inout Hasher)",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/pathpoint\/hashable-implementations",
+                "title" : "Hashable Implementations",
                 "type" : "collection"
               },
               {
@@ -3842,6 +3956,11 @@
                 "type" : "init"
               },
               {
+                "path" : "\/documentation\/euclid\/rotation\/init(forward:up:)",
+                "title" : "init?(forward: Vector, up: Vector)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/rotation\/init(from:to:)",
                 "title" : "init(from: Vector, to: Vector)",
                 "type" : "init"
@@ -4927,6 +5046,11 @@
               {
                 "path" : "\/documentation\/euclid\/vector\/intersects(_:)-6v9sq",
                 "title" : "func intersects(some PointComparable) -> Bool",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/isparallel(to:)",
+                "title" : "func isParallel(to: Vector) -> Bool",
                 "type" : "method"
               },
               {
@@ -6792,16 +6916,6 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/init(_:_:)",
-                "title" : "init(Double, Double)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/color\/init(_:_:_:_:)",
-                "title" : "init(Double, Double, Double, Double)",
-                "type" : "init"
-              },
-              {
                 "path" : "\/documentation\/euclid\/color\/init(hue:saturation:brightness:alpha:)",
                 "title" : "init(hue: Double, saturation: Double, brightness: Double, alpha: Double)",
                 "type" : "init"
@@ -6811,23 +6925,8 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/a",
-                "title" : "var a: Double",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/color\/b",
-                "title" : "var b: Double",
-                "type" : "property"
-              },
-              {
                 "path" : "\/documentation\/euclid\/color\/brightness",
                 "title" : "var brightness: Double",
-                "type" : "property"
-              },
-              {
-                "path" : "\/documentation\/euclid\/color\/g",
-                "title" : "var g: Double",
                 "type" : "property"
               },
               {
@@ -6836,8 +6935,8 @@
                 "type" : "property"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/r",
-                "title" : "var r: Double",
+                "path" : "\/documentation\/euclid\/color\/luminance",
+                "title" : "var luminance: Double",
                 "type" : "property"
               },
               {
@@ -6850,13 +6949,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/lerp(_:_:)",
-                "title" : "func lerp(Color, Double) -> Color",
+                "path" : "\/documentation\/euclid\/color\/composited(over:)",
+                "title" : "func composited(over: Color) -> Color",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/color\/withalpha(_:)",
-                "title" : "func withAlpha(Double) -> Color",
+                "path" : "\/documentation\/euclid\/color\/lerp(_:_:)",
+                "title" : "func lerp(Color, Double) -> Color",
                 "type" : "method"
               },
               {
@@ -8096,6 +8195,11 @@
                   {
                     "path" : "\/documentation\/euclid\/swift\/collection\/clipped(to:iscancelled:)",
                     "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler) -> [LineSegment]",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/swift\/collection\/interpolated(by:)",
+                    "title" : "func interpolated(by: Double) -> Element?",
                     "type" : "method"
                   },
                   {

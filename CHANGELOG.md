@@ -1,5 +1,22 @@
 # Change Log
 
+## [0.10.0](https://github.com/nicklockwood/Euclid/releases/tag/0.10.0) (2026-10-17)
+
+- Raised minimum supported OS versions to macOS 12, iOS 15, tvOS 15, watchOS 9 and visionOS 1.3
+- Added union, difference, intersection and symmetric difference operations for closed, coplanar paths
+- Added `Path.convexHull()` and `Path.minkowskiSum()` methods
+- Added lathing along a path with texture wrap modes and `Path.latheContours(along:)`
+- Added `Path.interpolatedPoint(at:)`, `Path.interpolatedPoint(by:)` and `Path.withLength()` methods
+- Added `PathPoint.orientation` property
+- Added interpolation for collections of `Interpolatable` values
+- Added `Rotation(forward:up:)` initializer and `Vector.isParallel(to:)` method
+- Added `Color.luminance` property and `Color.composited(over:)` method
+- Fixed `Path.length` for compound paths
+- Fixed texture coordinate and contour tilt interpolation when extruding along paths
+- Fixed connectivity precision issue for convex mesh intersections
+- Fixed cancellation for icosphere generation
+- Removed previously deprecated APIs
+
 ## [0.9.6](https://github.com/nicklockwood/Euclid/releases/tag/0.9.6) (2026-09-26)
 
 - Fixed non-zero fill normalization for detailed self-intersecting paths
@@ -183,7 +200,6 @@
 
 - Added `Path.clipped(to mesh:)` method
 - Added `Mesh.mapVertexColors()` method
-- Added `Mesh.init(objString:)` function for importing Wavefront OBJ mesh data
 - Added `Mesh.init(objString:)` function for importing Wavefront OBJ mesh data
 - Added OFF (Object File Format) import and export methods
 - Added memberwise multiplication operators for `Color`
