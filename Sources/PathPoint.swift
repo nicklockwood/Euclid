@@ -33,11 +33,9 @@ import Foundation
 
 /// A point along a path.
 ///
-/// A path point can represent a sharp corner or a curve, and has a ``PathPoint/position``, and optionally
-/// a ``PathPoint/texcoord`` and/or ``PathPoint/color``, but no normal. The
-/// ``PathPoint/isCurved`` property  indicates if the point is sharp or smooth, allowing the normal to
-/// be computed automatically.
-public struct PathPoint: Hashable, Sendable {
+/// A path point can represent a sharp corner or a curve. It has a `position` and optional `color`/`texcoord`.
+/// The `orientation`  is computed automatically when the point is added to a path.
+public struct PathPoint: Sendable {
     /// The position  of the path point.
     public var position: Vector {
         didSet { position = position._quantized() }
@@ -51,6 +49,25 @@ public struct PathPoint: Hashable, Sendable {
 
     /// A Boolean indicating whether the point is curved or sharp.
     public var isCurved: Bool
+
+    /// The path orientation at this point, if known.
+    public internal(set) var orientation: Rotation?
+}
+
+extension PathPoint: Hashable {
+    public static func == (lhs: PathPoint, rhs: PathPoint) -> Bool {
+        lhs.position == rhs.position &&
+            lhs.texcoord == rhs.texcoord &&
+            lhs.color == rhs.color &&
+            lhs.isCurved == rhs.isCurved
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(position)
+        hasher.combine(texcoord)
+        hasher.combine(color)
+        hasher.combine(isCurved)
+    }
 }
 
 extension PathPoint: CustomDebugStringConvertible, CustomReflectable {

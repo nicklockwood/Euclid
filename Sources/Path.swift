@@ -693,11 +693,13 @@ extension Path {
         switch storage {
         case let .points(points):
             assert(sanitizePoints(points) == points)
-            self.storage = storage
+            let computedPlane = plane ?? Plane(points: points.map(\.position))
+            let points = points.withOrientations(faceNormal: computedPlane?.normal)
+            self.storage = .points(points)
             if let plane {
                 assert(points.map(\.position).allSatisfy { plane.intersects($0) })
             }
-            self.plane = plane ?? Plane(points: points.map(\.position))
+            self.plane = computedPlane
         case let .subpaths(subpaths):
             switch subpaths.count {
             case 0:
@@ -1450,5 +1452,57 @@ private extension [PathPoint] {
         }
         let rotated = Array(self[startIndex ..< points.endIndex] + self[points.startIndex ..< startIndex])
         return rotated + [rotated[0]]
+    }
+
+    func withOrientations(faceNormal: Vector?) -> [PathPoint] {
+        guard count > 1 else {
+            return map {
+                var point = $0
+                point.orientation = nil
+                return point
+            }
+        }
+
+        let faceNormal = faceNormal ?? faceNormalForPoints(map(\.position))
+        var result = self
+        let isClosed = pointsAreClosed(unchecked: self)
+        let lastConnectedIndex = isClosed ? count - 2 : count - 1
+
+        func direction(from start: Int, to end: Int) -> Vector? {
+            (self[end].position - self[start].position).direction
+        }
+
+        for index in indices {
+            let incoming: Vector? = if index == 0 {
+                isClosed ? direction(from: lastConnectedIndex, to: 0) : nil
+            } else {
+                direction(from: index - 1, to: index)
+            }
+
+            let outgoing: Vector? = if index == count - 1 {
+                isClosed ? result[0].orientation?.forward : nil
+            } else if isClosed, index == lastConnectedIndex {
+                direction(from: index, to: 0)
+            } else {
+                direction(from: index, to: index + 1)
+            }
+
+            let tangent: Vector? = switch (incoming, outgoing) {
+            case let (incoming?, outgoing?): (incoming + outgoing).direction ?? outgoing
+            case let (nil, outgoing?): outgoing
+            case let (incoming?, nil): incoming
+            case (nil, nil): nil
+            }
+
+            result[index].orientation = tangent.flatMap {
+                Rotation(forward: $0, up: $0.cross(faceNormal))
+            }
+        }
+
+        if isClosed {
+            result[result.count - 1].orientation = result[0].orientation
+        }
+
+        return result
     }
 }

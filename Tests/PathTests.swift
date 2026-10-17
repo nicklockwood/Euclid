@@ -48,6 +48,53 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(path.points.count, 2)
     }
 
+    func testPathPointsHaveOrientations() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1),
+        ])
+        XCTAssertEqual(path.points[0].orientation?.forward, .unitX)
+        XCTAssertEqual(path.points[0].orientation?.up, -.unitY)
+        XCTAssertEqual(path.points[1].orientation?.forward, Vector(1, 1).normalized())
+        XCTAssertEqual(path.points[1].orientation?.up, Vector(1, -1).normalized())
+        XCTAssertEqual(path.points[2].orientation?.forward, .unitY)
+        XCTAssertEqual(path.points[2].orientation?.up, .unitX)
+    }
+
+    func testClosedPathPointOrientationUsesClosingSegment() {
+        let path = Path([
+            .point(0, 0),
+            .point(1, 0),
+            .point(1, 1),
+            .point(0, 1),
+            .point(0, 0),
+        ])
+        XCTAssertEqual(path.points[0].orientation?.forward, Vector(1, -1).normalized())
+        XCTAssertEqual(path.points[0].orientation?.up, Vector(-1, -1).normalized())
+        XCTAssertEqual(path.points.last?.orientation?.forward, path.points[0].orientation?.forward)
+        XCTAssertEqual(path.points.last?.orientation?.up, path.points[0].orientation?.up)
+    }
+
+    func testStandalonePathPointHasNoOrientation() {
+        let point = PathPoint.point(0, 0)
+        XCTAssertNil(point.orientation)
+    }
+
+    func testPathPointOrientation() {
+        let path = Path([
+            .point(0, 0, 0),
+            .point(1, 2, 3),
+            .point(3, 4, 2),
+        ])
+        let tangent = Vector(1, 2, 3).normalized()
+        let orientation = path.points[0].orientation
+        XCTAssertEqual(orientation?.forward, tangent)
+        XCTAssertEqual(orientation?.up, tangent.cross(path.faceNormal).normalized())
+        let interpolated = path.interpolatedPoint(at: 0.5)?.orientation
+        XCTAssertEqual(interpolated, orientation)
+    }
+
     func testLineShorterThanEpsilon() {
         let path = Path([
             .point(0, 1),
