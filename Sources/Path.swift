@@ -181,6 +181,14 @@ public extension Path {
         }
     }
 
+    /// Returns an interpolated point at a normalized distance along the path or subpaths.
+    /// - Parameter t: The fraction of the total path length, from 0 to 1, excluding gaps between subpaths.
+    /// - Returns: An interpolated path point, or `nil` if the path is empty. Values outside 0 to 1
+    ///   are clamped for open paths, or wrapped if all subpaths are closed.
+    func interpolatedPoint(by t: Double) -> PathPoint? {
+        interpolatedPoint(at: t * length)
+    }
+
     /// Returns an interpolated point at the specified distance along the path or subpaths.
     /// - Parameter distance: The distance from the start of the path.
     /// - Returns: An interpolated path point, clamped to the path ends for open paths,

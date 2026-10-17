@@ -95,6 +95,36 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(interpolated, orientation)
     }
 
+    func testInterpolatedPointByNormalizedDistance() {
+        let path = Path([.point(0, 0), .point(1, 0), .point(10, 0)])
+        XCTAssertEqual(path.interpolatedPoint(by: 0.5)?.position, [5, 0])
+        XCTAssertEqual(path.interpolatedPoint(by: 0.5)?.orientation?.forward, .unitX)
+        XCTAssertEqual(path.interpolatedPoint(by: -0.5)?.position, [0, 0])
+        XCTAssertEqual(path.interpolatedPoint(by: 1.5)?.position, [10, 0])
+    }
+
+    func testInterpolatedPointByNormalizedDistanceWraps() {
+        let path = Path([.point(0, 0), .point(1, 0), .point(1, 1), .point(0, 1), .point(0, 0)])
+        XCTAssertEqual(path.interpolatedPoint(by: 1)?.position, [0, 0])
+        XCTAssertEqual(path.interpolatedPoint(by: 1.125)?.position, [0.5, 0])
+        XCTAssertEqual(path.interpolatedPoint(by: -0.125)?.position, [0, 0.5])
+    }
+
+    func testInterpolatedPointByNormalizedDistanceExcludesGaps() {
+        let path = Path(subpaths: [
+            Path([.point(0, 0), .point(1, 0)]),
+            Path([.point(10, 0), .point(10, 3)]),
+        ])
+        XCTAssertEqual(path.interpolatedPoint(by: 0.25)?.position, [1, 0])
+        XCTAssertEqual(path.interpolatedPoint(by: 0.5)?.position, [10, 1])
+    }
+
+    func testInterpolatedPointByNormalizedDistanceForEmptyAndSinglePointPaths() {
+        XCTAssertNil(Path.empty.interpolatedPoint(by: 0.5))
+        let path = Path([.point(3, 4)])
+        XCTAssertEqual(path.interpolatedPoint(by: 0.5)?.position, [3, 4])
+    }
+
     func testInterpolatedPointAtDistanceUsesSegmentOrientation() {
         let path = Path([
             .point(0, 0),
