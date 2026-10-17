@@ -10,6 +10,33 @@
 import XCTest
 
 final class PathTests: XCTestCase {
+    func testWithLength() {
+        let path = Path([.point(1, 1), .point(4, 1), .point(4, 5)])
+        for length in [3.5, 7, 14] {
+            let scaled = path.withLength(length)
+            XCTAssertEqual(scaled.length, length)
+            XCTAssertEqual(scaled.points.map(\.position), path.points.map { $0.position * (length / 7) })
+        }
+    }
+
+    func testWithLengthExcludesSubpathGaps() {
+        let path = Path(subpaths: [
+            Path([.point(0, 0), .point(1, 0)]),
+            Path([.point(10, 0), .point(10, 3)]),
+        ])
+        let scaled = path.withLength(8)
+        XCTAssertEqual(scaled.length, 8)
+        XCTAssertEqual(scaled.subpaths.count, 2)
+        XCTAssertEqual(scaled.subpaths[0].length, 2)
+        XCTAssertEqual(scaled.subpaths[1].length, 6)
+    }
+
+    func testWithLengthForZeroLengthPaths() {
+        XCTAssertEqual(Path.empty.withLength(10), .empty)
+        let path = Path([.point(3, 4)])
+        XCTAssertEqual(path.withLength(10), path)
+    }
+
     // MARK: isSimple
 
     func testSinglePoint() {

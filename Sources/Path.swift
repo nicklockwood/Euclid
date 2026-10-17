@@ -571,6 +571,18 @@ public extension Path {
         Set(orderedEdges.map(LineSegment.init(undirected:)))
     }
 
+    /// Returns a copy of the path uniformly scaled about the origin to the specified length.
+    /// - Parameter length: The target length, excluding gaps between subpaths.
+    /// - Returns: The scaled path, or `self` if its length is zero.
+    /// > Note: Uses the same minimum scale as `scaled(by:)`. Negative lengths also reflect the path.
+    func withLength(_ length: Double) -> Path {
+        let currentLength = self.length
+        guard currentLength > 0 else {
+            return self
+        }
+        return scaled(by: length / currentLength)
+    }
+
     /// Returns the path recentered on the origin.
     func withNormalizedPosition() -> (path: Path, offset: Vector) {
         let offset = points.centroid
