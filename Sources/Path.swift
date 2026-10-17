@@ -181,6 +181,56 @@ public extension Path {
         }
     }
 
+    /// Returns an interpolated point at the specified distance along the path or subpaths.
+    /// - Parameter distance: The distance from the start of the path.
+    /// - Returns: An interpolated path point, clamped to the path ends for open paths,
+    ///   or wrapped around the total length if all subpaths are closed.
+    func interpolatedPoint(at distance: Double) -> PathPoint? {
+        let points = points
+        guard let first = points.first else {
+            return nil
+        }
+        let length = length
+        guard length > 0 else {
+            return first
+        }
+
+        var remaining: Double
+        if isClosed {
+            remaining = distance.truncatingRemainder(dividingBy: length)
+            if remaining < 0 {
+                remaining += length
+            }
+        } else if distance <= 0 {
+            return first
+        } else if distance >= length {
+            return points.last
+        } else {
+            remaining = distance
+        }
+
+        for subpath in subpaths {
+            guard var previousPoint = subpath.points.first else {
+                continue
+            }
+            for point in subpath.points.dropFirst() {
+                let segmentLength = (point.position - previousPoint.position).length
+                if remaining <= segmentLength {
+                    var interpolatedPoint = previousPoint.interpolated(
+                        with: point,
+                        by: segmentLength > 0 ? remaining / segmentLength : 0
+                    )
+                    let tangent = point.position - previousPoint.position
+                    interpolatedPoint.orientation = Rotation(forward: tangent, up: tangent.cross(subpath.faceNormal))
+                    return interpolatedPoint
+                }
+                remaining -= segmentLength
+                previousPoint = point
+            }
+        }
+        return isClosed ? first : points.last
+    }
+
     /// The face normal vector for the path.
     /// > Note: If path is non-planar then this returns an average/approximate normal.
     var faceNormal: Vector {
