@@ -162,22 +162,25 @@ extension Rotation: Interpolatable {
 
     public func interpolated(with other: Rotation, by t: Double) -> Rotation {
         let dot = dot(other).clamped(to: -1 ... 1)
-        if abs(abs(dot) - 1) < epsilon {
-            return (self + (other - self) * t).normalized()
+        let sign: Double = dot < 0 ? -1 : 1
+        let cosine = abs(dot)
+        let lhsWeight: Double
+        let rhsWeight: Double
+        if 1 - cosine < epsilon {
+            lhsWeight = 1 - t
+            rhsWeight = t * sign
+        } else {
+            let theta = acos(cosine)
+            let sine = sin(theta)
+            lhsWeight = sin((1 - t) * theta) / sine
+            rhsWeight = sin(t * theta) / sine * sign
         }
-
-        let theta = acos(dot) * t
-        let t1 = self * cos(theta)
-        let t2 = (other - (self * dot)).normalized() * sin(theta)
-        return t1 + t2
-    }
-
-    static func + (lhs: Rotation, rhs: Rotation) -> Rotation {
-        .init(unchecked: lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w)
-    }
-
-    static func - (lhs: Rotation, rhs: Rotation) -> Rotation {
-        .init(unchecked: lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w)
+        return .init(
+            x * lhsWeight + other.x * rhsWeight,
+            y * lhsWeight + other.y * rhsWeight,
+            z * lhsWeight + other.z * rhsWeight,
+            w * lhsWeight + other.w * rhsWeight
+        )
     }
 
     #endif
