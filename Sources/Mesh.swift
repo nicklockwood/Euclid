@@ -455,6 +455,7 @@ public extension Mesh {
             let merged = polygons
                 .insertingEdgeVertices(with: holeEdges, isCancelled: isCancelled)
                 .mergingVertices(withPrecision: precision, isCancelled: isCancelled)
+                .removingOverlappingSlivers(isCancelled: isCancelled)
             let newEdges = merged.holeEdges(isCancelled: isCancelled)
             if newEdges.count < holeEdges.count {
                 polygons = merged
@@ -574,6 +575,7 @@ public extension Mesh {
                 let capped = (polygons + caps)
                     .insertingEdgeVertices(with: holeEdges, isCancelled: isCancelled)
                     .mergingVertices(withPrecision: epsilon, isCancelled: isCancelled)
+                    .removingOverlappingSlivers(isCancelled: isCancelled)
                 let newEdges = capped.holeEdges(isCancelled: isCancelled)
                 guard newEdges.count < holeEdges.count else {
                     break
@@ -865,6 +867,32 @@ private extension Mesh {
 }
 
 extension [Polygon] {
+    /// Repair can join the boundaries of a sub-tolerance sliver to adjacent faces.
+    /// Remove the redundant face instead of capping its odd-use edges a second time.
+    func removingOverlappingSlivers(isCancelled: CancellationHandler) -> [Polygon] {
+        var uses = [LineSegment: Int]()
+        for polygon in self {
+            guard !isCancelled() else { return self }
+            for edge in polygon.orderedEdges {
+                uses[LineSegment(undirected: edge), default: 0] += 1
+            }
+        }
+        return filter { polygon in
+            guard !isCancelled() else { return true }
+            let edges = polygon.orderedEdges.map(LineSegment.init(undirected:))
+            guard edges.contains(where: { uses[$0, default: 0] > 2 }),
+                  // Do not remove a face that supports an otherwise manifold edge.
+                  edges.allSatisfy({ uses[$0, default: 0] != 2 }),
+                  let longest = edges.max(by: { $0.length < $1.length }),
+                  polygon.vertices.allSatisfy({ longest.intersects($0.position) })
+            else { return true }
+            for edge in edges {
+                uses[edge, default: 0] -= 1
+            }
+            return false
+        }
+    }
+
     /// Group by touching vertices, returning polygon indices in original order.
     var groupedSubmeshIndices: [[Int]] {
         var submeshes = [[Int]]()
