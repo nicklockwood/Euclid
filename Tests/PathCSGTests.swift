@@ -10,6 +10,159 @@
 import XCTest
 
 final class PathCSGTests: XCTestCase {
+    func testPathClippingKeepsOutsideAndSplitReturnsBothPortions() throws {
+        let line = Path([.point(-3, 0), .point(3, 0)])
+        let boundary = Path.square(size: 2)
+        let split = try XCTUnwrap(line.split(along: boundary))
+        XCTAssertEqual(split.inside.length, 2, accuracy: epsilon)
+        XCTAssertEqual(split.outside.length, 4, accuracy: epsilon)
+        XCTAssertEqual(split.outside.subpaths.count, 2)
+        XCTAssertEqual(split.inside.length + split.outside.length, line.length, accuracy: epsilon)
+        XCTAssertTrue(split.outside.points.allSatisfy { abs($0.position.x) >= 1 })
+        XCTAssertEqual(try XCTUnwrap(line.clipped(to: boundary)), split.outside)
+        XCTAssertTrue(try XCTUnwrap(boundary.clipped(to: boundary)).isEmpty)
+        XCTAssertTrue(try XCTUnwrap(Path.square().clipped(to: boundary)).isEmpty)
+        let enclosing = Path.square(size: 4)
+        XCTAssertEqual(try XCTUnwrap(enclosing.clipped(to: boundary)).length, enclosing.length, accuracy: epsilon)
+    }
+
+    func testSplitPathEmptyInvalidAndCancelledInputs() throws {
+        let line = Path([.point(-3, 0), .point(3, 0)])
+        let emptyBoundary = try XCTUnwrap(line.split(along: Path.empty))
+        XCTAssertTrue(emptyBoundary.inside.isEmpty)
+        XCTAssertEqual(emptyBoundary.outside, line)
+        let emptyInput = try XCTUnwrap(Path.empty.split(along: .square()))
+        XCTAssertTrue(emptyInput.inside.isEmpty)
+        XCTAssertTrue(emptyInput.outside.isEmpty)
+        XCTAssertNil(line.split(along: line))
+        XCTAssertNil(line.split(along: Path.square().translated(by: [0, 0, 1])))
+        let checks = CancellationCounter()
+        let cancelled = try XCTUnwrap(line.split(along: .square(), isCancelled: {
+            checks.increment() > 5
+        }))
+        XCTAssertGreaterThan(checks.value, 5)
+        XCTAssertTrue(cancelled.inside.isEmpty)
+        XCTAssertTrue(cancelled.outside.isEmpty)
+    }
+
+    func testSplitOpenPathToClosedPath() throws {
+        let line = Path([.point(-2, 0), .point(2, 0)])
+        let clipped = try XCTUnwrap(line.split(along: .square(size: 2))?.inside)
+        XCTAssertEqual(clipped.bounds, Bounds([-1, 0, 0], [1, 0, 0]))
+        XCTAssertEqual(clipped.length, 2, accuracy: epsilon)
+        XCTAssertFalse(clipped.isClosed)
+        XCTAssertEqual(clipped.subpaths.count, 1)
+        XCTAssertEqual(clipped.points.first?.position, [-1, 0, 0])
+        XCTAssertEqual(clipped.points.last?.position, [1, 0, 0])
+    }
+
+    func testSplitPathPreservesMultipleCrossingsAndSubpaths() throws {
+        let zigzag = Path([.point(-2, -0.5), .point(2, -0.5), .point(2, 0.5), .point(-2, 0.5)])
+        let clipped = try XCTUnwrap(zigzag.split(along: .square(size: 2))?.inside)
+        XCTAssertEqual(clipped.subpaths.count, 2)
+        XCTAssertEqual(clipped.length, 4, accuracy: epsilon)
+        let compound = Path(subpaths: [
+            Path([.point(-2, -0.5), .point(2, -0.5)]),
+            Path([.point(-2, 0.5), .point(2, 0.5)]),
+        ])
+        let result = try XCTUnwrap(compound.split(along: .square(size: 2))?.inside)
+        XCTAssertEqual(result.subpaths.count, 2)
+        XCTAssertEqual(result.length, 4, accuracy: epsilon)
+    }
+
+    func testSplitPathToRegionWithHole() throws {
+        let ring = Path(subpaths: [.square(size: 4), .square(size: 2)])
+        let line = Path([.point(-3, 0), .point(3, 0)])
+        for boundary in [ring, ring.inverted()] {
+            let clipped = try XCTUnwrap(line.split(along: boundary)?.inside)
+            XCTAssertEqual(clipped.subpaths.count, 2)
+            XCTAssertEqual(clipped.length, 2, accuracy: epsilon)
+            XCTAssertEqual(clipped.bounds, Bounds([-2, 0, 0], [2, 0, 0]))
+        }
+    }
+
+    func testSplitPathToConcaveAndDisjointRegions() throws {
+        let uShape = Path([
+            .point(-2, -2),
+            .point(2, -2),
+            .point(2, 2),
+            .point(1, 2),
+            .point(1, -1),
+            .point(-1, -1),
+            .point(-1, 2),
+            .point(-2, 2),
+        ]).closed()
+        let line = Path([.point(-4, 0), .point(4, 0)])
+        let clipped = try XCTUnwrap(line.split(along: uShape)?.inside)
+        XCTAssertEqual(clipped.subpaths.count, 2)
+        XCTAssertEqual(clipped.length, 2, accuracy: epsilon)
+        let disjoint = Path(subpaths: [.square().translated(by: [-2, 0]), .square().translated(by: [2, 0])])
+        let result = try XCTUnwrap(line.split(along: disjoint)?.inside)
+        XCTAssertEqual(result.subpaths.count, 2)
+        XCTAssertEqual(result.length, 2, accuracy: epsilon)
+    }
+
+    func testSplitClosedPathClipsCurvesRatherThanFilledArea() throws {
+        XCTAssertTrue(try XCTUnwrap(Path.square(size: 4).split(along: .square(size: 2))?.inside).isEmpty)
+        let inner = Path.square()
+        XCTAssertEqual(
+            try XCTUnwrap(inner.split(along: .square(size: 2))?.inside).length,
+            inner.length,
+            accuracy: epsilon
+        )
+        let boundary = Path.square(size: 2)
+        XCTAssertEqual(
+            try XCTUnwrap(boundary.split(along: boundary)?.inside).length,
+            boundary.length,
+            accuracy: epsilon
+        )
+    }
+
+    func testSplitPathOnObliquePlane() throws {
+        let rotation = Rotation(roll: .degrees(25), yaw: .degrees(35), pitch: .degrees(45))
+        let offset = Vector(3, -2, 5)
+        let line = Path([.point(-2, 0), .point(2, 0)]).rotated(by: rotation).translated(by: offset)
+        let boundary = Path.square(size: 2).rotated(by: rotation).translated(by: offset)
+        let clipped = try XCTUnwrap(line.split(along: boundary)?.inside)
+        XCTAssertEqual(clipped.length, 2, accuracy: epsilon)
+        XCTAssertTrue(clipped.points.allSatisfy { boundary.plane!.intersects($0.position) })
+    }
+
+    func testSplitPathInterpolatesPointAttributes() throws {
+        let a = PathPoint.curve([-2, 0], texcoord: [0, 0], color: .red)
+        let b = PathPoint.curve([2, 0], texcoord: [1, 0], color: .blue)
+        let clipped = try XCTUnwrap(Path([a, b]).split(along: .square(size: 2))?.inside)
+        XCTAssertEqual(clipped.points.first, a.lerp(b, 0.25))
+        XCTAssertEqual(clipped.points.last, a.lerp(b, 0.75))
+    }
+
+    func testClipCoplanarPathToMeshStillKeepsOutsideFragments() {
+        let line = Path([.point(-2, 0), .point(2, 0)])
+        let mesh = Mesh.fill(.square(size: 2), faces: .frontAndBack)
+        let clipped = line.clipped(to: mesh)
+        XCTAssertEqual(clipped.subpaths.count, 2)
+        XCTAssertEqual(clipped.length, 2, accuracy: epsilon)
+        XCTAssertTrue(clipped.subpaths.allSatisfy { $0.points.allSatisfy { abs($0.position.x) >= 1 } })
+    }
+
+    func testClipPathInvalidEmptyAndCancelledInputs() throws {
+        let line = Path([.point(-2, 0), .point(2, 0)])
+        XCTAssertNil(line.clipped(to: line))
+        XCTAssertNil(line.clipped(to: Path.square().translated(by: [0, 0, 1])))
+        let nonplanar = Path([.point(0, 0), .point(1, 0), .point(1, 1, 1), .point(0, 1)]).closed()
+        XCTAssertNil(line.clipped(to: nonplanar))
+        XCTAssertNil(nonplanar.clipped(to: .square(size: 4)))
+        XCTAssertEqual(try XCTUnwrap(line.clipped(to: Path.empty)), line)
+        XCTAssertTrue(try XCTUnwrap(Path.empty.clipped(to: .square())).isEmpty)
+        XCTAssertTrue(try XCTUnwrap(line.clipped(to: .square(), isCancelled: { true })).isEmpty)
+        let checks = CancellationCounter()
+        let cancelled = line.clipped(to: .square(), isCancelled: {
+            checks.increment() > 5
+        })
+        XCTAssertGreaterThan(checks.value, 5)
+        XCTAssertTrue(try XCTUnwrap(cancelled).isEmpty)
+    }
+
     func testPathHullAndMinkowskiSumOfSquares() throws {
         let a = Path.square(size: 2)
         let b = a.translated(by: [3, 0, 0])

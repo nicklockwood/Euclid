@@ -192,6 +192,35 @@ public extension Path {
         return Path(subpaths: front)
     }
 
+    /// Splits the receiver's curves along a closed, coplanar path. The receiver may be open or closed.
+    /// - Parameters:
+    ///   - path: The closed boundary, including any holes or disjoint contours.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: A pair of paths representing the path fragments that lie inside and outside the boundary.
+    func split(
+        along path: Path,
+        isCancelled: CancellationHandler = { false }
+    ) -> (inside: Path, outside: Path)? {
+        guard !isCancelled(), !isEmpty else { return (.empty, .empty) }
+        guard !path.isEmpty else { return (.empty, self) }
+        guard let plane = Self.csgPlane(for: [path], isCancelled: isCancelled),
+              points.allSatisfy({ plane.intersects($0.position) })
+        else { return isCancelled() ? (.empty, .empty) : nil }
+        let polygons = Mesh.fill(path, faces: .front, isCancelled: isCancelled).polygons
+        var inside = [Path](), outside = [Path]()
+        clip(to: polygons, &inside, &outside, isCancelled)
+        return isCancelled() ? (.empty, .empty) : (Path(subpaths: inside), Path(subpaths: outside))
+    }
+
+    /// Clips away the portions of the receiver inside a closed, coplanar path. The receiver may be open or closed.
+    /// - Parameters:
+    ///   - path: The closed clipping boundary, including any holes or disjoint contours.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: A path consisting of the parts of the original path that lie outside the boundary.
+    func clipped(to path: Path, isCancelled: CancellationHandler = { false }) -> Path? {
+        split(along: path, isCancelled: isCancelled)?.outside
+    }
+
     /// Clip path to the specified mesh.
     /// - Parameters:
     ///   - mesh: The ``Mesh``  to clip the path to.
@@ -451,19 +480,16 @@ private extension Polygon {
         assert(isConvex)
         assert(coplanarPath.compare(with: plane) == .coplanar)
         var path = coplanarPath
-        var coplanar: [Path]! = []
         for (index, plane) in edgePlanes.enumerated() {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
                 return
             }
-            var back: [Path]! = []
+            var coplanar: [Path]! = [], back: [Path]! = []
             path.split(along: plane, &coplanar, &outside, &back, isCancelled)
             back.append(contentsOf: coplanar)
-            guard let p = back.first else {
-                return
-            }
-            path = p
+            guard !back.isEmpty else { return }
+            path = Path(subpaths: back)
         }
-        inside.append(contentsOf: coplanar)
+        inside.append(contentsOf: path.subpaths)
     }
 }
