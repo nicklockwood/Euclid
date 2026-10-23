@@ -201,6 +201,38 @@ final class MeshTests: XCTestCase {
         XCTAssertEqual(polygons.withConsistentWinding(isCancelled: { false }), polygons)
     }
 
+    func testMakeWatertightReconcilesSubdividedNonManifoldEdges() throws {
+        let cubes = Mesh.merge([
+            Mesh.cube().translated(by: [0, 0.5, 0.5]),
+            Mesh.cube().translated(by: [0, -0.5, -0.5]),
+        ])
+        let edge = try XCTUnwrap(LineSegment(start: [-0.5, 0, 0], end: [0.5, 0, 0]))
+        var polygons = cubes.polygons
+        for i in polygons.indices where polygons[i].orderedEdges.contains(edge) {
+            XCTAssertTrue(polygons[i].insertEdgePoint(.zero))
+        }
+        // The two long uses match, as do the pairs of shorter uses, so parity
+        // alone cannot identify this T-junction at the four-face contact.
+        XCTAssertTrue(polygons.areWatertight)
+        XCTAssertFalse(polygons.areConsistentlyWound)
+        for cacheWatertight in [false, true] {
+            let mesh = Mesh(polygons)
+            if cacheWatertight { XCTAssertTrue(mesh.isWatertight) }
+            let oriented = mesh.withConsistentWinding()
+            XCTAssertTrue(oriented.polygons.areConsistentlyWound)
+            XCTAssertEqual(oriented.signedVolume, cubes.signedVolume, accuracy: epsilon)
+            let result = mesh.makeWatertight()
+            XCTAssertTrue(result.isWatertight)
+            XCTAssertTrue(result.polygons.areConsistentlyWound)
+            XCTAssertEqual(result.polygons.count, polygons.count)
+            XCTAssertEqual(result.signedVolume, cubes.signedVolume, accuracy: epsilon)
+            for (before, after) in zip(polygons, result.polygons) {
+                XCTAssertEqual(before.plane, after.plane)
+            }
+            XCTAssertEqual(result.makeWatertight(), result)
+        }
+    }
+
     func testSphereIsWatertightAndConvex() {
         let mesh = Mesh.sphere()
         XCTAssertEqual(mesh.watertightIfSet, true)

@@ -588,9 +588,10 @@ extension [Polygon] {
 
     /// Returns a copy of the polygons with winding made consistent across shared edges.
     ///
-    /// Repair propagates through edges shared by exactly two polygons. Components
-    /// with contradictory orientation constraints, conflicting locked polygons, or
-    /// unresolved non-manifold edge winding are left unchanged.
+    /// Edge subdivisions are reconciled before repair propagates through edges
+    /// shared by exactly two polygons. Components with contradictory orientation
+    /// constraints, conflicting locked polygons, or unresolved non-manifold edge
+    /// winding are left unchanged.
     ///
     /// - Parameter isLocked: A predicate that returns `true` for polygons whose
     ///   current orientation should be preserved. Components containing locked
@@ -603,7 +604,18 @@ extension [Polygon] {
         isCancelled: CancellationHandler
     ) -> [Polygon] {
         guard !isCancelled() else { return self }
-        let edgeMap = windingEdgeMap
+        var polygons = self
+        var edgeMap = windingEdgeMap
+        let mismatchedEdges = Set(edgeMap.compactMap { edge, matches in
+            matches.count > 1 && matches.reduce(0) { $0 + $1.sign } != 0 ? edge : nil
+        })
+        if !mismatchedEdges.isEmpty {
+            // At non-manifold contacts, pairs of long and short edges can each
+            // cancel in the hole check despite having incompatible subdivisions.
+            // Reconcile those T-junctions before inferring face orientations.
+            polygons = insertingEdgeVertices(with: mismatchedEdges, isCancelled: isCancelled)
+            edgeMap = polygons.windingEdgeMap
+        }
         var adjacency = [[(index: Int, parity: Int)]](repeating: [], count: count)
         for (index, matches) in edgeMap.values.enumerated() where matches.count == 2 {
             if index.isMultiple(of: cancellationCheckInterval), isCancelled() {
@@ -684,11 +696,11 @@ extension [Polygon] {
                 pending.append(neighbor)
             }
         }
-        var result = enumerated().map { index, polygon in
+        var result = polygons.enumerated().map { index, polygon in
             let sign = invalidComponents.contains(componentIDs[index]) ? 1 : signs[index]
             return sign < 0 ? polygon.inverted() : polygon
         }
-        if invalidComponents.isEmpty, !hasLockedComponents, signedVolume * result.signedVolume < 0 {
+        if invalidComponents.isEmpty, !hasLockedComponents, polygons.signedVolume * result.signedVolume < 0 {
             result = result.inverted()
         }
         return result
