@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.10.1](https://github.com/nicklockwood/Euclid/releases/tag/0.10.1) (2026-10-23)
+
+- Added `Path.split(along:)` and `Path.clipped(to:)` methods for closed, coplanar path boundaries
+- Fixed coplanar path clipping losing fragments when crossing polygon edges
+- Fixed flat cap normals on convex hulls of curved profiles
+- Fixed `Mesh.makeWatertight()` adding redundant caps over collapsed overlapping slivers
+- Winding repair now preserves components with contradictory winding constraints
+- Improved winding repair for non-manifold meshes with subdivided edges
+
 ## [0.10.0](https://github.com/nicklockwood/Euclid/releases/tag/0.10.0) (2026-10-17)
 
 - Raised minimum supported OS versions to macOS 12, iOS 15, tvOS 15, watchOS 9 and visionOS 1.3

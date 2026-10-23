@@ -55,4 +55,5 @@ A bezier path in three-dimensional space.
 ### Clipping Paths
 
 - ``Path/split(along:isCancelled:)``
-- ``Path/clipped(to:isCancelled:)``
+- ``Path/clipped(to:isCancelled:)->Path``
+- ``Path/clipped(to:isCancelled:)->Path?``

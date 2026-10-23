@@ -1992,6 +1992,25 @@
                 "type" : "method"
               },
               {
+                "title" : "Clipping Paths",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/split(along:iscancelled:)",
+                "title" : "func split(along: Path, isCancelled: CancellationHandler) -> (inside: Path, outside: Path)?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)-80yba",
+                "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler) -> Path",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)-1equi",
+                "title" : "func clipped(to: Path, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
                 "title" : "Initializers",
                 "type" : "groupMarker"
               },
@@ -2071,11 +2090,6 @@
               {
                 "path" : "\/documentation\/euclid\/path\/clipped(to:)",
                 "title" : "func clipped(to: Plane) -> Path",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/path\/clipped(to:iscancelled:)",
-                "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler) -> Path",
                 "type" : "method"
               },
               {
