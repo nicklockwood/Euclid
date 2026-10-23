@@ -588,9 +588,9 @@ extension [Polygon] {
 
     /// Returns a copy of the polygons with winding made consistent across shared edges.
     ///
-    /// The repair is propagated through two-polygon shared edges first, then makes
-    /// bounded balancing passes over non-manifold edges that are shared by more
-    /// than two polygons.
+    /// Repair propagates through edges shared by exactly two polygons. Components
+    /// with contradictory orientation constraints, conflicting locked polygons, or
+    /// unresolved non-manifold edge winding are left unchanged.
     ///
     /// - Parameter isLocked: A predicate that returns `true` for polygons whose
     ///   current orientation should be preserved. Components containing locked
@@ -617,6 +617,7 @@ extension [Polygon] {
         var signs = [Int](repeating: 0, count: count)
         var componentIDs = [Int](repeating: -1, count: count)
         var components = [[Int]]()
+        var invalidComponents = Set<Int>()
         var traversalSteps = 0
         func addComponent(from start: Int) -> Bool {
             let componentID = components.count
@@ -630,12 +631,17 @@ extension [Polygon] {
                 }
                 traversalSteps += 1
                 component.append(index)
+                if locked[index], signs[index] != 1 {
+                    invalidComponents.insert(componentID)
+                }
                 for neighbor in adjacency[index] {
                     let expectedSign = signs[index] * neighbor.parity
                     if componentIDs[neighbor.index] < 0 {
                         signs[neighbor.index] = expectedSign
                         componentIDs[neighbor.index] = componentID
                         queue.append(neighbor.index)
+                    } else if signs[neighbor.index] != expectedSign {
+                        invalidComponents.insert(componentID)
                     }
                 }
             }
@@ -654,44 +660,35 @@ extension [Polygon] {
             component.contains { locked[$0] }
         }
         let hasLockedComponents = componentIsLocked.contains(true)
-        var componentSigns = [Int](repeating: 1, count: components.count)
-        let multiEdgeMatches = inconsistentWindingEdges(in: edgeMap).compactMap {
-            edgeMap[$0]
-        }.filter {
-            $0.count != 2
+        // A non-manifold edge does not determine which sheets belong together.
+        // Never guess by greedily flipping neighboring components. If the proposed
+        // repair cannot balance every shared edge, preserve the connected region.
+        var connections = [[Int]](repeating: [], count: components.count)
+        for matches in edgeMap.values where matches.count > 2 {
+            guard !isCancelled() else { return self }
+            let first = componentIDs[matches[0].index]
+            for match in matches.dropFirst() {
+                let other = componentIDs[match.index]
+                if other != first {
+                    connections[first].append(other)
+                    connections[other].append(first)
+                }
+            }
+            if matches.reduce(0, { $0 + signs[$1.index] * $1.sign }) != 0 {
+                invalidComponents.insert(first)
+            }
         }
-        let maxPasses = multiEdgeMatches.count
-        for pass in 0 ..< maxPasses {
-            if pass.isMultiple(of: cancellationCheckInterval), isCancelled() {
-                return self
-            }
-            var changed = false
-            for matches in multiEdgeMatches {
-                let balance = matches.reduce(0) {
-                    $0 + componentSigns[componentIDs[$1.index]] * signs[$1.index] * $1.sign
-                }
-                guard balance != 0 else {
-                    continue
-                }
-                let signToFlip = balance > 0 ? 1 : -1
-                if let match = matches.first(where: {
-                    let componentID = componentIDs[$0.index]
-                    return !componentIsLocked[componentID] &&
-                        componentSigns[componentID] * signs[$0.index] * $0.sign == signToFlip
-                }) {
-                    componentSigns[componentIDs[match.index]] *= -1
-                    changed = true
-                }
-            }
-            if !changed {
-                break
+        var pending = [Int](invalidComponents)
+        while let component = pending.popLast() {
+            for neighbor in connections[component] where invalidComponents.insert(neighbor).inserted {
+                pending.append(neighbor)
             }
         }
         var result = enumerated().map { index, polygon in
-            let sign = signs[index] * componentSigns[componentIDs[index]]
+            let sign = invalidComponents.contains(componentIDs[index]) ? 1 : signs[index]
             return sign < 0 ? polygon.inverted() : polygon
         }
-        if !hasLockedComponents, signedVolume * result.signedVolume < 0 {
+        if invalidComponents.isEmpty, !hasLockedComponents, signedVolume * result.signedVolume < 0 {
             result = result.inverted()
         }
         return result

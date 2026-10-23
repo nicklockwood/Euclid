@@ -601,6 +601,7 @@ public extension Mesh {
     ///
     /// For closed, non-planar submeshes, the result is also oriented so that the signed volume is positive.
     /// Open or planar surfaces will have locally consistent winding, but their absolute orientation is ambiguous.
+    /// Components with contradictory winding constraints are left unchanged.
     /// - Parameter isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh with consistently wound polygons.
     func withConsistentWinding(isCancelled: CancellationHandler = { false }) -> Mesh {
@@ -613,7 +614,9 @@ public extension Mesh {
             }
             let group = indices.map { polygons[$0] }
             var repaired = group.withConsistentWinding(isCancelled: isCancelled)
-            if repaired.areWatertight, !repaired.arePlanar, repaired.signedVolume < 0 {
+            if repaired.areWatertight, repaired.areConsistentlyWound,
+               !repaired.arePlanar, repaired.signedVolume < 0
+            {
                 repaired = repaired.inverted()
             }
             for (index, polygon) in zip(indices, repaired) {

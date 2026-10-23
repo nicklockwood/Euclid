@@ -150,6 +150,57 @@ final class MeshTests: XCTestCase {
         XCTAssertEqual(result.signedVolume, cube.signedVolume * 2, accuracy: epsilon)
     }
 
+    func testWindingRepairPreservesNonOrientableComponent() {
+        // A triangulated Mobius strip has contradictory shared-edge constraints.
+        let count = 8
+        let vertices = (0 ..< count).flatMap { i -> [Vector] in
+            let angle = Double(i) * .pi * 2 / Double(count)
+            return [-0.25, 0.25].map { width in
+                let radius = 1 + width * cos(angle / 2)
+                return Vector(radius * cos(angle), radius * sin(angle), width * sin(angle / 2))
+            }
+        }
+        let strip = (0 ..< count).flatMap { i -> [Euclid.Polygon] in
+            let a = vertices[i * 2], b = vertices[i * 2 + 1]
+            let c = vertices[i == count - 1 ? 1 : (i + 1) * 2]
+            let d = vertices[i == count - 1 ? 0 : (i + 1) * 2 + 1]
+            return [Polygon([a, b, c])!, Polygon([b, d, c])!]
+        }
+        for offset in strip.indices {
+            let polygons = Array(strip[offset...] + strip[..<offset])
+            XCTAssertEqual(polygons.withConsistentWinding(isCancelled: { false }), polygons)
+        }
+        // An unrelated, orientable component can still be repaired.
+        let cube = Mesh.cube().translated(by: [3, 0, 0]).polygons
+        var polygons = strip + cube
+        polygons[strip.count + 1] = polygons[strip.count + 1].inverted()
+        XCTAssertEqual(polygons.withConsistentWinding(isCancelled: { false }), strip + cube)
+    }
+
+    func testWindingRepairPreservesConflictingLockedFaces() {
+        var polygons = Mesh.cube().polygons
+        polygons[1] = polygons[1].inverted()
+        XCTAssertEqual(polygons.withConsistentWinding(isLocked: { _ in true }, isCancelled: { false }), polygons)
+    }
+
+    func testWindingRepairDoesNotReorientUnrepairableClosedComponent() {
+        let cube = Mesh.cube().inverted()
+        // Duplicate faces create contradictory non-manifold edge winding.
+        // A negative total volume is not sufficient reason to invert this mesh.
+        let mesh = Mesh(cube.polygons + [cube.polygons[0], cube.polygons[0]])
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertFalse(mesh.polygons.areConsistentlyWound)
+        XCTAssertLessThan(mesh.signedVolume, 0)
+        XCTAssertEqual(mesh.withConsistentWinding(), mesh)
+    }
+
+    func testWindingRepairDoesNotGuessAtNonManifoldEdge() {
+        let polygons = [Vector(0, 1, 0), Vector(0, 0, 1), Vector(0, -1, 0)].map {
+            Polygon([Vector.zero, .unitX, $0])!
+        }
+        XCTAssertEqual(polygons.withConsistentWinding(isCancelled: { false }), polygons)
+    }
+
     func testSphereIsWatertightAndConvex() {
         let mesh = Mesh.sphere()
         XCTAssertEqual(mesh.watertightIfSet, true)
