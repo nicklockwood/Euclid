@@ -1155,7 +1155,7 @@ private extension Mesh {
             )
         }
         return Mesh(
-            unchecked: polygons,
+            unchecked: polygons.correctingHullNormals(),
             bounds: nil,
             bsp: nil,
             isConvex: true,
@@ -1318,7 +1318,7 @@ private extension Mesh {
         }
 
         return (Mesh(
-            unchecked: faces.map(\.polygon),
+            unchecked: faces.map(\.polygon).correctingHullNormals(),
             bounds: bounds,
             bsp: nil,
             isConvex: true,
@@ -1480,6 +1480,25 @@ private struct QuickHullFace {
 }
 
 private extension Collection<Polygon> {
+    func correctingHullNormals() -> [Polygon] {
+        arePlanar ? Array(self) : map { polygon in
+            let normal = polygon.plane.normal
+            guard polygon.vertices.contains(where: { $0.normal.dot(normal) <= epsilon }) else {
+                return polygon
+            }
+            return Polygon(
+                unchecked: polygon.vertices.map {
+                    $0.normal.dot(normal) <= epsilon ? $0.withNormal(normal) : $0
+                },
+                plane: polygon.plane,
+                isConvex: polygon.isConvex,
+                sanitizeNormals: false,
+                material: polygon.material,
+                id: polygon.id
+            )
+        }
+    }
+
     var needsHullNormalReconstruction: Bool {
         contains { polygon in
             polygon.vertices.allSatisfy {

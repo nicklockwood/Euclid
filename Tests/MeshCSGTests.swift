@@ -697,6 +697,26 @@ final class MeshCSGTests: XCTestCase {
         XCTAssert(mesh.polygons.areWatertight)
     }
 
+    func testConvexHullOfCurvedProfilesHasFlatCaps() {
+        let a = Path.circle(segments: 32).translated(by: [0, 0, -1])
+        let b = Path.circle(segments: 32).scaled(by: [1, 2, 1]).translated(by: [0, 0, 1])
+        // ShapeScript builds planar hulls for its path children first.
+        let profiles = [a, b].map { Mesh.convexHull(of: [$0]) }
+        for mesh in [Mesh.convexHull(of: [a, b]), Mesh.convexHull(of: profiles)] {
+            let caps = mesh.polygons.filter { abs($0.plane.normal.z) > 1 - epsilon }
+            XCTAssertFalse(caps.isEmpty)
+            for cap in caps {
+                for vertex in cap.vertices {
+                    XCTAssertEqual(vertex.normal, cap.plane.normal)
+                }
+            }
+            let sides = mesh.polygons.filter { abs($0.plane.normal.z) < 1 - epsilon }
+            XCTAssertTrue(sides.contains { polygon in
+                polygon.vertices.contains { !$0.normal.isApproximatelyEqual(to: polygon.plane.normal) }
+            })
+        }
+    }
+
     func testConvexHullOfPaths() {
         let detail = 16
         let a = Mesh.sphere(slices: detail)
