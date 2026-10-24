@@ -38,6 +38,18 @@ final class PolygonCSGTests: XCTestCase {
 
     // MARK: Plane splitting
 
+    func testSplittingPreservesIntentionallyThinPolygon() throws {
+        let polygon = try XCTUnwrap(Polygon([
+            [-1, 0], [1, 0], [1, 1e-9], [-1, 1e-9],
+        ], material: Color.red))
+        let split = polygon.split(along: Plane(unchecked: .unitX, pointOnPlane: .zero))
+        XCTAssertEqual(split.front.count, 1)
+        XCTAssertEqual(split.back.count, 1)
+        XCTAssertEqual(split.front.first?.material, polygon.material)
+        XCTAssertEqual(split.back.first?.material, polygon.material)
+        XCTAssertEqual((split.front + split.back).reduce(0) { $0 + $1.area }, polygon.area, accuracy: 1e-12)
+    }
+
     func testSquareSplitAlongPlane() {
         let a = Path.square().facePolygons()[0]
         let plane = Plane(unchecked: .unitX, pointOnPlane: .zero)

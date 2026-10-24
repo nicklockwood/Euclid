@@ -382,7 +382,12 @@ public extension Polygon {
         if vertices.count <= maxSides, isConvex {
             return [self]
         }
-        let polygons = triangulate(isCancelled: isCancelled)
+        var polygons = triangulate(isCancelled: isCancelled)
+        if !verticesAreCollinear(vertices) {
+            // Nearly collinear boundary vertices can produce zero-width ears. Do not merge
+            // those into folded polygons that overlap the surrounding faces during CSG.
+            polygons.removeAll { verticesAreCollinear($0.vertices) }
+        }
         if maxSides == 3 {
             return polygons
         }

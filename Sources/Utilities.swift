@@ -168,6 +168,19 @@ func verticesAreDegenerate(_ vertices: some Collection<Vertex>) -> Bool {
     return pointsAreDegenerate(positions) || pointsAreSelfIntersecting(positions)
 }
 
+/// Returns true if all vertices lie within `epsilon` of a single line.
+func verticesAreCollinear(_ vertices: [Vertex]) -> Bool {
+    guard let first = vertices.first,
+          let furthest = vertices.max(by: {
+              ($0.position - first.position).lengthSquared < ($1.position - first.position).lengthSquared
+          }),
+          let line = Line(origin: first.position, direction: furthest.position - first.position)
+    else {
+        return true
+    }
+    return vertices.allSatisfy { line.intersects($0.position) }
+}
+
 func verticesAreConvex(_ vertices: some Collection<Vertex>) -> Bool {
     guard vertices.count > 3 else {
         return vertices.count > 2

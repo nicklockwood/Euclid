@@ -832,6 +832,17 @@ final class PolygonTests: XCTestCase {
         XCTAssertEqual(Set(triangles.flatMap(\.vertices)), Set(inverted.vertices))
     }
 
+    func testTessellationPreservesIntentionallyThinPolygon() throws {
+        // Keep the area above the triangulation tolerance while the width is below epsilon.
+        let polygon = try XCTUnwrap(Polygon([
+            [-1000, 0], [0, 0], [1000, 0], [1000, 1e-9], [-1000, 1e-9],
+        ], material: Color.red))
+        let triangles = polygon.tessellate(maxSides: 3)
+        XCTAssertEqual(triangles.count, 3)
+        XCTAssertTrue(triangles.allSatisfy { $0.material == polygon.material })
+        XCTAssertEqual(triangles.reduce(0) { $0 + $1.area }, polygon.area, accuracy: 1e-12)
+    }
+
     func testHouseShapedPolygonCorrectlyTriangulated() {
         let normal = -Vector.unitZ
         guard let polygon = Polygon([
