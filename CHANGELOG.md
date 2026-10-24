@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.10.2](https://github.com/nicklockwood/Euclid/releases/tag/0.10.2) (2026-10-24)
+
+- Fixed collapsed tessellation slivers causing overlapping faces and non-manifold CSG repairs
+
 ## [0.10.1](https://github.com/nicklockwood/Euclid/releases/tag/0.10.1) (2026-10-23)
 
 - Added `Path.split(along:)` and `Path.clipped(to:)` methods for closed, coplanar path boundaries
