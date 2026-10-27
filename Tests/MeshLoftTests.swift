@@ -10,6 +10,56 @@
 import XCTest
 
 final class MeshLoftTests: XCTestCase {
+    func testTwistedLoftHoleWindingDoesNotChangeVolume() {
+        /// A square from (a, a) to (b, b), counter-clockwise.
+        func square(_ a: Double, _ b: Double) -> [(Double, Double)] { [(a, a), (b, a), (b, b), (a, b)] }
+
+        /// Rings scaled and turned about the origin from bottom to top, lofted.
+        func loft(
+            _ contours: [[(Double, Double)]],
+            sections: Int,
+            depth: Double,
+            twist: Double,
+            taper: Double
+        ) -> Mesh {
+            let rings = (0 ... sections).map { s -> Path in
+                let along = Double(s) / Double(sections)
+                let scale = 1 + (taper - 1) * along
+                let angle = twist * along * .pi / 180
+                let paths = contours.map { contour -> Path in
+                    let points = contour.map { u, v -> PathPoint in
+                        let (x, y) = (u * scale, v * scale)
+                        return .point(Vector(
+                            x * cos(angle) - y * sin(angle),
+                            x * sin(angle) + y * cos(angle),
+                            depth * along
+                        ))
+                    }
+                    return Path(points + [points[0]])
+                }
+                return paths.count == 1 ? paths[0] : Path(subpaths: paths)
+            }
+            return Mesh.loft(rings)
+        }
+
+        let outer = square(-10, 10), hole = square(2, 6)
+        for twist in [-45.0, 0, 45] {
+            for depth in [-10.0, 10] {
+                let solid = loft([outer], sections: 19, depth: depth, twist: twist, taper: 0.5)
+                for contours in [
+                    [outer, hole],
+                    [outer, hole.reversed()],
+                    [outer.reversed(), hole],
+                    [outer.reversed(), hole.reversed()],
+                ] {
+                    let mesh = loft(contours, sections: 19, depth: depth, twist: twist, taper: 0.5)
+                    XCTAssertEqual(mesh.signedVolume, solid.signedVolume * 0.96, accuracy: 1e-8)
+                    XCTAssertTrue(mesh.makeWatertight().isWatertight)
+                }
+            }
+        }
+    }
+
     func testLoftCoplanarFaces() {
         let shapes = [
             Path.square(),

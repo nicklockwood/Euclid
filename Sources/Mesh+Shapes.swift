@@ -1844,7 +1844,12 @@ private extension Mesh {
                     (transform(vertex.position + vertex.normal) - position).normalized()
                 return Vertex(unchecked: position, normal, vertex.texcoord, vertex.color)
             }
-            func sidePolygons(_ vertices: [Vertex]) -> [Polygon] {
+            func sidePolygons(_ vertices: [Vertex], inverted: Bool = false) -> [Polygon] {
+                // Choose the side-wall diagonal in the direction of the loft before
+                // restoring contour winding. Reversing a section must not change its volume.
+                if inverted {
+                    return sidePolygons(Array(vertices.reversed())).inverted()
+                }
                 func triangulatedSidePolygons(_ vertices: [Vertex]) -> [Polygon] {
                     triangulateVertices(
                         vertices,
@@ -1973,7 +1978,7 @@ private extension Mesh {
                             v0, by: transform1, from: n1, isCurved: curveend,
                             uv: uvend, attributes: attributes1?.0
                         ),
-                    ])
+                    ], inverted: direction.dot(shape0.faceNormal) < 0)
                     let edge = LineSegment(unchecked: v0.position, v1.position)
                     let transformedEdge = LineSegment(
                         unchecked: transform0(v0.position),
