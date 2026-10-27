@@ -223,6 +223,9 @@ public extension Path {
             }
             for point in subpath.points.dropFirst() {
                 let segmentLength = (point.position - previousPoint.position).length
+                let tolerance = min(epsilon, segmentLength / 2)
+                if remaining < tolerance { return previousPoint }
+                if abs(remaining - segmentLength) < tolerance { return point }
                 if remaining <= segmentLength {
                     var interpolatedPoint = previousPoint.interpolated(
                         with: point,

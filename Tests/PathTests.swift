@@ -164,6 +164,55 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(point?.orientation?.up, .unitX)
     }
 
+    func testInterpolatedPointAtVerticesRetainsOrientation() {
+        let path = Path.square()
+        for index in 0 ..< 4 {
+            let distance = Double(index)
+            for offset in [-4.0, 0, 4] {
+                XCTAssertEqual(path.interpolatedPoint(at: distance + offset), path.points[index])
+                XCTAssertEqual(
+                    path.interpolatedPoint(at: distance + offset)?.orientation,
+                    path.points[index].orientation
+                )
+            }
+            XCTAssertEqual(path.interpolatedPoint(by: distance / 4), path.points[index])
+            XCTAssertEqual(path.interpolatedPoint(by: distance / 4)?.orientation, path.points[index].orientation)
+        }
+    }
+
+    func testInterpolatedPointNearVerticesRetainsOrientation() {
+        let path = Path.square()
+        for index in 0 ..< 4 {
+            for offset in [-epsilon / 2, epsilon / 2] {
+                XCTAssertEqual(path.interpolatedPoint(at: Double(index) + offset), path.points[index])
+                XCTAssertEqual(
+                    path.interpolatedPoint(at: Double(index) + offset)?.orientation,
+                    path.points[index].orientation
+                )
+            }
+        }
+    }
+
+    func testInterpolatedPointAtOpenPathCornerRetainsOrientation() {
+        let path = Path([.point(0, 0), .point(1, 0), .point(1, 1)])
+        for distance in [Double(1).nextDown, 1.0, Double(1).nextUp] {
+            XCTAssertEqual(path.interpolatedPoint(at: distance), path.points[1])
+            XCTAssertEqual(path.interpolatedPoint(at: distance)?.orientation, path.points[1].orientation)
+        }
+        XCTAssertEqual(path.interpolatedPoint(at: 0.5)?.orientation?.forward, .unitX)
+        XCTAssertEqual(path.interpolatedPoint(at: 1.5)?.orientation?.forward, .unitY)
+    }
+
+    func testInterpolatedPointAtShortEdgeMidpointUsesSegmentOrientation() {
+        let path = Path([.point(0, 0), .point(epsilon, 0)])
+        let first = path.points[0].position
+        let second = path.points[1].position
+        let distance = (second - first).length / 2
+        let sample = path.interpolatedPoint(at: distance)
+        XCTAssertEqual(sample?.position, (first + second) / 2)
+        XCTAssertEqual(sample?.orientation?.forward, (second - first).normalized())
+    }
+
     func testInterpolatedPointAtDistanceClampsForOpenPath() {
         let path = Path([
             .point(0, 0),
@@ -223,7 +272,7 @@ final class PathTests: XCTestCase {
         let path = Path(subpaths: [first, second])
         XCTAssertEqual(path.length, 8)
         XCTAssertEqual(path.interpolatedPoint(at: 4)?.position, [0, 0])
-        XCTAssertEqual(path.interpolatedPoint(at: 4)?.orientation?.forward, -.unitY)
+        XCTAssertEqual(path.interpolatedPoint(at: 4)?.orientation, first.points[0].orientation)
         XCTAssertEqual(path.interpolatedPoint(at: 4.5)?.position, [10.5, 0])
         XCTAssertEqual(path.interpolatedPoint(at: 8.5)?.position, [0.5, 0])
         XCTAssertEqual(path.interpolatedPoint(at: -0.5)?.position, [10, 0.5])
