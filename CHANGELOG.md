@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.10.3](https://github.com/nicklockwood/Euclid/releases/tag/0.10.3) (2026-10-27)
+
+- Fixed path sampling at existing vertices losing point orientations
+- Fixed twisted loft volume changing when contour winding is reversed
+- Fixed polygon triangulation accepting degenerate ears when clipping projected polygons
+
 ## [0.10.2](https://github.com/nicklockwood/Euclid/releases/tag/0.10.2) (2026-10-24)
 
 - Fixed collapsed tessellation slivers causing overlapping faces and non-manifold CSG repairs

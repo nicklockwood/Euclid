@@ -973,9 +973,7 @@ public extension Mesh {
 }
 
 private extension Collection<Path> {
-    func normalizingCompoundPathsForLoft(
-        isCancelled: Euclid.CancellationHandler
-    ) -> (
+    func normalizingCompoundPathsForLoft(isCancelled: Euclid.CancellationHandler) -> (
         shapes: [Path],
         usesMeshableNonZeroBoundary: Bool,
         usesOddEvenBoundary: Bool
@@ -1037,22 +1035,16 @@ private extension Collection<Path> {
 private extension Path {
     var removingRepeatedClosedPrefixTailForMeshing: Path {
         let subpaths = subpaths
-        if subpaths.count > 1,
-           let first = subpaths.first,
-           first.isClosed,
-           first.points.count > 256
-        {
+        if subpaths.count > 1, let first = subpaths.first, first.isClosed, first.points.count > 256 {
             let tail = subpaths.dropFirst().flatMap(\.points).map(\.position)
             let contour = first.points.dropLast(first.isClosed ? 1 : 0).map(\.position)
-            if !tail.isEmpty, tail.count <= contour.count,
-               contour.indices.contains(where: { start in
-                   tail.indices.allSatisfy { tailIndex in
-                       tail[tailIndex].isApproximatelyEqual(
-                           to: contour[(start + tailIndex) % contour.count]
-                       )
-                   }
-               })
-            {
+            if !tail.isEmpty, tail.count <= contour.count, contour.indices.contains(where: { start in
+                tail.indices.allSatisfy { tailIndex in
+                    tail[tailIndex].isApproximatelyEqual(
+                        to: contour[(start + tailIndex) % contour.count]
+                    )
+                }
+            }) {
                 return first
             }
         }
@@ -1134,20 +1126,11 @@ private extension Path {
         } else if shape.hasRepairableCoincidentContours {
             // Fill may need a rebuilt non-zero boundary instead of odd-even composition.
             // Compound paths only use this for SVG-style contours with coincident points.
-            let nonZeroFillPolygons = shape.nonZeroFillPolygons(
-                material: material,
-                isCancelled: isCancelled
-            )
+            let nonZeroFillPolygons = shape.nonZeroFillPolygons(material: material, isCancelled: isCancelled)
             if shape.filledAreaBoundary(from: nonZeroFillPolygons).subpaths.count > 1 {
-                polygons = shape.nonZeroFillCapPolygons(
-                    nonZeroFillPolygons,
-                    isCancelled: isCancelled
-                )
+                polygons = shape.nonZeroFillCapPolygons(nonZeroFillPolygons, isCancelled: isCancelled)
             } else {
-                polygons = shape.oddEvenFillPolygons(
-                    material: material,
-                    isCancelled: isCancelled
-                )
+                polygons = shape.oddEvenFillPolygons(material: material, isCancelled: isCancelled)
             }
         } else {
             polygons = shape.oddEvenFillPolygons(
@@ -1161,10 +1144,7 @@ private extension Path {
     /// Returns an edge-aligned non-zero fill boundary when it can safely replace this path for
     /// mesh generation. Some boundaries merge or reorder subpaths in ways that break side matching.
     func meshableNonZeroFillBoundary(isCancelled: CancellationHandler) -> Path? {
-        if subpaths.count == 1, !usesNonZeroFill {
-            return nil
-        }
-        guard isClosed else {
+        if subpaths.count == 1 && !usesNonZeroFill || !isClosed {
             return nil
         }
         let polygons = nonZeroFillPolygons(material: nil, isCancelled: isCancelled)
@@ -1195,9 +1175,7 @@ private extension Path {
             return pointsAreAllCurved && boundary.subpathsTouchOrIntersect
         }
         if hasCurvedPoints {
-            return boundary.subpaths.count > 1 &&
-                subpathsTouchOrIntersect &&
-                hasRepairableCoincidentContours
+            return boundary.subpaths.count > 1 && subpathsTouchOrIntersect && hasRepairableCoincidentContours
         }
         return boundary.subpaths.count > 1 && (
             !subpathsTouchOrIntersect || hasRepairableCoincidentContours
@@ -1303,20 +1281,14 @@ private extension Path {
 
     /// Builds cap polygons directly from the scanline non-zero fill, then inserts
     /// any split edge vertices needed to match side-wall boundary edges.
-    func nonZeroFillCapPolygons(
-        material: Mesh.Material?,
-        isCancelled: CancellationHandler
-    ) -> [Polygon] {
+    func nonZeroFillCapPolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon] {
         nonZeroFillCapPolygons(
             nonZeroFillPolygons(material: material, isCancelled: isCancelled),
             isCancelled: isCancelled
         )
     }
 
-    func nonZeroFillCapPolygons(
-        _ polygons: [Polygon],
-        isCancelled: CancellationHandler
-    ) -> [Polygon] {
+    func nonZeroFillCapPolygons(_ polygons: [Polygon], isCancelled: CancellationHandler) -> [Polygon] {
         let precision = max(bounds.size.length * 1e-9, epsilon)
         return polygons.count > 1 ? polygons
             .insertingEdgeVertices(with: polygons.holeEdges, isCancelled: isCancelled)
@@ -1713,11 +1685,7 @@ private extension Mesh {
             }
             return edges.compactMap { $0 }
         }
-        func sourceVertices(
-            at p0: Vector,
-            _ p1: Vector,
-            on source: (Vertex, Vertex)
-        ) -> (Vertex, Vertex) {
+        func sourceVertices(at p0: Vector, _ p1: Vector, on source: (Vertex, Vertex)) -> (Vertex, Vertex) {
             let sourceEdge = LineSegment(unchecked: source.0.position, source.1.position)
             func vertex(at position: Vector) -> Vertex {
                 let distance = (position - sourceEdge.start).dot(sourceEdge.direction)
@@ -1726,11 +1694,7 @@ private extension Mesh {
             }
             return (vertex(at: p0), vertex(at: p1))
         }
-        func sourceEdgeIndex(
-            at p0: Vector,
-            _ p1: Vector,
-            in edges: [(Vertex, Vertex)]
-        ) -> Int? {
+        func sourceEdgeIndex(at p0: Vector, _ p1: Vector, in edges: [(Vertex, Vertex)]) -> Int? {
             edges.firstIndex(where: {
                 let edge = LineSegment(unchecked: $0.0.position, $0.1.position)
                 return edge.intersects(p0) && edge.intersects(p1)
@@ -1999,9 +1963,7 @@ private extension Mesh {
                 uvstart = uvend
             }
             if useMeshableNonZeroBoundary, first?.hasCurvedPoints == true {
-                let capPoints = firstCapPolygons.flatMap {
-                    $0.vertices.map(\.position)
-                }
+                let capPoints = firstCapPolygons.flatMap { $0.vertices.map(\.position) }
                 accumulatedSidePolygons = accumulatedSidePolygons.insertingEdgePoints(
                     capPoints,
                     isCancelled: isCancelled
@@ -2064,19 +2026,17 @@ private extension Mesh {
             isCancelled: isCancelled
         )
         let isClosed = shapes.first == shapes.last
-        if isClosed, !preserveEvenOddWinding {
-            let submeshIndices = polygons.groupedSubmeshIndices
-            if submeshIndices.count > 1 {
-                for indices in submeshIndices {
-                    let submesh = indices.map { polygons[$0] }
-                    if submesh.areWatertight, !submesh.arePlanar, submesh.signedVolume < 0 {
-                        for index in indices {
-                            polygons[index] = polygons[index].inverted()
-                        }
+        if isClosed, !preserveEvenOddWinding,
+           case let submeshIndices = polygons.groupedSubmeshIndices,
+           submeshIndices.count > 1
+        {
+            for indices in submeshIndices {
+                let submesh = indices.map { polygons[$0] }
+                if submesh.areWatertight, !submesh.arePlanar, submesh.signedVolume < 0 {
+                    for index in indices {
+                        polygons[index] = polygons[index].inverted()
                     }
                 }
-            } else if polygons.signedVolume < 0 {
-                polygons = polygons.inverted()
             }
         } else if polygons.signedVolume < 0 {
             polygons = polygons.inverted()
