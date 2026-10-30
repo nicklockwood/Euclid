@@ -1992,6 +1992,25 @@
                 "type" : "method"
               },
               {
+                "title" : "Interpolating Paths",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/interpolatedpoint(at:)",
+                "title" : "func interpolatedPoint(at: Double) -> PathPoint?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/interpolatedpoint(by:)",
+                "title" : "func interpolatedPoint(by: Double) -> PathPoint?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/interpolated(from:to:step:iscancelled:)",
+                "title" : "func interpolated(from: Double, to: Double?, step: Double?, isCancelled: CancellationHandler) -> Path",
+                "type" : "method"
+              },
+              {
                 "title" : "Clipping Paths",
                 "type" : "groupMarker"
               },
@@ -2115,16 +2134,6 @@
               {
                 "path" : "\/documentation\/euclid\/path\/inset(by:iscancelled:)",
                 "title" : "func inset(by: Double, isCancelled: CancellationHandler) -> Path",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/path\/interpolatedpoint(at:)",
-                "title" : "func interpolatedPoint(at: Double) -> PathPoint?",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/path\/interpolatedpoint(by:)",
-                "title" : "func interpolatedPoint(by: Double) -> PathPoint?",
                 "type" : "method"
               },
               {

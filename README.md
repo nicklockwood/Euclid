@@ -35,13 +35,13 @@ Euclid is available as a Swift package or a dynamic framework that you can impor
 To install using Carthage, add this to your Cartfile:
 
 ```ogdl
-github "nicklockwood/Euclid" ~> 0.10.3
+github "nicklockwood/Euclid" ~> 0.10.4
 ```
 
 To install using Swift Package Manager, add this to the `dependencies:` section in your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.10.3")),
+.package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.10.4")),
 ```
 
 

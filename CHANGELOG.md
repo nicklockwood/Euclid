@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.10.4](https://github.com/nicklockwood/Euclid/releases/tag/0.10.4) (2026-10-30)
+
+- Added `Path.interpolated(from:to:step:isCancelled:)` for distance-based slicing and resampling
+
 ## [0.10.3](https://github.com/nicklockwood/Euclid/releases/tag/0.10.3) (2026-10-27)
 
 - Fixed path sampling at existing vertices losing point orientations

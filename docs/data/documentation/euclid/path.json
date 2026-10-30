@@ -388,6 +388,15 @@
       "title" : "Transforming Paths"
     },
     {
+      "anchor" : "Interpolating-Paths",
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/interpolatedPoint(at:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/interpolatedPoint(by:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/interpolated(from:to:step:isCancelled:)"
+      ],
+      "title" : "Interpolating Paths"
+    },
+    {
       "anchor" : "Clipping-Paths",
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/split(along:isCancelled:)",
@@ -433,8 +442,6 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/extrusionContours(along:twist:align:miterLimit:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:isCancelled:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/interpolatedPoint(at:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/interpolatedPoint(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/intersection(_:isCancelled:)-swift.method",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inverted()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/latheContours(along:slices:miterLimit:)",
@@ -2853,6 +2860,143 @@
   "title" : "inset(by:isCancelled:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/inset(by:iscancelled:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/interpolated(from:to:step:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Select distances independently within each subpath, retaining original interior points.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Open paths clamp to their endpoints; closed paths wrap. Omitted ends select a full",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "circuit for closed paths, or the remaining portion of an open path.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Point orientations are sampled from the source path. Later operations may recalculate them.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Descending bounds reverse the selected path and its orientations.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "interpolated"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "from"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "step"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/interpolated(from:to:step:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "interpolated(from:to:step:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/interpolated(from:to:step:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/interpolatedPoint(at:)": {
   "abstract" : [
