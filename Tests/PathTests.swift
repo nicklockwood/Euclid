@@ -1498,3 +1498,104 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(cancellationChecks, 1)
     }
 }
+
+extension PathTests {
+    func testInterpolatedPathClampsWrapsAndPreservesSubpaths() throws {
+        let square = Path.square()
+        for i in 0 ..< 100 {
+            let start = square.length * Double(i) / 100
+            let slice = square.interpolated(from: start)
+            XCTAssertEqual(slice.subpaths.count, 1)
+            XCTAssertTrue(slice.isClosed)
+            XCTAssertEqual(slice.length, square.length, accuracy: 1e-8)
+        }
+        let open = Path([.point(0, 0), .point(1, 0), .point(1, 1)])
+        XCTAssertEqual(open.interpolated(from: -1, to: 3).points, open.points)
+        XCTAssertEqual(open.interpolated(from: 1, to: 1).points.count, 1)
+        XCTAssertEqual(open.interpolated(from: 1, to: 1).points.first?.orientation, open.points[1].orientation)
+        XCTAssertEqual(Path.empty.interpolated(from: 1), .empty)
+        XCTAssertEqual(open.interpolated(from: .infinity), .empty)
+        let loops = square.interpolated(from: 0.5, to: 8.5)
+        XCTAssertEqual(loops.subpaths.count, 2)
+        XCTAssertEqual(loops.length, 8, accuracy: 1e-8)
+        let compound = Path(subpaths: [square, open.translated(by: [5, 0])])
+        let sliced = compound.interpolated(from: 0.25)
+        XCTAssertEqual(sliced.subpaths.count, 2)
+        XCTAssertTrue(sliced.subpaths[0].isClosed)
+        XCTAssertFalse(sliced.subpaths[1].isClosed)
+        let decoded = try JSONDecoder().decode(Path.self, from: JSONEncoder().encode(sliced))
+        XCTAssertEqual(decoded, sliced)
+    }
+
+    func testResampledPathPreservesSourceOrientations() throws {
+        let paths = [
+            Path.square(),
+            Path.circle(segments: 32).rotated(by: Rotation(pitch: .degrees(37), yaw: .degrees(23))),
+            Path([.point(0, 0, 0), .point(1, 0, 0), .point(1, 1, 0), .point(1, 1, 1)]),
+        ]
+        for path in paths {
+            for start in [0.0, 0.23, 1.0] {
+                for step in [0.13, 0.7, 1.0] {
+                    let end = min(start + 1.9, path.length)
+                    let sampled = path.interpolated(from: start, to: end, step: step)
+                    let decoded = try JSONDecoder().decode(Path.self, from: JSONEncoder().encode(sampled))
+                    XCTAssertEqual(sampled, decoded)
+                    for (index, point) in sampled.points.enumerated() {
+                        let expected = try XCTUnwrap(path.interpolatedPoint(at: start + Double(index) * step))
+                        XCTAssertLessThan((point.position - expected.position).length, 1e-8)
+                        let actualFrame = try XCTUnwrap(point.orientation)
+                        let expectedFrame = try XCTUnwrap(expected.orientation)
+                        XCTAssertLessThan((actualFrame.forward - expectedFrame.forward).length, 1e-8)
+                        XCTAssertLessThan((actualFrame.up - expectedFrame.up).length, 1e-8)
+                    }
+                }
+            }
+        }
+    }
+
+    func testInterpolatedPathDoesNotRetainSourceContext() throws {
+        let source = Path.square()
+        let sampled = source.interpolated(step: 0.7)
+        let rebuilt = Path(sampled.points)
+        XCTAssertEqual(sampled, rebuilt)
+        XCTAssertNotEqual(sampled.points.map(\.orientation), rebuilt.points.map(\.orientation))
+        let decoded = try JSONDecoder().decode(Path.self, from: JSONEncoder().encode(sampled))
+        XCTAssertEqual(decoded.points.map(\.orientation), rebuilt.points.map(\.orientation))
+        let compound = Path(subpaths: [source, source.translated(by: [3, 0])])
+        let result = compound.interpolated(from: 0.25, to: 1.25, step: 0.5)
+        XCTAssertEqual(result.subpaths.count, 2)
+        for (original, slice) in zip(compound.subpaths, result.subpaths) {
+            for (index, point) in slice.points.enumerated() {
+                XCTAssertEqual(
+                    point.orientation,
+                    original.interpolatedPoint(at: 0.25 + Double(index) * 0.5)?.orientation
+                )
+            }
+        }
+    }
+
+    func testResampledPathEndpointsAndInvalidSteps() throws {
+        let path = Path([.point(0, 0), .point(1, 0)])
+        XCTAssertEqual(path.interpolated(step: 0.3).points.count, 4)
+        XCTAssertEqual(path.interpolated(step: 0.25).points.count, 5)
+        XCTAssertEqual(
+            path.interpolated(step: -0.25).points.map(\.position),
+            path.interpolated(step: 0.25).points.reversed().map(\.position)
+        )
+        let backwards = path.interpolated(step: -0.25)
+        let reversed = path.interpolated(step: 0.25).inverted()
+        for (a, b) in zip(backwards.points, reversed.points) {
+            let actual = try XCTUnwrap(a.orientation)
+            let expected = try XCTUnwrap(b.orientation)
+            XCTAssertLessThan((actual.forward - expected.forward).length, 1e-8)
+            XCTAssertLessThan((actual.up - expected.up).length, 1e-8)
+        }
+        for step in [0, Double.infinity, .nan] {
+            XCTAssertEqual(path.interpolated(step: step), .empty)
+        }
+        XCTAssertEqual(path.interpolated(step: 1e-12, isCancelled: { true }), .empty)
+        let closed = Path.square().interpolated(from: 0.23, step: 0.7)
+        XCTAssertTrue(closed.isClosed)
+        XCTAssertEqual(closed.points.first?.orientation, closed.points.last?.orientation)
+    }
+}
