@@ -38,7 +38,7 @@ Currently, material serialization works for `String`s, `Int`s, `Color` and any c
 
 `Color(cgColor)`, `Color(nsColor)`, and `Color(uiColor)` convert their input from its declared color space to sRGB. Conversely, `NSColor(color)` and `UIColor(color)` interpret Euclid components as sRGB. Use the `colorSpace:` overloads for another RGB space. Passing `nil` explicitly copies components without conversion on input and uses the platform's original RGB initializer on output.
 
-Use `toLinear()` for linear-light calculations and `toSRGB()` to encode their results. These transfer functions leave alpha unchanged and preserve extended-range values. RealityKit material tint multiplication is performed in linear light. Raw OBJ/OFF/STL color components have no reliable color profile. Callers must convert according to their source's convention when known.
+Use `toLinear()` for linear-light calculations and `toSRGB()` to encode their results. These transfer functions leave alpha unchanged and preserve extended-range values. Source-over compositing, relative luminance, and RealityKit material tint multiplication are calculated in linear light. Compositing returns sRGB-encoded components; `*` and `lerp` remain component-wise operations. Raw OBJ/OFF/STL color components have no reliable color profile. Callers must convert according to their source's convention when known.
 
 Euclid supports applying colors to a ``Mesh`` or ``Polygon`` using the material property, but you can also set colors individually for each vertex, which will be interpolated to create smooth gradients.
 
