@@ -131,9 +131,8 @@ public extension Plane {
 
     /// Creates a plane from a set of points.
     /// - Parameter points: A set of coplanar points describing a polygon.
-    ///
-    /// > Note: The polygon can be convex or concave. The direction of the plane normal is
-    /// based on the assumption that the points are wound in an anti-clockwise direction.
+    /// - Note: The polygon can be convex or concave. The direction of the plane normal is
+    ///   based on the assumption that the points are wound in an anti-clockwise direction.
     init?(points: [Vector]) {
         guard !points.isEmpty else {
             return nil

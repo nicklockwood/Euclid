@@ -433,9 +433,8 @@ public extension Mesh {
     ///   - wrapMode: The way that texture coordinates are calculated for the cone.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
-    ///
-    /// > Note: The default `nil` value for poleDetail will derive value automatically.
-    /// Use zero instead if you wish to add no extra detail at the poles.
+    /// - Note: The default `nil` value for poleDetail will derive value automatically.
+    ///   Use zero instead if you wish to add no extra detail at the poles.
     static func cone(
         radius: Double = 0.5,
         height: Double = 1,

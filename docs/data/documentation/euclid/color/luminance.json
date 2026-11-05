@@ -1,15 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "The perceived luminance of the color.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "Per https:\/\/en.wikipedia.org\/wiki\/Rec._709",
+      "text" : "The weighted luminance of the stored RGB components, ignoring alpha.",
       "type" : "text"
     }
   ],
@@ -110,6 +102,49 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "No color-space conversion is performed. For linear relative luminance",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "of an sRGB color, use ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "toLinear().luminance",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -151,7 +186,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],
@@ -185,15 +220,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/luminance": {
   "abstract" : [
     {
-      "text" : "The perceived luminance of the color.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "Per https:\/\/en.wikipedia.org\/wiki\/Rec._709",
+      "text" : "The weighted luminance of the stored RGB components, ignoring alpha.",
       "type" : "text"
     }
   ],

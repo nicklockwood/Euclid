@@ -12,8 +12,7 @@ public extension Mesh {
     ///   - distance: The distance by which to inset the polygon faces.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A copy of the mesh, inset by the specified distance.
-    ///
-    /// > Note: Passing a negative `distance` will expand the mesh instead of shrinking it.
+    /// - Note: Passing a negative `distance` will expand the mesh instead of shrinking it.
     func inset(by distance: Double, isCancelled: CancellationHandler = { false }) -> Mesh {
         guard !isCancelled() else { return .empty }
         if distance > 0, isPlanar, let plane = polygons.first?.plane, materials.count <= 1 {

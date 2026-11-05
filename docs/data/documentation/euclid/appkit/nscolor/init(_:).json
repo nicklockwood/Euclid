@@ -1,15 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Creates an ",
-      "type" : "text"
-    },
-    {
-      "code" : "NSColor",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " from a ",
+      "text" : "Creates an AppKit color from a ",
       "type" : "text"
     },
     {
@@ -231,15 +223,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/AppKit/NSColor/init(_:)": {
   "abstract" : [
     {
-      "text" : "Creates an ",
-      "type" : "text"
-    },
-    {
-      "code" : "NSColor",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " from a ",
+      "text" : "Creates an AppKit color from a ",
       "type" : "text"
     },
     {
@@ -281,7 +265,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],

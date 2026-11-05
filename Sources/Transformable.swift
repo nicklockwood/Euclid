@@ -428,11 +428,10 @@ extension Bounds: Transformable {
 
     /// Returns a rotated copy of the bounds.
     /// - Parameter rotation: A rotation to apply to the bounds.
-    ///
-    /// > Note: Because a bounds must be axially-aligned, rotating by an angle that is not a multiple of
-    /// 90 degrees will result in the bounds being increased in size. Rotating it back again will not reduce
-    /// the size, so this is a potentially irreversible operation. In general, after rotating a shape it is better
-    /// to recalculate the bounds rather than trying to rotate the previous bounds.
+    /// - Note: Because a bounds must be axially-aligned, rotating by an angle that is not a multiple of
+    ///   90 degrees will result in the bounds being increased in size. Rotating it back again will not reduce
+    ///   the size, so this is a potentially irreversible operation. In general, after rotating a shape it is better
+    ///   to recalculate the bounds rather than trying to rotate the previous bounds.
     public func rotated(by rotation: Rotation) -> Bounds {
         isEmpty ? self : Bounds(corners.rotated(by: rotation))
     }

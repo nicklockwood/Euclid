@@ -230,14 +230,6 @@
     {
       "text" : "Data to use for file header.",
       "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "Note: data will be padded to 80 bytes. If more than 80 bytes are provided, data will be truncated.",
-      "type" : "text"
     }
   ],
   "fragments" : [

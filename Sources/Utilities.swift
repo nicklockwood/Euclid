@@ -753,7 +753,7 @@ func pointsAreCollinear(_ a: Vector, _ b: Vector, _ c: Vector) -> Bool {
     return ab.cross(bc).lengthSquared / scale < epsilon
 }
 
-/// Note: assumes points are not degenerate and do not contain duplicates
+/// - Note: Assumes points are not degenerate and do not contain duplicates.
 func pointsAreConvex(_ points: [Vector]) -> Bool {
     assert(!pointsAreClosed(unchecked: points))
     let count = points.count

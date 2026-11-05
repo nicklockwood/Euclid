@@ -116,7 +116,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "This is not the same as checking if the mesh is watertight or has zero volume",
+                  "text" : "This is not the same as checking if the mesh is watertight or has zero volume.",
                   "type" : "text"
                 }
               ],

@@ -223,6 +223,57 @@
           "name" : "materialLookup"
         }
       ]
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Binary facet and header color components are normalized without gamma conversion.",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "STL color extensions do not declare a color space. Colors use Euclid’s sRGB convention",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "unless ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "materialLookup",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " supplies a source-specific conversion.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
     }
   ],
   "schemaVersion" : {

@@ -15,6 +15,19 @@ import XCTest
 
 @available(macOS 15.0, iOS 18.0, tvOS 26.0, *)
 final class RealityKitTests: XCTestCase {
+    private func texturedShaderDevice() throws -> MTLDevice {
+        let device = MTLCreateSystemDefaultDevice()
+        try XCTSkipIf(device == nil, "RealityKit requires a Metal device")
+        let availableDevice = try XCTUnwrap(device)
+        // RealityKit's textured shader graphs fail argument-encoder creation on
+        // Apple's paravirtual GPU, even though built-in materials can render.
+        try XCTSkipIf(
+            availableDevice.name.localizedCaseInsensitiveContains("Paravirtual"),
+            "RealityKit textured shader argument encoding is unsupported on \(availableDevice.name)"
+        )
+        return availableDevice
+    }
+
     @MainActor
     func testUniformVertexColorsTintBuiltInMaterials() throws {
         let color = Color(red: 0.25, green: 0.5, blue: 0.75, alpha: 0.5)
@@ -323,7 +336,7 @@ final class RealityKitTests: XCTestCase {
     @available(visionOS 2.0, *)
     @MainActor
     func testTextureFilteringMatchesBuiltInMaterial() async throws {
-        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
+        let device = try texturedShaderDevice()
         let renderer = try RealityRenderer()
         let provider = try XCTUnwrap(CGDataProvider(data: Data([
             255, 0, 0, 255, 0, 0, 255, 255,
@@ -353,7 +366,6 @@ final class RealityKitTests: XCTestCase {
         )
         descriptor.usage = [.renderTarget, .shaderRead, .shaderWrite]
         descriptor.storageMode = .shared
-        let device = try XCTUnwrap(MTLCreateSystemDefaultDevice())
         let outputTexture = try XCTUnwrap(device.makeTexture(descriptor: descriptor))
         let output = try RealityRenderer.CameraOutput(.singleProjection(colorTexture: outputTexture))
         func renderPixel() async throws -> [UInt8] {
@@ -434,7 +446,7 @@ final class RealityKitTests: XCTestCase {
     @available(visionOS 2.0, *)
     @MainActor
     func testRenderVertexColorNormalMapMatchesBuiltInMaterial() async throws {
-        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
+        let device = try texturedShaderDevice()
         // Initialize RealityKit on the main actor before asynchronous shader loading.
         let renderer = try RealityRenderer()
         let bytes = Data([210, 185, 210, 255])
@@ -468,7 +480,6 @@ final class RealityKitTests: XCTestCase {
         )
         descriptor.usage = [.renderTarget, .shaderRead, .shaderWrite]
         descriptor.storageMode = .shared
-        let device = try XCTUnwrap(MTLCreateSystemDefaultDevice())
         let texture = try XCTUnwrap(device.makeTexture(descriptor: descriptor))
         let output = try RealityRenderer.CameraOutput(.singleProjection(colorTexture: texture))
         func renderPixel() async throws -> [UInt8] {
@@ -513,7 +524,7 @@ final class RealityKitTests: XCTestCase {
     @available(visionOS 2.0, *)
     @MainActor
     func testRenderAllMaterialTexturesMatchesBuiltInMaterial() async throws {
-        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
+        let device = try texturedShaderDevice()
         // Initialize RealityKit on the main actor before asynchronous shader loading.
         let renderer = try RealityRenderer()
         let bytes = Data([
@@ -561,7 +572,6 @@ final class RealityKitTests: XCTestCase {
         )
         descriptor.usage = [.renderTarget, .shaderRead, .shaderWrite]
         descriptor.storageMode = .shared
-        let device = try XCTUnwrap(MTLCreateSystemDefaultDevice())
         let texture = try XCTUnwrap(device.makeTexture(descriptor: descriptor))
         let output = try RealityRenderer.CameraOutput(.singleProjection(colorTexture: texture))
         func renderPixel() async throws -> [UInt8] {
