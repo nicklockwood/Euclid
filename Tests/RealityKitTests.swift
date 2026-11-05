@@ -537,13 +537,24 @@ final class RealityKitTests: XCTestCase {
 
     @available(visionOS 2.0, *)
     @MainActor
-    func testLowLevelMeshCollisionAndEmptyMesh() async throws {
+    func testEmptyLowLevelMesh() throws {
         try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         let empty = try LowLevelMesh(Mesh.empty)
         XCTAssertTrue(empty.parts.isEmpty)
-        let resource = try await MeshResource.generate(triangles: Mesh.cube().mapVertexColors { _ in .blue })
+    }
+
+    @available(visionOS 2.0, *)
+    @MainActor
+    func testColoredMeshCollisionUsesMeshDescriptor() async throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
+        let mesh = Mesh.cube().mapVertexColors { _ in .blue }
+        let resource = try await MeshResource.generate(triangles: mesh)
         XCTAssertNotNil(resource.lowLevelMesh)
-        _ = try await ShapeResource.generateStaticMesh(from: resource)
+        // Older macOS, iOS, and visionOS runtimes can render LowLevelMesh but fail collision generation.
+        // Use the same geometry with MeshDescriptor for collision generation.
+        let collisionResource = try MeshResource.generate(from: [MeshDescriptor(triangles: mesh)])
+        XCTAssertNil(collisionResource.lowLevelMesh)
+        _ = try await ShapeResource.generateStaticMesh(from: collisionResource)
     }
     #endif
 
