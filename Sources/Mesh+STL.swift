@@ -92,8 +92,8 @@ public extension Mesh {
     /// Return binary STL data for the mesh.
     /// - Parameter options: The output ooptions for the STL file
     /// - Returns: The encoded STL data.
-    /// - Note: Facet RGB components are quantized to 5 bits using the VisCAM/SolidView convention,
-    ///   without gamma conversion. STL color extensions do not declare a color space.
+    /// - Note: Facet RGB components are clamped to 0...1 and quantized to 5 bits using the VisCAM/SolidView
+    ///   convention, without gamma conversion. STL color extensions do not declare a color space.
     ///   Use `colorLookup` to convert components when the destination requires another convention.
     func stlData(options: STLBinaryOptions) -> Data {
         let triangles = triangulate().polygons
@@ -152,9 +152,9 @@ private extension Buffer {
     }
 
     func append(_ color: Color) {
-        let red = UInt16(round(color.red * 31))
-        let green = UInt16(round(color.green * 31))
-        let blue = UInt16(round(color.blue * 31))
+        let red = UInt16(round(color.red.clamped(to: 0...1) * 31))
+        let green = UInt16(round(color.green.clamped(to: 0...1) * 31))
+        let blue = UInt16(round(color.blue.clamped(to: 0...1) * 31))
         append(0x8000 | red << 10 | green << 5 | blue)
     }
 
