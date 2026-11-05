@@ -182,6 +182,125 @@ public extension MeshDescriptor {
     }
 }
 
+private struct RealityKitVertexData: Sendable {
+    var positions: [SIMD3<Float>]
+    var normals: [SIMD3<Float>]
+    var texcoords: [SIMD2<Float>]?
+    var colors: [SIMD4<Float>]?
+    var indices: [UInt32]
+    var materialIndices: [UInt32]
+}
+
+#if compiler(>=6)
+
+/// A RealityKit vertex retaining Euclid's color and texture coordinates.
+private struct RealityKitVertex {
+    var position: SIMD3<Float>
+    var normal: SIMD3<Float>
+    var texcoord: SIMD2<Float>
+    var color: SIMD4<Float>
+}
+
+@available(macOS 15.0, iOS 18.0, tvOS 26.0, visionOS 2.0, *)
+public extension LowLevelMesh {
+    /// Creates a triangle mesh preserving vertex colors, normals, texture coordinates, and materials.
+    /// Vertex colors require a material that reads the geometry color attribute, such as a shader graph material.
+    /// - Parameter mesh: The Euclid mesh to convert.
+    convenience init(_ mesh: Mesh) throws {
+        var counts: [UInt8]?
+        let data = mesh.getVertexData(maxSides: 3, counts: &counts, preservingColors: true)
+        try self.init(data: data, bounds: mesh.bounds)
+    }
+}
+
+@available(macOS 15.0, iOS 18.0, tvOS 26.0, visionOS 2.0, *)
+private extension LowLevelMesh {
+    convenience init(data: RealityKitVertexData, bounds: Bounds) throws {
+        var attributes: [Attribute] = [
+            .init(semantic: .position, format: .float3, offset: MemoryLayout<RealityKitVertex>.offset(of: \.position)!),
+            .init(semantic: .normal, format: .float3, offset: MemoryLayout<RealityKitVertex>.offset(of: \.normal)!),
+        ]
+        if data.texcoords != nil {
+            attributes.append(.init(
+                semantic: .uv0,
+                format: .float2,
+                offset: MemoryLayout<RealityKitVertex>.offset(of: \.texcoord)!
+            ))
+        }
+        if data.colors != nil {
+            attributes.append(.init(
+                semantic: .color,
+                format: .float4,
+                offset: MemoryLayout<RealityKitVertex>.offset(of: \.color)!
+            ))
+        }
+        try self.init(descriptor: .init(
+            vertexCapacity: max(1, data.positions.count),
+            vertexAttributes: attributes,
+            vertexLayouts: [.init(bufferIndex: 0, bufferStride: MemoryLayout<RealityKitVertex>.stride)],
+            indexCapacity: max(1, data.indices.count),
+            indexType: .uint32
+        ))
+        withUnsafeMutableBytes(bufferIndex: 0) { buffer in
+            let vertices = buffer.bindMemory(to: RealityKitVertex.self)
+            for index in data.positions.indices {
+                vertices[index] = RealityKitVertex(
+                    position: data.positions[index], normal: data.normals[index],
+                    texcoord: data.texcoords?[index] ?? .zero,
+                    color: data.colors?[index] ?? .one
+                )
+            }
+        }
+        withUnsafeMutableIndices { buffer in
+            data.indices.withUnsafeBytes { buffer.copyMemory(from: $0) }
+        }
+        let bounds = BoundingBox(min: .init(bounds.min), max: .init(bounds.max))
+        var start = 0
+        while start < data.indices.count {
+            let materialIndex = data.materialIndices.isEmpty ? 0 : Int(data.materialIndices[start / 3])
+            var end = start + 3
+            while end < data.indices.count,
+                  data.materialIndices.isEmpty || Int(data.materialIndices[end / 3]) == materialIndex
+            {
+                end += 3
+            }
+            parts.append(.init(
+                indexOffset: start * MemoryLayout<UInt32>.stride, indexCount: end - start,
+                materialIndex: materialIndex, bounds: bounds
+            ))
+            start = end
+        }
+    }
+}
+
+#endif
+
+@available(tvOS 26.0, *)
+public extension MeshResource {
+    /// Creates a triangle mesh resource, preserving vertex colors on macOS 15, iOS 18, and visionOS 2 or later.
+    @MainActor static func generate(triangles mesh: Mesh) throws -> MeshResource {
+        #if compiler(>=6)
+        if #available(macOS 15.0, iOS 18.0, visionOS 2.0, *), mesh.hasVertexColors {
+            return try MeshResource(from: LowLevelMesh(mesh))
+        }
+        #endif
+        return try generate(from: [MeshDescriptor(triangles: mesh)])
+    }
+
+    /// Asynchronously creates a triangle mesh resource, preserving vertex colors on supported platforms.
+    nonisolated static func generate(triangles mesh: Mesh) async throws -> MeshResource {
+        #if compiler(>=6)
+        if #available(macOS 15.0, iOS 18.0, visionOS 2.0, *), mesh.hasVertexColors {
+            var counts: [UInt8]?
+            let data = mesh.getVertexData(maxSides: 3, counts: &counts, preservingColors: true)
+            let lowLevelMesh = try await LowLevelMesh(data: data, bounds: mesh.bounds)
+            return try await MeshResource(from: lowLevelMesh)
+        }
+        #endif
+        return try await generate(from: [MeshDescriptor(triangles: mesh)])
+    }
+}
+
 @MainActor
 @available(tvOS 26.0, *)
 public extension ModelEntity {
@@ -215,8 +334,7 @@ public extension ModelEntity {
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
     convenience init(triangles mesh: Mesh, materialLookup: MaterialProvider? = nil) throws {
-        let descriptor = MeshDescriptor(triangles: mesh)
-        let resource = try MeshResource.generate(from: [descriptor])
+        let resource = try MeshResource.generate(triangles: mesh)
         self.init(mesh: resource, materials: mesh.materials(for: materialLookup))
     }
 
@@ -229,13 +347,12 @@ public extension ModelEntity {
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
     nonisolated convenience init(triangles mesh: Mesh, materialLookup: MaterialProvider? = nil) async throws {
-        let descriptor = MeshDescriptor(triangles: mesh)
-        let resource = try await MeshResource.generate(from: [descriptor])
+        let resource = try await MeshResource.generate(triangles: mesh)
         let materials = await mesh.materialList(for: materialLookup)
         await self.init(mesh: resource, materials: materials.values)
     }
 
-    /// Synchronously creates a model entity from a ``Mesh`` using convex polygons.
+    /// Synchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex colors are not preserved.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
@@ -245,7 +362,7 @@ public extension ModelEntity {
         self.init(mesh: resource, materials: mesh.materials(for: materialLookup))
     }
 
-    /// Asynchronously creates a model entity from a ``Mesh`` using convex polygons.
+    /// Asynchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex colors are not preserved.
     ///
     /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
     /// generation, material creation, and entity initialization.
@@ -261,6 +378,7 @@ public extension ModelEntity {
     }
 
     /// Synchronously creates a model entity from a ``Mesh`` using quads where possible (and triangles as required).
+    /// Vertex colors are not preserved.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
@@ -271,6 +389,7 @@ public extension ModelEntity {
     }
 
     /// Asynchronously creates a model entity from a ``Mesh`` using quads where possible (and triangles as required).
+    /// Vertex colors are not preserved.
     ///
     /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
     /// generation, material creation, and entity initialization.
@@ -303,16 +422,15 @@ private extension Mesh {
         return ModelEntityMaterials(values: materials.map { materialLookup($0) ?? SimpleMaterial() })
     }
 
-    func getVertexData(maxSides: UInt8, counts: inout [UInt8]?) -> (
-        positions: [SIMD3<Float>],
-        normals: [SIMD3<Float>],
-        texcoords: [SIMD2<Float>]?,
-        indices: [UInt32],
-        materialIndices: [UInt32]
-    ) {
+    func getVertexData(
+        maxSides: UInt8,
+        counts: inout [UInt8]?,
+        preservingColors: Bool = false
+    ) -> RealityKitVertexData {
         var positions: [SIMD3<Float>] = []
         var normals: [SIMD3<Float>] = [] // looks bad with default normals
         var texcoords: [SIMD2<Float>]? = hasTexcoords ? [] : nil
+        var colors: [SIMD4<Float>]? = preservingColors && hasVertexColors ? [] : nil
         var indices = [UInt32]()
         var materialIndices = [UInt32]()
         var indicesByVertex = [Vertex: UInt32]()
@@ -326,7 +444,9 @@ private extension Mesh {
             ) {
                 counts?.append(UInt8(polygon.vertices.count))
                 for var vertex in polygon.vertices {
-                    vertex.color = .white // Note: vertex colors are not supported
+                    if !preservingColors {
+                        vertex.color = .white // MeshDescriptor does not support vertex colors
+                    }
                     if let index = indicesByVertex[vertex] {
                         indices.append(index)
                         continue
@@ -336,6 +456,7 @@ private extension Mesh {
                     indices.append(index)
                     positions.append(.init(vertex.position))
                     normals.append(.init(vertex.normal))
+                    colors?.append(.init(vertex.color))
                     if texcoords != nil {
                         var texcoord = vertex.texcoord
                         texcoord.y = 1 - texcoord.y
@@ -347,10 +468,11 @@ private extension Mesh {
                 }
             }
         }
-        return (
+        return RealityKitVertexData(
             positions: positions,
             normals: normals,
             texcoords: texcoords,
+            colors: colors,
             indices: indices,
             materialIndices: materialIndices
         )

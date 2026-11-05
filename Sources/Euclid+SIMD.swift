@@ -33,6 +33,14 @@
 
 import simd
 
+public extension SIMD4 where Scalar: BinaryFloatingPoint {
+    /// Creates a simd vector 4 from a Euclid `Color`, in RGBA order.
+    /// - Parameter color: A Euclid color.
+    init(_ color: Color) {
+        self.init(Scalar(color.red), Scalar(color.green), Scalar(color.blue), Scalar(color.alpha))
+    }
+}
+
 public extension SIMD3 where Scalar: BinaryFloatingPoint {
     /// Creates a simd vector 3 from a Euclid `Vector`.
     /// - Parameter vector: A Euclid vector.
