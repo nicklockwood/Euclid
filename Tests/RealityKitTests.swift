@@ -258,6 +258,54 @@ final class RealityKitTests: XCTestCase {
         XCTAssertNotNil(triangles.model?.mesh.lowLevelMesh)
     }
 
+    #if EUCLID_COLLISION_PROBE
+    @available(visionOS 2.0, *)
+    @MainActor
+    func testLowLevelMeshCollisionProbe() async throws {
+        var report: [String: String] = [
+            "runtime": ProcessInfo.processInfo.operatingSystemVersionString,
+            "simulatorRuntime": ProcessInfo.processInfo.environment["SIMULATOR_RUNTIME_VERSION"] ?? "native",
+        ]
+        defer {
+            if let data = try? JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]),
+               let json = String(data: data, encoding: .utf8)
+            {
+                print("EUCLID_COLLISION_PROBE " + json)
+                let attachment = XCTAttachment(string: json)
+                attachment.lifetime = .keepAlways
+                add(attachment)
+            }
+        }
+        guard let device = MTLCreateSystemDefaultDevice() else {
+            report["status"] = "no Metal device"
+            throw XCTSkip("Collision probe requires Metal")
+        }
+        report["metalDevice"] = device.name
+        let mesh = Mesh.cube().mapVertexColors { _ in .blue }
+        for useLowLevelMesh in [false, true] {
+            let key = useLowLevelMesh ? "lowLevelMesh" : "meshDescriptor"
+            do {
+                let resource: MeshResource
+                if useLowLevelMesh {
+                    resource = try await MeshResource.generate(triangles: mesh)
+                    XCTAssertNotNil(resource.lowLevelMesh)
+                } else {
+                    resource = try await MeshResource.generate(from: [MeshDescriptor(triangles: mesh)])
+                    XCTAssertNil(resource.lowLevelMesh)
+                }
+                report[key] = "mesh created"
+                _ = try await ShapeResource.generateStaticMesh(from: resource)
+                report[key] = "success"
+            } catch {
+                let stage = report[key] ?? "mesh creation"
+                report[key] = "\(stage): \(String(reflecting: error))"
+            }
+        }
+        // A direct-mesh error is an experimental result; control failures invalidate the probe.
+        XCTAssertEqual(report["meshDescriptor"], "success")
+    }
+    #endif
+
     @available(visionOS 2.0, *)
     @MainActor
     func testEmptyLowLevelMesh() throws {

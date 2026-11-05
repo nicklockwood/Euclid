@@ -1,0 +1,75 @@
+# Temporary compatibility experiment; remove after collecting the runtime matrix.
+name: LowLevelMesh collision probe
+on:
+  push:
+    branches: [codex/lowlevelmesh-collision-probe]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    name: ${{ matrix.id }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {id: macos15-xcode16, runner: macos-15, xcode: '16.4', platform: macOS, runtime: native}
+          - {id: macos15-xcode26, runner: macos-15, xcode: '26.0.1', platform: macOS, runtime: native}
+          - {id: macos26-xcode26, runner: macos-26, xcode: '26.0.1', platform: macOS, runtime: native}
+          - {id: macos26-xcode-latest, runner: macos-26, xcode: '26.6', platform: macOS, runtime: native}
+          - {id: ios18-5, runner: macos-15, xcode: '16.4', platform: iOS, runtime: '18.5'}
+          - {id: ios18-6, runner: macos-15, xcode: '16.4', platform: iOS, runtime: '18.6'}
+          - {id: ios26-0, runner: macos-15, xcode: '26.0.1', platform: iOS, runtime: '26.0'}
+          - {id: ios26-5, runner: macos-26, xcode: '26.6', platform: iOS, runtime: '26.5'}
+          - {id: visionos2-3, runner: macos-15, xcode: '16.4', platform: visionOS, runtime: '2.3'}
+          - {id: visionos2-5, runner: macos-15, xcode: '16.4', platform: visionOS, runtime: '2.5'}
+          - {id: visionos26-1, runner: macos-15, xcode: '26.1.1', platform: visionOS, runtime: '26.1'}
+          - {id: visionos26-5, runner: macos-26, xcode: '26.6', platform: visionOS, runtime: '26.5'}
+          - {id: tvos26-1, runner: macos-15, xcode: '26.1.1', platform: tvOS, runtime: '26.1'}
+          - {id: tvos26-5, runner: macos-26, xcode: '26.6', platform: tvOS, runtime: '26.5'}
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+      PROBE_PLATFORM: ${{ matrix.platform }}
+      PROBE_RUNTIME: ${{ matrix.runtime }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Record toolchain and select runtime
+        run: |
+          mkdir -p probe
+          sw_vers | tee probe/host.txt
+          xcodebuild -version | tee probe/xcode.txt
+          xcrun simctl list runtimes -j > probe/runtimes.json
+          python3 .github/scripts/collision-probe-destination.py
+      - name: Probe native collision generation and descriptor control
+        run: |
+          set -o pipefail
+          xcodebuild test -project Euclid.xcodeproj -scheme Euclid \
+            -destination "$PROBE_DESTINATION" -destination-timeout 180 \
+            -derivedDataPath Build/ -resultBundlePath probe/result.xcresult \
+            -parallel-testing-enabled NO -enableCodeCoverage NO \
+            -only-testing:EuclidTests/RealityKitTests/testLowLevelMeshCollisionProbe \
+            'SWIFT_ACTIVE_COMPILATION_CONDITIONS=$(inherited) EUCLID_COLLISION_PROBE' \
+            CODE_SIGNING_ALLOWED=NO | tee probe/test.log
+      - name: Summarize results
+        if: always()
+        run: |
+          echo '### ${{ matrix.id }}' >> "$GITHUB_STEP_SUMMARY"
+          echo "Runtime: ${SELECTED_RUNTIME:-not selected}" >> "$GITHUB_STEP_SUMMARY"
+          echo '```text' >> "$GITHUB_STEP_SUMMARY"
+          cat probe/xcode.txt >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+          if [ -d probe/result.xcresult ]; then
+            xcrun xcresulttool get test-results summary --path probe/result.xcresult > probe/summary.json
+            cat probe/summary.json >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f probe/test.log ]; then
+            grep 'EUCLID_COLLISION_PROBE ' probe/test.log >> "$GITHUB_STEP_SUMMARY" || true
+          fi
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: collision-probe-${{ matrix.id }}
+          path: probe/
+          retention-days: 7
