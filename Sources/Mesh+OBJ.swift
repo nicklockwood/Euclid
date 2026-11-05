@@ -185,7 +185,8 @@ private extension ArraySlice<String> {
             func readVertex() -> Vertex {
                 let doubles = parts.compactMap(Double.init(_:))
                 let vector = Vector(doubles)
-                let color = doubles.count > 3 ? Color(doubles.dropFirst(3)) : nil
+                // Four components are the standard x/y/z/w vertex, not a grayscale color.
+                let color = (6 ... 7).contains(doubles.count) ? Color(doubles.dropFirst(3)) : nil
                 return .init(vector, color: color)
             }
 

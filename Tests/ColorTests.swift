@@ -40,6 +40,12 @@ final class ColorTests: XCTestCase {
         XCTAssertEqual(Color(CGColor(gray: 0.5, alpha: 0.4)).alpha, 0.4, accuracy: 1e-6)
     }
 
+    func testPlatformWhiteMatchesNumericSRGBGray() {
+        let gray = Color(white: 0.5, alpha: 0.4)
+        XCTAssertEqual(Color(OSColor(white: 0.5, alpha: 0.4)), gray, accuracy: 1e-6)
+        XCTAssertEqual(Color(OSColor(gray)), gray, accuracy: 1e-6)
+    }
+
     func testPlatformColorImportConvertsDisplayP3() throws {
         let space = try XCTUnwrap(CGColorSpace(name: CGColorSpace.displayP3))
         let srgb = try XCTUnwrap(CGColorSpace(name: CGColorSpace.extendedSRGB))
