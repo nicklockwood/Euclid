@@ -29,7 +29,12 @@
 //  SOFTWARE.
 //
 
-/// A color in RGBA format.
+import Foundation
+
+/// A color in sRGB with unpremultiplied alpha.
+///
+/// RGB components are sRGB-encoded. Use ``toLinear()`` for calculations in linear light
+/// and ``toSRGB()`` to encode the result. Alpha is never gamma-corrected.
 ///
 /// Color can be used as a ``Polygon/material-swift.property`` or as a ``Vertex/color``.
 public struct Color: Hashable, Sendable {
@@ -118,6 +123,28 @@ extension Color: Codable {
 }
 
 public extension Color {
+    /// Decodes sRGB-encoded RGB components into linear sRGB, leaving alpha unchanged.
+    /// The result is for linear-light calculations or APIs that require linear RGB.
+    func toLinear() -> Color {
+        func decode(_ value: Double) -> Double {
+            let magnitude = abs(value)
+            let linear = magnitude <= 0.04045 ? magnitude / 12.92 : pow((magnitude + 0.055) / 1.055, 2.4)
+            return value < 0 ? -linear : linear
+        }
+        return .init(red: decode(red), green: decode(green), blue: decode(blue), alpha: alpha)
+    }
+
+    /// Encodes linear RGB components as sRGB, leaving alpha unchanged.
+    /// Use this to return linear-light calculation results to the usual color representation.
+    func toSRGB() -> Color {
+        func encode(_ value: Double) -> Double {
+            let magnitude = abs(value)
+            let encoded = magnitude <= 0.0031308 ? magnitude * 12.92 : 1.055 * pow(magnitude, 1 / 2.4) - 0.055
+            return value < 0 ? -encoded : encoded
+        }
+        return .init(red: encode(red), green: encode(green), blue: encode(blue), alpha: alpha)
+    }
+
     static let clear = Color(white: 0, alpha: 0)
     static let black = Color(white: 0)
     static let darkGray = Color(white: 1.0 / 3.0)
@@ -138,9 +165,9 @@ public extension Color {
     static let indigo = Color(red: 88.0 / 255.0, green: 86.0 / 255.0, blue: 214.0 / 255.0)
     static let pink = Color(red: 1, green: 45.0 / 255.0, blue: 85.0 / 255.0)
 
-    /// Creates a color from a luminance value and optional alpha component.
+    /// Creates a color from an sRGB white level and optional alpha component.
     /// - Parameters:
-    ///   - white: The luminance value, from 0 to 1.
+    ///   - white: The sRGB white level, from 0 to 1.
     ///   - alpha: The alpha component. Defaults to 1 (fully opaque)
     init(white: Double, alpha: Double = 1) {
         self.red = white
@@ -230,7 +257,7 @@ public extension Color {
             .withAlphaComponent(alpha)
     }
 
-    /// Linearly interpolate between two colors.
+    /// Interpolates the sRGB components and alpha between two colors.
     /// - Parameters:
     ///   - other: The color to interpolate towards.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
@@ -239,7 +266,7 @@ public extension Color {
         interpolated(with: other, by: t)
     }
 
-    /// Returns a color with its components multiplied by the specified color.
+    /// Returns a color with its sRGB components and alpha multiplied component-wise.
     static func * (lhs: Color, rhs: Color) -> Color {
         .init(
             red: lhs.red * rhs.red,
@@ -256,7 +283,7 @@ public extension Color {
 }
 
 public extension Collection<Color> where Index == Int {
-    /// Linearly interpolate between multiple colors.
+    /// Interpolates the sRGB components and alpha between multiple colors.
     /// - Parameter t: The normalized extent of interpolation between all the colors, from 0 to 1.
     /// - Returns: The interpolated color.
     func lerp(_ t: Double) -> Color {

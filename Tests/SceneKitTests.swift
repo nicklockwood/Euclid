@@ -13,6 +13,26 @@ import SceneKit
 import XCTest
 
 final class SceneKitTests: XCTestCase {
+    func testVertexColorsDecodeSRGBWithoutGammaCorrectingAlpha() throws {
+        let color = Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.4)
+        let mesh = Mesh.cube().mapVertexColors { _ in color }
+        for geometry in [SCNGeometry(triangles: mesh), SCNGeometry(polygons: mesh)] {
+            let source = try XCTUnwrap(geometry.sources(for: .color).first)
+            let values = source.data.withUnsafeBytes { bytes in
+                (0 ..< 4).map { index in
+                    let offset = source.dataOffset + index * source.bytesPerComponent
+                    return source.bytesPerComponent == 4 ?
+                        Double(bytes.loadUnaligned(fromByteOffset: offset, as: Float.self)) :
+                        bytes.loadUnaligned(fromByteOffset: offset, as: Double.self)
+                }
+            }
+            XCTAssertEqual(values[0], color.toLinear().red, accuracy: 1e-6)
+            XCTAssertEqual(values[3], color.alpha, accuracy: 1e-6)
+            let imported = try XCTUnwrap(Mesh(geometry))
+            XCTAssertEqual(try XCTUnwrap(imported.polygons.first?.vertices.first?.color), color, accuracy: 1e-6)
+        }
+    }
+
     // MARK: Import
 
     func testGeometryImportedWithCorrectDetail() {

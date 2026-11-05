@@ -49,9 +49,27 @@ public extension Vector {
 
 public extension Color {
     /// Creates a color from a CoreGraphics `CGColor`.
-    /// - Parameter cgColor: The CoreGraphics color instance.
+    /// - Parameter cgColor: The `CGColor` to convert.
     init(_ cgColor: CGColor) {
-        let components = cgColor.components ?? [1]
+        self.init(cgColor, colorSpace: CGColorSpace(name: CGColorSpace.extendedSRGB)!)
+    }
+
+    /// Creates a color from a `CGColor` by converting it to the specified RGB color space.
+    /// - Parameters:
+    ///   - cgColor: The `CGColor` to convert.
+    ///   - colorSpace: The destination RGB color space, or `nil` to copy the original components without conversion.
+    init(_ cgColor: CGColor, colorSpace: CGColorSpace?) {
+        let color: CGColor
+        if let colorSpace {
+            precondition(colorSpace.model == .rgb, "Expected an RGB color space")
+            guard let converted = cgColor.converted(to: colorSpace, intent: .defaultIntent, options: nil) else {
+                preconditionFailure("Unable to convert color to RGB")
+            }
+            color = converted
+        } else {
+            color = cgColor
+        }
+        let components = color.components ?? [1]
         self.init(unchecked: components.map(Double.init))
     }
 }

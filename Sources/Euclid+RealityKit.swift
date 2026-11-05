@@ -519,7 +519,7 @@ private extension RealityKit.Material {
 
 private extension OSColor {
     func multiplyingVertexColor(_ color: Euclid.Color) -> OSColor {
-        OSColor(Euclid.Color(self) * color)
+        OSColor((Euclid.Color(self).toLinear() * color.toLinear()).toSRGB())
     }
 }
 
@@ -568,7 +568,7 @@ private extension Mesh {
                     indices.append(index)
                     positions.append(.init(vertex.position))
                     normals.append(.init(vertex.normal))
-                    colors?.append(.init(vertex.color))
+                    colors?.append(.init(vertex.color.toLinear()))
                     if texcoords != nil {
                         var texcoord = vertex.texcoord
                         texcoord.y = 1 - texcoord.y
