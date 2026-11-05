@@ -40,6 +40,8 @@ Currently, material serialization works for `String`s, `Int`s, `Color` and any c
 
 Use `toLinear()` for linear-light calculations and `toSRGB()` to encode their results. These transfer functions leave alpha unchanged and preserve extended-range values. Source-over compositing, relative luminance, and RealityKit material tint multiplication are calculated in linear light. Compositing returns sRGB-encoded components; `*` and `lerp` remain component-wise operations. Raw OBJ/OFF/STL color components have no reliable color profile. Callers must convert according to their source's convention when known.
 
+Binary STL color extensions do not declare a transfer function or color profile. Euclid preserves their component values (subject to 5-bit facet quantization) without applying gamma conversion, and interprets imported colors using its sRGB convention. This is a compatibility policy, not a guarantee that every STL producer uses sRGB. Use the STL material/color lookup closures for conversions when a source or destination's convention is known.
+
 Euclid supports applying colors to a ``Mesh`` or ``Polygon`` using the material property, but you can also set colors individually for each vertex, which will be interpolated to create smooth gradients.
 
 The material property is of type `AnyHashable` which basically means it can be anything you want. You can set the `material` to an instance of Euclid's ``Color``, or you can use a `CGColor`, `UIColor` or `NSColor` instead if you prefer.
