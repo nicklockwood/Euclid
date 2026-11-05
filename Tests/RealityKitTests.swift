@@ -84,28 +84,40 @@ final class RealityKitTests: XCTestCase {
     #if compiler(>=6)
     @available(visionOS 2.0, *)
     @MainActor
+    func testVertexColorMaterialParametersAndTemplateIsolation() async throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
+        var first = try await RealityKitVertexColorMaterial.make(
+            color: Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.4),
+            emissionIntensity: 2, roughness: 0.2, metallic: 0.3, specular: 0.4
+        )
+        let second = try await RealityKitVertexColorMaterial.make()
+        func scalar(_ material: ShaderGraphMaterial, _ name: String) throws -> Float {
+            guard case let .float(value) = material.getParameter(name: name) else {
+                return try XCTUnwrap(Float?.none, "Missing scalar parameter: \(name)")
+            }
+            return value
+        }
+        XCTAssertEqual(try scalar(first, "opacity"), 0.4)
+        XCTAssertEqual(try scalar(first, "emissiveIntensity"), 2)
+        XCTAssertEqual(try scalar(first, "roughness"), 0.2)
+        XCTAssertEqual(try scalar(first, "metallic"), 0.3)
+        XCTAssertEqual(try scalar(first, "specular"), 0.4)
+        XCTAssertEqual(try scalar(second, "opacity"), 1)
+        XCTAssertEqual(try scalar(second, "roughness"), 0.5)
+        try first.setParameter(name: "opacity", value: .float(0.1))
+        XCTAssertEqual(try scalar(second, "opacity"), 1)
+    }
+
+    @available(visionOS 2.0, *)
+    @MainActor
     func testRenderVertexColors() async throws {
         try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         // Initialize RealityKit on the main actor before asynchronous shader loading.
         let renderer = try RealityRenderer()
-        let mesh = Mesh.cube().mapVertexColors { _ in .green }
-        let source = """
-        #usda 1.0
-        def Material "VertexColors" {
-            token outputs:mtlx:surface.connect = </VertexColors/Surface.outputs:out>
-            def Shader "Color" {
-                uniform token info:id = "ND_geomcolor_color3"
-                int inputs:index = 0
-                color3f outputs:out
-            }
-            def Shader "Surface" {
-                uniform token info:id = "ND_realitykit_unlit_surfaceshader"
-                color3f inputs:color.connect = </VertexColors/Color.outputs:out>
-                token outputs:out
-            }
-        }
-        """
-        let material = try await ShaderGraphMaterial(named: "/VertexColors", from: Data(source.utf8))
+        let color = Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.6)
+        let tint = Color(white: 0.8, alpha: 0.5)
+        let mesh = Mesh.cube().mapVertexColors { _ in color }
+        let material = try await RealityKitVertexColorMaterial.make(color: tint, unlit: true)
         let entity = try await ModelEntity(mesh, materialLookup: { _ in material })
         let camera = Entity()
         camera.components.set(PerspectiveCameraComponent())
@@ -124,22 +136,32 @@ final class RealityKitTests: XCTestCase {
         let device = try XCTUnwrap(MTLCreateSystemDefaultDevice())
         let texture = try XCTUnwrap(device.makeTexture(descriptor: descriptor))
         let output = try RealityRenderer.CameraOutput(.singleProjection(colorTexture: texture))
-        for _ in 0 ..< 3 {
-            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-                do {
-                    try renderer.updateAndRender(
-                        deltaTime: 1 / 60,
-                        cameraOutput: output,
-                        onComplete: { _ in continuation.resume() }
-                    )
-                } catch { continuation.resume(throwing: error) }
+        func renderPixel() async throws -> [UInt8] {
+            for _ in 0 ..< 3 {
+                try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+                    do {
+                        try renderer.updateAndRender(
+                            deltaTime: 1 / 60,
+                            cameraOutput: output,
+                            onComplete: { _ in continuation.resume() }
+                        )
+                    } catch { continuation.resume(throwing: error) }
+                }
             }
+            var pixel = [UInt8](repeating: 0, count: 4)
+            texture.getBytes(&pixel, bytesPerRow: 4, from: MTLRegionMake2D(16, 16, 1, 1), mipmapLevel: 0)
+            return pixel
         }
-        var pixel = [UInt8](repeating: 0, count: 4)
-        texture.getBytes(&pixel, bytesPerRow: 4, from: MTLRegionMake2D(16, 16, 1, 1), mipmapLevel: 0)
-        XCTAssertGreaterThan(pixel[1], 150, "\(pixel)")
-        XCTAssertLessThan(pixel[0], 50, "\(pixel)")
-        XCTAssertLessThan(pixel[2], 50, "\(pixel)")
+        let actual = try await renderPixel()
+        let expected = (color.toLinear() * tint.toLinear()).toSRGB()
+        var reference = UnlitMaterial(color: OSColor(expected.withAlphaComponent(1)))
+        reference.blending = .transparent(opacity: .init(floatLiteral: Float(expected.alpha)))
+        entity.model?.materials = [reference]
+        let referencePixel = try await renderPixel()
+        XCTAssertGreaterThan(actual[3], 0)
+        for channel in 0 ..< 4 {
+            XCTAssertEqual(Double(actual[channel]), Double(referencePixel[channel]), accuracy: 2)
+        }
     }
 
     @available(visionOS 2.0, *)

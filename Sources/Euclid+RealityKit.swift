@@ -986,4 +986,241 @@ private extension Mesh {
     }
 }
 
+#if compiler(>=6)
+
+/// Creates shader graph materials that display Euclid's RealityKit vertex colors.
+///
+/// RGB is multiplied in linear light by the base color and optional texture. Vertex, base-color,
+/// and texture alpha are multiplied without gamma conversion. Emission is added independently.
+/// Supports a base-color texture and scalar PBR properties; normal maps and other material
+/// features are not supported. Existing materials are never converted automatically.
+@available(macOS 15.0, iOS 18.0, tvOS 26.0, visionOS 2.0, *)
+@MainActor
+public enum RealityKitVertexColorMaterial {
+    private struct TemplateKey: Hashable {
+        var unlit: Bool
+        var textured: Bool
+    }
+
+    private static var templates = [TemplateKey: Task<ShaderGraphMaterial, Error>]()
+
+    /// Creates a material that reads the mesh's vertex colors, including gradients and alpha.
+    /// - Parameters:
+    ///   - color: An sRGB base tint. Its alpha multiplies vertex and texture alpha.
+    ///   - texture: An optional base-color texture, sampled using the mesh's texture coordinates.
+    ///   - emission: An sRGB emission color. Its alpha is ignored.
+    ///   - emissionIntensity: A multiplier for the emission color.
+    ///   - roughness: The scalar surface roughness, ignored for unlit materials.
+    ///   - metallic: The scalar metallic fraction, ignored for unlit materials.
+    ///   - specular: The scalar specular level, ignored for unlit materials.
+    ///   - unlit: Whether to display colors without scene lighting.
+    /// - Returns: An independent material value that can be customized further.
+    /// - Note: Requires a mesh with vertex-color attributes, such as `LowLevelMesh(mesh)`.
+    public static func make(
+        color: Color = .white,
+        texture: MaterialParameters.Texture? = nil,
+        emission: Color = .black,
+        emissionIntensity: Float = 1,
+        roughness: Float = 0.5,
+        metallic: Float = 0,
+        specular: Float = 0.5,
+        unlit: Bool = false
+    ) async throws -> ShaderGraphMaterial {
+        let key = TemplateKey(unlit: unlit, textured: texture != nil)
+        if templates[key] == nil {
+            // Initialize RealityKit on the main actor before asynchronous shader loading.
+            _ = PhysicallyBasedMaterial()
+            templates[key] = Task { try await ShaderGraphMaterial(
+                named: "/VertexColors",
+                from: Data(source(unlit: unlit, textured: key.textured).utf8)
+            ) }
+        }
+        var shader: ShaderGraphMaterial
+        do {
+            shader = try await templates[key]!.value
+        } catch {
+            templates[key] = nil
+            throw error
+        }
+        if let texture {
+            try shader.setParameter(name: "baseTexture", value: .texture(texture))
+        }
+        // Managed primaries map linear sRGB vertex attributes into the shader's working space.
+        try shader.setParameter(name: "redBasis", value: .color(OSColor(Color.red).cgColor))
+        try shader.setParameter(name: "greenBasis", value: .color(OSColor(Color.green).cgColor))
+        try shader.setParameter(name: "blueBasis", value: .color(OSColor(Color.blue).cgColor))
+        try shader.setParameter(name: "baseColor", value: .color(OSColor(color.withAlphaComponent(1)).cgColor))
+        try shader.setParameter(name: "emissiveColor", value: .color(OSColor(emission.withAlphaComponent(1)).cgColor))
+        try shader.setParameter(name: "emissiveIntensity", value: .float(emissionIntensity))
+        if !unlit {
+            try shader.setParameter(name: "roughness", value: .float(roughness))
+            try shader.setParameter(name: "metallic", value: .float(metallic))
+            try shader.setParameter(name: "specular", value: .float(specular))
+        }
+        try shader.setParameter(name: "opacity", value: .float(Float(color.alpha)))
+        return shader
+    }
+
+    // swiftformat:disable indent -- Preserve indentation of nested multiline string literals.
+    private static func source(unlit: Bool, textured: Bool) -> String {
+        """
+        #usda 1.0
+        def Material "VertexColors" {
+            \(textured ? "asset inputs:baseTexture" : "")
+            color3f inputs:baseColor = (1, 1, 1)
+            color3f inputs:redBasis = (1, 0, 0)
+            color3f inputs:greenBasis = (0, 1, 0)
+            color3f inputs:blueBasis = (0, 0, 1)
+            color3f inputs:emissiveColor = (0, 0, 0)
+            float inputs:emissiveIntensity = 1
+            float inputs:opacity = 1
+            float inputs:roughness = 0.5
+            float inputs:metallic = 0
+            float inputs:specular = 0
+            token outputs:mtlx:surface.connect = </VertexColors/Surface.outputs:out>
+            def Shader "Color" {
+                uniform token info:id = "ND_geomcolor_color3"
+                int inputs:index = 0
+                color3f outputs:out
+            }
+            def Shader "ColorWithAlpha" {
+                uniform token info:id = "ND_geomcolor_color4"
+                int inputs:index = 0
+                color4f outputs:out
+            }
+            def Shader "Alpha" {
+                uniform token info:id = "ND_extract_color4"
+                color4f inputs:in.connect = </VertexColors/ColorWithAlpha.outputs:out>
+                int inputs:index = 3
+                float outputs:out
+            }
+            def Shader "RedComponent" {
+                uniform token info:id = "ND_extract_color3"
+                color3f inputs:in.connect = </VertexColors/Color.outputs:out>
+                int inputs:index = 0
+                float outputs:out
+            }
+            def Shader "RedContribution" {
+                uniform token info:id = "ND_multiply_color3FA"
+                color3f inputs:in1.connect = </VertexColors.inputs:redBasis>
+                float inputs:in2.connect = </VertexColors/RedComponent.outputs:out>
+                color3f outputs:out
+            }
+            def Shader "GreenComponent" {
+                uniform token info:id = "ND_extract_color3"
+                color3f inputs:in.connect = </VertexColors/Color.outputs:out>
+                int inputs:index = 1
+                float outputs:out
+            }
+            def Shader "GreenContribution" {
+                uniform token info:id = "ND_multiply_color3FA"
+                color3f inputs:in1.connect = </VertexColors.inputs:greenBasis>
+                float inputs:in2.connect = </VertexColors/GreenComponent.outputs:out>
+                color3f outputs:out
+            }
+            def Shader "BlueComponent" {
+                uniform token info:id = "ND_extract_color3"
+                color3f inputs:in.connect = </VertexColors/Color.outputs:out>
+                int inputs:index = 2
+                float outputs:out
+            }
+            def Shader "BlueContribution" {
+                uniform token info:id = "ND_multiply_color3FA"
+                color3f inputs:in1.connect = </VertexColors.inputs:blueBasis>
+                float inputs:in2.connect = </VertexColors/BlueComponent.outputs:out>
+                color3f outputs:out
+            }
+            def Shader "RedGreen" {
+                uniform token info:id = "ND_add_color3"
+                color3f inputs:in1.connect = </VertexColors/RedContribution.outputs:out>
+                color3f inputs:in2.connect = </VertexColors/GreenContribution.outputs:out>
+                color3f outputs:out
+            }
+            def Shader "ManagedColor" {
+                uniform token info:id = "ND_add_color3"
+                color3f inputs:in1.connect = </VertexColors/RedGreen.outputs:out>
+                color3f inputs:in2.connect = </VertexColors/BlueContribution.outputs:out>
+                color3f outputs:out
+            }
+            def Shader "Tint" {
+                uniform token info:id = "ND_multiply_color3"
+                color3f inputs:in1.connect = </VertexColors/\(textured ? "TexturedColor" : "ManagedColor").outputs:out>
+                color3f inputs:in2.connect = </VertexColors.inputs:baseColor>
+                color3f outputs:out
+            }
+            def Shader "Opacity" {
+                uniform token info:id = "ND_multiply_float"
+                float inputs:in1.connect = </VertexColors/\(textured ? "TexturedAlpha" : "Alpha").outputs:out>
+                float inputs:in2.connect = </VertexColors.inputs:opacity>
+                float outputs:out
+            }
+            def Shader "Emission" {
+                uniform token info:id = "ND_multiply_color3FA"
+                color3f inputs:in1.connect = </VertexColors.inputs:emissiveColor>
+                float inputs:in2.connect = </VertexColors.inputs:emissiveIntensity>
+                color3f outputs:out
+            }
+            \(textured ? """
+            def Shader "BaseTexture" {
+                uniform token info:id = "ND_image_color4"
+                asset inputs:file.connect = </VertexColors.inputs:baseTexture>
+                color4f inputs:default = (1, 1, 1, 1)
+                color4f outputs:out
+            }
+            def Shader "TextureColor" {
+                uniform token info:id = "ND_convert_color4_color3"
+                color4f inputs:in.connect = </VertexColors/BaseTexture.outputs:out>
+                color3f outputs:out
+            }
+            def Shader "TextureAlpha" {
+                uniform token info:id = "ND_extract_color4"
+                color4f inputs:in.connect = </VertexColors/BaseTexture.outputs:out>
+                int inputs:index = 3
+                float outputs:out
+            }
+            def Shader "TexturedColor" {
+                uniform token info:id = "ND_multiply_color3"
+                color3f inputs:in1.connect = </VertexColors/ManagedColor.outputs:out>
+                color3f inputs:in2.connect = </VertexColors/TextureColor.outputs:out>
+                color3f outputs:out
+            }
+            def Shader "TexturedAlpha" {
+                uniform token info:id = "ND_multiply_float"
+                float inputs:in1.connect = </VertexColors/Alpha.outputs:out>
+                float inputs:in2.connect = </VertexColors/TextureAlpha.outputs:out>
+                float outputs:out
+            }
+            """ : "")
+            \(unlit ? """
+            def Shader "UnlitColor" {
+                uniform token info:id = "ND_add_color3"
+                color3f inputs:in1.connect = </VertexColors/Tint.outputs:out>
+                color3f inputs:in2.connect = </VertexColors/Emission.outputs:out>
+                color3f outputs:out
+            }
+            def Shader "Surface" {
+                uniform token info:id = "ND_realitykit_unlit_surfaceshader"
+                color3f inputs:color.connect = </VertexColors/UnlitColor.outputs:out>
+                float inputs:opacity.connect = </VertexColors/Opacity.outputs:out>
+                token outputs:out
+            }
+            """ : """
+            def Shader "Surface" {
+                uniform token info:id = "ND_realitykit_pbr_surfaceshader"
+                color3f inputs:baseColor.connect = </VertexColors/Tint.outputs:out>
+                color3f inputs:emissiveColor.connect = </VertexColors/Emission.outputs:out>
+                float inputs:opacity.connect = </VertexColors/Opacity.outputs:out>
+                float inputs:roughness.connect = </VertexColors.inputs:roughness>
+                float inputs:metallic.connect = </VertexColors.inputs:metallic>
+                float inputs:specular.connect = </VertexColors.inputs:specular>
+                token outputs:out
+            }
+            """)
+        }
+        """
+    }
+    // swiftformat:enable indent
+}
+
+#endif
 #endif

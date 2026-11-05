@@ -60,3 +60,20 @@ You can also construct a `LowLevelMesh` directly with `LowLevelMesh(mesh)`, or u
 Euclid applies uniform vertex colors to RealityKit's built-in materials automatically, multiplying color and opacity per material. This fallback works on older platforms and with the polygon and quad initializers too. Custom materials are left unchanged to avoid applying vertex colors twice.
 
 Vertex-color gradients require a shader; preserving the mesh attribute alone does not make RealityKit's built-in materials display them. Supply a material that reads the geometry color attribute, such as a `ShaderGraphMaterial` using the Geometry Color node, through the `ModelEntity` material lookup closure. This also works in visionOS volumes. Euclid's existing `MeshDescriptor` initializers remain available when vertex colors are not required.
+
+Use ``RealityKitVertexColorMaterial`` to create an opt-in shader for lit or unlit vertex colors:
+
+```swift
+let material = try await RealityKitVertexColorMaterial.make(
+    color: Color(white: 0.8),
+    roughness: 0.6
+)
+let entity = try await ModelEntity(mesh) { _ in material }
+```
+
+The factory accepts an sRGB base tint (including opacity), an optional base-color texture,
+emission, and scalar roughness, metallic, and specular values. It multiplies vertex, tint,
+and texture RGB in linear light and multiplies their alpha without gamma conversion.
+It does not convert existing materials or support normal maps and other advanced PBR inputs.
+The returned `ShaderGraphMaterial` can be customized, for example to change face culling.
+Shader templates are cached, while each returned material has independent parameter values.
