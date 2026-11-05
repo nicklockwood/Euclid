@@ -260,10 +260,16 @@ final class RealityKitTests: XCTestCase {
 
     @available(visionOS 2.0, *)
     @MainActor
-    func testLowLevelMeshCollisionAndEmptyMesh() async throws {
+    func testEmptyLowLevelMesh() throws {
         try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         let empty = try LowLevelMesh(Mesh.empty)
         XCTAssertTrue(empty.parts.isEmpty)
+    }
+
+    @available(visionOS 2.0, *)
+    @MainActor
+    func testLowLevelMeshCollision() async throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         let resource = try await MeshResource.generate(triangles: Mesh.cube().mapVertexColors { _ in .blue })
         XCTAssertNotNil(resource.lowLevelMesh)
         _ = try await ShapeResource.generateStaticMesh(from: resource)
