@@ -59,4 +59,18 @@ You can also construct a `LowLevelMesh` directly with `LowLevelMesh(mesh)`, or u
 
 Euclid applies uniform vertex colors to RealityKit's built-in materials automatically, multiplying color and opacity per material. This fallback works on older platforms and with the polygon and quad initializers too. Custom materials are left unchanged to avoid applying vertex colors twice.
 
-RealityKit's built-in materials do not support vertex-color gradients; you will need a custom shader to display them. Supply a material that reads the geometry color attribute, such as a `ShaderGraphMaterial` using the Geometry Color node, through the `ModelEntity` material lookup closure. This also works in visionOS volumes. Use the `MeshDescriptor` initializers when vertex colors are not required.
+RealityKit's built-in materials do not support vertex-color gradients. You can supply a custom `ShaderGraphMaterial` via the `ModelEntity` material lookup closure, or use Euclid's built-in ``RealityKitVertexColorMaterial`` to generate one for you, as follows:
+
+```swift
+let material = try await RealityKitVertexColorMaterial.make(
+    color: Color(white: 0.8),
+    roughness: 0.6
+)
+let entity = try await ModelEntity(mesh) { _ in material }
+```
+
+The `RealityKitVertexColorMaterial.make()` function accepts a base tint (including opacity), emission, and scalar roughness, metallic, and specular values. It supports textures for base color, normals, opacity, emission, roughness, and metallicity. Vertex, tint, and base-texture RGB are multiplied in linear light; alpha and the opacity texture are multiplied without gamma conversion.
+
+Load base-color and emission textures with `.color` semantics. Load opacity, roughness, and metallic textures with `.scalar` semantics; their red channels multiply the corresponding scalar values. Use a scalar value of `1` for an unscaled texture, and an emission color of `.white` for an untinted emission texture. Normal maps use OpenGL-style tangent-space normals and must be loaded with `.normal` semantics. Unlit materials use base color, opacity, and emission, and ignore the lighting-related inputs.
+
+The returned `ShaderGraphMaterial` can be customized, for example to change face culling behavior. Shader templates are cached, while each returned material has independent parameter values.
