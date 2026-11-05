@@ -15,6 +15,72 @@ import XCTest
 
 @available(macOS 15.0, iOS 18.0, tvOS 26.0, *)
 final class RealityKitTests: XCTestCase {
+    @MainActor
+    func testUniformVertexColorsTintBuiltInMaterials() throws {
+        let color = Color(red: 0.25, green: 0.5, blue: 0.75, alpha: 0.5)
+        let mesh = Mesh.cube().mapVertexColors { _ in color }
+        let lookups: [ModelEntity.MaterialProvider] = [
+            { _ in SimpleMaterial(color: .white, isMetallic: false) },
+            { _ in
+                var material = UnlitMaterial(color: .white)
+                material.blending = .transparent(opacity: .init(floatLiteral: 0.5))
+                return material
+            },
+            { _ in
+                var material = PhysicallyBasedMaterial()
+                material.blending = .transparent(opacity: .init(floatLiteral: 0.5))
+                material.roughness = .init(floatLiteral: 0.75)
+                return material
+            },
+        ]
+        let space = try XCTUnwrap(CGColorSpace(name: CGColorSpace.extendedLinearSRGB))
+        for lookup in lookups {
+            let converted = try XCTUnwrap(ModelEntity(triangles: mesh, materialLookup: lookup).model?.materials.first)
+            let tint: OSColor
+            switch converted {
+            case let material as SimpleMaterial:
+                tint = material.color.tint
+                XCTAssertEqual(Color(tint).alpha, 0.5, accuracy: 0.000001)
+            case let material as UnlitMaterial:
+                tint = material.color.tint
+                guard case let .transparent(opacity) = material.blending else {
+                    return XCTFail("Expected transparent material")
+                }
+                XCTAssertEqual(opacity.scale, 0.25)
+            case let material as PhysicallyBasedMaterial:
+                tint = material.baseColor.tint
+                guard case let .transparent(opacity) = material.blending else {
+                    return XCTFail("Expected transparent material")
+                }
+                XCTAssertEqual(opacity.scale, 0.25)
+                XCTAssertEqual(material.roughness.scale, 0.75)
+            default:
+                return XCTFail("Unexpected material")
+            }
+            let linear = Color(try XCTUnwrap(tint.cgColor.converted(to: space, intent: .defaultIntent, options: nil)))
+            XCTAssertEqual(linear.red, color.red, accuracy: 0.000001)
+            XCTAssertEqual(linear.green, color.green, accuracy: 0.000001)
+            XCTAssertEqual(linear.blue, color.blue, accuracy: 0.000001)
+        }
+    }
+
+    @MainActor
+    func testVertexColorFallbackRequiresUniformColorPerMaterial() throws {
+        let red = Mesh.cube(material: "red").mapVertexColors { _ in .red }
+        let blue = Mesh.cube(material: "blue").mapVertexColors { _ in .blue }
+        let mesh = Mesh.merge([red, blue])
+        let materials = try XCTUnwrap(ModelEntity(triangles: mesh).model).materials
+        XCTAssertEqual(materials.count, 2)
+        for (material, color) in zip(materials, [Color.red, .blue]) {
+            let material = try XCTUnwrap(material as? SimpleMaterial)
+            XCTAssertEqual(Color(material.color.tint), color, accuracy: 0.000001)
+        }
+        // A shared material with varying vertex colors must not take just the first color.
+        let mixed = Mesh.merge([red.withMaterial(nil), blue.withMaterial(nil)])
+        let material = try XCTUnwrap(ModelEntity(triangles: mixed).model?.materials.first as? SimpleMaterial)
+        XCTAssertEqual(Color(material.color.tint), .white, accuracy: 1e-6)
+    }
+
     #if compiler(>=6)
     @available(visionOS 2.0, *)
     @MainActor
