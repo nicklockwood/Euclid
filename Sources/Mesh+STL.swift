@@ -36,7 +36,7 @@ public struct STLTextOptions: Sendable {
 /// Configuration options for binary STL export.
 public struct STLBinaryOptions: Sendable {
     /// Data to use for file header.
-    /// Note: data will be padded to 80 bytes. If more than 80 bytes are provided, data will be truncated.
+    /// - Note: data will be padded to 80 bytes. If more than 80 bytes are provided, data will be truncated.
     public var header: Data
     /// Should normal values be zeroed out?
     public var zeroNormals: Bool
@@ -92,6 +92,9 @@ public extension Mesh {
     /// Return binary STL data for the mesh.
     /// - Parameter options: The output ooptions for the STL file
     /// - Returns: The encoded STL data.
+    /// - Note: Facet RGB components are quantized to 5 bits using the VisCAM/SolidView convention,
+    ///   without gamma conversion. STL color extensions do not declare a color space.
+    ///   Use `colorLookup` to convert components when the destination requires another convention.
     func stlData(options: STLBinaryOptions) -> Data {
         let triangles = triangulate().polygons
         let bufferSize = headerSize + 4 + triangles.count * triangleSize
@@ -221,6 +224,9 @@ public extension Mesh {
     ///   - stlData: binary or ASCII STL file data
     ///   - options: The import options.
     ///   - materialLookup: A closure to map STL facet colors to Euclid materials. Use `nil` for default mapping.
+    /// - Note: Binary facet and header color components are normalized without gamma conversion.
+    ///   STL color extensions do not declare a color space. Colors use Euclid's sRGB convention
+    ///   unless `materialLookup` supplies a source-specific conversion.
     init?(
         stlData: Data,
         options: ImportOptions = .init(),

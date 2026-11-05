@@ -80,7 +80,7 @@ final class ColorTests: XCTestCase {
     func testCompositedOntoOpaqueBackground() {
         XCTAssertEqual(
             Color.red.withAlphaComponent(0.5).composited(over: .blue),
-            Color(red: 0.5, green: 0, blue: 0.5),
+            Color(red: 0.5, green: 0, blue: 0.5).toSRGB(),
             accuracy: epsilon
         )
     }
@@ -88,9 +88,33 @@ final class ColorTests: XCTestCase {
     func testCompositedTranslucentColors() {
         XCTAssertEqual(
             Color.red.withAlphaComponent(0.5).composited(over: .blue.withAlphaComponent(0.5)),
-            Color(red: 2.0 / 3, green: 0, blue: 1.0 / 3, alpha: 0.75),
+            Color(red: 2.0 / 3, green: 0, blue: 1.0 / 3, alpha: 0.75).toSRGB(),
             accuracy: epsilon
         )
+    }
+
+    func testCompositingMidtonesInLinearLight() {
+        let result = Color(white: 0.5, alpha: 0.5).composited(over: .black)
+        XCTAssertEqual(result.red, 0.3607802138332792, accuracy: 1e-12)
+        XCTAssertEqual(result.alpha, 1)
+        XCTAssertEqual(
+            Color.white.withAlphaComponent(0.5).composited(over: .black).red,
+            0.7353569830524495,
+            accuracy: 1e-12
+        )
+    }
+
+    func testLuminancePreservesStoredComponents() {
+        XCTAssertEqual(Color.gray.luminance, 0.5, accuracy: 1e-12)
+        XCTAssertEqual(Color.white.luminance, 1, accuracy: 1e-12)
+        XCTAssertEqual(Color.red.withAlphaComponent(0.5).luminance, 0.2126, accuracy: 1e-12)
+        XCTAssertEqual(Color(red: 0.5, green: 0.25, blue: 0.75).luminance, 0.33925, accuracy: 1e-12)
+    }
+
+    func testRelativeLuminanceUsesExplicitLinearConversion() {
+        XCTAssertEqual(Color.gray.toLinear().luminance, 0.21404114048223255, accuracy: 1e-12)
+        XCTAssertEqual(Color.white.toLinear().luminance, 1, accuracy: 1e-12)
+        XCTAssertEqual(Color.red.withAlphaComponent(0.5).toLinear().luminance, 0.2126, accuracy: 1e-12)
     }
 
     func testCollectionLerp() {
