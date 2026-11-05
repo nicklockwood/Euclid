@@ -335,7 +335,7 @@ public extension ModelEntity {
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
     convenience init(triangles mesh: Mesh, materialLookup: MaterialProvider? = nil) throws {
         let resource = try MeshResource.generate(triangles: mesh)
-        self.init(mesh: resource, materials: mesh.materials(for: materialLookup))
+        self.init(mesh: resource, materials: mesh.realityKitMaterials(materialLookup: materialLookup))
     }
 
     /// Asynchronously creates a model entity from a ``Mesh`` using triangles.
@@ -352,17 +352,17 @@ public extension ModelEntity {
         await self.init(mesh: resource, materials: materials.values)
     }
 
-    /// Synchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex colors are not preserved.
+    /// Synchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex-color gradients are not preserved.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
     convenience init(polygons mesh: Mesh, materialLookup: MaterialProvider? = nil) throws {
         let descriptor = MeshDescriptor(polygons: mesh)
         let resource = try MeshResource.generate(from: [descriptor])
-        self.init(mesh: resource, materials: mesh.materials(for: materialLookup))
+        self.init(mesh: resource, materials: mesh.realityKitMaterials(materialLookup: materialLookup))
     }
 
-    /// Asynchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex colors are not preserved.
+    /// Asynchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex-color gradients are not preserved.
     ///
     /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
     /// generation, material creation, and entity initialization.
@@ -378,18 +378,18 @@ public extension ModelEntity {
     }
 
     /// Synchronously creates a model entity from a ``Mesh`` using quads where possible (and triangles as required).
-    /// Vertex colors are not preserved.
+    /// Vertex-color gradients are not preserved.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
     convenience init(quads mesh: Mesh, materialLookup: MaterialProvider? = nil) throws {
         let descriptor = MeshDescriptor(quads: mesh)
         let resource = try MeshResource.generate(from: [descriptor])
-        self.init(mesh: resource, materials: mesh.materials(for: materialLookup))
+        self.init(mesh: resource, materials: mesh.realityKitMaterials(materialLookup: materialLookup))
     }
 
     /// Asynchronously creates a model entity from a ``Mesh`` using quads where possible (and triangles as required).
-    /// Vertex colors are not preserved.
+    /// Vertex-color gradients are not preserved.
     ///
     /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
     /// generation, material creation, and entity initialization.
@@ -407,19 +407,85 @@ public extension ModelEntity {
 
 @available(tvOS 26.0, *)
 private extension Mesh {
+    /// Converts the mesh's materials to RealityKit materials in mesh resource order.
+    ///
+    /// Uniform vertex colors are multiplied into built-in materials, including their opacity.
+    /// Vertex-color gradients require a custom shader. Custom materials are returned unchanged
+    /// so shaders that read vertex colors do not apply them twice.
+    /// - Parameter materialLookup: Optional mapping from polygon materials to RealityKit materials.
+    @MainActor
+    func realityKitMaterials(materialLookup: ModelEntity.MaterialProvider? = nil) -> [RealityKit.Material] {
+        let colors: [Polygon.Material?: Color] = hasVertexColors ?
+            polygonsByMaterial.compactMapValues { polygons in
+                guard let color = polygons.first?.vertices.first?.color,
+                      polygons.allSatisfy({ $0.vertices.allSatisfy { $0.color == color } })
+                else { return nil }
+                return color
+            } : [:]
+        let materialLookup = materialLookup ?? defaultMaterialLookup
+        return materials.map { material in
+            let converted = materialLookup(material) ?? SimpleMaterial()
+            return converted.multiplyingVertexColor(colors[material] ?? .white)
+        }
+    }
+}
+
+@available(tvOS 26.0, *)
+private extension RealityKit.Material {
+    @MainActor
+    func multiplyingVertexColor(_ color: Euclid.Color) -> RealityKit.Material {
+        guard color != .white else { return self }
+        switch self {
+        case var material as PhysicallyBasedMaterial:
+            material.baseColor.tint = material.baseColor.tint.multiplyingVertexColor(color.withAlphaComponent(1))
+            if color.alpha != 1 {
+                switch material.blending {
+                case .opaque:
+                    material.blending = .transparent(opacity: .init(floatLiteral: Float(color.alpha)))
+                case var .transparent(opacity):
+                    opacity.scale *= Float(color.alpha)
+                    material.blending = .transparent(opacity: opacity)
+                @unknown default: break
+                }
+            }
+            return material
+        case var material as UnlitMaterial:
+            material.color.tint = material.color.tint.multiplyingVertexColor(color.withAlphaComponent(1))
+            if color.alpha != 1 {
+                switch material.blending {
+                case .opaque:
+                    material.blending = .transparent(opacity: .init(floatLiteral: Float(color.alpha)))
+                case var .transparent(opacity):
+                    opacity.scale *= Float(color.alpha)
+                    material.blending = .transparent(opacity: opacity)
+                @unknown default: break
+                }
+            }
+            return material
+        case var material as SimpleMaterial:
+            material.color.tint = material.color.tint.multiplyingVertexColor(color)
+            return material
+        default:
+            return self
+        }
+    }
+}
+
+private extension OSColor {
+    func multiplyingVertexColor(_ color: Euclid.Color) -> OSColor {
+        OSColor(Euclid.Color(self) * color)
+    }
+}
+
+@available(tvOS 26.0, *)
+private extension Mesh {
     struct ModelEntityMaterials: @unchecked Sendable {
         let values: [RealityKit.Material]
     }
 
     @MainActor
-    func materials(for materialLookup: ModelEntity.MaterialProvider?) -> [RealityKit.Material] {
-        materialList(for: materialLookup).values
-    }
-
-    @MainActor
     func materialList(for materialLookup: ModelEntity.MaterialProvider?) -> ModelEntityMaterials {
-        let materialLookup = materialLookup ?? defaultMaterialLookup
-        return ModelEntityMaterials(values: materials.map { materialLookup($0) ?? SimpleMaterial() })
+        ModelEntityMaterials(values: realityKitMaterials(materialLookup: materialLookup))
     }
 
     func getVertexData(
