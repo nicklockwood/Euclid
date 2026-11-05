@@ -35,46 +35,6 @@ import SceneKit
 
 let scnMaterialTypes: [AnyClass] = [SCNMaterial.self]
 
-// MARK: SRGB conversion
-
-private func srgbToLinear(_ x: Double) -> Double {
-    switch x {
-    case ..<0: 0
-    case 1...: 1
-    case 0 ..< 0.04045: x / 12.92
-    default: pow((x + 0.055) / 1.055, 2.4)
-    }
-}
-
-private func linearToSRGB(_ x: Double) -> Double {
-    switch x {
-    case ..<0: 0
-    case 1...: 1
-    case 0 ..< 0.00031308: 12.92 * x
-    default: 1.055 * pow(x, 1 / 2.4) - 0.055
-    }
-}
-
-private extension Color {
-    func toLinear() -> Color {
-        .init(
-            red: srgbToLinear(red),
-            green: srgbToLinear(green),
-            blue: srgbToLinear(blue),
-            alpha: srgbToLinear(alpha)
-        )
-    }
-
-    func toSRGB() -> Color {
-        .init(
-            red: linearToSRGB(red),
-            green: linearToSRGB(green),
-            blue: linearToSRGB(blue),
-            alpha: linearToSRGB(alpha)
-        )
-    }
-}
-
 // MARK: export
 
 public extension SCNVector3 {

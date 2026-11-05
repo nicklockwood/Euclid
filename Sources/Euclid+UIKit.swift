@@ -41,12 +41,28 @@ public extension UIColor {
     /// Creates a UIKit color from a ``Color``.
     /// - Parameter color: The color to convert.
     convenience init(_ color: Color) {
-        self.init(
-            red: CGFloat(color.red),
-            green: CGFloat(color.green),
-            blue: CGFloat(color.blue),
-            alpha: CGFloat(color.alpha)
-        )
+        self.init(color, colorSpace: CGColorSpace(name: CGColorSpace.extendedSRGB)!)
+    }
+
+    /// Creates a UIKit color from a ``Color`` by interpreting its components in the specified color space.
+    /// - Parameters:
+    ///   - color: The color components to interpret in the specified color space.
+    ///   - colorSpace: An RGB color space, or `nil` to use the platform's default RGB initializer.
+    convenience init(_ color: Color, colorSpace: CGColorSpace?) {
+        if let colorSpace {
+            precondition(colorSpace.model == .rgb, "Expected an RGB color space")
+            let cgColor = CGColor(colorSpace: colorSpace, components: [
+                CGFloat(color.red), CGFloat(color.green), CGFloat(color.blue), CGFloat(color.alpha),
+            ])!
+            self.init(cgColor: cgColor)
+        } else {
+            self.init(
+                red: CGFloat(color.red),
+                green: CGFloat(color.green),
+                blue: CGFloat(color.blue),
+                alpha: CGFloat(color.alpha)
+            )
+        }
     }
 }
 
@@ -55,6 +71,14 @@ public extension Color {
     /// - Parameter uiColor: The `UIColor` to convert.
     init(_ uiColor: UIColor) {
         self.init(uiColor.cgColor)
+    }
+
+    /// Creates a color from a `UIColor` by converting it to the specified RGB color space.
+    /// - Parameters:
+    ///   - uiColor: The `UIColor` to convert.
+    ///   - colorSpace: The destination RGB color space, or `nil` to copy the original components without conversion.
+    init(_ uiColor: UIColor, colorSpace: CGColorSpace?) {
+        self.init(uiColor.cgColor, colorSpace: colorSpace)
     }
 }
 

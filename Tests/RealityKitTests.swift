@@ -57,11 +57,24 @@ final class RealityKitTests: XCTestCase {
             default:
                 return XCTFail("Unexpected material")
             }
-            let linear = Color(try XCTUnwrap(tint.cgColor.converted(to: space, intent: .defaultIntent, options: nil)))
-            XCTAssertEqual(linear.red, color.red, accuracy: 0.000001)
-            XCTAssertEqual(linear.green, color.green, accuracy: 0.000001)
-            XCTAssertEqual(linear.blue, color.blue, accuracy: 0.000001)
+            let linear = Color(tint, colorSpace: space)
+            XCTAssertEqual(linear.red, color.toLinear().red, accuracy: 0.000001)
+            XCTAssertEqual(linear.green, color.toLinear().green, accuracy: 0.000001)
+            XCTAssertEqual(linear.blue, color.toLinear().blue, accuracy: 0.000001)
         }
+    }
+
+    @MainActor
+    func testVertexTintMultiplicationUsesLinearLight() throws {
+        let color = Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.5)
+        let mesh = Mesh.cube().mapVertexColors { _ in color }
+        let entity = try ModelEntity(triangles: mesh) { _ in
+            SimpleMaterial(color: OSColor(color), isMetallic: false)
+        }
+        let material = try XCTUnwrap(entity.model?.materials.first as? SimpleMaterial)
+        let expected = (color.toLinear() * color.toLinear()).toSRGB()
+        XCTAssertEqual(Color(material.color.tint), expected, accuracy: 1e-6)
+        XCTAssertEqual(Color(material.color.tint).alpha, 0.25, accuracy: 1e-6)
     }
 
     @MainActor
@@ -173,7 +186,7 @@ final class RealityKitTests: XCTestCase {
             Vertex([1, 0, 0], [0, 0, 1], [1, 0]),
             Vertex([0, 1, 0], [0, 0, 1], [0, 1]),
         ]))])
-        let red = triangle.mapVertexColors { _ in Color(red: 1, green: 0, blue: 0, alpha: 0.5) }.withMaterial("red")
+        let red = triangle.mapVertexColors { _ in Color(red: 0.5, green: 0, blue: 0, alpha: 0.5) }.withMaterial("red")
         let green = triangle.mapVertexColors { _ in .green }.withMaterial("green")
         let mesh = try LowLevelMesh(Mesh.merge([red, green]))
         XCTAssertEqual(mesh.vertexCapacity, 6)
@@ -190,7 +203,13 @@ final class RealityKitTests: XCTestCase {
                 colors.append(buffer.load(fromByteOffset: i * stride + color.offset, as: SIMD4<Float>.self))
             }
         }
-        XCTAssertEqual(colors, Array(repeating: [1, 0, 0, 0.5], count: 3) + Array(repeating: [0, 1, 0, 1], count: 3))
+        XCTAssertEqual(
+            colors,
+            Array(repeating: [Float(Color(white: 0.5).toLinear().red), 0, 0, 0.5], count: 3) + Array(
+                repeating: [0, 1, 0, 1],
+                count: 3
+            )
+        )
         let normal = try XCTUnwrap(mesh.descriptor.vertexAttributes.first { $0.semantic == .normal })
         let uv = try XCTUnwrap(mesh.descriptor.vertexAttributes.first { $0.semantic == .uv0 })
         mesh.withUnsafeBytes(bufferIndex: 0) { buffer in

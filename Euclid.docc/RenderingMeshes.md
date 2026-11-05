@@ -34,6 +34,12 @@ Currently, material serialization works for `String`s, `Int`s, `Color` and any c
 
 ### Colors
 
+``Color`` stores **sRGB-encoded** components with **unpremultiplied alpha**. RGB and HSV initializers, named colors, serialized components, component-wise multiplication, and interpolation retain their sRGB convention. SceneKit and RealityKit adapters decode vertex RGB to linear light on export. SceneKit imports encode it back to sRGB. Alpha is never gamma-corrected.
+
+`Color(cgColor)`, `Color(nsColor)`, and `Color(uiColor)` convert their input from its declared color space to sRGB. Conversely, `NSColor(color)` and `UIColor(color)` interpret Euclid components as sRGB. Use the `colorSpace:` overloads for another RGB space. Passing `nil` explicitly copies components without conversion on input and uses the platform's original RGB initializer on output.
+
+Use `toLinear()` for linear-light calculations and `toSRGB()` to encode their results. These transfer functions leave alpha unchanged and preserve extended-range values. RealityKit material tint multiplication is performed in linear light. Raw OBJ/OFF/STL color components have no reliable color profile. Callers must convert according to their source's convention when known.
+
 Euclid supports applying colors to a ``Mesh`` or ``Polygon`` using the material property, but you can also set colors individually for each vertex, which will be interpolated to create smooth gradients.
 
 The material property is of type `AnyHashable` which basically means it can be anything you want. You can set the `material` to an instance of Euclid's ``Color``, or you can use a `CGColor`, `UIColor` or `NSColor` instead if you prefer.
