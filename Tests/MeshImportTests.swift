@@ -22,6 +22,29 @@ private extension Data {
 }
 
 final class MeshImportTests: XCTestCase {
+    func testOBJVertexWeightIsNotInterpretedAsColor() throws {
+        let mesh = try XCTUnwrap(Mesh(objString: """
+        v 0 0 0 0.5
+        v 1 0 0 0.5
+        v 0 1 0 0.5
+        f 1 2 3
+        """))
+        XCTAssertFalse(mesh.hasVertexColors)
+    }
+
+    func testOBJVertexColorExtensionPreservesSRGB() throws {
+        let mesh = try XCTUnwrap(Mesh(objString: """
+        v 0 0 0 0.5 0.25 0.75
+        v 1 0 0 0.5 0.25 0.75
+        v 0 1 0 0.5 0.25 0.75
+        f 1 2 3
+        """))
+        let color = Color(red: 0.5, green: 0.25, blue: 0.75)
+        XCTAssertTrue(mesh.polygons.flatMap(\.vertices).allSatisfy { $0.color == color })
+        let imported = try XCTUnwrap(Mesh(objString: mesh.objString()))
+        XCTAssertTrue(imported.polygons.flatMap(\.vertices).allSatisfy { $0.color == color })
+    }
+
     // MARK: STL import
 
     func testCubeSTL() {
