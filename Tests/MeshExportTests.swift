@@ -149,6 +149,13 @@ final class MeshExportTests: XCTestCase {
         """)
     }
 
+    func testSTLColorsClampExtendedSRGBComponents() {
+        let color = Color(red: 1.5, green: -0.5, blue: 0.5)
+        let data = Mesh.cube(material: color).stlData()
+        let attribute = UInt16(data[132]) | UInt16(data[133]) << 8
+        XCTAssertEqual(attribute, 0x8000 | (31 << 10) | 16)
+    }
+
     func testSTLColorsPreserveEncodedComponents() throws {
         let color = Color(red: 0.5, green: 0.25, blue: 0.75)
         let data = Mesh.cube(material: color).stlData()
