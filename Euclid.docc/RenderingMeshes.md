@@ -38,7 +38,11 @@ Currently, material serialization works for `String`s, `Int`s, `Color` and any c
 
 `Color(cgColor)`, `Color(nsColor)`, and `Color(uiColor)` convert their input from its declared color space to sRGB. Conversely, `NSColor(color)` and `UIColor(color)` interpret Euclid components as sRGB. Use the `colorSpace:` overloads for another RGB space. Passing `nil` explicitly copies components without conversion on input and uses the platform's original RGB initializer on output.
 
-Use `toLinear()` for linear-light calculations and `toSRGB()` to encode their results. These transfer functions leave alpha unchanged and preserve extended-range values. RealityKit material tint multiplication is performed in linear light. Raw OBJ/OFF/STL color components have no reliable color profile. Callers must convert according to their source's convention when known.
+Use `toLinear()` for linear-light calculations and `toSRGB()` to encode the results. These conversion functions leave alpha unchanged and preserve extended-range values. Source-over compositing and RealityKit material tint multiplication are calculated in linear light.
+
+The `luminance` property does not perform sRGB-to-linear conversion. Use `color.toLinear().luminance` to calculate linear relative luminance. Compositing returns sRGB-encoded components. `*` and `lerp` are component-wise operations.
+
+Raw OBJ/OFF/STL color components have no reliable color profile, so callers must convert according to their source's convention when known. Binary STL color extensions do not declare a color profile or conversion function. Euclid preserves their component values (subject to 5-bit facet quantization) without applying gamma conversion, and interprets imported colors using its sRGB convention. This is a compatibility policy, not a guarantee that every STL producer uses sRGB. Use the STL material/color lookup closures for conversions when a source or destination's convention is known.
 
 Euclid supports applying colors to a ``Mesh`` or ``Polygon`` using the material property, but you can also set colors individually for each vertex, which will be interpolated to create smooth gradients.
 

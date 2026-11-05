@@ -234,9 +234,11 @@ public extension Color {
         hsbComponents.brightness
     }
 
-    /// The perceived luminance of the color.
-    /// Per https://en.wikipedia.org/wiki/Rec._709
+    /// The weighted luminance of the stored RGB components, ignoring alpha.
+    /// - Note: No color-space conversion is performed. For linear relative luminance
+    ///   of an sRGB color, use `toLinear().luminance`.
     var luminance: Double {
+        // https://en.wikipedia.org/wiki/Rec._709
         red * 0.2126 + green * 0.7152 + blue * 0.0722
     }
 
@@ -245,7 +247,7 @@ public extension Color {
         .init(red: red, green: green, blue: blue, alpha: alpha)
     }
 
-    /// Composites this color over a background using source-over alpha blending.
+    /// Composites this color over a background using source-over alpha blending in linear light.
     /// - Parameter background: The color beneath this color.
     /// - Returns: The combined color, or ``clear`` if both colors are fully transparent.
     func composited(over background: Color) -> Color {
@@ -253,8 +255,8 @@ public extension Color {
         guard alpha > 0 else {
             return .clear
         }
-        return background.interpolated(with: self, by: self.alpha / alpha)
-            .withAlphaComponent(alpha)
+        return background.toLinear().interpolated(with: toLinear(), by: self.alpha / alpha)
+            .toSRGB().withAlphaComponent(alpha)
     }
 
     /// Interpolates the sRGB components and alpha between two colors.

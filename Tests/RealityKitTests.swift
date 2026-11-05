@@ -179,6 +179,78 @@ final class RealityKitTests: XCTestCase {
 
     @available(visionOS 2.0, *)
     @MainActor
+    func testRenderedAlphaMatchesCompositedColor() async throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
+        // Initialize RealityKit on the main actor before asynchronous shader loading.
+        let renderer = try RealityRenderer()
+        func material(_ color: Color) -> UnlitMaterial {
+            var material = UnlitMaterial(applyPostProcessToneMap: true)
+            material.color = .init(tint: OSColor(color.withAlphaComponent(1)))
+            if color.alpha < 1 {
+                material.blending = .transparent(opacity: .init(floatLiteral: Float(color.alpha)))
+            }
+            return material
+        }
+        let mesh = Mesh.fill(.square(size: 2), faces: .front)
+        let entity = try await ModelEntity(mesh, materialLookup: { _ in material(.black) })
+        let foregroundEntity = try await ModelEntity(mesh, materialLookup: { _ in material(.white) })
+        foregroundEntity.position.z = 0.1
+        renderer.entities.append(foregroundEntity)
+        let camera = Entity()
+        camera.components.set(PerspectiveCameraComponent())
+        camera.position = [0, 0, 3]
+        renderer.entities.append(entity)
+        renderer.entities.append(camera)
+        renderer.activeCamera = camera
+        let descriptor = MTLTextureDescriptor.texture2DDescriptor(
+            pixelFormat: .rgba8Unorm_srgb,
+            width: 32,
+            height: 32,
+            mipmapped: false
+        )
+        descriptor.usage = [.renderTarget, .shaderRead, .shaderWrite]
+        descriptor.storageMode = .shared
+        let device = try XCTUnwrap(MTLCreateSystemDefaultDevice())
+        let texture = try XCTUnwrap(device.makeTexture(descriptor: descriptor))
+        let output = try RealityRenderer.CameraOutput(.singleProjection(colorTexture: texture))
+        func renderPixel() async throws -> [UInt8] {
+            for _ in 0 ..< 3 {
+                try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+                    do {
+                        try renderer.updateAndRender(
+                            deltaTime: 1 / 60,
+                            cameraOutput: output,
+                            onComplete: { _ in continuation.resume() }
+                        )
+                    } catch { continuation.resume(throwing: error) }
+                }
+            }
+            var pixel = [UInt8](repeating: 0, count: 4)
+            texture.getBytes(&pixel, bytesPerRow: 4, from: MTLRegionMake2D(16, 16, 1, 1), mipmapLevel: 0)
+            return pixel
+        }
+        // Compare translucent layers with an opaque, precomposited color so that
+        // both results pass through the same renderer color management.
+        for (foreground, background) in [
+            (Color(white: 1, alpha: 0.5), Color.black),
+            (Color(red: 1, green: 0, blue: 0, alpha: 0.5), Color.blue),
+            (Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.3), Color(white: 0.4)),
+        ] {
+            foregroundEntity.isEnabled = true
+            foregroundEntity.model?.materials = [material(foreground)]
+            entity.model?.materials = [material(background)]
+            let actual = try await renderPixel()
+            foregroundEntity.isEnabled = false
+            entity.model?.materials = [material(foreground.composited(over: background))]
+            let expected = try await renderPixel()
+            for channel in 0 ..< 4 {
+                XCTAssertEqual(Double(actual[channel]), Double(expected[channel]), accuracy: 2)
+            }
+        }
+    }
+
+    @available(visionOS 2.0, *)
+    @MainActor
     func testTextureFilteringMatchesBuiltInMaterial() async throws {
         try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         let renderer = try RealityRenderer()

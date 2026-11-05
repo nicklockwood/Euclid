@@ -33,6 +33,89 @@ final class SceneKitTests: XCTestCase {
         }
     }
 
+    @MainActor
+    func testRenderedAlphaMatchesCompositedColor() throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "SceneKit requires a Metal device")
+        let device = try XCTUnwrap(MTLCreateSystemDefaultDevice())
+        let queue = try XCTUnwrap(device.makeCommandQueue())
+        let renderer = SCNRenderer(device: device, options: nil)
+        let scene = SCNScene()
+        let node = SCNNode()
+        scene.rootNode.addChildNode(node)
+        let foregroundNode = SCNNode()
+        foregroundNode.position.z = 0.1
+        scene.rootNode.addChildNode(foregroundNode)
+        let camera = SCNNode()
+        camera.camera = SCNCamera()
+        camera.position = SCNVector3(0, 0, 3)
+        scene.rootNode.addChildNode(camera)
+        renderer.scene = scene
+        renderer.pointOfView = camera
+        let descriptor = MTLTextureDescriptor.texture2DDescriptor(
+            pixelFormat: .bgra8Unorm_srgb, width: 32, height: 32, mipmapped: false
+        )
+        descriptor.usage = [.renderTarget, .shaderRead]
+        descriptor.storageMode = .shared
+        let texture = try XCTUnwrap(device.makeTexture(descriptor: descriptor))
+        let pass = MTLRenderPassDescriptor()
+        pass.colorAttachments[0].texture = texture
+        pass.colorAttachments[0].loadAction = .clear
+        pass.colorAttachments[0].storeAction = .store
+        let depthDescriptor = MTLTextureDescriptor.texture2DDescriptor(
+            pixelFormat: .depth32Float_stencil8, width: 32, height: 32, mipmapped: false
+        )
+        depthDescriptor.usage = .renderTarget
+        depthDescriptor.storageMode = .private
+        let depth = try XCTUnwrap(device.makeTexture(descriptor: depthDescriptor))
+        pass.depthAttachment.texture = depth
+        pass.depthAttachment.loadAction = .clear
+        pass.depthAttachment.clearDepth = 1
+        pass.stencilAttachment.texture = depth
+        pass.stencilAttachment.loadAction = .clear
+        func renderPixel(_ geometry: SCNGeometry) throws -> [UInt8] {
+            node.geometry = geometry
+            SCNTransaction.flush()
+            let buffer = try XCTUnwrap(queue.makeCommandBuffer())
+            renderer.render(
+                atTime: 0, viewport: CGRect(x: 0, y: 0, width: 32, height: 32),
+                commandBuffer: buffer, passDescriptor: pass
+            )
+            buffer.commit()
+            buffer.waitUntilCompleted()
+            XCTAssertNil(buffer.error)
+            var pixel = [UInt8](repeating: 0, count: 4)
+            texture.getBytes(&pixel, bytesPerRow: 4, from: MTLRegionMake2D(16, 16, 1, 1), mipmapLevel: 0)
+            return pixel
+        }
+        func geometry(_ color: Color) -> SCNGeometry {
+            let geometry = SCNGeometry(Mesh.fill(
+                .square(size: 2),
+                faces: .front,
+                material: color.withAlphaComponent(1)
+            ))
+            geometry.firstMaterial?.lightingModel = .constant
+            // Keep the diffuse color opaque to isolate material opacity.
+            geometry.firstMaterial?.transparency = CGFloat(color.alpha)
+            return geometry
+        }
+        // Compare translucent layers with an opaque, precomposited color so that
+        // both results pass through the same renderer color management.
+        for (foreground, background) in [
+            (Color(white: 1, alpha: 0.5), Color.black),
+            (Color(red: 1, green: 0, blue: 0, alpha: 0.5), Color.blue),
+            (Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.3), Color(white: 0.4)),
+        ] {
+            foregroundNode.isHidden = false
+            foregroundNode.geometry = geometry(foreground)
+            let actual = try renderPixel(geometry(background))
+            foregroundNode.isHidden = true
+            let expected = try renderPixel(geometry(foreground.composited(over: background)))
+            for channel in 0 ..< 4 {
+                XCTAssertEqual(Double(actual[channel]), Double(expected[channel]), accuracy: 2)
+            }
+        }
+    }
+
     // MARK: Import
 
     func testGeometryImportedWithCorrectDetail() {

@@ -149,6 +149,21 @@ final class MeshExportTests: XCTestCase {
         """)
     }
 
+    func testSTLColorsPreserveEncodedComponents() throws {
+        let color = Color(red: 0.5, green: 0.25, blue: 0.75)
+        let data = Mesh.cube(material: color).stlData()
+        let expected: UInt16 = 0x8000 | (16 << 10) | (8 << 5) | 23
+        let attribute = UInt16(data[132]) | UInt16(data[133]) << 8
+        XCTAssertEqual(attribute, expected)
+        let imported = try XCTUnwrap(Mesh(stlData: data))
+        let decoded = try XCTUnwrap(imported.polygons.first?.material as? Color)
+        XCTAssertEqual(decoded, Color(red: 16.0 / 31, green: 8.0 / 31, blue: 23.0 / 31))
+        #if canImport(AppKit) || canImport(UIKit)
+        let platform = OSColor(red: 0.5, green: 0.25, blue: 0.75, alpha: 1)
+        XCTAssertEqual(Mesh.cube(material: platform).stlData(), data)
+        #endif
+    }
+
     func testCubeSTLDataWithCustomHeader() throws {
         let cube = Mesh.cube().translated(by: Vector(0.5, 0.5, 0.5))
         let header = try XCTUnwrap("Hello World".data(using: .utf8))
