@@ -32,8 +32,8 @@
 import Foundation
 
 /// A distance or position in 3D space.
-/// > Note: Euclid doesn't have a 2D vector type. When working with primarily 2D shapes, such as
-/// ``Path``s, you can omit the ``z`` component when constructing vector and it will default to zero.
+/// - Note: Euclid doesn't have a 2D vector type. When working with primarily 2D shapes, such as
+///   ``Path``s, you can omit the ``z`` component when constructing vector and it will default to zero.
 public struct Vector: Hashable, Sendable, AdditiveArithmetic {
     /// The X component of the vector.
     public var x: Double

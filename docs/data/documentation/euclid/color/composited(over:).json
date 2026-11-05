@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Composites this color over a background using source-over alpha blending.",
+      "text" : "Composites this color over a background using source-over alpha blending in linear light.",
       "type" : "text"
     }
   ],
@@ -223,7 +223,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],
@@ -299,7 +299,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/composited(over:)": {
   "abstract" : [
     {
-      "text" : "Composites this color over a background using source-over alpha blending.",
+      "text" : "Composites this color over a background using source-over alpha blending in linear light.",
       "type" : "text"
     }
   ],

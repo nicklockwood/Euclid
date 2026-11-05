@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a color with its components multiplied by the specified color.",
+      "text" : "Returns a color with its sRGB components and alpha multiplied component-wise.",
       "type" : "text"
     }
   ],
@@ -169,6 +169,49 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "For linear-light material tint multiplication, as used by SceneKit and RealityKit,",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "use ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "(lhs.toLinear() * rhs.toLinear()).toSRGB()",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ". Alpha is multiplied without gamma correction.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -210,7 +253,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],
@@ -244,7 +287,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/*(_:_:)": {
   "abstract" : [
     {
-      "text" : "Returns a color with its components multiplied by the specified color.",
+      "text" : "Returns a color with its sRGB components and alpha multiplied component-wise.",
       "type" : "text"
     }
   ],

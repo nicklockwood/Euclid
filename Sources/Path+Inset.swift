@@ -12,8 +12,7 @@ public extension Path {
     ///   - distance: The distance by which to inset the path edges.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A copy of the path, inset by the specified distance.
-    ///
-    /// > Note: Passing a negative `distance` will expand the path instead of shrinking it.
+    /// - Note: Passing a negative `distance` will expand the path instead of shrinking it.
     func inset(
         by distance: Double,
         isCancelled: CancellationHandler = { false }

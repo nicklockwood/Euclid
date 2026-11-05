@@ -536,8 +536,7 @@ public extension Mesh {
     ///   - points: A set of path points to compute the hull around.
     ///   - material: An optional material to apply to the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
-    ///
-    /// > Note: The curvature of the point is currently ignored when calculating hull surface normals.
+    /// - Note: The curvature of the point is currently ignored when calculating hull surface normals.
     static func convexHull(
         of points: some Collection<PathPoint>,
         material: Material? = nil,
@@ -763,8 +762,7 @@ public extension Mesh {
     ///   - plane: The ``Plane`` to split the mesh along.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A pair of meshes representing the parts in front of and behind the plane respectively.
-    ///
-    /// > Note: If the plane and mesh do not intersect, one of the returned meshes will be `nil`.
+    /// - Note: If the plane and mesh do not intersect, one of the returned meshes will be `nil`.
     func split(
         along plane: Plane,
         isCancelled: CancellationHandler = { false }
@@ -817,8 +815,7 @@ public extension Mesh {
     ///   - plane: The plane to clip the mesh to
     ///   - fill: The material to fill the sheared face(s) with.
     ///   - isCancelled: Callback used to cancel the operation.
-    ///
-    /// > Note: Specifying nil for the fill material will leave the sheared face unfilled.
+    /// - Note: Specifying nil for the fill material will leave the sheared face unfilled.
     func clipped(
         to plane: Plane,
         fill: Material? = nil,
@@ -909,9 +906,8 @@ public extension Mesh {
     /// - Parameters:
     ///   - mesh: The mesh to clip the receiver to.
     ///   - isCancelled: Callback used to cancel the operation.
-    ///
-    /// > Note: Unlike `subtracting()`, this method does not require the receiver to be watertight,
-    /// but also does not fill the hole(s) left behind by the clipping operation, and may expose backfaces.
+    /// - Note: Unlike `subtracting()`, this method does not require the receiver to be watertight,
+    ///   but also does not fill the hole(s) left behind by the clipping operation, and may expose backfaces.
     func clipped(to mesh: Mesh, isCancelled: CancellationHandler = { false }) -> Mesh {
         let intersection = bounds.intersection(mesh.bounds)
         guard !intersection.isEmpty else {

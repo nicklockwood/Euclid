@@ -1,5 +1,21 @@
 # Change Log
 
+## [0.10.5](https://github.com/nicklockwood/Euclid/releases/tag/0.10.5) (2026-11-07)
+
+- Fixed texture seams on convex hulls of smooth meshes
+- Fixed vertex color interpolation during subdivision and polygon splitting to use linear light
+- Corrected source-over compositing to use linear light calculations
+- Preserved sRGB color components while normalizing platform colors using their declared color space
+- Added explicit sRGB transfer functions and legacy platform color conversion options
+- Fixed SceneKit vertex alpha being gamma-converted and corrected the sRGB encoding threshold
+- Converted vertex RGB and RealityKit material tint multiplication to linear light at renderer boundaries
+- Added uniform vertex color fallback for built-in RealityKit materials on all supported platforms
+- Added RealityKit `LowLevelMesh` conversion and automatic vertex color preservation on supported platforms
+- Added `RealityKitVertexColorMaterial` factory for lit and unlit vertex color shaders
+- Fixed OBJ vertex weights being interpreted as grayscale colors
+- Clamped out-of-range RGB components when exporting binary STL colors
+- Expanded example project to demonstrate vertex colors, lofting, lathing and materials
+
 ## [0.10.4](https://github.com/nicklockwood/Euclid/releases/tag/0.10.4) (2026-10-30)
 
 - Added `Path.interpolated(from:to:step:isCancelled:)` for distance-based slicing and resampling

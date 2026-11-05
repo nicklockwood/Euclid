@@ -164,6 +164,57 @@
         }
       ],
       "kind" : "content"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Facet RGB components are clamped to 0…1 and quantized to 5 bits using the VisCAM\/SolidView",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "convention, without gamma conversion. STL color extensions do not declare a color space.",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "Use ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "colorLookup",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to convert components when the destination requires another convention.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
     }
   ],
   "schemaVersion" : {

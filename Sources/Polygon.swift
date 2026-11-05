@@ -146,9 +146,9 @@ public extension Polygon {
     /// Supported `NSSecureCodable` Material base classes.
     nonisolated(unsafe) static var codableClasses: [AnyClass] = {
         #if canImport(AppKit) || canImport(UIKit)
-        return [OSImage.self, OSColor.self] + scnMaterialTypes
+        [OSImage.self, OSColor.self] + scnMaterialTypes
         #else
-        return []
+        []
         #endif
     }()
 
@@ -240,9 +240,8 @@ public extension Polygon {
     /// - Parameters:
     ///   - vertices: An array of ``Vertex`` that make up the polygon.
     ///   - material: An optional ``Material-swift.typealias`` to use for the polygon.
-    ///
-    /// > Note: A polygon can be convex or concave, but vertices must be coplanar and non-degenerate.
-    /// Vertices are assumed to be in anti-clockwise order for the purpose of deriving the face normal.
+    /// - Note: A polygon can be convex or concave, but vertices must be coplanar and non-degenerate.
+    ///   Vertices are assumed to be in anti-clockwise order for the purpose of deriving the face normal.
     init?(_ vertices: [Vertex], material: Material? = nil) {
         guard vertices.count > 2, !verticesAreDegenerate(vertices),
               let plane = Plane(points: vertices.map(\.position))
@@ -262,9 +261,8 @@ public extension Polygon {
     /// - Parameters:
     ///   - vertices: A collection of ``Vector`` positions for the polygon vertices.
     ///   - material: An optional ``Material-swift.typealias`` to use for the polygon.
-    ///
-    /// > Note: Vertex normals will be set to match the overall face normal of the polygon.
-    /// Texture coordinates will be set to zero. Vertex colors will be defaulted to white.
+    /// - Note: Vertex normals will be set to match the overall face normal of the polygon.
+    ///   Texture coordinates will be set to zero. Vertex colors will be defaulted to white.
     init?(_ vertices: some Collection<Vector>, material: Material? = nil) {
         self.init(vertices.map(Vertex.init), material: material)
     }
@@ -285,9 +283,8 @@ public extension Polygon {
 
     /// Return a copy of the polygon with transformed vertices.
     /// - Parameter transform: A closure to be applied to each vertex in the polygon.
-    ///
-    /// > Note: Since altering the vertices can cause the polygon to become degenerate or non-planar
-    /// this method returns an array of zero or more polygons constructed from the mapped vertices.
+    /// - Note: Since altering the vertices can cause the polygon to become degenerate or non-planar
+    ///   this method returns an array of zero or more polygons constructed from the mapped vertices.
     func mapVertices(_ transform: (Vertex) -> Vertex) -> [Polygon] {
         let vertices = vertices.map(transform)
         // Check if changes affect shape
@@ -401,8 +398,7 @@ public extension Polygon {
     /// Tessellates the polygon into triangles.
     /// - Parameter isCancelled: Callback used to cancel the operation.
     /// - Returns: An array of triangles.
-    ///
-    /// > Note: If the polygon is already a triangle then it is returned unchanged.
+    /// - Note: If the polygon is already a triangle then it is returned unchanged.
     func triangulate(isCancelled: CancellationHandler = { false }) -> [Polygon] {
         guard vertices.count > 3 else {
             return [self]
@@ -736,7 +732,7 @@ extension Collection<Polygon> {
     }
 
     /// Check if polygons form a watertight mesh, i.e. every edge is attached to at least 2 polygons.
-    /// Note: doesn't verify that mesh is not self-intersecting or inside-out.
+    /// - Note: Doesn't verify that mesh is not self-intersecting or inside-out.
     var areWatertight: Bool {
         holeEdges.isEmpty
     }
@@ -772,7 +768,7 @@ extension Collection<Polygon> {
     }
 
     /// Like holeEdges, but preserves edge directionality
-    /// > Note: only suitable for use with polygons that are coplanar or don't include reverse faces
+    /// - Note: Only suitable for use with polygons that are coplanar or don't include reverse faces.
     var boundingEdges: [LineSegment] {
         var edgesByInvertedEdge = [LineSegment: Int]()
         var edges = [LineSegment?]()
@@ -1432,9 +1428,7 @@ private extension [Polygon] {
                 ensureConvex: ensureConvex,
                 allowDisjointSharedVertices: allowDisjointSharedVertices,
                 preserveRedundantVertices: preserveRedundantVertices
-            ),
-                merged.vertices.count <= maxSides
-            else {
+            ), merged.vertices.count <= maxSides else {
                 continue
             }
             let candidate = MergeCandidate(

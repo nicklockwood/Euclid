@@ -459,6 +459,7 @@ public extension ModelEntity {
     }
 }
 
+@MainActor
 @available(tvOS 26.0, *)
 private extension Mesh {
     /// Converts the mesh's materials to RealityKit materials in mesh resource order.
@@ -467,7 +468,6 @@ private extension Mesh {
     /// Vertex color gradients require a custom shader. Custom materials are returned unchanged
     /// so shaders that read vertex colors do not apply them twice.
     /// - Parameter materialLookup: Optional mapping from polygon materials to RealityKit materials.
-    @MainActor
     func realityKitMaterials(materialLookup: ModelEntity.MaterialProvider? = nil) -> [RealityKit.Material] {
         let colors: [Polygon.Material?: Color] = hasVertexColors ?
             polygonsByMaterial.compactMapValues { polygons in
@@ -484,9 +484,9 @@ private extension Mesh {
     }
 }
 
+@MainActor
 @available(tvOS 26.0, *)
 private extension RealityKit.Material {
-    @MainActor
     func multiplyingVertexColor(_ color: Euclid.Color) -> RealityKit.Material {
         guard color != .white else { return self }
         switch self {

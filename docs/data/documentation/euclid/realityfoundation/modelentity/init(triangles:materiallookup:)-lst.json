@@ -12,6 +12,31 @@
     {
       "text" : " using triangles.",
       "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Vertex color gradients automatically use ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityKitVertexColorMaterial",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " on supported platforms",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "when no material lookup is supplied. Explicit RealityKit materials are preserved.",
+      "type" : "text"
     }
   ],
   "hierarchy" : {
@@ -428,6 +453,31 @@
     {
       "text" : " using triangles.",
       "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Vertex color gradients automatically use ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityKitVertexColorMaterial",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " on supported platforms",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "when no material lookup is supplied. Explicit RealityKit materials are preserved.",
+      "type" : "text"
     }
   ],
   "fragments" : [
@@ -492,6 +542,40 @@
   "title" : "init(triangles:materialLookup:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/realityfoundation\/modelentity\/init(triangles:materiallookup:)-lst"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityKitVertexColorMaterial": {
+  "abstract" : [
+    {
+      "text" : "Creates shader graph materials that display Euclid’s RealityKit vertex colors.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "RealityKitVertexColorMaterial"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityKitVertexColorMaterial",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "RealityKitVertexColorMaterial"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "RealityKitVertexColorMaterial",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realitykitvertexcolormaterial"
 }
 }
 }

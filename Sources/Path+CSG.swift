@@ -175,8 +175,7 @@ public extension Path {
     /// Split the path along a plane.
     /// - Parameter plane: The ``Plane`` to split the path along.
     /// - Returns: A pair of paths representing the path fragments that lie in front and behind the plane .
-    ///
-    /// > Note: If the path and plane do not intersect, one of the returned paths will be empty.
+    /// - Note: If the path and plane do not intersect, one of the returned paths will be empty.
     func split(along plane: Plane) -> (front: Path, back: Path) {
         var front = [Path](), back: [Path]! = [], coplanar: [Path]?
         split(along: plane, &coplanar, &front, &back) { false }

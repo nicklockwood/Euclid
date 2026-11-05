@@ -36,7 +36,7 @@ public struct STLTextOptions: Sendable {
 /// Configuration options for binary STL export.
 public struct STLBinaryOptions: Sendable {
     /// Data to use for file header.
-    /// - Note: data will be padded to 80 bytes. If more than 80 bytes are provided, data will be truncated.
+    /// - Note: Data will be padded to 80 bytes. If more than 80 bytes are provided, data will be truncated.
     public var header: Data
     /// Should normal values be zeroed out?
     public var zeroNormals: Bool
@@ -152,9 +152,9 @@ private extension Buffer {
     }
 
     func append(_ color: Color) {
-        let red = UInt16(round(color.red.clamped(to: 0...1) * 31))
-        let green = UInt16(round(color.green.clamped(to: 0...1) * 31))
-        let blue = UInt16(round(color.blue.clamped(to: 0...1) * 31))
+        let red = UInt16(round(color.red.clamped(to: 0 ... 1) * 31))
+        let green = UInt16(round(color.green.clamped(to: 0 ... 1) * 31))
+        let blue = UInt16(round(color.blue.clamped(to: 0 ... 1) * 31))
         append(0x8000 | red << 10 | green << 5 | blue)
     }
 

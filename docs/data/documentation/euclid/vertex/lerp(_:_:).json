@@ -229,6 +229,14 @@
                 {
                   "text" : "Interpolation is applied to the texture coordinate, normal and color, as well as the position.",
                   "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "RGB is interpolated in linear light. Alpha is interpolated independently.",
+                  "type" : "text"
                 }
               ],
               "type" : "paragraph"

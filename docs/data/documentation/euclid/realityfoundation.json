@@ -36,6 +36,8 @@
       "anchor" : "Extended-Classes",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/LowLevelMesh",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/MeshResource",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/ModelEntity"
       ],
       "title" : "Extended Classes"
@@ -89,6 +91,38 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/realityfoundation"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/LowLevelMesh": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "s:17RealityFoundation12LowLevelMeshC",
+      "text" : "LowLevelMesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/LowLevelMesh",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "LowLevelMesh"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "LowLevelMesh",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation\/lowlevelmesh"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/MeshDescriptor": {
   "abstract" : [
 
@@ -120,6 +154,38 @@
   "title" : "MeshDescriptor",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/realityfoundation\/meshdescriptor"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/MeshResource": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "s:17RealityFoundation12MeshResourceC",
+      "text" : "MeshResource"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/MeshResource",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MeshResource"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MeshResource",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation\/meshresource"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/ModelEntity": {
   "abstract" : [

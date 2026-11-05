@@ -3,14 +3,6 @@
     {
       "text" : "Data to use for file header.",
       "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "Note: data will be padded to 80 bytes. If more than 80 bytes are provided, data will be truncated.",
-      "type" : "text"
     }
   ],
   "hierarchy" : {
@@ -97,6 +89,33 @@
         }
       ],
       "kind" : "declarations"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Data will be padded to 80 bytes. If more than 80 bytes are provided, data will be truncated.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Note",
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
     }
   ],
   "schemaVersion" : {
@@ -173,14 +192,6 @@
   "abstract" : [
     {
       "text" : "Data to use for file header.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "Note: data will be padded to 80 bytes. If more than 80 bytes are provided, data will be truncated.",
       "type" : "text"
     }
   ],

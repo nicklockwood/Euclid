@@ -121,7 +121,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "If the path has subpaths then the points returned may not represent a single contour",
+                  "text" : "If the path has subpaths then the points returned may not represent a single contour.",
                   "type" : "text"
                 }
               ],

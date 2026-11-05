@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Synchrononously creates a model entity from a ",
+      "text" : "Synchronously creates a model entity from a ",
       "type" : "text"
     },
     {
@@ -11,6 +11,14 @@
     },
     {
       "text" : " using triangles.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Vertex color gradients require a custom material. Use the async initializer for automatic support.",
       "type" : "text"
     }
   ],
@@ -378,7 +386,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/ModelEntity/init(triangles:materialLookup:)-63n4j": {
   "abstract" : [
     {
-      "text" : "Synchrononously creates a model entity from a ",
+      "text" : "Synchronously creates a model entity from a ",
       "type" : "text"
     },
     {
@@ -388,6 +396,14 @@
     },
     {
       "text" : " using triangles.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Vertex color gradients require a custom material. Use the async initializer for automatic support.",
       "type" : "text"
     }
   ],

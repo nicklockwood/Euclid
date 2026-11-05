@@ -92,7 +92,8 @@
       "anchor" : "Initializers",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/AppKit\/NSColor\/init(_:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/AppKit\/NSColor\/init(_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/AppKit\/NSColor\/init(_:colorSpace:)"
       ],
       "title" : "Initializers"
     }
@@ -171,15 +172,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/AppKit/NSColor/init(_:)": {
   "abstract" : [
     {
-      "text" : "Creates an ",
-      "type" : "text"
-    },
-    {
-      "code" : "NSColor",
-      "type" : "codeVoice"
-    },
-    {
-      "text" : " from a ",
+      "text" : "Creates an AppKit color from a ",
       "type" : "text"
     },
     {
@@ -218,10 +211,69 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/appkit\/nscolor\/init(_:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/AppKit/NSColor/init(_:colorSpace:)": {
+  "abstract" : [
+    {
+      "text" : "Creates an AppKit color from a ",
+      "type" : "text"
+    },
+    {
+      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
+      "isActive" : true,
+      "type" : "reference"
+    },
+    {
+      "text" : " by interpreting its components in the specified color space.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorSpace"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@T@CGColorSpaceRef",
+      "text" : "CGColorSpace"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/AppKit\/NSColor\/init(_:colorSpace:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:colorSpace:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/appkit\/nscolor\/init(_:colorspace:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],

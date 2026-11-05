@@ -115,7 +115,15 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "The CoreGraphics color instance.",
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "CGColor",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to convert.",
                   "type" : "text"
                 }
               ],
@@ -179,7 +187,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],
@@ -428,7 +436,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(white:alpha:)": {
   "abstract" : [
     {
-      "text" : "Creates a color from a luminance value and optional alpha component.",
+      "text" : "Creates a color from an sRGB white level and optional alpha component.",
       "type" : "text"
     }
   ],

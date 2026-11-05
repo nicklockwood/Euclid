@@ -41,8 +41,7 @@ public struct Bounds: Hashable, Sendable {
     /// - Parameters:
     ///   - min: The minimum coordinate value.
     ///   - max: The maximum coordinate value.
-    ///
-    /// > Note: If the value for max is less than the value for min, the bounds is considered to be empty.
+    /// - Note: If the value for max is less than the value for min, the bounds is considered to be empty.
     public init(min: Vector, max: Vector) {
         self.min = min
         self.max = max
@@ -99,8 +98,7 @@ public extension Bounds {
     /// - Parameters:
     ///   - p0: The first point.
     ///   - p1: The second point.
-    ///
-    /// > Note: Unlike the `init(min:max:)` constructor, the order of the points doesn't matter.
+    /// - Note: Unlike the `init(min:max:)` constructor, the order of the points doesn't matter.
     init(_ p0: Vector, _ p1: Vector) {
         self.min = Euclid.min(p0, p1)
         self.max = Euclid.max(p0, p1)

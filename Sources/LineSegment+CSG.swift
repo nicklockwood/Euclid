@@ -14,8 +14,7 @@ public extension LineSegment {
     /// Split the line segment along a plane.
     /// - Parameter plane: The ``Plane`` to split the line segment along.
     /// - Returns: A pair of segments representing the parts of the line segment in front and behind the plane.
-    ///
-    /// > Note: if the segment is coincident with the plane it will be treated as being behind the plane.
+    /// - Note: If the segment is coincident with the plane it will be treated as being behind the plane.
     func split(along plane: Plane) -> (front: LineSegment?, back: LineSegment?) {
         split(with: (start.signedDistance(from: plane), end.signedDistance(from: plane)))
     }
@@ -23,8 +22,7 @@ public extension LineSegment {
     /// Clip line segment to the specified plane.
     /// - Parameter plane: The ``Plane``  to clip the segment to.
     /// - Returns: The clipped line segment, or `nil` if the segment lies entirely behind the plane.
-    ///
-    /// > Note: if the segment is coincident with the plane it will be treated as being behind the plane.
+    /// - Note: If the segment is coincident with the plane it will be treated as being behind the plane.
     func clipped(to plane: Plane) -> LineSegment? {
         split(along: plane).front
     }
@@ -34,8 +32,7 @@ public extension LineSegment {
     ///   - mesh: The mesh volume against which to clip the segments.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: The parts of the line segment that lie outside the mesh.
-    ///
-    /// > Note: When clipping multiple edges, it is more efficient to call `Collection<LineSegment>.clipped(to:)`.
+    /// - Note: When clipping multiple edges, it is more efficient to call `Collection<LineSegment>.clipped(to:)`.
     func clipped(
         to mesh: Mesh,
         isCancelled: CancellationHandler = { false }
@@ -127,7 +124,7 @@ extension LineSegment {
     }
 
     /// Put the line segment in the correct list, splitting it when necessary
-    /// > Note: the logic differs from the public method due to coplanar precision rules
+    /// - Note: The logic differs from the public method due to coplanar precision rules.
     func split(
         along plane: Plane,
         _ coplanar: inout [LineSegment],
@@ -147,7 +144,7 @@ extension LineSegment {
     }
 
     /// Put the line segment in the correct list, splitting it when necessary
-    /// > Note: coplanar segments are treated as being behind the plane.
+    /// - Note: Coplanar segments are treated as being behind the plane.
     func split(
         along plane: Plane,
         _ front: inout [LineSegment],

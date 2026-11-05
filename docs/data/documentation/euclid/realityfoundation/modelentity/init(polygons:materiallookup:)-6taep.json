@@ -12,6 +12,14 @@
     {
       "text" : " using convex polygons.",
       "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Vertex color gradients are not preserved.",
+      "type" : "text"
     }
   ],
   "hierarchy" : {
@@ -427,6 +435,14 @@
     },
     {
       "text" : " using convex polygons.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Vertex color gradients are not preserved.",
       "type" : "text"
     }
   ],

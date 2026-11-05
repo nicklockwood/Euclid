@@ -12,8 +12,7 @@ public extension Polygon {
     ///   - distance: The distance by which to inset the polygon edges.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A copy of the polygon, inset by the specified distance.
-    ///
-    /// > Note: Passing a negative `distance` will expand the polygon instead of shrinking it.
+    /// - Note: Passing a negative `distance` will expand the polygon instead of shrinking it.
     func inset(
         by distance: Double,
         isCancelled: CancellationHandler = { false }

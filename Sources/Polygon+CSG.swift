@@ -16,8 +16,7 @@ public extension Polygon {
     ///   - plane: The ``Plane`` to split the polygon along.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A pair of arrays representing the polygon fragments in front of and behind the plane respectively.
-    ///
-    /// > Note: If the plane and polygon do not intersect, one of the returned arrays will be empty.
+    /// - Note: If the plane and polygon do not intersect, one of the returned arrays will be empty.
     func split(
         along plane: Plane,
         _ isCancelled: CancellationHandler = { false }
