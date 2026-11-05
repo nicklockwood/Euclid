@@ -19,13 +19,26 @@ jobs:
         uses: actions/checkout@v3
       - name: Build and Test
         run: |
-          xcodebuild -scheme "Euclid" -sdk macosx clean build test -enableCodeCoverage YES -derivedDataPath Build/
+          xcodebuild -scheme "Euclid" -sdk macosx clean build test -enableCodeCoverage YES -derivedDataPath Build/ -resultBundlePath Build/TestResults.xcresult
           cd Build/Build/ProfileData
           cd $(ls -d */|head -n 1)
           directory=${PWD##*/}
           pathCoverage=Build/Build/ProfileData/${directory}/Coverage.profdata
           cd ../../../../
           xcrun llvm-cov export -format="lcov" -instr-profile $pathCoverage Build/Build/Products/Debug/Euclid.framework/Euclid > info.lcov
+      - name: Report test failures
+        if: failure()
+        run: |
+          if [ -d Build/TestResults.xcresult ]; then
+            xcrun xcresulttool get test-results summary --path Build/TestResults.xcresult
+          fi
+      - name: Upload test failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-macos-${{ matrix.macos }}
+          path: Build/TestResults.xcresult
+          if-no-files-found: ignore
       - name: Codecov
         uses: codecov/codecov-action@v3
         with:

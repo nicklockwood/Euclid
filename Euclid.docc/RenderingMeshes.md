@@ -57,6 +57,8 @@ On macOS 15, iOS 18, tvOS 26, and visionOS 2 or later, Euclid's default and `tri
 
 You can also construct a `LowLevelMesh` directly with `LowLevelMesh(mesh)`, or use `MeshResource.generate(triangles: mesh)` (synchronously or asynchronously) to select the appropriate conversion automatically. Normals, texture coordinates, vertex alpha, and polygon material assignments are preserved.
 
+For static collision shapes, create a separate resource using `MeshResource.generate(from: [MeshDescriptor(triangles: mesh)])` and pass it to `ShapeResource.generateStaticMesh(from:)`. Generating a static collision shape directly from a `LowLevelMesh` resource can throw `staticMeshGenerationFailed`; this was reproduced on macOS 15.8.2, iOS 18.5/18.6 Simulator, and visionOS 2.3/2.5 Simulator. The collision resource does not need vertex colors; keep the original resource for rendering.
+
 Euclid applies uniform vertex colors to RealityKit's built-in materials automatically, multiplying color and opacity per material. This fallback works on older platforms and with the polygon and quad initializers too. Custom materials are left unchanged to avoid applying vertex colors twice.
 
 RealityKit's built-in materials do not support vertex-color gradients. You can supply a custom `ShaderGraphMaterial` via the `ModelEntity` material lookup closure, or use Euclid's built-in ``RealityKitVertexColorMaterial`` to generate one for you, as follows:
