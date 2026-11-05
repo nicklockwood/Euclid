@@ -6939,6 +6939,16 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/color\/init(_:colorspace:)-44aok",
+                "title" : "init(CGColor, colorSpace: CGColorSpace?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/init(_:colorspace:)-5a7rg",
+                "title" : "init(NSColor, colorSpace: CGColorSpace?)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/color\/init(hue:saturation:brightness:alpha:)",
                 "title" : "init(hue: Double, saturation: Double, brightness: Double, alpha: Double)",
                 "type" : "init"
@@ -6979,6 +6989,16 @@
               {
                 "path" : "\/documentation\/euclid\/color\/lerp(_:_:)",
                 "title" : "func lerp(Color, Double) -> Color",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/tolinear()",
+                "title" : "func toLinear() -> Color",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/tosrgb()",
+                "title" : "func toSRGB() -> Color",
                 "type" : "method"
               },
               {
@@ -7791,6 +7811,22 @@
           {
             "children" : [
               {
+                "title" : "Type Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/realitykitvertexcolormaterial\/make(color:texture:emission:emissionintensity:roughness:metallic:specular:unlit:)",
+                "title" : "static func make(color: Color, texture: MaterialParameters.Texture?, emission: Color, emissionIntensity: Float, roughness: Float, metallic: Float, specular: Float, unlit: Bool) async throws -> ShaderGraphMaterial",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/realitykitvertexcolormaterial",
+            "title" : "RealityKitVertexColorMaterial",
+            "type" : "enum"
+          },
+          {
+            "children" : [
+              {
                 "title" : "Enumeration Cases",
                 "type" : "groupMarker"
               },
@@ -7828,6 +7864,11 @@
                   {
                     "path" : "\/documentation\/euclid\/appkit\/nscolor\/init(_:)",
                     "title" : "init(Color)",
+                    "type" : "init"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/appkit\/nscolor\/init(_:colorspace:)",
+                    "title" : "init(Color, colorSpace: CGColorSpace?)",
                     "type" : "init"
                   }
                 ],
@@ -7958,6 +7999,43 @@
               {
                 "title" : "Extended Classes",
                 "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/realityfoundation\/lowlevelmesh\/init(_:)",
+                    "title" : "init(Mesh) throws",
+                    "type" : "init"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/realityfoundation\/lowlevelmesh",
+                "title" : "LowLevelMesh",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Type Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/realityfoundation\/meshresource\/generate(triangles:)-9bdu4",
+                    "title" : "static func generate(triangles: Mesh) throws -> MeshResource",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/realityfoundation\/meshresource\/generate(triangles:)-9wtkk",
+                    "title" : "static func generate(triangles: Mesh) async throws -> MeshResource",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/realityfoundation\/meshresource",
+                "title" : "MeshResource",
+                "type" : "extension"
               },
               {
                 "children" : [
@@ -8574,6 +8652,15 @@
               },
               {
                 "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/swift\/simd4\/init(_:)",
+                    "title" : "init(Color)",
+                    "type" : "init"
+                  },
                   {
                     "title" : "Default Implementations",
                     "type" : "groupMarker"

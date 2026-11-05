@@ -119,13 +119,13 @@ public extension Path {
     static let empty: Path = .init([])
 
     /// A Boolean value that indicates whether the path is empty (has no points).
-    /// > Note: This is not the same as checking if the path is closed or has zero area
+    /// - Note: This is not the same as checking if the path is closed or has zero area.
     var isEmpty: Bool {
         points.isEmpty
     }
 
     /// The array of points that makes up this path.
-    /// > Note: If the path has subpaths then the points returned may not represent a single contour
+    /// - Note: If the path has subpaths then the points returned may not represent a single contour.
     var points: [PathPoint] {
         switch storage {
         case let .points(points): points
@@ -134,7 +134,7 @@ public extension Path {
     }
 
     /// An array of the subpaths that make up the path.
-    /// > Note: For paths without nested subpaths, this will return an array containing only `self`.
+    /// - Note: For paths without nested subpaths, this will return an array containing only `self`.
     var subpaths: [Path] {
         switch storage {
         case .points: [self]
@@ -143,7 +143,7 @@ public extension Path {
     }
 
     /// Indicates whether the path is a closed path.
-    /// > Note: If path is empty, will return true. If path has subpaths, will return true only if all are closed.
+    /// - Note: If path is empty, will return true. If path has subpaths, will return true only if all are closed.
     var isClosed: Bool {
         switch storage {
         case let .points(points): pointsAreClosed(unchecked: points)
@@ -370,7 +370,7 @@ public extension Path {
     }
 
     /// The face normal vector for the path.
-    /// > Note: If path is non-planar then this returns an average/approximate normal.
+    /// - Note: If path is non-planar then this returns an average/approximate normal.
     var faceNormal: Vector {
         plane?.normal ?? faceNormalForPoints(points.map(\.position))
     }
@@ -501,10 +501,9 @@ public extension Path {
     ///   - material: An optional ``Polygon/Material-swift.typealias`` to apply to the polygons.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: An array of polygons needed to fill the path, or an empty array if path is not closed.
-    ///
-    /// > Note: Polygon normals are calculated automatically based on the curvature of the path points.
-    /// If the path points do not include textcoords, they will be calculated automatically based on the
-    /// path point positions relative to the bounding rectangle of the path.
+    /// - Note: Polygon normals are calculated automatically based on the curvature of the path points.
+    ///   If the path points do not include textcoords, they will be calculated automatically based on the
+    ///   path point positions relative to the bounding rectangle of the path.
     func facePolygons(
         material: Mesh.Material? = nil,
         isCancelled: CancellationHandler = { false }
@@ -529,8 +528,8 @@ public extension Path {
     }
 
     /// An array of vertices suitable for constructing a polygon from the path.
-    /// > Note: Vertices include normals and uv coordinates normalized to the bounding
-    /// rectangle of the path. Returns `nil` if path is not closed, or has subpaths.
+    /// - Note: Vertices include normals and uv coordinates normalized to the bounding
+    ///   rectangle of the path. Returns `nil` if path is not closed, or has subpaths.
     var faceVertices: [Vertex]? {
         let count = points.count
         guard isClosed, subpaths.count <= 1, count > 1 else {
@@ -580,13 +579,13 @@ public extension Path {
     }
 
     /// An array of vertices suitable for constructing a set of edge polygons for the path.
-    /// > Note: Returns an empty array if the path has subpaths.
+    /// - Note: Returns an empty array if the path has subpaths.
     var edgeVertices: [Vertex] {
         edgeVertices(for: .default)
     }
 
     /// An array of vertices suitable for constructing a set of edge polygons for the path.
-    /// > Note: Returns an empty array if the path has subpaths.
+    /// - Note: Returns an empty array if the path has subpaths.
     /// - Parameter wrapMode: The wrap mode to use for generating texture coordinates.
     /// - Returns: The edge vertices, or an empty array if path has subpaths.
     func edgeVertices(for wrapMode: Mesh.WrapMode) -> [Vertex] {
@@ -704,7 +703,7 @@ public extension Path {
     /// Returns a copy of the path uniformly scaled about the origin to the specified length.
     /// - Parameter length: The target length, excluding gaps between subpaths.
     /// - Returns: The scaled path, or `self` if its length is zero.
-    /// > Note: Uses the same minimum scale as `scaled(by:)`. Negative lengths also reflect the path.
+    /// - Note: Uses the same minimum scale as `scaled(by:)`. Negative lengths also reflect the path.
     func withLength(_ length: Double) -> Path {
         let currentLength = self.length
         guard currentLength > 0 else {

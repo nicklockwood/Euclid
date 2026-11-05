@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Linearly interpolate between two colors.",
+      "text" : "Interpolates the sRGB components and alpha between two colors.",
       "type" : "text"
     }
   ],
@@ -254,7 +254,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],
@@ -288,7 +288,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/lerp(_:_:)": {
   "abstract" : [
     {
-      "text" : "Linearly interpolate between two colors.",
+      "text" : "Interpolates the sRGB components and alpha between two colors.",
       "type" : "text"
     }
   ],

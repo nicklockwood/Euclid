@@ -48,9 +48,8 @@ public extension Path {
     ///   - segments: The number of line segments used to approximate the circle.
     ///   - color: An optional ``Color`` to apply to the path's points.
     ///   - isCancelled: Callback used to cancel the operation.
-    ///
-    /// > Note: Because the arc is approximated using line segments, its radius is not uniform. The radius
-    /// specified is the *outer* radius, i.e. the radius at the end points.
+    /// - Note: Because the arc is approximated using line segments, its radius is not uniform. The radius
+    ///   specified is the *outer* radius, i.e. the radius at the end points.
     static func arc(
         angle: Angle = .pi,
         radius: Double = 0.5,
@@ -88,9 +87,8 @@ public extension Path {
     ///   - radius: The distance from the center of the circle to each point used to approximate its shape.
     ///   - segments: The number of line segments used to approximate the circle.
     ///   - color: An optional ``Color`` to apply to the path's points.
-    ///
-    /// > Note: Because the circle is approximated using line segments, its radius is not uniform. The radius
-    /// specified is the *outer* radius, i.e. the radius at the corners of the polygon.
+    /// - Note: Because the circle is approximated using line segments, its radius is not uniform. The radius
+    ///   specified is the *outer* radius, i.e. the radius at the corners of the polygon.
     static func circle(
         radius: Double = 0.5,
         segments: Int = 16,

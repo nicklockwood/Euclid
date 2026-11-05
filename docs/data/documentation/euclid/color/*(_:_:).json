@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "Returns a color with its components multiplied by the specified color.",
+      "text" : "Returns a color with its sRGB components and alpha multiplied component-wise.",
       "type" : "text"
     }
   ],
@@ -210,7 +210,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],
@@ -244,7 +244,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/*(_:_:)": {
   "abstract" : [
     {
-      "text" : "Returns a color with its components multiplied by the specified color.",
+      "text" : "Returns a color with its sRGB components and alpha multiplied component-wise.",
       "type" : "text"
     }
   ],

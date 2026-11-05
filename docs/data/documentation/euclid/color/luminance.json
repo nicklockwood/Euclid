@@ -1,15 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "The perceived luminance of the color.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "Per https:\/\/en.wikipedia.org\/wiki\/Rec._709",
+      "text" : "The relative luminance of the color, calculated from linear sRGB components.",
       "type" : "text"
     }
   ],
@@ -151,7 +143,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],
@@ -185,15 +177,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/luminance": {
   "abstract" : [
     {
-      "text" : "The perceived luminance of the color.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "Per https:\/\/en.wikipedia.org\/wiki\/Rec._709",
+      "text" : "The relative luminance of the color, calculated from linear sRGB components.",
       "type" : "text"
     }
   ],

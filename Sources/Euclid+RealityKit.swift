@@ -352,7 +352,8 @@ public extension ModelEntity {
         await self.init(mesh: resource, materials: materials.values)
     }
 
-    /// Synchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex-color gradients are not preserved.
+    /// Synchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex-color gradients are not
+    /// preserved.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
@@ -362,7 +363,8 @@ public extension ModelEntity {
         self.init(mesh: resource, materials: mesh.realityKitMaterials(materialLookup: materialLookup))
     }
 
-    /// Asynchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex-color gradients are not preserved.
+    /// Asynchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex-color gradients are not
+    /// preserved.
     ///
     /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
     /// generation, material creation, and entity initialization.
@@ -405,6 +407,7 @@ public extension ModelEntity {
     }
 }
 
+@MainActor
 @available(tvOS 26.0, *)
 private extension Mesh {
     /// Converts the mesh's materials to RealityKit materials in mesh resource order.
@@ -413,7 +416,6 @@ private extension Mesh {
     /// Vertex-color gradients require a custom shader. Custom materials are returned unchanged
     /// so shaders that read vertex colors do not apply them twice.
     /// - Parameter materialLookup: Optional mapping from polygon materials to RealityKit materials.
-    @MainActor
     func realityKitMaterials(materialLookup: ModelEntity.MaterialProvider? = nil) -> [RealityKit.Material] {
         let colors: [Polygon.Material?: Color] = hasVertexColors ?
             polygonsByMaterial.compactMapValues { polygons in
@@ -430,9 +432,9 @@ private extension Mesh {
     }
 }
 
+@MainActor
 @available(tvOS 26.0, *)
 private extension RealityKit.Material {
-    @MainActor
     func multiplyingVertexColor(_ color: Euclid.Color) -> RealityKit.Material {
         guard color != .white else { return self }
         switch self {

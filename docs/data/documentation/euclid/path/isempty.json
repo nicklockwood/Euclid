@@ -116,7 +116,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "This is not the same as checking if the path is closed or has zero area",
+                  "text" : "This is not the same as checking if the path is closed or has zero area.",
                   "type" : "text"
                 }
               ],

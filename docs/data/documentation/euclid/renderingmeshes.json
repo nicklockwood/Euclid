@@ -61,15 +61,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Most of the Euclid library is completely self-contained, with no dependencies on any particular rendering technology or framework.",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "However, when running on iOS or macOS you can take advantage of Euclid’s built-in SceneKit and RealityKit integration. This is demonstrated in the Example app included with the project.",
+              "text" : "Most of the Euclid library is completely self-contained, with no dependencies on any particular rendering technology or framework. However, when running on iOS or macOS you can take advantage of Euclid’s built-in SceneKit and RealityKit integration. This is demonstrated in the Example app included with the project.",
               "type" : "text"
             }
           ],
@@ -138,15 +130,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "The SceneKit integration makes it easy to display Euclid geometry on-screen, and to integrate with ARKit, etc.",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "You can also use SceneKit to export Euclid-generated ",
+              "text" : "The SceneKit integration makes it easy to display Euclid geometry on-screen, and to integrate with ARKit, etc. You can also use SceneKit to export Euclid-generated ",
               "type" : "text"
             },
             {
@@ -232,15 +216,7 @@
               "type" : "reference"
             },
             {
-              "text" : ".",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "When you later combine meshes using CSG operations, the original materials from the ",
+              "text" : ". When you later combine meshes using CSG operations, the original materials from the ",
               "type" : "text"
             },
             {
@@ -356,15 +332,7 @@
               "type" : "codeVoice"
             },
             {
-              "text" : ", only specific material types can be supported.",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "Currently, material serialization works for ",
+              "text" : ", only specific material types can be supported. Currently, material serialization works for ",
               "type" : "text"
             },
             {
@@ -431,6 +399,157 @@
           "level" : 3,
           "text" : "Colors",
           "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " stores ",
+              "type" : "text"
+            },
+            {
+              "inlineContent" : [
+                {
+                  "text" : "sRGB-encoded",
+                  "type" : "text"
+                }
+              ],
+              "type" : "strong"
+            },
+            {
+              "text" : " components with ",
+              "type" : "text"
+            },
+            {
+              "inlineContent" : [
+                {
+                  "text" : "unpremultiplied alpha",
+                  "type" : "text"
+                }
+              ],
+              "type" : "strong"
+            },
+            {
+              "text" : ". RGB and HSV initializers, named colors, serialized components, component-wise multiplication, and interpolation retain their sRGB convention. SceneKit and RealityKit adapters decode vertex RGB to linear light on export. SceneKit imports encode it back to sRGB. Alpha is never gamma-corrected.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "code" : "Color(cgColor)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ", ",
+              "type" : "text"
+            },
+            {
+              "code" : "Color(nsColor)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ", and ",
+              "type" : "text"
+            },
+            {
+              "code" : "Color(uiColor)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " convert their input from its declared color space to sRGB. Conversely, ",
+              "type" : "text"
+            },
+            {
+              "code" : "NSColor(color)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " and ",
+              "type" : "text"
+            },
+            {
+              "code" : "UIColor(color)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " interpret Euclid components as sRGB. Use the ",
+              "type" : "text"
+            },
+            {
+              "code" : "colorSpace:",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " overloads for another RGB space. Passing ",
+              "type" : "text"
+            },
+            {
+              "code" : "nil",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " explicitly copies components without conversion on input and uses the platform’s original RGB initializer on output.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Use ",
+              "type" : "text"
+            },
+            {
+              "code" : "toLinear()",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " for linear-light calculations and ",
+              "type" : "text"
+            },
+            {
+              "code" : "toSRGB()",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " to encode their results. These transfer functions leave alpha unchanged and preserve extended-range values. Source-over compositing, relative luminance, and RealityKit material tint multiplication are calculated in linear light. Compositing returns sRGB-encoded components; ",
+              "type" : "text"
+            },
+            {
+              "code" : "*",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " and ",
+              "type" : "text"
+            },
+            {
+              "code" : "lerp",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " remain component-wise operations. Raw OBJ\/OFF\/STL color components have no reliable color profile. Callers must convert according to their source’s convention when known.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Binary STL color extensions do not declare a transfer function or color profile. Euclid preserves their component values (subject to 5-bit facet quantization) without applying gamma conversion, and interprets imported colors using its sRGB convention. This is a compatibility policy, not a guarantee that every STL producer uses sRGB. Use the STL material\/color lookup closures for conversions when a source or destination’s convention is known.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
         },
         {
           "inlineContent" : [
@@ -700,6 +819,238 @@
             }
           ],
           "type" : "paragraph"
+        },
+        {
+          "anchor" : "RealityKit-vertex-colors",
+          "level" : 3,
+          "text" : "RealityKit vertex colors",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "On macOS 15, iOS 18, tvOS 26, and visionOS 2 or later, Euclid’s default and ",
+              "type" : "text"
+            },
+            {
+              "code" : "triangles:",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "code" : "ModelEntity",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " initializers preserve vertex colors using ",
+              "type" : "text"
+            },
+            {
+              "code" : "LowLevelMesh",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ". The ",
+              "type" : "text"
+            },
+            {
+              "code" : "polygons:",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " and ",
+              "type" : "text"
+            },
+            {
+              "code" : "quads:",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " initializers retain their requested tessellation using ",
+              "type" : "text"
+            },
+            {
+              "code" : "MeshDescriptor",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " and do not preserve vertex-color attributes. Older platforms continue to use ",
+              "type" : "text"
+            },
+            {
+              "code" : "MeshDescriptor",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ", which does not preserve vertex colors.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "You can also construct a ",
+              "type" : "text"
+            },
+            {
+              "code" : "LowLevelMesh",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " directly with ",
+              "type" : "text"
+            },
+            {
+              "code" : "LowLevelMesh(mesh)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ", or use ",
+              "type" : "text"
+            },
+            {
+              "code" : "MeshResource.generate(triangles: mesh)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " (synchronously or asynchronously) to select the appropriate conversion automatically. Normals, texture coordinates, vertex alpha, and polygon material assignments are preserved.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Euclid applies uniform vertex colors to RealityKit’s built-in materials automatically, multiplying color and opacity per material. This fallback works on older platforms and with the polygon and quad initializers too. Custom materials are left unchanged to avoid applying vertex colors twice.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Vertex-color gradients require a shader; preserving the mesh attribute alone does not make RealityKit’s built-in materials display them. Supply a material that reads the geometry color attribute, such as a ",
+              "type" : "text"
+            },
+            {
+              "code" : "ShaderGraphMaterial",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " using the Geometry Color node, through the ",
+              "type" : "text"
+            },
+            {
+              "code" : "ModelEntity",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " material lookup closure. This also works in visionOS volumes. Euclid’s existing ",
+              "type" : "text"
+            },
+            {
+              "code" : "MeshDescriptor",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " initializers remain available when vertex colors are not required.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Use ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityKitVertexColorMaterial",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " to create an opt-in shader for lit or unlit vertex colors:",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "code" : [
+            "let material = try await RealityKitVertexColorMaterial.make(",
+            "    color: Color(white: 0.8),",
+            "    roughness: 0.6",
+            ")",
+            "let entity = try await ModelEntity(mesh) { _ in material }"
+          ],
+          "syntax" : "swift",
+          "type" : "codeListing"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "The factory accepts an sRGB base tint (including opacity), an optional base-color texture,",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "text" : "emission, and scalar roughness, metallic, and specular values. It multiplies vertex, tint,",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "text" : "and texture RGB in linear light and multiplies their alpha without gamma conversion.",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "text" : "It does not convert existing materials or support normal maps and other advanced PBR inputs.",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "text" : "The returned ",
+              "type" : "text"
+            },
+            {
+              "code" : "ShaderGraphMaterial",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " can be customized, for example to change face culling.",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "text" : "Shader templates are cached, while each returned material has independent parameter values.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
         }
       ],
       "kind" : "content"
@@ -754,7 +1105,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],
@@ -1171,6 +1522,40 @@
   "title" : "material",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/polygon\/material-swift.property"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityKitVertexColorMaterial": {
+  "abstract" : [
+    {
+      "text" : "Creates shader graph materials that display Euclid’s RealityKit vertex colors.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "RealityKitVertexColorMaterial"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityKitVertexColorMaterial",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "RealityKitVertexColorMaterial"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "RealityKitVertexColorMaterial",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realitykitvertexcolormaterial"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Rotation": {
   "abstract" : [

@@ -76,7 +76,7 @@ extension Vector: Interpolatable {
 }
 
 extension Vertex: Interpolatable {
-    /// > Note:  Interpolation is applied to the texture coordinate, normal and color, as well as the position.
+    /// - Note: Interpolation is applied to the texture coordinate, normal and color, as well as the position.
     public func interpolated(with other: Vertex, by t: Double) -> Vertex {
         .init(
             unchecked: position.interpolated(with: other.position, by: t),
@@ -88,7 +88,7 @@ extension Vertex: Interpolatable {
 }
 
 extension PathPoint: Interpolatable {
-    /// > Note:  Interpolation is applied to the texture coordinate and color, as well as the position.
+    /// - Note: Interpolation is applied to the texture coordinate and color, as well as the position.
     public func interpolated(with other: PathPoint, by t: Double) -> PathPoint {
         let texcoord: Vector? = switch (self.texcoord, other.texcoord) {
         case let (lhs?, rhs?):

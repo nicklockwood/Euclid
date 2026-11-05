@@ -114,7 +114,7 @@ public extension Mesh {
     static let empty: Mesh = .init([])
 
     /// A Boolean value that indicates whether the mesh is empty (has no polygons).
-    /// > Note: This is not the same as checking if the mesh is watertight or has zero volume
+    /// - Note: This is not the same as checking if the mesh is watertight or has zero volume.
     var isEmpty: Bool {
         polygons.isEmpty
     }
@@ -157,7 +157,7 @@ public extension Mesh {
 
     /// A Boolean value that indicates whether the mesh is watertight, meaning that every edge is
     /// attached to two polygons (or a multiple of two).
-    /// > Note: A value of `true` doesn't guarantee that mesh is not self-intersecting or inside-out.
+    /// - Note: A value of `true` doesn't guarantee that mesh is not self-intersecting or inside-out.
     var isWatertight: Bool {
         storage.isWatertight
     }
@@ -176,7 +176,7 @@ public extension Mesh {
     }
 
     /// The signed volume of the mesh. A negative value indicates that the mesh is inside-out.
-    /// > Note: If the mesh is not watertight (has holes) then this value will not be accurate.
+    /// - Note: If the mesh is not watertight (has holes) then this value will not be accurate.
     var signedVolume: Double {
         polygons.signedVolume
     }
@@ -281,8 +281,7 @@ public extension Mesh {
     /// Merges the polygons from two meshes.
     /// - Parameter mesh: The mesh to merge with this one.
     /// - Returns: A new mesh that includes all polygons from both meshes.
-    ///
-    /// > Note: No attempt is made to deduplicate or join meshes. Polygons are neither split nor removed.
+    /// - Note: No attempt is made to deduplicate or join meshes. Polygons are neither split nor removed.
     func merge(_ mesh: Mesh) -> Mesh {
         var boundsIfSet: Bounds?
         if let ab = self.boundsIfSet, let bb = mesh.boundsIfSet {
@@ -302,8 +301,7 @@ public extension Mesh {
     /// Creates a new mesh that is the combination of the polygons from all the specified meshes.
     /// - Parameter meshes: The meshes to merge.
     /// - Returns: A new mesh that includes all polygons from all meshes.
-    ///
-    /// > Note: No attempt is made to deduplicate or join meshes. Polygons are neither split nor removed.
+    /// - Note: No attempt is made to deduplicate or join meshes. Polygons are neither split nor removed.
     static func merge(_ meshes: some Collection<Mesh>) -> Mesh {
         if meshes.count <= 1 {
             return meshes.first ?? .empty
@@ -383,8 +381,7 @@ public extension Mesh {
     /// Merges any coplanar polygons that share one or more edges. Resultant polygons may be non-convex.
     /// - Parameter isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh containing the merged (possibly non-convex) polygons.
-    ///
-    /// > Note: This method can be very time-consuming. For convex polygons use `detriangulate()` instead.
+    /// - Note: This method can be very time-consuming. For convex polygons use `detriangulate()` instead.
     func detessellate(isCancelled: CancellationHandler = { false }) -> Mesh {
         let isLargeMesh = polygons.count > 2048
         let polygons = polygons.detessellate(
@@ -431,8 +428,7 @@ public extension Mesh {
     /// Removes holes by inserting additional vertices and capping closed boundary loops.
     /// - Parameter isCancelled: Callback used to cancel the operation.
     /// - Returns: A new mesh with new vertices and polygons inserted if needed.
-    ///
-    /// > Note: This method is not always successful. Check ``Mesh/isWatertight`` after to verify.
+    /// - Note: This method is not always successful. Check ``Mesh/isWatertight`` after to verify.
     func makeWatertight(isCancelled: CancellationHandler = { false }) -> Mesh {
         guard !isCancelled() else { return .empty }
         if watertightIfSet == true {
@@ -723,9 +719,9 @@ extension Mesh {
     var bspIfSet: BSP? { storage.bspIfSet }
     var watertightIfSet: Bool? { storage.watertightIfSet }
     var planarIfSet: Bool? { storage.planarIfSet }
-    /// > Note: a mesh can be convex without being watertight
+    /// - Note: A mesh can be convex without being watertight.
     var isKnownConvex: Bool { storage.isKnownConvex }
-    /// > Note: we don't expose submeshesIfSet because it's unsafe to reuse
+    /// - Note: We don't expose submeshesIfSet because it's unsafe to reuse.
     var submeshesIfEmpty: [Mesh]? {
         storage.submeshesIfSet.flatMap { $0.isEmpty ? [] : nil }
     }

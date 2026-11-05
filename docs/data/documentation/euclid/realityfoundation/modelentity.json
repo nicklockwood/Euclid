@@ -397,7 +397,15 @@
       "type" : "reference"
     },
     {
-      "text" : " using convex polygons.",
+      "text" : " using convex polygons. Vertex-color gradients are not",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "preserved.",
       "type" : "text"
     }
   ],
@@ -468,7 +476,15 @@
       "type" : "reference"
     },
     {
-      "text" : " using convex polygons.",
+      "text" : " using convex polygons. Vertex-color gradients are not",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "preserved.",
       "type" : "text"
     }
   ],
@@ -549,6 +565,14 @@
     {
       "text" : " using quads where possible (and triangles as required).",
       "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Vertex-color gradients are not preserved.",
+      "type" : "text"
     }
   ],
   "fragments" : [
@@ -619,6 +643,14 @@
     },
     {
       "text" : " using quads where possible (and triangles as required).",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Vertex-color gradients are not preserved.",
       "type" : "text"
     }
   ],

@@ -1,7 +1,7 @@
 {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],
@@ -90,6 +90,41 @@
           "level" : 2,
           "text" : "Overview",
           "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "RGB components are sRGB-encoded. Use ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/toLinear()",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " for calculations in linear light",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "text" : "and ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/toSRGB()",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " to encode the result. Alpha is never gamma-corrected.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
         },
         {
           "inlineContent" : [
@@ -241,6 +276,8 @@
       "anchor" : "Initializers",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:colorSpace:)-44aok",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:colorSpace:)-5a7rg",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(hue:saturation:brightness:alpha:)"
       ],
       "title" : "Initializers"
@@ -261,7 +298,9 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/composited(over:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/lerp(_:_:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/lerp(_:_:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/toLinear()",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/toSRGB()"
       ],
       "title" : "Instance Methods"
     },
@@ -373,7 +412,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color": {
   "abstract" : [
     {
-      "text" : "A color in RGBA format.",
+      "text" : "A color in sRGB with unpremultiplied alpha.",
       "type" : "text"
     }
   ],
@@ -407,7 +446,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/*(_:_:)": {
   "abstract" : [
     {
-      "text" : "Returns a color with its components multiplied by the specified color.",
+      "text" : "Returns a color with its sRGB components and alpha multiplied component-wise.",
       "type" : "text"
     }
   ],
@@ -941,7 +980,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/composited(over:)": {
   "abstract" : [
     {
-      "text" : "Composites this color over a background using source-over alpha blending.",
+      "text" : "Composites this color over a background using source-over alpha blending in linear light.",
       "type" : "text"
     }
   ],
@@ -1399,6 +1438,122 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/init(_:)-987r7"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:colorSpace:)-44aok": {
+  "abstract" : [
+    {
+      "text" : "Creates a color from a ",
+      "type" : "text"
+    },
+    {
+      "code" : "CGColor",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " by converting it to the specified RGB color space.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@T@CGColorRef",
+      "text" : "CGColor"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorSpace"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@T@CGColorSpaceRef",
+      "text" : "CGColorSpace"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:colorSpace:)-44aok",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:colorSpace:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/init(_:colorspace:)-44aok"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(_:colorSpace:)-5a7rg": {
+  "abstract" : [
+    {
+      "text" : "Creates a color from an ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSColor",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " by converting it to the specified RGB color space.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSColor",
+      "text" : "NSColor"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorSpace"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@T@CGColorSpaceRef",
+      "text" : "CGColorSpace"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/init(_:colorSpace:)-5a7rg",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:colorSpace:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/init(_:colorspace:)-5a7rg"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(hue:saturation:brightness:alpha:)": {
   "abstract" : [
     {
@@ -1586,7 +1741,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/init(white:alpha:)": {
   "abstract" : [
     {
-      "text" : "Creates a color from a luminance value and optional alpha component.",
+      "text" : "Creates a color from an sRGB white level and optional alpha component.",
       "type" : "text"
     }
   ],
@@ -1644,7 +1799,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/lerp(_:_:)": {
   "abstract" : [
     {
-      "text" : "Linearly interpolate between two colors.",
+      "text" : "Interpolates the sRGB components and alpha between two colors.",
       "type" : "text"
     }
   ],
@@ -1741,15 +1896,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/luminance": {
   "abstract" : [
     {
-      "text" : "The perceived luminance of the color.",
-      "type" : "text"
-    },
-    {
-      "text" : " ",
-      "type" : "text"
-    },
-    {
-      "text" : "Per https:\/\/en.wikipedia.org\/wiki\/Rec._709",
+      "text" : "The relative luminance of the color, calculated from linear sRGB components.",
       "type" : "text"
     }
   ],
@@ -2150,6 +2297,96 @@
   "title" : "teal",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/color\/teal"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/toLinear()": {
+  "abstract" : [
+    {
+      "text" : "Decodes sRGB-encoded RGB components into linear sRGB, leaving alpha unchanged.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "The result is for linear-light calculations or APIs that require linear RGB.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "toLinear"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/toLinear()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "toLinear()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/tolinear()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/toSRGB()": {
+  "abstract" : [
+    {
+      "text" : "Encodes linear RGB components as sRGB, leaving alpha unchanged.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Use this to return linear-light calculation results to the usual color representation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "toSRGB"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Color\/toSRGB()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "toSRGB()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/color\/tosrgb()"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Color/white": {
   "abstract" : [
