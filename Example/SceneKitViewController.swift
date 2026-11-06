@@ -11,6 +11,8 @@ import SceneKit
 import UIKit
 
 final class SceneKitViewController: UIViewController {
+    private var lastViewSize: CGSize = .zero
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         title = "SceneKit"
@@ -50,7 +52,7 @@ final class SceneKitViewController: UIViewController {
         )
 
         // create SCNNode
-        let geometry = SCNGeometry(euclidMesh)
+        let geometry = exampleSceneKitGeometry(euclidMesh)
         let node = SCNNode(geometry: geometry)
         scene.rootNode.addChildNode(node)
 
@@ -62,6 +64,21 @@ final class SceneKitViewController: UIViewController {
         scnView.allowsCameraControl = true
         scnView.backgroundColor = .white
         scnView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addExampleCaption(to: scnView)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard view.bounds.size != lastViewSize, view.bounds.height > 0,
+              let camera = (view as? SCNView)?.pointOfView else { return }
+        lastViewSize = view.bounds.size
+        let bounds = euclidMesh.bounds
+        let distance = framingCameraDistance(
+            for: bounds, fov: .degrees(60), aspectRatio: view.bounds.width / view.bounds.height
+        )
+        camera.camera?.projectionDirection = .vertical
+        camera.position = SCNVector3(bounds.center + Vector(0, 0, distance))
+        camera.look(at: SCNVector3(bounds.center))
     }
 
     #if !os(tvOS)

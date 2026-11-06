@@ -13,6 +13,8 @@ import UIKit
 
 @available(tvOS 26.0, *)
 final class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
+    private var lastViewSize: CGSize = .zero
+
     var updateSubscription: Cancellable!
     var modelPosition: Vector = .zero
     var modelPitch = 0.0
@@ -69,6 +71,15 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
         #endif
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard view.bounds.size != lastViewSize, view.bounds.height > 0 else { return }
+        lastViewSize = view.bounds.size
+        cameraDistance = framingCameraDistance(
+            for: euclidMesh.bounds, fov: .degrees(60), aspectRatio: view.bounds.width / view.bounds.height
+        )
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -94,22 +105,36 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
         panRecognizer.delegate = self
         arView.addGestureRecognizer(panRecognizer)
 
-        guard let modelEntity = try? ModelEntity(euclidMesh) else {
-            return
-        }
-
         let bounds = euclidMesh.bounds
         cameraDistance = framingCameraDistance(for: bounds, fov: .degrees(cameraFOV))
-        modelEntity.transform.translation = .init(-bounds.center)
-
         let modelPivot = Entity()
-        modelPivot.addChild(modelEntity)
+        Task { @MainActor [weak self] in
+            do {
+                let model = try await exampleRealityKitEntity(euclidMesh)
+                guard self != nil else { return }
+                model.position = .init(-bounds.center)
+                modelPivot.addChild(model)
+            } catch {
+                let alert = UIAlertController(
+                    title: "Unable to load example",
+                    message: error.localizedDescription,
+                    preferredStyle: .alert
+                )
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self?.present(alert, animated: true)
+            }
+        }
 
         let anchor = AnchorEntity(world: .zero)
         anchor.addChild(modelPivot)
+        addExampleCaption(to: arView)
         arView.scene.anchors.append(anchor)
 
         let cameraEntity = PerspectiveCamera()
+        // SceneKit-style camera-facing lighting
+        let light = DirectionalLight()
+        light.light.intensity = 1000
+        cameraEntity.addChild(light)
         let cameraAnchor = AnchorEntity(world: .zero)
         cameraAnchor.addChild(cameraEntity)
         arView.scene.addAnchor(cameraAnchor)
