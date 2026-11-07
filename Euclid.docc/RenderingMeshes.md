@@ -71,7 +71,9 @@ For static collision shapes, create a separate resource using `MeshResource.gene
 
 Euclid applies uniform vertex colors to RealityKit's built-in materials automatically, multiplying color and opacity per material. This fallback works on older platforms and with the polygon and quad initializers too. Custom materials are left unchanged to avoid applying vertex colors twice.
 
-RealityKit's built-in materials do not support vertex-color gradients. You can supply a custom `ShaderGraphMaterial` via the `ModelEntity` material lookup closure, or use Euclid's built-in ``RealityKitVertexColorMaterial`` to generate one for you, as follows:
+RealityKit's built-in materials do not support vertex-color gradients. On supported platforms, `try await ModelEntity(mesh)` and the async `triangles:` initializer automatically select ``RealityKitVertexColorMaterial`` for materials with varying vertex colors. Default color tints, textures, and alpha are preserved. Uniform vertex colors retain the built-in-material fallback. Explicit RealityKit materials and custom material lookup closures are not replaced.
+
+Shader loading is asynchronous, so synchronous initializers do not select this shader automatically. For customized shading, supply a `ShaderGraphMaterial` via the material lookup closure, or create one with ``RealityKitVertexColorMaterial``:
 
 ```swift
 let material = try await RealityKitVertexColorMaterial.make(
