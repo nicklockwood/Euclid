@@ -176,15 +176,10 @@ public extension Vertex {
     ///   - other: The vertex to interpolate towards.
     ///   - t: The unit value that indicates the distance between of this vertex and the target vertex.
     /// - Returns: A new vertex with values interpolated between the two vertices.
-    ///
-    /// > Note:  Interpolation is applied to the texture coordinate, normal and color, as well as the position.
+    /// - Note: Interpolation is applied to the texture coordinate, normal and color, as well as the position.
+    ///   RGB is interpolated in linear light. Alpha is interpolated independently.
     func lerp(_ other: Vertex, _ t: Double) -> Vertex {
-        Vertex(
-            unchecked: position.lerp(other.position, t),
-            normal.lerp(other.normal, t),
-            texcoord.lerp(other.texcoord, t),
-            color.lerp(other.color, t)
-        )
+        interpolated(with: other, by: t)
     }
 
     /// Creates a copy of the vertex with the specified normal.

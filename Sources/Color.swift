@@ -260,6 +260,7 @@ public extension Color {
     }
 
     /// Interpolates the sRGB components and alpha between two colors.
+    /// - Note: For a linear-light gradient, use `toLinear().lerp(other.toLinear(), t).toSRGB()`.
     /// - Parameters:
     ///   - other: The color to interpolate towards.
     ///   - t: The normalized extent of interpolation, from 0 to 1.
@@ -269,6 +270,8 @@ public extension Color {
     }
 
     /// Returns a color with its sRGB components and alpha multiplied component-wise.
+    /// - Note: For linear-light material tint multiplication, as used by SceneKit and RealityKit,
+    ///   use `(lhs.toLinear() * rhs.toLinear()).toSRGB()`. Alpha is multiplied without gamma correction.
     static func * (lhs: Color, rhs: Color) -> Color {
         .init(
             red: lhs.red * rhs.red,

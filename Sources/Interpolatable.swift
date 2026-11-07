@@ -76,14 +76,21 @@ extension Vector: Interpolatable {
 }
 
 extension Vertex: Interpolatable {
-    /// > Note:  Interpolation is applied to the texture coordinate, normal and color, as well as the position.
+    /// - Note: Interpolation is applied to the texture coordinate, normal and color, as well as the position.
+    ///   RGB is interpolated in linear light. Alpha is interpolated independently.
     public func interpolated(with other: Vertex, by t: Double) -> Vertex {
-        .init(
-            unchecked: position.interpolated(with: other.position, by: t),
-            normal.interpolated(with: other.normal, by: t),
-            texcoord.interpolated(with: other.texcoord, by: t),
-            color.interpolated(with: other.color, by: t)
-        )
+        switch t {
+        case 0: self
+        case 1: other
+        default:
+            .init(
+                unchecked: position.interpolated(with: other.position, by: t),
+                normal.interpolated(with: other.normal, by: t),
+                texcoord.interpolated(with: other.texcoord, by: t),
+                color == other.color ? color : color.toLinear()
+                    .interpolated(with: other.color.toLinear(), by: t).toSRGB()
+            )
+        }
     }
 }
 

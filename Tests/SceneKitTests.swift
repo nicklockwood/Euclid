@@ -118,7 +118,7 @@ final class SceneKitTests: XCTestCase {
     }
 
     @MainActor
-    func testRenderedVertexColorsMatchMaterialColors() throws {
+    func testRenderedVertexColorsMatchMaterialColorsAndSurviveGeometryChanges() throws {
         try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "SceneKit requires a Metal device")
         let device = try XCTUnwrap(MTLCreateSystemDefaultDevice())
         let queue = try XCTUnwrap(device.makeCommandQueue())
@@ -176,6 +176,27 @@ final class SceneKitTests: XCTestCase {
             materialGeometry.firstMaterial?.lightingModel = .constant
             let expected = try renderPixel(materialGeometry)
             XCTAssertGreaterThan(expected[0], 0)
+            for channel in 0 ..< 4 {
+                XCTAssertEqual(Double(actual[channel]), Double(expected[channel]), accuracy: 2)
+            }
+        }
+        let triangle = try XCTUnwrap(Polygon([
+            Vertex(-1, -1, color: .black),
+            Vertex(1, -1, color: .white),
+            Vertex(0, 1, color: .black),
+        ]))
+        let mesh = Mesh([triangle])
+        let original = SCNGeometry(mesh)
+        original.firstMaterial?.lightingModel = .constant
+        let expected = try renderPixel(original)
+        XCTAssertGreaterThan(expected[0], 0)
+        let split = triangle.split(along: .yz)
+        XCTAssertFalse(split.front.isEmpty)
+        XCTAssertFalse(split.back.isEmpty)
+        for modified in [mesh.subdivide(), mesh.subdivide().subdivide(), Mesh(split.front + split.back)] {
+            let geometry = SCNGeometry(modified)
+            geometry.firstMaterial?.lightingModel = .constant
+            let actual = try renderPixel(geometry)
             for channel in 0 ..< 4 {
                 XCTAssertEqual(Double(actual[channel]), Double(expected[channel]), accuracy: 2)
             }
