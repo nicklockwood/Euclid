@@ -489,8 +489,9 @@ public extension Mesh {
                     return .empty
                 }
                 for vertex in polygon.vertices {
+                    // Face normals distinguish UV seams even when vertex normals are smooth.
                     verticesByPosition[vertex.position, default: []].append(HullVertexMatch(
-                        faceNormal: vertex.normal,
+                        faceNormal: polygon.plane.normal,
                         material: polygon.material,
                         vertex: vertex,
                         weight: 1

@@ -342,6 +342,16 @@ final class MeshCSGTests: XCTestCase {
         XCTAssertEqual(Set(mesh.polygons.compactMap(\.material)), [red, blue])
     }
 
+    func testConvexHullOfSpheresPreservesTextureSeam() {
+        let sphere = Mesh.sphere(slices: 32)
+        let hull = Mesh.convexHull(of: [sphere, sphere.translated(by: [0, -0.3, 0])])
+        for polygon in hull.polygons {
+            let bounds = Bounds(polygon.vertices.map(\.texcoord))
+            XCTAssertLessThanOrEqual(bounds.size.x, 1.0 / 32 + epsilon)
+        }
+        XCTAssert(hull.isWatertight)
+    }
+
     func testConvexHullOfSpheres() {
         let mesh1 = Mesh.sphere().translated(by: [-1, 0.2, -0.1])
         let mesh2 = Mesh.sphere().translated(by: [1, 0])
