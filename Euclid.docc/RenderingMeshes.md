@@ -50,3 +50,11 @@ You can also scale, rotate or translate the texture coordinates for a ``Mesh`` b
 To apply a texture image to a ``Mesh``, store a `UIImage` or `NSImage` as the material property and it will be converted to an `SCNMaterial` automatically.
 
 If you want to do something more complex, such as applying both a color *and* texture to the same ``Mesh``, or maybe including a normal map or some other material properties, you could create a custom material type to store all the properties you care about, or even assign an `SCNMaterial` or RealityKit `Material` directly.
+
+### RealityKit vertex colors
+
+On macOS 15, iOS 18, tvOS 26, and visionOS 2 or later, Euclid's default and `triangles:` `ModelEntity` initializers preserve vertex colors using `LowLevelMesh`. The `polygons:` and `quads:` initializers retain their requested tessellation using `MeshDescriptor` and do not preserve vertex colors. Older platforms continue to use `MeshDescriptor`, which does not preserve vertex colors.
+
+You can also construct a `LowLevelMesh` directly with `LowLevelMesh(mesh)`, or use `MeshResource.generate(triangles: mesh)` (synchronously or asynchronously) to select the appropriate conversion automatically. Normals, texture coordinates, vertex alpha, and polygon material assignments are preserved.
+
+Preserving vertex colors does not make RealityKit's built-in materials display them. Supply a material that reads the geometry color attribute, such as a `ShaderGraphMaterial` using the Geometry Color node, through the `ModelEntity` material lookup closure. This also works in visionOS volumes. Euclid's existing `MeshDescriptor` initializers remain available when vertex colors are not required.
