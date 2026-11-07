@@ -10,6 +10,24 @@
 import XCTest
 
 final class InterpolatableTests: XCTestCase {
+    func testVertexColorInterpolationUsesLinearLight() {
+        let start = Vertex(0, 0, color: Color(white: 0, alpha: 0.2))
+        let end = Vertex(2, 0, color: Color(white: 1, alpha: 0.8))
+        for result in [start.lerp(end, 0.5), start.interpolated(with: end, by: 0.5)] {
+            XCTAssertEqual(result.position, Vector(1, 0))
+            XCTAssertEqual(result.color.red, 0.7353569830524495, accuracy: 1e-12)
+            XCTAssertEqual(result.color.green, result.color.red)
+            XCTAssertEqual(result.color.blue, result.color.red)
+            XCTAssertEqual(result.color.alpha, 0.5, accuracy: 1e-12)
+        }
+        XCTAssertEqual(start.lerp(end, 0), start)
+        XCTAssertEqual(start.lerp(end, 1), end)
+        let uniform = Color(red: 0.3, green: 0.6, blue: 0.9, alpha: 0.7)
+        XCTAssertEqual(start.withColor(uniform).lerp(end.withColor(uniform), 0.5).color, uniform)
+        // Standalone color interpolation continues to operate on stored components.
+        XCTAssertEqual(Color.black.lerp(.white, 0.5), Color(white: 0.5))
+    }
+
     func testCollectionInterpolation() {
         let values = [0.0, 10, 30]
         XCTAssertEqual(values.interpolated(by: 0), 0)
