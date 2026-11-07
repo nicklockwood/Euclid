@@ -355,7 +355,8 @@ public extension ModelEntity {
     /// - Returns: A `Material` used by RealityKit.
     typealias MaterialProvider = @MainActor @Sendable (_ material: Polygon.Material?) -> RealityKit.Material?
 
-    /// Synchrononously creates a model entity from a ``Mesh`` using the default tessellation method.
+    /// Synchronously creates a model entity from a ``Mesh`` using the default tessellation method.
+    /// Vertex color gradients require a custom material. Use the async initializer for automatic support.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
@@ -364,6 +365,8 @@ public extension ModelEntity {
     }
 
     /// Asynchronously creates a model entity from a ``Mesh`` using the default tessellation method.
+    /// Vertex color gradients automatically use ``RealityKitVertexColorMaterial`` on supported platforms
+    /// when no material lookup is supplied. Explicit RealityKit materials are preserved.
     ///
     /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
     /// generation, material creation, and entity initialization.
@@ -375,7 +378,8 @@ public extension ModelEntity {
         try await self.init(triangles: mesh, materialLookup: materialLookup)
     }
 
-    /// Synchrononously creates a model entity from a ``Mesh`` using triangles.
+    /// Synchronously creates a model entity from a ``Mesh`` using triangles.
+    /// Vertex color gradients require a custom material. Use the async initializer for automatic support.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
@@ -385,6 +389,8 @@ public extension ModelEntity {
     }
 
     /// Asynchronously creates a model entity from a ``Mesh`` using triangles.
+    /// Vertex color gradients automatically use ``RealityKitVertexColorMaterial`` on supported platforms
+    /// when no material lookup is supplied. Explicit RealityKit materials are preserved.
     ///
     /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
     /// generation, material creation, and entity initialization.
@@ -394,11 +400,12 @@ public extension ModelEntity {
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
     nonisolated convenience init(triangles mesh: Mesh, materialLookup: MaterialProvider? = nil) async throws {
         let resource = try await MeshResource.generate(triangles: mesh)
-        let materials = await mesh.materialList(for: materialLookup)
+        let materials = try await mesh.triangleMaterialList(for: materialLookup)
         await self.init(mesh: resource, materials: materials.values)
     }
 
-    /// Synchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex-color gradients are not preserved.
+    /// Synchronously creates a model entity from a ``Mesh`` using convex polygons.
+    /// Vertex color gradients are not preserved.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
@@ -408,7 +415,8 @@ public extension ModelEntity {
         self.init(mesh: resource, materials: mesh.realityKitMaterials(materialLookup: materialLookup))
     }
 
-    /// Asynchronously creates a model entity from a ``Mesh`` using convex polygons. Vertex-color gradients are not preserved.
+    /// Asynchronously creates a model entity from a ``Mesh`` using convex polygons.
+    /// Vertex color gradients are not preserved.
     ///
     /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
     /// generation, material creation, and entity initialization.
@@ -424,7 +432,7 @@ public extension ModelEntity {
     }
 
     /// Synchronously creates a model entity from a ``Mesh`` using quads where possible (and triangles as required).
-    /// Vertex-color gradients are not preserved.
+    /// Vertex color gradients are not preserved.
     /// - Parameters:
     ///   - mesh: The mesh to convert into a RealityKit model entity.
     ///   - materialLookup: A closure to map the polygon material to a RealityKit material.
@@ -435,7 +443,7 @@ public extension ModelEntity {
     }
 
     /// Asynchronously creates a model entity from a ``Mesh`` using quads where possible (and triangles as required).
-    /// Vertex-color gradients are not preserved.
+    /// Vertex color gradients are not preserved.
     ///
     /// Mesh descriptor construction is performed before switching to the main actor for RealityKit resource
     /// generation, material creation, and entity initialization.
@@ -456,7 +464,7 @@ private extension Mesh {
     /// Converts the mesh's materials to RealityKit materials in mesh resource order.
     ///
     /// Uniform vertex colors are multiplied into built-in materials, including their opacity.
-    /// Vertex-color gradients require a custom shader. Custom materials are returned unchanged
+    /// Vertex color gradients require a custom shader. Custom materials are returned unchanged
     /// so shaders that read vertex colors do not apply them twice.
     /// - Parameter materialLookup: Optional mapping from polygon materials to RealityKit materials.
     @MainActor
@@ -532,6 +540,32 @@ private extension Mesh {
     @MainActor
     func materialList(for materialLookup: ModelEntity.MaterialProvider?) -> ModelEntityMaterials {
         ModelEntityMaterials(values: realityKitMaterials(materialLookup: materialLookup))
+    }
+
+    @MainActor
+    func triangleMaterialList(for materialLookup: ModelEntity.MaterialProvider?) async throws -> ModelEntityMaterials {
+        var converted = realityKitMaterials(materialLookup: materialLookup)
+        #if compiler(>=6)
+        if #available(macOS 15.0, iOS 18.0, visionOS 2.0, *), materialLookup == nil, hasVertexColors {
+            let groups = polygonsByMaterial
+            for (index, material) in materials.enumerated() {
+                // Preserve explicitly supplied RealityKit materials and the efficient uniform-color fallback.
+                guard !(material is MaterialWrapper),
+                      let polygons = groups[material],
+                      let firstColor = polygons.first?.vertices.first?.color,
+                      polygons.contains(where: { $0.vertices.contains(where: { $0.color != firstColor }) }),
+                      let base = converted[index] as? SimpleMaterial,
+                      case let .float(roughness) = base.roughness,
+                      case let .float(metallic) = base.metallic
+                else { continue }
+                converted[index] = try await RealityKitVertexColorMaterial.make(
+                    color: Color(base.color.tint), texture: base.color.texture,
+                    roughness: roughness, metallic: metallic
+                )
+            }
+        }
+        #endif
+        return ModelEntityMaterials(values: converted)
     }
 
     func getVertexData(
@@ -1039,7 +1073,7 @@ private extension Mesh {
 /// RGB is multiplied in linear light by the base color and optional texture. Vertex, base-color,
 /// and texture alpha are multiplied without gamma conversion. Emission is added independently.
 /// Supports base-color, normal, opacity, emission, roughness, and metallic textures.
-/// Existing materials are never converted automatically.
+/// Explicit RealityKit materials and material lookup results are never replaced automatically.
 @available(macOS 15.0, iOS 18.0, tvOS 26.0, visionOS 2.0, *)
 @MainActor
 public enum RealityKitVertexColorMaterial {
@@ -1074,7 +1108,7 @@ public enum RealityKitVertexColorMaterial {
     ///   - unlit: Whether to display colors without scene lighting.
     /// - Returns: An independent material value that can be customized further.
     /// - Note: Texture sampler settings are compiled into the shader. Create a new material to change them.
-    /// - Note: Requires a mesh with vertex-color attributes, such as `LowLevelMesh(mesh)`.
+    /// - Note: Requires a mesh with vertex color attributes, such as `LowLevelMesh(mesh)`.
     public static func make(
         color: Color = .white,
         texture: MaterialParameters.Texture? = nil,

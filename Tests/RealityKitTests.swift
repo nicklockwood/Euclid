@@ -97,6 +97,77 @@ final class RealityKitTests: XCTestCase {
     #if compiler(>=6)
     @available(visionOS 2.0, *)
     @MainActor
+    func testDefaultAsyncMaterialsSupportVertexGradients() async throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
+        let tint = Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.4)
+        let image = CGImage.checkerboard()
+        for base: AnyHashable? in [nil, AnyHashable(tint), AnyHashable(image)] {
+            let gradient = Mesh.merge([
+                Mesh.cube(material: base).mapVertexColors { _ in .red },
+                Mesh.cube(material: base).mapVertexColors { _ in .blue }.translated(by: .unitX),
+            ])
+            let entity = try await ModelEntity(gradient)
+            let shader = try XCTUnwrap(entity.model?.materials.first as? ShaderGraphMaterial)
+            guard case let .float(alpha) = shader.getParameter(name: "opacity") else {
+                return XCTFail("Expected shader opacity")
+            }
+            XCTAssertEqual(alpha, base == AnyHashable(tint) ? 0.4 : 1)
+            if base == AnyHashable(image) {
+                let resource: TextureResource
+                switch shader.getParameter(name: "baseTexture") {
+                case let .texture(texture): resource = texture.resource
+                case let .textureResource(texture): resource = texture
+                default: return XCTFail("Expected shader texture")
+                }
+                XCTAssertEqual(resource.width, image.width)
+                XCTAssertEqual(resource.height, image.height)
+            } else {
+                XCTAssertNil(shader.getParameter(name: "baseTexture"))
+            }
+            guard case let .color(color) = shader.getParameter(name: "baseColor") else {
+                return XCTFail("Expected shader base color")
+            }
+            XCTAssertEqual(
+                Color(color),
+                base == AnyHashable(tint) ? tint.withAlphaComponent(1) : .white,
+                accuracy: 1e-6
+            )
+            let explicit = try await ModelEntity(gradient) { _ in SimpleMaterial(color: .white, isMetallic: false) }
+            XCTAssertTrue(explicit.model?.materials.first is SimpleMaterial)
+            let quads = try await ModelEntity(quads: gradient)
+            XCTAssertTrue(quads.model?.materials.first is SimpleMaterial)
+        }
+        // Only the material group containing a gradient needs a shader.
+        let mixed = Mesh.merge([
+            Mesh.cube(material: "gradient").mapVertexColors { _ in .red },
+            Mesh.cube(material: "gradient").mapVertexColors { _ in .blue },
+            Mesh.cube(material: "uniform").mapVertexColors { _ in .green },
+            Mesh.cube(material: "plain"),
+        ])
+        let mixedEntity = try await ModelEntity(triangles: mixed)
+        let materials = try XCTUnwrap(mixedEntity.model).materials
+        XCTAssertTrue(materials[0] is ShaderGraphMaterial)
+        XCTAssertEqual(try Color(XCTUnwrap(materials[1] as? SimpleMaterial).color.tint), .green, accuracy: 1e-6)
+        XCTAssertTrue(materials[2] is SimpleMaterial)
+    }
+
+    @available(visionOS 2.0, *)
+    @MainActor
+    func testDefaultAsyncConversionPreservesImportedRealityKitMaterials() async throws {
+        let original = try await ModelEntity(Mesh.cube()) { _ in SimpleMaterial(color: .white, isMetallic: true) }
+        let imported = await Mesh(original)
+        let gradient = Mesh.merge([
+            imported.mapVertexColors { _ in .red },
+            imported.mapVertexColors { _ in .blue }.translated(by: .unitX),
+        ])
+        let converted = try await ModelEntity(gradient)
+        let material = try XCTUnwrap(converted.model?.materials.first as? SimpleMaterial)
+        guard case let .float(metallic) = material.metallic else { return XCTFail("Expected scalar metallic") }
+        XCTAssertEqual(metallic, 1)
+    }
+
+    @available(visionOS 2.0, *)
+    @MainActor
     func testVertexColorMaterialParametersAndTemplateIsolation() async throws {
         try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         var first = try await RealityKitVertexColorMaterial.make(
