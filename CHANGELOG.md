@@ -1,5 +1,24 @@
 # Change Log
 
+## Unreleased
+
+- Added cooperative cancellation to mesh file import/export and platform conversion APIs
+
+- Mesh export now prefers SceneKit after native writers, with Model I/O as fallback
+- Preserved OBJ material colors, opacity and diffuse textures when exporting through SceneKit
+- Preserved texture connections and image assets in USD exports
+- Corrected material colors and opacity when exporting USDZ through SceneKit
+
+- Corrected OBJ dissolve-map channels and scalar opacity multiplication when importing through SceneKit or Model I/O
+- Fixed material assignments when exporting meshes with multiple materials to USD, USDA and USDC
+- Restricted Model I/O color conversion to inspected formats and RGB properties, preserving declared color profiles and data channels
+- Added an explicit vertex color-space option for SceneKit mesh imports
+- Added Model I/O fallback for mesh file imports, with material bridging to SceneKit and RealityKit
+- Added explicit mesh import from Model I/O assets and objects, preserving vertex attributes, materials and transforms
+- Fixed overly bright translucent textures exported through Model I/O
+- Corrected sRGB vertex colors when importing OBJ or binary PLY through the platform loader
+- Added native ASCII PLY import/export preserving vertex colors, material tint, normals and UV coordinates
+
 ## [0.10.5](https://github.com/nicklockwood/Euclid/releases/tag/0.10.5) (2026-11-07)
 
 - Fixed texture seams on convex hulls of smooth meshes
