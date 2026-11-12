@@ -70,9 +70,26 @@ public extension Mesh {
 
     /// Return ASCII STL string data for the mesh.
     func stlString(options: STLTextOptions) -> String {
-        """
+        try! stlString(options: options, isCancelled: { false })
+    }
+
+    /// Returns ASCII STL data, throwing `CancellationError` when cancelled.
+    func stlString(name: String = "", isCancelled: CancellationHandler) throws -> String {
+        try stlString(options: .init(name: name), isCancelled: isCancelled)
+    }
+
+    /// Returns ASCII STL data, throwing `CancellationError` when cancelled.
+    func stlString(options: STLTextOptions, isCancelled: CancellationHandler) throws -> String {
+        try checkCancellation(isCancelled)
+        let triangles = triangulate(isCancelled: isCancelled).polygons
+        let strings = try triangles.map { polygon in
+            try checkCancellation(isCancelled)
+            return polygon.stlString(options: options)
+        }
+        try checkCancellation(isCancelled)
+        return """
         solid \(options.name)
-        \(triangulate().polygons.map { $0.stlString(options: options) }.joined(separator: "\n"))
+        \(strings.joined(separator: "\n"))
         endsolid \(options.name)
         """
     }
@@ -96,23 +113,44 @@ public extension Mesh {
     ///   convention, without gamma conversion. STL color extensions do not declare a color space.
     ///   Use `colorLookup` to convert components when the destination requires another convention.
     func stlData(options: STLBinaryOptions) -> Data {
-        let triangles = triangulate().polygons
+        try! stlData(options: options, isCancelled: { false })
+    }
+
+    /// Returns binary STL data, throwing `CancellationError` when cancelled.
+    func stlData(colorLookup: STLColorProvider? = nil, isCancelled: CancellationHandler) throws -> Data {
+        try stlData(options: .init(colorLookup: colorLookup), isCancelled: isCancelled)
+    }
+
+    /// Returns binary STL data, throwing `CancellationError` when cancelled.
+    func stlData(options: STLBinaryOptions, isCancelled: CancellationHandler) throws -> Data {
+        try checkCancellation(isCancelled)
+        let triangles = triangulate(isCancelled: isCancelled).polygons
+        try checkCancellation(isCancelled)
         let bufferSize = headerSize + 4 + triangles.count * triangleSize
         let buffer = Buffer(capacity: bufferSize)
         options.header.copyBytes(to: buffer.buffer, count: min(options.header.count, 80))
         buffer.count = headerSize
         buffer.append(UInt32(triangles.count))
-        triangles.forEach { buffer.append($0, options: options) }
+        for triangle in triangles {
+            try checkCancellation(isCancelled)
+            buffer.append(triangle, options: options)
+        }
+        try checkCancellation(isCancelled)
         return Data(buffer)
     }
 
     /// Return STL data for the mesh.
     func stlData(format: STLFormat) -> Data {
+        try! stlData(format: format, isCancelled: { false })
+    }
+
+    /// Returns STL data in the selected format, throwing `CancellationError` when cancelled.
+    func stlData(format: STLFormat, isCancelled: CancellationHandler) throws -> Data {
         switch format {
         case let .binary(options):
-            stlData(options: options)
+            try stlData(options: options, isCancelled: isCancelled)
         case let .text(options):
-            Data(stlString(options: options).utf8)
+            try Data(stlString(options: options, isCancelled: isCancelled).utf8)
         }
     }
 }
@@ -220,11 +258,22 @@ public extension Mesh {
     ///   - stlString: ASCII STL string data.
     ///   - options: The import options.
     init?(stlString: String, options: ImportOptions = .init()) {
+        try? self.init(stlString: stlString, options: options, isCancelled: { false })
+    }
+
+    /// Creates a mesh from STL text, throwing `CancellationError` if the callback returns `true`.
+    init?(
+        stlString: String,
+        options: ImportOptions = .init(),
+        isCancelled: CancellationHandler
+    ) throws {
+        try checkCancellation(isCancelled)
         var lines = ArraySlice(stlString.components(separatedBy: .newlines))
-        guard let mesh = lines.readSolid() else {
+        guard let mesh = try lines.readSolid(isCancelled: isCancelled) else {
             return nil
         }
-        self = (options.repairWinding ?? true) ? mesh.withConsistentWinding() : mesh
+        self = (options.repairWinding ?? true) ? mesh.withConsistentWinding(isCancelled: isCancelled) : mesh
+        try checkCancellation(isCancelled)
     }
 
     /// A closure that maps an STL facet color to a Euclid material.
@@ -245,12 +294,28 @@ public extension Mesh {
         options: ImportOptions = .init(),
         materialLookup: STLMaterialProvider? = nil
     ) {
+        try? self.init(
+            stlData: stlData,
+            options: options,
+            materialLookup: materialLookup,
+            isCancelled: { false }
+        )
+    }
+
+    /// Creates a mesh from STL data, throwing `CancellationError` when cancelled.
+    init?(
+        stlData: Data,
+        options: ImportOptions = .init(),
+        materialLookup: STLMaterialProvider? = nil,
+        isCancelled: CancellationHandler
+    ) throws {
+        try checkCancellation(isCancelled)
         if stlData.count >= 5,
            let prefix = String(data: stlData[0 ..< 5], encoding: .utf8),
            prefix.caseInsensitiveCompare("solid") == .orderedSame,
            let string = String(data: stlData, encoding: .utf8)
         {
-            self.init(stlString: string, options: options)
+            try self.init(stlString: string, options: options, isCancelled: isCancelled)
             return
         }
         var offset = headerSize
@@ -272,9 +337,10 @@ public extension Mesh {
             return nil
         }
         let materialLookup = materialLookup ?? { $0 }
-        let triangles = stlData.withUnsafeBytes { buffer -> [Polygon] in
-            (0 ..< count).compactMap { _ in
-                buffer.readTriangle(
+        let triangles = try stlData.withUnsafeBytes { buffer -> [Polygon] in
+            try (0 ..< count).compactMap { _ in
+                try checkCancellation(isCancelled)
+                return buffer.readTriangle(
                     at: &offset,
                     baseColor: baseColor,
                     materialLookup: materialLookup
@@ -283,8 +349,9 @@ public extension Mesh {
         }
         var mesh = Mesh(triangles)
         if options.repairWinding ?? true {
-            mesh = mesh.withConsistentWinding()
+            mesh = mesh.withConsistentWinding(isCancelled: isCancelled)
         }
+        try checkCancellation(isCancelled)
         self = mesh
     }
 }
@@ -340,12 +407,13 @@ private extension ArraySlice<String> {
         return Polygon([a, b, c])
     }
 
-    mutating func readSolid() -> Mesh? {
+    mutating func readSolid(isCancelled: CancellationHandler) throws -> Mesh? {
         guard readCommand("solid") else {
             return nil
         }
         var triangles = [Polygon]()
         while let triangle = readTriangle() {
+            try checkCancellation(isCancelled)
             triangles.append(triangle)
         }
         guard readCommand("endsolid") else {
@@ -401,7 +469,11 @@ private extension UnsafeRawBufferPointer {
         return .init(red: red, green: green, blue: blue)
     }
 
-    func readTriangle(at offset: inout Int, baseColor: Color?, materialLookup: Mesh.STLMaterialProvider) -> Polygon? {
+    func readTriangle(
+        at offset: inout Int,
+        baseColor: Color?,
+        materialLookup: Mesh.STLMaterialProvider
+    ) -> Polygon? {
         _ = readVector(at: &offset) // Normal (ignored)
         let vertices = (0 ..< 3).map { _ in readVector(at: &offset) }
         let color = baseColor.map { readMaterialiseMagicsColor(at: &offset) ?? $0 } ?? readSolidViewColor(at: &offset)

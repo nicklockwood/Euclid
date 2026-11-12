@@ -13,9 +13,18 @@ import Foundation
 public extension Mesh {
     /// Return Object File Format string data for the mesh.
     func offString() -> String {
+        // This overload cannot cancel, so the throwing implementation cannot fail.
+        try! offString(isCancelled: { false })
+    }
+
+    /// Returns OFF text, throwing `CancellationError` when cancelled.
+    func offString(isCancelled: CancellationHandler) throws -> String {
+        try checkCancellation(isCancelled)
         var vertices = [Vector](), indicesByVertex = [Vector: Int]()
-        let indices = polygons.tessellate { false }.map { polygon -> [Int] in
-            polygon.vertices.map { vertex -> Int in
+        let indices = try polygons.tessellate(isCancelled: isCancelled).map { polygon -> [Int] in
+            try checkCancellation(isCancelled)
+            return try polygon.vertices.map { vertex -> Int in
+                try checkCancellation(isCancelled)
                 let position = vertex.position
                 if let index = indicesByVertex[position] {
                     return index
@@ -27,8 +36,15 @@ public extension Mesh {
             }
         }
 
-        let vertexStrings = vertices.map(\.offString)
-        let indexStrings = indices.map { "\($0.count) \($0.map(\.description).joined(separator: " "))" }
+        let vertexStrings = try vertices.map {
+            try checkCancellation(isCancelled)
+            return $0.offString
+        }
+        let indexStrings = try indices.map {
+            try checkCancellation(isCancelled)
+            return "\($0.count) \($0.map(\.description).joined(separator: " "))"
+        }
+        try checkCancellation(isCancelled)
         return [
             "OFF",
             "\(vertices.count) \(indices.count) 0",
@@ -65,15 +81,25 @@ public extension Mesh {
     ///   - offString: OFF string data.
     ///   - options: The import options.
     init?(offString: String, options: ImportOptions = .init()) {
+        try? self.init(offString: offString, options: options, isCancelled: { false })
+    }
+
+    /// Creates a mesh from OFF text, throwing `CancellationError` if the callback returns `true`.
+    init?(
+        offString: String, options: ImportOptions = .init(), isCancelled: CancellationHandler
+    ) throws {
+        try checkCancellation(isCancelled)
         var lines = ArraySlice(offString.components(separatedBy: .newlines))
         guard let counts = lines.readHeader() else {
             return nil
         }
-        let vertices = (0 ..< counts.vertices).compactMap { _ in
-            lines.readVertex()
+        let vertices = try (0 ..< counts.vertices).compactMap { _ in
+            try checkCancellation(isCancelled)
+            return lines.readVertex()
         }
         var faces = [Polygon]()
         for _ in 0 ..< counts.faces {
+            try checkCancellation(isCancelled)
             guard let face = lines.readFace(with: vertices) else {
                 return nil
             }
@@ -81,8 +107,9 @@ public extension Mesh {
         }
         var mesh = Mesh(faces)
         if options.repairWinding ?? true {
-            mesh = mesh.withConsistentWinding()
+            mesh = mesh.withConsistentWinding(isCancelled: isCancelled)
         }
+        try checkCancellation(isCancelled)
         self = mesh
     }
 }

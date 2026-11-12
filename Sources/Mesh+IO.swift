@@ -47,32 +47,41 @@ public extension Mesh {
     /// - Parameters:
     ///   - url: The `URL` of the file to be loaded.
     ///   - options: The import options.
+    ///   - isCancelled: Return `true` to stop with `CancellationError`.
     ///   - materialLookup: Maps format-specific materials to Euclid materials. Platform loaders supply
     ///     `MDLMaterial` or `SCNMaterial`; native readers may supply colors. If omitted, materials are retained.
     init(
         url: URL,
         options: ImportOptions = .init(),
+        isCancelled: @escaping CancellationHandler = { false },
         materialLookup: (@Sendable (AnyHashable?) -> Material?)? = nil
     ) throws {
+        try checkCancellation(isCancelled)
         switch url.pathExtension.lowercased() {
         case "stl", "stla":
             let data = try Data(contentsOf: url)
-            guard let mesh = Mesh(stlData: data, options: options, materialLookup: materialLookup) else {
+            guard let mesh = try Mesh(
+                stlData: data,
+                options: options,
+                materialLookup: materialLookup,
+                isCancelled: isCancelled
+            ) else {
                 throw IOError("Invalid STL file")
             }
             self = mesh
         case "off":
             let string = try String(contentsOf: url)
-            guard let mesh = Mesh(offString: string, options: options) else {
+            guard let mesh = try Mesh(offString: string, options: options, isCancelled: isCancelled) else {
                 throw IOError("Invalid OFF file")
             }
             self = mesh
         case "ply":
             let data = try Data(contentsOf: url)
             if let string = String(data: data, encoding: .utf8),
-               let mesh = Mesh(plyString: string, options: options)
+               let mesh = try Mesh(plyString: string, options: options, isCancelled: isCancelled)
             {
                 self = mesh
+                try checkCancellation(isCancelled)
                 return
             }
             #if canImport(ModelIO)
@@ -87,7 +96,7 @@ public extension Mesh {
             fallthrough
             #else
             let string = try String(contentsOf: url)
-            guard let mesh = Mesh(objString: string, options: options) else {
+            guard let mesh = try Mesh(objString: string, options: options, isCancelled: isCancelled) else {
                 throw IOError("Invalid OBJ file")
             }
             self = mesh
@@ -106,26 +115,39 @@ public extension Mesh {
                     .convertToYUp: true,
                     .preserveOriginalTopology: true,
                 ]
-                let importedScene = try SCNScene(url: url, options: sceneOptions)
-                if url.pathExtension.lowercased() == "obj" {
-                    importedScene.restoreOBJOpacityMaps(from: url)
+                guard let source = SCNSceneSource(url: url, options: sceneOptions) else {
+                    throw CocoaError(.fileReadCorruptFile)
                 }
-                self.init(
+                let importedScene = try source.scene(options: sceneOptions, isCancelled: isCancelled)
+                if url.pathExtension.lowercased() == "obj" {
+                    try importedScene.restoreOBJOpacityMaps(from: url, isCancelled: isCancelled)
+                }
+                try self.init(
                     importedScene.rootNode,
                     linearColors: !["ply", "obj"].contains(url.pathExtension.lowercased()),
-                    materialLookup: materialLookup
+                    materialLookup: materialLookup,
+                    isCancelled: isCancelled
                 )
                 if options.repairWinding == true {
-                    self = withConsistentWinding()
+                    self = withConsistentWinding(isCancelled: isCancelled)
                 }
+                try checkCancellation(isCancelled)
                 return
+            } catch is CancellationError {
+                throw CancellationError()
             } catch {
                 sceneKitError = error
             }
             #endif
             #if canImport(ModelIO)
             if MDLAsset.canImportFileExtension(url.pathExtension.lowercased()) {
-                self = try Mesh(modelIOURL: url, options: options, materialLookup: materialLookup)
+                self = try Mesh(
+                    modelIOURL: url,
+                    options: options,
+                    isCancelled: isCancelled,
+                    materialLookup: materialLookup
+                )
+                try checkCancellation(isCancelled)
                 return
             }
             #endif
@@ -143,33 +165,74 @@ public extension Mesh {
     /// not all exporters preserve vertex colors, alpha or textures.
     /// - Parameters:
     ///   - url: The `URL` of the file to be written.
+    ///   - isCancelled: Return `true` to stop with `CancellationError`.
     ///   - materialLookup: A closure to map Euclid materials to format-appropriate materials. Use `nil` for default
     ///     mapping.
-    func write(to url: URL, materialLookup: (@Sendable (Material?) -> AnyHashable?)? = nil) throws {
+    func write(
+        to url: URL,
+        isCancelled: @escaping CancellationHandler = { false },
+        materialLookup: (@Sendable (Material?) -> AnyHashable?)? = nil
+    ) throws {
+        try checkCancellation(isCancelled)
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let output = directory.appendingPathComponent(url.lastPathComponent)
+        try writeFile(to: output, isCancelled: isCancelled, materialLookup: materialLookup)
+        try checkCancellation(isCancelled)
+        // Publish only completed exports. Merge sidecar directories without removing unrelated assets.
+        func publish(_ file: URL, to destination: URL) throws {
+            let manager = FileManager.default
+            var isDirectory: ObjCBool = false
+            let exists = manager.fileExists(atPath: destination.path, isDirectory: &isDirectory)
+            if exists, isDirectory.boolValue,
+               try file.resourceValues(forKeys: [.isDirectoryKey]).isDirectory == true
+            {
+                for child in try manager.contentsOfDirectory(at: file, includingPropertiesForKeys: nil) {
+                    try publish(child, to: destination.appendingPathComponent(child.lastPathComponent))
+                }
+            } else if exists {
+                _ = try manager.replaceItemAt(destination, withItemAt: file)
+            } else {
+                try manager.moveItem(at: file, to: destination)
+            }
+        }
+        let files = try FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)
+        for file in files where file.lastPathComponent != url.lastPathComponent {
+            try publish(file, to: url.deletingLastPathComponent().appendingPathComponent(file.lastPathComponent))
+        }
+        try publish(output, to: url)
+    }
+
+    private func writeFile(
+        to url: URL,
+        isCancelled: @escaping CancellationHandler,
+        materialLookup: (@Sendable (Material?) -> AnyHashable?)?
+    ) throws {
         switch url.pathExtension.lowercased() {
         case "stl":
             let colorLookup = materialLookup.map { lookup in
                 { @Sendable in defaultColorMapping(lookup($0)) }
             }
-            let data = stlData(colorLookup: colorLookup)
+            let data = try stlData(colorLookup: colorLookup, isCancelled: isCancelled)
             try data.write(to: url, options: .atomic)
         case "stla":
-            let string = stlString(name: "")
+            let string = try stlString(name: "", isCancelled: isCancelled)
             try string.write(to: url, atomically: true, encoding: .utf8)
         case "off":
-            let string = offString()
+            let string = try offString(isCancelled: isCancelled)
             try string.write(to: url, atomically: true, encoding: .utf8)
         case "ply":
             let colorLookup = materialLookup.map { lookup in
                 { @Sendable in defaultColorMapping(lookup($0)) }
             }
-            let string = try plyString(colorLookup: colorLookup)
+            let string = try plyString(colorLookup: colorLookup, isCancelled: isCancelled)
             try string.write(to: url, atomically: true, encoding: .utf8)
         case "obj":
             #if canImport(ModelIO)
             fallthrough
             #else
-            let string = objString()
+            let string = try objString(isCancelled: isCancelled)
             try string.write(to: url, atomically: true, encoding: .utf8)
             #endif
         default:
@@ -177,8 +240,12 @@ public extension Mesh {
             if ["scn", "scnz", "dae"].contains(url.pathExtension.lowercased()) {
                 let scene = SCNScene()
                 let lookup = materialLookup.map { lookup in { defaultMaterialLookup(lookup($0)) } }
-                scene.rootNode.addChildNode(SCNNode(geometry: SCNGeometry(polygons: self, materialLookup: lookup)))
-                if scene.write(to: url, options: nil, delegate: nil, progressHandler: nil) { return }
+                try scene.rootNode.addChildNode(SCNNode(geometry: SCNGeometry(
+                    polygons: self,
+                    materialLookup: lookup,
+                    isCancelled: isCancelled
+                )))
+                if try scene.write(to: url, isCancelled: isCancelled) { return }
             }
             #endif
             #if canImport(ModelIO)
@@ -196,6 +263,7 @@ public extension Mesh {
                     ($1, "material_\($0)")
                 })
                 let mappedMaterial: MDLAsset.MDLMaterialProvider = { material in
+                    try checkCancellation(isCancelled)
                     let mapped: AnyHashable? = if let materialLookup {
                         materialLookup(material)
                     } else {
@@ -215,7 +283,8 @@ public extension Mesh {
                     let groups = polygonsByMaterial
                     for (index, material) in materials.enumerated() {
                         let part = try MDLAsset(
-                            Mesh(groups[material] ?? []), linearColors: linearColors, materialLookup: mappedMaterial
+                            Mesh(groups[material] ?? []), linearColors: linearColors, isCancelled: isCancelled,
+                            materialLookup: mappedMaterial
                         )
                         for objectIndex in 0 ..< part.count {
                             let object = part.object(at: objectIndex)
@@ -224,7 +293,12 @@ public extension Mesh {
                         }
                     }
                 } else {
-                    asset = try MDLAsset(self, linearColors: linearColors, materialLookup: mappedMaterial)
+                    asset = try MDLAsset(
+                        self,
+                        linearColors: linearColors,
+                        isCancelled: isCancelled,
+                        materialLookup: mappedMaterial
+                    )
                 }
                 if let colorEncoding {
                     for case let mesh as MDLMesh in asset.childObjects(of: MDLMesh.self) {
@@ -267,14 +341,22 @@ public extension Mesh {
                         }
                         scene.rootNode.addChildNode(node)
                     }
-                    if scene.write(to: url, options: nil, delegate: nil, progressHandler: nil) {
-                        if !objMaterials.isEmpty { try restoreExportedOBJMaterials(at: url, materials: objMaterials) }
+                    if try scene.write(to: url, isCancelled: isCancelled) {
+                        if !objMaterials.isEmpty { try restoreExportedOBJMaterials(
+                            at: url,
+                            materials: objMaterials,
+                            isCancelled: isCancelled
+                        ) }
+                        try checkCancellation(isCancelled)
                         return
                     }
                 }
                 #endif
                 guard canExport else { throw IOError("Failed to export '\(url.pathExtension)' file") }
+                try checkCancellation(isCancelled)
                 try asset.export(to: url)
+                try checkCancellation(isCancelled)
+                try checkCancellation(isCancelled)
                 return
             }
             #endif
