@@ -32,6 +32,7 @@
 #if canImport(SceneKit)
 
 import SceneKit
+import SceneKit.ModelIO
 
 let scnMaterialTypes: [AnyClass] = [SCNMaterial.self]
 
@@ -89,6 +90,8 @@ func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
     switch material {
     case let scnMaterial as SCNMaterial:
         return scnMaterial
+    case let material as MDLMaterial:
+        return SCNMaterial(mdlMaterial: material)
     case let color as Color:
         return defaultMaterialLookup(OSColor(color))
     case let cfType as CFTypeRef where [
