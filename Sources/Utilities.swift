@@ -35,6 +35,39 @@ import Foundation
 /// - Returns: `true` if operation should be cancelled, or `false` otherwise.
 public typealias CancellationHandler = @Sendable () -> Bool
 
+/// Throw rather than returning a partially converted file or mesh.
+func checkCancellation(_ isCancelled: CancellationHandler) throws {
+    if isCancelled() { throw CancellationError() }
+}
+
+/// Retains a cancellation request made by a platform progress callback.
+final class IOCancellation: @unchecked Sendable {
+    private let lock = NSLock()
+    private var cancelled = false
+    private var error: Error?
+
+    func record(_ error: Error?) {
+        guard let error else { return }
+        lock.lock()
+        defer { lock.unlock() }
+        self.error = error
+    }
+
+    func failure() -> Error? {
+        lock.lock()
+        defer { lock.unlock() }
+        return error
+    }
+
+    func check(_ callback: CancellationHandler) -> Bool {
+        let requested = callback()
+        lock.lock()
+        defer { lock.unlock() }
+        cancelled = cancelled || requested
+        return cancelled
+    }
+}
+
 /// Tolerance used for calculating approximate equality
 let epsilon: Double = 1e-8
 

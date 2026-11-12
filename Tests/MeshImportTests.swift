@@ -22,6 +22,27 @@ private extension Data {
 }
 
 final class MeshImportTests: XCTestCase {
+    func testNativeImportCancellation() throws {
+        let mesh = Mesh.sphere(slices: 32)
+        let inputs = try [mesh.stlString(), mesh.offString(), mesh.objString(), mesh.plyString()]
+        let readers: [(String, CancellationHandler) throws -> Mesh?] = [
+            { try Mesh(stlString: $0, isCancelled: $1) },
+            { try Mesh(offString: $0, isCancelled: $1) },
+            { try Mesh(objString: $0, isCancelled: $1) },
+            { try Mesh(plyString: $0, isCancelled: $1) },
+        ]
+        for (input, read) in zip(inputs, readers) {
+            XCTAssertNotNil(try read(input) { false })
+            let counter = ImportCancellationCounter()
+            XCTAssertThrowsError(try read(input) { counter.poll() }) {
+                XCTAssertTrue($0 is CancellationError)
+            }
+        }
+        XCTAssertThrowsError(try Mesh(url: URL(fileURLWithPath: "/missing.stl"), isCancelled: { true })) {
+            XCTAssertTrue($0 is CancellationError)
+        }
+    }
+
     func testOBJVertexWeightIsNotInterpretedAsColor() throws {
         let mesh = try XCTUnwrap(Mesh(objString: """
         v 0 0 0 0.5
@@ -860,5 +881,17 @@ final class MeshImportTests: XCTestCase {
         XCTAssertTrue(mesh.polygons.allSatisfy { $0.vertices.count == 3 })
         XCTAssertTrue(mesh.isWatertight)
         XCTAssertFalse(mesh.isConvex { false })
+    }
+}
+
+private final class ImportCancellationCounter: @unchecked Sendable {
+    private let lock = NSLock()
+    private var count = 0
+
+    func poll() -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        count += 1
+        return count >= 20
     }
 }

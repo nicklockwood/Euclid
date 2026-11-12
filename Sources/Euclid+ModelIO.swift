@@ -53,12 +53,15 @@ public extension MDLAsset {
     /// - Parameters:
     ///   - mesh: The mesh to convert.
     ///   - linearColors: Convert sRGB colors to linear light. Set to `false` for OBJ export.
+    ///   - isCancelled: Return `true` to stop conversion with `CancellationError`.
     ///   - materialLookup: Maps polygon materials to Model I/O materials. Use `nil` for default mapping.
     convenience init(
         _ mesh: Mesh,
         linearColors: Bool = true,
+        isCancelled: CancellationHandler = { false },
         materialLookup: MDLMaterialProvider? = nil
     ) throws {
+        try checkCancellation(isCancelled)
         let hasTexcoords = mesh.hasTexcoords
         let hasVertexColors = mesh.hasVertexColors
         let allocator = MDLMeshBufferDataAllocator()
@@ -82,12 +85,16 @@ public extension MDLAsset {
         var submeshes = [MDLSubmesh]()
         let polygonsByMaterial = mesh.polygonsByMaterial
         for (materialIndex, material) in mesh.materials.enumerated() {
+            try checkCancellation(isCancelled)
             var indices = [UInt32]()
             var counts = [UInt8]()
-            let polygons = polygonsByMaterial[material]?.tessellate(isCancelled: { false }) ?? []
-            for polygon in polygons.flatMap({ $0.vertices.count > 255 ? $0.triangulate() : [$0] }) {
+            let polygons = polygonsByMaterial[material]?.tessellate(isCancelled: isCancelled) ?? []
+            for polygon in polygons
+                .flatMap({ $0.vertices.count > 255 ? $0.triangulate(isCancelled: isCancelled) : [$0] })
+            {
                 counts.append(UInt8(polygon.vertices.count))
                 for vertex in polygon.vertices {
+                    try checkCancellation(isCancelled)
                     if let index = indicesByVertex[vertex] {
                         indices.append(index)
                         continue
@@ -119,6 +126,7 @@ public extension MDLAsset {
                 topology: topology
             ))
         }
+        try checkCancellation(isCancelled)
         self.init(bufferAllocator: allocator)
         if !vertices.isEmpty {
             let mesh = MDLMesh(
@@ -210,18 +218,21 @@ public extension Mesh {
     ///   - asset: The asset to convert. Object transforms are sampled at time zero.
     ///   - ignoringTransforms: Ignore transforms on the asset's objects and their children.
     ///   - linearColors: Interpret vertex RGB as linear light and convert to sRGB. Use `false` for OBJ or PLY.
+    ///   - isCancelled: Return `true` to stop conversion with `CancellationError`.
     ///   - materialLookup: Maps materials to Euclid materials. If omitted, retains the original `MDLMaterial`.
     /// - Throws: An error for malformed or unsupported mesh data, or from material mapping.
     init(
         _ asset: MDLAsset,
         ignoringTransforms: Bool = false,
         linearColors: Bool = true,
+        isCancelled: CancellationHandler = { false },
         materialLookup: MDLMaterialProvider? = nil
     ) throws {
+        try checkCancellation(isCancelled)
         self = try .merge((0 ..< asset.count).map {
             try Mesh(
                 asset.object(at: $0), ignoringTransforms: ignoringTransforms,
-                linearColors: linearColors, materialLookup: materialLookup
+                linearColors: linearColors, isCancelled: isCancelled, materialLookup: materialLookup
             )
         })
     }
@@ -231,22 +242,27 @@ public extension Mesh {
     ///   - object: The object to convert. Transforms are sampled at time zero; ancestor transforms are excluded.
     ///   - ignoringTransforms: Ignore transforms on this object and its children.
     ///   - linearColors: Interpret vertex RGB as linear light and convert to sRGB. Alpha is unchanged.
+    ///   - isCancelled: Return `true` to stop conversion with `CancellationError`.
     ///   - materialLookup: Maps materials to Euclid materials. If omitted, retains the original `MDLMaterial`.
     /// - Throws: An error for malformed or unsupported mesh data, or from material mapping.
     init(
         _ object: MDLObject,
         ignoringTransforms: Bool = false,
         linearColors: Bool = true,
+        isCancelled: CancellationHandler = { false },
         materialLookup: MDLMaterialProvider? = nil
     ) throws {
+        try checkCancellation(isCancelled)
         var polygons = [Polygon]()
         func visit(_ object: MDLObject, transform: simd_float4x4) throws {
+            try checkCancellation(isCancelled)
             let transform = ignoringTransforms ? matrix_identity_float4x4 :
                 (object.transform?.resetsTransform == true ? matrix_identity_float4x4 : transform) *
                 (object.transform?.localTransform?(atTime: 0) ?? object.transform?.matrix ?? matrix_identity_float4x4)
             if let mesh = object as? MDLMesh {
                 polygons += try mesh.euclidPolygons(
-                    transform: transform, linearColors: linearColors, materialLookup: materialLookup
+                    transform: transform, linearColors: linearColors, isCancelled: isCancelled,
+                    materialLookup: materialLookup
                 )
             }
             for child in object.children.objects {
@@ -254,6 +270,7 @@ public extension Mesh {
             }
         }
         try visit(object, transform: matrix_identity_float4x4)
+        try checkCancellation(isCancelled)
         self.init(polygons)
     }
 }
@@ -262,6 +279,7 @@ private extension MDLMesh {
     func euclidPolygons(
         transform: simd_float4x4,
         linearColors: Bool,
+        isCancelled: CancellationHandler,
         materialLookup: Mesh.MDLMaterialProvider?
     ) throws -> [Polygon] {
         if vertexCount == 0 { return [] }
@@ -294,6 +312,7 @@ private extension MDLMesh {
         }
         var vertices = [Vertex]()
         for index in 0 ..< vertexCount {
+            try checkCancellation(isCancelled)
             let p = try values(positions, index, 3)
             let position = transform * SIMD4(p[0], p[1], p[2], 1)
             var normal = Vector.zero
@@ -320,13 +339,15 @@ private extension MDLMesh {
         }
         var polygons = [Polygon]()
         for case let submesh as MDLSubmesh in submeshes ?? [] {
+            try checkCancellation(isCancelled)
             let buffer = submesh.indexBuffer(asIndexType: .uInt32)
             guard submesh.indexCount <= buffer.length / 4 else {
                 throw Mesh.IOError("Model I/O index count exceeds buffer size")
             }
             let map = buffer.map()
-            let indices = (0 ..< submesh.indexCount).map {
-                Int(map.bytes.loadUnaligned(fromByteOffset: $0 * 4, as: UInt32.self))
+            let indices = try (0 ..< submesh.indexCount).map {
+                try checkCancellation(isCancelled)
+                return Int(map.bytes.loadUnaligned(fromByteOffset: $0 * 4, as: UInt32.self))
             }
             guard indices.allSatisfy({ vertices.indices.contains($0) }) else {
                 throw Mesh.IOError("Model I/O index exceeds vertex count")
@@ -340,7 +361,8 @@ private extension MDLMesh {
             } else {
                 nil
             }
-            func append(_ indices: ArraySlice<Int>) {
+            func append(_ indices: ArraySlice<Int>) throws {
+                try checkCancellation(isCancelled)
                 let face = indices.map { vertices[$0] }
                 polygons += [Polygon](determinant < 0 ? Array(face.reversed()) : face, material: material)
             }
@@ -351,14 +373,14 @@ private extension MDLMesh {
                     throw Mesh.IOError("Incomplete Model I/O face")
                 }
                 for i in stride(from: 0, to: indices.count, by: count) {
-                    append(indices[i ..< i + count])
+                    try append(indices[i ..< i + count])
                 }
             case .triangleStrips:
                 if indices.count >= 3 {
                     for i in 0 ..< indices.count - 2 {
                         let face = i % 2 == 0 ? [indices[i], indices[i + 1], indices[i + 2]] :
                             [indices[i + 1], indices[i], indices[i + 2]]
-                        append(face[...])
+                        try append(face[...])
                     }
                 }
             case .variableTopology:
@@ -372,7 +394,7 @@ private extension MDLMesh {
                     guard count <= indices.count - offset else {
                         throw Mesh.IOError("Model I/O face exceeds index count")
                     }
-                    append(indices[offset ..< offset + count])
+                    try append(indices[offset ..< offset + count])
                     offset += count
                 }
                 guard offset == indices.count else {
@@ -505,8 +527,10 @@ extension Mesh {
     init(
         modelIOURL url: URL,
         options: ImportOptions = .init(),
+        isCancelled: CancellationHandler = { false },
         materialLookup: (@Sendable (AnyHashable?) -> Material?)? = nil
     ) throws {
+        try checkCancellation(isCancelled)
         var error: NSError?
         let asset = MDLAsset(
             url: url,
@@ -515,15 +539,16 @@ extension Mesh {
             preserveTopology: true,
             error: &error
         )
+        try checkCancellation(isCancelled)
         if let error { throw error }
         asset.loadTextures()
         if url.pathExtension.lowercased() == "obj" {
-            asset.restoreOBJOpacityMaps(from: url)
+            try asset.restoreOBJOpacityMaps(from: url, isCancelled: isCancelled)
         }
         let colorEncoding = ModelIOColorEncoding(fileExtension: url.pathExtension)
         let linearColors = colorEncoding?.isLinear ?? true
         var mappedMaterials = Set<ObjectIdentifier>()
-        var mesh = try Mesh(asset, linearColors: linearColors) { material in
+        var mesh = try Mesh(asset, linearColors: linearColors, isCancelled: isCancelled) { material in
             if colorEncoding != nil, mappedMaterials.insert(ObjectIdentifier(material)).inserted {
                 normalizeModelIOColors(material, linearColors: linearColors)
             }
@@ -534,7 +559,8 @@ extension Mesh {
         if up.lengthSquared > 0, !up.isApproximatelyEqual(to: .unitY) {
             mesh = mesh.rotated(by: Rotation(from: up, to: .unitY))
         }
-        if options.repairWinding == true { mesh = mesh.withConsistentWinding() }
+        if options.repairWinding == true { mesh = mesh.withConsistentWinding(isCancelled: isCancelled) }
+        try checkCancellation(isCancelled)
         self = mesh
     }
 }

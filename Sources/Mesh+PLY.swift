@@ -27,7 +27,8 @@ public extension Mesh {
     ) throws -> String {
         if isCancelled() { throw CancellationError() }
         let colorLookup = colorLookup ?? defaultColorMapping
-        let triangles = triangulate().polygons
+        let triangles = triangulate(isCancelled: isCancelled).polygons
+        try checkCancellation(isCancelled)
         var output = """
         ply
         format ascii 1.0
@@ -70,6 +71,7 @@ public extension Mesh {
             if isCancelled() { throw CancellationError() }
             output += "3 \(index * 3) \(index * 3 + 1) \(index * 3 + 2)\n"
         }
+        try checkCancellation(isCancelled)
         return output
     }
 }
@@ -87,11 +89,20 @@ public extension Mesh {
     ///   - options: The import options. Winding is preserved unless repair is explicitly enabled.
     /// - Returns: `nil` for invalid data, an empty mesh, or unsupported encoding.
     init?(plyString: String, options: ImportOptions = .init()) {
+        try? self.init(plyString: plyString, options: options, isCancelled: { false })
+    }
+
+    /// Creates a mesh from PLY text, throwing `CancellationError` if the callback returns `true`.
+    init?(
+        plyString: String, options: ImportOptions = .init(), isCancelled: CancellationHandler
+    ) throws {
+        try checkCancellation(isCancelled)
         var lines = ArraySlice(plyString.components(separatedBy: .newlines))
-        guard var mesh = lines.readPLY(byteCount: plyString.utf8.count) else {
+        guard var mesh = try lines.readPLY(byteCount: plyString.utf8.count, isCancelled: isCancelled) else {
             return nil
         }
-        if options.repairWinding == true { mesh = mesh.withConsistentWinding() }
+        if options.repairWinding == true { mesh = mesh.withConsistentWinding(isCancelled: isCancelled) }
+        try checkCancellation(isCancelled)
         self = mesh
     }
 }
@@ -109,12 +120,13 @@ private struct PLYElement {
 }
 
 private extension ArraySlice<String> {
-    mutating func readPLY(byteCount: Int) -> Mesh? {
+    mutating func readPLY(byteCount: Int, isCancelled: CancellationHandler) throws -> Mesh? {
         guard popFirst()?.trimmingCharacters(in: .whitespaces) == "ply" else { return nil }
         var elements = [PLYElement]()
         var ascii = false
         var endHeader = false
         while let line = popFirst() {
+            try checkCancellation(isCancelled)
             if line.trimmingCharacters(in: .whitespaces) == "end_header" {
                 endHeader = true
                 break
@@ -149,12 +161,16 @@ private extension ArraySlice<String> {
             }
         }
         guard ascii, endHeader else { return nil }
-        var tokens = ArraySlice<Substring>(flatMap { $0.split(whereSeparator: \.isWhitespace) })
+        var tokens = try ArraySlice<Substring>(flatMap {
+            try checkCancellation(isCancelled)
+            return $0.split(whereSeparator: \.isWhitespace)
+        })
         removeAll()
         var vertices = [Vertex]()
         var faces = [[Int]]()
         for element in elements {
             for _ in 0 ..< element.count {
+                try checkCancellation(isCancelled)
                 var values = [String: Double]()
                 for property in element.properties {
                     if property.list {
@@ -163,6 +179,7 @@ private extension ArraySlice<String> {
                         else { return nil }
                         var indices = [Int]()
                         for _ in 0 ..< count {
+                            try checkCancellation(isCancelled)
                             guard let value = tokens.readNumber() else { return nil }
                             if element.name == "face",
                                ["vertex_indices", "vertex_index"].contains(property.name)
@@ -198,6 +215,7 @@ private extension ArraySlice<String> {
         }
         var polygons = [Polygon]()
         for face in faces {
+            try checkCancellation(isCancelled)
             guard face.allSatisfy(vertices.indices.contains) else { return nil }
             if let polygon = Polygon(face.map { vertices[$0] }) { polygons.append(polygon) }
         }

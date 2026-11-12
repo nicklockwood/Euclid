@@ -10,6 +10,41 @@
 import XCTest
 
 final class MeshExportTests: XCTestCase {
+    func testCancelledFileExportPreservesDestination() throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let mesh = Mesh.sphere(slices: 32)
+        var formats = ["stl", "stla", "off", "ply", "obj"]
+        #if canImport(SceneKit) && !os(watchOS)
+        formats.append("scn")
+        #endif
+        for ext in formats {
+            let url = directory.appendingPathComponent("mesh.\(ext)")
+            let original = Data("existing file".utf8)
+            try original.write(to: url)
+            let counter = IOCancellationCounter(limit: 20)
+            XCTAssertThrowsError(try mesh.write(to: url, isCancelled: { counter.poll() })) {
+                XCTAssertTrue($0 is CancellationError, "\(ext): \($0)")
+            }
+            XCTAssertEqual(try Data(contentsOf: url), original, ext)
+        }
+    }
+
+    func testCancellableNativeWritersPreserveOutput() throws {
+        let mesh = Mesh.cube()
+        XCTAssertEqual(try mesh.stlData(isCancelled: { false }), mesh.stlData())
+        XCTAssertEqual(try mesh.stlString(isCancelled: { false }), mesh.stlString())
+        XCTAssertEqual(try mesh.offString(isCancelled: { false }), mesh.offString())
+        XCTAssertEqual(try mesh.objString(isCancelled: { false }), mesh.objString())
+        for ext in ["stl", "stla", "off", "ply"] {
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent("\(UUID()).\(ext)")
+            defer { try? FileManager.default.removeItem(at: url) }
+            try mesh.write(to: url, isCancelled: { false })
+            XCTAssertFalse(try Mesh(url: url, isCancelled: { false }).polygons.isEmpty)
+        }
+    }
+
     // MARK: STL export
 
     func testCubeSTL() {
@@ -355,5 +390,20 @@ final class MeshExportTests: XCTestCase {
         4 5 0 3 6
         4 1 4 7 2
         """)
+    }
+}
+
+private final class IOCancellationCounter: @unchecked Sendable {
+    private let lock = NSLock()
+    private var count = 0
+    private let limit: Int
+
+    init(limit: Int) { self.limit = limit }
+
+    func poll() -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        count += 1
+        return count >= limit
     }
 }

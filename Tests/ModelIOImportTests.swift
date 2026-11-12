@@ -21,6 +21,27 @@ import RealityKit
 #endif
 
 final class ModelIOImportTests: XCTestCase {
+    func testCancellationDuringMaterialConversion() throws {
+        let asset = try MDLAsset(Mesh.cube())
+        let flag = ModelIOCancellationFlag()
+        XCTAssertThrowsError(try Mesh(asset, isCancelled: { flag.isCancelled }) { _ in
+            flag.cancel()
+            return nil
+        }) { XCTAssertTrue($0 is CancellationError) }
+        XCTAssertThrowsError(try MDLAsset(Mesh.cube(), isCancelled: { true })) {
+            XCTAssertTrue($0 is CancellationError)
+        }
+        #if canImport(SceneKit)
+        let sceneFlag = ModelIOCancellationFlag()
+        XCTAssertThrowsError(try Mesh(SCNNode(geometry: SCNBox()), materialLookup: { _ in
+            sceneFlag.cancel()
+            return nil
+        }, isCancelled: { sceneFlag.isCancelled })) {
+            XCTAssertTrue($0 is CancellationError)
+        }
+        #endif
+    }
+
     func testRoundTripVertexAttributesAndMaterials() throws {
         let color = Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.4)
         let source = Mesh.cube().mapVertexColors { _ in color }.withMaterial("paint")
@@ -360,6 +381,23 @@ final class ModelIOImportTests: XCTestCase {
                 ),
             ]
         )
+    }
+}
+
+private final class ModelIOCancellationFlag: @unchecked Sendable {
+    private let lock = NSLock()
+    private var value = false
+
+    var isCancelled: Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        return value
+    }
+
+    func cancel() {
+        lock.lock()
+        defer { lock.unlock() }
+        value = true
     }
 }
 

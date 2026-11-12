@@ -131,6 +131,11 @@ extension CGImage {
     /// Reads ordinary 8-bit grayscale/RGB maps as data, without gamma or profile conversion.
     /// Unsupported layouts remain with the platform loader rather than guessing their encoding.
     func objOpacityImage(for channel: OBJOpacityMap.Channel) -> CGImage? {
+        try! objOpacityImage(for: channel, isCancelled: { false })
+    }
+
+    func objOpacityImage(for channel: OBJOpacityMap.Channel, isCancelled: CancellationHandler) throws -> CGImage? {
+        try checkCancellation(isCancelled)
         guard bitsPerComponent == 8, !bitmapInfo.contains(.floatComponents), decode == nil,
               let model = colorSpace?.model, model == .rgb || model == .monochrome,
               let data = dataProvider?.data as Data?
@@ -167,9 +172,10 @@ extension CGImage {
         }
         let premultiplied = alphaInfo == .premultipliedFirst || alphaInfo == .premultipliedLast
         var pixels = [UInt8](repeating: 0, count: outputBytes)
-        data.withUnsafeBytes { bytes in
+        try data.withUnsafeBytes { bytes in
             let bytes = bytes.bindMemory(to: UInt8.self)
             for y in 0 ..< self.height {
+                try checkCancellation(isCancelled)
                 for x in 0 ..< self.width {
                     let offset = y * self.bytesPerRow + x * components
                     func component(_ index: Int) -> Double {
@@ -217,12 +223,18 @@ import ModelIO
 extension MDLAsset {
     /// Normalize OBJ opacity before passing materials to callbacks or rendering adapters.
     func restoreOBJOpacityMaps(from url: URL) {
+        try! restoreOBJOpacityMaps(from: url, isCancelled: { false })
+    }
+
+    func restoreOBJOpacityMaps(from url: URL, isCancelled: CancellationHandler) throws {
+        try checkCancellation(isCancelled)
         let maps = OBJOpacityMap.read(from: url)
         guard !maps.isEmpty else { return }
         var visited = Set<ObjectIdentifier>()
         var textures = [String: MDLTexture]()
         for case let mesh as MDLMesh in self.childObjects(of: MDLMesh.self) {
             for case let submesh as MDLSubmesh in mesh.submeshes ?? [] {
+                try checkCancellation(isCancelled)
                 guard let material = submesh.material, visited.insert(ObjectIdentifier(material)).inserted,
                       let map = maps[material.name],
                       let property = material.property(with: .opacity),
@@ -235,7 +247,7 @@ extension MDLAsset {
                 } else {
                     guard let source = CGImageSourceCreateWithURL(map.url as CFURL, nil),
                           let original = CGImageSourceCreateImageAtIndex(source, 0, nil),
-                          let mask = original.objOpacityImage(for: map.channel),
+                          let mask = try original.objOpacityImage(for: map.channel, isCancelled: isCancelled),
                           let pixels = mask.dataProvider?.data as Data?,
                           let width = Int32(exactly: mask.width), let height = Int32(exactly: mask.height)
                     else { continue }
@@ -266,11 +278,15 @@ extension MDLAsset {
 }
 
 /// Restore numeric colors and diffuse textures omitted or altered by SceneKit's OBJ material conversion.
-func restoreExportedOBJMaterials(at url: URL, materials: [String: MDLMaterial]) throws {
+func restoreExportedOBJMaterials(
+    at url: URL, materials: [String: MDLMaterial], isCancelled: CancellationHandler = { false }
+) throws {
+    try checkCancellation(isCancelled)
     let library = url.deletingPathExtension().appendingPathExtension("mtl")
     let source = try String(contentsOf: library, encoding: .utf8)
     var replacements = [String: [String: String]]()
     for (name, material) in materials {
+        try checkCancellation(isCancelled)
         var properties = [String: String]()
         if let base = material.property(with: .baseColor) {
             if let color = Color(base, linearColors: false) {
@@ -331,6 +347,11 @@ import SceneKit
 extension SCNScene {
     /// Put OBJ scalar dissolve values into alpha, which is what SceneKit's opacity shader samples.
     func restoreOBJOpacityMaps(from url: URL) {
+        try! restoreOBJOpacityMaps(from: url, isCancelled: { false })
+    }
+
+    func restoreOBJOpacityMaps(from url: URL, isCancelled: CancellationHandler) throws {
+        try checkCancellation(isCancelled)
         var visited = Set<ObjectIdentifier>()
         var materials = [SCNMaterial]()
         func visit(_ node: SCNNode) {
@@ -349,6 +370,7 @@ extension SCNScene {
         let maps = OBJOpacityMap.read(from: url)
         var images = [String: CGImage]()
         for material in materials {
+            try checkCancellation(isCancelled)
             guard let name = material.name, let map = maps[name] else { continue }
             if map.channel == .alpha {
                 material.transparency = CGFloat(map.dissolve)
@@ -361,7 +383,7 @@ extension SCNScene {
             } else {
                 guard let source = CGImageSourceCreateWithURL(map.url as CFURL, nil),
                       let original = CGImageSourceCreateImageAtIndex(source, 0, nil),
-                      let mask = original.objOpacityImage(for: map.channel)
+                      let mask = try original.objOpacityImage(for: map.channel, isCancelled: isCancelled)
                 else { continue }
                 image = mask
                 images[key] = mask
