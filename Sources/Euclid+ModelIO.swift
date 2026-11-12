@@ -517,6 +517,9 @@ extension Mesh {
         )
         if let error { throw error }
         asset.loadTextures()
+        if url.pathExtension.lowercased() == "obj" {
+            asset.restoreOBJOpacityMaps(from: url)
+        }
         let colorEncoding = ModelIOColorEncoding(fileExtension: url.pathExtension)
         let linearColors = colorEncoding?.isLinear ?? true
         var mappedMaterials = Set<ObjectIdentifier>()

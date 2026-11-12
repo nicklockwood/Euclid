@@ -32,6 +32,7 @@
 #if canImport(CoreGraphics)
 
 import CoreGraphics
+import Foundation
 
 public extension Vector {
     /// Creates a vector from a CoreGraphics `CGPoint`.

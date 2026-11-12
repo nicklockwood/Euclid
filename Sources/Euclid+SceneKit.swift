@@ -91,7 +91,17 @@ func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
     case let scnMaterial as SCNMaterial:
         return scnMaterial
     case let material as MDLMaterial:
-        return SCNMaterial(mdlMaterial: material)
+        let result = SCNMaterial(mdlMaterial: material)
+        // Model I/O scalar textures use red; SceneKit's opacity shader samples alpha instead.
+        if let texture = material.property(with: .opacity)?.textureSamplerValue?.texture,
+           texture.channelCount == 1,
+           let image = texture.imageFromTexture()?.takeUnretainedValue(),
+           let mask = image.objOpacityImage(for: .red)
+        {
+            result.transparent.contents = mask
+            result.transparent.textureComponents = .all
+        }
+        return result
     case let color as Color:
         return defaultMaterialLookup(OSColor(color))
     case let cfType as CFTypeRef where [

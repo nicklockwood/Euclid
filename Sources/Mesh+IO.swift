@@ -107,6 +107,9 @@ public extension Mesh {
                     .preserveOriginalTopology: true,
                 ]
                 let importedScene = try SCNScene(url: url, options: sceneOptions)
+                if url.pathExtension.lowercased() == "obj" {
+                    importedScene.restoreOBJOpacityMaps(from: url)
+                }
                 self.init(
                     importedScene.rootNode,
                     linearColors: !["ply", "obj"].contains(url.pathExtension.lowercased()),
