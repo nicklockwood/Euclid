@@ -71,6 +71,25 @@ public extension Vector {
     }
 }
 
+public extension Color {
+    /// Creates a `Color` from a simd vector 3, in RGB order, with opaque alpha.
+    /// - Parameter vector: A simd vector. Components are copied without color-space conversion.
+    init(_ vector: SIMD3<some BinaryFloatingPoint>) {
+        self.init(red: Double(vector.x), green: Double(vector.y), blue: Double(vector.z))
+    }
+
+    /// Creates a `Color` from a simd vector 4, in RGBA order.
+    /// - Parameter vector: A simd vector. Components are copied without color-space conversion.
+    init(_ vector: SIMD4<some BinaryFloatingPoint>) {
+        self.init(
+            red: Double(vector.x),
+            green: Double(vector.y),
+            blue: Double(vector.z),
+            alpha: Double(vector.w)
+        )
+    }
+}
+
 public extension simd_quatd {
     /// Creates a simd quaternion from a Euclid `Rotation`.
     /// - Parameter rotation: A Euclid rotation.

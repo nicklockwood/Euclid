@@ -171,10 +171,14 @@ private extension Buffer {
 
 #if canImport(AppKit)
 import AppKit
-#endif
-#if canImport(UIKit)
+#elseif canImport(UIKit)
 import UIKit
 #endif
+
+#if canImport(ModelIO)
+import ModelIO
+#endif
+
 #if canImport(SceneKit)
 import SceneKit
 #endif
@@ -189,6 +193,15 @@ func defaultColorMapping(_ material: Polygon.Material?) -> Color? {
         return Color(material as! CGColor)
     } else if let color = material as? OSColor {
         return Color(color)
+    }
+    #endif
+    #if canImport(ModelIO)
+    if let mdlMaterial = material as? MDLMaterial,
+       let color = mdlMaterial.property(with: .baseColor).flatMap({ Color($0) })
+    {
+        let opacity = mdlMaterial.property(with: .opacity)
+        let alpha = opacity?.type == .float ? Double(opacity?.floatValue ?? 1) : 1
+        return color.withAlphaComponent(color.alpha * alpha)
     }
     #endif
     #if canImport(SceneKit)

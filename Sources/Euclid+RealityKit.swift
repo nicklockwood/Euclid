@@ -33,6 +33,7 @@
 
 import CoreGraphics
 import Metal
+import ModelIO
 import RealityKit
 
 @available(tvOS 26.0, *)
@@ -65,6 +66,8 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.
     switch material {
     case let wrapper as MaterialWrapper:
         return wrapper.material
+    case let material as MDLMaterial:
+        return PhysicallyBasedMaterial(material)
     case let color as Color:
         return defaultMaterialLookup(OSColor(color))
     case let color as OSColor:
@@ -93,6 +96,65 @@ private func defaultMaterialLookup(_ material: Polygon.Material?) -> RealityKit.
         return material
     default:
         return nil
+    }
+}
+
+@MainActor
+@available(tvOS 26.0, *)
+public extension PhysicallyBasedMaterial {
+    /// Creates a physically based material from Model I/O color, texture and surface properties.
+    /// - Parameter source: The material to convert. Numeric RGB components are linear; CGColors use their color space.
+    init(_ source: MDLMaterial) {
+        func scalar(_ semantic: MDLMaterialSemantic, default fallback: Float) -> Float {
+            guard let property = source.property(with: semantic), property.type == .float else { return fallback }
+            return property.floatValue
+        }
+        func texture(
+            _ semantic: MDLMaterialSemantic,
+            _ usage: TextureResource.Semantic
+        ) -> PhysicallyBasedMaterial.Texture? {
+            guard let sampler = source.property(with: semantic)?.textureSamplerValue,
+                  let image = sampler.texture?.imageFromTexture()?.takeUnretainedValue()
+            else { return nil }
+            let options = TextureResource.CreateOptions(semantic: usage)
+            #if os(tvOS)
+            let resource = try? TextureResource(image: image, options: options)
+            #else
+            let resource = try? TextureResource.generate(from: image, options: options)
+            #endif
+            guard let resource else { return nil }
+            let descriptor = MTLSamplerDescriptor()
+            func wrap(_ mode: MDLMaterialTextureWrapMode) -> MTLSamplerAddressMode {
+                switch mode {
+                case .clamp: .clampToEdge
+                case .mirror: .mirrorRepeat
+                default: .repeat
+                }
+            }
+            descriptor.sAddressMode = wrap(sampler.hardwareFilter?.sWrapMode ?? .repeat)
+            descriptor.tAddressMode = wrap(sampler.hardwareFilter?.tWrapMode ?? .repeat)
+            descriptor.magFilter = sampler.hardwareFilter?.magFilter == .nearest ? .nearest : .linear
+            descriptor.minFilter = sampler.hardwareFilter?.minFilter == .nearest ? .nearest : .linear
+            return .init(resource, sampler: .init(descriptor))
+        }
+        var material = PhysicallyBasedMaterial()
+        let color = source.property(with: .baseColor).flatMap { Euclid.Color($0) } ?? .white
+        material.baseColor = .init(tint: OSColor(color.withAlphaComponent(1)), texture: texture(.baseColor, .color))
+        material.metallic = .init(scale: scalar(.metallic, default: 0), texture: texture(.metallic, .raw))
+        material.roughness = .init(scale: scalar(.roughness, default: 1), texture: texture(.roughness, .raw))
+        material.normal = .init(texture: texture(.tangentSpaceNormal, .normal))
+        material.ambientOcclusion = .init(texture: texture(.ambientOcclusion, .raw))
+        if let emission = source.property(with: .emission).flatMap({ Euclid.Color($0) }) {
+            material.emissiveColor = .init(color: OSColor(emission), texture: texture(.emission, .color))
+        } else if let emission = texture(.emission, .color) {
+            material.emissiveColor = .init(color: .white, texture: emission)
+        }
+        let opacity = scalar(.opacity, default: 1) * Float(color.alpha)
+        let opacityTexture = texture(.opacity, .raw)
+        if opacity < 1 || opacityTexture != nil || material.baseColor.texture != nil {
+            material.blending = .transparent(opacity: .init(scale: opacity, texture: opacityTexture))
+        }
+        self = material
     }
 }
 
