@@ -14,7 +14,7 @@ final class MeshExportTests: XCTestCase {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
-        let mesh = Mesh.sphere(slices: 32)
+        let mesh = Mesh.sphere(slices: 128)
         var formats = ["stl", "stla", "off", "ply", "obj"]
         #if canImport(SceneKit) && !os(watchOS)
         formats.append("scn")

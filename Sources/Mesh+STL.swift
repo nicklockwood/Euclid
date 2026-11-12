@@ -80,10 +80,11 @@ public extension Mesh {
 
     /// Returns ASCII STL data, throwing `CancellationError` when cancelled.
     func stlString(options: STLTextOptions, isCancelled: CancellationHandler) throws -> String {
+        var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
         let triangles = triangulate(isCancelled: isCancelled).polygons
         let strings = try triangles.map { polygon in
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return polygon.stlString(options: options)
         }
         try checkCancellation(isCancelled)
@@ -123,6 +124,7 @@ public extension Mesh {
 
     /// Returns binary STL data, throwing `CancellationError` when cancelled.
     func stlData(options: STLBinaryOptions, isCancelled: CancellationHandler) throws -> Data {
+        var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
         let triangles = triangulate(isCancelled: isCancelled).polygons
         try checkCancellation(isCancelled)
@@ -132,7 +134,7 @@ public extension Mesh {
         buffer.count = headerSize
         buffer.append(UInt32(triangles.count))
         for triangle in triangles {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             buffer.append(triangle, options: options)
         }
         try checkCancellation(isCancelled)
@@ -309,6 +311,7 @@ public extension Mesh {
         materialLookup: STLMaterialProvider? = nil,
         isCancelled: CancellationHandler
     ) throws {
+        var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
         if stlData.count >= 5,
            let prefix = String(data: stlData[0 ..< 5], encoding: .utf8),
@@ -339,7 +342,7 @@ public extension Mesh {
         let materialLookup = materialLookup ?? { $0 }
         let triangles = try stlData.withUnsafeBytes { buffer -> [Polygon] in
             try (0 ..< count).compactMap { _ in
-                try checkCancellation(isCancelled)
+                try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                 return buffer.readTriangle(
                     at: &offset,
                     baseColor: baseColor,
@@ -408,12 +411,13 @@ private extension ArraySlice<String> {
     }
 
     mutating func readSolid(isCancelled: CancellationHandler) throws -> Mesh? {
+        var cancellationCountdown = cancellationCheckInterval
         guard readCommand("solid") else {
             return nil
         }
         var triangles = [Polygon]()
         while let triangle = readTriangle() {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             triangles.append(triangle)
         }
         guard readCommand("endsolid") else {

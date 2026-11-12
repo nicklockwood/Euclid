@@ -25,6 +25,7 @@ public extension Mesh {
         colorLookup: (@Sendable (Material?) -> Color?)? = nil,
         isCancelled: CancellationHandler = { false }
     ) throws -> String {
+        var cancellationCountdown = cancellationCheckInterval
         if isCancelled() { throw CancellationError() }
         let colorLookup = colorLookup ?? defaultColorMapping
         let triangles = triangulate(isCancelled: isCancelled).polygons
@@ -55,7 +56,7 @@ public extension Mesh {
             Int((value.clamped(to: 0 ... 1) * 255).rounded())
         }
         for triangle in triangles {
-            if isCancelled() { throw CancellationError() }
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             let tint = colorLookup(triangle.material) ?? .white
             for vertex in triangle.vertices {
                 let color = (vertex.color.toLinear() * tint.toLinear()).toSRGB()
@@ -68,7 +69,7 @@ public extension Mesh {
             }
         }
         for index in triangles.indices {
-            if isCancelled() { throw CancellationError() }
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             output += "3 \(index * 3) \(index * 3 + 1) \(index * 3 + 2)\n"
         }
         try checkCancellation(isCancelled)
@@ -121,12 +122,13 @@ private struct PLYElement {
 
 private extension ArraySlice<String> {
     mutating func readPLY(byteCount: Int, isCancelled: CancellationHandler) throws -> Mesh? {
+        var cancellationCountdown = cancellationCheckInterval
         guard popFirst()?.trimmingCharacters(in: .whitespaces) == "ply" else { return nil }
         var elements = [PLYElement]()
         var ascii = false
         var endHeader = false
         while let line = popFirst() {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             if line.trimmingCharacters(in: .whitespaces) == "end_header" {
                 endHeader = true
                 break
@@ -162,7 +164,7 @@ private extension ArraySlice<String> {
         }
         guard ascii, endHeader else { return nil }
         var tokens = try ArraySlice<Substring>(flatMap {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return $0.split(whereSeparator: \.isWhitespace)
         })
         removeAll()
@@ -170,7 +172,7 @@ private extension ArraySlice<String> {
         var faces = [[Int]]()
         for element in elements {
             for _ in 0 ..< element.count {
-                try checkCancellation(isCancelled)
+                try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                 var values = [String: Double]()
                 for property in element.properties {
                     if property.list {
@@ -179,7 +181,7 @@ private extension ArraySlice<String> {
                         else { return nil }
                         var indices = [Int]()
                         for _ in 0 ..< count {
-                            try checkCancellation(isCancelled)
+                            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                             guard let value = tokens.readNumber() else { return nil }
                             if element.name == "face",
                                ["vertex_indices", "vertex_index"].contains(property.name)
@@ -215,7 +217,7 @@ private extension ArraySlice<String> {
         }
         var polygons = [Polygon]()
         for face in faces {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             guard face.allSatisfy(vertices.indices.contains) else { return nil }
             if let polygon = Polygon(face.map { vertices[$0] }) { polygons.append(polygon) }
         }

@@ -19,12 +19,13 @@ public extension Mesh {
 
     /// Returns OFF text, throwing `CancellationError` when cancelled.
     func offString(isCancelled: CancellationHandler) throws -> String {
+        var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
         var vertices = [Vector](), indicesByVertex = [Vector: Int]()
         let indices = try polygons.tessellate(isCancelled: isCancelled).map { polygon -> [Int] in
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return try polygon.vertices.map { vertex -> Int in
-                try checkCancellation(isCancelled)
+                try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                 let position = vertex.position
                 if let index = indicesByVertex[position] {
                     return index
@@ -37,11 +38,11 @@ public extension Mesh {
         }
 
         let vertexStrings = try vertices.map {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return $0.offString
         }
         let indexStrings = try indices.map {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return "\($0.count) \($0.map(\.description).joined(separator: " "))"
         }
         try checkCancellation(isCancelled)
@@ -88,18 +89,19 @@ public extension Mesh {
     init?(
         offString: String, options: ImportOptions = .init(), isCancelled: CancellationHandler
     ) throws {
+        var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
         var lines = ArraySlice(offString.components(separatedBy: .newlines))
         guard let counts = lines.readHeader() else {
             return nil
         }
         let vertices = try (0 ..< counts.vertices).compactMap { _ in
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return lines.readVertex()
         }
         var faces = [Polygon]()
         for _ in 0 ..< counts.faces {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             guard let face = lines.readFace(with: vertices) else {
                 return nil
             }

@@ -165,6 +165,7 @@ public extension SCNGeometry {
         materialLookup: SCNMaterialProvider? = nil,
         isCancelled: CancellationHandler
     ) throws {
+        var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
         var elements = [SCNGeometryElement]()
         var vertices = [SCNVector3]()
@@ -182,7 +183,7 @@ public extension SCNGeometry {
             materials.append(materialLookup(material) ?? SCNMaterial())
             var indices = [UInt32]()
             for triangle in polygons.triangulate(isCancelled: isCancelled) {
-                try checkCancellation(isCancelled)
+                try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                 for vertex in triangle.vertices {
                     if let index = indicesByVertex[vertex] {
                         indices.append(index)
@@ -230,6 +231,7 @@ public extension SCNGeometry {
         materialLookup: SCNMaterialProvider? = nil,
         isCancelled: CancellationHandler
     ) throws {
+        var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
         var elementData = [(Int, Data)]()
         var vertices = [SCNVector3]()
@@ -253,7 +255,7 @@ public extension SCNGeometry {
                 indexBuffer.append(UInt32(polygon.vertices.count))
             }
             for polygon in polygons {
-                try checkCancellation(isCancelled)
+                try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                 for vertex in polygon.vertices {
                     if let index = indicesByVertex[vertex] {
                         indexBuffer.append(index)
@@ -610,6 +612,7 @@ public extension Mesh {
         materialLookup: SCNMaterialProvider? = nil,
         isCancelled: CancellationHandler
     ) throws {
+        var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
         // Force properties to update
         let scnGeometry = scnGeometry.copy() as! SCNGeometry
@@ -682,7 +685,7 @@ public extension Mesh {
                 return Int(indexData.index(at: index, bytes: indexSize))
             }
             func vertex(at i: Int, channelIndexCount: Int, offset: Int = 0) throws -> Vertex {
-                try checkCancellation(isCancelled)
+                try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                 var vertex = Vertex(.zero)
                 for (source, channel) in supportedSources {
                     try apply(

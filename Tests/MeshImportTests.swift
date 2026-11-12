@@ -43,6 +43,24 @@ final class MeshImportTests: XCTestCase {
         }
     }
 
+    func testBinarySTLImportThrottlesCancellation() throws {
+        let data = Mesh.sphere(slices: 64).stlData()
+        let progress = ImportCancellationProgress()
+        XCTAssertThrowsError(try Mesh(
+            stlData: data,
+            options: .init(repairWinding: false),
+            materialLookup: { color in
+                progress.readFacet()
+                return color
+            },
+            isCancelled: { progress.poll() }
+        )) { XCTAssertTrue($0 is CancellationError) }
+        let (facets, polls) = progress.counts
+        XCTAssertGreaterThanOrEqual(facets, 42)
+        XCTAssertLessThanOrEqual(facets, 42 + cancellationCheckInterval)
+        XCTAssertLessThan(polls, facets / 10)
+    }
+
     func testOBJVertexWeightIsNotInterpretedAsColor() throws {
         let mesh = try XCTUnwrap(Mesh(objString: """
         v 0 0 0 0.5
@@ -892,6 +910,31 @@ private final class ImportCancellationCounter: @unchecked Sendable {
         lock.lock()
         defer { lock.unlock() }
         count += 1
-        return count >= 20
+        return count >= 2
+    }
+}
+
+private final class ImportCancellationProgress: @unchecked Sendable {
+    private let lock = NSLock()
+    private var facets = 0
+    private var polls = 0
+
+    var counts: (Int, Int) {
+        lock.lock()
+        defer { lock.unlock() }
+        return (facets, polls)
+    }
+
+    func readFacet() {
+        lock.lock()
+        defer { lock.unlock() }
+        facets += 1
+    }
+
+    func poll() -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        polls += 1
+        return facets >= 42
     }
 }
