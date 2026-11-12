@@ -19,6 +19,7 @@ public extension Mesh {
 
     /// Returns OBJ text, throwing `CancellationError` when cancelled.
     func objString(isCancelled: CancellationHandler) throws -> String {
+        var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
         var vertices = [Vertex](), indicesByVertex = [Vertex: Int]()
         var texcoords = [Vector](), indicesByTexcoord = [Vector: Int]()
@@ -27,9 +28,9 @@ public extension Mesh {
         let hasVertexColors = hasVertexColors
 
         let indices = try polygons.tessellate(isCancelled: isCancelled).map { polygon -> [OBJVertex] in
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return try polygon.vertices.map { vertex -> OBJVertex in
-                try checkCancellation(isCancelled)
+                try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                 let texcoordIndex = hasTexcoords ? indicesByTexcoord[vertex.texcoord] ?? {
                     let index = indicesByTexcoord.count + 1
                     indicesByTexcoord[vertex.texcoord] = index
@@ -74,19 +75,19 @@ public extension Mesh {
         }
 
         let vertexStrings = try vertices.map {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return vertexString($0)
         }
         let texcoordStrings = try hasTexcoords ? texcoords.map {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return textcoordString($0)
         } : nil
         let normalStrings = try hasVertexNormals ? normals.map {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return "vn \($0.objString)"
         } : nil
         let indexStrings = try indices.map {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return "f \($0.map(vertexIndexString).joined(separator: " "))"
         }
         try checkCancellation(isCancelled)
@@ -139,6 +140,7 @@ public extension Mesh {
     init?(
         objString: String, options: ImportOptions = .init(), isCancelled: CancellationHandler
     ) throws {
+        var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
         var vertices = [Vertex]()
         var normals = [Vector]()
@@ -147,7 +149,7 @@ public extension Mesh {
 
         var lines = ArraySlice(objString.components(separatedBy: .newlines))
         while let command = try lines.readCommand(isCancelled: isCancelled) {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             switch command {
             case let .vertex(vertex):
                 vertices.append(vertex)
@@ -174,7 +176,7 @@ public extension Mesh {
         }
 
         var mesh = try Mesh(faces.flatMap {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             return [Polygon]($0.compactMap(lookup), material: nil)
         })
         if options.repairWinding ?? false {
@@ -194,17 +196,19 @@ private enum OBJCommand {
 
 private extension ArraySlice<String> {
     mutating func skipBlankLinesAndComments(isCancelled: CancellationHandler) throws {
+        var cancellationCountdown = cancellationCheckInterval
         while let line = first?.trimmingCharacters(in: .whitespaces),
               line.isEmpty || line.hasPrefix("#")
         {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             removeFirst()
         }
     }
 
     mutating func readCommand(isCancelled: CancellationHandler) throws -> OBJCommand? {
+        var cancellationCountdown = cancellationCheckInterval
         while true {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             try skipBlankLinesAndComments(isCancelled: isCancelled)
             guard let line = popFirst() else { return nil }
 
@@ -239,7 +243,7 @@ private extension ArraySlice<String> {
             func readFace() throws -> [OBJVertex] {
                 var indices = [OBJVertex]()
                 while let index = readIndex() {
-                    try checkCancellation(isCancelled)
+                    try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                     indices.append(index)
                 }
                 return indices

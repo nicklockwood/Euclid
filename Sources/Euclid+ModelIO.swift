@@ -61,6 +61,7 @@ public extension MDLAsset {
         isCancelled: CancellationHandler = { false },
         materialLookup: MDLMaterialProvider? = nil
     ) throws {
+        var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
         let hasTexcoords = mesh.hasTexcoords
         let hasVertexColors = mesh.hasVertexColors
@@ -85,7 +86,7 @@ public extension MDLAsset {
         var submeshes = [MDLSubmesh]()
         let polygonsByMaterial = mesh.polygonsByMaterial
         for (materialIndex, material) in mesh.materials.enumerated() {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             var indices = [UInt32]()
             var counts = [UInt8]()
             let polygons = polygonsByMaterial[material]?.tessellate(isCancelled: isCancelled) ?? []
@@ -94,7 +95,7 @@ public extension MDLAsset {
             {
                 counts.append(UInt8(polygon.vertices.count))
                 for vertex in polygon.vertices {
-                    try checkCancellation(isCancelled)
+                    try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                     if let index = indicesByVertex[vertex] {
                         indices.append(index)
                         continue
@@ -282,6 +283,7 @@ private extension MDLMesh {
         isCancelled: CancellationHandler,
         materialLookup: Mesh.MDLMaterialProvider?
     ) throws -> [Polygon] {
+        var cancellationCountdown = cancellationCheckInterval
         if vertexCount == 0 { return [] }
         guard let positions = vertexAttributeData(forAttributeNamed: MDLVertexAttributePosition, as: .float3) else {
             throw Mesh.IOError("Missing Model I/O vertex positions")
@@ -312,7 +314,7 @@ private extension MDLMesh {
         }
         var vertices = [Vertex]()
         for index in 0 ..< vertexCount {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             let p = try values(positions, index, 3)
             let position = transform * SIMD4(p[0], p[1], p[2], 1)
             var normal = Vector.zero
@@ -339,14 +341,14 @@ private extension MDLMesh {
         }
         var polygons = [Polygon]()
         for case let submesh as MDLSubmesh in submeshes ?? [] {
-            try checkCancellation(isCancelled)
+            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             let buffer = submesh.indexBuffer(asIndexType: .uInt32)
             guard submesh.indexCount <= buffer.length / 4 else {
                 throw Mesh.IOError("Model I/O index count exceeds buffer size")
             }
             let map = buffer.map()
             let indices = try (0 ..< submesh.indexCount).map {
-                try checkCancellation(isCancelled)
+                try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                 return Int(map.bytes.loadUnaligned(fromByteOffset: $0 * 4, as: UInt32.self))
             }
             guard indices.allSatisfy({ vertices.indices.contains($0) }) else {
@@ -362,7 +364,7 @@ private extension MDLMesh {
                 nil
             }
             func append(_ indices: ArraySlice<Int>) throws {
-                try checkCancellation(isCancelled)
+                try checkCancellation(isCancelled, countdown: &cancellationCountdown)
                 let face = indices.map { vertices[$0] }
                 polygons += [Polygon](determinant < 0 ? Array(face.reversed()) : face, material: material)
             }

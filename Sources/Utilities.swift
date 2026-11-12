@@ -40,6 +40,16 @@ func checkCancellation(_ isCancelled: CancellationHandler) throws {
     if isCancelled() { throw CancellationError() }
 }
 
+/// Avoid repeatedly calling lock-backed cancellation handlers in tight import/export loops.
+@inline(__always)
+func checkCancellation(_ isCancelled: CancellationHandler, countdown: inout Int) throws {
+    countdown -= 1
+    if countdown == 0 {
+        countdown = cancellationCheckInterval
+        try checkCancellation(isCancelled)
+    }
+}
+
 /// Retains a cancellation request made by a platform progress callback.
 final class IOCancellation: @unchecked Sendable {
     private let lock = NSLock()
