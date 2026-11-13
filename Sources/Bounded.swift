@@ -40,11 +40,11 @@ extension LineSegment: Bounded {
 }
 
 extension Polygon: Bounded {
-    public var bounds: Bounds { Bounds(vertices.map(\.position)) }
+    public var bounds: Bounds { Bounds(vertices) }
 }
 
 extension Path: Bounded {
-    public var bounds: Bounds { Bounds(points.map(\.position)) }
+    public var bounds: Bounds { Bounds(points) }
 }
 
 extension Mesh: Bounded {}

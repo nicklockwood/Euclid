@@ -120,12 +120,12 @@ extension Vector: Comparable {
 
 /// Returns a new vector that represents the minimum of the components of the two vectors.
 public func min(_ lhs: Vector, _ rhs: Vector) -> Vector {
-    [min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z)]
+    .init(min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z))
 }
 
 /// Returns a new vector representing the maximum of the components of the two vectors.
 public func max(_ lhs: Vector, _ rhs: Vector) -> Vector {
-    [max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z)]
+    .init(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z))
 }
 
 public extension Range<Vector> {
@@ -228,27 +228,27 @@ public extension Vector {
 
     /// Returns a vector with all components inverted.
     static prefix func - (rhs: Vector) -> Vector {
-        [-rhs.x, -rhs.y, -rhs.z]
+        .init(-rhs.x, -rhs.y, -rhs.z)
     }
 
     /// Returns the componentwise sum of two vectors.
     static func + (lhs: Vector, rhs: Vector) -> Vector {
-        [lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z]
+        .init(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
     }
 
     /// Returns the componentwise difference between two vectors.
     static func - (lhs: Vector, rhs: Vector) -> Vector {
-        [lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z]
+        .init(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z)
     }
 
     /// Returns a vector with its components multiplied by the specified value.
     static func * (lhs: Vector, rhs: Double) -> Vector {
-        [lhs.x * rhs, lhs.y * rhs, lhs.z * rhs]
+        .init(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs)
     }
 
     /// Returns a vector with its components multiplied by the specified value.
     static func * (lhs: Double, rhs: Vector) -> Vector {
-        [lhs * rhs.x, lhs * rhs.y, lhs * rhs.z]
+        .init(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z)
     }
 
     /// Multiplies the components of the vector by the specified value.
@@ -260,7 +260,7 @@ public extension Vector {
 
     /// Returns a vector with its components divided by the specified value.
     static func / (lhs: Vector, rhs: Double) -> Vector {
-        [lhs.x / rhs, lhs.y / rhs, lhs.z / rhs]
+        .init(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs)
     }
 
     /// Divides the components of the vector by the value you provide.
@@ -291,7 +291,7 @@ public extension Vector {
     /// - Parameter other: The vector with which to compute the cross product.
     /// - Returns: Returns a vector that is orthogonal to the two vectors used to compute the cross product.
     func cross(_ other: Vector) -> Vector {
-        [y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x]
+        .init(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x)
     }
 
     /// Returns whether two nonzero vectors are parallel, including opposite directions.
@@ -401,7 +401,7 @@ extension Vector: UnkeyedCodable {
 
 extension Vector {
     func _quantized() -> Vector {
-        [quantize(x), quantize(y), quantize(z)]
+        .init(quantize(x), quantize(y), quantize(z))
     }
 
     var direction: Vector? {
