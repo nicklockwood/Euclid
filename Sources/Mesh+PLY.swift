@@ -91,7 +91,8 @@ public extension Mesh {
     ///
     /// Preserves vertex positions, normals, UV coordinates and sRGB vertex colors.
     /// Byte RGB and alpha components are normalized to 0...1. Floating-point components
-    /// are used directly. Unknown elements and properties are skipped.
+    /// are used directly. Common `diffuse_red`, `diffuse_green`, `diffuse_blue` and
+    /// `diffuse_alpha` properties are also supported. Unknown elements and properties are skipped.
     /// - Parameters:
     ///   - plyString: ASCII PLY 1.0 data. Binary PLY is not supported by this initializer.
     ///   - options: The import options. Winding is preserved unless repair is explicitly enabled.
@@ -104,7 +105,7 @@ public extension Mesh {
         plyString: String, options: ImportOptions = .init(), isCancelled: CancellationHandler
     ) throws {
         try checkCancellation(isCancelled)
-        var lines = ArraySlice(plyString.components(separatedBy: .newlines))
+        var lines = StringLines(plyString)
         guard var mesh = try lines.readPLY(byteCount: plyString.utf8.count, isCancelled: isCancelled) else {
             return nil
         }
@@ -126,7 +127,7 @@ private struct PLYElement {
     var properties: [PLYProperty]
 }
 
-private extension ArraySlice<String> {
+private extension StringLines {
     mutating func readPLY(byteCount: Int, isCancelled: CancellationHandler) throws -> Mesh? {
         var cancellationCountdown = cancellationCheckInterval
         guard popFirst()?.trimmingCharacters(in: .whitespaces) == "ply" else { return nil }
@@ -169,63 +170,99 @@ private extension ArraySlice<String> {
             }
         }
         guard ascii, endHeader else { return nil }
-        var tokens = try ArraySlice<Substring>(flatMap {
-            try checkCancellation(isCancelled, countdown: &cancellationCountdown)
-            return $0.split(whereSeparator: \.isWhitespace)
-        })
-        removeAll()
+        var tokens = ArraySlice<Substring>()
+        func readNumber() throws -> Double? {
+            while tokens.isEmpty {
+                try checkCancellation(isCancelled, countdown: &cancellationCountdown)
+                guard let line = popFirst() else { return nil }
+                tokens = ArraySlice(line.split(whereSeparator: \.isWhitespace))
+            }
+            return tokens.readNumber()
+        }
+        var vertexCount = 0
+        for element in elements where element.name == "vertex" {
+            guard element.count <= byteCount - vertexCount else { return nil }
+            vertexCount += element.count
+        }
         var vertices = [Vertex]()
+        vertices.reserveCapacity(vertexCount)
         var faces = [[Int]]()
+        var polygons = [Polygon]()
+        func appendFace(_ indices: [Int]) -> Bool {
+            guard indices.allSatisfy(vertices.indices.contains) else { return false }
+            if let polygon = Polygon(indices.map { vertices[$0] }) { polygons.append(polygon) }
+            return true
+        }
+        let fields = ["x", "y", "z", "nx", "ny", "nz", "u", "v", "s", "t", "red", "green", "blue", "alpha"]
         for element in elements {
+            let names = Set(element.properties.filter { !$0.list }.map(\.name))
+            let slots = element.properties.map { property -> Int? in
+                guard !property.list else { return nil }
+                var name = property.name
+                if name.hasPrefix("diffuse_") {
+                    name = String(name.dropFirst(8))
+                    if names.contains(name) { return nil }
+                }
+                return fields.firstIndex(of: name)
+            }
+            let hasS = names.contains("s"), hasT = names.contains("t")
+            let hasPosition = [0, 1, 2].allSatisfy { slots.contains($0) }
+            var values = [Double](repeating: 0, count: fields.count)
+            for i in 10 ..< 14 {
+                values[i] = 1
+            }
             for _ in 0 ..< element.count {
                 try checkCancellation(isCancelled, countdown: &cancellationCountdown)
-                var values = [String: Double]()
-                for property in element.properties {
+                for (propertyIndex, property) in element.properties.enumerated() {
                     if property.list {
-                        guard let count = tokens.readNumber().flatMap(Int.init(exactly:)), count >= 0,
-                              count <= tokens.count
-                        else { return nil }
+                        guard let count = try readNumber().flatMap(Int.init(exactly:)), count >= 0,
+                              count <= byteCount else { return nil }
+                        let isFace = element.name == "face" && ["vertex_indices", "vertex_index"]
+                            .contains(property.name)
                         var indices = [Int]()
+                        if isFace { indices.reserveCapacity(min(count, 4096)) }
                         for _ in 0 ..< count {
                             try checkCancellation(isCancelled, countdown: &cancellationCountdown)
-                            guard let value = tokens.readNumber() else { return nil }
-                            if element.name == "face",
-                               ["vertex_indices", "vertex_index"].contains(property.name)
-                            {
+                            guard let value = try readNumber() else { return nil }
+                            if isFace {
                                 guard let index = Int(exactly: value) else { return nil }
                                 indices.append(index)
                             }
                         }
-                        if !indices.isEmpty { faces.append(indices) }
+                        if !indices.isEmpty {
+                            if vertices.count == vertexCount {
+                                guard appendFace(indices) else { return nil }
+                            } else { faces.append(indices) }
+                        }
                     } else {
-                        guard var value = tokens.readNumber() else { return nil }
-                        if ["red", "green", "blue", "alpha"].contains(property.name),
-                           ["uchar", "uint8"].contains(property.type)
-                        { value /= 255 }
-                        values[property.name] = value
+                        guard var value = try readNumber() else { return nil }
+                        if let slot = slots[propertyIndex] {
+                            if slot >= 10, ["uchar", "uint8"].contains(property.type) { value /= 255 }
+                            values[slot] = value
+                        }
                     }
                 }
                 if element.name == "vertex" {
-                    guard let x = values["x"], let y = values["y"], let z = values["z"] else { return nil }
+                    guard hasPosition else { return nil }
                     vertices.append(Vertex(
-                        Vector(x, y, z),
-                        normal: Vector(values["nx"] ?? 0, values["ny"] ?? 0, values["nz"] ?? 0),
-                        texcoord: Vector(values["s"] ?? values["u"] ?? 0, values["t"] ?? values["v"] ?? 0),
-                        color: Color(
-                            red: values["red"] ?? 1,
-                            green: values["green"] ?? 1,
-                            blue: values["blue"] ?? 1,
-                            alpha: values["alpha"] ?? 1
-                        )
+                        Vector(values[0], values[1], values[2]),
+                        normal: Vector(values[3], values[4], values[5]),
+                        texcoord: Vector(values[hasS ? 8 : 6], values[hasT ? 9 : 7]),
+                        color: Color(red: values[10], green: values[11], blue: values[12], alpha: values[13])
                     ))
                 }
             }
+            if vertices.count == vertexCount, !faces.isEmpty {
+                for face in faces {
+                    try checkCancellation(isCancelled, countdown: &cancellationCountdown)
+                    guard appendFace(face) else { return nil }
+                }
+                faces.removeAll()
+            }
         }
-        var polygons = [Polygon]()
-        for face in faces {
+        while tokens.isEmpty, let line = popFirst() {
             try checkCancellation(isCancelled, countdown: &cancellationCountdown)
-            guard face.allSatisfy(vertices.indices.contains) else { return nil }
-            if let polygon = Polygon(face.map { vertices[$0] }) { polygons.append(polygon) }
+            tokens = ArraySlice(line.split(whereSeparator: \.isWhitespace))
         }
         guard !polygons.isEmpty, tokens.isEmpty else { return nil }
         return Mesh(polygons)

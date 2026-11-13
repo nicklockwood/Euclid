@@ -1656,3 +1656,34 @@ func batch<T, U>(
 }
 
 #endif
+
+/// Lazily splits model text, retaining only the current line and the original string.
+struct StringLines {
+    private var remaining: Substring
+    private var cached: Substring?
+
+    init(_ string: String) { self.remaining = string[...] }
+
+    var first: Substring? {
+        mutating get {
+            if let cached { return cached }
+            guard !remaining.isEmpty else { return nil }
+            let delimiter = remaining.utf8.firstIndex { $0 == 10 || $0 == 13 || $0 == 11 || $0 == 12 || $0 >= 128 }
+            let end: String.Index = if let delimiter, remaining.utf8[delimiter] < 128 { delimiter }
+            else { remaining.firstIndex(where: \.isNewline) ?? remaining.endIndex }
+            let line = remaining[..<end]
+            cached = line
+            return line
+        }
+    }
+
+    mutating func popFirst() -> Substring? {
+        guard let line = first else { return nil }
+        let next = line.endIndex == remaining.endIndex ? line.endIndex : remaining.index(after: line.endIndex)
+        remaining = remaining[next...]
+        cached = nil
+        return line
+    }
+
+    mutating func removeFirst() { _ = popFirst() }
+}

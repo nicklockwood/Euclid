@@ -147,7 +147,7 @@ public extension Mesh {
         var texcoords = [Vector]()
         var faces = [[OBJVertex]]()
 
-        var lines = ArraySlice(objString.components(separatedBy: .newlines))
+        var lines = StringLines(objString)
         while let command = try lines.readCommand(isCancelled: isCancelled) {
             try checkCancellation(isCancelled, countdown: &cancellationCountdown)
             switch command {
@@ -194,7 +194,7 @@ private enum OBJCommand {
     case face([OBJVertex])
 }
 
-private extension ArraySlice<String> {
+private extension StringLines {
     mutating func skipBlankLinesAndComments(isCancelled: CancellationHandler) throws {
         var cancellationCountdown = cancellationCheckInterval
         while let line = first?.trimmingCharacters(in: .whitespaces),

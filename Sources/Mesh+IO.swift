@@ -220,7 +220,11 @@ public extension Mesh {
                 { @Sendable in defaultColorMapping(lookup($0)) }
             }
             let data = try stlData(colorLookup: colorLookup, isCancelled: isCancelled)
+            #if os(WASI)
+            try data.write(to: url)
+            #else
             try data.write(to: url, options: .atomic)
+            #endif
         case "stla":
             let string = try stlString(name: "", isCancelled: isCancelled)
             try string.write(to: url, atomically: true, encoding: .utf8)

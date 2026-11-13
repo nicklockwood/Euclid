@@ -193,7 +193,7 @@ public extension Mesh {
     ) throws {
         var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
-        var lines = ArraySlice(offString.components(separatedBy: .newlines))
+        var lines = StringLines(offString)
         guard let counts = lines.readHeader() else {
             return nil
         }
@@ -220,7 +220,7 @@ public extension Mesh {
     }
 }
 
-private extension ArraySlice<String> {
+private extension StringLines {
     mutating func readParts() -> [String]? {
         while let line = popFirst() {
             let parts = line.prefix { $0 != "#" }.split(whereSeparator: \.isWhitespace).map(String.init)

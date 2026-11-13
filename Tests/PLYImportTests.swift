@@ -10,6 +10,78 @@
 import XCTest
 
 final class PLYImportTests: XCTestCase {
+    func testDiffuseRGBAProperties() throws {
+        var diffuse = source
+        for name in ["red", "green", "blue", "alpha"] {
+            diffuse = diffuse.replacingOccurrences(of: "property uchar \(name)", with: "property uchar diffuse_\(name)")
+        }
+        XCTAssertEqual(try XCTUnwrap(Mesh(plyString: diffuse)), Mesh(plyString: source))
+    }
+
+    func testCanonicalColorPropertiesTakePrecedenceOverDiffuseAliases() throws {
+        let duplicate = source.replacingOccurrences(of: "property float confidence", with: "property uchar diffuse_red")
+        XCTAssertEqual(try XCTUnwrap(Mesh(plyString: duplicate)), Mesh(plyString: source))
+    }
+
+    func testFacesBeforeVerticesAndMultilineListsPreserveOrder() throws {
+        let source = """
+        ply
+        format ascii 1.0
+        element face 1
+        property list uchar int vertex_indices
+        element vertex 3
+        property float x
+        property float y
+        property float z
+        property uchar diffuse_red
+        element face 1
+        property list uchar int vertex_indices
+        end_header
+        3 0
+        1 2
+        0 0 0 128
+        1 0 0 64
+        0 1 0 255
+        3 0 2 1
+        """
+        let mesh = try XCTUnwrap(Mesh(plyString: source))
+        XCTAssertEqual(mesh.polygons.count, 2)
+        XCTAssertEqual(mesh.polygons[0].plane.normal, .unitZ)
+        XCTAssertEqual(mesh.polygons[1].plane.normal, -.unitZ)
+        let color = try XCTUnwrap(mesh.polygons[0].vertices.first { $0.position == .zero }?.color)
+        XCTAssertEqual(color, Color(red: 128 / 255.0, green: 1, blue: 1))
+        XCTAssertNil(Mesh(plyString: source + "\nextra_data"))
+        XCTAssertNil(Mesh(plyString: source.replacingOccurrences(of: "3 0\n1 2", with: "3 -1\n1 2")))
+    }
+
+    func testLazyLinesPreserveUnicodeAndPeeking() {
+        var lines = StringLines("first α\r\n\rsecond β\u{85}third\u{2028}fourth\u{2029}fifth\u{b}sixth\u{c}last")
+        XCTAssertEqual(lines.first.map(String.init), "first α")
+        XCTAssertEqual(lines.first.map(String.init), "first α")
+        var result = [String]()
+        while let line = lines.popFirst() {
+            result.append(String(line))
+        }
+        XCTAssertEqual(result, ["first α", "", "second β", "third", "fourth", "fifth", "sixth", "last"])
+        XCTAssertNil(lines.popFirst())
+    }
+
+    func testNativeASCIIReadersPreserveUnicodeLineEndings() throws {
+        let cube = Mesh.cube()
+        let readers: [(String, (String) -> Mesh?)] = [
+            (cube.objString(), { Mesh(objString: $0) }),
+            (cube.offString(), { Mesh(offString: $0) }),
+            (cube.stlString(), { Mesh(stlString: $0) }),
+            (cube.plyString(), { Mesh(plyString: $0) }),
+        ]
+        for (text, read) in readers {
+            let expected = try XCTUnwrap(read(text))
+            for newline in ["\r\n", "\r", "\u{85}", "\u{2028}", "\u{2029}"] {
+                XCTAssertEqual(read(text.replacingOccurrences(of: "\n", with: newline)), expected)
+            }
+        }
+    }
+
     #if canImport(SceneKit)
 
     func testBinaryPLYFallbackPreservesSRGB() throws {

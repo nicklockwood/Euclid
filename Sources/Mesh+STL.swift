@@ -270,7 +270,7 @@ public extension Mesh {
         isCancelled: CancellationHandler
     ) throws {
         try checkCancellation(isCancelled)
-        var lines = ArraySlice(stlString.components(separatedBy: .newlines))
+        var lines = StringLines(stlString)
         guard let mesh = try lines.readSolid(isCancelled: isCancelled) else {
             return nil
         }
@@ -359,7 +359,7 @@ public extension Mesh {
     }
 }
 
-private extension ArraySlice<String> {
+private extension StringLines {
     mutating func readCommand(_ name: String, parts: inout [Double]) -> Bool {
         var line = ""
         guard readCommand(name, line: &line) else {

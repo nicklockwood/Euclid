@@ -414,6 +414,48 @@ final class RealityKitTests: XCTestCase {
 
     @available(visionOS 2.0, *)
     @MainActor
+    func testCompactUntexturedVertexBuffersPreserveColorAndNormals() throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
+        let polygon = try XCTUnwrap(Polygon([
+            Vertex(.zero, normal: .unitZ), Vertex(.unitX, normal: .unitZ), Vertex(.unitY, normal: .unitZ),
+        ]))
+        let source = Mesh([polygon])
+        let color = Color(red: 0.25, green: 0.5, blue: 0.75, alpha: 0.4)
+        var strides = [Int]()
+        for colored in [false, true] {
+            let mesh = try LowLevelMesh(colored ? source.mapVertexColors { _ in color } : source)
+            let stride = try XCTUnwrap(mesh.descriptor.vertexLayouts.first?.bufferStride)
+            strides.append(stride)
+            XCTAssertLessThan(stride, 96)
+            XCTAssertFalse(mesh.descriptor.vertexAttributes.contains { $0.semantic == .uv0 || $0.semantic == .tangent })
+            let normal = try XCTUnwrap(mesh.descriptor.vertexAttributes.first { $0.semantic == .normal })
+            let attribute = mesh.descriptor.vertexAttributes.first { $0.semantic == .color }
+            XCTAssertEqual(attribute != nil, colored)
+            mesh.withUnsafeBytes(bufferIndex: 0) { buffer in
+                for index in 0 ..< mesh.vertexCapacity {
+                    XCTAssertEqual(
+                        buffer.loadUnaligned(fromByteOffset: index * stride + normal.offset, as: SIMD3<Float>.self),
+                        [0, 0, 1]
+                    )
+                    if let attribute {
+                        let actual = buffer.loadUnaligned(
+                            fromByteOffset: index * stride + attribute.offset,
+                            as: SIMD4<Float>.self
+                        )
+                        let expected = color.toLinear()
+                        XCTAssertEqual(Double(actual.x), expected.red, accuracy: 1e-6)
+                        XCTAssertEqual(Double(actual.y), expected.green, accuracy: 1e-6)
+                        XCTAssertEqual(Double(actual.z), expected.blue, accuracy: 1e-6)
+                        XCTAssertEqual(Double(actual.w), expected.alpha, accuracy: 1e-6)
+                    }
+                }
+            }
+        }
+        XCTAssertLessThan(strides[0], strides[1])
+    }
+
+    @available(visionOS 2.0, *)
+    @MainActor
     func testLowLevelMeshTangentFramesHandleMirroredAndDegenerateUVs() throws {
         for scale in [1.0, -1.0, 0.0] {
             let polygon = try XCTUnwrap(Polygon([
