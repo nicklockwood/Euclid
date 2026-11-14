@@ -59,6 +59,20 @@ public extension Mesh {
                 throw IOError("Invalid OFF file")
             }
             self = mesh
+        case "ply":
+            let data = try Data(contentsOf: url)
+            if let string = String(data: data, encoding: .utf8),
+               let mesh = Mesh(plyString: string, options: options)
+            {
+                self = mesh
+                return
+            }
+            #if canImport(SceneKit)
+            // Retain the platform loader for binary PLY and other supported variants.
+            fallthrough
+            #else
+            throw IOError("Invalid or unsupported PLY file")
+            #endif
         case "obj":
             #if canImport(SceneKit)
             // SceneKit supports materials, etc.
@@ -111,6 +125,12 @@ public extension Mesh {
             try string.write(to: url, atomically: true, encoding: .utf8)
         case "off":
             let string = offString()
+            try string.write(to: url, atomically: true, encoding: .utf8)
+        case "ply":
+            let colorLookup = materialLookup.map { lookup in
+                { @Sendable in defaultColorMapping(lookup($0)) }
+            }
+            let string = try plyString(colorLookup: colorLookup)
             try string.write(to: url, atomically: true, encoding: .utf8)
         case "obj":
             #if canImport(SceneKit) && !os(watchOS)

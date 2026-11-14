@@ -40,6 +40,8 @@ The `luminance` property does not perform sRGB-to-linear conversion. Use `color.
 
 Raw OBJ/OFF/STL color components have no reliable color profile, so callers must convert according to their source's convention when known. Binary STL color extensions do not declare a color profile or conversion function. Euclid preserves their component values (subject to 5-bit facet quantization) without applying gamma conversion, and interprets imported colors using its sRGB convention. This is a compatibility policy, not a guarantee that every STL producer uses sRGB. Use the STL material/color lookup closures for conversions when a source or destination's convention is known.
 
+ASCII PLY files can be loaded with `Mesh(plyString:)` or `Mesh(url:)`. The native reader preserves vertex RGB and alpha, normals and UV coordinates. Byte colors are normalized to 0...1 and interpreted using Euclid's sRGB convention; floating-point colors are preserved numerically. Binary PLY still requires a platform importer, whose supported attributes may differ. Use `try mesh.plyString()` or `mesh.write(to:)` to export ASCII PLY with sRGB vertex RGBA. A color lookup can supply material tint, which is multiplied with vertex RGB in linear light. Textures are not embedded.
+
 Euclid supports applying colors to a ``Mesh`` or ``Polygon`` using the material property, but you can also set colors individually for each vertex, which will be interpolated to create smooth gradients.
 
 The material property is of type `AnyHashable` which basically means it can be anything you want. You can set the `material` to an instance of Euclid's ``Color``, or you can use a `CGColor`, `UIColor` or `NSColor` instead if you prefer.
