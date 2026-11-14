@@ -132,6 +132,70 @@ final class OFFTests: XCTestCase {
         XCTAssertTrue(imported.polygons.flatMap(\.vertices).allSatisfy { $0.color == .red })
     }
 
+    func testVertexAttributeVariantsRoundTrip() throws {
+        let mesh = Mesh.cube().mapVertexColors { _ in Color(red: 0.5, green: 0.25, blue: 1, alpha: 0.4) }
+        for normals in [false, true] {
+            for colors in [false, true] {
+                for texcoords in [false, true] {
+                    let exportOptions = OFFTextOptions(
+                        vertexNormals: normals,
+                        vertexColors: colors,
+                        textureCoordinates: texcoords
+                    )
+                    let header = (texcoords ? "ST" : "") + (colors ? "C" : "") + (normals ? "N" : "") + "OFF"
+                    let text = mesh.offString(options: exportOptions)
+                    XCTAssertTrue(text.hasPrefix(header + "\n"))
+                    let imported = try XCTUnwrap(Mesh(offString: text, options: options))
+                    let expected = mesh.polygons.flatMap(\.vertices)
+                    let actual = imported.polygons.flatMap(\.vertices)
+                    XCTAssertEqual(actual.map(\.position), expected.map(\.position), header)
+                    XCTAssertEqual(actual.map(\.normal), expected.map(\.normal), header)
+                    XCTAssertEqual(actual.map(\.color), expected.map { colors ? $0.color : .white }, header)
+                    XCTAssertEqual(actual.map(\.texcoord), expected.map { texcoords ? $0.texcoord : .zero }, header)
+                    XCTAssertEqual(text, try mesh.offString(options: exportOptions, isCancelled: { false }))
+                }
+            }
+        }
+    }
+
+    func testImportAttributeOrderAndCustomNormals() throws {
+        // Geomview orders normals before colors, despite C preceding N in the header.
+        let text = """
+        STCNOFF 3 1 0
+        0 0 0 0 1 0 1 0 0 0.5 0.25 0.75
+        1 0 0 0 1 0 0 1 0 1 0.5 0.25
+        0 1 0 0 1 0 0 0 1 1 1 0
+        3 0 1 2
+        """
+        let mesh = try XCTUnwrap(Mesh(offString: text, options: options))
+        let vertices = try XCTUnwrap(mesh.polygons.first).vertices
+        XCTAssertEqual(vertices.map(\.normal), [.unitY, .unitY, .unitY])
+        XCTAssertEqual(vertices.map(\.color), [Color(red: 1, green: 0, blue: 0, alpha: 0.5), .green, .blue])
+        XCTAssertEqual(vertices.map(\.texcoord), [Vector(0.25, 0.75), Vector(0.5, 0.25), Vector(1, 0)])
+    }
+
+    func testMalformedVertexAttributesAreRejected() {
+        for (header, vertex) in [
+            ("NOFF", "0 0 0 0 1"),
+            ("NOFF", "0 0 0 0 nan 1"),
+            ("STOFF", "0 0 0 1"),
+            ("STOFF", "0 0 0 inf 0"),
+            ("STCNOFF", "0 0 0 0 0 1 1 0 0 2 0 1"),
+            ("NC OFF", "0 0 0"),
+        ] {
+            XCTAssertNil(Mesh(offString: "\(header)\n1 0 0\n\(vertex)"), header)
+        }
+    }
+
+    func testAttributeExportCancellation() {
+        XCTAssertThrowsError(try Mesh.cube().offString(
+            options: .init(vertexNormals: true, vertexColors: true, textureCoordinates: true),
+            isCancelled: { true }
+        )) {
+            XCTAssertTrue($0 is CancellationError)
+        }
+    }
+
     func testCOFFCancellation() {
         XCTAssertThrowsError(try Mesh(offString: "COFF\n0 0 0", isCancelled: { true })) {
             XCTAssertTrue($0 is CancellationError)

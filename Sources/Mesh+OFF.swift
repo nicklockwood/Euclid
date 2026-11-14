@@ -10,6 +10,31 @@ import Foundation
 
 // MARK: Export
 
+/// Configuration options for text OFF export.
+public struct OFFTextOptions: Sendable {
+    /// Include per-vertex normals using the N header prefix.
+    public var vertexNormals: Bool
+    /// Include per-vertex RGBA using the C header prefix.
+    public var vertexColors: Bool
+    /// Include two-dimensional texture coordinates using the ST header prefix.
+    /// Texture images are not included.
+    public var textureCoordinates: Bool
+    /// Maps polygon materials to face colors.
+    public var colorLookup: @Sendable (Mesh.Material?) -> Color?
+
+    public init(
+        vertexNormals: Bool = false,
+        vertexColors: Bool = false,
+        textureCoordinates: Bool = false,
+        colorLookup: (@Sendable (Mesh.Material?) -> Color?)? = nil
+    ) {
+        self.vertexNormals = vertexNormals
+        self.vertexColors = vertexColors
+        self.textureCoordinates = textureCoordinates
+        self.colorLookup = colorLookup ?? defaultColorMapping
+    }
+}
+
 public extension Mesh {
     /// Returns OFF text with face colors. Vertex colors are omitted; use `coffString()` to preserve them.
     /// - Parameter colorLookup: Maps materials to face colors. Use `nil` for default color mapping.
@@ -31,7 +56,7 @@ public extension Mesh {
         colorLookup: (@Sendable (Material?) -> Color?)? = nil,
         isCancelled: CancellationHandler
     ) throws -> String {
-        try offString(vertexColors: false, colorLookup: colorLookup, isCancelled: isCancelled)
+        try offString(options: .init(colorLookup: colorLookup), isCancelled: isCancelled)
     }
 
     /// Returns COFF text with vertex RGBA and optional material-to-face-color mapping.
@@ -47,19 +72,22 @@ public extension Mesh {
         colorLookup: (@Sendable (Material?) -> Color?)? = nil,
         isCancelled: CancellationHandler
     ) throws -> String {
-        try offString(vertexColors: true, colorLookup: colorLookup, isCancelled: isCancelled)
+        try offString(options: .init(vertexColors: true, colorLookup: colorLookup), isCancelled: isCancelled)
     }
-}
 
-private extension Mesh {
-    func offString(
-        vertexColors hasColors: Bool,
-        colorLookup: (@Sendable (Material?) -> Color?)?,
-        isCancelled: CancellationHandler
-    ) throws -> String {
+    /// Returns OFF text with explicitly selected vertex attributes.
+    /// The header reflects the selected attributes, for example NOFF or STCNOFF.
+    func offString(options: OFFTextOptions) -> String {
+        try! offString(options: options, isCancelled: { false })
+    }
+
+    /// Returns OFF text with explicitly selected vertex attributes and cancellation.
+    /// Colors follow the same convention as `offString()`. Texture images are not exported.
+    /// - Throws: `CancellationError` if export is cancelled.
+    func offString(options: OFFTextOptions, isCancelled: CancellationHandler) throws -> String {
         var cancellationCountdown = cancellationCheckInterval
         try checkCancellation(isCancelled)
-        let colorLookup = colorLookup ?? defaultColorMapping
+        let colorLookup = options.colorLookup
         let polygons = polygons.tessellate(isCancelled: isCancelled)
         var vertices = [Vertex](), indicesByVertex = [Vertex: Int]()
         var colors = [Color?]()
@@ -68,8 +96,13 @@ private extension Mesh {
             colors.append(colorLookup(polygon.material))
             return try polygon.vertices.map { vertex -> Int in
                 try checkCancellation(isCancelled, countdown: &cancellationCountdown)
-                // Ignore normals and UVs, but retain coincident vertices with different colors.
-                let vertex = Vertex(vertex.position, color: hasColors ? vertex.color : nil)
+                // Retain seams only for the attributes included in the file.
+                let vertex = Vertex(
+                    unchecked: vertex.position,
+                    options.vertexNormals ? vertex.normal : nil,
+                    options.textureCoordinates ? Vector(vertex.texcoord.x, vertex.texcoord.y) : nil,
+                    options.vertexColors ? vertex.color : nil
+                )
                 if let index = indicesByVertex[vertex] {
                     return index
                 }
@@ -82,7 +115,11 @@ private extension Mesh {
         let hasFaceColors = colors.contains { $0 != nil }
         let vertexStrings = try vertices.map {
             try checkCancellation(isCancelled, countdown: &cancellationCountdown)
-            return $0.position.offString + (hasColors ? " \($0.color.offString)" : "")
+            var string = $0.position.offString
+            if options.vertexNormals { string += " \($0.normal.x) \($0.normal.y) \($0.normal.z)" }
+            if options.vertexColors { string += " \($0.color.offString)" }
+            if options.textureCoordinates { string += " \($0.texcoord.x) \($0.texcoord.y)" }
+            return string
         }
         let indexStrings = try zip(indices, colors).map { indices, color in
             try checkCancellation(isCancelled, countdown: &cancellationCountdown)
@@ -93,7 +130,8 @@ private extension Mesh {
         }
         try checkCancellation(isCancelled)
         return [
-            hasColors ? "COFF" : "OFF",
+            (options.textureCoordinates ? "ST" : "") + (options.vertexColors ? "C" : "") +
+                (options.vertexNormals ? "N" : "") + "OFF",
             "\(vertices.count) \(indices.count) 0",
             vertexStrings.joined(separator: "\n"),
             indexStrings.joined(separator: "\n"),
@@ -132,7 +170,8 @@ private extension Double {
 public extension Mesh {
     /// Create a mesh from an Object File Format string.
     /// - Parameters:
-    ///   - offString: OFF or COFF string data. Face RGB(A) accepts integers in 0 ... 255
+    ///   - offString: OFF string data, including C, N and ST header variants for vertex colors,
+    ///     normals and two-dimensional texture coordinates. Face RGB(A) accepts integers in 0 ... 255
     ///     or floating-point values in 0 ... 1; COFF vertices use floating-point RGBA in 0 ... 1.
     ///     RGB values are treated as sRGB without gamma conversion. Palette indices are ignored.
     ///   - options: The import options.
@@ -161,7 +200,7 @@ public extension Mesh {
         var vertices = [Vertex]()
         for _ in 0 ..< counts.vertices {
             try checkCancellation(isCancelled, countdown: &cancellationCountdown)
-            guard let vertex = lines.readVertex(hasColors: counts.hasColors) else { return nil }
+            guard let vertex = lines.readVertex(options: counts.options) else { return nil }
             vertices.append(vertex)
         }
         var faces = [Polygon]()
@@ -190,10 +229,23 @@ private extension ArraySlice<String> {
         return nil
     }
 
-    mutating func readHeader() -> (vertices: Int, faces: Int, hasColors: Bool)? {
+    mutating func readHeader() -> (vertices: Int, faces: Int, options: OFFTextOptions)? {
         guard var parts = readParts() else { return nil }
-        let hasColors = parts.first?.uppercased() == "COFF"
-        if ["OFF", "COFF"].contains(parts[0].uppercased()) {
+        var options = OFFTextOptions()
+        var header = parts[0].uppercased()[...]
+        if header.hasPrefix("ST") {
+            options.textureCoordinates = true
+            header = header.dropFirst(2)
+        }
+        if header.hasPrefix("C") {
+            options.vertexColors = true
+            header = header.dropFirst()
+        }
+        if header.hasPrefix("N") {
+            options.vertexNormals = true
+            header = header.dropFirst()
+        }
+        if header == "OFF" {
             parts.removeFirst()
             if parts.isEmpty { parts = readParts() ?? [] }
         }
@@ -201,20 +253,31 @@ private extension ArraySlice<String> {
         guard (2 ... 3).contains(counts.count), counts.count == parts.count,
               counts.allSatisfy({ $0 >= 0 })
         else { return nil }
-        return (counts[0], counts[1], hasColors)
+        return (counts[0], counts[1], options)
     }
 
-    mutating func readVertex(hasColors: Bool) -> Vertex? {
-        guard let parts = readParts(), parts.count == (hasColors ? 7 : 3) else { return nil }
+    mutating func readVertex(options: OFFTextOptions) -> Vertex? {
+        let count = 3 + (options.vertexNormals ? 3 : 0) + (options.vertexColors ? 4 : 0) +
+            (options.textureCoordinates ? 2 : 0)
+        guard let parts = readParts(), parts.count == count else { return nil }
         let values = parts.compactMap(Double.init)
-        guard values.count == parts.count, values.allSatisfy(\.isFinite) else { return nil }
-        let position = Vector(values[0], values[1], values[2])
-        if hasColors {
-            let components = values.dropFirst(3)
-            guard components.allSatisfy({ (0 ... 1).contains($0) }) else { return nil }
-            return Vertex(position, color: Color(components))
+        guard values.count == count, values.allSatisfy(\.isFinite) else { return nil }
+        var components = values[...]
+        func readVector() -> Vector {
+            defer { components = components.dropFirst(3) }
+            return Vector(components.prefix(3))
         }
-        return Vertex(position)
+        let position = readVector()
+        let normal = options.vertexNormals ? readVector() : nil
+        var color: Color?
+        if options.vertexColors {
+            let rgba = components.prefix(4)
+            guard rgba.allSatisfy({ (0 ... 1).contains($0) }) else { return nil }
+            color = Color(rgba)
+            components = components.dropFirst(4)
+        }
+        let texcoord = options.textureCoordinates ? Vector(components) : nil
+        return Vertex(position, normal, texcoord, color)
     }
 
     mutating func readFace(
