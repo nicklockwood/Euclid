@@ -34,6 +34,33 @@ final class SceneKitTests: XCTestCase {
         }
     }
 
+    func testVertexColorsCanBeImportedWithoutConversion() throws {
+        let color = Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.4)
+        let mesh = Mesh.cube().mapVertexColors { _ in color }
+        // The exporter stores linear components. Disabling decoding must return those exact values.
+        let expected = color.toLinear()
+        for geometry in [SCNGeometry(triangles: mesh), SCNGeometry(polygons: mesh)] {
+            let node = SCNNode(geometry: geometry)
+            let child = SCNNode()
+            child.addChildNode(SCNNode(geometry: geometry))
+            node.addChildNode(child)
+            let hierarchy = Mesh(node, linearColors: false)
+            let direct = try XCTUnwrap(Mesh(geometry, linearColors: false))
+            XCTAssertEqual(hierarchy.polygons.count, direct.polygons.count * 2)
+            for imported in try [
+                direct, hierarchy,
+                Mesh(geometry, linearColors: false, isCancelled: { false }),
+            ] {
+                for vertex in imported.polygons.flatMap(\.vertices) {
+                    XCTAssertEqual(vertex.color, expected, accuracy: 1e-6)
+                }
+            }
+            for vertex in Mesh(node).polygons.flatMap(\.vertices) {
+                XCTAssertEqual(vertex.color, color, accuracy: 1e-6)
+            }
+        }
+    }
+
     @MainActor
     func testRenderedAlphaMatchesCompositedColor() throws {
         try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "SceneKit requires a Metal device")

@@ -10,6 +10,53 @@
 import XCTest
 
 final class PLYImportTests: XCTestCase {
+    #if canImport(SceneKit)
+
+    func testBinaryPLYFallbackPreservesSRGB() throws {
+        for bigEndian in [false, true] {
+            let header = """
+            ply
+            format binary_\(bigEndian ? "big" : "little")_endian 1.0
+            element vertex 3
+            property float x
+            property float y
+            property float z
+            property uchar red
+            property uchar green
+            property uchar blue
+            element face 1
+            property list uchar int vertex_indices
+            end_header
+
+            """
+            var data = Data(header.utf8)
+            func append(_ bits: UInt32) {
+                var value = bigEndian ? bits.bigEndian : bits.littleEndian
+                withUnsafeBytes(of: &value) { data.append(contentsOf: $0) }
+            }
+            for position: [Float] in [[0, 0, 0], [1, 0, 0], [0, 1, 0]] {
+                position.forEach { append($0.bitPattern) }
+                data.append(contentsOf: [128, 64, 191])
+            }
+            data.append(3)
+            [UInt32(0), 1, 2].forEach(append)
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".ply")
+            defer { try? FileManager.default.removeItem(at: url) }
+            try data.write(to: url)
+            let mesh = try Mesh(url: url)
+            let vertices = try XCTUnwrap(mesh.polygons.first?.vertices)
+            XCTAssertEqual(vertices.count, 3)
+            for vertex in vertices {
+                XCTAssertEqual(vertex.color.red, 128 / 255.0, accuracy: 1e-6)
+                XCTAssertEqual(vertex.color.green, 64 / 255.0, accuracy: 1e-6)
+                XCTAssertEqual(vertex.color.blue, 191 / 255.0, accuracy: 1e-6)
+                XCTAssertEqual(vertex.color.alpha, 1)
+            }
+        }
+    }
+
+    #endif
+
     private let source = """
     ply
     format ascii 1.0

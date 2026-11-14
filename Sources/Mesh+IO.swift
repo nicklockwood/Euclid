@@ -97,7 +97,11 @@ public extension Mesh {
                 .preserveOriginalTopology: true,
             ]
             let importedScene = try SCNScene(url: url, options: sceneOptions)
-            self.init(importedScene.rootNode, materialLookup: materialLookup)
+            self.init(
+                importedScene.rootNode,
+                linearColors: !["ply", "obj"].contains(url.pathExtension.lowercased()),
+                materialLookup: materialLookup
+            )
             if options.repairWinding == true {
                 self = withConsistentWinding()
             }

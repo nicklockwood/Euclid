@@ -410,12 +410,12 @@ private extension Data {
         [float(at: index), float(at: index + 4), float(at: index + 8)]
     }
 
-    func color(at index: Int) -> Color {
+    func color(at index: Int, hasAlpha: Bool) -> Color {
         Color(
             red: float(at: index),
             green: float(at: index + 4),
             blue: float(at: index + 8),
-            alpha: float(at: index + 12)
+            alpha: hasAlpha ? float(at: index + 12) : 1
         )
     }
 }
@@ -478,17 +478,23 @@ public extension Mesh {
     /// - Parameters:
     ///   - scnNode: The `SCNNode` to convert into a mesh.
     ///   - ignoringTransforms: Should transforms from the input node and its children be ignored.
+    ///   - linearColors: Interpret vertex RGB as linear light and convert to sRGB. Alpha is unchanged.
     ///   - materialLookup: An optional closure to map the SceneKit materials to Euclid materials.
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
-    init(_ scnNode: SCNNode, ignoringTransforms: Bool = false, materialLookup: SCNMaterialProvider? = nil) {
+    init(
+        _ scnNode: SCNNode,
+        ignoringTransforms: Bool = false,
+        linearColors: Bool = true,
+        materialLookup: SCNMaterialProvider? = nil
+    ) {
         var meshes = [Mesh]()
         if let mesh = scnNode.geometry.flatMap({
-            Mesh($0, materialLookup: materialLookup)
+            Mesh($0, linearColors: linearColors, materialLookup: materialLookup)
         }) {
             meshes.append(mesh)
         }
         meshes += scnNode.childNodes.map {
-            Mesh($0, ignoringTransforms: ignoringTransforms, materialLookup: materialLookup)
+            Mesh($0, ignoringTransforms: ignoringTransforms, linearColors: linearColors, materialLookup: materialLookup)
         }
         var mesh = Mesh.merge(meshes)
         if !ignoringTransforms {
@@ -503,11 +509,16 @@ public extension Mesh {
     /// Creates a mesh from a SceneKit geometry, with optional material mapping.
     /// - Parameters:
     ///   - scnGeometry: The `SCNGeometry` to convert into a mesh.
+    ///   - linearColors: Interpret vertex RGB as linear light and convert to sRGB. Alpha is unchanged.
     ///   - materialLookup: An optional closure to map SceneKit materials to Euclid materials.
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
-    init?(_ scnGeometry: SCNGeometry, materialLookup: SCNMaterialProvider? = nil) {
+    init?(
+        _ scnGeometry: SCNGeometry,
+        linearColors: Bool = true,
+        materialLookup: SCNMaterialProvider? = nil
+    ) {
         do {
-            try self.init(scnGeometry, materialLookup: materialLookup) { false }
+            try self.init(scnGeometry, linearColors: linearColors, materialLookup: materialLookup) { false }
         } catch {
             print(error)
             return nil
@@ -517,11 +528,13 @@ public extension Mesh {
     /// Creates a mesh from a SceneKit geometry, with optional material mapping.
     /// - Parameters:
     ///   - scnGeometry: The `SCNGeometry` to convert into a mesh.
+    ///   - linearColors: Interpret vertex RGB as linear light and convert to sRGB. Alpha is unchanged.
     ///   - materialLookup: An optional closure to map SceneKit materials to Euclid materials.
     ///     If omitted, the `SCNMaterial` will be directly used as the mesh material.
     ///   - isCancelled: Callback used to cancel the operation.
     init(
         _ scnGeometry: SCNGeometry,
+        linearColors: Bool = true,
         materialLookup: SCNMaterialProvider? = nil,
         isCancelled: CancellationHandler
     ) throws {
@@ -553,7 +566,8 @@ public extension Mesh {
             case .normal:
                 vertex.normal = source.data.vector(at: offset)
             case .color:
-                vertex.color = source.data.color(at: offset).toSRGB()
+                let color = source.data.color(at: offset, hasAlpha: source.componentsPerVector > 3)
+                vertex.color = linearColors ? color.toSRGB() : color
             case .texcoord:
                 vertex.texcoord = [
                     source.data.float(at: offset),
