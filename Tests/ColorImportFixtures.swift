@@ -6,6 +6,8 @@
 //  Copyright © 2026 Nick Lockwood. All rights reserved.
 //
 
+import Foundation
+
 /// Hand-authored input, independent of Euclid and platform exporters.
 /// USD shader connections follow https://openusd.org/release/spec_usdpreviewsurface.html.
 /// Collada uses the common-profile A_ONE transparency convention.
@@ -50,7 +52,7 @@ enum ColorImportFixtures {
         let textures = textured ? """
         def Shader "UV" {
             uniform token info:id = "UsdPrimvarReader_float2"
-            token inputs:varname = "st"
+            string inputs:varname = "st"
             float2 outputs:result
         }
         def Shader "Color" {
@@ -103,6 +105,49 @@ enum ColorImportFixtures {
             }
         }
         """
+    }
+
+    /// The same RGB numbers have different meanings in each declared space.
+    /// Attribute metadata overrides the shader's ColorSpaceAPI, which overrides the ancestor's.
+    static func usdColorSpace(
+        textured: Bool = false,
+        root: String? = nil,
+        shader: String? = nil,
+        attribute: String? = nil,
+        sourceColorSpace: String? = nil
+    ) -> String {
+        var text = usd(textured: textured)
+            .replacingOccurrences(of: "(0.2140411405, 0.0508760882, 0.5225215540)", with: "(0.2, 0.35, 0.5)")
+            .replacingOccurrences(of: "float inputs:opacity = 0.4", with: "float inputs:opacity = 1")
+            .replacingOccurrences(
+                of: "float inputs:opacity.connect = </Fixture/Paint/Opacity.outputs:r>",
+                with: "float inputs:opacity = 1"
+            )
+        if let root {
+            text = text.replacingOccurrences(of: "def Xform \"Fixture\" {", with: """
+            def Xform "Fixture" (prepend apiSchemas = ["ColorSpaceAPI"]) {
+                uniform token colorSpace:name = "\(root)"
+            """)
+        }
+        if let shader {
+            let name = textured ? "Color" : "Surface"
+            text = text.replacingOccurrences(of: "def Shader \"\(name)\" {", with: """
+            def Shader "\(name)" (prepend apiSchemas = ["ColorSpaceAPI"]) {
+                uniform token colorSpace:name = "\(shader)"
+            """)
+        }
+        if let attribute {
+            let property = textured ? "asset inputs:file = @color.png@" :
+                "color3f inputs:diffuseColor = (0.2, 0.35, 0.5)"
+            text = text.replacingOccurrences(of: property, with: "\(property) (colorSpace = \"\(attribute)\")")
+        }
+        if textured {
+            text = text.replacingOccurrences(
+                of: "token inputs:sourceColorSpace = \"sRGB\"",
+                with: sourceColorSpace.map { "token inputs:sourceColorSpace = \"\($0)\"" } ?? ""
+            )
+        }
+        return text
     }
 
     static func collada(textured: Bool) -> String {
