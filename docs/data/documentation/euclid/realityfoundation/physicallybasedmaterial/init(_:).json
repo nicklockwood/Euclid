@@ -1,0 +1,261 @@
+{
+  "abstract" : [
+    {
+      "text" : "Creates a physically based material from Model I\/O color, texture and surface properties.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/PhysicallyBasedMaterial"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/PhysicallyBasedMaterial\/init(_:)"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "extendedModule" : "RealityFoundation",
+    "externalID" : "s:17RealityFoundation23PhysicallyBasedMaterialV6EuclidEyACSo11MDLMaterialCcfc",
+    "fragments" : [
+      {
+        "kind" : "identifier",
+        "text" : "init"
+      },
+      {
+        "kind" : "text",
+        "text" : "("
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "c:objc(cs)MDLMaterial",
+        "text" : "MDLMaterial"
+      },
+      {
+        "kind" : "text",
+        "text" : ")"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "Euclid",
+        "relatedModules" : [
+          "RealityFoundation"
+        ]
+      }
+    ],
+    "platforms" : [
+      {
+        "beta" : false,
+        "deprecated" : false,
+        "introducedAt" : "26.0",
+        "name" : "tvOS",
+        "unavailable" : false
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Initializer",
+    "symbolKind" : "init",
+    "title" : "init(_:)"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "attribute",
+              "text" : "@"
+            },
+            {
+              "kind" : "attribute",
+              "preciseIdentifier" : "s:ScM",
+              "text" : "MainActor"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "init"
+            },
+            {
+              "kind" : "text",
+              "text" : "("
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "_"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "source"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "c:objc(cs)MDLMaterial",
+              "text" : "MDLMaterial"
+            },
+            {
+              "kind" : "text",
+              "text" : ")"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The material to convert. Numeric RGB components are linear; CGColors use their color space.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "source"
+        }
+      ]
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/euclid\/realityfoundation\/physicallybasedmaterial\/init(_:)"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid": {
+  "abstract" : [
+    {
+      "text" : "Euclid is a library for creating and manipulating 3D geometry using techniques such as extruding or “lathing” 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Euclid",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "RealityFoundation",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/PhysicallyBasedMaterial": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "s:17RealityFoundation23PhysicallyBasedMaterialV",
+      "text" : "PhysicallyBasedMaterial"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/PhysicallyBasedMaterial",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PhysicallyBasedMaterial"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PhysicallyBasedMaterial",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation\/physicallybasedmaterial"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/PhysicallyBasedMaterial/init(_:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a physically based material from Model I\/O color, texture and surface properties.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)MDLMaterial",
+      "text" : "MDLMaterial"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/PhysicallyBasedMaterial\/init(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation\/physicallybasedmaterial\/init(_:)"
+}
+}
+}

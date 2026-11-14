@@ -1,0 +1,406 @@
+{
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from an ASCII PLY string.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(plyString:options:)"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "extendedModule" : "Euclid",
+    "externalID" : "s:6Euclid4MeshV9plyString7optionsACSgSS_AC13ImportOptionsVtcfc",
+    "fragments" : [
+      {
+        "kind" : "identifier",
+        "text" : "init"
+      },
+      {
+        "kind" : "text",
+        "text" : "?("
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "plyString"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:SS",
+        "text" : "String"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "options"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid4MeshV13ImportOptionsV",
+        "text" : "ImportOptions"
+      },
+      {
+        "kind" : "text",
+        "text" : ")"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "Euclid"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Initializer",
+    "symbolKind" : "init",
+    "title" : "init(plyString:options:)"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "init"
+            },
+            {
+              "kind" : "text",
+              "text" : "?("
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "plyString"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:SS",
+              "text" : "String"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "options"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/ImportOptions",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid4MeshV13ImportOptionsV",
+              "text" : "ImportOptions"
+            },
+            {
+              "kind" : "text",
+              "text" : " = .init())"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "ASCII PLY 1.0 data. Binary PLY is not supported by this initializer.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "plyString"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The import options. Winding is preserved unless repair is explicitly enabled.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "options"
+        }
+      ]
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Preserves vertex positions, normals, UV coordinates and sRGB vertex colors.",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "text" : "Byte RGB and alpha components are normalized to 0…1. Floating-point components",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "text" : "are used directly. Common ",
+              "type" : "text"
+            },
+            {
+              "code" : "diffuse_red",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ", ",
+              "type" : "text"
+            },
+            {
+              "code" : "diffuse_green",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ", ",
+              "type" : "text"
+            },
+            {
+              "code" : "diffuse_blue",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " and",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "code" : "diffuse_alpha",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " properties are also supported. Unknown elements and properties are skipped.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        }
+      ],
+      "kind" : "content"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/euclid\/mesh\/init(plystring:options:)"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid": {
+  "abstract" : [
+    {
+      "text" : "Euclid is a library for creating and manipulating 3D geometry using techniques such as extruding or “lathing” 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Euclid",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
+  "abstract" : [
+    {
+      "text" : "A 3D surface made of polygons.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Mesh"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/ImportOptions": {
+  "abstract" : [
+    {
+      "text" : "Configuration options for mesh import.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "ImportOptions"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/ImportOptions",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "ImportOptions"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh.ImportOptions",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/importoptions"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(plyString:options:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from an ASCII PLY string.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "plyString"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV13ImportOptionsV",
+      "text" : "ImportOptions"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(plyString:options:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(plyString:options:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(plystring:options:)"
+}
+}
+}

@@ -1,0 +1,591 @@
+{
+  "abstract" : [
+    {
+      "text" : "Creates a Model I\/O asset from a mesh, preserving polygon groups and vertex attributes.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset\/init(_:linearColors:isCancelled:materialLookup:)"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "extendedModule" : "ModelIO",
+    "externalID" : "s:So8MDLAssetC6EuclidE_12linearColors11isCancelled14materialLookupAbC4MeshV_S2byYbXESo11MDLMaterialCSgs11AnyHashableVSgKcSgtKcfc",
+    "fragments" : [
+      {
+        "kind" : "identifier",
+        "text" : "init"
+      },
+      {
+        "kind" : "text",
+        "text" : "("
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid4MeshV",
+        "text" : "Mesh"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "linearColors"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:Sb",
+        "text" : "Bool"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "isCancelled"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+        "text" : "CancellationHandler"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "materialLookup"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:So8MDLAssetC6EuclidE19MDLMaterialProvidera",
+        "text" : "MDLMaterialProvider"
+      },
+      {
+        "kind" : "text",
+        "text" : "?) "
+      },
+      {
+        "kind" : "keyword",
+        "text" : "throws"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "Euclid",
+        "relatedModules" : [
+          "ModelIO"
+        ]
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Initializer",
+    "symbolKind" : "init",
+    "title" : "init(_:linearColors:isCancelled:materialLookup:)"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "convenience"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "init"
+            },
+            {
+              "kind" : "text",
+              "text" : "("
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "_"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "mesh"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid4MeshV",
+              "text" : "Mesh"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "linearColors"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Sb",
+              "text" : "Bool"
+            },
+            {
+              "kind" : "text",
+              "text" : " = true, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "isCancelled"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/CancellationHandler",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+              "text" : "CancellationHandler"
+            },
+            {
+              "kind" : "text",
+              "text" : " = { false }, "
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "materialLookup"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset\/MDLMaterialProvider",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:So8MDLAssetC6EuclidE19MDLMaterialProvidera",
+              "text" : "MDLMaterialProvider"
+            },
+            {
+              "kind" : "text",
+              "text" : "? = nil) "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "throws"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The mesh to convert.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "mesh"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Convert sRGB colors to linear light. Set to ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "false",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " for OBJ export.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "linearColors"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Return ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "true",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " to stop conversion with ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "CancellationError",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : ".",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "isCancelled"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "Maps polygon materials to Model I\/O materials. Use ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "nil",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " for default mapping.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "materialLookup"
+        }
+      ]
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/euclid\/modelio\/mdlasset\/init(_:linearcolors:iscancelled:materiallookup:)"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid": {
+  "abstract" : [
+    {
+      "text" : "Euclid is a library for creating and manipulating 3D geometry using techniques such as extruding or “lathing” 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Euclid",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/CancellationHandler": {
+  "abstract" : [
+    {
+      "text" : "Callback used to cancel a long-running operation.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/CancellationHandler",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "CancellationHandler"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "CancellationHandler",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/cancellationhandler"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh": {
+  "abstract" : [
+    {
+      "text" : "A 3D surface made of polygons.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Mesh"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Mesh"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ModelIO": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "ModelIO",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/modelio"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ModelIO/MDLAsset": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "c:objc(cs)MDLAsset",
+      "text" : "MDLAsset"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MDLAsset"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MDLAsset",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/modelio\/mdlasset"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ModelIO/MDLAsset/MDLMaterialProvider": {
+  "abstract" : [
+    {
+      "text" : "A closure that maps a Euclid material to a Model I\/O material.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "MDLMaterialProvider"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset\/MDLMaterialProvider",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MDLMaterialProvider"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MDLAsset.MDLMaterialProvider",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/modelio\/mdlasset\/mdlmaterialprovider"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ModelIO/MDLAsset/init(_:linearColors:isCancelled:materialLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a Model I\/O asset from a mesh, preserving polygon groups and vertex attributes.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "linearColors"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:So8MDLAssetC6EuclidE19MDLMaterialProvidera",
+      "text" : "MDLMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset\/init(_:linearColors:isCancelled:materialLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:linearColors:isCancelled:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/modelio\/mdlasset\/init(_:linearcolors:iscancelled:materiallookup:)"
+}
+}
+}

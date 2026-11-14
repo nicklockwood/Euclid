@@ -47,6 +47,7 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/MeshDescriptor",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/PhysicallyBasedMaterial",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/Transform"
       ],
       "title" : "Extended Structures"
@@ -218,6 +219,38 @@
   "title" : "ModelEntity",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/realityfoundation\/modelentity"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/PhysicallyBasedMaterial": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "s:17RealityFoundation23PhysicallyBasedMaterialV",
+      "text" : "PhysicallyBasedMaterial"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/RealityFoundation\/PhysicallyBasedMaterial",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "PhysicallyBasedMaterial"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "PhysicallyBasedMaterial",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/realityfoundation\/physicallybasedmaterial"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/RealityFoundation/Transform": {
   "abstract" : [

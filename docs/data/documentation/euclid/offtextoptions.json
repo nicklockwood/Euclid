@@ -1,0 +1,495 @@
+{
+  "abstract" : [
+    {
+      "text" : "Configuration options for text OFF export.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:6Euclid14OFFTextOptionsV",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "struct"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "OFFTextOptions"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "Euclid"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "OFFTextOptions"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Structure",
+    "symbolKind" : "struct",
+    "title" : "OFFTextOptions"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "struct"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "OFFTextOptions"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "relationshipsSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
+        "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP"
+      ],
+      "kind" : "relationships",
+      "title" : "Conforms To",
+      "type" : "conformsTo"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "anchor" : "Initializers",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions\/init(vertexNormals:vertexColors:textureCoordinates:colorLookup:)"
+      ],
+      "title" : "Initializers"
+    },
+    {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions\/colorLookup",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions\/textureCoordinates",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions\/vertexColors",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions\/vertexNormals"
+      ],
+      "title" : "Instance Properties"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/euclid\/offtextoptions"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid": {
+  "abstract" : [
+    {
+      "text" : "Euclid is a library for creating and manipulating 3D geometry using techniques such as extruding or “lathing” 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Euclid",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/OFFTextOptions": {
+  "abstract" : [
+    {
+      "text" : "Configuration options for text OFF export.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "OFFTextOptions"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "OFFTextOptions"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "OFFTextOptions",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/offtextoptions"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/OFFTextOptions/colorLookup": {
+  "abstract" : [
+    {
+      "text" : "Maps polygon materials to face colors.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "colorLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "attribute",
+      "text" : "@Sendable"
+    },
+    {
+      "kind" : "text",
+      "text" : " ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions\/colorLookup",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "colorLookup",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/offtextoptions\/colorlookup"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/OFFTextOptions/init(vertexNormals:vertexColors:textureCoordinates:colorLookup:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "vertexNormals"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "vertexColors"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "textureCoordinates"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "attribute",
+      "text" : "@Sendable"
+    },
+    {
+      "kind" : "text",
+      "text" : " ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions\/init(vertexNormals:vertexColors:textureCoordinates:colorLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(vertexNormals:vertexColors:textureCoordinates:colorLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/offtextoptions\/init(vertexnormals:vertexcolors:texturecoordinates:colorlookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/OFFTextOptions/textureCoordinates": {
+  "abstract" : [
+    {
+      "text" : "Include two-dimensional texture coordinates using the ST header prefix.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Texture images are not included.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "textureCoordinates"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions\/textureCoordinates",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "textureCoordinates",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/offtextoptions\/texturecoordinates"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/OFFTextOptions/vertexColors": {
+  "abstract" : [
+    {
+      "text" : "Include per-vertex RGBA using the C header prefix.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "vertexColors"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions\/vertexColors",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "vertexColors",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/offtextoptions\/vertexcolors"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/OFFTextOptions/vertexNormals": {
+  "abstract" : [
+    {
+      "text" : "Include per-vertex normals using the N header prefix.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "vertexNormals"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/OFFTextOptions\/vertexNormals",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "vertexNormals",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/offtextoptions\/vertexnormals"
+},
+"doc://com.charcoaldesign.Euclid/s16SendableMetatypeP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s16SendableMetatypeP",
+  "title" : "Swift.SendableMetatype",
+  "type" : "unresolvable"
+},
+"doc://com.charcoaldesign.Euclid/s8SendableP": {
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/s8SendableP",
+  "title" : "Swift.Sendable",
+  "type" : "unresolvable"
+}
+}
+}

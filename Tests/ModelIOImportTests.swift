@@ -17,6 +17,7 @@ import SceneKit
 #endif
 
 #if canImport(RealityKit)
+import Metal
 import RealityKit
 #endif
 
@@ -200,7 +201,8 @@ final class ModelIOImportTests: XCTestCase {
 
     @MainActor
     @available(tvOS 26.0, *)
-    func testRealityKitModelIOMaterial() {
+    func testRealityKitModelIOMaterial() throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         let source = MDLMaterial(Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.4))
         source.setProperty(MDLMaterialProperty(name: "roughness", semantic: .roughness, float: 0.3))
         source.setProperty(MDLMaterialProperty(name: "metallic", semantic: .metallic, float: 0.7))

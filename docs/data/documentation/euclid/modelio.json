@@ -1,0 +1,149 @@
+{
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:m:s:e:s:So11MDLMaterialC6EuclidE_4name12linearColorsAbC5ColorV_SSSbtcfc",
+    "modules" : [
+      {
+        "name" : "Euclid"
+      }
+    ],
+    "role" : "collection",
+    "roleHeading" : "Extended Module",
+    "symbolKind" : "extension",
+    "title" : "ModelIO"
+  },
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "anchor" : "Extended-Classes",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLMaterial"
+      ],
+      "title" : "Extended Classes"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/euclid\/modelio"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid": {
+  "abstract" : [
+    {
+      "text" : "Euclid is a library for creating and manipulating 3D geometry using techniques such as extruding or “lathing” 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Euclid",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ModelIO": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "ModelIO",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/modelio"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ModelIO/MDLAsset": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "c:objc(cs)MDLAsset",
+      "text" : "MDLAsset"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MDLAsset"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MDLAsset",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/modelio\/mdlasset"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ModelIO/MDLMaterial": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "c:objc(cs)MDLMaterial",
+      "text" : "MDLMaterial"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLMaterial",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MDLMaterial"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MDLMaterial",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/modelio\/mdlmaterial"
+}
+}
+}

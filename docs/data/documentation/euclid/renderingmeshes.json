@@ -579,6 +579,104 @@
         {
           "inlineContent" : [
             {
+              "text" : "OFF files preserve face RGB and alpha as polygon materials; COFF files also preserve per-vertex RGBA. ",
+              "type" : "text"
+            },
+            {
+              "code" : "Mesh(offString:)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " and ",
+              "type" : "text"
+            },
+            {
+              "code" : "Mesh(url:)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " read both variants. ",
+              "type" : "text"
+            },
+            {
+              "code" : "mesh.offString()",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " and ",
+              "type" : "text"
+            },
+            {
+              "code" : ".off",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " file exports always write an OFF header and omit vertex colors. Use ",
+              "type" : "text"
+            },
+            {
+              "code" : "mesh.coffString()",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " or the ",
+              "type" : "text"
+            },
+            {
+              "code" : ".coff",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " extension to preserve vertex RGBA with a COFF header. Both writers use floating-point RGBA for explicit colors. Import accepts either header with either extension. Material\/color lookup closures allow custom mapping of face colors. Colors use Euclid’s sRGB convention without gamma conversion; OFF does not declare a color space. External palette indices are ignored. Normals, UVs and texture images are not preserved.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "ASCII PLY files can be loaded with ",
+              "type" : "text"
+            },
+            {
+              "code" : "Mesh(plyString:)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " or ",
+              "type" : "text"
+            },
+            {
+              "code" : "Mesh(url:)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ". The native reader preserves vertex RGB and alpha, normals and UV coordinates. Byte colors are normalized to 0…1 and interpreted using Euclid’s sRGB convention; floating-point colors are preserved numerically. Binary PLY still requires a platform importer, whose supported attributes may differ. Use ",
+              "type" : "text"
+            },
+            {
+              "code" : "try mesh.plyString()",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " or ",
+              "type" : "text"
+            },
+            {
+              "code" : "mesh.write(to:)",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " to export ASCII PLY with sRGB vertex RGBA. A color lookup can supply material tint, which is multiplied with vertex RGB in linear light. Textures are not embedded.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
               "text" : "Euclid supports applying colors to a ",
               "type" : "text"
             },

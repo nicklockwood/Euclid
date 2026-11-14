@@ -1,0 +1,445 @@
+{
+  "abstract" : [
+    {
+      "text" : "A closure that maps a Euclid material to a Model I\/O material.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset\/MDLMaterialProvider"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "extendedModule" : "ModelIO",
+    "externalID" : "s:So8MDLAssetC6EuclidE19MDLMaterialProvidera",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "typealias"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "MDLMaterialProvider"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "Euclid",
+        "relatedModules" : [
+          "ModelIO"
+        ]
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "MDLMaterialProvider"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Type Alias",
+    "symbolKind" : "typealias",
+    "title" : "MDLAsset.MDLMaterialProvider"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "typealias"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "MDLMaterialProvider"
+            },
+            {
+              "kind" : "text",
+              "text" : " = ("
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "_"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "material"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid7PolygonV",
+              "text" : "Polygon"
+            },
+            {
+              "kind" : "text",
+              "text" : "."
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Material-swift.typealias",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:6Euclid7PolygonV8Materiala",
+              "text" : "Material"
+            },
+            {
+              "kind" : "text",
+              "text" : "?) "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "throws"
+            },
+            {
+              "kind" : "text",
+              "text" : " -> "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "c:objc(cs)MDLMaterial",
+              "text" : "MDLMaterial"
+            },
+            {
+              "kind" : "text",
+              "text" : "?"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "A polygon material, or ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "nil",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " for the default material.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "material"
+        }
+      ]
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "return-value",
+          "level" : 2,
+          "text" : "Return Value",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "The Model I\/O material, or ",
+              "type" : "text"
+            },
+            {
+              "code" : "nil",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " to use a default white material.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        }
+      ],
+      "kind" : "content"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/euclid\/modelio\/mdlasset\/mdlmaterialprovider"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid": {
+  "abstract" : [
+    {
+      "text" : "Euclid is a library for creating and manipulating 3D geometry using techniques such as extruding or “lathing” 2D paths to create solid 3D shapes, and CSG (Constructive Solid Geometry) to combine or subtract those shapes from one another.",
+      "type" : "text"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "Euclid",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ModelIO": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "ModelIO",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/modelio"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ModelIO/MDLAsset": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "c:objc(cs)MDLAsset",
+      "text" : "MDLAsset"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MDLAsset"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MDLAsset",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/modelio\/mdlasset"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/ModelIO/MDLAsset/MDLMaterialProvider": {
+  "abstract" : [
+    {
+      "text" : "A closure that maps a Euclid material to a Model I\/O material.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "MDLMaterialProvider"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/ModelIO\/MDLAsset\/MDLMaterialProvider",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MDLMaterialProvider"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "MDLAsset.MDLMaterialProvider",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/modelio\/mdlasset\/mdlmaterialprovider"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon": {
+  "abstract" : [
+    {
+      "text" : "A polygon in 3D space.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Polygon"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Polygon"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Polygon",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Polygon/Material-swift.typealias": {
+  "abstract" : [
+    {
+      "text" : "Material used by a given polygon.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "This can be any type that conforms to ",
+      "type" : "text"
+    },
+    {
+      "code" : "Hashable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", but encoding\/decoding is only supported",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "for the following types: ",
+      "type" : "text"
+    },
+    {
+      "code" : "Color",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", ",
+      "type" : "text"
+    },
+    {
+      "code" : "String",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", ",
+      "type" : "text"
+    },
+    {
+      "code" : "Int",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ", ",
+      "type" : "text"
+    },
+    {
+      "code" : "Data",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " or any ",
+      "type" : "text"
+    },
+    {
+      "code" : "NSSecureCodable",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " type.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "Material"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Polygon\/Material-swift.typealias",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "Material"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Polygon.Material",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/polygon\/material-swift.typealias"
+}
+}
+}

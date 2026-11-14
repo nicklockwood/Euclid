@@ -1,5 +1,20 @@
 # Change Log
 
+## [0.10.6](https://github.com/nicklockwood/Euclid/releases/tag/0.10.6) (2026-11-14)
+
+- Reduced allocations in vector arithmetic, bounds calculations and native ASCII mesh imports
+- Reduced RealityKit vertex buffers and skipped unused tangent generation for untextured meshes
+- Fixed native file export builds with WASI SDKs that do not support atomic writes
+- Added native ASCII PLY import/export with vertex colors, material tint, normals and texture coordinates
+- Added OFF normal, texture-coordinate and face-color support, plus COFF vertex-color import/export
+- Added cancellation callbacks for mesh file import/export and platform conversion APIs
+- Added Model I/O mesh import and fallback loading, preserving vertex attributes, materials and transforms
+- Fixed OBJ material colors, opacity and diffuse textures in SceneKit exports
+- Fixed OBJ dissolve-map and opacity handling in SceneKit and Model I/O imports
+- Fixed USD texture assets and material assignments, and USDZ material colors and opacity
+- Added a vertex color-space option for SceneKit mesh imports
+- Fixed sRGB vertex colors in OBJ and binary PLY platform imports
+
 ## [0.10.5](https://github.com/nicklockwood/Euclid/releases/tag/0.10.5) (2026-11-07)
 
 - Fixed texture seams on convex hulls of smooth meshes

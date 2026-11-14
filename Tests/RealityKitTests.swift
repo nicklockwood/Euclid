@@ -30,6 +30,7 @@ final class RealityKitTests: XCTestCase {
 
     @MainActor
     func testUniformVertexColorsTintBuiltInMaterials() throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         let color = Color(red: 0.25, green: 0.5, blue: 0.75, alpha: 0.5)
         let mesh = Mesh.cube().mapVertexColors { _ in color }
         let lookups: [ModelEntity.MaterialProvider] = [
@@ -79,6 +80,7 @@ final class RealityKitTests: XCTestCase {
 
     @MainActor
     func testVertexTintMultiplicationUsesLinearLight() throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         let color = Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.5)
         let mesh = Mesh.cube().mapVertexColors { _ in color }
         let entity = try ModelEntity(triangles: mesh) { _ in
@@ -92,6 +94,7 @@ final class RealityKitTests: XCTestCase {
 
     @MainActor
     func testVertexColorFallbackRequiresUniformColorPerMaterial() throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         let red = Mesh.cube(material: "red").mapVertexColors { _ in .red }
         let blue = Mesh.cube(material: "blue").mapVertexColors { _ in .blue }
         let mesh = Mesh.merge([red, blue])
@@ -167,6 +170,7 @@ final class RealityKitTests: XCTestCase {
     @available(visionOS 2.0, *)
     @MainActor
     func testDefaultAsyncConversionPreservesImportedRealityKitMaterials() async throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         let original = try await ModelEntity(Mesh.cube()) { _ in SimpleMaterial(color: .white, isMetallic: true) }
         let imported = await Mesh(original)
         let gradient = Mesh.merge([
@@ -457,6 +461,7 @@ final class RealityKitTests: XCTestCase {
     @available(visionOS 2.0, *)
     @MainActor
     func testLowLevelMeshTangentFramesHandleMirroredAndDegenerateUVs() throws {
+        try XCTSkipIf(MTLCreateSystemDefaultDevice() == nil, "RealityKit requires a Metal device")
         for scale in [1.0, -1.0, 0.0] {
             let polygon = try XCTUnwrap(Polygon([
                 Vertex(.zero, normal: .unitZ, texcoord: [0.5, 0.5]),

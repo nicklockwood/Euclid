@@ -37,7 +37,8 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNGeometry",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNNode"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNNode",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNSceneSource"
       ],
       "title" : "Extended Classes"
     },
@@ -153,6 +154,38 @@
   "title" : "SCNNode",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/scenekit\/scnnode"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/SceneKit/SCNSceneSource": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "extension"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "preciseIdentifier" : "c:objc(cs)SCNSceneSource",
+      "text" : "SCNSceneSource"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNSceneSource",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "SCNSceneSource"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "SCNSceneSource",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/scenekit\/scnscenesource"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/SceneKit/SCNVector3": {
   "abstract" : [

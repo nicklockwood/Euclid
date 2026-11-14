@@ -394,11 +394,6 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:materiallookup:)",
-                "title" : "init(SCNNode, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider?)",
-                "type" : "init"
-              },
-              {
                 "title" : "Importing Meshes",
                 "type" : "groupMarker"
               },
@@ -433,11 +428,6 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(offstring:options:)",
-                "title" : "init?(offString: String, options: ImportOptions)",
-                "type" : "init"
-              },
-              {
                 "path" : "\/documentation\/euclid\/mesh\/init(stlstring:options:)",
                 "title" : "init?(stlString: String, options: ImportOptions)",
                 "type" : "init"
@@ -445,16 +435,6 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/init(stldata:options:materiallookup:)",
                 "title" : "init?(stlData: Data, options: ImportOptions, materialLookup: STLMaterialProvider?)",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/init(url:options:materiallookup:)",
-                "title" : "init(url: URL, options: ImportOptions, materialLookup: (@Sendable (AnyHashable?) -> Material?)?) throws",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:materiallookup:)",
-                "title" : "init(SCNNode, ignoringTransforms: Bool, materialLookup: SCNMaterialProvider?)",
                 "type" : "init"
               },
               {
@@ -474,11 +454,6 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/stldata(colorlookup:)",
                 "title" : "func stlData(colorLookup: STLColorProvider?) -> Data",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/write(to:materiallookup:)",
-                "title" : "func write(to: URL, materialLookup: (@Sendable (Material?) -> AnyHashable?)?) throws",
                 "type" : "method"
               },
               {
@@ -764,6 +739,36 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:iscancelled:materiallookup:)-7t1tc",
+                "title" : "init(MDLObject, ignoringTransforms: Bool, linearColors: Bool, isCancelled: CancellationHandler, materialLookup: MDLMaterialProvider?) throws",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:iscancelled:materiallookup:)-8qr0l",
+                "title" : "init(MDLAsset, ignoringTransforms: Bool, linearColors: Bool, isCancelled: CancellationHandler, materialLookup: MDLMaterialProvider?) throws",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:materiallookup:)",
+                "title" : "init(SCNNode, ignoringTransforms: Bool, linearColors: Bool, materialLookup: SCNMaterialProvider?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:materiallookup:iscancelled:)",
+                "title" : "init(SCNNode, ignoringTransforms: Bool, linearColors: Bool, materialLookup: SCNMaterialProvider?, isCancelled: CancellationHandler) throws",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:linearcolors:materiallookup:)",
+                "title" : "init?(SCNGeometry, linearColors: Bool, materialLookup: SCNMaterialProvider?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:linearcolors:materiallookup:iscancelled:)",
+                "title" : "init(SCNGeometry, linearColors: Bool, materialLookup: SCNMaterialProvider?, isCancelled: CancellationHandler) throws",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-2do3c",
                 "title" : "init(ModelEntity, materialLookup: RealityKitMaterialProvider?)",
                 "type" : "init"
@@ -774,11 +779,6 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-7p5hd",
-                "title" : "init?(SCNGeometry, materialLookup: SCNMaterialProvider?)",
-                "type" : "init"
-              },
-              {
                 "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-ea6f",
                 "title" : "init(ModelComponent, materialLookup: RealityKitMaterialProvider?)",
                 "type" : "init"
@@ -786,11 +786,6 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-vea7",
                 "title" : "init(ModelComponent, materialLookup: RealityKitMaterialProvider?) async",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:iscancelled:)",
-                "title" : "init(SCNGeometry, materialLookup: SCNMaterialProvider?, isCancelled: CancellationHandler) throws",
                 "type" : "init"
               },
               {
@@ -811,6 +806,46 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/init(_:materials:)-74smy",
                 "title" : "init(MeshResource, materials: [Polygon.Material?]) async",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(objstring:options:iscancelled:)",
+                "title" : "init?(objString: String, options: ImportOptions, isCancelled: CancellationHandler) throws",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(offstring:options:materiallookup:)",
+                "title" : "init?(offString: String, options: ImportOptions, materialLookup: (@Sendable (Color?) -> Material?)?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(offstring:options:materiallookup:iscancelled:)",
+                "title" : "init?(offString: String, options: ImportOptions, materialLookup: (@Sendable (Color?) -> Material?)?, isCancelled: CancellationHandler) throws",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(plystring:options:)",
+                "title" : "init?(plyString: String, options: ImportOptions)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(plystring:options:iscancelled:)",
+                "title" : "init?(plyString: String, options: ImportOptions, isCancelled: CancellationHandler) throws",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(stldata:options:materiallookup:iscancelled:)",
+                "title" : "init?(stlData: Data, options: ImportOptions, materialLookup: STLMaterialProvider?, isCancelled: CancellationHandler) throws",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(stlstring:options:iscancelled:)",
+                "title" : "init?(stlString: String, options: ImportOptions, isCancelled: CancellationHandler) throws",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(url:options:iscancelled:materiallookup:)",
+                "title" : "init(url: URL, options: ImportOptions, isCancelled: CancellationHandler, materialLookup: (@Sendable (AnyHashable?) -> Material?)?) throws",
                 "type" : "init"
               },
               {
@@ -854,6 +889,16 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/clipped(to:iscancelled:)",
                 "title" : "func clipped(to: Mesh, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/coffstring(colorlookup:)",
+                "title" : "func coffString(colorLookup: (@Sendable (Material?) -> Color?)?) -> String",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/coffstring(colorlookup:iscancelled:)",
+                "title" : "func coffString(colorLookup: (@Sendable (Material?) -> Color?)?, isCancelled: CancellationHandler) throws -> String",
                 "type" : "method"
               },
               {
@@ -922,8 +967,38 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/offstring()",
-                "title" : "func offString() -> String",
+                "path" : "\/documentation\/euclid\/mesh\/objstring(iscancelled:)",
+                "title" : "func objString(isCancelled: CancellationHandler) throws -> String",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/offstring(colorlookup:)",
+                "title" : "func offString(colorLookup: (@Sendable (Material?) -> Color?)?) -> String",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/offstring(colorlookup:iscancelled:)",
+                "title" : "func offString(colorLookup: (@Sendable (Material?) -> Color?)?, isCancelled: CancellationHandler) throws -> String",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/offstring(options:)",
+                "title" : "func offString(options: OFFTextOptions) -> String",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/offstring(options:iscancelled:)",
+                "title" : "func offString(options: OFFTextOptions, isCancelled: CancellationHandler) throws -> String",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/plystring(colorlookup:)",
+                "title" : "func plyString(colorLookup: (@Sendable (Material?) -> Color?)?) -> String",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/plystring(colorlookup:iscancelled:)",
+                "title" : "func plyString(colorLookup: (@Sendable (Material?) -> Color?)?, isCancelled: CancellationHandler) throws -> String",
                 "type" : "method"
               },
               {
@@ -932,8 +1007,18 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/stldata(colorlookup:iscancelled:)",
+                "title" : "func stlData(colorLookup: STLColorProvider?, isCancelled: CancellationHandler) throws -> Data",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/stldata(format:)",
                 "title" : "func stlData(format: STLFormat) -> Data",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/stldata(format:iscancelled:)",
+                "title" : "func stlData(format: STLFormat, isCancelled: CancellationHandler) throws -> Data",
                 "type" : "method"
               },
               {
@@ -942,8 +1027,23 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/stldata(options:iscancelled:)",
+                "title" : "func stlData(options: STLBinaryOptions, isCancelled: CancellationHandler) throws -> Data",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/stlstring(name:iscancelled:)",
+                "title" : "func stlString(name: String, isCancelled: CancellationHandler) throws -> String",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/stlstring(options:)",
                 "title" : "func stlString(options: STLTextOptions) -> String",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/stlstring(options:iscancelled:)",
+                "title" : "func stlString(options: STLTextOptions, isCancelled: CancellationHandler) throws -> String",
                 "type" : "method"
               },
               {
@@ -957,12 +1057,22 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/write(to:iscancelled:materiallookup:)",
+                "title" : "func write(to: URL, isCancelled: CancellationHandler, materialLookup: (@Sendable (Material?) -> AnyHashable?)?) throws",
+                "type" : "method"
+              },
+              {
                 "title" : "Type Aliases",
                 "type" : "groupMarker"
               },
               {
                 "path" : "\/documentation\/euclid\/mesh\/alignment",
                 "title" : "Mesh.Alignment",
+                "type" : "typealias"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/mdlmaterialprovider",
+                "title" : "Mesh.MDLMaterialProvider",
                 "type" : "typealias"
               },
               {
@@ -6939,6 +7049,16 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/color\/init(_:)-2sz8c",
+                "title" : "init(SIMD4<some BinaryFloatingPoint>)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/init(_:)-6oyrw",
+                "title" : "init(SIMD3<some BinaryFloatingPoint>)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/color\/init(_:colorspace:)-44aok",
                 "title" : "init(CGColor, colorSpace: CGColorSpace?)",
                 "type" : "init"
@@ -6946,6 +7066,11 @@
               {
                 "path" : "\/documentation\/euclid\/color\/init(_:colorspace:)-5a7rg",
                 "title" : "init(NSColor, colorSpace: CGColorSpace?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/color\/init(_:linearcolors:)",
+                "title" : "init?(MDLMaterialProperty, linearColors: Bool?)",
                 "type" : "init"
               },
               {
@@ -7624,6 +7749,46 @@
                 "type" : "groupMarker"
               },
               {
+                "path" : "\/documentation\/euclid\/offtextoptions\/init(vertexnormals:vertexcolors:texturecoordinates:colorlookup:)",
+                "title" : "init(vertexNormals: Bool, vertexColors: Bool, textureCoordinates: Bool, colorLookup: (@Sendable (Mesh.Material?) -> Color?)?)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/euclid\/offtextoptions\/colorlookup",
+                "title" : "var colorLookup: @Sendable (Mesh.Material?) -> Color?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/offtextoptions\/texturecoordinates",
+                "title" : "var textureCoordinates: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/offtextoptions\/vertexcolors",
+                "title" : "var vertexColors: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/offtextoptions\/vertexnormals",
+                "title" : "var vertexNormals: Bool",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/offtextoptions",
+            "title" : "OFFTextOptions",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
                 "path" : "\/documentation\/euclid\/stlbinaryoptions\/init(header:zeronormals:colorlookup:)",
                 "title" : "init(header: Data, zeroNormals: Bool, colorLookup: Mesh.STLColorProvider?)",
                 "type" : "init"
@@ -7970,6 +8135,63 @@
           {
             "children" : [
               {
+                "title" : "Extended Classes",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/modelio\/mdlasset\/init(_:linearcolors:iscancelled:materiallookup:)",
+                    "title" : "init(Mesh, linearColors: Bool, isCancelled: CancellationHandler, materialLookup: MDLMaterialProvider?) throws",
+                    "type" : "init"
+                  },
+                  {
+                    "title" : "Type Aliases",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/modelio\/mdlasset\/mdlmaterialprovider",
+                    "title" : "MDLAsset.MDLMaterialProvider",
+                    "type" : "typealias"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/modelio\/mdlasset",
+                "title" : "MDLAsset",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/modelio\/mdlmaterial\/init(_:name:)",
+                    "title" : "init(CGImage, name: String) throws",
+                    "type" : "init"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/modelio\/mdlmaterial\/init(_:name:linearcolors:)",
+                    "title" : "init(Color, name: String, linearColors: Bool)",
+                    "type" : "init"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/modelio\/mdlmaterial",
+                "title" : "MDLMaterial",
+                "type" : "extension"
+              }
+            ],
+            "path" : "\/documentation\/euclid\/modelio",
+            "title" : "ModelIO",
+            "type" : "extension"
+          },
+          {
+            "children" : [
+              {
                 "title" : "Extended Structures",
                 "type" : "groupMarker"
               },
@@ -8134,6 +8356,22 @@
                     "type" : "groupMarker"
                   },
                   {
+                    "path" : "\/documentation\/euclid\/realityfoundation\/physicallybasedmaterial\/init(_:)",
+                    "title" : "init(MDLMaterial)",
+                    "type" : "init"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/realityfoundation\/physicallybasedmaterial",
+                "title" : "PhysicallyBasedMaterial",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
                     "path" : "\/documentation\/euclid\/realityfoundation\/transform\/init(_:)",
                     "title" : "init(Euclid.Transform)",
                     "type" : "init"
@@ -8191,8 +8429,18 @@
                     "type" : "init"
                   },
                   {
+                    "path" : "\/documentation\/euclid\/scenekit\/scngeometry\/init(polygons:materiallookup:iscancelled:)",
+                    "title" : "init(polygons: Mesh, materialLookup: SCNMaterialProvider?, isCancelled: CancellationHandler) throws",
+                    "type" : "init"
+                  },
+                  {
                     "path" : "\/documentation\/euclid\/scenekit\/scngeometry\/init(triangles:materiallookup:)",
                     "title" : "init(triangles: Mesh, materialLookup: SCNMaterialProvider?)",
+                    "type" : "init"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/scenekit\/scngeometry\/init(triangles:materiallookup:iscancelled:)",
+                    "title" : "init(triangles: Mesh, materialLookup: SCNMaterialProvider?, isCancelled: CancellationHandler) throws",
                     "type" : "init"
                   },
                   {
@@ -8228,6 +8476,22 @@
                 ],
                 "path" : "\/documentation\/euclid\/scenekit\/scnnode",
                 "title" : "SCNNode",
+                "type" : "extension"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/scenekit\/scnscenesource\/scene(options:iscancelled:)",
+                    "title" : "func scene(options: [SCNSceneSource.LoadingOption : Any]?, isCancelled: CancellationHandler) throws -> SCNScene",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/scenekit\/scnscenesource",
+                "title" : "SCNSceneSource",
                 "type" : "extension"
               },
               {

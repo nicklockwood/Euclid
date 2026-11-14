@@ -261,8 +261,7 @@
     {
       "anchor" : "Creating-Meshes-from-SceneKit-Models",
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:material:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:materialLookup:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:material:)"
       ],
       "title" : "Creating Meshes from SceneKit Models"
     },
@@ -271,11 +270,8 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/ImportOptions",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(objString:options:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(offString:options:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlString:options:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlData:options:materialLookup:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:options:materialLookup:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:materialLookup:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlData:options:materialLookup:)"
       ],
       "title" : "Importing Meshes"
     },
@@ -284,8 +280,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/objString()",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlString(name:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(colorLookup:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/write(to:materialLookup:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(colorLookup:)"
       ],
       "title" : "Exporting Meshes"
     },
@@ -380,16 +375,28 @@
       "anchor" : "Initializers",
       "generated" : true,
       "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:linearColors:isCancelled:materialLookup:)-7t1tc",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:linearColors:isCancelled:materialLookup:)-8qr0l",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:linearColors:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:linearColors:materialLookup:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:linearColors:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:linearColors:materialLookup:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-2do3c",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-4105n",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-7p5hd",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-ea6f",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-vea7",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-22brv",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-2xnt3",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-4k8gs",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-74smy"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materials:)-74smy",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(objString:options:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(offString:options:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(offString:options:materialLookup:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(plyString:options:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(plyString:options:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlData:options:materialLookup:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlString:options:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:options:isCancelled:materialLookup:)"
       ],
       "title" : "Initializers"
     },
@@ -411,6 +418,8 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/clipped(to:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/coffString(colorLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/coffString(colorLookup:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/convexHull(with:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/edges(intersecting:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/flatteningNormals()",
@@ -424,13 +433,25 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-6ti0g",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/minkowskiSum(with:isCancelled:)-776gt",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/nearestPoint(to:isCancelled:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString()",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/objString(isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString(colorLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString(colorLookup:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString(options:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString(options:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/plyString(colorLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/plyString(colorLookup:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/reflected(along:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(colorLookup:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(format:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(format:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(options:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(options:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlString(name:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlString(options:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlString(options:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/subdivide()",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withoutVertexColors()"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/withoutVertexColors()",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/write(to:isCancelled:materialLookup:)"
       ],
       "title" : "Instance Methods"
     },
@@ -439,6 +460,7 @@
       "generated" : true,
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Alignment",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/MDLMaterialProvider",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/Material",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/RealityKitMaterialProvider",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/SCNMaterialProvider",
@@ -872,6 +894,40 @@
   "title" : "LineComparable Implementations",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/linecomparable-implementations"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/MDLMaterialProvider": {
+  "abstract" : [
+    {
+      "text" : "A closure that maps a Model I\/O material to a Euclid material.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "typealias"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "MDLMaterialProvider"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/MDLMaterialProvider",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "MDLMaterialProvider"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "Mesh.MDLMaterialProvider",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/mdlmaterialprovider"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/Material": {
   "abstract" : [
@@ -1322,6 +1378,197 @@
   "title" : "clipped(to:isCancelled:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/clipped(to:iscancelled:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/coffString(colorLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Returns COFF text with vertex RGBA and optional material-to-face-color mapping.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "coffString"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "attribute",
+      "text" : "@Sendable"
+    },
+    {
+      "kind" : "text",
+      "text" : " ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/coffString(colorLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "coffString(colorLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/coffstring(colorlookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/coffString(colorLookup:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns COFF text with vertex RGBA, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when cancelled.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Colors use the same convention and clamping as ",
+      "type" : "text"
+    },
+    {
+      "code" : "offString()",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "coffString"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "attribute",
+      "text" : "@Sendable"
+    },
+    {
+      "kind" : "text",
+      "text" : " ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/coffString(colorLookup:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "coffString(colorLookup:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/coffstring(colorlookup:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/cone(radius:height:slices:stacks:poleDetail:addDetailAtBottomPole:faces:wrapMode:material:isCancelled:)": {
   "abstract" : [
@@ -4675,7 +4922,225 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(_:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:ignoringTransforms:materialLookup:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:ignoringTransforms:linearColors:isCancelled:materialLookup:)-7t1tc": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from a Model I\/O object and its descendants, including ",
+      "type" : "text"
+    },
+    {
+      "code" : "MDLMesh",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " objects.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)MDLObject",
+      "text" : "MDLObject"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "ignoringTransforms"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "linearColors"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19MDLMaterialProvidera",
+      "text" : "MDLMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:linearColors:isCancelled:materialLookup:)-7t1tc",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:ignoringTransforms:linearColors:isCancelled:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:iscancelled:materiallookup:)-7t1tc"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:ignoringTransforms:linearColors:isCancelled:materialLookup:)-8qr0l": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from the objects in a Model I\/O asset.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)MDLAsset",
+      "text" : "MDLAsset"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "ignoringTransforms"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "linearColors"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19MDLMaterialProvidera",
+      "text" : "MDLMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:linearColors:isCancelled:materialLookup:)-8qr0l",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:ignoringTransforms:linearColors:isCancelled:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:iscancelled:materiallookup:)-8qr0l"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:ignoringTransforms:linearColors:materialLookup:)": {
   "abstract" : [
     {
       "text" : "Creates a mesh from a SceneKit node, with optional material mapping.",
@@ -4719,6 +5184,23 @@
     },
     {
       "kind" : "externalParam",
+      "text" : "linearColors"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
       "text" : "materialLookup"
     },
     {
@@ -4735,12 +5217,280 @@
       "text" : "?)"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:materialLookup:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:linearColors:materialLookup:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(_:ignoringTransforms:materialLookup:)",
+  "title" : "init(_:ignoringTransforms:linearColors:materialLookup:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:materiallookup:)"
+  "url" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:ignoringTransforms:linearColors:materialLookup:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from a node, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when cancelled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)SCNNode",
+      "text" : "SCNNode"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "ignoringTransforms"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "linearColors"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:ignoringTransforms:linearColors:materialLookup:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:ignoringTransforms:linearColors:materialLookup:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:materiallookup:iscancelled:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:linearColors:materialLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from a SceneKit geometry, with optional material mapping.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)SCNGeometry",
+      "text" : "SCNGeometry"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "linearColors"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:linearColors:materialLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:linearColors:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:linearcolors:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:linearColors:materialLookup:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from a SceneKit geometry, with optional material mapping.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)SCNGeometry",
+      "text" : "SCNGeometry"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "linearColors"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:linearColors:materialLookup:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:linearColors:materialLookup:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:linearcolors:materiallookup:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:material:)": {
   "abstract" : [
@@ -4912,56 +5662,6 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-4105n"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-7p5hd": {
-  "abstract" : [
-    {
-      "text" : "Creates a mesh from a SceneKit geometry, with optional material mapping.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "?("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)SCNGeometry",
-      "text" : "SCNGeometry"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "materialLookup"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
-      "text" : "SCNMaterialProvider"
-    },
-    {
-      "kind" : "text",
-      "text" : "?)"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:)-7p5hd",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:materialLookup:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-7p5hd"
-},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:)-ea6f": {
   "abstract" : [
     {
@@ -5081,77 +5781,6 @@
   "title" : "init(_:materialLookup:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:)-vea7"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materialLookup:isCancelled:)": {
-  "abstract" : [
-    {
-      "text" : "Creates a mesh from a SceneKit geometry, with optional material mapping.",
-      "type" : "text"
-    }
-  ],
-  "fragments" : [
-    {
-      "kind" : "identifier",
-      "text" : "init"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)SCNGeometry",
-      "text" : "SCNGeometry"
-    },
-    {
-      "kind" : "text",
-      "text" : ", "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "materialLookup"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19SCNMaterialProvidera",
-      "text" : "SCNMaterialProvider"
-    },
-    {
-      "kind" : "text",
-      "text" : "?, "
-    },
-    {
-      "kind" : "externalParam",
-      "text" : "isCancelled"
-    },
-    {
-      "kind" : "text",
-      "text" : ": "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "throws"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:materialLookup:isCancelled:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "init(_:materialLookup:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/init(_:materiallookup:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:materials:)-22brv": {
   "abstract" : [
@@ -5492,7 +6121,102 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(objstring:options:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(offString:options:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(objString:options:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from OBJ text, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " if the callback returns ",
+      "type" : "text"
+    },
+    {
+      "code" : "true",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "objString"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV13ImportOptionsV",
+      "text" : "ImportOptions"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(objString:options:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(objString:options:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(objstring:options:iscancelled:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(offString:options:materialLookup:)": {
   "abstract" : [
     {
       "text" : "Create a mesh from an Object File Format string.",
@@ -5540,15 +6264,331 @@
     },
     {
       "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "attribute",
+      "text" : "@Sendable"
+    },
+    {
+      "kind" : "text",
+      "text" : " ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(offString:options:materialLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(offString:options:materialLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(offstring:options:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(offString:options:materialLookup:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from OFF text, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " if the callback returns ",
+      "type" : "text"
+    },
+    {
+      "code" : "true",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "offString"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV13ImportOptionsV",
+      "text" : "ImportOptions"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "attribute",
+      "text" : "@Sendable"
+    },
+    {
+      "kind" : "text",
+      "text" : " ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(offString:options:materialLookup:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(offString:options:materialLookup:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(offstring:options:materiallookup:iscancelled:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(plyString:options:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from an ASCII PLY string.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "plyString"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV13ImportOptionsV",
+      "text" : "ImportOptions"
+    },
+    {
+      "kind" : "text",
       "text" : ")"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(offString:options:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(plyString:options:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(offString:options:)",
+  "title" : "init(plyString:options:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/init(offstring:options:)"
+  "url" : "\/documentation\/euclid\/mesh\/init(plystring:options:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(plyString:options:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from PLY text, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " if the callback returns ",
+      "type" : "text"
+    },
+    {
+      "code" : "true",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "plyString"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV13ImportOptionsV",
+      "text" : "ImportOptions"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(plyString:options:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(plyString:options:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(plystring:options:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlData:options:materialLookup:)": {
   "abstract" : [
@@ -5625,6 +6665,110 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(stldata:options:materiallookup:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlData:options:materialLookup:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from STL data, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when cancelled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "stlData"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation4DataV",
+      "text" : "Data"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV13ImportOptionsV",
+      "text" : "ImportOptions"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19STLMaterialProvidera",
+      "text" : "STLMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlData:options:materialLookup:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(stlData:options:materialLookup:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(stldata:options:materiallookup:iscancelled:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlString:options:)": {
   "abstract" : [
     {
@@ -5683,6 +6827,101 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(stlstring:options:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(stlString:options:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from STL text, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " if the callback returns ",
+      "type" : "text"
+    },
+    {
+      "code" : "true",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "stlString"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV13ImportOptionsV",
+      "text" : "ImportOptions"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(stlString:options:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(stlString:options:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(stlstring:options:iscancelled:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(submeshes:)": {
   "abstract" : [
     {
@@ -5724,7 +6963,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(submeshes:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(url:options:materialLookup:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(url:options:isCancelled:materialLookup:)": {
   "abstract" : [
     {
       "text" : "Loads a mesh from a file, with optional material mapping.",
@@ -5776,6 +7015,23 @@
     },
     {
       "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
       "text" : "materialLookup"
     },
     {
@@ -5813,12 +7069,12 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:options:materialLookup:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(url:options:isCancelled:materialLookup:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(url:options:materialLookup:)",
+  "title" : "init(url:options:isCancelled:materialLookup:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/init(url:options:materiallookup:)"
+  "url" : "\/documentation\/euclid\/mesh\/init(url:options:iscancelled:materiallookup:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/inset(by:isCancelled:)": {
   "abstract" : [
@@ -7773,10 +9029,88 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/objstring()"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/offString()": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/objString(isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Return Object File Format string data for the mesh.",
+      "text" : "Returns OBJ text, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when cancelled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "objString"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/objString(isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "objString(isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/objstring(iscancelled:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/offString(colorLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Returns OFF text with face colors. Vertex colors are omitted; use ",
+      "type" : "text"
+    },
+    {
+      "code" : "coffString()",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " to preserve them.",
       "type" : "text"
     }
   ],
@@ -7795,7 +9129,41 @@
     },
     {
       "kind" : "text",
-      "text" : "() -> "
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "attribute",
+      "text" : "@Sendable"
+    },
+    {
+      "kind" : "text",
+      "text" : " ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)?) -> "
     },
     {
       "kind" : "typeIdentifier",
@@ -7803,12 +9171,432 @@
       "text" : "String"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString()",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString(colorLookup:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "offString()",
+  "title" : "offString(colorLookup:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/offstring()"
+  "url" : "\/documentation\/euclid\/mesh\/offstring(colorlookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/offString(colorLookup:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns OFF text with optional face-color mapping and cancellation. Vertex colors are omitted.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "offString"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "attribute",
+      "text" : "@Sendable"
+    },
+    {
+      "kind" : "text",
+      "text" : " ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString(colorLookup:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "offString(colorLookup:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/offstring(colorlookup:iscancelled:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/offString(options:)": {
+  "abstract" : [
+    {
+      "text" : "Returns OFF text with explicitly selected vertex attributes.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "The header reflects the selected attributes, for example NOFF or STCNOFF.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "offString"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid14OFFTextOptionsV",
+      "text" : "OFFTextOptions"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString(options:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "offString(options:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/offstring(options:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/offString(options:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns OFF text with explicitly selected vertex attributes and cancellation.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Colors follow the same convention as ",
+      "type" : "text"
+    },
+    {
+      "code" : "offString()",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ". Texture images are not exported.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "offString"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid14OFFTextOptionsV",
+      "text" : "OFFTextOptions"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/offString(options:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "offString(options:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/offstring(options:iscancelled:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/plyString(colorLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Returns an ASCII PLY 1.0 representation of the mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "plyString"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "attribute",
+      "text" : "@Sendable"
+    },
+    {
+      "kind" : "text",
+      "text" : " ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/plyString(colorLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "plyString(colorLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/plystring(colorlookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/plyString(colorLookup:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns an ASCII PLY 1.0 representation of the mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "plyString"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": ("
+    },
+    {
+      "kind" : "attribute",
+      "text" : "@Sendable"
+    },
+    {
+      "kind" : "text",
+      "text" : " ("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5ColorV",
+      "text" : "Color"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/plyString(colorLookup:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "plyString(colorLookup:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/plystring(colorlookup:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/polygons": {
   "abstract" : [
@@ -8785,6 +10573,93 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/stldata(colorlookup:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stlData(colorLookup:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns binary STL data, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when cancelled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "stlData"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV16STLColorProvidera",
+      "text" : "STLColorProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation4DataV",
+      "text" : "Data"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(colorLookup:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "stlData(colorLookup:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/stldata(colorlookup:iscancelled:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stlData(format:)": {
   "abstract" : [
     {
@@ -8838,6 +10713,93 @@
   "title" : "stlData(format:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/stldata(format:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stlData(format:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns STL data in the selected format, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when cancelled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "stlData"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "format"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid9STLFormatO",
+      "text" : "STLFormat"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation4DataV",
+      "text" : "Data"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(format:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "stlData(format:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/stldata(format:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stlData(options:)": {
   "abstract" : [
@@ -8893,6 +10855,93 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/stldata(options:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stlData(options:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns binary STL data, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when cancelled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "stlData"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid16STLBinaryOptionsV",
+      "text" : "STLBinaryOptions"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation4DataV",
+      "text" : "Data"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(options:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "stlData(options:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/stldata(options:iscancelled:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stlString(name:)": {
   "abstract" : [
     {
@@ -8947,6 +10996,93 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/stlstring(name:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stlString(name:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns ASCII STL data, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when cancelled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "stlString"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "name"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlString(name:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "stlString(name:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/stlstring(name:iscancelled:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stlString(options:)": {
   "abstract" : [
     {
@@ -9000,6 +11136,93 @@
   "title" : "stlString(options:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/stlstring(options:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stlString(options:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Returns ASCII STL data, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when cancelled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "stlString"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "options"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid14STLTextOptionsV",
+      "text" : "STLTextOptions"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    },
+    {
+      "kind" : "text",
+      "text" : " -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlString(options:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "stlString(options:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/stlstring(options:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stroke(_:width:detail:material:isCancelled:)": {
   "abstract" : [
@@ -10750,7 +12973,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/withoutvertexcolors()"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/write(to:materialLookup:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/write(to:isCancelled:materialLookup:)": {
   "abstract" : [
     {
       "text" : "Saves a mesh to a file, with optional material mapping.",
@@ -10786,6 +13009,23 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:10Foundation3URLV",
       "text" : "URL"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV19CancellationHandlera",
+      "text" : "CancellationHandler"
     },
     {
       "kind" : "text",
@@ -10830,12 +13070,12 @@
       "text" : "throws"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/write(to:materialLookup:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/write(to:isCancelled:materialLookup:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "write(to:materialLookup:)",
+  "title" : "write(to:isCancelled:materialLookup:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/write(to:materiallookup:)"
+  "url" : "\/documentation\/euclid\/mesh\/write(to:iscancelled:materiallookup:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PlaneComparable": {
   "abstract" : [

@@ -98,7 +98,9 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNGeometry\/init(_:materialLookup:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNGeometry\/init(normals:scale:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNGeometry\/init(polygons:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNGeometry\/init(polygons:materialLookup:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNGeometry\/init(triangles:materialLookup:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNGeometry\/init(triangles:materialLookup:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNGeometry\/init(wireframe:)"
       ],
       "title" : "Initializers"
@@ -551,6 +553,93 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/scenekit\/scngeometry\/init(polygons:materiallookup:)"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/SceneKit/SCNGeometry/init(polygons:materialLookup:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Creates geometry, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when cancelled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "polygons"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:So11SCNGeometryC6EuclidE19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNGeometry\/init(polygons:materialLookup:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(polygons:materialLookup:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/scenekit\/scngeometry\/init(polygons:materiallookup:iscancelled:)"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/SceneKit/SCNGeometry/init(triangles:materialLookup:)": {
   "abstract" : [
     {
@@ -617,6 +706,93 @@
   "title" : "init(triangles:materialLookup:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/scenekit\/scngeometry\/init(triangles:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/SceneKit/SCNGeometry/init(triangles:materialLookup:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Creates geometry, throwing ",
+      "type" : "text"
+    },
+    {
+      "code" : "CancellationError",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " when cancelled.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "triangles"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV",
+      "text" : "Mesh"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "materialLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:So11SCNGeometryC6EuclidE19SCNMaterialProvidera",
+      "text" : "SCNMaterialProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/SceneKit\/SCNGeometry\/init(triangles:materialLookup:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(triangles:materialLookup:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/scenekit\/scngeometry\/init(triangles:materiallookup:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/SceneKit/SCNGeometry/init(wireframe:)": {
   "abstract" : [
