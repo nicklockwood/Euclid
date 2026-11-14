@@ -66,7 +66,8 @@ These tests compare numeric values, geometry and material assignments instead of
 | Native OBJ | Stored vertex RGB and round trip. This writer does not emit vertex alpha or material libraries |
 | Platform OBJ | Material RGB/opacity and assignment, vertex RGB round trip, texture pixels, alpha and Model I/O texture connections. Independent OBJ/MTL input through both platform loaders |
 | Binary STL | Stored facet RGB and round trip with 5-bit tolerance. No alpha or vertex colors |
-| ASCII STL, OFF | Geometry round trip. Euclid's writers do not preserve appearance in these formats |
+| OFF/COFF | Face and vertex RGBA, integer/float face colors, vertex-color seams and material mapping |
+| ASCII STL | Geometry round trip. This format does not preserve appearance |
 | SCN, SCNZ | Material and vertex RGBA round trips, combined vertex tint/material opacity, and rendered texture × tint × vertex color/alpha round trips |
 | DAE | SceneKit serialization of linear vertex RGB, material RGBA and material/effect bindings in macOS XML. Binary SceneKit representation round trip on iOS |
 | USD, USDA, USDC | Material values and assignment. USDA/USDC vertex round trips. independent USDA shader/displayColor values and texture files |

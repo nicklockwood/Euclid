@@ -215,9 +215,27 @@ final class ColorImportExportRegressionTests: XCTestCase {
         }
     }
 
+    func testOFFMaterialAndVertexRGBA() throws {
+        for vertexColors in [false, true] {
+            let mesh = try fixture(vertexColors: vertexColors)
+            let url = try export(
+                mesh,
+                name: vertexColors ? "vertices" : "materials",
+                format: vertexColors ? "coff" : "off"
+            )
+            let imported = try Mesh(url: url)
+            try assertVertexColors(imported, mesh, accuracy: 1e-6, context: "OFF")
+            if !vertexColors {
+                for (face, color) in zip(imported.polygons, swatches) {
+                    try assertColor(XCTUnwrap(face.material as? Color), color, accuracy: 1e-12, "OFF face")
+                }
+            }
+        }
+    }
+
     func testGeometryOnlyNativeFormats() throws {
         let mesh = try fixture(vertexColors: true)
-        for format in ["off", "stla"] {
+        for format in ["stla"] {
             let url = try export(mesh, name: "vertices", format: format)
             let imported = try Mesh(url: url)
             try assertVertexColors(imported, mesh.mapVertexColors { _ in .white }, accuracy: 1e-6, context: format)

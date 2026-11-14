@@ -72,6 +72,7 @@ jobs:
             -only-testing:EuclidTests/ModelIOImportTests \
             -only-testing:EuclidTests/ModelIOExportTests \
             -only-testing:EuclidTests/OBJOpacityTests \
+            -only-testing:EuclidTests/OFFTests \
             -only-testing:EuclidTests/PLYImportTests \
             -only-testing:EuclidTests/PLYExportTests test
       - name: Upload test diagnostics

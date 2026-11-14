@@ -69,9 +69,14 @@ public extension Mesh {
                 throw IOError("Invalid STL file")
             }
             self = mesh
-        case "off":
+        case "off", "coff":
             let string = try String(contentsOf: url)
-            guard let mesh = try Mesh(offString: string, options: options, isCancelled: isCancelled) else {
+            guard let mesh = try Mesh(
+                offString: string,
+                options: options,
+                materialLookup: materialLookup,
+                isCancelled: isCancelled
+            ) else {
                 throw IOError("Invalid OFF file")
             }
             self = mesh
@@ -219,8 +224,13 @@ public extension Mesh {
         case "stla":
             let string = try stlString(name: "", isCancelled: isCancelled)
             try string.write(to: url, atomically: true, encoding: .utf8)
-        case "off":
-            let string = try offString(isCancelled: isCancelled)
+        case "off", "coff":
+            let colorLookup = materialLookup.map { lookup in
+                { @Sendable in defaultColorMapping(lookup($0)) }
+            }
+            let string = try url.pathExtension.lowercased() == "coff" ?
+                coffString(colorLookup: colorLookup, isCancelled: isCancelled) :
+                offString(colorLookup: colorLookup, isCancelled: isCancelled)
             try string.write(to: url, atomically: true, encoding: .utf8)
         case "ply":
             let colorLookup = materialLookup.map { lookup in
