@@ -265,12 +265,10 @@ public extension Mesh {
             #if canImport(ModelIO)
             let isUSD = ["usd", "usda", "usdc", "usdz"].contains(url.pathExtension.lowercased())
             let canExport = MDLAsset.canExportFileExtension(url.pathExtension.lowercased())
-            #if canImport(SceneKit) && !os(watchOS)
-            let useModelIOMaterials = true
-            #else
-            let useModelIOMaterials = canExport
+            #if !canImport(SceneKit) || os(watchOS)
+            guard canExport else { throw IOError("Unsupported mesh file format '\(url.pathExtension)'") }
             #endif
-            if useModelIOMaterials {
+            do {
                 let colorEncoding = ModelIOColorEncoding(fileExtension: url.pathExtension)
                 let linearColors = colorEncoding?.isLinear ?? true
                 let names = Dictionary(uniqueKeysWithValues: materials.enumerated().map {
@@ -371,10 +369,10 @@ public extension Mesh {
                 try asset.export(to: url)
                 try checkCancellation(isCancelled)
                 try checkCancellation(isCancelled)
-                return
             }
-            #endif
+            #else
             throw IOError("Unsupported mesh file format '\(url.pathExtension)'")
+            #endif
         }
     }
 }

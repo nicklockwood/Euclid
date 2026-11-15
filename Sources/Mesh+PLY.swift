@@ -102,7 +102,9 @@ public extension Mesh {
 
     /// Creates a mesh from PLY text, throwing `CancellationError` if the callback returns `true`.
     init?(
-        plyString: String, options: ImportOptions = .init(), isCancelled: CancellationHandler
+        plyString: String,
+        options: ImportOptions = .init(),
+        isCancelled: CancellationHandler
     ) throws {
         try checkCancellation(isCancelled)
         var lines = StringLines(plyString)
