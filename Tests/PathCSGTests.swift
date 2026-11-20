@@ -10,6 +10,75 @@
 import XCTest
 
 final class PathCSGTests: XCTestCase {
+    func testProjectionPreservesPointAttributesAndWinding() throws {
+        let plane = try XCTUnwrap(Plane(normal: Vector(1, 1, 1), pointOnPlane: [2, 3, 4]))
+        let outer = Path.square(size: 4, color: .red)
+        let inner = Path.square(size: 2, color: .blue).inverted().mapPoints {
+            PathPoint.curve($0.position, texcoord: [0.5, 0.75], color: $0.color)
+        }
+        let path = Path(subpaths: [outer, inner], windingRule: .nonZero)
+        let result = path.projected(onto: plane)
+        XCTAssertEqual(result.windingRule, .nonZero)
+        XCTAssertEqual(result.subpaths.count, 2)
+        XCTAssertEqual(result.points, path.points.map { $0.withPosition($0.position.projected(onto: plane)) })
+        XCTAssertTrue(result.points.allSatisfy { plane.intersects($0.position) })
+    }
+
+    func testProjectionPreservesCollapsedLinesAndPoints() {
+        let square = Path.square().rotated(by: .roll(.degrees(45)))
+        let line = square.projected(onto: .yz)
+        XCTAssertFalse(line.isClosed)
+        XCTAssertEqual(line.bounds.min.y, square.bounds.min.y, accuracy: epsilon)
+        XCTAssertEqual(line.bounds.max.y, square.bounds.max.y, accuracy: epsilon)
+        XCTAssertTrue(line.points.allSatisfy { $0.position.x == 0 })
+        XCTAssertEqual(Path.line(.zero, .unitZ).projected(onto: .xy).points, [.point(.zero)])
+    }
+
+    func testProjectionOntoOffsetAxisAlignedPlanes() {
+        let point = Vector(1, 2, 3)
+        let path = Path([.point(point)])
+        let cases: [(Vector, Vector)] = [
+            (.unitZ, [1, 2, 5]), (-Vector.unitY, [1, -5, 3]), (.unitX, [5, 2, 3]),
+        ]
+        for (normal, expected) in cases {
+            let plane = Plane(unchecked: normal, w: 5)
+            XCTAssertEqual(path.projected(onto: plane).points, [.point(expected)])
+        }
+    }
+
+    func testPlaneIntersectionReturnsCrossingsOfClosedPath() {
+        let square = Path.square(size: 2)
+        let result = square.intersection(with: .yz)
+        XCTAssertEqual(result.subpaths.map(\.points.count), [1, 1])
+        XCTAssertEqual(Set(result.points.map(\.position)), [[0, -1, 0], [0, 1, 0]])
+        XCTAssertEqual(square.intersection(with: .xy), square)
+        XCTAssertTrue(square.translated(by: .unitZ).intersection(with: .xy).isEmpty)
+    }
+
+    func testPlaneIntersectionKeepsCoplanarRunsAndTangencies() {
+        let contour = Path([
+            .point(0, 1), .point(0, 2), .point(1, 2),
+            .point(1, 0), .point(0, 0), .point(0, 1),
+        ], windingRule: .nonZero)
+        let run = contour.intersection(with: .yz)
+        XCTAssertEqual(run.points, [.point(0, 0), .point(0, 1), .point(0, 2)])
+        XCTAssertEqual(run.windingRule, .nonZero)
+        let tangent = Path([.point(0, 0), .point(1, 1), .point(1, -1), .point(0, 0)])
+        let compound = Path(subpaths: [contour, tangent.translated(by: [0, 4, 0])])
+        XCTAssertEqual(compound.intersection(with: .yz).subpaths.map(\.points.count), [3, 1])
+        XCTAssertEqual(tangent.intersection(with: .yz).points, [.point(.zero)])
+        XCTAssertEqual(Path([.point(.zero)]).intersection(with: .yz).points, [.point(.zero)])
+    }
+
+    func testPlaneIntersectionInterpolatesAttributesAndCanBeCancelled() {
+        let a = PathPoint.curve([-1, 0, 0], texcoord: [0, 0], color: .red)
+        let b = PathPoint.curve([1, 0, 0], texcoord: [1, 1], color: .blue)
+        let line = Path([a, b])
+        XCTAssertEqual(line.intersection(with: .yz).points, [a.lerp(b, 0.5)])
+        XCTAssertTrue(line.intersection(with: .yz) { true }.isEmpty)
+        XCTAssertTrue(line.projected(onto: .yz) { true }.isEmpty)
+    }
+
     func testPathClippingKeepsOutsideAndSplitReturnsBothPortions() throws {
         let line = Path([.point(-3, 0), .point(3, 0)])
         let boundary = Path.square(size: 2)

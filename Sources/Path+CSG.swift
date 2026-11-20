@@ -172,6 +172,85 @@ public extension Path {
         return result.translated(by: offset * Double(paths.count))
     }
 
+    /// Projects the path orthogonally onto a plane, preserving point attributes and winding rule.
+    /// - Parameters:
+    ///   - plane: The plane on which the projected path lies in world coordinates.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: The projected path, including subpaths that collapse to a line or point.
+    ///   Returns an empty path on cancellation.
+    func projected(onto plane: Plane, isCancelled: CancellationHandler = { false }) -> Path {
+        let project = plane.makePointProjection()
+        var projected = [Path]()
+        for subpath in subpaths {
+            var points = [PathPoint]()
+            points.reserveCapacity(subpath.points.count)
+            for point in subpath.points {
+                guard !isCancelled() else { return .empty }
+                points.append(point.withPosition(project(point.position)))
+            }
+            guard let origin = points.first?.position else { continue }
+            // An edge-on contour can double back along its projected line.
+            // Sorting along the line retains the full span when removing duplicate points.
+            if points.count > 2,
+               subpath.plane.map({ abs($0.normal.dot(plane.normal)) <= epsilon }) ?? true,
+               let end = points.max(by: {
+                   ($0.position - origin).lengthSquared < ($1.position - origin).lengthSquared
+               }),
+               let direction = (end.position - origin).direction,
+               points.allSatisfy({ ($0.position - origin).cross(direction).length <= epsilon })
+            {
+                let firstDirection = points.lazy.map { $0.position - origin }.first { !$0.isZero } ?? direction
+                let axis = firstDirection.dot(direction) < 0 ? -direction : direction
+                points.sort { ($0.position - origin).dot(axis) < ($1.position - origin).dot(axis) }
+            }
+            let path = Path(unchecked: .points(sanitizePoints(points)), plane: nil)
+            projected.append(path)
+        }
+        return isCancelled() ? .empty : Path(unchecked: .subpaths(projected), plane: nil, windingRule: windingRule)
+    }
+
+    /// Finds the points and portions of the path that lie on a plane.
+    /// - Parameters:
+    ///   - plane: The plane to intersect with.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: Coplanar portions of the path and isolated crossing or tangent points.
+    ///   Returns an empty path on a miss or cancellation.
+    func intersection(with plane: Plane, isCancelled: CancellationHandler = { false }) -> Path {
+        let project = plane.makePointProjection()
+        var intersections = [Path]()
+        for subpath in subpaths {
+            var fragments = [[PathPoint]]()
+            var coplanar = [PathPoint]()
+            var previous: (point: PathPoint, distance: Double, side: PlaneComparison)?
+            for point in subpath.points {
+                guard !isCancelled() else { return .empty }
+                let distance = point.position.signedDistance(from: plane)
+                let side = PlaneComparison(signedDistance: distance)
+                if side == .coplanar {
+                    coplanar.append(point.withPosition(project(point.position)))
+                } else if !coplanar.isEmpty {
+                    fragments.append(coplanar)
+                    coplanar = []
+                } else if let previous, previous.side.union(side) == .spanning {
+                    let t = previous.distance / (previous.distance - distance)
+                    let crossing = previous.point.lerp(point, t)
+                    fragments.append([crossing.withPosition(project(crossing.position))])
+                }
+                previous = (point, distance, side)
+            }
+            if !coplanar.isEmpty {
+                // A coplanar run can straddle a closed contour's first point.
+                if subpath.isClosed, let first = fragments.first, first.first?.position == coplanar.last?.position {
+                    coplanar += first.dropFirst()
+                    fragments.removeFirst()
+                }
+                fragments.append(coplanar)
+            }
+            intersections += fragments.map { Path(unchecked: .points(sanitizePoints($0)), plane: nil) }
+        }
+        return isCancelled() ? .empty : Path(unchecked: .subpaths(intersections), plane: nil, windingRule: windingRule)
+    }
+
     /// Split the path along a plane.
     /// - Parameter plane: The ``Plane`` to split the path along.
     /// - Returns: A pair of paths representing the path fragments that lie in front and behind the plane .

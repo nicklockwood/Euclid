@@ -242,6 +242,23 @@ extension Plane {
         self.init(unchecked: normal, pointOnPlane: points.centroid)
     }
 
+    /// Selects an orthogonal projection once for a collection of points.
+    func makePointProjection() -> (Vector) -> Vector {
+        switch (normal.x, normal.y, normal.z) {
+        case let (0, 0, normalZ):
+            let z = w / normalZ
+            return { [$0.x, $0.y, z] }
+        case let (0, normalY, 0):
+            let y = w / normalY
+            return { [$0.x, y, $0.z] }
+        case let (normalX, 0, 0):
+            let x = w / normalX
+            return { [x, $0.y, $0.z] }
+        default:
+            return { $0.projected(onto: self) }
+        }
+    }
+
     func signedPerpendicularDistance(from plane: Plane) -> Double? {
         if isParallel(to: plane) {
             return w - plane.w

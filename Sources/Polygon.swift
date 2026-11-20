@@ -799,16 +799,21 @@ extension Collection<Polygon> {
         let center = Bounds(self).center
         let x = Vector.unitX.rotated(by: rotation)
         let y = Vector.unitY.rotated(by: rotation)
+        let isHorizontal = plane.normal == .unitZ
         var paths = [Path]()
         for polygon in self {
             guard !isCancelled() else { return .empty }
-            let facing = polygon.plane.normal.dot(plane.normal)
+            let facing = isHorizontal ? polygon.plane.normal.z : polygon.plane.normal.dot(plane.normal)
             if facing == 0 { continue }
             // Tessellation also splits faces whose outline contains bridges to holes.
             for polygon in polygon.tessellate(isCancelled: isCancelled) {
-                var points = polygon.vertices.map { vertex in
-                    let offset = vertex.position - center
-                    return PathPoint.point(offset.dot(x), offset.dot(y))
+                var points = if isHorizontal {
+                    polygon.vertices.map { PathPoint.point($0.position.x - center.x, $0.position.y - center.y) }
+                } else {
+                    polygon.vertices.map {
+                        let offset = $0.position - center
+                        return PathPoint.point(offset.dot(x), offset.dot(y))
+                    }
                 }
                 if facing < 0 { points.reverse() }
                 let path = Path(unchecked: .points(sanitizePoints(points + points.prefix(1))), plane: .xy)
@@ -857,6 +862,7 @@ extension Collection<Polygon> {
     }
 
     private func edgeOnProjection(onto plane: Plane, isCancelled: Euclid.CancellationHandler) -> Path {
+        let project = plane.makePointProjection()
         var segments = Set<LineSegment>()
         for polygon in self {
             guard !isCancelled() else { return .empty }
@@ -868,7 +874,7 @@ extension Collection<Polygon> {
             }
             guard let start = polygon.vertices.min(by: vertex)?.position,
                   let end = polygon.vertices.max(by: vertex)?.position,
-                  let segment = LineSegment(undirected: start.projected(onto: plane), end.projected(onto: plane))
+                  let segment = LineSegment(undirected: project(start), project(end))
             else { continue }
             segments.insert(segment)
         }

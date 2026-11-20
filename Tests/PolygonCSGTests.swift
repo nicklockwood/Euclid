@@ -20,6 +20,9 @@ final class PolygonCSGTests: XCTestCase {
         let line = polygon.projected(onto: .yz)
         XCTAssertFalse(line.isClosed)
         XCTAssertEqual(Set(line.points.map(\.position)), Set([[0, -1, 0], [0, 1, 0]]))
+        let horizontal = polygon.projected(onto: Plane(unchecked: .unitZ, w: 3))
+        XCTAssertEqual(horizontal.bounds, Bounds([-1, -1, 3], [1, 1, 3]))
+        XCTAssertEqual(horizontal.facePolygons().surfaceArea, 4, accuracy: epsilon)
         XCTAssertTrue(polygon.projected(onto: plane) { true }.isEmpty)
     }
 
