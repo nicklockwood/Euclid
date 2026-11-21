@@ -467,7 +467,7 @@ public extension Mesh {
         )
     }
 
-    /// Creates a rotationally symmetrical mesh by turning the specified path around the Y axis.
+    /// Creates a mesh by turning the specified path around the Y axis.
     ///
     /// * The profile path can be open or closed. Define a closed path by ending with
     ///   the same point that you started with.
@@ -478,8 +478,12 @@ public extension Mesh {
     /// * Open paths that do not start and end on the `Y` axis will produce
     ///   a shape with a hole in it
     ///
+    /// * Partial turns of closed profiles and open profiles that begin and end
+    ///   on the `Y` axis are capped at both ends.
+    ///
     /// - Parameters:
     ///   - profile: The path to use as the profile for the mesh.
+    ///   - sweep: The signed angle from the negative X axis, limited to one revolution in either direction.
     ///   - slices: The number of slices that make up the lathed mesh.
     ///   - poleDetail: The number of segments used to make the pole.
     ///   - addDetailForFlatPoles: A Boolean value that indicates whether to add detail to the poles.
@@ -489,6 +493,7 @@ public extension Mesh {
     ///   - isCancelled: Callback used to cancel the operation.
     static func lathe(
         _ profile: Path,
+        sweep: Angle = .twoPi,
         slices: Int = 16,
         poleDetail: Int = 0,
         addDetailForFlatPoles: Bool = false,
@@ -499,6 +504,7 @@ public extension Mesh {
     ) -> Mesh {
         lathe(
             unchecked: profile,
+            sweep: sweep,
             slices: slices,
             poleDetail: poleDetail,
             addDetailForFlatPoles: addDetailForFlatPoles,
@@ -1416,6 +1422,7 @@ private extension Path {
 private extension Mesh {
     static func lathe(
         unchecked profile: Path,
+        sweep: Angle = .twoPi,
         slices: Int,
         poleDetail: Int,
         addDetailForFlatPoles: Bool,
@@ -1426,40 +1433,70 @@ private extension Mesh {
         isWatertight: Bool?,
         isCancelled: CancellationHandler
     ) -> Mesh {
-        let profiles = profile.latheProfile(isCancelled: isCancelled).subpaths
-        guard profiles.count == 1, let profile = profiles.first else {
-            return .merge(profiles.map { profile in
-                lathePreparedProfile(
-                    profile,
-                    slices: slices,
-                    poleDetail: poleDetail,
-                    addDetailForFlatPoles: addDetailForFlatPoles,
-                    faces: faces,
-                    wrapMode: wrapMode,
-                    material: material,
-                    isConvex: false,
-                    isWatertight: nil,
-                    isCancelled: isCancelled
-                )
-            })
+        guard !sweep.isZero else { return .empty }
+        let reverse = sweep < .zero
+        let sweep = min(abs(sweep), .twoPi)
+        let profile = profile.latheProfile(isCancelled: isCancelled)
+        let isPartial = sweep < .twoPi
+        // Orient the filled profile toward +Z after normalizing onto the negative X side.
+        let contours = isPartial && profile.subpaths.count > 1 ?
+            profile.oddEvenOrientedSubpaths.map { $0.inverted() } : profile.subpaths
+        let capEnds = isPartial && contours.allSatisfy {
+            $0.isClosed || ($0.points.first?.position.x == 0 && $0.points.last?.position.x == 0)
         }
-        return lathePreparedProfile(
-            profile,
-            slices: slices,
-            poleDetail: poleDetail,
-            addDetailForFlatPoles: addDetailForFlatPoles,
-            faces: faces,
-            wrapMode: wrapMode,
-            material: material,
-            isConvex: isConvex,
-            isWatertight: isWatertight,
-            isCancelled: isCancelled
-        )
+        let singleContour = contours.count == 1
+        func sweepContour(_ contour: Path) -> Mesh {
+            lathePreparedProfile(
+                contour,
+                sweep: sweep,
+                slices: slices,
+                poleDetail: poleDetail,
+                addDetailForFlatPoles: addDetailForFlatPoles,
+                faces: capEnds ? .front : faces,
+                wrapMode: wrapMode,
+                material: material,
+                isConvex: singleContour && isConvex,
+                isWatertight: singleContour ? isWatertight : nil,
+                isCancelled: isCancelled
+            )
+        }
+        let sides = if singleContour, let contour = contours.first {
+            sweepContour(contour)
+        } else {
+            Mesh.merge(contours.map(sweepContour))
+        }
+        var mesh = sides
+        if capEnds {
+            // Fill the entire profile at once so the end faces preserve holes.
+            let cap = profile.fillPolygons(material: material, isCancelled: isCancelled).map {
+                $0.plane.normal.z < 0 ? $0.inverted() : $0
+            }
+            if !cap.isEmpty, !isCancelled() {
+                let polygons = sides.polygons + cap.inverted() + cap.rotated(by: .yaw(-sweep))
+                // The cap tessellation may split an edge shared with a side face.
+                mesh = Mesh(polygons).makeWatertight(isCancelled: isCancelled)
+            }
+            switch faces {
+            case .default, .front: break
+            case .back: mesh = mesh.inverted()
+            case .frontAndBack: mesh = .merge([mesh, mesh.inverted()])
+            }
+        }
+        if reverse {
+            mesh = mesh.scaled(by: [1, 1, -1])
+        }
+        guard isPartial else { return mesh }
+        switch wrapMode {
+        case .box: return mesh.cubeMapped()
+        case .none: return mesh.withoutTexcoords()
+        default: return mesh
+        }
     }
 
     /// Revolves a profile that has already been normalized and split into a single contour.
     static func lathePreparedProfile(
         _ profile: Path,
+        sweep: Angle,
         slices: Int,
         poleDetail: Int,
         addDetailForFlatPoles: Bool,
@@ -1474,8 +1511,8 @@ private extension Mesh {
             return .empty
         }
 
-        // min slices
-        let slices = max(3, slices)
+        // Keep each slice narrower than a half turn.
+        let slices = max(sweep == .twoPi ? 3 : sweep >= .pi ? 2 : 1, slices)
 
         // get profile vertices
         var vertices = profile.edgeVertices(for: wrapMode)
@@ -1517,8 +1554,8 @@ private extension Mesh {
             if isCancelled() { break }
             let t0 = Double(i) / Double(slices)
             let t1 = Double(i + 1) / Double(slices)
-            let a0 = t0 * Angle.twoPi
-            let a1 = t1 * Angle.twoPi
+            let a0 = t0 * sweep
+            let a1 = t1 * sweep
             let cos0 = cos(a0)
             let cos1 = cos(a1)
             let sin0 = sin(a0)
@@ -1681,7 +1718,7 @@ private extension Mesh {
                 submeshes: nil // TODO: Can we calculate this efficiently?
             )
         }
-        return wrapMode == .box ? mesh.cubeMapped() : mesh
+        return wrapMode == .box && sweep == .twoPi ? mesh.cubeMapped() : mesh
     }
 
     static func directionBetweenShapes(_ s0: Path, _ s1: Path) -> Vector {
