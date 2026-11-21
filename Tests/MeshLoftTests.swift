@@ -72,6 +72,11 @@ final class MeshLoftTests: XCTestCase {
         XCTAssertTrue(loft.polygons.areWatertight)
         XCTAssertEqual(loft.polygons.count, 6)
         XCTAssertEqual(loft.signedVolume, 0)
+        for polygon in loft.polygons {
+            for vertex in polygon.vertices {
+                XCTAssertEqual(vertex.normal, polygon.plane.normal, accuracy: epsilon)
+            }
+        }
         XCTAssertFalse(loft.isKnownConvex)
         XCTAssertTrue(loft.isActuallyConvex)
 

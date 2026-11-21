@@ -261,6 +261,28 @@ final class MeshExtrudeTests: XCTestCase {
         }
     }
 
+    func testTaperedExtrudeAndLoftUseFlatNormalsAtClosedGuideSeam() throws {
+        let profile = Path.square()
+        let guide = Path.circle(radius: 1, segments: 32)
+        let contours = profile.extrusionContours(along: guide, taper: .zero)
+        let seamPlane = try XCTUnwrap(contours.first?.plane)
+
+        for mesh in [Mesh.extrude(profile, along: guide, taper: .zero), Mesh.loft(contours)] {
+            let seamPolygons = mesh.polygons.filter { polygon in
+                polygon.vertices.allSatisfy { seamPlane.intersects($0.position) && $0.position.y > 0 }
+            }
+            XCTAssertEqual(seamPolygons.count, 4)
+            for polygon in seamPolygons {
+                for vertex in polygon.vertices {
+                    XCTAssertEqual(vertex.normal, polygon.plane.normal, accuracy: epsilon)
+                }
+            }
+            XCTAssertTrue(mesh.polygons.contains { polygon in
+                polygon.vertices.contains { $0.normal.dot(polygon.plane.normal) < 1 - epsilon }
+            })
+        }
+    }
+
     func testNegativeTwistedExtrudeCalculatesSectionsFromMagnitude() {
         let shape = Path.square()
 

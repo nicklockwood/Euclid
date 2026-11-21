@@ -1109,6 +1109,17 @@ private extension Collection<Vector> {
 }
 
 private extension Path {
+    /// Whether either contour defines a plane containing both contours.
+    func sharesLoftPlane(with other: Path) -> Bool {
+        func definesJoinPlane(_ contour: Path, containing other: Path) -> Bool {
+            guard let plane = contour.plane, other.compare(with: plane) == .coplanar else {
+                return false
+            }
+            return contour.points.lazy.map(\.position).contourDimension == 2
+        }
+        return definesJoinPlane(self, containing: other) || definesJoinPlane(other, containing: self)
+    }
+
     /// Returns the depth, section count, and center of an evenly sampled positive Z guide
     /// with no color modulation.
     var uniformPositiveZGuide: (depth: Double, sections: Int, center: Vector)? {
@@ -2019,6 +2030,7 @@ private extension Mesh {
                 let curveend = i == shapes.index(before: shapes.endIndex) || shape1 != shapes[i + 1]
                 let transform0 = transforms[i - 1]!, transform1 = transforms[i]!
                 let direction = directionBetweenShapes(shape0, shape1)
+                let isFlatJoin = shape0.sharesLoftPlane(with: shape1)
                 var n0 = shape0.faceNormal, n1 = shape1.faceNormal
                 if direction.dot(n0) < 0 { n0 = -n0 }
                 if direction.dot(n1) < 0 { n1 = -n1 }
@@ -2059,7 +2071,7 @@ private extension Mesh {
                             at: transform1(v0.position), transform1(v1.position), on: sourceEdgesByShape[i][index]
                         ) : nil
                     }
-                    let polygons = sidePolygons(
+                    var polygons = sidePolygons(
                         [
                             transformedSectionVertex(
                                 v0, by: transform0, sectionIndex: i - 1, from: n0, isCurved: curvestart,
@@ -2081,6 +2093,9 @@ private extension Mesh {
                         inverted: direction.dot(shape0.faceNormal) < 0,
                         collapsing: i == collapsedSection || i - 1 == collapsedSection
                     )
+                    if isFlatJoin {
+                        polygons = polygons.flatteningNormals()
+                    }
                     let edge = LineSegment(unchecked: v0.position, v1.position)
                     switch firstCapEdgeDirections[edge] {
                     case true?:
@@ -2440,6 +2455,7 @@ private extension Mesh {
     ) {
         assert(p0.subpaths.count == 1)
         assert(p1.subpaths.count == 1)
+        let isFlatJoin = p0.sharesLoftPlane(with: p1)
         var p0 = p0, p1 = p1
         let direction = directionBetweenShapes(p0, p1)
         var n0 = p0.points.count < 2 ? direction : p0.faceNormal
@@ -2456,9 +2472,11 @@ private extension Mesh {
         n0 = n0.direction ?? normalizedDirection ?? .unitZ
         n1 = n1.direction ?? normalizedDirection ?? n0
         var invert = false
+        func orientNormals(_ polygon: Polygon) -> Polygon {
+            isFlatJoin ? polygon.flatteningNormals() : polygon.withVertexNormalsFacingPlane()
+        }
         func makePolygon(_ vertices: [Vertex]) -> Polygon? {
-            Polygon(invert ? vertices.reversed() : vertices, material: material)?
-                .withVertexNormalsFacingPlane()
+            Polygon(invert ? vertices.reversed() : vertices, material: material).map(orientNormals)
         }
         func addTriangulatedFace(_ vertices: [Vertex]) {
             polygons += triangulateVertices(
@@ -2469,7 +2487,7 @@ private extension Mesh {
                 material: material,
                 id: 0,
                 isCancelled: isCancelled
-            ).withVertexNormalsFacingPlane()
+            ).map(orientNormals)
         }
         var uvstart = uvstart, uvend = uvend
         func addFace(_ a: Vertex, _ b: Vertex, _ c: Vertex, _ d: Vertex) {
