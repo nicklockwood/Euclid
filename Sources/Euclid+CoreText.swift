@@ -39,6 +39,9 @@ public extension Path {
     /// - Parameters:
     ///   - text: The text to convert.
     ///   - font: The font to use for the text.
+    ///   - along: The optional path to use as the text baseline.
+    ///   - offset: The text offset. Along a path, X is the distance along the baseline and Y is the height above it.
+    ///   - rotation: An additional rotation to apply to each glyph around its origin.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
     ///   - color: An optional color to apply to the text.
@@ -46,6 +49,9 @@ public extension Path {
     static func text(
         _ text: String,
         font: CTFont? = nil,
+        along: Path? = nil,
+        offset: Vector = .zero,
+        rotation: Angle = .zero,
         width: Double? = nil,
         detail: Int = 2,
         color: Color? = nil,
@@ -54,6 +60,9 @@ public extension Path {
         let attributedString = NSAttributedString(string: text, font: font, color: color)
         return self.text(
             attributedString,
+            along: along,
+            offset: offset,
+            rotation: rotation,
             width: width,
             detail: detail,
             isCancelled: isCancelled
@@ -61,23 +70,39 @@ public extension Path {
     }
 
     /// Creates an array of glyph contours from an attributed string.
+    /// Glyphs on a path follow the baseline at the midpoint of their advance.
+    /// Open paths clip glyphs by that midpoint. A single closed path wraps for one circuit.
     /// - Parameters:
     ///   - text: The text to convert.
+    ///   - along: The optional path to use as the text baseline.
+    ///   - offset: The text offset. Along a path, X is the distance along the baseline and Y is the height above it.
+    ///   - rotation: An additional rotation to apply to each glyph around its origin.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
     ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: NSAttributedString,
+        along: Path? = nil,
+        offset: Vector = .zero,
+        rotation: Angle = .zero,
         width: Double? = nil,
         detail: Int = 2,
         isCancelled: CancellationHandler = { false }
     ) -> [Path] {
-        text.cgPaths(width: width, isCancelled: isCancelled).map {
-            let cgPath = CGMutablePath()
-            let transform = CGAffineTransform(translationX: $1.x, y: $1.y)
-            cgPath.addPath($0, transform: transform)
-            let path = Path(cgPath, windingRule: .nonZero, detail: detail, color: $2)
-            return path.faceNormal.dot(.unitZ) > 0 ? path.inverted() : path
+        text.glyphs(along: along, offset: offset, rotation: rotation, width: width, isCancelled: isCancelled).map {
+            var (outline, transform, color) = $0
+            if transform.rotation.isIdentity, transform.translation.z == 0 {
+                // Apply XY translations before flattening curves to preserve flat text coordinates.
+                let translated = CGMutablePath()
+                translated.addPath(outline, transform: CGAffineTransform(
+                    translationX: transform.translation.x, y: transform.translation.y
+                ))
+                outline = translated
+                transform = .identity
+            }
+            let path = Path(outline, windingRule: .nonZero, detail: detail, color: color)
+            let oriented = path.faceNormal.dot(.unitZ) > 0 ? path.inverted() : path
+            return oriented.transformed(by: transform)
         }
     }
 }
@@ -87,12 +112,18 @@ public extension RangeReplaceableCollection<Path> {
     /// - Parameters:
     ///   - text: The text to convert.
     ///   - font: The font to use for the text.
+    ///   - along: The optional path to use as the text baseline.
+    ///   - offset: The text offset. Along a path, X is the distance along the baseline and Y is the height above it.
+    ///   - rotation: An additional rotation to apply to each glyph around its origin.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
     ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: String,
         font: CTFont? = nil,
+        along: Path? = nil,
+        offset: Vector = .zero,
+        rotation: Angle = .zero,
         width: Double? = nil,
         detail: Int = 2,
         isCancelled: Euclid.CancellationHandler = { false }
@@ -100,6 +131,9 @@ public extension RangeReplaceableCollection<Path> {
         Self(Path.text(
             text,
             font: font,
+            along: along,
+            offset: offset,
+            rotation: rotation,
             width: width,
             detail: detail,
             isCancelled: isCancelled
@@ -109,16 +143,30 @@ public extension RangeReplaceableCollection<Path> {
     /// Creates a collection of glyph contours from an attributed string.
     /// - Parameters:
     ///   - text: The text to convert.
+    ///   - along: The optional path to use as the text baseline.
+    ///   - offset: The text offset. Along a path, X is the distance along the baseline and Y is the height above it.
+    ///   - rotation: An additional rotation to apply to each glyph around its origin.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
     ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: NSAttributedString,
+        along: Path? = nil,
+        offset: Vector = .zero,
+        rotation: Angle = .zero,
         width: Double? = nil,
         detail: Int = 2,
         isCancelled: Euclid.CancellationHandler = { false }
     ) -> Self {
-        Self(Path.text(text, width: width, detail: detail, isCancelled: isCancelled))
+        Self(Path.text(
+            text,
+            along: along,
+            offset: offset,
+            rotation: rotation,
+            width: width,
+            detail: detail,
+            isCancelled: isCancelled
+        ))
     }
 }
 
@@ -127,12 +175,18 @@ public extension Collection<Path> where Self == [Path] {
     /// - Parameters:
     ///   - text: The text to convert.
     ///   - font: The font to use for the text.
+    ///   - along: The optional path to use as the text baseline.
+    ///   - offset: The text offset. Along a path, X is the distance along the baseline and Y is the height above it.
+    ///   - rotation: An additional rotation to apply to each glyph around its origin.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
     ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: String,
         font: CTFont? = nil,
+        along: Path? = nil,
+        offset: Vector = .zero,
+        rotation: Angle = .zero,
         width: Double? = nil,
         detail: Int = 2,
         isCancelled: Euclid.CancellationHandler = { false }
@@ -140,6 +194,9 @@ public extension Collection<Path> where Self == [Path] {
         Path.text(
             text,
             font: font,
+            along: along,
+            offset: offset,
+            rotation: rotation,
             width: width,
             detail: detail,
             isCancelled: isCancelled
@@ -149,16 +206,30 @@ public extension Collection<Path> where Self == [Path] {
     /// Creates an array of glyph contours from an attributed string.
     /// - Parameters:
     ///   - text: The text to convert.
+    ///   - along: The optional path to use as the text baseline.
+    ///   - offset: The text offset. Along a path, X is the distance along the baseline and Y is the height above it.
+    ///   - rotation: An additional rotation to apply to each glyph around its origin.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - detail: The number line segments used to approximate glyph curves.
     ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: NSAttributedString,
+        along: Path? = nil,
+        offset: Vector = .zero,
+        rotation: Angle = .zero,
         width: Double? = nil,
         detail: Int = 2,
         isCancelled: Euclid.CancellationHandler = { false }
     ) -> Self {
-        Path.text(text, width: width, detail: detail, isCancelled: isCancelled)
+        Path.text(
+            text,
+            along: along,
+            offset: offset,
+            rotation: rotation,
+            width: width,
+            detail: detail,
+            isCancelled: isCancelled
+        )
     }
 }
 
@@ -167,6 +238,9 @@ public extension Mesh {
     /// - Parameters:
     ///   - text: The text to convert into a model
     ///   - font: The font to use for the text glyphs.
+    ///   - along: The optional path to use as the text baseline.
+    ///   - offset: The text offset. Along a path, X is the distance along the baseline and Y is the height above it.
+    ///   - rotation: An additional rotation to apply to each glyph around its origin.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - depth: The depth of the extruded text.
     ///   - detail: The number line segments used to approximate glyph curves.
@@ -175,6 +249,9 @@ public extension Mesh {
     static func text(
         _ text: String,
         font: CTFont? = nil,
+        along: Path? = nil,
+        offset: Vector = .zero,
+        rotation: Angle = .zero,
         width: Double? = nil,
         depth: Double = 1,
         detail: Int = 2,
@@ -183,6 +260,9 @@ public extension Mesh {
     ) -> Mesh {
         .text(
             NSAttributedString(string: text, font: font),
+            along: along,
+            offset: offset,
+            rotation: rotation,
             width: width,
             depth: depth,
             detail: detail,
@@ -194,6 +274,9 @@ public extension Mesh {
     /// Creates an extruded text model from an attributed string
     /// - Parameters:
     ///   - text: The text to convert into a model
+    ///   - along: The optional path to use as the text baseline.
+    ///   - offset: The text offset. Along a path, X is the distance along the baseline and Y is the height above it.
+    ///   - rotation: An additional rotation to apply to each glyph around its origin.
     ///   - width: The optional width at which to line-wrap the text.
     ///   - depth: The depth of the extruded text.
     ///   - detail: The number line segments used to approximate glyph curves.
@@ -201,6 +284,9 @@ public extension Mesh {
     ///   - isCancelled: Callback used to cancel the operation.
     static func text(
         _ text: NSAttributedString,
+        along: Path? = nil,
+        offset: Vector = .zero,
+        rotation: Angle = .zero,
         width: Double? = nil,
         depth: Double = 1,
         detail: Int = 2,
@@ -208,23 +294,24 @@ public extension Mesh {
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
         var meshes = [Mesh]()
-        var cache = [CGPath: Mesh]()
-        for (cgPath, cgPoint, color) in text.cgPaths(width: width, isCancelled: isCancelled) {
+        var cache = [CGPath: [Color?: Mesh]]()
+        for (outline, transform, color) in text.glyphs(
+            along: along, offset: offset, rotation: rotation, width: width, isCancelled: isCancelled
+        ) {
             guard !isCancelled() else { return .empty }
-            let offset = Vector(cgPoint)
-            guard let mesh = cache[cgPath] else {
-                let path = Path(cgPath, windingRule: .nonZero, detail: detail, color: color)
+            guard let mesh = cache[outline]?[color] else {
+                let path = Path(outline, windingRule: .nonZero, detail: detail, color: color)
                 let mesh = Mesh.extrude(
                     path,
                     depth: depth,
                     material: material,
                     isCancelled: isCancelled
                 )
-                cache[cgPath] = mesh
-                meshes.append(mesh.translated(by: offset))
+                cache[outline, default: [:]][color] = mesh
+                meshes.append(mesh.transformed(by: transform))
                 continue
             }
-            meshes.append(mesh.translated(by: offset))
+            meshes.append(mesh.transformed(by: transform))
         }
         return .union(meshes, isCancelled: isCancelled)
     }
@@ -237,6 +324,69 @@ extension NSAttributedString.Key {
 }
 #endif
 
+/// Arc-length lookup for a text baseline. Gaps between subpaths add no length.
+private struct TextGuide {
+    private struct Segment {
+        let start: Vector
+        let direction: Vector
+        let endDistance: Double
+    }
+
+    private let segments: [Segment]
+    private let length: Double
+    private let wraps: Bool
+    private let normal: Vector
+
+    init?(_ path: Path) {
+        var length = 0.0
+        self.segments = path.orderedEdges.map { edge in
+            let (distance, direction) = edge.lengthAndDirection
+            length += distance
+            return Segment(start: edge.start, direction: direction, endDistance: length)
+        }
+        guard length.isFinite, length > 0 else { return nil }
+        self.length = length
+        self.wraps = path.isClosed && path.subpaths.count == 1
+        let normal = path.plane?.normal ?? .unitZ
+        self.normal = normal.dot(normal.mostParallelAxis) < 0 ? -normal : normal
+    }
+
+    func transform(at position: Vector, advance: Double, offset: Vector, rotation: Rotation) -> Transform? {
+        let halfAdvance = advance / 2
+        let midpoint = position.x + halfAdvance
+        var distance = offset.x + midpoint
+        guard distance.isFinite else { return nil }
+        if wraps {
+            guard midpoint >= 0, midpoint < length else { return nil }
+            distance = distance.truncatingRemainder(dividingBy: length)
+            if distance < 0 { distance += length }
+        } else if distance < 0 || distance > length {
+            return nil
+        }
+
+        var low = 0, high = segments.count - 1
+        while low < high {
+            let mid = low + (high - low) / 2
+            if segments[mid].endDistance <= distance {
+                low = mid + 1
+            } else {
+                high = mid
+            }
+        }
+        let segment = segments[low]
+        let tangent = segment.direction
+        let startDistance = low == 0 ? 0 : segments[low - 1].endDistance
+        let up = normal.cross(tangent).direction ?? (Vector.unitY - tangent * tangent.y).normalized()
+        let forward = tangent.cross(up)
+        let frame = Rotation(forward: forward, up: up) ?? .identity
+        let origin = segment.start + tangent * (distance - startDistance - halfAdvance)
+        return Transform(
+            rotation: frame * rotation,
+            translation: origin + up * (position.y + offset.y) + forward * offset.z
+        )
+    }
+}
+
 private extension NSAttributedString {
     /// Creates a new attributed string using text in the font you provide.
     convenience init(string: String, font: CTFont?, color: Color? = nil) {
@@ -246,13 +396,20 @@ private extension NSAttributedString {
         self.init(string: string, attributes: attributes)
     }
 
-    /// Returns an array of (path, position, color) tuples
-    /// for the glyphs in an attributed string
-    func cgPaths(
+    /// Returns the outlines, placements, and colors of the shaped glyphs.
+    func glyphs(
+        along path: Path?,
+        offset: Vector,
+        rotation: Angle,
         width: Double?,
         isCancelled: Euclid.CancellationHandler
-    ) -> [(glyph: CGPath, offset: CGPoint, color: Color?)] {
-        guard !isCancelled() else { return [] }
+    ) -> [(outline: CGPath, transform: Transform, color: Color?)] {
+        guard offset.x.isFinite, offset.y.isFinite, offset.z.isFinite,
+              rotation.radians.isFinite, !isCancelled()
+        else { return [] }
+        let guide = path.flatMap(TextGuide.init)
+        if path != nil, guide == nil { return [] }
+        let rotation = Rotation.roll(rotation)
         let framesetter = CTFramesetterCreateWithAttributedString(self as CFAttributedString)
 
         let range = CFRangeMake(0, 0)
@@ -265,7 +422,7 @@ private extension NSAttributedString {
         var origins = Array(repeating: CGPoint.zero, count: lines.count)
         CTFrameGetLineOrigins(frame, range, &origins)
 
-        var paths = [(CGPath, CGPoint, Color?)]()
+        var paths = [(CGPath, Transform, Color?)]()
         for (line, origin) in zip(lines, origins) {
             guard !isCancelled() else { return [] }
             let runs = CTLineGetGlyphRuns(line) as! [CTRun]
@@ -290,7 +447,18 @@ private extension NSAttributedString {
                     CTRunGetPositions(run, range, &position)
                     position.x += origin.x
                     position.y += origin.y - origins[0].y
-                    paths.append((letter, position, color.map(Color.init)))
+                    let transform: Transform
+                    if let guide {
+                        var advance = CGSize.zero
+                        CTRunGetAdvances(run, range, &advance)
+                        guard let placement = guide.transform(
+                            at: Vector(position), advance: advance.width, offset: offset, rotation: rotation
+                        ) else { continue }
+                        transform = placement
+                    } else {
+                        transform = Transform(rotation: rotation, translation: Vector(position) + offset)
+                    }
+                    paths.append((letter, transform, color.map(Color.init)))
                 }
             }
         }

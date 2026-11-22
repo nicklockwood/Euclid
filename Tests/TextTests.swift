@@ -14,6 +14,78 @@ import Foundation
 import XCTest
 
 final class TextTests: XCTestCase {
+    func testTextOverloadsApplyGlyphRotationAlongTheGuide() {
+        let string = "L"
+        let font = CTFontCreateWithName("Helvetica" as CFString, 1, nil)
+        let text = NSAttributedString(
+            string: string, attributes: [NSAttributedString.Key(kCTFontAttributeName as String): font]
+        )
+        let start = Vector(10, 20)
+        let guide = Path.line(start, start + .unitY * 10)
+        // The glyph rotation cancels the quarter turn of the vertical guide.
+        let expected = Path.text(text).translated(by: start)
+        let stringCollection: ContiguousArray<Path> = .text(string, along: guide, rotation: .halfPi)
+        let attributedCollection: ContiguousArray<Path> = .text(text, along: guide, rotation: .halfPi)
+        for paths in [
+            Path.text(string, along: guide, rotation: .halfPi),
+            Path.text(text, along: guide, rotation: .halfPi),
+            [Path].text(string, along: guide, rotation: .halfPi),
+            [Path].text(text, along: guide, rotation: .halfPi),
+            Array(stringCollection),
+            Array(attributedCollection),
+        ] {
+            XCTAssertEqual(paths.count, 1)
+            for (actual, expected) in zip(paths, expected) {
+                XCTAssertTrue(actual.isApproximatelyEqual(to: expected))
+            }
+        }
+
+        let expectedMesh = Mesh.text(text).translated(by: start)
+        for mesh in [
+            Mesh.text(string, along: guide, rotation: .halfPi),
+            Mesh.text(text, along: guide, rotation: .halfPi),
+        ] {
+            XCTAssertEqual(mesh.bounds.min, expectedMesh.bounds.min, accuracy: epsilon)
+            XCTAssertEqual(mesh.bounds.max, expectedMesh.bounds.max, accuracy: epsilon)
+            XCTAssertEqual(mesh.signedVolume, expectedMesh.signedVolume, accuracy: epsilon)
+        }
+    }
+
+    func testTextAlongVerticalBaselineUsesGlyphAdvancesAndOrientation() {
+        let guide = Path.line([10, 20], [10, 120])
+        let flat = Path.text("AB O")
+        let guided: ContiguousArray<Path> = .text("AB O", along: guide, offset: [5, 3, 0])
+        XCTAssertEqual(guided.count, flat.count)
+        for (actual, glyph) in zip(guided, flat) {
+            let expected = glyph.rotated(by: .roll(-.halfPi)).translated(by: [7, 25])
+            XCTAssertTrue(actual.isApproximatelyEqual(to: expected))
+            XCTAssertEqual(actual.windingRule, .nonZero)
+        }
+
+        let flatMesh = Mesh.text("AB O")
+        let guidedMesh = Mesh.text("AB O", along: guide, offset: [5, 3, 0])
+        let expectedMesh = flatMesh.rotated(by: .roll(-.halfPi)).translated(by: [7, 25])
+        XCTAssertEqual(guidedMesh.bounds.min, expectedMesh.bounds.min, accuracy: epsilon)
+        XCTAssertEqual(guidedMesh.bounds.max, expectedMesh.bounds.max, accuracy: epsilon)
+        XCTAssertEqual(guidedMesh.signedVolume, expectedMesh.signedVolume, accuracy: epsilon)
+    }
+
+    func testTextAlongPathClipsOpenGuidesAndWrapsClosedGuides() {
+        let font = CTFontCreateWithName("Courier" as CFString, 10, nil)
+        let text = "HHHH"
+        let line = Path.line(.zero, [10, 0])
+        XCTAssertEqual(Path.text(text, font: font, along: line).count, 2)
+        XCTAssertEqual(Path.text(text, font: font, along: line, offset: [-8, 0]).count, 2)
+        XCTAssertTrue(Path.text(text, font: font, along: .empty).isEmpty)
+
+        let loop = Path.square(size: 10)
+        let first = Path.text(text, font: font, along: loop, offset: [-2, 0])
+        let nextLap = Path.text(text, font: font, along: loop, offset: [loop.length - 2, 0])
+        XCTAssertEqual(first.count, 4)
+        XCTAssertEqual(first, nextLap)
+        XCTAssertLessThan(Path.text(String(repeating: "H", count: 20), font: font, along: loop).count, 20)
+    }
+
     func testHelloWorldCircularExtrusionPreservesCounters() {
         let rail = Path.circle(radius: 1, segments: 16)
         XCTAssertTrue(rail.isClosed)
