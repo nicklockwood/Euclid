@@ -511,6 +511,16 @@ final class PathShapeTests: XCTestCase {
         XCTAssertEqual(contours, [.circle(), .circle().translated(by: .unitZ)])
     }
 
+    func testExtrusionAlongCompoundGuideSamplesEachSubpathIndependently() {
+        let profile = Path.square(size: 0.2)
+        let guides = [Path.line(.zero, [0, 0, 2]), Path.line([5, 0, 0], [5, 0, 2])]
+        let compound = Path(subpaths: guides)
+        for taper in [Vector.one, Vector(0.5, 0.75, 1)] {
+            let expected = guides.flatMap { profile.extrusionContours(along: $0, taper: taper) }
+            XCTAssertEqual(profile.extrusionContours(along: compound, taper: taper), expected)
+        }
+    }
+
     func testClosedExtrusionInterpolatesTiltAcrossCollinearSeam() throws {
         let axis = Path([
             .point(0.5, 0), .point(2, 0), .point(2, 2),
@@ -698,7 +708,7 @@ final class PathShapeTests: XCTestCase {
             .point(0, 0, 1),
         ]), align: .axis)
 
-        XCTAssertEqual(contours.count, 4)
+        XCTAssertEqual(contours.count, 3)
         XCTAssertEqual(contours[0].bounds.center, .zero)
         XCTAssertEqual(contours[1].bounds.center, .zero)
         XCTAssertEqual(contours.last?.bounds.center, .unitZ)
@@ -712,9 +722,10 @@ final class PathShapeTests: XCTestCase {
             .point(1, 0, 1),
         ]))
 
-        XCTAssertEqual(contours.count, 6)
+        XCTAssertEqual(contours.count, 4)
         XCTAssertEqual(contours[1].bounds.center, [1, 0, 0])
         XCTAssertEqual(contours[2].bounds.center, [1, 0, 0])
+        XCTAssertEqual(contours[1].faceNormal.dot(contours[2].faceNormal), 0, accuracy: epsilon)
         XCTAssertEqual(contours.last?.bounds.center, [1, 0, 1])
     }
 

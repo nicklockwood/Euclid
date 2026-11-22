@@ -47,10 +47,10 @@ A three-dimensional surface made from polygons.
 
 - ``Mesh/convexHull(of:material:isCancelled:)-(Collection<Path>,_,_)``
 - ``Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)``
-- ``Mesh/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-6crez``
-- ``Mesh/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-646jk``
-- ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Path,_,_,_,_,_,_)``
-- ``Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-(Collection<Path>,_,_,_,_,_,_)``
+- ``Mesh/extrude(_:along:twist:taper:align:miterLimit:faces:material:isCancelled:)-(Path,_,_,_,_,_,_,_,_)``
+- ``Mesh/extrude(_:along:twist:taper:align:miterLimit:faces:material:isCancelled:)-(Collection<Path>,_,_,_,_,_,_,_,_)``
+- ``Mesh/extrude(_:depth:twist:taper:sections:faces:material:isCancelled:)-(Path,_,_,_,_,_,_,_)``
+- ``Mesh/extrude(_:depth:twist:taper:sections:faces:material:isCancelled:)-(Collection<Path>,_,_,_,_,_,_,_)``
 - ``Mesh/fill(_:faces:material:isCancelled:)-(Path,_,_,_)``
 - ``Mesh/fill(_:faces:material:isCancelled:)-(Collection<Path>,_,_,_)``
 - ``Mesh/loft(_:faces:material:isCancelled:)``

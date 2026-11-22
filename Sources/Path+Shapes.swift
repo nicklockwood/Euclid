@@ -411,21 +411,60 @@ public extension Path {
         return profile.faceNormal.z < 0 ? profile.inverted() : profile
     }
 
+    /// Creates an array of contours by extruding a planar path along its face normal.
+    /// - Parameters:
+    ///   - depth: The depth of the extrusion, centered on the profile.
+    ///   - twist: Angular twist to apply along the extrusion.
+    ///   - taper: The scale of the profile at the end of the extrusion.
+    ///   - sections: The number of segments along the extrusion.
+    func extrusionContours(
+        depth: Double,
+        twist: Angle = .zero,
+        taper: Vector = .one,
+        sections: Int? = nil
+    ) -> [Path] {
+        let depth = abs(depth)
+        if depth < scaleLimit { return [self] }
+        guard let extrusion = straightExtrusion(
+            depth: depth,
+            twist: twist,
+            taper: taper,
+            sections: sections,
+            isCancelled: { false }
+        ) else { return [] }
+        return extrusion.contours.map {
+            $0.rotated(by: extrusion.orientation).translated(by: extrusion.origin)
+        }
+    }
+
     /// Creates an array of contours by extruding one path along another path.
+    /// Each subpath of a compound guide is sampled independently.
     /// - Parameters:
     ///   - along: The path along which to extrude the shape.
     ///   - twist: Angular twist to apply along the extrusion.
+    ///   - taper: The scale of the profile at the end of the extrusion.
     ///   - align: The alignment mode to use for the extruded shape.
     ///   - miterLimit: The miter threshold beyond which a corner is beveled.
     func extrusionContours(
         along: Path,
         twist: Angle = .zero,
+        taper: Vector = .one,
         align: Alignment = .default,
         miterLimit: MiterLimit = .infinity
     ) -> [Path] {
-        extrusionContoursWithOffsets(
-            along: along, twist: twist, align: align, miterLimit: miterLimit
-        ).contours
+        let guides = along.subpaths
+        if guides.count > 1 {
+            return guides.flatMap {
+                extrusionContours(along: $0, twist: twist, taper: taper, align: align, miterLimit: miterLimit)
+            }
+        }
+        return extrusionContoursWithOffsets(
+            along: along,
+            twist: twist,
+            taper: taper,
+            align: align,
+            miterLimit: miterLimit
+        ) { false }.contours
     }
 
     /// Creates an array of circular contours by lathing this profile around a path.
@@ -439,14 +478,84 @@ public extension Path {
 }
 
 extension Path {
-    /// Returns contours and their normalized distances along the extrusion path.
-    /// Offsets follow contour order, including duplicates, bevels, and the closing seam.
+    /// Samples a straight extrusion in XY profile coordinates. The transforms map reference
+    /// vertices to the sampled sections, and the orientation and origin place them in 3D.
+    func straightExtrusion(
+        depth: Double,
+        twist: Angle,
+        taper: Vector,
+        sections: Int?,
+        isCancelled: CancellationHandler
+    ) -> (contours: [Path], transforms: [(Vertex) -> Vertex], orientation: Rotation, origin: Vector)? {
+        guard let plane, depth.isFinite, twist.radians.isFinite,
+              taper.x.isFinite, taper.x >= 0, taper.y.isFinite, taper.y >= 0,
+              let sectionCount = sections ?? Int(exactly: ceil(abs(twist / .twoPi) * 16))
+        else { return nil }
+        let sections = max(1, sectionCount)
+        let orientation = rotationBetweenNormalizedVectors(.unitZ, plane.normal)
+        let origin = plane.origin
+        let profile = plane == .xy ? self : mapPoints {
+            let p = ($0.position - origin).rotated(by: -orientation)
+            return $0.withPosition([p.x, p.y])
+        }
+        let angularRate = -twist.radians / depth
+        let xRate = (taper.x - 1) / depth, yRate = (taper.y - 1) / depth
+        let transforms: [(Vertex) -> Vertex] = (0 ... sections).map { index in
+            let fraction = Double(index) / Double(sections)
+            let r = Rotation.roll(twist * fraction)
+            let sx = 1 - fraction + taper.x * fraction
+            let sy = 1 - fraction + taper.y * fraction
+            let z = depth * (fraction - 0.5)
+            return { source in
+                let p = source.position.rotated(by: r)
+                var vertex = source.withPosition([p.x * sx, p.y * sy, z])
+                if source.normal.z == 0 {
+                    // Apply the inverse transpose of the sweep derivative to side normals.
+                    let n = source.normal.rotated(by: r)
+                    let nx = n.x * sy, ny = n.y * sx
+                    let dx = xRate * p.x - angularRate * sx * p.y
+                    let dy = yRate * p.y + angularRate * sy * p.x
+                    let nz = -nx * dx - ny * dy
+                    vertex.normal = nx.isFinite && ny.isFinite && nz.isFinite ? [nx, ny, nz] : .zero
+                }
+                return vertex
+            }
+        }
+        var shapes = [profile.translated(by: [0, 0, -depth / 2])]
+        for transform in transforms.dropFirst() {
+            guard !isCancelled() else { return nil }
+            var isFinite = true
+            let section = profile.mapPoints {
+                let position = transform(Vertex($0.position)).position
+                guard position.x.isFinite, position.y.isFinite else {
+                    isFinite = false
+                    return $0
+                }
+                return $0.withPosition(position)
+            }
+            guard isFinite else { return nil }
+            shapes.append(section)
+        }
+        return (shapes, transforms, orientation, origin)
+    }
+
+    /// Samples contours and their normalized distances along a guide, including bevels.
+    /// For tapered sweeps, the transforms map vertices of the input profile into each contour.
+    /// A tapered closed guide includes both profiles at the seam and repeats the first to join them.
     func extrusionContoursWithOffsets(
         along: Path,
         twist: Angle,
+        taper: Vector,
         align: Alignment,
-        miterLimit: MiterLimit
-    ) -> (contours: [Path], contourOffsets: [Double]) {
+        miterLimit: MiterLimit,
+        isCancelled: CancellationHandler
+    ) -> (contours: [Path], offsets: [Double], transforms: [(Vertex) -> Vertex]) {
+        let isTapered = taper.x != 1 || taper.y != 1
+        guard !isTapered || (
+            isPlanar && taper.x.isFinite && taper.x >= 0 &&
+                taper.y.isFinite && taper.y >= 0
+        ) else { return ([], [], []) }
+        let isCyclic = along.isClosed && !isTapered
         let points = along.points
         var contourOffsets = [Double]()
         var distances = [0.0]
@@ -455,9 +564,9 @@ extension Path {
         }
         switch points.count {
         case 0:
-            return ([], [])
+            return ([], [], [])
         case 1:
-            return ([translated(by: points[0].position)], [0])
+            return ([translated(by: points[0].position)], [0], [])
         default:
             break
         }
@@ -465,16 +574,19 @@ extension Path {
         // Get initial shape orientation
         var shape = self
         var shapeNormal: Vector
+        var guideRotation = Rotation.identity
+        var profileRotation = Rotation.identity
+        let taperAxes = isTapered ? rotationBetweenNormalizedVectors(.unitZ, faceNormal) : .identity
         let pathPlane = along.flatteningPlane
         switch (shape.flatteningPlane, pathPlane) {
         case (.xy, .xy):
-            shape.rotate(by: .pitch(.halfPi))
+            guideRotation = .pitch(.halfPi)
             shapeNormal = .unitY
         case (.yz, .yz):
-            shape.rotate(by: .roll(.halfPi))
+            guideRotation = .roll(.halfPi)
             shapeNormal = -.unitY
         case (.xz, .xz):
-            shape.rotate(by: .roll(.halfPi))
+            guideRotation = .roll(.halfPi)
             shapeNormal = .unitX
         case (.xy, _):
             shapeNormal = .unitZ
@@ -483,6 +595,8 @@ extension Path {
         case (.xz, _):
             shapeNormal = .unitY
         }
+        shape.rotate(by: guideRotation)
+        profileRotation = guideRotation
 
         // Get alignment mode
         let axisAligned: Bool
@@ -506,7 +620,13 @@ extension Path {
             axisAligned = aligned
         }
 
-        func rotateShape(by rotation: Rotation) {
+        func rotateShape(by rotation: Rotation, twisting: Bool = false) {
+            if isTapered {
+                profileRotation = rotation * profileRotation
+                if !twisting {
+                    guideRotation = rotation * guideRotation
+                }
+            }
             shape.rotate(by: rotation)
             shapeNormal.rotate(by: rotation)
         }
@@ -524,10 +644,20 @@ extension Path {
         }
 
         // Interpolate tilt along straight sections, keeping corners and ends unchanged
-        let vertexCount = along.isClosed ? points.count - 1 : points.count
+        let vertexCount = isCyclic ? points.count - 1 : points.count
         let edges = zip(points, points.dropFirst()).map { lengthAndDirection(from: $0, to: $1) }
+        let seam: (normal: Vector, stretch: (distance: Double, along: Vector))?
+        if isTapered, along.isClosed, let incoming = edges.last?.direction, let outgoing = edges.first?.direction {
+            let (axis, angle) = axisAndAngleBetweenNormalizedVectors(incoming, outgoing)
+            let halfAngle = angle / 2
+            let normal = incoming.rotated(by: Rotation(unchecked: axis, angle: halfAngle))
+            let stretchAxis = incoming.rotated(by: Rotation(unchecked: axis, angle: halfAngle - .halfPi))
+            seam = (normal, (1 / cos(halfAngle), stretchAxis))
+        } else {
+            seam = nil
+        }
         let corners = (0 ..< vertexCount).filter { index in
-            if !along.isClosed, index == 0 || index == vertexCount - 1 {
+            if !isCyclic, index == 0 || index == vertexCount - 1 {
                 return true
             }
             guard let incoming = edges[(index + edges.count - 1) % edges.count].direction,
@@ -538,7 +668,7 @@ extension Path {
             return !incoming.isApproximatelyEqual(to: outgoing)
         }
         func cornerTilt(at index: Int, incoming: Bool) -> Rotation {
-            if !along.isClosed, index == 0 || index == vertexCount - 1 {
+            if !isCyclic, index == 0 || index == vertexCount - 1 {
                 return .identity
             }
             guard let n1 = edges[(index + edges.count - 1) % edges.count].direction,
@@ -551,7 +681,7 @@ extension Path {
             return Rotation(unchecked: axis, angle: incoming ? tilt : -tilt)
         }
         var contourTilts = [Int: Rotation]()
-        let runEnds = along.isClosed ? corners + corners.prefix(1).map { $0 + vertexCount } : corners
+        let runEnds = isCyclic ? corners + corners.prefix(1).map { $0 + vertexCount } : corners
         for (start, end) in zip(runEnds, runEnds.dropFirst()) where end > start + 1 {
             let length = (start ..< end).reduce(0.0) { $0 + edges[$1 % edges.count].length }
             guard length > epsilon else { continue }
@@ -564,12 +694,65 @@ extension Path {
             }
         }
 
+        typealias Contour = (path: Path, transform: ((Vertex) -> Vertex)?)
+        let length = along.length
+        func scaleFactors(at distance: Double) -> Vector {
+            let fraction = length > epsilon ? min(max(distance / length, 0), 1) : 0
+            return [1 - fraction + taper.x * fraction, 1 - fraction + taper.y * fraction, 1]
+        }
+        func taperFrame() -> Rotation {
+            guideRotation * taperAxes
+        }
+        func taperedShape(at distance: Double) -> Path {
+            guard isTapered else { return shape }
+            let frame = taperFrame(), scale = scaleFactors(at: distance)
+            return shape.mapPoints { point in
+                point.withPosition(point.position.rotated(by: -frame).scaled(by: scale).rotated(by: frame))
+            }
+        }
+
         func transformedShape(
             for p: PathPoint,
             _ scale: (distance: Double, along: Vector)?,
+            at distance: Double = 0,
             tilt: Rotation = .identity,
             snappingTo snapPoint: Vector? = nil
-        ) -> Path {
+        ) -> Contour {
+            if isTapered {
+                let frame = taperFrame(), factors = scaleFactors(at: distance)
+                let toTaperFrame = -frame * profileRotation
+                let fromTaperFrame = tilt * frame
+                let stretchDirection = scale?.along.direction
+                let stretch = scale?.distance ?? 1
+                func position(_ position: Vector) -> Vector {
+                    var result = position.rotated(by: toTaperFrame).scaled(by: factors)
+                        .rotated(by: fromTaperFrame)
+                    if let direction = stretchDirection {
+                        result += direction * result.dot(direction) * (stretch - 1)
+                    }
+                    result += p.position
+                    return snapPoint.flatMap { result.isApproximatelyEqual(to: $0) ? $0 : nil } ?? result
+                }
+                let contour = mapPoints { point in
+                    let color = p.color.map { (point.color ?? .white) * $0 } ?? point.color
+                    return point.withPosition(position(point.position)).withColor(color)
+                }
+                let transform: (Vertex) -> Vertex = { source in
+                    var vertex = source.withPosition(position(source.position))
+                    let n = source.normal.rotated(by: toTaperFrame)
+                    var normal = Vector(n.x * factors.y, n.y * factors.x, n.z * factors.x * factors.y)
+                        .rotated(by: fromTaperFrame)
+                    if let direction = stretchDirection {
+                        normal += direction * normal.dot(direction) * (1 / stretch - 1)
+                    }
+                    vertex.normal = normal
+                    if let color = p.color {
+                        vertex.color = source.color * color
+                    }
+                    return vertex
+                }
+                return (contour, transform)
+            }
             var shape = shape.rotated(by: tilt)
             if let color = p.color {
                 shape = shape.mapColors { ($0 ?? .white) * color }
@@ -583,7 +766,7 @@ extension Path {
                     $0.position.isApproximatelyEqual(to: snapPoint) ? $0.withPosition(snapPoint) : $0
                 }
             }
-            return shape
+            return (shape, nil)
         }
 
         func projectionRange(of shape: Path, along axis: Vector) -> (min: Double, max: Double) {
@@ -615,20 +798,21 @@ extension Path {
 
         func twistShape(_ distance: Double) {
             let angle = twist * (distance / length)
-            rotateShape(by: Rotation(unchecked: shapeNormal, angle: angle))
+            rotateShape(by: Rotation(unchecked: shapeNormal, angle: angle), twisting: true)
         }
 
-        func transformedShapes(for index: Int, firstOnly: Bool = false) -> [Path] {
+        func transformedShapes(for index: Int, firstOnly: Bool = false) -> [Contour] {
             assert(index > 0)
             let p0 = points[index > 1 ? index - 2 : points.count - 2]
             let p1 = points[index - 1]
             let p2 = points[index]
             let (incomingLength, n1) = lengthAndDirection(from: p0, to: p1)
             let (outgoingLength, n2) = lengthAndDirection(from: p1, to: p2)
+            let distance = distances[index - 1]
             twistShape(incomingLength)
             guard let n1, let n2 else {
                 appendPoint(index - 1)
-                return [transformedShape(for: p1, nil)]
+                return [transformedShape(for: p1, nil, at: distance)]
             }
             if let tilt = contourTilts[index - 1] {
                 let normal = shapeNormal.rotated(by: tilt)
@@ -636,16 +820,16 @@ extension Path {
                 let scale: (Double, Vector)? = abs(cosine) > epsilon ?
                     (1 / abs(cosine), n2 - normal * cosine) : nil
                 appendPoint(index - 1)
-                return [transformedShape(for: p1, scale, tilt: tilt)]
+                return [transformedShape(for: p1, scale, at: distance, tilt: tilt)]
             }
             var (axis, angle) = axisAndAngleBetweenNormalizedVectors(n1, n2)
-            func miteredShape() -> [Path] {
+            func miteredShape() -> [Contour] {
                 angle /= 2
                 let r = Rotation(unchecked: axis, angle: angle)
                 rotateShape(by: r)
                 let stretchDistance = 1 / cos(angle)
                 let stretchAxis = n1.rotated(by: Rotation(unchecked: axis, angle: angle - .halfPi))
-                let results = [transformedShape(for: p1, (stretchDistance, stretchAxis))]
+                let results = [transformedShape(for: p1, (stretchDistance, stretchAxis), at: distance)]
                 appendPoint(index - 1)
                 rotateShape(by: r)
                 return results
@@ -655,11 +839,12 @@ extension Path {
                 let stretchDistance = 1 / cos(bevelAngle)
                 let shouldSeparateInnerCorner = angle < .halfPi - .radians(epsilon)
                 let maximumInnerCornerGap = shouldSeparateInnerCorner ?
-                    max(shape.bounds.size.length * 1e-5, scaleLimit * 2) : 0
+                    max(taperedShape(at: distance).bounds.size.length * 1e-5, scaleLimit * 2) : 0
                 let incomingSideAxis = n1.rotated(by: Rotation(unchecked: axis, angle: -.halfPi))
-                let incomingSideRange = projectionRange(of: shape, along: incomingSideAxis)
+                let cornerShape = taperedShape(at: distance)
+                let incomingSideRange = projectionRange(of: cornerShape, along: incomingSideAxis)
                 let outgoingSideAxis = n1.rotated(by: Rotation(unchecked: axis, angle: angle - .halfPi))
-                let outgoingShape = shape.rotated(by: Rotation(unchecked: axis, angle: angle))
+                let outgoingShape = cornerShape.rotated(by: Rotation(unchecked: axis, angle: angle))
                 let outgoingSideRange = projectionRange(of: outgoingShape, along: outgoingSideAxis)
                 let innerCorner = Line(
                     origin: p1.position + incomingSideAxis * incomingSideRange.min,
@@ -673,7 +858,7 @@ extension Path {
                 let bevelRotation = Rotation(unchecked: axis, angle: bevelAngle)
                 rotateShape(by: bevelRotation)
                 let incomingAxis = n1.rotated(by: Rotation(unchecked: axis, angle: bevelAngle - .halfPi))
-                let incomingRange = projectionRange(of: shape, along: incomingAxis)
+                let incomingRange = projectionRange(of: taperedShape(at: distance), along: incomingAxis)
                 let incomingAdvanceToCorner: Double? = innerCorner.flatMap {
                     let denominator = n1.dot(incomingAxis)
                     guard abs(denominator) > epsilon else {
@@ -695,7 +880,7 @@ extension Path {
                 )
                 rotateShape(by: bevelRotation)
                 let outgoingAxis = n1.rotated(by: Rotation(unchecked: axis, angle: bevelAngle * 2 - .halfPi))
-                let outgoingRange = projectionRange(of: shape, along: outgoingAxis)
+                let outgoingRange = projectionRange(of: taperedShape(at: distance), along: outgoingAxis)
                 let outgoingAdvanceToCorner: Double? = innerCorner.flatMap {
                     let denominator = n2.dot(outgoingAxis)
                     guard abs(denominator) > epsilon else {
@@ -719,12 +904,14 @@ extension Path {
                 let outgoing = firstOnly ? nil : transformedShape(
                     for: p1.withPosition(p1.position + n2 * advance),
                     (stretchDistance, outgoingAxis),
+                    at: distance + advance,
                     snappingTo: shouldSeparateInnerCorner || outgoingAdvanceToCorner == nil ? nil : innerCorner
                 )
                 rotateShape(by: -bevelRotation)
                 let incoming = transformedShape(
                     for: p1.withPosition(p1.position - n1 * advance),
                     (stretchDistance, incomingAxis),
+                    at: distance - advance,
                     snappingTo: shouldSeparateInnerCorner || incomingAdvanceToCorner == nil ? nil : innerCorner
                 )
                 rotateShape(by: bevelRotation)
@@ -742,8 +929,7 @@ extension Path {
         }
 
         // Prepare initial shape
-        let length = along.length
-        var shapes = [Path]()
+        var contours = [Contour]()
         var shapeToPointIndex: [Int] = []
         func appendPoint(_ index: Int, offset: Double = 0) {
             shapeToPointIndex.append(index)
@@ -763,30 +949,42 @@ extension Path {
         }
         let initialShape = shape
 
-        if along.isClosed {
+        if isCyclic {
             for i in 2 ..< points.count {
-                shapes += transformedShapes(for: i)
+                guard !isCancelled() else { return ([], [], []) }
+                contours += transformedShapes(for: i)
             }
-            shapes += transformedShapes(for: 1)
-            shapes += transformedShapes(for: 2, firstOnly: true)
+            contours += transformedShapes(for: 1)
+            contours += transformedShapes(for: 2, firstOnly: true)
         } else {
-            shapes.append(transformedShape(for: points[0], nil))
+            // A tapered loop has distinct sections on either side of its seam.
+            // Miter both into the same plane so the loft can join them there.
+            func endpoint(_ point: PathPoint, distance: Double) -> Contour {
+                let tilt = seam.map {
+                    rotationBetweenNormalizedVectors(shape.faceNormal, $0.normal)
+                } ?? .identity
+                return transformedShape(for: point, seam?.stretch, at: distance, tilt: tilt)
+            }
+            contours.append(endpoint(points[0], distance: 0))
             appendPoint(0)
             for i in 2 ..< points.count {
-                shapes += transformedShapes(for: i)
+                guard !isCancelled() else { return ([], [], []) }
+                contours += transformedShapes(for: i)
             }
             let last2 = points.suffix(2).map(\.position)
             twistShape((last2[1] - last2[0]).length)
-            shapes.append(transformedShape(for: points.last!, nil))
+            contours.append(endpoint(points.last!, distance: length))
             appendPoint(points.count - 1)
         }
+        var shapes = contours.map(\.path)
+        var transforms = contours.compactMap(\.transform)
 
-        if along.isClosed {
+        if isCyclic {
             // Compute final shape
             shape = initialShape
             shapeNormal = shape.faceNormal
             twistShape(length)
-            let expected = transformedShapes(for: 2, firstOnly: true)[0]
+            let expected = transformedShapes(for: 2, firstOnly: true)[0].path
 
             func rotationBetween(_ a: Path?, _ b: Path, checkSign: Bool = true) -> Rotation {
                 guard let a else { return .identity }
@@ -831,7 +1029,7 @@ extension Path {
 
         // Remove the extra closing sample and wrap closed path offsets to 0...1
         contourOffsets = Array(contourOffsets.prefix(shapes.count))
-        if along.isClosed, let first = contourOffsets.first {
+        if isCyclic, let first = contourOffsets.first {
             var previous = first
             var offset = -first
             for i in contourOffsets.indices {
@@ -844,17 +1042,23 @@ extension Path {
         contourOffsets = contourOffsets.map { length > epsilon ? $0 / length : 0 }
 
         // Double up shapes at sharp corners
-        let startIndex = along.isClosed ? 0 : 1
-        let shouldDoubleClosingShape = along.isClosed && !points[shapeToPointIndex[shapes.count - 1]].isCurved
+        let startIndex = isCyclic ? 0 : 1
+        let shouldDoubleClosingShape = isCyclic && !points[shapeToPointIndex[shapes.count - 1]].isCurved
         for i in (startIndex ..< shapes.count - 1).reversed() where !points[shapeToPointIndex[i]].isCurved {
             shapes.insert(shapes[i], at: i)
             contourOffsets.insert(contourOffsets[i], at: i)
+            if isTapered { transforms.insert(transforms[i], at: i) }
         }
         if shouldDoubleClosingShape {
             shapes.append(shapes[shapes.count - 1])
             contourOffsets.append(contourOffsets.last!)
         }
-        return (along.isClosed ? snapCoincidentPoints(in: shapes) : shapes, contourOffsets)
+        if isTapered, along.isClosed {
+            shapes.append(shapes[0])
+            transforms.append(transforms[0])
+            contourOffsets.append(1)
+        }
+        return (isCyclic ? snapCoincidentPoints(in: shapes) : shapes, contourOffsets, transforms)
     }
 
     /// Returns contours and normalized distances along the profile and axis.

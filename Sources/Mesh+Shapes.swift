@@ -588,14 +588,17 @@ public extension Mesh {
     ///   - shape: The path to extrude in order to create the mesh.
     ///   - depth: The depth of the extrusion.
     ///   - twist: Angular twist to apply along the extrusion.
-    ///   - sections: Number of sections to create along extrusion.
+    ///   - taper: The scale of the profile at the end of the extrusion.
+    ///   - sections: Number of segments along the extrusion.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
+    /// - Note: Large twists between consecutive sections can cause self-intersection.
     static func extrude(
         _ shape: Path,
         depth: Double = 1,
         twist: Angle = .zero,
+        taper: Vector = .one,
         sections: Int? = nil,
         faces: Faces = .default,
         material: Material? = nil,
@@ -615,6 +618,12 @@ public extension Mesh {
         }
         guard !isCancelled() else {
             return .empty
+        }
+        if taper.x != 1 || taper.y != 1 || (twist != .zero && extrusionShape.isPlanar) {
+            return extrusionLoft(
+                extrusionShape, depth: depth, twist: twist, taper: taper,
+                sections: sections, faces: faces, material: material, isCancelled: isCancelled
+            )
         }
         let faceNormal = extrusionShape.faceNormal
         let offset = faceNormal * depth
@@ -645,14 +654,17 @@ public extension Mesh {
     ///   - shapes: The collection of paths to extrude in order to create the mesh.
     ///   - depth: The depth of the extrusion.
     ///   - twist: Angular twist to apply along the extrusion.
-    ///   - sections: Number of sections to create along extrusion.
+    ///   - taper: The scale of each profile at the end of its extrusion.
+    ///   - sections: Number of segments along the extrusion.
     ///   - faces: The direction of the generated polygon faces.
     ///   - material: The optional material for the mesh.
     ///   - isCancelled: Callback used to cancel the operation.
+    /// - Note: Large twists between consecutive sections can cause self-intersection.
     static func extrude(
         _ shapes: some Collection<Path>,
         depth: Double = 1,
         twist: Angle = .zero,
+        taper: Vector = .one,
         sections: Int? = nil,
         faces: Faces = .default,
         material: Material? = nil,
@@ -663,6 +675,7 @@ public extension Mesh {
                 shape,
                 depth: depth,
                 twist: twist,
+                taper: taper,
                 sections: sections,
                 faces: faces,
                 material: material,
@@ -670,11 +683,12 @@ public extension Mesh {
             )
         }
         let material = SendableMaterial(material)
-        return .union(build(shapes, normalizePositions: twist == .zero, using: {
+        return .union(build(shapes, normalizePositions: twist == .zero && taper.x == 1 && taper.y == 1, using: {
             extrude(
                 $0,
                 depth: depth,
                 twist: twist,
+                taper: taper,
                 sections: sections,
                 faces: faces,
                 material: material.value,
@@ -688,6 +702,7 @@ public extension Mesh {
     ///   - shape: The shape to extrude into a mesh.
     ///   - along: The path along which to extrude the shape.
     ///   - twist: Angular twist to apply along the extrusion.
+    ///   - taper: The scale of the profile at the end of the extrusion.
     ///   - align: The alignment mode to use for the extruded shape.
     ///   - miterLimit: The miter threshold beyond which a corner is beveled.
     ///   - faces: The direction of the generated polygon faces.
@@ -697,6 +712,7 @@ public extension Mesh {
         _ shape: Path,
         along: Path,
         twist: Angle = .zero,
+        taper: Vector = .one,
         align: Alignment = .default,
         miterLimit: MiterLimit = .infinity,
         faces: Faces = .default,
@@ -711,6 +727,7 @@ public extension Mesh {
                     shape,
                     along: $0,
                     twist: twist,
+                    taper: taper,
                     align: align,
                     miterLimit: miterLimit,
                     faces: faces,
@@ -719,25 +736,39 @@ public extension Mesh {
                 )
             }, isCancelled: isCancelled))
         }
+        // A uniformly sampled straight guide normal to the profile is the depth
+        // extrusion. Reuse its section correspondence when applying twist.
+        let isTapered = taper.x != 1 || taper.y != 1
+        if twist != .zero || isTapered, shape.plane == .xy, let guide = along.uniformPositiveZGuide {
+            return extrude(
+                shape, depth: guide.depth, twist: twist, taper: taper, sections: guide.sections,
+                faces: faces, material: material, isCancelled: isCancelled
+            ).translated(by: guide.center)
+        }
         // A resolved nonzero boundary also works with the default loft heuristic.
         // Keep its original contour vertices aligned through bends.
         let shape = shape.windingRule == .nonZero && shape.hasResolvedFillBoundary ?
             shape.withWindingRule(.default) : shape
-        let (contours, contourOffsets) = shape.extrusionContoursWithOffsets(
+        let extrusion = shape.extrusionContoursWithOffsets(
             along: along,
             twist: twist,
+            taper: taper,
             align: align,
-            miterLimit: miterLimit
+            miterLimit: miterLimit,
+            isCancelled: isCancelled
         )
+        let sectionTransforms = extrusion.transforms.isEmpty ? nil : extrusion.transforms
         return loft(
-            contours,
-            contourOffsets: contourOffsets,
-            faces: faces,
+            extrusion.contours,
+            contourOffsets: extrusion.offsets,
+            faces: sectionTransforms != nil && faces == .default && !shape.isClosed ? .frontAndBack : faces,
             material: material,
             isConvex: false,
             isWatertight: nil,
             preserveInnerShellWinding: along.isClosed,
-            isCancelled: isCancelled
+            isCancelled: isCancelled,
+            sectionTransforms: sectionTransforms,
+            reference: shape
         )
     }
 
@@ -746,6 +777,7 @@ public extension Mesh {
     ///   - shapes: The collection of paths to extrude in order to create the mesh.
     ///   - along: The path along which to extrude the shape.
     ///   - twist: Angular twist to apply along the extrusion.
+    ///   - taper: The scale of each profile at the end of its extrusion.
     ///   - align: The alignment mode to use for the extruded shape.
     ///   - miterLimit: The miter threshold beyond which a corner is beveled.
     ///   - faces: The direction of the generated polygon faces.
@@ -755,6 +787,7 @@ public extension Mesh {
         _ shapes: some Collection<Path>,
         along: Path,
         twist: Angle = .zero,
+        taper: Vector = .one,
         align: Alignment = .default,
         miterLimit: MiterLimit = .infinity,
         faces: Faces = .default,
@@ -766,6 +799,7 @@ public extension Mesh {
                 shape,
                 along: along,
                 twist: twist,
+                taper: taper,
                 align: align,
                 miterLimit: miterLimit,
                 faces: faces,
@@ -779,6 +813,7 @@ public extension Mesh {
                 $0,
                 along: along,
                 twist: twist,
+                taper: taper,
                 align: align,
                 miterLimit: miterLimit,
                 faces: faces,
@@ -1058,7 +1093,38 @@ private extension Collection<Path> {
     }
 }
 
+private extension Collection<Vector> {
+    /// Classifies contour positions as a point, line, or two-dimensional profile.
+    var contourDimension: Int {
+        guard let origin = first,
+              let furthest = dropFirst().max(by: {
+                  ($0 - origin).lengthSquared < ($1 - origin).lengthSquared
+              }),
+              let axis = (furthest - origin).direction
+        else { return 0 }
+        // Allow for rounding when a collapsed contour is stored in a rotated plane.
+        let tolerance = 4 * Swift.max(coordinatePrecision, Swift.max(origin.length, furthest.length).ulp)
+        return contains { ($0 - origin).cross(axis).length > tolerance } ? 2 : 1
+    }
+}
+
 private extension Path {
+    /// Returns the depth, section count, and center of an evenly sampled positive Z guide
+    /// with no color modulation.
+    var uniformPositiveZGuide: (depth: Double, sections: Int, center: Vector)? {
+        let points = points
+        guard let start = points.first?.position, let end = points.last?.position,
+              end.x == start.x, end.y == start.y, end.z > start.z
+        else { return nil }
+        let sections = points.count - 1
+        let offset = end - start
+        guard points.enumerated().allSatisfy({ index, point in
+            (point.color == nil || point.color == .white) &&
+                point.position.isApproximatelyEqual(to: start + offset * (Double(index) / Double(sections)))
+        }) else { return nil }
+        return (offset.z, sections, start + offset / 2)
+    }
+
     var removingRepeatedClosedPrefixTailForMeshing: Path {
         let subpaths = subpaths
         if subpaths.count > 1, let first = subpaths.first, first.isClosed, first.points.count > 256 {
@@ -1272,6 +1338,7 @@ private extension Path {
             .mergingVertices(withPrecision: precision, isCancelled: isCancelled) : polygons
     }
 
+    /// Derives an affine transform from corresponding points and checks it against the full contours.
     func sectionTransform(relativeTo other: Path) -> ((Vector) -> Vector)? {
         if self == other {
             return { $0 }
@@ -1608,6 +1675,38 @@ private extension Mesh {
         (s1.bounds.center - s0.bounds.center).normalized()
     }
 
+    /// Builds a straight twist or taper in profile coordinates and places it in the original plane.
+    static func extrusionLoft(
+        _ shape: Path,
+        depth: Double,
+        twist: Angle,
+        taper: Vector,
+        sections: Int?,
+        faces: Faces,
+        material: Material?,
+        isCancelled: CancellationHandler
+    ) -> Mesh {
+        guard let extrusion = shape.straightExtrusion(
+            depth: depth,
+            twist: twist,
+            taper: taper,
+            sections: sections,
+            isCancelled: isCancelled
+        ) else { return .empty }
+        return loft(
+            extrusion.contours,
+            faces: faces == .default && !extrusion.contours[0].isClosed ? .frontAndBack : faces,
+            material: material,
+            isConvex: false,
+            isWatertight: nil,
+            preserveInnerShellWinding: false,
+            isCancelled: isCancelled,
+            sectionTransforms: extrusion.transforms
+        ).rotated(by: extrusion.orientation).translated(by: extrusion.origin)
+    }
+
+    /// Builds walls and caps from the section boundaries. Known transforms carry the first
+    /// boundary through twist and taper, including sections where vertices coincide.
     static func compoundLoft(
         originalShapes: [Path],
         contourOffsets: [Double]? = nil,
@@ -1616,25 +1715,55 @@ private extension Mesh {
         preserveInnerShellWinding: Bool,
         faces: Faces,
         material: Material?,
-        isCancelled: CancellationHandler
+        isCancelled: CancellationHandler,
+        sectionTransforms: [(Vertex) -> Vertex]? = nil,
+        reference: Path? = nil
     ) -> Mesh {
         let contourOffsets = contourOffsets.map { values in
             originalShapes.indices.filter { !originalShapes[$0].isEmpty }.map { values[$0] }
         }
-        let shapes = originalShapes.filter { !$0.isEmpty }
-        let first = shapes.first
-        let isClosed = first == shapes.last
-        let transforms = first.map { first in
-            shapes.map { $0.windingRule == first.windingRule ? $0.sectionTransform(relativeTo: first) : nil }
-        } ?? []
+        let shapes = sectionTransforms == nil ? originalShapes.filter { !$0.isEmpty } : originalShapes
+        let first = reference ?? shapes.first
+        let isClosed: Bool = if let first, let start = sectionTransforms?.first, let end = sectionTransforms?.last {
+            first.points.allSatisfy { point in
+                let vertex = Vertex(point.position)
+                return start(vertex).position == end(vertex).position
+            }
+        } else {
+            first == shapes.last
+        }
+        // A closed guide repeats the start contour after the end of the sweep.
+        let terminalSection = shapes.count - (isClosed ? 2 : 1)
+        let collapsedSection: Int?
+        if let sectionTransforms, let first, terminalSection > 0,
+           shapes[terminalSection].points.map(\.position).contourDimension < 2
+        {
+            // Path cleanup can also simplify a thin profile. Test the mapped vertices
+            // before treating it as a line or point.
+            let source = first.points.map(\.position)
+            let transform = sectionTransforms[terminalSection]
+            let end = source.map { transform(Vertex($0)).position }
+            collapsedSection = end.contourDimension < source.contourDimension ? terminalSection : nil
+        } else {
+            collapsedSection = nil
+        }
+        let transforms: [((Vector) -> Vector)?] = if let sectionTransforms {
+            sectionTransforms.map { transform in
+                { transform(Vertex($0)).position }
+            }
+        } else {
+            first.map { first in
+                shapes.map { $0.windingRule == first.windingRule ? $0.sectionTransform(relativeTo: first) : nil }
+            } ?? []
+        }
         let canBuildMappedSides = transforms.allSatisfy { $0 != nil }
-        let usesOriginalClosedBoundary = isClosed && useResolvedBoundary && first.map {
+        let usesOriginalClosedBoundary = sectionTransforms == nil && isClosed && useResolvedBoundary && first.map {
             $0.windingRule != .default && $0.hasResolvedFillBoundary
         } == true
-        let preservesMappedBoundaryWinding = first.map {
+        let preservesMappedBoundaryWinding = sectionTransforms == nil && first.map {
             $0.windingRule == .default && $0.subpathsHavePartiallyOverlappingInteriors && !$0
                 .hasRepairableCoincidentContours
-        } ?? false
+        } == true
         // If every section is just a transform of the first one, build side walls
         // by mapping the first section's boundary edges through those transforms.
         // This preserves contour correspondence through bends instead of asking
@@ -1685,15 +1814,28 @@ private extension Mesh {
         let firstFacePolygons = first.map {
             $0.fillPolygons(material: material, isCancelled: isCancelled)
         } ?? []
-        let sourceEdgesByShape = shapes.map { shape in
+        let sourceShapes = sectionTransforms == nil ? shapes : (first.map { [$0] } ?? [])
+        let sourceEdgesByShape = sourceShapes.map { shape in
             shape.subpaths.flatMap { edgeVertexPairs(from: $0) }
+        }
+        let sourceEdges = sourceEdgesByShape.first ?? []
+        var sourceEdgeIndexByLine = [LineSegment: Int]()
+        for (index, source) in sourceEdges.enumerated() {
+            let edge = LineSegment(unchecked: source.0.position, source.1.position)
+            if sourceEdgeIndexByLine[edge] == nil {
+                sourceEdgeIndexByLine[edge] = index
+            }
+            let reverse = edge.inverted()
+            if sourceEdgeIndexByLine[reverse] == nil {
+                sourceEdgeIndexByLine[reverse] = index
+            }
         }
         let firstBoundaryEdgeVertices = canBuildMappedSides ? first
             .flatMap { first -> [(Vertex, Vertex)]? in
                 if usesOriginalClosedBoundary {
                     return first.oddEvenOrientedSubpaths.flatMap { edgeVertexPairs(from: $0) }
                 }
-                if useResolvedBoundary {
+                if useResolvedBoundary || (sectionTransforms != nil && !firstFacePolygons.isEmpty) {
                     let firstBoundarySubpaths = boundarySubshapes.compactMap(\.first)
                     if preservesMappedBoundaryWinding,
                        firstBoundarySubpaths.contains(where: \.hasCurvedPoints)
@@ -1705,11 +1847,8 @@ private extension Mesh {
                             return edgeVertices
                         }
                     }
-                    let sourceEdges = first.subpaths.flatMap {
-                        edgeVertexPairs(from: $0)
-                    }
                     let capPolygons: [Polygon]
-                    if first.windingRule == .default {
+                    if sectionTransforms == nil, first.windingRule == .default {
                         let polygons = first.withWindingRule(.nonZero)
                             .filledPolygons(material: material, isCancelled: isCancelled)
                         capPolygons = first.applyingFaceAttributes(
@@ -1721,7 +1860,7 @@ private extension Mesh {
                     return boundaryEdgeVertexPairs(from: capPolygons).map { v0, v1 in
                         let edge = LineSegment(unchecked: v0.position, v1.position)
                         let normal = edge.direction.cross(first.faceNormal)
-                        guard let index = sourceEdgeIndex(
+                        guard let index = sourceEdgeIndexByLine[edge] ?? sourceEdgeIndex(
                             at: v0.position, v1.position, in: sourceEdges
                         ) else {
                             return (v0.withNormal(normal), v1.withNormal(normal))
@@ -1745,41 +1884,30 @@ private extension Mesh {
                 }
                 return edgeVertices.isEmpty ? nil : edgeVertices
             } : nil
-        let firstCapPolygons: [Polygon] = first.flatMap { first in
-            shapes.first(where: { $0 != first }).map { next in
-                let p0p1 = directionBetweenShapes(first, next)
-                return firstFacePolygons.map {
-                    p0p1.dot($0.plane.normal) >= 0 ? $0.inverted() : $0
+        let firstCapPolygons: [Polygon] = shapes.first.flatMap { start in
+            shapes.dropFirst().first(where: { $0 != start }).map { next in
+                let direction = directionBetweenShapes(start, next)
+                return firstFacePolygons.map { polygon in
+                    let normal = sectionTransforms?.first.map {
+                        $0(Vertex(polygon.vertices[0].position, polygon.plane.normal)).normal
+                    } ?? polygon.plane.normal
+                    return direction.dot(normal) >= 0 ? polygon.inverted() : polygon
                 }
             }
         } ?? []
-        func capUsesBoundaryEdgeForward(_ edge: LineSegment) -> Bool? {
-            for polygon in firstCapPolygons {
-                for capEdge in polygon.orderedEdges {
-                    if capEdge.start == edge.start, capEdge.end == edge.end {
-                        return true
-                    }
-                    if capEdge.start == edge.end, capEdge.end == edge.start {
-                        return false
-                    }
-                }
+        let firstCapEdgeDirections = firstCapPolygons.lazy.flatMap(\.orderedEdges).reduce(
+            into: [LineSegment: Bool]()
+        ) { directions, edge in
+            if directions[edge] == nil {
+                directions[edge] = true
+                directions[edge.inverted()] = false
             }
-            return nil
         }
         var polygons: [Polygon]
         if canBuildMappedSides, let boundaryEdgeVertices = firstBoundaryEdgeVertices {
             polygons = []
-            var sourceEdgeIndexByLine = [LineSegment: Int]()
-            for (index, source) in (sourceEdgesByShape.first ?? []).enumerated() {
-                let edge = LineSegment(unchecked: source.0.position, source.1.position)
-                if sourceEdgeIndexByLine[edge] == nil {
-                    sourceEdgeIndexByLine[edge] = index
-                }
-                if sourceEdgeIndexByLine[edge.inverted()] == nil {
-                    sourceEdgeIndexByLine[edge.inverted()] = index
-                }
-            }
             let boundarySourceEdgeIndices = boundaryEdgeVertices.map { v0, v1 -> Int? in
+                guard sectionTransforms == nil else { return nil }
                 let edge = LineSegment(unchecked: v0.position, v1.position)
                 if let index = sourceEdgeIndexByLine[edge] {
                     return index
@@ -1797,11 +1925,23 @@ private extension Mesh {
                     (transform(vertex.position + vertex.normal) - position).normalized()
                 return Vertex(unchecked: position, normal, vertex.texcoord, vertex.color)
             }
-            func sidePolygons(_ vertices: [Vertex], inverted: Bool = false) -> [Polygon] {
+            func sidePolygons(_ vertices: [Vertex], inverted: Bool, collapsing: Bool) -> [Polygon] {
                 // Choose the side-wall diagonal in the direction of the loft before
                 // restoring contour winding. Reversing a section must not change its volume.
                 if inverted {
-                    return sidePolygons(Array(vertices.reversed())).inverted()
+                    return sidePolygons(Array(vertices.reversed()), inverted: false, collapsing: collapsing)
+                        .inverted()
+                }
+                if sectionTransforms != nil {
+                    if !collapsing, let polygon = Polygon(vertices, material: material) {
+                        return [polygon]
+                    }
+                    let a = vertices[0], b = vertices[1], c = vertices[2], d = vertices[3]
+                    let splitAC = (a.position - c.position).lengthSquared <
+                        (b.position - d.position).lengthSquared
+                    let triangles = splitAC != collapsing ? [[a, b, c], [a, c, d]] :
+                        [[a, b, d], [b, c, d]]
+                    return triangles.compactMap { Polygon($0, material: material) }
                 }
                 func triangulatedSidePolygons(_ vertices: [Vertex]) -> [Polygon] {
                     triangulateVertices(
@@ -1869,6 +2009,7 @@ private extension Mesh {
             let uvstep = 1 / Double(max(1, count - 1))
             var curvestart = true
             for i in shapes.indices.dropFirst() {
+                guard !isCancelled() else { return .empty }
                 let shape0 = shapes[i - 1], shape1 = shapes[i]
                 let uvend = contourOffsets?[i] ?? (uvstart + uvstep)
                 if shape0 == shape1 {
@@ -1885,11 +2026,17 @@ private extension Mesh {
                     func transformedSectionVertex(
                         _ vertex: Vertex,
                         by transform: (Vector) -> Vector,
+                        sectionIndex: Int,
                         from normal: Vector,
                         isCurved: Bool,
                         uv: Double,
                         attributes: Vertex?
                     ) -> Vertex {
+                        if let sectionTransforms {
+                            var vertex = sectionTransforms[sectionIndex](vertex)
+                            vertex.texcoord = [vertex.texcoord.y, uv]
+                            return vertex
+                        }
                         var vertex = transformedVertex(vertex, by: transform)
                         if let attributes {
                             vertex.texcoord = attributes.texcoord
@@ -1901,57 +2048,63 @@ private extension Mesh {
                         vertex.texcoord = [vertex.texcoord.y, uv]
                         return vertex
                     }
-                    let p00 = transform0(v0.position), p01 = transform0(v1.position)
-                    let p10 = transform1(v0.position), p11 = transform1(v1.position)
                     let sourceIndex = boundarySourceEdgeIndices[edgeIndex]
                     let attributes0 = sourceIndex.flatMap { index in
                         sourceEdgesByShape[i - 1].indices.contains(index) ? sourceVertices(
-                            at: p00, p01, on: sourceEdgesByShape[i - 1][index]
+                            at: transform0(v0.position), transform0(v1.position), on: sourceEdgesByShape[i - 1][index]
                         ) : nil
                     }
                     let attributes1 = sourceIndex.flatMap { index in
                         sourceEdgesByShape[i].indices.contains(index) ? sourceVertices(
-                            at: p10, p11, on: sourceEdgesByShape[i][index]
+                            at: transform1(v0.position), transform1(v1.position), on: sourceEdgesByShape[i][index]
                         ) : nil
                     }
-                    let polygons = sidePolygons([
-                        transformedSectionVertex(
-                            v0, by: transform0, from: n0, isCurved: curvestart,
-                            uv: uvstart, attributes: attributes0?.0
-                        ),
-                        transformedSectionVertex(
-                            v1, by: transform0, from: n0, isCurved: curvestart,
-                            uv: uvstart, attributes: attributes0?.1
-                        ),
-                        transformedSectionVertex(
-                            v1, by: transform1, from: n1, isCurved: curveend,
-                            uv: uvend, attributes: attributes1?.1
-                        ),
-                        transformedSectionVertex(
-                            v0, by: transform1, from: n1, isCurved: curveend,
-                            uv: uvend, attributes: attributes1?.0
-                        ),
-                    ], inverted: direction.dot(shape0.faceNormal) < 0)
-                    let edge = LineSegment(unchecked: v0.position, v1.position)
-                    let transformedEdge = LineSegment(
-                        unchecked: transform0(v0.position),
-                        transform0(v1.position)
+                    let polygons = sidePolygons(
+                        [
+                            transformedSectionVertex(
+                                v0, by: transform0, sectionIndex: i - 1, from: n0, isCurved: curvestart,
+                                uv: uvstart, attributes: attributes0?.0
+                            ),
+                            transformedSectionVertex(
+                                v1, by: transform0, sectionIndex: i - 1, from: n0, isCurved: curvestart,
+                                uv: uvstart, attributes: attributes0?.1
+                            ),
+                            transformedSectionVertex(
+                                v1, by: transform1, sectionIndex: i, from: n1, isCurved: curveend,
+                                uv: uvend, attributes: attributes1?.1
+                            ),
+                            transformedSectionVertex(
+                                v0, by: transform1, sectionIndex: i, from: n1, isCurved: curveend,
+                                uv: uvend, attributes: attributes1?.0
+                            ),
+                        ],
+                        inverted: direction.dot(shape0.faceNormal) < 0,
+                        collapsing: i == collapsedSection || i - 1 == collapsedSection
                     )
-                    switch capUsesBoundaryEdgeForward(edge) {
+                    let edge = LineSegment(unchecked: v0.position, v1.position)
+                    switch firstCapEdgeDirections[edge] {
                     case true?:
                         accumulatedSidePolygons += polygons.map { $0.inverted() }
                     case false?:
                         accumulatedSidePolygons += polygons
-                    case nil where sidePolygonsFaceFilledArea(polygons, at: transformedEdge) == true:
-                        accumulatedSidePolygons += polygons.map { $0.inverted() }
                     case nil:
-                        accumulatedSidePolygons += polygons
+                        let transformedEdge = LineSegment(
+                            unchecked: transform0(v0.position),
+                            transform0(v1.position)
+                        )
+                        if sidePolygonsFaceFilledArea(polygons, at: transformedEdge) == true {
+                            accumulatedSidePolygons += polygons.inverted()
+                        } else {
+                            accumulatedSidePolygons += polygons
+                        }
                     }
                 }
                 curvestart = true
                 uvstart = uvend
             }
-            if useResolvedBoundary, !usesOriginalClosedBoundary, first?.hasCurvedPoints == true {
+            if sectionTransforms == nil, useResolvedBoundary, !usesOriginalClosedBoundary,
+               first?.hasCurvedPoints == true
+            {
                 let capPoints = firstCapPolygons.flatMap { $0.vertices.map(\.position) }
                 accumulatedSidePolygons = accumulatedSidePolygons.insertingEdgePoints(
                     capPoints,
@@ -1988,27 +2141,42 @@ private extension Mesh {
         var lockedCapPolygons = Set<Polygon>()
         let shouldLockCapPolygons = canBuildMappedSides && firstBoundaryEdgeVertices != nil &&
             first?.hasRepairableCoincidentContours != false
-        if let first = shapes.first, let last = shapes.last, first != last {
-            if !firstCapPolygons.isEmpty {
-                polygons += firstCapPolygons
-                if shouldLockCapPolygons {
-                    lockedCapPolygons.formUnion(firstCapPolygons)
-                }
+        if !isClosed, let last = shapes.last {
+            let startCap = sectionTransforms?.first.map {
+                firstCapPolygons.mapVertices($0)
+            } ?? firstCapPolygons
+            polygons += startCap
+            if shouldLockCapPolygons {
+                lockedCapPolygons.formUnion(startCap)
             }
-            if let prev = shapes.last(where: { $0 != last }) {
+            let lastCapPolygons: [Polygon]
+            if let sectionTransforms {
+                if collapsedSection != nil {
+                    lastCapPolygons = []
+                } else {
+                    let transform = sectionTransforms.last!
+                    lastCapPolygons = firstCapPolygons.inverted().compactMap {
+                        Polygon($0.vertices.map(transform), material: material)
+                    }
+                }
+            } else if let prev = shapes.last(where: { $0 != last }) {
                 let p0p1 = directionBetweenShapes(prev, last)
-                let lastFacePolygons = last.fillPolygons(
-                    material: material,
-                    isCancelled: isCancelled
-                )
-                let lastCapPolygons = lastFacePolygons.map {
+                lastCapPolygons = last.fillPolygons(material: material, isCancelled: isCancelled).map {
                     p0p1.dot($0.plane.normal) < 0 ? $0.inverted() : $0
                 }
-                polygons += lastCapPolygons
-                if shouldLockCapPolygons {
-                    lockedCapPolygons.formUnion(lastCapPolygons)
-                }
+            } else {
+                lastCapPolygons = []
             }
+            polygons += lastCapPolygons
+            if shouldLockCapPolygons {
+                lockedCapPolygons.formUnion(lastCapPolygons)
+            }
+        }
+        if collapsedSection != nil, first?.isClosed == true {
+            polygons = polygons.insertingEdgeVertices(
+                with: polygons.holeEdges(isCancelled: isCancelled),
+                isCancelled: isCancelled
+            )
         }
         polygons = polygons.withConsistentWinding(
             isLocked: { lockedCapPolygons.contains($0) },
@@ -2064,6 +2232,9 @@ private extension Mesh {
         }
     }
 
+    /// Connects contours using the supplied section correspondence when available.
+    /// Section transforms map vertices from the reference profile or the first contour.
+    /// Contour offsets provide normalized distances for the side-wall texture coordinates.
     static func loft(
         _ shapes: [Path],
         contourOffsets: [Double]? = nil,
@@ -2072,8 +2243,27 @@ private extension Mesh {
         isConvex: Bool,
         isWatertight: Bool?,
         preserveInnerShellWinding: Bool,
-        isCancelled: CancellationHandler
+        isCancelled: CancellationHandler,
+        sectionTransforms: [(Vertex) -> Vertex]? = nil,
+        reference: Path? = nil
     ) -> Mesh {
+        if let sectionTransforms, let first = reference ?? shapes.first, !first.isEmpty {
+            let (normalizedShapes, resolved, reoriented) = [first]
+                .normalizingCompoundPathsForLoft(isCancelled: isCancelled)
+            let normalized = normalizedShapes.first ?? first
+            return compoundLoft(
+                originalShapes: shapes,
+                contourOffsets: contourOffsets,
+                boundarySubshapes: normalized.subpaths.map { [$0] },
+                useResolvedBoundary: resolved,
+                preserveInnerShellWinding: preserveInnerShellWinding,
+                faces: faces,
+                material: material,
+                isCancelled: isCancelled,
+                sectionTransforms: sectionTransforms,
+                reference: reoriented && first.windingRule == .default ? normalized : first
+            )
+        }
         let hasExplicitWinding = shapes.contains { $0.windingRule != .default && $0.requiresFillResolution }
         if hasExplicitWinding, let first = shapes.first, shapes.allSatisfy({ $0 == first }) {
             return fill(first, faces: faces, material: material, isCancelled: isCancelled)
@@ -2239,6 +2429,7 @@ private extension Mesh {
         }
     }
 
+    /// Appends side polygons between two single-contour sections using geometric matching.
     static func loft(
         unchecked p0: Path, _ p1: Path,
         curvestart: Bool, curveend: Bool,

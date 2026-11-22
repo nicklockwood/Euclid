@@ -87,6 +87,9 @@ let planeEpsilon: Double = 2e-8
 /// Smallest valid scale factor
 let scaleLimit: Double = 1e-8
 
+/// Grid spacing used when storing point and vertex coordinates.
+let coordinatePrecision: Double = 1e-12
+
 /// Number of loop iterations between cancellation checks.
 let cancellationCheckInterval = 500
 
@@ -99,8 +102,7 @@ func deterministicHash(_ seed: UInt64) -> UInt64 {
 
 /// Round-off floating point values to simplify equality checks
 func quantize(_ value: Double) -> Double {
-    let precision = 1e-12
-    return (value / precision).rounded() * precision
+    (value / coordinatePrecision).rounded() * coordinatePrecision
 }
 
 extension Comparable {
