@@ -72,39 +72,14 @@ public extension Polygon {
             return projected(onto: plane, isCancelled: isCancelled)
         }
 
-        guard var previous = vertices.last?.position else { return .empty }
-        var previousDistance = previous.signedDistance(from: plane)
-        var points = [Vector]()
-        for vertex in vertices {
-            guard !isCancelled() else { return .empty }
-            let point = vertex.position
-            let distance = point.signedDistance(from: plane)
-            let side = PlaneComparison(signedDistance: distance)
-            if side == .coplanar {
-                points.append(point)
-            } else if side.union(.init(signedDistance: previousDistance)) == .spanning {
-                points.append(previous.lerp(point, previousDistance / (previousDistance - distance)))
+        let project = plane.makePointProjection()
+        let hasColor = hasVertexColors
+        let paths = intersectionVertices(with: plane, isCancelled: isCancelled).map { vertices in
+            let vertices = vertices.count > 2 && !hasColor ? [vertices[0], vertices[vertices.count - 1]] : vertices
+            let points = vertices.map {
+                PathPoint.point(project($0.position), color: hasColor ? $0.color : nil)
             }
-            previous = point
-            previousDistance = distance
-        }
-        guard let origin = points.first else { return .empty }
-        let direction = self.plane.normal.cross(plane.normal)
-        points.sort { ($0 - origin).dot(direction) < ($1 - origin).dot(direction) }
-
-        // Concave polygons can cover several separate intervals along the intersection line.
-        var start: Vector?
-        var paths = [Path]()
-        for (index, point) in points.enumerated() {
-            guard !isCancelled() else { return .empty }
-            let next = index + 1
-            if next < points.count, distanceFromCoplanarPoint(point.lerp(points[next], 0.5)) <= epsilon {
-                start = start ?? point
-            } else {
-                let end = point.projected(onto: plane)
-                paths.append(start.map { .line($0.projected(onto: plane), end) } ?? Path([.point(end)]))
-                start = nil
-            }
+            return Path(points)
         }
         return isCancelled() ? .empty : Path(subpaths: paths)
     }
@@ -130,6 +105,48 @@ public extension Polygon {
             material: material,
             id: id
         )
+    }
+}
+
+extension Polygon {
+    /// Returns contacts as runs of source vertices, interpolating along crossed edges.
+    func intersectionVertices(with plane: Plane, isCancelled: CancellationHandler) -> [[Vertex]] {
+        guard !isCancelled(), let first = vertices.first, var previous = vertices.last else { return [] }
+        if compare(with: plane) == .coplanar {
+            return [vertices + [first]]
+        }
+        var previousDistance = previous.position.signedDistance(from: plane)
+        var contacts = [Vertex]()
+        for vertex in vertices {
+            guard !isCancelled() else { return [] }
+            let distance = vertex.position.signedDistance(from: plane)
+            let side = PlaneComparison(signedDistance: distance)
+            if side == .coplanar {
+                contacts.append(vertex)
+            } else if side.union(.init(signedDistance: previousDistance)) == .spanning {
+                contacts.append(previous.lerp(vertex, previousDistance / (previousDistance - distance)))
+            }
+            previous = vertex
+            previousDistance = distance
+        }
+        guard let origin = contacts.first?.position else { return [] }
+        let direction = self.plane.normal.cross(plane.normal)
+        contacts.sort { ($0.position - origin).dot(direction) < ($1.position - origin).dot(direction) }
+
+        // A concave polygon can cover several separate intervals of the intersection line.
+        var runs = [[Vertex]]()
+        var start = 0
+        for (index, vertex) in contacts.enumerated() {
+            guard !isCancelled() else { return [] }
+            let next = index + 1
+            if next == contacts.count || distanceFromCoplanarPoint(
+                vertex.position.lerp(contacts[next].position, 0.5)
+            ) > epsilon {
+                runs.append(Array(contacts[start ... index]))
+                start = next
+            }
+        }
+        return runs
     }
 }
 

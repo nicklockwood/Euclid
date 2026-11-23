@@ -920,22 +920,45 @@ public extension Mesh {
             .translated(by: bounds.center.projected(onto: plane))
         let section = BSP(self, isCancelled).clip([rectangle], .lessThanEqual, isCancelled)
             .projected(onto: plane, isCancelled: isCancelled)
-        guard section.isEmpty, !isCancelled() else { return section }
+        guard !isCancelled() else { return .empty }
+        let preserveAttributes = hasVertexColors || hasVertexNormals
+        guard section.isEmpty || preserveAttributes else { return section }
 
+        let project = plane.makePointProjection()
         var segments = Set<LineSegment>()
         var points = Set<Vector>()
+        var edges = [Path.BoundaryEdge]()
         for polygon in polygons {
             guard !isCancelled() else { return .empty }
-            let contact = polygon.intersection(with: plane, isCancelled: isCancelled)
-            for path in contact.subpaths {
-                if let point = path.points.first, path.points.count == 1 {
-                    points.insert(point.position)
-                } else if !path.isClosed {
-                    segments.formUnion(path.undirectedEdges)
+            let hasColor = preserveAttributes && polygon.hasVertexColors
+            for vertices in polygon.intersectionVertices(with: plane, isCancelled: isCancelled) {
+                guard let first = vertices.first, let last = vertices.last else { continue }
+                let start = project(first.position)._quantized()
+                if section.isEmpty {
+                    if vertices.count == 1 {
+                        points.insert(start)
+                    } else if let segment = LineSegment(undirected: start, project(last.position)._quantized()) {
+                        segments.insert(segment)
+                    }
+                }
+                if preserveAttributes {
+                    var previous = first, position = start
+                    for vertex in vertices.count == 1 ? vertices[...] : vertices.dropFirst() {
+                        guard !isCancelled() else { return .empty }
+                        let end = project(vertex.position)._quantized()
+                        edges.append(.init(
+                            start: position, end: end, sourceStart: previous, sourceEnd: vertex,
+                            faceNormal: polygon.plane.normal, hasColor: hasColor
+                        ))
+                        previous = vertex
+                        position = end
+                    }
                 }
             }
         }
-        return Path(segments: segments, isolatedPoints: points, plane: plane, isCancelled: isCancelled)
+        let outline = section.isEmpty ?
+            Path(segments: segments, isolatedPoints: points, plane: plane, isCancelled: isCancelled) : section
+        return outline.applyingBoundaryAttributes(from: edges, normal: plane.normal, isCancelled: isCancelled)
     }
 
     /// Computes a set of edges where the mesh intersects a plane.

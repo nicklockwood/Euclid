@@ -23,6 +23,30 @@ final class PolygonCSGTests: XCTestCase {
         XCTAssertTrue(polygon.projected(onto: plane) { true }.isEmpty)
     }
 
+    func testProjectionAndPlaneIntersectionPreserveVertexColors() throws {
+        let polygon = try XCTUnwrap(Polygon([
+            Vertex(-1, -1, texcoord: [0, 0], color: .red),
+            Vertex(1, -1, texcoord: [1, 0], color: .blue),
+            Vertex(1, 1, texcoord: [1, 1], color: .green),
+            Vertex(-1, 1, texcoord: [0, 1], color: .green),
+        ]))
+        let target = Plane(unchecked: Vector(1, 0, 1).normalized(), w: 2)
+        for path in [polygon.projected(onto: target), polygon.intersection(with: .xy)] {
+            XCTAssertEqual(Set(path.points.compactMap(\.color)), [.red, .blue, .green])
+            XCTAssertFalse(path.hasTexcoords)
+            XCTAssertFalse(path.points.contains(where: \.isCurved))
+        }
+        let edge = polygon.projected(onto: .yz)
+        XCTAssertFalse(edge.isClosed)
+        XCTAssertEqual(Set(edge.points.compactMap(\.color)), [.blue, .green])
+        let section = polygon.intersection(with: .yz)
+        let first = try XCTUnwrap(section.points.first { $0.position.y < 0 })
+        let last = try XCTUnwrap(section.points.first { $0.position.y > 0 })
+        XCTAssertEqual(first.color, Color.red.toLinear().lerp(Color.blue.toLinear(), 0.5).toSRGB())
+        XCTAssertEqual(last.color, .green)
+        XCTAssertFalse(section.hasTexcoords)
+    }
+
     func testPolygonPlaneIntersectionWithDisjointSegments() throws {
         let polygon = try XCTUnwrap(Polygon([
             [-3, -2], [3, -2], [3, 2], [1, 2],

@@ -827,12 +827,33 @@ extension Collection<Polygon> {
         )
         guard !isCancelled() else { return .empty }
         let contours = aligned.outlinePaths.filter { $0.isClosed && !$0.hasZeroArea }
+        let projection: Path
         if contours.isEmpty {
-            return edgeOnProjection(onto: plane, isCancelled: isCancelled)
+            projection = edgeOnProjection(onto: plane, isCancelled: isCancelled)
+        } else {
+            let outline = Path(unchecked: .subpaths(contours), plane: .xy, windingRule: .nonZero)
+            projection = outline.rotated(by: rotation).translated(by: center.projected(onto: plane))
         }
-        let outline = Path(unchecked: .subpaths(contours), plane: .xy, windingRule: .nonZero)
-        let projection = outline.rotated(by: rotation).translated(by: center.projected(onto: plane))
-        return isCancelled() ? .empty : projection
+        guard !isCancelled() else { return .empty }
+        guard !projection.isEmpty, hasVertexColors || hasVertexNormals else { return projection }
+        let project = plane.makePointProjection()
+        var edges = [Path.BoundaryEdge]()
+        for polygon in self {
+            let hasColor = polygon.hasVertexColors
+            var previous = polygon.vertices[polygon.vertices.count - 1]
+            var start = project(previous.position)._quantized()
+            for vertex in polygon.vertices {
+                guard !isCancelled() else { return .empty }
+                let end = project(vertex.position)._quantized()
+                edges.append(.init(
+                    start: start, end: end, sourceStart: previous, sourceEnd: vertex,
+                    faceNormal: polygon.plane.normal, hasColor: hasColor
+                ))
+                previous = vertex
+                start = end
+            }
+        }
+        return projection.applyingBoundaryAttributes(from: edges, normal: plane.normal, isCancelled: isCancelled)
     }
 
     private func edgeOnProjection(onto plane: Plane, isCancelled: Euclid.CancellationHandler) -> Path {

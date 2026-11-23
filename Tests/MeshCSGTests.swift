@@ -1072,6 +1072,54 @@ final class MeshCSGTests: XCTestCase {
 
     // MARK: Projection and plane intersection
 
+    func testProjectionChoosesColorsOnTheNearerOutline() {
+        let square = Mesh.fill(.square(), faces: .front)
+        let mesh = Mesh.merge([
+            square.mapVertexColors { _ in .red },
+            square.mapVertexColors { _ in .blue }.translated(by: .unitZ),
+        ])
+        let projection = mesh.projected(onto: .xy)
+        XCTAssertTrue(projection.isClosed)
+        XCTAssertTrue(projection.points.allSatisfy { $0.color == .blue })
+        XCTAssertFalse(projection.hasTexcoords)
+    }
+
+    func testProjectionRetainsColorChangesAlongAStraightEdge() {
+        let a = Mesh.fill(.square(), faces: .front)
+        let mesh = Mesh(a.merge(a.translated(by: .unitX)).polygons.flatMap { polygon in
+            polygon.mapVertices {
+                $0.withColor($0.position.x == 0.5 ? .red : .blue)
+            }
+        })
+        let path = mesh.projected(onto: .xy)
+        for y in [-0.5, 0.5] {
+            XCTAssertEqual(path.points.first { $0.position == [0.5, y, 0] }?.color, .red)
+        }
+        XCTAssertEqual(path.facePolygons().surfaceArea, 2, accuracy: epsilon)
+    }
+
+    func testMeshSectionInterpolatesColorsAndKeepsHardCorners() {
+        let cube = Mesh(Mesh.cube().polygons.flatMap { polygon in
+            polygon.mapVertices { $0.withColor($0.position.z > 0 ? .red : .blue) }
+        })
+        let path = cube.intersection(with: .xy)
+        XCTAssertTrue(path.isClosed)
+        XCTAssertFalse(path.hasTexcoords)
+        let color = Color.red.toLinear().lerp(Color.blue.toLinear(), 0.5).toSRGB()
+        XCTAssertTrue(path.points.allSatisfy { $0.color == color })
+        XCTAssertFalse(path.points.contains(where: \.isCurved))
+    }
+
+    func testProjectionAndSectionInferCurvatureFromSmoothNormals() {
+        let sphere = Mesh.sphere(slices: 16)
+        for path in [sphere.projected(onto: .xy), sphere.intersection(with: .xy)] {
+            XCTAssertTrue(path.isClosed)
+            XCTAssertGreaterThan(path.points.count, 4)
+            XCTAssertTrue(path.points.allSatisfy(\.isCurved))
+            XCTAssertFalse(path.hasColors)
+        }
+    }
+
     func testProjectionUnionsOverlappingFacesAndKeepsDisjointRegions() {
         let cube = Mesh.cube()
         let mesh = Mesh.merge([
@@ -1166,6 +1214,13 @@ final class MeshCSGTests: XCTestCase {
         XCTAssertEqual(point.points.map(\.position), [[0.5, 0.5, 0.5]])
         XCTAssertTrue(point.isClosed)
         XCTAssertTrue(point.facePolygons().isEmpty)
+        let colored = mesh.mapVertexColors { _ in .red }
+        for plane in [edge, corner] {
+            let path = colored.intersection(with: plane)
+            XCTAssertTrue(path.hasColors)
+            XCTAssertTrue(path.points.allSatisfy { $0.color == .red })
+            XCTAssertFalse(path.hasTexcoords)
+        }
     }
 
     func testPlaneIntersectionPreservesAnIsolatedPointAlongsideAnEdge() {
