@@ -610,6 +610,50 @@ final class MeshTests: XCTestCase {
         XCTAssertEqual(result.polygons, mesh.polygons)
     }
 
+    func testMakeWatertightCancellationDuringOpenMeshEdgeScan() {
+        let mesh = Mesh(Array(Mesh.cube().polygons.dropLast()))
+        XCTAssertFalse(mesh.isWatertight)
+        nonisolated(unsafe) var checks = 0
+        let result = mesh.makeWatertight {
+            checks += 1
+            return checks >= 2
+        }
+        XCTAssertEqual(result.polygons, mesh.polygons)
+        XCTAssertFalse(result.isWatertight)
+    }
+
+    func testMakeWatertightCancellationAtEveryCheckpointPreservesInput() {
+        let cube = Mesh.cube()
+        let open = Mesh(Array(cube.polygons.dropLast()))
+        let uncached = Mesh(cube.polygons)
+        let reversed = Mesh(cube.polygons.enumerated().map { index, polygon in
+            index == 0 ? polygon.inverted() : polygon
+        })
+        XCTAssertTrue(reversed.isWatertight) // Exercise the cached, inconsistent-winding path.
+        for mesh in [open, uncached, reversed] {
+            nonisolated(unsafe) var total = 0
+            let complete = mesh.makeWatertight {
+                total += 1
+                return false
+            }
+            XCTAssertTrue(complete.isWatertight)
+            XCTAssertGreaterThan(total, 1)
+            for checkpoint in 2 ... total {
+                let input = Mesh(mesh.polygons)
+                if mesh.watertightIfSet != nil {
+                    _ = input.isWatertight
+                }
+                nonisolated(unsafe) var checks = 0
+                let result = input.makeWatertight {
+                    checks += 1
+                    return checks >= checkpoint
+                }
+                XCTAssertEqual(result.polygons, mesh.polygons, "Cancelled at checkpoint \(checkpoint)")
+                XCTAssertEqual(result.isWatertight, result.polygons.areWatertight)
+            }
+        }
+    }
+
     func testMakeExtrudedTextWatertight() {
         #if canImport(CoreText)
         let detail = 16

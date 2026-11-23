@@ -435,8 +435,10 @@ public extension Mesh {
             guard !polygons.areConsistentlyWound else {
                 return self
             }
+            let polygons = polygons.withConsistentWinding(isCancelled: isCancelled)
+            guard !isCancelled() else { return self }
             return Mesh(
-                unchecked: polygons.withConsistentWinding(isCancelled: isCancelled),
+                unchecked: polygons,
                 bounds: boundsIfSet,
                 bsp: nil,
                 isConvex: isKnownConvex,
@@ -446,6 +448,8 @@ public extension Mesh {
             )
         }
         var holeEdges = polygons.holeEdges(isCancelled: isCancelled), polygons = polygons
+        // A cancelled scan returns partial edges, not a valid watertightness result.
+        guard !isCancelled() else { return self }
         var precision = epsilon
         while !holeEdges.isEmpty, !isCancelled() {
             let merged = polygons
@@ -453,6 +457,7 @@ public extension Mesh {
                 .mergingVertices(withPrecision: precision, isCancelled: isCancelled)
                 .removingOverlappingSlivers(isCancelled: isCancelled)
             let newEdges = merged.holeEdges(isCancelled: isCancelled)
+            guard !isCancelled() else { return self }
             if newEdges.count < holeEdges.count {
                 polygons = merged
                 holeEdges = newEdges
@@ -573,6 +578,7 @@ public extension Mesh {
                     .mergingVertices(withPrecision: epsilon, isCancelled: isCancelled)
                     .removingOverlappingSlivers(isCancelled: isCancelled)
                 let newEdges = capped.holeEdges(isCancelled: isCancelled)
+                guard !isCancelled() else { return self }
                 guard newEdges.count < holeEdges.count else {
                     break
                 }
@@ -580,10 +586,14 @@ public extension Mesh {
                 holeEdges = newEdges
             }
         }
+        guard !isCancelled() else { return self }
         let isWatertight = holeEdges.isEmpty
+        if isWatertight {
+            polygons = polygons.withConsistentWinding(isCancelled: isCancelled)
+            guard !isCancelled() else { return self }
+        }
         return Mesh(
-            unchecked: isWatertight && !isCancelled() ?
-                polygons.withConsistentWinding(isCancelled: isCancelled) : polygons,
+            unchecked: polygons,
             bounds: boundsIfSet,
             bsp: nil,
             isConvex: false, // TODO: can makeWatertight make this false?
