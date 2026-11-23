@@ -824,6 +824,7 @@ public extension Mesh {
     }
 
     /// Creates a mesh by connecting a series of 3D paths representing the cross sections.
+    /// Junctions use smooth normals by default. Use duplicate contours to create a sharp join.
     /// - Parameters:
     ///   - shapes: The paths to connect.
     ///   - faces: The direction of the generated polygon faces.
@@ -1012,6 +1013,7 @@ public extension Mesh {
             loft(
                 unchecked: shape0, shape1,
                 curvestart: true, curveend: true,
+                isFlatJoin: shape0.sharesLoftPlane(with: shape1),
                 uvstart: 0, uvend: 1,
                 material: material,
                 isCancelled: isCancelled,
@@ -1686,6 +1688,30 @@ private extension Mesh {
         (s1.bounds.center - s0.bounds.center).normalized()
     }
 
+    /// Aligns normals at a repeated contour with the local surface on this side of the join.
+    static func sharpenLoftNormals(
+        _ vertices: inout [Vertex],
+        startNormal: Vector?,
+        endNormal: Vector?
+    ) {
+        func alignNormal(at index: Int, toward other: Int, sectionNormal: Vector) {
+            let vertex = vertices[index]
+            // Recover the contour tangent from the original normal to keep curved profiles smooth.
+            let tangent = sectionNormal.cross(vertex.normal)
+            let span = vertices[other].position - vertex.position
+            guard let normal = tangent.cross(span).direction else { return }
+            vertices[index].normal = normal.dot(vertex.normal) < 0 ? -normal : normal
+        }
+        if let startNormal {
+            alignNormal(at: 0, toward: 3, sectionNormal: startNormal)
+            alignNormal(at: 1, toward: 2, sectionNormal: startNormal)
+        }
+        if let endNormal {
+            alignNormal(at: 2, toward: 1, sectionNormal: endNormal)
+            alignNormal(at: 3, toward: 0, sectionNormal: endNormal)
+        }
+    }
+
     /// Builds a straight twist or taper in profile coordinates and places it in the original plane.
     static func extrusionLoft(
         _ shape: Path,
@@ -2019,6 +2045,7 @@ private extension Mesh {
             var uvstart = contourOffsets?.first ?? 0
             let uvstep = 1 / Double(max(1, count - 1))
             var curvestart = true
+            var smoothing = LoftNormalSmoothing()
             for i in shapes.indices.dropFirst() {
                 guard !isCancelled() else { return .empty }
                 let shape0 = shapes[i - 1], shape1 = shapes[i]
@@ -2031,16 +2058,14 @@ private extension Mesh {
                 let transform0 = transforms[i - 1]!, transform1 = transforms[i]!
                 let direction = directionBetweenShapes(shape0, shape1)
                 let isFlatJoin = shape0.sharesLoftPlane(with: shape1)
-                var n0 = shape0.faceNormal, n1 = shape1.faceNormal
-                if direction.dot(n0) < 0 { n0 = -n0 }
-                if direction.dot(n1) < 0 { n1 = -n1 }
+                let startNormal = curvestart ? nil : shape0.faceNormal
+                let endNormal = curveend ? nil : shape1.faceNormal
+                let polygonStart = accumulatedSidePolygons.count
                 for (edgeIndex, (v0, v1)) in boundaryEdgeVertices.enumerated() {
                     func transformedSectionVertex(
                         _ vertex: Vertex,
                         by transform: (Vector) -> Vector,
                         sectionIndex: Int,
-                        from normal: Vector,
-                        isCurved: Bool,
                         uv: Double,
                         attributes: Vertex?
                     ) -> Vertex {
@@ -2053,9 +2078,6 @@ private extension Mesh {
                         if let attributes {
                             vertex.texcoord = attributes.texcoord
                             vertex.color = attributes.color
-                        }
-                        if !isCurved {
-                            vertex.normal.rotate(by: rotationBetweenNormalizedVectors(normal, direction))
                         }
                         vertex.texcoord = [vertex.texcoord.y, uv]
                         return vertex
@@ -2071,25 +2093,23 @@ private extension Mesh {
                             at: transform1(v0.position), transform1(v1.position), on: sourceEdgesByShape[i][index]
                         ) : nil
                     }
+                    var vertices = [
+                        transformedSectionVertex(
+                            v0, by: transform0, sectionIndex: i - 1, uv: uvstart, attributes: attributes0?.0
+                        ),
+                        transformedSectionVertex(
+                            v1, by: transform0, sectionIndex: i - 1, uv: uvstart, attributes: attributes0?.1
+                        ),
+                        transformedSectionVertex(
+                            v1, by: transform1, sectionIndex: i, uv: uvend, attributes: attributes1?.1
+                        ),
+                        transformedSectionVertex(
+                            v0, by: transform1, sectionIndex: i, uv: uvend, attributes: attributes1?.0
+                        ),
+                    ]
+                    sharpenLoftNormals(&vertices, startNormal: startNormal, endNormal: endNormal)
                     var polygons = sidePolygons(
-                        [
-                            transformedSectionVertex(
-                                v0, by: transform0, sectionIndex: i - 1, from: n0, isCurved: curvestart,
-                                uv: uvstart, attributes: attributes0?.0
-                            ),
-                            transformedSectionVertex(
-                                v1, by: transform0, sectionIndex: i - 1, from: n0, isCurved: curvestart,
-                                uv: uvstart, attributes: attributes0?.1
-                            ),
-                            transformedSectionVertex(
-                                v1, by: transform1, sectionIndex: i, from: n1, isCurved: curveend,
-                                uv: uvend, attributes: attributes1?.1
-                            ),
-                            transformedSectionVertex(
-                                v0, by: transform1, sectionIndex: i, from: n1, isCurved: curveend,
-                                uv: uvend, attributes: attributes1?.0
-                            ),
-                        ],
+                        vertices,
                         inverted: direction.dot(shape0.faceNormal) < 0,
                         collapsing: i == collapsedSection || i - 1 == collapsedSection
                     )
@@ -2114,8 +2134,17 @@ private extension Mesh {
                         }
                     }
                 }
+                smoothing.append(
+                    polygonStart ..< accumulatedSidePolygons.count,
+                    start: curvestart && !isFlatJoin ? uvstart : nil,
+                    end: curveend && !isFlatJoin ? uvend : nil,
+                    at: shape0, in: &accumulatedSidePolygons
+                )
                 curvestart = true
                 uvstart = uvend
+            }
+            if isClosed, let start = shapes.first {
+                smoothing.close(at: start, in: &accumulatedSidePolygons)
             }
             if sectionTransforms == nil, useResolvedBoundary, !usesOriginalClosedBoundary,
                first?.hasCurvedPoints == true
@@ -2132,23 +2161,36 @@ private extension Mesh {
             polygons = []
             for subshapes in boundarySubshapes {
                 var sidePolygons = [Polygon]()
-                var previous = subshapes.first
                 var uvx0 = contourOffsets?.first ?? 0
                 let uvstep = Double(1) / Double(max(1, subshapes.count - 1))
-                for (i, shape) in subshapes.enumerated().dropFirst() where !isCancelled() {
+                var smoothing = LoftNormalSmoothing()
+                for i in subshapes.indices.dropFirst() where !isCancelled() {
+                    let previous = subshapes[i - 1], shape = subshapes[i]
                     let uvx1 = contourOffsets?[i] ?? (uvx0 + uvstep)
-                    if let previous, previous != shape {
+                    if previous != shape {
+                        let curvestart = i < 2 || previous != subshapes[i - 2]
+                        let curveend = i == subshapes.count - 1 || shape != subshapes[i + 1]
+                        let isFlatJoin = previous.sharesLoftPlane(with: shape)
+                        let polygonStart = sidePolygons.count
                         loft(
                             unchecked: previous, shape,
-                            curvestart: true, curveend: true,
+                            curvestart: curvestart, curveend: curveend, isFlatJoin: isFlatJoin,
                             uvstart: uvx0, uvend: uvx1,
                             material: material,
                             isCancelled: isCancelled,
                             into: &sidePolygons
                         )
+                        smoothing.append(
+                            polygonStart ..< sidePolygons.count,
+                            start: curvestart && !isFlatJoin ? uvx0 : nil,
+                            end: curveend && !isFlatJoin ? uvx1 : nil,
+                            at: previous, in: &sidePolygons
+                        )
                     }
-                    previous = shape
                     uvx0 = uvx1
+                }
+                if isClosed, let start = subshapes.first {
+                    smoothing.close(at: start, in: &sidePolygons)
                 }
                 polygons += sidePolygons.map { $0.inverted() }
             }
@@ -2376,6 +2418,7 @@ private extension Mesh {
         let uvstep = Double(1) / Double(count - 1)
         prev = first
         var curvestart = true
+        var smoothing = LoftNormalSmoothing()
         for (i, shape) in shapes.enumerated().dropFirst() where !isCancelled() {
             let uvx1 = contourOffsets?[i] ?? (uvx0 + uvstep)
             if shape == prev {
@@ -2386,17 +2429,28 @@ private extension Mesh {
             if i < shapes.count - 1, shape == shapes[i + 1] {
                 curveend = false
             }
+            let isFlatJoin = prev.sharesLoftPlane(with: shape)
+            let polygonStart = polygons.count
             loft(
                 unchecked: prev, shape,
-                curvestart: curvestart, curveend: curveend,
+                curvestart: curvestart, curveend: curveend, isFlatJoin: isFlatJoin,
                 uvstart: uvx0, uvend: uvx1,
                 material: material,
                 isCancelled: isCancelled,
                 into: &polygons
             )
+            smoothing.append(
+                polygonStart ..< polygons.count,
+                start: curvestart && !isFlatJoin ? uvx0 : nil,
+                end: curveend && !isFlatJoin ? uvx1 : nil,
+                at: prev, in: &polygons
+            )
             prev = shape
             curvestart = true
             uvx0 = uvx1
+        }
+        if isClosed, !isCancelled() {
+            smoothing.close(at: first, in: &polygons)
         }
         if !isClosed {
             let facePolygons = last.facePolygons(material: material, isCancelled: isCancelled)
@@ -2448,6 +2502,7 @@ private extension Mesh {
     static func loft(
         unchecked p0: Path, _ p1: Path,
         curvestart: Bool, curveend: Bool,
+        isFlatJoin: Bool,
         uvstart: Double, uvend: Double,
         material: Material?,
         isCancelled: CancellationHandler,
@@ -2455,7 +2510,6 @@ private extension Mesh {
     ) {
         assert(p0.subpaths.count == 1)
         assert(p1.subpaths.count == 1)
-        let isFlatJoin = p0.sharesLoftPlane(with: p1)
         var p0 = p0, p1 = p1
         let direction = directionBetweenShapes(p0, p1)
         var n0 = p0.points.count < 2 ? direction : p0.faceNormal
@@ -2490,18 +2544,11 @@ private extension Mesh {
             ).map(orientNormals)
         }
         var uvstart = uvstart, uvend = uvend
+        var startNormal = curvestart ? nil : n0
+        var endNormal = curveend ? nil : n1
         func addFace(_ a: Vertex, _ b: Vertex, _ c: Vertex, _ d: Vertex) {
             var vertices = [a, b, c, d]
-            if !curvestart, let normalizedDirection {
-                let r = rotationBetweenNormalizedVectors(n0, normalizedDirection)
-                vertices[0].normal.rotate(by: r)
-                vertices[1].normal.rotate(by: r)
-            }
-            if !curveend, let normalizedDirection {
-                let r = rotationBetweenNormalizedVectors(n1, normalizedDirection)
-                vertices[2].normal.rotate(by: r)
-                vertices[3].normal.rotate(by: r)
-            }
+            sharpenLoftNormals(&vertices, startNormal: startNormal, endNormal: endNormal)
             vertices[0].texcoord = [vertices[0].texcoord.y, uvstart]
             vertices[1].texcoord = [vertices[1].texcoord.y, uvstart]
             vertices[2].texcoord = [vertices[2].texcoord.y, uvend]
@@ -2560,6 +2607,7 @@ private extension Mesh {
             (t0, t1, r) = (t1, t0, -r)
             (e0, e1, uvstart, uvend) = (e1, e0, uvend, uvstart)
             (closed0, closed1) = (closed1, closed0)
+            (startNormal, endNormal) = (endNormal, startNormal)
         }
         if e0.count == 1 {
             for j in stride(from: 0, to: e1.count, by: 2) {
@@ -2715,6 +2763,94 @@ private struct SendableMaterial: @unchecked Sendable {
 
     init(_ value: Mesh.Material?) {
         self.value = value
+    }
+}
+
+/// Blends side-wall normals at shared contours while preserving hard corners within each contour.
+private struct LoftNormalSmoothing {
+    private struct Wall {
+        let polygons: Range<Int>
+        // The wall's longitudinal texture coordinates identify its two contours.
+        // A nil offset marks an end that does not participate in smoothing.
+        let start: Double?
+        let end: Double?
+    }
+
+    private struct Corner: Hashable {
+        let position: Vector
+        let normal: Vector
+
+        init(_ vertex: Vertex) {
+            self.position = vertex.position
+            self.normal = vertex.normal
+        }
+    }
+
+    private var first: Wall?
+    private var last: Wall?
+
+    mutating func append(
+        _ range: Range<Int>, start: Double?, end: Double?,
+        at contour: Path, in polygons: inout [Polygon]
+    ) {
+        let wall = Wall(polygons: range, start: start, end: end)
+        if let last {
+            blend(last, wall, at: contour, in: &polygons)
+        } else {
+            first = wall
+        }
+        last = wall
+    }
+
+    func close(at contour: Path, in polygons: inout [Polygon]) {
+        if let first, let last, first.polygons != last.polygons {
+            blend(last, first, at: contour, in: &polygons)
+        }
+    }
+
+    private func blend(_ before: Wall, _ after: Wall, at contour: Path, in polygons: inout [Polygon]) {
+        guard let end = before.end, let start = after.start, contour.points.count > 1 else { return }
+        let sectionNormal = contour.faceNormal
+
+        func wallNormals(in range: Range<Int>, at offset: Double) -> [Corner: Vector] {
+            var normals = [Corner: Vector]()
+            for polygon in polygons[range] {
+                for vertex in polygon.vertices where vertex.texcoord.y == offset {
+                    // Project into the plane perpendicular to the contour tangent. This
+                    // follows the wall's slope without faceting a curved contour.
+                    guard let tangent = sectionNormal.cross(vertex.normal).direction else { continue }
+                    let face = polygon.plane.normal
+                    guard let normal = (face - tangent * face.dot(tangent)).direction else { continue }
+                    normals[Corner(vertex), default: .zero] += normal
+                }
+            }
+            return normals
+        }
+
+        let incoming = wallNormals(in: before.polygons, at: end)
+        let outgoing = wallNormals(in: after.polygons, at: start)
+        var blended = [Corner: Vector]()
+        for (corner, normal) in incoming {
+            if let a = normal.direction, let b = outgoing[corner]?.direction {
+                blended[corner] = (a + b).direction
+            }
+        }
+        guard !blended.isEmpty else { return }
+        for (range, offset) in [(before.polygons, end), (after.polygons, start)] {
+            for i in range {
+                let polygon = polygons[i]
+                let vertices = polygon.vertices.map { vertex in
+                    guard vertex.texcoord.y == offset, let normal = blended[Corner(vertex)] else {
+                        return vertex
+                    }
+                    return vertex.withNormal(normal)
+                }
+                polygons[i] = Polygon(
+                    unchecked: vertices, plane: polygon.plane, isConvex: polygon.isConvex,
+                    sanitizeNormals: false, material: polygon.material, id: polygon.id
+                )
+            }
+        }
     }
 }
 

@@ -10,6 +10,62 @@
 import XCTest
 
 final class MeshLoftTests: XCTestCase {
+    func testLoftAveragesWallNormalsUnlessContourIsRepeated() {
+        let bottom = Path.square(size: 2)
+        let middle = bottom.translated(by: .unitZ)
+        let top = Path.square().translated(by: .unitZ * 2)
+
+        for (sections, isSharp) in [([bottom, middle, top], false), ([bottom, middle, middle, top], true)] {
+            for contours in [sections, Array(sections.reversed())] {
+                let mesh = Mesh.loft(contours)
+                XCTAssertTrue(mesh.isWatertight)
+                let sides = mesh.polygons.filter { abs($0.plane.normal.z) < 1 - epsilon }
+                XCTAssertEqual(sides.count, 8)
+                for side in sides {
+                    let seam = side.vertices.filter { $0.position.z == 1 }
+                    XCTAssertEqual(seam.count, 2)
+                    let straight = Vector(side.plane.normal.x, side.plane.normal.y).normalized()
+                    let sloped = (straight + .unitZ * 0.5).normalized()
+                    let expected = isSharp ? side.plane.normal : (straight + sloped).normalized()
+                    for vertex in seam {
+                        XCTAssertEqual(vertex.normal, expected, accuracy: epsilon)
+                    }
+                }
+            }
+        }
+    }
+
+    func testLoftPreservesSmoothingAroundCurvedContours() {
+        let outer = Path.circle(radius: 1, segments: 8)
+        let inner = Path.circle(radius: 0.25, segments: 8)
+        for (bottom, top) in [
+            (outer, outer.scaled(by: 0.5)),
+            (Path(subpaths: [outer, inner]), Path(subpaths: [outer, inner]).scaled(by: 0.5)),
+            (Path(subpaths: [outer, inner]), Path(subpaths: [outer.scaled(by: 0.5), inner])),
+        ] {
+            let middle = bottom.translated(by: .unitZ)
+            let top = top.translated(by: .unitZ * 2)
+            let mesh = Mesh.loft([bottom, middle, middle, top])
+            let smooth = Mesh.loft([bottom, middle, top])
+            XCTAssertEqual(mesh.polygons.map(\.orderedEdges), smooth.polygons.map(\.orderedEdges))
+            for (loft, isSharp) in [(mesh, true), (smooth, false)] {
+                var seamVertexCount = 0
+                for side in loft.polygons where abs(side.plane.normal.z) < 1 - epsilon {
+                    for vertex in side.vertices where vertex.position.z == 1 {
+                        let radial = Vector(vertex.position.x, vertex.position.y)
+                        guard radial.length > 0.75 else { continue }
+                        let sloped = (radial + .unitZ * 0.5).normalized()
+                        let expected = isSharp ? (side.bounds.max.z == 2 ? sloped : radial) :
+                            (radial + sloped).normalized()
+                        XCTAssertEqual(vertex.normal, expected, accuracy: epsilon)
+                        seamVertexCount += 1
+                    }
+                }
+                XCTAssertEqual(seamVertexCount, 32)
+            }
+        }
+    }
+
     func testTwistedLoftHoleWindingDoesNotChangeVolume() {
         /// A square from (a, a) to (b, b), counter-clockwise.
         func square(_ a: Double, _ b: Double) -> [(Double, Double)] { [(a, a), (b, a), (b, b), (a, b)] }
