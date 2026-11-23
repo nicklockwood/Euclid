@@ -50,6 +50,65 @@ public extension Polygon {
         return BSP(mesh, isCancelled).clip([self], .greaterThan, isCancelled)
     }
 
+    /// Projects the polygon orthogonally onto a plane.
+    /// - Parameters:
+    ///   - plane: The plane on which the returned path lies in world coordinates.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: The outline of the covered area, or a line segment for an edge-on projection.
+    ///   Returns an empty path on cancellation.
+    func projected(onto plane: Plane, isCancelled: CancellationHandler = { false }) -> Path {
+        [self].projected(onto: plane, isCancelled: isCancelled)
+    }
+
+    /// Returns the intersection of the polygon and a plane.
+    /// - Parameters:
+    ///   - plane: The plane to intersect with.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: A closed outline for a coplanar intersection, or the segments and isolated
+    ///   points where the plane meets the polygon. A miss or cancellation returns an empty path.
+    func intersection(with plane: Plane, isCancelled: CancellationHandler = { false }) -> Path {
+        guard !isCancelled() else { return .empty }
+        if compare(with: plane) == .coplanar {
+            return projected(onto: plane, isCancelled: isCancelled)
+        }
+
+        guard var previous = vertices.last?.position else { return .empty }
+        var previousDistance = previous.signedDistance(from: plane)
+        var points = [Vector]()
+        for vertex in vertices {
+            guard !isCancelled() else { return .empty }
+            let point = vertex.position
+            let distance = point.signedDistance(from: plane)
+            let side = PlaneComparison(signedDistance: distance)
+            if side == .coplanar {
+                points.append(point)
+            } else if side.union(.init(signedDistance: previousDistance)) == .spanning {
+                points.append(previous.lerp(point, previousDistance / (previousDistance - distance)))
+            }
+            previous = point
+            previousDistance = distance
+        }
+        guard let origin = points.first else { return .empty }
+        let direction = self.plane.normal.cross(plane.normal)
+        points.sort { ($0 - origin).dot(direction) < ($1 - origin).dot(direction) }
+
+        // Concave polygons can cover several separate intervals along the intersection line.
+        var start: Vector?
+        var paths = [Path]()
+        for (index, point) in points.enumerated() {
+            guard !isCancelled() else { return .empty }
+            let next = index + 1
+            if next < points.count, distanceFromCoplanarPoint(point.lerp(points[next], 0.5)) <= epsilon {
+                start = start ?? point
+            } else {
+                let end = point.projected(onto: plane)
+                paths.append(start.map { .line($0.projected(onto: plane), end) } ?? Path([.point(end)]))
+                start = nil
+            }
+        }
+        return isCancelled() ? .empty : Path(subpaths: paths)
+    }
+
     /// Computes a set of edges where the polygon intersects a plane.
     /// - Parameter plane: The ``Plane`` to test against the polygon.
     /// - Returns: A `Set` of ``LineSegment`` representing the polygon edges intersecting the plane.

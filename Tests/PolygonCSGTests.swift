@@ -10,6 +10,46 @@
 import XCTest
 
 final class PolygonCSGTests: XCTestCase {
+    func testPolygonProjectionOntoPlane() throws {
+        let polygon = try XCTUnwrap(Polygon([[-1, -1], [1, -1], [1, 1], [-1, 1]]))
+        let plane = Plane(unchecked: Vector(0, 1, 1).normalized(), w: 3)
+        let path = polygon.projected(onto: plane)
+        XCTAssertTrue(path.isClosed)
+        XCTAssertTrue(path.points.allSatisfy { plane.intersects($0.position) })
+        XCTAssertEqual(path.facePolygons().surfaceArea, 2 * 2.0.squareRoot(), accuracy: epsilon)
+        let line = polygon.projected(onto: .yz)
+        XCTAssertFalse(line.isClosed)
+        XCTAssertEqual(Set(line.points.map(\.position)), Set([[0, -1, 0], [0, 1, 0]]))
+        XCTAssertTrue(polygon.projected(onto: plane) { true }.isEmpty)
+    }
+
+    func testPolygonPlaneIntersectionWithDisjointSegments() throws {
+        let polygon = try XCTUnwrap(Polygon([
+            [-3, -2], [3, -2], [3, 2], [1, 2],
+            [1, -1], [-1, -1], [-1, 2], [-3, 2],
+        ]))
+        let path = polygon.intersection(with: .xz)
+        XCTAssertEqual(path.subpaths.count, 2)
+        XCTAssertEqual(Set(path.points.map(\.position)), Set([[-3, 0], [-1, 0], [1, 0], [3, 0]]))
+        XCTAssertEqual(path.length, 4, accuracy: epsilon)
+    }
+
+    func testPolygonPlaneIntersectionWithFaceEdgeAndPoint() throws {
+        let polygon = try XCTUnwrap(Polygon([[0, 0], [1, 0], [1, 1], [0, 1]]))
+        let face = polygon.intersection(with: .xy.inverted())
+        XCTAssertTrue(face.isClosed)
+        XCTAssertEqual(face.facePolygons().surfaceArea, 1, accuracy: epsilon)
+
+        let edge = polygon.intersection(with: .xz)
+        XCTAssertEqual(Set(edge.points.map(\.position)), Set([[0, 0], [1, 0]]))
+        XCTAssertEqual(edge.length, 1, accuracy: epsilon)
+
+        let tangent = Plane(unchecked: Vector(1, 1, 0).normalized(), w: 0)
+        XCTAssertEqual(polygon.intersection(with: tangent).points.map(\.position), [.zero])
+        XCTAssertTrue(polygon.intersection(with: Plane(unchecked: .unitZ, w: 1)).isEmpty)
+        XCTAssertTrue(polygon.intersection(with: .xy) { true }.isEmpty)
+    }
+
     // MARK: Plane clipping
 
     func testSquareClippedToPlane() {

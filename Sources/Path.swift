@@ -172,7 +172,7 @@ public extension Path {
     }
 
     /// Indicates whether the path is a closed path.
-    /// - Note: If path is empty, will return true. If path has subpaths, will return true only if all are closed.
+    /// - Note: Empty and single-point paths are closed. A compound path is closed only if all its subpaths are closed.
     var isClosed: Bool {
         switch storage {
         case let .points(points): pointsAreClosed(unchecked: points)
@@ -997,6 +997,55 @@ extension Path {
             }
         }
         self.windingRule = normalizedWindingRule(windingRule)
+    }
+
+    /// Creates a path containing merged collinear segments and any isolated points.
+    init(
+        segments: Set<LineSegment>,
+        isolatedPoints: Set<Vector>,
+        plane: Plane,
+        isCancelled: CancellationHandler
+    ) {
+        var merged = [LineSegment]()
+        for segment in segments.sorted() {
+            var segment = segment
+            for index in merged.indices.reversed() {
+                guard !isCancelled() else {
+                    self = .empty
+                    return
+                }
+                let other = merged[index]
+                let line = Line(segment)
+                guard line.distance(from: other.start) <= epsilon, line.distance(from: other.end) <= epsilon
+                else { continue }
+                let a = (other.start - segment.start).dot(line.direction)
+                let b = (other.end - segment.start).dot(line.direction)
+                let length = segment.length
+                guard max(a, b) >= -epsilon, min(a, b) <= length + epsilon else { continue }
+                let start = min(a, b) < 0 ? (a < b ? other.start : other.end) : segment.start
+                let end = max(a, b) > length ? (a > b ? other.start : other.end) : segment.end
+                if let union = LineSegment(undirected: start, end) {
+                    segment = union
+                    merged.remove(at: index)
+                }
+            }
+            merged.append(segment)
+        }
+        var subpaths = merged.map { Path($0) }
+        for point in isolatedPoints.sorted() {
+            guard !isCancelled() else {
+                self = .empty
+                return
+            }
+            if !merged.contains(where: { $0.distance(from: point) <= epsilon }) {
+                subpaths.append(Path([.point(point)]))
+            }
+        }
+        if isCancelled() {
+            self = .empty
+        } else {
+            self.init(unchecked: .subpaths(subpaths), plane: plane)
+        }
     }
 
     /// Test if path is self-intersecting

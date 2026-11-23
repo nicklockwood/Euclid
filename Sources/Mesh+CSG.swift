@@ -891,6 +891,53 @@ public extension Mesh {
         }
     }
 
+    /// Projects the mesh onto a plane and returns the outline of the covered area.
+    /// - Parameters:
+    ///   - plane: The plane on which the returned path lies in world coordinates.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: Closed outlines of the covered area, or line segments if the projection
+    ///   collapses edge-on. Returns an empty path on cancellation.
+    func projected(onto plane: Plane, isCancelled: CancellationHandler = { false }) -> Path {
+        polygons.projected(onto: plane, isCancelled: isCancelled)
+    }
+
+    /// Returns the intersection of a solid mesh with a plane.
+    /// - Parameters:
+    ///   - plane: The plane on which the returned path lies in world coordinates.
+    ///   - isCancelled: Callback used to cancel the operation.
+    /// - Returns: Closed outlines when the section has area. An intersection with no area
+    ///   returns its segments and isolated points. A miss or cancellation returns an empty path.
+    func intersection(with plane: Plane, isCancelled: CancellationHandler = { false }) -> Path {
+        guard !isEmpty, !isCancelled(), bounds.distance(from: plane) <= planeEpsilon else { return .empty }
+        // Clip a plane-aligned polygon large enough to cover the mesh.
+        let radius = bounds.size.length
+        guard let square = Polygon([
+            Vector(-radius, -radius), Vector(radius, -radius),
+            Vector(radius, radius), Vector(-radius, radius),
+        ]) else { return .empty }
+        let rectangle = square
+            .rotated(by: rotationBetweenNormalizedVectors(.unitZ, plane.normal))
+            .translated(by: bounds.center.projected(onto: plane))
+        let section = BSP(self, isCancelled).clip([rectangle], .lessThanEqual, isCancelled)
+            .projected(onto: plane, isCancelled: isCancelled)
+        guard section.isEmpty, !isCancelled() else { return section }
+
+        var segments = Set<LineSegment>()
+        var points = Set<Vector>()
+        for polygon in polygons {
+            guard !isCancelled() else { return .empty }
+            let contact = polygon.intersection(with: plane, isCancelled: isCancelled)
+            for path in contact.subpaths {
+                if let point = path.points.first, path.points.count == 1 {
+                    points.insert(point.position)
+                } else if !path.isClosed {
+                    segments.formUnion(path.undirectedEdges)
+                }
+            }
+        }
+        return Path(segments: segments, isolatedPoints: points, plane: plane, isCancelled: isCancelled)
+    }
+
     /// Computes a set of edges where the mesh intersects a plane.
     /// - Parameter plane: A ``Plane`` to test against the mesh.
     /// - Returns: A `Set` of ``LineSegment`` representing the polygon edges intersections.
