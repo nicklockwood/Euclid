@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.10.7](https://github.com/nicklockwood/Euclid/releases/tag/0.10.7) (2026-11-23)
+
+- Added `Path.WindingRule` with even-odd and nonzero fill rules, and used nonzero for Core Text glyphs
+- Added plane projection and intersection APIs for paths, polygons and meshes
+- Added tapering to straight extrusions and extrusions along a path
+- Restored sharp loft joins at repeated contours and improved normals at smooth and coplanar joins
+- Added `sweep` option to `Mesh.lathe()` for partial revolutions
+- Added text layout along a path with offsets and per-glyph rotation
+- Fixed watertightness reporting after a mesh repair is canceled
+- Fixed an unreachable error handler warning in mesh exporters
+
 ## [0.10.6](https://github.com/nicklockwood/Euclid/releases/tag/0.10.6) (2026-11-14)
 
 - Reduced allocations in vector arithmetic, bounds calculations and native ASCII mesh imports

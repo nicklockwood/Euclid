@@ -292,28 +292,28 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/lathe(_:slices:poledetail:adddetailforflatpoles:faces:wrapmode:material:iscancelled:)",
-                "title" : "static func lathe(Path, slices: Int, poleDetail: Int, addDetailForFlatPoles: Bool, faces: Faces, wrapMode: WrapMode, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/lathe(_:sweep:slices:poledetail:adddetailforflatpoles:faces:wrapmode:material:iscancelled:)",
+                "title" : "static func lathe(Path, sweep: Angle, slices: Int, poleDetail: Int, addDetailForFlatPoles: Bool, faces: Faces, wrapMode: WrapMode, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:miterlimit:faces:material:iscancelled:)-6crez",
-                "title" : "static func extrude(Path, along: Path, twist: Angle, align: Alignment, miterLimit: MiterLimit, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:taper:align:miterlimit:faces:material:iscancelled:)-5oyya",
+                "title" : "static func extrude(Path, along: Path, twist: Angle, taper: Vector, align: Alignment, miterLimit: MiterLimit, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:miterlimit:faces:material:iscancelled:)-646jk",
-                "title" : "static func extrude(some Collection<Path>, along: Path, twist: Angle, align: Alignment, miterLimit: MiterLimit, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:taper:align:miterlimit:faces:material:iscancelled:)-9shxw",
+                "title" : "static func extrude(some Collection<Path>, along: Path, twist: Angle, taper: Vector, align: Alignment, miterLimit: MiterLimit, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-901ij",
-                "title" : "static func extrude(Path, depth: Double, twist: Angle, sections: Int?, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:taper:sections:faces:material:iscancelled:)-9ex1c",
+                "title" : "static func extrude(Path, depth: Double, twist: Angle, taper: Vector, sections: Int?, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-4zpja",
-                "title" : "static func extrude(some Collection<Path>, depth: Double, twist: Angle, sections: Int?, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:taper:sections:faces:material:iscancelled:)-15axd",
+                "title" : "static func extrude(some Collection<Path>, depth: Double, twist: Angle, taper: Vector, sections: Int?, faces: Faces, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -375,13 +375,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/text(_:font:width:depth:detail:material:iscancelled:)",
-                "title" : "static func text(String, font: CTFont?, width: Double?, depth: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/text(_:font:along:offset:rotation:width:depth:detail:material:iscancelled:)",
+                "title" : "static func text(String, font: CTFont?, along: Path?, offset: Vector, rotation: Angle, width: Double?, depth: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/text(_:width:depth:detail:material:iscancelled:)",
-                "title" : "static func text(NSAttributedString, width: Double?, depth: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
+                "path" : "\/documentation\/euclid\/mesh\/text(_:along:offset:rotation:width:depth:detail:material:iscancelled:)",
+                "title" : "static func text(NSAttributedString, along: Path?, offset: Vector, rotation: Angle, width: Double?, depth: Double, detail: Int, material: Material?, isCancelled: CancellationHandler) -> Mesh",
                 "type" : "method"
               },
               {
@@ -391,6 +391,11 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/init(_:material:)",
                 "title" : "init?(SCNGeometry, material: Material?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:materiallookup:)",
+                "title" : "init(SCNNode, ignoringTransforms: Bool, linearColors: Bool, materialLookup: SCNMaterialProvider?)",
                 "type" : "init"
               },
               {
@@ -428,6 +433,11 @@
                 "type" : "init"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/init(offstring:options:materiallookup:)",
+                "title" : "init?(offString: String, options: ImportOptions, materialLookup: (@Sendable (Color?) -> Material?)?)",
+                "type" : "init"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/init(stlstring:options:)",
                 "title" : "init?(stlString: String, options: ImportOptions)",
                 "type" : "init"
@@ -435,6 +445,11 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/init(stldata:options:materiallookup:)",
                 "title" : "init?(stlData: Data, options: ImportOptions, materialLookup: STLMaterialProvider?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/init(url:options:iscancelled:materiallookup:)",
+                "title" : "init(url: URL, options: ImportOptions, isCancelled: CancellationHandler, materialLookup: (@Sendable (AnyHashable?) -> Material?)?) throws",
                 "type" : "init"
               },
               {
@@ -454,6 +469,11 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/stldata(colorlookup:)",
                 "title" : "func stlData(colorLookup: STLColorProvider?) -> Data",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/write(to:iscancelled:materiallookup:)",
+                "title" : "func write(to: URL, isCancelled: CancellationHandler, materialLookup: (@Sendable (Material?) -> AnyHashable?)?) throws",
                 "type" : "method"
               },
               {
@@ -749,11 +769,6 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:materiallookup:)",
-                "title" : "init(SCNNode, ignoringTransforms: Bool, linearColors: Bool, materialLookup: SCNMaterialProvider?)",
-                "type" : "init"
-              },
-              {
                 "path" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:materiallookup:iscancelled:)",
                 "title" : "init(SCNNode, ignoringTransforms: Bool, linearColors: Bool, materialLookup: SCNMaterialProvider?, isCancelled: CancellationHandler) throws",
                 "type" : "init"
@@ -814,11 +829,6 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/mesh\/init(offstring:options:materiallookup:)",
-                "title" : "init?(offString: String, options: ImportOptions, materialLookup: (@Sendable (Color?) -> Material?)?)",
-                "type" : "init"
-              },
-              {
                 "path" : "\/documentation\/euclid\/mesh\/init(offstring:options:materiallookup:iscancelled:)",
                 "title" : "init?(offString: String, options: ImportOptions, materialLookup: (@Sendable (Color?) -> Material?)?, isCancelled: CancellationHandler) throws",
                 "type" : "init"
@@ -841,11 +851,6 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/init(stlstring:options:iscancelled:)",
                 "title" : "init?(stlString: String, options: ImportOptions, isCancelled: CancellationHandler) throws",
-                "type" : "init"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/init(url:options:iscancelled:materiallookup:)",
-                "title" : "init(url: URL, options: ImportOptions, isCancelled: CancellationHandler, materialLookup: (@Sendable (AnyHashable?) -> Material?)?) throws",
                 "type" : "init"
               },
               {
@@ -919,6 +924,11 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/inset(by:iscancelled:)",
                 "title" : "func inset(by: Double, isCancelled: CancellationHandler) -> Mesh",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/mesh\/intersection(with:iscancelled:)",
+                "title" : "func intersection(with: Plane, isCancelled: CancellationHandler) -> Path",
                 "type" : "method"
               },
               {
@@ -1002,6 +1012,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/mesh\/projected(onto:iscancelled:)",
+                "title" : "func projected(onto: Plane, isCancelled: CancellationHandler) -> Path",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/mesh\/reflected(along:)",
                 "title" : "func reflected(along: Plane) -> Mesh",
                 "type" : "method"
@@ -1054,11 +1069,6 @@
               {
                 "path" : "\/documentation\/euclid\/mesh\/withoutvertexcolors()",
                 "title" : "func withoutVertexColors() -> Mesh",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/mesh\/write(to:iscancelled:materiallookup:)",
-                "title" : "func write(to: URL, isCancelled: CancellationHandler, materialLookup: (@Sendable (Material?) -> AnyHashable?)?) throws",
                 "type" : "method"
               },
               {
@@ -1586,6 +1596,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/polygon\/intersection(with:iscancelled:)",
+                "title" : "func intersection(with: Plane, isCancelled: CancellationHandler) -> Path",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/polygon\/maptexcoords(_:)",
                 "title" : "func mapTexcoords((Vector) -> Vector) -> Polygon",
                 "type" : "method"
@@ -1598,6 +1613,11 @@
               {
                 "path" : "\/documentation\/euclid\/polygon\/mapvertices(_:)",
                 "title" : "func mapVertices((Vertex) -> Vertex) -> [Polygon]",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/polygon\/projected(onto:iscancelled:)",
+                "title" : "func projected(onto: Plane, isCancelled: CancellationHandler) -> Path",
                 "type" : "method"
               },
               {
@@ -1956,8 +1976,8 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/init(_:detail:color:)",
-                "title" : "init(CGPath, detail: Int, color: Color?)",
+                "path" : "\/documentation\/euclid\/path\/init(_:windingrule:detail:color:)",
+                "title" : "init(CGPath, windingRule: WindingRule, detail: Int, color: Color?)",
                 "type" : "init"
               },
               {
@@ -2014,13 +2034,13 @@
                 "type" : "groupMarker"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/text(_:font:width:detail:color:iscancelled:)",
-                "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int, color: Color?, isCancelled: CancellationHandler) -> [Path]",
+                "path" : "\/documentation\/euclid\/path\/text(_:font:along:offset:rotation:width:detail:color:iscancelled:)",
+                "title" : "static func text(String, font: CTFont?, along: Path?, offset: Vector, rotation: Angle, width: Double?, detail: Int, color: Color?, isCancelled: CancellationHandler) -> [Path]",
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/text(_:width:detail:iscancelled:)",
-                "title" : "static func text(NSAttributedString, width: Double?, detail: Int, isCancelled: CancellationHandler) -> [Path]",
+                "path" : "\/documentation\/euclid\/path\/text(_:along:offset:rotation:width:detail:iscancelled:)",
+                "title" : "static func text(NSAttributedString, along: Path?, offset: Vector, rotation: Angle, width: Double?, detail: Int, isCancelled: CancellationHandler) -> [Path]",
                 "type" : "method"
               },
               {
@@ -2149,13 +2169,23 @@
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/init(_:color:)-9i9t1",
-                "title" : "init(some Collection<PathPoint>, color: Color?)",
+                "path" : "\/documentation\/euclid\/path\/init(_:color:)-snde",
+                "title" : "init(some Collection<LineSegment>, color: Color?)",
                 "type" : "init"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/init(_:color:)-snde",
-                "title" : "init(some Collection<LineSegment>, color: Color?)",
+                "path" : "\/documentation\/euclid\/path\/init(_:windingrule:)",
+                "title" : "init(some Collection<PathPoint>, windingRule: WindingRule)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/init(_:windingrule:color:)",
+                "title" : "init(some Collection<PathPoint>, windingRule: WindingRule, color: Color?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/init(subpaths:windingrule:)",
+                "title" : "init(subpaths: some Collection<Path>, windingRule: WindingRule)",
                 "type" : "init"
               },
               {
@@ -2213,6 +2243,11 @@
                 "type" : "property"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/windingrule-swift.property",
+                "title" : "var windingRule: WindingRule",
+                "type" : "property"
+              },
+              {
                 "title" : "Instance Methods",
                 "type" : "groupMarker"
               },
@@ -2232,8 +2267,13 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/path\/extrusioncontours(along:twist:align:miterlimit:)",
-                "title" : "func extrusionContours(along: Path, twist: Angle, align: Alignment, miterLimit: MiterLimit) -> [Path]",
+                "path" : "\/documentation\/euclid\/path\/extrusioncontours(along:twist:taper:align:miterlimit:)",
+                "title" : "func extrusionContours(along: Path, twist: Angle, taper: Vector, align: Alignment, miterLimit: MiterLimit) -> [Path]",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/extrusioncontours(depth:twist:taper:sections:)",
+                "title" : "func extrusionContours(depth: Double, twist: Angle, taper: Vector, sections: Int?) -> [Path]",
                 "type" : "method"
               },
               {
@@ -2249,6 +2289,11 @@
               {
                 "path" : "\/documentation\/euclid\/path\/intersection(_:iscancelled:)-swift.method",
                 "title" : "func intersection(Path, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/intersection(with:iscancelled:)",
+                "title" : "func intersection(with: Plane, isCancelled: CancellationHandler) -> Path",
                 "type" : "method"
               },
               {
@@ -2279,6 +2324,11 @@
               {
                 "path" : "\/documentation\/euclid\/path\/minkowskisum(with:iscancelled:)",
                 "title" : "func minkowskiSum(with: Path, isCancelled: CancellationHandler) -> Path?",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/projected(onto:iscancelled:)",
+                "title" : "func projected(onto: Plane, isCancelled: CancellationHandler) -> Path",
                 "type" : "method"
               },
               {
@@ -2314,6 +2364,11 @@
               {
                 "path" : "\/documentation\/euclid\/path\/withnormalizedposition()",
                 "title" : "func withNormalizedPosition() -> (path: Path, offset: Vector)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/euclid\/path\/withwindingrule(_:)",
+                "title" : "func withWindingRule(WindingRule) -> Path",
                 "type" : "method"
               },
               {
@@ -2416,6 +2471,114 @@
                 ],
                 "path" : "\/documentation\/euclid\/path\/alignment",
                 "title" : "Path.Alignment",
+                "type" : "enum"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Enumeration Cases",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/default",
+                    "title" : "case `default`",
+                    "type" : "case"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/evenodd",
+                    "title" : "case evenOdd",
+                    "type" : "case"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/nonzero",
+                    "title" : "case nonZero",
+                    "type" : "case"
+                  },
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/init(rawvalue:)",
+                    "title" : "init?(rawValue: String)",
+                    "type" : "init"
+                  },
+                  {
+                    "title" : "Default Implementations",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "children" : [
+                      {
+                        "title" : "Operators",
+                        "type" : "groupMarker"
+                      },
+                      {
+                        "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/!=(_:_:)",
+                        "title" : "static func != (borrowing Self, borrowing Self) -> Bool",
+                        "type" : "op"
+                      }
+                    ],
+                    "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/equatable-implementations",
+                    "title" : "Equatable Implementations",
+                    "type" : "collection"
+                  },
+                  {
+                    "children" : [
+                      {
+                        "title" : "Initializers",
+                        "type" : "groupMarker"
+                      },
+                      {
+                        "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/init(from:)",
+                        "title" : "init(from: any Decoder) throws",
+                        "type" : "init"
+                      },
+                      {
+                        "title" : "Instance Properties",
+                        "type" : "groupMarker"
+                      },
+                      {
+                        "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/hashvalue",
+                        "title" : "var hashValue: Int",
+                        "type" : "property"
+                      },
+                      {
+                        "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/rawattachmentvaluerepresentation",
+                        "title" : "var rawAttachmentValueRepresentation: CVAttachmentRawValue",
+                        "type" : "property"
+                      },
+                      {
+                        "title" : "Instance Methods",
+                        "type" : "groupMarker"
+                      },
+                      {
+                        "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/encode(to:)",
+                        "title" : "func encode(to: any Encoder) throws",
+                        "type" : "method"
+                      },
+                      {
+                        "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/hash(into:)",
+                        "title" : "func hash(into: inout Hasher)",
+                        "type" : "method"
+                      },
+                      {
+                        "title" : "Type Methods",
+                        "type" : "groupMarker"
+                      },
+                      {
+                        "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/makefromrawattachmentvalue(_:)",
+                        "title" : "static func makeFromRawAttachmentValue(CVAttachmentRawValue) -> Self?",
+                        "type" : "method"
+                      }
+                    ],
+                    "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum\/rawrepresentable-implementations",
+                    "title" : "RawRepresentable Implementations",
+                    "type" : "collection"
+                  }
+                ],
+                "path" : "\/documentation\/euclid\/path\/windingrule-swift.enum",
+                "title" : "Path.WindingRule",
                 "type" : "enum"
               },
               {
@@ -8591,13 +8754,13 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/swift\/collection\/text(_:font:width:detail:iscancelled:)",
-                    "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
+                    "path" : "\/documentation\/euclid\/swift\/collection\/text(_:along:offset:rotation:width:detail:iscancelled:)",
+                    "title" : "static func text(NSAttributedString, along: Path?, offset: Vector, rotation: Angle, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
                     "type" : "method"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/swift\/collection\/text(_:width:detail:iscancelled:)",
-                    "title" : "static func text(NSAttributedString, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
+                    "path" : "\/documentation\/euclid\/swift\/collection\/text(_:font:along:offset:rotation:width:detail:iscancelled:)",
+                    "title" : "static func text(String, font: CTFont?, along: Path?, offset: Vector, rotation: Angle, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
                     "type" : "method"
                   }
                 ],
@@ -8612,13 +8775,13 @@
                     "type" : "groupMarker"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:font:width:detail:iscancelled:)",
-                    "title" : "static func text(String, font: CTFont?, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
+                    "path" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:along:offset:rotation:width:detail:iscancelled:)",
+                    "title" : "static func text(NSAttributedString, along: Path?, offset: Vector, rotation: Angle, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
                     "type" : "method"
                   },
                   {
-                    "path" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:width:detail:iscancelled:)",
-                    "title" : "static func text(NSAttributedString, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
+                    "path" : "\/documentation\/euclid\/swift\/rangereplaceablecollection\/text(_:font:along:offset:rotation:width:detail:iscancelled:)",
+                    "title" : "static func text(String, font: CTFont?, along: Path?, offset: Vector, rotation: Angle, width: Double?, detail: Int, isCancelled: Euclid.CancellationHandler) -> Self",
                     "type" : "method"
                   }
                 ],

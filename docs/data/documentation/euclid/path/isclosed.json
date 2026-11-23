@@ -116,7 +116,7 @@
             {
               "inlineContent" : [
                 {
-                  "text" : "If path is empty, will return true. If path has subpaths, will return true only if all are closed.",
+                  "text" : "Empty and single-point paths are closed. A compound path is closed only if all its subpaths are closed.",
                   "type" : "text"
                 }
               ],

@@ -407,6 +407,18 @@
   "sections" : [
 
   ],
+  "seeAlsoSections" : [
+    {
+      "anchor" : "Exporting-Meshes",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/objString()",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlString(name:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(colorLookup:)"
+      ],
+      "title" : "Exporting Meshes"
+    }
+  ],
   "variants" : [
     {
       "paths" : [
@@ -553,6 +565,151 @@
   "title" : "Mesh.Material",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/material"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/objString()": {
+  "abstract" : [
+    {
+      "text" : "Return Wavefront OBJ string data for the mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "objString"
+    },
+    {
+      "kind" : "text",
+      "text" : "() -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/objString()",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "objString()",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/objstring()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stlData(colorLookup:)": {
+  "abstract" : [
+    {
+      "text" : "Return binary STL data for the mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "stlData"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "colorLookup"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV16STLColorProvidera",
+      "text" : "STLColorProvider"
+    },
+    {
+      "kind" : "text",
+      "text" : "?) -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:10Foundation4DataV",
+      "text" : "Data"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlData(colorLookup:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "stlData(colorLookup:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/stldata(colorlookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/stlString(name:)": {
+  "abstract" : [
+    {
+      "text" : "Return ASCII STL string data for the mesh.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "stlString"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "name"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/stlString(name:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "stlString(name:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/stlstring(name:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/write(to:isCancelled:materialLookup:)": {
   "abstract" : [

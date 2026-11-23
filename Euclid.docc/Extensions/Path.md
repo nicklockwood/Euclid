@@ -13,7 +13,7 @@ A bezier path in three-dimensional space.
 - ``Path/init(_:)-(Collection<PathPoint>)``
 - ``Path/init(_:)-(Polygon)``
 - ``Path/init(subpaths:)``
-- ``Path/init(_:detail:color:)``
+- ``Path/init(_:windingRule:detail:color:)``
 - ``Path/curve(_:detail:)``
 - ``Path/line(_:_:color:)``
 - ``Path/arc(angle:radius:segments:color:isCancelled:)``
@@ -29,8 +29,8 @@ A bezier path in three-dimensional space.
 
 ### Creating Text Paths
 
-- ``Path/text(_:font:width:detail:color:isCancelled:)``
-- ``Path/text(_:width:detail:isCancelled:)``
+- ``Path/text(_:font:along:offset:rotation:width:detail:color:isCancelled:)``
+- ``Path/text(_:along:offset:rotation:width:detail:isCancelled:)``
 
 ### Path Properties
 

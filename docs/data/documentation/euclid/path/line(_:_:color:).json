@@ -292,7 +292,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-8w74j",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:)-3c0eo",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(subpaths:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:detail:color:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:windingRule:detail:color:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/curve(_:detail:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/arc(angle:radius:segments:color:isCancelled:)"
       ],
@@ -646,7 +646,7 @@
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:)-8w74j": {
   "abstract" : [
     {
-      "text" : "Creates a path from a collection of  path points.",
+      "text" : "Creates a path from a collection of path points.",
       "type" : "text"
     }
   ],
@@ -693,7 +693,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/init(_:)-8w74j"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:detail:color:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(_:windingRule:detail:color:)": {
   "abstract" : [
     {
       "text" : "Creates a Path from a ",
@@ -721,6 +721,23 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "c:@T@CGPathRef",
       "text" : "CGPath"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "windingRule"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV11WindingRuleO",
+      "text" : "WindingRule"
     },
     {
       "kind" : "text",
@@ -761,12 +778,12 @@
       "text" : "?)"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:detail:color:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/init(_:windingRule:detail:color:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "init(_:detail:color:)",
+  "title" : "init(_:windingRule:detail:color:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/init(_:detail:color:)"
+  "url" : "\/documentation\/euclid\/path\/init(_:windingrule:detail:color:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/init(subpaths:)": {
   "abstract" : [

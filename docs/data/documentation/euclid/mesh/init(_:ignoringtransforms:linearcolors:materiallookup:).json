@@ -296,6 +296,16 @@
   "sections" : [
 
   ],
+  "seeAlsoSections" : [
+    {
+      "anchor" : "Creating-Meshes-from-SceneKit-Models",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:material:)"
+      ],
+      "title" : "Creating Meshes from SceneKit Models"
+    }
+  ],
   "variants" : [
     {
       "paths" : [
@@ -475,6 +485,56 @@
   "title" : "init(_:ignoringTransforms:linearColors:materialLookup:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/init(_:ignoringtransforms:linearcolors:materiallookup:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/init(_:material:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a mesh from a SceneKit geometry, with the material you provide.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "?("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)SCNGeometry",
+      "text" : "SCNGeometry"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "material"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4MeshV8Materiala",
+      "text" : "Material"
+    },
+    {
+      "kind" : "text",
+      "text" : "?)"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/init(_:material:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(_:material:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/mesh\/init(_:material:)"
 }
 }
 }

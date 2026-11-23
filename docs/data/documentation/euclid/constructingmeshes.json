@@ -724,7 +724,7 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
+                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/lathe(_:sweep:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
                       "isActive" : true,
                       "type" : "reference"
                     },
@@ -760,7 +760,7 @@
                 {
                   "inlineContent" : [
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-6crez",
+                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:taper:align:miterLimit:faces:material:isCancelled:)-5oyya",
                       "isActive" : true,
                       "type" : "reference"
                     },
@@ -796,7 +796,7 @@
                       "type" : "text"
                     },
                     {
-                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-6crez",
+                      "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:taper:align:miterLimit:faces:material:isCancelled:)-5oyya",
                       "isActive" : true,
                       "type" : "reference"
                     },
@@ -1485,12 +1485,12 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:isCancelled:)",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:along:offset:rotation:width:detail:isCancelled:)",
               "isActive" : true,
               "type" : "reference"
             },
             {
-              "text" : " method produces an array of 2D ",
+              "text" : " method returns one ",
               "type" : "text"
             },
             {
@@ -1499,15 +1499,15 @@
               "type" : "reference"
             },
             {
-              "text" : " that represent the contours of each glyph in an ",
+              "text" : " per glyph in an ",
               "type" : "text"
             },
             {
-              "code" : "AttributedString",
+              "code" : "NSAttributedString",
               "type" : "codeVoice"
             },
             {
-              "text" : ". You can use these paths with either ",
+              "text" : ". You can fill or extrude these paths with ",
               "type" : "text"
             },
             {
@@ -1520,12 +1520,12 @@
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-4zpja",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:taper:sections:faces:material:isCancelled:)-15axd",
               "isActive" : true,
               "type" : "reference"
             },
             {
-              "text" : " builder methods to create solid text.",
+              "text" : " to create solid text.",
               "type" : "text"
             }
           ],
@@ -1534,32 +1534,24 @@
         {
           "inlineContent" : [
             {
-              "text" : "Alternatively, the ",
+              "text" : "Alternatively, ",
               "type" : "text"
             },
             {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:isCancelled:)",
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:along:offset:rotation:width:depth:detail:material:isCancelled:)",
               "isActive" : true,
               "type" : "reference"
             },
             {
-              "text" : " constructor directly produces an extruded 3D text model from a ",
+              "text" : " creates an extruded text mesh directly. Pass an ",
               "type" : "text"
             },
             {
-              "code" : "String",
+              "code" : "along",
               "type" : "codeVoice"
             },
             {
-              "text" : " or ",
-              "type" : "text"
-            },
-            {
-              "code" : "AttributedString",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : ".",
+              "text" : " path to either method to lay out the glyphs along that baseline.",
               "type" : "text"
             }
           ],
@@ -1568,41 +1560,7 @@
         {
           "inlineContent" : [
             {
-              "text" : "Each glyph in the input string maps to a single ",
-              "type" : "text"
-            },
-            {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
-            },
-            {
-              "text" : " in the result, but these ",
-              "type" : "text"
-            },
-            {
-              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path",
-              "isActive" : true,
-              "type" : "reference"
-            },
-            {
-              "text" : "s may contain nested subpaths.",
-              "type" : "text"
-            },
-            {
-              "text" : " ",
-              "type" : "text"
-            },
-            {
-              "text" : "Glyphs formed from multiple subpaths will be filled using the even-odd rule (equivalent to using ",
-              "type" : "text"
-            },
-            {
-              "code" : "symmetricDifference",
-              "type" : "codeVoice"
-            },
-            {
-              "text" : " with the individually filled or extruded subpaths).",
+              "text" : "Glyph paths use the nonzero winding rule when filled, including glyphs with nested contours.",
               "type" : "text"
             }
           ],
@@ -2444,7 +2402,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/cylinder(radius:height:slices:poledetail:faces:wrapmode:material:iscancelled:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-6crez": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:along:twist:taper:align:miterLimit:faces:material:isCancelled:)-5oyya": {
   "abstract" : [
     {
       "text" : "Creates a mesh by extruding one path along another path.",
@@ -2514,6 +2472,23 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:6Euclid5AngleV",
       "text" : "Angle"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "taper"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
     },
     {
       "kind" : "text",
@@ -2610,14 +2585,14 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)-6crez",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:along:twist:taper:align:miterLimit:faces:material:isCancelled:)-5oyya",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "extrude(_:along:twist:align:miterLimit:faces:material:isCancelled:)",
+  "title" : "extrude(_:along:twist:taper:align:miterLimit:faces:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:align:miterlimit:faces:material:iscancelled:)-6crez"
+  "url" : "\/documentation\/euclid\/mesh\/extrude(_:along:twist:taper:align:miterlimit:faces:material:iscancelled:)-5oyya"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:depth:twist:sections:faces:material:isCancelled:)-4zpja": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/extrude(_:depth:twist:taper:sections:faces:material:isCancelled:)-15axd": {
   "abstract" : [
     {
       "text" : "Efficiently extrudes a collection of paths along their respective face normals, avoiding duplicate work.",
@@ -2711,6 +2686,23 @@
     },
     {
       "kind" : "externalParam",
+      "text" : "taper"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
       "text" : "sections"
     },
     {
@@ -2783,12 +2775,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:sections:faces:material:isCancelled:)-4zpja",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/extrude(_:depth:twist:taper:sections:faces:material:isCancelled:)-15axd",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "extrude(_:depth:twist:sections:faces:material:isCancelled:)",
+  "title" : "extrude(_:depth:twist:taper:sections:faces:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:sections:faces:material:iscancelled:)-4zpja"
+  "url" : "\/documentation\/euclid\/mesh\/extrude(_:depth:twist:taper:sections:faces:material:iscancelled:)-15axd"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/fill(_:faces:material:isCancelled:)-5z4d6": {
   "abstract" : [
@@ -3088,10 +3080,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/intersection(_:iscancelled:)-swift.method"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/lathe(_:sweep:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Creates a rotationally symmetrical mesh by turning the specified path around the Y axis.",
+      "text" : "Creates a mesh by turning the specified path around the Y axis.",
       "type" : "text"
     }
   ],
@@ -3124,6 +3116,23 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "s:6Euclid4PathV",
       "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "sweep"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
     },
     {
       "kind" : "text",
@@ -3254,17 +3263,25 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/lathe(_:sweep:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "lathe(_:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
+  "title" : "lathe(_:sweep:slices:poleDetail:addDetailForFlatPoles:faces:wrapMode:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/lathe(_:slices:poledetail:adddetailforflatpoles:faces:wrapmode:material:iscancelled:)"
+  "url" : "\/documentation\/euclid\/mesh\/lathe(_:sweep:slices:poledetail:adddetailforflatpoles:faces:wrapmode:material:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/loft(_:faces:material:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates a mesh by connecting a series of 3D paths representing the cross sections.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Junctions use smooth normals by default. Use duplicate contours to create a sharp join.",
       "type" : "text"
     }
   ],
@@ -4134,7 +4151,7 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/mesh\/symmetricdifference(_:iscancelled:)-swift.type.method"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/text(_:font:width:depth:detail:material:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/text(_:font:along:offset:rotation:width:depth:detail:material:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an extruded text model from a string.",
@@ -4191,6 +4208,57 @@
     {
       "kind" : "text",
       "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "along"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "offset"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "rotation"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
     },
     {
       "kind" : "externalParam",
@@ -4283,12 +4351,12 @@
       "text" : "Mesh"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:width:depth:detail:material:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Mesh\/text(_:font:along:offset:rotation:width:depth:detail:material:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:font:width:depth:detail:material:isCancelled:)",
+  "title" : "text(_:font:along:offset:rotation:width:depth:detail:material:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/mesh\/text(_:font:width:depth:detail:material:iscancelled:)"
+  "url" : "\/documentation\/euclid\/mesh\/text(_:font:along:offset:rotation:width:depth:detail:material:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Mesh/union(_:isCancelled:)-swift.method": {
   "abstract" : [
@@ -5156,10 +5224,26 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/square(size:color:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:width:detail:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/text(_:along:offset:rotation:width:detail:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from an attributed string.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Glyphs on a path follow the baseline at the midpoint of their advance.",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "Open paths clip glyphs by that midpoint. A single closed path wraps for one circuit.",
       "type" : "text"
     }
   ],
@@ -5192,6 +5276,57 @@
       "kind" : "typeIdentifier",
       "preciseIdentifier" : "c:objc(cs)NSAttributedString",
       "text" : "NSAttributedString"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "along"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "offset"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "rotation"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
     },
     {
       "kind" : "text",
@@ -5258,12 +5393,12 @@
       "text" : "]"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:width:detail:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/text(_:along:offset:rotation:width:detail:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:width:detail:isCancelled:)",
+  "title" : "text(_:along:offset:rotation:width:detail:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/text(_:width:detail:iscancelled:)"
+  "url" : "\/documentation\/euclid\/path\/text(_:along:offset:rotation:width:detail:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/PathPoint": {
   "abstract" : [

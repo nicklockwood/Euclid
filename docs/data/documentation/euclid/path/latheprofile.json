@@ -9,7 +9,7 @@
       "type" : "text"
     },
     {
-      "text" : "Compound paths are resolved using the even-odd fill rule, with hole contours oriented opposite",
+      "text" : "Compound paths use the path’s winding rule, with even-odd behavior by default.",
       "type" : "text"
     },
     {
@@ -17,7 +17,7 @@
       "type" : "text"
     },
     {
-      "text" : "their containing contours so the resulting profile can be lathed without Boolean operations.",
+      "text" : "Hole contours are oriented opposite their containing contours.",
       "type" : "text"
     }
   ],
@@ -202,7 +202,7 @@
       "type" : "text"
     },
     {
-      "text" : "Compound paths are resolved using the even-odd fill rule, with hole contours oriented opposite",
+      "text" : "Compound paths use the path’s winding rule, with even-odd behavior by default.",
       "type" : "text"
     },
     {
@@ -210,7 +210,7 @@
       "type" : "text"
     },
     {
-      "text" : "their containing contours so the resulting profile can be lathed without Boolean operations.",
+      "text" : "Hole contours are oriented opposite their containing contours.",
       "type" : "text"
     }
   ],

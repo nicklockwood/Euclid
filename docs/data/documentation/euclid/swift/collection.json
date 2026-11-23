@@ -125,8 +125,8 @@
       "anchor" : "Type-Methods",
       "generated" : true,
       "identifiers" : [
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:font:width:detail:isCancelled:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:width:detail:isCancelled:)"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:along:offset:rotation:width:detail:isCancelled:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:font:along:offset:rotation:width:detail:isCancelled:)"
       ],
       "title" : "Type Methods"
     }
@@ -769,7 +769,198 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/swift\/collection\/split(along:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection/text(_:font:width:detail:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection/text(_:along:offset:rotation:width:detail:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Creates an array of glyph contours from an attributed string.",
+      "type" : "text"
+    }
+  ],
+  "conformance" : {
+    "availabilityPrefix" : [
+      {
+        "text" : "Available when",
+        "type" : "text"
+      }
+    ],
+    "conformancePrefix" : [
+      {
+        "text" : "Conforms when",
+        "type" : "text"
+      }
+    ],
+    "constraints" : [
+      {
+        "code" : "Self",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : " is ",
+        "type" : "text"
+      },
+      {
+        "code" : "[Path]",
+        "type" : "codeVoice"
+      },
+      {
+        "text" : ".",
+        "type" : "text"
+      }
+    ]
+  },
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "text"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)NSAttributedString",
+      "text" : "NSAttributedString"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "along"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "offset"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "rotation"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "width"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : "?, "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "detail"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Si",
+      "text" : "Int"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": Euclid"
+    },
+    {
+      "kind" : "text",
+      "text" : "."
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "text" : "Self"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:along:offset:rotation:width:detail:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "text(_:along:offset:rotation:width:detail:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/swift\/collection\/text(_:along:offset:rotation:width:detail:iscancelled:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection/text(_:font:along:offset:rotation:width:detail:isCancelled:)": {
   "abstract" : [
     {
       "text" : "Creates an array of glyph contours from a string and font you provide.",
@@ -861,7 +1052,7 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "width"
+      "text" : "along"
     },
     {
       "kind" : "text",
@@ -869,8 +1060,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sd",
-      "text" : "Double"
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
     },
     {
       "kind" : "text",
@@ -878,7 +1069,7 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "detail"
+      "text" : "offset"
     },
     {
       "kind" : "text",
@@ -886,8 +1077,8 @@
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Si",
-      "text" : "Int"
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
     },
     {
       "kind" : "text",
@@ -895,105 +1086,16 @@
     },
     {
       "kind" : "externalParam",
-      "text" : "isCancelled"
+      "text" : "rotation"
     },
     {
       "kind" : "text",
-      "text" : ": Euclid"
-    },
-    {
-      "kind" : "text",
-      "text" : "."
+      "text" : ": "
     },
     {
       "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid19CancellationHandlera",
-      "text" : "CancellationHandler"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "text" : "Self"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:font:width:detail:isCancelled:)",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "text(_:font:width:detail:isCancelled:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/collection\/text(_:font:width:detail:iscancelled:)"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Swift/Collection/text(_:width:detail:isCancelled:)": {
-  "abstract" : [
-    {
-      "text" : "Creates an array of glyph contours from an attributed string.",
-      "type" : "text"
-    }
-  ],
-  "conformance" : {
-    "availabilityPrefix" : [
-      {
-        "text" : "Available when",
-        "type" : "text"
-      }
-    ],
-    "conformancePrefix" : [
-      {
-        "text" : "Conforms when",
-        "type" : "text"
-      }
-    ],
-    "constraints" : [
-      {
-        "code" : "Self",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : " is ",
-        "type" : "text"
-      },
-      {
-        "code" : "[Path]",
-        "type" : "codeVoice"
-      },
-      {
-        "text" : ".",
-        "type" : "text"
-      }
-    ]
-  },
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "static"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "text"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "c:objc(cs)NSAttributedString",
-      "text" : "NSAttributedString"
+      "preciseIdentifier" : "s:6Euclid5AngleV",
+      "text" : "Angle"
     },
     {
       "kind" : "text",
@@ -1059,12 +1161,12 @@
       "text" : "Self"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:width:detail:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Swift\/Collection\/text(_:font:along:offset:rotation:width:detail:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "text(_:width:detail:isCancelled:)",
+  "title" : "text(_:font:along:offset:rotation:width:detail:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/swift\/collection\/text(_:width:detail:iscancelled:)"
+  "url" : "\/documentation\/euclid\/swift\/collection\/text(_:font:along:offset:rotation:width:detail:iscancelled:)"
 }
 }
 }
