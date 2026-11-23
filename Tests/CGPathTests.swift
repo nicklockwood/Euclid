@@ -35,6 +35,17 @@ final class CGPathTests: XCTestCase {
         XCTAssertEqual(path.points.count, 18)
     }
 
+    func testCGPathWindingRule() {
+        let cgPath = CGMutablePath()
+        cgPath.addRect(CGRect(x: 0, y: 0, width: 4, height: 4))
+        cgPath.addRect(CGRect(x: 1, y: 1, width: 2, height: 2))
+        let path = Path(cgPath, windingRule: .nonZero)
+
+        XCTAssertEqual(Path(cgPath).windingRule, .default)
+        XCTAssertEqual(Mesh.fill(path, faces: .front).surfaceArea, 16, accuracy: epsilon)
+        XCTAssertEqual(Mesh.fill(path.withWindingRule(.evenOdd), faces: .front).surfaceArea, 12, accuracy: epsilon)
+    }
+
     func testUnclosedLineAndQuadCurveCGPath() {
         let cgPath = CGMutablePath()
         cgPath.move(to: .zero)

@@ -17,6 +17,11 @@ public extension Path {
         by distance: Double,
         isCancelled: CancellationHandler = { false }
     ) -> Path {
+        if windingRule != .default, requiresFillResolution, !hasResolvedFillBoundary {
+            return fillBoundary(isCancelled: isCancelled)
+                .inset(by: distance, isCancelled: isCancelled)
+                .withWindingRule(windingRule)
+        }
         guard subpaths.count <= 1 else {
             let subpaths = subpaths
             let containment = PathContainmentIndex(subpaths)
@@ -28,13 +33,13 @@ public extension Path {
                 let distance = containment.depth(of: index).isMultiple(of: 2) ? distance : -distance
                 insetSubpaths.append(subpath.inset(by: distance, isCancelled: isCancelled))
             }
-            return Path(subpaths: insetSubpaths)
+            return Path(subpaths: insetSubpaths, windingRule: windingRule)
         }
         guard points.count >= 2 else {
             return self
         }
         if isClosed, !isSimple {
-            return nonZeroFillBoundary(isCancelled: isCancelled)
+            return fillBoundary(isCancelled: isCancelled)
                 .inset(by: distance, isCancelled: isCancelled)
         }
         if isClosed, distance > 0, !insetHalfPlanesHaveIntersection(by: distance) {
@@ -84,16 +89,12 @@ public extension Path {
             )
         }
         if isClosed, distance > 0, let subpaths = splitCollapsedInset(insetPoints, by: distance) {
-            return Path(unchecked: .subpaths(subpaths), plane: plane)
+            return Path(unchecked: .subpaths(subpaths), plane: plane, windingRule: windingRule)
         }
         if isClosed, distance > 0, let subpaths = splitIntersectingInset(insetPoints, by: distance) {
-            return Path(unchecked: .subpaths(subpaths), plane: plane)
+            return Path(unchecked: .subpaths(subpaths), plane: plane, windingRule: windingRule)
         }
-        let inset = resolvedInset(from: insetPoints)
-        guard !inset.isEmpty else {
-            return .empty
-        }
-        return Path(inset)
+        return Path(resolvedInset(from: insetPoints), windingRule: windingRule)
     }
 }
 

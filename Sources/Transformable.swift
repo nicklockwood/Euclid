@@ -376,7 +376,7 @@ extension Path: Transformable {
         if isFlippedScale(scale) {
             let subpaths = subpaths
             if subpaths.count > 1 {
-                return Path(subpaths: subpaths.scaled(by: scale))
+                return Path(subpaths: subpaths.scaled(by: scale), windingRule: windingRule)
             }
             plane = plane?.inverted()
         }

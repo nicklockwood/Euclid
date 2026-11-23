@@ -137,6 +137,16 @@ final class PathInsetTests: XCTestCase {
         ]))
     }
 
+    func testInsetCompoundPathRespectsExplicitWindingRule() {
+        let path = Path(subpaths: [.square(size: 4), .square(size: 2)], windingRule: .nonZero)
+        let inset = path.inset(by: 0.25)
+
+        XCTAssertEqual(inset.subpaths.count, 1)
+        XCTAssertEqual(inset.windingRule, .nonZero)
+        XCTAssertEqual(Mesh.fill(inset, faces: .front).surfaceArea, 12.25, accuracy: epsilon)
+        XCTAssertEqual(path.inset(by: 2), .empty)
+    }
+
     func testInsetCompoundPathAlternatesNestedContours() {
         let path = Path(subpaths: [
             .square(size: 4),

@@ -125,10 +125,11 @@ public extension Path {
     /// Creates a Path from a `CGPath`. The returned path may contain nested subpaths.
     /// - Parameters:
     ///   - cgPath: The CoreGraphics path to convert.
+    ///   - windingRule: The winding rule used to fill the converted path.
     ///   - detail: The number of line segments used to approximate cubic or quadratic bezier curves.
     ///   - color: An optional ``Color`` to apply to the path vertices.
-    init(_ cgPath: CGPath, detail: Int = 4, color: Color? = nil) {
-        self.init(subpaths: cgPath.paths(detail: detail, color: color))
+    init(_ cgPath: CGPath, windingRule: WindingRule = .default, detail: Int = 4, color: Color? = nil) {
+        self.init(subpaths: cgPath.paths(detail: detail, color: color), windingRule: windingRule)
     }
 }
 

@@ -947,6 +947,18 @@ final class CodingTests: XCTestCase {
         """), Path(subpaths: [Path([.point(1, 2, 3), .point(2, 0)])]))
     }
 
+    func testPathWindingRuleRoundTrip() throws {
+        let path = Path(subpaths: [.square(size: 4), .square(size: 2)], windingRule: .nonZero)
+        let single = Path.square().withWindingRule(.evenOdd)
+
+        XCTAssertEqual(try decode(encode(path)), path)
+        XCTAssertEqual(try decode(encode(single)), single)
+        XCTAssertEqual(try encode(Path.square()).first, "[")
+        let empty: Path = try decode("{\"subpaths\": [], \"windingRule\": \"nonZero\"}")
+        XCTAssertEqual(empty, .empty)
+        XCTAssertEqual(try encode(empty), "[]")
+    }
+
     // MARK: Rotation
 
     func testDecodingIdentityRotation() {

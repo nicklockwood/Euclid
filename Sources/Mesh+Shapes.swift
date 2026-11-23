@@ -535,19 +535,44 @@ public extension Mesh {
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        let (contours, contourOffsets, axisOffsets) = profile.latheContoursWithOffsets(
-            along: along, slices: slices, miterLimit: miterLimit
-        )
-        let mesh = loft(
-            contours,
-            contourOffsets: wrapMode == .tube ? axisOffsets.map { 1 - $0 } : contourOffsets,
-            faces: faces,
-            material: material,
-            isConvex: false,
-            isWatertight: nil,
-            preserveEvenOddWinding: false,
-            isCancelled: isCancelled
-        )
+        func latheSection(_ profile: Path, bounds: Bounds? = nil, faces: Faces) -> Mesh {
+            let (contours, contourOffsets, axisOffsets) = profile.latheContoursWithOffsets(
+                along: along, slices: slices, miterLimit: miterLimit, preparedProfileBounds: bounds
+            )
+            return loft(
+                contours,
+                contourOffsets: wrapMode == .tube ? axisOffsets.map { 1 - $0 } : contourOffsets,
+                faces: faces,
+                material: material,
+                isConvex: false,
+                isWatertight: nil,
+                preserveInnerShellWinding: false,
+                isCancelled: isCancelled
+            )
+        }
+        let mesh: Mesh
+        if profile.windingRule != .default, profile.closed().requiresFillResolution {
+            let profile = profile.latheProfile(isCancelled: isCancelled)
+            let bounds = profile.bounds
+            var meshes = [Mesh]()
+            for contour in profile.subpaths {
+                guard !isCancelled() else { return .empty }
+                // The loft follows the profile up and down the axis. Repair each shell before
+                // orienting the shells that represent holes inward.
+                let section = latheSection(contour, bounds: bounds, faces: .front)
+                    .withConsistentWinding(isCancelled: isCancelled)
+                meshes.append(contour.faceNormal.z < 0 ? section.inverted() : section)
+            }
+            guard !isCancelled() else { return .empty }
+            let front = Mesh.merge(meshes)
+            mesh = switch faces {
+            case .default, .front: front
+            case .back: front.inverted()
+            case .frontAndBack: front.merge(front.inverted())
+            }
+        } else {
+            mesh = latheSection(profile, faces: faces)
+        }
         switch wrapMode {
         case .default, .shrink, .tube:
             return mesh
@@ -576,19 +601,14 @@ public extension Mesh {
         material: Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> Mesh {
-        let normalizedShape = shape.removingRepeatedClosedPrefixTailForMeshing
+        let normalizedShape = shape.windingRule == .default ? shape.removingRepeatedClosedPrefixTailForMeshing : shape
         let depth = abs(depth)
         if depth < scaleLimit {
             return fill(normalizedShape, faces: faces, material: material, isCancelled: isCancelled)
         }
         let extrusionShape: Path
-        if normalizedShape.shouldResolveExtrusionWithEvenOddBoundary {
-            let shape = normalizedShape.closed()
-            let polygons = shape.oddEvenFillPolygons(
-                material: nil,
-                isCancelled: isCancelled
-            )
-            let boundary = shape.filledAreaBoundary(from: polygons)
+        if shape.windingRule == .default, normalizedShape.shouldResolveExtrusionWithEvenOddBoundary {
+            let boundary = normalizedShape.closed().fillBoundary(isCancelled: isCancelled)
             extrusionShape = Path(subpaths: boundary.oddEvenOrientedSubpaths)
         } else {
             extrusionShape = normalizedShape
@@ -615,7 +635,7 @@ public extension Mesh {
             material: material,
             isConvex: polygon?.isConvex == true,
             isWatertight: polygon.map { _ in true }, // TODO: make less strict
-            preserveEvenOddWinding: false,
+            preserveInnerShellWinding: false,
             isCancelled: isCancelled
         )
     }
@@ -699,6 +719,10 @@ public extension Mesh {
                 )
             }, isCancelled: isCancelled))
         }
+        // A resolved nonzero boundary also works with the default loft heuristic.
+        // Keep its original contour vertices aligned through bends.
+        let shape = shape.windingRule == .nonZero && shape.hasResolvedFillBoundary ?
+            shape.withWindingRule(.default) : shape
         let (contours, contourOffsets) = shape.extrusionContoursWithOffsets(
             along: along,
             twist: twist,
@@ -712,7 +736,7 @@ public extension Mesh {
             material: material,
             isConvex: false,
             isWatertight: nil,
-            preserveEvenOddWinding: along.isClosed,
+            preserveInnerShellWinding: along.isClosed,
             isCancelled: isCancelled
         )
     }
@@ -782,7 +806,7 @@ public extension Mesh {
             material: material,
             isConvex: false,
             isWatertight: nil,
-            preserveEvenOddWinding: false,
+            preserveInnerShellWinding: false,
             isCancelled: isCancelled
         )
     }
@@ -974,45 +998,46 @@ public extension Mesh {
 private extension Collection<Path> {
     func normalizingCompoundPathsForLoft(isCancelled: Euclid.CancellationHandler) -> (
         shapes: [Path],
-        usesMeshableNonZeroBoundary: Bool,
-        usesOddEvenBoundary: Bool
+        usesResolvedBoundary: Bool,
+        reorientedNestedContours: Bool
     ) {
         guard let first else {
             return ([], false, false)
         }
 
-        func replacingMeshableNonZeroFillBoundaries() -> (
+        func replacingFillBoundaries() -> (
             shapes: [Path],
-            usesMeshableNonZeroBoundary: Bool,
-            usesOddEvenBoundary: Bool
+            usesResolvedBoundary: Bool,
+            reorientedNestedContours: Bool
         ) {
-            var usesMeshableNonZeroBoundary = false
-            var usesOddEvenBoundary = false
+            var usesResolvedBoundary = false
+            var reorientedNestedContours = false
             var shapes = [Path]()
             shapes.reserveCapacity(count)
             for shape in self {
                 guard !isCancelled() else {
                     return ([], false, false)
                 }
-                if let boundary = shape.meshableNonZeroFillBoundary(isCancelled: isCancelled) {
+                if let boundary = shape.meshableFillBoundary(isCancelled: isCancelled) {
                     shapes.append(boundary)
-                    usesMeshableNonZeroBoundary = true
-                } else if !shape.subpathsTouchOrIntersect,
+                    usesResolvedBoundary = true
+                } else if shape.windingRule == .default,
+                          !shape.subpathsTouchOrIntersect,
                           !shape.subpathsHavePartiallyOverlappingInteriors,
                           shape.hasNestedSubpaths
                 {
                     shapes.append(Path(subpaths: shape.oddEvenOrientedSubpaths))
-                    usesMeshableNonZeroBoundary = true
-                    usesOddEvenBoundary = true
+                    usesResolvedBoundary = true
+                    reorientedNestedContours = true
                 } else {
                     shapes.append(shape)
                 }
             }
-            return (shapes, usesMeshableNonZeroBoundary, usesOddEvenBoundary)
+            return (shapes, usesResolvedBoundary, reorientedNestedContours)
         }
 
-        guard let firstBoundary = first.meshableNonZeroFillBoundary(isCancelled: isCancelled) else {
-            return replacingMeshableNonZeroFillBoundaries()
+        guard let firstBoundary = first.meshableFillBoundary(isCancelled: isCancelled) else {
+            return replacingFillBoundaries()
         }
         var normalizedShapes = [Path]()
         normalizedShapes.reserveCapacity(count)
@@ -1020,8 +1045,10 @@ private extension Collection<Path> {
             guard !isCancelled() else {
                 return ([], false, false)
             }
-            guard let transform = shape.sectionTransform(relativeTo: first) else {
-                return replacingMeshableNonZeroFillBoundaries()
+            guard shape.windingRule == first.windingRule,
+                  let transform = shape.sectionTransform(relativeTo: first)
+            else {
+                return replacingFillBoundaries()
             }
             normalizedShapes.append(firstBoundary.mapPoints {
                 $0.withPosition(transform($0.position))
@@ -1058,56 +1085,6 @@ private extension Path {
         return Path(sanitizePoints(trimmed))
     }
 
-    func applyingFaceAttributes(to polygons: [Polygon]) -> [Polygon] {
-        guard subpaths.count > 1 else {
-            return polygons
-        }
-        let subpathPoints = subpaths.map {
-            Array($0.points.dropLast($0.isClosed ? 1 : 0))
-        }
-        let allPoints = subpathPoints.flatMap { $0 }
-        let hasExplicitTexcoords = allPoints.allSatisfy { $0.texcoord != nil }
-        let flatteningPlane = flatteningPlane
-        let flattenedPoints = allPoints.map {
-            flatteningPlane.flattenPoint($0.position)
-        }
-        let bounds = Bounds(flattenedPoints)
-        let uvScale = bounds.size
-        func vertex(for point: PathPoint) -> Vertex {
-            var vertex = Vertex(point)
-            if !hasExplicitTexcoords {
-                let flattened = flatteningPlane.flattenPoint(point.position)
-                vertex.texcoord = [
-                    (flattened.x - bounds.min.x) / uvScale.x,
-                    1 - (flattened.y - bounds.min.y) / uvScale.y,
-                    0,
-                ]
-            }
-            return vertex
-        }
-        let sourceEdges = subpathPoints.flatMap { points -> [(Vertex, Vertex)] in
-            let vertices = points.map(vertex(for:))
-            guard vertices.count > 1 else {
-                return []
-            }
-            return vertices.indices.map {
-                (vertices[$0], vertices[($0 + 1) % vertices.count])
-            }
-        }
-        return polygons.mapVertices { vertex in
-            guard let source = sourceEdges.first(where: {
-                LineSegment(unchecked: $0.0.position, $0.1.position).intersects(vertex.position)
-            }) else {
-                return vertex
-            }
-            let edge = LineSegment(unchecked: source.0.position, source.1.position)
-            let distance = (vertex.position - edge.start).dot(edge.direction)
-            let t = min(1, max(0, distance / edge.length))
-            let attributes = source.0.lerp(source.1, t)
-            return vertex.withTexcoord(attributes.texcoord).withColor(attributes.color)
-        }
-    }
-
     /// Builds front-facing polygons for `fill` and extrusion caps, with consistent attributes.
     func fillPolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon] {
         guard !isCancelled() else {
@@ -1118,35 +1095,42 @@ private extension Path {
         let subpaths = closedSubpaths.filter {
             Set($0.points.dropLast($0.isClosed ? 1 : 0).map(\.position)).count >= 3
         }
-        let shape = subpaths.count == closedSubpaths.count ? closedShape : Path(subpaths: subpaths)
+        let shape = subpaths.count == closedSubpaths.count ? closedShape : Path(
+            subpaths: subpaths,
+            windingRule: windingRule
+        )
         let polygons: [Polygon]
-        if subpaths.count <= 1 {
+        if windingRule != .default, shape.requiresFillResolution {
+            polygons = shape.edgeAlignedFillPolygons(
+                shape.filledPolygons(material: material, isCancelled: isCancelled),
+                isCancelled: isCancelled
+            )
+        } else if subpaths.count <= 1 {
             polygons = shape.facePolygons(material: material)
         } else if shape.hasRepairableCoincidentContours {
             // Fill may need a rebuilt non-zero boundary instead of odd-even composition.
             // Compound paths only use this for SVG-style contours with coincident points.
-            let nonZeroFillPolygons = shape.nonZeroFillPolygons(material: material, isCancelled: isCancelled)
-            if shape.filledAreaBoundary(from: nonZeroFillPolygons).subpaths.count > 1 {
-                polygons = shape.nonZeroFillCapPolygons(nonZeroFillPolygons, isCancelled: isCancelled)
+            let nonZeroPolygons = shape.withWindingRule(.nonZero)
+                .filledPolygons(material: material, isCancelled: isCancelled)
+            if shape.filledAreaBoundary(from: nonZeroPolygons).subpaths.count > 1 {
+                polygons = shape.edgeAlignedFillPolygons(nonZeroPolygons, isCancelled: isCancelled)
             } else {
-                polygons = shape.oddEvenFillPolygons(material: material, isCancelled: isCancelled)
+                polygons = shape.filledPolygons(material: material, isCancelled: isCancelled)
             }
         } else {
-            polygons = shape.oddEvenFillPolygons(
-                material: material,
-                isCancelled: isCancelled
-            )
+            polygons = shape.filledPolygons(material: material, isCancelled: isCancelled)
         }
         return shape.applyingFaceAttributes(to: polygons)
     }
 
-    /// Returns an edge-aligned non-zero fill boundary when it can safely replace this path for
-    /// mesh generation. Some boundaries merge or reorder subpaths in ways that break side matching.
-    func meshableNonZeroFillBoundary(isCancelled: CancellationHandler) -> Path? {
-        if subpaths.count == 1 && !usesNonZeroFill || !isClosed {
+    /// Resolves the boundary for meshing. Automatic mode preserves the existing subpath matching heuristic.
+    func meshableFillBoundary(isCancelled: CancellationHandler) -> Path? {
+        let shouldResolve = windingRule == .default && subpaths.count > 1 ? isClosed : requiresFillResolution
+        guard shouldResolve else {
             return nil
         }
-        let polygons = nonZeroFillPolygons(material: nil, isCancelled: isCancelled)
+        let shape = windingRule == .default ? withWindingRule(.nonZero) : self
+        let polygons = shape.filledPolygons(material: nil, isCancelled: isCancelled)
         let precision = max(bounds.size.length * 1e-9, epsilon)
         let outlinePolygons = polygons.count > 1 ? polygons
             .insertingEdgeVertices(
@@ -1154,20 +1138,22 @@ private extension Path {
                 isCancelled: isCancelled
             )
             .mergingVertices(withPrecision: precision, isCancelled: isCancelled) : polygons
-        let boundary = Path(unchecked: .subpaths(outlinePolygons.outlinePaths), plane: plane)
-            .restoringCurvature(from: self)
+        let boundary = filledAreaBoundary(from: outlinePolygons)
+        if windingRule != .default {
+            return boundary
+        }
         if subpaths.count > 1,
            subpathsHavePartiallyOverlappingInteriors,
            !hasRepairableCoincidentContours
         {
             return boundary.inverted()
         }
-        return usesNonZeroFill || canPreserveTopology(for: boundary) ? boundary : nil
+        return subpaths.count == 1 || canPreserveTopology(for: boundary) ? boundary : nil
     }
 
     /// Returns true when the rebuilt non-zero boundary can stand in for this path without
     /// breaking the subpath and vertex relationships used to generate mesh side faces.
-    /// Curved paths are handled more conservatively because `nonZeroFillBoundary` rebuilds
+    /// Curved paths are handled more conservatively because fill resolution rebuilds
     /// polygon outlines first, then restores curve markers by matching edges back to the source.
     func canPreserveTopology(for boundary: Path) -> Bool {
         if subpaths.count == 1 {
@@ -1278,16 +1264,8 @@ private extension Path {
         return false
     }
 
-    /// Builds cap polygons directly from the scanline non-zero fill, then inserts
-    /// any split edge vertices needed to match side-wall boundary edges.
-    func nonZeroFillCapPolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon] {
-        nonZeroFillCapPolygons(
-            nonZeroFillPolygons(material: material, isCancelled: isCancelled),
-            isCancelled: isCancelled
-        )
-    }
-
-    func nonZeroFillCapPolygons(_ polygons: [Polygon], isCancelled: CancellationHandler) -> [Polygon] {
+    /// Inserts split vertices so caps can share edges with the side walls.
+    func edgeAlignedFillPolygons(_ polygons: [Polygon], isCancelled: CancellationHandler) -> [Polygon] {
         let precision = max(bounds.size.length * 1e-9, epsilon)
         return polygons.count > 1 ? polygons
             .insertingEdgeVertices(with: polygons.holeEdges, isCancelled: isCancelled)
@@ -1634,8 +1612,8 @@ private extension Mesh {
         originalShapes: [Path],
         contourOffsets: [Double]? = nil,
         boundarySubshapes: [[Path]],
-        useMeshableNonZeroBoundary: Bool,
-        preserveEvenOddWinding: Bool,
+        useResolvedBoundary: Bool,
+        preserveInnerShellWinding: Bool,
         faces: Faces,
         material: Material?,
         isCancelled: CancellationHandler
@@ -1645,12 +1623,17 @@ private extension Mesh {
         }
         let shapes = originalShapes.filter { !$0.isEmpty }
         let first = shapes.first
+        let isClosed = first == shapes.last
         let transforms = first.map { first in
-            shapes.map { $0.sectionTransform(relativeTo: first) }
+            shapes.map { $0.windingRule == first.windingRule ? $0.sectionTransform(relativeTo: first) : nil }
         } ?? []
         let canBuildMappedSides = transforms.allSatisfy { $0 != nil }
+        let usesOriginalClosedBoundary = isClosed && useResolvedBoundary && first.map {
+            $0.windingRule != .default && $0.hasResolvedFillBoundary
+        } == true
         let preservesMappedBoundaryWinding = first.map {
-            $0.subpathsHavePartiallyOverlappingInteriors && !$0.hasRepairableCoincidentContours
+            $0.windingRule == .default && $0.subpathsHavePartiallyOverlappingInteriors && !$0
+                .hasRepairableCoincidentContours
         } ?? false
         // If every section is just a transform of the first one, build side walls
         // by mapping the first section's boundary edges through those transforms.
@@ -1707,7 +1690,10 @@ private extension Mesh {
         }
         let firstBoundaryEdgeVertices = canBuildMappedSides ? first
             .flatMap { first -> [(Vertex, Vertex)]? in
-                if useMeshableNonZeroBoundary {
+                if usesOriginalClosedBoundary {
+                    return first.oddEvenOrientedSubpaths.flatMap { edgeVertexPairs(from: $0) }
+                }
+                if useResolvedBoundary {
                     let firstBoundarySubpaths = boundarySubshapes.compactMap(\.first)
                     if preservesMappedBoundaryWinding,
                        firstBoundarySubpaths.contains(where: \.hasCurvedPoints)
@@ -1722,12 +1708,16 @@ private extension Mesh {
                     let sourceEdges = first.subpaths.flatMap {
                         edgeVertexPairs(from: $0)
                     }
-                    let capPolygons = first.applyingFaceAttributes(
-                        to: first.nonZeroFillCapPolygons(
-                            material: material,
-                            isCancelled: isCancelled
+                    let capPolygons: [Polygon]
+                    if first.windingRule == .default {
+                        let polygons = first.withWindingRule(.nonZero)
+                            .filledPolygons(material: material, isCancelled: isCancelled)
+                        capPolygons = first.applyingFaceAttributes(
+                            to: first.edgeAlignedFillPolygons(polygons, isCancelled: isCancelled)
                         )
-                    )
+                    } else {
+                        capPolygons = firstFacePolygons
+                    }
                     return boundaryEdgeVertexPairs(from: capPolygons).map { v0, v1 in
                         let edge = LineSegment(unchecked: v0.position, v1.position)
                         let normal = edge.direction.cross(first.faceNormal)
@@ -1794,7 +1784,7 @@ private extension Mesh {
                 if let index = sourceEdgeIndexByLine[edge] {
                     return index
                 }
-                guard useMeshableNonZeroBoundary else {
+                guard useResolvedBoundary else {
                     return nil
                 }
                 return sourceEdgesByShape.first.flatMap {
@@ -1961,7 +1951,7 @@ private extension Mesh {
                 curvestart = true
                 uvstart = uvend
             }
-            if useMeshableNonZeroBoundary, first?.hasCurvedPoints == true {
+            if useResolvedBoundary, !usesOriginalClosedBoundary, first?.hasCurvedPoints == true {
                 let capPoints = firstCapPolygons.flatMap { $0.vertices.map(\.position) }
                 accumulatedSidePolygons = accumulatedSidePolygons.insertingEdgePoints(
                     capPoints,
@@ -2024,8 +2014,7 @@ private extension Mesh {
             isLocked: { lockedCapPolygons.contains($0) },
             isCancelled: isCancelled
         )
-        let isClosed = shapes.first == shapes.last
-        if isClosed, !preserveEvenOddWinding,
+        if isClosed, !preserveInnerShellWinding,
            case let submeshIndices = polygons.groupedSubmeshIndices,
            submeshIndices.count > 1
         {
@@ -2082,13 +2071,17 @@ private extension Mesh {
         material: Material?,
         isConvex: Bool,
         isWatertight: Bool?,
-        preserveEvenOddWinding: Bool,
+        preserveInnerShellWinding: Bool,
         isCancelled: CancellationHandler
     ) -> Mesh {
+        let hasExplicitWinding = shapes.contains { $0.windingRule != .default && $0.requiresFillResolution }
+        if hasExplicitWinding, let first = shapes.first, shapes.allSatisfy({ $0 == first }) {
+            return fill(first, faces: faces, material: material, isCancelled: isCancelled)
+        }
         let (
             normalizedShapes,
-            usesMeshableNonZeroBoundary,
-            usesOddEvenBoundary
+            usesResolvedBoundary,
+            reorientedNestedContours
         ) = shapes.normalizingCompoundPathsForLoft(isCancelled: isCancelled)
         var subpathCount = 0
         let arrayOfSubpaths: [[Path]] = normalizedShapes.map {
@@ -2102,15 +2095,15 @@ private extension Mesh {
                 subshapes[i].append(subpath)
             }
         }
-        if usesMeshableNonZeroBoundary,
-           !(preserveEvenOddWinding && usesOddEvenBoundary)
+        if usesResolvedBoundary,
+           hasExplicitWinding || !(preserveInnerShellWinding && reorientedNestedContours)
         {
             return compoundLoft(
-                originalShapes: usesOddEvenBoundary ? normalizedShapes : shapes,
+                originalShapes: reorientedNestedContours && !hasExplicitWinding ? normalizedShapes : shapes,
                 contourOffsets: contourOffsets,
                 boundarySubshapes: subshapes,
-                useMeshableNonZeroBoundary: true,
-                preserveEvenOddWinding: false,
+                useResolvedBoundary: true,
+                preserveInnerShellWinding: hasExplicitWinding,
                 faces: faces,
                 material: material,
                 isCancelled: isCancelled
@@ -2124,7 +2117,7 @@ private extension Mesh {
                 return Mesh.symmetricDifference(subshapes.map {
                     loft(
                         $0, contourOffsets: contourOffsets, faces: faces, material: material,
-                        isConvex: false, isWatertight: nil, preserveEvenOddWinding: false,
+                        isConvex: false, isWatertight: nil, preserveInnerShellWinding: false,
                         isCancelled: isCancelled
                     )
                 }, isCancelled: isCancelled)
@@ -2133,8 +2126,8 @@ private extension Mesh {
                 originalShapes: normalizedShapes,
                 contourOffsets: contourOffsets,
                 boundarySubshapes: subshapes,
-                useMeshableNonZeroBoundary: false,
-                preserveEvenOddWinding: preserveEvenOddWinding && usesOddEvenBoundary,
+                useResolvedBoundary: false,
+                preserveInnerShellWinding: preserveInnerShellWinding && reorientedNestedContours,
                 faces: faces,
                 material: material,
                 isCancelled: isCancelled

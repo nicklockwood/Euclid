@@ -1202,7 +1202,8 @@ final class PolygonTests: XCTestCase {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Courier" as CFString, 2, nil)
         let path = try XCTUnwrap(Path.text("p", font: font, width: nil, detail: 2).first)
-        let polygons = path.facePolygons()
+        // Exercise detessellation on the glyph's separate contours.
+        let polygons = path.withWindingRule(.default).facePolygons()
         XCTAssertEqual(polygons.count, 2)
         XCTAssertEqual(polygons.detessellate().count, 2)
         #endif
@@ -1212,7 +1213,7 @@ final class PolygonTests: XCTestCase {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Helvetica" as CFString, 2, nil)
         let paths = Path.text("eo", font: font, width: nil, detail: 2)
-        let polygons = paths.flatMap { $0.facePolygons() }
+        let polygons = paths.flatMap { $0.withWindingRule(.default).facePolygons() }
         XCTAssertEqual(polygons.count, 4)
         XCTAssertEqual(polygons.detessellate().count, 4)
         #endif

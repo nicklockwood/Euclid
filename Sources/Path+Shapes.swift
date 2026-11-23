@@ -380,8 +380,8 @@ public extension Path {
     }
 
     /// Normalized, cropped and flattened version of the path suitable for lathing around the Y axis.
-    /// Compound paths are resolved using the even-odd fill rule, with hole contours oriented opposite
-    /// their containing contours so the resulting profile can be lathed without Boolean operations.
+    /// Compound paths use the path's winding rule, with even-odd behavior by default.
+    /// Hole contours are oriented opposite their containing contours.
     var latheProfile: Path {
         latheProfile { false }
     }
@@ -389,24 +389,22 @@ public extension Path {
     /// Returns a normalized lathe profile, polling `isCancelled` during compound-path filling.
     func latheProfile(isCancelled: CancellationHandler) -> Path {
         let subpaths = subpaths
-        if subpaths.count > 1 || usesNonZeroFill {
+        if subpaths.count > 1 || requiresFillResolution {
             let shape = closed()
             let orientedSubpaths: [Path]
-            if subpaths.count > 1,
-               !shape.subpathsTouchOrIntersect,
-               !shape.subpathsHavePartiallyOverlappingInteriors
-            {
+            let canOrientSubpaths = windingRule == .nonZero ? shape.hasResolvedFillBoundary : (
+                subpaths.count > 1 && !shape.subpathsTouchOrIntersect &&
+                    !shape.subpathsHavePartiallyOverlappingInteriors &&
+                    (windingRule == .default || subpaths.allSatisfy(\.isSimple))
+            )
+            if canOrientSubpaths {
                 orientedSubpaths = shape.oddEvenOrientedSubpaths
             } else {
-                let polygons = shape.filledPolygons(
-                    material: nil,
-                    usingEvenOddRule: subpaths.count > 1,
-                    isCancelled: isCancelled
-                )
-                let boundary = shape.filledAreaBoundary(from: polygons)
+                let boundary = shape.fillBoundary(isCancelled: isCancelled)
                 orientedSubpaths = boundary.oddEvenOrientedSubpaths
             }
-            return Path(subpaths: orientedSubpaths.map { $0.flattened().clippedToYAxis() })
+            let contours = orientedSubpaths.map { $0.flattened().clippedToYAxis() }
+            return Path(subpaths: contours, windingRule: windingRule)
         }
 
         let profile = flattened().clippedToYAxis()
@@ -863,7 +861,8 @@ extension Path {
     func latheContoursWithOffsets(
         along: Path,
         slices: Int,
-        miterLimit: MiterLimit = .infinity
+        miterLimit: MiterLimit = .infinity,
+        preparedProfileBounds: Bounds? = nil
     ) -> (contours: [Path], contourOffsets: [Double], axisOffsets: [Double]) {
         let axis = along.points.reduce(into: [PathPoint]()) { points, point in
             guard let previous = points.last else {
@@ -878,14 +877,18 @@ extension Path {
         case 0:
             return ([], [], [])
         case 1:
-            return latheProfile.latheContoursWithOffsets(
-                along: .line(axis[0].position, axis[0].position + .unitY), slices: slices, miterLimit: miterLimit
+            let profile = preparedProfileBounds == nil ? latheProfile : self
+            return profile.latheContoursWithOffsets(
+                along: .line(axis[0].position, axis[0].position + .unitY),
+                slices: slices,
+                miterLimit: miterLimit,
+                preparedProfileBounds: preparedProfileBounds
             )
         default:
             break
         }
 
-        let profile = latheProfile
+        let profile = preparedProfileBounds == nil ? latheProfile : self
         guard profile.points.count > 1 else {
             return ([], [], [])
         }
@@ -921,7 +924,7 @@ extension Path {
         {
             profilePoints.removeLast()
         }
-        let bounds = profile.bounds
+        let bounds = preparedProfileBounds ?? profile.bounds
         let height = bounds.size.y
         guard height > epsilon else {
             // Sweep the disk using its outer radius

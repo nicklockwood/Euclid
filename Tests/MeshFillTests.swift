@@ -118,6 +118,34 @@ final class MeshFillTests: XCTestCase {
         XCTAssertTrue(mesh.polygons.areWatertight)
     }
 
+    func testCompoundPathUsesExplicitWindingRule() {
+        let outer = Path.square(size: 4), inner = Path.square(size: 2)
+        let path = Path(subpaths: [outer, inner], windingRule: .nonZero)
+        let evenOdd = path.withWindingRule(.evenOdd)
+        let hole = Path(subpaths: [outer, inner.inverted()], windingRule: .nonZero)
+
+        XCTAssertEqual(path.facePolygons().surfaceArea, 16, accuracy: epsilon)
+        XCTAssertEqual(evenOdd.facePolygons().surfaceArea, 12, accuracy: epsilon)
+        XCTAssertEqual(hole.facePolygons().surfaceArea, 12, accuracy: epsilon)
+        XCTAssertEqual(Mesh.fill(evenOdd, faces: .front).surfaceArea, 12, accuracy: epsilon)
+        XCTAssertEqual(Mesh.fill(hole, faces: .front).surfaceArea, 12, accuracy: epsilon)
+
+        let combined = Mesh.fill([path, evenOdd.translated(by: [5, 0])], faces: .front)
+        XCTAssertEqual(combined.surfaceArea, 28, accuracy: epsilon)
+    }
+
+    func testPointCollectionPathUsesExplicitWindingRule() {
+        let points = Path.square(size: 4).points + Path.square(size: 2).points
+        let path = Path(points, windingRule: .nonZero)
+        let colored = Path(points, windingRule: .evenOdd, color: .red)
+
+        XCTAssertEqual([points].map(Path.init), [path.withWindingRule(.default)])
+        XCTAssertEqual(path.subpaths.count, 2)
+        XCTAssertEqual(Mesh.fill(path, faces: .front).surfaceArea, 16, accuracy: epsilon)
+        XCTAssertEqual(Mesh.fill(colored, faces: .front).surfaceArea, 12, accuracy: epsilon)
+        XCTAssertTrue(colored.points.allSatisfy { $0.color == .red })
+    }
+
     func testFillOverlappingCompoundPathUsesEvenOddRule() {
         let first = Path([
             .point(0, 0),

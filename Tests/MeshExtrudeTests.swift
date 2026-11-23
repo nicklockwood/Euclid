@@ -209,7 +209,7 @@ final class MeshExtrudeTests: XCTestCase {
     }
 
     private func assertSelfIntersectingExtrusionAlignsNonZeroFillBoundaryEdges(_ path: Path) {
-        let fillPolygons = path.nonZeroFillPolygons(material: nil) { false }
+        let fillPolygons = path.withWindingRule(.nonZero).filledPolygons(material: nil) { false }
         let rawBoundaryEdges = fillPolygons.boundingEdges
         let alignedBoundaryEdges = fillPolygons
             .insertingEdgeVertices(
@@ -269,7 +269,7 @@ final class MeshExtrudeTests: XCTestCase {
         }
         let expectedSideEdges = Set(alignedBoundaryEdges.map(signature))
 
-        XCTAssertTrue(path.usesNonZeroFill)
+        XCTAssertTrue(path.requiresFillResolution)
         XCTAssertEqual(Set(rawBoundaryEdges.map(signature)), expectedSideEdges)
         XCTAssertEqual(boundaryEdgeSignatures(for: extrudedCapPolygons), expectedSideEdges)
         XCTAssertEqual(boundaryEdgeSignatures(for: extrudedAlongCapPolygons), expectedSideEdges)
@@ -309,6 +309,21 @@ final class MeshExtrudeTests: XCTestCase {
         let mesh = Mesh.extrude(Path(subpaths: [outer, inner]), depth: 1)
         XCTAssertEqual(mesh.polygons.surfaceArea, 192)
         XCTAssertTrue(mesh.isWatertight)
+    }
+
+    func testExtrudeCompoundPathUsesExplicitWindingForCapsAndSides() {
+        let path = Path(subpaths: [.square(size: 4), .square(size: 2)], windingRule: .nonZero)
+        let evenOdd = path.withWindingRule(.evenOdd)
+        let rail = Path.line(.zero, .unitZ)
+
+        for (input, volume, area) in [(path, 16.0, 48.0), (evenOdd, 12.0, 48.0)] {
+            for mesh in [Mesh.extrude(input), Mesh.extrude(input, along: rail)] {
+                XCTAssertTrue(mesh.polygons.areWatertight)
+                XCTAssertEqual(mesh.signedVolume, volume, accuracy: epsilon)
+                XCTAssertEqual(mesh.surfaceArea, area, accuracy: epsilon)
+            }
+        }
+        XCTAssertEqual(Mesh.extrude(path, depth: 0, faces: .front).surfaceArea, 16, accuracy: epsilon)
     }
 
     func testExtrudeNestedCompoundPathWithDoubledBackSegmentDoesNotAssert() {
@@ -384,6 +399,16 @@ final class MeshExtrudeTests: XCTestCase {
         let mesh = Mesh.extrude(Path(subpaths: [first, second]), depth: 1)
         XCTAssertEqual(mesh.polygons.surfaceArea, 380)
         XCTAssertTrue(mesh.isWatertight)
+    }
+
+    func testExtrudeOverlappingCompoundPathWithExplicitWindingRule() {
+        let square = Path.square(size: 2)
+        let path = Path(subpaths: [square, square.translated(by: .unitX)], windingRule: .nonZero)
+        for (input, expectedVolume) in [(path, 6.0), (path.withWindingRule(.evenOdd), 4.0)] {
+            let mesh = Mesh.extrude(input)
+            XCTAssertTrue(mesh.polygons.areWatertight)
+            XCTAssertEqual(mesh.signedVolume, expectedVolume, accuracy: epsilon)
+        }
     }
 
     func testExtrudeOverlappingMultiCompoundPathUsesEvenOddRule() {
@@ -811,6 +836,26 @@ final class MeshExtrudeTests: XCTestCase {
         try check(shape: "e", along: "e", scale: 0.05)
         try check(shape: "e", along: "e", scale: 0.02)
         try check(shape: "e", along: "e", scale: 0.01)
+        #endif
+    }
+
+    func testExtrudeResolvedNonzeroTextRetainsContourEdgesAlongNonPlanarCurve() throws {
+        #if canImport(CoreText)
+        let profile = try XCTUnwrap(Path.text("Hello", detail: 8).last)
+            .scaled(by: 0.1).rotated(by: .roll(-.halfPi))
+        let rail = Path.curve([
+            .point(0, 0),
+            .curve(0, 0, 1),
+            .curve(0, 1, 1),
+            .curve(1, 1, 1),
+            .point(1, 1, 2),
+        ], detail: 16)
+        let mesh = Mesh.extrude(profile, along: rail)
+        let expected = Mesh.extrude(profile.withWindingRule(.default), along: rail)
+
+        XCTAssertFalse(mesh.isEmpty)
+        XCTAssertEqual(mesh.polygons.count, expected.polygons.count)
+        XCTAssertEqual(mesh.signedVolume, expected.signedVolume, accuracy: epsilon)
         #endif
     }
 

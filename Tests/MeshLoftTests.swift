@@ -617,6 +617,16 @@ final class MeshLoftTests: XCTestCase {
         XCTAssertTrue(mesh.isWatertight)
     }
 
+    func testLoftDifferentSectionsUsesTheirExplicitWindingRule() {
+        let first = Path(subpaths: [.square(size: 4), .square(size: 2)], windingRule: .nonZero)
+        let last = Path(subpaths: [.square(size: 6), .square(size: 2.5)], windingRule: .nonZero)
+            .translated(by: .unitZ)
+        let mesh = Mesh.loft([first, last])
+
+        XCTAssertTrue(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.signedVolume, (16 + 36 + 24) / 3.0, accuracy: epsilon)
+    }
+
     func testLoftCompoundPathPropagatesCancellationDuringNormalization() {
         let first = Path.square(size: 2)
         let second = Path.square(size: 2).translated(by: [1, 0])

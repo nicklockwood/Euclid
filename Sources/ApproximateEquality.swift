@@ -72,7 +72,7 @@ extension Mesh: ApproximateEquality {
 
 extension Path: ApproximateEquality {
     func isApproximatelyEqual(to other: Self, absoluteTolerance: Double) -> Bool {
-        points.count == other.points.count && zip(points, other.points).allSatisfy {
+        windingRule == other.windingRule && points.count == other.points.count && zip(points, other.points).allSatisfy {
             $0.isApproximatelyEqual(to: $1, absoluteTolerance: absoluteTolerance)
         }
     }

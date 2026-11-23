@@ -48,10 +48,17 @@ public struct Path: Hashable, Sendable {
 
     /// The plane upon which all path points lie. Will be nil for non-planar paths.
     public let plane: Plane?
+
+    /// The winding rule used to fill coplanar contours and self-intersections.
+    /// Empty paths use ``WindingRule/default``.
+    public var windingRule: WindingRule = .default {
+        didSet { windingRule = normalizedWindingRule(windingRule) }
+    }
 }
 
 extension Path: CustomDebugStringConvertible, CustomReflectable {
     public var debugDescription: String {
+        let windingRuleSuffix = windingRule == .default ? "" : ".withWindingRule(.\(windingRule))"
         switch storage {
         case .points([]):
             return "Path.empty"
@@ -59,12 +66,12 @@ extension Path: CustomDebugStringConvertible, CustomReflectable {
             let v = points.map {
                 "\n\t\("\($0)".dropFirst("PathPoint".count)),"
             }.joined()
-            return "Path([\(v)\n])"
+            return "Path([\(v)\n])\(windingRuleSuffix)"
         case let .subpaths(subpaths):
             let p = subpaths.map {
                 "\n\t\("\($0)".replacingOccurrences(of: "\n", with: "\n\t")),"
             }.joined()
-            return "Path(subpaths: [\(p)\n])"
+            return "Path(subpaths: [\(p)\n])\(windingRuleSuffix)"
         }
     }
 
@@ -78,7 +85,7 @@ extension Path: CustomDebugStringConvertible, CustomReflectable {
 
 extension Path: Codable {
     private enum CodingKeys: CodingKey {
-        case points, subpaths
+        case points, subpaths, windingRule
     }
 
     /// Creates a new path by decoding from the given decoder.
@@ -94,6 +101,8 @@ extension Path: Codable {
             } else {
                 self.init(points ?? [])
             }
+            let windingRule = try container.decodeIfPresent(WindingRule.self, forKey: .windingRule) ?? .default
+            self.windingRule = normalizedWindingRule(windingRule)
         } else {
             let container = try decoder.singleValueContainer()
             let points = try container.decode([PathPoint].self)
@@ -105,23 +114,43 @@ extension Path: Codable {
     /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         let subpaths = subpaths
-        if subpaths.count < 2 {
+        if subpaths.count < 2, windingRule == .default {
             try (subpaths.first?.points ?? []).encode(to: encoder)
         } else {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(subpaths, forKey: .subpaths)
+            if subpaths.count < 2 {
+                try container.encode(subpaths.first?.points ?? [], forKey: .points)
+            } else {
+                try container.encode(subpaths, forKey: .subpaths)
+            }
+            if windingRule != .default {
+                try container.encode(windingRule, forKey: .windingRule)
+            }
         }
     }
 }
 
 public extension Path {
+    /// The winding rule used when filling a path.
+    enum WindingRule: String, Hashable, Codable, Sendable {
+        /// Use the operation's automatic fill heuristic.
+        case `default`
+        /// Fill a point if a ray from it crosses an odd number of contour edges.
+        case evenOdd
+        /// Fill regions whose signed winding count is nonzero.
+        case nonZero
+    }
+
     /// An empty path.
     static let empty: Path = .init([])
 
     /// A Boolean value that indicates whether the path is empty (has no points).
     /// - Note: This is not the same as checking if the path is closed or has zero area.
     var isEmpty: Bool {
-        points.isEmpty
+        switch storage {
+        case let .points(points): points.isEmpty
+        case let .subpaths(subpaths): subpaths.allSatisfy(\.isEmpty)
+        }
     }
 
     /// The array of points that makes up this path.
@@ -366,7 +395,7 @@ public extension Path {
                 points.append(last)
             }
             return [Path(unchecked: .points(sanitizePoints(points)), plane: nil, preserveOrientations: true)]
-        }), plane: nil)
+        }), plane: nil, windingRule: windingRule)
     }
 
     /// The face normal vector for the path.
@@ -393,17 +422,24 @@ public extension Path {
         mapColors { _ in color }
     }
 
+    /// Returns a copy of the path with the specified winding rule.
+    func withWindingRule(_ windingRule: WindingRule) -> Path {
+        var path = self
+        path.windingRule = windingRule
+        return path
+    }
+
     /// Closes the path by joining last point to first.
     /// - Returns: The closed path, or `self` if the path is already closed or empty.
     func closed() -> Path {
-        if isClosed || points.isEmpty {
+        if isClosed {
             return self
         }
         switch storage {
         case let .points(points):
-            return .init(unchecked: .points(points + [points[0]]), plane: plane)
+            return .init(unchecked: .points(points + [points[0]]), plane: plane, windingRule: windingRule)
         case let .subpaths(subpaths):
-            return .init(unchecked: .subpaths(subpaths.map { $0.closed() }), plane: plane)
+            return .init(unchecked: .subpaths(subpaths.map { $0.closed() }), plane: plane, windingRule: windingRule)
         }
     }
 
@@ -412,16 +448,33 @@ public extension Path {
     func inverted() -> Path {
         switch storage {
         case let .points(points):
-            .init(unchecked: .points(sanitizePoints(points.reversed())), plane: plane?.inverted())
+            .init(
+                unchecked: .points(sanitizePoints(points.reversed())),
+                plane: plane?.inverted(),
+                windingRule: windingRule
+            )
         case let .subpaths(subpaths):
-            .init(unchecked: .subpaths(subpaths.map { $0.inverted() }), plane: plane?.inverted())
+            .init(
+                unchecked: .subpaths(subpaths.map { $0.inverted() }),
+                plane: plane?.inverted(),
+                windingRule: windingRule
+            )
         }
     }
 
-    /// Creates a path from a collection of  path points.
+    /// Creates a path from a collection of path points.
     /// - Parameter points: An ordered collection of ``PathPoint`` making up the path.
     init(_ points: some Collection<PathPoint>) {
         self.init(Array(points), plane: nil)
+    }
+
+    /// Creates a path from a collection of points with the specified winding rule.
+    /// - Parameters:
+    ///   - points: An ordered collection of ``PathPoint`` making up the path.
+    ///   - windingRule: The winding rule used to fill the path.
+    init(_ points: some Collection<PathPoint>, windingRule: WindingRule) {
+        self.init(points)
+        self.windingRule = normalizedWindingRule(windingRule)
     }
 
     /// Creates a composite path from a collection of subpaths.
@@ -457,6 +510,15 @@ public extension Path {
         }), plane: nil)
     }
 
+    /// Creates a composite path that fills its contours using the specified winding rule.
+    /// - Parameters:
+    ///   - subpaths: A collection of paths.
+    ///   - windingRule: The winding rule used to fill the composite path.
+    init(subpaths: some Collection<Path>, windingRule: WindingRule) {
+        self.init(subpaths: subpaths)
+        self.windingRule = normalizedWindingRule(windingRule)
+    }
+
     /// Creates a closed path from a polygon.
     /// - Parameter polygon: A ``Polygon`` to convert to a path.
     init(_ polygon: Polygon) {
@@ -472,12 +534,13 @@ public extension Path {
         self.init(unchecked: points + [points[0]], plane: polygon.plane)
     }
 
-    /// Creates a path from a collection of  path points with a common color.
+    /// Creates a path from a collection of path points with a common color.
     /// - Parameters:
     ///   - points: An ordered collection of ``PathPoint`` making up the path.
+    ///   - windingRule: The winding rule used to fill the path.
     ///   - color: A ``Color`` to apply to the path's points.
-    init(_ points: some Collection<PathPoint>, color: Color?) {
-        self.init(points.map { $0.withColor(color) })
+    init(_ points: some Collection<PathPoint>, windingRule: WindingRule = .default, color: Color?) {
+        self.init(points.map { $0.withColor(color) }, windingRule: windingRule)
     }
 
     /// Creates a path from a line segment.
@@ -508,8 +571,9 @@ public extension Path {
         material: Mesh.Material? = nil,
         isCancelled: CancellationHandler = { false }
     ) -> [Polygon] {
-        if usesNonZeroFill {
-            return nonZeroFillPolygons(material: material, isCancelled: isCancelled)
+        if requiresFillResolution, windingRule != .default || subpaths.count == 1 {
+            let polygons = filledPolygons(material: material, isCancelled: isCancelled)
+            return windingRule == .default ? polygons : applyingFaceAttributes(to: polygons)
         }
         guard subpaths.count <= 1 else {
             var polygons = [Polygon]()
@@ -734,7 +798,7 @@ public extension Path {
         guard subpaths.count == 1 else {
             return Path(subpaths: subpaths.map {
                 $0.withDetail(detail, forTwist: twist)
-            })
+            }, windingRule: windingRule)
         }
         let total = length
         let maxStep = Angle.twoPi / max(1, Double(detail / 2))
@@ -748,7 +812,7 @@ public extension Path {
                 return [prev.lerp(point, 0.5).curved(), point]
             }
             return [point]
-        })
+        }).withWindingRule(windingRule)
         return split ? path.withDetail(detail, forTwist: twist) : path
     }
 
@@ -764,7 +828,7 @@ public extension Path {
         case let .subpaths(subpaths):
             return .init(unchecked: .subpaths(subpaths.map {
                 $0.withMiterLimit(miterLimit, forStrokeWidth: strokeWidth)
-            }), plane: plane)
+            }), plane: plane, windingRule: windingRule)
         case let .points(points):
             let isClosed = pointsAreClosed(unchecked: points)
             let count = isClosed ? points.count - 1 : points.count
@@ -812,7 +876,7 @@ public extension Path {
             if isClosed, let first = result.first {
                 result.append(first)
             }
-            return .init(unchecked: .points(sanitizePoints(result)), plane: plane)
+            return .init(unchecked: .points(sanitizePoints(result)), plane: plane, windingRule: windingRule)
         }
     }
 }
@@ -888,7 +952,12 @@ extension Path {
         self.init(unchecked: .points(points), plane: plane)
     }
 
-    init(unchecked storage: Storage, plane: Plane?, preserveOrientations: Bool = false) {
+    init(
+        unchecked storage: Storage,
+        plane: Plane?,
+        preserveOrientations: Bool = false,
+        windingRule: WindingRule = .default
+    ) {
         switch storage {
         case let .points(points):
             assert(sanitizePoints(points) == points)
@@ -927,6 +996,7 @@ extension Path {
                 }
             }
         }
+        self.windingRule = normalizedWindingRule(windingRule)
     }
 
     /// Test if path is self-intersecting
@@ -950,13 +1020,13 @@ extension Path {
     func mapPoints(unchecked transform: (PathPoint) -> PathPoint, plane: Plane?) -> Path {
         switch storage {
         case let .points(points):
-            .init(unchecked: .points(sanitizePoints(points.map(transform))), plane: plane)
+            .init(unchecked: .points(sanitizePoints(points.map(transform))), plane: plane, windingRule: windingRule)
         case let .subpaths(subpaths):
             .init(unchecked: .subpaths(subpaths.map {
                 // subpaths can sometimes have an inverse plane to the overall path
                 let plane = $0.plane == self.plane ? plane : plane?.inverted()
                 return $0.mapPoints(unchecked: transform, plane: plane)
-            }), plane: plane)
+            }), plane: plane, windingRule: windingRule)
         }
     }
 
@@ -964,35 +1034,35 @@ extension Path {
     // TODO: this is a hack and should be replaced by a better solution
     func flattened() -> Path {
         guard subpaths.count == 1 else {
-            return Path(subpaths: subpaths.map { $0.flattened() })
+            return Path(subpaths: subpaths.map { $0.flattened() }, windingRule: windingRule)
         }
         if points.allSatisfy({ $0.position.z == 0 }) {
             return self
         }
         let flatteningPlane = flatteningPlane
-        return Path(unchecked: sanitizePoints(points.map {
+        return Path(unchecked: .points(sanitizePoints(points.map {
             PathPoint(
                 flatteningPlane.flattenPoint($0.position),
                 texcoord: $0.texcoord,
                 color: $0.color,
                 isCurved: $0.isCurved
             )
-        }), plane: .xy)
+        })), plane: .xy, windingRule: windingRule)
     }
 
     /// Decomposes the filled area of a closed planar path into coplanar polygons.
+    /// In `.default` mode, compound paths use even-odd winding and single contours use nonzero winding.
     /// - Parameters:
     ///   - material: The material assigned to every returned polygon.
-    ///   - usingEvenOddRule: Whether to use even-odd instead of nonzero winding.
     ///   - isCancelled: Callback used to cancel the operation.
     func filledPolygons(
         material: Mesh.Material?,
-        usingEvenOddRule: Bool,
         isCancelled: CancellationHandler
     ) -> [Polygon] {
         guard isClosed, let plane, !isCancelled() else {
             return []
         }
+        let usingEvenOddRule = windingRule == .evenOdd || (windingRule == .default && subpaths.count > 1)
         let flatteningPlane = FlatteningPlane(normal: plane.normal)
         let contours = subpaths.map {
             $0.points.dropLast().map { flatteningPlane.flattenPoint($0.position) }
@@ -1281,30 +1351,107 @@ extension Path {
         }
     }
 
-    /// Returns if path should use non-zero fill algorithm
-    var usesNonZeroFill: Bool {
-        isClosed && subpaths.count <= 1 && plane != nil && !isSimple
+    /// Returns whether the contours can be resolved together by a winding rule.
+    var requiresFillResolution: Bool {
+        isClosed && plane != nil && (subpaths.count > 1 || !isSimple)
     }
 
-    /// Returns polygons for the area covered by this path using the non-zero winding fill rule.
-    ///
-    /// The path must be closed and planar. Compound paths are evaluated as contours in the same
-    /// filled region, so overlapping or self-intersecting contours are resolved by winding direction.
-    func nonZeroFillPolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon] {
-        filledPolygons(material: material, usingEvenOddRule: false, isCancelled: isCancelled)
+    /// Returns whether the original contours already describe the boundary selected by the fill rule.
+    var hasResolvedFillBoundary: Bool {
+        let contours = subpaths
+        guard contours.count > 1, plane != nil,
+              contours.allSatisfy({ $0.isClosed && $0.isSimple && !$0.hasZeroArea }),
+              !subpathsTouchOrIntersect,
+              !subpathsHavePartiallyOverlappingInteriors
+        else {
+            return false
+        }
+        guard windingRule == .nonZero else { return true }
+        let containment = PathContainmentIndex(contours)
+        let normal = faceNormal
+        let windings = contours.map { $0.faceNormal.dot(normal) > 0 ? 1 : -1 }
+        return contours.indices.allSatisfy { index in
+            let outside = containment.containingPathIndexes(for: index).reduce(0) { $0 + windings[$1] }
+            return outside == 0 || outside + windings[index] == 0
+        }
     }
 
-    /// Builds cap polygons for the area covered by this path using the even-odd fill rule.
-    func oddEvenFillPolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon] {
-        filledPolygons(material: material, usingEvenOddRule: true, isCancelled: isCancelled)
+    func applyingFaceAttributes(to polygons: [Polygon]) -> [Polygon] {
+        guard subpaths.count > 1 || (windingRule != .default && requiresFillResolution) else {
+            return polygons
+        }
+        let subpathPoints = subpaths.map {
+            Array($0.points.dropLast($0.isClosed ? 1 : 0))
+        }
+        let allPoints = subpathPoints.flatMap { $0 }
+        let hasExplicitTexcoords = allPoints.allSatisfy { $0.texcoord != nil }
+        let flatteningPlane = flatteningPlane
+        let flattenedPoints = allPoints.map {
+            flatteningPlane.flattenPoint($0.position)
+        }
+        let bounds = Bounds(flattenedPoints)
+        let uvScale = bounds.size
+        func vertex(for point: PathPoint) -> Vertex {
+            var vertex = Vertex(point)
+            if !hasExplicitTexcoords {
+                let flattened = flatteningPlane.flattenPoint(point.position)
+                vertex.texcoord = [
+                    (flattened.x - bounds.min.x) / uvScale.x,
+                    1 - (flattened.y - bounds.min.y) / uvScale.y,
+                    0,
+                ]
+            }
+            return vertex
+        }
+        let sourceEdges = subpathPoints.flatMap { points -> [(Vertex, Vertex)] in
+            let vertices = points.map(vertex(for:))
+            guard vertices.count > 1 else {
+                return []
+            }
+            return vertices.indices.map {
+                (vertices[$0], vertices[($0 + 1) % vertices.count])
+            }
+        }
+        return polygons.mapVertices { vertex in
+            guard let source = sourceEdges.first(where: {
+                LineSegment(unchecked: $0.0.position, $0.1.position).intersects(vertex.position)
+            }) else {
+                return vertex
+            }
+            let edge = LineSegment(unchecked: source.0.position, source.1.position)
+            let distance = (vertex.position - edge.start).dot(edge.direction)
+            let t = min(1, max(0, distance / edge.length))
+            let attributes = source.0.lerp(source.1, t)
+            return vertex.withTexcoord(attributes.texcoord).withColor(attributes.color)
+        }
     }
 
     /// Reconstructs the path around the filled area represented by `polygons`.
     func filledAreaBoundary(from polygons: [Polygon]) -> Path {
-        Path(
+        let boundary = Path(
             unchecked: .subpaths(polygons.outlinePaths),
             plane: plane
         ).restoringCurvature(from: self)
+        guard windingRule != .default, !boundary.isEmpty, hasColors || hasTexcoords else {
+            return boundary
+        }
+        let edges = subpaths.flatMap { path in
+            let points = path.points
+            return zip(points, points.dropFirst()).compactMap { a, b in
+                LineSegment(start: a.position, end: b.position).map { ($0, a, b) }
+            }
+        }
+        return boundary.mapPoints(unchecked: { point in
+            guard let (edge, a, b) = edges.first(where: { $0.0.intersects(point.position) }) else {
+                return point
+            }
+            let distance = (point.position - edge.start).dot(edge.direction)
+            let attributes = a.lerp(b, min(1, max(0, distance / edge.length)))
+            var point = point
+            point.color = attributes.color
+            point.texcoord = attributes.texcoord
+            return point
+        }, plane: boundary.plane)
     }
 
     /// Returns true when any path point is reused or any subpath edge intersects an earlier subpath edge.
@@ -1407,14 +1554,9 @@ extension Path {
         }
     }
 
-    /// Returns outline paths for the area covered by this path using the non-zero winding fill rule.
-    var nonZeroFillBoundary: Path {
-        nonZeroFillBoundary { false }
-    }
-
-    /// Returns the non-zero fill boundary while polling for cancellation.
-    func nonZeroFillBoundary(isCancelled: CancellationHandler) -> Path {
-        filledAreaBoundary(from: nonZeroFillPolygons(material: nil, isCancelled: isCancelled))
+    /// Returns the outline of the filled area.
+    func fillBoundary(isCancelled: CancellationHandler = { false }) -> Path {
+        filledAreaBoundary(from: filledPolygons(material: nil, isCancelled: isCancelled))
     }
 
     func restoringCurvature(from source: Path) -> Path {
@@ -1514,17 +1656,17 @@ extension Path {
         }
         switch storage {
         case let .points(points):
-            return Path(unchecked: pointsWithRestoredCurvature(points), plane: plane)
+            return Path(unchecked: .points(pointsWithRestoredCurvature(points)), plane: plane, windingRule: windingRule)
         case let .subpaths(subpaths):
             return Path(unchecked: .subpaths(subpaths.map {
                 $0.restoringCurvature(from: source)
-            }), plane: plane)
+            }), plane: plane, windingRule: windingRule)
         }
     }
 
     func clippedToYAxis() -> Path {
         guard subpaths.count == 1 else {
-            return Path(subpaths: subpaths.map { $0.clippedToYAxis() })
+            return Path(subpaths: subpaths.map { $0.clippedToYAxis() }, windingRule: windingRule)
         }
         var points = points
         guard !points.isEmpty else {
@@ -1594,9 +1736,16 @@ extension Path {
             i -= 1
         }
         return Path(
-            unchecked: points,
-            plane: nil // Might have changed if path is self-intersecting
+            unchecked: .points(points),
+            plane: nil, // Might have changed if path is self-intersecting
+            windingRule: windingRule
         )
+    }
+}
+
+private extension Path {
+    func normalizedWindingRule(_ windingRule: WindingRule) -> WindingRule {
+        windingRule == .default || isEmpty ? .default : windingRule
     }
 }
 

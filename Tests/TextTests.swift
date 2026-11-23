@@ -39,6 +39,7 @@ final class TextTests: XCTestCase {
         let text = NSAttributedString(string: "Hello")
         let paths = Path.text(text)
         XCTAssertEqual(paths.count, 5)
+        XCTAssertEqual(paths.map(\.windingRule), Array(repeating: .nonZero, count: 5))
         XCTAssertEqual(paths.map(\.subpaths.count), [
             1, 2, 1, 1, 2,
         ])

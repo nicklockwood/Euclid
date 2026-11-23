@@ -421,6 +421,35 @@ final class MeshLatheTests: XCTestCase {
         XCTAssertTrue(mesh.polygons.areWatertight)
     }
 
+    func testLatheCompoundProfileUsesExplicitWindingRule() {
+        let outer = Path.square(size: 4).translated(by: [3, 2])
+        let inner = Path.square(size: 2).translated(by: [3, 2])
+        let path = Path(subpaths: [outer, inner], windingRule: .nonZero)
+        let evenOdd = path.withWindingRule(.evenOdd)
+        let axis = Path.line(.zero, [0, 4])
+        let outerVolume = Mesh.lathe(outer, slices: 8).signedVolume
+        let innerVolume = Mesh.lathe(inner, slices: 8).signedVolume
+
+        for (input, volume) in [(path, outerVolume), (evenOdd, outerVolume - innerVolume)] {
+            for mesh in [Mesh.lathe(input, slices: 8), Mesh.lathe(input, along: axis, slices: 8)] {
+                XCTAssertTrue(mesh.polygons.areWatertight)
+                XCTAssertEqual(mesh.signedVolume, volume, accuracy: epsilon)
+            }
+        }
+    }
+
+    func testLatheResolvedNonzeroTextRetainsContourEdges() throws {
+        #if canImport(CoreText)
+        let profile = try XCTUnwrap(Path.text("hello").last)
+        let mesh = Mesh.lathe(profile)
+        let expected = Mesh.lathe(profile.withWindingRule(.default))
+
+        XCTAssertTrue(mesh.polygons.areWatertight)
+        XCTAssertEqual(mesh.polygons.count, expected.polygons.count)
+        XCTAssertEqual(mesh.signedVolume, expected.signedVolume, accuracy: epsilon)
+        #endif
+    }
+
     func testLatheOverlappingCompoundPathUsesEvenOddRule() {
         let first = Path([
             .point(1, 0), .point(3, 0), .point(3, 4), .point(1, 4), .point(1, 0),

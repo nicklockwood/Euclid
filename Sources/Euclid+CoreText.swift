@@ -76,7 +76,7 @@ public extension Path {
             let cgPath = CGMutablePath()
             let transform = CGAffineTransform(translationX: $1.x, y: $1.y)
             cgPath.addPath($0, transform: transform)
-            let path = Path(cgPath, detail: detail, color: $2)
+            let path = Path(cgPath, windingRule: .nonZero, detail: detail, color: $2)
             return path.faceNormal.dot(.unitZ) > 0 ? path.inverted() : path
         }
     }
@@ -213,7 +213,7 @@ public extension Mesh {
             guard !isCancelled() else { return .empty }
             let offset = Vector(cgPoint)
             guard let mesh = cache[cgPath] else {
-                let path = Path(cgPath, detail: detail, color: color)
+                let path = Path(cgPath, windingRule: .nonZero, detail: detail, color: color)
                 let mesh = Mesh.extrude(
                     path,
                     depth: depth,
@@ -226,7 +226,7 @@ public extension Mesh {
             }
             meshes.append(mesh.translated(by: offset))
         }
-        return meshes.isEmpty ? .empty : .union(meshes, isCancelled: isCancelled)
+        return .union(meshes, isCancelled: isCancelled)
     }
 }
 

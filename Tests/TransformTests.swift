@@ -156,6 +156,19 @@ final class TransformTests: XCTestCase {
         XCTAssertEqual(translated.subpaths, path.subpaths.map { $0.translated(by: offset) })
     }
 
+    func testCompoundPathTransformsPreserveWindingRule() {
+        let path = Path.compoundPath.withWindingRule(.nonZero)
+        let transformed = path.translated(by: .unitZ)
+            .rotated(by: .pitch(.halfPi))
+            .scaled(by: [-1, 2, 1])
+            .inverted()
+            .withColor(.red)
+            .closed()
+
+        XCTAssertEqual(transformed.windingRule, .nonZero)
+        XCTAssertEqual(path.withWindingRule(.default), .compoundPath)
+    }
+
     func testRotateCompoundPathPreservesSubpaths() {
         let path = Path.compoundPath
         let rotation = Rotation(roll: .degrees(35), yaw: .degrees(20), pitch: .degrees(-15))
