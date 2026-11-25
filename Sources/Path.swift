@@ -1102,16 +1102,26 @@ extension Path {
     /// Decomposes the filled area of a closed planar path into coplanar polygons.
     /// In `.default` mode, compound paths use even-odd winding and single contours use nonzero winding.
     /// - Parameters:
+    ///   - clockwise: When specified, fill only regions with the given winding direction in the flattened plane.
     ///   - material: The material assigned to every returned polygon.
     ///   - isCancelled: Callback used to cancel the operation.
     func filledPolygons(
+        clockwise: Bool? = nil,
         material: Mesh.Material?,
         isCancelled: CancellationHandler
     ) -> [Polygon] {
         guard isClosed, let plane, !isCancelled() else {
             return []
         }
+
         let usingEvenOddRule = windingRule == .evenOdd || (windingRule == .default && subpaths.count > 1)
+        func isFilled(_ winding: Int) -> Bool {
+            if let clockwise {
+                return clockwise ? winding > 0 : winding < 0
+            }
+            return usingEvenOddRule ? !winding.isMultiple(of: 2) : winding != 0
+        }
+
         let flatteningPlane = FlatteningPlane(normal: plane.normal)
         let contours = subpaths.map {
             $0.points.dropLast().map { flatteningPlane.flattenPoint($0.position) }
@@ -1242,11 +1252,11 @@ extension Path {
             for edge in activeEdges {
                 let previousWinding = winding
                 winding += edge.winding
-                let wasFilled = usingEvenOddRule ? !previousWinding.isMultiple(of: 2) : previousWinding != 0
-                let isFilled = usingEvenOddRule ? !winding.isMultiple(of: 2) : winding != 0
-                if !wasFilled, isFilled {
+                let wasFilled = isFilled(previousWinding)
+                let nowFilled = isFilled(winding)
+                if !wasFilled, nowFilled {
                     startEdge = edge
-                } else if wasFilled, !isFilled, let leftEdge = startEdge {
+                } else if wasFilled, !nowFilled, let leftEdge = startEdge {
                     let x0Left = leftEdge.x(at: y0)
                     let x0Right = edge.x(at: y0)
                     let x1Right = edge.x(at: y1)

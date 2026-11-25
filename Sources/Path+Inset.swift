@@ -7,19 +7,21 @@
 //
 
 public extension Path {
-    /// Applies a uniform inset to the edges of the path.
+    /// Applies a uniform inset to the edges of the path, with optional beveled joins.
     /// - Parameters:
-    ///   - distance: The distance by which to inset the path edges.
+    ///   - distance: The distance by which to inset the path edges. A negative value expands the path.
+    ///   - miterLimit: The threshold beyond which expanding corners are beveled. Use `1` to bevel
+    ///     every expanding corner, or `.infinity` to miter every corner.
     ///   - isCancelled: Callback used to cancel the operation.
     /// - Returns: A copy of the path, inset by the specified distance.
-    /// - Note: Passing a negative `distance` will expand the path instead of shrinking it.
     func inset(
         by distance: Double,
+        miterLimit: MiterLimit = .infinity,
         isCancelled: CancellationHandler = { false }
     ) -> Path {
         if windingRule != .default, requiresFillResolution, !hasResolvedFillBoundary {
             return fillBoundary(isCancelled: isCancelled)
-                .inset(by: distance, isCancelled: isCancelled)
+                .inset(by: distance, miterLimit: miterLimit, isCancelled: isCancelled)
                 .withWindingRule(windingRule)
         }
         guard subpaths.count <= 1 else {
@@ -31,52 +33,98 @@ public extension Path {
                     return .empty
                 }
                 let distance = containment.depth(of: index).isMultiple(of: 2) ? distance : -distance
-                insetSubpaths.append(subpath.inset(by: distance, isCancelled: isCancelled))
+                insetSubpaths
+                    .append(subpath.inset(by: distance, miterLimit: miterLimit, isCancelled: isCancelled))
             }
             return Path(subpaths: insetSubpaths, windingRule: windingRule)
         }
         guard points.count >= 2 else {
             return self
         }
-        if isClosed, !isSimple {
-            return fillBoundary(isCancelled: isCancelled)
-                .inset(by: distance, isCancelled: isCancelled)
-        }
-        if isClosed, distance > 0, !insetHalfPlanesHaveIntersection(by: distance) {
-            return .empty
+        if isClosed {
+            if !isSimple {
+                return fillBoundary(isCancelled: isCancelled)
+                    .inset(by: distance, miterLimit: miterLimit, isCancelled: isCancelled)
+            } else if distance > 0, !insetHalfPlanesHaveIntersection(by: distance) {
+                return .empty
+            }
         }
         let source = points
         let count = source.count
-        func makeInsetPoints() -> [PathPoint] {
-            var p1 = isClosed ? source[count - 2] : (
-                count > 2 ?
-                    extrapolate(source[2], source[1], source[0]) :
-                    extrapolate(source[1], source[0])
-            )
-            var p2 = source[0]
-            var p1p2 = p2.position - p1.position
-            var n1: Vector!
-            return (0 ..< count).map { i in
-                p1 = p2
-                p2 = i < count - 1 ? source[i + 1] :
-                    (isClosed ? source[1] : (
-                        count > 2 ?
-                            extrapolate(source[i - 2], source[i - 1], source[i]) :
-                            extrapolate(source[i - 1], source[i])
-                    ))
-                let p0p1 = p1p2
-                p1p2 = p2.position - p1.position
-                let faceNormal = plane?.normal ?? p0p1.cross(p1p2).normalized()
-                let n0 = n1 ?? p0p1.cross(faceNormal).normalized()
-                n1 = p1p2.cross(faceNormal).normalized()
+        let bevelsCorners = miterLimit.angle < .pi && distance != 0
+        let offsetCount = isClosed && bevelsCorners ? count - 1 : count
+        let clipsContractingCorners = isClosed && bevelsCorners && plane != nil &&
+            !pointsAreConvex(source.dropLast().map { flatteningPlane.flattenPoint($0.position) })
+        var insetPoints = [PathPoint]()
+        insetPoints.reserveCapacity(count)
+        var p1 = isClosed ? source[count - 2] : (
+            count > 2 ?
+                extrapolate(source[2], source[1], source[0]) :
+                extrapolate(source[1], source[0])
+        )
+        var p2 = source[0]
+        var p1p2 = p2.position - p1.position
+        var n1: Vector!
+        for i in 0 ..< offsetCount {
+            p1 = p2
+            p2 = i < count - 1 ? source[i + 1] :
+                (isClosed ? source[1] : (
+                    count > 2 ?
+                        extrapolate(source[i - 2], source[i - 1], source[i]) :
+                        extrapolate(source[i - 1], source[i])
+                ))
+            let p0p1 = p1p2
+            p1p2 = p2.position - p1.position
+            let turn = p0p1.cross(p1p2)
+            let faceNormal = plane?.normal ?? turn.normalized()
+            let n0 = n1 ?? p0p1.cross(faceNormal).normalized()
+            n1 = p1p2.cross(faceNormal).normalized()
+            let isCorner = isClosed || (i > 0 && i < count - 1)
+            let turnDirection = bevelsCorners && isCorner ? turn.dot(faceNormal) * distance : 0
+            let angle = turnDirection < 0 ? angleBetweenNormalizedVectors(n0, n1) : .zero
+            if angle > miterLimit.angle {
+                // Cut the corner one offset distance along its bisector.
+                let advance = abs(distance) * tan(angle / 4)
+                insetPoints.append(p1.translated(by: p0p1.normalized() * advance - n0 * distance))
+                insetPoints.append(p1.translated(by: -p1p2.normalized() * advance - n1 * distance))
+            } else if clipsContractingCorners, turnDirection > 0 {
+                // Keep the full offset edges so winding can resolve overlaps past the corner.
+                insetPoints.append(p1.translated(by: -n0 * distance))
+                insetPoints.append(p1)
+                insetPoints.append(p1.translated(by: -n1 * distance))
+            } else {
                 // TODO: do we need to inset texcoord as well? If so, by how much?
                 let normal = (n0 + n1).normalized()
-                return p1.translated(by: normal * -(distance / n0.dot(normal)))
+                insetPoints.append(p1.translated(by: normal * -(distance / n0.dot(normal))))
             }
         }
-        let insetPoints = makeInsetPoints()
+        if offsetCount < count {
+            insetPoints.append(insetPoints[0])
+        }
         guard !isCancelled() else {
             return .empty
+        }
+        if isClosed, bevelsCorners, let plane {
+            let offset = Path(insetPoints, windingRule: windingRule)
+            if offset.isClosed, offset.subpaths.count == 1, offset.isSimple {
+                return offset.faceNormal.dot(plane.normal) > 0 ? offset : .empty
+            }
+            // Crossed offset edges enclose reversed regions where the outline collapsed.
+            let outline = Path(
+                unchecked: .points(sanitizePoints(insetPoints)), plane: plane, windingRule: .nonZero
+            )
+            let clockwise = flattenedPointsAreClockwise(source.map {
+                flatteningPlane.flattenPoint($0.position)
+            })
+            let polygons = outline.filledPolygons(
+                clockwise: clockwise, material: nil, isCancelled: isCancelled
+            )
+            let aligned = polygons.insertingEdgeVertices(
+                with: polygons.holeEdges(isCancelled: isCancelled), isCancelled: isCancelled
+            ).mergingVertices(withPrecision: epsilon, isCancelled: isCancelled)
+            return isCancelled() ? .empty : outline
+                .filledAreaBoundary(from: aligned)
+                .withWindingRule(windingRule)
         }
         func resolvedInset(from points: [PathPoint]) -> [PathPoint] {
             resolveInsetIntersections(
@@ -88,11 +136,12 @@ public extension Path {
                 interpolate: { (a: PathPoint, b: PathPoint, t: Double) in a.lerp(b, t) }
             )
         }
-        if isClosed, distance > 0, let subpaths = splitCollapsedInset(insetPoints, by: distance) {
-            return Path(unchecked: .subpaths(subpaths), plane: plane, windingRule: windingRule)
-        }
-        if isClosed, distance > 0, let subpaths = splitIntersectingInset(insetPoints, by: distance) {
-            return Path(unchecked: .subpaths(subpaths), plane: plane, windingRule: windingRule)
+        if isClosed, distance > 0 {
+            if !bevelsCorners, let subpaths = splitCollapsedInset(insetPoints, by: distance) {
+                return Path(unchecked: .subpaths(subpaths), plane: plane, windingRule: windingRule)
+            } else if let subpaths = splitIntersectingInset(insetPoints, by: distance) {
+                return Path(unchecked: .subpaths(subpaths), plane: plane, windingRule: windingRule)
+            }
         }
         return Path(resolvedInset(from: insetPoints), windingRule: windingRule)
     }

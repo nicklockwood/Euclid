@@ -16,6 +16,81 @@ final class PathInsetTests: XCTestCase {
         XCTAssertEqual(result, .square(size: 0.5))
     }
 
+    func testOutsetSquareWithMiterLimit() {
+        let square = Path.square(size: 4, color: .red)
+        let beveled = square.inset(by: -1, miterLimit: 1)
+        let corner = 1 + sqrt(2.0)
+        let quadrant = [Vector(3, corner), Vector(corner, 3)]
+        let expected = quadrant.flatMap { point -> [Vector] in
+            [point, [-point.x, point.y], [point.x, -point.y], -point]
+        }
+        XCTAssertTrue(beveled.isClosed)
+        XCTAssertEqual(beveled.points.count, 9)
+        XCTAssertTrue(expected.allSatisfy { position in
+            beveled.points.contains { $0.position.isApproximatelyEqual(to: position) }
+        })
+        XCTAssertTrue(beveled.points.allSatisfy { $0.color == .red })
+        XCTAssertEqual(square.inset(by: -1, miterLimit: .degrees(100)), square.inset(by: -1))
+        XCTAssertEqual(square.inset(by: 1, miterLimit: 1), square.inset(by: 1))
+    }
+
+    func testInsetBevelsConcaveCorner() {
+        let path = Path([
+            .point(0, 0), .point(8, 0), .point(8, 4),
+            .point(4, 4), .point(4, 8), .point(0, 8),
+        ]).closed()
+        let result = path.inset(by: 1, miterLimit: 1)
+        let corner = 5 - sqrt(2.0)
+        XCTAssertTrue(result.isClosed)
+        XCTAssertFalse(result.orderedEdgesContainCrossings)
+        XCTAssertEqual(result.points.count, 8)
+        XCTAssertTrue(result.points.contains { $0.position.isApproximatelyEqual(to: [corner, 3]) })
+        XCTAssertTrue(result.points.contains { $0.position.isApproximatelyEqual(to: [3, corner]) })
+
+        let rotation = Rotation(pitch: .pi / 5, yaw: .pi / 7)
+        let rotated = path.rotated(by: rotation).inset(by: 1, miterLimit: 1)
+        XCTAssertTrue(rotated.isApproximatelyEqual(to: result.rotated(by: rotation)))
+    }
+
+    func testInsetBevelsExpandingHoles() {
+        let profile = Path(subpaths: [.square(size: 8), .square(size: 4)], windingRule: .evenOdd)
+        let result = profile.inset(by: 0.5, miterLimit: 1)
+        XCTAssertEqual(result.windingRule, .evenOdd)
+        XCTAssertEqual(result.subpaths.map(\.points.count).sorted(), [5, 9])
+        let cut = (2 - sqrt(2.0)) * 0.5
+        XCTAssertEqual(Mesh.fill(result, faces: .front).surfaceArea, 49 - 25 + 2 * cut * cut, accuracy: epsilon)
+    }
+
+    func testOutsetOpenPathPreservesItsEndpoints() {
+        let path = Path([.point(0, 4), .point(0, 0), .point(4, 0)])
+        let mitered = path.inset(by: -1)
+        let beveled = path.inset(by: -1, miterLimit: 1)
+        XCTAssertFalse(beveled.isClosed)
+        XCTAssertEqual(beveled.points.first, mitered.points.first)
+        XCTAssertEqual(beveled.points.last, mitered.points.last)
+        XCTAssertEqual(beveled.points.count, 4)
+    }
+
+    func testBeveledOffsetsResolveCrossingsAtNarrowBridge() {
+        let path = Path([
+            .point(0, 0), .point(4, 0), .point(4, 1.5), .point(7, 1.5),
+            .point(7, 0), .point(11, 0), .point(11, 4), .point(7, 4),
+            .point(7, 2.5), .point(4, 2.5), .point(4, 4), .point(0, 4),
+        ]).closed()
+        let tip = 0.5 - 0.75 * (sqrt(2.0) - 1)
+        for profile in [path, path.inverted(), path.rotated(by: .pitch(.halfPi))] {
+            let result = profile.inset(by: 0.75, miterLimit: 1)
+            XCTAssertEqual(result.subpaths.count, 2)
+            XCTAssertTrue(result.subpaths.allSatisfy { $0.isClosed && !$0.orderedEdgesContainCrossings })
+            XCTAssertEqual(Mesh.fill(result, faces: .front).surfaceArea, 12.5 + 2 * tip * tip, accuracy: epsilon)
+        }
+        let expanded = path.inset(by: -5, miterLimit: 1)
+        XCTAssertEqual(expanded.subpaths.count, 1)
+        XCTAssertFalse(expanded.orderedEdgesContainCrossings)
+        let cut = 5 * (2 - sqrt(2.0))
+        XCTAssertEqual(Mesh.fill(expanded, faces: .front).surfaceArea, 21 * 14 - 2 * cut * cut, accuracy: epsilon)
+    }
+
     func testInsetSquarePastRadiusIsEmpty() {
         let path = Path.square()
         XCTAssertFalse(path.inset(by: 0.25).isEmpty)
