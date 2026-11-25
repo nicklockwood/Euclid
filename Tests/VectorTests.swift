@@ -10,6 +10,13 @@
 import XCTest
 
 final class VectorTests: XCTestCase {
+    func testIsFiniteChecksEveryComponent() {
+        XCTAssertTrue(Vector(.greatestFiniteMagnitude, 0, -1).isFinite)
+        XCTAssertFalse(Vector(.nan, 0, 0).isFinite)
+        XCTAssertFalse(Vector(0, .infinity, 0).isFinite)
+        XCTAssertFalse(Vector(0, 0, -.infinity).isFinite)
+    }
+
     // MARK: Vector length
 
     func testAxisAlignedLength() {

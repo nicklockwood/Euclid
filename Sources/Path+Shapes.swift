@@ -487,8 +487,8 @@ extension Path {
         sections: Int?,
         isCancelled: CancellationHandler
     ) -> (contours: [Path], transforms: [(Vertex) -> Vertex], orientation: Rotation, origin: Vector)? {
-        guard let plane, depth.isFinite, twist.radians.isFinite,
-              taper.x.isFinite, taper.x >= 0, taper.y.isFinite, taper.y >= 0,
+        guard let plane, depth.isFinite, twist.isFinite,
+              Vector(taper.x, taper.y).isFinite, taper.x >= 0, taper.y >= 0,
               let sectionCount = sections ?? Int(exactly: ceil(abs(twist / .twoPi) * 16))
         else { return nil }
         let sections = max(1, sectionCount)
@@ -516,7 +516,8 @@ extension Path {
                     let dx = xRate * p.x - angularRate * sx * p.y
                     let dy = yRate * p.y + angularRate * sy * p.x
                     let nz = -nx * dx - ny * dy
-                    vertex.normal = nx.isFinite && ny.isFinite && nz.isFinite ? [nx, ny, nz] : .zero
+                    let normal = Vector(nx, ny, nz)
+                    vertex.normal = normal.isFinite ? normal : .zero
                 }
                 return vertex
             }
@@ -527,7 +528,7 @@ extension Path {
             var isFinite = true
             let section = profile.mapPoints {
                 let position = transform(Vertex($0.position)).position
-                guard position.x.isFinite, position.y.isFinite else {
+                guard position.isFinite else {
                     isFinite = false
                     return $0
                 }
@@ -552,8 +553,7 @@ extension Path {
     ) -> (contours: [Path], offsets: [Double], transforms: [(Vertex) -> Vertex]) {
         let isTapered = taper.x != 1 || taper.y != 1
         guard !isTapered || (
-            isPlanar && taper.x.isFinite && taper.x >= 0 &&
-                taper.y.isFinite && taper.y >= 0
+            isPlanar && Vector(taper.x, taper.y).isFinite && taper.x >= 0 && taper.y >= 0
         ) else { return ([], [], []) }
         let isCyclic = along.isClosed && !isTapered
         let points = along.points

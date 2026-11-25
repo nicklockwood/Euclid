@@ -334,7 +334,7 @@ private extension MDLMesh {
                 if linearColors { color = color.toSRGB() }
             }
             let p3 = Vector(Double(position.x), Double(position.y), Double(position.z))
-            guard p3.x.isFinite, p3.y.isFinite, p3.z.isFinite else {
+            guard p3.isFinite else {
                 throw Mesh.IOError("Nonfinite Model I/O vertex position")
             }
             vertices.append(Vertex(p3, normal: normal, texcoord: uv, color: color))

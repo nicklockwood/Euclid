@@ -126,6 +126,11 @@ public extension Angle {
         set { radians = newValue / 180 * .pi }
     }
 
+    /// The stored angle is finite. Nonfinite inputs are stored as zero.
+    var isFinite: Bool {
+        radians.isFinite
+    }
+
     /// The angle is zero (or close to zero).
     var isZero: Bool {
         isApproximatelyEqual(to: .zero)

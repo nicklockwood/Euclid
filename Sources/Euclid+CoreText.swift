@@ -404,9 +404,7 @@ private extension NSAttributedString {
         width: Double?,
         isCancelled: Euclid.CancellationHandler
     ) -> [(outline: CGPath, transform: Transform, color: Color?)] {
-        guard offset.x.isFinite, offset.y.isFinite, offset.z.isFinite,
-              rotation.radians.isFinite, !isCancelled()
-        else { return [] }
+        guard offset.isFinite, rotation.isFinite, !isCancelled() else { return [] }
         let guide = path.flatMap(TextGuide.init)
         if path != nil, guide == nil { return [] }
         let rotation = Rotation.roll(rotation)

@@ -311,6 +311,11 @@ public extension Vector {
         direction ?? .zero
     }
 
+    /// All vector components are finite.
+    var isFinite: Bool {
+        x.isFinite && y.isFinite && z.isFinite
+    }
+
     /// All vector components are zero (or  close to zero) in length.
     var isZero: Bool {
         isApproximatelyEqual(to: .zero)

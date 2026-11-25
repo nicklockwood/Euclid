@@ -20,6 +20,14 @@ final class AngleTests: XCTestCase {
         XCTAssertEqual(Double.pi / 6, angle.radians)
     }
 
+    func testIsFiniteReportsStoredAngle() {
+        var angle = Angle.degrees(30)
+        XCTAssertTrue(angle.isFinite)
+        angle.radians = .infinity
+        XCTAssertEqual(angle, .zero)
+        XCTAssertTrue(angle.isFinite)
+    }
+
     func testCosFirstQuadrant() {
         let angle = Angle.degrees(30)
         XCTAssertEqual(sqrt(3) / 2, cos(angle))
