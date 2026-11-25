@@ -24,7 +24,7 @@ private extension Data {
 final class MeshImportTests: XCTestCase {
     func testNativeImportCancellation() throws {
         let mesh = Mesh.sphere(slices: 32)
-        let inputs = try [mesh.stlString(), mesh.offString(), mesh.objString(), mesh.plyString()]
+        let inputs = [mesh.stlString(), mesh.offString(), mesh.objString(), mesh.plyString()]
         let readers: [(String, CancellationHandler) throws -> Mesh?] = [
             { try Mesh(stlString: $0, isCancelled: $1) },
             { try Mesh(offString: $0, isCancelled: $1) },

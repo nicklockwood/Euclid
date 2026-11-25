@@ -16,7 +16,7 @@ final class PLYExportTests: XCTestCase {
             Vertex(.unitX, normal: .unitZ, texcoord: .unitX, color: Color(white: 0.25, alpha: 0.8)),
             Vertex(.unitY, normal: .unitZ, texcoord: .unitY, color: .white),
         ]))])
-        let text = try mesh.plyString()
+        let text = mesh.plyString()
         XCTAssertTrue(text.contains("format ascii 1.0\n"))
         XCTAssertTrue(text.contains("128 64 191 102\n"))
         let imported = try XCTUnwrap(Mesh(plyString: text))
@@ -27,10 +27,10 @@ final class PLYExportTests: XCTestCase {
         XCTAssertEqual(vertex.color.alpha, 0.4, accuracy: 1 / 255.0)
     }
 
-    func testMaterialTintMultipliesVertexColorInLinearLight() throws {
+    func testMaterialTintMultipliesVertexColorInLinearLight() {
         let mesh = Mesh.cube().mapVertexColors { _ in Color(white: 0.5, alpha: 0.5) }
             .withMaterial(Color(white: 0.5, alpha: 0.5))
-        let text = try mesh.plyString()
+        let text = mesh.plyString()
         // sRGB(0.214041... squared) is about 0.237, rather than 0.25.
         XCTAssertTrue(text.contains("60 60 60 64\n"), text)
     }
@@ -61,8 +61,8 @@ final class PLYExportTests: XCTestCase {
         }
     }
 
-    func testEmptyMeshExportsEmptyTables() throws {
-        let text = try Mesh([]).plyString()
+    func testEmptyMeshExportsEmptyTables() {
+        let text = Mesh([]).plyString()
         XCTAssertTrue(text.contains("element vertex 0\n"))
         XCTAssertTrue(text.contains("element face 0\n"))
     }

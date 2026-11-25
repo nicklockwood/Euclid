@@ -1086,7 +1086,7 @@ final class ColorImportExportRegressionTests: XCTestCase {
 
     func testModelIOOBJOpacityNormalizedBeforeMaterialLookup() throws {
         let url = try independentFixture(format: "obj", textured: true, opacityChannel: "g", dissolve: 0.4)
-        let mesh = try Mesh(modelIOURL: url) { material in
+        let mesh = try Mesh(modelIOURL: url, materialLookup: { material in
             guard let material = material as? MDLMaterial,
                   let texture = material.property(with: .opacity)?.textureSamplerValue?.texture,
                   texture.channelCount == 1,
@@ -1094,7 +1094,7 @@ final class ColorImportExportRegressionTests: XCTestCase {
             else { return nil }
             // The callback sees normalized data, not a renderer-specific workaround.
             return Color(white: 1, alpha: Double(bytes[0]) / 255)
-        }
+        })
         XCTAssertFalse(mesh.isEmpty)
         for polygon in mesh.polygons {
             try assertColor(

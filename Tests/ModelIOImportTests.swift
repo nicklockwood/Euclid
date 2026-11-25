@@ -48,7 +48,7 @@ final class ModelIOImportTests: XCTestCase {
         let source = Mesh.cube().mapVertexColors { _ in color }.withMaterial("paint")
         let material = MDLMaterial(Color(white: 0.25, alpha: 0.5))
         for linearColors in [true, false] {
-            let asset = try MDLAsset(source, linearColors: linearColors) { _ in material }
+            let asset = try MDLAsset(source, linearColors: linearColors, materialLookup: { _ in material })
             let result = try Mesh(asset, linearColors: linearColors)
             XCTAssertEqual(result.polygons.count, 6)
             XCTAssertEqual(result.bounds, source.bounds)
@@ -61,10 +61,10 @@ final class ModelIOImportTests: XCTestCase {
                 XCTAssertEqual(vertex.texcoord, expected.texcoord)
                 XCTAssertEqual(vertex.color, color, accuracy: 1e-6)
             }
-            let mapped = try Mesh(asset) { $0.name }
+            let mapped = try Mesh(asset, materialLookup: { $0.name })
             XCTAssertEqual(mapped.materials, [material.name])
-            XCTAssertTrue(try Mesh(asset) { _ in nil }.polygons.allSatisfy { $0.material == nil })
-            XCTAssertThrowsError(try Mesh(asset) { _ in throw CancellationError() })
+            XCTAssertTrue(try Mesh(asset, materialLookup: { _ in nil }).polygons.allSatisfy { $0.material == nil })
+            XCTAssertThrowsError(try Mesh(asset, materialLookup: { _ in throw CancellationError() }))
         }
     }
 
@@ -181,12 +181,14 @@ final class ModelIOImportTests: XCTestCase {
             XCTAssertEqual(base, color.withAlphaComponent(1), accuracy: 1e-5)
             XCTAssertEqual(try XCTUnwrap(defaultColorMapping(material)), color, accuracy: 1e-5)
             XCTAssertEqual(Double(material.property(with: .opacity)?.floatValue ?? 0), 0.4, accuracy: 1e-6)
-            XCTAssertTrue(try Mesh(MDLAsset(url: url)) { _ in nil }.polygons.allSatisfy { $0.material == nil })
+            XCTAssertTrue(try Mesh(MDLAsset(url: url), materialLookup: { _ in nil }).polygons.allSatisfy {
+                $0.material == nil
+            })
             let exported = folder.appendingPathComponent("roundtrip.\(ext)")
             try result.write(to: exported)
             let roundtrip = try loadModelIO(exported)
             XCTAssertEqual(try XCTUnwrap(defaultColorMapping(roundtrip.materials.first ?? nil)), color, accuracy: 1e-5)
-            let mapped = try Mesh(MDLAsset(url: url)) { _ in "mapped" }
+            let mapped = try Mesh(MDLAsset(url: url), materialLookup: { _ in "mapped" })
             XCTAssertEqual(mapped.materials, ["mapped"])
             #if canImport(SceneKit)
             let scn = SCNGeometry(result).materials.first
@@ -291,9 +293,9 @@ final class ModelIOImportTests: XCTestCase {
         let mesh = try Mesh(url: url)
         XCTAssertFalse(mesh.isEmpty)
         XCTAssertTrue(mesh.materials.allSatisfy { $0 is SCNMaterial })
-        let mapped = try Mesh(url: url) { $0 is SCNMaterial ? "SceneKit" : "wrong" }
+        let mapped = try Mesh(url: url, materialLookup: { $0 is SCNMaterial ? "SceneKit" : "wrong" })
         XCTAssertEqual(mapped.materials, ["SceneKit"])
-        XCTAssertTrue(try Mesh(url: url) { _ in nil }.polygons.allSatisfy { $0.material == nil })
+        XCTAssertTrue(try Mesh(url: url, materialLookup: { _ in nil }).polygons.allSatisfy { $0.material == nil })
     }
 
     #endif
@@ -343,12 +345,12 @@ final class ModelIOImportTests: XCTestCase {
         asset.loadTextures()
         let linearColors = url.pathExtension != "obj"
         var seen = Set<ObjectIdentifier>()
-        return try Mesh(asset, linearColors: linearColors) { material in
+        return try Mesh(asset, linearColors: linearColors, materialLookup: { material in
             if seen.insert(ObjectIdentifier(material)).inserted {
                 normalizeModelIOColors(material, linearColors: linearColors)
             }
             return material
-        }
+        })
     }
 
     private func translation(_ x: Float, _ y: Float, _ z: Float) -> simd_float4x4 {

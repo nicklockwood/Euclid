@@ -32,7 +32,10 @@
 #if canImport(SceneKit)
 
 import SceneKit
+
+#if canImport(SceneKit.ModelIO)
 import SceneKit.ModelIO
+#endif
 
 let scnMaterialTypes: [AnyClass] = [SCNMaterial.self]
 
@@ -90,6 +93,7 @@ func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
     switch material {
     case let scnMaterial as SCNMaterial:
         return scnMaterial
+    #if canImport(SceneKit.ModelIO)
     case let material as MDLMaterial:
         let result = SCNMaterial(mdlMaterial: material)
         // Model I/O scalar textures use red; SceneKit's opacity shader samples alpha instead.
@@ -102,6 +106,7 @@ func defaultMaterialLookup(_ material: Polygon.Material?) -> SCNMaterial? {
             result.transparent.textureComponents = .all
         }
         return result
+    #endif
     case let color as Color:
         return defaultMaterialLookup(OSColor(color))
     case let cfType as CFTypeRef where [

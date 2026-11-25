@@ -217,8 +217,11 @@ extension CGImage {
 
 #if canImport(ModelIO)
 
-import ImageIO
 import ModelIO
+
+#if canImport(ImageIO)
+import ImageIO
+#endif
 
 extension MDLAsset {
     /// Normalize OBJ opacity before passing materials to callbacks or rendering adapters.

@@ -36,9 +36,9 @@ final class ModelIOExportTests: XCTestCase {
 
     func testMaterialMappingAndOpacity() throws {
         let material = MDLMaterial(name: "custom", scatteringFunction: MDLScatteringFunction())
-        let asset = try MDLAsset(Mesh.cube().withMaterial("paint")) { value in
+        let asset = try MDLAsset(Mesh.cube().withMaterial("paint"), materialLookup: { value in
             value as? String == "paint" ? material : nil
-        }
+        })
         let mesh = try XCTUnwrap(asset.object(at: 0) as? MDLMesh)
         XCTAssertTrue((mesh.submeshes?.firstObject as? MDLSubmesh)?.material === material)
         let colored = try MDLAsset(Mesh.cube().withMaterial(Color(white: 0.5, alpha: 0.25)))
@@ -50,11 +50,11 @@ final class ModelIOExportTests: XCTestCase {
 
     func testMaterialLookupNilAndErrors() throws {
         let source = Mesh.cube().withMaterial(Color.black)
-        let asset = try MDLAsset(source) { _ in nil }
+        let asset = try MDLAsset(source, materialLookup: { _ in nil })
         let mesh = try XCTUnwrap(asset.object(at: 0) as? MDLMesh)
         let material = try XCTUnwrap((mesh.submeshes?.firstObject as? MDLSubmesh)?.material)
         XCTAssertEqual(material.property(with: .baseColor)?.float3Value, SIMD3<Float>(repeating: 1))
-        XCTAssertThrowsError(try MDLAsset(source) { _ in throw CancellationError() }) { error in
+        XCTAssertThrowsError(try MDLAsset(source, materialLookup: { _ in throw CancellationError() })) { error in
             XCTAssertTrue(error is CancellationError)
         }
     }
@@ -132,9 +132,9 @@ final class ModelIOExportTests: XCTestCase {
         ])
         for ext in ["usd", "usda", "usdc"] where MDLAsset.canExportFileExtension(ext) {
             let url = directory.appendingPathComponent("mesh.\(ext)")
-            try mesh.write(to: url) { value in
+            try mesh.write(to: url, materialLookup: { value in
                 value as? String == "paint" ? Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.4) : nil
-            }
+            })
             let asset = MDLAsset(url: url)
             let imported = try Mesh(asset)
             XCTAssertEqual(imported.bounds, mesh.bounds, accuracy: 1e-5)
@@ -163,9 +163,9 @@ final class ModelIOExportTests: XCTestCase {
         for ext in ["obj", "usda"] {
             let url = directory.appendingPathComponent("mesh.\(ext)")
             if ext == "obj" {
-                try mesh.withMaterial("paint").write(to: url) { material in
+                try mesh.withMaterial("paint").write(to: url, materialLookup: { material in
                     material as? String == "paint" ? Color(red: 0.5, green: 0.25, blue: 0.75, alpha: 0.4) : nil
-                }
+                })
             } else {
                 try mesh.write(to: url)
             }
