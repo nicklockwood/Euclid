@@ -734,10 +734,11 @@ private extension Path {
         // Extract only one side, avoiding cancellation of the coincident front and back edges.
         var polygons = mesh.polygons.filter { $0.plane.normal.dot(plane.normal) > 0 }
         polygons = polygons.mergingVertices(withPrecision: epsilon, isCancelled: isCancelled)
+        // Edge insertion interpolates positions, so weld again before matching exact endpoints.
         polygons = polygons.insertingEdgeVertices(
             with: polygons.holeEdges(isCancelled: isCancelled),
             isCancelled: isCancelled
-        )
+        ).mergingVertices(withPrecision: epsilon, isCancelled: isCancelled)
         guard !isCancelled() else {
             return .empty
         }

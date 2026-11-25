@@ -232,6 +232,26 @@ final class PathCSGTests: XCTestCase {
         XCTAssertTrue(try XCTUnwrap(cancelled).isEmpty)
     }
 
+    func testDifferencePreservesOuterBoundaryWithFourRoundHoles() throws {
+        func circle(at center: Vector, radius: Double) -> Path {
+            Path((0 ..< 32).map { index in
+                let angle = Double(index) * 2 * .pi / 32
+                return .point(center + Vector(radius * cos(angle), radius * sin(angle)))
+            }).closed()
+        }
+        let corners: [Vector] = [[4, 4], [4, 28], [46, 4], [46, 28]]
+        let hull = try XCTUnwrap(Path.convexHull(of: corners.map { circle(at: $0, radius: 4) }))
+        let centers: [Vector] = [[6, 6], [6, 26], [44, 6], [44, 26]]
+        let holes = centers.map { circle(at: $0, radius: 2) }
+        let result = try XCTUnwrap(Path.difference([hull] + holes))
+
+        XCTAssertTrue(result.isClosed)
+        XCTAssertEqual(result.subpaths.count, 5)
+        XCTAssertEqual(result.bounds, hull.bounds)
+        XCTAssertEqual(result.subpaths.filter { $0.faceNormal.dot(hull.faceNormal) < 0 }.count, 4)
+        XCTAssertEqual(Mesh.fill(result, faces: .front).surfaceArea, 1536, accuracy: 1e-6)
+    }
+
     func testPathHullAndMinkowskiSumOfSquares() throws {
         let a = Path.square(size: 2)
         let b = a.translated(by: [3, 0, 0])
