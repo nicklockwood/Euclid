@@ -160,6 +160,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/scaled(by:)-19jpq",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/translated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/transformed(by:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:miterLimit:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/withColor(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/withDetail(_:forTwist:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/closed()"
@@ -265,6 +266,94 @@
   "title" : "closed()",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/closed()"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/inset(by:miterLimit:isCancelled:)": {
+  "abstract" : [
+    {
+      "text" : "Applies a uniform inset to the edges of the path, with optional beveled joins.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "inset"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "by"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "miterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid10MiterLimitV",
+      "text" : "MiterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "isCancelled"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV19CancellationHandlera",
+      "text" : "CancellationHandler"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid4PathV",
+      "text" : "Path"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:miterLimit:isCancelled:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "inset(by:miterLimit:isCancelled:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/path\/inset(by:miterlimit:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/rotated(by:)": {
   "abstract" : [

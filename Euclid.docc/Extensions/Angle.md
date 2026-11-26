@@ -22,6 +22,7 @@ An angular value in radians or degrees.
 
 - ``Angle/degrees``
 - ``Angle/radians``
+- ``Angle/isFinite``
 - ``Angle/isZero``
 
 ### Computing Angles

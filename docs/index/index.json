@@ -2107,6 +2107,11 @@
                 "type" : "method"
               },
               {
+                "path" : "\/documentation\/euclid\/path\/inset(by:miterlimit:iscancelled:)",
+                "title" : "func inset(by: Double, miterLimit: MiterLimit, isCancelled: CancellationHandler) -> Path",
+                "type" : "method"
+              },
+              {
                 "path" : "\/documentation\/euclid\/path\/withcolor(_:)",
                 "title" : "func withColor(Color?) -> Path",
                 "type" : "method"
@@ -2279,11 +2284,6 @@
               {
                 "path" : "\/documentation\/euclid\/path\/facepolygons(material:iscancelled:)",
                 "title" : "func facePolygons(material: Mesh.Material?, isCancelled: CancellationHandler) -> [Polygon]",
-                "type" : "method"
-              },
-              {
-                "path" : "\/documentation\/euclid\/path\/inset(by:iscancelled:)",
-                "title" : "func inset(by: Double, isCancelled: CancellationHandler) -> Path",
                 "type" : "method"
               },
               {
@@ -3637,7 +3637,7 @@
                 "type" : "method"
               },
               {
-                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-76jp5",
+                "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-49xdu",
                 "title" : "func intersects(Vector) -> Bool",
                 "type" : "method"
               },
@@ -3975,6 +3975,11 @@
                   {
                     "path" : "\/documentation\/euclid\/linesegment\/intersection(with:)-3tcin",
                     "title" : "func intersection(with: Vector) -> Vector?",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/euclid\/linesegment\/intersects(_:)-49xdu",
+                    "title" : "func intersects(Vector) -> Bool",
                     "type" : "method"
                   },
                   {
@@ -4729,6 +4734,11 @@
                 "type" : "property"
               },
               {
+                "path" : "\/documentation\/euclid\/angle\/isfinite",
+                "title" : "var isFinite: Bool",
+                "type" : "property"
+              },
+              {
                 "path" : "\/documentation\/euclid\/angle\/iszero",
                 "title" : "var isZero: Bool",
                 "type" : "property"
@@ -5135,6 +5145,11 @@
               {
                 "path" : "\/documentation\/euclid\/vector\/lengthsquared",
                 "title" : "var lengthSquared: Double",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/euclid\/vector\/isfinite",
+                "title" : "var isFinite: Bool",
                 "type" : "property"
               },
               {

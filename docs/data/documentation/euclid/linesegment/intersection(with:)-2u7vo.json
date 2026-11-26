@@ -209,7 +209,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-5v6ed",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-4b1z8",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-3u1wv",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-76jp5"
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-49xdu"
       ],
       "title" : "Comparing Line Segments"
     }
@@ -438,6 +438,49 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-3u1wv"
 },
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-49xdu": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersects"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-49xdu",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersects(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-49xdu"
+},
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-4b1z8": {
   "abstract" : [
     {
@@ -572,49 +615,6 @@
   "title" : "intersects(_:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-5v6ed"
-},
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-76jp5": {
-  "abstract" : [
-
-  ],
-  "fragments" : [
-    {
-      "kind" : "keyword",
-      "text" : "func"
-    },
-    {
-      "kind" : "text",
-      "text" : " "
-    },
-    {
-      "kind" : "identifier",
-      "text" : "intersects"
-    },
-    {
-      "kind" : "text",
-      "text" : "("
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:6Euclid6VectorV",
-      "text" : "Vector"
-    },
-    {
-      "kind" : "text",
-      "text" : ") -> "
-    },
-    {
-      "kind" : "typeIdentifier",
-      "preciseIdentifier" : "s:Sb",
-      "text" : "Bool"
-    }
-  ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-76jp5",
-  "kind" : "symbol",
-  "role" : "symbol",
-  "title" : "intersects(_:)",
-  "type" : "topic",
-  "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-76jp5"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector": {
   "abstract" : [

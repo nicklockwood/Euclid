@@ -2,6 +2,19 @@
 
 A bezier path in three-dimensional space.
 
+### Offsetting Paths
+
+Use ``Path/inset(by:miterLimit:isCancelled:)`` to move a path's edges by a uniform distance. A positive distance shrinks the outer outline of a closed path, and a negative distance expands it.
+
+The `miterLimit` sets the sharpest turn that can keep a mitered join at an expanding corner. On an outer outline, outsets can chamfer convex corners and insets can chamfer concave corners. Pass `1` to chamfer every expanding corner, or use ``MiterLimit/degrees(_:)`` to set a turn angle. The default, ``MiterLimit/infinity``, keeps mitered joins.
+
+This example expands a square by one unit and chamfers all four corners.
+
+```swift
+let square = Path.square(size: 4)
+let chamfered = square.inset(by: -1, miterLimit: 1)
+```
+
 ## Topics
 
 ### Default Paths
@@ -48,6 +61,7 @@ A bezier path in three-dimensional space.
 - ``Path/scaled(by:)-84xdd``
 - ``Path/translated(by:)``
 - ``Path/transformed(by:)``
+- ``Path/inset(by:miterLimit:isCancelled:)``
 - ``Path/withColor(_:)``
 - ``Path/withDetail(_:forTwist:)``
 - ``Path/closed()``

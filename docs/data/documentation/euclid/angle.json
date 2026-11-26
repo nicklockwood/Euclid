@@ -163,6 +163,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/degrees",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/radians",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/isFinite",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/isZero"
       ],
       "title" : "Angle Properties"
@@ -1903,6 +1904,43 @@
   "title" : "init(radians:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/angle\/init(radians:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/isFinite": {
+  "abstract" : [
+    {
+      "text" : "The stored angle is finite. Nonfinite inputs are stored as zero.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isFinite"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Angle\/isFinite",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isFinite",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/angle\/isfinite"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Angle/isZero": {
   "abstract" : [

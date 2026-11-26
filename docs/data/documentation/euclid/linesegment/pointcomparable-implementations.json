@@ -37,6 +37,7 @@
       "identifiers" : [
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/distance(from:)-25au9",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersection(with:)-3tcin",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-49xdu",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-76jp5",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/nearestPoint(to:)"
       ],
@@ -213,6 +214,49 @@
   "title" : "intersection(with:)",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment\/intersection(with:)-3tcin"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-49xdu": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "intersects"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid6VectorV",
+      "text" : "Vector"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/LineSegment\/intersects(_:)-49xdu",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "intersects(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/linesegment\/intersects(_:)-49xdu"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/LineSegment/intersects(_:)-76jp5": {
   "abstract" : [

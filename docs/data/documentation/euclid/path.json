@@ -272,6 +272,90 @@
             }
           ],
           "type" : "paragraph"
+        },
+        {
+          "anchor" : "Offsetting-Paths",
+          "level" : 3,
+          "text" : "Offsetting Paths",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "Use ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:miterLimit:isCancelled:)",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " to move a path’s edges by a uniform distance. A positive distance shrinks the outer outline of a closed path, and a negative distance expands it.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "The ",
+              "type" : "text"
+            },
+            {
+              "code" : "miterLimit",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " sets the sharpest turn that can keep a mitered join at an expanding corner. On an outer outline, outsets can chamfer convex corners and insets can chamfer concave corners. Pass ",
+              "type" : "text"
+            },
+            {
+              "code" : "1",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " to chamfer every expanding corner, or use ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/MiterLimit\/degrees(_:)",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : " to set a turn angle. The default, ",
+              "type" : "text"
+            },
+            {
+              "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/MiterLimit\/infinity",
+              "isActive" : true,
+              "type" : "reference"
+            },
+            {
+              "text" : ", keeps mitered joins.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "This example expands a square by one unit and chamfers all four corners.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "code" : [
+            "let square = Path.square(size: 4)",
+            "let chamfered = square.inset(by: -1, miterLimit: 1)"
+          ],
+          "syntax" : "swift",
+          "type" : "codeListing"
         }
       ],
       "kind" : "content"
@@ -381,6 +465,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/scaled(by:)-84xdd",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/translated(by:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/transformed(by:)",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:miterLimit:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/withColor(_:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/withDetail(_:forTwist:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/closed()"
@@ -445,7 +530,6 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/extrusionContours(along:twist:taper:align:miterLimit:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/extrusionContours(depth:twist:taper:sections:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/facePolygons(material:isCancelled:)",
-        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/intersection(_:isCancelled:)-swift.method",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/intersection(with:isCancelled:)",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inverted()",
@@ -710,6 +794,105 @@
   "title" : "LineSegment",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/linesegment"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/MiterLimit/degrees(_:)": {
+  "abstract" : [
+    {
+      "text" : "Creates a miter limit from an angle in degrees.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "degrees"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sd",
+      "text" : "Double"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid10MiterLimitV",
+      "text" : "MiterLimit"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/MiterLimit\/degrees(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "degrees(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/miterlimit\/degrees(_:)"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/MiterLimit/infinity": {
+  "abstract" : [
+    {
+      "text" : "Miter limit representing no beveling.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "infinity"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid10MiterLimitV",
+      "text" : "MiterLimit"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/MiterLimit\/infinity",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "infinity",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/miterlimit\/infinity"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path": {
   "abstract" : [
@@ -3170,10 +3353,10 @@
   "type" : "topic",
   "url" : "\/documentation\/euclid\/path\/init(subpaths:windingrule:)"
 },
-"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/inset(by:isCancelled:)": {
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/inset(by:miterLimit:isCancelled:)": {
   "abstract" : [
     {
-      "text" : "Applies a uniform inset to the edges of the path.",
+      "text" : "Applies a uniform inset to the edges of the path, with optional beveled joins.",
       "type" : "text"
     }
   ],
@@ -3213,6 +3396,23 @@
     },
     {
       "kind" : "externalParam",
+      "text" : "miterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:6Euclid10MiterLimitV",
+      "text" : "MiterLimit"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
       "text" : "isCancelled"
     },
     {
@@ -3234,12 +3434,12 @@
       "text" : "Path"
     }
   ],
-  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:isCancelled:)",
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Path\/inset(by:miterLimit:isCancelled:)",
   "kind" : "symbol",
   "role" : "symbol",
-  "title" : "inset(by:isCancelled:)",
+  "title" : "inset(by:miterLimit:isCancelled:)",
   "type" : "topic",
-  "url" : "\/documentation\/euclid\/path\/inset(by:iscancelled:)"
+  "url" : "\/documentation\/euclid\/path\/inset(by:miterlimit:iscancelled:)"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Path/interpolated(from:to:step:isCancelled:)": {
   "abstract" : [

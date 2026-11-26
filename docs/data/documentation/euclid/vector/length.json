@@ -121,6 +121,7 @@
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/y",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/z",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/lengthSquared",
+        "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/isFinite",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/isZero",
         "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/isOne"
       ],
@@ -188,6 +189,43 @@
   "title" : "Vector",
   "type" : "topic",
   "url" : "\/documentation\/euclid\/vector"
+},
+"doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/isFinite": {
+  "abstract" : [
+    {
+      "text" : "All vector components are finite.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isFinite"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/com.charcoaldesign.Euclid\/documentation\/Euclid\/Vector\/isFinite",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isFinite",
+  "type" : "topic",
+  "url" : "\/documentation\/euclid\/vector\/isfinite"
 },
 "doc://com.charcoaldesign.Euclid/documentation/Euclid/Vector/isOne": {
   "abstract" : [

@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.10.8](https://github.com/nicklockwood/Euclid/releases/tag/0.10.8) (2026-11-25)
+
+- Added `miterLimit` option to `Path.inset()` for chamfered insets/outsets
+- Added `isFinite` properties to `Vector` and `Angle`
+- Fixed planar path Boolean operations that could break closed outlines
+- Preserved collinear profile vertices through extrusion
+
 ## [0.10.7](https://github.com/nicklockwood/Euclid/releases/tag/0.10.7) (2026-11-23)
 
 - Added `Path.WindingRule` with even-odd and nonzero fill rules, and used nonzero for Core Text glyphs

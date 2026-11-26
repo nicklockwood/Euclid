@@ -31,6 +31,7 @@ A three-dimensional vector or point.
 - ``Vector/z``
 - ``Vector/length``
 - ``Vector/lengthSquared``
+- ``Vector/isFinite``
 - ``Vector/isZero``
 - ``Vector/isOne``
 

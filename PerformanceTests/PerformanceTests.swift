@@ -229,7 +229,7 @@ final class PerformanceTests: XCTestCase {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Helvetica" as CFString, 2, nil)
         let mesh = Mesh.fill(Path.text("&", font: font, detail: 2)).triangulate()
-        XCTAssertEqual(mesh.polygons.count, 532)
+        XCTAssertEqual(mesh.polygons.count, 148)
         measure {
             let detessellated = mesh.withoutOptimizations().detessellate()
             XCTAssertEqual(detessellated.polygons.count, 6)
@@ -241,10 +241,10 @@ final class PerformanceTests: XCTestCase {
         #if canImport(CoreText)
         let font = CTFontCreateWithName("Helvetica" as CFString, 2, nil)
         let mesh = Mesh.extrude(Path.text("Euclid", font: font, detail: 2), depth: 0.2).triangulate()
-        XCTAssertEqual(mesh.polygons.count, 458)
+        XCTAssertEqual(mesh.polygons.count, 456)
         measure {
             let detessellated = mesh.withoutOptimizations().detessellate()
-            XCTAssertEqual(detessellated.polygons.count, 167)
+            XCTAssertEqual(detessellated.polygons.count, 135)
         }
         #endif
     }
@@ -252,10 +252,10 @@ final class PerformanceTests: XCTestCase {
     func testDetessellateManyPlaneGroups() {
         #if canImport(CoreText)
         let mesh = Self.stackedTextPlanes(count: 16)
-        XCTAssertEqual(mesh.polygons.count, 8512)
+        XCTAssertEqual(mesh.polygons.count, 2368)
         measure {
             let detessellated = mesh.withoutOptimizations().detessellate()
-            XCTAssertEqual(detessellated.polygons.count, 352)
+            XCTAssertEqual(detessellated.polygons.count, 96)
         }
         #endif
     }
@@ -264,7 +264,6 @@ final class PerformanceTests: XCTestCase {
     func testInsetCancellationPerformanceRegression() throws {
         let workloads = Self.insetCancellationPerformanceWorkloads
         let iterations = 3
-        let cancellationDelay = 0.05
         let maximumCancellationLatency = 0.2
         let maximumUncancelledDuration = 1.0
 
@@ -276,17 +275,23 @@ final class PerformanceTests: XCTestCase {
                     XCTAssertFalse(mesh.isEmpty, workload.name)
                 }
             }
-            let cancellationLatencies = (0 ..< iterations).map { _ in
+            let probe = CancellationProbe()
+            _ = workload.mesh.inset(by: workload.distance) { probe.isCancelled() }
+            let checksBeforeCancellation = max(1, probe.checkCount / 2)
+            let cancellationLatencies = (0 ..< iterations).compactMap { _ in
                 Self.cancellationLatency(
-                    for: workload.mesh,
-                    distance: workload.distance,
-                    cancellationDelay: cancellationDelay
+                    for: workload,
+                    checksBeforeCancellation: checksBeforeCancellation
                 )
             }
+            XCTAssertEqual(
+                cancellationLatencies.count,
+                iterations,
+                "Expected \(workload.name) to observe cancellation in every iteration"
+            )
             result.uncancelledDurationsByWorkload[workload.name] = uncancelledDurations.median()
-            result.cancellationLatenciesByWorkload[workload.name] = cancellationLatencies.compactMap(\.self).median()
-            result.didObserveCancellation = result.didObserveCancellation && cancellationLatencies
-                .allSatisfy { $0 != nil }
+            result.cancellationLatenciesByWorkload[workload.name] = cancellationLatencies.isEmpty ?
+                nil : cancellationLatencies.median()
         }
 
         let report = Self.insetCancellationPerformanceReport(
@@ -306,9 +311,6 @@ final class PerformanceTests: XCTestCase {
         )
         print(report)
 
-        guard result.didObserveCancellation else {
-            throw XCTSkip("Inset completed before cancellation could be requested.")
-        }
         XCTAssertLessThanOrEqual(
             result.worstCancellationLatency ?? .infinity,
             maximumCancellationLatency
@@ -326,16 +328,14 @@ private extension Mesh {
 
 private struct InsetCancellationPerformanceResult {
     var uncancelledDurationsByWorkload = [String: TimeInterval]()
-    var cancellationLatenciesByWorkload = [String: TimeInterval?]()
-    var didObserveCancellation = true
+    var cancellationLatenciesByWorkload = [String: TimeInterval]()
 
     var totalUncancelledDuration: TimeInterval {
         uncancelledDurationsByWorkload.values.reduce(0, +)
     }
 
     var worstCancellationLatency: TimeInterval? {
-        let latencies = cancellationLatenciesByWorkload.values.compactMap(\.self)
-        return latencies.isEmpty ? nil : latencies.max()
+        cancellationLatenciesByWorkload.values.max()
     }
 }
 
@@ -347,28 +347,35 @@ private struct InsetCancellationPerformanceWorkload {
 
 private final class CancellationProbe: @unchecked Sendable {
     private let lock = NSLock()
-    private var cancelled = false
+    private let checksBeforeCancellation: Int?
+    private var checks = 0
     private var requestTime: TimeInterval?
 
-    func requestCancellation() {
-        lock.lock()
-        cancelled = true
-        requestTime = ProcessInfo.processInfo.systemUptime
-        lock.unlock()
+    init(checksBeforeCancellation: Int? = nil) {
+        self.checksBeforeCancellation = checksBeforeCancellation
     }
 
     func isCancelled() -> Bool {
-        lock.lock()
-        let cancelled = cancelled
-        lock.unlock()
-        return cancelled
+        lock.withLock {
+            checks += 1
+            if requestTime != nil { return true }
+            if checks == checksBeforeCancellation {
+                // Request cancellation now so latency includes the wait for the next check.
+                requestTime = ProcessInfo.processInfo.systemUptime
+            }
+            return false
+        }
     }
 
-    var requestedAt: TimeInterval? {
-        lock.lock()
-        let requestTime = requestTime
-        lock.unlock()
-        return requestTime
+    var checkCount: Int {
+        lock.withLock { checks }
+    }
+
+    var observedRequestTime: TimeInterval? {
+        lock.withLock {
+            guard let checksBeforeCancellation, checks > checksBeforeCancellation else { return nil }
+            return requestTime
+        }
     }
 }
 
@@ -486,22 +493,13 @@ private extension PerformanceTests {
     }
 
     static func cancellationLatency(
-        for mesh: Mesh,
-        distance: Double,
-        cancellationDelay: TimeInterval
+        for workload: InsetCancellationPerformanceWorkload,
+        checksBeforeCancellation: Int
     ) -> TimeInterval? {
-        let probe = CancellationProbe()
-        let queue = DispatchQueue.global(qos: .userInitiated)
-        queue.asyncAfter(deadline: .now() + cancellationDelay) {
-            probe.requestCancellation()
-        }
-        let endTime = ProcessInfo.processInfo.systemUptime + duration {
-            _ = mesh.inset(by: distance) { probe.isCancelled() }
-        }
-        guard let requestedAt = probe.requestedAt else {
-            return nil
-        }
-        return endTime - requestedAt
+        let probe = CancellationProbe(checksBeforeCancellation: checksBeforeCancellation)
+        _ = workload.mesh.inset(by: workload.distance) { probe.isCancelled() }
+        let endTime = ProcessInfo.processInfo.systemUptime
+        return probe.observedRequestTime.map { endTime - $0 }
     }
 
     static func insetCancellationPerformanceReport(
@@ -511,7 +509,7 @@ private extension PerformanceTests {
     ) -> String {
         let rows = result.uncancelledDurationsByWorkload.keys.sorted().map { name in
             let uncancelled = result.uncancelledDurationsByWorkload[name, default: .infinity]
-            let cancellation = result.cancellationLatenciesByWorkload[name] ?? nil
+            let cancellation = result.cancellationLatenciesByWorkload[name]
             let cancellationText = cancellation.map {
                 String(format: "%.1fms", $0 * 1000)
             } ?? "not observed"
