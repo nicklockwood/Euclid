@@ -93,6 +93,49 @@ final class MeshExtrudeTests: XCTestCase {
         )
     }
 
+    private func subdividedSquare(size: Double) -> Path {
+        let half = size / 2
+        return Path([
+            .point(-half, -half), .curve(0, -half), .point(half, -half), .curve(half, 0),
+            .point(half, half), .curve(0, half), .point(-half, half), .curve(-half, 0),
+        ]).closed()
+    }
+
+    func testProfileSubdivisionPreservesHolesAndSectionCount() {
+        let profile = Path(subpaths: [subdividedSquare(size: 10), subdividedSquare(size: 4)], windingRule: .evenOdd)
+        XCTAssertEqual(profile.subpaths.map { $0.points.count - 1 }, [8, 8])
+        let mesh = Mesh.extrude(profile, depth: 10, sections: 2)
+        let positions = Set(mesh.polygons.flatMap { $0.vertices.map(\.position) })
+        XCTAssertEqual(Set(positions.map(\.z)), [-5, 0, 5])
+        XCTAssertEqual(positions.filter { $0.z == 0 }.count, 16)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.areConsistentlyWound)
+        XCTAssertEqual(mesh.signedVolume, 840, accuracy: 1e-8)
+        let guide = Path([.point(0, 0, -5), .point(0, 0, 0), .point(0, 0, 5)])
+        XCTAssertEqual(Mesh.extrude(profile, along: guide), mesh)
+    }
+
+    func testProfileSubdivisionOnTiltedPlane() {
+        let rotation = Rotation.pitch(.degrees(45))
+        let profile = subdividedSquare(size: 1).rotated(by: rotation)
+        let mesh = Mesh.extrude([profile], depth: 1, sections: 2)
+        let positions = Set(mesh.polygons.flatMap { $0.vertices.map(\.position) })
+        XCTAssertEqual(positions.count, 24)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertEqual(mesh.signedVolume, 1, accuracy: 1e-8)
+    }
+
+    func testProfileSubdivisionPreservesColorsOnStraightEdges() {
+        let profile = Path([
+            .point(0, 0), .point(1, 0, color: .red), .point(2, 0), .point(2, 2), .point(0, 2),
+        ]).closed()
+        let mesh = Mesh.extrude(profile)
+        XCTAssertTrue(mesh.isWatertight)
+        XCTAssertTrue(mesh.polygons.flatMap(\.vertices).contains {
+            $0.position == [1, 0, 0.5] && $0.color == .red
+        })
+    }
+
     func testExtrudeClosedPathWithRepeatedPrefixTailMatchesTrimmedPath() {
         let expected = Path.circle(segments: 300)
         let path = Path(expected.points + expected.points.dropFirst().prefix(8))

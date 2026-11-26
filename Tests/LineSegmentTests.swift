@@ -28,6 +28,15 @@ final class LineSegmentTests: XCTestCase {
         XCTAssert(line.intersects(point))
     }
 
+    func testIntersectsInteriorPointWithDistanceTolerance() {
+        let segment = LineSegment(unchecked: .zero, .unitX)
+        XCTAssertTrue(segment.intersects(.zero))
+        XCTAssertFalse(segment.intersects(.zero, includingEndpoints: false))
+        XCTAssertFalse(segment.intersects(.unitX, includingEndpoints: false))
+        XCTAssertTrue(segment.intersects([0.5, 0.001], includingEndpoints: false, distanceTolerance: 0.002))
+        XCTAssertFalse(segment.intersects([0.5, 0.001], includingEndpoints: false, distanceTolerance: 0.0005))
+    }
+
     func testDoesNotContainPoint() {
         let line = LineSegment(unchecked: [-2, -1, 0], [2, 1, 0])
         XCTAssertFalse(line.intersects([-1, -0.6, 0]))

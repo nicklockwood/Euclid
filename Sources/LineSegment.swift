@@ -271,4 +271,17 @@ extension LineSegment {
     init(uncheckedUndirected start: Vector, _ end: Vector) {
         self.init(undirected: .init(unchecked: start, end))
     }
+
+    /// Tests point intersection using Euclid's point tolerance or a supplied Euclidean distance tolerance.
+    func intersects(
+        _ point: Vector,
+        includingEndpoints: Bool,
+        distanceTolerance: Double? = nil
+    ) -> Bool {
+        guard includingEndpoints || (start - point).dot(end - point) < 0 else { return false }
+        let nearest = nearestPoint(to: point)
+        return distanceTolerance.map {
+            nearest.distance(from: point) <= $0
+        } ?? nearest.isApproximatelyEqual(to: point)
+    }
 }

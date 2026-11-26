@@ -105,6 +105,10 @@ extension LineSegment: PointComparable {
         case let distance: return start + direction * distance
         }
     }
+
+    public func intersects(_ point: Vector) -> Bool {
+        intersects(point, includingEndpoints: true)
+    }
 }
 
 extension Plane: PointComparable {

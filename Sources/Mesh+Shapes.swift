@@ -625,10 +625,18 @@ public extension Mesh {
         guard !isCancelled() else {
             return .empty
         }
-        if taper.x != 1 || taper.y != 1 || (twist != .zero && extrusionShape.isPlanar) {
+        let preserveProfileVertices = extrusionShape.hasSubdividedFillBoundary
+        if preserveProfileVertices || taper.x != 1 || taper.y != 1 || (twist != .zero && extrusionShape.isPlanar) {
             return extrusionLoft(
-                extrusionShape, depth: depth, twist: twist, taper: taper,
-                sections: sections, faces: faces, material: material, isCancelled: isCancelled
+                extrusionShape,
+                depth: depth,
+                twist: twist,
+                taper: taper,
+                sections: sections,
+                faces: faces,
+                material: material,
+                preserveProfileVertices: preserveProfileVertices,
+                isCancelled: isCancelled
             )
         }
         let faceNormal = extrusionShape.faceNormal
@@ -743,12 +751,20 @@ public extension Mesh {
             }, isCancelled: isCancelled))
         }
         // A uniformly sampled straight guide normal to the profile is the depth
-        // extrusion. Reuse its section correspondence when applying twist.
+        // extrusion. Reuse its section correspondence when preserving outline vertices.
         let isTapered = taper.x != 1 || taper.y != 1
-        if twist != .zero || isTapered, shape.plane == .xy, let guide = along.uniformPositiveZGuide {
+        if shape.plane == .xy, twist != .zero || isTapered || shape.hasSubdividedFillBoundary,
+           let guide = along.uniformPositiveZGuide
+        {
             return extrude(
-                shape, depth: guide.depth, twist: twist, taper: taper, sections: guide.sections,
-                faces: faces, material: material, isCancelled: isCancelled
+                shape,
+                depth: guide.depth,
+                twist: twist,
+                taper: taper,
+                sections: guide.sections,
+                faces: faces,
+                material: material,
+                isCancelled: isCancelled
             ).translated(by: guide.center)
         }
         // A resolved nonzero boundary also works with the default loft heuristic.
@@ -772,9 +788,9 @@ public extension Mesh {
             isConvex: false,
             isWatertight: nil,
             preserveInnerShellWinding: along.isClosed,
-            isCancelled: isCancelled,
             sectionTransforms: sectionTransforms,
-            reference: shape
+            reference: shape,
+            isCancelled: isCancelled
         )
     }
 
@@ -1022,8 +1038,8 @@ public extension Mesh {
                 isFlatJoin: shape0.sharesLoftPlane(with: shape1),
                 uvstart: 0, uvend: 1,
                 material: material,
-                isCancelled: isCancelled,
-                into: &polygons
+                into: &polygons,
+                isCancelled: isCancelled
             )
         }
         return Mesh(
@@ -1417,6 +1433,36 @@ private extension Path {
         }
         return transform
     }
+
+    /// A resolved outline with collinear vertices can supply matching side edges directly.
+    var hasSubdividedFillBoundary: Bool {
+        guard isClosed, isPlanar else { return false }
+
+        func isCollinearOutlinePoint(_ point: Vector, _ start: Vector, _ end: Vector) -> Bool {
+            // Use coordinates relative to the test point to retain precision far from the origin.
+            let a = start - point, b = end - point
+            guard let segment = LineSegment(start: a, end: b) else { return false }
+            let tolerance = max(4 * coordinatePrecision * (a.length + b.length), a.length * b.length * 1e-10)
+            return segment.intersects(
+                .zero,
+                includingEndpoints: false,
+                distanceTolerance: tolerance / segment.length
+            )
+        }
+
+        let contours = subpaths
+        guard contours.contains(where: { contour in
+            let points = contour.points
+            return (0 ..< max(0, points.count - 1)).contains { i in
+                isCollinearOutlinePoint(
+                    points[i].position,
+                    points[i == 0 ? points.count - 2 : i - 1].position,
+                    points[i + 1].position
+                )
+            }
+        }) else { return false }
+        return contours.count == 1 ? isSimple : hasResolvedFillBoundary
+    }
 }
 
 private extension Mesh {
@@ -1758,6 +1804,7 @@ private extension Mesh {
         sections: Int?,
         faces: Faces,
         material: Material?,
+        preserveProfileVertices: Bool,
         isCancelled: CancellationHandler
     ) -> Mesh {
         guard let extrusion = shape.straightExtrusion(
@@ -1774,8 +1821,9 @@ private extension Mesh {
             isConvex: false,
             isWatertight: nil,
             preserveInnerShellWinding: false,
-            isCancelled: isCancelled,
-            sectionTransforms: extrusion.transforms
+            sectionTransforms: extrusion.transforms,
+            preserveProfileVertices: preserveProfileVertices,
+            isCancelled: isCancelled
         ).rotated(by: extrusion.orientation).translated(by: extrusion.origin)
     }
 
@@ -1789,9 +1837,10 @@ private extension Mesh {
         preserveInnerShellWinding: Bool,
         faces: Faces,
         material: Material?,
-        isCancelled: CancellationHandler,
         sectionTransforms: [(Vertex) -> Vertex]? = nil,
-        reference: Path? = nil
+        reference: Path? = nil,
+        preserveProfileVertices: Bool = false,
+        isCancelled: CancellationHandler
     ) -> Mesh {
         let contourOffsets = contourOffsets.map { values in
             originalShapes.indices.filter { !originalShapes[$0].isEmpty }.map { values[$0] }
@@ -1906,7 +1955,7 @@ private extension Mesh {
         }
         let firstBoundaryEdgeVertices = canBuildMappedSides ? first
             .flatMap { first -> [(Vertex, Vertex)]? in
-                if usesOriginalClosedBoundary {
+                if usesOriginalClosedBoundary || preserveProfileVertices {
                     return first.oddEvenOrientedSubpaths.flatMap { edgeVertexPairs(from: $0) }
                 }
                 if useResolvedBoundary || (sectionTransforms != nil && !firstFacePolygons.isEmpty) {
@@ -2214,8 +2263,8 @@ private extension Mesh {
                             curvestart: curvestart, curveend: curveend, isFlatJoin: isFlatJoin,
                             uvstart: uvx0, uvend: uvx1,
                             material: material,
-                            isCancelled: isCancelled,
-                            into: &sidePolygons
+                            into: &sidePolygons,
+                            isCancelled: isCancelled
                         )
                         smoothing.append(
                             polygonStart ..< sidePolygons.count,
@@ -2266,7 +2315,7 @@ private extension Mesh {
                 lockedCapPolygons.formUnion(lastCapPolygons)
             }
         }
-        if collapsedSection != nil, first?.isClosed == true {
+        if collapsedSection != nil || preserveProfileVertices, first?.isClosed == true {
             polygons = polygons.insertingEdgeVertices(
                 with: polygons.holeEdges(isCancelled: isCancelled),
                 isCancelled: isCancelled
@@ -2337,13 +2386,14 @@ private extension Mesh {
         isConvex: Bool,
         isWatertight: Bool?,
         preserveInnerShellWinding: Bool,
-        isCancelled: CancellationHandler,
         sectionTransforms: [(Vertex) -> Vertex]? = nil,
-        reference: Path? = nil
+        reference: Path? = nil,
+        preserveProfileVertices: Bool = false,
+        isCancelled: CancellationHandler
     ) -> Mesh {
         if let sectionTransforms, let first = reference ?? shapes.first, !first.isEmpty {
-            let (normalizedShapes, resolved, reoriented) = [first]
-                .normalizingCompoundPathsForLoft(isCancelled: isCancelled)
+            let (normalizedShapes, resolved, reoriented) = preserveProfileVertices ? ([first], false, false) :
+                [first].normalizingCompoundPathsForLoft(isCancelled: isCancelled)
             let normalized = normalizedShapes.first ?? first
             return compoundLoft(
                 originalShapes: shapes,
@@ -2353,9 +2403,10 @@ private extension Mesh {
                 preserveInnerShellWinding: preserveInnerShellWinding,
                 faces: faces,
                 material: material,
-                isCancelled: isCancelled,
                 sectionTransforms: sectionTransforms,
-                reference: reoriented && first.windingRule == .default ? normalized : first
+                reference: reoriented && first.windingRule == .default ? normalized : first,
+                preserveProfileVertices: preserveProfileVertices,
+                isCancelled: isCancelled
             )
         }
         let hasExplicitWinding = shapes.contains { $0.windingRule != .default && $0.requiresFillResolution }
@@ -2473,8 +2524,8 @@ private extension Mesh {
                 curvestart: curvestart, curveend: curveend, isFlatJoin: isFlatJoin,
                 uvstart: uvx0, uvend: uvx1,
                 material: material,
-                isCancelled: isCancelled,
-                into: &polygons
+                into: &polygons,
+                isCancelled: isCancelled
             )
             smoothing.append(
                 polygonStart ..< polygons.count,
@@ -2542,8 +2593,8 @@ private extension Mesh {
         isFlatJoin: Bool,
         uvstart: Double, uvend: Double,
         material: Material?,
-        isCancelled: CancellationHandler,
-        into polygons: inout [Polygon]
+        into polygons: inout [Polygon],
+        isCancelled: CancellationHandler
     ) {
         assert(p0.subpaths.count == 1)
         assert(p1.subpaths.count == 1)
